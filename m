@@ -1,45 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9669B1116
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 11:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FC51FA6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 12:06:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677669917; x=1709205917;
+  t=1677672378; x=1709208378;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aAXKStIoQ8GZYQ4MvYngkyH4KqBY/pYFyMKjRKEDOVo=;
-  b=I+SO6GMBLxCbZaf/SAqLIKJ/R6GXbisHJxRQ9yL7IVK8HqrEP5P5zsQg
-   CdxxiNL2G+A6X5avMGoVqs5l46h/IjIwaPqM8fDVyWliiAAtPK1t58UQT
-   tt5zXXUbg6Pdn11Rat8QWNu09brR96Gc+7gi3+zZvhVMDHvDOdAfkdwo+
-   Zw8gfWywwyakd8OMxm6hcwKUsj52lFT290CYJe5whhcQRggVFWOYHDBu0
-   98iF2yPUpEfQJ91olzDsX6B0PCeLKHu8CPBiz6fUrnFvS3l4r9UlKhhVI
-   t9yMTx0NWHe+Eu+DoJWY8k1IFcwjf4ToCNRsMIhSB+HjK0LIinlqydGS+
+  bh=8078ajoEHJ8sUKIkamPIQHFKYwXH/I3iSdqDNubxNys=;
+  b=D0QdIdL7CgdufFCkNvhhGDFue9ml6PId8vXWWrnteeKpn7vNn76oCt/I
+   QdGDM2dR+KZPz/o7iMOOiFKuD/o7EPfZIDaLQTS/HtLspYygHO57MKef6
+   +S6XjOOCB7Y64uxNt0T55ox4/KfYit3RYQ4njeZ++demr3058pOlA0ZLQ
+   guJLI+HMnQfs52mPs6V4uRIBoyZlRNhKe5rxg9Htf5zubIYc5foiWHk+O
+   VIlOtEz97LMv9WmvdsybDYgOMvWPmG/YkXhORyooHknGOP92Sf4bnX7TT
+   bm871BpZFikUSM0QLli/j33YOE3DMbJjLPWZIwN07+IgbLrYd8zbRicYH
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="361964033"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="420649182"
 X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="361964033"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 03:25:16 -0800
+   d="scan'208";a="420649182"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 04:06:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="920211568"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="674538250"
 X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="920211568"
+   d="scan'208";a="674538250"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Mar 2023 03:25:15 -0800
+  by orsmga002.jf.intel.com with ESMTP; 01 Mar 2023 04:06:16 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXKaB-00066l-04;
-	Wed, 01 Mar 2023 11:25:15 +0000
-Date: Wed, 1 Mar 2023 19:24:42 +0800
+	id 1pXLDs-00068B-0c;
+	Wed, 01 Mar 2023 12:06:16 +0000
+Date: Wed, 1 Mar 2023 20:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
-Subject: [driver-core:bus_cleanup 22/36]
- drivers/ata/pata_parport/pata_parport.c:618:20: error: initialization of
- 'ssize_t (*)(const struct bus_type *, const char *, size_t)' {aka 'int
- (*)(const struct bus_type *, const char *, unsigned int)'} from incompatible
- pointer type 'ssize_t (*)(struct b...
-Message-ID: <202303011947.T9OsRu7f-lkp@intel.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/soc/qcom/qcom_minidump.c:272:31: error: implicit declaration
+ of function 'virt_to_phys'; did you mean 'virt_to_page'?
+Message-ID: <202303011938.h2FmiGI4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,143 +46,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git bus_cleanup
-head:   5447398fb1728b20784bfde814b2d524b9cb051a
-commit: 40cef43fa58c8d53ea4c4a531facada6147216e7 [22/36] driver core: bus: mark the struct bus_type for sysfs callbacks as constant
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230301/202303011947.T9OsRu7f-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware-qcom_scm-Clear-download-bit-during-reboot/20230301-183309
+head:   a99ae10e91ff613554ccd5e93d2ad2ba087bcbc9
+commit: b716fb4bf431d2b258156d38ae5c98a54c36e0c5 soc: qcom: Add Qualcomm minidump kernel driver
+date:   82 minutes ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230301/202303011938.h2FmiGI4-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=40cef43fa58c8d53ea4c4a531facada6147216e7
-        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-        git fetch --no-tags driver-core bus_cleanup
-        git checkout 40cef43fa58c8d53ea4c4a531facada6147216e7
+        # https://github.com/intel-lab-lkp/linux/commit/b716fb4bf431d2b258156d38ae5c98a54c36e0c5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mukesh-Ojha/firmware-qcom_scm-Clear-download-bit-during-reboot/20230301-183309
+        git checkout b716fb4bf431d2b258156d38ae5c98a54c36e0c5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/ata/pata_parport/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/soc/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303011947.T9OsRu7f-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303011938.h2FmiGI4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/module.h:21,
-                    from drivers/ata/pata_parport/pata_parport.c:7:
->> drivers/ata/pata_parport/pata_parport.c:618:20: error: initialization of 'ssize_t (*)(const struct bus_type *, const char *, size_t)' {aka 'int (*)(const struct bus_type *, const char *, unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct bus_type *, const char *, size_t)' {aka 'int (*)(struct bus_type *, const char *, unsigned int)'} [-Werror=incompatible-pointer-types]
-     618 | static BUS_ATTR_WO(new_device);
-         |                    ^~~~~~~~~~
-   include/linux/sysfs.h:135:19: note: in definition of macro '__ATTR_WO'
-     135 |         .store  = _name##_store,                                        \
-         |                   ^~~~~
-   drivers/ata/pata_parport/pata_parport.c:618:8: note: in expansion of macro 'BUS_ATTR_WO'
-     618 | static BUS_ATTR_WO(new_device);
-         |        ^~~~~~~~~~~
-   drivers/ata/pata_parport/pata_parport.c:618:20: note: (near initialization for 'bus_attr_new_device.store')
-     618 | static BUS_ATTR_WO(new_device);
-         |                    ^~~~~~~~~~
-   include/linux/sysfs.h:135:19: note: in definition of macro '__ATTR_WO'
-     135 |         .store  = _name##_store,                                        \
-         |                   ^~~~~
-   drivers/ata/pata_parport/pata_parport.c:618:8: note: in expansion of macro 'BUS_ATTR_WO'
-     618 | static BUS_ATTR_WO(new_device);
-         |        ^~~~~~~~~~~
-   drivers/ata/pata_parport/pata_parport.c:650:20: error: initialization of 'ssize_t (*)(const struct bus_type *, const char *, size_t)' {aka 'int (*)(const struct bus_type *, const char *, unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct bus_type *, const char *, size_t)' {aka 'int (*)(struct bus_type *, const char *, unsigned int)'} [-Werror=incompatible-pointer-types]
-     650 | static BUS_ATTR_WO(delete_device);
-         |                    ^~~~~~~~~~~~~
-   include/linux/sysfs.h:135:19: note: in definition of macro '__ATTR_WO'
-     135 |         .store  = _name##_store,                                        \
-         |                   ^~~~~
-   drivers/ata/pata_parport/pata_parport.c:650:8: note: in expansion of macro 'BUS_ATTR_WO'
-     650 | static BUS_ATTR_WO(delete_device);
-         |        ^~~~~~~~~~~
-   drivers/ata/pata_parport/pata_parport.c:650:20: note: (near initialization for 'bus_attr_delete_device.store')
-     650 | static BUS_ATTR_WO(delete_device);
-         |                    ^~~~~~~~~~~~~
-   include/linux/sysfs.h:135:19: note: in definition of macro '__ATTR_WO'
-     135 |         .store  = _name##_store,                                        \
-         |                   ^~~~~
-   drivers/ata/pata_parport/pata_parport.c:650:8: note: in expansion of macro 'BUS_ATTR_WO'
-     650 | static BUS_ATTR_WO(delete_device);
-         |        ^~~~~~~~~~~
+   drivers/soc/qcom/qcom_minidump.c: In function 'minidump_add_elf_header':
+>> drivers/soc/qcom/qcom_minidump.c:272:31: error: implicit declaration of function 'virt_to_phys'; did you mean 'virt_to_page'? [-Werror=implicit-function-declaration]
+     272 |         elfregion.phys_addr = virt_to_phys(minidump.elf.ehdr);
+         |                               ^~~~~~~~~~~~
+         |                               virt_to_page
    cc1: some warnings being treated as errors
 
 
-vim +618 drivers/ata/pata_parport/pata_parport.c
+vim +272 drivers/soc/qcom/qcom_minidump.c
 
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  556  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  557  static ssize_t new_device_store(struct bus_type *bus, const char *buf,
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  558  				size_t count)
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  559  {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  560  	char port[12] = "auto";
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  561  	char protocol[8] = "auto";
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  562  	int mode = -1, unit = -1, delay = -1;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  563  	struct pi_protocol *pr, *pr_wanted;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  564  	struct device_driver *drv;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  565  	struct parport *parport;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  566  	int port_num, port_wanted, pr_num;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  567  	bool ok = false;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  568  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  569  	if (sscanf(buf, "%11s %7s %d %d %d",
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  570  			port, protocol, &mode, &unit, &delay) < 1)
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  571  		return -EINVAL;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  572  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  573  	if (sscanf(port, "parport%u", &port_wanted) < 1) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  574  		if (strcmp(port, "auto")) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  575  			pr_err("invalid port name %s\n", port);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  576  			return -EINVAL;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  577  		}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  578  		port_wanted = -1;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  579  	}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  580  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  581  	drv = driver_find(protocol, &pata_parport_bus_type);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  582  	if (!drv) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  583  		if (strcmp(protocol, "auto")) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  584  			pr_err("protocol %s not found\n", protocol);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  585  			return -EINVAL;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  586  		}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  587  		pr_wanted = NULL;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  588  	} else {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  589  		pr_wanted = container_of(drv, struct pi_protocol, driver);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  590  	}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  591  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  592  	mutex_lock(&pi_mutex);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  593  	/* walk all parports */
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  594  	idr_for_each_entry(&parport_list, parport, port_num) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  595  		if (port_num == port_wanted || port_wanted == -1) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  596  			parport = parport_find_number(port_num);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  597  			if (!parport) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  598  				pr_err("no such port %s\n", port);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  599  				mutex_unlock(&pi_mutex);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  600  				return -ENODEV;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  601  			}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  602  			/* walk all protocols */
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  603  			idr_for_each_entry(&protocols, pr, pr_num) {
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  604  				if (pr == pr_wanted || !pr_wanted)
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  605  					if (pi_init_one(parport, pr, mode, unit,
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  606  							delay))
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  607  						ok = true;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  608  			}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  609  			parport_put_port(parport);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  610  		}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  611  	}
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  612  	mutex_unlock(&pi_mutex);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  613  	if (!ok)
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  614  		return -ENODEV;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  615  
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  616  	return count;
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  617  }
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23 @618  static BUS_ATTR_WO(new_device);
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  619  
-
-:::::: The code at line 618 was first introduced by commit
-:::::: 246a1c4c6b7ffba88a2553d2b88f7b6280f253a2 ata: pata_parport: add driver (PARIDE replacement)
-
-:::::: TO: Ondrej Zary <linux@zary.sk>
-:::::: CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+   235	
+   236	#define MAX_STRTBL_SIZE	   (MAX_NUM_ENTRIES * MAX_REGION_NAME_LENGTH)
+   237	static int minidump_add_elf_header(void)
+   238	{
+   239		struct qcom_minidump_region elfregion;
+   240		struct elfhdr *ehdr;
+   241		struct elf_shdr *shdr;
+   242		struct elf_phdr *phdr;
+   243		unsigned int  elfh_size;
+   244		unsigned int strtbl_off;
+   245		unsigned int phdr_off;
+   246		char *banner;
+   247		unsigned int banner_len;
+   248	
+   249		banner_len = strlen(linux_banner);
+   250		/*
+   251		 * Header buffer contains:
+   252		 * ELF header, (MAX_NUM_ENTRIES + 4) of Section and Program ELF headers,
+   253		 * where, 4 additional entries, one for empty header, one for string table
+   254		 * one for minidump table and one for linux banner.
+   255		 *
+   256		 * Linux banner is stored in minidump to aid post mortem tools to determine
+   257		 * the kernel version.
+   258		 */
+   259		elfh_size = sizeof(*ehdr);
+   260		elfh_size += MAX_STRTBL_SIZE;
+   261		elfh_size += banner_len + 1;
+   262		elfh_size += ((sizeof(*shdr) + sizeof(*phdr)) * (MAX_NUM_ENTRIES + 4));
+   263		elfh_size = ALIGN(elfh_size, 4);
+   264	
+   265		minidump.elf.ehdr = kzalloc(elfh_size, GFP_KERNEL);
+   266		if (!minidump.elf.ehdr)
+   267			return -ENOMEM;
+   268	
+   269		/* Register ELF header as first region */
+   270		strscpy(elfregion.name, "KELF_HEADER", sizeof(elfregion.name));
+   271		elfregion.virt_addr = minidump.elf.ehdr;
+ > 272		elfregion.phys_addr = virt_to_phys(minidump.elf.ehdr);
+   273		elfregion.size = elfh_size;
+   274		minidump_ss_add_region(&elfregion);
+   275	
+   276		ehdr = minidump.elf.ehdr;
+   277		/* Assign Section/Program headers offset */
+   278		minidump.elf.shdr = shdr = (struct elf_shdr *)(ehdr + 1);
+   279		minidump.elf.phdr = phdr = (struct elf_phdr *)(shdr + MAX_NUM_ENTRIES);
+   280		phdr_off = sizeof(*ehdr) + (sizeof(*shdr) * MAX_NUM_ENTRIES);
+   281	
+   282		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
+   283		ehdr->e_ident[EI_CLASS] = ELF_CLASS;
+   284		ehdr->e_ident[EI_DATA] = ELF_DATA;
+   285		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
+   286		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
+   287		ehdr->e_type = ET_CORE;
+   288		ehdr->e_machine  = ELF_ARCH;
+   289		ehdr->e_version = EV_CURRENT;
+   290		ehdr->e_ehsize = sizeof(*ehdr);
+   291		ehdr->e_phoff = phdr_off;
+   292		ehdr->e_phentsize = sizeof(*phdr);
+   293		ehdr->e_shoff = sizeof(*ehdr);
+   294		ehdr->e_shentsize = sizeof(*shdr);
+   295		ehdr->e_shstrndx = 1;
+   296	
+   297		minidump.elf.elf_offset = elfh_size;
+   298	
+   299		/*
+   300		 * The zeroth index of the section header is reserved and is rarely used.
+   301		 * Set the section header as null (SHN_UNDEF) and move to the next one.
+   302		 * 2nd Section is String table.
+   303		 */
+   304		minidump.elf.strtable_idx = 1;
+   305		strtbl_off = sizeof(*ehdr) + ((sizeof(*phdr) + sizeof(*shdr)) * MAX_NUM_ENTRIES);
+   306		shdr++;
+   307		shdr->sh_type = SHT_STRTAB;
+   308		shdr->sh_offset = (elf_addr_t)strtbl_off;
+   309		shdr->sh_size = MAX_STRTBL_SIZE;
+   310		shdr->sh_entsize = 0;
+   311		shdr->sh_flags = 0;
+   312		shdr->sh_name = append_str_to_strtable("STR_TBL");
+   313		shdr++;
+   314	
+   315		/* 3rd Section is for Minidump_table VA, used by parsers */
+   316		shdr->sh_type = SHT_PROGBITS;
+   317		shdr->sh_entsize = 0;
+   318		shdr->sh_flags = 0;
+   319		shdr->sh_addr = (elf_addr_t)&minidump;
+   320		shdr->sh_name = append_str_to_strtable("minidump_table");
+   321		shdr++;
+   322	
+   323		/* 4th Section is Linux banner */
+   324		banner = (char *)ehdr + strtbl_off + MAX_STRTBL_SIZE;
+   325		memcpy(banner, linux_banner, banner_len);
+   326	
+   327		shdr->sh_type = SHT_PROGBITS;
+   328		shdr->sh_offset = (elf_addr_t)(strtbl_off + MAX_STRTBL_SIZE);
+   329		shdr->sh_size = banner_len + 1;
+   330		shdr->sh_addr = (elf_addr_t)linux_banner;
+   331		shdr->sh_entsize = 0;
+   332		shdr->sh_flags = SHF_WRITE;
+   333		shdr->sh_name = append_str_to_strtable("linux_banner");
+   334	
+   335		phdr->p_type = PT_LOAD;
+   336		phdr->p_offset = (elf_addr_t)(strtbl_off + MAX_STRTBL_SIZE);
+   337		phdr->p_vaddr = (elf_addr_t)linux_banner;
+   338		phdr->p_paddr = virt_to_phys(linux_banner);
+   339		phdr->p_filesz = phdr->p_memsz = banner_len + 1;
+   340		phdr->p_flags = PF_R | PF_W;
+   341	
+   342		/* Update headers count*/
+   343		ehdr->e_phnum = 1;
+   344		ehdr->e_shnum = 4;
+   345		return 0;
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
