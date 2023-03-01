@@ -1,44 +1,50 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787002F32
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 13:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB37C2F32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 13:30:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677677437; x=1709213437;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GfWIpIBSvSGbYSGNuWpjO0b18G/PvPx8FUskJtm1WLE=;
-  b=FVhZ+I7tR3dO8qaSRYG/acreq64wrLFJSpv7ngqvzQzOh7iH0tHFSNBP
-   65ICDtvg+HXpkiThX+X7nMKnzJKJjPxnMTfLAXWIXtLLMvNDQZYNwAd7A
-   i1chtAXt3biQOTt/KhPBqzjJ0ftJGk+p7JBH5XcYRz5TO8oV1tITWkUNi
-   nBR8UjBKk8vYnWm5Y36Q2dMNY42MGYxjxZmqg/zWdLOy2yNqvsvyrdDiA
-   hIKNtPMUtBtk9Tf4GAEVecOR9EcJBE8n2Qvy3FY5U0T8OKPBMUezJl/do
-   TPpcLHBEHTm93qDvTKuas45reHooGuDEKrj+enE0fHcKiLyPifr4qfetJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="333133491"
+  t=1677677439; x=1709213439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NmxyP4356gq5Xno/7bpT+rSOql6hU9mFKRogJkOZLYk=;
+  b=Q1YzYHQSBioxIiE3tzHHyUrltNiq1gdfQGR4B4oRFMXCQ7LJV0AbWpOT
+   tVj1XeaVZZsyyjkSCeUrjrSGmKCc9jyl8eaRGi63q92g9akb3yd4A7uhq
+   qhwC4tZaxztu1VRd1RRUkYU044fa7+0DChNeGgHnVyPvY4fsa9wxbnGQn
+   bfpZ0i4pn7e+mlH16vWHjkkxBb7Vw6n41Y8y/G/ky644Cr7uY1+r3RU+z
+   G5tThl09vLk5ANnCjv6/Yo7xOmay05rtvJMpm61SQA6d6ObykM+i9eliQ
+   KHD1aLpX6yAqvCEb5DATd8xa3lpIBNtPFwp59hQCPNxP40k7/RtWG4d8o
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="333133495"
 X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="333133491"
+   d="scan'208";a="333133495"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 05:30:36 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 05:30:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="667868806"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="667868810"
 X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="667868806"
+   d="scan'208";a="667868810"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 01 Mar 2023 05:30:19 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXMXC-0006Ah-0s;
+	id 1pXMXC-0006Aj-0y;
 	Wed, 01 Mar 2023 13:30:18 +0000
-Date: Wed, 1 Mar 2023 21:30:01 +0800
+Date: Wed, 1 Mar 2023 21:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ammarfaizi2-block:google/android/kernel/common/upstream-f2fs-stable-linux-4.19.y
- 482/1172] fs/f2fs/inode.c:307:7: warning: format specifies type 'unsigned
- long' but the argument has type 'blkcnt_t' (aka 'unsigned long long')
-Message-ID: <202303012149.vteQarPr-lkp@intel.com>
+To: suijingfeng <15330273260@189.cn>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	suijingfeng <suijingfeng@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Li Yi <liyi@loongson.cn>
+Subject: Re: [PATCH v6 1/2] drm: add kms driver for loongson display
+ controller
+Message-ID: <202303012148.S6ymQNI9-lkp@intel.com>
+References: <20230301072306.572685-1-15330273260@189.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,175 +53,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230301072306.572685-1-15330273260@189.cn>
 
-Hi Chao,
+Hi suijingfeng,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/upstream-f2fs-stable-linux-4.19.y
-head:   b9aeb147225616494256fcf913c559afd4088a05
-commit: 0f87f20d0536ae21524ce1c25335aec991229114 [482/1172] f2fs: fix to check i_compr_blocks correctly
-config: mips-randconfig-r035-20230228 (https://download.01.org/0day-ci/archive/20230301/202303012149.vteQarPr-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230301072306.572685-1-15330273260%40189.cn
+patch subject: [PATCH v6 1/2] drm: add kms driver for loongson display controller
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303012148.S6ymQNI9-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/0f87f20d0536ae21524ce1c25335aec991229114
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/upstream-f2fs-stable-linux-4.19.y
-        git checkout 0f87f20d0536ae21524ce1c25335aec991229114
+        # https://github.com/intel-lab-lkp/linux/commit/125bbfe8c188e62159ecd4d143246d36b1801f79
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
+        git checkout 125bbfe8c188e62159ecd4d143246d36b1801f79
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash M=fs/f2fs
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/loongson/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303012149.vteQarPr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303012148.S6ymQNI9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/f2fs/inode.c:307:7: warning: format specifies type 'unsigned long' but the argument has type 'blkcnt_t' (aka 'unsigned long long') [-Wformat]
-                                     SECTOR_TO_BLOCK(inode->i_blocks));
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:1949:39: note: expanded from macro 'f2fs_warn'
-           f2fs_printk(sbi, KERN_WARNING fmt, ##__VA_ARGS__)
-                                         ~~~    ^~~~~~~~~~~
-   fs/f2fs/segment.h:119:2: note: expanded from macro 'SECTOR_TO_BLOCK'
-           ((sectors) >> F2FS_LOG_SECTORS_PER_BLOCK)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   drivers/gpu/drm/loongson/lsdc_plane.c: In function 'lsdc_update_primary_plane':
+>> drivers/gpu/drm/loongson/lsdc_plane.c:95:20: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      95 |         if (IS_ERR((void *)bo_offset)) {
+         |                    ^
+--
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from arch/mips/include/asm/bug.h:42,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/mips/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/drm/drm_device.h:5,
+                    from include/drm/drm_drv.h:35,
+                    from drivers/gpu/drm/loongson/lsdc_ttm.c:3:
+   drivers/gpu/drm/loongson/lsdc_ttm.c: In function 'lsdc_dumb_create':
+>> drivers/gpu/drm/loongson/lsdc_ttm.c:378:23: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+         |                                                   |
+         |                                                   size_t {aka unsigned int}
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/drm/drm_print.h:413:9: note: in expansion of macro '_dynamic_func_call_cls'
+     413 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:492:9: note: in expansion of macro 'drm_dev_dbg'
+     492 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:510:33: note: in expansion of macro 'drm_dbg_driver'
+     510 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_ttm.c:378:9: note: in expansion of macro 'drm_dbg'
+     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
+         |         ^~~~~~~
+   drivers/gpu/drm/loongson/lsdc_ttm.c:378:33: note: format string is defined here
+     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
+         |                               ~~^
+         |                                 |
+         |                                 long unsigned int
+         |                               %u
 
 
-vim +307 fs/f2fs/inode.c
+vim +95 drivers/gpu/drm/loongson/lsdc_plane.c
 
-   198	
-   199	static bool sanity_check_inode(struct inode *inode, struct page *node_page)
-   200	{
-   201		struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-   202		struct f2fs_inode_info *fi = F2FS_I(inode);
-   203		struct f2fs_inode *ri = F2FS_INODE(node_page);
-   204		unsigned long long iblocks;
-   205	
-   206		iblocks = le64_to_cpu(F2FS_INODE(node_page)->i_blocks);
-   207		if (!iblocks) {
-   208			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   209			f2fs_warn(sbi, "%s: corrupted inode i_blocks i_ino=%lx iblocks=%llu, run fsck to fix.",
-   210				  __func__, inode->i_ino, iblocks);
-   211			return false;
-   212		}
-   213	
-   214		if (ino_of_node(node_page) != nid_of_node(node_page)) {
-   215			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   216			f2fs_warn(sbi, "%s: corrupted inode footer i_ino=%lx, ino,nid: [%u, %u] run fsck to fix.",
-   217				  __func__, inode->i_ino,
-   218				  ino_of_node(node_page), nid_of_node(node_page));
-   219			return false;
-   220		}
-   221	
-   222		if (f2fs_sb_has_flexible_inline_xattr(sbi)
-   223				&& !f2fs_has_extra_attr(inode)) {
-   224			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   225			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, run fsck to fix.",
-   226				  __func__, inode->i_ino);
-   227			return false;
-   228		}
-   229	
-   230		if (f2fs_has_extra_attr(inode) &&
-   231				!f2fs_sb_has_extra_attr(sbi)) {
-   232			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   233			f2fs_warn(sbi, "%s: inode (ino=%lx) is with extra_attr, but extra_attr feature is off",
-   234				  __func__, inode->i_ino);
-   235			return false;
-   236		}
-   237	
-   238		if (fi->i_extra_isize > F2FS_TOTAL_EXTRA_ATTR_SIZE ||
-   239				fi->i_extra_isize % sizeof(__le32)) {
-   240			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   241			f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_extra_isize: %d, max: %zu",
-   242				  __func__, inode->i_ino, fi->i_extra_isize,
-   243				  F2FS_TOTAL_EXTRA_ATTR_SIZE);
-   244			return false;
-   245		}
-   246	
-   247		if (f2fs_has_extra_attr(inode) &&
-   248			f2fs_sb_has_flexible_inline_xattr(sbi) &&
-   249			f2fs_has_inline_xattr(inode) &&
-   250			(!fi->i_inline_xattr_size ||
-   251			fi->i_inline_xattr_size > MAX_INLINE_XATTR_SIZE)) {
-   252			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   253			f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_inline_xattr_size: %d, max: %zu",
-   254				  __func__, inode->i_ino, fi->i_inline_xattr_size,
-   255				  MAX_INLINE_XATTR_SIZE);
-   256			return false;
-   257		}
-   258	
-   259		if (F2FS_I(inode)->extent_tree) {
-   260			struct extent_info *ei = &F2FS_I(inode)->extent_tree->largest;
-   261	
-   262			if (ei->len &&
-   263				(!f2fs_is_valid_blkaddr(sbi, ei->blk,
-   264							DATA_GENERIC_ENHANCE) ||
-   265				!f2fs_is_valid_blkaddr(sbi, ei->blk + ei->len - 1,
-   266							DATA_GENERIC_ENHANCE))) {
-   267				set_sbi_flag(sbi, SBI_NEED_FSCK);
-   268				f2fs_warn(sbi, "%s: inode (ino=%lx) extent info [%u, %u, %u] is incorrect, run fsck to fix",
-   269					  __func__, inode->i_ino,
-   270					  ei->blk, ei->fofs, ei->len);
-   271				return false;
-   272			}
-   273		}
-   274	
-   275		if (f2fs_has_inline_data(inode) &&
-   276				(!S_ISREG(inode->i_mode) && !S_ISLNK(inode->i_mode))) {
-   277			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   278			f2fs_warn(sbi, "%s: inode (ino=%lx, mode=%u) should not have inline_data, run fsck to fix",
-   279				  __func__, inode->i_ino, inode->i_mode);
-   280			return false;
-   281		}
-   282	
-   283		if (f2fs_has_inline_dentry(inode) && !S_ISDIR(inode->i_mode)) {
-   284			set_sbi_flag(sbi, SBI_NEED_FSCK);
-   285			f2fs_warn(sbi, "%s: inode (ino=%lx, mode=%u) should not have inline_dentry, run fsck to fix",
-   286				  __func__, inode->i_ino, inode->i_mode);
-   287			return false;
-   288		}
-   289	
-   290		if (f2fs_has_extra_attr(inode) && f2fs_sb_has_compression(sbi) &&
-   291				fi->i_flags & F2FS_COMPR_FL &&
-   292				F2FS_FITS_IN_INODE(ri, fi->i_extra_isize,
-   293							i_log_cluster_size)) {
-   294			if (ri->i_compress_algorithm >= COMPRESS_MAX) {
-   295				f2fs_warn(sbi, "%s: inode (ino=%lx) has unsupported "
-   296					"compress algorithm: %u, run fsck to fix",
-   297					  __func__, inode->i_ino,
-   298					  ri->i_compress_algorithm);
-   299				return false;
-   300			}
-   301			if (le64_to_cpu(ri->i_compr_blocks) >
-   302					SECTOR_TO_BLOCK(inode->i_blocks)) {
-   303				f2fs_warn(sbi, "%s: inode (ino=%lx) has inconsistent "
-   304					"i_compr_blocks:%llu, i_blocks:%lu, run fsck to fix",
-   305					  __func__, inode->i_ino,
-   306					  le64_to_cpu(ri->i_compr_blocks),
- > 307					  SECTOR_TO_BLOCK(inode->i_blocks));
-   308				return false;
-   309			}
-   310			if (ri->i_log_cluster_size < MIN_COMPRESS_LOG_SIZE ||
-   311				ri->i_log_cluster_size > MAX_COMPRESS_LOG_SIZE) {
-   312				f2fs_warn(sbi, "%s: inode (ino=%lx) has unsupported "
-   313					"log cluster size: %u, run fsck to fix",
-   314					  __func__, inode->i_ino,
-   315					  ri->i_log_cluster_size);
-   316				return false;
-   317			}
-   318		}
-   319	
-   320		return true;
-   321	}
-   322	
+    77	
+    78	static void lsdc_update_primary_plane(struct drm_plane *plane,
+    79					      struct drm_atomic_state *state)
+    80	{
+    81		struct drm_device *ddev = plane->dev;
+    82		struct lsdc_device *ldev = to_lsdc(ddev);
+    83		struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
+    84		struct drm_crtc *crtc = new_plane_state->crtc;
+    85		struct drm_framebuffer *fb = new_plane_state->fb;
+    86		struct ttm_buffer_object *tbo = to_ttm_bo(fb->obj[0]);
+    87		unsigned int pipe = drm_crtc_index(crtc);
+    88		unsigned int fb_offset = lsdc_get_fb_offset(fb, new_plane_state, 0);
+    89		u64 bo_offset = lsdc_bo_gpu_offset(tbo);
+    90		u64 fb_addr = ldev->vram_base + bo_offset + fb_offset;
+    91		u32 stride = fb->pitches[0];
+    92		u32 cfg;
+    93		u32 lo, hi;
+    94	
+  > 95		if (IS_ERR((void *)bo_offset)) {
+    96			drm_warn(ddev, "bo not pinned, should not happen\n");
+    97			return;
+    98		}
+    99	
+   100		/* 40-bit width physical address bus */
+   101		lo = fb_addr & 0xFFFFFFFF;
+   102		hi = (fb_addr >> 32) & 0xFF;
+   103	
+   104		cfg = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, pipe);
+   105		if (cfg & CFG_FB_IN_USING) {
+   106			drm_dbg(ddev, "CRTC-%u(FB1) is in using\n", pipe);
+   107			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_LO_ADDR_REG, pipe, lo);
+   108			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_HI_ADDR_REG, pipe, hi);
+   109		} else {
+   110			drm_dbg(ddev, "CRTC-%u(FB0) is in using\n", pipe);
+   111			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_LO_ADDR_REG, pipe, lo);
+   112			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_HI_ADDR_REG, pipe, hi);
+   113		}
+   114	
+   115		drm_dbg(ddev, "CRTC-%u scanout from 0x%llx\n", pipe, fb_addr);
+   116	
+   117		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_STRIDE_REG, pipe, stride);
+   118	
+   119		cfg &= ~CFG_PIX_FMT_MASK;
+   120		cfg |= LSDC_PF_XRGB8888;
+   121	
+   122		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, pipe, cfg);
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
