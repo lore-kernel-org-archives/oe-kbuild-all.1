@@ -1,50 +1,44 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB37C2F32
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 13:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0672F32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 13:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677677439; x=1709213439;
+  t=1677678080; x=1709214080;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NmxyP4356gq5Xno/7bpT+rSOql6hU9mFKRogJkOZLYk=;
-  b=Q1YzYHQSBioxIiE3tzHHyUrltNiq1gdfQGR4B4oRFMXCQ7LJV0AbWpOT
-   tVj1XeaVZZsyyjkSCeUrjrSGmKCc9jyl8eaRGi63q92g9akb3yd4A7uhq
-   qhwC4tZaxztu1VRd1RRUkYU044fa7+0DChNeGgHnVyPvY4fsa9wxbnGQn
-   bfpZ0i4pn7e+mlH16vWHjkkxBb7Vw6n41Y8y/G/ky644Cr7uY1+r3RU+z
-   G5tThl09vLk5ANnCjv6/Yo7xOmay05rtvJMpm61SQA6d6ObykM+i9eliQ
-   KHD1aLpX6yAqvCEb5DATd8xa3lpIBNtPFwp59hQCPNxP40k7/RtWG4d8o
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="333133495"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="333133495"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 05:30:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="667868810"
+  bh=1wcBqpnyfvB3woz8L/m4u+vnQ9uHOup4dsI/UP5mmN4=;
+  b=Voa6sgwYhk4QYjFxwOvelFWJwVchch/wijBy9LDiotHdynD1WPUd1yPX
+   DVkDAM0AFzQNgWnvTkRSQ69evHcFER/gprX+bfl/gurt392YHeahIlDSn
+   FKOyIQpZP7bXBTWenrJzHXFWQwn3k4nZUX82Cnhs2ILjutUFHOrfPMTr+
+   KeYk9vNLlb317hjrkCZ1lrfBfFkyvtTbAq65DR87CPRhu6FIt3VFakjM6
+   MAoquU7NKnwQSmJg6Z3M7SXTauIXFsc1mm89FHP4aLoBvWH0rARJlixp5
+   oKwaDONdLKwCeUuZcHjj8fkBsD4ejpRcS5z3MByWPKq7CkzWDKh65hX+7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="333136186"
 X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="667868810"
+   d="scan'208";a="333136186"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 05:41:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="817567699"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="817567699"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 01 Mar 2023 05:30:19 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 01 Mar 2023 05:41:19 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXMXC-0006Aj-0y;
-	Wed, 01 Mar 2023 13:30:18 +0000
-Date: Wed, 1 Mar 2023 21:30:14 +0800
+	id 1pXMhq-0006B9-1n;
+	Wed, 01 Mar 2023 13:41:18 +0000
+Date: Wed, 1 Mar 2023 21:40:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: suijingfeng <15330273260@189.cn>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	suijingfeng <suijingfeng@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Li Yi <liyi@loongson.cn>
-Subject: Re: [PATCH v6 1/2] drm: add kms driver for loongson display
- controller
-Message-ID: <202303012148.S6ymQNI9-lkp@intel.com>
-References: <20230301072306.572685-1-15330273260@189.cn>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 8/9] v4l2-core: zero field base in struct
+ v4l2_framebuffer
+Message-ID: <202303012125.V7pSpW14-lkp@intel.com>
+References: <20230301111850.607515-9-hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,138 +47,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230301072306.572685-1-15330273260@189.cn>
+In-Reply-To: <20230301111850.607515-9-hverkuil-cisco@xs4all.nl>
 
-Hi suijingfeng,
+Hi Hans,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on media-tree/master]
+[cannot apply to v6.2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230301072306.572685-1-15330273260%40189.cn
-patch subject: [PATCH v6 1/2] drm: add kms driver for loongson display controller
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303012148.S6ymQNI9-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Verkuil/saa7146-drop-overlay-support/20230301-192008
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230301111850.607515-9-hverkuil-cisco%40xs4all.nl
+patch subject: [RFC PATCH 8/9] v4l2-core: zero field base in struct v4l2_framebuffer
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303012125.V7pSpW14-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/125bbfe8c188e62159ecd4d143246d36b1801f79
+        # https://github.com/intel-lab-lkp/linux/commit/05a8856d169b96562bb31dc939654dda0ba05bd5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
-        git checkout 125bbfe8c188e62159ecd4d143246d36b1801f79
+        git fetch --no-tags linux-review Hans-Verkuil/saa7146-drop-overlay-support/20230301-192008
+        git checkout 05a8856d169b96562bb31dc939654dda0ba05bd5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/loongson/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/v4l2-core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303012148.S6ymQNI9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303012125.V7pSpW14-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/loongson/lsdc_plane.c: In function 'lsdc_update_primary_plane':
->> drivers/gpu/drm/loongson/lsdc_plane.c:95:20: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      95 |         if (IS_ERR((void *)bo_offset)) {
-         |                    ^
---
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from arch/mips/include/asm/bug.h:42,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/mips/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/drm/drm_device.h:5,
-                    from include/drm/drm_drv.h:35,
-                    from drivers/gpu/drm/loongson/lsdc_ttm.c:3:
-   drivers/gpu/drm/loongson/lsdc_ttm.c: In function 'lsdc_dumb_create':
->> drivers/gpu/drm/loongson/lsdc_ttm.c:378:23: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
-         |                                                   |
-         |                                                   size_t {aka unsigned int}
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/drm/drm_print.h:413:9: note: in expansion of macro '_dynamic_func_call_cls'
-     413 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:492:9: note: in expansion of macro 'drm_dev_dbg'
-     492 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:510:33: note: in expansion of macro 'drm_dbg_driver'
-     510 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/loongson/lsdc_ttm.c:378:9: note: in expansion of macro 'drm_dbg'
-     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
-         |         ^~~~~~~
-   drivers/gpu/drm/loongson/lsdc_ttm.c:378:33: note: format string is defined here
-     378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
-         |                               ~~^
-         |                                 |
-         |                                 long unsigned int
-         |                               %u
+   drivers/media/v4l2-core/v4l2-compat-ioctl32.c: In function 'get_v4l2_framebuffer32':
+>> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:590:24: warning: unused variable 'tmp' [-Wunused-variable]
+     590 |         compat_caddr_t tmp;
+         |                        ^~~
 
 
-vim +95 drivers/gpu/drm/loongson/lsdc_plane.c
+vim +/tmp +590 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
 
-    77	
-    78	static void lsdc_update_primary_plane(struct drm_plane *plane,
-    79					      struct drm_atomic_state *state)
-    80	{
-    81		struct drm_device *ddev = plane->dev;
-    82		struct lsdc_device *ldev = to_lsdc(ddev);
-    83		struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-    84		struct drm_crtc *crtc = new_plane_state->crtc;
-    85		struct drm_framebuffer *fb = new_plane_state->fb;
-    86		struct ttm_buffer_object *tbo = to_ttm_bo(fb->obj[0]);
-    87		unsigned int pipe = drm_crtc_index(crtc);
-    88		unsigned int fb_offset = lsdc_get_fb_offset(fb, new_plane_state, 0);
-    89		u64 bo_offset = lsdc_bo_gpu_offset(tbo);
-    90		u64 fb_addr = ldev->vram_base + bo_offset + fb_offset;
-    91		u32 stride = fb->pitches[0];
-    92		u32 cfg;
-    93		u32 lo, hi;
-    94	
-  > 95		if (IS_ERR((void *)bo_offset)) {
-    96			drm_warn(ddev, "bo not pinned, should not happen\n");
-    97			return;
-    98		}
-    99	
-   100		/* 40-bit width physical address bus */
-   101		lo = fb_addr & 0xFFFFFFFF;
-   102		hi = (fb_addr >> 32) & 0xFF;
-   103	
-   104		cfg = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, pipe);
-   105		if (cfg & CFG_FB_IN_USING) {
-   106			drm_dbg(ddev, "CRTC-%u(FB1) is in using\n", pipe);
-   107			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_LO_ADDR_REG, pipe, lo);
-   108			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_HI_ADDR_REG, pipe, hi);
-   109		} else {
-   110			drm_dbg(ddev, "CRTC-%u(FB0) is in using\n", pipe);
-   111			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_LO_ADDR_REG, pipe, lo);
-   112			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_HI_ADDR_REG, pipe, hi);
-   113		}
-   114	
-   115		drm_dbg(ddev, "CRTC-%u scanout from 0x%llx\n", pipe, fb_addr);
-   116	
-   117		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_STRIDE_REG, pipe, stride);
-   118	
-   119		cfg &= ~CFG_PIX_FMT_MASK;
-   120		cfg |= LSDC_PF_XRGB8888;
-   121	
-   122		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, pipe, cfg);
-   123	}
-   124	
+cf664a6458b254 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  586  
+50085270a162d6 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Arnd Bergmann         2020-10-30  587  static int get_v4l2_framebuffer32(struct v4l2_framebuffer *p64,
+6dd0394f5fcd51 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Mauro Carvalho Chehab 2018-04-16  588  				  struct v4l2_framebuffer32 __user *p32)
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  589  {
+a1dfb4c48cc1e6 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Daniel Mentz          2017-07-19 @590  	compat_caddr_t tmp;
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  591  
+05a8856d169b96 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Hans Verkuil          2023-03-01  592  	if (get_user(p64->capability, &p32->capability) ||
+50085270a162d6 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Arnd Bergmann         2020-10-30  593  	    get_user(p64->flags, &p32->flags) ||
+50085270a162d6 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Arnd Bergmann         2020-10-30  594  	    copy_from_user(&p64->fmt, &p32->fmt, sizeof(p64->fmt)))
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  595  		return -EFAULT;
+05a8856d169b96 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Hans Verkuil          2023-03-01  596  	p64->base = NULL;
+50085270a162d6 drivers/media/v4l2-core/v4l2-compat-ioctl32.c Arnd Bergmann         2020-10-30  597  
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  598  	return 0;
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  599  }
+13d133bc66ea78 drivers/media/video/compat_ioctl32.c          Philippe De Muyter    2006-01-09  600  
 
 -- 
 0-DAY CI Kernel Test Service
