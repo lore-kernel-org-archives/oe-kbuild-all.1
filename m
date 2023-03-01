@@ -1,54 +1,53 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B03A3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 04:51:31 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id f13so48989433edz.6
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Feb 2023 20:51:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF427A3B;
+	Wed,  1 Mar 2023 05:00:13 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id o15so46524295edr.13;
+        Tue, 28 Feb 2023 21:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677646290;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jf+wA0QmNX744Y/lqGbk5s8jA/7sYEQ3hy7TeNz4kew=;
-        b=pCA6Ljh4YKyIGCpT1BNzuO9x2bh11eBXyZyOsb9ptC6dh/5VcgqCTWi7qpMGikNF08
-         YsPEe+hpHlUlz18KRgKLq1YJFNnEYmTJuAGD/SHyiT9KphbG6S0wXokENQLD4deb/Jwk
-         hdUSwPhM25zLgT2xAONeORenH6Nijgr2iBW8EckgSKSSZmf6NzIp8VBFdJEjOSj2TJi6
-         Sr3WqYrlsPqFZlrH3eDR0jNqv5gRTcnp8CcTbNCfNS0It6LEZV1uh+IPFWkQC5J2/7bx
-         qkqQrZN/8MxE6i/judZvVCC1VJKfj6uJzYC2+M2B19JGub2sf4Jxd7Pf59mUXZcMTjrJ
-         6VIg==
+        d=gmail.com; s=20210112; t=1677646812;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+XUQml6mB6fyElWn5fahuEubA6/oRTgl8hnq3v9WlNo=;
+        b=LcBCQcqKE1J8v+3Jd8o7twV9tvZ5mwFaQMMyMOdYjiYwYZPdfmtL9z2ouiXMbzJKvt
+         r2WTKLB8vc6/SL76Ky28oM3rNx2PkEPnXxVt+DGJOaYyIH3C6msLBqRrD7ECsFf1aupy
+         GtgPxWZPx+zCj5k7kQrzxeNWa+9IOh71NOMDZC70IIHQ++9QOo3T1Elyo6kv0azuBVpJ
+         /l+LGiiOLAWlidRXdDFxen1KFp06GZbUMC4UCTBF/giRMrsH99kLc1ZLKfh52MCJbyZT
+         gzLps63yZZGUB2pWWdgN2smf99n3FN7ExHIg+yxCIvyKevDhpYyOw8U7LyaWtxtpaUhU
+         6xjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677646290;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jf+wA0QmNX744Y/lqGbk5s8jA/7sYEQ3hy7TeNz4kew=;
-        b=SCmz5Jo7fRo4Jd/uUyMunhL31J6IjCwxPuKxgIdR4mJBAMO3agcV7mQZvmhJAR+Lrm
-         o3EeNyOTaZrYAUhwyUPuy07F7iPQ/cER8CXAmhgDWzcdwTspFVNOqsFgZXx3n00VqZL8
-         8lAsnRgTR4lJ0+TC1h/m6Y1AQ+x3zerSE8hOMDP2chVRGUgxdc4IbHlHTCawlbLrBf4+
-         00IEzffqfR7N0zuzHouNNnXimqSBkDJrtgqCmVf8URe5kYd2Yg7i2GCVnk5ApbDmBx0m
-         mrJhu4CKe7DreHOibmpxVTna+jA072DvllHsmab723U34h1edIjC8U3+jbU5itLwbBUd
-         9P1A==
-X-Gm-Message-State: AO0yUKVBHU9VqSVnrCdk0Mn7H1GHrOdiTSO6GB3+6nTeaAuCYN0L3GRL
-	ZOIqpvFK6L96OdOW+ggUlCaOA+whmEU=
-X-Google-Smtp-Source: AK7set9HU0yaQDE1GWWPN+7uNOH/F5KxOowwGZT0/tEUbJRb+E+f1nW5HWpeHLPT1xS9R24T482TTA==
-X-Received: by 2002:a17:906:85cb:b0:8b2:3e72:1022 with SMTP id i11-20020a17090685cb00b008b23e721022mr4520088ejy.29.1677646289960;
-        Tue, 28 Feb 2023 20:51:29 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677646812;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+XUQml6mB6fyElWn5fahuEubA6/oRTgl8hnq3v9WlNo=;
+        b=Aa0okbZfsVK69U6FZZKu/iz3a9i9Hf1mkOlwL1yODCBgInE2IlG24FI605i9DoHJEK
+         EEyF1QBoj7YDSYXJYEaNTOd4XJ74NZYVUjXgMEJOHbiL/LiCHWsX4GGvHrZbYKWycMOD
+         Ik/CDh2qSDqQhqstN3gH35+t7ktZRBkheffkmsB/C8WsGVvM938ERXHiyzUSt4byvmFc
+         PkfvQOT1BFdDb+8n3yuXSJqy3tDDCRPZG5dP4aFtn1ka2pPB645ypjvf+3ATJx82jLhy
+         e4e0cX84WcdF+12tS0+x6NTtMksvcnjNMtsy1mxGYFYTVe0kZPK1mHn8ZHtFMUMCOfou
+         O0rA==
+X-Gm-Message-State: AO0yUKXss2QQ+hDQt4IGVLywzwKsdPLefekR7R2ZfznXTCe0CponZG7N
+	yZ3G/rBu/vfl1D07NsZcJgvri4Md0c0=
+X-Google-Smtp-Source: AK7set/ZO69aTBKO5vnuvPpDlhnkEum3ye8i7RIFRWjDXxAkY7gyhlmcT68is9ayH7VQIEA7vJl6uQ==
+X-Received: by 2002:a17:906:1441:b0:8ae:e82a:3230 with SMTP id q1-20020a170906144100b008aee82a3230mr5345367ejc.70.1677646811712;
+        Tue, 28 Feb 2023 21:00:11 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u11-20020a1709064acb00b008f767c69421sm5205731ejt.44.2023.02.28.20.51.28
+        by smtp.gmail.com with ESMTPSA id mf27-20020a170906cb9b00b008b1fc5abd0esm5278354ejb.71.2023.02.28.21.00.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 20:51:29 -0800 (PST)
-Date: Wed, 1 Mar 2023 07:51:25 +0300
+        Tue, 28 Feb 2023 21:00:11 -0800 (PST)
+Date: Wed, 1 Mar 2023 08:00:07 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
- restricted pci_channel_state_t
-Message-ID: <Y/7ZzYyisv1ylrho@kadam>
-References: <202303010454.jI5Jg2sT-lkp@intel.com>
- <20230228213325.GA21769@wunner.de>
- <Y/7YN7U9Q2iqNDFo@kadam>
+To: oe-kbuild@lists.linux.dev,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martyna Szapar-Mudlaw <martyna.szapar-mudlaw@linux.intel.com>,
+	Alexander Lobakin <alexandr.lobakin@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_txrx.c:1304 ice_clean_rx_irq()
+ error: uninitialized symbol 'cached_ntu'.
+Message-ID: <202303011231.SEfXSwLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,43 +56,194 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/7YN7U9Q2iqNDFo@kadam>
 
-On Wed, Mar 01, 2023 at 07:44:39AM +0300, Dan Carpenter wrote:
-> > It seems they are only reported for architectures whose arch_xchg()
-> > and arch_cmpxchg() macros cast the argument to an unsigned long.
-> > Archictures such as x86 don't do that, but a number of others do.
-> > The 0-day report, reproduced below in full, is for loongarch.
-> > 
-> > I'm wondering why the cast is necessary at all.  Digging in the
-> > git history, I noticed that it has existed at least on arm since
-> > forever.  I suspect that its use on newer arches such as loongarch
-> > may be due to cargo-culting.
-> > 
-> 
-> Speaking as an absolutely newbie and ignoramous, I can't see any point
-> to the cast in arch_xchg().  But I am also surprised that silences the
-> warning.  I would have thought that removing the cast would change the
-> warning from "warning: cast from restricted my_type_t" to
-> "warning: incorrect type in argument 1 (different base types)".
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c0927a7a5391f7d8e593e5e50ead7505a23cadf9
+commit: 3246a10752a7120878740f345f3956997777b3d6 ice: Add support for XDP multi-buffer on Tx side
+config: x86_64-randconfig-m001-20230227 (https://download.01.org/0day-ci/archive/20230301/202303011231.SEfXSwLT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-Your other option would be to add a __force to the cast.  I don't know
-if this is a good option.  I guess first figure out if the __bit_wise
-is really required.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303011231.SEfXSwLT-lkp@intel.com/
 
-regards,
-dan carpenter
+New smatch warnings:
+drivers/net/ethernet/intel/ice/ice_txrx.c:1304 ice_clean_rx_irq() error: uninitialized symbol 'cached_ntu'.
 
-diff --git a/arch/arm64/include/asm/cmpxchg.h b/arch/arm64/include/asm/cmpxchg.h
-index 497acf134d99..387c6af01941 100644
---- a/arch/arm64/include/asm/cmpxchg.h
-+++ b/arch/arm64/include/asm/cmpxchg.h
-@@ -93,7 +93,7 @@ __XCHG_GEN(_mb)
- ({									\
- 	__typeof__(*(ptr)) __ret;					\
- 	__ret = (__typeof__(*(ptr)))					\
--		__xchg##sfx((unsigned long)(x), (ptr), sizeof(*(ptr))); \
-+		__xchg##sfx((__force unsigned long)(x), (ptr), sizeof(*(ptr))); \
- 	__ret;								\
- })
- 
+vim +/cached_ntu +1304 drivers/net/ethernet/intel/ice/ice_txrx.c
+
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1150  
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1151  	xdp_prog = READ_ONCE(rx_ring->xdp_prog);
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1152  	if (xdp_prog) {
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1153  		xdp_ring = rx_ring->xdp_ring;
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1154  		cached_ntu = xdp_ring->next_to_use;
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1155  	}
+
+Uninitialized on else path.
+
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1156  
+f9867df6d96593 Anirudh Venkataramanan 2019-02-19  1157  	/* start the loop to process Rx packets bounded by 'budget' */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1158  	while (likely(total_rx_pkts < (unsigned int)budget)) {
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1159  		union ice_32b_rx_flex_desc *rx_desc;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1160  		struct ice_rx_buf *rx_buf;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1161  		struct sk_buff *skb;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1162  		unsigned int size;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1163  		u16 stat_err_bits;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1164  		u16 vlan_tag = 0;
+dda90cb90a5ced Jesse Brandeburg       2021-02-23  1165  		u16 rx_ptype;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1166  
+f9867df6d96593 Anirudh Venkataramanan 2019-02-19  1167  		/* get the Rx desc from Rx ring based on 'next_to_clean' */
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1168  		rx_desc = ICE_RX_DESC(rx_ring, ntc);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1169  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1170  		/* status_error_len will always be zero for unused descriptors
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1171  		 * because it's cleared in cleanup, and overlaps with hdr_addr
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1172  		 * which is always zero because packet split isn't used, if the
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1173  		 * hardware wrote DD then it will be non-zero
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1174  		 */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1175  		stat_err_bits = BIT(ICE_RX_FLEX_DESC_STATUS0_DD_S);
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1176  		if (!ice_test_staterr(rx_desc->wb.status_error0, stat_err_bits))
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1177  			break;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1178  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1179  		/* This memory barrier is needed to keep us from reading
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1180  		 * any other fields out of the rx_desc until we know the
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1181  		 * DD bit is set.
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1182  		 */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1183  		dma_rmb();
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1184  
+3089cf6d3caa1e Jesse Brandeburg       2021-06-08  1185  		ice_trace(clean_rx_irq, rx_ring, rx_desc);
+148beb61203125 Henry Tieman           2020-05-11  1186  		if (rx_desc->wb.rxdid == FDIR_DESC_RXDID || !rx_ring->netdev) {
+d6218317e2eff8 Qi Zhang               2021-03-09  1187  			struct ice_vsi *ctrl_vsi = rx_ring->vsi;
+d6218317e2eff8 Qi Zhang               2021-03-09  1188  
+d6218317e2eff8 Qi Zhang               2021-03-09  1189  			if (rx_desc->wb.rxdid == FDIR_DESC_RXDID &&
+b03d519d3460f3 Jacob Keller           2022-02-16  1190  			    ctrl_vsi->vf)
+d6218317e2eff8 Qi Zhang               2021-03-09  1191  				ice_vc_fdir_irq_handler(ctrl_vsi, rx_desc);
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1192  			if (++ntc == cnt)
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1193  				ntc = 0;
+148beb61203125 Henry Tieman           2020-05-11  1194  			continue;
+148beb61203125 Henry Tieman           2020-05-11  1195  		}
+148beb61203125 Henry Tieman           2020-05-11  1196  
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1197  		size = le16_to_cpu(rx_desc->wb.pkt_len) &
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1198  			ICE_RX_FLX_DESC_PKT_LEN_M;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1199  
+ac6f733a7bd5e2 Mitch Williams         2019-07-25  1200  		/* retrieve a buffer from the ring */
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1201  		rx_buf = ice_get_rx_buf(rx_ring, size, ntc);
+ac6f733a7bd5e2 Mitch Williams         2019-07-25  1202  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1203  		if (!xdp->data) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1204  			void *hard_start;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1205  
+be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1206  			hard_start = page_address(rx_buf->page) + rx_buf->page_offset -
+be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1207  				     offset;
+cb0473e0e9dcca Maciej Fijalkowski     2023-01-31  1208  			xdp_prepare_buff(xdp, hard_start, offset, size, !!offset);
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1209  #if (PAGE_SIZE > 4096)
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1210  			/* At larger PAGE_SIZE, frame_sz depend on len size */
+cb0473e0e9dcca Maciej Fijalkowski     2023-01-31  1211  			xdp->frame_sz = ice_rx_frame_truesize(rx_ring, size);
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1212  #endif
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1213  			xdp_buff_clear_frags_flag(xdp);
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1214  		} else if (ice_add_xdp_frag(rx_ring, xdp, rx_buf, size)) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1215  			break;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1216  		}
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1217  		if (++ntc == cnt)
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1218  			ntc = 0;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1219  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1220  		/* skip if it is NOP desc */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1221  		if (ice_is_non_eop(rx_ring, rx_desc))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1222  			continue;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1223  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1224  		ice_run_xdp(rx_ring, xdp, xdp_prog, xdp_ring, rx_buf);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1225  		if (rx_buf->act == ICE_XDP_PASS)
+59bb0808055758 Maciej Fijalkowski     2019-10-24  1226  			goto construct_skb;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1227  		total_rx_bytes += xdp_get_buff_len(xdp);
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1228  		total_rx_pkts++;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1229  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1230  		xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1231  		rx_ring->first_desc = ntc;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1232  		continue;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1233  construct_skb:
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1234  		if (likely(ice_ring_uses_build_skb(rx_ring)))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1235  			skb = ice_build_skb(rx_ring, xdp);
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1236  		else
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1237  			skb = ice_construct_skb(rx_ring, xdp);
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1238  		/* exit if we failed to retrieve a buffer */
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1239  		if (!skb) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1240  			rx_ring->ring_stats->rx_stats.alloc_page_failed++;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1241  			rx_buf->act = ICE_XDP_CONSUMED;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1242  			if (unlikely(xdp_buff_has_frags(xdp)))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1243  				ice_set_rx_bufs_act(xdp, rx_ring,
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1244  						    ICE_XDP_CONSUMED);
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1245  			xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1246  			rx_ring->first_desc = ntc;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1247  			break;
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1248  		}
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1249  		xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1250  		rx_ring->first_desc = ntc;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1251  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1252  		stat_err_bits = BIT(ICE_RX_FLEX_DESC_STATUS0_RXE_S);
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1253  		if (unlikely(ice_test_staterr(rx_desc->wb.status_error0,
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1254  					      stat_err_bits))) {
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1255  			dev_kfree_skb_any(skb);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1256  			continue;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1257  		}
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1258  
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1259  		vlan_tag = ice_get_vlan_tag_from_rx_desc(rx_desc);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1260  
+133f4883f90668 Krzysztof Kazimierczak 2019-10-09  1261  		/* pad the skb if needed, to make a valid ethernet frame */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1262  		if (eth_skb_pad(skb))
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1263  			continue;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1264  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1265  		/* probably a little skewed due to removing CRC */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1266  		total_rx_bytes += skb->len;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1267  
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1268  		/* populate checksum, VLAN, and protocol */
+6503b659302893 Jesse Brandeburg       2019-08-08  1269  		rx_ptype = le16_to_cpu(rx_desc->wb.ptype_flex_flags0) &
+6503b659302893 Jesse Brandeburg       2019-08-08  1270  			ICE_RX_FLEX_DESC_PTYPE_M;
+6503b659302893 Jesse Brandeburg       2019-08-08  1271  
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1272  		ice_process_skb_fields(rx_ring, rx_desc, skb, rx_ptype);
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1273  
+3089cf6d3caa1e Jesse Brandeburg       2021-06-08  1274  		ice_trace(clean_rx_irq_indicate, rx_ring, rx_desc, skb);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1275  		/* send completed skb up the stack */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1276  		ice_receive_skb(rx_ring, skb, vlan_tag);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1277  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1278  		/* update budget accounting */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1279  		total_rx_pkts++;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1280  	}
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1281  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1282  	first = rx_ring->first_desc;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1283  	while (cached_ntc != first) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1284  		struct ice_rx_buf *buf = &rx_ring->rx_buf[cached_ntc];
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1285  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1286  		if (buf->act & (ICE_XDP_TX | ICE_XDP_REDIR)) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1287  			ice_rx_buf_adjust_pg_offset(buf, xdp->frame_sz);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1288  			xdp_xmit |= buf->act;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1289  		} else if (buf->act & ICE_XDP_CONSUMED) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1290  			buf->pagecnt_bias++;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1291  		} else if (buf->act == ICE_XDP_PASS) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1292  			ice_rx_buf_adjust_pg_offset(buf, xdp->frame_sz);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1293  		}
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1294  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1295  		ice_put_rx_buf(rx_ring, buf);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1296  		if (++cached_ntc >= cnt)
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1297  			cached_ntc = 0;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1298  	}
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1299  	rx_ring->next_to_clean = ntc;
+cb7db35641c9a5 Brett Creeley          2019-06-26  1300  	/* return up to cleaned_count buffers to hardware */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1301  	failure = ice_alloc_rx_bufs(rx_ring, ICE_RX_DESC_UNUSED(rx_ring));
+cb7db35641c9a5 Brett Creeley          2019-06-26  1302  
+9070fe3da0b126 Maciej Fijalkowski     2023-01-31  1303  	if (xdp_xmit)
+3246a10752a712 Maciej Fijalkowski     2023-01-31 @1304  		ice_finalize_xdp_rx(xdp_ring, xdp_xmit, cached_ntu);
+                                                                                                                ^^^^^^^^^^
+
+
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1305  
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1306  	if (rx_ring->ring_stats)
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1307  		ice_update_rx_ring_stats(rx_ring, total_rx_pkts,
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1308  					 total_rx_bytes);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1309  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1310  	/* guarantee a trip back through this routine if there was a failure */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1311  	return failure ? budget : (int)total_rx_pkts;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1312  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
