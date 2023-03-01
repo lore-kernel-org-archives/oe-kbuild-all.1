@@ -1,211 +1,133 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A0DA35
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 14:43:39 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.133])
-	by gateway (Coremail) with SMTP id _____8CxxtiXZP9jCeQGAA--.7491S3;
-	Wed, 01 Mar 2023 22:43:35 +0800 (CST)
-Received: from [10.20.42.133] (unknown [10.20.42.133])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxf+SRZP9jwSxEAA--.20716S3;
-	Wed, 01 Mar 2023 22:43:29 +0800 (CST)
-Message-ID: <cfd87ccf-bf75-2ce5-7393-920a643c0747@loongson.cn>
-Date: Wed, 1 Mar 2023 22:43:29 +0800
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6C846BD;
+	Wed,  1 Mar 2023 15:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677684326; x=1709220326;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1XI9ownShmWREBCu37gez1opwBgbmAEbewxKVoN49Pg=;
+  b=Vg0pAI9rcLfOr025+BR+UzlLKoNc+1HiNX07/rYQ8bCRdV/MYfJ3ID5V
+   04JwPTs/49eHnd1+JukLILL2eFds0k949nche3CbnAswzKl5fLjRRUTlq
+   DWTvO/t80PXdIUGmGC3CEWAThBjROxaGQ+Wfj10H1plATcTr/ees8Wtrn
+   aG7uMtuR2HsAINjeOQvxewgQNu3XaLRBXLlGcbl8Dp2Vn+MZM+TXDnTlb
+   p6qhyVYMkg55/r0k7LA3LIjcklgb8BBHPWD+kOfrKbu22F9u+MkzTVmQz
+   hZHywbrlOlc5yEno/ApVgBWotAklkb8jbtkTyfq9qfVLQ5UZCE/UwN0CN
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="399221756"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="399221756"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 07:25:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="624532303"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="624532303"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 01 Mar 2023 07:25:22 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXOKX-0006F7-2Z;
+	Wed, 01 Mar 2023 15:25:21 +0000
+Date: Wed, 1 Mar 2023 23:25:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org
+Subject: [driver-core:bus_cleanup 21/36] drivers/irqchip/irq-mbigen.c:248:30:
+ error: no member named 'dev_root' in 'struct bus_type'
+Message-ID: <202303012310.3HsNmMM6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6 1/2] drm: add kms driver for loongson display
- controller
-To: kernel test robot <lkp@intel.com>, suijingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Li Yi <liyi@loongson.cn>
-References: <20230301072306.572685-1-15330273260@189.cn>
- <202303012148.S6ymQNI9-lkp@intel.com>
-Content-Language: en-US
-From: Sui jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <202303012148.S6ymQNI9-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Cxf+SRZP9jwSxEAA--.20716S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKr4fuFWkJw45Zw1xGrWxWFg_yoWxuw48pa
-	n8AFyjyrZ5Jr4xXa4DJFy8C3WagwnxW3sF9Fy3CwnIkFWjy34YgFs2kryakw4DJFsrKay7
-	Kr93GFn0gF17A3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bq8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-	1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-	wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-	x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-	w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-	I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
-	jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-	AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCa
-	FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-	IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-	42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
-	IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
-	aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcbAwUUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git bus_cleanup
+head:   3e181816389768d1490b562055db5f9d5b71908f
+commit: a71647f9972e21b7cb098c8299a808992cf332bc [21/36] driver core: bus: move dev_root out of struct bus_type
+config: arm64-randconfig-r031-20230301 (https://download.01.org/0day-ci/archive/20230301/202303012310.3HsNmMM6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=a71647f9972e21b7cb098c8299a808992cf332bc
+        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+        git fetch --no-tags driver-core bus_cleanup
+        git checkout a71647f9972e21b7cb098c8299a808992cf332bc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/irqchip/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303012310.3HsNmMM6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/irqchip/irq-mbigen.c:248:30: error: no member named 'dev_root' in 'struct bus_type'
+                   parent = platform_bus_type.dev_root;
+                            ~~~~~~~~~~~~~~~~~ ^
+   1 error generated.
 
 
-On 2023/3/1 21:30, kernel test robot wrote:
-> Hi suijingfeng,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20230301072306.572685-1-15330273260%40189.cn
-> patch subject: [PATCH v6 1/2] drm: add kms driver for loongson display controller
-> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303012148.S6ymQNI9-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/125bbfe8c188e62159ecd4d143246d36b1801f79
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review suijingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230301-153240
->          git checkout 125bbfe8c188e62159ecd4d143246d36b1801f79
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/loongson/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303012148.S6ymQNI9-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     drivers/gpu/drm/loongson/lsdc_plane.c: In function 'lsdc_update_primary_plane':
->>> drivers/gpu/drm/loongson/lsdc_plane.c:95:20: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
->        95 |         if (IS_ERR((void *)bo_offset)) {
->           |                    ^
+vim +248 drivers/irqchip/irq-mbigen.c
 
-Loongson 3a4000 is a 64 bit cpu,  on 64 bit platform sizeof (void *) == 
-sizeof (u64) = 8 bytes.
+9650c60ebfec05 Ma Jun          2015-12-17  234  
+76e1f77f9c26ec Kefeng Wang     2017-03-07  235  static int mbigen_of_create_domain(struct platform_device *pdev,
+76e1f77f9c26ec Kefeng Wang     2017-03-07  236  				   struct mbigen_device *mgn_chip)
+717c3dbc118ecb Ma Jun          2015-12-17  237  {
+76e1f77f9c26ec Kefeng Wang     2017-03-07  238  	struct device *parent;
+ed2a1002d25ccd MaJun           2016-03-17  239  	struct platform_device *child;
+9650c60ebfec05 Ma Jun          2015-12-17  240  	struct irq_domain *domain;
+ed2a1002d25ccd MaJun           2016-03-17  241  	struct device_node *np;
+9650c60ebfec05 Ma Jun          2015-12-17  242  	u32 num_pins;
+717c3dbc118ecb Ma Jun          2015-12-17  243  
+ed2a1002d25ccd MaJun           2016-03-17  244  	for_each_child_of_node(pdev->dev.of_node, np) {
+ed2a1002d25ccd MaJun           2016-03-17  245  		if (!of_property_read_bool(np, "interrupt-controller"))
+ed2a1002d25ccd MaJun           2016-03-17  246  			continue;
+ed2a1002d25ccd MaJun           2016-03-17  247  
+ed2a1002d25ccd MaJun           2016-03-17 @248  		parent = platform_bus_type.dev_root;
+ed2a1002d25ccd MaJun           2016-03-17  249  		child = of_platform_device_create(np, NULL, parent);
+321275f0d8f593 Nishka Dasgupta 2019-07-23  250  		if (!child) {
+321275f0d8f593 Nishka Dasgupta 2019-07-23  251  			of_node_put(np);
+086eec2de00ef5 Dan Carpenter   2016-04-04  252  			return -ENOMEM;
+321275f0d8f593 Nishka Dasgupta 2019-07-23  253  		}
+ed2a1002d25ccd MaJun           2016-03-17  254  
+ed2a1002d25ccd MaJun           2016-03-17  255  		if (of_property_read_u32(child->dev.of_node, "num-pins",
+ed2a1002d25ccd MaJun           2016-03-17  256  					 &num_pins) < 0) {
+9650c60ebfec05 Ma Jun          2015-12-17  257  			dev_err(&pdev->dev, "No num-pins property\n");
+321275f0d8f593 Nishka Dasgupta 2019-07-23  258  			of_node_put(np);
+9650c60ebfec05 Ma Jun          2015-12-17  259  			return -EINVAL;
+9650c60ebfec05 Ma Jun          2015-12-17  260  		}
+9650c60ebfec05 Ma Jun          2015-12-17  261  
+ed2a1002d25ccd MaJun           2016-03-17  262  		domain = platform_msi_create_device_domain(&child->dev, num_pins,
+9650c60ebfec05 Ma Jun          2015-12-17  263  							   mbigen_write_msg,
+9650c60ebfec05 Ma Jun          2015-12-17  264  							   &mbigen_domain_ops,
+9650c60ebfec05 Ma Jun          2015-12-17  265  							   mgn_chip);
+321275f0d8f593 Nishka Dasgupta 2019-07-23  266  		if (!domain) {
+321275f0d8f593 Nishka Dasgupta 2019-07-23  267  			of_node_put(np);
+9650c60ebfec05 Ma Jun          2015-12-17  268  			return -ENOMEM;
+ed2a1002d25ccd MaJun           2016-03-17  269  		}
+321275f0d8f593 Nishka Dasgupta 2019-07-23  270  	}
+9650c60ebfec05 Ma Jun          2015-12-17  271  
+76e1f77f9c26ec Kefeng Wang     2017-03-07  272  	return 0;
+76e1f77f9c26ec Kefeng Wang     2017-03-07  273  }
+76e1f77f9c26ec Kefeng Wang     2017-03-07  274  
 
+:::::: The code at line 248 was first introduced by commit
+:::::: ed2a1002d25ccdb6606c8ccb608524118bd30614 irqchip/mbigen: Handle multiple device nodes in a mbigen module
 
-I complie drm-time  with following command:
+:::::: TO: MaJun <majun258@huawei.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
-1) on loongarch
-
-|make -j$(nproc) ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- W=1|
-
-2) On mips64el
-
-|make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- W=1|
-
-
-It report no warnings. I think this test robot compile this driver with 
-32 bit machine environment.
-
-
-> --
->     In file included from include/linux/printk.h:566,
->                      from include/asm-generic/bug.h:22,
->                      from arch/mips/include/asm/bug.h:42,
->                      from include/linux/bug.h:5,
->                      from include/linux/thread_info.h:13,
->                      from include/asm-generic/preempt.h:5,
->                      from ./arch/mips/include/generated/asm/preempt.h:1,
->                      from include/linux/preempt.h:78,
->                      from include/linux/spinlock.h:56,
->                      from include/linux/kref.h:16,
->                      from include/drm/drm_device.h:5,
->                      from include/drm/drm_drv.h:35,
->                      from drivers/gpu/drm/loongson/lsdc_ttm.c:3:
->     drivers/gpu/drm/loongson/lsdc_ttm.c: In function 'lsdc_dumb_create':
->>> drivers/gpu/drm/loongson/lsdc_ttm.c:378:23: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
->       378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
->           |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
->           |                                                   |
->           |                                                   size_t {aka unsigned int}
->     include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
->       223 |                 func(&id, ##__VA_ARGS__);                       \
->           |                             ^~~~~~~~~~~
->     include/drm/drm_print.h:413:9: note: in expansion of macro '_dynamic_func_call_cls'
->       413 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
->           |         ^~~~~~~~~~~~~~~~~~~~~~
->     include/drm/drm_print.h:492:9: note: in expansion of macro 'drm_dev_dbg'
->       492 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
->           |         ^~~~~~~~~~~
->     include/drm/drm_print.h:510:33: note: in expansion of macro 'drm_dbg_driver'
->       510 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
->           |                                 ^~~~~~~~~~~~~~
->     drivers/gpu/drm/loongson/lsdc_ttm.c:378:9: note: in expansion of macro 'drm_dbg'
->       378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
->           |         ^~~~~~~
->     drivers/gpu/drm/loongson/lsdc_ttm.c:378:33: note: format string is defined here
->       378 |         drm_dbg(ddev, "pitch: %lu, height: %u\n", pitch, args->height);
->           |                               ~~^
->           |                                 |
->           |                                 long unsigned int
->           |                               %u
->
-here is the same reason, on 64 bit machine, sizeof (long unsigned int) 
-== sizeof (size_t) == 8.
-
-> vim +95 drivers/gpu/drm/loongson/lsdc_plane.c
->
->      77	
->      78	static void lsdc_update_primary_plane(struct drm_plane *plane,
->      79					      struct drm_atomic_state *state)
->      80	{
->      81		struct drm_device *ddev = plane->dev;
->      82		struct lsdc_device *ldev = to_lsdc(ddev);
->      83		struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
->      84		struct drm_crtc *crtc = new_plane_state->crtc;
->      85		struct drm_framebuffer *fb = new_plane_state->fb;
->      86		struct ttm_buffer_object *tbo = to_ttm_bo(fb->obj[0]);
->      87		unsigned int pipe = drm_crtc_index(crtc);
->      88		unsigned int fb_offset = lsdc_get_fb_offset(fb, new_plane_state, 0);
->      89		u64 bo_offset = lsdc_bo_gpu_offset(tbo);
->      90		u64 fb_addr = ldev->vram_base + bo_offset + fb_offset;
->      91		u32 stride = fb->pitches[0];
->      92		u32 cfg;
->      93		u32 lo, hi;
->      94	
->    > 95		if (IS_ERR((void *)bo_offset)) {
->      96			drm_warn(ddev, "bo not pinned, should not happen\n");
->      97			return;
->      98		}
->      99	
->     100		/* 40-bit width physical address bus */
->     101		lo = fb_addr & 0xFFFFFFFF;
->     102		hi = (fb_addr >> 32) & 0xFF;
->     103	
->     104		cfg = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, pipe);
->     105		if (cfg & CFG_FB_IN_USING) {
->     106			drm_dbg(ddev, "CRTC-%u(FB1) is in using\n", pipe);
->     107			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_LO_ADDR_REG, pipe, lo);
->     108			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_HI_ADDR_REG, pipe, hi);
->     109		} else {
->     110			drm_dbg(ddev, "CRTC-%u(FB0) is in using\n", pipe);
->     111			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_LO_ADDR_REG, pipe, lo);
->     112			lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_HI_ADDR_REG, pipe, hi);
->     113		}
->     114	
->     115		drm_dbg(ddev, "CRTC-%u scanout from 0x%llx\n", pipe, fb_addr);
->     116	
->     117		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_STRIDE_REG, pipe, stride);
->     118	
->     119		cfg &= ~CFG_PIX_FMT_MASK;
->     120		cfg |= LSDC_PF_XRGB8888;
->     121	
->     122		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, pipe, cfg);
->     123	}
->     124	
->
-Ok, will fixed at next version.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
