@@ -1,105 +1,120 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D8BEC8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 07:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677656952; x=1709192952;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sD6IHdCGnoRBgLaX18KcZ8CrCRTIldoIcUOknMyG2R0=;
-  b=WnRqVaLGql/fye07GCJfsiAOe9K8pqZZvbGWtWPmCgCxl0YgIfA8hVXZ
-   Yxm2mcpAGPD6/ZYegd/MzDCR+zLF93fgSa+dS4sIjP5k1faC6wiKxWy1o
-   Hny2L6A7GVDbfsP7GIsql+719KK+/rdG545gnPv5R+AXYAtxwRkI9bo7D
-   swaS6ToJRY//l2r8EhsK/Iy/eOrccgtuAtSUAxSLTZkyUy5F1gEPvP5NH
-   Fy02VAH5LwnYwE0R+sE/GJGbq6mF7kzkOaAc6kkKiw2ifdG9y44en/Nh4
-   LXFT4qBWnTaaHCRbo5q83CBxEPTy6QkZt1GWz7pNGCREBHHfCM0CoGhOr
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="335834757"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="335834757"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 23:49:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="848551774"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="848551774"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 28 Feb 2023 23:49:10 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pXHD3-0005zz-1r;
-	Wed, 01 Mar 2023 07:49:09 +0000
-Date: Wed, 1 Mar 2023 15:48:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:tglx/devel/rcuref 2/3]
- arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates
- bits from constant value (ffffffffe0000000 becomes 0)
-Message-ID: <202303011547.O2cOhQQe-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DDDEC8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 08:06:29 +0000 (UTC)
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id DA95ACA23D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 07:56:16 +0000 (UTC)
+Received: (Authenticated sender: alex@ghiti.fr)
+	by mail.gandi.net (Postfix) with ESMTPSA id E71E7240009;
+	Wed,  1 Mar 2023 07:56:04 +0000 (UTC)
+Message-ID: <c0b60456-8731-0999-df3b-f25731209471@ghiti.fr>
+Date: Wed, 1 Mar 2023 08:56:04 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v5 1/2] riscv: Get rid of riscv_pfn_base variable
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Conor Dooley <conor@kernel.org>,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <20230125081214.1576313-2-alexghiti@rivosinc.com>
+ <202301282230.sz4DCUe6-lkp@intel.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <202301282230.sz4DCUe6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/ammarfaizi2/linux-block tglx/devel/rcuref
-head:   9dcf0830de36103b3a5ed2bdd1bfa5cbcc1032d8
-commit: 212b3a6f7d18535cb6b745193608bf2ffaf111b9 [2/3] atomics: Provide rcuref - scalable reference counting
-config: sparc64-randconfig-s051-20230226 (https://download.01.org/0day-ci/archive/20230301/202303011547.O2cOhQQe-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/ammarfaizi2/linux-block/commit/212b3a6f7d18535cb6b745193608bf2ffaf111b9
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block tglx/devel/rcuref
-        git checkout 212b3a6f7d18535cb6b745193608bf2ffaf111b9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 SHELL=/bin/bash
+On 1/28/23 15:58, kernel test robot wrote:
+> Hi Alexandre,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on robh/for-next]
+> [also build test WARNING on linus/master v6.2-rc5 next-20230127]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Get-rid-of-riscv_pfn_base-variable/20230125-161537
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20230125081214.1576313-2-alexghiti%40rivosinc.com
+> patch subject: [PATCH v5 1/2] riscv: Get rid of riscv_pfn_base variable
+> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230128/202301282230.sz4DCUe6-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/90b21402dc8a7e6e36a62ad19c4969ff13fad168
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Get-rid-of-riscv_pfn_base-variable/20230125-161537
+>          git checkout 90b21402dc8a7e6e36a62ad19c4969ff13fad168
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+>     In file included from include/asm-generic/bug.h:22,
+>                      from arch/riscv/include/asm/bug.h:83,
+>                      from include/linux/bug.h:5,
+>                      from arch/riscv/include/asm/cmpxchg.h:9,
+>                      from arch/riscv/include/asm/atomic.h:19,
+>                      from include/linux/atomic.h:7,
+>                      from include/linux/jump_label.h:255,
+>                      from arch/riscv/include/asm/vdso/processor.h:7,
+>                      from include/vdso/processor.h:10,
+>                      from arch/riscv/include/asm/processor.h:11,
+>                      from arch/riscv/include/asm/irqflags.h:10,
+>                      from include/linux/irqflags.h:16,
+>                      from arch/riscv/include/asm/bitops.h:14,
+>                      from include/linux/bitops.h:68,
+>                      from include/linux/kernel.h:22,
+>                      from mm/debug.c:9:
+>     mm/debug.c: In function '__dump_page':
+>>> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'long long unsigned int' [-Wformat=]
+>         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+>           |                         ^~~~~~
+>     include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+>       429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+>           |                         ^~~~
+>     include/linux/printk.h:510:9: note: in expansion of macro 'printk'
+>       510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+>           |         ^~~~~~
+>     include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+>        12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+>           |                         ^~~~~~~~
+>     include/linux/printk.h:510:16: note: in expansion of macro 'KERN_WARNING'
+>       510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+>           |                ^~~~~~~~~~~~
+>     mm/debug.c:93:9: note: in expansion of macro 'pr_warn'
+>        93 |         pr_warn("page:%p refcount:%d mapcount:%d mapping:%p index:%#lx pfn:%#lx\n",
+>           |         ^~~~~~~
+>
+>
+> vim +5 include/linux/kern_levels.h
+>
+> 314ba3520e513a Joe Perches 2012-07-30  4
+> 04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+> 04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+> 04d2c8c83d0e3a Joe Perches 2012-07-30  7
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303011547.O2cOhQQe-lkp@intel.com/
+And this one was mine, sorry I i overlooked that!
 
-sparse warnings: (new ones prefixed by >>)
-   lib/rcuref.c: note: in included file (through arch/sparc/include/asm/cmpxchg.h, arch/sparc/include/asm/atomic_64.h, arch/sparc/include/asm/atomic.h, ...):
->> arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates bits from constant value (ffffffffe0000000 becomes 0)
-
-vim +161 arch/sparc/include/asm/cmpxchg_64.h
-
-d550bbd40c0e10 David Howells 2012-03-28  155  
-d550bbd40c0e10 David Howells 2012-03-28  156  static inline unsigned long
-d550bbd40c0e10 David Howells 2012-03-28  157  __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
-d550bbd40c0e10 David Howells 2012-03-28  158  {
-d550bbd40c0e10 David Howells 2012-03-28  159  	switch (size) {
-a12ee2349312d7 Babu Moger    2017-05-24  160  		case 1:
-a12ee2349312d7 Babu Moger    2017-05-24 @161  			return __cmpxchg_u8(ptr, old, new);
-d550bbd40c0e10 David Howells 2012-03-28  162  		case 4:
-d550bbd40c0e10 David Howells 2012-03-28  163  			return __cmpxchg_u32(ptr, old, new);
-d550bbd40c0e10 David Howells 2012-03-28  164  		case 8:
-d550bbd40c0e10 David Howells 2012-03-28  165  			return __cmpxchg_u64(ptr, old, new);
-d550bbd40c0e10 David Howells 2012-03-28  166  	}
-d550bbd40c0e10 David Howells 2012-03-28  167  	__cmpxchg_called_with_bad_pointer();
-d550bbd40c0e10 David Howells 2012-03-28  168  	return old;
-d550bbd40c0e10 David Howells 2012-03-28  169  }
-d550bbd40c0e10 David Howells 2012-03-28  170  
-
-:::::: The code at line 161 was first introduced by commit
-:::::: a12ee2349312d7112b9b7c6ac2e70c5ec2ca334e arch/sparc: Introduce cmpxchg_u8 SPARC
-
-:::::: TO: Babu Moger <babu.moger@oracle.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
