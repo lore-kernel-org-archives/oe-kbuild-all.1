@@ -1,44 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD278491
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 19:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B27C881F;
+	Wed,  1 Mar 2023 19:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677697758; x=1709233758;
+  t=1677698382; x=1709234382;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bJzj9S3Ol5uf9Y3a+Q3tlxd3ZEIxI0dIWJCTPDgaX3w=;
-  b=j9JynKJ9Cr9Kb8igb5F6PUpdJFFv+9aACmY8Lyu83quuXAC36qC8DprR
-   3RBb2PxlxgtiZYiqFgvck85dfzgPPYeg2oX+NZpHtZ8qeTCQYEU8VsRK4
-   Lo89PMRLq0tCqD59/y4XDAkfWOEomEUqTuvtCfctkq9jbtTg2b8n6spc4
-   tjYeYRAFDMDxMLXgy8O4OZogS3CCX9/FH5GbX5NZZEBKPkYhfT4KrV7TJ
-   biZ/fDLxXoPHJPQWaYEs0PVWK9chW4Nuq9yTOXa5a/5o+gOCcPSzXJj/O
-   R7WebfYCX2ox3IQOl5YVsKCTeO8uh4rZMaOJq/GGzM9IdkfpAZzYk50Zb
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="318298936"
+  bh=6Nte7zMIlqadmJQfWLuZoBsbHq55nTuYQZ0k4cPzoHo=;
+  b=CpIgu6dq6p0Ib7DtIhsjn//bqeQR+lCt/qQbAwIBLPyErNwzIW74pAxA
+   tNmsNT+wsLJqTVawE3Liwpdx8b38vUJhg0lsx6g7oQ9pnkha9MX14pyjl
+   hk/lNLLonfGiBIeOPtJiffWK7G6hJuMTL/z+gALbyxpblTD4o+xcFwdkJ
+   hOecmVc1YFgzq/CGxSwh4+AJTbEIPZu4TkA3fU7/HD4So9lW3FJxsbRy1
+   lhj+ZLY3hJfopvt/OzM403z+juJRc2Ig4Rax5MSeTEtpx2L/eU02KUYfK
+   +DI+2KgM5e1iCjP/FPEtVkfZKtlHXo+rcSU58vGzsuHORUuxApkfDShfD
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="420762636"
 X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="318298936"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 11:08:36 -0800
+   d="scan'208";a="420762636"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 11:19:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="920353573"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="848775944"
 X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="920353573"
+   d="scan'208";a="848775944"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Mar 2023 11:08:31 -0800
+  by orsmga005.jf.intel.com with ESMTP; 01 Mar 2023 11:19:35 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXRoU-0006M3-2q;
-	Wed, 01 Mar 2023 19:08:30 +0000
-Date: Thu, 2 Mar 2023 03:08:22 +0800
+	id 1pXRzA-0006MR-08;
+	Wed, 01 Mar 2023 19:19:32 +0000
+Date: Thu, 2 Mar 2023 03:18:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
 	Andrii Nakryiko <andrii@kernel.org>,
 	Martin KaFai Lau <martin.lau@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
 	Larysa Zaremba <larysa.zaremba@intel.com>,
@@ -49,7 +49,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH bpf-next v1 1/2] xdp: recycle Page Pool backed skbs built
  from XDP frames
-Message-ID: <202303020331.PSFMFbXw-lkp@intel.com>
+Message-ID: <202303020342.Wi2PRFFH-lkp@intel.com>
 References: <20230301160315.1022488-2-aleksander.lobakin@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -71,29 +71,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Lobakin/xdp-rec
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
 patch link:    https://lore.kernel.org/r/20230301160315.1022488-2-aleksander.lobakin%40intel.com
 patch subject: [PATCH bpf-next v1 1/2] xdp: recycle Page Pool backed skbs built from XDP frames
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230302/202303020331.PSFMFbXw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230302/202303020342.Wi2PRFFH-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/a5ca5578e9bd35220be091fd02df96d492120ee3
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Alexander-Lobakin/xdp-recycle-Page-Pool-backed-skbs-built-from-XDP-frames/20230302-000635
         git checkout a5ca5578e9bd35220be091fd02df96d492120ee3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303020331.PSFMFbXw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303020342.Wi2PRFFH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/xdp.c: In function '__xdp_build_skb_from_frame':
->> net/core/xdp.c:662:17: error: implicit declaration of function 'skb_mark_for_recycle' [-Werror=implicit-function-declaration]
-     662 |                 skb_mark_for_recycle(skb);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> net/core/xdp.c:662:3: error: implicit declaration of function 'skb_mark_for_recycle' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   skb_mark_for_recycle(skb);
+                   ^
+   1 error generated.
 
 
 vim +/skb_mark_for_recycle +662 net/core/xdp.c
