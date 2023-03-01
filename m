@@ -1,108 +1,108 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B3CA3B;
-	Wed,  1 Mar 2023 05:00:39 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id s26so48897591edw.11;
-        Tue, 28 Feb 2023 21:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677646837;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=u6tN4t92Y4qGgMiu8AHY6Saz3I11oSn1OtStmVFvLag=;
-        b=H+L6jwMS9o3dpRn+pHTCZBiVPFosZP8sF4htkBp6F7ZlXMJn67HNMI9BWRaloaKvRy
-         F/aA8ZwqZghSyj1Q7gNysvLGNtQgjCv0CLS6RjGVGPwGjbabYR+tgvTqvPOqmb0nq48J
-         nJ1aLD1jaB3EErHHnnY5BDtq+NvPEgmZHj1mAL2IaUbushceJ0SIai/XIF2Mv5jPTBVG
-         iLXiy2sKpyDDlZc51ZutzuUl9ALtjDYixs9LHSrBPZrr5TjVbmqajrYMm+t1rlmsrUhK
-         MiHaXV3YDYhwPmcWtuIYJGUxsHG3gOBQt7C2d30/0RhTsr810PCvA9nPcj9IWhtuBx6j
-         my3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677646837;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u6tN4t92Y4qGgMiu8AHY6Saz3I11oSn1OtStmVFvLag=;
-        b=KgQx+NO/RikBZVwQtFPwZXkeMjJRwKAMNs2mlIMm3mcagd98kI/ijn2ndFFPKE5eSr
-         j+ywTW0nKYB7ptWfthjmMQSceS1dUv89yeKEI/rnb+0x0sQ3m5fvJAK/bE7ekpZT18tq
-         i1kArM8gjoo4LsyxAUQM8Tn3RZhAnKg3rv2O5ViV5fPaqeQuqUQ/mT4JVMDuHSKL3ODS
-         SuxvXOdm493nhMse1Gu+42XtrXB938CwORAa30WPjz1fXyYCfuMbv0S1B5JmUEvZgoFY
-         jinLuwsGsk3FQHpqXgjCJafH/xsfTp4xHDsmscQfUv3dqR1qBlsNNObMVoVq4Smtdsc3
-         UcQw==
-X-Gm-Message-State: AO0yUKWCmATS5hOe9KwF2yYo0I3Hx9zZVB6xSN5ptn2ySMoCKy1eBLhx
-	MLkrVw0DSSJ+f3CI6iJkiAJb4hNjP/I=
-X-Google-Smtp-Source: AK7set/kvCrA4tvNCNl0azoKo9wM48fBCa9n1J6HCUveUyJIRze73/W2wisqy+KW4ozadASFmLtDzQ==
-X-Received: by 2002:a17:906:d84:b0:88d:619:15fc with SMTP id m4-20020a1709060d8400b0088d061915fcmr3573692eji.21.1677646837640;
-        Tue, 28 Feb 2023 21:00:37 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id qx27-20020a170906fcdb00b008bda61ff999sm5296248ejb.130.2023.02.28.21.00.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 21:00:37 -0800 (PST)
-Date: Wed, 1 Mar 2023 08:00:33 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 82/99] mm/mmap.c:516
- vma_prepare() error: we previously assumed 'vp->vma' could be null (see line
- 505)
-Message-ID: <Y/7b8XRYIfJ08L3t@kadam>
-References: <202302281802.J93Nma7q-lkp@intel.com>
- <CAJuCfpHz3uECOuk6rRrV6Vn5r7+vn8HnC5cY7OZVHtGsAeE11A@mail.gmail.com>
- <CAJuCfpHZS8_QNDoNLO2Ti2ZY26h7E8RrBtiKZ2zhY2cEvXQ1kw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA6FA3B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 05:34:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677648850; x=1709184850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A6ub2cXWHQMEfm0wCSYRJRabIFLkc/xUWoGiNEvzz4g=;
+  b=ecxl8KnjEBOBMSsuTBOuhmTyb/7cL88Gh+8mu7wnlCOX8gOJ28S2AWEF
+   91GHxgCbxij/oLOXeIxIQ8J7qNna+7MU8mPI9zwTGDt8H5o+JYCtgrbbX
+   Q9g3h31sd89HJ5TIfZY3dEhRr5FmZfvutaedgiM9SJ/BDLlQWkghYVI/e
+   gk+2nR35JhNoTT+5FaCwIPlChHRTwdWo0XOQwW8cfiGzFju5IUvXrjm+q
+   XrRtFIYT89ABBUvj6H+x3JRGRcI4Hu+EbhWg6cNe63Q2M8bqyCboFivhy
+   Nv32RO34xHP1/MPPsxhcDdyR7DxP0YY1fSlVVG08LvCv7HKR+giu3VEex
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="361901879"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="361901879"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 21:34:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="848509548"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="848509548"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 28 Feb 2023 21:34:06 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXF6M-0005vf-0L;
+	Wed, 01 Mar 2023 05:34:06 +0000
+Date: Wed, 1 Mar 2023 13:33:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@sberdevices.ru, Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Subject: Re: [PATCH v2 2/2] leds: add aw20xx driver
+Message-ID: <202303011345.29QIi1UF-lkp@intel.com>
+References: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpHZS8_QNDoNLO2Ti2ZY26h7E8RrBtiKZ2zhY2cEvXQ1kw@mail.gmail.com>
+In-Reply-To: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
 
-On Tue, Feb 28, 2023 at 06:28:36PM -0800, Suren Baghdasaryan wrote:
-> On Tue, Feb 28, 2023 at 10:04 AM Suren Baghdasaryan <surenb@google.com> wrote:
-> >
-> > On Tue, Feb 28, 2023 at 6:24 AM Dan Carpenter <error27@gmail.com> wrote:
-> > >
-> > > tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-> > > head:   61edd3b68c3185673c9b05dfe48038692964c73b
-> > > commit: f517f7ae341d933856cdf4d9d773027681ed5dff [82/99] mm/mmap: write-lock VMAs in vma_prepare before modifying them
-> > > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230228/202302281802.J93Nma7q-lkp@intel.com/config)
-> > > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Link: https://lore.kernel.org/r/202302281802.J93Nma7q-lkp@intel.com/
-> >
-> > Thanks for reporting!
-> >
-> > >
-> > > smatch warnings:
-> > > mm/mmap.c:516 vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
-> > >
-> > > vim +516 mm/mmap.c
-> > >
-> > > 440703e082b9c7 Liam R. Howlett    2023-01-20  503  static inline void vma_prepare(struct vma_prepare *vp)
-> > > 440703e082b9c7 Liam R. Howlett    2023-01-20  504  {
-> > > f517f7ae341d93 Suren Baghdasaryan 2023-02-27 @505       if (vp->vma)
-> > >
-> > > Check presumes that vp->vma can be NULL.  On my other system (with
-> > > yesterday's linux-next code) vp->vma can never be NULL.
-> >
-> > I think the check here is not needed since vp->vma should always be
-> > non-NULL. I'll double-check and will remove it if that is confirmed.
-> 
-> Fix is posted at
-> https://lore.kernel.org/all/20230301022720.1380780-1-surenb@google.com/
+Hi Martin,
 
-Thanks!
+Thank you for the patch! Perhaps something to improve:
 
-regards,
-dan carpenter
+[auto build test WARNING on pavel-leds/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next v6.2]
+[cannot apply to linus/master next-20230301]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+patch link:    https://lore.kernel.org/r/20230228211046.109693-3-mmkurbanov%40sberdevices.ru
+patch subject: [PATCH v2 2/2] leds: add aw20xx driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303011345.29QIi1UF-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/67ff1bda566825f286aa03653a54a5ca9bc98012
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+        git checkout 67ff1bda566825f286aa03653a54a5ca9bc98012
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303011345.29QIi1UF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/leds/leds-aw200xx.c:18: warning: expecting prototype for leds(). Prototype was for AW200XX_LEDS_MAX() instead
+
+
+vim +18 drivers/leds/leds-aw200xx.c
+
+    17	
+  > 18	#define AW200XX_LEDS_MAX                 72
+    19	#define AW200XX_PATTERN_MAX              3
+    20	#define AW200XX_DIM_MAX                  0x3F
+    21	#define AW200XX_FADE_MAX                 0xFF
+    22	#define AW200XX_IMAX_DEFAULT_MICROAMP    60000
+    23	#define AW200XX_IMAX_MAX_MICROAMP        160000
+    24	#define AW200XX_IMAX_MIN_MICROAMP        3300
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
