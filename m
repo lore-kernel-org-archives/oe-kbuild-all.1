@@ -1,35 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11C5847A;
-	Wed,  1 Mar 2023 18:00:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE28C433EF;
-	Wed,  1 Mar 2023 18:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677693603;
-	bh=XsdWK/o8sVcrZ/ON/D4meAMg/40ljCG+Goz+CvS6/Gs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PjJhSBWEzvoH6OHaFUixr0zTxlM9f/ydaIrkZlxKb/GhHv3QeCEJ5s4mYG7DD0tg7
-	 uge2UVTUzK80TR/3KS/P+xteRLKbpZiZnVAXF1SrOoXEMzDSc8ZgikqeSsT8msY//n
-	 tIxOxIZIfZ2AgpnvqNQLErDbr6L005nh041zNeG3BxMDmP2BBSq5ZFtWLNpkkCk0el
-	 UnRii5yTgh1QQh29BIPRWRUr2V24qB9zTg2Epg+9ytI2M9G95rCN2tb79bQgMNpyYh
-	 HOppgzOzLf7TQC+HRZO2OBup1uvah+i5pzSBJq0i1663ewDn8/5UWclyPvAC/mrlXx
-	 pdqGDVERXtnpw==
-Date: Wed, 1 Mar 2023 11:00:00 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Andy Chiu <andy.chiu@sifive.com>
-Cc: linux-riscv@lists.infradead.org, palmer@dabbelt.com,
-	anup@brainfault.org, atishp@atishpatra.org,
-	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vineetg@rivosinc.com, greentime.hu@sifive.com,
-	guoren@linux.alibaba.com, Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
-Message-ID: <Y/+SoGfspjGwlH7g@dev-arch.thelio-3990X>
-References: <20230224170118.16766-20-andy.chiu@sifive.com>
- <202302250924.ukv4ZxOc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D4823AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Mar 2023 18:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677695914; x=1709231914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0+6pK6GQZOLUcX08e82w2PNbJriTNrH9Gj7tBxOFd78=;
+  b=Tea575GnU3sG2w9L8OaX2ovC4mPBRK/uOmmujVGdG1ZRWlhDvcymnTVK
+   dqgN4N/QwcyuIuZaz8DZWbVV4f74+H0CHMa9ZUM/GPCmOZun6HtTUNJqG
+   ckRYwdv5RxKwYJnU+kG7wNUYuTGpVvBsDi7ywoggfgos6I3XNmkiQ3awH
+   XZn5JT4luAm+lBQjWiL8ggoRwDnhA5GNtG3ACSQzuavcdMm2FUH8rNyEJ
+   eUqsu1Q/Ai3NEKBR700Ry3bb/jjJM4pHHlgY6WiYOe9jmWXyFPxdvXz29
+   NLQEyeycb3/BiC3wXwV+fZu6AKHlfmAHWxqbvTGc5B4mwtTgeLvPqsv/I
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336780668"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="336780668"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 10:38:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="848760343"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="848760343"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 01 Mar 2023 10:38:30 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXRLR-0006L9-31;
+	Wed, 01 Mar 2023 18:38:29 +0000
+Date: Thu, 2 Mar 2023 02:37:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yangtao Li <frank.li@vivo.com>, jaegeuk@kernel.org, chao@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>
+Subject: Re: [PATCH] f2fs: add discard_cpuset mount opt
+Message-ID: <202303020207.fOdSTt0K-lkp@intel.com>
+References: <20230301152212.53951-1-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -38,129 +47,293 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202302250924.ukv4ZxOc-lkp@intel.com>
+In-Reply-To: <20230301152212.53951-1-frank.li@vivo.com>
 
-Hi Andy,
+Hi Yangtao,
 
-On Sat, Feb 25, 2023 at 09:33:30AM +0800, kernel test robot wrote:
-> Hi Andy,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on next-20230224]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
-> patch link:    https://lore.kernel.org/r/20230224170118.16766-20-andy.chiu%40sifive.com
-> patch subject: [PATCH -next v14 19/19] riscv: Enable Vector code to be built
-> config: riscv-randconfig-r014-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250924.ukv4ZxOc-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install riscv cross compiling tool for clang build
->         # apt-get install binutils-riscv64-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Andy-Chiu/riscv-Rename-__switch_to_aux-fpu/20230225-011059
->         git checkout cd0ad21a9ef9d63f1eef80fd3b09ae6e0d884ce3
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash lib/zstd/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202302250924.ukv4ZxOc-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> warning: Invalid size request on a scalable vector; Cannot implicitly convert a scalable size to a fixed-width size in `TypeSize::operator ScalarTy()`
+I love your patch! Perhaps something to improve:
 
-Please consider adding the following diff to patch 19 to avoid this
-issue (see the upstream bug report for more details):
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[cannot apply to v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index eb691dd8ee4f..187cd6c1d8c9 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -423,6 +423,8 @@ config TOOLCHAIN_HAS_V
- 	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64iv)
- 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32iv)
- 	depends on LLD_VERSION >= 140000 || LD_VERSION >= 23800
-+	# https://github.com/llvm/llvm-project/issues/61096
-+	depends on !(CC_IS_CLANG && CLANG_VERSION >= 160000 && KASAN)
- 
- config RISCV_ISA_V
- 	bool "VECTOR extension support"
----
+url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/f2fs-add-discard_cpuset-mount-opt/20230301-232500
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20230301152212.53951-1-frank.li%40vivo.com
+patch subject: [PATCH] f2fs: add discard_cpuset mount opt
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230302/202303020207.fOdSTt0K-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/fdcaea1b50e37d5bcfcc186db80237edc04cfafc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yangtao-Li/f2fs-add-discard_cpuset-mount-opt/20230301-232500
+        git checkout fdcaea1b50e37d5bcfcc186db80237edc04cfafc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/
 
-Additionally, with older versions of clang 15.x and older, I see:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303020207.fOdSTt0K-lkp@intel.com/
 
-  arch/riscv/kernel/vector.c:50:3: error: expected expression
-                  u32 width = RVV_EXRACT_VL_VS_WIDTH(insn_buf);
-                  ^
-  arch/riscv/kernel/vector.c:52:7: error: use of undeclared identifier 'width'
-                  if (width == RVV_VL_VS_WIDTH_8 || width == RVV_VL_VS_WIDTH_16 ||
-                      ^
-  arch/riscv/kernel/vector.c:52:37: error: use of undeclared identifier 'width'
-                  if (width == RVV_VL_VS_WIDTH_8 || width == RVV_VL_VS_WIDTH_16 ||
-                                                    ^
-  arch/riscv/kernel/vector.c:53:7: error: use of undeclared identifier 'width'
-                      width == RVV_VL_VS_WIDTH_32 || width == RVV_VL_VS_WIDTH_64)
-                      ^
-  arch/riscv/kernel/vector.c:53:38: error: use of undeclared identifier 'width'
-                      width == RVV_VL_VS_WIDTH_32 || width == RVV_VL_VS_WIDTH_64)
-                                                     ^
-  arch/riscv/kernel/vector.c:57:3: error: expected expression
-                  u32 csr = RVG_EXTRACT_SYSTEM_CSR(insn_buf);
-                  ^
-  arch/riscv/kernel/vector.c:59:8: error: use of undeclared identifier 'csr'
-                  if ((csr >= CSR_VSTART && csr <= CSR_VCSR) ||
-                       ^
-  arch/riscv/kernel/vector.c:59:29: error: use of undeclared identifier 'csr'
-                  if ((csr >= CSR_VSTART && csr <= CSR_VCSR) ||
-                                            ^
-  arch/riscv/kernel/vector.c:60:8: error: use of undeclared identifier 'csr'
-                      (csr >= CSR_VL && csr <= CSR_VLENB))
-                       ^
-  arch/riscv/kernel/vector.c:60:25: error: use of undeclared identifier 'csr'
-                      (csr >= CSR_VL && csr <= CSR_VLENB))
-                                        ^
-  10 errors generated.
+All warnings (new ones prefixed by >>):
 
-which is fixed by:
+   fs/f2fs/super.c: In function 'f2fs_remount':
+>> fs/f2fs/super.c:2526:1: warning: the frame size of 2568 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+    2526 | }
+         | ^
 
-diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-index 585e2c51b28e..8c98db9c0ae1 100644
---- a/arch/riscv/kernel/vector.c
-+++ b/arch/riscv/kernel/vector.c
-@@ -46,14 +46,15 @@ static bool insn_is_vector(u32 insn_buf)
- 		is_vector = true;
- 		break;
- 	case RVV_OPCODE_VL:
--	case RVV_OPCODE_VS:
-+	case RVV_OPCODE_VS: {
- 		u32 width = RVV_EXRACT_VL_VS_WIDTH(insn_buf);
- 
- 		if (width == RVV_VL_VS_WIDTH_8 || width == RVV_VL_VS_WIDTH_16 ||
- 		    width == RVV_VL_VS_WIDTH_32 || width == RVV_VL_VS_WIDTH_64)
- 			is_vector = true;
- 		break;
--	case RVG_OPCODE_SYSTEM:
-+	}
-+	case RVG_OPCODE_SYSTEM: {
- 		u32 csr = RVG_EXTRACT_SYSTEM_CSR(insn_buf);
- 
- 		if ((csr >= CSR_VSTART && csr <= CSR_VCSR) ||
-@@ -61,6 +62,7 @@ static bool insn_is_vector(u32 insn_buf)
- 			is_vector = true;
- 		break;
- 	}
-+	}
- 	return is_vector;
- }
- 
----
 
-Cheers,
-Nathan
+vim +2526 fs/f2fs/super.c
+
+4b2414d04e9912 Chao Yu          2017-08-08  2284  
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2285  	/* recover superblocks we couldn't write due to previous RO mount */
+1751e8a6cb935e Linus Torvalds   2017-11-27  2286  	if (!(*flags & SB_RDONLY) && is_sbi_flag_set(sbi, SBI_NEED_SB_WRITE)) {
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2287  		err = f2fs_commit_super(sbi, false);
+dcbb4c10e6d969 Joe Perches      2019-06-18  2288  		f2fs_info(sbi, "Try to recover all the superblocks, ret: %d",
+dcbb4c10e6d969 Joe Perches      2019-06-18  2289  			  err);
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2290  		if (!err)
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2291  			clear_sbi_flag(sbi, SBI_NEED_SB_WRITE);
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2292  	}
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2293  
+498c5e9fcd10c8 Yunlei He        2015-05-07  2294  	default_options(sbi);
+26666c8a4366de Chao Yu          2014-09-15  2295  
+696c018c7718f5 Namjae Jeon      2013-06-16  2296  	/* parse mount options */
+ed318a6cc0b620 Eric Biggers     2020-05-12  2297  	err = parse_options(sb, data, true);
+696c018c7718f5 Namjae Jeon      2013-06-16  2298  	if (err)
+696c018c7718f5 Namjae Jeon      2013-06-16  2299  		goto restore_opts;
+696c018c7718f5 Namjae Jeon      2013-06-16  2300  
+696c018c7718f5 Namjae Jeon      2013-06-16  2301  	/*
+696c018c7718f5 Namjae Jeon      2013-06-16  2302  	 * Previous and new state of filesystem is RO,
+876dc59eb1f013 Gu Zheng         2014-04-11  2303  	 * so skip checking GC and FLUSH_MERGE conditions.
+696c018c7718f5 Namjae Jeon      2013-06-16  2304  	 */
+1751e8a6cb935e Linus Torvalds   2017-11-27  2305  	if (f2fs_readonly(sb) && (*flags & SB_RDONLY))
+696c018c7718f5 Namjae Jeon      2013-06-16  2306  		goto skip;
+696c018c7718f5 Namjae Jeon      2013-06-16  2307  
+a7d9fe3c338870 Jaegeuk Kim      2021-05-21  2308  	if (f2fs_sb_has_readonly(sbi) && !(*flags & SB_RDONLY)) {
+a7d9fe3c338870 Jaegeuk Kim      2021-05-21  2309  		err = -EROFS;
+a7d9fe3c338870 Jaegeuk Kim      2021-05-21  2310  		goto restore_opts;
+a7d9fe3c338870 Jaegeuk Kim      2021-05-21  2311  	}
+a7d9fe3c338870 Jaegeuk Kim      2021-05-21  2312  
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2313  #ifdef CONFIG_QUOTA
+1751e8a6cb935e Linus Torvalds   2017-11-27  2314  	if (!f2fs_readonly(sb) && (*flags & SB_RDONLY)) {
+0abd675e97e60d Chao Yu          2017-07-09  2315  		err = dquot_suspend(sb, -1);
+0abd675e97e60d Chao Yu          2017-07-09  2316  		if (err < 0)
+0abd675e97e60d Chao Yu          2017-07-09  2317  			goto restore_opts;
+4354994f097d06 Daniel Rosenberg 2018-08-20  2318  	} else if (f2fs_readonly(sb) && !(*flags & SB_RDONLY)) {
+0abd675e97e60d Chao Yu          2017-07-09  2319  		/* dquot_resume needs RW */
+1751e8a6cb935e Linus Torvalds   2017-11-27  2320  		sb->s_flags &= ~SB_RDONLY;
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2321  		if (sb_any_quota_suspended(sb)) {
+0abd675e97e60d Chao Yu          2017-07-09  2322  			dquot_resume(sb, -1);
+7beb01f74415c5 Chao Yu          2018-10-24  2323  		} else if (f2fs_sb_has_quota_ino(sbi)) {
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2324  			err = f2fs_enable_quotas(sb);
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2325  			if (err)
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2326  				goto restore_opts;
+0abd675e97e60d Chao Yu          2017-07-09  2327  		}
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2328  	}
+ea6767337f8631 Jaegeuk Kim      2017-10-06  2329  #endif
+c5bf8348338260 Yangtao Li       2023-02-06  2330  	if (f2fs_lfs_mode(sbi) && !IS_F2FS_IPU_DISABLE(sbi)) {
+c5bf8348338260 Yangtao Li       2023-02-06  2331  		err = -EINVAL;
+c5bf8348338260 Yangtao Li       2023-02-06  2332  		f2fs_warn(sbi, "LFS is not compatible with IPU");
+c5bf8348338260 Yangtao Li       2023-02-06  2333  		goto restore_opts;
+c5bf8348338260 Yangtao Li       2023-02-06  2334  	}
+c5bf8348338260 Yangtao Li       2023-02-06  2335  
+093749e296e29a Chao Yu          2020-08-04  2336  	/* disallow enable atgc dynamically */
+093749e296e29a Chao Yu          2020-08-04  2337  	if (no_atgc == !!test_opt(sbi, ATGC)) {
+093749e296e29a Chao Yu          2020-08-04  2338  		err = -EINVAL;
+093749e296e29a Chao Yu          2020-08-04  2339  		f2fs_warn(sbi, "switch atgc option is not allowed");
+093749e296e29a Chao Yu          2020-08-04  2340  		goto restore_opts;
+093749e296e29a Chao Yu          2020-08-04  2341  	}
+093749e296e29a Chao Yu          2020-08-04  2342  
+9cd81ce3c2f01f Chao Yu          2015-09-18  2343  	/* disallow enable/disable extent_cache dynamically */
+12607c1ba7637e Jaegeuk Kim      2022-11-30  2344  	if (no_read_extent_cache == !!test_opt(sbi, READ_EXTENT_CACHE)) {
+9cd81ce3c2f01f Chao Yu          2015-09-18  2345  		err = -EINVAL;
+dcbb4c10e6d969 Joe Perches      2019-06-18  2346  		f2fs_warn(sbi, "switch extent_cache option is not allowed");
+9cd81ce3c2f01f Chao Yu          2015-09-18  2347  		goto restore_opts;
+9cd81ce3c2f01f Chao Yu          2015-09-18  2348  	}
+71644dff481180 Jaegeuk Kim      2022-12-01  2349  	/* disallow enable/disable age extent_cache dynamically */
+71644dff481180 Jaegeuk Kim      2022-12-01  2350  	if (no_age_extent_cache == !!test_opt(sbi, AGE_EXTENT_CACHE)) {
+71644dff481180 Jaegeuk Kim      2022-12-01  2351  		err = -EINVAL;
+71644dff481180 Jaegeuk Kim      2022-12-01  2352  		f2fs_warn(sbi, "switch age_extent_cache option is not allowed");
+71644dff481180 Jaegeuk Kim      2022-12-01  2353  		goto restore_opts;
+71644dff481180 Jaegeuk Kim      2022-12-01  2354  	}
+9cd81ce3c2f01f Chao Yu          2015-09-18  2355  
+1f78adfab379e5 Chao Yu          2019-07-12  2356  	if (no_io_align == !!F2FS_IO_ALIGNED(sbi)) {
+1f78adfab379e5 Chao Yu          2019-07-12  2357  		err = -EINVAL;
+1f78adfab379e5 Chao Yu          2019-07-12  2358  		f2fs_warn(sbi, "switch io_bits option is not allowed");
+1f78adfab379e5 Chao Yu          2019-07-12  2359  		goto restore_opts;
+1f78adfab379e5 Chao Yu          2019-07-12  2360  	}
+1f78adfab379e5 Chao Yu          2019-07-12  2361  
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2362  	if (no_compress_cache == !!test_opt(sbi, COMPRESS_CACHE)) {
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2363  		err = -EINVAL;
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2364  		f2fs_warn(sbi, "switch compress_cache option is not allowed");
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2365  		goto restore_opts;
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2366  	}
+6ce19aff0b8cd3 Chao Yu          2021-05-20  2367  
+4f993264fe2965 Chao Yu          2021-08-03  2368  	if (block_unit_discard != f2fs_block_unit_discard(sbi)) {
+4f993264fe2965 Chao Yu          2021-08-03  2369  		err = -EINVAL;
+4f993264fe2965 Chao Yu          2021-08-03  2370  		f2fs_warn(sbi, "switch discard_unit option is not allowed");
+4f993264fe2965 Chao Yu          2021-08-03  2371  		goto restore_opts;
+4f993264fe2965 Chao Yu          2021-08-03  2372  	}
+4f993264fe2965 Chao Yu          2021-08-03  2373  
+fdcaea1b50e37d Yangtao Li       2023-03-01  2374  	if (!cpumask_equal(&F2FS_OPTION(sbi).discard_cpumask,
+fdcaea1b50e37d Yangtao Li       2023-03-01  2375  		&old_discard_cpumask)) {
+fdcaea1b50e37d Yangtao Li       2023-03-01  2376  		err = -EINVAL;
+fdcaea1b50e37d Yangtao Li       2023-03-01  2377  		f2fs_warn(sbi, "switch discard_cpuset option is not allowed");
+fdcaea1b50e37d Yangtao Li       2023-03-01  2378  		goto restore_opts;
+fdcaea1b50e37d Yangtao Li       2023-03-01  2379  	}
+fdcaea1b50e37d Yangtao Li       2023-03-01  2380  
+4354994f097d06 Daniel Rosenberg 2018-08-20  2381  	if ((*flags & SB_RDONLY) && test_opt(sbi, DISABLE_CHECKPOINT)) {
+4354994f097d06 Daniel Rosenberg 2018-08-20  2382  		err = -EINVAL;
+dcbb4c10e6d969 Joe Perches      2019-06-18  2383  		f2fs_warn(sbi, "disabling checkpoint not compatible with read-only");
+4354994f097d06 Daniel Rosenberg 2018-08-20  2384  		goto restore_opts;
+4354994f097d06 Daniel Rosenberg 2018-08-20  2385  	}
+4354994f097d06 Daniel Rosenberg 2018-08-20  2386  
+696c018c7718f5 Namjae Jeon      2013-06-16  2387  	/*
+696c018c7718f5 Namjae Jeon      2013-06-16  2388  	 * We stop the GC thread if FS is mounted as RO
+696c018c7718f5 Namjae Jeon      2013-06-16  2389  	 * or if background_gc = off is passed in mount
+696c018c7718f5 Namjae Jeon      2013-06-16  2390  	 * option. Also sync the filesystem.
+696c018c7718f5 Namjae Jeon      2013-06-16  2391  	 */
+bbbc34fd666254 Chao Yu          2020-02-14  2392  	if ((*flags & SB_RDONLY) ||
+5911d2d1d1a38b Chao Yu          2021-03-27  2393  			(F2FS_OPTION(sbi).bggc_mode == BGGC_MODE_OFF &&
+5911d2d1d1a38b Chao Yu          2021-03-27  2394  			!test_opt(sbi, GC_MERGE))) {
+696c018c7718f5 Namjae Jeon      2013-06-16  2395  		if (sbi->gc_thread) {
+4d57b86dd86404 Chao Yu          2018-05-30  2396  			f2fs_stop_gc_thread(sbi);
+876dc59eb1f013 Gu Zheng         2014-04-11  2397  			need_restart_gc = true;
+696c018c7718f5 Namjae Jeon      2013-06-16  2398  		}
+aba291b3d8d839 Chao Yu          2014-11-18  2399  	} else if (!sbi->gc_thread) {
+4d57b86dd86404 Chao Yu          2018-05-30  2400  		err = f2fs_start_gc_thread(sbi);
+696c018c7718f5 Namjae Jeon      2013-06-16  2401  		if (err)
+696c018c7718f5 Namjae Jeon      2013-06-16  2402  			goto restore_opts;
+876dc59eb1f013 Gu Zheng         2014-04-11  2403  		need_stop_gc = true;
+876dc59eb1f013 Gu Zheng         2014-04-11  2404  	}
+876dc59eb1f013 Gu Zheng         2014-04-11  2405  
+930e2607638de8 Jaegeuk Kim      2022-04-12  2406  	if (*flags & SB_RDONLY) {
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2407  		sync_inodes_sb(sb);
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2408  
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2409  		set_sbi_flag(sbi, SBI_IS_DIRTY);
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2410  		set_sbi_flag(sbi, SBI_IS_CLOSE);
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2411  		f2fs_sync_fs(sb, 1);
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2412  		clear_sbi_flag(sbi, SBI_IS_CLOSE);
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2413  	}
+faa0e55bba54b9 Jaegeuk Kim      2016-03-24  2414  
+3f7070b05052f9 Chao Yu          2021-03-17  2415  	if ((*flags & SB_RDONLY) || test_opt(sbi, DISABLE_CHECKPOINT) ||
+3f7070b05052f9 Chao Yu          2021-03-17  2416  			!test_opt(sbi, MERGE_CHECKPOINT)) {
+3f7070b05052f9 Chao Yu          2021-03-17  2417  		f2fs_stop_ckpt_thread(sbi);
+3fd9735908287c Chao Yu          2021-03-17  2418  		need_restart_ckpt = true;
+4354994f097d06 Daniel Rosenberg 2018-08-20  2419  	} else {
+4f99484d27961c Jaegeuk Kim      2022-08-18  2420  		/* Flush if the prevous checkpoint, if exists. */
+4f99484d27961c Jaegeuk Kim      2022-08-18  2421  		f2fs_flush_ckpt_thread(sbi);
+4f99484d27961c Jaegeuk Kim      2022-08-18  2422  
+261eeb9c1585de Daeho Jeong      2021-01-19  2423  		err = f2fs_start_ckpt_thread(sbi);
+261eeb9c1585de Daeho Jeong      2021-01-19  2424  		if (err) {
+261eeb9c1585de Daeho Jeong      2021-01-19  2425  			f2fs_err(sbi,
+261eeb9c1585de Daeho Jeong      2021-01-19  2426  			    "Failed to start F2FS issue_checkpoint_thread (%d)",
+261eeb9c1585de Daeho Jeong      2021-01-19  2427  			    err);
+261eeb9c1585de Daeho Jeong      2021-01-19  2428  			goto restore_gc;
+261eeb9c1585de Daeho Jeong      2021-01-19  2429  		}
+3fd9735908287c Chao Yu          2021-03-17  2430  		need_stop_ckpt = true;
+261eeb9c1585de Daeho Jeong      2021-01-19  2431  	}
+261eeb9c1585de Daeho Jeong      2021-01-19  2432  
+876dc59eb1f013 Gu Zheng         2014-04-11  2433  	/*
+876dc59eb1f013 Gu Zheng         2014-04-11  2434  	 * We stop issue flush thread if FS is mounted as RO
+876dc59eb1f013 Gu Zheng         2014-04-11  2435  	 * or if flush_merge is not passed in mount option.
+876dc59eb1f013 Gu Zheng         2014-04-11  2436  	 */
+1751e8a6cb935e Linus Torvalds   2017-11-27  2437  	if ((*flags & SB_RDONLY) || !test_opt(sbi, FLUSH_MERGE)) {
+5eba8c5d1fb3af Jaegeuk Kim      2016-12-07  2438  		clear_opt(sbi, FLUSH_MERGE);
+4d57b86dd86404 Chao Yu          2018-05-30  2439  		f2fs_destroy_flush_cmd_control(sbi, false);
+3fd9735908287c Chao Yu          2021-03-17  2440  		need_restart_flush = true;
+5eba8c5d1fb3af Jaegeuk Kim      2016-12-07  2441  	} else {
+4d57b86dd86404 Chao Yu          2018-05-30  2442  		err = f2fs_create_flush_cmd_control(sbi);
+2163d19815b3df Gu Zheng         2014-04-27  2443  		if (err)
+3fd9735908287c Chao Yu          2021-03-17  2444  			goto restore_ckpt;
+3fd9735908287c Chao Yu          2021-03-17  2445  		need_stop_flush = true;
+876dc59eb1f013 Gu Zheng         2014-04-11  2446  	}
+3fd9735908287c Chao Yu          2021-03-17  2447  
+4d67490498acb4 Fengnan Chang    2021-08-19  2448  	if (no_discard == !!test_opt(sbi, DISCARD)) {
+4d67490498acb4 Fengnan Chang    2021-08-19  2449  		if (test_opt(sbi, DISCARD)) {
+4d67490498acb4 Fengnan Chang    2021-08-19  2450  			err = f2fs_start_discard_thread(sbi);
+4d67490498acb4 Fengnan Chang    2021-08-19  2451  			if (err)
+4d67490498acb4 Fengnan Chang    2021-08-19  2452  				goto restore_flush;
+4d67490498acb4 Fengnan Chang    2021-08-19  2453  			need_stop_discard = true;
+4d67490498acb4 Fengnan Chang    2021-08-19  2454  		} else {
+4d67490498acb4 Fengnan Chang    2021-08-19  2455  			f2fs_stop_discard_thread(sbi);
+4d67490498acb4 Fengnan Chang    2021-08-19  2456  			f2fs_issue_discard_timeout(sbi);
+4d67490498acb4 Fengnan Chang    2021-08-19  2457  			need_restart_discard = true;
+4d67490498acb4 Fengnan Chang    2021-08-19  2458  		}
+4d67490498acb4 Fengnan Chang    2021-08-19  2459  	}
+4d67490498acb4 Fengnan Chang    2021-08-19  2460  
+277afbde6ca2b3 Chao Yu          2021-07-29  2461  	if (enable_checkpoint == !!test_opt(sbi, DISABLE_CHECKPOINT)) {
+3fd9735908287c Chao Yu          2021-03-17  2462  		if (test_opt(sbi, DISABLE_CHECKPOINT)) {
+3fd9735908287c Chao Yu          2021-03-17  2463  			err = f2fs_disable_checkpoint(sbi);
+3fd9735908287c Chao Yu          2021-03-17  2464  			if (err)
+4d67490498acb4 Fengnan Chang    2021-08-19  2465  				goto restore_discard;
+3fd9735908287c Chao Yu          2021-03-17  2466  		} else {
+3fd9735908287c Chao Yu          2021-03-17  2467  			f2fs_enable_checkpoint(sbi);
+3fd9735908287c Chao Yu          2021-03-17  2468  		}
+876dc59eb1f013 Gu Zheng         2014-04-11  2469  	}
+3fd9735908287c Chao Yu          2021-03-17  2470  
+696c018c7718f5 Namjae Jeon      2013-06-16  2471  skip:
+4b2414d04e9912 Chao Yu          2017-08-08  2472  #ifdef CONFIG_QUOTA
+4b2414d04e9912 Chao Yu          2017-08-08  2473  	/* Release old quota file names */
+4b2414d04e9912 Chao Yu          2017-08-08  2474  	for (i = 0; i < MAXQUOTAS; i++)
+ba87a45c23d645 Wang Xiaojun     2020-06-17  2475  		kfree(org_mount_opt.s_qf_names[i]);
+4b2414d04e9912 Chao Yu          2017-08-08  2476  #endif
+696c018c7718f5 Namjae Jeon      2013-06-16  2477  	/* Update the POSIXACL Flag */
+1751e8a6cb935e Linus Torvalds   2017-11-27  2478  	sb->s_flags = (sb->s_flags & ~SB_POSIXACL) |
+1751e8a6cb935e Linus Torvalds   2017-11-27  2479  		(test_opt(sbi, POSIX_ACL) ? SB_POSIXACL : 0);
+df728b0f6954c3 Jaegeuk Kim      2016-03-23  2480  
+7e65be49ed94f8 Jaegeuk Kim      2017-12-27  2481  	limit_reserve_root(sbi);
+1ae18f71cb5226 Jaegeuk Kim      2020-05-15  2482  	adjust_unusable_cap_perc(sbi);
+095680f24f2673 Jaegeuk Kim      2018-09-28  2483  	*flags = (*flags & ~SB_LAZYTIME) | (sb->s_flags & SB_LAZYTIME);
+696c018c7718f5 Namjae Jeon      2013-06-16  2484  	return 0;
+4d67490498acb4 Fengnan Chang    2021-08-19  2485  restore_discard:
+4d67490498acb4 Fengnan Chang    2021-08-19  2486  	if (need_restart_discard) {
+4d67490498acb4 Fengnan Chang    2021-08-19  2487  		if (f2fs_start_discard_thread(sbi))
+4d67490498acb4 Fengnan Chang    2021-08-19  2488  			f2fs_warn(sbi, "discard has been stopped");
+4d67490498acb4 Fengnan Chang    2021-08-19  2489  	} else if (need_stop_discard) {
+4d67490498acb4 Fengnan Chang    2021-08-19  2490  		f2fs_stop_discard_thread(sbi);
+4d67490498acb4 Fengnan Chang    2021-08-19  2491  	}
+3fd9735908287c Chao Yu          2021-03-17  2492  restore_flush:
+3fd9735908287c Chao Yu          2021-03-17  2493  	if (need_restart_flush) {
+3fd9735908287c Chao Yu          2021-03-17  2494  		if (f2fs_create_flush_cmd_control(sbi))
+3fd9735908287c Chao Yu          2021-03-17  2495  			f2fs_warn(sbi, "background flush thread has stopped");
+3fd9735908287c Chao Yu          2021-03-17  2496  	} else if (need_stop_flush) {
+3fd9735908287c Chao Yu          2021-03-17  2497  		clear_opt(sbi, FLUSH_MERGE);
+3fd9735908287c Chao Yu          2021-03-17  2498  		f2fs_destroy_flush_cmd_control(sbi, false);
+3fd9735908287c Chao Yu          2021-03-17  2499  	}
+3fd9735908287c Chao Yu          2021-03-17  2500  restore_ckpt:
+3fd9735908287c Chao Yu          2021-03-17  2501  	if (need_restart_ckpt) {
+3fd9735908287c Chao Yu          2021-03-17  2502  		if (f2fs_start_ckpt_thread(sbi))
+3fd9735908287c Chao Yu          2021-03-17  2503  			f2fs_warn(sbi, "background ckpt thread has stopped");
+3fd9735908287c Chao Yu          2021-03-17  2504  	} else if (need_stop_ckpt) {
+3fd9735908287c Chao Yu          2021-03-17  2505  		f2fs_stop_ckpt_thread(sbi);
+3fd9735908287c Chao Yu          2021-03-17  2506  	}
+876dc59eb1f013 Gu Zheng         2014-04-11  2507  restore_gc:
+876dc59eb1f013 Gu Zheng         2014-04-11  2508  	if (need_restart_gc) {
+4d57b86dd86404 Chao Yu          2018-05-30  2509  		if (f2fs_start_gc_thread(sbi))
+dcbb4c10e6d969 Joe Perches      2019-06-18  2510  			f2fs_warn(sbi, "background gc thread has stopped");
+876dc59eb1f013 Gu Zheng         2014-04-11  2511  	} else if (need_stop_gc) {
+4d57b86dd86404 Chao Yu          2018-05-30  2512  		f2fs_stop_gc_thread(sbi);
+876dc59eb1f013 Gu Zheng         2014-04-11  2513  	}
+696c018c7718f5 Namjae Jeon      2013-06-16  2514  restore_opts:
+4b2414d04e9912 Chao Yu          2017-08-08  2515  #ifdef CONFIG_QUOTA
+63189b785960c3 Chao Yu          2018-03-08  2516  	F2FS_OPTION(sbi).s_jquota_fmt = org_mount_opt.s_jquota_fmt;
+4b2414d04e9912 Chao Yu          2017-08-08  2517  	for (i = 0; i < MAXQUOTAS; i++) {
+ba87a45c23d645 Wang Xiaojun     2020-06-17  2518  		kfree(F2FS_OPTION(sbi).s_qf_names[i]);
+63189b785960c3 Chao Yu          2018-03-08  2519  		F2FS_OPTION(sbi).s_qf_names[i] = org_mount_opt.s_qf_names[i];
+4b2414d04e9912 Chao Yu          2017-08-08  2520  	}
+4b2414d04e9912 Chao Yu          2017-08-08  2521  #endif
+fdcaea1b50e37d Yangtao Li       2023-03-01  2522  	cpumask_copy(&F2FS_OPTION(sbi).discard_cpumask, &old_discard_cpumask);
+696c018c7718f5 Namjae Jeon      2013-06-16  2523  	sbi->mount_opt = org_mount_opt;
+0abd675e97e60d Chao Yu          2017-07-09  2524  	sb->s_flags = old_sb_flags;
+696c018c7718f5 Namjae Jeon      2013-06-16  2525  	return err;
+696c018c7718f5 Namjae Jeon      2013-06-16 @2526  }
+696c018c7718f5 Namjae Jeon      2013-06-16  2527  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
