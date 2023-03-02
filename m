@@ -1,42 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6ED10FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 18:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1485210FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 19:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677783391; x=1709319391;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eD0fjIj6NkBl2X1F+uJpNcMlh/Xls/IPenAVTKt+SEk=;
-  b=KUw6WuaZYIswIGEKFOZa2MNwPimMpHQ90cTl2Y6KCtqRssUOpwkAzBwQ
-   sTlAmHIJ1P2wDZ2PzcVij7e2nUyLtdk13Fh7MEDWxMtzbdU73KQqkPifz
-   K/+PB357ruSeqOHt+eEGZC+Yif4566dc449buw+yJuilyq52DEaIeDelk
-   GLYRhUb5ISPkEi7KOeorBtga/M1Jt/AMGkCnG+ENhfm/vesU+vjkYK59D
-   0aaejSOkrFdEHFpOfgWNmVka+B95SJLXVk5lSd07lzAXpDgjvrn1Jf5i5
-   4CNQiQ93Pfy1aX7rR+zx0r22hVgWoygHDQomEy0vJC0dg/L9XQzkKOkV+
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="362411874"
+  t=1677784651; x=1709320651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GHUlMaRRDJw3kdaRsLye6yDLJQ+XeeWX+v78ISYA8lo=;
+  b=cfTp9jyVbE/vpGx+JkKYmaChfOdAXggemDWnZn4f5Cla41Wd7aYd4VsS
+   xwo+FEG3nvxaLurFVfU1gYETAELNQIfMJdRUQgjZMs09c2kMihIp0/7kP
+   fwUr1oSZFB1G1xCGwUWW4vbUvv0n5Xz9MlSUcD2Up285ddAW8+UJlP5ss
+   Rl6PKSWbB67BPMUTKnIJLHCbkf9txkH2IMMP71Q6ZXRkzozaQWbiuquQt
+   6GuZsPg+wlrZkRvOSSWflztOCLrjtShwUHhqK+tYWcVvIek8dZ6n3uaMr
+   VjkmYBvTnXdzDsOg6xUCOB5PGWtdtxZzD3fY6kBR9etzps8vpai5btBhk
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="337140599"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="362411874"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 10:56:31 -0800
+   d="scan'208";a="337140599"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 11:17:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="920822864"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="1004267073"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="920822864"
+   d="scan'208";a="1004267073"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Mar 2023 10:56:29 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 02 Mar 2023 11:17:30 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXo6O-0000nK-2y;
-	Thu, 02 Mar 2023 18:56:28 +0000
-Date: Fri, 3 Mar 2023 02:56:01 +0800
+	id 1pXoQj-0000o4-1G;
+	Thu, 02 Mar 2023 19:17:29 +0000
+Date: Fri, 3 Mar 2023 03:16:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Subject: [samba-ksmbd:ksmbd-for-next-next 2/2] fs/ksmbd/smb2pdu.c:4941:42:
- sparse: sparse: invalid assignment: |=
-Message-ID: <202303030232.TF5A2Q2F-lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 07/12] io_uring: add IORING_OP_FUSED_CMD
+Message-ID: <202303030332.RoPWPvGY-lkp@intel.com>
+References: <20230301140611.163055-8-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,267 +46,209 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230301140611.163055-8-ming.lei@redhat.com>
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   41ab2e2f3e0f32379d61f3ff31966bdf37a2b420
-commit: 41ab2e2f3e0f32379d61f3ff31966bdf37a2b420 [2/2] ksmbd: set FILE_NAMED_STREAMS attribute in FS_ATTRIBUTE_INFORMATION
-config: loongarch-randconfig-s033-20230302 (https://download.01.org/0day-ci/archive/20230303/202303030232.TF5A2Q2F-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add samba-ksmbd git://git.samba.org/ksmbd.git
-        git fetch --no-tags samba-ksmbd ksmbd-for-next-next
-        git checkout 41ab2e2f3e0f32379d61f3ff31966bdf37a2b420
+Hi Ming,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master]
+[cannot apply to axboe-block/for-next v6.2 next-20230302]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-increase-io_kiocb-flags-into-64bit/20230301-221054
+patch link:    https://lore.kernel.org/r/20230301140611.163055-8-ming.lei%40redhat.com
+patch subject: [RFC PATCH 07/12] io_uring: add IORING_OP_FUSED_CMD
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230303/202303030332.RoPWPvGY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/879ff1424f99ef055e902e95625052b87f17fc08
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ming-Lei/io_uring-increase-io_kiocb-flags-into-64bit/20230301-221054
+        git checkout 879ff1424f99ef055e902e95625052b87f17fc08
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/ethernet/sfc/ fs/ksmbd/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303030232.TF5A2Q2F-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303030332.RoPWPvGY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ksmbd/smb2pdu.c:4941:42: sparse: sparse: invalid assignment: |=
->> fs/ksmbd/smb2pdu.c:4941:42: sparse:    left side has type restricted __le32
->> fs/ksmbd/smb2pdu.c:4941:42: sparse:    right side has type int
+All warnings (new ones prefixed by >>):
 
-vim +4941 fs/ksmbd/smb2pdu.c
+>> io_uring/fused_cmd.c:45:5: warning: no previous prototype for 'io_fused_cmd_prep' [-Wmissing-prototypes]
+      45 | int io_fused_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+         |     ^~~~~~~~~~~~~~~~~
+>> io_uring/fused_cmd.c:112:5: warning: no previous prototype for 'io_fused_cmd' [-Wmissing-prototypes]
+     112 | int io_fused_cmd(struct io_kiocb *req, unsigned int issue_flags)
+         |     ^~~~~~~~~~~~
+>> io_uring/fused_cmd.c:134:5: warning: no previous prototype for 'io_import_kbuf_for_slave' [-Wmissing-prototypes]
+     134 | int io_import_kbuf_for_slave(u64 buf, unsigned int len, int rw,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> io_uring/fused_cmd.c:177:6: warning: no previous prototype for 'io_fused_cmd_return_kbuf' [-Wmissing-prototypes]
+     177 | void io_fused_cmd_return_kbuf(struct io_kiocb *slave)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
-  4881	
-  4882	static int smb2_get_info_filesystem(struct ksmbd_work *work,
-  4883					    struct smb2_query_info_req *req,
-  4884					    struct smb2_query_info_rsp *rsp)
-  4885	{
-  4886		struct ksmbd_session *sess = work->sess;
-  4887		struct ksmbd_conn *conn = work->conn;
-  4888		struct ksmbd_share_config *share = work->tcon->share_conf;
-  4889		int fsinfoclass = 0;
-  4890		struct kstatfs stfs;
-  4891		struct path path;
-  4892		int rc = 0, len;
-  4893		int fs_infoclass_size = 0;
-  4894	
-  4895		rc = kern_path(share->path, LOOKUP_NO_SYMLINKS, &path);
-  4896		if (rc) {
-  4897			pr_err("cannot create vfs path\n");
-  4898			return -EIO;
-  4899		}
-  4900	
-  4901		rc = vfs_statfs(&path, &stfs);
-  4902		if (rc) {
-  4903			pr_err("cannot do stat of path %s\n", share->path);
-  4904			path_put(&path);
-  4905			return -EIO;
-  4906		}
-  4907	
-  4908		fsinfoclass = req->FileInfoClass;
-  4909	
-  4910		switch (fsinfoclass) {
-  4911		case FS_DEVICE_INFORMATION:
-  4912		{
-  4913			struct filesystem_device_info *info;
-  4914	
-  4915			info = (struct filesystem_device_info *)rsp->Buffer;
-  4916	
-  4917			info->DeviceType = cpu_to_le32(stfs.f_type);
-  4918			info->DeviceCharacteristics = cpu_to_le32(0x00000020);
-  4919			rsp->OutputBufferLength = cpu_to_le32(8);
-  4920			inc_rfc1001_len(work->response_buf, 8);
-  4921			fs_infoclass_size = FS_DEVICE_INFORMATION_SIZE;
-  4922			break;
-  4923		}
-  4924		case FS_ATTRIBUTE_INFORMATION:
-  4925		{
-  4926			struct filesystem_attribute_info *info;
-  4927			size_t sz;
-  4928	
-  4929			info = (struct filesystem_attribute_info *)rsp->Buffer;
-  4930			info->Attributes = cpu_to_le32(FILE_SUPPORTS_OBJECT_IDS |
-  4931						       FILE_PERSISTENT_ACLS |
-  4932						       FILE_UNICODE_ON_DISK |
-  4933						       FILE_CASE_PRESERVED_NAMES |
-  4934						       FILE_CASE_SENSITIVE_SEARCH |
-  4935						       FILE_SUPPORTS_BLOCK_REFCOUNTING);
-  4936	
-  4937			info->Attributes |= cpu_to_le32(server_conf.share_fake_fscaps);
-  4938	
-  4939			if (test_share_config_flag(work->tcon->share_conf,
-  4940			    KSMBD_SHARE_FLAG_STREAMS))
-> 4941				info->Attributes |= FILE_NAMED_STREAMS;
-  4942	
-  4943			info->MaxPathNameComponentLength = cpu_to_le32(stfs.f_namelen);
-  4944			len = smbConvertToUTF16((__le16 *)info->FileSystemName,
-  4945						"NTFS", PATH_MAX, conn->local_nls, 0);
-  4946			len = len * 2;
-  4947			info->FileSystemNameLen = cpu_to_le32(len);
-  4948			sz = sizeof(struct filesystem_attribute_info) - 2 + len;
-  4949			rsp->OutputBufferLength = cpu_to_le32(sz);
-  4950			inc_rfc1001_len(work->response_buf, sz);
-  4951			fs_infoclass_size = FS_ATTRIBUTE_INFORMATION_SIZE;
-  4952			break;
-  4953		}
-  4954		case FS_VOLUME_INFORMATION:
-  4955		{
-  4956			struct filesystem_vol_info *info;
-  4957			size_t sz;
-  4958			unsigned int serial_crc = 0;
-  4959	
-  4960			info = (struct filesystem_vol_info *)(rsp->Buffer);
-  4961			info->VolumeCreationTime = 0;
-  4962			serial_crc = crc32_le(serial_crc, share->name,
-  4963					      strlen(share->name));
-  4964			serial_crc = crc32_le(serial_crc, share->path,
-  4965					      strlen(share->path));
-  4966			serial_crc = crc32_le(serial_crc, ksmbd_netbios_name(),
-  4967					      strlen(ksmbd_netbios_name()));
-  4968			/* Taking dummy value of serial number*/
-  4969			info->SerialNumber = cpu_to_le32(serial_crc);
-  4970			len = smbConvertToUTF16((__le16 *)info->VolumeLabel,
-  4971						share->name, PATH_MAX,
-  4972						conn->local_nls, 0);
-  4973			len = len * 2;
-  4974			info->VolumeLabelSize = cpu_to_le32(len);
-  4975			info->Reserved = 0;
-  4976			sz = sizeof(struct filesystem_vol_info) - 2 + len;
-  4977			rsp->OutputBufferLength = cpu_to_le32(sz);
-  4978			inc_rfc1001_len(work->response_buf, sz);
-  4979			fs_infoclass_size = FS_VOLUME_INFORMATION_SIZE;
-  4980			break;
-  4981		}
-  4982		case FS_SIZE_INFORMATION:
-  4983		{
-  4984			struct filesystem_info *info;
-  4985	
-  4986			info = (struct filesystem_info *)(rsp->Buffer);
-  4987			info->TotalAllocationUnits = cpu_to_le64(stfs.f_blocks);
-  4988			info->FreeAllocationUnits = cpu_to_le64(stfs.f_bfree);
-  4989			info->SectorsPerAllocationUnit = cpu_to_le32(1);
-  4990			info->BytesPerSector = cpu_to_le32(stfs.f_bsize);
-  4991			rsp->OutputBufferLength = cpu_to_le32(24);
-  4992			inc_rfc1001_len(work->response_buf, 24);
-  4993			fs_infoclass_size = FS_SIZE_INFORMATION_SIZE;
-  4994			break;
-  4995		}
-  4996		case FS_FULL_SIZE_INFORMATION:
-  4997		{
-  4998			struct smb2_fs_full_size_info *info;
-  4999	
-  5000			info = (struct smb2_fs_full_size_info *)(rsp->Buffer);
-  5001			info->TotalAllocationUnits = cpu_to_le64(stfs.f_blocks);
-  5002			info->CallerAvailableAllocationUnits =
-  5003						cpu_to_le64(stfs.f_bavail);
-  5004			info->ActualAvailableAllocationUnits =
-  5005						cpu_to_le64(stfs.f_bfree);
-  5006			info->SectorsPerAllocationUnit = cpu_to_le32(1);
-  5007			info->BytesPerSector = cpu_to_le32(stfs.f_bsize);
-  5008			rsp->OutputBufferLength = cpu_to_le32(32);
-  5009			inc_rfc1001_len(work->response_buf, 32);
-  5010			fs_infoclass_size = FS_FULL_SIZE_INFORMATION_SIZE;
-  5011			break;
-  5012		}
-  5013		case FS_OBJECT_ID_INFORMATION:
-  5014		{
-  5015			struct object_id_info *info;
-  5016	
-  5017			info = (struct object_id_info *)(rsp->Buffer);
-  5018	
-  5019			if (!user_guest(sess->user))
-  5020				memcpy(info->objid, user_passkey(sess->user), 16);
-  5021			else
-  5022				memset(info->objid, 0, 16);
-  5023	
-  5024			info->extended_info.magic = cpu_to_le32(EXTENDED_INFO_MAGIC);
-  5025			info->extended_info.version = cpu_to_le32(1);
-  5026			info->extended_info.release = cpu_to_le32(1);
-  5027			info->extended_info.rel_date = 0;
-  5028			memcpy(info->extended_info.version_string, "1.1.0", strlen("1.1.0"));
-  5029			rsp->OutputBufferLength = cpu_to_le32(64);
-  5030			inc_rfc1001_len(work->response_buf, 64);
-  5031			fs_infoclass_size = FS_OBJECT_ID_INFORMATION_SIZE;
-  5032			break;
-  5033		}
-  5034		case FS_SECTOR_SIZE_INFORMATION:
-  5035		{
-  5036			struct smb3_fs_ss_info *info;
-  5037			unsigned int sector_size =
-  5038				min_t(unsigned int, path.mnt->mnt_sb->s_blocksize, 4096);
-  5039	
-  5040			info = (struct smb3_fs_ss_info *)(rsp->Buffer);
-  5041	
-  5042			info->LogicalBytesPerSector = cpu_to_le32(sector_size);
-  5043			info->PhysicalBytesPerSectorForAtomicity =
-  5044					cpu_to_le32(sector_size);
-  5045			info->PhysicalBytesPerSectorForPerf = cpu_to_le32(sector_size);
-  5046			info->FSEffPhysicalBytesPerSectorForAtomicity =
-  5047					cpu_to_le32(sector_size);
-  5048			info->Flags = cpu_to_le32(SSINFO_FLAGS_ALIGNED_DEVICE |
-  5049					    SSINFO_FLAGS_PARTITION_ALIGNED_ON_DEVICE);
-  5050			info->ByteOffsetForSectorAlignment = 0;
-  5051			info->ByteOffsetForPartitionAlignment = 0;
-  5052			rsp->OutputBufferLength = cpu_to_le32(28);
-  5053			inc_rfc1001_len(work->response_buf, 28);
-  5054			fs_infoclass_size = FS_SECTOR_SIZE_INFORMATION_SIZE;
-  5055			break;
-  5056		}
-  5057		case FS_CONTROL_INFORMATION:
-  5058		{
-  5059			/*
-  5060			 * TODO : The current implementation is based on
-  5061			 * test result with win7(NTFS) server. It's need to
-  5062			 * modify this to get valid Quota values
-  5063			 * from Linux kernel
-  5064			 */
-  5065			struct smb2_fs_control_info *info;
-  5066	
-  5067			info = (struct smb2_fs_control_info *)(rsp->Buffer);
-  5068			info->FreeSpaceStartFiltering = 0;
-  5069			info->FreeSpaceThreshold = 0;
-  5070			info->FreeSpaceStopFiltering = 0;
-  5071			info->DefaultQuotaThreshold = cpu_to_le64(SMB2_NO_FID);
-  5072			info->DefaultQuotaLimit = cpu_to_le64(SMB2_NO_FID);
-  5073			info->Padding = 0;
-  5074			rsp->OutputBufferLength = cpu_to_le32(48);
-  5075			inc_rfc1001_len(work->response_buf, 48);
-  5076			fs_infoclass_size = FS_CONTROL_INFORMATION_SIZE;
-  5077			break;
-  5078		}
-  5079		case FS_POSIX_INFORMATION:
-  5080		{
-  5081			struct filesystem_posix_info *info;
-  5082	
-  5083			if (!work->tcon->posix_extensions) {
-  5084				pr_err("client doesn't negotiate with SMB3.1.1 POSIX Extensions\n");
-  5085				rc = -EOPNOTSUPP;
-  5086			} else {
-  5087				info = (struct filesystem_posix_info *)(rsp->Buffer);
-  5088				info->OptimalTransferSize = cpu_to_le32(stfs.f_bsize);
-  5089				info->BlockSize = cpu_to_le32(stfs.f_bsize);
-  5090				info->TotalBlocks = cpu_to_le64(stfs.f_blocks);
-  5091				info->BlocksAvail = cpu_to_le64(stfs.f_bfree);
-  5092				info->UserBlocksAvail = cpu_to_le64(stfs.f_bavail);
-  5093				info->TotalFileNodes = cpu_to_le64(stfs.f_files);
-  5094				info->FreeFileNodes = cpu_to_le64(stfs.f_ffree);
-  5095				rsp->OutputBufferLength = cpu_to_le32(56);
-  5096				inc_rfc1001_len(work->response_buf, 56);
-  5097				fs_infoclass_size = FS_POSIX_INFORMATION_SIZE;
-  5098			}
-  5099			break;
-  5100		}
-  5101		default:
-  5102			path_put(&path);
-  5103			return -EOPNOTSUPP;
-  5104		}
-  5105		rc = buffer_check_err(le32_to_cpu(req->OutputBufferLength),
-  5106				      rsp, work->response_buf,
-  5107				      fs_infoclass_size);
-  5108		path_put(&path);
-  5109		return rc;
-  5110	}
-  5111	
+
+vim +/io_fused_cmd_prep +45 io_uring/fused_cmd.c
+
+    44	
+  > 45	int io_fused_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+    46		__must_hold(&req->ctx->uring_lock)
+    47	{
+    48		struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+    49		const struct io_uring_sqe *slave_sqe = sqe + 1;
+    50		struct io_ring_ctx *ctx = req->ctx;
+    51		struct io_kiocb *slave;
+    52		u8 slave_op;
+    53		int ret;
+    54	
+    55		if (unlikely(!(ctx->flags & IORING_SETUP_SQE128)))
+    56			return -EINVAL;
+    57	
+    58		if (unlikely(sqe->__pad1))
+    59			return -EINVAL;
+    60	
+    61		ioucmd->flags = READ_ONCE(sqe->uring_cmd_flags);
+    62		if (unlikely(ioucmd->flags))
+    63			return -EINVAL;
+    64	
+    65		slave_op = READ_ONCE(slave_sqe->opcode);
+    66		if (unlikely(!io_fused_slave_valid(slave_sqe, slave_op)))
+    67			return -EINVAL;
+    68	
+    69		ioucmd->cmd = sqe->cmd;
+    70		ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
+    71		req->fused_cmd_kbuf = NULL;
+    72	
+    73		/* take one extra reference for the slave request */
+    74		io_get_task_refs(1);
+    75	
+    76		ret = -ENOMEM;
+    77		if (unlikely(!io_alloc_req(ctx, &slave)))
+    78			goto fail;
+    79	
+    80		ret = io_init_req(ctx, slave, slave_sqe, true);
+    81		if (unlikely(ret))
+    82			goto fail_free_req;
+    83	
+    84		io_fused_cmd_update_link_flags(req, slave);
+    85	
+    86		ioucmd->fused.data.__slave = slave;
+    87		req->flags |= REQ_F_FUSED_MASTER;
+    88	
+    89		return 0;
+    90	
+    91	fail_free_req:
+    92		io_free_req(slave);
+    93	fail:
+    94		current->io_uring->cached_refs += 1;
+    95		return ret;
+    96	}
+    97	
+    98	static inline bool io_fused_slave_write_to_buf(u8 op)
+    99	{
+   100		switch (op) {
+   101		case IORING_OP_READ:
+   102		case IORING_OP_READV:
+   103		case IORING_OP_READ_FIXED:
+   104		case IORING_OP_RECVMSG:
+   105		case IORING_OP_RECV:
+   106			return 1;
+   107		default:
+   108			return 0;
+   109		}
+   110	}
+   111	
+ > 112	int io_fused_cmd(struct io_kiocb *req, unsigned int issue_flags)
+   113	{
+   114		struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+   115		const struct io_kiocb *slave = ioucmd->fused.data.__slave;
+   116		int ret = -EINVAL;
+   117	
+   118		/*
+   119		 * Pass buffer direction for driver to validate if the read/write
+   120		 * is legal
+   121		 */
+   122		if (io_fused_slave_write_to_buf(slave->opcode))
+   123			issue_flags |= IO_URING_F_FUSED_WRITE;
+   124		else
+   125			issue_flags |= IO_URING_F_FUSED_READ;
+   126	
+   127		ret = io_uring_cmd(req, issue_flags);
+   128		if (ret != IOU_ISSUE_SKIP_COMPLETE)
+   129			io_free_req(ioucmd->fused.data.__slave);
+   130	
+   131		return ret;
+   132	}
+   133	
+ > 134	int io_import_kbuf_for_slave(u64 buf, unsigned int len, int rw,
+   135			struct iov_iter *iter, struct io_kiocb *slave)
+   136	{
+   137		struct io_kiocb *req = slave->fused_master_req;
+   138		const struct io_mapped_buf *kbuf;
+   139		unsigned int offset;
+   140	
+   141		if (unlikely(!(slave->flags & REQ_F_FUSED_SLAVE) || !req))
+   142			return -EINVAL;
+   143	
+   144		if (unlikely(!req->fused_cmd_kbuf))
+   145			return -EINVAL;
+   146	
+   147		/* req->fused_cmd_kbuf is immutable */
+   148		kbuf = req->fused_cmd_kbuf;
+   149		offset = kbuf->offset;
+   150	
+   151		if (!kbuf->bvec)
+   152			return -EINVAL;
+   153	
+   154		/* not inside the mapped region */
+   155		if (unlikely(buf < kbuf->buf || buf > kbuf->buf_end))
+   156			return -EFAULT;
+   157	
+   158		if (unlikely(len > kbuf->buf_end - buf))
+   159			return -EFAULT;
+   160	
+   161		/* don't use io_import_fixed which doesn't support multipage bvec */
+   162		offset += buf - kbuf->buf;
+   163		iov_iter_bvec(iter, rw, kbuf->bvec, kbuf->nr_bvecs, offset + len);
+   164	
+   165		if (offset)
+   166			iov_iter_advance(iter, offset);
+   167	
+   168		return 0;
+   169	}
+   170	
+   171	/*
+   172	 * Called when slave request is completed,
+   173	 *
+   174	 * Return back ownership of the fused_cmd kbuf to master request, and
+   175	 * notify master request.
+   176	 */
+ > 177	void io_fused_cmd_return_kbuf(struct io_kiocb *slave)
+   178	{
+   179		struct io_kiocb *req = slave->fused_master_req;
+   180		struct io_uring_cmd *ioucmd;
+   181	
+   182		if (unlikely(!req || !(slave->flags & REQ_F_FUSED_SLAVE)))
+   183			return;
+   184	
+   185		/* return back the buffer */
+   186		slave->fused_master_req = NULL;
+   187		ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+   188		ioucmd->fused.data.__slave = NULL;
+   189	
+   190		/* If slave OP skips CQE, return the result via master command */
+   191		if (slave->flags & REQ_F_CQE_SKIP)
+   192			ioucmd->fused.data.slave_res = slave->cqe.res;
+   193		else
+   194			ioucmd->fused.data.slave_res = 0;
+   195		io_uring_cmd_complete_in_task(ioucmd, ioucmd->task_work_cb);
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
