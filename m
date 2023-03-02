@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925E8D524
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 20:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB43ED524;
+	Thu,  2 Mar 2023 20:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677789577; x=1709325577;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zCVmhkbpwQ6vegWeL2cUoAx3TUtAT40mp8HpwXVBGAk=;
-  b=FyUnCCiePfLpOyCaIpD8uXLvFuSu/HVv20ocgWd2+03sDeobLuK1LvrI
-   wA+s+ed71YkFwni4QIZLlJz39PwsAhHXIyTj4N4OXlIWQA4RsPnzn2+or
-   MVtFh//ejMN9TIyXoxjNBspt5zNgO8yzhTx8L8drD2D5MRq6x7CBx/O5k
-   DO+NhSpNYyngiKmldO8FiUc0tNCrrNr/EE9NRGLbKhcyUpldzj4A0Ru7X
-   RparC26CFMZZIvD24G3fXL6UVzAD3+YdyvK2KgFl6hxEulCVbQjG4Nh4/
-   6p01kPfs/PTEQNdX83wRj81X9g29Un2X00iJvoPfdP/5RZ3hRYm2zM16q
+  t=1677790175; x=1709326175;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MqsAEO+Vu3hlSqriP/nyBiqZaxrwQQ0KXbMr/ygHUhg=;
+  b=lhdB2fWh9yF3yqh4tUs3pxzfiU361ubzIyYr/ZBXWinmCBD/Xv9QXW1K
+   6G3ItDgk61nrdTt8UPHEne0foUW2zCYTWGWxI8BwE7TEKGXIlIHvUnBdg
+   3KEw/NZdJqyJbrnRZC3zs6hoJ6Lag4yJEqNjrrll87znnTZ8qS77avhVh
+   1n87fC5OFBDihxztVG2w2rbR4AIoY23qGbnN3lGQInqItVbqEefpCtgRM
+   FkjGw9JvSejw7w9LH0O9I5VQIHbZHqU1yTHnSLKQQSr//x7BA5aHeQs7Q
+   wj+Y5bCG8k0i0/FEPxHW2MsuYgruVBQnxftfnN7SQze3h4DyB33hmqgK+
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="362442579"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="337164230"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="362442579"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 12:39:35 -0800
+   d="scan'208";a="337164230"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 12:49:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="798973359"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="739251358"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="798973359"
+   d="scan'208";a="739251358"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 12:39:33 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2023 12:49:33 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXpi8-0000ru-2p;
-	Thu, 02 Mar 2023 20:39:32 +0000
-Date: Fri, 3 Mar 2023 04:38:41 +0800
+	id 1pXprp-0000sI-08;
+	Thu, 02 Mar 2023 20:49:33 +0000
+Date: Fri, 3 Mar 2023 04:49:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.2/prjc 295/362] kernel/sched/alt_core.c:7209:57: error:
- implicit declaration of function 'cpu_coregroup_mask'; did you mean
- 'cpu_core_mask'?
-Message-ID: <202303030417.k63vYnLJ-lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 07/12] io_uring: add IORING_OP_FUSED_CMD
+Message-ID: <202303030433.1tVt0C2F-lkp@intel.com>
+References: <20230301140611.163055-8-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,223 +46,228 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230301140611.163055-8-ming.lei@redhat.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
-head:   2a811c44752ac1409f134484912a4664726c399b
-commit: 758c39a103c58a35cb772408e0ceb8ff65399e12 [295/362] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230303/202303030417.k63vYnLJ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+Hi Ming,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master]
+[cannot apply to axboe-block/for-next v6.2 next-20230302]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-increase-io_kiocb-flags-into-64bit/20230301-221054
+patch link:    https://lore.kernel.org/r/20230301140611.163055-8-ming.lei%40redhat.com
+patch subject: [RFC PATCH 07/12] io_uring: add IORING_OP_FUSED_CMD
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230303/202303030433.1tVt0C2F-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/758c39a103c58a35cb772408e0ceb8ff65399e12
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.2/prjc
-        git checkout 758c39a103c58a35cb772408e0ceb8ff65399e12
+        # https://github.com/intel-lab-lkp/linux/commit/879ff1424f99ef055e902e95625052b87f17fc08
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ming-Lei/io_uring-increase-io_kiocb-flags-into-64bit/20230301-221054
+        git checkout 879ff1424f99ef055e902e95625052b87f17fc08
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303030417.k63vYnLJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303030433.1tVt0C2F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/alt_core.c:632:15: error: conflicting types for 'sched_cpu_util'; have 'long unsigned int(int,  long unsigned int)'
-     632 | unsigned long sched_cpu_util(int cpu, unsigned long max)
-         |               ^~~~~~~~~~~~~~
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/alt_core.c:14:
-   include/linux/sched.h:2319:15: note: previous declaration of 'sched_cpu_util' with type 'long unsigned int(int)'
-    2319 | unsigned long sched_cpu_util(int cpu);
-         |               ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
-     966 | void resched_curr(struct rq *rq)
-         |      ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
-     989 | void resched_cpu(int cpu)
-         |      ^~~~~~~~~~~
-   kernel/sched/alt_core.c:1004:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
-    1004 | void select_nohz_load_balancer(int stop_tick) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1006:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
-    1006 | void set_cpu_sd_state_idle(void) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1192:6: warning: no previous prototype for 'hrtick_start' [-Wmissing-prototypes]
-    1192 | void hrtick_start(struct rq *rq, u64 delay)
-         |      ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:2339:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
-    2339 | void sched_ttwu_pending(void *arg)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:2372:6: warning: no previous prototype for 'send_call_function_single_ipi' [-Wmissing-prototypes]
-    2372 | void send_call_function_single_ipi(int cpu)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function '__schedule':
-   kernel/sched/alt_core.c:4558:49: error: 'PF_FROZEN' undeclared (first use in this function); did you mean 'PF_ROSE'?
-    4558 |                                 !(prev->flags & PF_FROZEN);
-         |                                                 ^~~~~~~~~
-         |                                                 PF_ROSE
-   kernel/sched/alt_core.c:4558:49: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/sched/alt_core.c: In function 'sched_submit_work':
-   kernel/sched/alt_core.c:4674:13: error: implicit declaration of function 'tsk_is_pi_blocked'; did you mean 'osq_is_locked'? [-Werror=implicit-function-declaration]
-    4674 |         if (tsk_is_pi_blocked(tsk))
-         |             ^~~~~~~~~~~~~~~~~
-         |             osq_is_locked
-   kernel/sched/alt_core.c: At top level:
-   kernel/sched/alt_core.c:4734:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
-    4734 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
-   kernel/sched/alt_core.c:6770:6: warning: no previous prototype for 'idle_task_exit' [-Wmissing-prototypes]
-    6770 | void idle_task_exit(void)
-         |      ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:6980:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
-    6980 | int sched_cpu_activate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7019:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
-    7019 | int sched_cpu_deactivate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7083:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
-    7083 | int sched_cpu_starting(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7103:5: warning: no previous prototype for 'sched_cpu_wait_empty' [-Wmissing-prototypes]
-    7103 | int sched_cpu_wait_empty(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7145:5: warning: no previous prototype for 'sched_cpu_dying' [-Wmissing-prototypes]
-    7145 | int sched_cpu_dying(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function 'sched_init_topology_cpumask':
->> kernel/sched/alt_core.c:7209:57: error: implicit declaration of function 'cpu_coregroup_mask'; did you mean 'cpu_core_mask'? [-Werror=implicit-function-declaration]
-    7209 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~
-         |                                                         cpu_core_mask
-   kernel/sched/alt_core.c:7209:57: warning: passing argument 1 of 'cpumask_first' makes pointer from integer without a cast [-Wint-conversion]
-    7209 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         int
-   In file included from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5:
-   include/linux/cpumask.h:127:64: note: expected 'const struct cpumask *' but argument is of type 'int'
-     127 | static inline unsigned int cpumask_first(const struct cpumask *srcp)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/sched/alt_core.c:7211:45: warning: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
-    7211 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:7186:37: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    7186 |         if (cpumask_and(topo, topo, mask)) {                                    \
-         |                                     ^~~~
-   include/linux/cpumask.h:503:54: note: expected 'const struct cpumask *' but argument is of type 'int'
-     503 |                                const struct cpumask *src2p)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   kernel/sched/alt_core.c:7211:45: warning: passing argument 2 of 'cpumask_copy' makes pointer from integer without a cast [-Wint-conversion]
-    7211 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:7187:36: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    7187 |                 cpumask_copy(topo, mask);                                       \
-         |                                    ^~~~
-   include/linux/cpumask.h:686:55: note: expected 'const struct cpumask *' but argument is of type 'int'
-     686 |                                 const struct cpumask *srcp)
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/sched/alt_core.c:7211:45: warning: passing argument 2 of 'cpumask_complement' makes pointer from integer without a cast [-Wint-conversion]
-    7211 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:7192:42: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    7192 |                 cpumask_complement(topo, mask)
-         |                                          ^~~~
-   include/linux/cpumask.h:558:61: note: expected 'const struct cpumask *' but argument is of type 'int'
-     558 |                                       const struct cpumask *srcp)
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/sched/alt_core.c: At top level:
-   kernel/sched/alt_core.c:7226:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
-    7226 | void __init sched_init_smp(void)
-         |             ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
-    7278 | void __init sched_init(void)
-         |             ^~~~~~~~~~
-   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
-    7633 | struct task_group *sched_create_group(struct task_group *parent)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
-    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
-    7655 | void sched_destroy_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
-    7661 | void sched_release_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
-    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7800:27: warning: initialized field overwritten [-Woverride-init]
-    7800 |         .legacy_cftypes = cpu_legacy_files,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7800:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
-   cc1: some warnings being treated as errors
+>> io_uring/fused_cmd.c:45:5: warning: no previous prototype for function 'io_fused_cmd_prep' [-Wmissing-prototypes]
+   int io_fused_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+       ^
+   io_uring/fused_cmd.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int io_fused_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   ^
+   static 
+>> io_uring/fused_cmd.c:112:5: warning: no previous prototype for function 'io_fused_cmd' [-Wmissing-prototypes]
+   int io_fused_cmd(struct io_kiocb *req, unsigned int issue_flags)
+       ^
+   io_uring/fused_cmd.c:112:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int io_fused_cmd(struct io_kiocb *req, unsigned int issue_flags)
+   ^
+   static 
+>> io_uring/fused_cmd.c:134:5: warning: no previous prototype for function 'io_import_kbuf_for_slave' [-Wmissing-prototypes]
+   int io_import_kbuf_for_slave(u64 buf, unsigned int len, int rw,
+       ^
+   io_uring/fused_cmd.c:134:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int io_import_kbuf_for_slave(u64 buf, unsigned int len, int rw,
+   ^
+   static 
+>> io_uring/fused_cmd.c:177:6: warning: no previous prototype for function 'io_fused_cmd_return_kbuf' [-Wmissing-prototypes]
+   void io_fused_cmd_return_kbuf(struct io_kiocb *slave)
+        ^
+   io_uring/fused_cmd.c:177:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void io_fused_cmd_return_kbuf(struct io_kiocb *slave)
+   ^
+   static 
+   4 warnings generated.
 
 
-vim +7209 kernel/sched/alt_core.c
+vim +/io_fused_cmd_prep +45 io_uring/fused_cmd.c
 
-8b025fc742d7609 Alfred Chen 2019-08-19  7184  
-8b025fc742d7609 Alfred Chen 2019-08-19  7185  #define TOPOLOGY_CPUMASK(name, mask, last)\
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7186  	if (cpumask_and(topo, topo, mask)) {					\
-e7fdb7ccec3a81d Alfred Chen 2020-12-25  7187  		cpumask_copy(topo, mask);					\
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7188  		printk(KERN_INFO "sched: cpu#%02d topo: 0x%08lx - "#name,	\
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7189  		       cpu, (topo++)->bits[0]);					\
-e7fdb7ccec3a81d Alfred Chen 2020-12-25  7190  	}									\
-8b025fc742d7609 Alfred Chen 2019-08-19  7191  	if (!last)								\
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7192  		cpumask_complement(topo, mask)
-8b025fc742d7609 Alfred Chen 2019-08-19  7193  
-8b025fc742d7609 Alfred Chen 2019-08-19  7194  static void sched_init_topology_cpumask(void)
-8b025fc742d7609 Alfred Chen 2019-08-19  7195  {
-8b025fc742d7609 Alfred Chen 2019-08-19  7196  	int cpu;
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7197  	cpumask_t *topo;
-8b025fc742d7609 Alfred Chen 2019-08-19  7198  
-8b025fc742d7609 Alfred Chen 2019-08-19  7199  	for_each_online_cpu(cpu) {
-8b025fc742d7609 Alfred Chen 2019-08-19  7200  		/* take chance to reset time slice for idle tasks */
-8b025fc742d7609 Alfred Chen 2019-08-19  7201  		cpu_rq(cpu)->idle->time_slice = sched_timeslice_ns;
-8b025fc742d7609 Alfred Chen 2019-08-19  7202  
-e7fdb7ccec3a81d Alfred Chen 2020-12-25  7203  		topo = per_cpu(sched_cpu_topo_masks, cpu) + 1;
-6e346c79dee38d6 Alfred Chen 2020-11-09  7204  
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7205  		cpumask_complement(topo, cpumask_of(cpu));
-8b025fc742d7609 Alfred Chen 2019-08-19  7206  #ifdef CONFIG_SCHED_SMT
-8b025fc742d7609 Alfred Chen 2019-08-19  7207  		TOPOLOGY_CPUMASK(smt, topology_sibling_cpumask(cpu), false);
-8b025fc742d7609 Alfred Chen 2019-08-19  7208  #endif
-8b025fc742d7609 Alfred Chen 2019-08-19 @7209  		per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-e7fdb7ccec3a81d Alfred Chen 2020-12-25  7210  		per_cpu(sched_cpu_llc_mask, cpu) = topo;
-8b025fc742d7609 Alfred Chen 2019-08-19  7211  		TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-8b025fc742d7609 Alfred Chen 2019-08-19  7212  
-8b025fc742d7609 Alfred Chen 2019-08-19  7213  		TOPOLOGY_CPUMASK(core, topology_core_cpumask(cpu), false);
-8b025fc742d7609 Alfred Chen 2019-08-19  7214  
-8b025fc742d7609 Alfred Chen 2019-08-19  7215  		TOPOLOGY_CPUMASK(others, cpu_online_mask, true);
-8b025fc742d7609 Alfred Chen 2019-08-19  7216  
-45dc1e23cc5f2a8 Alfred Chen 2021-07-10  7217  		per_cpu(sched_cpu_topo_end_mask, cpu) = topo;
-8fbad632e72290b Alfred Chen 2020-11-03  7218  		printk(KERN_INFO "sched: cpu#%02d llc_id = %d, llc_mask idx = %d\n",
-8fbad632e72290b Alfred Chen 2020-11-03  7219  		       cpu, per_cpu(sd_llc_id, cpu),
-8fbad632e72290b Alfred Chen 2020-11-03  7220  		       (int) (per_cpu(sched_cpu_llc_mask, cpu) -
-e7fdb7ccec3a81d Alfred Chen 2020-12-25  7221  			      per_cpu(sched_cpu_topo_masks, cpu)));
-8b025fc742d7609 Alfred Chen 2019-08-19  7222  	}
-8b025fc742d7609 Alfred Chen 2019-08-19  7223  }
-8b025fc742d7609 Alfred Chen 2019-08-19  7224  #endif
-8b025fc742d7609 Alfred Chen 2019-08-19  7225  
-
-:::::: The code at line 7209 was first introduced by commit
-:::::: 8b025fc742d76091232a7404a7ad09c8cad61492 Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+    44	
+  > 45	int io_fused_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+    46		__must_hold(&req->ctx->uring_lock)
+    47	{
+    48		struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+    49		const struct io_uring_sqe *slave_sqe = sqe + 1;
+    50		struct io_ring_ctx *ctx = req->ctx;
+    51		struct io_kiocb *slave;
+    52		u8 slave_op;
+    53		int ret;
+    54	
+    55		if (unlikely(!(ctx->flags & IORING_SETUP_SQE128)))
+    56			return -EINVAL;
+    57	
+    58		if (unlikely(sqe->__pad1))
+    59			return -EINVAL;
+    60	
+    61		ioucmd->flags = READ_ONCE(sqe->uring_cmd_flags);
+    62		if (unlikely(ioucmd->flags))
+    63			return -EINVAL;
+    64	
+    65		slave_op = READ_ONCE(slave_sqe->opcode);
+    66		if (unlikely(!io_fused_slave_valid(slave_sqe, slave_op)))
+    67			return -EINVAL;
+    68	
+    69		ioucmd->cmd = sqe->cmd;
+    70		ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
+    71		req->fused_cmd_kbuf = NULL;
+    72	
+    73		/* take one extra reference for the slave request */
+    74		io_get_task_refs(1);
+    75	
+    76		ret = -ENOMEM;
+    77		if (unlikely(!io_alloc_req(ctx, &slave)))
+    78			goto fail;
+    79	
+    80		ret = io_init_req(ctx, slave, slave_sqe, true);
+    81		if (unlikely(ret))
+    82			goto fail_free_req;
+    83	
+    84		io_fused_cmd_update_link_flags(req, slave);
+    85	
+    86		ioucmd->fused.data.__slave = slave;
+    87		req->flags |= REQ_F_FUSED_MASTER;
+    88	
+    89		return 0;
+    90	
+    91	fail_free_req:
+    92		io_free_req(slave);
+    93	fail:
+    94		current->io_uring->cached_refs += 1;
+    95		return ret;
+    96	}
+    97	
+    98	static inline bool io_fused_slave_write_to_buf(u8 op)
+    99	{
+   100		switch (op) {
+   101		case IORING_OP_READ:
+   102		case IORING_OP_READV:
+   103		case IORING_OP_READ_FIXED:
+   104		case IORING_OP_RECVMSG:
+   105		case IORING_OP_RECV:
+   106			return 1;
+   107		default:
+   108			return 0;
+   109		}
+   110	}
+   111	
+ > 112	int io_fused_cmd(struct io_kiocb *req, unsigned int issue_flags)
+   113	{
+   114		struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+   115		const struct io_kiocb *slave = ioucmd->fused.data.__slave;
+   116		int ret = -EINVAL;
+   117	
+   118		/*
+   119		 * Pass buffer direction for driver to validate if the read/write
+   120		 * is legal
+   121		 */
+   122		if (io_fused_slave_write_to_buf(slave->opcode))
+   123			issue_flags |= IO_URING_F_FUSED_WRITE;
+   124		else
+   125			issue_flags |= IO_URING_F_FUSED_READ;
+   126	
+   127		ret = io_uring_cmd(req, issue_flags);
+   128		if (ret != IOU_ISSUE_SKIP_COMPLETE)
+   129			io_free_req(ioucmd->fused.data.__slave);
+   130	
+   131		return ret;
+   132	}
+   133	
+ > 134	int io_import_kbuf_for_slave(u64 buf, unsigned int len, int rw,
+   135			struct iov_iter *iter, struct io_kiocb *slave)
+   136	{
+   137		struct io_kiocb *req = slave->fused_master_req;
+   138		const struct io_mapped_buf *kbuf;
+   139		unsigned int offset;
+   140	
+   141		if (unlikely(!(slave->flags & REQ_F_FUSED_SLAVE) || !req))
+   142			return -EINVAL;
+   143	
+   144		if (unlikely(!req->fused_cmd_kbuf))
+   145			return -EINVAL;
+   146	
+   147		/* req->fused_cmd_kbuf is immutable */
+   148		kbuf = req->fused_cmd_kbuf;
+   149		offset = kbuf->offset;
+   150	
+   151		if (!kbuf->bvec)
+   152			return -EINVAL;
+   153	
+   154		/* not inside the mapped region */
+   155		if (unlikely(buf < kbuf->buf || buf > kbuf->buf_end))
+   156			return -EFAULT;
+   157	
+   158		if (unlikely(len > kbuf->buf_end - buf))
+   159			return -EFAULT;
+   160	
+   161		/* don't use io_import_fixed which doesn't support multipage bvec */
+   162		offset += buf - kbuf->buf;
+   163		iov_iter_bvec(iter, rw, kbuf->bvec, kbuf->nr_bvecs, offset + len);
+   164	
+   165		if (offset)
+   166			iov_iter_advance(iter, offset);
+   167	
+   168		return 0;
+   169	}
+   170	
+   171	/*
+   172	 * Called when slave request is completed,
+   173	 *
+   174	 * Return back ownership of the fused_cmd kbuf to master request, and
+   175	 * notify master request.
+   176	 */
+ > 177	void io_fused_cmd_return_kbuf(struct io_kiocb *slave)
+   178	{
+   179		struct io_kiocb *req = slave->fused_master_req;
+   180		struct io_uring_cmd *ioucmd;
+   181	
+   182		if (unlikely(!req || !(slave->flags & REQ_F_FUSED_SLAVE)))
+   183			return;
+   184	
+   185		/* return back the buffer */
+   186		slave->fused_master_req = NULL;
+   187		ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+   188		ioucmd->fused.data.__slave = NULL;
+   189	
+   190		/* If slave OP skips CQE, return the result via master command */
+   191		if (slave->flags & REQ_F_CQE_SKIP)
+   192			ioucmd->fused.data.slave_res = slave->cqe.res;
+   193		else
+   194			ioucmd->fused.data.slave_res = 0;
+   195		io_uring_cmd_complete_in_task(ioucmd, ioucmd->task_work_cb);
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
