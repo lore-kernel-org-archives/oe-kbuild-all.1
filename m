@@ -1,41 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E135329B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 13:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718DC29B0;
+	Thu,  2 Mar 2023 13:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677764836; x=1709300836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=74uO7+KfA34hp7SC7YFi68Y3Lewfq+9vwVsNne1TVTE=;
-  b=BecyMO3HwhKpKTaIZvJcQWAR4MQ985MXfP5Ae2VtuboCwXfouEba6hZx
-   hJWhIr8ns1QIkr19bsyrJLZlOC0zR4avccAblESkcACpwWTXXXK7aMM+q
-   m1ADgz/WJz4Z8w7H673fa5PLjM4PyIt8L43DuecZI80/IyXSWiw5lX8yi
-   8NNjWhdxTFW6WJkqZHvQRxch2R2ABLKw63UYc1RJi7n1DOtljixGMyRJR
-   OgaXPPt5a4c/dxPS8vA3zOM8uulTnqvp1R2Hr3HhvIosAN2N7oiN1Bosx
-   DJgL2Kxx70rupMkswEhzIxLf/EiZe95wyQg6AHEmMxxHlSeR3SB5egjL6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="322996249"
+  t=1677765509; x=1709301509;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6uHg9EaYBY9rlbJLA2VJr0PEKNhI/2azbn3IzMCX6V8=;
+  b=UO8TWEUy63QisaMq63N4tAQZ0WxFyo9FrsRRbgJFcQK1zBWr42yrMaXB
+   UdTq1m++Ki1feyfC4MER4GIIFZsrxsxv4FSod85R2p+HpUHbCZ8oJEzrX
+   /X/vre4VbSWXAH2MAcA1PUqe8l4Vvu3muxNMF9s4enzjAB+VTabxdgm0m
+   GbKkFCc+Bh4S8McvDWT1MZirNnQSLrDowfM3QVkFXfDuF5DVNfQwUMikX
+   dRfeH6MOsrB49W3Rdb6UenVUfjoptAf9tFW4FczrBrtgwBDRfz71K2U/x
+   nfrlPv4JrlZ+A92v+kmGTfF7twC1u9AJ9rBxjcyqKPn0eNHnOYB1i5AWE
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397290252"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="322996249"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:47:16 -0800
+   d="scan'208";a="397290252"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:58:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="705251418"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="798834243"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="705251418"
+   d="scan'208";a="798834243"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Mar 2023 05:47:15 -0800
+  by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 05:58:15 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXjH8-0000VE-1w;
-	Thu, 02 Mar 2023 13:47:14 +0000
-Date: Thu, 2 Mar 2023 21:46:59 +0800
+	id 1pXjRm-0000Vk-2r;
+	Thu, 02 Mar 2023 13:58:14 +0000
+Date: Thu, 2 Mar 2023 21:57:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/io_uring.c:2932:40: error: variable 'prev' set but not used
-Message-ID: <202303022133.y7FMQVJo-lkp@intel.com>
+To: Zaid Al-Bassam <zalbassam@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 8/8] ARM: mach-virt: Select PMUv3 driver by default
+Message-ID: <202303022135.fYKzAEbH-lkp@intel.com>
+References: <20230126204444.2204061-9-zalbassam@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,75 +46,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230126204444.2204061-9-zalbassam@google.com>
 
-Hi Jens,
+Hi Zaid,
 
-First bad commit (maybe != root cause):
+I love your patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ee3f96b164688dae21e2466a57f2e806b64e8a37
-commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate directory
-date:   7 months ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20230302/202303022133.y7FMQVJo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on arm/for-next arm/fixes tip/perf/core acme/perf/core linus/master v6.2 next-20230302]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zaid-Al-Bassam/arm64-perf-Move-PMUv3-driver-to-drivers-perf/20230128-160421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230126204444.2204061-9-zalbassam%40google.com
+patch subject: [PATCH 8/8] ARM: mach-virt: Select PMUv3 driver by default
+config: arm-randconfig-r032-20230302 (https://download.01.org/0day-ci/archive/20230302/202303022135.fYKzAEbH-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ed29b0b4fd835b058ddd151c49d021e28d631ee6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ed29b0b4fd835b058ddd151c49d021e28d631ee6
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/c0aef6cbbc82a25004ef6064dfd4e13ec4d06150
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Zaid-Al-Bassam/arm64-perf-Move-PMUv3-driver-to-drivers-perf/20230128-160421
+        git checkout c0aef6cbbc82a25004ef6064dfd4e13ec4d06150
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303022133.y7FMQVJo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303022135.fYKzAEbH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   io_uring/io_uring.c: In function '__io_submit_flush_completions':
->> io_uring/io_uring.c:2932:40: error: variable 'prev' set but not used [-Werror=unused-but-set-variable]
-    2932 |         struct io_wq_work_node *node, *prev;
-         |                                        ^~~~
-   cc1: all warnings being treated as errors
+>> drivers/perf/arm_pmuv3.c:44:2: error: use of undeclared identifier 'PERF_MAP_ALL_UNSUPPORTED'
+           PERF_MAP_ALL_UNSUPPORTED,
+           ^
+>> drivers/perf/arm_pmuv3.c:59:2: error: use of undeclared identifier 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
+           PERF_CACHE_MAP_ALL_UNSUPPORTED,
+           ^
+>> drivers/perf/arm_pmuv3.c:61:3: error: call to undeclared function 'C'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           [C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+            ^
+>> drivers/perf/arm_pmuv3.c:61:5: error: use of undeclared identifier 'L1D'
+           [C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+              ^
+>> drivers/perf/arm_pmuv3.c:61:13: error: use of undeclared identifier 'OP_READ'
+           [C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+                      ^
+>> drivers/perf/arm_pmuv3.c:61:25: error: use of undeclared identifier 'RESULT_ACCESS'
+           [C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+                                  ^
+   drivers/perf/arm_pmuv3.c:62:5: error: use of undeclared identifier 'L1D'
+           [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1D_CACHE_REFILL,
+              ^
+   drivers/perf/arm_pmuv3.c:62:13: error: use of undeclared identifier 'OP_READ'
+           [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1D_CACHE_REFILL,
+                      ^
+>> drivers/perf/arm_pmuv3.c:62:25: error: use of undeclared identifier 'RESULT_MISS'
+           [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1D_CACHE_REFILL,
+                                  ^
+>> drivers/perf/arm_pmuv3.c:64:5: error: use of undeclared identifier 'L1I'
+           [C(L1I)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1I_CACHE,
+              ^
+   drivers/perf/arm_pmuv3.c:64:13: error: use of undeclared identifier 'OP_READ'
+           [C(L1I)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1I_CACHE,
+                      ^
+   drivers/perf/arm_pmuv3.c:64:25: error: use of undeclared identifier 'RESULT_ACCESS'
+           [C(L1I)][C(OP_READ)][C(RESULT_ACCESS)]  = ARMV8_PMUV3_PERFCTR_L1I_CACHE,
+                                  ^
+   drivers/perf/arm_pmuv3.c:65:5: error: use of undeclared identifier 'L1I'
+           [C(L1I)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1I_CACHE_REFILL,
+              ^
+   drivers/perf/arm_pmuv3.c:65:13: error: use of undeclared identifier 'OP_READ'
+           [C(L1I)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1I_CACHE_REFILL,
+                      ^
+   drivers/perf/arm_pmuv3.c:65:25: error: use of undeclared identifier 'RESULT_MISS'
+           [C(L1I)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_PMUV3_PERFCTR_L1I_CACHE_REFILL,
+                                  ^
+>> drivers/perf/arm_pmuv3.c:67:5: error: use of undeclared identifier 'DTLB'
+           [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_PMUV3_PERFCTR_L1D_TLB_REFILL,
+              ^
+   drivers/perf/arm_pmuv3.c:67:14: error: use of undeclared identifier 'OP_READ'
+           [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_PMUV3_PERFCTR_L1D_TLB_REFILL,
+                       ^
+   drivers/perf/arm_pmuv3.c:67:26: error: use of undeclared identifier 'RESULT_MISS'
+           [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_PMUV3_PERFCTR_L1D_TLB_REFILL,
+                                   ^
+   drivers/perf/arm_pmuv3.c:68:5: error: use of undeclared identifier 'DTLB'
+           [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_PMUV3_PERFCTR_L1D_TLB,
+              ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARM_PMUV3
+   Depends on [n]: PERF_EVENTS [=y] && HW_PERF_EVENTS [=n] && (ARM [=y] && CPU_V7 [=y] || ARM64)
+   Selected by [y]:
+   - ARCH_VIRT [=y] && ARCH_MULTI_V7 [=y] && PERF_EVENTS [=y]
 
 
-vim +/prev +2932 io_uring/io_uring.c
+vim +/PERF_MAP_ALL_UNSUPPORTED +44 drivers/perf/arm_pmuv3.c
 
-7a743e225b2a9d fs/io_uring.c Pavel Begunkov 2020-03-03  2928  
-c450178d9be9dc fs/io_uring.c Pavel Begunkov 2021-09-08  2929  static void __io_submit_flush_completions(struct io_ring_ctx *ctx)
-a141dd896f544d fs/io_uring.c Jens Axboe     2021-08-12  2930  	__must_hold(&ctx->uring_lock)
-905c172f32c56f fs/io_uring.c Pavel Begunkov 2021-02-10  2931  {
-6f33b0bc4ea43f fs/io_uring.c Pavel Begunkov 2021-09-24 @2932  	struct io_wq_work_node *node, *prev;
-cd0ca2e048dc0d fs/io_uring.c Pavel Begunkov 2021-08-09  2933  	struct io_submit_state *state = &ctx->submit_state;
-905c172f32c56f fs/io_uring.c Pavel Begunkov 2021-02-10  2934  
-3d4aeb9f98058c fs/io_uring.c Pavel Begunkov 2021-11-10  2935  	if (state->flush_cqes) {
-79ebeaee8a21a0 fs/io_uring.c Jens Axboe     2021-08-10  2936  		spin_lock(&ctx->completion_lock);
-6f33b0bc4ea43f fs/io_uring.c Pavel Begunkov 2021-09-24  2937  		wq_list_for_each(node, prev, &state->compl_reqs) {
-6f33b0bc4ea43f fs/io_uring.c Pavel Begunkov 2021-09-24  2938  			struct io_kiocb *req = container_of(node, struct io_kiocb,
-6f33b0bc4ea43f fs/io_uring.c Pavel Begunkov 2021-09-24  2939  						    comp_list);
-5182ed2e332e8e fs/io_uring.c Pavel Begunkov 2021-06-26  2940  
-f43de1f88841d5 fs/io_uring.c Pavel Begunkov 2022-06-15  2941  			if (!(req->flags & REQ_F_CQE_SKIP))
-91ef75a7db0d08 fs/io_uring.c Pavel Begunkov 2022-06-15  2942  				__io_fill_cqe_req(ctx, req);
-905c172f32c56f fs/io_uring.c Pavel Begunkov 2021-02-10  2943  		}
-3d4aeb9f98058c fs/io_uring.c Pavel Begunkov 2021-11-10  2944  
-905c172f32c56f fs/io_uring.c Pavel Begunkov 2021-02-10  2945  		io_commit_cqring(ctx);
-79ebeaee8a21a0 fs/io_uring.c Jens Axboe     2021-08-10  2946  		spin_unlock(&ctx->completion_lock);
-905c172f32c56f fs/io_uring.c Pavel Begunkov 2021-02-10  2947  		io_cqring_ev_posted(ctx);
-3d4aeb9f98058c fs/io_uring.c Pavel Begunkov 2021-11-10  2948  		state->flush_cqes = false;
-3d4aeb9f98058c fs/io_uring.c Pavel Begunkov 2021-11-10  2949  	}
-5182ed2e332e8e fs/io_uring.c Pavel Begunkov 2021-06-26  2950  
-1cce17aca621c3 fs/io_uring.c Pavel Begunkov 2021-09-24  2951  	io_free_batch_list(ctx, state->compl_reqs.first);
-6f33b0bc4ea43f fs/io_uring.c Pavel Begunkov 2021-09-24  2952  	INIT_WQ_LIST(&state->compl_reqs);
-7a743e225b2a9d fs/io_uring.c Pavel Begunkov 2020-03-03  2953  }
-7a743e225b2a9d fs/io_uring.c Pavel Begunkov 2020-03-03  2954  
-
-:::::: The code at line 2932 was first introduced by commit
-:::::: 6f33b0bc4ea43f5c5ce7b7c9ab66051f80837862 io_uring: use slist for completion batching
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+62a4dda9d63a10 arch/arm64/kernel/perf_event.c Mark Rutland  2015-10-02  37  
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  38  /*
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  39   * ARMv8 Architectural defined events, not all of these may
+342e53bd8548e0 arch/arm64/kernel/perf_event.c Will Deacon   2018-10-05  40   * be supported on any given implementation. Unsupported events will
+342e53bd8548e0 arch/arm64/kernel/perf_event.c Will Deacon   2018-10-05  41   * be disabled at run-time based on the PMCEID registers.
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  42   */
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  43  static const unsigned armv8_pmuv3_perf_map[PERF_COUNT_HW_MAX] = {
+ae2fb7ece973f0 arch/arm64/kernel/perf_event.c Mark Rutland  2015-07-21 @44  	PERF_MAP_ALL_UNSUPPORTED,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  45  	[PERF_COUNT_HW_CPU_CYCLES]		= ARMV8_PMUV3_PERFCTR_CPU_CYCLES,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  46  	[PERF_COUNT_HW_INSTRUCTIONS]		= ARMV8_PMUV3_PERFCTR_INST_RETIRED,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  47  	[PERF_COUNT_HW_CACHE_REFERENCES]	= ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  48  	[PERF_COUNT_HW_CACHE_MISSES]		= ARMV8_PMUV3_PERFCTR_L1D_CACHE_REFILL,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  49  	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS]	= ARMV8_PMUV3_PERFCTR_PC_WRITE_RETIRED,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  50  	[PERF_COUNT_HW_BRANCH_MISSES]		= ARMV8_PMUV3_PERFCTR_BR_MIS_PRED,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  51  	[PERF_COUNT_HW_BUS_CYCLES]		= ARMV8_PMUV3_PERFCTR_BUS_CYCLES,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  52  	[PERF_COUNT_HW_STALLED_CYCLES_FRONTEND]	= ARMV8_PMUV3_PERFCTR_STALL_FRONTEND,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  53  	[PERF_COUNT_HW_STALLED_CYCLES_BACKEND]	= ARMV8_PMUV3_PERFCTR_STALL_BACKEND,
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  54  };
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  55  
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  56  static const unsigned armv8_pmuv3_perf_cache_map[PERF_COUNT_HW_CACHE_MAX]
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  57  						[PERF_COUNT_HW_CACHE_OP_MAX]
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  58  						[PERF_COUNT_HW_CACHE_RESULT_MAX] = {
+ae2fb7ece973f0 arch/arm64/kernel/perf_event.c Mark Rutland  2015-07-21 @59  	PERF_CACHE_MAP_ALL_UNSUPPORTED,
+ae2fb7ece973f0 arch/arm64/kernel/perf_event.c Mark Rutland  2015-07-21  60  
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21 @61  	[C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_L1D_CACHE,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21 @62  	[C(L1D)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_L1D_CACHE_REFILL,
+ae2fb7ece973f0 arch/arm64/kernel/perf_event.c Mark Rutland  2015-07-21  63  
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14 @64  	[C(L1I)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_L1I_CACHE,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  65  	[C(L1I)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_L1I_CACHE_REFILL,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  66  
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14 @67  	[C(DTLB)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_L1D_TLB_REFILL,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  68  	[C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_L1D_TLB,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  69  
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  70  	[C(ITLB)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_L1I_TLB_REFILL,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  71  	[C(ITLB)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_L1I_TLB,
+236b9b91cd1255 arch/arm64/kernel/perf_event.c Jeremy Linton 2016-09-14  72  
+ffdbd3d83553be arch/arm64/kernel/perf_event.c Leo Yan       2020-08-11  73  	[C(LL)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_LL_CACHE_MISS_RD,
+ffdbd3d83553be arch/arm64/kernel/perf_event.c Leo Yan       2020-08-11  74  	[C(LL)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_LL_CACHE_RD,
+ffdbd3d83553be arch/arm64/kernel/perf_event.c Leo Yan       2020-08-11  75  
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  76  	[C(BPU)][C(OP_READ)][C(RESULT_ACCESS)]	= ARMV8_PMUV3_PERFCTR_BR_PRED,
+03598fdbc9deae arch/arm64/kernel/perf_event.c Ashok Kumar   2016-04-21  77  	[C(BPU)][C(OP_READ)][C(RESULT_MISS)]	= ARMV8_PMUV3_PERFCTR_BR_MIS_PRED,
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  78  };
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon   2012-03-05  79  
 
 -- 
 0-DAY CI Kernel Test Service
