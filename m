@@ -1,50 +1,44 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D729B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 13:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE1E29B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 13:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677763579; x=1709299579;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RzKZOO3pMAqixUGQg3dAVwPRKWwUHbpqsY29JJ0g2mY=;
-  b=CzqzGO4iJzyySqK8AbNxoMOgsqGgkGm7nLbf5JM1wTg6f+Quw4y7tHdh
-   fDUwSqYmfhHuA5Hsr1AvCxiNesml69rPxH4u4DZdwjVvhjwKtlUXRBXQt
-   g8RgdoQGLRPklZ0JFuxvYoWnx9Z7SxmLU/SO87y1M6f3CSoUmSkqK2l2g
-   zqcgLHigTz8wbBRG5RkdjIYKRJ2AiDefUpXw6+8JVJw9w6ncZgV2ZwoXF
-   alWjcbdt+MCyBh56s0wpRwsykpi1i0L1G9sgsvwPaa+r4Z0Dw0ZeC0pRz
-   Jy30kRhS8iP7eYpv+UCE2VhdAhouBL2v56yjI71iqRL2J+noLtk5mY09s
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="332200102"
+  t=1677764237; x=1709300237;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RnTHuZr+ipqQoQUE929iLZAjFtSYJisK/hmMy5yawAA=;
+  b=m+SMzAshPqS9Iq2edsRHdBAcTPjwRbrg/UPD8bNhe0RwrvLopXi4kcQr
+   A1Cir7xpy7UUTo5SUFmZFn9sK4pMYc9yRIWmJk90YUxxm/QLBUdNuH/kl
+   9lgHfOhwjc0preg1Jf3+uqQR8Ak0qnwBZsSkl6RGGihElf8FL33fRIHG4
+   h75iMXmWpM3vr9tz1NCxXY6sxQrVj/In1NsS2ToxEm4CYIr8ySIS5Apq6
+   WvsY2waUxwbYDF9UHL/phoPpSSvnqj4vgxQv+3fzVB02tuhrHYEBHdlVh
+   RQMTGbo/7tNr4reChGjmdgwAZOGNy7Ik4bbiNQilQWK2vImkFzVelIyd9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="332202145"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="332200102"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:26:18 -0800
+   d="scan'208";a="332202145"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:37:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674952833"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="668230406"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="674952833"
+   d="scan'208";a="668230406"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Mar 2023 05:26:14 -0800
+  by orsmga007.jf.intel.com with ESMTP; 02 Mar 2023 05:37:14 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXiwo-0000UZ-0P;
-	Thu, 02 Mar 2023 13:26:14 +0000
-Date: Thu, 2 Mar 2023 21:26:09 +0800
+	id 1pXj7S-0000Uk-0v;
+	Thu, 02 Mar 2023 13:37:14 +0000
+Date: Thu, 2 Mar 2023 21:36:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, horia.geanta@nxp.com,
-	pankaj.gupta@nxp.com, gaurav.jain@nxp.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, kernel@pengutronix.de, stefan@agner.ch,
-	linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 7/9] dt-bindings: crypto: drop fsl-sec4 txt binding
-Message-ID: <202303022114.lkxW64dk-lkp@intel.com>
-References: <20230301015702.3388458-8-peng.fan@oss.nxp.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android-4.19-stable
+ 543/9999] drivers/gpu/drm/drm_dp_mst_topology.c:1843
+ drm_dp_mst_update_dsc_info() warn: inconsistent indenting
+Message-ID: <202303022122.bLjTQeQ9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,40 +47,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230301015702.3388458-8-peng.fan@oss.nxp.com>
 
-Hi Peng,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master shawnguo/for-next linus/master v6.2 next-20230302]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/ARM-dts-vfxxx-drop-the-number-after-jr/20230301-095526
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20230301015702.3388458-8-peng.fan%40oss.nxp.com
-patch subject: [PATCH 7/9] dt-bindings: crypto: drop fsl-sec4 txt binding
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/be7a2d4765563d62ace0128d9497c0fbef9ffd1b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Peng-Fan-OSS/ARM-dts-vfxxx-drop-the-number-after-jr/20230301-095526
-        git checkout be7a2d4765563d62ace0128d9497c0fbef9ffd1b
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android-4.19-stable
+head:   ef8b9b38090e63de841d55b568aa5f60c587f14c
+commit: b572376bedc67f334d005dabd7727dd318eeba44 [543/9999] ANDROID: GKI: Add 'dsc_info' to struct drm_dp_mst_port
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230302/202303022122.bLjTQeQ9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303022114.lkxW64dk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303022122.bLjTQeQ9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/drm_dp_mst_topology.c:1843 drm_dp_mst_update_dsc_info() warn: inconsistent indenting
 
->> Warning: Documentation/devicetree/bindings/input/snvs-pwrkey.txt references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
->> Warning: Documentation/devicetree/bindings/rtc/snvs-rtc.txt references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+vim +1843 drivers/gpu/drm/drm_dp_mst_topology.c
+
+  1830	
+  1831	int drm_dp_mst_update_dsc_info(struct drm_dp_mst_topology_mgr *mgr,
+  1832			struct drm_dp_mst_port *port,
+  1833			struct drm_dp_mst_dsc_info *dsc_info)
+  1834	{
+  1835		if (!dsc_info)
+  1836			return -EINVAL;
+  1837	
+  1838		port = drm_dp_get_validated_port_ref(mgr, port);
+  1839		if (!port)
+  1840			return -EINVAL;
+  1841	
+  1842		memcpy(&port->dsc_info, dsc_info, sizeof(struct drm_dp_mst_dsc_info));
+> 1843			drm_dp_put_port(port);
+  1844	
+  1845		return 0;
+  1846	}
+  1847	EXPORT_SYMBOL_GPL(drm_dp_mst_update_dsc_info);
+  1848	
 
 -- 
 0-DAY CI Kernel Test Service
