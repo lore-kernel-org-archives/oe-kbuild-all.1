@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5FF10FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 19:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E351EA938
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 19:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677784654; x=1709320654;
+  t=1677787053; x=1709323053;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BtTu9ds3wetZTvRYG6sxH+PJHOUuXieapsM5mCyyM1o=;
-  b=QQfzoff1O7m4updnJsNCWN+DKCe62453Lg3D8Tu6lWfaHEq5PznUblwy
-   9qPzMAuB/CxqAC4gNR8tPUD05fUPNvwJsYi2X0LwBonezi5tXp+2HrTIc
-   1ovu5d8KriUfUb5FtEwrnhsVQ7v9UTCOyJBC0o1VLenvs7Hzoe889WUtN
-   YJI0oBGlKaTYh7YIGXH2fzshd5NCMXjQf7mKVIN9DvAAVsk6jY2AqQOFb
-   ruOuCT3nCzZs0+edFOPpUkvC1QcYlxAHVLWwkqRmiJpdNP+h+3HpRnSQH
-   8btj66XjshErjG6OrWpdgajNFr7whf82Xr32iCzQER0VglTQt23FMaEYN
+  bh=lBxY0q9eNWgnI2p2AAUp/2Pc1GBWsHqjfV+xSiOea68=;
+  b=hI57FMj0RhDnB1ggQvnI+BVhy1RX3TN3HFQDJRzmVQY4claNXNhQw7lH
+   tW4giKwFgp1cRHL5MXlW1cN5AIGssBopol7x5pG9FcpWw52wJq8d3HqAO
+   DzMNH6tLlo44bFVEqDiqc4FfaVzlJerajxeE0M/1pCrgHNYAa368T3/Vc
+   nxWHU66X9s/YYLUtHz9GEgqLDBJfaNqnT3fBzb5BNvzAFDe7lNFz0zIeP
+   uV+86DN6AziF+I8i3uXF5NA6MJGEWkke7F8g6HWwl0KgZH7n2DL8sXbwR
+   HRQK/qW6SH2Y9K/CMVobne6LmuMCVemwbWWiMXDcH9ibkx1X6d4Tw5eSf
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="337140602"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397427848"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="337140602"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 11:17:31 -0800
+   d="scan'208";a="397427848"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 11:57:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="1004267074"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="677360740"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="1004267074"
+   d="scan'208";a="677360740"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Mar 2023 11:17:30 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 02 Mar 2023 11:57:32 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXoQj-0000o2-0x;
-	Thu, 02 Mar 2023 19:17:29 +0000
-Date: Fri, 3 Mar 2023 03:16:31 +0800
+	id 1pXp3T-0000qU-18;
+	Thu, 02 Mar 2023 19:57:31 +0000
+Date: Fri, 3 Mar 2023 03:57:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-5.10.y 261/658] ld:
- warning: orphan section `.debug_rnglists' from `fs/erofs/pcpubuf.o' being
- placed in section `.debug_rnglists'
-Message-ID: <202303030314.a6ZHPE2c-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 1/11]
+ drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c:1126:6: error: redefinition
+ of 'iwl_xvt_lari_cfg'
+Message-ID: <202303030359.mg2CQRMO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,232 +48,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Gao,
+Hi Abhishek,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-5.10.y
-head:   96c28582d8552c93401eab0b17b0e38a698d6db5
-commit: f1f52c7608b860a80dcec3dcfcc0861e5aaf95d3 [261/658] erofs: introduce multipage per-CPU buffers
-config: i386-randconfig-a014 (https://download.01.org/0day-ci/archive/20230303/202303030314.a6ZHPE2c-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   a82854859f6034582c2249515df1f786122df40b
+commit: 91a70c368104217f438758873200771879116f92 [1/11] CHROMIUM: driver:  Support iwl7000 driver on v6.1
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20230303/202303030359.mg2CQRMO-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common upstream-f2fs-stable-linux-5.10.y
-        git checkout f1f52c7608b860a80dcec3dcfcc0861e5aaf95d3
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 91a70c368104217f438758873200771879116f92
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=um olddefconfig
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303030314.a6ZHPE2c-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303030359.mg2CQRMO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/dir.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/dir.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/xattr.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/xattr.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/glock.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/glock.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/glops.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/glops.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/log.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/log.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/lops.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/lops.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/main.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/main.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/meta_io.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/meta_io.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/aops.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/aops.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/dentry.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/dentry.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/export.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/export.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/file.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/file.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/ops_fstype.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/ops_fstype.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/inode.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/inode.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/quota.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/quota.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/recovery.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/recovery.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/rgrp.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/rgrp.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/super.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/super.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/sys.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/sys.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/trans.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/trans.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/gfs2/util.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/gfs2/util.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/dir.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/dir.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/file.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/file.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/inode.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/inode.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/namei.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/namei.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/hash.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/hash.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/super.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/super.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/inline.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/inline.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/checkpoint.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/checkpoint.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/gc.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/gc.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/data.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/data.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/node.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/node.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/segment.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/segment.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/recovery.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/recovery.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/shrinker.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/shrinker.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/extent_cache.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/extent_cache.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/sysfs.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/sysfs.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/xattr.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/xattr.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/acl.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/acl.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/verity.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/verity.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/f2fs/compress.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/f2fs/compress.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/efivarfs/inode.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/efivarfs/inode.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/efivarfs/file.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/efivarfs/file.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/efivarfs/super.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/efivarfs/super.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/super.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/super.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/inode.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/inode.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/data.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/data.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/namei.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/namei.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/dir.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/dir.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/utils.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/utils.o' being placed in section `.debug_line_str'
->> ld: warning: orphan section `.debug_rnglists' from `fs/erofs/pcpubuf.o' being placed in section `.debug_rnglists'
->> ld: warning: orphan section `.debug_line_str' from `fs/erofs/pcpubuf.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/decompressor.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/decompressor.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/zmap.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/zmap.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `fs/erofs/zdata.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `fs/erofs/zdata.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/util.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/util.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/msgutil.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/msgutil.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/msg.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/msg.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/sem.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/sem.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/shm.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/shm.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/syscall.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/syscall.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `ipc/ipc_sysctl.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `ipc/ipc_sysctl.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/gc.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/gc.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/key.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/key.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/keyring.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/keyring.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/keyctl.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/keyctl.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/permission.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/process_keys.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/process_keys.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/request_key.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/request_key.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/request_key_auth.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/request_key_auth.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/user_defined.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/user_defined.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/proc.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/proc.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/sysctl.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/keyctl_pkey.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/keyctl_pkey.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/encrypted-keys/encrypted.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/encrypted-keys/encrypted.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/keys/encrypted-keys/ecryptfs_format.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/keys/encrypted-keys/ecryptfs_format.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/commoncap.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/commoncap.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/min_addr.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/min_addr.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/security.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/security.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/lsm_audit.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/lsm_audit.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/device_cgroup.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/device_cgroup.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `security/integrity/iint.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `security/integrity/iint.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/api.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/api.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/cipher.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/cipher.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/compress.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/memneq.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/algapi.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/algapi.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/scatterwalk.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/scatterwalk.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/proc.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/proc.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/aead.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/aead.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/geniv.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/geniv.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/skcipher.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/skcipher.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/ahash.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/ahash.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/shash.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/shash.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/akcipher.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/akcipher.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/kpp.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/kpp.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/rsapubkey.asn1.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/rsaprivkey.asn1.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/rsa.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/rsa.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/rsa_helper.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/rsa-pkcs1pad.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/rsa-pkcs1pad.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_line_str' from `crypto/sm2signature.asn1.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/sm2.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/sm2.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/acompress.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/acompress.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/scompress.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/scompress.o' being placed in section `.debug_line_str'
-   ld: warning: orphan section `.debug_rnglists' from `crypto/algboss.o' being placed in section `.debug_rnglists'
-   ld: warning: orphan section `.debug_line_str' from `crypto/algboss.o' being placed in section `.debug_line_str'
+>> drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c:1126:6: error: redefinition of 'iwl_xvt_lari_cfg'
+    1126 | void iwl_xvt_lari_cfg(struct iwl_xvt *xvt)
+         |      ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c:940:6: note: previous definition of 'iwl_xvt_lari_cfg' with type 'void(struct iwl_xvt *)'
+     940 | void iwl_xvt_lari_cfg(struct iwl_xvt *xvt)
+         |      ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c: In function 'iwl_xvt_lari_cfg':
+>> drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c:1136:37: error: 'iwl_guid' undeclared (first use in this function); did you mean 'iwl_sku_id'?
+    1136 |                                    &iwl_guid, &value);
+         |                                     ^~~~~~~~
+         |                                     iwl_sku_id
+   drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c:1136:37: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/iwl_xvt_lari_cfg +1126 drivers/net/wireless/iwl7000/iwlwifi/xvt/xvt.c
+
+04073ce5ea4665 Johannes Berg 2023-01-17  1125  
+04073ce5ea4665 Johannes Berg 2023-01-17 @1126  void iwl_xvt_lari_cfg(struct iwl_xvt *xvt)
+04073ce5ea4665 Johannes Berg 2023-01-17  1127  {
+04073ce5ea4665 Johannes Berg 2023-01-17  1128  	int ret;
+04073ce5ea4665 Johannes Berg 2023-01-17  1129  	u32 value;
+04073ce5ea4665 Johannes Berg 2023-01-17  1130  	struct iwl_lari_config_change_cmd_v6 cmd = {};
+04073ce5ea4665 Johannes Berg 2023-01-17  1131  
+04073ce5ea4665 Johannes Berg 2023-01-17  1132  	cmd.config_bitmap = iwl_acpi_get_lari_config_bitmap(&xvt->fwrt);
+04073ce5ea4665 Johannes Berg 2023-01-17  1133  
+04073ce5ea4665 Johannes Berg 2023-01-17  1134  	ret = iwl_acpi_get_dsm_u32(xvt->fwrt.dev, 0,
+04073ce5ea4665 Johannes Berg 2023-01-17  1135  				   DSM_FUNC_ENABLE_UNII4_CHAN,
+04073ce5ea4665 Johannes Berg 2023-01-17 @1136  				   &iwl_guid, &value);
+
+:::::: The code at line 1126 was first introduced by commit
+:::::: 04073ce5ea4665f3505a8e9b085d06856f2a81e4 CHROMIUM: iwl7000: add driver
+
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Gregory Greenman <gregory.greenman@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
