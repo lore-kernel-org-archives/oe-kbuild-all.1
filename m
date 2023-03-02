@@ -1,55 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33617EA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 02:13:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA854EA1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 02:22:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677723182; x=1709259182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8DgzvjFhyEWvVKzH0IsTQ/56HfCQ8NNJBH4SKCM7ZyY=;
-  b=LlOTyFJpQuw+I62VF19D9it22r8938irKdw4tVuMmuz79V2IUNb/DZog
-   ZzEEoIHcpbLvc7Q66fcGHmEVLVao5cYRdEawHZwAhFLqv9QqQAOGfKQK3
-   MKZNXvlJuYhqRP/acO0Wlel2t+RKIHUFCGty/rsfCzXC3lsgxn7zvW1nx
-   Se81mRtoTz51MNVclaRPX5xOxV/fqSz/7tREOZ2FtsPXySgWn86AbTNvx
-   j3CAdxqCmmkDIUGTG4ZYlq4NBuZvZBjMIiwqnnLpblzGbyFI1lcAiK1iA
-   BTm5BXnq8kR7pPm/H7KbzzxjBmlR+0rUaHi48rwuk0cTyYPPwHoV6hZWe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="318391863"
+  t=1677723777; x=1709259777;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AugiYgNvjNAfxp545I5PA2WosEytyoqjEVqIoQOMTe0=;
+  b=oJIBQQ84uii23qMCg7XsAF/1zF6OK4v0SAZ7I0jrn1j/uuIum5X8IRGy
+   idbUm/2QuPE8hEv5dPygU7OKNeIz1rvXxr6Qb9bqFqMfYny17DNtiwQmW
+   GSVVBQkcLPKz4q/imhrwLxjCp0ZdFWkGwvbJwz1mvK0A2pX2AFWIZNQvp
+   TgTvL3a6IIinLo/m1GrGXgrsQi7X7aDvuzhrgJhBY/jBUfE+lrCTb7R+z
+   Wxy+J2men6z3ar9mYZrlR/I3tcttEwFT1+4rxbR+sED+nzBMjPjyRlEOf
+   fOH9uNAhdQyfXk+XLeuUAW8mGQGGTmPZ2xlvUUHLwUJoBz7E8Gw0jhZdL
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="332071509"
 X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
-   d="scan'208";a="318391863"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 18:13:01 -0800
+   d="scan'208";a="332071509"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 18:22:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="676998932"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="705078325"
 X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
-   d="scan'208";a="676998932"
+   d="scan'208";a="705078325"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Mar 2023 18:12:55 -0800
+  by orsmga008.jf.intel.com with ESMTP; 01 Mar 2023 18:22:56 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXYRC-00004l-33;
-	Thu, 02 Mar 2023 02:12:54 +0000
-Date: Thu, 2 Mar 2023 10:11:58 +0800
+	id 1pXYat-00005F-0u;
+	Thu, 02 Mar 2023 02:22:55 +0000
+Date: Thu, 2 Mar 2023 10:22:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?B?WmHFpW92acSN?= <m.zatovic1@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-	airlied@redhat.com, dipenp@nvidia.com, treding@nvidia.com,
-	mwen@igalia.com, fmdefrancesco@gmail.com, arnd@arndb.de,
-	bvanassche@acm.org, ogabbay@kernel.org, axboe@kernel.dk,
-	mathieu.poirier@linaro.org, linux@zary.sk, masahiroy@kernel.org,
-	yangyicong@hisilicon.com, dan.j.williams@intel.com,
-	jacek.lawrynowicz@linux.intel.com, benjamin.tissoires@redhat.com,
-	devicetree@vger.kernel.org, furong.zhou@linux.intel.com,
-	andriy.shevchenko@intel.com, linus.walleij@linaro.org,
-	Martin =?utf-8?B?WmHFpW92acSN?= <m.zatovic1@gmail.com>
-Subject: Re: [PATCHv3 4/4] wiegand: add Wiegand GPIO bitbanged controller
- driver
-Message-ID: <202303020937.pxOPT5nt-lkp@intel.com>
-References: <20230301142835.19614-5-m.zatovic1@gmail.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.1 326/689]
+ drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for
+ 'qla_get_iocbs_resource'
+Message-ID: <202303021026.XS1e569V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,219 +46,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230301142835.19614-5-m.zatovic1@gmail.com>
 
-Hi Martin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.2 next-20230301]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Za-ovi/dt-bindings-wiegand-add-Wiegand-controller-common-properties/20230301-223030
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230301142835.19614-5-m.zatovic1%40gmail.com
-patch subject: [PATCHv3 4/4] wiegand: add Wiegand GPIO bitbanged controller driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230302/202303020937.pxOPT5nt-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
+head:   80441c75a39f1387a818b01ddfbda89ec92c01e0
+commit: 4da9abb962636f67cb626c97110d6d4060c4bd53 [326/689] scsi: qla2xxx: Fix exchange oversubscription for management commands
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230302/202303021026.XS1e569V-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/641c36b9878a19ea4977f0e14df22c7475b423df
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Martin-Za-ovi/dt-bindings-wiegand-add-Wiegand-controller-common-properties/20230301-223030
-        git checkout 641c36b9878a19ea4977f0e14df22c7475b423df
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=4da9abb962636f67cb626c97110d6d4060c4bd53
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-6.1
+        git checkout 4da9abb962636f67cb626c97110d6d4060c4bd53
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/scsi/qla2xxx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303020937.pxOPT5nt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303021026.XS1e569V-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/wiegand/wiegand-gpio.c:50:9: warning: no previous prototype for 'payload_len_show' [-Wmissing-prototypes]
-      50 | ssize_t payload_len_show(struct device *dev, struct device_attribute *attr, char *buf)
-         |         ^~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:58:9: warning: no previous prototype for 'payload_len_store' [-Wmissing-prototypes]
-      58 | ssize_t payload_len_store(struct device *dev, struct device_attribute *attr, const char *buf,
-         |         ^~~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:81:6: warning: no previous prototype for 'wiegand_gpio_send_bit' [-Wmissing-prototypes]
-      81 | void wiegand_gpio_send_bit(struct wiegand_gpio *wiegand_gpio, bool value, bool last)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/wiegand/wiegand-gpio.c:195:5: warning: no previous prototype for 'wiegand_gpio_transfer_message' [-Wmissing-prototypes]
-     195 | int wiegand_gpio_transfer_message(struct wiegand_device *dev, u8 *message, u8 msg_bitlen)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for 'qla_get_iocbs_resource' [-Wmissing-prototypes]
+    3820 | int qla_get_iocbs_resource(struct srb *sp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/payload_len_show +50 drivers/wiegand/wiegand-gpio.c
+vim +/qla_get_iocbs_resource +3820 drivers/scsi/qla2xxx/qla_iocb.c
 
-    46	
-    47	/*
-    48	 * Attribute file for setting payload length of Wiegand messages.
-    49	 */
-  > 50	ssize_t payload_len_show(struct device *dev, struct device_attribute *attr, char *buf)
-    51	{
-    52		struct wiegand_gpio *wiegand_gpio = dev_get_drvdata(dev);
-    53		struct wiegand_controller *ctlr = wiegand_gpio->ctlr;
-    54	
-    55		return sysfs_emit(buf, "%u\n", ctlr->payload_len);
-    56	}
-    57	
-  > 58	ssize_t payload_len_store(struct device *dev, struct device_attribute *attr, const char *buf,
-    59				size_t count)
-    60	{
-    61		struct wiegand_gpio *wiegand_gpio = dev_get_drvdata(dev);
-    62		struct wiegand_controller *ctlr = wiegand_gpio->ctlr;
-    63	
-    64		return store_ulong(&(ctlr->payload_len), buf, count, WIEGAND_MAX_PAYLEN_BYTES * 8);
-    65	}
-    66	DEVICE_ATTR_RW(payload_len);
-    67	
-    68	static struct attribute *wiegand_gpio_attrs[] = {
-    69		&dev_attr_payload_len.attr,
-    70		NULL,
-    71	};
-    72	
-    73	ATTRIBUTE_GROUPS(wiegand_gpio);
-    74	
-    75	/*
-    76	 * To send a bit of value 1 following the wiegand protocol, one must set
-    77	 * the wiegand_data_hi to low for the duration of pulse. Similarly to send
-    78	 * a bit of value 0, the wiegand_data_lo is set to low for pulse duration.
-    79	 * This way the two lines are never low at the same time.
-    80	 */
-  > 81	void wiegand_gpio_send_bit(struct wiegand_gpio *wiegand_gpio, bool value, bool last)
-    82	{
-    83		u32 pulse_len = wiegand_gpio->ctlr->pulse_len;
-    84		u32 interval_len = wiegand_gpio->ctlr->interval_len;
-    85		u32 frame_gap = wiegand_gpio->ctlr->frame_gap;
-    86		struct gpio_desc *gpio = value ? wiegand_gpio->gpio_data_hi : wiegand_gpio->gpio_data_lo;
-    87	
-    88		gpiod_set_value_cansleep(gpio, 0);
-    89		udelay(pulse_len);
-    90		gpiod_set_value_cansleep(gpio, 1);
-    91	
-    92		if (last)
-    93			udelay(frame_gap - pulse_len);
-    94		else
-    95			udelay(interval_len - pulse_len);
-    96	}
-    97	
-    98	/* This function is used for writing from file in dev directory */
-    99	static int wiegand_gpio_write_by_bits(struct wiegand_gpio *wiegand_gpio, u16 bitlen)
-   100	{
-   101		size_t i;
-   102		bool bit_value, is_last_bit;
-   103	
-   104		for (i = 0; i < bitlen; i++) {
-   105			bit_value = ((wiegand_gpio->data[i / 8] >> (7 - (i % 8))) & 0x01);
-   106			is_last_bit = (i + 1) == bitlen;
-   107			wiegand_gpio_send_bit(wiegand_gpio, bit_value, is_last_bit);
-   108		}
-   109	
-   110		return 0;
-   111	}
-   112	
-   113	static ssize_t wiegand_gpio_get_user_data(struct wiegand_gpio *wiegand_gpio, char __user const *buf,
-   114						  size_t len)
-   115	{
-   116		size_t rc;
-   117	
-   118		if (len > WIEGAND_MAX_PAYLEN_BYTES)
-   119			return -EBADMSG;
-   120	
-   121		rc = copy_from_user(&wiegand_gpio->data[0], buf, WIEGAND_MAX_PAYLEN_BYTES);
-   122		if (rc < 0)
-   123			return rc;
-   124	
-   125		return len;
-   126	}
-   127	
-   128	static int wiegand_gpio_frelease(struct inode *ino, struct file *filp)
-   129	{
-   130		struct wiegand_gpio_instance *info = filp->private_data;
-   131		struct wiegand_gpio *wiegand_gpio = info->dev;
-   132	
-   133		mutex_lock(&wiegand_gpio->mutex);
-   134		info->flags = 0;
-   135		mutex_unlock(&wiegand_gpio->mutex);
-   136	
-   137		kfree(info);
-   138	
-   139		return 0;
-   140	}
-   141	
-   142	static ssize_t wiegand_gpio_fwrite(struct file *filp, char __user const *buf, size_t len,
-   143					loff_t *offset)
-   144	{
-   145		struct wiegand_gpio_instance *info = filp->private_data;
-   146		struct wiegand_gpio *wiegand_gpio = info->dev;
-   147		u32 msg_length = wiegand_gpio->ctlr->payload_len;
-   148		int rc;
-   149	
-   150		if (buf == NULL || len == 0 || len * 8 < msg_length)
-   151			return -EINVAL;
-   152	
-   153		rc = wiegand_gpio_get_user_data(wiegand_gpio, buf, len);
-   154		if (rc < 0)
-   155			return rc;
-   156	
-   157		wiegand_gpio_write_by_bits(wiegand_gpio, msg_length);
-   158	
-   159		return len;
-   160	}
-   161	
-   162	static int wiegand_gpio_fopen(struct inode *ino, struct file *filp)
-   163	{
-   164		int rc;
-   165		struct wiegand_gpio_instance *info;
-   166		struct wiegand_gpio *wiegand_gpio = container_of(filp->f_op, struct wiegand_gpio, fops);
-   167	
-   168		mutex_lock(&wiegand_gpio->mutex);
-   169	
-   170		if ((filp->f_flags & O_ACCMODE) == O_RDONLY || (filp->f_flags & O_ACCMODE) == O_RDWR) {
-   171			dev_err(wiegand_gpio->dev, "Device is write only\n");
-   172			rc = -EIO;
-   173			goto err;
-   174		}
-   175	
-   176		info = kzalloc(sizeof(*info), GFP_KERNEL);
-   177		if (!info) {
-   178			rc = -ENOMEM;
-   179			goto err;
-   180		}
-   181	
-   182		info->dev = wiegand_gpio;
-   183		info->flags = filp->f_flags;
-   184		mutex_unlock(&wiegand_gpio->mutex);
-   185	
-   186		filp->private_data = info;
-   187	
-   188		return 0;
-   189	err:
-   190		mutex_unlock(&wiegand_gpio->mutex);
-   191		return rc;
-   192	}
-   193	
-   194	/* This function is used by device drivers */
- > 195	int wiegand_gpio_transfer_message(struct wiegand_device *dev, u8 *message, u8 msg_bitlen)
-   196	{
-   197		struct wiegand_controller *ctlr = dev->controller;
-   198		struct wiegand_gpio *wiegand_gpio = wiegand_master_get_devdata(ctlr);
-   199		u8 msg_bytelength = (msg_bitlen % 8) ? (msg_bitlen / 8) + 1 : (msg_bitlen / 8);
-   200	
-   201		memcpy(wiegand_gpio->data, message, msg_bytelength);
-   202		wiegand_gpio_write_by_bits(wiegand_gpio, msg_bitlen);
-   203	
-   204		return 0;
-   205	}
-   206	
+  3819	
+> 3820	int qla_get_iocbs_resource(struct srb *sp)
+  3821	{
+  3822		bool get_exch;
+  3823		bool push_it_through = false;
+  3824	
+  3825		if (!ql2xenforce_iocb_limit) {
+  3826			sp->iores.res_type = RESOURCE_NONE;
+  3827			return 0;
+  3828		}
+  3829		sp->iores.res_type = RESOURCE_NONE;
+  3830	
+  3831		switch (sp->type) {
+  3832		case SRB_TM_CMD:
+  3833		case SRB_PRLI_CMD:
+  3834		case SRB_ADISC_CMD:
+  3835			push_it_through = true;
+  3836			fallthrough;
+  3837		case SRB_LOGIN_CMD:
+  3838		case SRB_ELS_CMD_RPT:
+  3839		case SRB_ELS_CMD_HST:
+  3840		case SRB_ELS_CMD_HST_NOLOGIN:
+  3841		case SRB_CT_CMD:
+  3842		case SRB_NVME_LS:
+  3843		case SRB_ELS_DCMD:
+  3844			get_exch = true;
+  3845			break;
+  3846	
+  3847		case SRB_FXIOCB_DCMD:
+  3848		case SRB_FXIOCB_BCMD:
+  3849			sp->iores.res_type = RESOURCE_NONE;
+  3850			return 0;
+  3851	
+  3852		case SRB_SA_UPDATE:
+  3853		case SRB_SA_REPLACE:
+  3854		case SRB_MB_IOCB:
+  3855		case SRB_ABT_CMD:
+  3856		case SRB_NACK_PLOGI:
+  3857		case SRB_NACK_PRLI:
+  3858		case SRB_NACK_LOGO:
+  3859		case SRB_LOGOUT_CMD:
+  3860		case SRB_CTRL_VP:
+  3861			push_it_through = true;
+  3862			fallthrough;
+  3863		default:
+  3864			get_exch = false;
+  3865		}
+  3866	
+  3867		sp->iores.res_type |= RESOURCE_IOCB;
+  3868		sp->iores.iocb_cnt = 1;
+  3869		if (get_exch) {
+  3870			sp->iores.res_type |= RESOURCE_EXCH;
+  3871			sp->iores.exch_cnt = 1;
+  3872		}
+  3873		if (push_it_through)
+  3874			sp->iores.res_type |= RESOURCE_FORCE;
+  3875	
+  3876		return qla_get_fw_resources(sp->qpair, &sp->iores);
+  3877	}
+  3878	
 
 -- 
 0-DAY CI Kernel Test Service
