@@ -1,45 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9D11866
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 08:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642F41C10
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 08:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677744489; x=1709280489;
+  t=1677745752; x=1709281752;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dtkzR1j0OWcU9IN7AjRBcct1vlzAWeqMnPrkscX5uUs=;
-  b=PGftZVbXjjDjUouTFJT2uKJZpJMpStDLqbQ6BL1arh3vhxB0btBrahks
-   twl8Wtwhv2i4q5Sj5iTbZTeTMZW3pSChc6J24ntVSo+zrGOX4ycGaKjRq
-   8gBiF4/UoDOj2+G7gr6E1uybdwsPGWpMuOpf7jJ7Z0qvrHneK1KCyOSEm
-   n77WUOKUCpKJcGStywiDpm2773eAJPJTkP5TPIRX6fRbn+ZJPQryB0St1
-   y+BN9uKPH32UeM8FoKAUebif5JqSDmIv3Wa+aI3zyvjjYPXffKlPsqzC/
-   me8TmDIt+DrzVsA24zTqwQeLQuTWOUegNCUIwfapnA3Qz10wWWho1I/40
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336149898"
+  bh=JbvEOgRD/9yBlnpYnj5dg0KCkibhWhc0cCGA/A13VhM=;
+  b=f3GXI2EAmdJFzvJc8WpvKDgnNh7UCv4/101CxQuM85t3BcAptL6/2Ujf
+   UidczYQG8RMi5fVMWB4GehhR663wBY+G6qtgX+HiVKuyS/9pZtdqfW3Ay
+   4IphYUYSrD+EtDjczeVGiyftZeqc+qliViP4Ay9bCIZuNAqVXOM3nvP1B
+   cgoGsFztTL9mxgMo1kngkHYCPkg8sv3Fk+9hVjpi3ozesMkbR2sblcd/z
+   xPNzjxgTNpe9QvGd2AkE4KVbszPmoDytXK2tAQZa+1ta2bRV3ESk/UWF3
+   VWNGKXnP6olSQDdENwqikEDySxzRFf82eDHTuOLgGJfUUeMFcOidErldS
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="420918894"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="336149898"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 00:08:09 -0800
+   d="scan'208";a="420918894"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 00:29:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674862510"
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="652325477"
 X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="674862510"
+   d="scan'208";a="652325477"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Mar 2023 00:08:08 -0800
+  by orsmga006.jf.intel.com with ESMTP; 02 Mar 2023 00:29:09 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXdyx-0000Kq-19;
-	Thu, 02 Mar 2023 08:08:07 +0000
-Date: Thu, 2 Mar 2023 16:07:42 +0800
+	id 1pXeJI-0000Lg-1H;
+	Thu, 02 Mar 2023 08:29:08 +0000
+Date: Thu, 2 Mar 2023 16:28:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 505/9999] timer-of.c:undefined reference to
- `of_iomap'
-Message-ID: <202303021633.9ojFTGFM-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1795/21173]
+ kernel/sched/cpupri.c:55:44: sparse: sparse: incorrect type in initializer
+ (different address spaces)
+Message-ID: <202303021651.fQRFJg8R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,34 +47,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   d383d0f28ecac0f3375bdfb9a0c4bfac979f6f8f
-commit: df04ef63347faac344e69e3c16ff20fead158dcc [505/9999] clocksource/drivers/timer-of: Check return value of of_iomap in timer_of_base_init()
-config: s390-randconfig-r025-20230227 (https://download.01.org/0day-ci/archive/20230302/202303021633.9ojFTGFM-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   8d57344e75e938637d5ef2542f57792787fbacdc
+commit: 3adfd8e344ac32845eb3c15743f90a7e3b49dcf3 [1795/21173] ANDROID: sched: avoid placing RT threads on cores handling softirqs
+config: arm64-randconfig-s041-20230302 (https://download.01.org/0day-ci/archive/20230302/202303021651.fQRFJg8R-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=df04ef63347faac344e69e3c16ff20fead158dcc
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout df04ef63347faac344e69e3c16ff20fead158dcc
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 3adfd8e344ac32845eb3c15743f90a7e3b49dcf3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303021633.9ojFTGFM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303021651.fQRFJg8R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/cpupri.c:55:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/cpupri.c:55:44: sparse:     expected struct task_struct *task
+   kernel/sched/cpupri.c:55:44: sparse:     got struct task_struct [noderef] __rcu *
 
-   s390-linux-ld: drivers/clocksource/timer-of.o: in function `timer_of_init':
->> timer-of.c:(.init.text+0x1fc): undefined reference to `of_iomap'
-   s390-linux-ld: timer-of.c:(.init.text+0x5b8): undefined reference to `iounmap'
-   s390-linux-ld: drivers/clocksource/timer-of.o: in function `timer_of_cleanup':
-   timer-of.c:(.init.text+0xb5e): undefined reference to `iounmap'
+vim +55 kernel/sched/cpupri.c
+
+    43	
+    44	#ifdef CONFIG_RT_SOFTINT_OPTIMIZATION
+    45	/**
+    46	 * drop_nopreempt_cpus - remove likely nonpreemptible cpus from the mask
+    47	 * @lowest_mask: mask with selected CPUs (non-NULL)
+    48	 */
+    49	static void
+    50	drop_nopreempt_cpus(struct cpumask *lowest_mask)
+    51	{
+    52		unsigned cpu = cpumask_first(lowest_mask);
+    53		while (cpu < nr_cpu_ids) {
+    54			/* unlocked access */
+  > 55			struct task_struct *task = READ_ONCE(cpu_rq(cpu)->curr);
+    56			if (task_may_not_preempt(task, cpu)) {
+    57				cpumask_clear_cpu(cpu, lowest_mask);
+    58			}
+    59			cpu = cpumask_next(cpu, lowest_mask);
+    60		}
+    61	}
+    62	#endif
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
