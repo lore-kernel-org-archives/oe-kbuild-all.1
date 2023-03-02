@@ -1,207 +1,146 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71772EDB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 03:53:22 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id e82so2432173ybh.9
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 01 Mar 2023 19:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677729201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=olubbFCj2I9ZqjPA3Rticc6RmZiMmVoBPM0eS4bJWP0=;
-        b=EmOSKEROBdt934bbNKEMUKIj/HI6XEus5Yilw7QAUasqhr10B5Nr+sU8unvonZHILk
-         rNAfO/a4aGJNVUMZK+xxuqXe/bZp68t0kJkdd/2wZ2vsBbd3UBKEiF6x5QjxT22g3op/
-         BXxO01Stxflg1RblCg2BSU60Kouq0Yp8khQFtLsuqXEWOJIVRzxoBfgENH12vxIch+9r
-         MazPTciYAKImZF8fYMbmXXY/6h92CxNc2gKuCwzLr3atuv9No+ox6t1iWtJrGfULz2OU
-         3cwsnD97MRZ532qDf123qeTXoTNPFzwJDBpZ8+6yML18oVwB8lW7AEKowROld/DNMmhS
-         z1kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677729201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=olubbFCj2I9ZqjPA3Rticc6RmZiMmVoBPM0eS4bJWP0=;
-        b=JUEOqK6PLQAH8LhSMp2IKNf7netclrWo5MQdi/noYBItDEhh4dOgVwBRSsnCrBOg3z
-         LA+WnnMXa2HAakiMXtmnngZvAIvXbej4ehOcoFMG86tpLZOVKXYxUIj8vtBLN6lzvbga
-         jPHPEiTYVS+3eP2CEUSDVGO/rGYP+cKVhLUf4D32dZMZZAObigJrAoOCRERkou0CAIYm
-         XDkQn2a7iHjhrbFKecZqX75bnHi9XWXgARh0MiWjDhYYPMgtrk3V3qrQoItMDMt2UA3k
-         zo9FRSx9RwbT2rC1oF4ZNZYahqmAefNR7N1tKUqreazp/z5FoFyBdc6Z2EbADdCuX2o2
-         /3vg==
-X-Gm-Message-State: AO0yUKX9wKjHs2p75Srx4b9BI3pLsxprfPEfJLoKu/S4z7YRUY8x1wWI
-	4Dt9xNBivuvbRiR7xf2v6TxmmpPGjyxV88own4k=
-X-Google-Smtp-Source: AK7set9mico0/sVjgKgDIQgvDaZig3QmtQRoC/gT8MCRlR88Hz9/Niy6rHJVBx5de5AN6cu/FZi7eOu6qCSxzzUx9mg=
-X-Received: by 2002:a05:6902:185:b0:9fe:1493:8b9 with SMTP id
- t5-20020a056902018500b009fe149308b9mr2681776ybh.8.1677729201357; Wed, 01 Mar
- 2023 19:53:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2295E10FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Mar 2023 04:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677730324; x=1709266324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=847ox5JmwIqakqmEohRlvHZExh+MdqqFhyPzvfrxUDg=;
+  b=F4sjmmydWJtxkc1PNlDbTbjD15gvA2QWV/727o2nUpGc2fPlxsszRuGy
+   d6gH3W8VyuF1ATB0dzK8tRoeLKx/37eGvnj5bsYd1OlDZkNBQGbGHgaC6
+   vRTer7qfjxHKteBlGumBNksI5Lnc7kA8FykUIEY/6H4wjdFz0rypJOxrU
+   RDvYoyDucH07EYAHIeBbuBfHWr+ajUmlk+ZkypaoFTkB/zGyyY8svbeUy
+   CMohtm/HIkcvFZN1Wh4xedGcIizqOQdZdDc3Y0C+wAdTcwt+0mi5mfAbm
+   pM/bBIuw6VVEhxhaH82P4EP7/tNxA8LdZSCQ3iv9EzYDA9WFKLMhBG7s5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336111170"
+X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
+   d="scan'208";a="336111170"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 20:12:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="707266628"
+X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
+   d="scan'208";a="707266628"
+Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 01 Mar 2023 20:12:00 -0800
+Received: from kbuild by 776573491cc5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXaIQ-0000B5-34;
+	Thu, 02 Mar 2023 04:11:58 +0000
+Date: Thu, 2 Mar 2023 12:11:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naresh Solanki <naresh.solanki@9elements.com>,
+	Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Marcello Sylvester Bauer <sylv@sylv.io>,
+	Naresh Solanki <Naresh.Solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] mfd: max597x: Add support for MAX5970 and MAX5978
+Message-ID: <202303021248.Bk9jYUb1-lkp@intel.com>
+References: <20230301091234.3159953-2-Naresh.Solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230301154953.641654-10-joannelkoong@gmail.com> <202303021152.sPWiwGYn-lkp@intel.com>
-In-Reply-To: <202303021152.sPWiwGYn-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 1 Mar 2023 19:53:10 -0800
-Message-ID: <CAJnrk1Zp=kN0KVF0tsAzdaDHVJ-vA2Z3zCiYU9v5JkGu51tx2w@mail.gmail.com>
-Subject: Re: [PATCH v13 bpf-next 09/10] bpf: Add bpf_dynptr_slice and bpf_dynptr_slice_rdwr
-To: kernel test robot <lkp@intel.com>
-Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev, martin.lau@kernel.org, 
-	andrii@kernel.org, ast@kernel.org, memxor@gmail.com, daniel@iogearbox.net, 
-	netdev@vger.kernel.org, toke@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301091234.3159953-2-Naresh.Solanki@9elements.com>
 
-On Wed, Mar 1, 2023 at 7:30=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Joanne,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/bpf-S=
-upport-sk_buff-and-xdp_buff-as-valid-kfunc-arg-types/20230301-235341
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20230301154953.641654-10-joannel=
-koong%40gmail.com
-> patch subject: [PATCH v13 bpf-next 09/10] bpf: Add bpf_dynptr_slice and b=
-pf_dynptr_slice_rdwr
-> config: microblaze-randconfig-s043-20230302 (https://download.01.org/0day=
--ci/archive/20230302/202303021152.sPWiwGYn-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 12.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://github.com/intel-lab-lkp/linux/commit/ab021cad431168baa=
-ba04ed320003be30f4deb34
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Joanne-Koong/bpf-Support-sk_buff=
--and-xdp_buff-as-valid-kfunc-arg-types/20230301-235341
->         git checkout ab021cad431168baaba04ed320003be30f4deb34
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Dmicroblaze olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Dmicroblaze SHELL=3D/bin/bash kernel/bpf/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303021152.sPWiwGYn-lkp@i=
-ntel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/bpf/helpers.c:2231:24: sparse: sparse: Using plain integer as N=
-ULL pointer
->    kernel/bpf/helpers.c:2235:24: sparse: sparse: Using plain integer as N=
-ULL pointer
->    kernel/bpf/helpers.c:2256:24: sparse: sparse: Using plain integer as N=
-ULL pointer
->    kernel/bpf/helpers.c:2305:24: sparse: sparse: Using plain integer as N=
-ULL pointer
+Hi Naresh,
 
-Argh, sorry about that. I'll submit a follow-up for returning NULL
-instead of 0.
+I love your patch! Perhaps something to improve:
 
->    kernel/bpf/helpers.c:2342:18: sparse: sparse: context imbalance in 'bp=
-f_rcu_read_lock' - wrong count at exit
->    kernel/bpf/helpers.c:2347:18: sparse: sparse: context imbalance in 'bp=
-f_rcu_read_unlock' - unexpected unlock
->
-> vim +2231 kernel/bpf/helpers.c
->
->   2195
->   2196  /**
->   2197   * bpf_dynptr_slice - Obtain a read-only pointer to the dynptr da=
-ta.
->   2198   *
->   2199   * For non-skb and non-xdp type dynptrs, there is no difference b=
-etween
->   2200   * bpf_dynptr_slice and bpf_dynptr_data.
->   2201   *
->   2202   * If the intention is to write to the data slice, please use
->   2203   * bpf_dynptr_slice_rdwr.
->   2204   *
->   2205   * The user must check that the returned pointer is not null befo=
-re using it.
->   2206   *
->   2207   * Please note that in the case of skb and xdp dynptrs, bpf_dynpt=
-r_slice
->   2208   * does not change the underlying packet data pointers, so a call=
- to
->   2209   * bpf_dynptr_slice will not invalidate any ctx->data/data_end po=
-inters in
->   2210   * the bpf program.
->   2211   *
->   2212   * @ptr: The dynptr whose data slice to retrieve
->   2213   * @offset: Offset into the dynptr
->   2214   * @buffer: User-provided buffer to copy contents into
->   2215   * @buffer__szk: Size (in bytes) of the buffer. This is the lengt=
-h of the
->   2216   * requested slice. This must be a constant.
->   2217   *
->   2218   * @returns: NULL if the call failed (eg invalid dynptr), pointer=
- to a read-only
->   2219   * data slice (can be either direct pointer to the data or a poin=
-ter to the user
->   2220   * provided buffer, with its contents containing the data, if una=
-ble to obtain
->   2221   * direct pointer)
->   2222   */
->   2223  __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *=
-ptr, u32 offset,
->   2224                                     void *buffer, u32 buffer__szk)
->   2225  {
->   2226          enum bpf_dynptr_type type;
->   2227          u32 len =3D buffer__szk;
->   2228          int err;
->   2229
->   2230          if (!ptr->data)
-> > 2231                  return 0;
->   2232
->   2233          err =3D bpf_dynptr_check_off_len(ptr, offset, len);
->   2234          if (err)
->   2235                  return 0;
->   2236
->   2237          type =3D bpf_dynptr_get_type(ptr);
->   2238
->   2239          switch (type) {
->   2240          case BPF_DYNPTR_TYPE_LOCAL:
->   2241          case BPF_DYNPTR_TYPE_RINGBUF:
->   2242                  return ptr->data + ptr->offset + offset;
->   2243          case BPF_DYNPTR_TYPE_SKB:
->   2244                  return skb_header_pointer(ptr->data, ptr->offset =
-+ offset, len, buffer);
->   2245          case BPF_DYNPTR_TYPE_XDP:
->   2246          {
->   2247                  void *xdp_ptr =3D bpf_xdp_pointer(ptr->data, ptr-=
->offset + offset, len);
->   2248                  if (xdp_ptr)
->   2249                          return xdp_ptr;
->   2250
->   2251                  bpf_xdp_copy_buf(ptr->data, ptr->offset + offset,=
- buffer, len, false);
->   2252                  return buffer;
->   2253          }
->   2254          default:
->   2255                  WARN_ONCE(true, "unknown dynptr type %d\n", type)=
-;
->   2256                  return 0;
->   2257          }
->   2258  }
->   2259
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+[auto build test WARNING on 59c54c59974649b2e7bc92faae4a21e2b2408db2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/mfd-max597x-Add-support-for-MAX5970-and-MAX5978/20230301-171527
+base:   59c54c59974649b2e7bc92faae4a21e2b2408db2
+patch link:    https://lore.kernel.org/r/20230301091234.3159953-2-Naresh.Solanki%409elements.com
+patch subject: [PATCH 2/2] mfd: max597x: Add support for MAX5970 and MAX5978
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230302/202303021248.Bk9jYUb1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/68623f7868d887a57422ce2cd6f5dc1ee1510f1e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Naresh-Solanki/mfd-max597x-Add-support-for-MAX5970-and-MAX5978/20230301-171527
+        git checkout 68623f7868d887a57422ce2cd6f5dc1ee1510f1e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/regulator/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303021248.Bk9jYUb1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/regulator/max597x-regulator.c: In function 'max597x_regulator_probe':
+   drivers/regulator/max597x-regulator.c:447:41: error: 'struct max597x_data' has no member named 'dev'
+     447 |                     devm_kzalloc(max597x->dev, sizeof(struct max597x_regulator),
+         |                                         ^~
+   drivers/regulator/max597x-regulator.c:453:39: error: 'struct max597x_data' has no member named 'regmap'
+     453 |                 data->regmap = max597x->regmap;
+         |                                       ^~
+   drivers/regulator/max597x-regulator.c:462:37: error: 'struct max597x_data' has no member named 'dev'
+     462 |                 config.dev = max597x->dev;
+         |                                     ^~
+   drivers/regulator/max597x-regulator.c:465:55: error: 'struct max597x_data' has no member named 'dev'
+     465 |                 rdev = devm_regulator_register(max597x->dev,
+         |                                                       ^~
+   In file included from include/linux/device.h:15,
+                    from drivers/regulator/max597x-regulator.c:11:
+   drivers/regulator/max597x-regulator.c:468:40: error: 'struct max597x_data' has no member named 'dev'
+     468 |                         dev_err(max597x->dev, "failed to register regulator %s\n",
+         |                                        ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/regulator/max597x-regulator.c:468:25: note: in expansion of macro 'dev_err'
+     468 |                         dev_err(max597x->dev, "failed to register regulator %s\n",
+         |                         ^~~~~~~
+   drivers/regulator/max597x-regulator.c:476:20: error: 'struct max597x_data' has no member named 'irq'
+     476 |         if (max597x->irq) {
+         |                    ^~
+   drivers/regulator/max597x-regulator.c:478:46: error: 'struct max597x_data' has no member named 'dev'
+     478 |                     max597x_setup_irq(max597x->dev, max597x->irq, rdevs, num_switches,
+         |                                              ^~
+   drivers/regulator/max597x-regulator.c:478:60: error: 'struct max597x_data' has no member named 'irq'
+     478 |                     max597x_setup_irq(max597x->dev, max597x->irq, rdevs, num_switches,
+         |                                                            ^~
+   In file included from include/linux/device.h:15,
+                    from drivers/regulator/max597x-regulator.c:11:
+   drivers/regulator/max597x-regulator.c:481:40: error: 'struct max597x_data' has no member named 'dev'
+     481 |                         dev_err(max597x->dev, "IRQ setup failed");
+         |                                        ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/regulator/max597x-regulator.c:481:25: note: in expansion of macro 'dev_err'
+     481 |                         dev_err(max597x->dev, "IRQ setup failed");
+         |                         ^~~~~~~
+   At top level:
+>> drivers/regulator/max597x-regulator.c:360:35: warning: 'max597x_regmap_config' defined but not used [-Wunused-const-variable=]
+     360 | static const struct regmap_config max597x_regmap_config = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/max597x_regmap_config +360 drivers/regulator/max597x-regulator.c
+
+38493f008deb43 Patrick Rudolph 2022-07-05  359  
+38493f008deb43 Patrick Rudolph 2022-07-05 @360  static const struct regmap_config max597x_regmap_config = {
+38493f008deb43 Patrick Rudolph 2022-07-05  361  	.reg_bits = 8,
+38493f008deb43 Patrick Rudolph 2022-07-05  362  	.val_bits = 8,
+38493f008deb43 Patrick Rudolph 2022-07-05  363  	.max_register = MAX_REGISTERS,
+38493f008deb43 Patrick Rudolph 2022-07-05  364  };
+38493f008deb43 Patrick Rudolph 2022-07-05  365  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
