@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C745C1841
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 03:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DAD1851
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 04:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677812748; x=1709348748;
+  t=1677816411; x=1709352411;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cOjizNYfnhUTV00WsRR5dA7M5+jqIWk41W0ai3uqpoE=;
-  b=WdKMcCbW9ewST0ipBaN7HXDFMdaXs5CKJYDKug7kkbzNwtNm+q9vh2Sz
-   /uhRS6o4W2qvS5xFmem+6Zn0EqQXHt3movXbZP6iwoNBGxkiyM7kNvU4Z
-   zH02saCC6Nx8CmwsD9zTIq9zQjsNujd4P6YRJOtrgrk9md46s2psKeqW7
-   1msxUgBw4hrOb7Y80VMXU6Prd7mMBFjVLgsr8fU9/7hxrPwD+YSiZjWVp
-   56yPBNpN7H9MDyKzuiudMttH2hoDrM7+xBPR1PNa1HIK7KomXNbaSPg+L
-   lNOPkWUbbbt0TJ4PKKeJd0IPZghtAwwLhfkJ5G9Dh8k+zeyCvIg98WpdI
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="314594856"
+  bh=qYTRfwcONgpLhVYWUarHWAOspAX5FtZR6SFDh2G8xn0=;
+  b=KFXCc3WVtdURdqW1+cqzMWrqGCkwm5U8VHz3K7/tCyfwGs0WHIjKQQi9
+   72nEC3Oc5rhm5hh39XLKdt7iGwStoXaQIZC3s0RWEynf7c/Ugljf1/blE
+   RKIeJXIflU1HJmMsCVhw3pZbFpFY3Hl2IXkl0JplHxygMSxe//OoXTVU1
+   Dv/ffLbYOSiLOmooBJZI4HHl7zZLiTrg4IPCaGsMXi1MOmg75qQP9rs4N
+   DBjEFwJQqBLGaDtKsqm16UbJAMo94knIfjI46V46AcRi15+RQu4QWSO0s
+   nNHXq+VJgedheZ9tmBgUl/t7239bKzX3DJJ8qO9TV6OPFEgy1B+jHyiM9
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="315350202"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="314594856"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 19:05:48 -0800
+   d="scan'208";a="315350202"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 20:06:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="705496270"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="818331364"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="705496270"
+   d="scan'208";a="818331364"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Mar 2023 19:05:47 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2023 20:06:49 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXvju-000184-1u;
-	Fri, 03 Mar 2023 03:05:46 +0000
-Date: Fri, 3 Mar 2023 11:05:18 +0800
+	id 1pXwgy-0001BE-2l;
+	Fri, 03 Mar 2023 04:06:48 +0000
+Date: Fri, 3 Mar 2023 12:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.2 41/752] Error:
- arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi:391.1-14 Label or path
- pm8998_gpios not found
-Message-ID: <202303031019.3kH6Csmn-lkp@intel.com>
+Subject: [lunn:v6.2.0-net-next-phy-leds 19/23]
+ drivers/net/phy/phy_device.c:3085:21: error: 'struct led_classdev' has no
+ member named 'hw_control_configure'
+Message-ID: <202303031243.yLsMmIu9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,31 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.2
-head:   a20fc97b4aad96c792a8fc65baf7e6ca73fad8cc
-commit: ccdd31f06e524b6f043f3fb82f81a468555baa48 [41/752] arm64: dts: qcom: sdm845-tama: Add volume up and camera GPIO keys
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303031019.3kH6Csmn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/lunn/linux.git v6.2.0-net-next-phy-leds
+head:   754bf629fa1ea70b4e2b779ac7955e744ae1608d
+commit: 38890be32bc8bf8df585618b174f4c3274786f9f [19/23] net: phy: phy_device: Call into the PHY driver to set LED offload
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230303/202303031243.yLsMmIu9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=ccdd31f06e524b6f043f3fb82f81a468555baa48
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-6.2
-        git checkout ccdd31f06e524b6f043f3fb82f81a468555baa48
+        # https://github.com/lunn/linux/commit/38890be32bc8bf8df585618b174f4c3274786f9f
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.2.0-net-next-phy-leds
+        git checkout 38890be32bc8bf8df585618b174f4c3274786f9f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303031019.3kH6Csmn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303031243.yLsMmIu9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi:391.1-14 Label or path pm8998_gpios not found
->> FATAL ERROR: Syntax error parsing input tree
+   drivers/net/phy/phy_device.c: In function 'of_phy_led':
+>> drivers/net/phy/phy_device.c:3085:21: error: 'struct led_classdev' has no member named 'hw_control_configure'
+    3085 |                 cdev->hw_control_configure = phy_led_hw_control_configure;
+         |                     ^~
+
+
+vim +3085 drivers/net/phy/phy_device.c
+
+  3056	
+  3057	static int of_phy_led(struct phy_device *phydev,
+  3058			      struct device_node *led)
+  3059	{
+  3060		struct device *dev = &phydev->mdio.dev;
+  3061		struct led_init_data init_data = {};
+  3062		struct led_classdev *cdev;
+  3063		struct phy_led *phyled;
+  3064		int err;
+  3065	
+  3066		phyled = devm_kzalloc(dev, sizeof(*phyled), GFP_KERNEL);
+  3067		if (!phyled)
+  3068			return -ENOMEM;
+  3069	
+  3070		phyled->phydev = phydev;
+  3071		cdev = &phyled->led_cdev;
+  3072		INIT_LIST_HEAD(&phyled->led_list);
+  3073	
+  3074		err = of_property_read_u32(led, "reg", &phyled->index);
+  3075		if (err)
+  3076			return err;
+  3077	
+  3078		if (phydev->drv->led_brightness_set)
+  3079			cdev->brightness_set_blocking = phy_led_set_brightness;
+  3080		if (phydev->drv->led_blink_set)
+  3081			cdev->blink_set = phy_led_blink_set;
+  3082		if (phydev->drv->led_hw_is_supported &&
+  3083		    phydev->drv->led_hw_control_set &&
+  3084		    phydev->drv->led_hw_control_get)
+> 3085			cdev->hw_control_configure = phy_led_hw_control_configure;
+  3086		cdev->max_brightness = 1;
+  3087		init_data.devicename = dev_name(&phydev->mdio.dev);
+  3088		init_data.fwnode = of_fwnode_handle(led);
+  3089	
+  3090		err = devm_led_classdev_register_ext(dev, cdev, &init_data);
+  3091		if (err)
+  3092			return err;
+  3093	
+  3094		list_add(&phyled->led_list, &phydev->led_list);
+  3095	
+  3096		return 0;
+  3097	}
+  3098	
 
 -- 
 0-DAY CI Kernel Test Service
