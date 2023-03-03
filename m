@@ -1,36 +1,36 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330731C13
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 06:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050F11C13
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 06:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677824153; x=1709360153;
+  t=1677824155; x=1709360155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+LyyaT/gPOVKoVlrgJB1yQ4UJGKx+y+deh9KC/KFUu0=;
-  b=WsvmnszhGV8iIpUfhIPczjjV+jqJJZWJzhaqd+nK8Kguf8In2iJG4XjN
-   lanY4L4JaXgnRQ0yW6slhz0F2lEVtSqD31DGupDB6YVfh500/ZO00uY0j
-   fA9y2SbNK4HxUEsPbozfO5s+eSzgy1PyFjdgF+4oAbySr3S0qJRUUlEIY
-   Ep/eXLqxqREjdFofyWIcKjjJ8mNSb4aG0w+SPrzKvdYR7EKinSU/yX9XY
-   CchLxJsHhp2ePrY3YYGeanmTuVt42KZxZmH3yd1hMgkF2muG89RC9UJQp
-   AnKOWXhOCKaDyEfzyylgEziP5004xU6U/hSi/G5/fIA1JR7n7mwc+fq0V
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="421238702"
+  bh=ldvxe6Uiwh438oYGQ2Jg+PLiCieYIsPzdSJJADEsYhc=;
+  b=FHOuXFbpLdzbm80IUwEoCWzR/K+fLOFgTAtJZJCnHztdEEmNQMwXcQVq
+   NzzU21/PpqlK2h0XJsdFMVh2R4KtNCa8+hI18nTScs9wf0b6rbwLOZv+A
+   siGKX/R+LV3wbTW63DHbpBbYwiPyhZVe+oG6tK5pfHYJfkkhXvUwNwqH7
+   JxlnicExZ7f/w0ugBvWNzhu+zYh0N9xts4boKtKLJDeS4MMRvSU/DvVdl
+   9fsoTvvLiRzD3VrypftgaYSSQftptcVu5aV3DXiiF8W36ea9F4JpwCj7+
+   lx1rntHFRLjKEdGGj+Rx8PmHgQ8KI8ncSN7WFuDdrQ81CnwvWIfkhEybF
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="421238703"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="421238702"
+   d="scan'208";a="421238703"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 22:15:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="764300248"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="764300250"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="764300248"
+   d="scan'208";a="764300250"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 02 Mar 2023 22:15:51 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXyhr-0001FZ-0N;
+	id 1pXyhr-0001FW-0C;
 	Fri, 03 Mar 2023 06:15:51 +0000
-Date: Fri, 3 Mar 2023 14:15:24 +0800
+Date: Fri, 3 Mar 2023 14:15:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
@@ -38,7 +38,7 @@ Subject: [yiliu1765-iommufd:tmp/for-baol-0303 17/53]
  drivers/vfio/group.c:185:23: error: implicit declaration of function
  'iommufd_vfio_compat_ioas_get_id'; did you mean
  'iommufd_vfio_compat_ioas_create'?
-Message-ID: <202303031404.6tELzUHQ-lkp@intel.com>
+Message-ID: <202303031417.XI4etFY5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,8 +51,8 @@ Content-Disposition: inline
 tree:   https://github.com/yiliu1765/iommufd.git tmp/for-baol-0303
 head:   028abaf51f935755b020cbb2c8f196862dd3a312
 commit: 47d3e152b660af969c89ac719f5f6cd8eeffcac6 [17/53] vfio: Add infrastructure for bind_iommufd from userspace
-config: arc-randconfig-r043-20230302 (https://download.01.org/0day-ci/archive/20230303/202303031404.6tELzUHQ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+config: s390-randconfig-r005-20230302 (https://download.01.org/0day-ci/archive/20230303/202303031417.XI4etFY5-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -62,12 +62,12 @@ reproduce (this is a W=1 build):
         git checkout 47d3e152b660af969c89ac719f5f6cd8eeffcac6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/vfio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303031404.6tELzUHQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303031417.XI4etFY5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
