@@ -1,78 +1,73 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51141FB3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 09:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677837193; x=1709373193;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=9n9zdEsROKI9Acc/Bz81R7p+yqVljz1gnqToUBfzFf4=;
-  b=ROoHOUCCNwh1zXfTGQGsc7z1Jn9r9YnWysGN0davCvGwvdonFGxZ22ou
-   AEHNvPL8Pj3Li6zCFQQaRD7daXPyIA0XZs+sP33B8Tpq03MbdJBE9ksoH
-   0ILRQDmGQY8tM//eIaCxSf8soWOI5LbfBUQukMLQ6hsB23JU2UMQlccRJ
-   3xq8RQfY7DOpvYoYm4idD82zKFYGsO3La+4rb8jmj+sh/RaRKFHW2MU6O
-   C0xzk/lYk4wafA95Bnke0h4S7Pm3rRw84KaXmy3fiiHgqeoEM+u859flL
-   Vfgy9J6gMntmUVic4TGnyg+VAYRGo3QXYXGZ4a2/sKxa7LcB9wHfN9lyq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318829244"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="318829244"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 01:53:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="675308462"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="675308462"
-Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Mar 2023 01:53:08 -0800
-Received: from kbuild by 776573491cc5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pY267-0001NO-0u;
-	Fri, 03 Mar 2023 09:53:07 +0000
-Date: Fri, 3 Mar 2023 17:53:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
-	Josh Triplett <josh@joshtriplett.org>
-Subject: [lkp] [+165 bytes kernel size regression] [i386-tinyconfig]
- [a4ee841f30] filemap: Add folio_copy_tail()
-Message-ID: <ZAHDfBUwX7i9IdNS@8d190a1611c4>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A411FB3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 10:25:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9861DC4339B;
+	Fri,  3 Mar 2023 10:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677839159;
+	bh=ap6IaIV9D5nbOojtI+wfT0yA2bCAiSAIWdekaC6UGUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=foVECDwG0PPijbl6JhyvCndOgjOmexe75NDCt+P+tjQGrUX/oLVz/NQnIUcDjx0IZ
+	 Zp6n3HNxVT/VfsPyH/bh2ghJlnUnfZTnxzf9+5ofGVRG40LOr040QILBZT9FtdJmR1
+	 wo/OSFq8F9yflVGd21oESs2pIxW4bm+WM+6zV7Pgd/rEvRvf7cw/VfNXmze9TeXK14
+	 69ZrA6pdUBXAQfr8aPgV7AoVUbFDOfZ1U6aHvUj/McX1rmMkRdWn4DYzqPgFqp4wGA
+	 dUgfbecevGvLgU4rJwdPKw3ry8oDmm4sVlkZ04oLKtiR5P4XiY41yJnsT/c7Jp4mHg
+	 pBma+VAN6UC+g==
+Date: Fri, 3 Mar 2023 10:25:55 +0000
+From: Lee Jones <lee@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>, oe-kbuild-all@lists.linux.dev,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: htmldocs: Warning: MAINTAINERS references a file that doesn't
+ exist: Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+Message-ID: <20230303102555.GO2303077@google.com>
+References: <202302150624.hBap1fiY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230303064315.701090-2-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202302150624.hBap1fiY-lkp@intel.com>
 
+On Wed, 15 Feb 2023, kernel test robot wrote:
 
-FYI, we noticed a +165 bytes kernel size regression due to commit:
+> tree:   https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/backlight-ktz8866-Convert-to-i2c-s-probe_new/20230128-142032
+> head:   dc37b5d324751a941e8c1241d6043bafef5b10cd
+> commit: 65759c2135f640ed6d9ef64b96666e2980b4d122 backlight: ktz8866: Add support for Kinetic KTZ8866 backlight
+> date:   3 weeks ago
+> reproduce:
+>         # https://github.com/intel-lab-lkp/linux/commit/65759c2135f640ed6d9ef64b96666e2980b4d122
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Uwe-Kleine-K-nig/backlight-ktz8866-Convert-to-i2c-s-probe_new/20230128-142032
+>         git checkout 65759c2135f640ed6d9ef64b96666e2980b4d122
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202302150624.hBap1fiY-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
 
-commit: a4ee841f30215e4f7c5dda2ab82007f590a6a62b (filemap: Add folio_copy_tail())
-url: https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/filemap-Add-folio_copy_tail/20230303-144359
-base: https://git.kernel.org/cgit/linux/kernel/git/akpm/mm.git mm-everything
-patch link: https://lore.kernel.org/all/20230303064315.701090-2-willy@infradead.org/
-patch subject: [PATCH 1/2] filemap: Add folio_copy_tail()
+What's going on here?  What tree is this?
 
+Why does it contain:
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
+  backlight: ktz8866: Add support for Kinetic KTZ8866 backlight
 
-fbcd6c98: Merge branch 'mm-nonmm-unstable' into mm-everything
-a4ee841f: filemap: Add folio_copy_tail()
+But not:
 
-+----------------------+----------+----------+-------+
-|        symbol        | fbcd6c98 | a4ee841f | delta |
-+----------------------+----------+----------+-------+
-| bzImage              | 501664   | 501856   | 192   |
-| nm.T.folio_copy_tail | 0        | 165      | 165   |
-+----------------------+----------+----------+-------+
+  dt-bindings: leds: backlight: Add Kinetic KTZ8866 backlight
 
-
-
-Thanks
-
-
+-- 
+Lee Jones [李琼斯]
