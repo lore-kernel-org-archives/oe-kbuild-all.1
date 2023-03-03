@@ -1,49 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A859779D8;
-	Fri,  3 Mar 2023 15:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5387879D8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 16:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677855619; x=1709391619;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TMNP08vwbk1/xlZyyZJWhOWKVuIm24PIkc1+069668g=;
-  b=k7UXAo8ANQzf/qRfG6hRzQAUlzcDhzGyiEGMk6TgFehp8NeGweN0YZbK
-   DBKWeK+UJg9FpEUvVWEcvyCoOcDYjV5DP9D7kjeG6T6gKARpLeuUcPKhl
-   gmBAT6yIpK9W1UQshoTILqFQmpNvjWjcvzwe0ULHBRy9UPEK5qhOfXsfj
-   +0U7Sy6vRRN1zVoXa8bCy8Td6LA2nv03iRRqrTfy9SZxjgBe+sGDi+h3u
-   w5MP47MzmIvI5rA2nhUOwIEQp4CvA/vet1QkQi+7N5ccE2FwI9xZClc+G
-   3Ye/gqgBupmv9n5V29j3C281vcQJuRTREaaJEEVDUXaB9og5FwzxQq9DZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="332539991"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="332539991"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 07:00:18 -0800
+  t=1677860903; x=1709396903;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=mJfFLqQNlGLKYVGmiqt/zVaRBspmVn6dqILuvq4QdNw=;
+  b=dsB+6dbxaNUKYbu8jUjKBt+/reZ3K/RYP5ud3myBtIEO//VUeh7lITnW
+   g82U+Jne7ckGeA6JoWBaDF3/QtmECh1h0lLbqpu8BqKBSzDTX+gfJy5eV
+   7klNV3VUuZztPPL7VloE/HEdptkl3bPAU+Qa7QHEU3OlsEZgAprw/gAAq
+   H2cMC6I/xTYHsK93Eyyjqg3j0daxyWURaCHouAb5uT6ArAgCDk/97PFlD
+   JvITAOX7v7sLg15QnNAd9tB0WnBydPJT4M3POfg7vCyviks8RUJ2eaTOO
+   CeSTANS5nrM3ifoI/P+JemzAv1ddTsII+p6WakORqGjpgRLAf9piewfHc
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="314740236"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
+   d="scan'208";a="314740236"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 08:28:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="921142115"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="921142115"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818525511"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
+   d="scan'208";a="818525511"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Mar 2023 07:00:16 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2023 08:28:18 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pY6tL-0001U8-2R;
-	Fri, 03 Mar 2023 15:00:15 +0000
-Date: Fri, 3 Mar 2023 22:59:29 +0800
+	id 1pY8GY-0001Xs-0F;
+	Fri, 03 Mar 2023 16:28:18 +0000
+Date: Sat, 4 Mar 2023 00:28:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>, Andy Gross <agross@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>
-Subject: Re: [PATCH 2/2] clk: qcom: lpass: Initialize start_index
-Message-ID: <202303032224.tuvDnbbB-lkp@intel.com>
-References: <20230303092859.22094-3-quic_tdas@quicinc.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] docs: add backporting and conflict resolution document
+Message-ID: <ZAIgFLJ0tRCxzwjN@5bb25e6b0e5e>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,97 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303092859.22094-3-quic_tdas@quicinc.com>
+In-Reply-To: <20230303162553.17212-1-vegard.nossum@oracle.com>
 
-Hi Taniya,
+Hi,
 
-Thank you for the patch! Yet something to improve:
+Thanks for your patch.
 
-[auto build test ERROR on clk/clk-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-common-Handle-invalid-index-error/20230303-173158
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230303092859.22094-3-quic_tdas%40quicinc.com
-patch subject: [PATCH 2/2] clk: qcom: lpass: Initialize start_index
-config: hexagon-randconfig-r021-20230302 (https://download.01.org/0day-ci/archive/20230303/202303032224.tuvDnbbB-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d26ce274e7b0af8a6c6985630d1da8e257c9031d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Taniya-Das/clk-qcom-common-Handle-invalid-index-error/20230303-173158
-        git checkout d26ce274e7b0af8a6c6985630d1da8e257c9031d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/clk/qcom/
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH] docs: add backporting and conflict resolution document
+Link: https://lore.kernel.org/stable/20230303162553.17212-1-vegard.nossum%40oracle.com
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303032224.tuvDnbbB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/clk/qcom/lpassaudiocc-sc7280.c:13:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/clk/qcom/lpassaudiocc-sc7280.c:13:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/clk/qcom/lpassaudiocc-sc7280.c:13:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/clk/qcom/lpassaudiocc-sc7280.c:705:56: error: unexpected ';' before '}'
-           .start_index = LPASS_AUDIO_CC_CDIV_RX_MCLK_DIV_CLK_SRC;
-                                                                 ^
-   6 warnings and 1 error generated.
-
-
-vim +705 drivers/clk/qcom/lpassaudiocc-sc7280.c
-
-   700	
-   701	static const struct qcom_cc_desc lpass_audio_cc_sc7280_desc = {
-   702		.config = &lpass_audio_cc_sc7280_regmap_config,
-   703		.clks = lpass_audio_cc_sc7280_clocks,
-   704		.num_clks = ARRAY_SIZE(lpass_audio_cc_sc7280_clocks),
- > 705		.start_index = LPASS_AUDIO_CC_CDIV_RX_MCLK_DIV_CLK_SRC;
-   706	};
-   707	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
+
+
