@@ -1,40 +1,39 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542DE46AE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 10:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90D11FDD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 10:58:00 +0000 (UTC)
 From: John Ogness <john.ogness@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1677841006;
+	s=2020; t=1677841079;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zRgsR2xEWYTWX691F+Y+Zz/v3gKexsUP6akBuivKZYM=;
-	b=iNbKOxdpjevaKnEeelU+IxV49VCUPumEVqb2zOVwlZaLvro7HGWLNZ5Xk0AK4evmtTxi+6
-	pSbMOj0KPyZWtpRAq9rWHUNUakRvk0a4h+rta9W2s6VcxidGFEPfZAvaNaUQyCQD3FSUOK
-	fx2JYvBsU98RJ4lmAUqchITSqah+ge1Io8vWS4mSruY6OcghsAKlaq7AGokSEk78f0Fsjl
-	+twnFe+ztVwBE6Gfj/nx+nYvtBSKldTtZ6oMTiwhxf1GBR1faVkok0dBiT/xC0yFroUNEt
-	sSCIsOrhaSC7kq7jH72GAXkXrUmhrn6xqioJ9nOW0ZqthkqaCyIFGfMaFAFoeg==
+	bh=rGvZ1E9SBGGCi2EjmK+Y9NWo8ZTjKt02Cq8b17elzVM=;
+	b=UJtdRKzJRsCqzrMRFhmlQOnqz8Wza2usAegzPyQHADLo78lmMT/xvMyUKDFLmIDhqPAmhm
+	Pjew+2cuPrsZGREQhit62/ywIGFQ5ZnKENWS4fdMSLh3Z6n9i3wTeo8EEF56+48rbfMNTe
+	KIO917D0ApAx/cAksUI6qs1XCLd19xJDOhjY3qQQw01ecI1UG5xXPenCDy5mwWWrBiEEkb
+	JcoSrbbvN5ufEVcbZ6ZqhEhezlQv6Tr1PhNW1L59VMHSPU/IxaIOFG/jy3qBZCfb88Rkck
+	o2YHVYLLIHN+d6kMSxddDh1pth476fJagJQd8IOfYCFYuBPE4IKSbbS1nvnpAw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1677841006;
+	s=2020e; t=1677841079;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zRgsR2xEWYTWX691F+Y+Zz/v3gKexsUP6akBuivKZYM=;
-	b=8ka/6gJCXJrPPeoX0PZqbAlbEYt3pbF+dK5H7jakaEO+0IuQeNoV+uDnfLnydqNYuQSjAq
-	A0+j4DCimsTKGGAQ==
+	bh=rGvZ1E9SBGGCi2EjmK+Y9NWo8ZTjKt02Cq8b17elzVM=;
+	b=rl8Zl7Uy2SY8oJLZTHw2wAjDnS+fVh7WODokzCPu7z0prA59nvvZ5dmMN5HpjFMggww+VD
+	qOkwYMgLst7ErYBA==
 To: kernel test robot <lkp@intel.com>, Petr Mladek <pmladek@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev, Sergey Senozhatsky
  <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
  Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Greg
  Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH printk v1 10/18] printk: nobkl: Add emit function and
- callback functions for atomic printing
-In-Reply-To: <202303030859.j7DLimWU-lkp@intel.com>
-References: <20230302195618.156940-11-john.ogness@linutronix.de>
- <202303030859.j7DLimWU-lkp@intel.com>
-Date: Fri, 03 Mar 2023 12:01:23 +0106
-Message-ID: <87mt4uw1d0.fsf@jogness.linutronix.de>
+Subject: Re: [PATCH printk v1 11/18] printk: nobkl: Introduce printer threads
+In-Reply-To: <202303030957.Hkt9zcFz-lkp@intel.com>
+References: <20230302195618.156940-12-john.ogness@linutronix.de>
+ <202303030957.Hkt9zcFz-lkp@intel.com>
+Date: Fri, 03 Mar 2023 12:02:35 +0106
+Message-ID: <87jzzyw1b0.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,27 +43,23 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On 2023-03-03, kernel test robot <lkp@intel.com> wrote:
->>> kernel/printk/printk.c:2841:6: warning: no previous prototype for 'printk_get_next_message' [-Wmissing-prototypes]
->     2841 | bool printk_get_next_message(struct printk_message *pmsg, u64 seq,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/printk/printk.c: In function 'console_flush_all':
+>>> kernel/printk/printk.c:2979:30: error: implicit declaration of function 'console_is_usable'; did you mean 'console_exit_unsafe'? [-Werror=implicit-function-declaration]
+>     2979 |                         if (!console_is_usable(con, flags))
+>          |                              ^~~~~~~~~~~~~~~~~
+>          |                              console_exit_unsafe
 
-This function needs to be declared for !CONFIG_PRINTK as well.
+This macro needs to be defined for !CONFIG_PRINTK as well.
 
 diff --git a/kernel/printk/internal.h b/kernel/printk/internal.h
-index 8856beed65da..60d6bf18247e 100644
+index 60d6bf18247e..e4fb600daf06 100644
 --- a/kernel/printk/internal.h
 +++ b/kernel/printk/internal.h
-@@ -188,10 +188,11 @@ struct cons_context_data {
- 	struct printk_buffers		pbufs;
- };
+@@ -147,6 +147,7 @@ static inline void cons_kthread_create(struct console *con) { }
+ static inline bool printk_percpu_data_ready(void) { return false; }
+ static inline bool cons_nobkl_init(struct console *con) { return true; }
+ static inline void cons_nobkl_cleanup(struct console *con) { }
++static inline bool console_is_usable(struct console *con, short flags) { return false; }
  
--#ifdef CONFIG_PRINTK
--
- bool printk_get_next_message(struct printk_message *pmsg, u64 seq,
- 			     bool is_extended, bool may_supress);
-+
-+#ifdef CONFIG_PRINTK
-+
- void console_prepend_dropped(struct printk_message *pmsg,
- 			     unsigned long dropped);
+ #endif /* CONFIG_PRINTK */
  
