@@ -1,44 +1,50 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1D38F6E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 22:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129C48F6E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 23:30:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677883770; x=1709419770;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LJMM/M/VXIyk7Ttka26UbAX7Rb43ih+T7QK7jhtVmXw=;
-  b=YhYO7yUDfJrh8KDKeqtwWpbKzTZavPwnfj91jhaHAmq1UV2ELiD9QOOz
-   llrwwjzzW9t19D5VhbL9Es6rvUTMh+gH/yv1A48A2qZ4sUtJ2aanu/H5n
-   YGsoucpnnRxeJEplRLQritEZo6VSd8lSokopWOCG0PBzU1greMe0drQm6
-   Ie1EhbHSFljLlEyx+OWGuxqeRZ7erjmZ56rLMJxP+tepxPvkswYwsGV43
-   iseDAKEsMQvclFSEpVcw0L9Jdw91GOnl/MOfr4ZtUAFy55dvF9mFO/5GE
-   DrXFFTBo6Y3D72lvGO2N5BIDKXBV/shClT56lThAufCkAQ+ThnbV4ANK6
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="333900936"
+  t=1677886244; x=1709422244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MsnQ6U1QZT1glkU3UUvrlM2HfAZTPpjEe/eFE0RMVB4=;
+  b=ikOZiH3srptUJ5KTbBmk0fhv/QKlyvDuLjlpzD+ktMM4HWW1AvISfOBO
+   Ww/MlIj9ri4dt2lVRJ0NLksZpjuZlaYTSWYxfq9djhlywYa/OJJjzYrKD
+   NYvAJ/6rJActWFyevrz3jUXZKNCRZVLmF9lE1NFKT4mJ30dv/Q27vebLl
+   Eu4O4mei57TQQVeacgQpeqEvXMoUxe1KirNqQ7nJHPuv5gnviA5B6Y7CT
+   cHYGOQ2qhbjROhvd2iJZnzICiPEqHSFlfVFUETE5Ms1KD+cD0hNt38y0c
+   hxhULZbLOPtB9OsvoGEzLpgjzVg17klZbPVp9ltFvlhxtq5YbTnbqK0ZS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="332663665"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="333900936"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 14:49:29 -0800
+   d="scan'208";a="332663665"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 15:30:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="668810371"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="799381485"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="668810371"
+   d="scan'208";a="799381485"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 03 Mar 2023 14:49:28 -0800
+  by orsmga004.jf.intel.com with ESMTP; 03 Mar 2023 15:30:28 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYEDP-0001ho-0i;
-	Fri, 03 Mar 2023 22:49:27 +0000
-Date: Sat, 4 Mar 2023 06:49:25 +0800
+	id 1pYEr6-0001iy-0d;
+	Fri, 03 Mar 2023 23:30:28 +0000
+Date: Sat, 4 Mar 2023 07:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [jgunthorpe:iommufd_hwpt 25/43] htmldocs:
- Documentation/userspace-api/iommufd:184:
- ./drivers/iommu/iommufd/device.c:580: WARNING: Definition list ends without
- a blank line; unexpected unindent.
-Message-ID: <202303040633.TQNPbc3e-lkp@intel.com>
+To: David Wang <tomato1220@gmail.com>, arnd@arndb.de, olof@lixom.net,
+	soc@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, avifishman70@gmail.com,
+	tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
+	yuenn@google.com, benjaminfair@google.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	fran.hsu@quantatw.com, David Wang <davidwang@quantatw.com>
+Subject: Re: [PATCH 2/7] ARM: dts: nuvoton: Add Quanta GSZ BMC Device Tree
+Message-ID: <202303040612.codF6aYF-lkp@intel.com>
+References: <20230303063435.803097-2-davidwang@quantatw.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,26 +53,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230303063435.803097-2-davidwang@quantatw.com>
 
-tree:   https://github.com/jgunthorpe/linux iommufd_hwpt
-head:   d3282ba3ccf913d4b7fc93ad8b3c2f27927d8b68
-commit: 5cccd4abc87354ab4ba694936b4f9a123c32749f [25/43] iommufd: Add iommufd_device_replace()
-reproduce:
-        # https://github.com/jgunthorpe/linux/commit/5cccd4abc87354ab4ba694936b4f9a123c32749f
-        git remote add jgunthorpe https://github.com/jgunthorpe/linux
-        git fetch --no-tags jgunthorpe iommufd_hwpt
-        git checkout 5cccd4abc87354ab4ba694936b4f9a123c32749f
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi David,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on soc/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next shawnguo/for-next xilinx-xlnx/master linus/master v6.2 next-20230303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230303063435.803097-2-davidwang%40quantatw.com
+patch subject: [PATCH 2/7] ARM: dts: nuvoton: Add Quanta GSZ BMC Device Tree
+config: arm-randconfig-r046-20230302 (https://download.01.org/0day-ci/archive/20230304/202303040612.codF6aYF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/582e8c7ca5de26f639e46b839d9b4c6cbf7e43cf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
+        git checkout 582e8c7ca5de26f639e46b839d9b4c6cbf7e43cf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303040633.TQNPbc3e-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303040612.codF6aYF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/userspace-api/iommufd:184: ./drivers/iommu/iommufd/device.c:580: WARNING: Definition list ends without a blank line; unexpected unindent.
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:223.1-6 Label or path emc0 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:231.1-4 Label or path mc not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:239.1-7 Label or path ohci1 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:243.1-5 Label or path aes not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:247.1-5 Label or path sha not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:251.1-6 Label or path udc5 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:255.1-6 Label or path udc6 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:259.1-6 Label or path udc7 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:263.1-6 Label or path udc8 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:267.1-9 Label or path pcimbox not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:271.1-8 Label or path sdhci0 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:366.1-5 Label or path otp not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:384.1-10 Label or path lpc_host not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:1506.1-7 Label or path peci0 not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
