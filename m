@@ -1,49 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A69538C;
-	Fri,  3 Mar 2023 12:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386D346AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 12:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677845177; x=1709381177;
+  t=1677848236; x=1709384236;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1ZhnkZvUx6/qDxwOmfHWY1TW6Ezr2JMQifRPtpqWpl8=;
-  b=Pv9c1kKM3LFOwOG9CR3aJ1aGUqPbHCN/MXr6d4YG1e56DKOE9CSQaaL+
-   louuYHBJ+IcRm6tv4Jsz8fnET/W3C6FmoCllNVP2pEn08kpyKTRdHYujt
-   +TUug1K3IwzW3By+jmRlel1ai/W9k0uStlmpQxRZNsC8mWx/QNuc+x7vh
-   S8cNuf1GLPtnSwwWseK2FCgxTB2fERL8RnvX+4M4UAq2/vM0xCVPUekU1
-   xbRRfYP6sWzlOtakJZ+mG8qLV6V1EoiYyEo9rzaWmtLYJSW+SQxjNgBSl
-   FZxvmuMQwVIMxGoIbj+RP/Jt15sPucyU2/Opjosr8j8/m1xTUOvW9XujV
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397618381"
+  bh=I+hCA0ZGd6EOnSIjmccxlc7F/OPEX61ZXvgSCXXNeoE=;
+  b=FbsQb8HcSOYh3N0OEaR5/18N6SbH2wzIIKQN53+g+pmH+n1JJNMQ4wfc
+   WU9B3dVTzkqPk9R5vG1J0yoPyxdt8fNK/ilfMNQ4jDlpJ+WFJ23TUpT7x
+   OcgaFWjNu0/rb6u+kcDa4oj7O7Ty3gefayL+tmhXXpYcw3MZsGDRXuyDU
+   TJVst9QGybL1/cA/YoIKE28MZm5Tvn7CS3SDpwKRFTpLmUu2RFRYerK/Y
+   MT0dt7ph4dhMSYECb2JwqoGa3yNfpXjPz+ZgJ0BS3N6dfBndVlwpiu2UA
+   amqtg4lLNmF8vg3XKCzsbi/D4fE4IGRn0wOL4TtvplkPb3jQLj+vnvDvs
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="421307971"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="397618381"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 04:06:16 -0800
+   d="scan'208";a="421307971"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 04:57:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="849438018"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="1004569219"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="849438018"
+   d="scan'208";a="1004569219"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 03 Mar 2023 04:06:14 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 03 Mar 2023 04:57:14 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pY4Av-0001Qe-0k;
-	Fri, 03 Mar 2023 12:06:13 +0000
-Date: Fri, 3 Mar 2023 20:05:22 +0800
+	id 1pY4yH-0001Ra-33;
+	Fri, 03 Mar 2023 12:57:13 +0000
+Date: Fri, 3 Mar 2023 20:56:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	"Darrick J . Wong" <djwong@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Gao Xiang <xiang@kernel.org>
-Subject: Re: [PATCH 1/2] filemap: Add folio_copy_tail()
-Message-ID: <202303031911.we6DjYXd-lkp@intel.com>
-References: <20230303064315.701090-2-willy@infradead.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] tracing/hist: add modulus operator
+Message-ID: <202303032025.sa7xWAu3-lkp@intel.com>
+References: <20230302171755.1821653-3-mark.rutland@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,127 +46,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303064315.701090-2-willy@infradead.org>
+In-Reply-To: <20230302171755.1821653-3-mark.rutland@arm.com>
 
-Hi Matthew,
+Hi Mark,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master next-20230303]
+[auto build test ERROR on linus/master]
+[also build test ERROR on rostedt-trace/for-next v6.2 next-20230303]
+[cannot apply to rostedt-trace/for-next-urgent]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/filemap-Add-folio_copy_tail/20230303-144359
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230303064315.701090-2-willy%40infradead.org
-patch subject: [PATCH 1/2] filemap: Add folio_copy_tail()
-config: arm-randconfig-r006-20230302 (https://download.01.org/0day-ci/archive/20230303/202303031911.we6DjYXd-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Rutland/tracing-hist-simplify-contains_operator/20230303-012033
+patch link:    https://lore.kernel.org/r/20230302171755.1821653-3-mark.rutland%40arm.com
+patch subject: [PATCH 2/2] tracing/hist: add modulus operator
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303032025.sa7xWAu3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/a4ee841f30215e4f7c5dda2ab82007f590a6a62b
+        # https://github.com/intel-lab-lkp/linux/commit/a2602e97de77834320fed5f928662f154f72d7ce
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthew-Wilcox-Oracle/filemap-Add-folio_copy_tail/20230303-144359
-        git checkout a4ee841f30215e4f7c5dda2ab82007f590a6a62b
+        git fetch --no-tags linux-review Mark-Rutland/tracing-hist-simplify-contains_operator/20230303-012033
+        git checkout a2602e97de77834320fed5f928662f154f72d7ce
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303031911.we6DjYXd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303032025.sa7xWAu3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/filemap.c:4160:17: warning: comparison of distinct pointer types ('typeof (poff + len) *' (aka 'unsigned int *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-                   size_t plen = min(poff + len, PAGE_SIZE) - poff;
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
->> mm/filemap.c:4172:11: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-                           plen = min(len, PAGE_SIZE);
-                                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +4160 mm/filemap.c
-
-  4125	
-  4126	/**
-  4127	 * folio_copy_tail - Copy an in-memory file tail into a page cache folio.
-  4128	 * @folio: The folio to copy into.
-  4129	 * @pos: The file position of the first byte of data in the tail.
-  4130	 * @src: The address of the tail data.
-  4131	 * @max: The size of the buffer used for the tail data.
-  4132	 *
-  4133	 * Supports file tails starting at @pos that are a maximum of @max
-  4134	 * bytes in size.  Zeroes the remainder of the folio.
-  4135	 */
-  4136	void folio_copy_tail(struct folio *folio, loff_t pos, void *src, size_t max)
-  4137	{
-  4138		loff_t isize = i_size_read(folio->mapping->host);
-  4139		size_t offset, len = isize - pos;
-  4140		char *dst;
-  4141	
-  4142		if (folio_pos(folio) > isize) {
-  4143			len = 0;
-  4144		} else if (folio_pos(folio) > pos) {
-  4145			len -= folio_pos(folio) - pos;
-  4146			src += folio_pos(folio) - pos;
-  4147			max -= folio_pos(folio) - pos;
-  4148			pos = folio_pos(folio);
-  4149		}
-  4150		/*
-  4151		 * i_size is larger than the number of bytes stored in the tail?
-  4152		 * Assume the remainder is zero-padded.
-  4153		 */
-  4154		if (WARN_ON_ONCE(len > max))
-  4155			len = max;
-  4156		offset = offset_in_folio(folio, pos);
-  4157		dst = kmap_local_folio(folio, offset);
-  4158		if (folio_test_highmem(folio) && folio_test_large(folio)) {
-  4159			size_t poff = offset_in_page(offset);
-> 4160			size_t plen = min(poff + len, PAGE_SIZE) - poff;
-  4161	
-  4162			for (;;) {
-  4163				memcpy(dst, src, plen);
-  4164				memset(dst + plen, 0, PAGE_SIZE - poff - plen);
-  4165				offset += PAGE_SIZE - poff;
-  4166				if (offset == folio_size(folio))
-  4167					break;
-  4168				kunmap_local(dst);
-  4169				dst = kmap_local_folio(folio, offset);
-  4170				len -= plen;
-  4171				poff = 0;
-> 4172				plen = min(len, PAGE_SIZE);
+   ld: kernel/trace/trace_events_hist.o: in function `hist_fn_call':
+>> trace_events_hist.c:(.text+0xa007): undefined reference to `__umoddi3'
 
 -- 
 0-DAY CI Kernel Test Service
