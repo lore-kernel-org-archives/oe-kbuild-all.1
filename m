@@ -1,61 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8285546AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 14:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368905387;
+	Fri,  3 Mar 2023 15:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677853161; x=1709389161;
+  t=1677855618; x=1709391618;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1wnEZkA3pxEN1ki3zirkYIIVEuxqXMawj7Ozlqv74lc=;
-  b=i5tb+vBgnCOGZQXQyickKDLKU4e3SWXx3aFTaNcmiGyaexuwH5oMQt/P
-   ncUhJj6GuO/mgS4hlUWxHvxKcRUsVdO+vn2+ROIqShRD3Q6eKKJIDRByl
-   QmKhFAST00UffTXdCru6/NYQVLZynP2ZShrckGg48QNUqze4IOme3JUMK
-   2YdPoOwMRjt5As75CTWVs+oGHqnlTwji6y5iRv301rFb8QRAg6HF4N96O
-   VK9FFXrkaY8OZAcTru94LSakn+yW5Xr+6zsH8tBI3gCaSG6lykYRvKt/Z
-   9LbDces6ccRlI35sClPgX9InBWQPQDZaCVCHDyaNkI25lbvsQjq3fHKXb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="336571858"
+  bh=1MUTRrGDXqO6HrPonqv7BZ9A54G8mcyVIPgQ+umB+pM=;
+  b=Fqrtd0xmB469TAfgq9qujQuybFGFlapdaWgb0JKO5La1AfOgWTrTyUlf
+   Sz1LGXsEzcvRPFBdN/p+GrYsrjXdqbQ3XX7ILS0ssLNZdzy2U3uRIf4vt
+   A9uO4hqw3x8GUwNfYdKz89r9QwqzSk1iyU6hIwQc5BV/9xfwkV9GCgqL3
+   w5cF6QuAjG4ujjQ04/s1QogFRhKUzaZw4m1MAEkkIN3GBVIG6TMtrqnY4
+   nRcRmXvcqPZe0QuDOifMC2q1Iazao2C4neklE9IM6erM6VnRTTKEZ20og
+   lL7JYr/7CzGmJWGi/7PTa27CYflX3SIY2q0TJNXd41WEv3BkH+POn0PSL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="332539967"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="336571858"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 06:19:21 -0800
+   d="scan'208";a="332539967"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 07:00:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="705656748"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="921142118"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="705656748"
+   d="scan'208";a="921142118"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Mar 2023 06:19:16 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 03 Mar 2023 07:00:16 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pY6Ff-0001TW-1H;
-	Fri, 03 Mar 2023 14:19:15 +0000
-Date: Fri, 3 Mar 2023 22:18:41 +0800
+	id 1pY6tL-0001UD-2g;
+	Fri, 03 Mar 2023 15:00:15 +0000
+Date: Fri, 3 Mar 2023 22:59:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Maslanka <mmaslanka@chromium.org>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Lijo Lazar <lijo.lazar@amd.com>,
-	linux-kernel@vger.kernel.org,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Guchun Chen <guchun.chen@amd.com>, amd-gfx@lists.freedesktop.org,
-	Marek Maslanka <mm@semihalf.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-	Dominik Behr <dbehr@chromium.org>, Evan Quan <evan.quan@amd.com>,
-	Tong Liu01 <Tong.Liu01@amd.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	"Pan, Xinhui" <Xinhui.Pan@amd.com>,
-	Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
-	YiPeng Chai <YiPeng.Chai@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: Re: [PATCH] drm/amdgpu: Implement mmap of imported dma-bufs
-Message-ID: <202303032218.9kvEePUv-lkp@intel.com>
-References: <20230303110951.3777850-1-mmaslanka@chromium.org>
+To: Naohiro Aota <naohiro.aota@wdc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] btrfs: zoned: count fresh BG region as zone
+ unusable
+Message-ID: <202303032228.io27sUWW-lkp@intel.com>
+References: <ae5d21d50546abaedd89d52cefdd1c61c9018ec2.1677831912.git.naohiro.aota@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,106 +47,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303110951.3777850-1-mmaslanka@chromium.org>
+In-Reply-To: <ae5d21d50546abaedd89d52cefdd1c61c9018ec2.1677831912.git.naohiro.aota@wdc.com>
 
-Hi Marek,
+Hi Naohiro,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230303]
-[cannot apply to drm-intel/for-linux-next-fixes v6.2]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.2 next-20230303]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Maslanka/drm-amdgpu-Implement-mmap-of-imported-dma-bufs/20230303-191145
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230303110951.3777850-1-mmaslanka%40chromium.org
-patch subject: [PATCH] drm/amdgpu: Implement mmap of imported dma-bufs
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303032218.9kvEePUv-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230303-163006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/ae5d21d50546abaedd89d52cefdd1c61c9018ec2.1677831912.git.naohiro.aota%40wdc.com
+patch subject: [RFC PATCH 1/2] btrfs: zoned: count fresh BG region as zone unusable
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230303/202303032228.io27sUWW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2916257baab842afa387781faf1b595b73249767
+        # https://github.com/intel-lab-lkp/linux/commit/aef11808b70bc7a53270e26eef4c73ae8a1de4a8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marek-Maslanka/drm-amdgpu-Implement-mmap-of-imported-dma-bufs/20230303-191145
-        git checkout 2916257baab842afa387781faf1b595b73249767
+        git fetch --no-tags linux-review Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230303-163006
+        git checkout aef11808b70bc7a53270e26eef4c73ae8a1de4a8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303032218.9kvEePUv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303032228.io27sUWW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c: In function 'amdgpu_try_dma_buf_mmap':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:286:27: warning: variable 'bo' set but not used [-Wunused-but-set-variable]
-     286 |         struct amdgpu_bo *bo = NULL;
-         |                           ^~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:36,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:64,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:34:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h: At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
-      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/btrfs/free-space-cache.c:2700:13: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+                    test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+                             ^
+>> fs/btrfs/free-space-cache.c:2700:13: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+>> fs/btrfs/free-space-cache.c:2700:13: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+   3 errors generated.
+--
+>> fs/btrfs/zoned.c:1586:15: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+           if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
+                        ^
+>> fs/btrfs/zoned.c:1586:15: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+>> fs/btrfs/zoned.c:1586:15: error: use of undeclared identifier 'BTRFS_FS_ACTIVE_ZONE_TRACKING'
+   3 errors generated.
 
 
-vim +/bo +286 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+vim +/BTRFS_FS_ACTIVE_ZONE_TRACKING +2700 fs/btrfs/free-space-cache.c
 
-   278	
-   279	int amdgpu_try_dma_buf_mmap(struct file *filp, struct vm_area_struct *vma)
-   280	{
-   281		struct drm_file *priv = filp->private_data;
-   282		struct drm_device *dev = priv->minor->dev;
-   283		struct amdgpu_device *adev = drm_to_adev(dev);
-   284		struct ttm_device *bdev = &adev->mman.bdev;
-   285		struct ttm_buffer_object *tbo = NULL;
- > 286		struct amdgpu_bo *bo = NULL;
-   287		struct drm_gem_object *obj = NULL;
-   288		struct drm_vma_offset_node *node;
-   289		int ret;
-   290	
-   291		if (drm_dev_is_unplugged(dev))
-   292			return -ENODEV;
-   293	
-   294		drm_vma_offset_lock_lookup(bdev->vma_manager);
-   295		node = drm_vma_offset_exact_lookup_locked(bdev->vma_manager,
-   296							  vma->vm_pgoff,
-   297							  vma_pages(vma));
-   298	
-   299		if (likely(node)) {
-   300			tbo = container_of(node, struct ttm_buffer_object,
-   301					   base.vma_node);
-   302			tbo = ttm_bo_get_unless_zero(tbo);
-   303		}
-   304		drm_vma_offset_unlock_lookup(bdev->vma_manager);
-   305	
-   306		if (!tbo)
-   307			return -EINVAL;
-   308	
-   309		bo = ttm_to_amdgpu_bo(tbo);
-   310		obj = &tbo->base;
-   311	
-   312		if (!obj->import_attach) {
-   313			ret = -EINVAL;
-   314			goto done;
-   315		}
-   316	
-   317		ret = dma_buf_mmap(obj->import_attach->dmabuf, vma, 0);
-   318	
-   319	done:
-   320		ttm_bo_put(tbo);
-   321		return ret;
-   322	}
-   323	
+  2678	
+  2679	static int __btrfs_add_free_space_zoned(struct btrfs_block_group *block_group,
+  2680						u64 bytenr, u64 size, bool used)
+  2681	{
+  2682		struct btrfs_space_info *sinfo = block_group->space_info;
+  2683		struct btrfs_free_space_ctl *ctl = block_group->free_space_ctl;
+  2684		u64 offset = bytenr - block_group->start;
+  2685		u64 to_free, to_unusable;
+  2686		int bg_reclaim_threshold = 0;
+  2687		bool initial = (size == block_group->length);
+  2688		u64 reclaimable_unusable;
+  2689	
+  2690		WARN_ON(!initial && offset + size > block_group->zone_capacity);
+  2691	
+  2692		if (!initial)
+  2693			bg_reclaim_threshold = READ_ONCE(sinfo->bg_reclaim_threshold);
+  2694	
+  2695		spin_lock(&ctl->tree_lock);
+  2696		/* Count initial region as zone_unusable until it gets activated. */
+  2697		if (!used)
+  2698			to_free = size;
+  2699		else if (initial &&
+> 2700			 test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+  2701			 block_group->flags & (BTRFS_BLOCK_GROUP_METADATA | BTRFS_BLOCK_GROUP_SYSTEM))
+  2702			to_free = 0;
+  2703		else if (initial)
+  2704			to_free = block_group->zone_capacity;
+  2705		else if (offset >= block_group->alloc_offset)
+  2706			to_free = size;
+  2707		else if (offset + size <= block_group->alloc_offset)
+  2708			to_free = 0;
+  2709		else
+  2710			to_free = offset + size - block_group->alloc_offset;
+  2711		to_unusable = size - to_free;
+  2712	
+  2713		ctl->free_space += to_free;
+  2714		/*
+  2715		 * If the block group is read-only, we should account freed space into
+  2716		 * bytes_readonly.
+  2717		 */
+  2718		if (!block_group->ro)
+  2719			block_group->zone_unusable += to_unusable;
+  2720		spin_unlock(&ctl->tree_lock);
+  2721		if (!used) {
+  2722			spin_lock(&block_group->lock);
+  2723			block_group->alloc_offset -= size;
+  2724			spin_unlock(&block_group->lock);
+  2725		}
+  2726	
+  2727		reclaimable_unusable = block_group->zone_unusable -
+  2728				       (block_group->length - block_group->zone_capacity);
+  2729		/* All the region is now unusable. Mark it as unused and reclaim */
+  2730		if (block_group->zone_unusable == block_group->length &&
+  2731		    block_group->alloc_offset) {
+  2732			btrfs_mark_bg_unused(block_group);
+  2733		} else if (bg_reclaim_threshold &&
+  2734			   reclaimable_unusable >=
+  2735			   mult_perc(block_group->zone_capacity, bg_reclaim_threshold)) {
+  2736			btrfs_mark_bg_to_reclaim(block_group);
+  2737		}
+  2738	
+  2739		return 0;
+  2740	}
+  2741	
 
 -- 
 0-DAY CI Kernel Test Service
