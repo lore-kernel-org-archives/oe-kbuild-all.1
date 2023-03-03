@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050F11C13
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 06:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544621C13
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 06:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677824155; x=1709360155;
+  t=1677824830; x=1709360830;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ldvxe6Uiwh438oYGQ2Jg+PLiCieYIsPzdSJJADEsYhc=;
-  b=FHOuXFbpLdzbm80IUwEoCWzR/K+fLOFgTAtJZJCnHztdEEmNQMwXcQVq
-   NzzU21/PpqlK2h0XJsdFMVh2R4KtNCa8+hI18nTScs9wf0b6rbwLOZv+A
-   siGKX/R+LV3wbTW63DHbpBbYwiPyhZVe+oG6tK5pfHYJfkkhXvUwNwqH7
-   JxlnicExZ7f/w0ugBvWNzhu+zYh0N9xts4boKtKLJDeS4MMRvSU/DvVdl
-   9fsoTvvLiRzD3VrypftgaYSSQftptcVu5aV3DXiiF8W36ea9F4JpwCj7+
-   lx1rntHFRLjKEdGGj+Rx8PmHgQ8KI8ncSN7WFuDdrQ81CnwvWIfkhEybF
+  bh=xA6z5fh/+MfxpzqYn5zYIN2lg7iElEPLOGv84suj3t0=;
+  b=bHBXtscdByIJFN37i8wM7s1yjwL51Nm9RKQKw3DbTWP19aWYQeTS9ciG
+   opdXbyT6uhFsO0Z7G/13yL3oWkcGAA/XMBrxegPuPREo/8adNQOSNZFRW
+   V69zDCUZ+JbsEE1vACjfXQ0J/DGRppMMu+vEycRHc+rztyPRabROPQrVH
+   cwjv0eAVwQc6nwIppeQ21HI3o4eH/3bFRFETpgyPK1QnRDSeiHftn79eF
+   JMUq1co7kNnb8gj+8PAcPCurkBYh/M9UlVK+HJVIKsAVzCtEJKka4M3ao
+   pTaNXZIrkvYByKp9IG+G8kzwVjjcKZtaLEM/T0JQ/8L3ooGmczpQp6PQf
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="421238703"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="337285863"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="421238703"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 22:15:52 -0800
+   d="scan'208";a="337285863"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 22:27:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="764300250"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="739385454"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="764300250"
+   d="scan'208";a="739385454"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Mar 2023 22:15:51 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2023 22:26:53 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXyhr-0001FW-0C;
-	Fri, 03 Mar 2023 06:15:51 +0000
-Date: Fri, 3 Mar 2023 14:15:23 +0800
+	id 1pXysV-0001Fm-0k;
+	Fri, 03 Mar 2023 06:26:51 +0000
+Date: Fri, 3 Mar 2023 14:25:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+To: Bhupesh Sharma <bhupesh.sharma@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:tmp/for-baol-0303 17/53]
- drivers/vfio/group.c:185:23: error: implicit declaration of function
- 'iommufd_vfio_compat_ioas_get_id'; did you mean
- 'iommufd_vfio_compat_ioas_create'?
-Message-ID: <202303031417.XI4etFY5-lkp@intel.com>
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+ 35/633] drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: error:
+ 'dev' undeclared; did you mean 'cdev'?
+Message-ID: <202303031417.W6jxl9nE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,95 +47,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git tmp/for-baol-0303
-head:   028abaf51f935755b020cbb2c8f196862dd3a312
-commit: 47d3e152b660af969c89ac719f5f6cd8eeffcac6 [17/53] vfio: Add infrastructure for bind_iommufd from userspace
-config: s390-randconfig-r005-20230302 (https://download.01.org/0day-ci/archive/20230303/202303031417.XI4etFY5-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Bhupesh,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+head:   06abd4f3cf4c58289447483d11d566d20fd3f3db
+commit: 08c5e3278b418c5a4f7f98e4357208deff68a8da [35/633] coresight: etm4x: Fix crash observed on Qcom ETM parts with 'Low power override'
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303031417.W6jxl9nE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/yiliu1765/iommufd/commit/47d3e152b660af969c89ac719f5f6cd8eeffcac6
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd tmp/for-baol-0303
-        git checkout 47d3e152b660af969c89ac719f5f6cd8eeffcac6
+        # https://github.com/krzk/linux/commit/08c5e3278b418c5a4f7f98e4357208deff68a8da
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+        git checkout 08c5e3278b418c5a4f7f98e4357208deff68a8da
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303031417.XI4etFY5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303031417.W6jxl9nE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/vfio/group.c: In function 'vfio_device_group_open':
->> drivers/vfio/group.c:185:23: error: implicit declaration of function 'iommufd_vfio_compat_ioas_get_id'; did you mean 'iommufd_vfio_compat_ioas_create'? [-Werror=implicit-function-declaration]
-     185 |                 ret = iommufd_vfio_compat_ioas_get_id(device->group->iommufd,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       iommufd_vfio_compat_ioas_create
-   cc1: some warnings being treated as errors
+   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_init_sysreg_access':
+>> drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
+     987 |         if (fwnode_property_present(dev_fwnode(dev), "qcom,skip-power-up"))
+         |                                                ^~~
+         |                                                cdev
+   drivers/hwtracing/coresight/coresight-etm4x-core.c:987:48: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +185 drivers/vfio/group.c
+vim +987 drivers/hwtracing/coresight/coresight-etm4x-core.c
 
-   171	
-   172	static int vfio_device_group_open(struct vfio_device_file *df)
-   173	{
-   174		struct vfio_device *device = df->device;
-   175		u32 ioas_id;
-   176		int ret;
-   177	
-   178		mutex_lock(&device->group->group_lock);
-   179		if (!vfio_group_has_iommu(device->group)) {
-   180			ret = -EINVAL;
-   181			goto out_unlock;
-   182		}
-   183	
-   184		if (device->group->iommufd) {
- > 185			ret = iommufd_vfio_compat_ioas_get_id(device->group->iommufd,
-   186							      &ioas_id);
-   187			if (ret)
-   188				goto out_unlock;
-   189		}
-   190	
-   191		mutex_lock(&device->dev_set->lock);
-   192	
-   193		/*
-   194		 * Before the first device open, get the KVM pointer currently
-   195		 * associated with the group (if there is one) and obtain a reference
-   196		 * now that will be held until the open_count reaches 0 again.  Save
-   197		 * the pointer in the device for use by drivers.
-   198		 */
-   199		if (device->open_count == 0)
-   200			vfio_device_group_get_kvm_safe(device);
-   201	
-   202		if (device->group->iommufd) {
-   203			df->iommufd = device->group->iommufd;
-   204			ret = vfio_device_open(df, NULL, &ioas_id);
-   205		} else {
-   206			ret = vfio_device_open(df, NULL, NULL);
-   207		}
-   208		if (ret)
-   209			df->iommufd = NULL;
-   210	
-   211		if (device->open_count == 0)
-   212			vfio_device_put_kvm(device);
-   213	
-   214		/*
-   215		 * Paired with smp_load_acquire() in vfio_device_fops::ioctl/
-   216		 * read/write/mmap
-   217		 */
-   218		smp_store_release(&df->access_granted, true);
-   219	
-   220		mutex_unlock(&device->dev_set->lock);
-   221	
-   222	out_unlock:
-   223		mutex_unlock(&device->group->group_lock);
-   224		return ret;
-   225	}
-   226	
+   971	
+   972	static bool etm4_init_sysreg_access(struct etmv4_drvdata *drvdata,
+   973					    struct csdev_access *csa)
+   974	{
+   975		u32 devarch;
+   976	
+   977		if (!cpu_supports_sysreg_trace())
+   978			return false;
+   979	
+   980		/*
+   981		 * Some Qualcomm implementations require skipping powering up the trace unit,
+   982		 * as the ETMs are in the same power domain as their CPU cores.
+   983		 *
+   984		 * Since the 'skip_power_up' flag is used inside 'etm4_init_arch_data' function,
+   985		 * initialize it before the function is called.
+   986		 */
+ > 987		if (fwnode_property_present(dev_fwnode(dev), "qcom,skip-power-up"))
+   988			drvdata->skip_power_up = true;
+   989	
+   990		/*
+   991		 * ETMs implementing sysreg access must implement TRCDEVARCH.
+   992		 */
+   993		devarch = read_etm4x_sysreg_const_offset(TRCDEVARCH);
+   994		switch (devarch & ETM_DEVARCH_ID_MASK) {
+   995		case ETM_DEVARCH_ETMv4x_ARCH:
+   996			*csa = (struct csdev_access) {
+   997				.io_mem	= false,
+   998				.read	= etm4x_sysreg_read,
+   999				.write	= etm4x_sysreg_write,
+  1000			};
+  1001			break;
+  1002		case ETM_DEVARCH_ETE_ARCH:
+  1003			*csa = (struct csdev_access) {
+  1004				.io_mem	= false,
+  1005				.read	= ete_sysreg_read,
+  1006				.write	= ete_sysreg_write,
+  1007			};
+  1008			break;
+  1009		default:
+  1010			return false;
+  1011		}
+  1012	
+  1013		drvdata->arch = etm_devarch_to_arch(devarch);
+  1014		return true;
+  1015	}
+  1016	
 
 -- 
 0-DAY CI Kernel Test Service
