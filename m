@@ -1,43 +1,49 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C501C1874
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 05:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492891874
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 05:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677820974; x=1709356974;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3mdgNOqccPPr+F/4yfbCsvkS0UwA896/tjFmZ/nfG94=;
-  b=Mx7/CfJuj2LeoFOkDesDFw2uspkM0u/2cTKeR/xsCjqriNClWaHZY11Z
-   0RB4Y/neJrjFCPwdYMSXmYwYjBpEfcIpC0Wk0zCtIXl5XzlmhqwxspOnP
-   ABFRQ7dRd1wClvA7Imm6xR/0JDluRZZEmyi9TvxAKYt2qnwu9l0b0rIT8
-   kRu57l5C6z62wSngvSf3aYsB7VgNM9VRgbC5xyj2qCNnVZKuz6MgFAI5t
-   JPbePxDozXrHwzs2D2rO2wRTspFxCTLnk1w894ht++6EM3VwvEUbTH579
-   7WJ9nQnHbFtuFyZlTGtAScdrGf9cv2XQ1qAWB0IBPzN90qKI155a14fYL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="323254622"
+  t=1677821693; x=1709357693;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CEL6x9+KerWrUgJYZaOQG6l602KQIaJy3RTvHGd8Xmc=;
+  b=gosaLNJf4P2oK+rq882Oi3F7kiH8NBYMJk+tsZlysvH5DR/Q+msWkaNF
+   6REPjsUsR8Xk9AhIowE0+I9+byQMxlcj93OR3e+ICyAFQFtUxvBBPLI9c
+   NfTc4KW+mERcTVSc2EddbVGoWxAbgFyEzAE2fAdJD72nlNXEk11sP2kZh
+   WQlMazl4//SJ6O1NUB4dR+fBuNjQ3mOmSUTbA26H7s5n9GJp4OSwXgMWI
+   Hkfbs2x7k8ygDNMiDoctmylolX/uDnyM9irPQGyyOsEVOJr0ppFVxoRTb
+   aNi6qJKyBneD8EK5kSp85dDBtAK8yMLb1h5xTOg77C90Xtu1rcnn9wVVG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="362553297"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="323254622"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 21:22:52 -0800
+   d="scan'208";a="362553297"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 21:34:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="799117764"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="818351616"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="799117764"
+   d="scan'208";a="818351616"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 21:22:50 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2023 21:34:50 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXxsX-0001DW-37;
-	Fri, 03 Mar 2023 05:22:49 +0000
-Date: Fri, 3 Mar 2023 13:21:57 +0800
+	id 1pXy4A-0001E6-0q;
+	Fri, 03 Mar 2023 05:34:50 +0000
+Date: Fri, 3 Mar 2023 13:34:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:tmp/for-baol-0303 32/53]
- drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer
- of different size
-Message-ID: <202303031326.Apfli8PI-lkp@intel.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH 1/2] scsi: sd: Check physical sector alignment of
+ sequential zone writes
+Message-ID: <202303031358.dwPeGHeZ-lkp@intel.com>
+References: <20230303014422.2466103-2-shinichiro.kawasaki@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,124 +52,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230303014422.2466103-2-shinichiro.kawasaki@wdc.com>
 
-tree:   https://github.com/yiliu1765/iommufd.git tmp/for-baol-0303
-head:   028abaf51f935755b020cbb2c8f196862dd3a312
-commit: ff36dc2e826bee1bb7c880b6fdd9612a7b13af24 [32/53] iommufd: Add IOMMU_DEVICE_GET_INFO
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303031326.Apfli8PI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Shin'ichiro,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v6.2 next-20230303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shin-ichiro-Kawasaki/scsi-sd-Check-physical-sector-alignment-of-sequential-zone-writes/20230303-094618
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230303014422.2466103-2-shinichiro.kawasaki%40wdc.com
+patch subject: [PATCH 1/2] scsi: sd: Check physical sector alignment of sequential zone writes
+config: arc-randconfig-r031-20230302 (https://download.01.org/0day-ci/archive/20230303/202303031358.dwPeGHeZ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/yiliu1765/iommufd/commit/ff36dc2e826bee1bb7c880b6fdd9612a7b13af24
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd tmp/for-baol-0303
-        git checkout ff36dc2e826bee1bb7c880b6fdd9612a7b13af24
+        # https://github.com/intel-lab-lkp/linux/commit/60573809bdc58708e29f2f9ecbddb06aeb9e8716
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shin-ichiro-Kawasaki/scsi-sd-Check-physical-sector-alignment-of-sequential-zone-writes/20230303-094618
+        git checkout 60573809bdc58708e29f2f9ecbddb06aeb9e8716
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/iommu/iommufd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303031326.Apfli8PI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303031358.dwPeGHeZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:746,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/iommu.h:10,
-                    from drivers/iommu/iommufd/device.c:6:
-   drivers/iommu/iommufd/device.c: In function 'iommufd_zero_fill_user':
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:81:18: note: in definition of macro '__put_user'
-      81 |         typeof(*(ptr)) __pu_val = (x);                                  \
-         |                  ^~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:84:27: note: in definition of macro '__put_user'
-      84 |         switch (sizeof (*(ptr))) {                                      \
-         |                           ^~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:46:31: note: in definition of macro '__put_user_asm'
-      46 |         : "+d" (res), "=m" (*(ptr))                     \
-         |                               ^~~
-   arch/m68k/include/asm/uaccess.h:102:33: note: in expansion of macro '__put_user'
-     102 | #define put_user(x, ptr)        __put_user(x, ptr)
-         |                                 ^~~~~~~~~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:46:31: note: in definition of macro '__put_user_asm'
-      46 |         : "+d" (res), "=m" (*(ptr))                     \
-         |                               ^~~
-   arch/m68k/include/asm/uaccess.h:102:33: note: in expansion of macro '__put_user'
-     102 | #define put_user(x, ptr)        __put_user(x, ptr)
-         |                                 ^~~~~~~~~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:46:31: note: in definition of macro '__put_user_asm'
-      46 |         : "+d" (res), "=m" (*(ptr))                     \
-         |                               ^~~
-   arch/m68k/include/asm/uaccess.h:102:33: note: in expansion of macro '__put_user'
-     102 | #define put_user(x, ptr)        __put_user(x, ptr)
-         |                                 ^~~~~~~~~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
->> drivers/iommu/iommufd/device.c:247:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                                 ^
-   arch/m68k/include/asm/uaccess.h:51:55: note: in definition of macro '__put_user_asm8'
-      51 |         const void *__pu_ptr = (const void __force *)(ptr);     \
-         |                                                       ^~~
-   arch/m68k/include/asm/uaccess.h:102:33: note: in expansion of macro '__put_user'
-     102 | #define put_user(x, ptr)        __put_user(x, ptr)
-         |                                 ^~~~~~~~~~
-   drivers/iommu/iommufd/device.c:247:21: note: in expansion of macro 'put_user'
-     247 |                 if (put_user(0, (uint8_t __user *)(ptr + index)))
-         |                     ^~~~~~~~
+   drivers/scsi/sd.c: In function 'sd_setup_read_write_cmnd':
+>> drivers/scsi/sd.c:1151:47: error: implicit declaration of function 'blk_rq_zone_is_seq'; did you mean 'bio_zone_is_seq'? [-Werror=implicit-function-declaration]
+    1151 |         if (sdkp->device->type == TYPE_ZBC && blk_rq_zone_is_seq(rq) &&
+         |                                               ^~~~~~~~~~~~~~~~~~
+         |                                               bio_zone_is_seq
+   cc1: some warnings being treated as errors
 
 
-vim +247 drivers/iommu/iommufd/device.c
+vim +1151 drivers/scsi/sd.c
 
-   241	
-   242	static int iommufd_zero_fill_user(u64 ptr, int bytes)
-   243	{
-   244		int index = 0;
-   245	
-   246		for (; index < bytes; index++) {
- > 247			if (put_user(0, (uint8_t __user *)(ptr + index)))
-   248				return -EFAULT;
-   249		}
-   250		return 0;
-   251	}
-   252	
+  1119	
+  1120	static blk_status_t sd_setup_read_write_cmnd(struct scsi_cmnd *cmd)
+  1121	{
+  1122		struct request *rq = scsi_cmd_to_rq(cmd);
+  1123		struct scsi_device *sdp = cmd->device;
+  1124		struct scsi_disk *sdkp = scsi_disk(rq->q->disk);
+  1125		sector_t lba = sectors_to_logical(sdp, blk_rq_pos(rq));
+  1126		sector_t threshold;
+  1127		unsigned int nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
+  1128		unsigned int pb_sectors = sdkp->physical_block_size >> SECTOR_SHIFT;
+  1129		unsigned int mask = logical_to_sectors(sdp, 1) - 1;
+  1130		bool write = rq_data_dir(rq) == WRITE;
+  1131		unsigned char protect, fua;
+  1132		blk_status_t ret;
+  1133		unsigned int dif;
+  1134		bool dix;
+  1135	
+  1136		ret = scsi_alloc_sgtables(cmd);
+  1137		if (ret != BLK_STS_OK)
+  1138			return ret;
+  1139	
+  1140		ret = BLK_STS_IOERR;
+  1141		if (!scsi_device_online(sdp) || sdp->changed) {
+  1142			scmd_printk(KERN_ERR, cmd, "device offline or changed\n");
+  1143			goto fail;
+  1144		}
+  1145	
+  1146		if (blk_rq_pos(rq) + blk_rq_sectors(rq) > get_capacity(rq->q->disk)) {
+  1147			scmd_printk(KERN_ERR, cmd, "access beyond end of device\n");
+  1148			goto fail;
+  1149		}
+  1150	
+> 1151		if (sdkp->device->type == TYPE_ZBC && blk_rq_zone_is_seq(rq) &&
+  1152		    (req_op(rq) == REQ_OP_WRITE || req_op(rq) == REQ_OP_ZONE_APPEND) &&
+  1153		    (!IS_ALIGNED(blk_rq_pos(rq), pb_sectors) ||
+  1154		     !IS_ALIGNED(blk_rq_sectors(rq), pb_sectors))) {
+  1155			scmd_printk(KERN_ERR, cmd,
+  1156				    "Sequential write request not aligned to the physical block size\n");
+  1157			goto fail;
+  1158		}
+  1159	
+  1160		if ((blk_rq_pos(rq) & mask) || (blk_rq_sectors(rq) & mask)) {
+  1161			scmd_printk(KERN_ERR, cmd, "request not aligned to the logical block size\n");
+  1162			goto fail;
+  1163		}
+  1164	
+  1165		/*
+  1166		 * Some SD card readers can't handle accesses which touch the
+  1167		 * last one or two logical blocks. Split accesses as needed.
+  1168		 */
+  1169		threshold = sdkp->capacity - SD_LAST_BUGGY_SECTORS;
+  1170	
+  1171		if (unlikely(sdp->last_sector_bug && lba + nr_blocks > threshold)) {
+  1172			if (lba < threshold) {
+  1173				/* Access up to the threshold but not beyond */
+  1174				nr_blocks = threshold - lba;
+  1175			} else {
+  1176				/* Access only a single logical block */
+  1177				nr_blocks = 1;
+  1178			}
+  1179		}
+  1180	
+  1181		if (req_op(rq) == REQ_OP_ZONE_APPEND) {
+  1182			ret = sd_zbc_prepare_zone_append(cmd, &lba, nr_blocks);
+  1183			if (ret)
+  1184				goto fail;
+  1185		}
+  1186	
+  1187		fua = rq->cmd_flags & REQ_FUA ? 0x8 : 0;
+  1188		dix = scsi_prot_sg_count(cmd);
+  1189		dif = scsi_host_dif_capable(cmd->device->host, sdkp->protection_type);
+  1190	
+  1191		if (dif || dix)
+  1192			protect = sd_setup_protect_cmnd(cmd, dix, dif);
+  1193		else
+  1194			protect = 0;
+  1195	
+  1196		if (protect && sdkp->protection_type == T10_PI_TYPE2_PROTECTION) {
+  1197			ret = sd_setup_rw32_cmnd(cmd, write, lba, nr_blocks,
+  1198						 protect | fua);
+  1199		} else if (sdp->use_16_for_rw || (nr_blocks > 0xffff)) {
+  1200			ret = sd_setup_rw16_cmnd(cmd, write, lba, nr_blocks,
+  1201						 protect | fua);
+  1202		} else if ((nr_blocks > 0xff) || (lba > 0x1fffff) ||
+  1203			   sdp->use_10_for_rw || protect) {
+  1204			ret = sd_setup_rw10_cmnd(cmd, write, lba, nr_blocks,
+  1205						 protect | fua);
+  1206		} else {
+  1207			ret = sd_setup_rw6_cmnd(cmd, write, lba, nr_blocks,
+  1208						protect | fua);
+  1209		}
+  1210	
+  1211		if (unlikely(ret != BLK_STS_OK))
+  1212			goto fail;
+  1213	
+  1214		/*
+  1215		 * We shouldn't disconnect in the middle of a sector, so with a dumb
+  1216		 * host adapter, it's safe to assume that we can at least transfer
+  1217		 * this many bytes between each connect / disconnect.
+  1218		 */
+  1219		cmd->transfersize = sdp->sector_size;
+  1220		cmd->underflow = nr_blocks << 9;
+  1221		cmd->allowed = sdkp->max_retries;
+  1222		cmd->sdb.length = nr_blocks * sdp->sector_size;
+  1223	
+  1224		SCSI_LOG_HLQUEUE(1,
+  1225				 scmd_printk(KERN_INFO, cmd,
+  1226					     "%s: block=%llu, count=%d\n", __func__,
+  1227					     (unsigned long long)blk_rq_pos(rq),
+  1228					     blk_rq_sectors(rq)));
+  1229		SCSI_LOG_HLQUEUE(2,
+  1230				 scmd_printk(KERN_INFO, cmd,
+  1231					     "%s %d/%u 512 byte blocks.\n",
+  1232					     write ? "writing" : "reading", nr_blocks,
+  1233					     blk_rq_sectors(rq)));
+  1234	
+  1235		/*
+  1236		 * This indicates that the command is ready from our end to be queued.
+  1237		 */
+  1238		return BLK_STS_OK;
+  1239	fail:
+  1240		scsi_free_sgtables(cmd);
+  1241		return ret;
+  1242	}
+  1243	
 
 -- 
 0-DAY CI Kernel Test Service
