@@ -1,42 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3AE10780;
-	Thu,  2 Mar 2023 23:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20853399;
+	Fri,  3 Mar 2023 00:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677800628; x=1709336628;
+  t=1677802193; x=1709338193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=us6D/P+l0sDMAJV0FVuYZNVAUzD8CTCHpv2ArKcDLvA=;
-  b=gXvEOhASOucGzSgXSa2TG7/lWhHuW3Lpqvl70G1/f/qO9+/6hcQB3SdS
-   dfEIKShfU3xKILNo6ghjjbX2vZmXzkULMCwZemjAfIbAlFLZ2RokYcNj6
-   E4lRQ5MfteNjTpLwlANG64cAzwYZ2iAo4AsGIKUt7BlXyy3PZw2OhHMAG
-   qf0BhIBorjypUMLnd5ye6bf6NMnjCBCYsQYtisk04TcIQxrib2QD6/wID
-   m0bFczOti24HiRwv0sk02ecKFz8s/XJTgl8j6cbwWM+2Vb8JN8L6875eg
-   hcJImind5U2AeTm6wsjmYvQjDcbgjwCycFajE9zpDz1kDVdWtaYWErh5P
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="362484742"
+  bh=KEO69e7t4SUCptDZHAye6J7VUmZunSOCkRUou3oEIcw=;
+  b=c4CBJkA+8VxVuJkt8pFVUw+gI6N/KehGVgJ+96TpG/wMBa3w2BDMAUrL
+   erDr44uxLKUPVddD2RDgzxgX/nq4zoMhBmzpE2rV8vZ9WQJNeUfyhkfHP
+   /yF5bzCJDyTDrUsOsQwLd6FDR6iA4sWq16Qi+KGyPcMlHiM37hhpR7QYt
+   Zp0EWTibvbwyS37HKD7diBvnGTn8EcLDJBovizJK3BWTVHKgPoqYebxIM
+   +Ak8DvE9P2hkCcSJUrebk0WVqMYsyWu8tqmVOndHX/FCHJQ2KfC5MZvwW
+   +29io88dv6a85Y71tRkbDczLJSKHwQuZz890SvHt3N41aYULu4I+H+uu4
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318720578"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="362484742"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 15:43:42 -0800
+   d="scan'208";a="318720578"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 16:09:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="707600003"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="668451827"
 X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="707600003"
+   d="scan'208";a="668451827"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2023 15:43:41 -0800
+  by orsmga007.jf.intel.com with ESMTP; 02 Mar 2023 16:08:42 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXsaK-0000za-0w;
-	Thu, 02 Mar 2023 23:43:40 +0000
-Date: Fri, 3 Mar 2023 07:43:38 +0800
+	id 1pXsyX-000110-1T;
+	Fri, 03 Mar 2023 00:08:41 +0000
+Date: Fri, 3 Mar 2023 08:08:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Georgi Djakov <djakov@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [djakov-icc:iommu-map 2/2] drivers/iommu/dma-iommu.c:1544:33:
- warning: unused variable 'iommu_dma_ops'
-Message-ID: <202303030711.Z6MMVJgs-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [stable:linux-5.15.y 1447/9999] <inline asm>:6:2: error: cpu
+ alternatives does not support instructions blocks > 254 bytes
+Message-ID: <202303030805.rRkU4bRr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +50,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git iommu-map
-head:   e2620c92a19b9e64162ce85e924a6adc5af285e2
-commit: e2620c92a19b9e64162ce85e924a6adc5af285e2 [2/2] dma-mapping: Replace indirect functions calls to improve performance
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230303/202303030711.Z6MMVJgs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   d383d0f28ecac0f3375bdfb9a0c4bfac979f6f8f
+commit: 33db9912ff7c491f839c89a08e98f755aa09598f [1447/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
+config: s390-randconfig-r034-20230303 (https://download.01.org/0day-ci/archive/20230303/202303030805.rRkU4bRr-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git/commit/?id=e2620c92a19b9e64162ce85e924a6adc5af285e2
-        git remote add djakov-icc https://git.kernel.org/pub/scm/linux/kernel/git/djakov/icc.git
-        git fetch --no-tags djakov-icc iommu-map
-        git checkout e2620c92a19b9e64162ce85e924a6adc5af285e2
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=33db9912ff7c491f839c89a08e98f755aa09598f
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 33db9912ff7c491f839c89a08e98f755aa09598f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash fs/jbd2/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303030711.Z6MMVJgs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303030805.rRkU4bRr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iommu/dma-iommu.c:1544:33: warning: unused variable 'iommu_dma_ops' [-Wunused-const-variable]
-   static const struct dma_map_ops iommu_dma_ops = {
-                                   ^
-   1 warning generated.
-
-
-vim +/iommu_dma_ops +1544 drivers/iommu/dma-iommu.c
-
-6d9870b7e5def24 John Garry        2022-07-14  1543  
-06d60728ff5c017 Christoph Hellwig 2019-05-20 @1544  static const struct dma_map_ops iommu_dma_ops = {
-30280eee2db10ed Logan Gunthorpe   2022-07-08  1545  	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1546  	.alloc			= iommu_dma_alloc,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1547  	.free			= iommu_dma_free,
-efa70f2fdc842e6 Christoph Hellwig 2020-09-01  1548  	.alloc_pages		= dma_common_alloc_pages,
-efa70f2fdc842e6 Christoph Hellwig 2020-09-01  1549  	.free_pages		= dma_common_free_pages,
-e817ee5f2f95ca5 Christoph Hellwig 2021-01-28  1550  	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
-e817ee5f2f95ca5 Christoph Hellwig 2021-01-28  1551  	.free_noncontiguous	= iommu_dma_free_noncontiguous,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1552  	.mmap			= iommu_dma_mmap,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1553  	.get_sgtable		= iommu_dma_get_sgtable,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1554  	.map_page		= iommu_dma_map_page,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1555  	.unmap_page		= iommu_dma_unmap_page,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1556  	.map_sg			= iommu_dma_map_sg,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1557  	.unmap_sg		= iommu_dma_unmap_sg,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1558  	.sync_single_for_cpu	= iommu_dma_sync_single_for_cpu,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1559  	.sync_single_for_device	= iommu_dma_sync_single_for_device,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1560  	.sync_sg_for_cpu	= iommu_dma_sync_sg_for_cpu,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1561  	.sync_sg_for_device	= iommu_dma_sync_sg_for_device,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1562  	.map_resource		= iommu_dma_map_resource,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1563  	.unmap_resource		= iommu_dma_unmap_resource,
-158a6d3ce3bcfcd Yoshihiro Shimoda 2019-08-28  1564  	.get_merge_boundary	= iommu_dma_get_merge_boundary,
-6d9870b7e5def24 John Garry        2022-07-14  1565  	.opt_mapping_size	= iommu_dma_opt_mapping_size,
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1566  };
-06d60728ff5c017 Christoph Hellwig 2019-05-20  1567  
-
-:::::: The code at line 1544 was first introduced by commit
-:::::: 06d60728ff5c01795ac0bad66a5c42e3e78dcb6b iommu/dma: move the arm64 wrappers to common code
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: expected absolute expression
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:83:2: note: expanded from macro 'OLDINSTR'
+           OLDINSTR_PADDING(oldinstr, num)                                 \
+           ^
+   arch/s390/include/asm/alternative.h:71:3: note: expanded from macro 'OLDINSTR_PADDING'
+           ".if " oldinstr_pad_len(num) " > 6\n"                           \
+            ^
+   <inline asm>:15:5: note: instantiated into assembly here
+   .if -(((6651b-6641b)-(662b-661b)) > 0) * ((6651b-6641b)-(662b-661b)) > 6
+       ^
+   In file included from fs/jbd2/transaction.c:18:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: expected absolute expression
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:85:2: note: expanded from macro 'OLDINSTR'
+           INSTR_LEN_SANITY_CHECK(oldinstr_len)
+           ^
+   arch/s390/include/asm/alternative.h:62:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           ".if " len " > 254\n"                                           \
+            ^
+   <inline asm>:25:5: note: instantiated into assembly here
+   .if 662b-661b > 254
+       ^
+   In file included from fs/jbd2/transaction.c:18:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: cpu alternatives does not support instructions blocks > 254 bytes
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:85:2: note: expanded from macro 'OLDINSTR'
+           INSTR_LEN_SANITY_CHECK(oldinstr_len)
+           ^
+   arch/s390/include/asm/alternative.h:63:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           "\t.error \"cpu alternatives does not support instructions "    \
+            ^
+   <inline asm>:26:2: note: instantiated into assembly here
+           .error "cpu alternatives does not support instructions blocks > 254 bytes"
+           ^
+   In file included from fs/jbd2/transaction.c:18:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: expected absolute expression
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:85:2: note: expanded from macro 'OLDINSTR'
+           INSTR_LEN_SANITY_CHECK(oldinstr_len)
+           ^
+   arch/s390/include/asm/alternative.h:66:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           ".if (" len ") %% 2\n"                                          \
+            ^
+   <inline asm>:28:5: note: instantiated into assembly here
+   .if (662b-661b) % 2
+       ^
+   In file included from fs/jbd2/transaction.c:18:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: cpu alternatives instructions length is odd
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:85:2: note: expanded from macro 'OLDINSTR'
+           INSTR_LEN_SANITY_CHECK(oldinstr_len)
+           ^
+   arch/s390/include/asm/alternative.h:67:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           "\t.error \"cpu alternatives instructions length is odd\"\n"    \
+            ^
+   <inline asm>:29:2: note: instantiated into assembly here
+           .error "cpu alternatives instructions length is odd"
+           ^
+   <inline asm>:5:5: error: expected absolute expression
+   .if 6651b-6641b > 254
+       ^
+>> <inline asm>:6:2: error: cpu alternatives does not support instructions blocks > 254 bytes
+           .error "cpu alternatives does not support instructions blocks > 254 bytes"
+           ^
+   <inline asm>:8:5: error: expected absolute expression
+   .if (6651b-6641b) % 2
+       ^
+>> <inline asm>:9:2: error: cpu alternatives instructions length is odd
+           .error "cpu alternatives instructions length is odd"
+           ^
+   <inline asm>:15:5: error: expected absolute expression
+   .if -(((6651b-6641b)-(662b-661b)) > 0) * ((6651b-6641b)-(662b-661b)) > 6
+       ^
+   <inline asm>:25:5: error: expected absolute expression
+   .if 662b-661b > 254
+       ^
+   <inline asm>:26:2: error: cpu alternatives does not support instructions blocks > 254 bytes
+           .error "cpu alternatives does not support instructions blocks > 254 bytes"
+           ^
+   <inline asm>:28:5: error: expected absolute expression
+   .if (662b-661b) % 2
+       ^
+   <inline asm>:29:2: error: cpu alternatives instructions length is odd
+           .error "cpu alternatives instructions length is odd"
+           ^
+   In file included from fs/jbd2/transaction.c:18:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:94:
+   arch/s390/include/asm/spinlock.h:89:3: error: expected absolute expression
+                   ALTERNATIVE("", ".long 0xb2fa0070", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:111:2: note: expanded from macro 'ALTERNATIVE'
+           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
+           ^
+   arch/s390/include/asm/alternative.h:106:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
+           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
+           ^
+   arch/s390/include/asm/alternative.h:62:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           ".if " len " > 254\n"                                           \
+            ^
+   <inline asm>:5:5: note: instantiated into assembly here
+   .if 6651b-6641b > 254
+       ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   12 warnings and 20 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
