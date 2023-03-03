@@ -1,42 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979643222
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 21:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86BD139C;
+	Fri,  3 Mar 2023 22:39:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677878907; x=1709414907;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mt3BpVSPcRjxMUVLzFoE8KjI9y8dYfGm+w1tzZxjHww=;
-  b=QOgH3THWpa6cPmrsnFO6nGonI7nvq0LcBh5NJzzfl6sABV3L25bowAmy
-   6Dkog18Vv1XDtBfQM1JkPgxsj/LSrqZ0NLAurKlDIA8/2280KvmsiLXJ+
-   tjRL/6PSkMKBmroDEwp62m1P+t9p43x35QcDUluYSSWAJiIjqN8uQxzgO
-   J7FBVhQiFByGQFJkkIDIf3GxjPDggg9lSTmXaeGkbZo3/6NzsT0+/EYBc
-   /EuliurwXxFw1l7egHDYpke0vx+mpmMytIv7eWUyYtBPPvUZ9GCQ3Y8s/
-   Y1deeM4LeDyn1yQx6880qEGRj4PLKmOa8lhDe1sXkBiXPGnm0vQTYYT8g
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="323460479"
-X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
-   d="scan'208";a="323460479"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 13:28:27 -0800
+  t=1677883168; x=1709419168;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=UtbNUeHkdfnI7hK+rTZjXWYK3JN5Xw4FLO8Gz2rkiig=;
+  b=jERKgOkHWRV8+F7I7yxVAEVvRCJvICVB4ZRO+lrhsf+VsofQrebSbjwE
+   nffi/kGVUPlu2AbiCbS39yawWzGTFgSY+OMLJOVRQrGqReaa3I0UYkwXX
+   efUnkazQaQsEzrUtXvjGYJS+o8p7VfXwUFaJmjBrLNonEBckjQx3X7Ig1
+   bwONNzR9uAqvff3Z+8DN+ryYuymWu59YsAyYw++XEH8OFMEEFRDIuNFGi
+   wJB9kmvHZti/fzdlldM/yzxZkbp+y91oxPKdE9VRmP338BA726J4jKgzY
+   ZJt8ewOjYaT7tzVlyqJ7eeehXMNNv4e2kt7K1qBZfr3ut/L2+CrI/mfv4
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="399990324"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="399990324"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 14:39:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="921248499"
-X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
-   d="scan'208";a="921248499"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="849640981"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="849640981"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Mar 2023 13:28:26 -0800
+  by orsmga005.jf.intel.com with ESMTP; 03 Mar 2023 14:39:27 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYCwz-0001fY-1z;
-	Fri, 03 Mar 2023 21:28:25 +0000
-Date: Sat, 4 Mar 2023 05:28:04 +0800
+	id 1pYE3i-0001hM-2q;
+	Fri, 03 Mar 2023 22:39:26 +0000
+Date: Sat, 4 Mar 2023 06:39:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:net-queue 14/71] drivers/net/phy/sfp.c:2656:9: error: too
- many arguments to function 'sfp_set_state'
-Message-ID: <202303040515.NxKrJ2Ft-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [driver-core:debugfs_cleanup 7/7] ld.lld: error:
+ vmlinux.a(fs/ext4/orphan.o):(function ext4_orphan_add: .text+0x110):
+ relocation R_RISCV_HI20 out of range: 541487 is not in [-524288, 524287];
+ references ext4_orphan_add.__if_trace.2.1
+Message-ID: <202303040632.lhWDtmIN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,54 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm net-queue
-head:   e61867cdc3bb4a8980784f3cafaa6c877ab6af0d
-commit: 9e4f66979a9751beb8ac23f928fe25a7a4617573 [14/71] net: sfp: add support for rate selection
-config: loongarch-randconfig-r025-20230302 (https://download.01.org/0day-ci/archive/20230304/202303040515.NxKrJ2Ft-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+CC: devel@driverdev.osuosl.org
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git debugfs_cleanup
+head:   d6b1776e7d0ed5afabaf9c8ea8e4581bbeab3e60
+commit: d6b1776e7d0ed5afabaf9c8ea8e4581bbeab3e60 [7/7] soundwire: sysfs: remove unneeded ATTRIBUTE_GROUPS() comments
+config: riscv-randconfig-r002-20230303 (https://download.01.org/0day-ci/archive/20230304/202303040632.lhWDtmIN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add rmk-arm git://git.armlinux.org.uk/~rmk/linux-arm
-        git fetch --no-tags rmk-arm net-queue
-        git checkout 9e4f66979a9751beb8ac23f928fe25a7a4617573
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=d6b1776e7d0ed5afabaf9c8ea8e4581bbeab3e60
+        git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+        git fetch --no-tags driver-core debugfs_cleanup
+        git checkout d6b1776e7d0ed5afabaf9c8ea8e4581bbeab3e60
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/phy/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303040515.NxKrJ2Ft-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303040632.lhWDtmIN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/phy/sfp.c: In function 'sfp_set_signal_rate':
->> drivers/net/phy/sfp.c:2656:9: error: too many arguments to function 'sfp_set_state'
-    2656 |         sfp_set_state(sfp, SFP_F_RS0 | SFP_F_RS1, set);
-         |         ^~~~~~~~~~~~~
-   drivers/net/phy/sfp.c:762:13: note: declared here
-     762 | static void sfp_set_state(struct sfp *sfp, unsigned int state)
-         |             ^~~~~~~~~~~~~
-
-
-vim +/sfp_set_state +2656 drivers/net/phy/sfp.c
-
-  2644	
-  2645	static void sfp_set_signal_rate(struct sfp *sfp, unsigned int rate_kbd)
-  2646	{
-  2647		unsigned int set;
-  2648	
-  2649		sfp->rate_kbd = rate_kbd;
-  2650	
-  2651		if (rate_kbd > sfp->rs_threshold_kbd)
-  2652			set = sfp->rs_state_mask;
-  2653		else
-  2654			set = 0;
-  2655	
-> 2656		sfp_set_state(sfp, SFP_F_RS0 | SFP_F_RS1, set);
-  2657	}
-  2658	
+>> ld.lld: error: vmlinux.a(fs/ext4/orphan.o):(function ext4_orphan_add: .text+0x110): relocation R_RISCV_HI20 out of range: 541487 is not in [-524288, 524287]; references ext4_orphan_add.__if_trace.2.1
+   >>> referenced by orphan.c:101 (fs/ext4/orphan.c:101)
+   >>> defined in vmlinux.a(fs/ext4/orphan.o)
 
 -- 
 0-DAY CI Kernel Test Service
