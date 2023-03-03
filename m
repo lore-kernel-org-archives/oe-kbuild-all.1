@@ -1,45 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374F51FA1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 16:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1F21FA1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 16:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677861501; x=1709397501;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YBHy8QeJMIEGb9eHAR9qA3cWRlm4UpTSMap6fWTCBQk=;
-  b=DUSrdBMFPrmejoPtSzRllikpAypKjMZAXdaGJ/JcBfBRzucBBuUAUlEj
-   CubA7CFQjUA9SaZa5IZf44wrKr3TH6MsVHvXY/RrLOULOvuVWH3/PK7fT
-   4KjC5m+7WkGX6cE3ywcLpUw5FK7SPadFjW24y3F0Zbq0Qcca0SLM8BOgp
-   WmuYsFV2HFBrV8cv19d8iPPg5PR9IOrEqfr3A5wxvldxGjWb3KL8PCGrw
-   HniOqvosdcEUyZyiWy1J5Q6eKlTe+RT4hfSBHaShxd2pOISSEmm/K+bf9
-   esYp4DBxnbyLm0nSIPPURnzZ4OnsKbPgcJ0NY3zzLRcWoBrtsLwqGCwO5
+  t=1677861740; x=1709397740;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l0ZHlMgv35nPXyTcoUJa6be6eE2cAjYNfuIF8JiWutw=;
+  b=MleeW+z2EztpGOJq1EiOj2VLJxOxqDuZJ3jkbcNzOBLLgMKy9ghlakvF
+   EWlK95kwkaAOAsKtbjASZ2AHzs/8w7F1hWXbnu8Q37WDQA6wS3D4J0me9
+   TExmdbSvBWd0sIpySnq31Ih+RJKjac84tndD6j+WKDEFPrxVqI5gi5LKP
+   CzVNtYA9N1jOsFlax3PACJeJZfM1JrpLQmu/mseOwv575Nz2/JBTVfP2L
+   l1kwY0VB/+6q5U6hqnxNWI9J9eV2pe63EeX4WjrdePRj3hhQlUM8lOfC3
+   CiQwbZw4Hh0iv1WJZ1mgj/mxmMyusRjh/kHgJmGEjrrN+nDmFviARzPcL
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="335113307"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="397675343"
 X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
-   d="scan'208";a="335113307"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 08:38:20 -0800
+   d="scan'208";a="397675343"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 08:42:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739550999"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="668722532"
 X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
-   d="scan'208";a="739550999"
+   d="scan'208";a="668722532"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Mar 2023 08:38:19 -0800
+  by orsmga007.jf.intel.com with ESMTP; 03 Mar 2023 08:42:19 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pY8QE-0001Y8-1L;
-	Fri, 03 Mar 2023 16:38:18 +0000
-Date: Sat, 04 Mar 2023 00:38:00 +0800
+	id 1pY8U6-0001YG-1Y;
+	Fri, 03 Mar 2023 16:42:18 +0000
+Date: Sat, 4 Mar 2023 00:41:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>,
- Parth Shah <parth@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+94 bytes kernel size regression] [i386-tinyconfig]
- [778dd8ecf5] sched: Allow sched_{get,set}attr to change latency_nice of the task
-Message-ID: <64022268.CI+pXRlS66JcLbqq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:sched/eevdf 4/10] kernel/sched/fair.c:711: undefined
+ reference to `__udivdi3'
+Message-ID: <202303040023.GGyvAAAo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,30 +44,45 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/eevdf
+head:   bc35f40661d8d25ce8cde6e26d5956237a3e61ae
+commit: bc9954a8f79988472545aa668a0be0dc5a0cddf3 [4/10] sched/fair: Add latency_offset
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230304/202303040023.GGyvAAAo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=bc9954a8f79988472545aa668a0be0dc5a0cddf3
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue sched/eevdf
+        git checkout bc9954a8f79988472545aa668a0be0dc5a0cddf3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303040023.GGyvAAAo-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: kernel/sched/fair.o: in function `calc_latency_offset':
+>> kernel/sched/fair.c:711: undefined reference to `__udivdi3'
 
 
-FYI, we noticed a +94 bytes kernel size regression due to commit:
+vim +711 kernel/sched/fair.c
 
-commit: 778dd8ecf510717a4da3c7729f9c926eb23eaeef (sched: Allow sched_{get,set}attr to change latency_nice of the task)
-https://git.kernel.org/cgit/linux/kernel/git/peterz/queue.git sched/eevdf
+   705	
+   706	long calc_latency_offset(int prio)
+   707	{
+   708		u32 weight = sched_prio_to_weight[prio];
+   709		u64 base = sysctl_sched_min_granularity;
+   710	
+ > 711		return (base << SCHED_FIXEDPOINT_SHIFT) / weight;
+   712	}
+   713	
 
-
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-84fd80a2: sched/core: Propagate parent task's latency requirements to the child task
-778dd8ec: sched: Allow sched_{get,set}attr to change latency_nice of the task
-
-+-------------------------------+----------+----------+-------+
-|            symbol             | 84fd80a2 | 778dd8ec | delta |
-+-------------------------------+----------+----------+-------+
-| bzImage                       | 501472   | 501536   | 64    |
-| nm.t.__sched_setscheduler     | 994      | 1043     | 49    |
-| nm.T.__ia32_sys_sched_setattr | 383      | 407      | 24    |
-| nm.T.__ia32_sys_sched_getattr | 191      | 212      | 21    |
-+-------------------------------+----------+----------+-------+
-
-
-
-Thanks
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
