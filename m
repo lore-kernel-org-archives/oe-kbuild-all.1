@@ -1,42 +1,50 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7329215B1;
-	Sat,  4 Mar 2023 03:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E605819A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 04:49:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677899854; x=1709435854;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oatAEQ7vl8BoKmV6kkc6s2zJXLgO695Y2syAKAjumrU=;
-  b=k+8vYmq9DRmI6dTvlQwXZQMyfvWzY9TxcbYv89RQKDXgsXusmydK2Kvf
-   WmFGJfhMRjr3WIRkDQPNzyDEd20HIyc5xDc0NnM6D8swkD9vtNhI7TLRq
-   KwBJ2mYAMuIpm3BxIaUoBmSJVcfapVKwH4mnco3NdWK6UA8LbytGDovK5
-   ba458aQ+pf2LSsQkYcj/Ccct2tlSX/nrnVZ+B7AuNRkImCtBS06+Agk+B
-   rSXK4+NzLGMcIy7nqGRUp0lZmGecj5tXpMqNEiiYdCg45+s4HcuZr6wQY
-   zE2vSBAfMdbQwESeIeS5eQbRImq+rqrHerr8Mv14Eg4kiMR83on9a4ReO
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="421487336"
+  t=1677905380; x=1709441380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G6dihmxwb1tQgt5Z+zdr5TcbapRbPGbCC3x+s8NtXVQ=;
+  b=k18g9RNRy9K3Ybx7saIuKjH43WjC4Mam7WGE6w3SynQo87GEx9PqKPlF
+   4zXuTOVGD+c4pbu6rSy3h0HEibCURyCbqahB2wnkVILz719cRoJJci9G6
+   Lb9kMPALR575omEUkvYC0fe1zlKvL4EyEWMEjyzUHGaQLujJo9kezs9XZ
+   4E+m2SukfO46JxAWRQRmYEfPV+S9HfjtNlOcEsFe55l27aE8+hw0CL6ha
+   w3cFDGX9iws6O/5RyZQt8+ZN6eTuhKhP5fgbC/f3aMJUQkXMNl9C8bV3r
+   7yMv0hQvOStxov1dFMDsoQjFnKPeRsDnTo4qgfABUnzhuuhttfL2YgE2d
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="337540294"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="421487336"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 19:17:33 -0800
+   d="scan'208";a="337540294"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 20:49:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="744452762"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="764650285"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="744452762"
+   d="scan'208";a="764650285"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2023 19:17:32 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Mar 2023 20:49:34 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYIOp-0001oo-33;
-	Sat, 04 Mar 2023 03:17:31 +0000
-Date: Sat, 4 Mar 2023 11:17:06 +0800
+	id 1pYJpu-0001rs-0x;
+	Sat, 04 Mar 2023 04:49:34 +0000
+Date: Sat, 4 Mar 2023 12:48:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:net-queue 14/71] drivers/net/phy/sfp.c:2656:44: error: too
- many arguments to function call, expected 2, have 3
-Message-ID: <202303041125.wYVktEZl-lkp@intel.com>
+To: David Wang <tomato1220@gmail.com>, arnd@arndb.de, olof@lixom.net,
+	soc@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, avifishman70@gmail.com,
+	tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
+	yuenn@google.com, benjaminfair@google.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	fran.hsu@quantatw.com, David Wang <davidwang@quantatw.com>
+Subject: Re: [PATCH 6/7] ARM: dts: nuvoton: gsj: Add non-mainline nodes
+Message-ID: <202303041219.aqKPeLbq-lkp@intel.com>
+References: <20230303063435.803097-6-davidwang@quantatw.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,124 +53,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230303063435.803097-6-davidwang@quantatw.com>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm net-queue
-head:   e61867cdc3bb4a8980784f3cafaa6c877ab6af0d
-commit: 9e4f66979a9751beb8ac23f928fe25a7a4617573 [14/71] net: sfp: add support for rate selection
-config: hexagon-randconfig-r033-20230302 (https://download.01.org/0day-ci/archive/20230304/202303041125.wYVktEZl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi David,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on soc/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next shawnguo/for-next xilinx-xlnx/master linus/master v6.2 next-20230303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230303063435.803097-6-davidwang%40quantatw.com
+patch subject: [PATCH 6/7] ARM: dts: nuvoton: gsj: Add non-mainline nodes
+config: arm-randconfig-r046-20230302 (https://download.01.org/0day-ci/archive/20230304/202303041219.aqKPeLbq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add rmk-arm git://git.armlinux.org.uk/~rmk/linux-arm
-        git fetch --no-tags rmk-arm net-queue
-        git checkout 9e4f66979a9751beb8ac23f928fe25a7a4617573
+        # https://github.com/intel-lab-lkp/linux/commit/e0e9ec65c5d1ad7030102833e6ee800d936bf266
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
+        git checkout e0e9ec65c5d1ad7030102833e6ee800d936bf266
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/phy/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303041125.wYVktEZl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303041219.aqKPeLbq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/phy/sfp.c:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/net/phy/sfp.c:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/net/phy/sfp.c:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/net/phy/sfp.c:2656:44: error: too many arguments to function call, expected 2, have 3
-           sfp_set_state(sfp, SFP_F_RS0 | SFP_F_RS1, set);
-           ~~~~~~~~~~~~~                             ^~~
-   drivers/net/phy/sfp.c:762:13: note: 'sfp_set_state' declared here
-   static void sfp_set_state(struct sfp *sfp, unsigned int state)
-               ^
-   6 warnings and 1 error generated.
-
-
-vim +2656 drivers/net/phy/sfp.c
-
-  2644	
-  2645	static void sfp_set_signal_rate(struct sfp *sfp, unsigned int rate_kbd)
-  2646	{
-  2647		unsigned int set;
-  2648	
-  2649		sfp->rate_kbd = rate_kbd;
-  2650	
-  2651		if (rate_kbd > sfp->rs_threshold_kbd)
-  2652			set = sfp->rs_state_mask;
-  2653		else
-  2654			set = 0;
-  2655	
-> 2656		sfp_set_state(sfp, SFP_F_RS0 | SFP_F_RS1, set);
-  2657	}
-  2658	
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:188.1-4 Label or path mc not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:192.1-6 Label or path emc0 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:202.1-7 Label or path ohci1 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:206.1-5 Label or path aes not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:210.1-5 Label or path sha not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:214.1-9 Label or path pcimbox not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:218.1-6 Label or path udc9 not found
+>> Error: arch/arm/boot/dts/nuvoton-npcm730-gsj.dts:250.1-5 Label or path otp not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
