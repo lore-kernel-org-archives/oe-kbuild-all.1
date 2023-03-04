@@ -1,43 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172A81FD1;
-	Sat,  4 Mar 2023 09:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3439D1FD6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 09:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677921350; x=1709457350;
+  t=1677921351; x=1709457351;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wlPn/riyahyhrfTjmrsHE82xI1qb7v+nPgACDf4jlhU=;
-  b=PCpLllYYXRVV2QkOAxWZdWnDBFIjOcRzl68fL898nAzofsj/9/vb6BFq
-   gKLIhJyiAl5JD4+bKxu58Das+y2xJP58yPGmz0Lay38aWyP/gy+lIsWiI
-   DzaVqKUnkfQttqwRCDjwL9bWoazMpB/KED1sgxk2AEeHNDcvF2hqTWNDh
-   iNNmMTIvI3FN+RmxWq1Kw42Lanv45Vdp0BmwgDywuYKK6bQaTscJvjFuT
-   0apO8UQ3T3Br1BFWQZOEt8wQ0hitsZ7dlvfZgkikoRt/NRrsIg7H5Na/w
-   SpXKMHk601yjBa4guA3B3nNXhOr8xwIC1dv6Ve86ySTs+l7sZiOL0djqS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="323549066"
+  bh=cGWjA/EG5jiRGofSG23Tkwv67mUUZ25zaU5jrNXQchM=;
+  b=Gbyfyc89no8IgGJoDPu2dlo3vAXAPsLX4RlmTJtuoGulP/L3o/NUgIwG
+   u159a4wyUajMQnsjPJH7dTO/fa21JANtXQLuHqs6qMp5iOp/hF58Xi9OA
+   lfooHHDpeXpOKasyLvGRuGtPvEahnR9LVUrDBn1gGJbSjqobJ/7PUYw+h
+   p47IcE7zIwVPTeHYWpXBXcS9pyh+cXDT3sBsopAGnT+ZNclcc5mD8kRR3
+   GX0L0ZbXuMuTCnqBpVfuuVhuBuyrAjMVO6Ic5javiqlnE2ODxcJ9REC0W
+   o7GV7Gx4+X3ij18V3tL6wA4Faf1tjpAJzdHo02UzISlLkOFPTNpxRtAxF
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="314900929"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="323549066"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 01:15:49 -0800
+   d="scan'208";a="314900929"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 01:15:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="625615846"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="849753898"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="625615846"
+   d="scan'208";a="849753898"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 Mar 2023 01:15:48 -0800
+  by orsmga005.jf.intel.com with ESMTP; 04 Mar 2023 01:15:48 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYNzX-00022i-2t;
+	id 1pYNzX-00022k-2z;
 	Sat, 04 Mar 2023 09:15:47 +0000
-Date: Sat, 4 Mar 2023 17:14:48 +0800
+Date: Sat, 4 Mar 2023 17:14:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Suren Baghdasaryan <surenb@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 1/1] mm/khugepaged: fix vm_lock/i_mmap_rwsem inversion in
  retract_page_tables
-Message-ID: <202303041731.bKMGi6Dx-lkp@intel.com>
+Message-ID: <202303041743.Zyg0Voaz-lkp@intel.com>
 References: <20230303213250.3555716-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,39 +59,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-khu
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230303213250.3555716-1-surenb%40google.com
 patch subject: [PATCH 1/1] mm/khugepaged: fix vm_lock/i_mmap_rwsem inversion in retract_page_tables
-config: s390-randconfig-r024-20230302 (https://download.01.org/0day-ci/archive/20230304/202303041731.bKMGi6Dx-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230304/202303041743.Zyg0Voaz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/338d2ee433a0559b3c6c3966b8d4ffe55e8dc6c9
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Suren-Baghdasaryan/mm-khugepaged-fix-vm_lock-i_mmap_rwsem-inversion-in-retract_page_tables/20230304-053401
         git checkout 338d2ee433a0559b3c6c3966b8d4ffe55e8dc6c9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303041731.bKMGi6Dx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303041743.Zyg0Voaz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/khugepaged.c:1799:9: error: call to undeclared function 'vma_try_start_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           if (!vma_try_start_write(vma))
-                                ^
-   mm/khugepaged.c:1799:9: note: did you mean 'vma_start_write'?
-   include/linux/mm.h:742:20: note: 'vma_start_write' declared here
-   static inline void vma_start_write(struct vm_area_struct *vma) {}
-                      ^
-   1 error generated.
+   mm/khugepaged.c: In function 'retract_page_tables':
+>> mm/khugepaged.c:1799:30: error: implicit declaration of function 'vma_try_start_write'; did you mean 'vma_start_write'? [-Werror=implicit-function-declaration]
+    1799 |                         if (!vma_try_start_write(vma))
+         |                              ^~~~~~~~~~~~~~~~~~~
+         |                              vma_start_write
+   cc1: some warnings being treated as errors
 
 
-vim +/vma_try_start_write +1799 mm/khugepaged.c
+vim +1799 mm/khugepaged.c
 
   1736	
   1737	static int retract_page_tables(struct address_space *mapping, pgoff_t pgoff,
