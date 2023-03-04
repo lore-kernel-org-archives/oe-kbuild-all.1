@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB54E1FD0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 11:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F3B1FD0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 11:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677928132; x=1709464132;
+  t=1677929994; x=1709465994;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kpkKqLJoNfA5B27IlATfkYqM8EgOsjT9zPAy9mQzAE0=;
-  b=cRBoh1iqpddUvBQ+O5uO5znAjFBY4vF4Tesm4+ox4zDPCgSQMHEBzlBr
-   4Rbpo1OYIKlVaTf2Lkdsg3AdV0JEZghQV1CHGEGuCUKZMmF+66kZTekcu
-   7qN5A1OMwUopxy5UtmVm1qhu8XI+ASFlGTPG1i64uABpE29nxf+fbCGbs
-   HIfmP0RmlS8fayCFmMNwzpfdpRnfhygEx4z72cpBCDx44NLdU7iq8Jdvb
-   G0xLfy3yhMcbdc2vVGvOXQywVfsqbaXlDAw3Btqlwpm3v1IVT+NsRv4HJ
-   1deJeRXtMg4JmQMfSCARwOHgESF6L8X4Okww818tzV6R+Zr6otI/vAfP8
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="336768780"
+  bh=YghzXfk2pB9mqbI3ZwfEiEcKkBKqPM/q8f9YIlimQm0=;
+  b=mO6vZtl4cMc3NqWALeQ1Pzn76X4Fn7HlUviApnwiY072KCJdZicG+3fj
+   Q1AJRO+Nc/AV9SZmezw4xOgrMREgecEhOmSZ58E1A/5XMON7KostGH5dd
+   W7VxJDZcN8CkKepUeAuTbexwwJlPT0lKy8yYdir204BLF9qXCfvjlXOhP
+   7ihvYABmgAkMKz23Yg5jeSssCDwOTXZMljtniaO87wwmCznb+Lp+GJRDb
+   vsMGZxBOzWav+hlOnUNf+7JqUeY0d2Fgtka3Z/yNv252AFeVY8JdBWro+
+   EhcSaZAPct2Zw2PXUKI16TWW3nFQYfyM2ByK0yKvOjDVm7J6nyjGpt4EW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="333973334"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="336768780"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 03:08:52 -0800
+   d="scan'208";a="333973334"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 03:39:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="799498180"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="708130098"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="799498180"
+   d="scan'208";a="708130098"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Mar 2023 03:08:51 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Mar 2023 03:39:52 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYPkw-00026W-1R;
-	Sat, 04 Mar 2023 11:08:50 +0000
-Date: Sat, 4 Mar 2023 19:08:07 +0800
+	id 1pYQEw-00027I-35;
+	Sat, 04 Mar 2023 11:39:50 +0000
+Date: Sat, 4 Mar 2023 19:39:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>
-Subject: [steev:c630-next-20230303 28/32]
- drivers/firmware/qcom_qseecom.c:18:10: fatal error: linux/qcom_scm.h: No
- such file or directory
-Message-ID: <202303041849.TTJ0f25j-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.2 360/745]
+ drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for
+ 'qla_get_iocbs_resource'
+Message-ID: <202303041918.WFKXHPdY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,40 +47,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux c630-next-20230303
-head:   d9306ea90cf14a6435578168f594e67096c623ff
-commit: 34ed78949f2ce7a962ee1073caf2fa5b39852cda [28/32] firmware: Add support for Qualcomm Secure Execution Environment SCM interface
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230304/202303041849.TTJ0f25j-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.2
+head:   d42193705a55d5c60686fbaeca98e9e2d499a421
+commit: 1b2b6ebba03dbab63e8eb3a92572f590a6b67134 [360/745] scsi: qla2xxx: Fix exchange oversubscription for management commands
+config: loongarch-randconfig-r032-20230302 (https://download.01.org/0day-ci/archive/20230304/202303041918.WFKXHPdY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/steev/linux/commit/34ed78949f2ce7a962ee1073caf2fa5b39852cda
-        git remote add steev https://github.com/steev/linux
-        git fetch --no-tags steev c630-next-20230303
-        git checkout 34ed78949f2ce7a962ee1073caf2fa5b39852cda
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=1b2b6ebba03dbab63e8eb3a92572f590a6b67134
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-6.2
+        git checkout 1b2b6ebba03dbab63e8eb3a92572f590a6b67134
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/firmware/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/scsi/qla2xxx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303041849.TTJ0f25j-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303041918.WFKXHPdY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/qcom_qseecom.c:18:10: fatal error: linux/qcom_scm.h: No such file or directory
-      18 | #include <linux/qcom_scm.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+>> drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for 'qla_get_iocbs_resource' [-Wmissing-prototypes]
+    3820 | int qla_get_iocbs_resource(struct srb *sp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +18 drivers/firmware/qcom_qseecom.c
+vim +/qla_get_iocbs_resource +3820 drivers/scsi/qla2xxx/qla_iocb.c
 
-  > 18	#include <linux/qcom_scm.h>
-    19	#include <linux/string.h>
-    20	
+  3819	
+> 3820	int qla_get_iocbs_resource(struct srb *sp)
+  3821	{
+  3822		bool get_exch;
+  3823		bool push_it_through = false;
+  3824	
+  3825		if (!ql2xenforce_iocb_limit) {
+  3826			sp->iores.res_type = RESOURCE_NONE;
+  3827			return 0;
+  3828		}
+  3829		sp->iores.res_type = RESOURCE_NONE;
+  3830	
+  3831		switch (sp->type) {
+  3832		case SRB_TM_CMD:
+  3833		case SRB_PRLI_CMD:
+  3834		case SRB_ADISC_CMD:
+  3835			push_it_through = true;
+  3836			fallthrough;
+  3837		case SRB_LOGIN_CMD:
+  3838		case SRB_ELS_CMD_RPT:
+  3839		case SRB_ELS_CMD_HST:
+  3840		case SRB_ELS_CMD_HST_NOLOGIN:
+  3841		case SRB_CT_CMD:
+  3842		case SRB_NVME_LS:
+  3843		case SRB_ELS_DCMD:
+  3844			get_exch = true;
+  3845			break;
+  3846	
+  3847		case SRB_FXIOCB_DCMD:
+  3848		case SRB_FXIOCB_BCMD:
+  3849			sp->iores.res_type = RESOURCE_NONE;
+  3850			return 0;
+  3851	
+  3852		case SRB_SA_UPDATE:
+  3853		case SRB_SA_REPLACE:
+  3854		case SRB_MB_IOCB:
+  3855		case SRB_ABT_CMD:
+  3856		case SRB_NACK_PLOGI:
+  3857		case SRB_NACK_PRLI:
+  3858		case SRB_NACK_LOGO:
+  3859		case SRB_LOGOUT_CMD:
+  3860		case SRB_CTRL_VP:
+  3861			push_it_through = true;
+  3862			fallthrough;
+  3863		default:
+  3864			get_exch = false;
+  3865		}
+  3866	
+  3867		sp->iores.res_type |= RESOURCE_IOCB;
+  3868		sp->iores.iocb_cnt = 1;
+  3869		if (get_exch) {
+  3870			sp->iores.res_type |= RESOURCE_EXCH;
+  3871			sp->iores.exch_cnt = 1;
+  3872		}
+  3873		if (push_it_through)
+  3874			sp->iores.res_type |= RESOURCE_FORCE;
+  3875	
+  3876		return qla_get_fw_resources(sp->qpair, &sp->iores);
+  3877	}
+  3878	
 
 -- 
 0-DAY CI Kernel Test Service
