@@ -1,42 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033B323BD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 11:59:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE01023BC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 12:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677931196; x=1709467196;
+  t=1677932454; x=1709468454;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dYNDi2Rr5ziNjl5WJe5mtVrQkQ3/U7OIQ4AHhGHza2Y=;
-  b=bnqLbkjdyBrEOdhO69jjNlO+KyjTLwWYVgCyTgFbNBURC8nrpZGtMusv
-   Qd2w3QSbxbNdCi2af9S50bBnFic6QLUImS9sXzG+8IEjYJxqsLXwJ8cJy
-   S6SerU4VkFA2Nqh3cPo3nmVT5l6khq903+SgSBTbO9Tom4TSeFRj91T6m
-   s51gXlmXSE921+zRmWv/eeHoFKtpKg23O4VKpB2EEm3+kCeuvpVFU5SnI
-   XWhLxRMn+bnXU3h24mX+UKSpDI89+iQ0Er1liyEJ4Dr7pdc4MELiC+1ee
-   mEc9HD4SjN2qNNpYQ5dzY9G0k8ahA7NlAJQ9ctPwA+FZTIUrfPDB9QIlc
+  bh=ljGcDI+pavKQMJU2f9csmlYkUwPs84a9T8sH6YF80T8=;
+  b=MatENFNHCKmf+4chHe70twfDWEiB2K/e/whItGW3UcvC8xWHwOtpvHgk
+   P7u9mgOSdtfOe7hyPdHGrwQL8ioA8Nmbsgi6Q6waL9EHj1YqJs85VH8uP
+   E7GQwvbo70MC7phN4Ty2lvIwFpqANOA/VmqKuXiGdsvsJhAfoAoKm2T+C
+   orGc0Lx6eFjo5z9Yu91lN7UfPcerlOvS3yNvNUsJzc8OxvzRiZeHh4pZv
+   fVa/2v0nhSt2YggtUswi8OYht4I/VtEVkWbnXsFnZaDy4v28IQSiXrpeK
+   ORSfKE0NJ4eYfatgcrkJkEmXhzGeNPdJW9fX6Y/AGBhHPgqjlMfCmb+QT
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="400071951"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="400073659"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="400071951"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 03:59:53 -0800
+   d="scan'208";a="400073659"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 04:20:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="653079031"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="675653562"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="653079031"
+   d="scan'208";a="675653562"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Mar 2023 03:59:52 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Mar 2023 04:20:53 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYQYJ-000284-22;
-	Sat, 04 Mar 2023 11:59:51 +0000
-Date: Sat, 4 Mar 2023 19:59:42 +0800
+	id 1pYQse-00029I-1n;
+	Sat, 04 Mar 2023 12:20:52 +0000
+Date: Sat, 4 Mar 2023 20:20:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [sashal-stable:pending-5.4 23/214] block/blk-mq-sched.c:200:5:
- warning: no previous prototype for '__blk_mq_sched_dispatch_requests'
-Message-ID: <202303041925.gsLU3zXf-lkp@intel.com>
+ warning: no previous prototype for function
+ '__blk_mq_sched_dispatch_requests'
+Message-ID: <202303042037.HpF8W1AQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,27 +50,34 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
 head:   273024806c52933197cd3cde4a439e71a726c27d
 commit: 3bf0224336845b1c14493ba5b0ff119446fdb371 [23/214] block: Limit number of items taken from the I/O scheduler in one go
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230304/202303041925.gsLU3zXf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230304/202303042037.HpF8W1AQ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=3bf0224336845b1c14493ba5b0ff119446fdb371
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-5.4
         git checkout 3bf0224336845b1c14493ba5b0ff119446fdb371
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303041925.gsLU3zXf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303042037.HpF8W1AQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-mq-sched.c:200:5: warning: no previous prototype for '__blk_mq_sched_dispatch_requests' [-Wmissing-prototypes]
-     200 | int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-mq-sched.c:200:5: warning: no previous prototype for function '__blk_mq_sched_dispatch_requests' [-Wmissing-prototypes]
+   int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+       ^
+   block/blk-mq-sched.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+   ^
+   static 
+   1 warning generated.
 
 
 vim +/__blk_mq_sched_dispatch_requests +200 block/blk-mq-sched.c
