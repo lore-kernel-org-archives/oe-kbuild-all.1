@@ -1,42 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C14FED8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 01:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFD315B8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 01:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677891752; x=1709427752;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i7UaOl9L7IIcPlH6Krqgx7ygxk467pWfEDMizug0CyQ=;
-  b=HW8WXCaM6ZNg4nYRx7WaPwf2co+AtwNK+2KX7eL9gQsmdUsvO6kdClZi
-   Po9f+dummv/YwUateJZsJGXa1Bp5rI80r5oPaWrJcwZZQQZIfGJkYBctF
-   F/zwKylxaKo37gZmyibVZWoA7+Ju0JFsaYCm2G0jPq573wIXQViq/hCeS
-   +zpTrDVoLUz14dWh0vD4ol0AzBfeqSKKUTVF6RiLRZC5cP3wJTVBnvggx
-   SEvmotHkRksK92nNjaMlvzoozDA/bdrmXK+HeKP2vlSd9qUV8RnNyR2/q
-   YXvnQUeiifSOYDcEc546I3RHX4T3644ooFK2yV/WQ4EhOMBPKjso7obDZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="319025096"
+  t=1677895053; x=1709431053;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=s6gQcHI7GpoXhV5SjJK0KkCtciQ/DHuQvZD7MJ19Ung=;
+  b=i8Ocu1VGLU//2kO2v7m8hR677iszmKoZ1oBWc0QZoi62A6MtaqVwBrvT
+   FGMWgac1OEtx2JMykKmzDmO7/CqHrkh899LgtyZvGVyPiWK2V/oHMePGN
+   OpHkJW6Abl2Y+Mvs1cpenupra6O/X05joS2Lq4hQEoYdTT2D0fevyLxBL
+   9dV783aSwsaOgoD9mLNR4ikL8LYoZFwMB1jwi2Y5H4iKHNsZU8O4iPB0X
+   bfyuY7WXsCb+BjoLdCftGpcz2wtKlrr3wBZVeTnMEtOptnmv7RjgroGdT
+   3whWrBIXueMXU31KbHD36MEfb2P0+2JEtHdCTiS+8j2LFAojofntolJY6
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="323509006"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="319025096"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 17:02:32 -0800
+   d="scan'208";a="323509006"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 17:57:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739700834"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="705843909"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="739700834"
+   d="scan'208";a="705843909"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Mar 2023 17:02:30 -0800
+  by orsmga008.jf.intel.com with ESMTP; 03 Mar 2023 17:57:31 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYGIA-0001lk-12;
-	Sat, 04 Mar 2023 01:02:30 +0000
-Date: Sat, 4 Mar 2023 09:01:46 +0800
+	id 1pYH9O-0001me-2k;
+	Sat, 04 Mar 2023 01:57:30 +0000
+Date: Sat, 4 Mar 2023 09:56:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.4 139/214] drivers/hid/hid-asus.c:411:13:
- error: redefinition of 'asus_schedule_work'
-Message-ID: <202303040842.Mlcympch-lkp@intel.com>
+To: Saravana Kannan <saravanak@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+	Josh Triplett <josh@joshtriplett.org>
+Subject: [lkp] [+298 bytes kernel size regression] [i386-tinyconfig]
+ [6c154242b9] driver core: Add fw_devlink.sync_state command line param
+Message-ID: <ZAKlad9avnvlRFeR@8d190a1611c4>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,65 +47,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
-head:   273024806c52933197cd3cde4a439e71a726c27d
-commit: 1f4b1729450f6205a7253dcdf51f75e2056c512d [139/214] HID: asus: use spinlock to safely schedule workers
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230304/202303040842.Mlcympch-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=1f4b1729450f6205a7253dcdf51f75e2056c512d
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.4
-        git checkout 1f4b1729450f6205a7253dcdf51f75e2056c512d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/hid/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303040842.Mlcympch-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hid/hid-asus.c:411:13: error: redefinition of 'asus_schedule_work'
-     411 | static void asus_schedule_work(struct asus_kbd_leds *led)
-         |             ^~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-asus.c:401:13: note: previous definition of 'asus_schedule_work' with type 'void(struct asus_kbd_leds *)'
-     401 | static void asus_schedule_work(struct asus_kbd_leds *led)
-         |             ^~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-asus.c:401:13: warning: 'asus_schedule_work' defined but not used [-Wunused-function]
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=n] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+In-Reply-To: <20230304005355.746421-2-saravanak@google.com>
 
 
-vim +/asus_schedule_work +411 drivers/hid/hid-asus.c
+FYI, we noticed a +298 bytes kernel size regression due to commit:
 
-1f4b1729450f62 Pietro Borrello 2023-02-12  410  
-037e399c969084 Pietro Borrello 2023-02-12 @411  static void asus_schedule_work(struct asus_kbd_leds *led)
-037e399c969084 Pietro Borrello 2023-02-12  412  {
-037e399c969084 Pietro Borrello 2023-02-12  413  	unsigned long flags;
-037e399c969084 Pietro Borrello 2023-02-12  414  
-037e399c969084 Pietro Borrello 2023-02-12  415  	spin_lock_irqsave(&led->lock, flags);
-037e399c969084 Pietro Borrello 2023-02-12  416  	if (!led->removed)
-037e399c969084 Pietro Borrello 2023-02-12  417  		schedule_work(&led->work);
-037e399c969084 Pietro Borrello 2023-02-12  418  	spin_unlock_irqrestore(&led->lock, flags);
-037e399c969084 Pietro Borrello 2023-02-12  419  }
-037e399c969084 Pietro Borrello 2023-02-12  420  
+commit: 6c154242b90e7467a9df29368ee05a542f3e1d20 (driver core: Add fw_devlink.sync_state command line param)
+url: https://github.com/intel-lab-lkp/linux/commits/Saravana-Kannan/driver-core-Add-fw_devlink-sync_state-command-line-param/20230304-085552
+base: https://git.kernel.org/cgit/linux/kernel/git/gregkh/driver-core.git 2eb29d59ddf02e39774abfb60b2030b0b7e27c1f
+patch link: https://lore.kernel.org/all/20230304005355.746421-2-saravanak@google.com/
+patch subject: [PATCH v2 1/2] driver core: Add fw_devlink.sync_state command line param
 
-:::::: The code at line 411 was first introduced by commit
-:::::: 037e399c969084bed1a2b7a5c11b9ed14295c9b7 HID: asus: use spinlock to safely schedule workers
 
-:::::: TO: Pietro Borrello <borrello@diag.uniroma1.it>
-:::::: CC: Sasha Levin <sashal@kernel.org>
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2eb29d59: Merge tag 'drm-next-2023-03-03-1' of git://anongit.freedesktop.org/drm/drm
+6c154242: driver core: Add fw_devlink.sync_state command line param
+
++----------------------------------------------+----------+----------+-------+
+|                    symbol                    | 2eb29d59 | 6c154242 | delta |
++----------------------------------------------+----------+----------+-------+
+| bzImage                                      | 501536   | 501760   | 224   |
+| nm.t.fw_devlink_dev_sync_state               | 0        | 117      | 117   |
+| nm.t.fw_devlink_sync_state_setup             | 0        | 74       | 74    |
+| nm.T.fw_devlink_probing_done                 | 0        | 56       | 56    |
+| nm.d.__setup_str_fw_devlink_sync_state_setup | 0        | 22       | 22    |
+| nm.d.__setup_fw_devlink_sync_state_setup     | 0        | 12       | 12    |
+| nm.t.deferred_probe_timeout_work_func        | 70       | 75       | 5     |
+| nm.t.deferred_probe_initcall                 | 72       | 77       | 5     |
+| nm.b.fw_devlink_sync_state                   | 0        | 4        | 4     |
+| nm.t.klist_children_get                      | 5        | 8        | 3     |
++----------------------------------------------+----------+----------+-------+
+
+
+
+Thanks
+
+
