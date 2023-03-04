@@ -1,44 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168FE28F7;
-	Sat,  4 Mar 2023 19:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EA728F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 19:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677957666; x=1709493666;
+  t=1677959526; x=1709495526;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Rg3hPC4bNFq882321CjHf6Y1PcKp3HGn8T/0jZqYkoU=;
-  b=ioSAG5jg9cxlY/laFNdN9oz6CC8T73yH7biMnI1m4A3x/ib5ZaFZ+pDy
-   eBiArYOG0nR59Phb2uFv5Y9NiLzY9CV9dRPfBX2AQbJZVeLKryP5FnTjg
-   DkhxfBQho37k/MmXlZXafINoJxDlV1WK0TbXkGBVMwUHpYpd138xM2geR
-   pbnADdDmHpFcJor9X2kECWbeWDitWzOWVwLeQp2a+Rz1r48Z/w4kin+/v
-   rDUvsy65KwHplPPC6ngd5blCFSFzNykb/GaSrVMLI9rEGtYF5rVNRrjE2
-   24us1W2xqARhPxlKjwdXYaHBvE5wNwySQZ8vVu7fydZhc4g0f9ciCsHvE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="335319733"
+  bh=c83oOAJjGMv0z2lGjoyCx9lkY0zkC4X67gcWtyzD830=;
+  b=NOqkEjAqTGesTJVGpo1rz3U5qgdpYvzP0GSX698nqOmOUU1PRWtyJSVB
+   nm3CPvwTGEnj6B0goxiKsfxgrgPxxIVgC4iqoW9emCnT/JEKOJGcT7DTx
+   GjpdC/CXNznSme2bkk7zSqifZTw50nD81Zb0g0w42uqKI7t3q5stggGIp
+   +Av7lLNJsZGdcWZX4F1oLTlmhSbl+5vi9YJ314oFlZcCAksic8V7kGXeg
+   Owtmuy36GDaG+t/qlU2H8NQvi7ZEpGUVFUeqXHN68/izVdJdhKuPCsAWy
+   HJlUOSxp1mtntVPVB4egvbXj3pCaGcah4pyBbasWaLxkK3+TjRlpjuAQT
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="421576446"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="335319733"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 11:21:05 -0800
+   d="scan'208";a="421576446"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 11:52:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="744602170"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="1004944401"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="744602170"
+   d="scan'208";a="1004944401"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Mar 2023 11:21:04 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 04 Mar 2023 11:52:04 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYXRH-0002Ji-2D;
-	Sat, 04 Mar 2023 19:21:03 +0000
-Date: Sun, 5 Mar 2023 03:20:16 +0800
+	id 1pYXvI-0002KP-0q;
+	Sat, 04 Mar 2023 19:52:04 +0000
+Date: Sun, 5 Mar 2023 03:51:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Walle <michael@walle.cc>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net-next] net: phy: intel-xway: remove LED
- configuration
-Message-ID: <202303050357.5zihrfBH-lkp@intel.com>
-References: <20230302141651.377261-1-michael@walle.cc>
+To: Asmaa Mnebhi <asmaa@nvidia.com>, andy.shevchenko@gmail.com,
+	linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Asmaa Mnebhi <asmaa@nvidia.com>
+Subject: Re: [PATCH v3] gpio: mmio: handle "ngpios" properly in bgpio_init()
+Message-ID: <202303050354.HH9DhJsr-lkp@intel.com>
+References: <20230303215814.24783-1-asmaa@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,69 +48,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230302141651.377261-1-michael@walle.cc>
+In-Reply-To: <20230303215814.24783-1-asmaa@nvidia.com>
 
-Hi Michael,
+Hi Asmaa,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on net-next/master]
+I love your patch! Yet something to improve:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Walle/net-phy-intel-xway-remove-LED-configuration/20230302-222034
-patch link:    https://lore.kernel.org/r/20230302141651.377261-1-michael%40walle.cc
-patch subject: [PATCH RFC net-next] net: phy: intel-xway: remove LED configuration
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230305/202303050357.5zihrfBH-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.2 next-20230303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Asmaa-Mnebhi/gpio-mmio-handle-ngpios-properly-in-bgpio_init/20230304-061731
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20230303215814.24783-1-asmaa%40nvidia.com
+patch subject: [PATCH v3] gpio: mmio: handle "ngpios" properly in bgpio_init()
+config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/20230305/202303050354.HH9DhJsr-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/689386222eb79ab10b990a46e1b67a89dc32022d
+        # https://github.com/intel-lab-lkp/linux/commit/3a5c9651e99e80b10d5b205d9860c131bf90b3bc
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Michael-Walle/net-phy-intel-xway-remove-LED-configuration/20230302-222034
-        git checkout 689386222eb79ab10b990a46e1b67a89dc32022d
+        git fetch --no-tags linux-review Asmaa-Mnebhi/gpio-mmio-handle-ngpios-properly-in-bgpio_init/20230304-061731
+        git checkout 3a5c9651e99e80b10d5b205d9860c131bf90b3bc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/phy/ drivers/net/wireless/ath/ath10k/ drivers/vdpa/vdpa_sim/ fs/erofs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303050357.5zihrfBH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303050354.HH9DhJsr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/phy/intel-xway.c:119:6: warning: unused variable 'ledxh' [-Wunused-variable]
-           u32 ledxh;
-               ^
->> drivers/net/phy/intel-xway.c:120:6: warning: unused variable 'ledxl' [-Wunused-variable]
-           u32 ledxl;
-               ^
-   2 warnings generated.
-
-
-vim +/ledxh +119 drivers/net/phy/intel-xway.c
-
-be393dd685d215 Martin Schiller 2021-07-20  115  
-112b558d025712 Hauke Mehrtens  2016-06-05  116  static int xway_gphy_config_init(struct phy_device *phydev)
-112b558d025712 Hauke Mehrtens  2016-06-05  117  {
-112b558d025712 Hauke Mehrtens  2016-06-05  118  	int err;
-112b558d025712 Hauke Mehrtens  2016-06-05 @119  	u32 ledxh;
-112b558d025712 Hauke Mehrtens  2016-06-05 @120  	u32 ledxl;
-112b558d025712 Hauke Mehrtens  2016-06-05  121  
-112b558d025712 Hauke Mehrtens  2016-06-05  122  	/* Mask all interrupts */
-112b558d025712 Hauke Mehrtens  2016-06-05  123  	err = phy_write(phydev, XWAY_MDIO_IMASK, 0);
-112b558d025712 Hauke Mehrtens  2016-06-05  124  	if (err)
-112b558d025712 Hauke Mehrtens  2016-06-05  125  		return err;
-112b558d025712 Hauke Mehrtens  2016-06-05  126  
-112b558d025712 Hauke Mehrtens  2016-06-05  127  	/* Clear all pending interrupts */
-112b558d025712 Hauke Mehrtens  2016-06-05  128  	phy_read(phydev, XWAY_MDIO_ISTAT);
-112b558d025712 Hauke Mehrtens  2016-06-05  129  
-be393dd685d215 Martin Schiller 2021-07-20  130  	err = xway_gphy_rgmii_init(phydev);
-be393dd685d215 Martin Schiller 2021-07-20  131  	if (err)
-be393dd685d215 Martin Schiller 2021-07-20  132  		return err;
-be393dd685d215 Martin Schiller 2021-07-20  133  
-112b558d025712 Hauke Mehrtens  2016-06-05  134  	return 0;
-112b558d025712 Hauke Mehrtens  2016-06-05  135  }
-112b558d025712 Hauke Mehrtens  2016-06-05  136  
+>> ERROR: modpost: "gpiochip_get_ngpios" [drivers/gpio/gpio-generic.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
