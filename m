@@ -1,44 +1,45 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7D21FD1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 10:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303781FD1;
+	Sat,  4 Mar 2023 10:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677925672; x=1709461672;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aKG6rPgGhnosrfx8RqwVrFtLUmTalxs//Wxcr6lAZuM=;
-  b=T+IJXrIGtidVGaHQnxQXO/m05WIpQmbZtk+/HML0+cx1Zun8CkDcuTZf
-   LfYZ4O10yt3vp2sfAiaQOiC8qJoTV8tELyPvVmmyPFzksnXn5bM69sT7H
-   CUjWxPkwg/fJ3GSMvkeGuC/qTavmxANzYUqrkZpPHl3TUxDF7DKu3EXmd
-   kOuUgkNEd1wofdMHqTVOcU/lH7Y42OBIQGBggyElKIVBKfEYT8fbcNzj3
-   gbveEtioRqPERIFS4xZFeUkUL8sOP9G4er1Y4xIQigri2+FhwnMt4uDZi
-   SeiyZpO8eua9gxtkOYsIbzXXZSSAAYIR5pSoZaam78tLxZJpucg7fKXVa
+  t=1677925674; x=1709461674;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yYsbv6Rjn+HqDcqBe2z4ZQrFnfyEmkvX4KPJPXoqZnU=;
+  b=OWxMiC8xb+e3ngQ2wr8G9nmIzVT+UZ8kBhjt+8VPeqK7sAsvSi95TnWF
+   +yFYyAjEQGzGZiwMA03PZ1zTCyO6yx8CATzcwdqWtyQJIPU+NmDCCXoOC
+   AWsmKYg4Elj57K0RDNpumFYR68NjrdaJCd+Ow8TQHoMPCS/kjSCgVXTD6
+   NFuZ8UpClcVAGsW4SFjSPmXRlVgqgBBCmdbjrGgjLIESUhTAnumK6hbDZ
+   rqW8Bo4e1E14iNTb/QLjWnJ0/XlIIsyBS1wSJgb1yomrP78c2xW3y5jfk
+   qAoq4WfcQuUfxApcjOvJra1W5w0Am4ov11rTxnB8qShqKvGg+X1eFXW8K
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="314905098"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="314905099"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="314905098"
+   d="scan'208";a="314905099"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 02:27:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="675634173"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="675634172"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="675634173"
+   d="scan'208";a="675634172"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 04 Mar 2023 02:27:50 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYP7F-000250-1Q;
+	id 1pYP7F-00024y-1K;
 	Sat, 04 Mar 2023 10:27:49 +0000
-Date: Sat, 4 Mar 2023 18:26:53 +0800
+Date: Sat, 4 Mar 2023 18:26:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode
- switches
-Message-ID: <202303041841.ecVU7uik-lkp@intel.com>
-References: <20230303143350.815623-11-treapking@chromium.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 83/143] mm/khugepaged.c:1704:9: error: call to
+ undeclared function 'vma_try_start_write'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202303041807.a3nYQrom-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +48,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303143350.815623-11-treapking@chromium.org>
 
-Hi Pin-yen,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus drm/drm-next linus/master next-20230303]
-[cannot apply to chrome-platform/for-next v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pin-yen-Lin/device-property-Add-remote-endpoint-to-devcon-matcher/20230303-223717
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230303143350.815623-11-treapking%40chromium.org
-patch subject: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode switches
-config: openrisc-randconfig-r014-20230303 (https://download.01.org/0day-ci/archive/20230304/202303041841.ecVU7uik-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   df3ae4347aff9be1e9763ffa3b1015fca348bfbd
+commit: 92e3612279f925881e96dcc89acfb6bf96a2bb2a [83/143] mm/khugepaged: fix vm_lock/i_mmap_rwsem inversion in retract_page_tables
+config: riscv-randconfig-r004-20230303 (https://download.01.org/0day-ci/archive/20230304/202303041807.a3nYQrom-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3072317d81f03b7c592a65ade65e6c40cc0fd39d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pin-yen-Lin/device-property-Add-remote-endpoint-to-devcon-matcher/20230303-223717
-        git checkout 3072317d81f03b7c592a65ade65e6c40cc0fd39d
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=92e3612279f925881e96dcc89acfb6bf96a2bb2a
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch --no-tags akpm-mm mm-unstable
+        git checkout 92e3612279f925881e96dcc89acfb6bf96a2bb2a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303041841.ecVU7uik-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303041807.a3nYQrom-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "drm_dp_register_typec_switches" [drivers/gpu/drm/bridge/ite-it6505.ko] undefined!
->> ERROR: modpost: "drm_dp_unregister_typec_switches" [drivers/gpu/drm/bridge/ite-it6505.ko] undefined!
+>> mm/khugepaged.c:1704:9: error: call to undeclared function 'vma_try_start_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           if (!vma_try_start_write(vma))
+                                ^
+   mm/khugepaged.c:1704:9: note: did you mean 'vma_start_write'?
+   include/linux/mm.h:719:20: note: 'vma_start_write' declared here
+   static inline void vma_start_write(struct vm_area_struct *vma) {}
+                      ^
+   1 error generated.
+
+
+vim +/vma_try_start_write +1704 mm/khugepaged.c
+
+  1641	
+  1642	static int retract_page_tables(struct address_space *mapping, pgoff_t pgoff,
+  1643				       struct mm_struct *target_mm,
+  1644				       unsigned long target_addr, struct page *hpage,
+  1645				       struct collapse_control *cc)
+  1646	{
+  1647		struct vm_area_struct *vma;
+  1648		int target_result = SCAN_FAIL;
+  1649	
+  1650		i_mmap_lock_write(mapping);
+  1651		vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
+  1652			int result = SCAN_FAIL;
+  1653			struct mm_struct *mm = NULL;
+  1654			unsigned long addr = 0;
+  1655			pmd_t *pmd;
+  1656			bool is_target = false;
+  1657	
+  1658			/*
+  1659			 * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
+  1660			 * got written to. These VMAs are likely not worth investing
+  1661			 * mmap_write_lock(mm) as PMD-mapping is likely to be split
+  1662			 * later.
+  1663			 *
+  1664			 * Note that vma->anon_vma check is racy: it can be set up after
+  1665			 * the check but before we took mmap_lock by the fault path.
+  1666			 * But page lock would prevent establishing any new ptes of the
+  1667			 * page, so we are safe.
+  1668			 *
+  1669			 * An alternative would be drop the check, but check that page
+  1670			 * table is clear before calling pmdp_collapse_flush() under
+  1671			 * ptl. It has higher chance to recover THP for the VMA, but
+  1672			 * has higher cost too. It would also probably require locking
+  1673			 * the anon_vma.
+  1674			 */
+  1675			if (READ_ONCE(vma->anon_vma)) {
+  1676				result = SCAN_PAGE_ANON;
+  1677				goto next;
+  1678			}
+  1679			addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+  1680			if (addr & ~HPAGE_PMD_MASK ||
+  1681			    vma->vm_end < addr + HPAGE_PMD_SIZE) {
+  1682				result = SCAN_VMA_CHECK;
+  1683				goto next;
+  1684			}
+  1685			mm = vma->vm_mm;
+  1686			is_target = mm == target_mm && addr == target_addr;
+  1687			result = find_pmd_or_thp_or_none(mm, addr, &pmd);
+  1688			if (result != SCAN_SUCCEED)
+  1689				goto next;
+  1690			/*
+  1691			 * We need exclusive mmap_lock to retract page table.
+  1692			 *
+  1693			 * We use trylock due to lock inversion: we need to acquire
+  1694			 * mmap_lock while holding page lock. Fault path does it in
+  1695			 * reverse order. Trylock is a way to avoid deadlock.
+  1696			 *
+  1697			 * Also, it's not MADV_COLLAPSE's job to collapse other
+  1698			 * mappings - let khugepaged take care of them later.
+  1699			 */
+  1700			result = SCAN_PTE_MAPPED_HUGEPAGE;
+  1701			if ((cc->is_khugepaged || is_target) &&
+  1702			    mmap_write_trylock(mm)) {
+  1703				/* trylock for the same lock inversion as above */
+> 1704				if (!vma_try_start_write(vma))
+  1705					goto unlock_next;
+  1706	
+  1707				/*
+  1708				 * Re-check whether we have an ->anon_vma, because
+  1709				 * collapse_and_free_pmd() requires that either no
+  1710				 * ->anon_vma exists or the anon_vma is locked.
+  1711				 * We already checked ->anon_vma above, but that check
+  1712				 * is racy because ->anon_vma can be populated under the
+  1713				 * mmap lock in read mode.
+  1714				 */
+  1715				if (vma->anon_vma) {
+  1716					result = SCAN_PAGE_ANON;
+  1717					goto unlock_next;
+  1718				}
+  1719				/*
+  1720				 * When a vma is registered with uffd-wp, we can't
+  1721				 * recycle the pmd pgtable because there can be pte
+  1722				 * markers installed.  Skip it only, so the rest mm/vma
+  1723				 * can still have the same file mapped hugely, however
+  1724				 * it'll always mapped in small page size for uffd-wp
+  1725				 * registered ranges.
+  1726				 */
+  1727				if (hpage_collapse_test_exit(mm)) {
+  1728					result = SCAN_ANY_PROCESS;
+  1729					goto unlock_next;
+  1730				}
+  1731				if (userfaultfd_wp(vma)) {
+  1732					result = SCAN_PTE_UFFD_WP;
+  1733					goto unlock_next;
+  1734				}
+  1735				collapse_and_free_pmd(mm, vma, addr, pmd);
+  1736				if (!cc->is_khugepaged && is_target)
+  1737					result = set_huge_pmd(vma, addr, pmd, hpage);
+  1738				else
+  1739					result = SCAN_SUCCEED;
+  1740	
+  1741	unlock_next:
+  1742				mmap_write_unlock(mm);
+  1743				goto next;
+  1744			}
+  1745			/*
+  1746			 * Calling context will handle target mm/addr. Otherwise, let
+  1747			 * khugepaged try again later.
+  1748			 */
+  1749			if (!is_target) {
+  1750				khugepaged_add_pte_mapped_thp(mm, addr);
+  1751				continue;
+  1752			}
+  1753	next:
+  1754			if (is_target)
+  1755				target_result = result;
+  1756		}
+  1757		i_mmap_unlock_write(mapping);
+  1758		return target_result;
+  1759	}
+  1760	
 
 -- 
 0-DAY CI Kernel Test Service
