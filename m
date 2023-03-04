@@ -1,50 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129C48F6E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Mar 2023 23:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C14FED8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 01:02:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677886244; x=1709422244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MsnQ6U1QZT1glkU3UUvrlM2HfAZTPpjEe/eFE0RMVB4=;
-  b=ikOZiH3srptUJ5KTbBmk0fhv/QKlyvDuLjlpzD+ktMM4HWW1AvISfOBO
-   Ww/MlIj9ri4dt2lVRJ0NLksZpjuZlaYTSWYxfq9djhlywYa/OJJjzYrKD
-   NYvAJ/6rJActWFyevrz3jUXZKNCRZVLmF9lE1NFKT4mJ30dv/Q27vebLl
-   Eu4O4mei57TQQVeacgQpeqEvXMoUxe1KirNqQ7nJHPuv5gnviA5B6Y7CT
-   cHYGOQ2qhbjROhvd2iJZnzICiPEqHSFlfVFUETE5Ms1KD+cD0hNt38y0c
-   hxhULZbLOPtB9OsvoGEzLpgjzVg17klZbPVp9ltFvlhxtq5YbTnbqK0ZS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="332663665"
+  t=1677891752; x=1709427752;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i7UaOl9L7IIcPlH6Krqgx7ygxk467pWfEDMizug0CyQ=;
+  b=HW8WXCaM6ZNg4nYRx7WaPwf2co+AtwNK+2KX7eL9gQsmdUsvO6kdClZi
+   Po9f+dummv/YwUateJZsJGXa1Bp5rI80r5oPaWrJcwZZQQZIfGJkYBctF
+   F/zwKylxaKo37gZmyibVZWoA7+Ju0JFsaYCm2G0jPq573wIXQViq/hCeS
+   +zpTrDVoLUz14dWh0vD4ol0AzBfeqSKKUTVF6RiLRZC5cP3wJTVBnvggx
+   SEvmotHkRksK92nNjaMlvzoozDA/bdrmXK+HeKP2vlSd9qUV8RnNyR2/q
+   YXvnQUeiifSOYDcEc546I3RHX4T3644ooFK2yV/WQ4EhOMBPKjso7obDZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="319025096"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="332663665"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 15:30:33 -0800
+   d="scan'208";a="319025096"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 17:02:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="799381485"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739700834"
 X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="799381485"
+   d="scan'208";a="739700834"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Mar 2023 15:30:28 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 03 Mar 2023 17:02:30 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYEr6-0001iy-0d;
-	Fri, 03 Mar 2023 23:30:28 +0000
-Date: Sat, 4 Mar 2023 07:30:01 +0800
+	id 1pYGIA-0001lk-12;
+	Sat, 04 Mar 2023 01:02:30 +0000
+Date: Sat, 4 Mar 2023 09:01:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wang <tomato1220@gmail.com>, arnd@arndb.de, olof@lixom.net,
-	soc@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, avifishman70@gmail.com,
-	tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
-	yuenn@google.com, benjaminfair@google.com,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-	fran.hsu@quantatw.com, David Wang <davidwang@quantatw.com>
-Subject: Re: [PATCH 2/7] ARM: dts: nuvoton: Add Quanta GSZ BMC Device Tree
-Message-ID: <202303040612.codF6aYF-lkp@intel.com>
-References: <20230303063435.803097-2-davidwang@quantatw.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.4 139/214] drivers/hid/hid-asus.c:411:13:
+ error: redefinition of 'asus_schedule_work'
+Message-ID: <202303040842.Mlcympch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,57 +45,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303063435.803097-2-davidwang@quantatw.com>
 
-Hi David,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on soc/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next shawnguo/for-next xilinx-xlnx/master linus/master v6.2 next-20230303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230303063435.803097-2-davidwang%40quantatw.com
-patch subject: [PATCH 2/7] ARM: dts: nuvoton: Add Quanta GSZ BMC Device Tree
-config: arm-randconfig-r046-20230302 (https://download.01.org/0day-ci/archive/20230304/202303040612.codF6aYF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
+head:   273024806c52933197cd3cde4a439e71a726c27d
+commit: 1f4b1729450f6205a7253dcdf51f75e2056c512d [139/214] HID: asus: use spinlock to safely schedule workers
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230304/202303040842.Mlcympch-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/582e8c7ca5de26f639e46b839d9b4c6cbf7e43cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Wang/ARM-dts-nuvoton-Add-Quanta-GSZ-BMC-Device-Tree/20230303-143845
-        git checkout 582e8c7ca5de26f639e46b839d9b4c6cbf7e43cf
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=1f4b1729450f6205a7253dcdf51f75e2056c512d
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-5.4
+        git checkout 1f4b1729450f6205a7253dcdf51f75e2056c512d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/hid/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303040612.codF6aYF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303040842.Mlcympch-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:223.1-6 Label or path emc0 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:231.1-4 Label or path mc not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:239.1-7 Label or path ohci1 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:243.1-5 Label or path aes not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:247.1-5 Label or path sha not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:251.1-6 Label or path udc5 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:255.1-6 Label or path udc6 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:259.1-6 Label or path udc7 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:263.1-6 Label or path udc8 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:267.1-9 Label or path pcimbox not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:271.1-8 Label or path sdhci0 not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:366.1-5 Label or path otp not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:384.1-10 Label or path lpc_host not found
->> Error: arch/arm/boot/dts/nuvoton-npcm730-gsz.dts:1506.1-7 Label or path peci0 not found
-   FATAL ERROR: Syntax error parsing input tree
+>> drivers/hid/hid-asus.c:411:13: error: redefinition of 'asus_schedule_work'
+     411 | static void asus_schedule_work(struct asus_kbd_leds *led)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus.c:401:13: note: previous definition of 'asus_schedule_work' with type 'void(struct asus_kbd_leds *)'
+     401 | static void asus_schedule_work(struct asus_kbd_leds *led)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus.c:401:13: warning: 'asus_schedule_work' defined but not used [-Wunused-function]
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
+   Depends on [n]: DISCONTIGMEM [=n] || NUMA
+   Selected by [y]:
+   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+
+
+vim +/asus_schedule_work +411 drivers/hid/hid-asus.c
+
+1f4b1729450f62 Pietro Borrello 2023-02-12  410  
+037e399c969084 Pietro Borrello 2023-02-12 @411  static void asus_schedule_work(struct asus_kbd_leds *led)
+037e399c969084 Pietro Borrello 2023-02-12  412  {
+037e399c969084 Pietro Borrello 2023-02-12  413  	unsigned long flags;
+037e399c969084 Pietro Borrello 2023-02-12  414  
+037e399c969084 Pietro Borrello 2023-02-12  415  	spin_lock_irqsave(&led->lock, flags);
+037e399c969084 Pietro Borrello 2023-02-12  416  	if (!led->removed)
+037e399c969084 Pietro Borrello 2023-02-12  417  		schedule_work(&led->work);
+037e399c969084 Pietro Borrello 2023-02-12  418  	spin_unlock_irqrestore(&led->lock, flags);
+037e399c969084 Pietro Borrello 2023-02-12  419  }
+037e399c969084 Pietro Borrello 2023-02-12  420  
+
+:::::: The code at line 411 was first introduced by commit
+:::::: 037e399c969084bed1a2b7a5c11b9ed14295c9b7 HID: asus: use spinlock to safely schedule workers
+
+:::::: TO: Pietro Borrello <borrello@diag.uniroma1.it>
+:::::: CC: Sasha Levin <sashal@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
