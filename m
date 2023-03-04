@@ -1,44 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101F123D1;
-	Sat,  4 Mar 2023 14:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FD123D1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Mar 2023 14:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677938577; x=1709474577;
+  t=1677938636; x=1709474636;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uOFv4OKBE54zZEDErhYTE0rWOKCJekwkXCpp2YrA4U4=;
-  b=ceOuO2v9z0CBJ/M8hs5I/VDt9A56QlAzd60e+d94YEJT4ZXICpSNwU3J
-   oFoPqn8TsWNhmCvdOMpUwX+oHycdv1pTPHt5WPz1TqNpMnZQrtGV8qcpz
-   BczE/WCP384luls0pl6sjRJxjIetph2AgJlEhOvnai5nxduMt3+YpyGuX
-   GV2UqYpB7l4V5wx7RB72DGgcM2p7VSfKxYG5NU9xd0CyO3crRhzo/U1CP
-   ThSj7N31dgLMbYVpQ2I89gvlm63tcmTR7MDXVXUHYHQXHqIV9TmXJkJbn
-   Kd3EXP2gmAbiGc8xGOwbOGxKfAfbO3UHOtQHGEOjhQir3MzAAvSMqTWH6
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="362861717"
+  bh=agkR8LKABRzG8q6u92wpZNHNNWhPSyRsb6Xu5KFTTn8=;
+  b=IYsbM24vyy/X0txd8/aQRJWXsjUyLs1ns6NUbpz8cujyhTctKozXNQk8
+   S/+wgXmqMCsZJMbFU7fdAitnEkojnUQR1NLSTIanOztgi7wpqm0ff5XSZ
+   6eBS0MVSS/Fwa4MTSBPHR4CwkFp+bpeNH1ZR4y2xMS6WcHgr/ArkdGb3b
+   HcWVVAAdO1eukn5hK2mGmfEFJJs2ibavYc+euwe3aAmg14X8n8wBE/gsS
+   0qM8R5eakVGTKx0aGDw8V18ZNBbzFiVba+TE4R+xkhyPZ/hoeZJLk0m88
+   8GC0T3m+hFjjHoEBzSW8YOlquvi9yNjWeCZNTFslbbM+PrHkrc5jdC89N
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="333981866"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="362861717"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 06:02:56 -0800
+   d="scan'208";a="333981866"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 06:03:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="677983648"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="785630175"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="677983648"
+   d="scan'208";a="785630175"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Mar 2023 06:02:54 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2023 06:03:54 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYSTO-0002CK-14;
-	Sat, 04 Mar 2023 14:02:54 +0000
-Date: Sat, 4 Mar 2023 22:02:51 +0800
+	id 1pYSUM-0002CO-19;
+	Sat, 04 Mar 2023 14:03:54 +0000
+Date: Sat, 4 Mar 2023 22:03:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+To: Marcelo Tosatti <mtosatti@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 83/143] mm/khugepaged.c:1704:9: error: implicit
- declaration of function 'vma_try_start_write' is invalid in C99
-Message-ID: <202303042159.qPwZsZsh-lkp@intel.com>
+Subject: [akpm-mm:mm-unstable 129/143] vmstat.c:undefined reference to
+ `__bad_xchg'
+Message-ID: <202303042241.YDVOTOi1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,159 +50,31 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
 head:   df3ae4347aff9be1e9763ffa3b1015fca348bfbd
-commit: 92e3612279f925881e96dcc89acfb6bf96a2bb2a [83/143] mm/khugepaged: fix vm_lock/i_mmap_rwsem inversion in retract_page_tables
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230304/202303042159.qPwZsZsh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+commit: 676a3befc9bac1179f6a160ffe059c11e831a32c [129/143] mm/vmstat: use xchg in cpu_vm_stats_fold
+config: arm-randconfig-r014-20230302 (https://download.01.org/0day-ci/archive/20230304/202303042241.YDVOTOi1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=92e3612279f925881e96dcc89acfb6bf96a2bb2a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=676a3befc9bac1179f6a160ffe059c11e831a32c
         git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
         git fetch --no-tags akpm-mm mm-unstable
-        git checkout 92e3612279f925881e96dcc89acfb6bf96a2bb2a
+        git checkout 676a3befc9bac1179f6a160ffe059c11e831a32c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303042159.qPwZsZsh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303042241.YDVOTOi1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/khugepaged.c:1704:9: error: implicit declaration of function 'vma_try_start_write' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           if (!vma_try_start_write(vma))
-                                ^
-   mm/khugepaged.c:1704:9: note: did you mean 'vma_start_write'?
-   include/linux/mm.h:719:20: note: 'vma_start_write' declared here
-   static inline void vma_start_write(struct vm_area_struct *vma) {}
-                      ^
-   1 error generated.
-
-
-vim +/vma_try_start_write +1704 mm/khugepaged.c
-
-  1641	
-  1642	static int retract_page_tables(struct address_space *mapping, pgoff_t pgoff,
-  1643				       struct mm_struct *target_mm,
-  1644				       unsigned long target_addr, struct page *hpage,
-  1645				       struct collapse_control *cc)
-  1646	{
-  1647		struct vm_area_struct *vma;
-  1648		int target_result = SCAN_FAIL;
-  1649	
-  1650		i_mmap_lock_write(mapping);
-  1651		vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
-  1652			int result = SCAN_FAIL;
-  1653			struct mm_struct *mm = NULL;
-  1654			unsigned long addr = 0;
-  1655			pmd_t *pmd;
-  1656			bool is_target = false;
-  1657	
-  1658			/*
-  1659			 * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
-  1660			 * got written to. These VMAs are likely not worth investing
-  1661			 * mmap_write_lock(mm) as PMD-mapping is likely to be split
-  1662			 * later.
-  1663			 *
-  1664			 * Note that vma->anon_vma check is racy: it can be set up after
-  1665			 * the check but before we took mmap_lock by the fault path.
-  1666			 * But page lock would prevent establishing any new ptes of the
-  1667			 * page, so we are safe.
-  1668			 *
-  1669			 * An alternative would be drop the check, but check that page
-  1670			 * table is clear before calling pmdp_collapse_flush() under
-  1671			 * ptl. It has higher chance to recover THP for the VMA, but
-  1672			 * has higher cost too. It would also probably require locking
-  1673			 * the anon_vma.
-  1674			 */
-  1675			if (READ_ONCE(vma->anon_vma)) {
-  1676				result = SCAN_PAGE_ANON;
-  1677				goto next;
-  1678			}
-  1679			addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
-  1680			if (addr & ~HPAGE_PMD_MASK ||
-  1681			    vma->vm_end < addr + HPAGE_PMD_SIZE) {
-  1682				result = SCAN_VMA_CHECK;
-  1683				goto next;
-  1684			}
-  1685			mm = vma->vm_mm;
-  1686			is_target = mm == target_mm && addr == target_addr;
-  1687			result = find_pmd_or_thp_or_none(mm, addr, &pmd);
-  1688			if (result != SCAN_SUCCEED)
-  1689				goto next;
-  1690			/*
-  1691			 * We need exclusive mmap_lock to retract page table.
-  1692			 *
-  1693			 * We use trylock due to lock inversion: we need to acquire
-  1694			 * mmap_lock while holding page lock. Fault path does it in
-  1695			 * reverse order. Trylock is a way to avoid deadlock.
-  1696			 *
-  1697			 * Also, it's not MADV_COLLAPSE's job to collapse other
-  1698			 * mappings - let khugepaged take care of them later.
-  1699			 */
-  1700			result = SCAN_PTE_MAPPED_HUGEPAGE;
-  1701			if ((cc->is_khugepaged || is_target) &&
-  1702			    mmap_write_trylock(mm)) {
-  1703				/* trylock for the same lock inversion as above */
-> 1704				if (!vma_try_start_write(vma))
-  1705					goto unlock_next;
-  1706	
-  1707				/*
-  1708				 * Re-check whether we have an ->anon_vma, because
-  1709				 * collapse_and_free_pmd() requires that either no
-  1710				 * ->anon_vma exists or the anon_vma is locked.
-  1711				 * We already checked ->anon_vma above, but that check
-  1712				 * is racy because ->anon_vma can be populated under the
-  1713				 * mmap lock in read mode.
-  1714				 */
-  1715				if (vma->anon_vma) {
-  1716					result = SCAN_PAGE_ANON;
-  1717					goto unlock_next;
-  1718				}
-  1719				/*
-  1720				 * When a vma is registered with uffd-wp, we can't
-  1721				 * recycle the pmd pgtable because there can be pte
-  1722				 * markers installed.  Skip it only, so the rest mm/vma
-  1723				 * can still have the same file mapped hugely, however
-  1724				 * it'll always mapped in small page size for uffd-wp
-  1725				 * registered ranges.
-  1726				 */
-  1727				if (hpage_collapse_test_exit(mm)) {
-  1728					result = SCAN_ANY_PROCESS;
-  1729					goto unlock_next;
-  1730				}
-  1731				if (userfaultfd_wp(vma)) {
-  1732					result = SCAN_PTE_UFFD_WP;
-  1733					goto unlock_next;
-  1734				}
-  1735				collapse_and_free_pmd(mm, vma, addr, pmd);
-  1736				if (!cc->is_khugepaged && is_target)
-  1737					result = set_huge_pmd(vma, addr, pmd, hpage);
-  1738				else
-  1739					result = SCAN_SUCCEED;
-  1740	
-  1741	unlock_next:
-  1742				mmap_write_unlock(mm);
-  1743				goto next;
-  1744			}
-  1745			/*
-  1746			 * Calling context will handle target mm/addr. Otherwise, let
-  1747			 * khugepaged try again later.
-  1748			 */
-  1749			if (!is_target) {
-  1750				khugepaged_add_pte_mapped_thp(mm, addr);
-  1751				continue;
-  1752			}
-  1753	next:
-  1754			if (is_target)
-  1755				target_result = result;
-  1756		}
-  1757		i_mmap_unlock_write(mapping);
-  1758		return target_result;
-  1759	}
-  1760	
+   arm-linux-gnueabi-ld: arm-linux-gnueabi-ld: DWARF error: could not find abbrev number 735699
+   mm/vmstat.o: in function `cpu_vm_stats_fold':
+>> vmstat.c:(.text+0x1c28): undefined reference to `__bad_xchg'
+>> arm-linux-gnueabi-ld: vmstat.c:(.text+0x1ca0): undefined reference to `__bad_xchg'
 
 -- 
 0-DAY CI Kernel Test Service
