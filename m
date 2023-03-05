@@ -1,51 +1,47 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0280F7E;
-	Sun,  5 Mar 2023 07:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9191FD3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 10:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678003043; x=1709539043;
+  t=1678011686; x=1709547686;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rgI8FiDvq7QKlX/xEL1EAcrcj2WdThaYEQRC3SJSy5E=;
-  b=HPmi5HHdtXCDN1qN7+d3SPS+lBBLI5Qd4nya2E+sWrQgJsv2jhccRIm9
-   k6Jz10DWDO0OUZN82pPaE2ywm4O/2+7Xw0KmlMVAj0qjqL3Q5y+5uPwL4
-   RWkcMlX+Yl9B6GswgLjxAxYLwFDB2xNfac4tiTtDOB1EXFBDSdiZWUeU8
-   BQwJJ4zhyG76CeVdV8BFPTKstJXXMaF9ji4kdR7OsqwySHB3X0iIaNR6A
-   rMmMdwKZ5j4CXtvg923H0nxeC0iP3s/IEY+aziuCyFe18bMqaAlQD/Juc
-   ECAKWIQX0cEKVaf69RoFYzYvKeWI6gxKzav1tWkDzZmwCwICWtpBKvXPP
+  bh=TvF/USg8/T1UNoOMjpIERu16+ru5BKaEJar3ExukpWQ=;
+  b=EaoaA6TpIzJKp3D/OX3q1QV0nEu7Pcetuzf4/uXluzpKeJskyqmYxLsV
+   USEYWu1mTNtzygYpdJ8vwH+NZdI4VBm8LSVDsnl99gjOfSyD4Y4yD21D2
+   eMknEd4QTHHQHKUiK+/nFMHcxZgV8rVdR7ek6Sglorerp6/esMEOm3xZb
+   wzMKtDjA3UZquitKUAhkO8L4XZAKqcaXxjpAlMNEpN/88jhqLQwMCly8s
+   jLBlKQ8rWMvL6LrOtJSTy1G/wsCfJbPhuWAv++I+K10JA6qx30WT+73Gy
+   Aj46Uw0S4NB5j8kH0jRYtAwL9JQhn6IU0a6nAT+uvUwQ1M3FOY07uklKs
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="336872853"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="336879883"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="336872853"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 23:57:22 -0800
+   d="scan'208";a="336879883"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 02:21:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="706095173"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="921584100"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="706095173"
+   d="scan'208";a="921584100"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Mar 2023 23:57:19 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Mar 2023 02:21:22 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYjF8-0002c2-20;
-	Sun, 05 Mar 2023 07:57:18 +0000
-Date: Sun, 5 Mar 2023 15:57:08 +0800
+	id 1pYlUX-0002fW-02;
+	Sun, 05 Mar 2023 10:21:21 +0000
+Date: Sun, 5 Mar 2023 18:20:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Manish Bhardwaj <bhardwajmanish18@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Manish Bhardwaj <bhardwajmanish18@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	Ian Rogers <irogers@google.com>, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, acme@kernel.org,
+	alexander.shishkin@linux.intel.com, irogers@google.com,
+	jolsa@kernel.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
+	mingo@redhat.com, namhyung@kernel.org
 Subject: Re: [PATCH] perf/core: introduced stub APIs for exported APIs
-Message-ID: <202303051534.Ni7GS2vf-lkp@intel.com>
-References: <20230305053934.9948-1-bhardwajmanish18@gmail.com>
+Message-ID: <202303051803.g6sS9VOE-lkp@intel.com>
+References: <20230305092759.10754-1-bhardwajmanish18@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,144 +50,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230305053934.9948-1-bhardwajmanish18@gmail.com>
+In-Reply-To: <20230305092759.10754-1-bhardwajmanish18@gmail.com>
 
 Hi Manish,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core tip/master tip/auto-latest linus/master v6.2 next-20230303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on b01fe98d34f3bed944a93bd8119fed80c856fad8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-134024
-patch link:    https://lore.kernel.org/r/20230305053934.9948-1-bhardwajmanish18%40gmail.com
+url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-172840
+base:   b01fe98d34f3bed944a93bd8119fed80c856fad8
+patch link:    https://lore.kernel.org/r/20230305092759.10754-1-bhardwajmanish18%40gmail.com
 patch subject: [PATCH] perf/core: introduced stub APIs for exported APIs
-config: riscv-randconfig-r033-20230305 (https://download.01.org/0day-ci/archive/20230305/202303051534.Ni7GS2vf-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230305/202303051803.g6sS9VOE-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/2636181e6d3f39c8485077cb15927f84f00a617c
+        # https://github.com/intel-lab-lkp/linux/commit/abd3574667ce6899f498ffc1be32ade8ac01e4cb
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-134024
-        git checkout 2636181e6d3f39c8485077cb15927f84f00a617c
+        git fetch --no-tags linux-review Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-172840
+        git checkout abd3574667ce6899f498ffc1be32ade8ac01e4cb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303051534.Ni7GS2vf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303051803.g6sS9VOE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/ptrace.c:23:
-   In file included from include/trace/events/syscalls.h:73:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:21:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1702:13: warning: no previous prototype for function 'perf_pmu_unregister' [-Wmissing-prototypes]
-   extern void perf_pmu_unregister(struct pmu *pmu)                                        { }
-               ^
-   include/linux/perf_event.h:1702:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   extern void perf_pmu_unregister(struct pmu *pmu)                                        { }
-          ^
-   include/linux/perf_event.h:1682:13: warning: unused function 'perf_event_addr_filters_sync' [-Wunused-function]
-   static void perf_event_addr_filters_sync(struct perf_event *event)              { }
-               ^
-   include/linux/perf_event.h:1683:12: warning: unused function 'perf_event_read_value' [-Wunused-function]
-   static u64 perf_event_read_value(struct perf_event *event,
-              ^
-   include/linux/perf_event.h:1688:13: warning: unused function 'perf_event_update_userpage' [-Wunused-function]
-   static void perf_event_update_userpage(struct perf_event *event)                        { }
-               ^
-   include/linux/perf_event.h:1689:13: warning: unused function 'perf_register_guest_info_callbacks' [-Wunused-function]
-   static void perf_register_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)   { }
-               ^
-   include/linux/perf_event.h:1690:13: warning: unused function 'perf_unregister_guest_info_callbacks' [-Wunused-function]
-   static void perf_unregister_guest_info_callbacks(struct perf_guest_info_callbacks *cbs) { }
-               ^
-   include/linux/perf_event.h:1691:13: warning: unused function 'perf_report_aux_output_id' [-Wunused-function]
-   static void perf_report_aux_output_id(struct perf_event *event, u64 hw_id)              { }
-               ^
-   include/linux/perf_event.h:1692:13: warning: unused function 'perf_tp_event' [-Wunused-function]
-   static void perf_tp_event(u16 event_type, u64 count, void *record,
-               ^
-   include/linux/perf_event.h:1698:12: warning: unused function 'perf_pmu_register' [-Wunused-function]
-   static int perf_pmu_register(struct pmu *pmu, const char *name, int type)
-              ^
-   include/linux/perf_event.h:1704:1: warning: unused function 'perf_event_create_kernel_counter' [-Wunused-function]
-   perf_event_create_kernel_counter(struct perf_event_attr *attr,
-   ^
-   include/linux/perf_event.h:1712:13: warning: unused function 'perf_pmu_migrate_context' [-Wunused-function]
-   static void perf_pmu_migrate_context(struct pmu *pmu, int src_cpu, int dst_cpu)         { }
-               ^
-   include/linux/perf_event.h:1713:16: warning: unused function 'perf_event_sysfs_show' [-Wunused-function]
-   static ssize_t perf_event_sysfs_show(struct device *dev, struct device_attribute *attr,
-                  ^
-   12 warnings generated.
---
-   In file included from arch/riscv/kernel/signal.c:12:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1702:13: warning: no previous prototype for function 'perf_pmu_unregister' [-Wmissing-prototypes]
-   extern void perf_pmu_unregister(struct pmu *pmu)                                        { }
-               ^
-   include/linux/perf_event.h:1702:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   extern void perf_pmu_unregister(struct pmu *pmu)                                        { }
-          ^
-   arch/riscv/kernel/signal.c:319:27: warning: no previous prototype for function 'do_work_pending' [-Wmissing-prototypes]
-   asmlinkage __visible void do_work_pending(struct pt_regs *regs,
-                             ^
-   arch/riscv/kernel/signal.c:319:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage __visible void do_work_pending(struct pt_regs *regs,
-                        ^
-                        static 
-   In file included from arch/riscv/kernel/signal.c:12:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   include/linux/perf_event.h:1682:13: warning: unused function 'perf_event_addr_filters_sync' [-Wunused-function]
-   static void perf_event_addr_filters_sync(struct perf_event *event)              { }
-               ^
-   include/linux/perf_event.h:1683:12: warning: unused function 'perf_event_read_value' [-Wunused-function]
-   static u64 perf_event_read_value(struct perf_event *event,
-              ^
-   include/linux/perf_event.h:1688:13: warning: unused function 'perf_event_update_userpage' [-Wunused-function]
-   static void perf_event_update_userpage(struct perf_event *event)                        { }
-               ^
-   include/linux/perf_event.h:1689:13: warning: unused function 'perf_register_guest_info_callbacks' [-Wunused-function]
-   static void perf_register_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)   { }
-               ^
-   include/linux/perf_event.h:1690:13: warning: unused function 'perf_unregister_guest_info_callbacks' [-Wunused-function]
-   static void perf_unregister_guest_info_callbacks(struct perf_guest_info_callbacks *cbs) { }
-               ^
-   include/linux/perf_event.h:1691:13: warning: unused function 'perf_report_aux_output_id' [-Wunused-function]
-   static void perf_report_aux_output_id(struct perf_event *event, u64 hw_id)              { }
-               ^
-   include/linux/perf_event.h:1692:13: warning: unused function 'perf_tp_event' [-Wunused-function]
-   static void perf_tp_event(u16 event_type, u64 count, void *record,
-               ^
-   include/linux/perf_event.h:1698:12: warning: unused function 'perf_pmu_register' [-Wunused-function]
-   static int perf_pmu_register(struct pmu *pmu, const char *name, int type)
-              ^
-   include/linux/perf_event.h:1704:1: warning: unused function 'perf_event_create_kernel_counter' [-Wunused-function]
-   perf_event_create_kernel_counter(struct perf_event_attr *attr,
-   ^
-   include/linux/perf_event.h:1712:13: warning: unused function 'perf_pmu_migrate_context' [-Wunused-function]
-   static void perf_pmu_migrate_context(struct pmu *pmu, int src_cpu, int dst_cpu)         { }
-               ^
-   include/linux/perf_event.h:1713:16: warning: unused function 'perf_event_sysfs_show' [-Wunused-function]
-   static ssize_t perf_event_sysfs_show(struct device *dev, struct device_attribute *attr,
-                  ^
-   13 warnings generated.
+   In file included from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:88,
+                    from arch/powerpc/kernel/syscalls.c:19:
+   include/linux/perf_event.h:1713:16: error: 'perf_event_sysfs_show' defined but not used [-Werror=unused-function]
+    1713 | static ssize_t perf_event_sysfs_show(struct device *dev, struct device_attribute *attr,
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1712:13: error: 'perf_pmu_migrate_context' defined but not used [-Werror=unused-function]
+    1712 | static void perf_pmu_migrate_context(struct pmu *pmu, int src_cpu, int dst_cpu)         { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1704:1: error: 'perf_event_create_kernel_counter' defined but not used [-Werror=unused-function]
+    1704 | perf_event_create_kernel_counter(struct perf_event_attr *attr,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/perf_event.h:1702:13: error: 'perf_pmu_unregister' defined but not used [-Werror=unused-function]
+    1702 | static void perf_pmu_unregister(struct pmu *pmu)                                        { }
+         |             ^~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1698:12: error: 'perf_pmu_register' defined but not used [-Werror=unused-function]
+    1698 | static int perf_pmu_register(struct pmu *pmu, const char *name, int type)
+         |            ^~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1692:13: error: 'perf_tp_event' defined but not used [-Werror=unused-function]
+    1692 | static void perf_tp_event(u16 event_type, u64 count, void *record,
+         |             ^~~~~~~~~~~~~
+   include/linux/perf_event.h:1691:13: error: 'perf_report_aux_output_id' defined but not used [-Werror=unused-function]
+    1691 | static void perf_report_aux_output_id(struct perf_event *event, u64 hw_id)              { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1690:13: error: 'perf_unregister_guest_info_callbacks' defined but not used [-Werror=unused-function]
+    1690 | static void perf_unregister_guest_info_callbacks(struct perf_guest_info_callbacks *cbs) { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1689:13: error: 'perf_register_guest_info_callbacks' defined but not used [-Werror=unused-function]
+    1689 | static void perf_register_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)   { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1688:13: error: 'perf_event_update_userpage' defined but not used [-Werror=unused-function]
+    1688 | static void perf_event_update_userpage(struct perf_event *event)                        { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1683:12: error: 'perf_event_read_value' defined but not used [-Werror=unused-function]
+    1683 | static u64 perf_event_read_value(struct perf_event *event,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1682:13: error: 'perf_event_addr_filters_sync' defined but not used [-Werror=unused-function]
+    1682 | static void perf_event_addr_filters_sync(struct perf_event *event)              { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
 vim +/perf_pmu_unregister +1702 include/linux/perf_event.h
@@ -249,7 +180,7 @@ vim +/perf_pmu_unregister +1702 include/linux/perf_event.h
   1699	{
   1700		return -1;
   1701	}
-> 1702	extern void perf_pmu_unregister(struct pmu *pmu)					{ }
+> 1702	static void perf_pmu_unregister(struct pmu *pmu)					{ }
   1703	static struct perf_event *
   1704	perf_event_create_kernel_counter(struct perf_event_attr *attr,
   1705					int cpu,
