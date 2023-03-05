@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29C71B0414
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 14:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9DD1C5CCF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Dec 2024 14:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734532023; cv=none; b=BdetCIYrs0EoJ123hYsJJ1WKbr5cU4iuKBpIeCrLneDSBe0IIbUqC9pwF7mmDIXyCS1s25bJ6FYO858KHL6OgaffhsPhkbeJkNtWQKt2TGLg390km6SEUKfCHBNvz1cQLcwtPymYl7wjrYGRXYoz48bCRW9HP/i43CPkXskTfm4=
+	t=1734533818; cv=none; b=Wlizvp2xDnwl/hVRKmZhrvafHU84Rd2TsoY7B3+x3zaZrS7JX3Otzw/gTytihSwlmL/Sk8Nzvcp+hlB+t/ttuWfpLfLuIPUqPhB8xlpQSW9an5KxPgZug8KEh/K0OKYTLmu/kczPWtGxphh+Yq116OSqetHCZpFGiI5ONPnuaQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734532023; c=relaxed/simple;
-	bh=yq1YNLSGsWLbD1CsjKOE6pyaCLjmGuwoSnJpg8ulcUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s2zhYcoYDi+wM949BkQDG3Zh01WhJ+aFRL+1zx2knNSkBGpo7SeU+6NCcyyLk5bcQ3kKiZoFjrNmlgj8BkqKWTj4Z6M7nlotUaB3zlJxfVTBxPYqjtd4VBA+UYsRFNkU08QyNxeOttp3xRSyhpi4aE8zxgfIBo1e1u55m2rTgF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4LJITeH; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734533818; c=relaxed/simple;
+	bh=EEtPUszuXT6YM29QIDUi/KWDkZuTaxeUlF4hCpp6QiA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t2PI5bGqJ3m8TykeHgESCgCXAfXKlbiMaVm7t1kbkKPXqeVuYsChC0g9CzlTVFVbgn9vniP70XECixo03FCpYs4El0XtkxIAPiF7W6hPAeJM2RZz24zWKMb/1xhEdy5zghFit+GhvKG/hVzQPTZ4mDS6WE/mgiOOAAan+VyaD5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eVWdU3E4; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4LJITeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eVWdU3E4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734532022; x=1766068022;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yq1YNLSGsWLbD1CsjKOE6pyaCLjmGuwoSnJpg8ulcUY=;
-  b=U4LJITeHcye2sIq8ou4T76uWy4NbFWlOQfU5EhMWV+01QbTOmJFA2jXt
-   XaB4smUnJUksy7sIiRnwlOwQ4dHpjhPI9BnkQa8Q+hzm7ZhAlsByWP7yR
-   tS2EzAoPSz+STWhxvylcnj6bwR8GEMrGq2tAerSqC33lyEZk21ZxqlFzw
-   UFHfS7imcAek2gCQVKN0Ra4oH1LDQpYXZxFM+t0ngsv6R0ecTDTkoS9Qf
-   BHgLFykLBbZuvE627Qu4X8ba9VK4hvxSoFSe8tOrEWAkrZBScBhWP6huh
-   JNXYxz3vkCbH5Q8cfx43VdzvaGwXZeyfaPiax1z2UFM3qqg5o+ZwRZApA
-   Q==;
-X-CSE-ConnectionGUID: 2cwB7XtWRh+q6FkegYErCA==
-X-CSE-MsgGUID: 4bjsYGYFQfezUdpLnTOlkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45700998"
+  t=1734533817; x=1766069817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EEtPUszuXT6YM29QIDUi/KWDkZuTaxeUlF4hCpp6QiA=;
+  b=eVWdU3E4iFJuHFBRGNlYrr1VvTeqxiWaK4SHLIq1Z0NNV00hXND7ErCD
+   Lzme2MJ/yCtg7+aPqLeaF1L+lejWkf7iaOG6Q6plqZXD2w5TSHltEyRT3
+   TaT41VXloeEEU8oQGA2Wl+0kZeWI2K6ulNaI7Z1xFTBF9AawkDBxebam/
+   E1LHFg7KWpidwjsvbTRBeQ7BktLm4uKahlCz+AZeTN9lQ2CsAB5U58ury
+   A76ixVI3d0BVT9CIu6PIQYuNoJZGnRda0/xBFYeGVRSpzEoRDxMOclXCL
+   IpiyUY2I9ZjFVjdglWFV4buT4O833RsSb2jIag1Ndt5+GxYkYSnKBLGgN
+   w==;
+X-CSE-ConnectionGUID: GVHsJGn+TZedAHpSDZKBqw==
+X-CSE-MsgGUID: +42QUS/WSjK2ZmZSusWVhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45501151"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="45700998"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 06:27:01 -0800
-X-CSE-ConnectionGUID: tOfgaAhtRJqJ7I6WdLutQg==
-X-CSE-MsgGUID: 2A+5jbAtSHuric8uet9H/w==
+   d="scan'208";a="45501151"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 06:56:56 -0800
+X-CSE-ConnectionGUID: OtXuNC54SP6uETvAb5fZjA==
+X-CSE-MsgGUID: tTgYLri/QvOvX6lBZFDEzw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102873305"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Dec 2024 06:26:57 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tNv0k-000GNq-3C;
-	Wed, 18 Dec 2024 14:26:50 +0000
-Date: Wed, 18 Dec 2024 22:25:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hannes Reinecke <hare@suse.de>
-Subject: [mcgrof:large-block-buffer-heads-20241217 7/14] fs/buffer.c:2441:21:
- warning: unused variable 'i'
-Message-ID: <202412182210.uihMSMvf-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="97729934"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Dec 2024 06:56:54 -0800
+Date: Sun, 5 Mar 2023 11:06:54 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: "Colberg, Peter" <peter.colberg@intel.com>
+Cc: "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>,
+	"basheer.ahmed.muddebihal@linux.intel.com" <basheer.ahmed.muddebihal@linux.intel.com>
+Subject: Re: [linux-next:master 2636/3192] drivers/fpga/dfl.c:154: warning:
+ Function parameter or struct member 'fdata' not described in
+ 'dfl_fpga_port_ops_get'
+Message-ID: <ZAQHTiJm59ZK0GXn@yilunxu-OptiPlex-7050>
+References: <202412120500.aF6jnlmu-lkp@intel.com>
+ <0003df208122ac05e5e364edb729a9ceb9cf96b1.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,111 +65,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0003df208122ac05e5e364edb729a9ceb9cf96b1.camel@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git large-block-buffer-heads-20241217
-head:   a9052a4e88861e96d9295dfc21e7e73b0924d952
-commit: f5eb17e9daca255888a27ed1ce0d3339f9d5c68f [7/14] fs/buffer: add iteration support for block_read_full_folio()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241218/202412182210.uihMSMvf-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412182210.uihMSMvf-lkp@intel.com/reproduce)
+> These warnings may be resolved by amending commit a25cd37037c8 ("fpga:
+> dfl: refactor internal DFL APIs to take/return feature device data").
+> 
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -145,7 +145,7 @@ static LIST_HEAD(dfl_port_ops_list);
+>  
+>  /**
+>   * dfl_fpga_port_ops_get - get matched port ops from the global list
+> - * @pdata: platform data to match with associated port ops.
+> + * @fdata: feature dev data to match with associated port ops.
+>   * Return: matched port ops on success, NULL otherwise.
+>   *
+>   * Please note that must dfl_fpga_port_ops_put after use the port_ops.
+> @@ -211,7 +211,7 @@ EXPORT_SYMBOL_GPL(dfl_fpga_port_ops_del);
+>  
+>  /**
+>   * dfl_fpga_check_port_id - check the port id
+> - * @pdata: port platform data.
+> + * @fdata: port feature dev data.
+>   * @pport_id: port id to compare.
+>   *
+>   * Return: 1 if port device matches with given port id, otherwise 0.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412182210.uihMSMvf-lkp@intel.com/
+I've fixed, ran scripts/kernel-doc and pushed for all 3 patches.
 
-All warnings (new ones prefixed by >>):
-
-   fs/buffer.c: In function 'bh_read_iter':
->> fs/buffer.c:2441:21: warning: unused variable 'i' [-Wunused-variable]
-    2441 |         int nr = 0, i = 0;
-         |                     ^
-
-
-vim +/i +2441 fs/buffer.c
-
-  2425	
-  2426	/*
-  2427	 * Reads up to MAX_BUF_PER_PAGE buffer heads at a time on a folio on the given
-  2428	 * block range iblock to lblock and helps update the number of buffer-heads
-  2429	 * which were not uptodate or unmapped for which we issued an async read for
-  2430	 * on iter->bh_folio_reads for the full folio. Returns the last buffer-head we
-  2431	 * worked on.
-  2432	 */
-  2433	static struct buffer_head *bh_read_iter(struct folio *folio,
-  2434						struct buffer_head *pivot,
-  2435						struct buffer_head *head,
-  2436						struct inode *inode,
-  2437						struct bh_iter *iter, sector_t lblock)
-  2438	{
-  2439		struct buffer_head *arr[MAX_BUF_PER_PAGE];
-  2440		struct buffer_head *bh = pivot, *last;
-> 2441		int nr = 0, i = 0;
-  2442		size_t blocksize = head->b_size;
-  2443		bool no_reads = false;
-  2444		bool fully_mapped = false;
-  2445	
-  2446		/* Stage one - collect buffer heads we need issue a read for */
-  2447	
-  2448		/* collect buffers not uptodate and not mapped yet */
-  2449		for_each_bh_pivot(bh, last, head) {
-  2450			BUG_ON(nr >= MAX_BUF_PER_PAGE);
-  2451	
-  2452			if (buffer_uptodate(bh)) {
-  2453				iter->iblock++;
-  2454				continue;
-  2455			}
-  2456	
-  2457			if (!buffer_mapped(bh)) {
-  2458				int err = 0;
-  2459	
-  2460				iter->unmapped++;
-  2461				if (iter->iblock < lblock) {
-  2462					WARN_ON(bh->b_size != blocksize);
-  2463					err = iter->get_block(inode, iter->iblock,
-  2464							      bh, 0);
-  2465					if (err)
-  2466						iter->any_get_block_error = true;
-  2467				}
-  2468				if (!buffer_mapped(bh)) {
-  2469					folio_zero_range(folio, bh_offset(bh),
-  2470							blocksize);
-  2471					if (!err)
-  2472						set_buffer_uptodate(bh);
-  2473					iter->iblock++;
-  2474					continue;
-  2475				}
-  2476				/*
-  2477				 * get_block() might have updated the buffer
-  2478				 * synchronously
-  2479				 */
-  2480				if (buffer_uptodate(bh)) {
-  2481					iter->iblock++;
-  2482					continue;
-  2483				}
-  2484			}
-  2485			arr[nr++] = bh;
-  2486			iter->iblock++;
-  2487		}
-  2488	
-  2489		iter->bh_folio_reads += nr;
-  2490	
-  2491		WARN_ON_ONCE(!bh_is_last(last, head));
-  2492	
-  2493		if (bh_is_last(last, head)) {
-  2494			if (!iter->bh_folio_reads)
-  2495				no_reads = true;
-  2496			if (!iter->unmapped)
-  2497				fully_mapped = true;
-  2498		}
-  2499	
-  2500		bh_read_batch_async(folio, nr, arr, fully_mapped, no_reads,
-  2501				    iter->any_get_block_error);
-  2502	
-  2503		return last;
-  2504	}
-  2505	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yilun
