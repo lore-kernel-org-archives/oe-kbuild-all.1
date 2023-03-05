@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B669315AA
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 01:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B1F15AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 01:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677979093; x=1709515093;
+  t=1677980353; x=1709516353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YsC+XBR8QTjWabeQMUUp1s5JALvga55oDrHytWfzYes=;
-  b=O4DlVVWAYqnF0ODyhnQD6aG1qSFdiVqBH+x8bcWVvB545oJKwKhqWmqI
-   ajHt2a5yebpF8W93k5yAJEwj7zJewK6TVh0X9tu7w+fn+JXjEp/lGWaiN
-   zSvYaLnwMpZnBs8nQmDWHe8M5Gbo3mjxiQwpdVNyW+MsHh5gGwzHzOob6
-   xCCFfvqS+WHySmz1T+bj3fQ1/PZe8mvJG6O2ttK0XjQaG+Em57zLe9Zvc
-   tTp8gzZrNX+PExBqnWl4OjYa/nvKqvWEbavxdPoDcoNYo/4Ov9NdDCACC
-   Tw3nY1wxGJlehIu869FZinov44rwkxggvQTUMhswq+VkjC+1bdihqqtWZ
+  bh=hW8MmhDWbUeUugpNRmCTVVcucCYu4a4ViGObs0fZSJA=;
+  b=lBPR8GqKspYIfXjZnezOK31fXWGkze41UhlHlWw1n6THdzI3PpIdterh
+   15rv3BZZzJ+zNKqx/VjuoeAZWjTUAc5fYS6dF6DX7r+1jhwQ/cj2OAdAp
+   xXa29bL6BDL+gttZjeNEhiTNHl5WiF92gqIjNrZJvHZrtjwrUQyLxHUMK
+   miTR/FIakiqol+We34+P6XLjeuFanBmJDuXzm0voyvdPWWWGdxMsPJzd9
+   dFVAmgzgPL5bzy+4wCWNjSlrE20N5R2hGivprjEWu2lGh///V3Uc8disj
+   uMJHKBtkSQwRa6zxJ/85z/CJpKfpzXbObEFVaCFYFBDz0HlbZTxHOWelp
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="397914876"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="335354488"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="397914876"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 17:18:12 -0800
+   d="scan'208";a="335354488"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 17:39:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="921502194"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="849895777"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="921502194"
+   d="scan'208";a="849895777"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Mar 2023 17:18:11 -0800
+  by orsmga005.jf.intel.com with ESMTP; 04 Mar 2023 17:39:11 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYd0s-0002Sw-13;
-	Sun, 05 Mar 2023 01:18:10 +0000
-Date: Sun, 5 Mar 2023 09:18:09 +0800
+	id 1pYdLC-0002Tu-2b;
+	Sun, 05 Mar 2023 01:39:10 +0000
+Date: Sun, 5 Mar 2023 09:38:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202303050909.k3a83A1q-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.1/zen-sauce 2/31] drivers/scsi/vhba/vhba.c:145:6: error: no
+ previous prototype for 'devnum_to_bus_and_id'
+Message-ID: <202303050919.Idtwt8l4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,297 +46,342 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b01fe98d34f3bed944a93bd8119fed80c856fad8
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   7 months ago
-config: loongarch-randconfig-s053-20230305 (https://download.01.org/0day-ci/archive/20230305/202303050909.k3a83A1q-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93a4fa622eb061f75f87f0cf9609ab4e69c67d01
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+Hi Jan,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.1/zen-sauce
+head:   9381f7633208cb517fee827051afc6a7c1decd3d
+commit: ecf47767080ed4ab1e5d1c2dc0eec0518e713a45 [2/31] ZEN: Add VHBA driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230305/202303050919.Idtwt8l4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/zen-kernel/zen-kernel/commit/ecf47767080ed4ab1e5d1c2dc0eec0518e713a45
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.1/zen-sauce
+        git checkout ecf47767080ed4ab1e5d1c2dc0eec0518e713a45
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303050909.k3a83A1q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303050919.Idtwt8l4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
---
-   mm/slub.c:2598:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2598:19: sparse:     expected void *ptr
-   mm/slub.c:2598:19: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2598:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2598:19: sparse:     expected void *ptr
-   mm/slub.c:2598:19: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2598:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2598:19: sparse:     expected void *ptr
-   mm/slub.c:2598:19: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2598:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2598:19: sparse:     expected void *ptr
-   mm/slub.c:2598:19: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2619:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2619:9: sparse:     expected void *ptr
-   mm/slub.c:2619:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2619:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2619:9: sparse:     expected void *ptr
-   mm/slub.c:2619:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2619:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2619:9: sparse:     expected void *ptr
-   mm/slub.c:2619:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2619:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2619:9: sparse:     expected void *ptr
-   mm/slub.c:2619:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2562:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2562:24: sparse:     expected void *ptr
-   mm/slub.c:2562:24: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2562:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2562:24: sparse:     expected void *ptr
-   mm/slub.c:2562:24: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2562:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2562:24: sparse:     expected void *ptr
-   mm/slub.c:2562:24: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2562:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2562:24: sparse:     expected void *ptr
-   mm/slub.c:2562:24: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2563:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2563:9: sparse:     expected void *ptr
-   mm/slub.c:2563:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2563:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2563:9: sparse:     expected void *ptr
-   mm/slub.c:2563:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2563:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2563:9: sparse:     expected void *ptr
-   mm/slub.c:2563:9: sparse:     got struct slab *[noderef] __percpu *
-   mm/slub.c:2563:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct slab *[noderef] __percpu * @@
-   mm/slub.c:2563:9: sparse:     expected void *ptr
-   mm/slub.c:2563:9: sparse:     got struct slab *[noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
-   mm/slub.c:2475:9: sparse: sparse: context imbalance in 'deactivate_slab' - different lock contexts for basic block
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
-   mm/slub.c:2509:55: sparse: sparse: context imbalance in '__unfreeze_partials' - unexpected unlock
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got unsigned int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
->> mm/slub.c:486:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   mm/slub.c:486:17: sparse:     expected void *ptr
-   mm/slub.c:486:17: sparse:     got int [noderef] __percpu *
-   mm/slub.c:3350:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
---
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got int [noderef] __percpu *
->> kernel/time/posix-cpu-timers.c:1380:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     expected void *ptr
-   kernel/time/posix-cpu-timers.c:1380:9: sparse:     got int [noderef] __percpu *
-   kernel/time/posix-cpu-timers.c: note: in included file:
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/time/posix-cpu-timers.c:42:5: sparse: sparse: context imbalance in 'update_rlimit_cpu' - different lock contexts for basic block
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:752:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:752:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:752:37: sparse:     got struct spinlock [noderef] __rcu *
+All errors (new ones prefixed by >>):
 
-vim +441 drivers/soc/qcom/rpmh.c
+>> drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
+     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
+     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
+         |              ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
+     156 | struct vhba_device *vhba_device_alloc (void)
+         |                     ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
+     176 | void vhba_device_put (struct vhba_device *vdev)
+         |      ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
+     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
+         |                     ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
+     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
+>> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
+     192 |     struct vhba_host *vhost;
+         |                       ^~~~~
+   drivers/scsi/vhba/vhba.c: At top level:
+>> drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
+     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
+     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
+     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
+     300 | void vhba_scan_devices (struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
+     348 | int vhba_add_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
+     382 | int vhba_remove_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
+     403 | struct vhba_device *vhba_lookup_device (int devnum)
+         |                     ^~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
+     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
+     508 | int vhba_abort (struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
+     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
+         |         ^~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
+     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
+         |         ^~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
+     693 | struct vhba_command *next_command (struct vhba_device *vdev)
+         |                      ^~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
+     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
+         |                      ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
+     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
+         |                      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
+     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
+         |         ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
+     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
+         |         ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
+     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
+         |      ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
+     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
+         |              ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
+     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
+     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
+     998 | int vhba_probe (struct platform_device *pdev)
+         |     ^~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
+    1052 | int vhba_remove (struct platform_device *pdev)
+         |     ^~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
+    1068 | void vhba_release (struct device * dev)
+         |      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
+    1090 | int __init vhba_init (void)
+         |            ^~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
+    1115 | void __exit vhba_exit(void)
+         |             ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
-600513dfeef33c Lina Iyer        2018-06-20  426  
-600513dfeef33c Lina Iyer        2018-06-20  427  /**
-985427f997b6a3 Maulik Shah      2020-04-12  428   * rpmh_flush() - Flushes the buffered sleep and wake sets to TCSes
-600513dfeef33c Lina Iyer        2018-06-20  429   *
-985427f997b6a3 Maulik Shah      2020-04-12  430   * @ctrlr: Controller making request to flush cached data
-600513dfeef33c Lina Iyer        2018-06-20  431   *
-985427f997b6a3 Maulik Shah      2020-04-12  432   * Return:
-985427f997b6a3 Maulik Shah      2020-04-12  433   * * 0          - Success
-985427f997b6a3 Maulik Shah      2020-04-12  434   * * Error code - Otherwise
-600513dfeef33c Lina Iyer        2018-06-20  435   */
-d5e205079c34aa Maulik Shah      2020-02-03  436  int rpmh_flush(struct rpmh_ctrlr *ctrlr)
-600513dfeef33c Lina Iyer        2018-06-20  437  {
-600513dfeef33c Lina Iyer        2018-06-20  438  	struct cache_req *p;
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  439  	int ret = 0;
-600513dfeef33c Lina Iyer        2018-06-20  440  
-985427f997b6a3 Maulik Shah      2020-04-12 @441  	lockdep_assert_irqs_disabled();
-985427f997b6a3 Maulik Shah      2020-04-12  442  
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  443  	/*
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  444  	 * Currently rpmh_flush() is only called when we think we're running
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  445  	 * on the last processor.  If the lock is busy it means another
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  446  	 * processor is up and it's better to abort than spin.
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  447  	 */
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  448  	if (!spin_trylock(&ctrlr->cache_lock))
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  449  		return -EBUSY;
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  450  
-600513dfeef33c Lina Iyer        2018-06-20  451  	if (!ctrlr->dirty) {
-600513dfeef33c Lina Iyer        2018-06-20  452  		pr_debug("Skipping flush, TCS has latest data.\n");
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  453  		goto exit;
-600513dfeef33c Lina Iyer        2018-06-20  454  	}
-600513dfeef33c Lina Iyer        2018-06-20  455  
-f5ac95f9ca2f43 Maulik Shah      2020-04-12  456  	/* Invalidate the TCSes first to avoid stale data */
-881808d0bbf336 Douglas Anderson 2020-04-13  457  	rpmh_rsc_invalidate(ctrlr_to_drv(ctrlr));
-f5ac95f9ca2f43 Maulik Shah      2020-04-12  458  
-c8790cb6da58d3 Lina Iyer        2018-06-20  459  	/* First flush the cached batch requests */
-c8790cb6da58d3 Lina Iyer        2018-06-20  460  	ret = flush_batch(ctrlr);
-c8790cb6da58d3 Lina Iyer        2018-06-20  461  	if (ret)
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  462  		goto exit;
-c8790cb6da58d3 Lina Iyer        2018-06-20  463  
-600513dfeef33c Lina Iyer        2018-06-20  464  	list_for_each_entry(p, &ctrlr->cache, list) {
-600513dfeef33c Lina Iyer        2018-06-20  465  		if (!is_req_valid(p)) {
-600513dfeef33c Lina Iyer        2018-06-20  466  			pr_debug("%s: skipping RPMH req: a:%#x s:%#x w:%#x",
-600513dfeef33c Lina Iyer        2018-06-20  467  				 __func__, p->addr, p->sleep_val, p->wake_val);
-600513dfeef33c Lina Iyer        2018-06-20  468  			continue;
-600513dfeef33c Lina Iyer        2018-06-20  469  		}
-d5e205079c34aa Maulik Shah      2020-02-03  470  		ret = send_single(ctrlr, RPMH_SLEEP_STATE, p->addr,
-d5e205079c34aa Maulik Shah      2020-02-03  471  				  p->sleep_val);
-600513dfeef33c Lina Iyer        2018-06-20  472  		if (ret)
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  473  			goto exit;
-d5e205079c34aa Maulik Shah      2020-02-03  474  		ret = send_single(ctrlr, RPMH_WAKE_ONLY_STATE, p->addr,
-d5e205079c34aa Maulik Shah      2020-02-03  475  				  p->wake_val);
-600513dfeef33c Lina Iyer        2018-06-20  476  		if (ret)
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  477  			goto exit;
-600513dfeef33c Lina Iyer        2018-06-20  478  	}
-600513dfeef33c Lina Iyer        2018-06-20  479  
-600513dfeef33c Lina Iyer        2018-06-20  480  	ctrlr->dirty = false;
-600513dfeef33c Lina Iyer        2018-06-20  481  
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  482  exit:
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  483  	spin_unlock(&ctrlr->cache_lock);
-d2a8cfc6f32026 Douglas Anderson 2020-05-04  484  	return ret;
-600513dfeef33c Lina Iyer        2018-06-20  485  }
-600513dfeef33c Lina Iyer        2018-06-20  486  
 
-:::::: The code at line 441 was first introduced by commit
-:::::: 985427f997b6a31155cce841eb395d43c64771c5 soc: qcom: rpmh: Invoke rpmh_flush() for dirty caches
+vim +/devnum_to_bus_and_id +145 drivers/scsi/vhba/vhba.c
 
-:::::: TO: Maulik Shah <mkshah@codeaurora.org>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+   140	
+   141	
+   142	
+   143	/* These functions define a symmetric 1:1 mapping between device numbers and
+   144	   the bus and id. We have reserved the last id per bus for the host itself. */
+ > 145	void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
+   146	{
+   147	    *bus = devnum / (VHBA_MAX_ID-1);
+   148	    *id  = devnum % (VHBA_MAX_ID-1);
+   149	}
+   150	
+ > 151	unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
+   152	{
+   153	    return (bus * (VHBA_MAX_ID-1)) + id;
+   154	}
+   155	
+ > 156	struct vhba_device *vhba_device_alloc (void)
+   157	{
+   158	    struct vhba_device *vdev;
+   159	
+   160	    vdev = kzalloc(sizeof(struct vhba_device), GFP_KERNEL);
+   161	    if (!vdev) {
+   162	        return NULL;
+   163	    }
+   164	
+   165	    spin_lock_init(&vdev->cmd_lock);
+   166	    INIT_LIST_HEAD(&vdev->cmd_list);
+   167	    init_waitqueue_head(&vdev->cmd_wq);
+   168	    atomic_set(&vdev->refcnt, 1);
+   169	
+   170	    vdev->kbuf = NULL;
+   171	    vdev->kbuf_size = 0;
+   172	
+   173	    return vdev;
+   174	}
+   175	
+ > 176	void vhba_device_put (struct vhba_device *vdev)
+   177	{
+   178	    if (atomic_dec_and_test(&vdev->refcnt)) {
+   179	        kfree(vdev);
+   180	    }
+   181	}
+   182	
+ > 183	struct vhba_device *vhba_device_get (struct vhba_device *vdev)
+   184	{
+   185	    atomic_inc(&vdev->refcnt);
+   186	
+   187	    return vdev;
+   188	}
+   189	
+ > 190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   191	{
+ > 192	    struct vhba_host *vhost;
+   193	    struct vhba_command *vcmd;
+   194	    unsigned long flags;
+   195	
+   196	    vhost = platform_get_drvdata(&vhba_platform_device);
+   197	
+   198	    vcmd = vhba_alloc_command();
+   199	    if (!vcmd) {
+   200	        return SCSI_MLQUEUE_HOST_BUSY;
+   201	    }
+   202	
+   203	    vcmd->cmd = cmd;
+   204	
+   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
+   208	#else
+   209	    vcmd->metatag = vcmd->cmd->request->tag;
+   210	#endif
+   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
+   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   213	
+   214	    wake_up_interruptible(&vdev->cmd_wq);
+   215	
+   216	    return 0;
+   217	}
+   218	
+ > 219	int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   220	{
+   221	    struct vhba_command *vcmd;
+   222	    int retval;
+   223	    unsigned long flags;
+   224	
+   225	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   226	    list_for_each_entry(vcmd, &vdev->cmd_list, entry) {
+   227	        if (vcmd->cmd == cmd) {
+   228	            list_del_init(&vcmd->entry);
+   229	            break;
+   230	        }
+   231	    }
+   232	
+   233	    /* command not found */
+   234	    if (&vcmd->entry == &vdev->cmd_list) {
+   235	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   236	        return SUCCESS;
+   237	    }
+   238	
+   239	    while (vcmd->status == VHBA_REQ_READING || vcmd->status == VHBA_REQ_WRITING) {
+   240	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   241	        scmd_dbg(cmd, "wait for I/O before aborting\n");
+   242	        schedule_timeout(1);
+   243	        spin_lock_irqsave(&vdev->cmd_lock, flags);
+   244	    }
+   245	
+   246	    retval = (vcmd->status == VHBA_REQ_SENT) ? FAILED : SUCCESS;
+   247	
+   248	    vhba_free_command(vcmd);
+   249	
+   250	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   251	
+   252	    return retval;
+   253	}
+   254	
+   255	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)
+   256	int vhba_slave_alloc(struct scsi_device *sdev)
+   257	{
+   258	    struct Scsi_Host *shost = sdev->host;
+   259	
+   260	    sdev_dbg(sdev, "enabling tagging (queue depth: %i).\n", sdev->queue_depth);
+   261	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0)
+   262	    if (!shost_use_blk_mq(shost) && shost->bqt) {
+   263	#else
+   264	    if (shost->bqt) {
+   265	#endif
+   266	        blk_queue_init_tags(sdev->request_queue, sdev->queue_depth, shost->bqt);
+   267	    }
+   268	    scsi_adjust_queue_depth(sdev, 0, sdev->queue_depth);
+   269	
+   270	    return 0;
+   271	}
+   272	#endif
+   273	
+ > 274	void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
+   275	{
+   276	    struct scsi_device *sdev;
+   277	
+   278	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
+   279	    if (!sdev) {
+   280	        scsi_add_device(vhost->shost, bus, id, 0);
+   281	    } else {
+   282	        dev_warn(&vhost->shost->shost_gendev, "tried to add an already-existing device %d:%d:0!\n", bus, id);
+   283	        scsi_device_put(sdev);
+   284	    }
+   285	}
+   286	
+ > 287	void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
+   288	{
+   289	    struct scsi_device *sdev;
+   290	
+   291	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
+   292	    if (sdev) {
+   293	        scsi_remove_device(sdev);
+   294	        scsi_device_put(sdev);
+   295	    } else {
+   296	        dev_warn(&vhost->shost->shost_gendev, "tried to remove non-existing device %d:%d:0!\n", bus, id);
+   297	    }
+   298	}
+   299	
+ > 300	void vhba_scan_devices (struct work_struct *work)
+   301	{
+   302	    struct vhba_host *vhost = container_of(work, struct vhba_host, scan_devices);
+   303	    unsigned long flags;
+   304	    int change, exists;
+   305	    unsigned int devnum;
+   306	    unsigned int bus, id;
+   307	
+   308	    for (;;) {
+   309	        spin_lock_irqsave(&vhost->dev_lock, flags);
+   310	
+   311	        devnum = find_first_bit(vhost->chgmap, VHBA_MAX_DEVICES);
+   312	        if (devnum >= VHBA_MAX_DEVICES) {
+   313	            spin_unlock_irqrestore(&vhost->dev_lock, flags);
+   314	            break;
+   315	        }
+   316	        change = vhost->chgtype[devnum];
+   317	        exists = vhost->devices[devnum] != NULL;
+   318	
+   319	        vhost->chgtype[devnum] = 0;
+   320	        clear_bit(devnum, vhost->chgmap);
+   321	
+   322	        spin_unlock_irqrestore(&vhost->dev_lock, flags);
+   323	
+   324	        devnum_to_bus_and_id(devnum, &bus, &id);
+   325	
+   326	        if (change < 0) {
+   327	            dev_dbg(&vhost->shost->shost_gendev, "trying to remove target %d:%d:0\n", bus, id);
+   328	            vhba_scan_devices_remove(vhost, bus, id);
+   329	        } else if (change > 0) {
+   330	            dev_dbg(&vhost->shost->shost_gendev, "trying to add target %d:%d:0\n", bus, id);
+   331	            vhba_scan_devices_add(vhost, bus, id);
+   332	        } else {
+   333	            /* quick sequence of add/remove or remove/add; we determine
+   334	               which one it was by checking if device structure exists */
+   335	            if (exists) {
+   336	                /* remove followed by add: remove and (re)add */
+   337	                dev_dbg(&vhost->shost->shost_gendev, "trying to (re)add target %d:%d:0\n", bus, id);
+   338	                vhba_scan_devices_remove(vhost, bus, id);
+   339	                vhba_scan_devices_add(vhost, bus, id);
+   340	            } else {
+   341	                /* add followed by remove: no-op */
+   342	                dev_dbg(&vhost->shost->shost_gendev, "no-op for target %d:%d:0\n", bus, id);
+   343	            }
+   344	        }
+   345	    }
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
