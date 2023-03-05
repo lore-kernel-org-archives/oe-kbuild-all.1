@@ -1,53 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625182F26;
-	Sun,  5 Mar 2023 18:00:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABB23C02
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 19:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678039241; x=1709575241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QE6+X0t0qr1Xce3NWsaYovK34zD80dqy8fScs/jetB4=;
-  b=dPb6NbPlfRb/dGXA2IfYKZT0EDO2Gq9/89/TI5oki8pdnXLtGA0hG+aJ
-   y3d3qPtJG0Vl4nDyZuqZwISp402KoO7HzdKTO65RhoDDzgc6nv9k97Lof
-   h09ZwfGbuTcXKB9cc9CosJPmtu4wWCSNdi8QIvaQv5dTH8F8HbbrhYRsw
-   FIMCafMKIdtZJ1TbTrWLOnx2Lycx+sK8WvAS9cOZOFysSp/PBvUaUFhXN
-   cTsTASgxGYBI2z/DfhXa35HW+Y/9apFIcWlRGgx9nnL6Of3ipskd/baTg
-   t5VKVADNpZlWZMt+gq4mamlABLerrSZln6yT9bq+rwDXfjryixMpgIuJy
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="421681523"
+  t=1678045962; x=1709581962;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cC8isjC7Kbj63GFIhJjOvNrN1rtwSSGWMuotUcDj6Kk=;
+  b=if4e740JjI6NWXiaAlvZXSQKsqTEg5PcJbaG1+WqKNX2+6ec7csEv8fL
+   zYuLoGMg2e+EsoWHlpgZ+LtTy9lz93nocxZ1uNvw5+ZIH4gbCXwbg1XMH
+   yHdsWCFGf/tAUejeowQDt6VUhSrsRzSzr4XzvGGGdOV6a34FPw4qsj4QA
+   vvTFwvtXssSfsLqIw1f8lEFZh2bsMRhyRY2tU3PUUWp8obB0E6oAcMf/e
+   MmDep3blbL1rxJM9e4BXVRusxaBXO6P8Fch0F+h1Ia2s1dRJ4b856Fc0L
+   cpv5f0+ALDEv4JjXOAsPoqtXR8oXPrQC1pW9cIYHKih04SIgvBCzPglyc
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="319240918"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="421681523"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 10:00:41 -0800
+   d="scan'208";a="319240918"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 11:52:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="675928398"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="799794252"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="675928398"
+   d="scan'208";a="799794252"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 Mar 2023 10:00:36 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Mar 2023 11:52:40 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYsey-0002x0-0Q;
-	Sun, 05 Mar 2023 18:00:36 +0000
-Date: Mon, 6 Mar 2023 02:00:31 +0800
+	id 1pYuPQ-00030U-0l;
+	Sun, 05 Mar 2023 19:52:40 +0000
+Date: Mon, 6 Mar 2023 03:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xu Kuohai <xukuohai@huaweicloud.com>, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH bpf-next 1/2] bpf: add bound tracking for BPF_MOD
-Message-ID: <202303060155.cNDEo1Br-lkp@intel.com>
-References: <20230306033119.2634976-2-xukuohai@huaweicloud.com>
+To: Gwendal Grignou <gwendal@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>
+Subject: [stable:linux-5.15.y 1053/9999] ia64-linux-ld:
+ drm_fb_helper.c:undefined reference to `framebuffer_release'
+Message-ID: <202303060311.ovVYS4q1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,145 +47,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306033119.2634976-2-xukuohai@huaweicloud.com>
 
-Hi Xu,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Kuohai/bpf-add-bound-tracking-for-BPF_MOD/20230305-223257
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230306033119.2634976-2-xukuohai%40huaweicloud.com
-patch subject: [PATCH bpf-next 1/2] bpf: add bound tracking for BPF_MOD
-config: arm-randconfig-r025-20230305 (https://download.01.org/0day-ci/archive/20230306/202303060155.cNDEo1Br-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   d9b4a0c83a2d405dd85bf32d672686146b9bedff
+commit: 81e5b16de862866e7f09a1b00b49f97a9bc23a78 [1053/9999] platform: chrome: Split trace include file
+config: ia64-randconfig-c023-20230305 (https://download.01.org/0day-ci/archive/20230306/202303060311.ovVYS4q1-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/e66c7bbd32e375af92c776a2b9f51be4c515ad71
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Xu-Kuohai/bpf-add-bound-tracking-for-BPF_MOD/20230305-223257
-        git checkout e66c7bbd32e375af92c776a2b9f51be4c515ad71
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=81e5b16de862866e7f09a1b00b49f97a9bc23a78
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 81e5b16de862866e7f09a1b00b49f97a9bc23a78
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303060155.cNDEo1Br-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303060311.ovVYS4q1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/bpf/verifier.c:10298:24: warning: array index 16 is past the end of the array (that has type 'u32[16]' (aka 'unsigned int[16]')) [-Warray-bounds]
-                                      meta.func_id == special_kfunc_list[KF_bpf_dynptr_slice_rdwr]) {
-                                                      ^                  ~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:9150:1: note: array 'special_kfunc_list' declared here
-   BTF_ID_LIST(special_kfunc_list)
-   ^
-   include/linux/btf_ids.h:207:27: note: expanded from macro 'BTF_ID_LIST'
-   #define BTF_ID_LIST(name) static u32 __maybe_unused name[16];
-                             ^
-   kernel/bpf/verifier.c:11622:13: warning: comparison of distinct pointer types ('typeof ((umax)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-           umax_rem = do_div(umax, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-           (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-                  ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> kernel/bpf/verifier.c:11622:13: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-           umax_rem = do_div(umax, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-                   __rem = __div64_32(&(n), __base);       \
-                                      ^~~~
-   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
-   static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
-                                               ^
-   kernel/bpf/verifier.c:11623:13: warning: comparison of distinct pointer types ('typeof ((umin)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-           umin_rem = do_div(umin, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-           (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-                  ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11623:13: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-           umin_rem = do_div(umin, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-                   __rem = __div64_32(&(n), __base);       \
-                                      ^~~~
-   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
-   static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
-                                               ^
-   kernel/bpf/verifier.c:11622:13: warning: shift count >= width of type [-Wshift-count-overflow]
-           umax_rem = do_div(umax, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                                  ^  ~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   kernel/bpf/verifier.c:11623:13: warning: shift count >= width of type [-Wshift-count-overflow]
-           umin_rem = do_div(umin, val);
-                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                                  ^  ~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   5 warnings and 2 errors generated.
-
-
-vim +11622 kernel/bpf/verifier.c
-
- 11606	
- 11607	static void scalar32_min_max_mod(struct bpf_reg_state *dst_reg,
- 11608					 struct bpf_reg_state *src_reg)
- 11609	{
- 11610		u32 val = (u32)src_reg->var_off.value; /* src_reg is const */
- 11611		u32 umax = dst_reg->u32_max_value;
- 11612		u32 umin = dst_reg->u32_min_value;
- 11613		u32 umax_rem, umin_rem;
- 11614	
- 11615		/* dst_reg is 32-bit truncated when mod32 zero, since
- 11616		 * adjust_scalar_min_max_vals calls zext_32_to_64 to do truncation for
- 11617		 * all alu32 ops, here we do nothing and just return.
- 11618		 */
- 11619		if (!val)
- 11620			return;
- 11621	
- 11622		umax_rem = do_div(umax, val);
- 11623		umin_rem = do_div(umin, val);
- 11624	
- 11625		/* no winding */
- 11626		if (umax - umin < val && umin_rem <= umax_rem) {
- 11627			dst_reg->var_off = tnum_range(umin_rem, umax_rem);
- 11628			dst_reg->u32_min_value = umin_rem;
- 11629			dst_reg->u32_max_value = umax_rem;
- 11630		} else {
- 11631			dst_reg->var_off = tnum_range(0, val - 1);
- 11632			dst_reg->u32_min_value = 0;
- 11633			dst_reg->u32_max_value = val - 1;
- 11634		}
- 11635	
- 11636		/* cross the sign boundary */
- 11637		if ((s32)dst_reg->u32_min_value > (s32)dst_reg->u32_max_value) {
- 11638			dst_reg->s32_min_value = S32_MIN;
- 11639			dst_reg->s32_max_value = S32_MAX;
- 11640		} else {
- 11641			dst_reg->s32_min_value = (s32)dst_reg->u32_min_value;
- 11642			dst_reg->s32_max_value = (s32)dst_reg->u32_max_value;
- 11643		}
- 11644	
- 11645		/* mark reg64 unbounded to deduce 64-bit bounds from var_off */
- 11646		__mark_reg64_unbounded(dst_reg);
- 11647	}
- 11648	
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+   drm_fb_helper.c:(.text+0x692): undefined reference to `fb_set_suspend'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+   drm_fb_helper.c:(.text+0x6f2): undefined reference to `fb_set_suspend'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drm_fb_helper.c:(.text+0x872): undefined reference to `unregister_framebuffer'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
+   drm_fb_helper.c:(.text+0x8c2): undefined reference to `fb_sys_read'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
+   drm_fb_helper.c:(.text+0x2842): undefined reference to `fb_dealloc_cmap'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x2852): undefined reference to `framebuffer_release'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+   drm_fb_helper.c:(.text+0x2dc2): undefined reference to `framebuffer_alloc'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x2e02): undefined reference to `fb_alloc_cmap'
+   ia64-linux-ld: drm_fb_helper.c:(.text+0x2e42): undefined reference to `framebuffer_release'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x2ed2): undefined reference to `fb_dealloc_cmap'
+   ia64-linux-ld: drm_fb_helper.c:(.text+0x2ee2): undefined reference to `framebuffer_release'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
+   drm_fb_helper.c:(.text+0x31b2): undefined reference to `fb_deferred_io_init'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
+   drm_fb_helper.c:(.text+0x3442): undefined reference to `register_framebuffer'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
+   drm_fb_helper.c:(.text+0x3dd2): undefined reference to `fb_set_suspend'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x3e32): undefined reference to `fb_set_suspend'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
+   drm_fb_helper.c:(.text+0x53e2): undefined reference to `fb_sys_write'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drm_fb_helper.c:(.text+0x5482): undefined reference to `sys_fillrect'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drm_fb_helper.c:(.text+0x5522): undefined reference to `sys_copyarea'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+>> drm_fb_helper.c:(.text+0x55c2): undefined reference to `sys_imageblit'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drm_fb_helper.c:(.text+0x5662): undefined reference to `cfb_fillrect'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drm_fb_helper.c:(.text+0x5702): undefined reference to `cfb_copyarea'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
+   drm_fb_helper.c:(.text+0x57a2): undefined reference to `cfb_imageblit'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_copyarea':
+   drm_fb_helper.c:(.text+0x5872): undefined reference to `cfb_copyarea'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x58e2): undefined reference to `sys_copyarea'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_fillrect':
+   drm_fb_helper.c:(.text+0x59b2): undefined reference to `cfb_fillrect'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x5a22): undefined reference to `sys_fillrect'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_imageblit':
+   drm_fb_helper.c:(.text+0x5af2): undefined reference to `cfb_imageblit'
+>> ia64-linux-ld: drm_fb_helper.c:(.text+0x5b62): undefined reference to `sys_imageblit'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
+   drm_fb_helper.c:(.text+0x61e2): undefined reference to `fb_deferred_io_cleanup'
+   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_client_unregister':
+   drm_fb_helper.c:(.text+0x63c2): undefined reference to `unregister_framebuffer'
 
 -- 
 0-DAY CI Kernel Test Service
