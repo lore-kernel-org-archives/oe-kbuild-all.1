@@ -1,47 +1,49 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9191FD3
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 10:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97AB23CD;
+	Sun,  5 Mar 2023 11:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678011686; x=1709547686;
+  t=1678015347; x=1709551347;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TvF/USg8/T1UNoOMjpIERu16+ru5BKaEJar3ExukpWQ=;
-  b=EaoaA6TpIzJKp3D/OX3q1QV0nEu7Pcetuzf4/uXluzpKeJskyqmYxLsV
-   USEYWu1mTNtzygYpdJ8vwH+NZdI4VBm8LSVDsnl99gjOfSyD4Y4yD21D2
-   eMknEd4QTHHQHKUiK+/nFMHcxZgV8rVdR7ek6Sglorerp6/esMEOm3xZb
-   wzMKtDjA3UZquitKUAhkO8L4XZAKqcaXxjpAlMNEpN/88jhqLQwMCly8s
-   jLBlKQ8rWMvL6LrOtJSTy1G/wsCfJbPhuWAv++I+K10JA6qx30WT+73Gy
-   Aj46Uw0S4NB5j8kH0jRYtAwL9JQhn6IU0a6nAT+uvUwQ1M3FOY07uklKs
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="336879883"
+  bh=YspSz6HVobERfe6tNMqxvlJoMX2cvmnkOE7gTDTCvwc=;
+  b=hWy9tgX/YFwWU79t0lL5ivVoWxHJR6yXsTGPhEntx5uGF24GVndYUQUW
+   golAzVZKiPMHor92slTwEMZdDquFvss5RPMsyJPX+1aO5KfMngyvb70rm
+   4rTuJPXUqZvnPCeHp8dNgAKO8N8pm0MgoONmqCsEopQRxa30oWO2KZP3N
+   h/T1rAChrY9kC7px1KuMUp1pcI0gTer2FRQTB4T8mjB5isvrNyFHxDxTX
+   OtfmoiwvPPRbtVRGK+lD1vly+2n3/konGwbBaEKns+B2JVXps2+lWXiui
+   +CKrEYsXQZ++98eRX8zrfmBpaeiXfs5+m4+qIdhN7SrtOm+1bd8wYdugx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="336883398"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="336879883"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 02:21:25 -0800
+   d="scan'208";a="336883398"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 03:22:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="921584100"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="764924029"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="921584100"
+   d="scan'208";a="764924029"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Mar 2023 02:21:22 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Mar 2023 03:22:24 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYlUX-0002fW-02;
-	Sun, 05 Mar 2023 10:21:21 +0000
-Date: Sun, 5 Mar 2023 18:20:35 +0800
+	id 1pYmRb-0002im-2h;
+	Sun, 05 Mar 2023 11:22:23 +0000
+Date: Sun, 5 Mar 2023 19:21:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Bhardwaj <bhardwajmanish18@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, acme@kernel.org,
-	alexander.shishkin@linux.intel.com, irogers@google.com,
-	jolsa@kernel.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
-	mingo@redhat.com, namhyung@kernel.org
-Subject: Re: [PATCH] perf/core: introduced stub APIs for exported APIs
-Message-ID: <202303051803.g6sS9VOE-lkp@intel.com>
-References: <20230305092759.10754-1-bhardwajmanish18@gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>,
+	virtualization@lists.linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>,
+	eperezma@redhat.com, netdev@vger.kernel.org, stefanha@redhat.com,
+	linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
+	Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH v2 6/8] vdpa_sim: use kthread worker
+Message-ID: <202303051841.bPAIzJRy-lkp@intel.com>
+References: <20230302113421.174582-7-sgarzare@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,198 +52,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230305092759.10754-1-bhardwajmanish18@gmail.com>
+In-Reply-To: <20230302113421.174582-7-sgarzare@redhat.com>
 
-Hi Manish,
+Hi Stefano,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on b01fe98d34f3bed944a93bd8119fed80c856fad8]
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master next-20230303]
+[cannot apply to v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-172840
-base:   b01fe98d34f3bed944a93bd8119fed80c856fad8
-patch link:    https://lore.kernel.org/r/20230305092759.10754-1-bhardwajmanish18%40gmail.com
-patch subject: [PATCH] perf/core: introduced stub APIs for exported APIs
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230305/202303051803.g6sS9VOE-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefano-Garzarella/vdpa-add-bind_mm-unbind_mm-callbacks/20230302-193850
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20230302113421.174582-7-sgarzare%40redhat.com
+patch subject: [PATCH v2 6/8] vdpa_sim: use kthread worker
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230305/202303051841.bPAIzJRy-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/abd3574667ce6899f498ffc1be32ade8ac01e4cb
+        # https://github.com/intel-lab-lkp/linux/commit/5b2107457ac0e7b1bb0aa3635ebf13b02e82bb78
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Manish-Bhardwaj/perf-core-introduced-stub-APIs-for-exported-APIs/20230305-172840
-        git checkout abd3574667ce6899f498ffc1be32ade8ac01e4cb
+        git fetch --no-tags linux-review Stefano-Garzarella/vdpa-add-bind_mm-unbind_mm-callbacks/20230302-193850
+        git checkout 5b2107457ac0e7b1bb0aa3635ebf13b02e82bb78
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/ath/ath10k/ drivers/vdpa/vdpa_sim/ fs/erofs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303051803.g6sS9VOE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303051841.bPAIzJRy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from arch/powerpc/kernel/syscalls.c:19:
-   include/linux/perf_event.h:1713:16: error: 'perf_event_sysfs_show' defined but not used [-Werror=unused-function]
-    1713 | static ssize_t perf_event_sysfs_show(struct device *dev, struct device_attribute *attr,
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1712:13: error: 'perf_pmu_migrate_context' defined but not used [-Werror=unused-function]
-    1712 | static void perf_pmu_migrate_context(struct pmu *pmu, int src_cpu, int dst_cpu)         { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1704:1: error: 'perf_event_create_kernel_counter' defined but not used [-Werror=unused-function]
-    1704 | perf_event_create_kernel_counter(struct perf_event_attr *attr,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/perf_event.h:1702:13: error: 'perf_pmu_unregister' defined but not used [-Werror=unused-function]
-    1702 | static void perf_pmu_unregister(struct pmu *pmu)                                        { }
-         |             ^~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1698:12: error: 'perf_pmu_register' defined but not used [-Werror=unused-function]
-    1698 | static int perf_pmu_register(struct pmu *pmu, const char *name, int type)
-         |            ^~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1692:13: error: 'perf_tp_event' defined but not used [-Werror=unused-function]
-    1692 | static void perf_tp_event(u16 event_type, u64 count, void *record,
-         |             ^~~~~~~~~~~~~
-   include/linux/perf_event.h:1691:13: error: 'perf_report_aux_output_id' defined but not used [-Werror=unused-function]
-    1691 | static void perf_report_aux_output_id(struct perf_event *event, u64 hw_id)              { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1690:13: error: 'perf_unregister_guest_info_callbacks' defined but not used [-Werror=unused-function]
-    1690 | static void perf_unregister_guest_info_callbacks(struct perf_guest_info_callbacks *cbs) { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1689:13: error: 'perf_register_guest_info_callbacks' defined but not used [-Werror=unused-function]
-    1689 | static void perf_register_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)   { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1688:13: error: 'perf_event_update_userpage' defined but not used [-Werror=unused-function]
-    1688 | static void perf_event_update_userpage(struct perf_event *event)                        { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1683:12: error: 'perf_event_read_value' defined but not used [-Werror=unused-function]
-    1683 | static u64 perf_event_read_value(struct perf_event *event,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1682:13: error: 'perf_event_addr_filters_sync' defined but not used [-Werror=unused-function]
-    1682 | static void perf_event_addr_filters_sync(struct perf_event *event)              { }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/vdpa/vdpa_sim/vdpa_sim.c:166:6: warning: variable 'dev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (IS_ERR(vdpasim->worker))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vdpa/vdpa_sim/vdpa_sim.c:213:13: note: uninitialized use occurs here
+           put_device(dev);
+                      ^~~
+   drivers/vdpa/vdpa_sim/vdpa_sim.c:166:2: note: remove the 'if' if its condition is always false
+           if (IS_ERR(vdpasim->worker))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vdpa/vdpa_sim/vdpa_sim.c:132:20: note: initialize the variable 'dev' to silence this warning
+           struct device *dev;
+                             ^
+                              = NULL
+   1 warning generated.
 
 
-vim +/perf_pmu_unregister +1702 include/linux/perf_event.h
+vim +166 drivers/vdpa/vdpa_sim/vdpa_sim.c
 
-  1649	
-  1650	extern int perf_output_begin(struct perf_output_handle *handle,
-  1651				     struct perf_sample_data *data,
-  1652				     struct perf_event *event, unsigned int size);
-  1653	extern int perf_output_begin_forward(struct perf_output_handle *handle,
-  1654					     struct perf_sample_data *data,
-  1655					     struct perf_event *event,
-  1656					     unsigned int size);
-  1657	extern int perf_output_begin_backward(struct perf_output_handle *handle,
-  1658					      struct perf_sample_data *data,
-  1659					      struct perf_event *event,
-  1660					      unsigned int size);
-  1661	
-  1662	extern void perf_output_end(struct perf_output_handle *handle);
-  1663	extern unsigned int perf_output_copy(struct perf_output_handle *handle,
-  1664				     const void *buf, unsigned int len);
-  1665	extern unsigned int perf_output_skip(struct perf_output_handle *handle,
-  1666					     unsigned int len);
-  1667	extern long perf_output_copy_aux(struct perf_output_handle *aux_handle,
-  1668					 struct perf_output_handle *handle,
-  1669					 unsigned long from, unsigned long to);
-  1670	extern int perf_swevent_get_recursion_context(void);
-  1671	extern void perf_swevent_put_recursion_context(int rctx);
-  1672	extern u64 perf_swevent_set_period(struct perf_event *event);
-  1673	extern void perf_event_enable(struct perf_event *event);
-  1674	extern void perf_event_disable(struct perf_event *event);
-  1675	extern void perf_event_disable_local(struct perf_event *event);
-  1676	extern void perf_event_disable_inatomic(struct perf_event *event);
-  1677	extern void perf_event_task_tick(void);
-  1678	extern int perf_event_account_interrupt(struct perf_event *event);
-  1679	extern int perf_event_period(struct perf_event *event, u64 value);
-  1680	extern u64 perf_event_pause(struct perf_event *event, bool reset);
-  1681	#else /* !CONFIG_PERF_EVENTS: */
-  1682	static void perf_event_addr_filters_sync(struct perf_event *event)		{ }
-  1683	static u64 perf_event_read_value(struct perf_event *event,
-  1684					 u64 *enabled, u64 *running)
-  1685	{
-  1686		return 0;
-  1687	}
-  1688	static void perf_event_update_userpage(struct perf_event *event)			{ }
-  1689	static void perf_register_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)	{ }
-  1690	static void perf_unregister_guest_info_callbacks(struct perf_guest_info_callbacks *cbs)	{ }
-  1691	static void perf_report_aux_output_id(struct perf_event *event, u64 hw_id)		{ }
-  1692	static void perf_tp_event(u16 event_type, u64 count, void *record,
-  1693				  int entry_size, struct pt_regs *regs,
-  1694				  struct hlist_head *head, int rctx,
-  1695				  struct task_struct *task)
-  1696	{
-  1697	}
-  1698	static int perf_pmu_register(struct pmu *pmu, const char *name, int type)
-  1699	{
-  1700		return -1;
-  1701	}
-> 1702	static void perf_pmu_unregister(struct pmu *pmu)					{ }
-  1703	static struct perf_event *
-  1704	perf_event_create_kernel_counter(struct perf_event_attr *attr,
-  1705					int cpu,
-  1706					struct task_struct *task,
-  1707					perf_overflow_handler_t callback,
-  1708					void *context)
-  1709	{
-  1710		return NULL;
-  1711	}
-  1712	static void perf_pmu_migrate_context(struct pmu *pmu, int src_cpu, int dst_cpu)		{ }
-  1713	static ssize_t perf_event_sysfs_show(struct device *dev, struct device_attribute *attr,
-  1714				      char *page)
-  1715	{
-  1716		return -1;
-  1717	}
-  1718	static inline void *
-  1719	perf_aux_output_begin(struct perf_output_handle *handle,
-  1720			      struct perf_event *event)				{ return NULL; }
-  1721	static inline void
-  1722	perf_aux_output_end(struct perf_output_handle *handle, unsigned long size)
-  1723										{ }
-  1724	static inline int
-  1725	perf_aux_output_skip(struct perf_output_handle *handle,
-  1726			     unsigned long size)				{ return -EINVAL; }
-  1727	static inline void *
-  1728	perf_get_aux(struct perf_output_handle *handle)				{ return NULL; }
-  1729	static inline void
-  1730	perf_event_task_migrate(struct task_struct *task)			{ }
-  1731	static inline void
-  1732	perf_event_task_sched_in(struct task_struct *prev,
-  1733				 struct task_struct *task)			{ }
-  1734	static inline void
-  1735	perf_event_task_sched_out(struct task_struct *prev,
-  1736				  struct task_struct *next)			{ }
-  1737	static inline int perf_event_init_task(struct task_struct *child,
-  1738					       u64 clone_flags)			{ return 0; }
-  1739	static inline void perf_event_exit_task(struct task_struct *child)	{ }
-  1740	static inline void perf_event_free_task(struct task_struct *task)	{ }
-  1741	static inline void perf_event_delayed_put(struct task_struct *task)	{ }
-  1742	static inline struct file *perf_event_get(unsigned int fd)	{ return ERR_PTR(-EINVAL); }
-  1743	static inline const struct perf_event *perf_get_event(struct file *file)
-  1744	{
-  1745		return ERR_PTR(-EINVAL);
-  1746	}
-  1747	static inline const struct perf_event_attr *perf_event_attrs(struct perf_event *event)
-  1748	{
-  1749		return ERR_PTR(-EINVAL);
-  1750	}
-  1751	static inline int perf_event_read_local(struct perf_event *event, u64 *value,
-  1752						u64 *enabled, u64 *running)
-  1753	{
-  1754		return -EINVAL;
-  1755	}
-  1756	static inline void perf_event_print_debug(void)				{ }
-  1757	static inline int perf_event_task_disable(void)				{ return -EINVAL; }
-  1758	static inline int perf_event_task_enable(void)				{ return -EINVAL; }
-  1759	static inline int perf_event_refresh(struct perf_event *event, int refresh)
-  1760	{
-  1761		return -EINVAL;
-  1762	}
-  1763	
+   125	
+   126	struct vdpasim *vdpasim_create(struct vdpasim_dev_attr *dev_attr,
+   127				       const struct vdpa_dev_set_config *config)
+   128	{
+   129		const struct vdpa_config_ops *ops;
+   130		struct vdpa_device *vdpa;
+   131		struct vdpasim *vdpasim;
+   132		struct device *dev;
+   133		int i, ret = -ENOMEM;
+   134	
+   135		if (!dev_attr->alloc_size)
+   136			return ERR_PTR(-EINVAL);
+   137	
+   138		if (config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) {
+   139			if (config->device_features &
+   140			    ~dev_attr->supported_features)
+   141				return ERR_PTR(-EINVAL);
+   142			dev_attr->supported_features =
+   143				config->device_features;
+   144		}
+   145	
+   146		if (batch_mapping)
+   147			ops = &vdpasim_batch_config_ops;
+   148		else
+   149			ops = &vdpasim_config_ops;
+   150	
+   151		vdpa = __vdpa_alloc_device(NULL, ops,
+   152					   dev_attr->ngroups, dev_attr->nas,
+   153					   dev_attr->alloc_size,
+   154					   dev_attr->name, false);
+   155		if (IS_ERR(vdpa)) {
+   156			ret = PTR_ERR(vdpa);
+   157			goto err_alloc;
+   158		}
+   159	
+   160		vdpasim = vdpa_to_sim(vdpa);
+   161		vdpasim->dev_attr = *dev_attr;
+   162	
+   163		kthread_init_work(&vdpasim->work, vdpasim_work_fn);
+   164		vdpasim->worker = kthread_create_worker(0, "vDPA sim worker: %s",
+   165							dev_attr->name);
+ > 166		if (IS_ERR(vdpasim->worker))
+   167			goto err_iommu;
+   168	
+   169		spin_lock_init(&vdpasim->lock);
+   170		spin_lock_init(&vdpasim->iommu_lock);
+   171	
+   172		dev = &vdpasim->vdpa.dev;
+   173		dev->dma_mask = &dev->coherent_dma_mask;
+   174		if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+   175			goto err_iommu;
+   176		vdpasim->vdpa.mdev = dev_attr->mgmt_dev;
+   177	
+   178		vdpasim->config = kzalloc(dev_attr->config_size, GFP_KERNEL);
+   179		if (!vdpasim->config)
+   180			goto err_iommu;
+   181	
+   182		vdpasim->vqs = kcalloc(dev_attr->nvqs, sizeof(struct vdpasim_virtqueue),
+   183				       GFP_KERNEL);
+   184		if (!vdpasim->vqs)
+   185			goto err_iommu;
+   186	
+   187		vdpasim->iommu = kmalloc_array(vdpasim->dev_attr.nas,
+   188					       sizeof(*vdpasim->iommu), GFP_KERNEL);
+   189		if (!vdpasim->iommu)
+   190			goto err_iommu;
+   191	
+   192		vdpasim->iommu_pt = kmalloc_array(vdpasim->dev_attr.nas,
+   193						  sizeof(*vdpasim->iommu_pt), GFP_KERNEL);
+   194		if (!vdpasim->iommu_pt)
+   195			goto err_iommu;
+   196	
+   197		for (i = 0; i < vdpasim->dev_attr.nas; i++)
+   198			vhost_iotlb_init(&vdpasim->iommu[i], max_iotlb_entries, 0);
+   199	
+   200		vdpasim->buffer = kvmalloc(dev_attr->buffer_size, GFP_KERNEL);
+   201		if (!vdpasim->buffer)
+   202			goto err_iommu;
+   203	
+   204		for (i = 0; i < dev_attr->nvqs; i++)
+   205			vringh_set_iotlb(&vdpasim->vqs[i].vring, &vdpasim->iommu[0],
+   206					 &vdpasim->iommu_lock);
+   207	
+   208		vdpasim->vdpa.dma_dev = dev;
+   209	
+   210		return vdpasim;
+   211	
+   212	err_iommu:
+   213		put_device(dev);
+   214	err_alloc:
+   215		return ERR_PTR(ret);
+   216	}
+   217	EXPORT_SYMBOL_GPL(vdpasim_create);
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
