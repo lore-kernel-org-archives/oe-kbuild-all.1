@@ -1,45 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5468B3D60
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Mar 2023 23:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E850F17D7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 03:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678058392; x=1709594392;
+  t=1678071840; x=1709607840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+G7Exa0ezcTq85FCbf+hOYvGCKlYRYioVNwPdeH+PDs=;
-  b=lweqXEDEqd88Kh3MAVix9rFzDRVLcbDVk2gUoKFQxjwwv2C8USQ68dnS
-   3g3N0PgscjoKiibVn7k2wCZVrs+N0Yebg0e+H/1Zn1OwxD3n3ho1QEZH6
-   NbZ4Y7XBigx8Wwwwqh//5k88xnm0pjrgTBxHRf2Y0mxHQ+n7NXemPgebC
-   9V+crhKnCwJ0cXA2X2qHDpm4WqCI1kYKwC/e8PUdu4f/FaVpGlX+pZZ/6
-   yKejIEdbcIAzahH8cd5UMTqKZDbf2QIiJ4Vqa9xPFWwKW+RuUlQEELejK
-   uG1w5uwqC/YP6R03kI+839Nno9e9SrrSeTXmHAC5qqp6Dc1o1cZAXtLzY
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="336951329"
+  bh=lMA9PAnCrWUZkcnQo9wfnlkxwB6zekyiwYM1GpfWRxY=;
+  b=dPKqkpfxCbM0SsepnQK2m/wQqOq76c2au2v8NfiUFP1x9W1VW10WkrXP
+   UNSyNCjCxEoj4S8n+ivdL59+WFSTYloAVM91FUir8hQsrlXgFkQEoBr6i
+   eFtUFguN/RUvNq89Xm/guiaHzjJeMZzTzlywsctKKAOQWORWMcAhgKFRZ
+   aUveQ3dqNUgFXo8gECnLagniwf+/WGSjwQLy9Jtpq5ppzkeHfdGa41dBH
+   krdpiPBh086umcyMNVZA4YWNw9R+zurHtzKrNSgJvtaDNn5ac7Y3Y6UZe
+   Igdtxf2m+P1UqJXmVSNnXg4y7GNlEFdruDbK38rBMQgk2et9LdM6BROlH
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="421735582"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="336951329"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 15:19:51 -0800
+   d="scan'208";a="421735582"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 19:04:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="799823191"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="706282096"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="799823191"
+   d="scan'208";a="706282096"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Mar 2023 15:19:50 -0800
+  by orsmga008.jf.intel.com with ESMTP; 05 Mar 2023 19:03:58 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYxdt-0003A4-0i;
-	Sun, 05 Mar 2023 23:19:49 +0000
-Date: Mon, 6 Mar 2023 07:19:15 +0800
+	id 1pZ18n-0003H4-2V;
+	Mon, 06 Mar 2023 03:03:57 +0000
+Date: Mon, 6 Mar 2023 11:03:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colin Foster <colin.foster@in-advantage.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: drivers/net/dsa/ocelot/ocelot_ext.c:144:34: warning:
- 'ocelot_ext_switch_of_match' defined but not used
-Message-ID: <202303060716.BDSREmLN-lkp@intel.com>
+To: Chen Meng J <meng.j.chen@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Meng Wei <wei.meng@intel.com>
+Subject: [intel-lts:5.10/yocto 10438/30000] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-y210 (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202303061101.qqy87RHV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,42 +49,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f915322fe014c5c515119381e886faf07b3c9d31
-commit: 3d7316ac81ac329efce221b5584138e8c637a7b1 net: dsa: ocelot: add external ocelot switch control
-date:   5 weeks ago
-config: i386-buildonly-randconfig-r006-20230306 (https://download.01.org/0day-ci/archive/20230306/202303060716.BDSREmLN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3d7316ac81ac329efce221b5584138e8c637a7b1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3d7316ac81ac329efce221b5584138e8c637a7b1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/dsa/ocelot/
+Hi Chen,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   abd42491338c1d15ac7f00baaa8490063545737e
+commit: f8e79bb837ba5600b27b6b61f72c310255bd505f [10438/30000] media: v4l: Add new vectorised pixel formats
+reproduce:
+        # https://github.com/intel/linux-intel-lts/commit/f8e79bb837ba5600b27b6b61f72c310255bd505f
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout f8e79bb837ba5600b27b6b61f72c310255bd505f
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303060716.BDSREmLN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303061101.qqy87RHV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/dsa/ocelot/ocelot_ext.c:144:34: warning: 'ocelot_ext_switch_of_match' defined but not used [-Wunused-const-variable=]
-     144 | static const struct of_device_id ocelot_ext_switch_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-y210 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggr8-16v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbrg8-16v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrbg8-16v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggb8-16v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggr10v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbrg10v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrbg10v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggb10v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggr12v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbrg12v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrbg12v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggb12v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggr14v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbrg14v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrbg14v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggb14v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggr8v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbrg8v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrbg8v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggb8v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-uyvy-v32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-yuyv420-v32 (if the link has no caption the label must precede a section header)
 
-
-vim +/ocelot_ext_switch_of_match +144 drivers/net/dsa/ocelot/ocelot_ext.c
-
-   143	
- > 144	static const struct of_device_id ocelot_ext_switch_of_match[] = {
-   145		{ .compatible = "mscc,vsc7512-switch" },
-   146		{ },
-   147	};
-   148	MODULE_DEVICE_TABLE(of, ocelot_ext_switch_of_match);
-   149	
+vim +6 Documentation/output/videodev2.h.rst
 
 -- 
 0-DAY CI Kernel Test Service
