@@ -1,53 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C037566C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 17:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E40566C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 18:18:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678125454; x=1709661454;
+  t=1678126713; x=1709662713;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Yt1JMNZEMwns8zPlPJmNRrMyNl9NvEHAApEp/Dn1mZs=;
-  b=BuV5NjMCG0cNidaCZj7yMqFDGDyaGIB1HT8QeI4fzOv/7FYqN0UjEPMT
-   UoTNhpLiukbpHDe37XtoG8J88dyonp63VTRAxItHaHXiKyu+YF3zZZivq
-   PqnGTA0DNJ6lB3mr/bV+Jotn7IeNQnw65rUQJXurdNFmOkIqGJ93LTxfj
-   IOuii8chZtDFhN49EefEhuiuDuUS35n/tJFZfoyfDu2wzPJcv4YJJ+Si7
-   CbpoK1ktjl/db11Tdl2so82Kv8gfn74vGCmqX1DZt3sw99jK9gkAlKALh
-   0mBE5jKkYpiJFeGXfBXb4LLFGPBDnvjlWZyxcST4mm3YmwQhHY2uskiMU
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="398210883"
+  bh=v3Djklsyht7uJKBw6Zfk65UNwZ0LJrKevoeIRjYoG+A=;
+  b=PhXEgJyWWUIUeJbhqg8hoS0WFsQ5+dL7ylL4H+F9yDpmrEPIsVXEg2AA
+   zlGYIBl1GYpEt51b7U4ubAGrbpoHUti4MaaSrF1NsJ6OwYupT9R+yLazw
+   U0tFfnXeYtr7tBA927AoLklMRrpjCB4yfzqgw0LtTJoLdht5U8MgwAzp7
+   fbRQDFpQglE8EPHgKKtR+ijX7NFpBEgLBHTmkJrIcJ9jfjFDmpU7lm4on
+   7uMMqI9z6AG7ABDlNzr20urYVonegSE+XnyTy3YAd4w/03IlEPt0n24xq
+   /MIvACAankJLFvfh+KoYPLJIqHcxzt/Rji3507buVmkuHkzZzdCXRNGVB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337958269"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="398210883"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 09:57:34 -0800
+   d="scan'208";a="337958269"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 10:18:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="745160100"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="626244963"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="745160100"
+   d="scan'208";a="626244963"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2023 09:57:29 -0800
+  by orsmga003.jf.intel.com with ESMTP; 06 Mar 2023 10:18:30 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZF5U-0000Vq-1r;
-	Mon, 06 Mar 2023 17:57:28 +0000
-Date: Tue, 7 Mar 2023 01:57:03 +0800
+	id 1pZFPp-0000Wd-0W;
+	Mon, 06 Mar 2023 18:18:29 +0000
+Date: Tue, 7 Mar 2023 02:17:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-	paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
-	pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
-	s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
-	thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
-	spock@gentoo.org, sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com, geert+renesas@glider.be,
-	corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 07/99] fbdev/amifb: Parse option string with struct
- option_iter
-Message-ID: <202303070108.gtLwdySM-lkp@intel.com>
-References: <20230306160016.4459-8-tzimmermann@suse.de>
+To: Vadim Fedorenko <vadfed@meta.com>, Jakub Kicinski <kuba@kernel.org>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vadim Fedorenko <vadfed@meta.com>,
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org
+Subject: Re: [net-next] ptp_ocp: add force_irq to xilinx_spi configuration
+Message-ID: <202303070211.1hVqbsqg-lkp@intel.com>
+References: <20230306155726.4035925-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,104 +48,319 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306160016.4459-8-tzimmermann@suse.de>
+In-Reply-To: <20230306155726.4035925-1-vadfed@meta.com>
 
-Hi Thomas,
+Hi Vadim,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.3-rc1 next-20230306]
-[cannot apply to deller-parisc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230306160016.4459-8-tzimmermann%40suse.de
-patch subject: [PATCH 07/99] fbdev/amifb: Parse option string with struct option_iter
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230307/202303070108.gtLwdySM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/ptp_ocp-add-force_irq-to-xilinx_spi-configuration/20230306-235901
+patch link:    https://lore.kernel.org/r/20230306155726.4035925-1-vadfed%40meta.com
+patch subject: [net-next] ptp_ocp: add force_irq to xilinx_spi configuration
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230307/202303070211.1hVqbsqg-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0b2c4af3b565e5ee830f7ed8e844d89237938f96
+        # https://github.com/intel-lab-lkp/linux/commit/a30de1354a643bbb9f8e8174332d00d78e74c520
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-        git checkout 0b2c4af3b565e5ee830f7ed8e844d89237938f96
+        git fetch --no-tags linux-review Vadim-Fedorenko/ptp_ocp-add-force_irq-to-xilinx_spi-configuration/20230306-235901
+        git checkout a30de1354a643bbb9f8e8174332d00d78e74c520
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/video/fbdev/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070108.gtLwdySM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070211.1hVqbsqg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/video/fbdev/amifb.c: In function 'ami_decode_var':
-   drivers/video/fbdev/amifb.c:1134:23: warning: variable 'vtotal' set but not used [-Wunused-but-set-variable]
-    1134 |         u_int htotal, vtotal;
-         |                       ^~~~~~
-   drivers/video/fbdev/amifb.c:1134:15: warning: variable 'htotal' set but not used [-Wunused-but-set-variable]
-    1134 |         u_int htotal, vtotal;
-         |               ^~~~~~
-   drivers/video/fbdev/amifb.c: In function 'ami_get_var_cursorinfo':
-   drivers/video/fbdev/amifb.c:1855:19: warning: variable 'alloc' set but not used [-Wunused-but-set-variable]
-    1855 |         int size, alloc;
-         |                   ^~~~~
-   drivers/video/fbdev/amifb.c: In function 'amifb_setup':
->> drivers/video/fbdev/amifb.c:2362:51: warning: passing argument 1 of 'amifb_setup_mcap' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2362 |                         amifb_setup_mcap(this_opt + 11);
-         |                                          ~~~~~~~~~^~~~
-   drivers/video/fbdev/amifb.c:2312:43: note: expected 'char *' but argument is of type 'const char *'
-    2312 | static void __init amifb_setup_mcap(char *spec)
-         |                                     ~~~~~~^~~~
+   drivers/ptp/ptp_ocp.c:665:34: error: 'struct xspi_platform_data' has no member named 'force_irq'
+     665 |                                 .force_irq = true,
+         |                                  ^~~~~~~~~
+>> drivers/ptp/ptp_ocp.c:665:46: warning: excess elements in struct initializer
+     665 |                                 .force_irq = true,
+         |                                              ^~~~
+   drivers/ptp/ptp_ocp.c:665:46: note: (near initialization for '(anonymous)')
 
 
-vim +2362 drivers/video/fbdev/amifb.c
+vim +665 drivers/ptp/ptp_ocp.c
 
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2348  
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2349  static int __init amifb_setup(const char *options)
-^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2350  {
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2351  	struct option_iter iter;
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2352  	const char *this_opt;
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2353  
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2354  	option_iter_init(&iter, options);
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2355  
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2356  	while (option_iter_next(&iter, this_opt)) {
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2357  		if (!strcmp(this_opt, "inverse")) {
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2358  			fb_invert_cmaps();
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2359  		} else if (!strcmp(this_opt, "ilbm"))
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2360  			amifb_ilbm = 1;
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2361  		else if (!strncmp(this_opt, "monitorcap:", 11))
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21 @2362  			amifb_setup_mcap(this_opt + 11);
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2363  		else if (!strncmp(this_opt, "fstart:", 7))
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2364  			min_fstrt = simple_strtoul(this_opt + 7, NULL, 0);
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2365  		else {
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2366  			static char mode_option_buf[256];
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2367  			int ret;
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2368  
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2369  			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", this_opt);
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2370  			if (WARN(ret < 0, "amifb: ignoring invalid option, ret=%d\n", ret))
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2371  				continue;
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2372  			if (WARN(ret >= sizeof(mode_option_buf), "amifb: option too long\n"))
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2373  				continue;
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2374  			mode_option = mode_option_buf;
-d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2375  		}
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2376  	}
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2377  
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2378  	option_iter_release(&iter);
-0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2379  
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2380  	if (min_fstrt < 48)
-f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2381  		min_fstrt = 48;
-^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2382  
-^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2383  	return 0;
-^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2384  }
-195197f408567b5 drivers/video/fbdev/amifb.c Randy Dunlap       2018-07-31  2385  #endif
-^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2386  
+   423	
+   424	#define OCP_RES_LOCATION(member) \
+   425		.name = #member, .bp_offset = offsetof(struct ptp_ocp, member)
+   426	
+   427	#define OCP_MEM_RESOURCE(member) \
+   428		OCP_RES_LOCATION(member), .setup = ptp_ocp_register_mem
+   429	
+   430	#define OCP_SERIAL_RESOURCE(member) \
+   431		OCP_RES_LOCATION(member), .setup = ptp_ocp_register_serial
+   432	
+   433	#define OCP_I2C_RESOURCE(member) \
+   434		OCP_RES_LOCATION(member), .setup = ptp_ocp_register_i2c
+   435	
+   436	#define OCP_SPI_RESOURCE(member) \
+   437		OCP_RES_LOCATION(member), .setup = ptp_ocp_register_spi
+   438	
+   439	#define OCP_EXT_RESOURCE(member) \
+   440		OCP_RES_LOCATION(member), .setup = ptp_ocp_register_ext
+   441	
+   442	/* This is the MSI vector mapping used.
+   443	 * 0: PPS (TS5)
+   444	 * 1: TS0
+   445	 * 2: TS1
+   446	 * 3: GNSS1
+   447	 * 4: GNSS2
+   448	 * 5: MAC
+   449	 * 6: TS2
+   450	 * 7: I2C controller
+   451	 * 8: HWICAP (notused)
+   452	 * 9: SPI Flash
+   453	 * 10: NMEA
+   454	 * 11: Signal Generator 1
+   455	 * 12: Signal Generator 2
+   456	 * 13: Signal Generator 3
+   457	 * 14: Signal Generator 4
+   458	 * 15: TS3
+   459	 * 16: TS4
+   460	 --
+   461	 * 8: Orolia TS1
+   462	 * 10: Orolia TS2
+   463	 * 11: Orolia TS0 (GNSS)
+   464	 * 12: Orolia PPS
+   465	 * 14: Orolia TS3
+   466	 * 15: Orolia TS4
+   467	 */
+   468	
+   469	static struct ocp_resource ocp_fb_resource[] = {
+   470		{
+   471			OCP_MEM_RESOURCE(reg),
+   472			.offset = 0x01000000, .size = 0x10000,
+   473		},
+   474		{
+   475			OCP_EXT_RESOURCE(ts0),
+   476			.offset = 0x01010000, .size = 0x10000, .irq_vec = 1,
+   477			.extra = &(struct ptp_ocp_ext_info) {
+   478				.index = 0,
+   479				.irq_fcn = ptp_ocp_ts_irq,
+   480				.enable = ptp_ocp_ts_enable,
+   481			},
+   482		},
+   483		{
+   484			OCP_EXT_RESOURCE(ts1),
+   485			.offset = 0x01020000, .size = 0x10000, .irq_vec = 2,
+   486			.extra = &(struct ptp_ocp_ext_info) {
+   487				.index = 1,
+   488				.irq_fcn = ptp_ocp_ts_irq,
+   489				.enable = ptp_ocp_ts_enable,
+   490			},
+   491		},
+   492		{
+   493			OCP_EXT_RESOURCE(ts2),
+   494			.offset = 0x01060000, .size = 0x10000, .irq_vec = 6,
+   495			.extra = &(struct ptp_ocp_ext_info) {
+   496				.index = 2,
+   497				.irq_fcn = ptp_ocp_ts_irq,
+   498				.enable = ptp_ocp_ts_enable,
+   499			},
+   500		},
+   501		{
+   502			OCP_EXT_RESOURCE(ts3),
+   503			.offset = 0x01110000, .size = 0x10000, .irq_vec = 15,
+   504			.extra = &(struct ptp_ocp_ext_info) {
+   505				.index = 3,
+   506				.irq_fcn = ptp_ocp_ts_irq,
+   507				.enable = ptp_ocp_ts_enable,
+   508			},
+   509		},
+   510		{
+   511			OCP_EXT_RESOURCE(ts4),
+   512			.offset = 0x01120000, .size = 0x10000, .irq_vec = 16,
+   513			.extra = &(struct ptp_ocp_ext_info) {
+   514				.index = 4,
+   515				.irq_fcn = ptp_ocp_ts_irq,
+   516				.enable = ptp_ocp_ts_enable,
+   517			},
+   518		},
+   519		/* Timestamp for PHC and/or PPS generator */
+   520		{
+   521			OCP_EXT_RESOURCE(pps),
+   522			.offset = 0x010C0000, .size = 0x10000, .irq_vec = 0,
+   523			.extra = &(struct ptp_ocp_ext_info) {
+   524				.index = 5,
+   525				.irq_fcn = ptp_ocp_ts_irq,
+   526				.enable = ptp_ocp_ts_enable,
+   527			},
+   528		},
+   529		{
+   530			OCP_EXT_RESOURCE(signal_out[0]),
+   531			.offset = 0x010D0000, .size = 0x10000, .irq_vec = 11,
+   532			.extra = &(struct ptp_ocp_ext_info) {
+   533				.index = 1,
+   534				.irq_fcn = ptp_ocp_signal_irq,
+   535				.enable = ptp_ocp_signal_enable,
+   536			},
+   537		},
+   538		{
+   539			OCP_EXT_RESOURCE(signal_out[1]),
+   540			.offset = 0x010E0000, .size = 0x10000, .irq_vec = 12,
+   541			.extra = &(struct ptp_ocp_ext_info) {
+   542				.index = 2,
+   543				.irq_fcn = ptp_ocp_signal_irq,
+   544				.enable = ptp_ocp_signal_enable,
+   545			},
+   546		},
+   547		{
+   548			OCP_EXT_RESOURCE(signal_out[2]),
+   549			.offset = 0x010F0000, .size = 0x10000, .irq_vec = 13,
+   550			.extra = &(struct ptp_ocp_ext_info) {
+   551				.index = 3,
+   552				.irq_fcn = ptp_ocp_signal_irq,
+   553				.enable = ptp_ocp_signal_enable,
+   554			},
+   555		},
+   556		{
+   557			OCP_EXT_RESOURCE(signal_out[3]),
+   558			.offset = 0x01100000, .size = 0x10000, .irq_vec = 14,
+   559			.extra = &(struct ptp_ocp_ext_info) {
+   560				.index = 4,
+   561				.irq_fcn = ptp_ocp_signal_irq,
+   562				.enable = ptp_ocp_signal_enable,
+   563			},
+   564		},
+   565		{
+   566			OCP_MEM_RESOURCE(pps_to_ext),
+   567			.offset = 0x01030000, .size = 0x10000,
+   568		},
+   569		{
+   570			OCP_MEM_RESOURCE(pps_to_clk),
+   571			.offset = 0x01040000, .size = 0x10000,
+   572		},
+   573		{
+   574			OCP_MEM_RESOURCE(tod),
+   575			.offset = 0x01050000, .size = 0x10000,
+   576		},
+   577		{
+   578			OCP_MEM_RESOURCE(irig_in),
+   579			.offset = 0x01070000, .size = 0x10000,
+   580		},
+   581		{
+   582			OCP_MEM_RESOURCE(irig_out),
+   583			.offset = 0x01080000, .size = 0x10000,
+   584		},
+   585		{
+   586			OCP_MEM_RESOURCE(dcf_in),
+   587			.offset = 0x01090000, .size = 0x10000,
+   588		},
+   589		{
+   590			OCP_MEM_RESOURCE(dcf_out),
+   591			.offset = 0x010A0000, .size = 0x10000,
+   592		},
+   593		{
+   594			OCP_MEM_RESOURCE(nmea_out),
+   595			.offset = 0x010B0000, .size = 0x10000,
+   596		},
+   597		{
+   598			OCP_MEM_RESOURCE(image),
+   599			.offset = 0x00020000, .size = 0x1000,
+   600		},
+   601		{
+   602			OCP_MEM_RESOURCE(pps_select),
+   603			.offset = 0x00130000, .size = 0x1000,
+   604		},
+   605		{
+   606			OCP_MEM_RESOURCE(sma_map1),
+   607			.offset = 0x00140000, .size = 0x1000,
+   608		},
+   609		{
+   610			OCP_MEM_RESOURCE(sma_map2),
+   611			.offset = 0x00220000, .size = 0x1000,
+   612		},
+   613		{
+   614			OCP_I2C_RESOURCE(i2c_ctrl),
+   615			.offset = 0x00150000, .size = 0x10000, .irq_vec = 7,
+   616			.extra = &(struct ptp_ocp_i2c_info) {
+   617				.name = "xiic-i2c",
+   618				.fixed_rate = 50000000,
+   619				.data_size = sizeof(struct xiic_i2c_platform_data),
+   620				.data = &(struct xiic_i2c_platform_data) {
+   621					.num_devices = 2,
+   622					.devices = (struct i2c_board_info[]) {
+   623						{ I2C_BOARD_INFO("24c02", 0x50) },
+   624						{ I2C_BOARD_INFO("24mac402", 0x58),
+   625						  .platform_data = "mac" },
+   626					},
+   627				},
+   628			},
+   629		},
+   630		{
+   631			OCP_SERIAL_RESOURCE(gnss_port),
+   632			.offset = 0x00160000 + 0x1000, .irq_vec = 3,
+   633			.extra = &(struct ptp_ocp_serial_port) {
+   634				.baud = 115200,
+   635			},
+   636		},
+   637		{
+   638			OCP_SERIAL_RESOURCE(gnss2_port),
+   639			.offset = 0x00170000 + 0x1000, .irq_vec = 4,
+   640			.extra = &(struct ptp_ocp_serial_port) {
+   641				.baud = 115200,
+   642			},
+   643		},
+   644		{
+   645			OCP_SERIAL_RESOURCE(mac_port),
+   646			.offset = 0x00180000 + 0x1000, .irq_vec = 5,
+   647			.extra = &(struct ptp_ocp_serial_port) {
+   648				.baud = 57600,
+   649			},
+   650		},
+   651		{
+   652			OCP_SERIAL_RESOURCE(nmea_port),
+   653			.offset = 0x00190000 + 0x1000, .irq_vec = 10,
+   654		},
+   655		{
+   656			OCP_SPI_RESOURCE(spi_flash),
+   657			.offset = 0x00310000, .size = 0x10000, .irq_vec = 9,
+   658			.extra = &(struct ptp_ocp_flash_info) {
+   659				.name = "xilinx_spi", .pci_offset = 0,
+   660				.data_size = sizeof(struct xspi_platform_data),
+   661				.data = &(struct xspi_platform_data) {
+   662					.num_chipselect = 1,
+   663					.bits_per_word = 8,
+   664					.num_devices = 1,
+ > 665					.force_irq = true,
+   666					.devices = &(struct spi_board_info) {
+   667						.modalias = "spi-nor",
+   668					},
+   669				},
+   670			},
+   671		},
+   672		{
+   673			OCP_MEM_RESOURCE(freq_in[0]),
+   674			.offset = 0x01200000, .size = 0x10000,
+   675		},
+   676		{
+   677			OCP_MEM_RESOURCE(freq_in[1]),
+   678			.offset = 0x01210000, .size = 0x10000,
+   679		},
+   680		{
+   681			OCP_MEM_RESOURCE(freq_in[2]),
+   682			.offset = 0x01220000, .size = 0x10000,
+   683		},
+   684		{
+   685			OCP_MEM_RESOURCE(freq_in[3]),
+   686			.offset = 0x01230000, .size = 0x10000,
+   687		},
+   688		{
+   689			.setup = ptp_ocp_fb_board_init,
+   690		},
+   691		{ }
+   692	};
+   693	
 
 -- 
 0-DAY CI Kernel Test Service
