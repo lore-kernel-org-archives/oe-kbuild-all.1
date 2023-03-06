@@ -1,49 +1,43 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0397E;
-	Mon,  6 Mar 2023 08:32:03 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id x3so34978317edb.10;
-        Mon, 06 Mar 2023 00:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678091522;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=09+mPuVZfcZ9rLMBatGSj0PpAH+webEkKaDfeisbFXc=;
-        b=d56BDuQb45uz65ASd9qDibDiSzprvqRGyH6LBLABcXN8Kn4ONYSgsVhbhuCMH3iA9N
-         u68sODmaGpqHv6mRxY7G4q5SzD+Glb1f1cH0iG38XKVubUo9ZheC0hRUomegSehmSHov
-         GZeMHpmMyrvpuZD7Jxlb8FB6KZfEh1zDvKjNNSXl+feP/BQ86LqIkyDJFWc4Sm3MtFBr
-         NOm3kqQYEDUo9xatIYdBiOvY9T2NmuzJ6Fw+J4VOAJVhlDl20OpWEjS1gI8R7O7ZvoFP
-         vpFbuNfRK1hPJrS50R/qQmbO0Z5+lzMPuGHFXpgn1IcAKNKk+o+I67DdxcbeKAA5MTSx
-         10wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678091522;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=09+mPuVZfcZ9rLMBatGSj0PpAH+webEkKaDfeisbFXc=;
-        b=ZnlWqQV0n6toszSa8wv8N+hFQXT05wgK2/jiP+0wlgBIvVYypVWaFtcrF7aMJjZWv0
-         OIkCCfmaB7LncJI1GNf23W7o+J6gNjgGC3luwroKiFLCoPItmDNeytl3y98K3JeWZN7F
-         jbUgtNKv86zE2CqkDL8UhWDgt4FzLlo+er1/LRniNjoymnDbR86H/CjM3aSuEqckZvwh
-         uAlH2I3coRD3fB4rE7qmGuiQ4TKTGh/BsZY/aB3yvQG5+BBizTskITSJeJzLsiKfYsLA
-         g/zzahjllPUfRdN5wZrLv8SBcti8aDQwE+7W2kHrIyWlVHanVe2AFnShki8mDNBqKygn
-         YHKg==
-X-Gm-Message-State: AO0yUKURtycxUnb2d+SB+RFpCYpVcEvDcOjjdCIOV1QsaJMKLKdECEAD
-	nxTHHtSlmH4VdxWg/Wgbkc36FFJ4tlP9mg==
-X-Google-Smtp-Source: AK7set+Ghl+AJMfORMvDcY+tD6udFtPddvgleb38tQOQE/SDIRJNy+UDHopeeBaCccffAPueiFi5dQ==
-X-Received: by 2002:a17:906:3ac1:b0:8af:1a8c:eaa0 with SMTP id z1-20020a1709063ac100b008af1a8ceaa0mr9353980ejd.75.1678091521670;
-        Mon, 06 Mar 2023 00:32:01 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y21-20020a50ce15000000b004af71e8cc3dsm4705937edi.60.2023.03.06.00.32.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 00:32:01 -0800 (PST)
-Date: Sun, 5 Mar 2023 11:04:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jfern:staging 8/8] kernel/rcu/update.c:266 rcu_end_inkernel_boot()
- warn: inconsistent returns '&rcu_boot_end_lock'.
-Message-ID: <2afabe18-23c7-4f26-8547-4f77636422ff@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8566F7E;
+	Mon,  6 Mar 2023 08:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678092837; x=1709628837;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Tn18FpwIlPFLrG8E4tkHsPjQDXkBXPmbKP6H0/t/XRQ=;
+  b=b6gPI3YanLj+OH+5268O0Rp9WjXO6AIvyY0GoG1LUAXRSfnLDhA7MeUf
+   sPjU3+jKKC0gh+UNCDYGTk8026HhjZYwAAD4fDYHeJD2OMMONFn9vsuoS
+   76YXRAzbWlUKdYSMWBHsgyxxL/0CjGqJ5yCUjsh8OXLNlW2be36Rq126l
+   nasNc598z3L94nwypUw/cyv5KDL3KuJvlJnN1hkRR1ZhluCnTDnQqYNuA
+   8e/W7OZETv0U0MZmu76KWCw5vevncr65uOv8HdFiWcwnNA1nDUN3a3Tcl
+   DMuoJKQw+HdggKtSbwasvFeWvWgyIUspm1GJCERWx3ti144oXyD9JzydA
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="421779126"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="421779126"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 00:53:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="706366473"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="706366473"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 06 Mar 2023 00:53:55 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZ6bT-0000Al-0I;
+	Mon, 06 Mar 2023 08:53:55 +0000
+Date: Mon, 6 Mar 2023 16:53:12 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_lookup_name: .text+0x80): relocation R_RISCV_PCREL_HI20 out of
+ range: -524399 is not in [-524288, 524287]; references
+ kallsyms_seqs_of_names
+Message-ID: <202303061657.oPTl4tiz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,53 +47,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git staging
-head:   e6d2024fa329f41ffba24f06090ea57e3b0041ed
-commit: e6d2024fa329f41ffba24f06090ea57e3b0041ed [8/8] rcu: Add a minimum time for marking boot as completed
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230305/202303050636.Qhxwao0u-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+CC: linux-kernel@vger.kernel.org
+TO: Zhen Lei <thunder.leizhen@huawei.com>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+
+Hi Zhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+commit: 60443c88f3a89fd303a9e8c0e84895910675c316 kallsyms: Improve the performance of kallsyms_lookup_name()
+date:   4 months ago
+config: riscv-buildonly-randconfig-r006-20230306 (https://download.01.org/0day-ci/archive/20230306/202303061657.oPTl4tiz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=60443c88f3a89fd303a9e8c0e84895910675c316
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 60443c88f3a89fd303a9e8c0e84895910675c316
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303050636.Qhxwao0u-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303061657.oPTl4tiz-lkp@intel.com/
 
-smatch warnings:
-kernel/rcu/update.c:266 rcu_end_inkernel_boot() warn: inconsistent returns '&rcu_boot_end_lock'.
+All errors (new ones prefixed by >>):
 
-vim +266 kernel/rcu/update.c
-
-ee42571f4381f1 Paul E. McKenney        2015-02-19  242  void rcu_end_inkernel_boot(void)
-ee42571f4381f1 Paul E. McKenney        2015-02-19  243  {
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  244) 	mutex_lock(&rcu_boot_end_lock);
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  245) 	rcu_boot_end_called = true;
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  246) 
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  247) 	if (rcu_boot_ended)
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  248) 		return;
-
-mutex_unlock(&rcu_boot_end_lock);?
-
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  249) 
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  250) 	if (rcu_boot_end_delay) {
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  251) 		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  252) 
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  253) 		if (boot_ms < rcu_boot_end_delay) {
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  254) 			schedule_delayed_work(&rcu_boot_end_work,
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  255) 					rcu_boot_end_delay - boot_ms);
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  256) 			mutex_unlock(&rcu_boot_end_lock);
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  257) 			return;
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  258) 		}
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  259) 	}
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  260) 
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  261) 	cancel_delayed_work(&rcu_boot_end_work);
-ee42571f4381f1 Paul E. McKenney        2015-02-19  262  	rcu_unexpedite_gp();
-3e42ec1aa716f1 Paul E. McKenney        2015-11-25  263  	if (rcu_normal_after_boot)
-3e42ec1aa716f1 Paul E. McKenney        2015-11-25  264  		WRITE_ONCE(rcu_normal, 1);
-e40bb921119814 Jules Irenge            2020-06-01  265  	rcu_boot_ended = true;
-e6d2024fa329f4 Joel Fernandes (Google  2023-02-25 @266) 	mutex_unlock(&rcu_boot_end_lock);
-ee42571f4381f1 Paul E. McKenney        2015-02-19  267  }
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x80): relocation R_RISCV_PCREL_HI20 out of range: -524399 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
