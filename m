@@ -1,43 +1,43 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137B120F0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F0E20F5
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 05:37:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678081073; x=1709617073;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rvxBjcsbsSA0HprGKydB2MUGe87uSGfJu2IXK+JKXrk=;
-  b=jwzxEqshb87LVePxBpbZDrIX002uzVAfuzYvVMKcrMIwGcdmvGZG6z8b
-   pCXwj8N31cN8zZDgSr7SZiDKhJbOmFREhOIxZRXn4xKfk7c+KnM6PbYAR
-   dE0CyJMn5OpeE16wDjRJlL7JDz+lQl2d+TEgPrfzuo51dUWEJQzk6Qyut
-   5zA7UxFWmROT1iErwBfX4IarYJ4KCCrK79KWIWcdaN+sC/BEKDlHaKaCl
-   +88tkuQYJX2VZvasZsWX2od8wXAKcD2T7CDBlx1PXyjfmQCwON8XUyJC8
-   VY721iBvJYE1xTgT/jJO8j5JQT0ivLsR2BUmzGuMm6u/Zs6BAp4gLHQcz
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="398058539"
+  bh=EwdcvOuOFap8/xAF5wORSecJ1mwGfcmKYi6yiLkynSg=;
+  b=cmNDDiQ3iJ0SYPxubMkBTXMMouqiWvZaefHoTlUGZ//vydU5DaDcsBke
+   ijaOr+Nd5Qgt70dBO2b0i1AuVor2+LkAWbO9kt1ph0ffhf2Ee4UHkLo/R
+   aVPGTVbKreotU0w5WT/vS8yG+y7IXM4Cj+U1OSpevP1S7aHxo2gtj1FlG
+   qnz9/KNinmcEWcLR29Mq5H6smgyBAHgemJxU5LUDkrSHKi/VSRuiZcuCt
+   Fw9uAAFNXm/OsKUctzI/QUbfVKd//1dZoWsh0dDiRPkDEFfZ8UVCNpQxI
+   kEwhe0BlH2gGxRza1qCa71lXUmhWExHo794gExc9glJvgbQJvk24VYWfP
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="398058540"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="398058539"
+   d="scan'208";a="398058540"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 21:37:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="850177342"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="850177336"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="850177342"
+   d="scan'208";a="850177336"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 05 Mar 2023 21:37:49 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZ3Xg-00003p-1c;
+	id 1pZ3Xg-00003n-1W;
 	Mon, 06 Mar 2023 05:37:48 +0000
-Date: Mon, 6 Mar 2023 13:37:09 +0800
+Date: Mon, 6 Mar 2023 13:37:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:tmp/for-baol-0303 2/3]
- drivers/iommu/intel/iommu.c:4823:35: warning: initialization of 'struct
- module *' from 'int' makes pointer from integer without a cast
-Message-ID: <202303061311.xu79PnZF-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: drivers/acpi/acpica/tbfind.c:60:9: warning: 'strncpy' specified
+ bound 6 equals destination size
+Message-ID: <202303061307.1SmLWTQp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +47,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git tmp/for-baol-0303
-head:   1deb6b0bd8550875925ed23c0d294ed44599cf43
-commit: c8061fe1dee28f79e1c01de0f4b3da33a5958702 [2/3] Additional change to
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230306/202303061311.xu79PnZF-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
+date:   6 weeks ago
+config: arm64-randconfig-r036-20230306 (https://download.01.org/0day-ci/archive/20230306/202303061307.1SmLWTQp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/yiliu1765/iommufd/commit/c8061fe1dee28f79e1c01de0f4b3da33a5958702
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd tmp/for-baol-0303
-        git checkout c8061fe1dee28f79e1c01de0f4b3da33a5958702
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/intel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/acpi/acpica/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303061311.xu79PnZF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303061307.1SmLWTQp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/intel/iommu.c:4823:10: error: 'const struct iommu_ops' has no member named 'driver_type'
-    4823 |         .driver_type            = IOMMU_DEVICE_DATA_INTEL_VTD,
-         |          ^~~~~~~~~~~
->> drivers/iommu/intel/iommu.c:4823:35: warning: initialization of 'struct module *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    4823 |         .driver_type            = IOMMU_DEVICE_DATA_INTEL_VTD,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:4823:35: note: (near initialization for 'intel_iommu_ops.owner')
+   drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
+>> drivers/acpi/acpica/tbfind.c:60:9: warning: 'strncpy' specified bound 6 equals destination size [-Wstringop-truncation]
+      60 |         strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpica/tbfind.c:61:9: warning: 'strncpy' specified bound 8 equals destination size [-Wstringop-truncation]
+      61 |         strncpy(header.oem_table_id, oem_table_id, ACPI_OEM_TABLE_ID_SIZE);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +4823 drivers/iommu/intel/iommu.c
+vim +/strncpy +60 drivers/acpi/acpica/tbfind.c
 
-fe7bde11fc710b drivers/iommu/intel/iommu.c Lu Baolu           2022-08-31  4806  
-b0119e870837dc drivers/iommu/intel-iommu.c Joerg Roedel       2017-02-01  4807  const struct iommu_ops intel_iommu_ops = {
-5d587b8de56eec drivers/iommu/intel-iommu.c Joerg Roedel       2014-09-05  4808  	.capable		= intel_iommu_capable,
-fe7bde11fc710b drivers/iommu/intel/iommu.c Lu Baolu           2022-08-31  4809  	.hw_info		= intel_iommu_hw_info,
-00a77deb0f2f2c drivers/iommu/intel-iommu.c Joerg Roedel       2015-03-26  4810  	.domain_alloc		= intel_iommu_domain_alloc,
-4ecc098deecbd6 drivers/iommu/intel/iommu.c Lu Baolu           2022-12-27  4811  	.domain_alloc_user	= intel_iommu_domain_alloc_user,
-e5d1841f18b240 drivers/iommu/intel-iommu.c Joerg Roedel       2020-04-29  4812  	.probe_device		= intel_iommu_probe_device,
-6fc7020cf298aa drivers/iommu/intel-iommu.c Lu Baolu           2020-05-06  4813  	.probe_finalize		= intel_iommu_probe_finalize,
-e5d1841f18b240 drivers/iommu/intel-iommu.c Joerg Roedel       2020-04-29  4814  	.release_device		= intel_iommu_release_device,
-0659b8dc45a6b1 drivers/iommu/intel-iommu.c Eric Auger         2017-01-19  4815  	.get_resv_regions	= intel_iommu_get_resv_regions,
-4a350a0ee5b0a1 drivers/iommu/intel-iommu.c Patrick Steinhardt 2019-12-27  4816  	.device_group		= intel_iommu_device_group,
-95587a75de179d drivers/iommu/intel-iommu.c Lu Baolu           2019-03-25  4817  	.dev_enable_feat	= intel_iommu_dev_enable_feat,
-95587a75de179d drivers/iommu/intel-iommu.c Lu Baolu           2019-03-25  4818  	.dev_disable_feat	= intel_iommu_dev_disable_feat,
-8af46c784ecfe8 drivers/iommu/intel-iommu.c Lu Baolu           2019-05-25  4819  	.is_attach_deferred	= intel_iommu_is_attach_deferred,
-7039d11b3e4af7 drivers/iommu/intel-iommu.c Joerg Roedel       2020-04-29  4820  	.def_domain_type	= device_def_domain_type,
-eaca8889a1ef50 drivers/iommu/intel/iommu.c Lu Baolu           2022-10-31  4821  	.remove_dev_pasid	= intel_iommu_remove_dev_pasid,
-a886d5a7e67bc4 drivers/iommu/intel/iommu.c Lu Baolu           2021-07-20  4822  	.pgsize_bitmap		= SZ_4K,
-fe7bde11fc710b drivers/iommu/intel/iommu.c Lu Baolu           2022-08-31 @4823  	.driver_type		= IOMMU_DEVICE_DATA_INTEL_VTD,
-56722a4398a306 drivers/iommu/intel-iommu.c Jacob Pan          2020-05-16  4824  #ifdef CONFIG_INTEL_IOMMU_SVM
-8b73712115ebd6 drivers/iommu/intel/iommu.c Lu Baolu           2020-07-24  4825  	.page_response		= intel_svm_page_response,
-56722a4398a306 drivers/iommu/intel-iommu.c Jacob Pan          2020-05-16  4826  #endif
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4827  	.default_domain_ops = &(const struct iommu_domain_ops) {
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4828  		.attach_dev		= intel_iommu_attach_device,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4829  		.map_pages		= intel_iommu_map_pages,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4830  		.unmap_pages		= intel_iommu_unmap_pages,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4831  		.iotlb_sync_map		= intel_iommu_iotlb_sync_map,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4832  		.flush_iotlb_all        = intel_flush_iotlb_all,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4833  		.iotlb_sync		= intel_iommu_tlb_sync,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4834  		.iova_to_phys		= intel_iommu_iova_to_phys,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4835  		.free			= intel_iommu_domain_free,
-6043257b1de069 drivers/iommu/intel/iommu.c Jason Gunthorpe    2022-04-11  4836  		.enforce_cache_coherency = intel_iommu_enforce_cache_coherency,
-9a630a4b41a263 drivers/iommu/intel/iommu.c Lu Baolu           2022-02-16  4837  	}
-a8bcbb0de4a52f drivers/pci/intel-iommu.c   Joerg Roedel       2008-12-03  4838  };
-9af88143b277f5 drivers/pci/intel-iommu.c   David Woodhouse    2009-02-13  4839  
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  16  
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  17  /*******************************************************************************
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  18   *
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  19   * FUNCTION:    acpi_tb_find_table
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  20   *
+ba494beeaa69bc drivers/acpi/acpica/tbfind.c Bob Moore 2012-07-12  21   * PARAMETERS:  signature           - String with ACPI table signature
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  22   *              oem_id              - String with the table OEM ID
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  23   *              oem_table_id        - String with the OEM Table ID
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  24   *              table_index         - Where the table index is returned
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  25   *
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  26   * RETURN:      Status and table index
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  27   *
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  28   * DESCRIPTION: Find an ACPI table (in the RSDT/XSDT) that matches the
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  29   *              Signature, OEM ID and OEM Table ID. Returns an index that can
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  30   *              be used to get the table header or entire table.
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  31   *
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  32   ******************************************************************************/
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  33  acpi_status
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  34  acpi_tb_find_table(char *signature,
+67a119f990063f drivers/acpi/tables/tbfind.c Bob Moore 2008-06-10  35  		   char *oem_id, char *oem_table_id, u32 *table_index)
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  36  {
+ac0f06ebb815da drivers/acpi/acpica/tbfind.c Lv Zheng  2016-09-07  37  	acpi_status status = AE_OK;
+47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  38  	struct acpi_table_header header;
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  39  	u32 i;
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  40  
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  41  	ACPI_FUNCTION_TRACE(tb_find_table);
+f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  42  
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  43  	/* Validate the input table signature */
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  44  
+6a0df32c22fdfc drivers/acpi/acpica/tbfind.c Bob Moore 2016-05-05  45  	if (!acpi_ut_valid_nameseg(signature)) {
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  46  		return_ACPI_STATUS(AE_BAD_SIGNATURE);
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  47  	}
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  48  
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  49  	/* Don't allow the OEM strings to be too long */
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  50  
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  51  	if ((strlen(oem_id) > ACPI_OEM_ID_SIZE) ||
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  52  	    (strlen(oem_table_id) > ACPI_OEM_TABLE_ID_SIZE)) {
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  53  		return_ACPI_STATUS(AE_AML_STRING_LIMIT);
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  54  	}
+9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  55  
+47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  56  	/* Normalize the input strings */
+47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  57  
+4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01  58  	memset(&header, 0, sizeof(struct acpi_table_header));
+a3ce7a8e0dd9ba drivers/acpi/acpica/tbfind.c Bob Moore 2019-04-08  59  	ACPI_COPY_NAMESEG(header.signature, signature);
+4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01 @60  	strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
 
-:::::: The code at line 4823 was first introduced by commit
-:::::: fe7bde11fc710b9fb7dadbf62ac5256a961217ee iommu/vt-d: Implement hw_info for iommu capability query
+:::::: The code at line 60 was first introduced by commit
+:::::: 4fa4616e279df89baeb36287bbee83ab272edaed ACPICA: De-macroize calls to standard C library functions
 
-:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
-:::::: CC: Nicolin Chen <nicolinc@nvidia.com>
+:::::: TO: Bob Moore <robert.moore@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
