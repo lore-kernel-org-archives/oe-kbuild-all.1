@@ -1,101 +1,65 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD917E;
-	Mon,  6 Mar 2023 09:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678094098; x=1709630098;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qXZCDteeVb740tzfik+7h8Ga+ZkVn0dnKRazKz3cqH8=;
-  b=kTXKqQpMmUAL9XaHy/PgTm74Ozswi57ZxGeAbuOeL+31WTjvz1VegXrP
-   PTMo5JqnPp7bPcc620IxfdvZ6n+37n4dlVvPQsPxFsKcR5C+LeUQiybHy
-   Qqttttb3hI/ZqesjJcQTzlNFGPigQeRogd9yNw1S3JikfsZJ3877FZIv7
-   tAoyYpVLetXpWKihIsVeuQNeUM2+D9d7VEUJmnR94yTwylt8w8h06YSr6
-   3ifdKhZWFr4WgLLq/bTLGZ/LyEJU6sL5N/15TcDGYS2mvhVdoeJ3mdF5R
-   pve6QGsqA/OI9cgWPxWQ0xa4O2BftYxYmWj1z2X/OpDtoP+hNLpTUqEuq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315904904"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="315904904"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 01:14:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="921850224"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="921850224"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Mar 2023 01:14:56 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZ6vn-0000Bz-2R;
-	Mon, 06 Mar 2023 09:14:55 +0000
-Date: Mon, 6 Mar 2023 17:14:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kun Liu <Kun.Liu2@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Evan Quan <evan.quan@amd.com>
-Subject: [linux-next:master 13683/14548]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1600:5: warning:
- no previous prototype for function 'vangogh_set_apu_thermal_limit'
-Message-ID: <202303061725.Wv3p5RDB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDC97E;
+	Mon,  6 Mar 2023 09:41:20 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1678095672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BOrGTM7BDYE8QZ2J/VBzKXeTEqRBMGFOKicW/V1olgY=;
+	b=YVXCXkGKBZXVVczCkr2vnhgv9hPBD3lFgSZbudMoHlgQ4aioGpCVxmflaqatuNknTHydCJ
+	Fa8oKMGiUhncuietpVmVYAUwzbwZvpMP8W/lFr0LxCQ2f4xD8mQKuJprsLKFTKB5sHGMNR
+	4tHn/I9wDaq0uF7XTcwA0aq8jhy7Zqjh5dDD/Ejk0nlMxzFzO5W4+a+Gxvv7WnPyliEh3F
+	Q6/q8tPWzF5OOy/vA2IuixuobYvve7epbYL2zZAumbDdvhW6pKHcqeXY0QMVOob4odzXz3
+	gy6NKmct0+Q5P1clwEhKm0sh0fW6FytoiX7/zLWG3yHi1N8DrPIKroH4Ho4HqQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1678095672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BOrGTM7BDYE8QZ2J/VBzKXeTEqRBMGFOKicW/V1olgY=;
+	b=C9qOtz+Vf/cuqF9x3+Ppea29gy638cVUztFw2HWaFfNwI5nXLdnDEkYG5nvDxkTjOZsKmC
+	eA9W/c4vr0ZtINAA==
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, Petr
+ Mladek <pmladek@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
+ Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH printk v1 06/18] printk: nobkl: Add acquire/release logic
+In-Reply-To: <0a7e5230-3a8d-496a-a42b-bda2dc82ea9a@kili.mountain>
+References: <0a7e5230-3a8d-496a-a42b-bda2dc82ea9a@kili.mountain>
+Date: Mon, 06 Mar 2023 10:45:46 +0106
+Message-ID: <87356i2p7h.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   dc837c1a5137a8cf2e9432c1891392b6a66f4d8d
-commit: 0c3c99364361171f8cfeb8b66b1e6f4709919dc3 [13683/14548] drm/amdgpu: added a sysfs interface for thermal throttling
-config: mips-randconfig-r035-20230306 (https://download.01.org/0day-ci/archive/20230306/202303061725.Wv3p5RDB-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips64el-linux-gnuabi64
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0c3c99364361171f8cfeb8b66b1e6f4709919dc3
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 0c3c99364361171f8cfeb8b66b1e6f4709919dc3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/
+On 2023-03-06, Dan Carpenter <error27@gmail.com> wrote:
+> smatch warnings:
+> kernel/printk/printk_nobkl.c:391 cons_try_acquire_spin() warn: signedness bug returning '(-16)'
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303061725.Wv3p5RDB-lkp@intel.com/
+Great catch. That function used to return bool, but recently changed to
+int. The consequence of the bug is that a waiter could prematurely abort
+the spin.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1600:5: warning: no previous prototype for function 'vangogh_set_apu_thermal_limit' [-Wmissing-prototypes]
-   int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
-       ^
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1600:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/vangogh_set_apu_thermal_limit +1600 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c
-
-  1599	
-> 1600	int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
-  1601	{
-  1602		return smu_cmn_send_smc_msg_with_param(smu,
-  1603						      SMU_MSG_SetReducedThermalLimit,
-  1604						      limit, NULL);
-  1605	}
-  1606	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+diff --git a/kernel/printk/printk_nobkl.c b/kernel/printk/printk_nobkl.c
+index 78136347a328..bcd75e5bd9c8 100644
+--- a/kernel/printk/printk_nobkl.c
++++ b/kernel/printk/printk_nobkl.c
+@@ -305,7 +305,7 @@ static bool cons_setup_request(struct cons_context *ctxt, struct cons_state old)
+  * handover request setup by cons_setup_handover() is now invalidated and
+  * must be performed again).
+  */
+-static bool cons_try_acquire_spin(struct cons_context *ctxt)
++static int cons_try_acquire_spin(struct cons_context *ctxt)
+ {
+ 	struct console *con = ctxt->console;
+ 	struct cons_state cur;
