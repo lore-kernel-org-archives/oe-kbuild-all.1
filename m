@@ -1,65 +1,155 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDC97E;
-	Mon,  6 Mar 2023 09:41:20 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1678095672;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BOrGTM7BDYE8QZ2J/VBzKXeTEqRBMGFOKicW/V1olgY=;
-	b=YVXCXkGKBZXVVczCkr2vnhgv9hPBD3lFgSZbudMoHlgQ4aioGpCVxmflaqatuNknTHydCJ
-	Fa8oKMGiUhncuietpVmVYAUwzbwZvpMP8W/lFr0LxCQ2f4xD8mQKuJprsLKFTKB5sHGMNR
-	4tHn/I9wDaq0uF7XTcwA0aq8jhy7Zqjh5dDD/Ejk0nlMxzFzO5W4+a+Gxvv7WnPyliEh3F
-	Q6/q8tPWzF5OOy/vA2IuixuobYvve7epbYL2zZAumbDdvhW6pKHcqeXY0QMVOob4odzXz3
-	gy6NKmct0+Q5P1clwEhKm0sh0fW6FytoiX7/zLWG3yHi1N8DrPIKroH4Ho4HqQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1678095672;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BOrGTM7BDYE8QZ2J/VBzKXeTEqRBMGFOKicW/V1olgY=;
-	b=C9qOtz+Vf/cuqF9x3+Ppea29gy638cVUztFw2HWaFfNwI5nXLdnDEkYG5nvDxkTjOZsKmC
-	eA9W/c4vr0ZtINAA==
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, Petr
- Mladek <pmladek@suse.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
- Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH printk v1 06/18] printk: nobkl: Add acquire/release logic
-In-Reply-To: <0a7e5230-3a8d-496a-a42b-bda2dc82ea9a@kili.mountain>
-References: <0a7e5230-3a8d-496a-a42b-bda2dc82ea9a@kili.mountain>
-Date: Mon, 06 Mar 2023 10:45:46 +0106
-Message-ID: <87356i2p7h.fsf@jogness.linutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B3D7E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 09:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678096620; x=1709632620;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+NM2BD74xBBPV/J+Yymsh+jtxeVrSe3LBZNp5rHQZZ8=;
+  b=lEXcmq80wAtA/F/PPdWnFUvXZg/0pi1LKghy5CxIxMX1bBUknNGQujUz
+   P14xURP+edabKchQZOTmH98LNo6pmgpENR55b5gqNORcOnohJOm77/pzD
+   7PvcRR+ohp4/7UkxERSJbzuah040vKUh3G+JH3wAcv8MQ+T7DF+UCiDAg
+   rau4G2IGJSu+6IPdhTXqGvBbdT+BwSvM/0EEsl0EfDHCKhqWd8MI+DSJw
+   kZQ1PvoCg1YWnIeLvvShDQN3GFRf873iR1dabaQeg7CM7BCEtxpt3XtRL
+   lEf6Dk6pZbsOtOt8vQdLrYFdh0rMQs7MqHbFG2ZXiy57k7JnNZxkJfZ8H
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315175704"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="315175704"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 01:56:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="786158388"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="786158388"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2023 01:56:57 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZ7aT-0000E1-03;
+	Mon, 06 Mar 2023 09:56:57 +0000
+Date: Mon, 6 Mar 2023 17:56:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Subject: drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202303061720.BJQPtAIi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023-03-06, Dan Carpenter <error27@gmail.com> wrote:
-> smatch warnings:
-> kernel/printk/printk_nobkl.c:391 cons_try_acquire_spin() warn: signedness bug returning '(-16)'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+commit: 4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950 kasan, x86: don't rename memintrinsics in uninstrumented files
+date:   3 days ago
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230306/202303061720.BJQPtAIi-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/apei/
 
-Great catch. That function used to return bool, but recently changed to
-int. The consequence of the bug is that a waiter could prematurely abort
-the spin.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303061720.BJQPtAIi-lkp@intel.com/
 
-diff --git a/kernel/printk/printk_nobkl.c b/kernel/printk/printk_nobkl.c
-index 78136347a328..bcd75e5bd9c8 100644
---- a/kernel/printk/printk_nobkl.c
-+++ b/kernel/printk/printk_nobkl.c
-@@ -305,7 +305,7 @@ static bool cons_setup_request(struct cons_context *ctxt, struct cons_state old)
-  * handover request setup by cons_setup_handover() is now invalidated and
-  * must be performed again).
-  */
--static bool cons_try_acquire_spin(struct cons_context *ctxt)
-+static int cons_try_acquire_spin(struct cons_context *ctxt)
- {
- 	struct console *con = ctxt->console;
- 	struct cons_state cur;
+sparse warnings: (new ones prefixed by >>)
+   drivers/acpi/apei/erst.c:272:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *src @@     got void [noderef] __iomem * @@
+   drivers/acpi/apei/erst.c:272:13: sparse:     expected void *src
+   drivers/acpi/apei/erst.c:272:13: sparse:     got void [noderef] __iomem *
+   drivers/acpi/apei/erst.c:275:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dst @@     got void [noderef] __iomem * @@
+   drivers/acpi/apei/erst.c:275:13: sparse:     expected void *dst
+   drivers/acpi/apei/erst.c:275:13: sparse:     got void [noderef] __iomem *
+   drivers/acpi/apei/erst.c:277:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
+   drivers/acpi/apei/erst.c:277:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/apei/erst.c:277:25: sparse:     got void *src
+   drivers/acpi/apei/erst.c:283:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
+   drivers/acpi/apei/erst.c:283:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/apei/erst.c:283:17: sparse:     got void *src
+   drivers/acpi/apei/erst.c:284:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *dst @@
+   drivers/acpi/apei/erst.c:284:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/apei/erst.c:284:17: sparse:     got void *dst
+>> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
+   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
+   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
+>> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
+   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
+   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
+>> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *static [toplevel] vaddr @@
+   drivers/acpi/apei/erst.c:792:9: sparse:     expected void *p
+   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
+   drivers/acpi/apei/erst.c:793:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_erange @@     got void [noderef] __iomem *static [toplevel] vaddr @@
+   drivers/acpi/apei/erst.c:793:20: sparse:     expected struct cper_record_header *rcd_erange
+   drivers/acpi/apei/erst.c:793:20: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
+   drivers/acpi/apei/erst.c:830:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_tmp @@     got void [noderef] __iomem * @@
+   drivers/acpi/apei/erst.c:830:17: sparse:     expected struct cper_record_header *rcd_tmp
+   drivers/acpi/apei/erst.c:830:17: sparse:     got void [noderef] __iomem *
+
+vim +792 drivers/acpi/apei/erst.c
+
+a08f82d08053fb Huang Ying 2010-05-18  766  
+a08f82d08053fb Huang Ying 2010-05-18  767  int erst_write(const struct cper_record_header *record)
+a08f82d08053fb Huang Ying 2010-05-18  768  {
+a08f82d08053fb Huang Ying 2010-05-18  769  	int rc;
+a08f82d08053fb Huang Ying 2010-05-18  770  	unsigned long flags;
+a08f82d08053fb Huang Ying 2010-05-18  771  	struct cper_record_header *rcd_erange;
+a08f82d08053fb Huang Ying 2010-05-18  772  
+a08f82d08053fb Huang Ying 2010-05-18  773  	if (erst_disable)
+a08f82d08053fb Huang Ying 2010-05-18  774  		return -ENODEV;
+a08f82d08053fb Huang Ying 2010-05-18  775  
+a08f82d08053fb Huang Ying 2010-05-18  776  	if (memcmp(record->signature, CPER_SIG_RECORD, CPER_SIG_SIZE))
+a08f82d08053fb Huang Ying 2010-05-18  777  		return -EINVAL;
+a08f82d08053fb Huang Ying 2010-05-18  778  
+a08f82d08053fb Huang Ying 2010-05-18  779  	if (erst_erange.attr & ERST_RANGE_NVRAM) {
+3b38bb5f7f0635 Huang Ying 2010-12-02  780  		if (!raw_spin_trylock_irqsave(&erst_lock, flags))
+a08f82d08053fb Huang Ying 2010-05-18  781  			return -EBUSY;
+a08f82d08053fb Huang Ying 2010-05-18  782  		rc = __erst_write_to_nvram(record);
+3b38bb5f7f0635 Huang Ying 2010-12-02  783  		raw_spin_unlock_irqrestore(&erst_lock, flags);
+a08f82d08053fb Huang Ying 2010-05-18  784  		return rc;
+a08f82d08053fb Huang Ying 2010-05-18  785  	}
+a08f82d08053fb Huang Ying 2010-05-18  786  
+a08f82d08053fb Huang Ying 2010-05-18  787  	if (record->record_length > erst_erange.size)
+a08f82d08053fb Huang Ying 2010-05-18  788  		return -EINVAL;
+a08f82d08053fb Huang Ying 2010-05-18  789  
+3b38bb5f7f0635 Huang Ying 2010-12-02  790  	if (!raw_spin_trylock_irqsave(&erst_lock, flags))
+a08f82d08053fb Huang Ying 2010-05-18  791  		return -EBUSY;
+a08f82d08053fb Huang Ying 2010-05-18 @792  	memcpy(erst_erange.vaddr, record, record->record_length);
+a08f82d08053fb Huang Ying 2010-05-18  793  	rcd_erange = erst_erange.vaddr;
+a08f82d08053fb Huang Ying 2010-05-18  794  	/* signature for serialization system */
+a08f82d08053fb Huang Ying 2010-05-18  795  	memcpy(&rcd_erange->persistence_information, "ER", 2);
+a08f82d08053fb Huang Ying 2010-05-18  796  
+a08f82d08053fb Huang Ying 2010-05-18  797  	rc = __erst_write_to_storage(0);
+3b38bb5f7f0635 Huang Ying 2010-12-02  798  	raw_spin_unlock_irqrestore(&erst_lock, flags);
+a08f82d08053fb Huang Ying 2010-05-18  799  
+a08f82d08053fb Huang Ying 2010-05-18  800  	return rc;
+a08f82d08053fb Huang Ying 2010-05-18  801  }
+a08f82d08053fb Huang Ying 2010-05-18  802  EXPORT_SYMBOL_GPL(erst_write);
+a08f82d08053fb Huang Ying 2010-05-18  803  
+
+:::::: The code at line 792 was first introduced by commit
+:::::: a08f82d08053fb6e3aa3635c2c26456d96337c8b ACPI, APEI, Error Record Serialization Table (ERST) support
+
+:::::: TO: Huang Ying <ying.huang@intel.com>
+:::::: CC: Len Brown <len.brown@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
