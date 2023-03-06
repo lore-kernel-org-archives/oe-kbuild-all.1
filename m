@@ -1,45 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B3D7E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 09:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678096620; x=1709632620;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+NM2BD74xBBPV/J+Yymsh+jtxeVrSe3LBZNp5rHQZZ8=;
-  b=lEXcmq80wAtA/F/PPdWnFUvXZg/0pi1LKghy5CxIxMX1bBUknNGQujUz
-   P14xURP+edabKchQZOTmH98LNo6pmgpENR55b5gqNORcOnohJOm77/pzD
-   7PvcRR+ohp4/7UkxERSJbzuah040vKUh3G+JH3wAcv8MQ+T7DF+UCiDAg
-   rau4G2IGJSu+6IPdhTXqGvBbdT+BwSvM/0EEsl0EfDHCKhqWd8MI+DSJw
-   kZQ1PvoCg1YWnIeLvvShDQN3GFRf873iR1dabaQeg7CM7BCEtxpt3XtRL
-   lEf6Dk6pZbsOtOt8vQdLrYFdh0rMQs7MqHbFG2ZXiy57k7JnNZxkJfZ8H
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315175704"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="315175704"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 01:56:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="786158388"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="786158388"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2023 01:56:57 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZ7aT-0000E1-03;
-	Mon, 06 Mar 2023 09:56:57 +0000
-Date: Mon, 6 Mar 2023 17:56:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>
-Subject: drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202303061720.BJQPtAIi-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407077E;
+	Mon,  6 Mar 2023 10:01:58 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id i34so36049800eda.7;
+        Mon, 06 Mar 2023 02:01:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678096916;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kq1clThUbgbr8WdzVV5xDXULfFJ5dul214xrROqf+EU=;
+        b=Hfd4UUH/G11XBUdWHUJGvWiboHM41Jth2zOQFO1IQ6IxzRYxhcyM8LnVeflCzb7fLk
+         KB1iJCW9QglolfMdlLjF7jlVSCa2LPkRr3cm5W9gxMHenMJ6f9K1nVyGiRgnx/rEEI9t
+         JIqPZsEIA9MD85Ec0fua8zuSwfwZNSJpR2tIBCv8h6kscsLr5NatXslGZVUegOBvTcvH
+         cAoNqYMODvyKFc39k/qfbM8//R15ndGoelWpklK3f8HN6VIYEfgGC/v247/DMau6yCAw
+         mGo573FzyY3pECxiLiEVBMKwtkq+dZHz/gnBUpy2BPiur9aprZfVlj0zPl6YK6maxR9s
+         Jkfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678096916;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kq1clThUbgbr8WdzVV5xDXULfFJ5dul214xrROqf+EU=;
+        b=UXDo3xInvNA5lWzXWZCEvfnC9YcglK+52WSqSbbdMfE1y5wB1hrKrXLihy1VjBu2Y+
+         oBWTmA0YCvjM5+HriBoz0AczvSvyivLmaz3p+4AVcQpu2GgbQu3VOGc4sIkskAB8R1o1
+         Gf339sPYkn+e8mMIG/9+aKky3A/sN+5RDBZ0yrAYd/NQnt2GXVu7kEw9uJTouQiGhWM9
+         +1+fzsBcC3CC7aGTPpodI+5nC/GY+Ibmk6fEZEISZiZP1z4ZtgngV53xpzgyH69XQo2I
+         1FkrUnvS1CHcNlqbtF8bKT6iJnrLmDHkRIozp9ALwe1nNzRQ7MjpEYEgRL4RSb3NNtJc
+         Ak0A==
+X-Gm-Message-State: AO0yUKUAbq38/F7TumqZxdlwu8CZ8+X8QXX5VDzNjIxjbd6uSjzYkeGj
+	udmtoXirum6MYOtOLZTT/8KxlpC3gaJA7A==
+X-Google-Smtp-Source: AK7set83VXFhaBB77ubYbvJklMiNq43hQgxHNy6ulApAqKu6U0coVznabOm8gG+hniBDisLnyTngbw==
+X-Received: by 2002:aa7:cf0d:0:b0:4bc:ab52:ac70 with SMTP id a13-20020aa7cf0d000000b004bcab52ac70mr9322899edy.8.1678096916155;
+        Mon, 06 Mar 2023 02:01:56 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w21-20020a50d795000000b004d8287c775fsm2865547edi.8.2023.03.06.02.01.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 02:01:55 -0800 (PST)
+Date: Mon, 6 Mar 2023 13:01:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [cel:topic-rpc-with-tls-upcall 1/18] net/handshake/netlink.c:187
+ handshake_nl_accept_doit() error: uninitialized symbol 'req'.
+Message-ID: <85ee6966-32b0-4ff2-8af0-2678ecf77609@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,107 +52,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-commit: 4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950 kasan, x86: don't rename memintrinsics in uninstrumented files
-date:   3 days ago
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230306/202303061720.BJQPtAIi-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-with-tls-upcall
+head:   88897fb973ffb2448e3452ca4e9283908bd257f6
+commit: d166e9ec5e3800de085444eca5883ce1738f6cb3 [1/18] net/handshake: Create a NETLINK service for handling handshake requests
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230306/202303061707.ICwrtQsr-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/apei/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303061720.BJQPtAIi-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303061707.ICwrtQsr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/acpi/apei/erst.c:272:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *src @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:272:13: sparse:     expected void *src
-   drivers/acpi/apei/erst.c:272:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:275:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dst @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:275:13: sparse:     expected void *dst
-   drivers/acpi/apei/erst.c:275:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:277:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:277:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:277:25: sparse:     got void *src
-   drivers/acpi/apei/erst.c:283:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:283:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:283:17: sparse:     got void *src
-   drivers/acpi/apei/erst.c:284:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *dst @@
-   drivers/acpi/apei/erst.c:284:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:284:17: sparse:     got void *dst
->> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
->> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
->> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void *p
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:793:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_erange @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:793:20: sparse:     expected struct cper_record_header *rcd_erange
-   drivers/acpi/apei/erst.c:793:20: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:830:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_tmp @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:830:17: sparse:     expected struct cper_record_header *rcd_tmp
-   drivers/acpi/apei/erst.c:830:17: sparse:     got void [noderef] __iomem *
+smatch warnings:
+net/handshake/netlink.c:187 handshake_nl_accept_doit() error: uninitialized symbol 'req'.
+net/handshake/netlink.c:240 handshake_nl_done_doit() error: uninitialized symbol 'req'.
+net/handshake/request.c:193 handshake_complete() warn: test_and_set_bit() takes a bit number
+net/handshake/request.c:236 handshake_req_cancel() warn: test_and_set_bit() takes a bit number
 
-vim +792 drivers/acpi/apei/erst.c
+vim +/req +187 net/handshake/netlink.c
 
-a08f82d08053fb Huang Ying 2010-05-18  766  
-a08f82d08053fb Huang Ying 2010-05-18  767  int erst_write(const struct cper_record_header *record)
-a08f82d08053fb Huang Ying 2010-05-18  768  {
-a08f82d08053fb Huang Ying 2010-05-18  769  	int rc;
-a08f82d08053fb Huang Ying 2010-05-18  770  	unsigned long flags;
-a08f82d08053fb Huang Ying 2010-05-18  771  	struct cper_record_header *rcd_erange;
-a08f82d08053fb Huang Ying 2010-05-18  772  
-a08f82d08053fb Huang Ying 2010-05-18  773  	if (erst_disable)
-a08f82d08053fb Huang Ying 2010-05-18  774  		return -ENODEV;
-a08f82d08053fb Huang Ying 2010-05-18  775  
-a08f82d08053fb Huang Ying 2010-05-18  776  	if (memcmp(record->signature, CPER_SIG_RECORD, CPER_SIG_SIZE))
-a08f82d08053fb Huang Ying 2010-05-18  777  		return -EINVAL;
-a08f82d08053fb Huang Ying 2010-05-18  778  
-a08f82d08053fb Huang Ying 2010-05-18  779  	if (erst_erange.attr & ERST_RANGE_NVRAM) {
-3b38bb5f7f0635 Huang Ying 2010-12-02  780  		if (!raw_spin_trylock_irqsave(&erst_lock, flags))
-a08f82d08053fb Huang Ying 2010-05-18  781  			return -EBUSY;
-a08f82d08053fb Huang Ying 2010-05-18  782  		rc = __erst_write_to_nvram(record);
-3b38bb5f7f0635 Huang Ying 2010-12-02  783  		raw_spin_unlock_irqrestore(&erst_lock, flags);
-a08f82d08053fb Huang Ying 2010-05-18  784  		return rc;
-a08f82d08053fb Huang Ying 2010-05-18  785  	}
-a08f82d08053fb Huang Ying 2010-05-18  786  
-a08f82d08053fb Huang Ying 2010-05-18  787  	if (record->record_length > erst_erange.size)
-a08f82d08053fb Huang Ying 2010-05-18  788  		return -EINVAL;
-a08f82d08053fb Huang Ying 2010-05-18  789  
-3b38bb5f7f0635 Huang Ying 2010-12-02  790  	if (!raw_spin_trylock_irqsave(&erst_lock, flags))
-a08f82d08053fb Huang Ying 2010-05-18  791  		return -EBUSY;
-a08f82d08053fb Huang Ying 2010-05-18 @792  	memcpy(erst_erange.vaddr, record, record->record_length);
-a08f82d08053fb Huang Ying 2010-05-18  793  	rcd_erange = erst_erange.vaddr;
-a08f82d08053fb Huang Ying 2010-05-18  794  	/* signature for serialization system */
-a08f82d08053fb Huang Ying 2010-05-18  795  	memcpy(&rcd_erange->persistence_information, "ER", 2);
-a08f82d08053fb Huang Ying 2010-05-18  796  
-a08f82d08053fb Huang Ying 2010-05-18  797  	rc = __erst_write_to_storage(0);
-3b38bb5f7f0635 Huang Ying 2010-12-02  798  	raw_spin_unlock_irqrestore(&erst_lock, flags);
-a08f82d08053fb Huang Ying 2010-05-18  799  
-a08f82d08053fb Huang Ying 2010-05-18  800  	return rc;
-a08f82d08053fb Huang Ying 2010-05-18  801  }
-a08f82d08053fb Huang Ying 2010-05-18  802  EXPORT_SYMBOL_GPL(erst_write);
-a08f82d08053fb Huang Ying 2010-05-18  803  
+d166e9ec5e3800 Chuck Lever 2023-02-19  142  static int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *gi)
+d166e9ec5e3800 Chuck Lever 2023-02-19  143  {
+d166e9ec5e3800 Chuck Lever 2023-02-19  144  	struct nlattr *tb[HANDSHAKE_A_ACCEPT_MAX + 1];
+d166e9ec5e3800 Chuck Lever 2023-02-19  145  	struct net *net = sock_net(skb->sk);
+d166e9ec5e3800 Chuck Lever 2023-02-19  146  	struct handshake_req *pos, *req;
+d166e9ec5e3800 Chuck Lever 2023-02-19  147  	int fd, err;
+d166e9ec5e3800 Chuck Lever 2023-02-19  148  
+d166e9ec5e3800 Chuck Lever 2023-02-19  149  	err = -EINVAL;
+d166e9ec5e3800 Chuck Lever 2023-02-19  150  	if (genlmsg_parse(nlmsg_hdr(skb), &handshake_genl_family, tb,
+d166e9ec5e3800 Chuck Lever 2023-02-19  151  			  HANDSHAKE_A_ACCEPT_HANDLER_CLASS,
+d166e9ec5e3800 Chuck Lever 2023-02-19  152  			  handshake_accept_nl_policy, NULL))
+d166e9ec5e3800 Chuck Lever 2023-02-19  153  		goto out_status;
+d166e9ec5e3800 Chuck Lever 2023-02-19  154  	if (!tb[HANDSHAKE_A_ACCEPT_HANDLER_CLASS])
+d166e9ec5e3800 Chuck Lever 2023-02-19  155  		goto out_status;
+                                                        ^^^^^^^^^^^^^^^
 
-:::::: The code at line 792 was first introduced by commit
-:::::: a08f82d08053fb6e3aa3635c2c26456d96337c8b ACPI, APEI, Error Record Serialization Table (ERST) support
+d166e9ec5e3800 Chuck Lever 2023-02-19  156  
+d166e9ec5e3800 Chuck Lever 2023-02-19  157  	req = NULL;
+d166e9ec5e3800 Chuck Lever 2023-02-19  158  	spin_lock(&net->hs_lock);
+d166e9ec5e3800 Chuck Lever 2023-02-19  159  	list_for_each_entry(pos, &net->hs_requests, hr_list) {
+d166e9ec5e3800 Chuck Lever 2023-02-19  160  		if (pos->hr_proto->hp_handler_class !=
+d166e9ec5e3800 Chuck Lever 2023-02-19  161  		    nla_get_u32(tb[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]))
+d166e9ec5e3800 Chuck Lever 2023-02-19  162  			continue;
+d166e9ec5e3800 Chuck Lever 2023-02-19  163  		__remove_pending_locked(net, pos);
+d166e9ec5e3800 Chuck Lever 2023-02-19  164  		req = pos;
+d166e9ec5e3800 Chuck Lever 2023-02-19  165  		break;
+d166e9ec5e3800 Chuck Lever 2023-02-19  166  	}
+d166e9ec5e3800 Chuck Lever 2023-02-19  167  	spin_unlock(&net->hs_lock);
+d166e9ec5e3800 Chuck Lever 2023-02-19  168  	if (!req)
+d166e9ec5e3800 Chuck Lever 2023-02-19  169  		goto out_status;
+d166e9ec5e3800 Chuck Lever 2023-02-19  170  
+d166e9ec5e3800 Chuck Lever 2023-02-19  171  	fd = handshake_dup(req->hr_sock);
+d166e9ec5e3800 Chuck Lever 2023-02-19  172  	if (fd < 0) {
+d166e9ec5e3800 Chuck Lever 2023-02-19  173  		err = fd;
+d166e9ec5e3800 Chuck Lever 2023-02-19  174  		goto out_complete;
+d166e9ec5e3800 Chuck Lever 2023-02-19  175  	}
+d166e9ec5e3800 Chuck Lever 2023-02-19  176  	err = req->hr_proto->hp_accept(req, gi, fd);
+d166e9ec5e3800 Chuck Lever 2023-02-19  177  	if (err)
+d166e9ec5e3800 Chuck Lever 2023-02-19  178  		goto out_complete;
+d166e9ec5e3800 Chuck Lever 2023-02-19  179  
+d166e9ec5e3800 Chuck Lever 2023-02-19  180  	trace_handshake_cmd_accept(net, req, req->hr_sock, fd);
+d166e9ec5e3800 Chuck Lever 2023-02-19  181  	return 0;
+d166e9ec5e3800 Chuck Lever 2023-02-19  182  
+d166e9ec5e3800 Chuck Lever 2023-02-19  183  out_complete:
+d166e9ec5e3800 Chuck Lever 2023-02-19  184  	handshake_complete(req, -EIO, NULL);
+d166e9ec5e3800 Chuck Lever 2023-02-19  185  	fput(req->hr_sock->file);
+d166e9ec5e3800 Chuck Lever 2023-02-19  186  out_status:
+d166e9ec5e3800 Chuck Lever 2023-02-19 @187  	trace_handshake_cmd_accept_err(net, req, NULL, err);
+d166e9ec5e3800 Chuck Lever 2023-02-19  188  	return handshake_status_reply(skb, gi, err);
+d166e9ec5e3800 Chuck Lever 2023-02-19  189  }
+d166e9ec5e3800 Chuck Lever 2023-02-19  190  
+d166e9ec5e3800 Chuck Lever 2023-02-19  191  static const struct nla_policy
+d166e9ec5e3800 Chuck Lever 2023-02-19  192  handshake_done_nl_policy[HANDSHAKE_A_DONE_MAX + 1] = {
+d166e9ec5e3800 Chuck Lever 2023-02-19  193  	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_U32, },
+d166e9ec5e3800 Chuck Lever 2023-02-19  194  	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
+d166e9ec5e3800 Chuck Lever 2023-02-19  195  	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
+d166e9ec5e3800 Chuck Lever 2023-02-19  196  };
+d166e9ec5e3800 Chuck Lever 2023-02-19  197  
+d166e9ec5e3800 Chuck Lever 2023-02-19  198  static int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *gi)
+d166e9ec5e3800 Chuck Lever 2023-02-19  199  {
+d166e9ec5e3800 Chuck Lever 2023-02-19  200  	struct nlattr *tb[HANDSHAKE_A_DONE_MAX + 1];
+d166e9ec5e3800 Chuck Lever 2023-02-19  201  	struct net *net = sock_net(skb->sk);
+d166e9ec5e3800 Chuck Lever 2023-02-19  202  	struct socket *sock = NULL;
+d166e9ec5e3800 Chuck Lever 2023-02-19  203  	struct handshake_req *req;
+d166e9ec5e3800 Chuck Lever 2023-02-19  204  	int fd, status, err;
+d166e9ec5e3800 Chuck Lever 2023-02-19  205  
+d166e9ec5e3800 Chuck Lever 2023-02-19  206  	err = genlmsg_parse(nlmsg_hdr(skb), &handshake_genl_family, tb,
+d166e9ec5e3800 Chuck Lever 2023-02-19  207  			    HANDSHAKE_A_DONE_MAX, handshake_done_nl_policy,
+d166e9ec5e3800 Chuck Lever 2023-02-19  208  			    NULL);
+d166e9ec5e3800 Chuck Lever 2023-02-19  209  	if (err || !tb[HANDSHAKE_A_DONE_SOCKFD]) {
+d166e9ec5e3800 Chuck Lever 2023-02-19  210  		err = -EINVAL;
+d166e9ec5e3800 Chuck Lever 2023-02-19  211  		goto out_status;
+d166e9ec5e3800 Chuck Lever 2023-02-19  212  	}
+d166e9ec5e3800 Chuck Lever 2023-02-19  213  
+d166e9ec5e3800 Chuck Lever 2023-02-19  214  	fd = nla_get_u32(tb[HANDSHAKE_A_DONE_SOCKFD]);
+d166e9ec5e3800 Chuck Lever 2023-02-19  215  
+d166e9ec5e3800 Chuck Lever 2023-02-19  216  	err = 0;
+d166e9ec5e3800 Chuck Lever 2023-02-19  217  	sock = sockfd_lookup(fd, &err);
+d166e9ec5e3800 Chuck Lever 2023-02-19  218  	if (err) {
+d166e9ec5e3800 Chuck Lever 2023-02-19  219  		err = -EBADF;
+d166e9ec5e3800 Chuck Lever 2023-02-19  220  		goto out_status;
+d166e9ec5e3800 Chuck Lever 2023-02-19  221  	}
+d166e9ec5e3800 Chuck Lever 2023-02-19  222  
+d166e9ec5e3800 Chuck Lever 2023-02-19  223  	req = sock->sk->sk_handshake_req;
+d166e9ec5e3800 Chuck Lever 2023-02-19  224  	if (!req) {
+d166e9ec5e3800 Chuck Lever 2023-02-19  225  		err = -EBUSY;
+d166e9ec5e3800 Chuck Lever 2023-02-19  226  		goto out_status;
+d166e9ec5e3800 Chuck Lever 2023-02-19  227  	}
+d166e9ec5e3800 Chuck Lever 2023-02-19  228  
+d166e9ec5e3800 Chuck Lever 2023-02-19  229  	trace_handshake_cmd_done(net, req, sock, fd);
+d166e9ec5e3800 Chuck Lever 2023-02-19  230  
+d166e9ec5e3800 Chuck Lever 2023-02-19  231  	status = -EIO;
+d166e9ec5e3800 Chuck Lever 2023-02-19  232  	if (tb[HANDSHAKE_A_DONE_STATUS])
+d166e9ec5e3800 Chuck Lever 2023-02-19  233  		status = nla_get_u32(tb[HANDSHAKE_A_DONE_STATUS]);
+d166e9ec5e3800 Chuck Lever 2023-02-19  234  
+d166e9ec5e3800 Chuck Lever 2023-02-19  235  	handshake_complete(req, status, tb);
+d166e9ec5e3800 Chuck Lever 2023-02-19  236  	fput(sock->file);
+d166e9ec5e3800 Chuck Lever 2023-02-19  237  	return 0;
+d166e9ec5e3800 Chuck Lever 2023-02-19  238  
+d166e9ec5e3800 Chuck Lever 2023-02-19  239  out_status:
+d166e9ec5e3800 Chuck Lever 2023-02-19 @240  	trace_handshake_cmd_done_err(net, req, sock, err);
+                                                                                  ^^^
+Uninitialized.
 
-:::::: TO: Huang Ying <ying.huang@intel.com>
-:::::: CC: Len Brown <len.brown@intel.com>
+d166e9ec5e3800 Chuck Lever 2023-02-19  241  	return 0;
+d166e9ec5e3800 Chuck Lever 2023-02-19  242  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
