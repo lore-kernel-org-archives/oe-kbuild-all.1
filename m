@@ -1,48 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593216FC5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 19:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27D36FC5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 19:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678131634; x=1709667634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FWoyhIIxfE7mlB+PZ9iwUX0MhoU78leSOGm1xQPZDzA=;
-  b=dU1m6rVIkNigpVb39LN26aja0lxMMw1ofNQFF1TBnWf7EDvM7nsmxjHu
-   j+wEtjCREHbj3b3csR1crZANoyABigYaml41kMGugVO4N3ikDu8wpIt8J
-   3FE36JnPLS7FXzrqCl4VHdMn9+0FpxpGunjtXxagO4vhe+lGjmXedvsjD
-   t4YMRWagHd7FipIVtGTYZAw6dfeMwkQ9PcHzrw2NV52R9MkD+fF9KnNBi
-   CwaWbEMZkLukRRjMR+jvyTgAhEpontRQcC5HHk97XKNHtBCayWScDdyKy
-   EMqFGh43uU3smrWHdoWgxUzVqBeqps7S3Pb4HV/M7vn9qmq9RQ7D4nfBU
+  t=1678132233; x=1709668233;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yYn47ZjiJ6bWZZd13+g52PLJWbsojn/gfiMwoaZiqtU=;
+  b=SzU7IWuSfObM6n207BlRHAc5rKKqxid1iadaeSFVcZqUYXyAPX/goyiQ
+   CmVZ1VI7WpUfnJb8Ii7x/lNvoXO5al32vLaLChZ1AKJRvpqYg1EGltVQz
+   oRiQ3ngGkTJrytwyFFfYa+ofJZsujsCTUfzOuLvtRoxQAj2uITS3JrHTJ
+   mZB2T5PVtlLN2tAlXM44LySML6IHSHXfZESsVD6L9ytDY/NLXjhp8WRta
+   xwu4Q8JiVnWmZO2y6n254A3RgBNrc9rCT+NFBGVc8mSFxc8bC5R0Arixe
+   5EwLvnN/9NArCvwuFZ8m3N9d9RYo3xF6yLjPjKcuK2pbXKNmvcnR8XZBG
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="363276633"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="333127957"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="363276633"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 11:40:33 -0800
+   d="scan'208";a="333127957"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 11:50:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="676287271"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="745183370"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="676287271"
+   d="scan'208";a="745183370"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Mar 2023 11:40:31 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2023 11:50:31 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZGhC-0000Zz-2q;
-	Mon, 06 Mar 2023 19:40:30 +0000
-Date: Tue, 7 Mar 2023 03:39:41 +0800
+	id 1pZGqt-0000aJ-0S;
+	Mon, 06 Mar 2023 19:50:31 +0000
+Date: Tue, 7 Mar 2023 03:50:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, patches@opensource.cirrus.com,
-	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH 3/3] watchdog: wm8350: Simplify using
- devm_watchdog_register_device()
-Message-ID: <202303070325.74bkgnG6-lkp@intel.com>
-References: <20230306170901.2232323-4-u.kleine-koenig@pengutronix.de>
+To: Shuo Liu <shuo.a.liu@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Fei Li <fei1.li@intel.com>,
+	"Dutta, Ranjan" <ranjan.dutta@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: [intel-lts:5.10/yocto 10560/30000] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist: Documentation/virt/acrn/
+Message-ID: <202303070354.yJLLheSU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,82 +47,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306170901.2232323-4-u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
+Hi Shuo,
 
-I love your patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/watchdog-bcm47xx-Simplify-using-devm_watchdog_register_device/20230307-011628
-base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-patch link:    https://lore.kernel.org/r/20230306170901.2232323-4-u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH 3/3] watchdog: wm8350: Simplify using devm_watchdog_register_device()
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230307/202303070325.74bkgnG6-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/94594fa75b3515d5dbff3ec2d1db1cf5627900b1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Uwe-Kleine-K-nig/watchdog-bcm47xx-Simplify-using-devm_watchdog_register_device/20230307-011628
-        git checkout 94594fa75b3515d5dbff3ec2d1db1cf5627900b1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   abd42491338c1d15ac7f00baaa8490063545737e
+commit: e783866354576335284c6be7fe4121a97ecaa30d [10560/30000] virt: acrn: Introduce ACRN HSM basic driver
+reproduce:
+        # https://github.com/intel/linux-intel-lts/commit/e783866354576335284c6be7fe4121a97ecaa30d
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout e783866354576335284c6be7fe4121a97ecaa30d
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070325.74bkgnG6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070354.yJLLheSU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/watchdog/wm8350_wdt.c: In function 'wm8350_wdt_probe':
->> drivers/watchdog/wm8350_wdt.c:156:46: error: passing argument 1 of 'devm_watchdog_register_device' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     156 |         return devm_watchdog_register_device(&wm8350_wdt);
-         |                                              ^~~~~~~~~~~
-         |                                              |
-         |                                              struct watchdog_device *
-   In file included from drivers/watchdog/wm8350_wdt.c:15:
-   include/linux/watchdog.h:226:50: note: expected 'struct device *' but argument is of type 'struct watchdog_device *'
-     226 | int devm_watchdog_register_device(struct device *dev, struct watchdog_device *);
-         |                                   ~~~~~~~~~~~~~~~^~~
->> drivers/watchdog/wm8350_wdt.c:156:16: error: too few arguments to function 'devm_watchdog_register_device'
-     156 |         return devm_watchdog_register_device(&wm8350_wdt);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/watchdog.h:226:5: note: declared here
-     226 | int devm_watchdog_register_device(struct device *dev, struct watchdog_device *);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/watchdog/wm8350_wdt.c:157:1: error: control reaches end of non-void function [-Werror=return-type]
-     157 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +/devm_watchdog_register_device +156 drivers/watchdog/wm8350_wdt.c
-
-   139	
-   140	static int wm8350_wdt_probe(struct platform_device *pdev)
-   141	{
-   142		struct wm8350 *wm8350 = platform_get_drvdata(pdev);
-   143	
-   144		if (!wm8350) {
-   145			pr_err("No driver data supplied\n");
-   146			return -ENODEV;
-   147		}
-   148	
-   149		watchdog_set_nowayout(&wm8350_wdt, nowayout);
-   150		watchdog_set_drvdata(&wm8350_wdt, wm8350);
-   151		wm8350_wdt.parent = &pdev->dev;
-   152	
-   153		/* Default to 4s timeout */
-   154		wm8350_wdt_set_timeout(&wm8350_wdt, 4);
-   155	
- > 156		return devm_watchdog_register_device(&wm8350_wdt);
-   157	}
-   158	
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/virt/acrn/
 
 -- 
 0-DAY CI Kernel Test Service
