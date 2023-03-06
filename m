@@ -1,43 +1,53 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AC9566C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 17:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C037566C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 17:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678124851; x=1709660851;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bMJwo5mw539X5zrz04V/faNfgtkIYRXqupEdT1xydFw=;
-  b=eaKNBXlc/92kFo6U9BsTK6J9dUvPjSlysopEfl92onpr2Abv0t1bUA9M
-   orgeZKYA7OnEd5JqlsKVuqqZkJh8e4FvIHCF+LenQRlLVMgmqAnbtKiVR
-   WwiKev9foyW2GJLz/iE76udCVelVGmt6wlAkta/z6jq0GbLJD0qBCOqe+
-   5kwQxl65zoZs58S2ZkogqDais+lnQNJuXcQE/KxOPQjZ0nL1joRymFG8+
-   H5q7VkZDkg3N4Bajt4h5UB5CEpbVP4QqF4b4BiGGeJKSoAbOqyq9NgyiF
-   cZKQvimAhghvB42uUFCWMC5KxW0fRH4Zha5JVaSgbhAcEcNYniLae+Svp
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="335646834"
+  t=1678125454; x=1709661454;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yt1JMNZEMwns8zPlPJmNRrMyNl9NvEHAApEp/Dn1mZs=;
+  b=BuV5NjMCG0cNidaCZj7yMqFDGDyaGIB1HT8QeI4fzOv/7FYqN0UjEPMT
+   UoTNhpLiukbpHDe37XtoG8J88dyonp63VTRAxItHaHXiKyu+YF3zZZivq
+   PqnGTA0DNJ6lB3mr/bV+Jotn7IeNQnw65rUQJXurdNFmOkIqGJ93LTxfj
+   IOuii8chZtDFhN49EefEhuiuDuUS35n/tJFZfoyfDu2wzPJcv4YJJ+Si7
+   CbpoK1ktjl/db11Tdl2so82Kv8gfn74vGCmqX1DZt3sw99jK9gkAlKALh
+   0mBE5jKkYpiJFeGXfBXb4LLFGPBDnvjlWZyxcST4mm3YmwQhHY2uskiMU
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="398210883"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="335646834"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 09:47:30 -0800
+   d="scan'208";a="398210883"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 09:57:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="653686345"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="745160100"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="653686345"
+   d="scan'208";a="745160100"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Mar 2023 09:47:29 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2023 09:57:29 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZEvo-0000VX-1L;
-	Mon, 06 Mar 2023 17:47:28 +0000
-Date: Tue, 7 Mar 2023 01:46:41 +0800
+	id 1pZF5U-0000Vq-1r;
+	Mon, 06 Mar 2023 17:57:28 +0000
+Date: Tue, 7 Mar 2023 01:57:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lubaolu-intel-iommu:iommu-sysfs-default-domain-extension-v3 6/15]
- drivers/iommu/iommufd/selftest.c:276:46: error: 'struct bus_type' has no
- member named 'iommu_ops'
-Message-ID: <202303070135.2lAxoM9X-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+	paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
+	pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
+	s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
+	thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
+	spock@gentoo.org, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com, geert+renesas@glider.be,
+	corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 07/99] fbdev/amifb: Parse option string with struct
+ option_iter
+Message-ID: <202303070108.gtLwdySM-lkp@intel.com>
+References: <20230306160016.4459-8-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,98 +56,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230306160016.4459-8-tzimmermann@suse.de>
 
-tree:   https://github.com/LuBaolu/intel-iommu.git iommu-sysfs-default-domain-extension-v3
-head:   1bd1cf7c3afc447badfd2ea4398c91cb780213ba
-commit: 1aa925a3ed2bbfdd2e6c1362fa4f6c082c3b6f36 [6/15] iommu: Retire bus ops
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230307/202303070135.2lAxoM9X-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+Hi Thomas,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.3-rc1 next-20230306]
+[cannot apply to deller-parisc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230306160016.4459-8-tzimmermann%40suse.de
+patch subject: [PATCH 07/99] fbdev/amifb: Parse option string with struct option_iter
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230307/202303070108.gtLwdySM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/LuBaolu/intel-iommu/commit/1aa925a3ed2bbfdd2e6c1362fa4f6c082c3b6f36
-        git remote add lubaolu-intel-iommu https://github.com/LuBaolu/intel-iommu.git
-        git fetch --no-tags lubaolu-intel-iommu iommu-sysfs-default-domain-extension-v3
-        git checkout 1aa925a3ed2bbfdd2e6c1362fa4f6c082c3b6f36
+        # https://github.com/intel-lab-lkp/linux/commit/0b2c4af3b565e5ee830f7ed8e844d89237938f96
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+        git checkout 0b2c4af3b565e5ee830f7ed8e844d89237938f96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/iommufd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/video/fbdev/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070135.2lAxoM9X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070108.gtLwdySM-lkp@intel.com/
 
-Note: the lubaolu-intel-iommu/iommu-sysfs-default-domain-extension-v3 HEAD 1bd1cf7c3afc447badfd2ea4398c91cb780213ba builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   drivers/video/fbdev/amifb.c: In function 'ami_decode_var':
+   drivers/video/fbdev/amifb.c:1134:23: warning: variable 'vtotal' set but not used [-Wunused-but-set-variable]
+    1134 |         u_int htotal, vtotal;
+         |                       ^~~~~~
+   drivers/video/fbdev/amifb.c:1134:15: warning: variable 'htotal' set but not used [-Wunused-but-set-variable]
+    1134 |         u_int htotal, vtotal;
+         |               ^~~~~~
+   drivers/video/fbdev/amifb.c: In function 'ami_get_var_cursorinfo':
+   drivers/video/fbdev/amifb.c:1855:19: warning: variable 'alloc' set but not used [-Wunused-but-set-variable]
+    1855 |         int size, alloc;
+         |                   ^~~~~
+   drivers/video/fbdev/amifb.c: In function 'amifb_setup':
+>> drivers/video/fbdev/amifb.c:2362:51: warning: passing argument 1 of 'amifb_setup_mcap' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    2362 |                         amifb_setup_mcap(this_opt + 11);
+         |                                          ~~~~~~~~~^~~~
+   drivers/video/fbdev/amifb.c:2312:43: note: expected 'char *' but argument is of type 'const char *'
+    2312 | static void __init amifb_setup_mcap(char *spec)
+         |                                     ~~~~~~^~~~
 
-   drivers/iommu/iommufd/selftest.c: In function 'iommufd_test_mock_domain':
->> drivers/iommu/iommufd/selftest.c:276:46: error: 'struct bus_type' has no member named 'iommu_ops'
-     276 |         static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
-         |                                              ^~~~~~~~~
->> drivers/iommu/iommufd/selftest.c:276:58: error: initialization of 'const char *' from incompatible pointer type 'const struct iommu_ops *' [-Werror=incompatible-pointer-types]
-     276 |         static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
-         |                                                          ^
-   drivers/iommu/iommufd/selftest.c:276:58: note: (near initialization for 'mock_bus.name')
-   cc1: some warnings being treated as errors
 
+vim +2362 drivers/video/fbdev/amifb.c
 
-vim +276 drivers/iommu/iommufd/selftest.c
-
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  271  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  272  /* Create an hw_pagetable with the mock domain so we can test the domain ops */
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  273  static int iommufd_test_mock_domain(struct iommufd_ucmd *ucmd,
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  274  				    struct iommu_test_cmd *cmd)
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  275  {
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29 @276  	static struct bus_type mock_bus = { .iommu_ops = &mock_ops };
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  277  	struct iommufd_hw_pagetable *hwpt;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  278  	struct selftest_obj *sobj;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  279  	struct iommufd_ioas *ioas;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  280  	int rc;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  281  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  282  	ioas = iommufd_get_ioas(ucmd, cmd->id);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  283  	if (IS_ERR(ioas))
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  284  		return PTR_ERR(ioas);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  285  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  286  	sobj = iommufd_object_alloc(ucmd->ictx, sobj, IOMMUFD_OBJ_SELFTEST);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  287  	if (IS_ERR(sobj)) {
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  288  		rc = PTR_ERR(sobj);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  289  		goto out_ioas;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  290  	}
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  291  	sobj->idev.ictx = ucmd->ictx;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  292  	sobj->type = TYPE_IDEV;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  293  	sobj->idev.mock_dev.bus = &mock_bus;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  294  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  295  	hwpt = iommufd_device_selftest_attach(ucmd->ictx, ioas,
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  296  					      &sobj->idev.mock_dev);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  297  	if (IS_ERR(hwpt)) {
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  298  		rc = PTR_ERR(hwpt);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  299  		goto out_sobj;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  300  	}
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  301  	sobj->idev.hwpt = hwpt;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  302  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  303  	/* Userspace must destroy both of these IDs to destroy the object */
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  304  	cmd->mock_domain.out_hwpt_id = hwpt->obj.id;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  305  	cmd->mock_domain.out_device_id = sobj->obj.id;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  306  	iommufd_object_finalize(ucmd->ictx, &sobj->obj);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  307  	iommufd_put_object(&ioas->obj);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  308  	return iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  309  
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  310  out_sobj:
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  311  	iommufd_object_abort(ucmd->ictx, &sobj->obj);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  312  out_ioas:
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  313  	iommufd_put_object(&ioas->obj);
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  314  	return rc;
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  315  }
-f4b20bb34c83dc Jason Gunthorpe 2022-11-29  316  
-
-:::::: The code at line 276 was first introduced by commit
-:::::: f4b20bb34c83dceade5470288f48f94ce3598ada iommufd: Add kernel support for testing iommufd
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2348  
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2349  static int __init amifb_setup(const char *options)
+^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2350  {
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2351  	struct option_iter iter;
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2352  	const char *this_opt;
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2353  
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2354  	option_iter_init(&iter, options);
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2355  
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2356  	while (option_iter_next(&iter, this_opt)) {
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2357  		if (!strcmp(this_opt, "inverse")) {
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2358  			fb_invert_cmaps();
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2359  		} else if (!strcmp(this_opt, "ilbm"))
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2360  			amifb_ilbm = 1;
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2361  		else if (!strncmp(this_opt, "monitorcap:", 11))
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21 @2362  			amifb_setup_mcap(this_opt + 11);
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2363  		else if (!strncmp(this_opt, "fstart:", 7))
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2364  			min_fstrt = simple_strtoul(this_opt + 7, NULL, 0);
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2365  		else {
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2366  			static char mode_option_buf[256];
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2367  			int ret;
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2368  
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2369  			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", this_opt);
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2370  			if (WARN(ret < 0, "amifb: ignoring invalid option, ret=%d\n", ret))
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2371  				continue;
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2372  			if (WARN(ret >= sizeof(mode_option_buf), "amifb: option too long\n"))
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2373  				continue;
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2374  			mode_option = mode_option_buf;
+d3d9f26ac65b035 drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2375  		}
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2376  	}
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2377  
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2378  	option_iter_release(&iter);
+0b2c4af3b565e5e drivers/video/fbdev/amifb.c Thomas Zimmermann  2023-03-06  2379  
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2380  	if (min_fstrt < 48)
+f1cbb17ac739932 drivers/video/amifb.c       Geert Uytterhoeven 2011-11-21  2381  		min_fstrt = 48;
+^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2382  
+^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2383  	return 0;
+^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2384  }
+195197f408567b5 drivers/video/fbdev/amifb.c Randy Dunlap       2018-07-31  2385  #endif
+^1da177e4c3f415 drivers/video/amifb.c       Linus Torvalds     2005-04-16  2386  
 
 -- 
 0-DAY CI Kernel Test Service
