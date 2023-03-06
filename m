@@ -1,43 +1,46 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F0E20F5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Mar 2023 05:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC628D312;
+	Mon,  6 Mar 2023 05:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678081073; x=1709617073;
+  t=1678081671; x=1709617671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EwdcvOuOFap8/xAF5wORSecJ1mwGfcmKYi6yiLkynSg=;
-  b=cmNDDiQ3iJ0SYPxubMkBTXMMouqiWvZaefHoTlUGZ//vydU5DaDcsBke
-   ijaOr+Nd5Qgt70dBO2b0i1AuVor2+LkAWbO9kt1ph0ffhf2Ee4UHkLo/R
-   aVPGTVbKreotU0w5WT/vS8yG+y7IXM4Cj+U1OSpevP1S7aHxo2gtj1FlG
-   qnz9/KNinmcEWcLR29Mq5H6smgyBAHgemJxU5LUDkrSHKi/VSRuiZcuCt
-   Fw9uAAFNXm/OsKUctzI/QUbfVKd//1dZoWsh0dDiRPkDEFfZ8UVCNpQxI
-   kEwhe0BlH2gGxRza1qCa71lXUmhWExHo794gExc9glJvgbQJvk24VYWfP
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="398058540"
+  bh=c+d4f42IdjvGUXh9cKraICvz/rAjy95Qo1vJM6Ryf2s=;
+  b=I+tGjAUDok7pDcJxaqs+2vbQ9VBv5+frLDuXv1A6HCbFe6b9SErZc6IR
+   nJkyWA/tbszCVsmixkPiKHyDInkSKYyFKISBtzpqRFzB9TRGGQcUvA5j/
+   Asc29H4l7uTNrAmbU6+cVItzJanKVEk4tAGS+l4UeYytDPyddL4BAgkzw
+   0kD0Rts4pxH/yRcFxTtojnTlxMHI9F7jajaFwBpTox46ZCALsbiQ+ZcLY
+   EytxVZq13NhIA+ojDEkgD1Va6aF0jSQrsgaRWUnfCGQK24PTgw61EFFh+
+   GvbNugHnl5lVFIRWg8eqcn2/ZisbGyb8curL/5ZXVgycLSPhYEk/Y1lyy
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="398059541"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="398058540"
+   d="scan'208";a="398059541"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 21:37:50 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 21:47:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="850177336"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="850178635"
 X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="850177336"
+   d="scan'208";a="850178635"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Mar 2023 21:37:49 -0800
+  by orsmga005.jf.intel.com with ESMTP; 05 Mar 2023 21:47:49 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZ3Xg-00003n-1W;
-	Mon, 06 Mar 2023 05:37:48 +0000
-Date: Mon, 6 Mar 2023 13:37:08 +0800
+	id 1pZ3hN-00004P-02;
+	Mon, 06 Mar 2023 05:47:49 +0000
+Date: Mon, 6 Mar 2023 13:47:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/acpi/acpica/tbfind.c:60:9: warning: 'strncpy' specified
- bound 6 equals destination size
-Message-ID: <202303061307.1SmLWTQp-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: [broonie-ci:20230303_u_kleine_koenig_spi_convert_to_platform_remove_callback_returning_void
+ 9/87] drivers/spi/spi-bcm2835.c:1421:2: error: call to undeclared function
+ 'rbcm2835_spi_remove'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202303061352.BP6YH3Ja-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,92 +50,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
-date:   6 weeks ago
-config: arm64-randconfig-r036-20230306 (https://download.01.org/0day-ci/archive/20230306/202303061307.1SmLWTQp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20230303_u_kleine_koenig_spi_convert_to_platform_remove_callback_returning_void
+head:   8428522b5b0063454f7a1fad16d405ebca87aeee
+commit: b1c4089d04518212ffa1855e1557fe125f71f8a5 [9/87] spi: bcm2835: Convert to platform remove callback returning void
+config: hexagon-randconfig-r014-20230305 (https://download.01.org/0day-ci/archive/20230306/202303061352.BP6YH3Ja-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=b1c4089d04518212ffa1855e1557fe125f71f8a5
+        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
+        git fetch --no-tags broonie-ci 20230303_u_kleine_koenig_spi_convert_to_platform_remove_callback_returning_void
+        git checkout b1c4089d04518212ffa1855e1557fe125f71f8a5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/acpi/acpica/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303061307.1SmLWTQp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303061352.BP6YH3Ja-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
->> drivers/acpi/acpica/tbfind.c:60:9: warning: 'strncpy' specified bound 6 equals destination size [-Wstringop-truncation]
-      60 |         strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/tbfind.c:61:9: warning: 'strncpy' specified bound 8 equals destination size [-Wstringop-truncation]
-      61 |         strncpy(header.oem_table_id, oem_table_id, ACPI_OEM_TABLE_ID_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/spi/spi-bcm2835.c:18:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/spi/spi-bcm2835.c:18:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/spi/spi-bcm2835.c:18:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/spi/spi-bcm2835.c:1421:2: error: call to undeclared function 'rbcm2835_spi_remove'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           rbcm2835_spi_remove(pdev);
+           ^
+   drivers/spi/spi-bcm2835.c:1421:2: note: did you mean 'bcm2835_spi_remove'?
+   drivers/spi/spi-bcm2835.c:1401:13: note: 'bcm2835_spi_remove' declared here
+   static void bcm2835_spi_remove(struct platform_device *pdev)
+               ^
+   6 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
+   Depends on [n]: PM_DEVFREQ [=n]
+   Selected by [y]:
+   - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=y] || QCOM_LLCC [=y]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
 
 
-vim +/strncpy +60 drivers/acpi/acpica/tbfind.c
+vim +/rbcm2835_spi_remove +1421 drivers/spi/spi-bcm2835.c
 
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  16  
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  17  /*******************************************************************************
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  18   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  19   * FUNCTION:    acpi_tb_find_table
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  20   *
-ba494beeaa69bc drivers/acpi/acpica/tbfind.c Bob Moore 2012-07-12  21   * PARAMETERS:  signature           - String with ACPI table signature
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  22   *              oem_id              - String with the table OEM ID
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  23   *              oem_table_id        - String with the OEM Table ID
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  24   *              table_index         - Where the table index is returned
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  25   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  26   * RETURN:      Status and table index
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  27   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  28   * DESCRIPTION: Find an ACPI table (in the RSDT/XSDT) that matches the
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  29   *              Signature, OEM ID and OEM Table ID. Returns an index that can
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  30   *              be used to get the table header or entire table.
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  31   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  32   ******************************************************************************/
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  33  acpi_status
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  34  acpi_tb_find_table(char *signature,
-67a119f990063f drivers/acpi/tables/tbfind.c Bob Moore 2008-06-10  35  		   char *oem_id, char *oem_table_id, u32 *table_index)
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  36  {
-ac0f06ebb815da drivers/acpi/acpica/tbfind.c Lv Zheng  2016-09-07  37  	acpi_status status = AE_OK;
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  38  	struct acpi_table_header header;
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  39  	u32 i;
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  40  
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  41  	ACPI_FUNCTION_TRACE(tb_find_table);
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  42  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  43  	/* Validate the input table signature */
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  44  
-6a0df32c22fdfc drivers/acpi/acpica/tbfind.c Bob Moore 2016-05-05  45  	if (!acpi_ut_valid_nameseg(signature)) {
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  46  		return_ACPI_STATUS(AE_BAD_SIGNATURE);
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  47  	}
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  48  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  49  	/* Don't allow the OEM strings to be too long */
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  50  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  51  	if ((strlen(oem_id) > ACPI_OEM_ID_SIZE) ||
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  52  	    (strlen(oem_table_id) > ACPI_OEM_TABLE_ID_SIZE)) {
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  53  		return_ACPI_STATUS(AE_AML_STRING_LIMIT);
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  54  	}
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  55  
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  56  	/* Normalize the input strings */
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  57  
-4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01  58  	memset(&header, 0, sizeof(struct acpi_table_header));
-a3ce7a8e0dd9ba drivers/acpi/acpica/tbfind.c Bob Moore 2019-04-08  59  	ACPI_COPY_NAMESEG(header.signature, signature);
-4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01 @60  	strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
-
-:::::: The code at line 60 was first introduced by commit
-:::::: 4fa4616e279df89baeb36287bbee83ab272edaed ACPICA: De-macroize calls to standard C library functions
-
-:::::: TO: Bob Moore <robert.moore@intel.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+  1418	
+  1419	static void bcm2835_spi_shutdown(struct platform_device *pdev)
+  1420	{
+> 1421		rbcm2835_spi_remove(pdev);
+  1422	}
+  1423	
 
 -- 
 0-DAY CI Kernel Test Service
