@@ -1,45 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2568F33D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0639E33D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678187525; x=1709723525;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HmDpjR8h4i/+lk/Jyvs9+lkMOc/t/BKDdsmK6+Y3PA8=;
-  b=EQsbLR74dJN8ghve877N9TeuDA6wffXHeq8rECrd8etK2ZZwK+jIcGJJ
-   Q9x8jSndf+NWFfhlS27cLor+KXEy0GeUoNL+kaA2FLL9DWirtkMfadyAE
-   B+Lcyi0AwfFR36RmZeZkC6bSOCmo1KUVbl9CKZD8vkM3UggrCiZzXjWoy
-   +E0iFSg4i3a0nPydHA80ojpjJXpxDq11FBHuy/vZpQ8UYfO7Tq6o01/O0
-   3XrdQWCyieO/AvSvfn83KwOvU6gYzzXQoD/J3oVRyBSS8b9+eqeS4LevA
-   TlgsQRiyoLhG7eWmZ4dZhAIouBl2bZLXrLUOcOA51tw/IZv/mcyhK0o/y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337343123"
+  t=1678188124; x=1709724124;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=c7vKDGM+G/b6SYwQhywY5KY2POjOgdL1gF5xMTmUr7c=;
+  b=DIGl8n3a/CSdeipgQEPYssTF5z8eC7TcW5X59AYyLvyPDyWKyU8wUIqK
+   9kb9QZW+Nc2e//BY3UYyM3h8XtMHm8YH58dZIV0+cM0acTeBvuzMhI7tY
+   GyYQuO3+2TBq7ON52EEG1W0mSJGnTTGWtQ1xI20PtjSbp72zJWQrYNzQy
+   ta5SI09bb5wqPW0dO31pdeOz2f6EzaYAOJ6JiQ9SCzKtxMaPT//b0h8Wo
+   vmJAeVhmH1W5v4vOfy6kPwkSNgMWKNBXR/F+dq0E9dZs7K3WgkLQigyV9
+   q6KMweWhH62vcHRoSYQlXWL1y/nT/RBmboMo/hYUvOzSw2bf5HdKaeHEO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="422098574"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="337343123"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:12:04 -0800
+   d="scan'208";a="422098574"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:22:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="786666543"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="765613719"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="786666543"
+   d="scan'208";a="765613719"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2023 03:12:02 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Mar 2023 03:22:02 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZVEf-0001Fn-2d;
-	Tue, 07 Mar 2023 11:12:01 +0000
-Date: Tue, 7 Mar 2023 19:11:17 +0800
+	id 1pZVOL-0001Fz-3A;
+	Tue, 07 Mar 2023 11:22:01 +0000
+Date: Tue, 7 Mar 2023 19:21:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robdclark@chromium.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Chia-I Wu <olvaffe@gmail.com>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- DEVFREQ_GOV_SIMPLE_ONDEMAND when selected by DRM_MSM
-Message-ID: <202303071922.wJqDWQpe-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:5.10/yocto 16459/30000] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/arm/apple.yaml
+Message-ID: <202303071924.jiP07B64-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,36 +46,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8ca09d5fa3549d142c2080a72a4c70ce389163cd
-commit: 6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544 drm/msm/gpu: Add devfreq tuning debugfs
-date:   7 weeks ago
-config: csky-kismet-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND-CONFIG_DRM_MSM-0-0 (https://download.01.org/0day-ci/archive/20230307/202303071922.wJqDWQpe-lkp@intel.com/config)
+Hi Alyssa,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   abd42491338c1d15ac7f00baaa8490063545737e
+commit: cb1da6c5c448a72d5be82514d58e55eedbcfb94e [16459/30000] maintainers: Update freedesktop.org IRC channels
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND --selectors CONFIG_DRM_MSM -a=csky
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=csky olddefconfig
+        # https://github.com/intel/linux-intel-lts/commit/cb1da6c5c448a72d5be82514d58e55eedbcfb94e
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout cb1da6c5c448a72d5be82514d58e55eedbcfb94e
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071922.wJqDWQpe-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071924.jiP07B64-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND when selected by DRM_MSM
-   .config:4518:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
-   
-   WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
-     Depends on [n]: PM_DEVFREQ [=n]
-     Selected by [y]:
-     - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=y] || QCOM_COMMAND_DB [=y]=n)
+All warnings (new ones prefixed by >>):
+
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/apple.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
 
 -- 
 0-DAY CI Kernel Test Service
