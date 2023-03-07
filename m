@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD0036E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 03:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24B936E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 03:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678158709; x=1709694709;
+  t=1678159310; x=1709695310;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6k/pwAFoldyX8cm/3104Ig72FGGJBx2DAWFbp5uAMII=;
-  b=ByTQEGWxxsbjlJmod4+ecOHun0Wj3yoHNnYJQbNebGPQ/n5sAoQGV7Da
-   LboCUHbsc3Eaoo7VmBBTyJxMYfTWC/EhtabprZA9X4mQb8FzpVHnMY4II
-   kvz7NwRSwrfTBJNdmwZHLF3aglNaDaNs8bRLJQ2kyUXOMmmBfCWTCfx6F
-   y6Pt5EHncw3b88j9YTtTFLrootWWY9cZ7MM1BPvKoYYP/x+eUEgYTslaQ
-   1RPmaFEGgpb3pmBUgqp1Kq30xQtR/+ZeyQC962EPZMgqrhubprTmoUJGV
-   +vXcxIMa6Cp2cDHxWOhyUcQTyrHETtipEgPbTwbpMlAaPwXrCJxoxHw2o
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337270315"
+  bh=+5zD5DdlvaxQw5ErGvBWzE55pPXvPGEj62Z+yzLnDkk=;
+  b=Ihy5yztvotT6rC4527ilxHon+9PrWg0YfZxCamAjzCR9ESUS0o4axsEA
+   HlVlPIoE57WzUMUDkeB4lwgFn8+XwIiBRs07382lNTK7vTCEL9OaqHwzD
+   LpcS1pSQig0n5bL9hJ7pwAsDj7SozHKq4qir/Zz61+asAOoshf8aHscX3
+   b//tzKg2JrW0UpyhXdGOqbWoyca8Fv0zcZyTSftYleXXIFF/cysAhi2yJ
+   75rHjm6mRM15FUlhkWHJ9PypV97omAIBzJXy6HlhM9gbBeQWM17+xmk0X
+   UWihbB4hQjc1GFylD0w8nojrB8YqUMWS52LGCrdI80kNYhFLV7ibrGQsh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319581801"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="337270315"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 19:11:49 -0800
+   d="scan'208";a="319581801"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 19:21:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="626381994"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="669712104"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="626381994"
+   d="scan'208";a="669712104"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Mar 2023 19:11:48 -0800
+  by orsmga007.jf.intel.com with ESMTP; 06 Mar 2023 19:21:49 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZNjv-0000tz-1r;
-	Tue, 07 Mar 2023 03:11:47 +0000
-Date: Tue, 7 Mar 2023 11:11:16 +0800
+	id 1pZNtb-0000uR-35;
+	Tue, 07 Mar 2023 03:21:47 +0000
+Date: Tue, 7 Mar 2023 11:21:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:gpu/explicit-sync 10/10] drivers/iommu/Kconfig:14:error:
- recursive dependency detected!
-Message-ID: <202303071149.SkgGQKOV-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 149/149] fs/udf/inode.c:1860:33: error:
+ 'struct udf_inode_info' has no member named 'i_hidden'
+Message-ID: <202303071113.dTPrFZlU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,64 +46,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Asahi,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/AsahiLinux/linux gpu/explicit-sync
-head:   9fcc1915600b79b5739be58a23afea27e3abe212
-commit: 9fcc1915600b79b5739be58a23afea27e3abe212 [10/10] fixup! drm/asahi: Add the Asahi driver for Apple AGX GPUs
-config: x86_64-kexec (attached as .config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   9b93952d97665a5adff917bfe839fa0a4269b8e0
+commit: 9b93952d97665a5adff917bfe839fa0a4269b8e0 [149/149] udf: Detect system inodes linked into directory hierarchy
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230307/202303071113.dTPrFZlU-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/AsahiLinux/linux/commit/9fcc1915600b79b5739be58a23afea27e3abe212
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux gpu/explicit-sync
-        git checkout 9fcc1915600b79b5739be58a23afea27e3abe212
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=9b93952d97665a5adff917bfe839fa0a4269b8e0
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-4.19
+        git checkout 9b93952d97665a5adff917bfe839fa0a4269b8e0
         # save the config file
-        make W=1 ARCH=x86_64 olddefconfig
-        make W=1 ARCH=x86_64 
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071149.SkgGQKOV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071113.dTPrFZlU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/Kconfig:14:error: recursive dependency detected!
-   drivers/iommu/Kconfig:14:	symbol IOMMU_SUPPORT is selected by DRM_ASAHI
-   drivers/gpu/drm/asahi/Kconfig:3:	symbol DRM_ASAHI depends on DRM_GEM_SHMEM_HELPER
-   drivers/gpu/drm/Kconfig:223:	symbol DRM_GEM_SHMEM_HELPER is selected by DRM_V3D
-   drivers/gpu/drm/v3d/Kconfig:2:	symbol DRM_V3D depends on COMMON_CLK
-   drivers/clk/Kconfig:21:	symbol COMMON_CLK is selected by X86_INTEL_QUARK
-   arch/x86/Kconfig:633:	symbol X86_INTEL_QUARK depends on X86_IO_APIC
-   arch/x86/Kconfig:1113:	symbol X86_IO_APIC depends on X86_LOCAL_APIC
-   arch/x86/Kconfig:1108:	symbol X86_LOCAL_APIC depends on X86_UP_APIC
-   arch/x86/Kconfig:1083:	symbol X86_UP_APIC prompt is visible depending on PCI_MSI
-   drivers/pci/Kconfig:39:	symbol PCI_MSI is selected by AMD_IOMMU
-   drivers/iommu/amd/Kconfig:3:	symbol AMD_IOMMU depends on IOMMU_SUPPORT
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+   fs/udf/inode.c: In function '__udf_iget':
+>> fs/udf/inode.c:1860:33: error: 'struct udf_inode_info' has no member named 'i_hidden'
+    1860 |                 if (UDF_I(inode)->i_hidden != hidden_inode) {
+         |                                 ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FRAME_POINTER
+   Depends on [n]: DEBUG_KERNEL [=y] && (M68K || UML || SUPERH) || ARCH_WANT_FRAME_POINTERS [=n]
+   Selected by [y]:
+   - FAULT_INJECTION_STACKTRACE_FILTER [=y] && FAULT_INJECTION_DEBUG_FS [=y] && STACKTRACE_SUPPORT [=y] && !X86_64 && !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
 
 
-vim +14 drivers/iommu/Kconfig
+vim +1860 fs/udf/inode.c
 
-68255b628776dfa Joerg Roedel    2011-06-14 @14  menuconfig IOMMU_SUPPORT
-68255b628776dfa Joerg Roedel    2011-06-14  15  	bool "IOMMU Hardware Support"
-e5144c937585194 Arnd Bergmann   2015-01-28  16  	depends on MMU
-68255b628776dfa Joerg Roedel    2011-06-14  17  	default y
-a7f7f6248d9740d Masahiro Yamada 2020-06-14  18  	help
-68255b628776dfa Joerg Roedel    2011-06-14  19  	  Say Y here if you want to compile device drivers for IO Memory
-68255b628776dfa Joerg Roedel    2011-06-14  20  	  Management Units into the kernel. These devices usually allow to
-68255b628776dfa Joerg Roedel    2011-06-14  21  	  remap DMA requests and/or remap interrupts from other devices on the
-68255b628776dfa Joerg Roedel    2011-06-14  22  	  system.
-68255b628776dfa Joerg Roedel    2011-06-14  23  
-
-:::::: The code at line 14 was first introduced by commit
-:::::: 68255b628776dfafa7f67ca3afd66bd4ba377307 iommu: Move iommu Kconfig entries to submenu
-
-:::::: TO: Joerg Roedel <joerg.roedel@amd.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+  1848	
+  1849	struct inode *__udf_iget(struct super_block *sb, struct kernel_lb_addr *ino,
+  1850				 bool hidden_inode)
+  1851	{
+  1852		unsigned long block = udf_get_lb_pblock(sb, ino, 0);
+  1853		struct inode *inode = iget_locked(sb, block);
+  1854		int err;
+  1855	
+  1856		if (!inode)
+  1857			return ERR_PTR(-ENOMEM);
+  1858	
+  1859		if (!(inode->i_state & I_NEW)) {
+> 1860			if (UDF_I(inode)->i_hidden != hidden_inode) {
+  1861				iput(inode);
+  1862				return ERR_PTR(-EFSCORRUPTED);
+  1863			}
+  1864			return inode;
+  1865		}
+  1866	
+  1867		memcpy(&UDF_I(inode)->i_location, ino, sizeof(struct kernel_lb_addr));
+  1868		err = udf_read_inode(inode, hidden_inode);
+  1869		if (err < 0) {
+  1870			iget_failed(inode);
+  1871			return ERR_PTR(err);
+  1872		}
+  1873		unlock_new_inode(inode);
+  1874	
+  1875		return inode;
+  1876	}
+  1877	
 
 -- 
 0-DAY CI Kernel Test Service
