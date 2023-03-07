@@ -1,42 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058D336E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 10:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD08F28EB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 10:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678185003; x=1709721003;
+  t=1678186263; x=1709722263;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FgUgZqB2QrN2PjTL2FeLW4bRoJebc7UmfhjGtV9IgrM=;
-  b=lskbwai7OKUMYUhD+/wXyWre27HubxQf6RJBXjYPOqL8yFAp1f9QwO94
-   Wb8lRjeOHHLPsfTL5Fd9p9bK4qSISwz5e/t+7lpRC8/LbrwaYUnra7eTs
-   VW5TdE0XhfMxz3kRrIygu6eMcJSYUISuj/yC/Gn8xLVgm/5oOusrB3lgy
-   pm5JlHt7vvcyZtzzE+nsUrTEIik1nVXMU6nPmbp3rOi0/HS4oqQx/a/Tv
-   7NHCl8vAUGIWTBdzUpOqfi7v06G216KrfFmCVvbcoA767N1NWmJ+vxoyQ
-   JPAU9uRfDBGOfCFDPKA4XZ3h4wRNItnjkzCAGFUibCBabKRtPgBK13cs2
+  bh=CZfSCDtiVbGLf9CUqYodVbSXLdvEXSLnIZxdIKVvKCs=;
+  b=hiR5t1DpT9DuSgh9jfna2IWL1ldE15+gqMwC/5ZHveBvF04DNiDC82TD
+   pYf66mrnWEla9NQzMMlGe2foKPtEqW/0KuXl8ylz74HOeYD8Z0e1CeFnE
+   7FQftmlcA/G3DkUwn6IFAupEHgTN+kVqIJL5t1QIRxIwioukucOqe8aRj
+   FBn7/mU/FId1JDSf3dnOe8vHzgwVYfqs7fxh7k8TqKl4Z3o7wWW1UmUtd
+   reKocc2kiHf3ciGDZ7aJXrmE0VB7P3Pgmh+IBosmFAOJcjXuRdDEWFQFd
+   jruk1o1gQzYekT9mmKq8RtU7oeg+xuQK32LCR1MtKAX/txu9KlApvwsCR
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="363441821"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337339708"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="363441821"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 02:30:02 -0800
+   d="scan'208";a="337339708"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 02:51:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="1005815846"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="786657819"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="1005815846"
+   d="scan'208";a="786657819"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Mar 2023 02:30:01 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2023 02:51:02 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZUa0-0001DX-0x;
-	Tue, 07 Mar 2023 10:30:00 +0000
-Date: Tue, 7 Mar 2023 18:30:00 +0800
+	id 1pZUuK-0001EZ-2x;
+	Tue, 07 Mar 2023 10:51:00 +0000
+Date: Tue, 7 Mar 2023 18:50:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chen Jun <chenjun102@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC] mm/slub: Reduce memory consumption in extreme scenarios
-Message-ID: <202303071836.MYJQsNfz-lkp@intel.com>
+Message-ID: <202303071843.3sjPyGIX-lkp@intel.com>
 References: <20230307082811.120774-1-chenjun102@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -51,42 +51,44 @@ In-Reply-To: <20230307082811.120774-1-chenjun102@huawei.com>
 Hi Chen,
 
 [FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on akpm-mm/mm-everything]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Jun/mm-slub-Reduce-memory-consumption-in-extreme-scenarios/20230307-163216
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230307082811.120774-1-chenjun102%40huawei.com
 patch subject: [RFC] mm/slub: Reduce memory consumption in extreme scenarios
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230307/202303071836.MYJQsNfz-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20230307/202303071843.3sjPyGIX-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/d00decb3ccc45b514f25df0d3775153a933ffaa9
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Chen-Jun/mm-slub-Reduce-memory-consumption-in-extreme-scenarios/20230307-163216
         git checkout d00decb3ccc45b514f25df0d3775153a933ffaa9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071836.MYJQsNfz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071843.3sjPyGIX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    mm/slub.c: In function '___slab_alloc':
-   mm/slub.c:3188:69: error: 'try_thisnode' undeclared (first use in this function); did you mean 'try_thisndoe'?
+>> mm/slub.c:3188:69: error: 'try_thisnode' undeclared (first use in this function); did you mean 'try_thisndoe'?
     3188 |         if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode)
          |                                                                     ^~~~~~~~~~~~
          |                                                                     try_thisndoe
    mm/slub.c:3188:69: note: each undeclared identifier is reported only once for each function it appears in
->> mm/slub.c:3072:13: warning: unused variable 'try_thisndoe' [-Wunused-variable]
+   mm/slub.c:3072:13: warning: unused variable 'try_thisndoe' [-Wunused-variable]
     3072 |         int try_thisndoe = 0;
          |             ^~~~~~~~~~~~
 
 
-vim +/try_thisndoe +3072 mm/slub.c
+vim +3188 mm/slub.c
 
   3045	
   3046	/*
@@ -115,7 +117,7 @@ vim +/try_thisndoe +3072 mm/slub.c
   3069		struct slab *slab;
   3070		unsigned long flags;
   3071		struct partial_context pc;
-> 3072		int try_thisndoe = 0;
+  3072		int try_thisndoe = 0;
   3073	
   3074		stat(s, ALLOC_SLOWPATH);
   3075	
@@ -231,7 +233,7 @@ vim +/try_thisndoe +3072 mm/slub.c
   3185		pc.flags = gfpflags;
   3186	
   3187		/* Try to get page from specific node even if __GFP_THISNODE is not set */
-  3188		if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode)
+> 3188		if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode)
   3189				pc.flags |= __GFP_THISNODE;
   3190	
   3191		pc.slab = &slab;
