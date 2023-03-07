@@ -1,44 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458BD366
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 05:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A747D366
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 05:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678166093; x=1709702093;
+  t=1678166180; x=1709702180;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5tHHzSNEoN1VmPUjVeJE/RldxYhRjF7anv7B3OQUn+s=;
-  b=LEVZg2BiJJ5dcvRLN5cTpPQ+iV1dTBe40INn5q2pbDjAYdE+bv8Q/yf1
-   wNcNDBD655DvxxfOf4/DPHQGMVwhQ5GCpOnToJJU2v2E+4nr7+J0inUvl
-   knpuQprAytNCuaR0HXSANpOSiB5f9mGXzpQWEaPeO1uJ5+BU77YfhuPE/
-   PeU3X9thfIK6yqyIVgygB9/TUVGjZh3snqf7om7uVjkv9vNMLMLIVhBRj
-   /1GIv4f1eY8k5go6ELoDNn24HMVrqGDMsJtahgYtRcFiPYS4d3tS70aIK
-   RdBj+tLrLPJ+OZwPRXS17cXdI46Ai9o1U1uiMuNgzK6RLIWGwUdo+duZY
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="338087733"
+  bh=Bcm5Jd5I1xziAJILazWgGTDuJMS1wNnmMzvRAj/ljj0=;
+  b=erRv2JxVwpYeQuk/FEa52RPZJJWwlsuOCdw9hGViu1nXUjqb6k1Q0PJY
+   LvmTMUr9OY7AVN98nh7yKd84OHkjFinEY8n1RyVHZBVfubjALNcOIzTyU
+   BPEJEnJxo8tLmsXL8eySyzeO1wfVKvoRL0qh0fVse3tLkU6VFHnXgV/LH
+   M10XnrYdMOFykSbs51Su1yoZkGUu0tQwuYgvVNmJYefd+ml+P1yBA5uc2
+   FOyxp6Z7I9n4gRlYw3PMElsCei7JlktTo6aIUpEB+aj/o2FVV5jqK7YIa
+   uQLuV41KzF46W/Fg3OoqVWyvC5h9a21cd0MlCOV7KYm7gQsrOFHx719VE
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334477029"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="338087733"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 21:14:52 -0800
+   d="scan'208";a="334477029"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 21:16:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="745319369"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="740596805"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="745319369"
+   d="scan'208";a="740596805"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2023 21:14:51 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 06 Mar 2023 21:03:51 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZPf0-0000yp-2L;
-	Tue, 07 Mar 2023 05:14:50 +0000
-Date: Tue, 7 Mar 2023 13:13:55 +0800
+	id 1pZPUM-0000yd-1u;
+	Tue, 07 Mar 2023 05:03:50 +0000
+Date: Tue, 7 Mar 2023 13:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
 	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:viro/vfs/work.minix 3/4] fs/sysv/dir.c:32:
- multiple definition of `dir_put_page'; fs/minix/dir.o:fs/minix/dir.c:30:
- first defined here
-Message-ID: <202303071352.h8Mj6c0x-lkp@intel.com>
+Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.02.27a 108/108]
+ kernel/rcu/rcutorture.c:3289: undefined reference to `set_nmi_torture'
+Message-ID: <202303071217.ajqvt2rz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,46 +47,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block viro/vfs/work.minix
-head:   39d0d7f9b65f1fe91c5ba6d375f1ddb0c34fe843
-commit: b7176563af9725b556c512d0fee2dbd051839147 [3/4] minixfs: Use dir_put_page() in minix_unlink() and minix_rename()
-config: i386-randconfig-a005-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071352.h8Mj6c0x-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.02.27a
+head:   b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
+commit: b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007 [108/108] rcutorture: Test NMI diagnostics
+config: arm-randconfig-r006-20230305 (https://download.01.org/0day-ci/archive/20230307/202303071217.ajqvt2rz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/ammarfaizi2/linux-block/commit/b7176563af9725b556c512d0fee2dbd051839147
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block viro/vfs/work.minix
-        git checkout b7176563af9725b556c512d0fee2dbd051839147
+        git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/dev.2023.02.27a
+        git checkout b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071352.h8Mj6c0x-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071217.ajqvt2rz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: fs/sysv/dir.o: in function `dir_put_page':
->> fs/sysv/dir.c:32: multiple definition of `dir_put_page'; fs/minix/dir.o:fs/minix/dir.c:30: first defined here
+   arm-linux-gnueabi-ld: kernel/rcu/rcutorture.o: in function `rcutorture_test_nmis':
+>> kernel/rcu/rcutorture.c:3289: undefined reference to `set_nmi_torture'
+>> arm-linux-gnueabi-ld: kernel/rcu/rcutorture.c:3301: undefined reference to `set_nmi_torture'
 
 
-vim +32 fs/sysv/dir.c
+vim +3289 kernel/rcu/rcutorture.c
 
-^1da177e4c3f415 Linus Torvalds        2005-04-16  30  
-83005276d383387 Fabio M. De Francesco 2023-01-19  31  inline void dir_put_page(struct page *page, void *page_addr)
-^1da177e4c3f415 Linus Torvalds        2005-04-16 @32  {
-83005276d383387 Fabio M. De Francesco 2023-01-19  33  	kunmap_local((void *)((unsigned long)page_addr & PAGE_MASK));
-09cbfeaf1a5a67b Kirill A. Shutemov    2016-04-01  34  	put_page(page);
-^1da177e4c3f415 Linus Torvalds        2005-04-16  35  }
-^1da177e4c3f415 Linus Torvalds        2005-04-16  36  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  3281	
+  3282	static void rcutorture_test_nmis(int n)
+  3283	{
+  3284	#if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+  3285		int cpu;
+  3286		int dumpcpu;
+  3287		int i;
+  3288	
+> 3289		set_nmi_torture(nmi_delay, nmi_halt1, nmi_halt2, nmi_halt3);
+  3290		for (i = 0; i < n; i++) {
+  3291			preempt_disable();
+  3292			cpu = smp_processor_id();
+  3293			dumpcpu = cpu + 1;
+  3294			if (dumpcpu >= nr_cpu_ids)
+  3295				dumpcpu = 0;
+  3296			pr_alert("%s: CPU %d invoking dump_cpu_task(%d)\n", __func__, cpu, dumpcpu);
+  3297			dump_cpu_task(dumpcpu);
+  3298			preempt_enable();
+  3299			schedule_timeout_uninterruptible(15 * HZ);
+  3300		}
+> 3301		set_nmi_torture(0, false, false, false);
+  3302	#else // #if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+  3303		WARN_ONCE(n, "Non-zero rcutorture.test_nmis=%d permitted only when rcutorture is built in.\n", test_nmis);
+  3304	#endif // #else // #if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+  3305	}
+  3306	
 
 -- 
 0-DAY CI Kernel Test Service
