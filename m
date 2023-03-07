@@ -1,44 +1,42 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03B6366;
-	Tue,  7 Mar 2023 05:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6328863E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 05:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678168076; x=1709704076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CHCTHz6JZ6sjXAf8kfzA5PwFDWPUeKmzsv0ZP88jjks=;
-  b=I2qeJ8o02XwbHM8k2VoOIHMNk6cQvX2zjbnGQa54//ybU9yNetFepNOz
-   g9MqC6H2ZZBC/w/HorpAUXkv+b+FRJCPGh8/jvfgZHvWXHfK9/dVqkL6t
-   0l6yH1mF2UQBEH4OHvCnHc9rdjS4NSrslK3niSMI2vuXrkdtIDPt2UCum
-   3TQnrayWZtIE7AHQ3tPHbZ+PMHmcBn4At4QeuzXkFF0VEMeKW8qybjTg6
-   UGqJprUqMtDupScw/oyYDEWUWAJ7ccLyQrh6wGwEozt7Ic0R7AtU1zey4
-   nFfudLXvyTLxmHcqmHyLOhTsU8wBQMSswo7ElwEN/5lQOZvjecDKI1adA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="422041746"
+  t=1678168676; x=1709704676;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=9IrqcEBNMqnQyqC2g4DDHDDeEHsVPvncxERM861UOBw=;
+  b=MwZpWW4+C8yzUyW/nmlP8346OMokENjp4NtM3u3zLxK96B40CXCOgo9z
+   MDiYhBWb+heALjp0TN7g30DN7R7sabAyN+zsXbd4TqBxr0WaPAjd0oKhz
+   QtD02uGrVtyE6wFC4twOkGcle2Ut4i3B3pYbiqgAY5z2YjIwEK+EfoGc+
+   MxZ9gr2TDxSHjhCmibQWl/X/lDOEBa0kxR9wBoUpveUkF7EIQFKQ1tLDZ
+   h83x3ez+TTKsbU9/Rf3WbZt8tWPDjRTVmbKzXFLxFDUq3nQJF6hCpQaHy
+   Il07PoF/aEvonJ1GojNXBmWrF4+M8YDzMOcUQOPC5jl5w5qrtVy9uQIxW
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="422043093"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="422041746"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 21:47:54 -0800
+   d="scan'208";a="422043093"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 21:57:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="800293860"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="850573980"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="800293860"
+   d="scan'208";a="850573980"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 Mar 2023 21:47:52 -0800
+  by orsmga005.jf.intel.com with ESMTP; 06 Mar 2023 21:57:52 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZQAx-00010p-2b;
-	Tue, 07 Mar 2023 05:47:51 +0000
-Date: Tue, 7 Mar 2023 13:46:56 +0800
+	id 1pZQKe-00011B-01;
+	Tue, 07 Mar 2023 05:57:52 +0000
+Date: Tue, 7 Mar 2023 13:57:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Koby Elbaz <kelbaz@habana.ai>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Oded Gabbay <ogabbay@kernel.org>
-Subject: [ogabbay:habanalabs-next-6.4 36/49]
- drivers/accel/habanalabs/gaudi2/gaudi2.c:7002:6: warning: no previous
- prototype for function 'gaudi2_is_device_idle'
-Message-ID: <202303071320.X5ouBlNY-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:5.10/yocto 11608/30000] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+Message-ID: <202303071314.efJd0yRK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,58 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git habanalabs-next-6.4
-head:   e174cf78642820ba623fd1786f6bfe9972732248
-commit: d287ea1c6a9af606462612214a61b0bb9aeda10a [36/49] habanalabs/gaudi2: break is_idle function into per-engine sub-routines
-config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071320.X5ouBlNY-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git/commit/?id=d287ea1c6a9af606462612214a61b0bb9aeda10a
-        git remote add ogabbay https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git
-        git fetch --no-tags ogabbay habanalabs-next-6.4
-        git checkout d287ea1c6a9af606462612214a61b0bb9aeda10a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/accel/
+Hi Adrien,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   abd42491338c1d15ac7f00baaa8490063545737e
+commit: b47a8854c8e7a90b4d0156b5c94861b30f538bbf [11608/30000] drm/bridge: Introduce LT8912B DSI to HDMI bridge
+reproduce:
+        # https://github.com/intel/linux-intel-lts/commit/b47a8854c8e7a90b4d0156b5c94861b30f538bbf
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout b47a8854c8e7a90b4d0156b5c94861b30f538bbf
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071320.X5ouBlNY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071314.efJd0yRK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/accel/habanalabs/gaudi2/gaudi2.c:7002:6: warning: no previous prototype for function 'gaudi2_is_device_idle' [-Wmissing-prototypes]
-   bool gaudi2_is_device_idle(struct hl_device *hdev, u64 *mask_arr, u8 mask_len,
-        ^
-   drivers/accel/habanalabs/gaudi2/gaudi2.c:7002:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool gaudi2_is_device_idle(struct hl_device *hdev, u64 *mask_arr, u8 mask_len,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/gaudi2_is_device_idle +7002 drivers/accel/habanalabs/gaudi2/gaudi2.c
-
-  7001	
-> 7002	bool gaudi2_is_device_idle(struct hl_device *hdev, u64 *mask_arr, u8 mask_len,
-  7003						struct engines_data *e)
-  7004	{
-  7005		bool is_idle = true;
-  7006	
-  7007		is_idle &= gaudi2_get_edma_idle_status(hdev, mask_arr, mask_len, e);
-  7008		is_idle &= gaudi2_get_pdma_idle_status(hdev, mask_arr, mask_len, e);
-  7009		is_idle &= gaudi2_get_nic_idle_status(hdev, mask_arr, mask_len, e);
-  7010		is_idle &= gaudi2_get_mme_idle_status(hdev, mask_arr, mask_len, e);
-  7011		is_idle &= gaudi2_get_tpc_idle_status(hdev, mask_arr, mask_len, e);
-  7012		is_idle &= gaudi2_get_decoder_idle_status(hdev, mask_arr, mask_len, e);
-  7013		is_idle &= gaudi2_get_rotator_idle_status(hdev, mask_arr, mask_len, e);
-  7014	
-  7015		return is_idle;
-  7016	}
-  7017	
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
 
 -- 
 0-DAY CI Kernel Test Service
