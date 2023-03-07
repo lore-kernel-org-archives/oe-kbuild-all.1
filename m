@@ -1,43 +1,32 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782A7AD5F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 16:40:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678207216; x=1709743216;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b4wCWTXIsfnqV3t7HPYd2w6+ZYaWnOktbFdbQlqTedI=;
-  b=Ge2R5fH/t1g4YZGGxK+Gt/ENO/IOquQyNfh3SF9NWzvEn1Cbndia9Jba
-   XgCnLhw58wDfYxKfm92j0XGkzOn6Oal+MM2SoMakqxvN680NhQ1XHgbg9
-   G6bi7N+sK/gE2VjrTyUEVTaSkC5RdVBhPXzu3l+X5RqmSIRJiTgq3qckx
-   c20iLjHWVMHDImQzDdkpuHGq2p0uTMjc0DN0d3vowCtL9rRnastbjQ+r1
-   17HhhtjF1gvlVyfk4MlGATnr8ljCPrtWdMccqDAvNXWoqq+H0QjGQZaZS
-   GgbC7hQJJkAhViAa23ry3w6ZD/HTc1IlvUjsLSfz6HYDciDftfRcjv0Wc
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324207234"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="324207234"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 08:40:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="676612003"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="676612003"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Mar 2023 08:40:14 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZaMH-0001Tz-2Y;
-	Tue, 07 Mar 2023 16:40:13 +0000
-Date: Wed, 8 Mar 2023 00:39:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tony Luck <tony.luck@intel.com>,
-	Andi Kleen <ak@linux.intel.com>
-Subject: [intel-tdx:guest-debug 2/4] vmlinux.o: warning: objtool:
- __halt+0x44: call to __trace_tdx_hypercall() leaves .noinstr.text section
-Message-ID: <202303080034.1BdaJPHX-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937CFBA3E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 17:37:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62ECCC433EF;
+	Tue,  7 Mar 2023 17:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678210645;
+	bh=hwBzmn6pp1mWDaPUtpbmEmQiUDyC6Iu20WHdhOw5kp4=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=KQGbSSw0O51PAZKcZw0/dPkD45xseynI0G42h2vj+fCGG1yyk4L28dNPCAW/yr/iY
+	 myyl4YNT2ty30dzoBTHE6XJ8olaRYZsNq4rKpGCctgz7fSxBMAWLH061jCPyUNjUKg
+	 0IXqzRBqSVeTO3/bVrZ19Cad/eFz+2xxsaN//kFx2lhEvRXVCtkTkWYQ5jby5fg/R4
+	 UEp+iH5h5qtAnfcM+p+JzudTgFDGosTvstHcU4hU3louVDN/S0w6PV6h56WCvwnoZV
+	 p+GuIk3mIR9+QwBhH05UVGwycxRTxf3ulJn06hw0VAGdJjDh1N6s8cVJyhR/xb/0wh
+	 e/jTEPY5qv96A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 103675C01E4; Tue,  7 Mar 2023 09:37:25 -0800 (PST)
+Date: Tue, 7 Mar 2023 09:37:25 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.02.27a 108/108]
+ kernel/rcu/rcutorture.c:3289: undefined reference to `set_nmi_torture'
+Message-ID: <20230307173725.GK1301832@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <202303071217.ajqvt2rz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +35,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202303071217.ajqvt2rz-lkp@intel.com>
 
-tree:   https://github.com/intel/tdx.git guest-debug
-head:   cd4562557ed3eaea18d74d9521791d7889c696aa
-commit: 9499ad5bd6e897e4c11b974504973939f2d4730a [2/4] x86/tdx: Add TDCALL tracepoint
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303080034.1BdaJPHX-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/9499ad5bd6e897e4c11b974504973939f2d4730a
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-debug
-        git checkout 9499ad5bd6e897e4c11b974504973939f2d4730a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On Tue, Mar 07, 2023 at 01:03:43PM +0800, kernel test robot wrote:
+> tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.02.27a
+> head:   b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
+> commit: b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007 [108/108] rcutorture: Test NMI diagnostics
+> config: arm-randconfig-r006-20230305 (https://download.01.org/0day-ci/archive/20230307/202303071217.ajqvt2rz-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/ammarfaizi2/linux-block/commit/b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
+>         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+>         git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/dev.2023.02.27a
+>         git checkout b171cbcbbd8e5f5f2e0638c5b5b5c77e3cc79007
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303071217.ajqvt2rz-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arm-linux-gnueabi-ld: kernel/rcu/rcutorture.o: in function `rcutorture_test_nmis':
+> >> kernel/rcu/rcutorture.c:3289: undefined reference to `set_nmi_torture'
+> >> arm-linux-gnueabi-ld: kernel/rcu/rcutorture.c:3301: undefined reference to `set_nmi_torture'
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303080034.1BdaJPHX-lkp@intel.com/
+This was me accidentally putting an x86-only not-for-mainline diagnostic
+patch on the -rcu tree's "dev" branch.  I reset the "dev" branch to
+avoid this.
 
-All warnings (new ones prefixed by >>):
+							Thanx, Paul
 
->> vmlinux.o: warning: objtool: __halt+0x44: call to __trace_tdx_hypercall() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x1be: call to context_tracking_guest_exit() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0x85: call to context_tracking_guest_exit() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0xb1e: call to pentium_machine_check.constprop.0() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: check_stackleak_irqoff+0x2b: call to end_of_stack() leaves .noinstr.text section
-
-
-objdump-func vmlinux.o __halt:
-0000 0000000000000040 <__halt>:
-0000       40:	53                   	push   %rbx
-0001       41:	89 fb                	mov    %edi,%ebx
-0003       43:	48 83 ec 68          	sub    $0x68,%rsp
-0007       47:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
-0010       50:	48 89 44 24 60       	mov    %rax,0x60(%rsp)
-0015       55:	31 c0                	xor    %eax,%eax
-0017       57:	e8 00 00 00 00       	call   5c <__halt+0x1c>	58: R_X86_64_PLT32	stackleak_track_stack-0x4
-001c       5c:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	5d: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0021       61:	31 c0                	xor    %eax,%eax
-0023       63:	b9 0c 00 00 00       	mov    $0xc,%ecx
-0028       68:	0f b6 db             	movzbl %bl,%ebx
-002b       6b:	48 89 e7             	mov    %rsp,%rdi
-002e       6e:	31 f6                	xor    %esi,%esi
-0030       70:	f3 48 ab             	rep stos %rax,%es:(%rdi)
-0033       73:	48 89 e7             	mov    %rsp,%rdi
-0036       76:	48 89 5c 24 20       	mov    %rbx,0x20(%rsp)
-003b       7b:	48 c7 44 24 18 0c 00 00 00 	movq   $0xc,0x18(%rsp)
-0044       84:	e8 00 00 00 00       	call   89 <__halt+0x49>	85: R_X86_64_PC32	.text+0x83fc
-0049       89:	48 8b 54 24 60       	mov    0x60(%rsp),%rdx
-004e       8e:	65 48 2b 14 25 28 00 00 00 	sub    %gs:0x28,%rdx
-0057       97:	75 12                	jne    ab <__halt+0x6b>
-0059       99:	48 83 c4 68          	add    $0x68,%rsp
-005d       9d:	5b                   	pop    %rbx
-005e       9e:	31 d2                	xor    %edx,%edx
-0060       a0:	31 c9                	xor    %ecx,%ecx
-0062       a2:	31 f6                	xor    %esi,%esi
-0064       a4:	31 ff                	xor    %edi,%edi
-0066       a6:	e9 00 00 00 00       	jmp    ab <__halt+0x6b>	a7: R_X86_64_PLT32	__x86_return_thunk-0x4
-006b       ab:	e8 00 00 00 00       	call   b0 <__halt+0x70>	ac: R_X86_64_PLT32	__stack_chk_fail-0x4
-0070       b0:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-007b       bb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> vim +3289 kernel/rcu/rcutorture.c
+> 
+>   3281	
+>   3282	static void rcutorture_test_nmis(int n)
+>   3283	{
+>   3284	#if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+>   3285		int cpu;
+>   3286		int dumpcpu;
+>   3287		int i;
+>   3288	
+> > 3289		set_nmi_torture(nmi_delay, nmi_halt1, nmi_halt2, nmi_halt3);
+>   3290		for (i = 0; i < n; i++) {
+>   3291			preempt_disable();
+>   3292			cpu = smp_processor_id();
+>   3293			dumpcpu = cpu + 1;
+>   3294			if (dumpcpu >= nr_cpu_ids)
+>   3295				dumpcpu = 0;
+>   3296			pr_alert("%s: CPU %d invoking dump_cpu_task(%d)\n", __func__, cpu, dumpcpu);
+>   3297			dump_cpu_task(dumpcpu);
+>   3298			preempt_enable();
+>   3299			schedule_timeout_uninterruptible(15 * HZ);
+>   3300		}
+> > 3301		set_nmi_torture(0, false, false, false);
+>   3302	#else // #if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+>   3303		WARN_ONCE(n, "Non-zero rcutorture.test_nmis=%d permitted only when rcutorture is built in.\n", test_nmis);
+>   3304	#endif // #else // #if IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)
+>   3305	}
+>   3306	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
