@@ -1,157 +1,147 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C059A386
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 23:38:44 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id u9so59178688edd.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Mar 2023 15:38:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678232323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MsjKpk5Xp/eDGweOvjrgV/4B1gupExWnHgnL/97NTFA=;
-        b=J/dHIop6AscTHTN1ibeEPYzc2UGFHsFEw4lw8eW9l6HfelpgPoP44iuaQCYPJDtWA5
-         50bO3kSeO0b1b6eCXeHHiFLYo+bGD3ijHInV7tNl1ebD1LX8W3i0j9m2Fs73oKthso7/
-         goOe2kHMVjEOUNHPxH66fb054dDL341ZIM9ZKvmvgekAbD6PIB6bvpT9F5FwcScLwBXa
-         Op1+PtBGHCIv7rbFSyr9BXGDA4AYOgdi2i6KMRUB5o4/WAMLvoClIvBzfYatb3uZqwTT
-         R2cvGugjF5urBtQBz9k+cyS6iC0ME07jOjA8/knHllojSPujm9UrL6qR4WIhXsoKcoeq
-         jjUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678232323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MsjKpk5Xp/eDGweOvjrgV/4B1gupExWnHgnL/97NTFA=;
-        b=7NF0RwNeGJfdPHBeAODJ3r6vupmPQNcsfjMM5w5A5uwpxtY9glnULqlvscnUT6wLfT
-         XFscJs35TVKALG9+qvaUqoKu4oPr0GeLxyCgVWGGGMorTQtK9eyRRcPvC71DiNpB1SYo
-         3OCdx9nZs/ipEDmZnZEUCjNziyZFz4YAZuq6HLewS8MLCoPFbPPORZiRe9WucWHHfFKi
-         CYe/YHaaNQO/wVcnAdPVDnvbSDs+mvsI9a40ggF4Y8IEERQiI0uD024+bhPMyThblNj2
-         bt9L1oEg1HkZR2mBRu+wP1ISQRg8zWQnN92vwBQtkyeJkN64Jd0ShqtU6H1K5QhPAyN7
-         iksA==
-X-Gm-Message-State: AO0yUKUneeQDy7AAwKrRALJAKt9bjcsQuNRmK5vNT07TWdBp6Ex4qEre
-	htuSTSLaTrgy46o/w97xfZ/i1HTcK/eMfgkS6dI=
-X-Google-Smtp-Source: AK7set/phfMctxOrcMqR9vhMN1i2+OrLdTUQdqxNXTtwG9WVbprWdNgH3sU/zPvWs34KP3PM6Pnt+UReg28fT8V/Fhc=
-X-Received: by 2002:a50:cd94:0:b0:4c2:1a44:642e with SMTP id
- p20-20020a50cd94000000b004c21a44642emr9208296edi.5.1678232322815; Tue, 07 Mar
- 2023 15:38:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BED5386
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 23:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678232909; x=1709768909;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A9zdFPKAffnrfsuS9w864RSLy4Sq56XLVn9yvHQiRO4=;
+  b=FptznRfAdZ2yjrGIvji2nCrNLf9zpgP1jOB4mg9DknXnc5u7+urPPqUg
+   AcutVPkdD0V1RciaacyalZe+hTX5hhAdEgt2v8Yg8/T2Ke0kefQPwYYSt
+   x0od9t+VXJXn22/x68CXMRErzvk0tk7i7Mpa/EcxTlTRCcZK4Nl5de2Gp
+   Hm5skwyB66SKfj8fI//QouK2YHwScGKUks/hgcbGxgPMlKOaw/VMofEqK
+   kKw/v+EhZqUQGaEeUrUfS8H1z16T7OO5CuHKRe19KVsSzdlkekYq0iqdm
+   Acd/7hty6jUTZK4BNh2oiwO5of74/Maf+vpdcu9tPnmb+JjFUCeoMVJ4P
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324319953"
+X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
+   d="scan'208";a="324319953"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 15:48:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="850874940"
+X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
+   d="scan'208";a="850874940"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 07 Mar 2023 15:48:27 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZh2g-0001hH-1x;
+	Tue, 07 Mar 2023 23:48:26 +0000
+Date: Wed, 8 Mar 2023 07:47:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Boris Burkov <boris@bur.io>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] btrfs: fix dio continue after short write due to
+ buffer page fault
+Message-ID: <202303080727.U1vbreEf-lkp@intel.com>
+References: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230307215329.3895377-4-andrii@kernel.org> <202303080733.7uzHxIB0-lkp@intel.com>
-In-Reply-To: <202303080733.7uzHxIB0-lkp@intel.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 7 Mar 2023 15:38:30 -0800
-Message-ID: <CAEf4BzYPu5ABeEcwoGTKnjEb5=jYj772KQ0nW9Ub21-8SVqvVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 3/8] bpf: add support for open-coded iterator loops
-To: kernel test robot <lkp@intel.com>
-Cc: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org, ast@kernel.org, 
-	daniel@iogearbox.net, oe-kbuild-all@lists.linux.dev, kernel-team@fb.com, 
-	Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
 
-On Tue, Mar 7, 2023 at 3:27=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Andrii,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bp=
-f-factor-out-fetching-basic-kfunc-metadata/20230308-055530
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20230307215329.3895377-4-andrii%=
-40kernel.org
-> patch subject: [PATCH v2 bpf-next 3/8] bpf: add support for open-coded it=
-erator loops
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/202303=
-08/202303080733.7uzHxIB0-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/9eada50b93c4fc3f4=
-1032699fda73bc125b37d0e
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Andrii-Nakryiko/bpf-factor-out-f=
-etching-basic-kfunc-metadata/20230308-055530
->         git checkout 9eada50b93c4fc3f41032699fda73bc125b37d0e
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dm68k olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash kernel/bpf/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303080733.7uzHxIB0-lkp@i=
-ntel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    kernel/bpf/verifier.c: In function 'is_iter_reg_valid_init':
-> >> kernel/bpf/verifier.c:1255:32: warning: variable 't' set but not used =
-[-Wunused-but-set-variable]
->     1255 |         const struct btf_type *t;
->          |                                ^
->
->
-> vim +/t +1255 kernel/bpf/verifier.c
->
->   1250
->   1251  static bool is_iter_reg_valid_init(struct bpf_verifier_env *env, =
-struct bpf_reg_state *reg,
->   1252                                     struct btf *btf, u32 btf_id, i=
-nt nr_slots)
->   1253  {
->   1254          struct bpf_func_state *state =3D func(env, reg);
-> > 1255          const struct btf_type *t;
->   1256          int spi, i, j;
->   1257
->   1258          spi =3D iter_get_spi(env, reg, nr_slots);
->   1259          if (spi < 0)
->   1260                  return false;
->   1261
->   1262          t =3D btf_type_by_id(btf, btf_id);
+Hi Boris,
 
-some leftover from early v2 attempts, doh
+Thank you for the patch! Perhaps something to improve:
 
-I'll wait an hour or two for some other feedback before spamming with v4
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.3-rc1]
+[cannot apply to next-20230307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->   1263
->   1264          for (i =3D 0; i < nr_slots; i++) {
->   1265                  struct bpf_stack_state *slot =3D &state->stack[sp=
-i - i];
->   1266                  struct bpf_reg_state *st =3D &slot->spilled_ptr;
->   1267
->   1268                  /* only main (first) slot has ref_obj_id set */
->   1269                  if (i =3D=3D 0 && !st->ref_obj_id)
->   1270                          return false;
->   1271                  if (i !=3D 0 && st->ref_obj_id)
->   1272                          return false;
->   1273                  if (st->iter.btf !=3D btf || st->iter.btf_id !=3D=
- btf_id)
->   1274                          return false;
->   1275
->   1276                  for (j =3D 0; j < BPF_REG_SIZE; j++)
->   1277                          if (slot->slot_type[j] !=3D STACK_ITER)
->   1278                                  return false;
->   1279          }
->   1280
->   1281          return true;
->   1282  }
->   1283
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris%40bur.io
+patch subject: [PATCH v3] btrfs: fix dio continue after short write due to buffer page fault
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303080727.U1vbreEf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/938364315c6a1c0055382359a2d94d4d069a273c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
+        git checkout 938364315c6a1c0055382359a2d94d4d069a273c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303080727.U1vbreEf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/btrfs/inode.c: In function 'btrfs_create_dio_extent':
+   fs/btrfs/inode.c:7001:19: error: implicit declaration of function 'btrfs_alloc_ordered_extent'; did you mean 'btrfs_split_ordered_extent'? [-Werror=implicit-function-declaration]
+    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                   btrfs_split_ordered_extent
+>> fs/btrfs/inode.c:7001:17: warning: assignment to 'struct btrfs_ordered_extent *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
+         |                 ^
+   cc1: some warnings being treated as errors
+
+
+vim +7001 fs/btrfs/inode.c
+
+  6978	
+  6979	static struct extent_map *btrfs_create_dio_extent(struct btrfs_inode *inode,
+  6980							  struct btrfs_dio_data *dio_data,
+  6981							  const u64 start,
+  6982							  const u64 len,
+  6983							  const u64 orig_start,
+  6984							  const u64 block_start,
+  6985							  const u64 block_len,
+  6986							  const u64 orig_block_len,
+  6987							  const u64 ram_bytes,
+  6988							  const int type)
+  6989	{
+  6990		struct extent_map *em = NULL;
+  6991		struct btrfs_ordered_extent *ordered;
+  6992	
+  6993		if (type != BTRFS_ORDERED_NOCOW) {
+  6994			em = create_io_em(inode, start, len, orig_start, block_start,
+  6995					  block_len, orig_block_len, ram_bytes,
+  6996					  BTRFS_COMPRESS_NONE, /* compress_type */
+  6997					  type);
+  6998			if (IS_ERR(em))
+  6999				goto out;
+  7000		}
+> 7001		ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
+  7002						     block_start, block_len, 0,
+  7003						     (1 << type) |
+  7004						     (1 << BTRFS_ORDERED_DIRECT),
+  7005						     BTRFS_COMPRESS_NONE);
+  7006		if (IS_ERR(ordered)) {
+  7007			if (em) {
+  7008				free_extent_map(em);
+  7009				btrfs_drop_extent_map_range(inode, start,
+  7010							    start + len - 1, false);
+  7011			}
+  7012			em = ERR_PTR(PTR_ERR(ordered));
+  7013		} else {
+  7014			ASSERT(!dio_data->ordered);
+  7015			dio_data->ordered = ordered;
+  7016		}
+  7017	 out:
+  7018	
+  7019		return em;
+  7020	}
+  7021	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
