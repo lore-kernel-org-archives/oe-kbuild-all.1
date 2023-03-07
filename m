@@ -1,144 +1,96 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D841BA4F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 19:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678218200; x=1709754200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VUM3crliIX0uYvF9HWA/HxYpm4UHhPf4pcjmsOAYsyA=;
-  b=ajebq3ggaRvbjRJcNkjL5Fth65KtM3yRbT/1CJ8tLwOCkLw/hWGV8QjU
-   vASJk3ePhzxYoFmygU0ovN4qV32uxl5Xj1lx2U6CharDbdIdXb5Fhzce6
-   F1kje6MNdUm7jFfnxhs/GDTNgwkwz/wuIwazER5EtvRixF4esJcDLoLSs
-   7Xmbpdk0cNZ9i+/qq3hb/+jFF2S1CjHcT6Olmm6k1mO6m7nVMziQwQ7kS
-   YmGjeGtuHQToQiliZz6d64OP8MKvw93J1eNWAXLUKQFaLJt2fsqtLB5dO
-   n9nfnPXc/mzgSySok/XFeXBH1P4YbNe8zoIye5N1NqyDs6PjKOuH88GTb
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="334668317"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="334668317"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:43:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="654089691"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="654089691"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 07 Mar 2023 11:43:17 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZdDQ-0001YP-29;
-	Tue, 07 Mar 2023 19:43:16 +0000
-Date: Wed, 8 Mar 2023 03:42:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	Christian Koenig <christian.koenig@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 6/7] drm/ttm: Reduce the number of used
- allocation orders for TTM pages
-Message-ID: <202303080352.azyeWwwt-lkp@intel.com>
-References: <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CA9BA4F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 20:18:11 +0000 (UTC)
+Received: by mail-pl1-f201.google.com with SMTP id lm13-20020a170903298d00b0019a8c8a13dfso8260659plb.16
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Mar 2023 12:18:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1678220291;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TBy8uaZdLaA2vuEpvMEgc5Zol1R57/Lhpg4H0LtQutQ=;
+        b=ByZC/r9FYzZ656rX3fvn+gjr42ji69/Cfy2+ooWEMUrvz4vmNIW9llG1unN/7ELnfY
+         BXbMN9ie3M/crOH0EiVf4l/4WzvrEDI9Mwh7r4mGph9G3bGtNQL8WViFo0bqVyswjS3Z
+         1oBJSYQ4erwKC8WNXjepoNZRyH+oEspSK6vmd/gLPflV1t//Nex7efWiU3R6sgFJ87XB
+         hj52xTTpaJiPylk5c/gif2fm/iRQLjvU33EjHj+Hp4bAx0RKcd/Ljz0fcm9Z1JEZONGc
+         WLaomMpzYlfZsxlziiadmW5ZloKTf7tdg78kPNPXdyEfwxwlJQJGdzQNp1rLqu03sCET
+         wDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678220291;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TBy8uaZdLaA2vuEpvMEgc5Zol1R57/Lhpg4H0LtQutQ=;
+        b=BFdXD1SDJEd/Nq4EbgvUEskz5Ln9N8CfEGM3VHnNACF175vhp5lAR2FqnS2Z1VjDRu
+         9AYm8EAUCjnaQ4Gb875ADVtWeVhhJnBKBC4kjpGYOR2W1QHSUd6VcStUlLd0ye95ovqW
+         Gw8U+EFylBqUZVt+G4TYMwoPOsxKx0f36rpVwmJPEqiG4tepLwSPRwN0bN9bVFiyuWOk
+         MGk6xa9NlZID2PlqaEkWAsNKz8VGaFu3QU2xAPWH0LB97bKHvNF7plOdPi+9kGckoh3S
+         o9QgG5w2Ts56+oD0JMnmdm9U1MZMZpzBj85BaflfEqog0IExIv2tLJM5Lxin3Mj1VHb+
+         HNxg==
+X-Gm-Message-State: AO0yUKVk65H/cHOV+GjSh2DCPL9x/yjQqFNojE5apigQCM4J34keHLXp
+	PJZiqNFqawll93+vw2OLrKcAhSKECZc=
+X-Google-Smtp-Source: AK7set+dALpfNS9d/EtiXblm62Tp/vh6zce1WOWL1zqGz0ympR4BwgAKhVJQwyU0j2wOGMyzfkI4/u3K1lU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:903:2581:b0:19a:8bc7:d814 with SMTP id
+ jb1-20020a170903258100b0019a8bc7d814mr5975096plb.13.1678220290945; Tue, 07
+ Mar 2023 12:18:10 -0800 (PST)
+Date: Tue, 7 Mar 2023 12:18:09 -0800
+In-Reply-To: <CAHVum0eW+AKoMt2nB=52cDpvoVHX1A4tHmdV-4f21hV49c4o8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
+Mime-Version: 1.0
+References: <20230306224127.1689967-4-vipinsh@google.com> <202303071940.sFeQ4FpU-lkp@intel.com>
+ <CAHVum0eW+AKoMt2nB=52cDpvoVHX1A4tHmdV-4f21hV49c4o8g@mail.gmail.com>
+Message-ID: <ZAecAbOfknV1gS/t@google.com>
+Subject: Re: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU
+ page caches globally
+From: Sean Christopherson <seanjc@google.com>
+To: Vipin Sharma <vipinsh@google.com>
+Cc: kernel test robot <lkp@intel.com>, pbonzini@redhat.com, bgardon@google.com, 
+	dmatlack@google.com, oe-kbuild-all@lists.linux.dev, jmattson@google.com, 
+	mizhang@google.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas,
+On Tue, Mar 07, 2023, Vipin Sharma wrote:
+> On Tue, Mar 7, 2023 at 3:33=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+> >
+> > Hi Vipin,
+> >
+> > Thank you for the patch! Perhaps something to improve:
+> >
+> > [auto build test WARNING on kvm/queue]
+> > [also build test WARNING on kvmarm/next linus/master v6.3-rc1 next-2023=
+0307]
+> > [cannot apply to mst-vhost/linux-next kvm/linux-next]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> arch/x86/kvm/mmu/mmu.c:676: warning: This comment starts with '/**',=
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.r=
+st
+>=20
+> > vim +676 arch/x86/kvm/mmu/mmu.c
+> >
+> >    674
+> >    675  /**
+> >  > 676   * Caller should hold mutex lock corresponding to cache, if ava=
+ilable.
+> >    677   */
+>=20
+> I will fix it in the next version.
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next]
-[cannot apply to drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230307-224931
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230307144621.10748-7-thomas.hellstrom%40linux.intel.com
-patch subject: [Intel-gfx] [PATCH v2 6/7] drm/ttm: Reduce the number of used allocation orders for TTM pages
-config: powerpc-randconfig-r006-20230306 (https://download.01.org/0day-ci/archive/20230308/202303080352.azyeWwwt-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0eee47dba298051fc49965d56cb17dd113ff0236
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230307-224931
-        git checkout 0eee47dba298051fc49965d56cb17dd113ff0236
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/drm/ttm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303080352.azyeWwwt-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In function 'ttm_pool_type_init',
-       inlined from 'ttm_pool_init' at drivers/gpu/drm/ttm/ttm_pool.c:557:5:
->> drivers/gpu/drm/ttm/ttm_pool.c:264:18: warning: iteration 9 invokes undefined behavior [-Waggressive-loop-optimizations]
-     264 |         pt->pool = pool;
-         |         ~~~~~~~~~^~~~~~
-   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_init':
-   drivers/gpu/drm/ttm/ttm_pool.c:556:39: note: within this loop
-     556 |                         for (j = 0; j < TTM_DIM_ORDER; ++j)
-         |                                       ^
-   In file included from <command-line>:
-   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_mgr_init':
->> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_283' declared with attribute error: BUILD_BUG_ON failed: TTM_DIM_ORDER > MAX_ORDER
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
-     339 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
-     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/ttm_pool.c:744:9: note: in expansion of macro 'BUILD_BUG_ON'
-     744 |         BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_283 +358 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Don't bother reworking the code/comment, I will likely have feedback that r=
+esults
+in the demise of the comment altogether (comments that say "lock X must be =
+held"
+are almost always flawed).
