@@ -1,42 +1,47 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0639E33D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:22:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA323C00
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:33:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678188124; x=1709724124;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=c7vKDGM+G/b6SYwQhywY5KY2POjOgdL1gF5xMTmUr7c=;
-  b=DIGl8n3a/CSdeipgQEPYssTF5z8eC7TcW5X59AYyLvyPDyWKyU8wUIqK
-   9kb9QZW+Nc2e//BY3UYyM3h8XtMHm8YH58dZIV0+cM0acTeBvuzMhI7tY
-   GyYQuO3+2TBq7ON52EEG1W0mSJGnTTGWtQ1xI20PtjSbp72zJWQrYNzQy
-   ta5SI09bb5wqPW0dO31pdeOz2f6EzaYAOJ6JiQ9SCzKtxMaPT//b0h8Wo
-   vmJAeVhmH1W5v4vOfy6kPwkSNgMWKNBXR/F+dq0E9dZs7K3WgkLQigyV9
-   q6KMweWhH62vcHRoSYQlXWL1y/nT/RBmboMo/hYUvOzSw2bf5HdKaeHEO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="422098574"
+  t=1678188786; x=1709724786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xylpS4dMHvwStOXeEA691mA7Cx1+UtxKNUF6D05Th1k=;
+  b=DqzCAaYn3HX3hk90QGAzTCuuotQHYW4a9ocSJ2bbzP8jFkk4k4meIvu/
+   gIyPUIftrXwndan5Lop6+ZUBh3Yq1SJcVMgH/WvRF5J9pGEp3pup7ImDF
+   cuJ1KClsc9M58XMDS62MGaGlfCOU3QrnrioD2ztVunuLkW9dMxdj5N4cP
+   pXyHKJYnJK40L4ue7pnG5K44T0CVA531VtPbLp480f2Ku1oznPH3jhG83
+   d6+CajtYAgTYOF00A0fm9KoyLQi6JpAPymIsf26pFMq0xXKecwNsYc58G
+   krpfCIo9G5fGY2sDm8Jepu6L89fbRyssGz77nf4wgldXEPNK/r1Li8G9k
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="338151869"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="422098574"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:22:03 -0800
+   d="scan'208";a="338151869"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:33:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="765613719"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="653947214"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="765613719"
+   d="scan'208";a="653947214"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Mar 2023 03:22:02 -0800
+  by orsmga006.jf.intel.com with ESMTP; 07 Mar 2023 03:33:03 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZVOL-0001Fz-3A;
-	Tue, 07 Mar 2023 11:22:01 +0000
-Date: Tue, 7 Mar 2023 19:21:41 +0800
+	id 1pZVZ0-0001GJ-0s;
+	Tue, 07 Mar 2023 11:33:02 +0000
+Date: Tue, 7 Mar 2023 19:32:04 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:5.10/yocto 16459/30000] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/arm/apple.yaml
-Message-ID: <202303071924.jiP07B64-lkp@intel.com>
+To: Vipin Sharma <vipinsh@google.com>, seanjc@google.com,
+	pbonzini@redhat.com, bgardon@google.com, dmatlack@google.com
+Cc: oe-kbuild-all@lists.linux.dev, jmattson@google.com, mizhang@google.com,
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Vipin Sharma <vipinsh@google.com>
+Subject: Re: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU
+ page caches globally
+Message-ID: <202303071940.sFeQ4FpU-lkp@intel.com>
+References: <20230306224127.1689967-4-vipinsh@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,31 +50,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230306224127.1689967-4-vipinsh@google.com>
 
-Hi Alyssa,
+Hi Vipin,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   abd42491338c1d15ac7f00baaa8490063545737e
-commit: cb1da6c5c448a72d5be82514d58e55eedbcfb94e [16459/30000] maintainers: Update freedesktop.org IRC channels
-reproduce:
-        # https://github.com/intel/linux-intel-lts/commit/cb1da6c5c448a72d5be82514d58e55eedbcfb94e
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/yocto
-        git checkout cb1da6c5c448a72d5be82514d58e55eedbcfb94e
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvmarm/next linus/master v6.3-rc1 next-20230307]
+[cannot apply to mst-vhost/linux-next kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vipin-Sharma/KVM-x86-mmu-Change-KVM-mmu-shrinker-to-no-op/20230307-064510
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230306224127.1689967-4-vipinsh%40google.com
+patch subject: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU page caches globally
+config: i386-randconfig-a003-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071940.sFeQ4FpU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/511e837798da25063830276b8a3345c7601c6459
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vipin-Sharma/KVM-x86-mmu-Change-KVM-mmu-shrinker-to-no-op/20230307-064510
+        git checkout 511e837798da25063830276b8a3345c7601c6459
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071924.jiP07B64-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071940.sFeQ4FpU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/apple.yaml
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> arch/x86/kvm/mmu/mmu.c:676: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Caller should hold mutex lock corresponding to cache, if available.
+   arch/x86/kvm/mmu/mmu.c:693: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Caller should hold mutex lock corresponding to kvm_mmu_memory_cache, if
+   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'kvm' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
+   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'slot' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
+   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'gfn_offset' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
+   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'mask' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
+
+
+vim +676 arch/x86/kvm/mmu/mmu.c
+
+   674	
+   675	/**
+ > 676	 * Caller should hold mutex lock corresponding to cache, if available.
+   677	 */
+   678	static int mmu_topup_sp_memory_cache(struct kvm_mmu_memory_cache *cache,
+   679					     int min)
+   680	{
+   681		int orig_nobjs, r;
+   682	
+   683		orig_nobjs = cache->nobjs;
+   684		r = kvm_mmu_topup_memory_cache(cache, min);
+   685		if (orig_nobjs != cache->nobjs)
+   686			percpu_counter_add(&kvm_total_unused_cached_pages,
+   687					   (cache->nobjs - orig_nobjs));
+   688	
+   689		return r;
+   690	}
+   691	
 
 -- 
 0-DAY CI Kernel Test Service
