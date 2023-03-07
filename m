@@ -1,47 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA323C00
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9671E3C3D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 12:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678188786; x=1709724786;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xylpS4dMHvwStOXeEA691mA7Cx1+UtxKNUF6D05Th1k=;
-  b=DqzCAaYn3HX3hk90QGAzTCuuotQHYW4a9ocSJ2bbzP8jFkk4k4meIvu/
-   gIyPUIftrXwndan5Lop6+ZUBh3Yq1SJcVMgH/WvRF5J9pGEp3pup7ImDF
-   cuJ1KClsc9M58XMDS62MGaGlfCOU3QrnrioD2ztVunuLkW9dMxdj5N4cP
-   pXyHKJYnJK40L4ue7pnG5K44T0CVA531VtPbLp480f2Ku1oznPH3jhG83
-   d6+CajtYAgTYOF00A0fm9KoyLQi6JpAPymIsf26pFMq0xXKecwNsYc58G
-   krpfCIo9G5fGY2sDm8Jepu6L89fbRyssGz77nf4wgldXEPNK/r1Li8G9k
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="338151869"
+  t=1678190585; x=1709726585;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IzPr3HWNoxgcitMvR8OqYS4FQkMYF9l8gGmcg8xPKwo=;
+  b=Ban0pYSqrXEkQrwiAZI0QJ2jBMalECn93bkREhwtOMKtIv7Mio3Nq7Et
+   bnioO5utsQyAc93o9An/4xAyoCUZcGgMyda7rx3MN+ILL0A2xsSbYULth
+   re0QPjDDEZGmNT86XXrjn5ttNsv7HwsNCf6jKv7Mk0J04SfRXSU+XcATx
+   LcPrT1LTM81AIr4NePmTFE80ssEsoJGWoBy8nx2xZH8kkVNqsvBCsaRCq
+   Huo+LyFx7XaVU+UefT/VI7o1oJqZVI0Z3LDmVzpGUJLOqEjpiE4TsBmv3
+   JNZtQVZlLty45EgMJT6p0bqHVua08kHLjigSN3jdO/UURi/gQdC9PLDSH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="324137868"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="338151869"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:33:05 -0800
+   d="scan'208";a="324137868"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 04:03:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="653947214"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="626511902"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="653947214"
+   d="scan'208";a="626511902"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 07 Mar 2023 03:33:03 -0800
+  by orsmga003.jf.intel.com with ESMTP; 07 Mar 2023 04:03:03 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZVZ0-0001GJ-0s;
-	Tue, 07 Mar 2023 11:33:02 +0000
-Date: Tue, 7 Mar 2023 19:32:04 +0800
+	id 1pZW22-0001HB-2n;
+	Tue, 07 Mar 2023 12:03:02 +0000
+Date: Tue, 7 Mar 2023 20:02:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vipin Sharma <vipinsh@google.com>, seanjc@google.com,
-	pbonzini@redhat.com, bgardon@google.com, dmatlack@google.com
-Cc: oe-kbuild-all@lists.linux.dev, jmattson@google.com, mizhang@google.com,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Vipin Sharma <vipinsh@google.com>
-Subject: Re: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU
- page caches globally
-Message-ID: <202303071940.sFeQ4FpU-lkp@intel.com>
-References: <20230306224127.1689967-4-vipinsh@google.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Bean Huo <beanhuo@micron.com>
+Subject: drivers/ufs/host/ufs-hisi.c:561:34: warning: 'ufs_hisi_of_match'
+ defined but not used
+Message-ID: <202303071951.urH1A5m6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,71 +47,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306224127.1689967-4-vipinsh@google.com>
 
-Hi Vipin,
+Hi Bart,
 
-Thank you for the patch! Perhaps something to improve:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvmarm/next linus/master v6.3-rc1 next-20230307]
-[cannot apply to mst-vhost/linux-next kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vipin-Sharma/KVM-x86-mmu-Change-KVM-mmu-shrinker-to-no-op/20230307-064510
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230306224127.1689967-4-vipinsh%40google.com
-patch subject: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU page caches globally
-config: i386-randconfig-a003-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071940.sFeQ4FpU-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8ca09d5fa3549d142c2080a72a4c70ce389163cd
+commit: dd11376b9f1b73aca3f8c6eb541486bbb6996f05 scsi: ufs: Split the drivers/scsi/ufs directory
+date:   10 months ago
+config: x86_64-buildonly-randconfig-r003-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071951.urH1A5m6-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/511e837798da25063830276b8a3345c7601c6459
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vipin-Sharma/KVM-x86-mmu-Change-KVM-mmu-shrinker-to-no-op/20230307-064510
-        git checkout 511e837798da25063830276b8a3345c7601c6459
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dd11376b9f1b73aca3f8c6eb541486bbb6996f05
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dd11376b9f1b73aca3f8c6eb541486bbb6996f05
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/ufs/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071940.sFeQ4FpU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071951.urH1A5m6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/mmu.c:676: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Caller should hold mutex lock corresponding to cache, if available.
-   arch/x86/kvm/mmu/mmu.c:693: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Caller should hold mutex lock corresponding to kvm_mmu_memory_cache, if
-   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'kvm' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
-   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'slot' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
-   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'gfn_offset' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
-   arch/x86/kvm/mmu/mmu.c:1404: warning: Function parameter or member 'mask' not described in 'kvm_arch_mmu_enable_log_dirty_pt_masked'
+>> drivers/ufs/host/ufs-hisi.c:561:34: warning: 'ufs_hisi_of_match' defined but not used [-Wunused-const-variable=]
+     561 | static const struct of_device_id ufs_hisi_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~
 
 
-vim +676 arch/x86/kvm/mmu/mmu.c
+vim +/ufs_hisi_of_match +561 drivers/ufs/host/ufs-hisi.c
 
-   674	
-   675	/**
- > 676	 * Caller should hold mutex lock corresponding to cache, if available.
-   677	 */
-   678	static int mmu_topup_sp_memory_cache(struct kvm_mmu_memory_cache *cache,
-   679					     int min)
-   680	{
-   681		int orig_nobjs, r;
-   682	
-   683		orig_nobjs = cache->nobjs;
-   684		r = kvm_mmu_topup_memory_cache(cache, min);
-   685		if (orig_nobjs != cache->nobjs)
-   686			percpu_counter_add(&kvm_total_unused_cached_pages,
-   687					   (cache->nobjs - orig_nobjs));
-   688	
-   689		return r;
-   690	}
-   691	
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  560  
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05 @561  static const struct of_device_id ufs_hisi_of_match[] = {
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  562  	{ .compatible = "hisilicon,hi3660-ufs", .data = &ufs_hba_hi3660_vops },
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  563  	{ .compatible = "hisilicon,hi3670-ufs", .data = &ufs_hba_hi3670_vops },
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  564  	{},
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  565  };
+653fcb07d95eda drivers/scsi/ufs/ufs-hisi.c Manivannan Sadhasivam 2019-01-05  566  
+
+:::::: The code at line 561 was first introduced by commit
+:::::: 653fcb07d95eda58b72a5e715230b582c4d6d69e scsi: ufs: Add HI3670 SoC UFS driver support
+
+:::::: TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
