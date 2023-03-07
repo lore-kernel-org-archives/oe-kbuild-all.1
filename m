@@ -1,96 +1,350 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CA9BA4F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 20:18:11 +0000 (UTC)
-Received: by mail-pl1-f201.google.com with SMTP id lm13-20020a170903298d00b0019a8c8a13dfso8260659plb.16
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Mar 2023 12:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678220291;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TBy8uaZdLaA2vuEpvMEgc5Zol1R57/Lhpg4H0LtQutQ=;
-        b=ByZC/r9FYzZ656rX3fvn+gjr42ji69/Cfy2+ooWEMUrvz4vmNIW9llG1unN/7ELnfY
-         BXbMN9ie3M/crOH0EiVf4l/4WzvrEDI9Mwh7r4mGph9G3bGtNQL8WViFo0bqVyswjS3Z
-         1oBJSYQ4erwKC8WNXjepoNZRyH+oEspSK6vmd/gLPflV1t//Nex7efWiU3R6sgFJ87XB
-         hj52xTTpaJiPylk5c/gif2fm/iRQLjvU33EjHj+Hp4bAx0RKcd/Ljz0fcm9Z1JEZONGc
-         WLaomMpzYlfZsxlziiadmW5ZloKTf7tdg78kPNPXdyEfwxwlJQJGdzQNp1rLqu03sCET
-         wDHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678220291;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TBy8uaZdLaA2vuEpvMEgc5Zol1R57/Lhpg4H0LtQutQ=;
-        b=BFdXD1SDJEd/Nq4EbgvUEskz5Ln9N8CfEGM3VHnNACF175vhp5lAR2FqnS2Z1VjDRu
-         9AYm8EAUCjnaQ4Gb875ADVtWeVhhJnBKBC4kjpGYOR2W1QHSUd6VcStUlLd0ye95ovqW
-         Gw8U+EFylBqUZVt+G4TYMwoPOsxKx0f36rpVwmJPEqiG4tepLwSPRwN0bN9bVFiyuWOk
-         MGk6xa9NlZID2PlqaEkWAsNKz8VGaFu3QU2xAPWH0LB97bKHvNF7plOdPi+9kGckoh3S
-         o9QgG5w2Ts56+oD0JMnmdm9U1MZMZpzBj85BaflfEqog0IExIv2tLJM5Lxin3Mj1VHb+
-         HNxg==
-X-Gm-Message-State: AO0yUKVk65H/cHOV+GjSh2DCPL9x/yjQqFNojE5apigQCM4J34keHLXp
-	PJZiqNFqawll93+vw2OLrKcAhSKECZc=
-X-Google-Smtp-Source: AK7set+dALpfNS9d/EtiXblm62Tp/vh6zce1WOWL1zqGz0ympR4BwgAKhVJQwyU0j2wOGMyzfkI4/u3K1lU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:903:2581:b0:19a:8bc7:d814 with SMTP id
- jb1-20020a170903258100b0019a8bc7d814mr5975096plb.13.1678220290945; Tue, 07
- Mar 2023 12:18:10 -0800 (PST)
-Date: Tue, 7 Mar 2023 12:18:09 -0800
-In-Reply-To: <CAHVum0eW+AKoMt2nB=52cDpvoVHX1A4tHmdV-4f21hV49c4o8g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B93ABA4F;
+	Tue,  7 Mar 2023 20:23:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678220601; x=1709756601;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qI8CoqW2efVzO0YiakN72LxognMrZNMeakLCvojG/mU=;
+  b=UZp/KhMrVwJGS3q3Upi9Rw9FuXjGlAYtnPdB30CcMo8KbAcxGUVJpQ3f
+   w6G11L0BEPgLX0jL4JDz6iAC81NWsYS0IcUFfNW58b0ovttWZvtBsaV/q
+   sBOHxEvLpIXgnv68RWogJqQGvWXtHvr+RxuBNeccVh/7efgBHIFbW4e9X
+   xzc28WrnzRhpSW/fnH3CFOb4l5X6scdNAKIujd0ZAgPIPmXOQS9R3YNoq
+   qV766rjn6ikI8V6XICetqb+kgNPB9PCKYCmyNPyOwHL8N9VFNjZsZv6Cw
+   fstp3eZfVwVp2wdpzn9u5zrP0MqxKh5tn7BH85ZkiGHVITLjH8YO7XF67
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="338286555"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
+   d="scan'208";a="338286555"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 12:23:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="679088125"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
+   d="scan'208";a="679088125"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Mar 2023 12:23:18 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZdq9-0001Zb-1P;
+	Tue, 07 Mar 2023 20:23:17 +0000
+Date: Wed, 8 Mar 2023 04:23:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: heinzm@redhat.com, linux-raid@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ncroxon@redhat.com,
+	xni@redhat.com, dkeefe@redhat.com
+Subject: Re: [PATCH 06/34] md: move trailing statements to next line [ERROR]
+Message-ID: <202303080447.5GUM9IKU-lkp@intel.com>
+References: <12a6970ce1bf7489aa67a3c6d70438a48b8f8987.1678136717.git.heinzm@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20230306224127.1689967-4-vipinsh@google.com> <202303071940.sFeQ4FpU-lkp@intel.com>
- <CAHVum0eW+AKoMt2nB=52cDpvoVHX1A4tHmdV-4f21hV49c4o8g@mail.gmail.com>
-Message-ID: <ZAecAbOfknV1gS/t@google.com>
-Subject: Re: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU
- page caches globally
-From: Sean Christopherson <seanjc@google.com>
-To: Vipin Sharma <vipinsh@google.com>
-Cc: kernel test robot <lkp@intel.com>, pbonzini@redhat.com, bgardon@google.com, 
-	dmatlack@google.com, oe-kbuild-all@lists.linux.dev, jmattson@google.com, 
-	mizhang@google.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12a6970ce1bf7489aa67a3c6d70438a48b8f8987.1678136717.git.heinzm@redhat.com>
 
-On Tue, Mar 07, 2023, Vipin Sharma wrote:
-> On Tue, Mar 7, 2023 at 3:33=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
-> >
-> > Hi Vipin,
-> >
-> > Thank you for the patch! Perhaps something to improve:
-> >
-> > [auto build test WARNING on kvm/queue]
-> > [also build test WARNING on kvmarm/next linus/master v6.3-rc1 next-2023=
-0307]
-> > [cannot apply to mst-vhost/linux-next kvm/linux-next]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> > >> arch/x86/kvm/mmu/mmu.c:676: warning: This comment starts with '/**',=
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.r=
-st
->=20
-> > vim +676 arch/x86/kvm/mmu/mmu.c
-> >
-> >    674
-> >    675  /**
-> >  > 676   * Caller should hold mutex lock corresponding to cache, if ava=
-ilable.
-> >    677   */
->=20
-> I will fix it in the next version.
+Hi,
 
-Don't bother reworking the code/comment, I will likely have feedback that r=
-esults
-in the demise of the comment altogether (comments that say "lock X must be =
-held"
-are almost always flawed).
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on song-md/md-next]
+[also build test ERROR on linus/master v6.3-rc1 next-20230307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/heinzm-redhat-com/md-fix-required-prohibited-spaces-ERROR/20230307-053327
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+patch link:    https://lore.kernel.org/r/12a6970ce1bf7489aa67a3c6d70438a48b8f8987.1678136717.git.heinzm%40redhat.com
+patch subject: [PATCH 06/34] md: move trailing statements to next line [ERROR]
+config: i386-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230308/202303080447.5GUM9IKU-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0ad2607399ded916c63c96e5e3ac18f74e8a74d2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review heinzm-redhat-com/md-fix-required-prohibited-spaces-ERROR/20230307-053327
+        git checkout 0ad2607399ded916c63c96e5e3ac18f74e8a74d2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303080447.5GUM9IKU-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/md/md.c:7533:10: error: label at end of compound statement: expected statement
+           default:
+                   ^
+                    ;
+   1 error generated.
+
+
+vim +7533 drivers/md/md.c
+
+  7503	
+  7504	static int md_ioctl(struct block_device *bdev, fmode_t mode,
+  7505				unsigned int cmd, unsigned long arg)
+  7506	{
+  7507		int err = 0;
+  7508		void __user *argp = (void __user *)arg;
+  7509		struct mddev *mddev = NULL;
+  7510		bool did_set_md_closing = false;
+  7511	
+  7512		if (!md_ioctl_valid(cmd))
+  7513			return -ENOTTY;
+  7514	
+  7515		switch (cmd) {
+  7516		case RAID_VERSION:
+  7517		case GET_ARRAY_INFO:
+  7518		case GET_DISK_INFO:
+  7519			break;
+  7520		default:
+  7521			if (!capable(CAP_SYS_ADMIN))
+  7522				return -EACCES;
+  7523		}
+  7524	
+  7525		/*
+  7526		 * Commands dealing with the RAID driver but not any
+  7527		 * particular array:
+  7528		 */
+  7529		switch (cmd) {
+  7530		case RAID_VERSION:
+  7531			err = get_version(argp);
+  7532			goto out;
+> 7533		default:
+  7534		}
+  7535	
+  7536		/*
+  7537		 * Commands creating/starting a new array:
+  7538		 */
+  7539	
+  7540		mddev = bdev->bd_disk->private_data;
+  7541	
+  7542		if (!mddev) {
+  7543			BUG();
+  7544			goto out;
+  7545		}
+  7546	
+  7547		/* Some actions do not requires the mutex */
+  7548		switch (cmd) {
+  7549		case GET_ARRAY_INFO:
+  7550			if (!mddev->raid_disks && !mddev->external)
+  7551				err = -ENODEV;
+  7552			else
+  7553				err = get_array_info(mddev, argp);
+  7554			goto out;
+  7555	
+  7556		case GET_DISK_INFO:
+  7557			if (!mddev->raid_disks && !mddev->external)
+  7558				err = -ENODEV;
+  7559			else
+  7560				err = get_disk_info(mddev, argp);
+  7561			goto out;
+  7562	
+  7563		case SET_DISK_FAULTY:
+  7564			err = set_disk_faulty(mddev, new_decode_dev(arg));
+  7565			goto out;
+  7566	
+  7567		case GET_BITMAP_FILE:
+  7568			err = get_bitmap_file(mddev, argp);
+  7569			goto out;
+  7570	
+  7571		}
+  7572	
+  7573		if (cmd == ADD_NEW_DISK || cmd == HOT_ADD_DISK)
+  7574			flush_rdev_wq(mddev);
+  7575	
+  7576		if (cmd == HOT_REMOVE_DISK)
+  7577			/* need to ensure recovery thread has run */
+  7578			wait_event_interruptible_timeout(mddev->sb_wait,
+  7579							 !test_bit(MD_RECOVERY_NEEDED,
+  7580								   &mddev->recovery),
+  7581							 msecs_to_jiffies(5000));
+  7582		if (cmd == STOP_ARRAY || cmd == STOP_ARRAY_RO) {
+  7583			/* Need to flush page cache, and ensure no-one else opens
+  7584			 * and writes
+  7585			 */
+  7586			mutex_lock(&mddev->open_mutex);
+  7587			if (mddev->pers && atomic_read(&mddev->openers) > 1) {
+  7588				mutex_unlock(&mddev->open_mutex);
+  7589				err = -EBUSY;
+  7590				goto out;
+  7591			}
+  7592			if (test_and_set_bit(MD_CLOSING, &mddev->flags)) {
+  7593				mutex_unlock(&mddev->open_mutex);
+  7594				err = -EBUSY;
+  7595				goto out;
+  7596			}
+  7597			did_set_md_closing = true;
+  7598			mutex_unlock(&mddev->open_mutex);
+  7599			sync_blockdev(bdev);
+  7600		}
+  7601		err = mddev_lock(mddev);
+  7602		if (err) {
+  7603			pr_debug("md: ioctl lock interrupted, reason %d, cmd %d\n",
+  7604				 err, cmd);
+  7605			goto out;
+  7606		}
+  7607	
+  7608		if (cmd == SET_ARRAY_INFO) {
+  7609			err = __md_set_array_info(mddev, argp);
+  7610			goto unlock;
+  7611		}
+  7612	
+  7613		/*
+  7614		 * Commands querying/configuring an existing array:
+  7615		 */
+  7616		/* if we are not initialised yet, only ADD_NEW_DISK, STOP_ARRAY,
+  7617		 * RUN_ARRAY, and GET_ and SET_BITMAP_FILE are allowed */
+  7618		if ((!mddev->raid_disks && !mddev->external)
+  7619		    && cmd != ADD_NEW_DISK && cmd != STOP_ARRAY
+  7620		    && cmd != RUN_ARRAY && cmd != SET_BITMAP_FILE
+  7621		    && cmd != GET_BITMAP_FILE) {
+  7622			err = -ENODEV;
+  7623			goto unlock;
+  7624		}
+  7625	
+  7626		/*
+  7627		 * Commands even a read-only array can execute:
+  7628		 */
+  7629		switch (cmd) {
+  7630		case RESTART_ARRAY_RW:
+  7631			err = restart_array(mddev);
+  7632			goto unlock;
+  7633	
+  7634		case STOP_ARRAY:
+  7635			err = do_md_stop(mddev, 0, bdev);
+  7636			goto unlock;
+  7637	
+  7638		case STOP_ARRAY_RO:
+  7639			err = md_set_readonly(mddev, bdev);
+  7640			goto unlock;
+  7641	
+  7642		case HOT_REMOVE_DISK:
+  7643			err = hot_remove_disk(mddev, new_decode_dev(arg));
+  7644			goto unlock;
+  7645	
+  7646		case ADD_NEW_DISK:
+  7647			/* We can support ADD_NEW_DISK on read-only arrays
+  7648			 * only if we are re-adding a preexisting device.
+  7649			 * So require mddev->pers and MD_DISK_SYNC.
+  7650			 */
+  7651			if (mddev->pers) {
+  7652				mdu_disk_info_t info;
+  7653				if (copy_from_user(&info, argp, sizeof(info)))
+  7654					err = -EFAULT;
+  7655				else if (!(info.state & (1<<MD_DISK_SYNC)))
+  7656					/* Need to clear read-only for this */
+  7657					break;
+  7658				else
+  7659					err = md_add_new_disk(mddev, &info);
+  7660				goto unlock;
+  7661			}
+  7662			break;
+  7663		}
+  7664	
+  7665		/*
+  7666		 * The remaining ioctls are changing the state of the
+  7667		 * superblock, so we do not allow them on read-only arrays.
+  7668		 */
+  7669		if (!md_is_rdwr(mddev) && mddev->pers) {
+  7670			if (mddev->ro != MD_AUTO_READ) {
+  7671				err = -EROFS;
+  7672				goto unlock;
+  7673			}
+  7674			mddev->ro = MD_RDWR;
+  7675			sysfs_notify_dirent_safe(mddev->sysfs_state);
+  7676			set_bit(MD_RECOVERY_NEEDED, &mddev->recovery);
+  7677			/* mddev_unlock will wake thread */
+  7678			/* If a device failed while we were read-only, we
+  7679			 * need to make sure the metadata is updated now.
+  7680			 */
+  7681			if (test_bit(MD_SB_CHANGE_DEVS, &mddev->sb_flags)) {
+  7682				mddev_unlock(mddev);
+  7683				wait_event(mddev->sb_wait,
+  7684					   !test_bit(MD_SB_CHANGE_DEVS, &mddev->sb_flags) &&
+  7685					   !test_bit(MD_SB_CHANGE_PENDING, &mddev->sb_flags));
+  7686				mddev_lock_nointr(mddev);
+  7687			}
+  7688		}
+  7689	
+  7690		switch (cmd) {
+  7691		case ADD_NEW_DISK:
+  7692		{
+  7693			mdu_disk_info_t info;
+  7694			if (copy_from_user(&info, argp, sizeof(info)))
+  7695				err = -EFAULT;
+  7696			else
+  7697				err = md_add_new_disk(mddev, &info);
+  7698			goto unlock;
+  7699		}
+  7700	
+  7701		case CLUSTERED_DISK_NACK:
+  7702			if (mddev_is_clustered(mddev))
+  7703				md_cluster_ops->new_disk_ack(mddev, false);
+  7704			else
+  7705				err = -EINVAL;
+  7706			goto unlock;
+  7707	
+  7708		case HOT_ADD_DISK:
+  7709			err = hot_add_disk(mddev, new_decode_dev(arg));
+  7710			goto unlock;
+  7711	
+  7712		case RUN_ARRAY:
+  7713			err = do_md_run(mddev);
+  7714			goto unlock;
+  7715	
+  7716		case SET_BITMAP_FILE:
+  7717			err = set_bitmap_file(mddev, (int)arg);
+  7718			goto unlock;
+  7719	
+  7720		default:
+  7721			err = -EINVAL;
+  7722			goto unlock;
+  7723		}
+  7724	
+  7725	unlock:
+  7726		if (mddev->hold_active == UNTIL_IOCTL &&
+  7727		    err != -EINVAL)
+  7728			mddev->hold_active = 0;
+  7729		mddev_unlock(mddev);
+  7730	out:
+  7731		if (did_set_md_closing)
+  7732			clear_bit(MD_CLOSING, &mddev->flags);
+  7733		return err;
+  7734	}
+  7735	#ifdef CONFIG_COMPAT
+  7736	static int md_compat_ioctl(struct block_device *bdev, fmode_t mode,
+  7737			    unsigned int cmd, unsigned long arg)
+  7738	{
+  7739		switch (cmd) {
+  7740		case HOT_REMOVE_DISK:
+  7741		case HOT_ADD_DISK:
+  7742		case SET_DISK_FAULTY:
+  7743		case SET_BITMAP_FILE:
+  7744			/* These take in integer arg, do not convert */
+  7745			break;
+  7746		default:
+  7747			arg = (unsigned long)compat_ptr(arg);
+  7748			break;
+  7749		}
+  7750	
+  7751		return md_ioctl(bdev, mode, cmd, arg);
+  7752	}
+  7753	#endif /* CONFIG_COMPAT */
+  7754	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
