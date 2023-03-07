@@ -1,44 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F496FC5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 13:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4636FC5;
+	Tue,  7 Mar 2023 13:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678194909; x=1709730909;
+  t=1678195524; x=1709731524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KMD+7nISHYDsimyFeL3XOVVSYfDFAzKU6izTpU0r/s4=;
-  b=G0A49716Rq4YUTMKD8hQLDBUmCXy4XsYIYVkfWTmnh/d2c/vNTmyylgB
-   zf05am0vCFf9PL6gYgmlDCh+v+fBwxjL3kC6fDvUm7OfazOE/Mr79Bml3
-   LFwDH+OrhgFbZedVlFyuMTwQ3zA02TcYJxDa79hzWokYmZ9hsSuqVyM1I
-   r76I30L3t6Y6AgtBWJsrPPKG3S5RNOUTI02p52sT2kprHwbFQ41ZQjOYC
-   t7LE3GUftgTkkJzsnrkJlAPfzZkoymtTflOpmY9TcR0TL/f8wCXcV8wRx
-   X0bQhCycWMdw7lWKt1lnjg8epVADUkNyElh9SsRTlC1VcL6AjXB0qK6xR
+  bh=dWmhU6GENjWUmkSVfiutlm0bMIv2BAPjUQskhfzS3s4=;
+  b=B1gzdtIA6x0BTGN/Kgz+Ijoom1rQLMqKUgNOCx7VgPPBU+OwBbyvV/dW
+   NRFRiZ8/940gKSra5ggDnTO4MBukP2y2BoTGIDKoLIJ+++7qWKAUDXl0l
+   6EyDW+1xBNem77fvgKpL7X89awRD3yUBV4Ws4wqnEZQF4tf+aRUm3si8v
+   nnVIiOM59Y7utZWE4I9/3kEFP9gUTHlmt3a/MLPrgqYzHbwDH5DL85sKM
+   5CVYAPqeyfK2mSsTAlW/LdVuhXrln9kfjRwHPxJvdYFk1Nrmpz337UXaI
+   prj68xjfbshZYr6fESPV5h2msHw8+ee+ReWJcsUSyqGgpRJ83GHTDn8f8
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319676670"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="319676670"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 05:15:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="709050434"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334562378"
 X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="709050434"
+   d="scan'208";a="334562378"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 05:25:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="765639366"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
+   d="scan'208";a="765639366"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Mar 2023 05:15:07 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Mar 2023 05:25:07 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZX9m-0001LO-26;
-	Tue, 07 Mar 2023 13:15:06 +0000
-Date: Tue, 7 Mar 2023 21:14:16 +0800
+	id 1pZXJS-0001Lr-2s;
+	Tue, 07 Mar 2023 13:25:06 +0000
+Date: Tue, 7 Mar 2023 21:24:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
 	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
 Subject: [ammarfaizi2-block:viro/vfs/work.fd 7/8]
- kernel/cgroup/cgroup.c:6861:13: error: incompatible types when assigning to
- type 'struct fd *' from type 'struct fd'
-Message-ID: <202303072110.O557Zf2W-lkp@intel.com>
+ kernel/cgroup/cgroup.c:6861:4: error: assigning to 'struct fd *' from
+ incompatible type 'struct fd'
+Message-ID: <202303072147.0eID82fX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,52 +52,122 @@ Content-Disposition: inline
 tree:   https://github.com/ammarfaizi2/linux-block viro/vfs/work.fd
 head:   792be394ebd3f30e973319f4a8019c294ca02ce2
 commit: 96416baecdcc05aa7bfe16986dd9955e613ed808 [7/8] cgroup_get_from_fd(): switch to fdget_raw()
-config: riscv-buildonly-randconfig-r006-20230305 (https://download.01.org/0day-ci/archive/20230307/202303072110.O557Zf2W-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+config: s390-randconfig-r034-20230305 (https://download.01.org/0day-ci/archive/20230307/202303072147.0eID82fX-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://github.com/ammarfaizi2/linux-block/commit/96416baecdcc05aa7bfe16986dd9955e613ed808
         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
         git fetch --no-tags ammarfaizi2-block viro/vfs/work.fd
         git checkout 96416baecdcc05aa7bfe16986dd9955e613ed808
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/cgroup/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303072110.O557Zf2W-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303072147.0eID82fX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/cgroup/cgroup.c: In function 'cgroup_v1v2_get_from_fd':
->> kernel/cgroup/cgroup.c:6861:13: error: incompatible types when assigning to type 'struct fd *' from type 'struct fd'
-    6861 |         f = fdget_raw(fd);
-         |             ^~~~~~~~~
->> kernel/cgroup/cgroup.c:6862:15: error: 'f' is a pointer; did you mean to use '->'?
-    6862 |         if (!f.file)
-         |               ^
-         |               ->
-   kernel/cgroup/cgroup.c:6865:43: error: 'f' is a pointer; did you mean to use '->'?
-    6865 |         cgrp = cgroup_v1v2_get_from_file(f.file);
-         |                                           ^
-         |                                           ->
->> kernel/cgroup/cgroup.c:6866:15: error: incompatible type for argument 1 of 'fdput'
-    6866 |         fdput(f);
-         |               ^
-         |               |
-         |               struct fd *
-   In file included from include/linux/kernel_read_file.h:5,
-                    from include/linux/security.h:26,
-                    from include/linux/fs_context.h:14,
-                    from include/linux/fs_parser.h:11,
-                    from kernel/cgroup/cgroup-internal.h:10,
-                    from kernel/cgroup/cgroup.c:31:
-   include/linux/file.h:42:36: note: expected 'struct fd' but argument is of type 'struct fd *'
-      42 | static inline void fdput(struct fd fd)
-         |                          ~~~~~~~~~~^~
+   In file included from kernel/cgroup/cgroup.c:33:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from kernel/cgroup/cgroup.c:33:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from kernel/cgroup/cgroup.c:33:
+   In file included from include/linux/bpf-cgroup.h:11:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/cgroup/cgroup.c:6861:4: error: assigning to 'struct fd *' from incompatible type 'struct fd'
+           f = fdget_raw(fd);
+             ^ ~~~~~~~~~~~~~
+>> kernel/cgroup/cgroup.c:6862:8: error: member reference type 'struct fd *' is a pointer; did you mean to use '->'?
+           if (!f.file)
+                ~^
+                 ->
+   kernel/cgroup/cgroup.c:6865:36: error: member reference type 'struct fd *' is a pointer; did you mean to use '->'?
+           cgrp = cgroup_v1v2_get_from_file(f.file);
+                                            ~^
+                                             ->
+>> kernel/cgroup/cgroup.c:6866:8: error: passing 'struct fd *' to parameter of incompatible type 'struct fd'; dereference with *
+           fdput(f);
+                 ^
+                 *
+   include/linux/file.h:42:36: note: passing argument to parameter 'fd' here
+   static inline void fdput(struct fd fd)
+                                      ^
+   12 warnings and 4 errors generated.
 
 
 vim +6861 kernel/cgroup/cgroup.c
