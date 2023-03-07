@@ -1,45 +1,53 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657CD7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 00:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C107C;
+	Tue,  7 Mar 2023 00:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678148202; x=1709684202;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bs2mzqrGbeNSdRPbv1/u6smieTzLNw5EOZLYQXyJbP8=;
-  b=eEW9q8x1YP/tomXzQnyxpmjZJq/UJAjo8qJZmDtGykxpr5enyBbvgnBx
-   5Jm9OXp4/YmE/vH/nDIUFyoHoZyciSNZSZiht/UAX6Bs9/LscqKPgGbUN
-   B+fNLMuU6lVuIk3VCtt5RRDw/wuTNkP5XmlEPpdB0yadZwqJIX+VhMJq7
-   /kHRQb3pXEfO20rCTQt4LuXzH3tglQ4DkN2Cd42tqGiygoifXe2nvcNXP
-   HxTmpQ2ZFDTLWWQb9lCbEUz39x5R2Q5SV71fgJaEWXEYpECO0MNWFgwWZ
-   T8zkPYyXzg9PQ8uyJDTSkNIBFu4FcVgVrqB3P76BIYka9xXL8IOj0V7D1
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="315373639"
+  t=1678148866; x=1709684866;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qU7r/0l12H9VC3ijVZNrTHRPP+flag7/E09IYJm8+eY=;
+  b=Z3m+YfWWgQmfoQPBGZ6CwBRD5lPnKp/7+Nv7S2rZGAwCo3HQf3niiVU1
+   FrPJ+hKyv9zgyLgbRRTSlJ0vTKEUT8yMkIvToLrHADv38ldX+7O9l5yW9
+   hIFUuRm7NxwuB3WApm6xdvZoWxQX/UvC7R9yFkmWIoFJpgZZlfMgO2maQ
+   f1QZlpLVExxa5n8sCxv3JSxQzg31Af5dwYAuavlhixmD1EQtleQX1Hnn3
+   DH2ajgGOKnisnvtNt1zhjv322GoX8BKaaFu1jZYRk7NmY3BhPg7aHOUnk
+   GW9ax7aikDv/1kF/i0Fu9Xyg0ZZKPSOCH/cMKsoZpWllrzaPjHLOsk1nZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319548328"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="315373639"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 16:16:41 -0800
+   d="scan'208";a="319548328"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 16:27:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="678710293"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="706619626"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="678710293"
+   d="scan'208";a="706619626"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Mar 2023 16:16:40 -0800
+  by orsmga008.jf.intel.com with ESMTP; 06 Mar 2023 16:27:41 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZL0R-0000l5-2W;
-	Tue, 07 Mar 2023 00:16:39 +0000
-Date: Tue, 7 Mar 2023 08:16:28 +0800
+	id 1pZLB6-0000lb-0A;
+	Tue, 07 Mar 2023 00:27:40 +0000
+Date: Tue, 7 Mar 2023 08:26:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: sound/soc/qcom/lpass-sc7180.c:287:34: warning:
- 'sc7180_lpass_cpu_device_id' defined but not used
-Message-ID: <202303070842.EsU1F4B6-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+	paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
+	pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
+	s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
+	thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
+	spock@gentoo.org, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com, geert+renesas@glider.be,
+	corbet@lwn.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
+Message-ID: <202303070859.8Y5URjpT-lkp@intel.com>
+References: <20230306160016.4459-98-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +56,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230306160016.4459-98-tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: 08a70a6fab2cb0db295184a63ef6f25a4a43398e FROMGIT: ASoC: qcom: sc7180: Add machine driver for sound card registration
-date:   2 years, 3 months ago
-config: x86_64-buildonly-randconfig-r003-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070842.EsU1F4B6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Thomas,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to deller-parisc/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.3-rc1 next-20230306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230306160016.4459-98-tzimmermann%40suse.de
+patch subject: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
+config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070859.8Y5URjpT-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=08a70a6fab2cb0db295184a63ef6f25a4a43398e
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout 08a70a6fab2cb0db295184a63ef6f25a4a43398e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+        git checkout 819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070842.EsU1F4B6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070859.8Y5URjpT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/qcom/lpass-sc7180.c:287:34: warning: 'sc7180_lpass_cpu_device_id' defined but not used [-Wunused-const-variable=]
-     287 | static const struct of_device_id sc7180_lpass_cpu_device_id[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/video/fbdev/vt8623fb.c:938:4: error: 'break' statement not in loop or switch statement
+                           break;
+                           ^
+   drivers/video/fbdev/vt8623fb.c:940:4: error: 'break' statement not in loop or switch statement
+                           break;
+                           ^
+   2 errors generated.
 
 
-vim +/sc7180_lpass_cpu_device_id +287 sound/soc/qcom/lpass-sc7180.c
+vim +/break +938 drivers/video/fbdev/vt8623fb.c
 
-24caf8d9eb108c Ajit Pandey      2020-08-14  286  
-24caf8d9eb108c Ajit Pandey      2020-08-14 @287  static const struct of_device_id sc7180_lpass_cpu_device_id[] = {
-24caf8d9eb108c Ajit Pandey      2020-08-14  288  	{.compatible = "qcom,sc7180-lpass-cpu", .data = &sc7180_data},
-24caf8d9eb108c Ajit Pandey      2020-08-14  289  	{}
-24caf8d9eb108c Ajit Pandey      2020-08-14  290  };
-dcde34c47d8f7b Douglas Anderson 2020-09-16  291  MODULE_DEVICE_TABLE(of, sc7180_lpass_cpu_device_id);
-24caf8d9eb108c Ajit Pandey      2020-08-14  292  
-
-:::::: The code at line 287 was first introduced by commit
-:::::: 24caf8d9eb108c52e144bcc7af94bb1edcb70700 ASoC: qcom: lpass-sc7180: Add platform driver for lpass audio
-
-:::::: TO: Ajit Pandey <ajitp@codeaurora.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   924	
+   925		if (fb_modesetting_disabled("vt8623fb"))
+   926			return -ENODEV;
+   927	
+   928	#ifndef MODULE
+   929		if (fb_get_options("vt8623fb", &option))
+   930			return -ENODEV;
+   931	
+   932		if (option && *option) {
+   933			static char mode_option_buf[256];
+   934			int ret;
+   935	
+   936			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", option);
+   937			if (WARN(ret < 0, "vt8623fb: ignoring invalid option, ret=%d\n", ret))
+ > 938				break;
+   939			if (WARN(ret >= sizeof(mode_option_buf), "vt8623fb: option too long\n"))
+   940				break;
+   941			mode_option = mode_option_buf;
+   942		}
+   943	#endif
+   944	
+   945		pr_debug("vt8623fb: initializing\n");
+   946		return pci_register_driver(&vt8623fb_pci_driver);
+   947	}
+   948	
 
 -- 
 0-DAY CI Kernel Test Service
