@@ -1,45 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F80833C9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 10:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058D336E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 10:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678184403; x=1709720403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IeOZrv2rZfXcxHVHlPtmO/AS78euuxdbkMG20gb8Gbo=;
-  b=ID2JOknG/QWyXboNfJOAB7/lRhj8KHcnjtFswIv8jB0hQSVBUihXVI1x
-   xpb44JlB2xglnKbITXGXFMpaRjls2te6U1jmXn48E4SQ+eLPNYpGOsabv
-   rNWjmkoulXcabZZTmomDl7GBmz/GPcW4OUWFF8RQFO0qKXCKs9ilXN4mg
-   4lMVdY/o6GT4KXalXjziNAisYq0iaEqR61V8utVR2uGi8GJ8Mvh6Oa8H/
-   rMoedAJpDC9hu+HjVNc3+wJMwLMe1cTfYSI0Hd6hXrYkNe60zJRVKUrdO
-   19ydPGnoahyc7IzBlQCt6FAJeLtZHvuDnmD6vvTvZwMyFZFhNtRXyf4vN
+  t=1678185003; x=1709721003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FgUgZqB2QrN2PjTL2FeLW4bRoJebc7UmfhjGtV9IgrM=;
+  b=lskbwai7OKUMYUhD+/wXyWre27HubxQf6RJBXjYPOqL8yFAp1f9QwO94
+   Wb8lRjeOHHLPsfTL5Fd9p9bK4qSISwz5e/t+7lpRC8/LbrwaYUnra7eTs
+   VW5TdE0XhfMxz3kRrIygu6eMcJSYUISuj/yC/Gn8xLVgm/5oOusrB3lgy
+   pm5JlHt7vvcyZtzzE+nsUrTEIik1nVXMU6nPmbp3rOi0/HS4oqQx/a/Tv
+   7NHCl8vAUGIWTBdzUpOqfi7v06G216KrfFmCVvbcoA767N1NWmJ+vxoyQ
+   JPAU9uRfDBGOfCFDPKA4XZ3h4wRNItnjkzCAGFUibCBabKRtPgBK13cs2
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334531483"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="363441821"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="334531483"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 02:20:02 -0800
+   d="scan'208";a="363441821"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 02:30:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="669815361"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="1005815846"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="669815361"
+   d="scan'208";a="1005815846"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 07 Mar 2023 02:20:00 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 07 Mar 2023 02:30:01 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZUQJ-0001D5-3B;
-	Tue, 07 Mar 2023 10:19:59 +0000
-Date: Tue, 7 Mar 2023 18:19:39 +0800
+	id 1pZUa0-0001DX-0x;
+	Tue, 07 Mar 2023 10:30:00 +0000
+Date: Tue, 7 Mar 2023 18:30:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 3442/9999] vmlinux.o: warning: objtool:
- enter_from_user_mode()+0x4e: call to on_thread_stack() leaves .noinstr.text
- section
-Message-ID: <202303071811.9A3wRip6-lkp@intel.com>
+To: Chen Jun <chenjun102@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] mm/slub: Reduce memory consumption in extreme scenarios
+Message-ID: <202303071836.MYJQsNfz-lkp@intel.com>
+References: <20230307082811.120774-1-chenjun102@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,100 +46,287 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230307082811.120774-1-chenjun102@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   d9b4a0c83a2d405dd85bf32d672686146b9bedff
-commit: 0853f905e48b92dcf27a8d931104c9aac10de191 [3442/9999] x86/cpu: Elide KCSAN for cpu_has() and friends
-config: x86_64-buildonly-randconfig-r005-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071811.9A3wRip6-lkp@intel.com/config)
+Hi Chen,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Jun/mm-slub-Reduce-memory-consumption-in-extreme-scenarios/20230307-163216
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230307082811.120774-1-chenjun102%40huawei.com
+patch subject: [RFC] mm/slub: Reduce memory consumption in extreme scenarios
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230307/202303071836.MYJQsNfz-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=0853f905e48b92dcf27a8d931104c9aac10de191
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout 0853f905e48b92dcf27a8d931104c9aac10de191
+        # https://github.com/intel-lab-lkp/linux/commit/d00decb3ccc45b514f25df0d3775153a933ffaa9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chen-Jun/mm-slub-Reduce-memory-consumption-in-extreme-scenarios/20230307-163216
+        git checkout d00decb3ccc45b514f25df0d3775153a933ffaa9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071811.9A3wRip6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071836.MYJQsNfz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   vmlinux.o: warning: objtool: __sev_es_nmi_complete()+0x70: call to __phys_addr_nodebug() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: enter_from_user_mode()+0x4e: call to on_thread_stack() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: syscall_enter_from_user_mode()+0x53: call to on_thread_stack() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare()+0x4e: call to on_thread_stack() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: irqentry_enter_from_user_mode()+0x4e: call to on_thread_stack() leaves .noinstr.text section
-   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   ld: warning: .tmp_vmlinux.kallsyms1.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux.kallsyms2 has a LOAD segment with RWX permissions
-   ld: warning: .tmp_vmlinux.kallsyms2.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: vmlinux has a LOAD segment with RWX permissions
+   mm/slub.c: In function '___slab_alloc':
+   mm/slub.c:3188:69: error: 'try_thisnode' undeclared (first use in this function); did you mean 'try_thisndoe'?
+    3188 |         if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode)
+         |                                                                     ^~~~~~~~~~~~
+         |                                                                     try_thisndoe
+   mm/slub.c:3188:69: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/slub.c:3072:13: warning: unused variable 'try_thisndoe' [-Wunused-variable]
+    3072 |         int try_thisndoe = 0;
+         |             ^~~~~~~~~~~~
 
 
-objdump-func vmlinux.o enter_from_user_mode:
-0000 0000000000001b20 <enter_from_user_mode>:
-0000     1b20:	53                   	push   %rbx
-0001     1b21:	48 89 fb             	mov    %rdi,%rbx
-0004     1b24:	9c                   	pushf
-0005     1b25:	5a                   	pop    %rdx
-0006     1b26:	48 8b 0d 00 00 00 00 	mov    0x0(%rip),%rcx        # 1b2d <enter_from_user_mode+0xd>	1b29: R_X86_64_PC32	boot_cpu_data+0x2c
-000d     1b2d:	b8 00 44 04 00       	mov    $0x44400,%eax
-0012     1b32:	48 0f ba e1 34       	bt     $0x34,%rcx
-0017     1b37:	72 1f                	jb     1b58 <enter_from_user_mode+0x38>
-0019     1b39:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 1b40 <enter_from_user_mode+0x20>	1b3c: R_X86_64_PC32	boot_cpu_data+0x2c
-0020     1b40:	48 c1 e8 10          	shr    $0x10,%rax
-0024     1b44:	83 e0 01             	and    $0x1,%eax
-0027     1b47:	3c 01                	cmp    $0x1,%al
-0029     1b49:	48 19 c0             	sbb    %rax,%rax
-002c     1b4c:	48 25 00 00 fc ff    	and    $0xfffffffffffc0000,%rax
-0032     1b52:	48 05 00 44 04 00    	add    $0x44400,%rax
-0038     1b58:	48 85 c2             	test   %rax,%rdx
-003b     1b5b:	74 04                	je     1b61 <enter_from_user_mode+0x41>
-003d     1b5d:	90                   	nop
-003e     1b5e:	0f 0b                	ud2
-0040     1b60:	90                   	nop
-0041     1b61:	f6 83 88 00 00 00 03 	testb  $0x3,0x88(%rbx)
-0048     1b68:	75 04                	jne    1b6e <enter_from_user_mode+0x4e>
-004a     1b6a:	90                   	nop
-004b     1b6b:	0f 0b                	ud2
-004d     1b6d:	90                   	nop
-004e     1b6e:	e8 00 00 00 00       	call   1b73 <enter_from_user_mode+0x53>	1b6f: R_X86_64_PC32	.text+0x181ac8
-0053     1b73:	84 c0                	test   %al,%al
-0055     1b75:	75 04                	jne    1b7b <enter_from_user_mode+0x5b>
-0057     1b77:	90                   	nop
-0058     1b78:	0f 0b                	ud2
-005a     1b7a:	90                   	nop
-005b     1b7b:	48 8b 3c 25 00 00 00 00 	mov    0x0,%rdi	1b7f: R_X86_64_32S	current_task
-0063     1b83:	e8 00 00 00 00       	call   1b88 <enter_from_user_mode+0x68>	1b84: R_X86_64_PC32	.text+0x181ae4
-0068     1b88:	48 05 58 3f 00 00    	add    $0x3f58,%rax
-006e     1b8e:	48 39 c3             	cmp    %rax,%rbx
-0071     1b91:	74 04                	je     1b97 <enter_from_user_mode+0x77>
-0073     1b93:	90                   	nop
-0074     1b94:	0f 0b                	ud2
-0076     1b96:	90                   	nop
-0077     1b97:	e8 00 00 00 00       	call   1b9c <enter_from_user_mode+0x7c>	1b98: R_X86_64_PC32	.text+0x181add
-007c     1b9c:	84 c0                	test   %al,%al
-007e     1b9e:	74 0d                	je     1bad <enter_from_user_mode+0x8d>
-0080     1ba0:	e8 00 00 00 00       	call   1ba5 <enter_from_user_mode+0x85>	1ba1: R_X86_64_PC32	.text+0x181ae0
-0085     1ba5:	ff c8                	dec    %eax
-0087     1ba7:	74 04                	je     1bad <enter_from_user_mode+0x8d>
-0089     1ba9:	90                   	nop
-008a     1baa:	0f 0b                	ud2
-008c     1bac:	90                   	nop
-008d     1bad:	90                   	nop
-008e     1bae:	90                   	nop
-008f     1baf:	5b                   	pop    %rbx
-0090     1bb0:	c3                   	ret
+vim +/try_thisndoe +3072 mm/slub.c
+
+  3045	
+  3046	/*
+  3047	 * Slow path. The lockless freelist is empty or we need to perform
+  3048	 * debugging duties.
+  3049	 *
+  3050	 * Processing is still very fast if new objects have been freed to the
+  3051	 * regular freelist. In that case we simply take over the regular freelist
+  3052	 * as the lockless freelist and zap the regular freelist.
+  3053	 *
+  3054	 * If that is not working then we fall back to the partial lists. We take the
+  3055	 * first element of the freelist as the object to allocate now and move the
+  3056	 * rest of the freelist to the lockless freelist.
+  3057	 *
+  3058	 * And if we were unable to get a new slab from the partial slab lists then
+  3059	 * we need to allocate a new slab. This is the slowest path since it involves
+  3060	 * a call to the page allocator and the setup of a new slab.
+  3061	 *
+  3062	 * Version of __slab_alloc to use when we know that preemption is
+  3063	 * already disabled (which is the case for bulk allocation).
+  3064	 */
+  3065	static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+  3066				  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+  3067	{
+  3068		void *freelist;
+  3069		struct slab *slab;
+  3070		unsigned long flags;
+  3071		struct partial_context pc;
+> 3072		int try_thisndoe = 0;
+  3073	
+  3074		stat(s, ALLOC_SLOWPATH);
+  3075	
+  3076	reread_slab:
+  3077	
+  3078		slab = READ_ONCE(c->slab);
+  3079		if (!slab) {
+  3080			/*
+  3081			 * if the node is not online or has no normal memory, just
+  3082			 * ignore the node constraint
+  3083			 */
+  3084			if (unlikely(node != NUMA_NO_NODE &&
+  3085				     !node_isset(node, slab_nodes)))
+  3086				node = NUMA_NO_NODE;
+  3087			goto new_slab;
+  3088		}
+  3089	redo:
+  3090	
+  3091		if (unlikely(!node_match(slab, node))) {
+  3092			/*
+  3093			 * same as above but node_match() being false already
+  3094			 * implies node != NUMA_NO_NODE
+  3095			 */
+  3096			if (!node_isset(node, slab_nodes)) {
+  3097				node = NUMA_NO_NODE;
+  3098			} else {
+  3099				stat(s, ALLOC_NODE_MISMATCH);
+  3100				goto deactivate_slab;
+  3101			}
+  3102		}
+  3103	
+  3104		/*
+  3105		 * By rights, we should be searching for a slab page that was
+  3106		 * PFMEMALLOC but right now, we are losing the pfmemalloc
+  3107		 * information when the page leaves the per-cpu allocator
+  3108		 */
+  3109		if (unlikely(!pfmemalloc_match(slab, gfpflags)))
+  3110			goto deactivate_slab;
+  3111	
+  3112		/* must check again c->slab in case we got preempted and it changed */
+  3113		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3114		if (unlikely(slab != c->slab)) {
+  3115			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3116			goto reread_slab;
+  3117		}
+  3118		freelist = c->freelist;
+  3119		if (freelist)
+  3120			goto load_freelist;
+  3121	
+  3122		freelist = get_freelist(s, slab);
+  3123	
+  3124		if (!freelist) {
+  3125			c->slab = NULL;
+  3126			c->tid = next_tid(c->tid);
+  3127			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3128			stat(s, DEACTIVATE_BYPASS);
+  3129			goto new_slab;
+  3130		}
+  3131	
+  3132		stat(s, ALLOC_REFILL);
+  3133	
+  3134	load_freelist:
+  3135	
+  3136		lockdep_assert_held(this_cpu_ptr(&s->cpu_slab->lock));
+  3137	
+  3138		/*
+  3139		 * freelist is pointing to the list of objects to be used.
+  3140		 * slab is pointing to the slab from which the objects are obtained.
+  3141		 * That slab must be frozen for per cpu allocations to work.
+  3142		 */
+  3143		VM_BUG_ON(!c->slab->frozen);
+  3144		c->freelist = get_freepointer(s, freelist);
+  3145		c->tid = next_tid(c->tid);
+  3146		local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3147		return freelist;
+  3148	
+  3149	deactivate_slab:
+  3150	
+  3151		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3152		if (slab != c->slab) {
+  3153			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3154			goto reread_slab;
+  3155		}
+  3156		freelist = c->freelist;
+  3157		c->slab = NULL;
+  3158		c->freelist = NULL;
+  3159		c->tid = next_tid(c->tid);
+  3160		local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3161		deactivate_slab(s, slab, freelist);
+  3162	
+  3163	new_slab:
+  3164	
+  3165		if (slub_percpu_partial(c)) {
+  3166			local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3167			if (unlikely(c->slab)) {
+  3168				local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3169				goto reread_slab;
+  3170			}
+  3171			if (unlikely(!slub_percpu_partial(c))) {
+  3172				local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3173				/* we were preempted and partial list got empty */
+  3174				goto new_objects;
+  3175			}
+  3176	
+  3177			slab = c->slab = slub_percpu_partial(c);
+  3178			slub_set_percpu_partial(c, slab);
+  3179			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3180			stat(s, CPU_PARTIAL_ALLOC);
+  3181			goto redo;
+  3182		}
+  3183	
+  3184	new_objects:
+  3185		pc.flags = gfpflags;
+  3186	
+  3187		/* Try to get page from specific node even if __GFP_THISNODE is not set */
+  3188		if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode)
+  3189				pc.flags |= __GFP_THISNODE;
+  3190	
+  3191		pc.slab = &slab;
+  3192		pc.orig_size = orig_size;
+  3193		freelist = get_partial(s, node, &pc);
+  3194		if (freelist)
+  3195			goto check_new_slab;
+  3196	
+  3197		slub_put_cpu_ptr(s->cpu_slab);
+  3198		slab = new_slab(s, pc.flags, node);
+  3199		c = slub_get_cpu_ptr(s->cpu_slab);
+  3200	
+  3201		if (unlikely(!slab)) {
+  3202			/* Try to get page from any other node */
+  3203			if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE) && try_thisnode) {
+  3204				try_thisnode = 0;
+  3205				goto new_objects;
+  3206			}
+  3207	
+  3208			slab_out_of_memory(s, gfpflags, node);
+  3209			return NULL;
+  3210		}
+  3211	
+  3212		stat(s, ALLOC_SLAB);
+  3213	
+  3214		if (kmem_cache_debug(s)) {
+  3215			freelist = alloc_single_from_new_slab(s, slab, orig_size);
+  3216	
+  3217			if (unlikely(!freelist))
+  3218				goto new_objects;
+  3219	
+  3220			if (s->flags & SLAB_STORE_USER)
+  3221				set_track(s, freelist, TRACK_ALLOC, addr);
+  3222	
+  3223			return freelist;
+  3224		}
+  3225	
+  3226		/*
+  3227		 * No other reference to the slab yet so we can
+  3228		 * muck around with it freely without cmpxchg
+  3229		 */
+  3230		freelist = slab->freelist;
+  3231		slab->freelist = NULL;
+  3232		slab->inuse = slab->objects;
+  3233		slab->frozen = 1;
+  3234	
+  3235		inc_slabs_node(s, slab_nid(slab), slab->objects);
+  3236	
+  3237	check_new_slab:
+  3238	
+  3239		if (kmem_cache_debug(s)) {
+  3240			/*
+  3241			 * For debug caches here we had to go through
+  3242			 * alloc_single_from_partial() so just store the tracking info
+  3243			 * and return the object
+  3244			 */
+  3245			if (s->flags & SLAB_STORE_USER)
+  3246				set_track(s, freelist, TRACK_ALLOC, addr);
+  3247	
+  3248			return freelist;
+  3249		}
+  3250	
+  3251		if (unlikely(!pfmemalloc_match(slab, gfpflags))) {
+  3252			/*
+  3253			 * For !pfmemalloc_match() case we don't load freelist so that
+  3254			 * we don't make further mismatched allocations easier.
+  3255			 */
+  3256			deactivate_slab(s, slab, get_freepointer(s, freelist));
+  3257			return freelist;
+  3258		}
+  3259	
+  3260	retry_load_slab:
+  3261	
+  3262		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3263		if (unlikely(c->slab)) {
+  3264			void *flush_freelist = c->freelist;
+  3265			struct slab *flush_slab = c->slab;
+  3266	
+  3267			c->slab = NULL;
+  3268			c->freelist = NULL;
+  3269			c->tid = next_tid(c->tid);
+  3270	
+  3271			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3272	
+  3273			deactivate_slab(s, flush_slab, flush_freelist);
+  3274	
+  3275			stat(s, CPUSLAB_FLUSH);
+  3276	
+  3277			goto retry_load_slab;
+  3278		}
+  3279		c->slab = slab;
+  3280	
+  3281		goto load_freelist;
+  3282	}
+  3283	
 
 -- 
 0-DAY CI Kernel Test Service
