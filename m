@@ -1,42 +1,44 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680F2361
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 00:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0F837C;
+	Tue,  7 Mar 2023 00:58:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678150726; x=1709686726;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=JWXs6hZLzHGbEnkTfKffCj7uOW6n/HYikaESKRN65xI=;
-  b=jeaHzBOKJaCs64f0VEulM8Ut5lQS4IomLuo/LYazVlWACXX3z/gnRqwo
-   +cRu59OLjBC5Ag6igzID+8uCEON81IRR+QslH+X8sa5cuzJ4MolMc0R9N
-   2/reEc2JfhZrTkY0vqaEuYrd34oq0Kyh2V1HuyeP1khgV9khsnpAEasAr
-   QMHi1NZa6Qzu4W0tiTT07rwWOoEF6/dr8G18y6CJvnp7JqmwecI8fN239
-   xIgzkMcVW/mXR0Fu650RBbIm0QxnunLFNNg4oLTrXRGlDBhK6xh5OVkhn
-   IczTWXITeROMDdaVJVM7ogGwqoNSYdb4A26VFiVSC0qZGv0QRB2TsrRYy
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337244795"
+  t=1678150728; x=1709686728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OOxHRAOxNUFAmG0bMr6TzMEWgbw6yZjsPYXFqDEYTRE=;
+  b=cqA2Q38Bt2pcrLF6w6qVPVNCRtGaDLbZrVIKR3zzE550LfcdW1IJpW2M
+   z3kKl4J2XRs/7crZ7lNE+TDpsDw6U8S365ynvLCA7Y/u+qETq1MLG4NjJ
+   OjlC+deUx0giEcEx+1MhW5CLM/Dzr16l07XxHR9to/HdSjUtEeyiSW630
+   o+CK0pyl9hmoa15Bw/vU4u9FkJB2AetZYRvcghomR5+CxOJpwrW8cS5IP
+   eJq8rqFn4y8DdhtOLaUrFogQRhqOqVucQ3x+ltA57IrpRVoxY2ZsNuUWE
+   wuuG6I0G4AnjFJBxVbfz3sJDHT+euVQgyS5VBmK7sZyCb0RyUxF4Sbc3F
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337244799"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="337244795"
+   d="scan'208";a="337244799"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 16:58:45 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 16:58:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="676378234"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="676378228"
 X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="676378234"
+   d="scan'208";a="676378228"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 06 Mar 2023 16:58:44 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZLfA-0000ou-10;
+	id 1pZLfA-0000oo-0p;
 	Tue, 07 Mar 2023 00:58:44 +0000
-Date: Tue, 7 Mar 2023 08:57:45 +0800
+Date: Tue, 7 Mar 2023 08:57:44 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:5.10/yocto 11602/30000] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-Message-ID: <202303070838.5aDdXwOv-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: [groeck-staging:watchdog-next 35/38]
+ drivers/watchdog/bcm47xx_wdt.c:205:47: error: too few arguments to function
+ call, expected 2, have 1
+Message-ID: <202303070812.88OvdkNL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,29 +48,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jagan,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   abd42491338c1d15ac7f00baaa8490063545737e
-commit: 8ed099ef505c7b81ef9821dd18e03a1406ccfb46 [11602/30000] drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge
-reproduce:
-        # https://github.com/intel/linux-intel-lts/commit/8ed099ef505c7b81ef9821dd18e03a1406ccfb46
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/yocto
-        git checkout 8ed099ef505c7b81ef9821dd18e03a1406ccfb46
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git watchdog-next
+head:   faaf9f98d1032c901d8e859e3b6883c7e67614b6
+commit: 82919ed52f4a2c1b26fa34d6fd5370da06dff816 [35/38] watchdog: bcm47xx: Simplify using devm_watchdog_register_device()
+config: hexagon-randconfig-r045-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070812.88OvdkNL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/commit/?id=82919ed52f4a2c1b26fa34d6fd5370da06dff816
+        git remote add groeck-staging https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+        git fetch --no-tags groeck-staging watchdog-next
+        git checkout 82919ed52f4a2c1b26fa34d6fd5370da06dff816
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/watchdog/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070838.5aDdXwOv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070812.88OvdkNL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+>> drivers/watchdog/bcm47xx_wdt.c:205:47: error: too few arguments to function call, expected 2, have 1
+           ret = devm_watchdog_register_device(&wdt->wdd);
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+   include/linux/watchdog.h:226:5: note: 'devm_watchdog_register_device' declared here
+   int devm_watchdog_register_device(struct device *dev, struct watchdog_device *);
+       ^
+   1 error generated.
+
+
+vim +205 drivers/watchdog/bcm47xx_wdt.c
+
+   176	
+   177	static int bcm47xx_wdt_probe(struct platform_device *pdev)
+   178	{
+   179		int ret;
+   180		bool soft;
+   181		struct bcm47xx_wdt *wdt = dev_get_platdata(&pdev->dev);
+   182	
+   183		if (!wdt)
+   184			return -ENXIO;
+   185	
+   186		soft = wdt->max_timer_ms < WDT_SOFTTIMER_THRESHOLD * 1000;
+   187	
+   188		if (soft) {
+   189			wdt->wdd.ops = &bcm47xx_wdt_soft_ops;
+   190			timer_setup(&wdt->soft_timer, bcm47xx_wdt_soft_timer_tick, 0);
+   191		} else {
+   192			wdt->wdd.ops = &bcm47xx_wdt_hard_ops;
+   193		}
+   194	
+   195		wdt->wdd.info = &bcm47xx_wdt_info;
+   196		wdt->wdd.timeout = WDT_DEFAULT_TIME;
+   197		wdt->wdd.parent = &pdev->dev;
+   198		ret = wdt->wdd.ops->set_timeout(&wdt->wdd, timeout);
+   199		if (ret)
+   200			goto err_timer;
+   201		watchdog_set_nowayout(&wdt->wdd, nowayout);
+   202		watchdog_set_restart_priority(&wdt->wdd, 64);
+   203		watchdog_stop_on_reboot(&wdt->wdd);
+   204	
+ > 205		ret = devm_watchdog_register_device(&wdt->wdd);
+   206		if (ret)
+   207			goto err_timer;
+   208	
+   209		dev_info(&pdev->dev, "BCM47xx Watchdog Timer enabled (%d seconds%s%s)\n",
+   210			timeout, nowayout ? ", nowayout" : "",
+   211			soft ? ", Software Timer" : "");
+   212		return 0;
+   213	
+   214	err_timer:
+   215		if (soft)
+   216			del_timer_sync(&wdt->soft_timer);
+   217	
+   218		return ret;
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
