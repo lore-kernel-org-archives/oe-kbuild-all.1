@@ -1,43 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F2133D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2568F33D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 11:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678186878; x=1709722878;
+  t=1678187525; x=1709723525;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6SrbpWXVM2r/u7fHh6RcP5d15rKfcDUgXruGXl0ik5U=;
-  b=Wseq2hsp06mT10S1DUmCOYDzhQ2lTVVTm97UyOESKQ8EN5zecwDsz+GZ
-   gHXr9A0mzqUJHoAQGHxWGuPCwqp8pMnR7xdJI0NT+EyJe1lYXB829Dodo
-   69/oxVWizRgcMWq7cqZ3tn0LyfZXMW3vi7q2SoawdhOSqWwFX8Jvdifyr
-   JSCVRCsEEQMzzJ/osbtbDhGZNcxUO2tY9aBrD2YxQGWMrSRNnO2joVqec
-   +7J6UEYoAVXa6YbdJEy3FcUzCLoA34xqtAl/Uwd3IOq4vdYcxyCquoUXg
-   CrkHSg8WxflyhEPslBQpI+gyoBEzXkF0vAWFX9Ar0Ghof5L0XwfWqNq0/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319652513"
+  bh=HmDpjR8h4i/+lk/Jyvs9+lkMOc/t/BKDdsmK6+Y3PA8=;
+  b=EQsbLR74dJN8ghve877N9TeuDA6wffXHeq8rECrd8etK2ZZwK+jIcGJJ
+   Q9x8jSndf+NWFfhlS27cLor+KXEy0GeUoNL+kaA2FLL9DWirtkMfadyAE
+   B+Lcyi0AwfFR36RmZeZkC6bSOCmo1KUVbl9CKZD8vkM3UggrCiZzXjWoy
+   +E0iFSg4i3a0nPydHA80ojpjJXpxDq11FBHuy/vZpQ8UYfO7Tq6o01/O0
+   3XrdQWCyieO/AvSvfn83KwOvU6gYzzXQoD/J3oVRyBSS8b9+eqeS4LevA
+   TlgsQRiyoLhG7eWmZ4dZhAIouBl2bZLXrLUOcOA51tw/IZv/mcyhK0o/y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337343123"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="319652513"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:01:03 -0800
+   d="scan'208";a="337343123"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:12:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="1005822095"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="786666543"
 X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="1005822095"
+   d="scan'208";a="786666543"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Mar 2023 03:01:02 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2023 03:12:02 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZV41-0001F3-1B;
-	Tue, 07 Mar 2023 11:01:01 +0000
-Date: Tue, 7 Mar 2023 19:00:52 +0800
+	id 1pZVEf-0001Fn-2d;
+	Tue, 07 Mar 2023 11:12:01 +0000
+Date: Tue, 7 Mar 2023 19:11:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [stable:linux-4.14.y 7741/9999] warning: (KCOV) selects GCC_PLUGINS
- which has unmet direct dependencies (HAVE_GCC_PLUGINS && ..)
-Message-ID: <202303071853.XkNBakdf-lkp@intel.com>
+To: Rob Clark <robdclark@chromium.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Chia-I Wu <olvaffe@gmail.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ DEVFREQ_GOV_SIMPLE_ONDEMAND when selected by DRM_MSM
+Message-ID: <202303071922.wJqDWQpe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,34 +49,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Heiko,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
-head:   7878a41b6cc1ada4bb804eee96beb2c54322806c
-commit: fa4261496d3265009449723859f50f68a27881c1 [7741/9999] init/Kconfig: make COMPILE_TEST depend on !S390
-config: s390-randconfig-r044-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071853.XkNBakdf-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=fa4261496d3265009449723859f50f68a27881c1
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.14.y
-        git checkout fa4261496d3265009449723859f50f68a27881c1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=s390 distclean
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8ca09d5fa3549d142c2080a72a4c70ce389163cd
+commit: 6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544 drm/msm/gpu: Add devfreq tuning debugfs
+date:   7 weeks ago
+config: csky-kismet-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND-CONFIG_DRM_MSM-0-0 (https://download.01.org/0day-ci/archive/20230307/202303071922.wJqDWQpe-lkp@intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6563f60f14cbb3dcbdc4e1d8469fc0fbaaa80544
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND --selectors CONFIG_DRM_MSM -a=csky
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=csky olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071853.XkNBakdf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071922.wJqDWQpe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> warning: (KCOV) selects GCC_PLUGINS which has unmet direct dependencies (HAVE_GCC_PLUGINS && !COMPILE_TEST)
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND when selected by DRM_MSM
+   .config:4518:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   
+   WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
+     Depends on [n]: PM_DEVFREQ [=n]
+     Selected by [y]:
+     - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=y] || QCOM_COMMAND_DB [=y]=n)
 
 -- 
 0-DAY CI Kernel Test Service
