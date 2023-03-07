@@ -1,97 +1,115 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6A0290F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 08:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678179542; x=1709715542;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3umUm4ahFVMYfF3/FeLculY9PKxRgx3vNRzzbJ6yOzU=;
-  b=TMMvdFMiX5NfeQVBtwrp0c8GuZIbHlGIcxGC0LOT4LO3uL/QeaX42IMC
-   VlgcLevCgk4GUtl9/3GouvZLVaaVOk/I4Lxz9jkX4O3Dxy4BMwzEEeMHO
-   mqSA+v+tAXX4M2erlQRICPo9KaI95R4tbM9/9YjrzS2EWkpyExwAeTXom
-   FdrMorhJJBT1SRa5I/EVNjQ3OkiFEAlY37n/GYSeN3febQLieklXC/9YD
-   fFo5ex8aJvYkLAsaaLoK7SY+gRV3z7/CZRudidqcxPT4SP2DmAkFUroGk
-   YjexWvc3ORMesrTKbDEMBbA4P+5w8S/hIYTQr4cGloRD6PjQYY77DA3am
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400624117"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="400624117"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 00:59:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="626464657"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="626464657"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 07 Mar 2023 00:58:58 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZT9t-00019L-1R;
-	Tue, 07 Mar 2023 08:58:57 +0000
-Date: Tue, 7 Mar 2023 16:58:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, lee@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	mani@kernel.org, lpieralisi@kernel.org, kw@linux.com,
-	bhelgaas@google.com, manivannan.sadhasivam@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: Re: [PATCH 6/6] ARM: dts: qcom: sdx65-mtp: Enable PCIe EP
-Message-ID: <202303071612.HZ9bDCp7-lkp@intel.com>
-References: <1678080302-29691-7-git-send-email-quic_rohiagar@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6DD290F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 09:13:28 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9C2F5CD452
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 09:11:28 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D446F20012;
+	Tue,  7 Mar 2023 09:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1678180280;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s+35FxWwIjTdrtwuY1Ep/El64KtU1Rcfr22xgTT7AVo=;
+	b=geSahXA+9PLffWU5jRXmywJsWv7w0yOpyUs+rdFgEAP4oM/F9dgPQPU1ZqlaSmhKU64HpS
+	xAjbcpwVmG6d62U44asv4tPvloQp/vOR9Do45Q/42GE41pcdYYdp2DReUxLt1RzFdJpnhU
+	MCVNS4UDJ7r+TO41vQWy9Zx1MGXDNzQJwyRWO3TkTLV/Ma/UWeC80mN/0N6p6thBurq5+8
+	2q9hC7BnfT8c08flCC75yGZLSn+5HEPvBHA8IQysY9KLxgs3eHw2FJLoi1VRyRRmZxh6vH
+	qf2sR5TzGXW1WuiTURm6kTN6voew9q3RJ5IPLPgxsUx+aQ6cM+igBoUSyp0MbQ==
+Date: Tue, 7 Mar 2023 10:11:18 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Hector Palacios <hector.palacios@digi.com>,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [miquelraynal:nand/next 2/4]
+ drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse: sparse: invalid
+ assignment: |=
+Message-ID: <20230307101118.32d36af5@xps-13>
+In-Reply-To: <202303070644.Kvs6l6g9-lkp@intel.com>
+References: <202303070644.Kvs6l6g9-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1678080302-29691-7-git-send-email-quic_rohiagar@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rohit,
+Hi Hector,
 
-Thank you for the patch! Yet something to improve:
+lkp@intel.com wrote on Tue, 7 Mar 2023 06:23:31 +0800:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes pci/next pci/for-linus linus/master v6.3-rc1 next-20230306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> tree:   https://github.com/miquelraynal/linux-0day.git nand/next
+> head:   fa07e65008e7068b7d11d09dc932326ee1245ee3
+> commit: 2e3927b0ea56ffae4d05477691210b7b06f9b599 [2/4] mtd: rawnand: hyni=
+x: fix up bit 0 of sdr_timing_mode
+> config: parisc-randconfig-s053-20230305 (https://download.01.org/0day-ci/=
+archive/20230307/202303070644.Kvs6l6g9-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.1.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://github.com/miquelraynal/linux-0day/commit/2e3927b0ea56f=
+fae4d05477691210b7b06f9b599
+>         git remote add miquelraynal https://github.com/miquelraynal/linux=
+-0day.git
+>         git fetch --no-tags miquelraynal nand/next
+>         git checkout 2e3927b0ea56ffae4d05477691210b7b06f9b599
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Dparisc olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Dparisc SHELL=3D/bin/bash drivers/mtd/nand/raw/
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303070644.Kvs6l6g9-lkp@i=
+ntel.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rohit-Agarwal/dt-bindings-mfd-qcom-tcsr-Add-compatible-for-sdx65/20230306-132618
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1678080302-29691-7-git-send-email-quic_rohiagar%40quicinc.com
-patch subject: [PATCH 6/6] ARM: dts: qcom: sdx65-mtp: Enable PCIe EP
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230307/202303071612.HZ9bDCp7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/51b8272710554bf9cbee6604f73951179e85ffa7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rohit-Agarwal/dt-bindings-mfd-qcom-tcsr-Add-compatible-for-sdx65/20230306-132618
-        git checkout 51b8272710554bf9cbee6604f73951179e85ffa7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+Sparse isn't happy, could you fix it and sent a new version?
+Please don't apply the above tags, they are only relevant if there is
+something to fix that has already been merged.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303071612.HZ9bDCp7-lkp@intel.com/
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse: sparse: invalid assi=
+gnment: |=3D
+> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse:    left side has typ=
+e restricted __le16
+> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse:    right side has ty=
+pe unsigned long =20
+>=20
+> vim +740 drivers/mtd/nand/raw/nand_hynix.c
+>=20
+>    730=09
+>    731	static void hynix_fixup_onfi_param_page(struct nand_chip *chip,
+>    732						struct nand_onfi_params *p)
+>    733	{
+>    734		/*
+>    735		 * Certain chips might report a 0 on sdr_timing_mode field
+>    736		 * (bytes 129-130). This has been seen on H27U4G8F2GDA-BI.
+>    737		 * According to ONFI specification, bit 0 of this field "shall be=
+ 1".
+>    738		 * Forcibly set this bit.
+>    739		 */
+>  > 740		p->sdr_timing_modes |=3D BIT(0); =20
+>    741	}
+>    742=09
+>=20
 
-All errors (new ones prefixed by >>):
 
->> Error: arch/arm/boot/dts/qcom-sdx65-mtp.dts:287.1-2 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Miqu=C3=A8l
