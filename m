@@ -1,101 +1,86 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D39BA4F;
-	Tue,  7 Mar 2023 19:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678215751; x=1709751751;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R4Aswtna7Q6k4KcdpQ681CgnEtG6Wk89kjUpElYelUY=;
-  b=El1+QmR/FXf8a7D8OPUhGgUNXfm/1N+ia7tYWPXp58cixGLdpUByYVTj
-   HnAzSRrFeEyXPIfOscYGpRFyP+faIjki48zGZ2rGDxEt+PGPNFJXtTTt7
-   Nm9ki0yh7DbLjSmKtsy6ySwqIammbirO/4bWKJCCGyVLUdJ7xCdTDf8cL
-   SVET2wj5b8sWC73L/XK3k5Ox2gyFSArwnP4BD4y0PgUzGfaa2d7dREOHR
-   9ebnEBYc9envwp1N05I4gUdK/wfROPMEmynTQrpljLgYCLqJ9Dza8um58
-   rNiib6crfLHsaJ7MQlJQof4II7EtNjo21H0fz2AZ2pDqOyOpfOGxP7OxR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="400767732"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="400767732"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:02:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="676663268"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="676663268"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Mar 2023 11:02:16 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZcZj-0001XL-31;
-	Tue, 07 Mar 2023 19:02:15 +0000
-Date: Wed, 8 Mar 2023 03:01:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 488/639] drivers/pci/endpoint/functions/pci-epf-vntb.c:1432:20: error:
- incompatible function pointer types initializing 'int (*)(struct pci_epf *,
- const struct pci_epf_device_id *)' with an expression of type 'int (struct
- pci_epf *)'
-Message-ID: <202303080252.b23GA3FL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65812BA4F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 19:14:14 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id t4so12455129ybg.11
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Mar 2023 11:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1678216453;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WiDH7FJkKPaJyC+pV4xCyIR+9zxms7G24HbfyQXYfQU=;
+        b=Rj+V5qCx4H6DSLiXNF7NIxmJYyNgSATd6yjgszkMyFK8UBJIMCjq30dEyZLMBttN9t
+         Y5/8uoD7cZCMD+/hXU9EIK6u0esASjwDCscjr1v2CDHykgR3uE3wp0G2C1RYNbfIP5uu
+         OfDWqS7N9qGf+LvtczJWOBCWEour5Gx62oHut1BxRPdNzBTu1TgJKRKrLo8VtFWYh3Qx
+         tMM8xlIJJliFfuRz6kXenX+AASKmr6jEZ2biIuDQFo3cm3rL8MWIfX9wd/Sp7D3wNNXh
+         LaKO0OQgWY6TYJlDGHWlx5pORyUPxkN2fp4RxmDnE9HGt4Dt0rCWNddGWf/vqPuwSCC4
+         afYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678216453;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WiDH7FJkKPaJyC+pV4xCyIR+9zxms7G24HbfyQXYfQU=;
+        b=Mv26ZKU+GUTjiRTK+PWI0f06W9MF+PrQdYaIge8cp9y3Dfjm8w4yxPTzMaMIQfZ6x8
+         RtXCIGjc7/e4NqNof6/no83PSxiQI6mhCSeWapFCEPHlR4GwdMDdvK8W9eNa938HCr9m
+         YJl3bbx7SeIb3NNfkSy6Ru3EKBqewrpT4s+UK17IfKw2wP7jHkXEeZ/XLBX71zGBGNkY
+         6orqtRuHoqaTBNp0LYxIPO0XxlYcSwNFiyBPgeEZSqrCbda43oPnia95elf+rrTqz92k
+         lGP+7G6cNQL4t2T7zTvkF6ZIAXchiUmUaafpK/uO1p4N5RGjB+ApQGwA7fAA/aTiXxtH
+         PeMg==
+X-Gm-Message-State: AO0yUKVdxluTxXIc47LW57vYR60nzFZCsU509kW7RKsnV3eNioAZSPpC
+	25ceXiJjT6ByNclvCj1V4rUhkcvWwhCUN4NvH1iI0A==
+X-Google-Smtp-Source: AK7set96UY/Tcty5owJ/5XoxfcKCevFzPi32g6qI1hX5ei+Cn/Zb8QJMcFiunAwkvNdeaCMbW+7hGPa0I23wFrmveJ0=
+X-Received: by 2002:a05:6902:c3:b0:9f1:6c48:f95f with SMTP id
+ i3-20020a05690200c300b009f16c48f95fmr7499398ybs.5.1678216453133; Tue, 07 Mar
+ 2023 11:14:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230306224127.1689967-4-vipinsh@google.com> <202303071940.sFeQ4FpU-lkp@intel.com>
+In-Reply-To: <202303071940.sFeQ4FpU-lkp@intel.com>
+From: Vipin Sharma <vipinsh@google.com>
+Date: Tue, 7 Mar 2023 11:13:37 -0800
+Message-ID: <CAHVum0eW+AKoMt2nB=52cDpvoVHX1A4tHmdV-4f21hV49c4o8g@mail.gmail.com>
+Subject: Re: [Patch v4 03/18] KVM: x86/mmu: Track count of pages in KVM MMU
+ page caches globally
+To: kernel test robot <lkp@intel.com>
+Cc: seanjc@google.com, pbonzini@redhat.com, bgardon@google.com, 
+	dmatlack@google.com, oe-kbuild-all@lists.linux.dev, jmattson@google.com, 
+	mizhang@google.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   bc291a97d070700f8a5b4504fe3de4c2cea6a888
-commit: 0a5791cface5a07c793b0192cbcc3e685f2e65a7 [488/639] PCI: endpoint: Pass EPF device ID to the probe function
-config: i386-randconfig-a012-20230306 (https://download.01.org/0day-ci/archive/20230308/202303080252.b23GA3FL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/0a5791cface5a07c793b0192cbcc3e685f2e65a7
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-        git checkout 0a5791cface5a07c793b0192cbcc3e685f2e65a7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/pci/endpoint/functions/
+On Tue, Mar 7, 2023 at 3:33=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Vipin,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on kvm/queue]
+> [also build test WARNING on kvmarm/next linus/master v6.3-rc1 next-202303=
+07]
+> [cannot apply to mst-vhost/linux-next kvm/linux-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> arch/x86/kvm/mmu/mmu.c:676: warning: This comment starts with '/**', b=
+ut isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303080252.b23GA3FL-lkp@intel.com/
+> vim +676 arch/x86/kvm/mmu/mmu.c
+>
+>    674
+>    675  /**
+>  > 676   * Caller should hold mutex lock corresponding to cache, if avail=
+able.
+>    677   */
 
-All errors (new ones prefixed by >>):
-
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:1432:20: error: incompatible function pointer types initializing 'int (*)(struct pci_epf *, const struct pci_epf_device_id *)' with an expression of type 'int (struct pci_epf *)' [-Werror,-Wincompatible-function-pointer-types]
-           .probe          = epf_ntb_probe,
-                             ^~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +1432 drivers/pci/endpoint/functions/pci-epf-vntb.c
-
-e35f56bb03304a Frank Li 2022-02-22  1429  
-e35f56bb03304a Frank Li 2022-02-22  1430  static struct pci_epf_driver epf_ntb_driver = {
-e35f56bb03304a Frank Li 2022-02-22  1431  	.driver.name    = "pci_epf_vntb",
-e35f56bb03304a Frank Li 2022-02-22 @1432  	.probe          = epf_ntb_probe,
-e35f56bb03304a Frank Li 2022-02-22  1433  	.id_table       = epf_ntb_ids,
-e35f56bb03304a Frank Li 2022-02-22  1434  	.ops            = &epf_ntb_ops,
-e35f56bb03304a Frank Li 2022-02-22  1435  	.owner          = THIS_MODULE,
-e35f56bb03304a Frank Li 2022-02-22  1436  };
-e35f56bb03304a Frank Li 2022-02-22  1437  
-
-:::::: The code at line 1432 was first introduced by commit
-:::::: e35f56bb03304abc92c928b641af41ca372966bb PCI: endpoint: Support NTB transfer between RC and EP
-
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Jon Mason <jdmason@kudzu.us>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I will fix it in the next version.
