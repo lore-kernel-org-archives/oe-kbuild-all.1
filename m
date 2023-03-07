@@ -1,115 +1,103 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6DD290F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 09:13:28 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9C2F5CD452
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 09:11:28 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D446F20012;
-	Tue,  7 Mar 2023 09:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1678180280;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s+35FxWwIjTdrtwuY1Ep/El64KtU1Rcfr22xgTT7AVo=;
-	b=geSahXA+9PLffWU5jRXmywJsWv7w0yOpyUs+rdFgEAP4oM/F9dgPQPU1ZqlaSmhKU64HpS
-	xAjbcpwVmG6d62U44asv4tPvloQp/vOR9Do45Q/42GE41pcdYYdp2DReUxLt1RzFdJpnhU
-	MCVNS4UDJ7r+TO41vQWy9Zx1MGXDNzQJwyRWO3TkTLV/Ma/UWeC80mN/0N6p6thBurq5+8
-	2q9hC7BnfT8c08flCC75yGZLSn+5HEPvBHA8IQysY9KLxgs3eHw2FJLoi1VRyRRmZxh6vH
-	qf2sR5TzGXW1WuiTURm6kTN6voew9q3RJ5IPLPgxsUx+aQ6cM+igBoUSyp0MbQ==
-Date: Tue, 7 Mar 2023 10:11:18 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Hector Palacios <hector.palacios@digi.com>,
- oe-kbuild-all@lists.linux.dev
-Subject: Re: [miquelraynal:nand/next 2/4]
- drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse: sparse: invalid
- assignment: |=
-Message-ID: <20230307101118.32d36af5@xps-13>
-In-Reply-To: <202303070644.Kvs6l6g9-lkp@intel.com>
-References: <202303070644.Kvs6l6g9-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0002733C9;
+	Tue,  7 Mar 2023 10:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678183202; x=1709719202;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=015y2ujYdWGC1jptcX88cpF523UTZEC1Lxt0JJo6IZA=;
+  b=TlR5Ab9D8MB82VZCcuA2SC5DLFwCJeExU9hEw70OUceO9jNYZpMxULVO
+   9DWTw6xqVgfTWXYn1o8rnr4A+bAfFqgvk0+eNjAh+vvoWpVOYAekqAM/l
+   ivFPOhAlay5SJlzvsCKGiyl7mDoeznvG71+Lkiz7c++2h0pfTaFL0B/ZJ
+   +gosx3uQPwxqaFmEqb6EYHw6sAB8Ylp5SU2vXfyc2NGgpKyzXk9KrTRkW
+   wtvyd3YRvMa3KNvt/eGWMQi4tZMB9E+f6dgb71JKqnUooII2FJZbVbUvn
+   BcE1FzH7gl41lQoKEGgBUnS8VHNNC6uH05JU838XC0wzFurRcTeQDCn/h
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="335834282"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
+   d="scan'208";a="335834282"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 02:00:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="922293536"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
+   d="scan'208";a="922293536"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 07 Mar 2023 01:59:59 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZU6x-0001CR-1F;
+	Tue, 07 Mar 2023 09:59:59 +0000
+Date: Tue, 7 Mar 2023 17:59:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.03.06a 112/116]
+ arch/x86/kernel/nmi.c:441:6: warning: no previous prototype for function
+ 'set_nmi_torture'
+Message-ID: <202303071727.8CfkaGXj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Hector,
+tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.03.06a
+head:   b5f34f7f546f7746ed4ca21da873aea5f408f295
+commit: f8aba137fc5e5471910a5fcb5af74776b88d1070 [112/116] x86/nmi: Add a set_nmi_torture() function to control NMI testing
+config: x86_64-randconfig-r023-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071727.8CfkaGXj-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/f8aba137fc5e5471910a5fcb5af74776b88d1070
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block paulmck/linux-rcu/dev.2023.03.06a
+        git checkout f8aba137fc5e5471910a5fcb5af74776b88d1070
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
 
-lkp@intel.com wrote on Tue, 7 Mar 2023 06:23:31 +0800:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303071727.8CfkaGXj-lkp@intel.com/
 
-> tree:   https://github.com/miquelraynal/linux-0day.git nand/next
-> head:   fa07e65008e7068b7d11d09dc932326ee1245ee3
-> commit: 2e3927b0ea56ffae4d05477691210b7b06f9b599 [2/4] mtd: rawnand: hyni=
-x: fix up bit 0 of sdr_timing_mode
-> config: parisc-randconfig-s053-20230305 (https://download.01.org/0day-ci/=
-archive/20230307/202303070644.Kvs6l6g9-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://github.com/miquelraynal/linux-0day/commit/2e3927b0ea56f=
-fae4d05477691210b7b06f9b599
->         git remote add miquelraynal https://github.com/miquelraynal/linux=
--0day.git
->         git fetch --no-tags miquelraynal nand/next
->         git checkout 2e3927b0ea56ffae4d05477691210b7b06f9b599
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Dparisc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Dparisc SHELL=3D/bin/bash drivers/mtd/nand/raw/
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303070644.Kvs6l6g9-lkp@i=
-ntel.com/
+All warnings (new ones prefixed by >>):
 
-Sparse isn't happy, could you fix it and sent a new version?
-Please don't apply the above tags, they are only relevant if there is
-something to fix that has already been merged.
-
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse: sparse: invalid assi=
-gnment: |=3D
-> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse:    left side has typ=
-e restricted __le16
-> >> drivers/mtd/nand/raw/nand_hynix.c:740:29: sparse:    right side has ty=
-pe unsigned long =20
->=20
-> vim +740 drivers/mtd/nand/raw/nand_hynix.c
->=20
->    730=09
->    731	static void hynix_fixup_onfi_param_page(struct nand_chip *chip,
->    732						struct nand_onfi_params *p)
->    733	{
->    734		/*
->    735		 * Certain chips might report a 0 on sdr_timing_mode field
->    736		 * (bytes 129-130). This has been seen on H27U4G8F2GDA-BI.
->    737		 * According to ONFI specification, bit 0 of this field "shall be=
- 1".
->    738		 * Forcibly set this bit.
->    739		 */
->  > 740		p->sdr_timing_modes |=3D BIT(0); =20
->    741	}
->    742=09
->=20
+>> arch/x86/kernel/nmi.c:441:6: warning: no previous prototype for function 'set_nmi_torture' [-Wmissing-prototypes]
+   void set_nmi_torture(int nmi_delay_in, bool nmi_halt1_in, bool nmi_halt2_in, bool nmi_halt3_in)
+        ^
+   arch/x86/kernel/nmi.c:441:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void set_nmi_torture(int nmi_delay_in, bool nmi_halt1_in, bool nmi_halt2_in, bool nmi_halt3_in)
+   ^
+   static 
+   1 warning generated.
 
 
-Thanks,
-Miqu=C3=A8l
+vim +/set_nmi_torture +441 arch/x86/kernel/nmi.c
+
+   439	
+   440	/* Set the test values as desired. */
+ > 441	void set_nmi_torture(int nmi_delay_in, bool nmi_halt1_in, bool nmi_halt2_in, bool nmi_halt3_in)
+   442	{
+   443		WRITE_ONCE(nmi_delay, nmi_delay_in);
+   444		WRITE_ONCE(nmi_halt1, nmi_halt1_in);
+   445		WRITE_ONCE(nmi_halt2, nmi_halt2_in);
+   446		WRITE_ONCE(nmi_halt3, nmi_halt3_in);
+   447		pr_info("%s: Set NMI test parameters nmi_delay=%d nmi_halt1=%d nmi_halt2=%d nmi_halt3=%d\n",
+   448			__func__, nmi_delay, nmi_halt1, nmi_halt2, nmi_halt3);
+   449	}
+   450	EXPORT_SYMBOL_GPL(set_nmi_torture);
+   451	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
