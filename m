@@ -1,50 +1,31 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF920EE;
-	Tue,  7 Mar 2023 07:05:48 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id i34so48399228eda.7;
-        Mon, 06 Mar 2023 23:05:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678172746;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JpUEW/RC3/zFSVTvrW+Z36YKDcQplwHx/uRumD1mPLk=;
-        b=a88g5kQQjM8x/NzrClbfCKEpIWiUNL7uouSY1sRu0GKwCHahbX1uQW+TycHAgTBUFg
-         lcSCrUeoriOJNvcFyqrVfrgq8CbwFN493pnHKlIb8GBhG7fqVHBZ8YWDKrykldhMPICZ
-         z2xsPPA9Zr9pyMXvrLUvq/aEV2APGblUJMp4Du2HU2ALxMFE/3WcJxcIKPUSkePVpnH5
-         HeDd8rxuT3IfvMPQNF5HyVxLqC6Plf+oB1gS94T9IMsTHQBmX+PmvSeq2AAk5fns7bXo
-         0qbDutBjpC1XvY8QhcUldh9q5dq3UYoJ1ESNHsTx6DX4dYQ2R5okGfm2g7OLpp3zozZ/
-         eDVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678172746;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JpUEW/RC3/zFSVTvrW+Z36YKDcQplwHx/uRumD1mPLk=;
-        b=NXzShQMNKLqm+ocGfwpdPZMwu9K3enaIZKxW9NzK7FFeaKeA7Vu2DU6/dnFWRhRXfI
-         jmfrJbYe+eiU/GBzAk/mthgZI+76YGTD8ao9UcIxvJqEbmJUc+iaFg49uN/JUmn+l7EI
-         cvravHo2H25Nn9s5caxh5SaXymY4J3aGegSy2oxOvx0QMd9S6/g8LS41xkgRV7EWo6Qo
-         MBsyuYv4MOI/Zj7HXNyZlf812WISYU7AJ6Eh0N+htLjQ9lDCkTfowdJG9CMZPgZ6GWux
-         MuTPfma+FN8fVjxt0jjKUKABgs8SD7hur/IENSZmFjCgjwD3z+llDdxMNXb/kery027W
-         oCcw==
-X-Gm-Message-State: AO0yUKULwRkDsuuQGHzc973rPfue5QjnGvXckEGEC6s5UWqEMAN0lBzV
-	YmXvewtsv7ICZu4QXTUZA167WuggsBg=
-X-Google-Smtp-Source: AK7set+alCrQYLxCmOKnOoPgy9z5/Niq4vxUiEcPT8ixTNeVz2DWX5qCT48Lw4CexzkqUSXGUYH6Qg==
-X-Received: by 2002:a17:907:8e9a:b0:8f1:da18:c6ca with SMTP id tx26-20020a1709078e9a00b008f1da18c6camr16199041ejc.3.1678172746513;
-        Mon, 06 Mar 2023 23:05:46 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d27-20020a50f69b000000b004acb696a0f6sm6184329edn.91.2023.03.06.23.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 23:05:46 -0800 (PST)
-Date: Tue, 7 Mar 2023 10:05:42 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>
-Subject: drivers/clk/mediatek/clk-mt8173-apmixedsys.c:95
- clk_mt8173_apmixed_probe() warn: passing zero to 'PTR_ERR'
-Message-ID: <4dcf17f2-a74d-47fa-968e-67deb7d2498f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1183A20EE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 07:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7seXEgAdc8qPGxtHP21kULUfiKGh1FHlFgwWdj5tgX8=; b=dyWOBGt395EKWiyJ4Ng3oSACSi
+	7j4aP8ZU/bcIjQsOeK4keygeQh3DGRQak0zyTx2paHMsIEDIzbg31AhUsFKum/I429uM9J0QGP6EL
+	beYcLjGIP1FfENpsguGmVEsx+Nra9o3wnahGWJe/MPy5WGAG66TW6jrcrctt13+7rwm40wbFBD4UW
+	H7lAO94m4Aq5V92/iPUdWlsrdtyZH4FsbTw+Z6J37j4K0hLAxocaSjrF5QewaCD8yAyJ1f1dH9d0N
+	0NlZUFchqPrkUR2ulcuI4S3K6M8b6ded2u93PTY5JIojHZNYmcxuiPPUwq3Vs7d59J3XtPTsmd9vl
+	wy0IVE6w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1pZR82-00EWSX-2x;
+	Tue, 07 Mar 2023 06:48:55 +0000
+Date: Tue, 7 Mar 2023 06:48:54 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:viro/vfs/work.minix 3/4] fs/sysv/dir.c:32:
+ multiple definition of `dir_put_page'; fs/minix/dir.o:fs/minix/dir.c:30:
+ first defined here
+Message-ID: <20230307064854.GC3390869@ZenIV>
+References: <202303071352.h8Mj6c0x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,84 +34,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202303071352.h8Mj6c0x-lkp@intel.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-commit: 4c02c9af3cb9449cd176300b288e8addb5083934 clk: mediatek: mt8173: Break down clock drivers and allow module build
-config: microblaze-randconfig-m031-20230305 (https://download.01.org/0day-ci/archive/20230307/202303070207.8wVd9MFI-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+On Tue, Mar 07, 2023 at 01:13:55PM +0800, kernel test robot wrote:
+> tree:   https://github.com/ammarfaizi2/linux-block viro/vfs/work.minix
+> head:   39d0d7f9b65f1fe91c5ba6d375f1ddb0c34fe843
+> commit: b7176563af9725b556c512d0fee2dbd051839147 [3/4] minixfs: Use dir_put_page() in minix_unlink() and minix_rename()
+> config: i386-randconfig-a005-20230306 (https://download.01.org/0day-ci/archive/20230307/202303071352.h8Mj6c0x-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/ammarfaizi2/linux-block/commit/b7176563af9725b556c512d0fee2dbd051839147
+>         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+>         git fetch --no-tags ammarfaizi2-block viro/vfs/work.minix
+>         git checkout b7176563af9725b556c512d0fee2dbd051839147
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=i386 olddefconfig
+>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303071352.h8Mj6c0x-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: fs/sysv/dir.o: in function `dir_put_page':
+> >> fs/sysv/dir.c:32: multiple definition of `dir_put_page'; fs/minix/dir.o:fs/minix/dir.c:30: first defined here
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303070207.8wVd9MFI-lkp@intel.com/
+Grrr...  FWIW, it ought to be static inline in both of them,
+and quite likely - moved over to some place like highmem.h.
 
-smatch warnings:
-drivers/clk/mediatek/clk-mt8173-apmixedsys.c:95 clk_mt8173_apmixed_probe() warn: passing zero to 'PTR_ERR'
-drivers/clk/mediatek/clk-mt8173-apmixedsys.c:130 clk_mt8173_apmixed_probe() warn: 'base' from of_iomap() not released on lines: 99.
-
-vim +/PTR_ERR +95 drivers/clk/mediatek/clk-mt8173-apmixedsys.c
-
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   85  static int clk_mt8173_apmixed_probe(struct platform_device *pdev)
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   86  {
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   87  	struct device_node *node = pdev->dev.of_node;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   88  	struct clk_hw_onecell_data *clk_data;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   89  	void __iomem *base;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   90  	struct clk_hw *hw;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   91  	int r;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   92  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   93  	base = of_iomap(node, 0);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   94  	if (!base)
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  @95  		return PTR_ERR(base);
-
-return -ENOMEM;  This currently returns success.
-
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   96  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   97  	clk_data = mtk_alloc_clk_data(CLK_APMIXED_NR_CLK);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   98  	if (IS_ERR_OR_NULL(clk_data))
-
-This IS_ERR_OR_NULL() is kind of wrong.  It should just be if (!clk_data).
-I wrote a blog about this:
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20   99  		return -ENOMEM;
-
-of_iounmap(base)?
-
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  100  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  101  	r = mtk_clk_register_plls(node, plls, ARRAY_SIZE(plls), clk_data);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  102  	if (r)
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  103  		goto free_clk_data;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  104  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  105  	hw = mtk_clk_register_ref2usb_tx("ref2usb_tx", "clk26m", base + REGOFF_REF2USB);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  106  	if (IS_ERR(hw)) {
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  107  		r = PTR_ERR(hw);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  108  		dev_err(&pdev->dev, "Failed to register ref2usb_tx: %d\n", r);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  109  		goto unregister_plls;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  110  	}
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  111  	clk_data->hws[CLK_APMIXED_REF2USB_TX] = hw;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  112  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  113  	hw = devm_clk_hw_register_divider(&pdev->dev, "hdmi_ref", "tvdpll_594m", 0,
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  114  					  base + REGOFF_HDMI_REF, 16, 3,
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  115  					  CLK_DIVIDER_POWER_OF_TWO, NULL);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  116  	clk_data->hws[CLK_APMIXED_HDMI_REF] = hw;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  117  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  118  	r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  119  	if (r)
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  120  		goto unregister_ref2usb;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  121  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  122  	return 0;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  123  
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  124  unregister_ref2usb:
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  125  	mtk_clk_unregister_ref2usb_tx(clk_data->hws[CLK_APMIXED_REF2USB_TX]);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  126  unregister_plls:
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  127  	mtk_clk_unregister_plls(plls, ARRAY_SIZE(plls), clk_data);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  128  free_clk_data:
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  129  	mtk_free_clk_data(clk_data);
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20 @130  	return r;
-4c02c9af3cb944 AngeloGioacchino Del Regno 2023-01-20  131  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+put_and_unmap_page(page, addr), perhaps?
