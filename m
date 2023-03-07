@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A586BAD49
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 15:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE816AD49
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Mar 2023 16:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678204152; x=1709740152;
+  t=1678206555; x=1709742555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3edgdJsiTQ4SKFuvc73XnK2GTHJ0B21nW0PP2OLxYnE=;
-  b=AEkw8n5G+o0IiIzM8Ddwgm9fu/KsJOhsQm3bneu7AdLiz2X60Go/hZx0
-   XD8iTQKcn3F6ItDdjtYhNcFAehnA+gYHC7o2sr8tAPZa1kXk8igBD63IT
-   9uyoUdDVEzHYs7McbP1o2yL5GSlmi6+yHD/wok0HgcPD/JKUT7uF1ZHWT
-   MgpeTYFbOI+SfaM73P/ejBeerS0XKw0jneyG5LBQ+RlBxe2iU2Gm76ilD
-   7vt3eHF++BO7/S6z+d55t3VmsDyI4fK9Yqav0G0u4Q+2vK3kaFMm2j/U3
-   JTVSZlyzLmzQ9x9/brRkTU52Wfc4qe8BdNzz5XUuU0MKKzCKQ4eWRizPm
+  bh=EiKCUqpN1ZA34pPgl8HYeQ6i8aXVV8aVYoX6OXqfWfM=;
+  b=GB4Nup3X2m8+2r/W5+mmfNq2GUGaXpVcKXYJwwZqG/RyFs7zAQ5pHntt
+   biJemai22bYq+HsBnet6672R4k1Az10e3EWxksPbxibyaBhtFqbEzsQuW
+   LbdovRI07WxCsH0/sTv8V2Bur9hKwVvktn+si5wRQ693Q55Obtj69K509
+   kvkJzXW6GoAhRLuAwESYkNS0Ef9kyIoAl9Wq+yII8hOoXiF0NOVzoQdzV
+   hFboFV7O+mpCJxKNAOK8e940OFiSrFVymUTydSE0nR4grY21sXf6+6AO3
+   Ubi1AUfKc9ADISgUchht31iRuaNqAGAhO7EfHGiQ6hgO9UhdFxNXKS6TS
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="337402691"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398476772"
 X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="337402691"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 07:49:12 -0800
+   d="scan'208";a="398476772"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 08:29:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="626583037"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="786754602"
 X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="626583037"
+   d="scan'208";a="786754602"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 07 Mar 2023 07:49:11 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2023 08:29:14 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZZYs-0001R1-0C;
-	Tue, 07 Mar 2023 15:49:10 +0000
-Date: Tue, 7 Mar 2023 23:48:21 +0800
+	id 1pZaBd-0001TX-1R;
+	Tue, 07 Mar 2023 16:29:13 +0000
+Date: Wed, 8 Mar 2023 00:29:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 353/362] kernel/irq/irqdesc.c:686:22:
- warning: assignment to 'struct irq_desc *' from 'int' makes pointer from
- integer without a cast
-Message-ID: <202303072345.8JJDbdLK-lkp@intel.com>
+Subject: [sashal-stable:pending-6.2 357/821]
+ drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for
+ function 'qla_get_iocbs_resource'
+Message-ID: <202303080018.EJz8CvWo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,92 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   0611c6d676d5a83fe19b4a45aa27c12b0e443f96
-commit: fe54ee952d7c8b87ef1403edac3dbfb7cb62359e [353/362] genirq: Use irq_resolve_mapping() to implement __handle_domain_irq() and co
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20230307/202303072345.8JJDbdLK-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.2
+head:   1083275d5e409ffcd8263efa7f9586ab4248abce
+commit: d6bc9d7d4952b6bc72fb7ef1cb6b487251912bfd [357/821] scsi: qla2xxx: Fix exchange oversubscription for management commands
+config: i386-randconfig-a012-20230306 (https://download.01.org/0day-ci/archive/20230308/202303080018.EJz8CvWo-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=fe54ee952d7c8b87ef1403edac3dbfb7cb62359e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=d6bc9d7d4952b6bc72fb7ef1cb6b487251912bfd
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.10
-        git checkout fe54ee952d7c8b87ef1403edac3dbfb7cb62359e
+        git fetch --no-tags sashal-stable pending-6.2
+        git checkout d6bc9d7d4952b6bc72fb7ef1cb6b487251912bfd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash kernel/irq/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/scsi/qla2xxx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303072345.8JJDbdLK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303080018.EJz8CvWo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/irq/irqdesc.c: In function '__handle_domain_irq':
-   kernel/irq/irqdesc.c:686:24: error: implicit declaration of function 'irq_resolve_mapping'; did you mean 'irq_create_mapping'? [-Werror=implicit-function-declaration]
-     686 |                 desc = irq_resolve_mapping(domain, hwirq);
-         |                        ^~~~~~~~~~~~~~~~~~~
-         |                        irq_create_mapping
->> kernel/irq/irqdesc.c:686:22: warning: assignment to 'struct irq_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     686 |                 desc = irq_resolve_mapping(domain, hwirq);
-         |                      ^
-   kernel/irq/irqdesc.c: In function 'handle_domain_nmi':
-   kernel/irq/irqdesc.c:733:14: warning: assignment to 'struct irq_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     733 |         desc = irq_resolve_mapping(domain, hwirq);
-         |              ^
-   cc1: some warnings being treated as errors
+>> drivers/scsi/qla2xxx/qla_iocb.c:3820:5: warning: no previous prototype for function 'qla_get_iocbs_resource' [-Wmissing-prototypes]
+   int qla_get_iocbs_resource(struct srb *sp)
+       ^
+   drivers/scsi/qla2xxx/qla_iocb.c:3820:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int qla_get_iocbs_resource(struct srb *sp)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +686 kernel/irq/irqdesc.c
+vim +/qla_get_iocbs_resource +3820 drivers/scsi/qla2xxx/qla_iocb.c
 
-   664	
-   665	#ifdef CONFIG_HANDLE_DOMAIN_IRQ
-   666	/**
-   667	 * __handle_domain_irq - Invoke the handler for a HW irq belonging to a domain
-   668	 * @domain:	The domain where to perform the lookup
-   669	 * @hwirq:	The HW irq number to convert to a logical one
-   670	 * @lookup:	Whether to perform the domain lookup or not
-   671	 * @regs:	Register file coming from the low-level handling code
-   672	 *
-   673	 * Returns:	0 on success, or -EINVAL if conversion has failed
-   674	 */
-   675	int __handle_domain_irq(struct irq_domain *domain, unsigned int hwirq,
-   676				bool lookup, struct pt_regs *regs)
-   677	{
-   678		struct pt_regs *old_regs = set_irq_regs(regs);
-   679		struct irq_desc *desc;
-   680		int ret = 0;
-   681	
-   682		irq_enter();
-   683	
-   684		if (likely(IS_ENABLED(CONFIG_IRQ_DOMAIN) && lookup)) {
-   685			/* The irqdomain code provides boundary checks */
- > 686			desc = irq_resolve_mapping(domain, hwirq);
-   687		} else {
-   688			/*
-   689			 * Some hardware gives randomly wrong interrupts.  Rather
-   690			 * than crashing, do something sensible.
-   691			 */
-   692			if (unlikely(!hwirq || hwirq >= nr_irqs)) {
-   693				ack_bad_irq(hwirq);
-   694				desc = NULL;
-   695			} else {
-   696				desc = irq_to_desc(hwirq);
-   697			}
-   698		}
-   699	
-   700		if (likely(desc))
-   701			handle_irq_desc(desc);
-   702		else
-   703			ret = -EINVAL;
-   704	
-   705		irq_exit();
-   706		set_irq_regs(old_regs);
-   707		return ret;
-   708	}
-   709	
+  3819	
+> 3820	int qla_get_iocbs_resource(struct srb *sp)
+  3821	{
+  3822		bool get_exch;
+  3823		bool push_it_through = false;
+  3824	
+  3825		if (!ql2xenforce_iocb_limit) {
+  3826			sp->iores.res_type = RESOURCE_NONE;
+  3827			return 0;
+  3828		}
+  3829		sp->iores.res_type = RESOURCE_NONE;
+  3830	
+  3831		switch (sp->type) {
+  3832		case SRB_TM_CMD:
+  3833		case SRB_PRLI_CMD:
+  3834		case SRB_ADISC_CMD:
+  3835			push_it_through = true;
+  3836			fallthrough;
+  3837		case SRB_LOGIN_CMD:
+  3838		case SRB_ELS_CMD_RPT:
+  3839		case SRB_ELS_CMD_HST:
+  3840		case SRB_ELS_CMD_HST_NOLOGIN:
+  3841		case SRB_CT_CMD:
+  3842		case SRB_NVME_LS:
+  3843		case SRB_ELS_DCMD:
+  3844			get_exch = true;
+  3845			break;
+  3846	
+  3847		case SRB_FXIOCB_DCMD:
+  3848		case SRB_FXIOCB_BCMD:
+  3849			sp->iores.res_type = RESOURCE_NONE;
+  3850			return 0;
+  3851	
+  3852		case SRB_SA_UPDATE:
+  3853		case SRB_SA_REPLACE:
+  3854		case SRB_MB_IOCB:
+  3855		case SRB_ABT_CMD:
+  3856		case SRB_NACK_PLOGI:
+  3857		case SRB_NACK_PRLI:
+  3858		case SRB_NACK_LOGO:
+  3859		case SRB_LOGOUT_CMD:
+  3860		case SRB_CTRL_VP:
+  3861			push_it_through = true;
+  3862			fallthrough;
+  3863		default:
+  3864			get_exch = false;
+  3865		}
+  3866	
+  3867		sp->iores.res_type |= RESOURCE_IOCB;
+  3868		sp->iores.iocb_cnt = 1;
+  3869		if (get_exch) {
+  3870			sp->iores.res_type |= RESOURCE_EXCH;
+  3871			sp->iores.exch_cnt = 1;
+  3872		}
+  3873		if (push_it_through)
+  3874			sp->iores.res_type |= RESOURCE_FORCE;
+  3875	
+  3876		return qla_get_fw_resources(sp->qpair, &sp->iores);
+  3877	}
+  3878	
 
 -- 
 0-DAY CI Kernel Test Service
