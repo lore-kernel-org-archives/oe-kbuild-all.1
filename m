@@ -1,126 +1,148 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1617A8462;
-	Wed,  8 Mar 2023 17:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575368BE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 18:27:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678296957; x=1709832957;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VOMowpisuT+Vu8Qd1JnOmOwSzbYzkLa2oKEzLeAm7eM=;
-  b=VcdMtYuaE/lnmCjkGikFYKqPolPDHAHZwyZBaqCWg6xC/N2HkDw3skMs
-   yObT0li1tzTVTdOtlrYE7xcYQ9vkstQcCP5pZxXLs5rIEE0N1AA7j6xqf
-   2B/J0vTv/Q6w9L6TynieiNSgMUaL2/1eB3OAoDtTeLSZ3Jq6L7yhZ5e+U
-   T1tdeprGfuVLFh11JCimxvTPf6VB6PSixbktbrCTAFNGe0VUZl6zmh0da
-   iNZWxAQKeSpFpXUtqHyF+kDS0/FnnvrN451U0JVIzYXSh7+EODu9n6orF
-   rk7r2iZhh26ud5zlSqKat1wiAc/hf+2D1T+I0rQmT1m00jzNY96GIE2e1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398802387"
+  t=1678300028; x=1709836028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5xt+Oxmh4ZD99PRtVYMgcMoTdrC8s3y2I1hzYqDESF4=;
+  b=lv/uvu2YKVBWGeq7GFXog3QcUTMeAxuDmIcnV4Ff+X7g02qffCdPgsse
+   TuDfUqFvFedsvSuQpYOSfZqo6JGQMfLTvQATujXDAtEhliKrJFaG5aMdD
+   xIcZkk1IiMIR88Xy6sXCskWoqcRu+cvRX4/AnPtjich1TevovvmoWIkEV
+   sLYlIGkn4h2lLyLCeK1nXSP9PJDrmFTaLcCzTcSCMz09vVFAFHp5vl5gJ
+   h2tmAJMm0NRvn/7RjQDfMGTjGov0oc3iYHYWDw9PNJ8G+WlBnpwY8sKP/
+   OIqTlFI4yJl825bPXVV51qfsFrMT3bjS9vtu64suUVlcsDCPp6ccahzai
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401065312"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="398802387"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 09:35:56 -0800
+   d="scan'208";a="401065312"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 10:27:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820315270"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766100262"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="820315270"
+   d="scan'208";a="766100262"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 09:35:54 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 10:26:55 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZxhh-0002Iz-2K;
-	Wed, 08 Mar 2023 17:35:53 +0000
-Date: Thu, 9 Mar 2023 01:34:56 +0800
+	id 1pZyV5-0002Kv-0g;
+	Wed, 08 Mar 2023 18:26:55 +0000
+Date: Thu, 9 Mar 2023 02:26:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1239/1915] security/security.c:3566: warning:
- expecting prototype for security_sem_ctl(). Prototype was for
- security_sem_semctl() instead
-Message-ID: <202303090143.xmmvxZYq-lkp@intel.com>
+To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Michael Walle <michael@walle.cc>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Veaceslav Falico <vfalico@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Joakim Zhang <qiangqing.zhang@nxp.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	UNGLinuxDriver@microchip.com,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Minghao Chi <chi.minghao@zte.com.cn>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <202303090220.EervgFvH-lkp@intel.com>
+References: <20230308135936.761794-4-kory.maincent@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fc31900c948610e7b5c2f15fb7795832c8325327
-commit: 43fad282187695e25c51425ee9f5f9f08fe5e15d [1239/1915] lsm: move the sysv hook comments to security/security.c
-config: x86_64-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230309/202303090143.xmmvxZYq-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Köry,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on v6.2]
+[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
+patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230309/202303090220.EervgFvH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=43fad282187695e25c51425ee9f5f9f08fe5e15d
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 43fad282187695e25c51425ee9f5f9f08fe5e15d
+        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/phy/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090143.xmmvxZYq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090220.EervgFvH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   security/security.c:1083: warning: Function parameter or member 'mnt_opts' not described in 'security_free_mnt_opts'
-   security/security.c:1083: warning: Excess function parameter 'mnt_ops' description in 'security_free_mnt_opts'
-   security/security.c:1101: warning: Function parameter or member 'mnt_opts' not described in 'security_sb_eat_lsm_opts'
-   security/security.c:1101: warning: Excess function parameter 'mnt_ops' description in 'security_sb_eat_lsm_opts'
-   security/security.c:1269: warning: Function parameter or member 'oldsb' not described in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Function parameter or member 'newsb' not described in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Excess function parameter 'olddb' description in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Excess function parameter 'newdb' description in 'security_sb_clone_mnt_opts'
-   security/security.c:1760: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * security_inode_symlink() Check if creating a symbolic link is allowed
-   security/security.c:1976: warning: Function parameter or member 'size' not described in 'security_inode_setxattr'
-   security/security.c:2533: warning: Function parameter or member 'prot' not described in 'security_file_mprotect'
-   security/security.c:2533: warning: Excess function parameter 'prog' description in 'security_file_mprotect'
-   security/security.c:3267: warning: Function parameter or member 'flag' not described in 'security_ipc_permission'
-   security/security.c:3267: warning: Excess function parameter 'flags' description in 'security_ipc_permission'
->> security/security.c:3566: warning: expecting prototype for security_sem_ctl(). Prototype was for security_sem_semctl() instead
-   security/security.c:3838: warning: expecting prototype for security_socket_create(). Prototype was for security_socket_post_create() instead
-   security/security.c:4100: warning: Function parameter or member 'priority' not described in 'security_sk_alloc'
-   security/security.c:4100: warning: Excess function parameter 'priotity' description in 'security_sk_alloc'
-   security/security.c:4157: warning: Function parameter or member 'parent' not described in 'security_sock_graft'
-   security/security.c:4157: warning: Excess function parameter 'sock' description in 'security_sock_graft'
-   security/security.c:4614: warning: Function parameter or member 'xp' not described in 'security_xfrm_state_pol_flow_match'
-   security/security.c:4720: warning: Function parameter or member '_buffer' not described in 'security_key_getsecurity'
-   security/security.c:4720: warning: Excess function parameter 'buffer' description in 'security_key_getsecurity'
+>> drivers/net/phy/phy_device.c:1384:6: warning: no previous prototype for 'of_set_timestamp' [-Wmissing-prototypes]
+    1384 | void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +3566 security/security.c
+vim +/of_set_timestamp +1384 drivers/net/phy/phy_device.c
 
-20510f2f4e2dab James Morris      2007-10-16  3554  
-43fad282187695 Paul Moore        2023-02-16  3555  /**
-43fad282187695 Paul Moore        2023-02-16  3556   * security_sem_ctl() - Check if a sysv semaphore operation is allowed
-43fad282187695 Paul Moore        2023-02-16  3557   * @sma: sysv ipc permission structure
-43fad282187695 Paul Moore        2023-02-16  3558   * @cmd: operation
-43fad282187695 Paul Moore        2023-02-16  3559   *
-43fad282187695 Paul Moore        2023-02-16  3560   * Check permission when a semaphore operation specified by @cmd is to be
-43fad282187695 Paul Moore        2023-02-16  3561   * performed on the semaphore.
-43fad282187695 Paul Moore        2023-02-16  3562   *
-43fad282187695 Paul Moore        2023-02-16  3563   * Return: Returns 0 if permission is granted.
-43fad282187695 Paul Moore        2023-02-16  3564   */
-aefad9593ec5ad Eric W. Biederman 2018-03-22  3565  int security_sem_semctl(struct kern_ipc_perm *sma, int cmd)
-20510f2f4e2dab James Morris      2007-10-16 @3566  {
-f25fce3e8f1f15 Casey Schaufler   2015-05-02  3567  	return call_int_hook(sem_semctl, 0, sma, cmd);
-20510f2f4e2dab James Morris      2007-10-16  3568  }
-20510f2f4e2dab James Morris      2007-10-16  3569  
-
-:::::: The code at line 3566 was first introduced by commit
-:::::: 20510f2f4e2dabb0ff6c13901807627ec9452f98 security: Convert LSM into a static interface
-
-:::::: TO: James Morris <jmorris@namei.org>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+  1383	
+> 1384	void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+  1385	{
+  1386		struct device_node *node = phydev->mdio.dev.of_node;
+  1387		const struct ethtool_ops *ops = netdev->ethtool_ops;
+  1388		const char *s;
+  1389		enum timestamping_layer ts_layer = 0;
+  1390	
+  1391		if (phy_has_hwtstamp(phydev))
+  1392			ts_layer = PHY_TIMESTAMPING;
+  1393		else if (ops->get_ts_info)
+  1394			ts_layer = MAC_TIMESTAMPING;
+  1395	
+  1396		if (of_property_read_string(node, "preferred-timestamp", &s))
+  1397			goto out;
+  1398	
+  1399		if (!s)
+  1400			goto out;
+  1401	
+  1402		if (phy_has_hwtstamp(phydev) && !strcmp(s, "phy"))
+  1403			ts_layer = PHY_TIMESTAMPING;
+  1404	
+  1405		if (ops->get_ts_info && !strcmp(s, "mac"))
+  1406			ts_layer = MAC_TIMESTAMPING;
+  1407	
+  1408	out:
+  1409		netdev->selected_timestamping_layer = ts_layer;
+  1410	}
+  1411	
 
 -- 
 0-DAY CI Kernel Test Service
