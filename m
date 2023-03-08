@@ -1,173 +1,241 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9998079F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=+l6pvPFSZzemwr93IjuxChf8Z8w25V8S4wILXsPthcg=; b=EfkP0FEVzkM+EhrE5eUOXwf/z/
-	BwhqVtvzR2VDJzg0nGR2I5ld03VrAl+FUNiUDjBiM1Zq0Uo7JUD3vgT9P/tk0lDlmaw/BC859tJ8Y
-	80+30jzQSldVlKEfoqwUhuNM+hDiA7JxZLzf4el9o88Tas7N5Nphf7UF9Tiw7/C/puIcC7r3sIIsq
-	wCfYdqQIxUyPw8dbvHlvWJKoRzKg8v8/O1IourmNZWL6QLNfk3fDSb6/Vsb1ABLg1NifjDx99jx/B
-	GtX3pp1oDPtu2N4GjdUTqelaQxqEjEcGzU5Maryt4Ybh8rRVlUjKfQs4LS1tElKzlE8YGLtm+d21t
-	ShHhg2GA==;
-Received: from [2601:1c2:980:9ec0::df2f]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZx7h-006239-Ul; Wed, 08 Mar 2023 16:58:42 +0000
-Message-ID: <0b57bfa2-4d84-1661-f2cb-3e39cce56a42@infradead.org>
-Date: Wed, 8 Mar 2023 08:58:39 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBE679F5;
+	Wed,  8 Mar 2023 17:05:58 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id da10so68559594edb.3;
+        Wed, 08 Mar 2023 09:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678295157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2dSIBHZShgDNyZL1npO1Q8csh+EoPik7yFTi46Ldsdk=;
+        b=Uo9E9VDh/xbP8rRjf097dL5laxKmBy2kRlhQIM3m3TcHfPOneGkRCZPhaeLrJuiMF4
+         c/rC0RHgABq2GuIPsj4hTSjdct9vjHOjzgXUZIViBzGMCSrLEWXGEcSL849EsQJd+pvG
+         NTiOlZNpSdzNG+O1hPQGxBrE2nmu6HW3xBUubdThBxzXhDMluOy1UDJfw75Cz7qFhhgf
+         /ji5RlsZn9rokIzbekEtxhQWcn3ys7y9miBV3xhHXgd5EP5ec1yKeavd83ozFOx+iwmu
+         MxI0OqcY2NvBh17xZ0fJFIqm0yZrXM0+YBzKTTnnnbv4zaIAdvgqLbVtZsFjGdhqRysE
+         sWiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678295157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2dSIBHZShgDNyZL1npO1Q8csh+EoPik7yFTi46Ldsdk=;
+        b=7SR5hPXLazURNUzIBNjjlitRXUZ7qGOhB8FvfGrP1aEMCzPniocZoh3geXUlBgHSUd
+         sL7g/+xCTTN7vbVSpEMvm0HfpbtUQXiwHtjVuyxNBU0I/baL6FppwCHUTdSiUgLvbCjn
+         xcwah7rBPzgcK5R3QERdhv0UDSrxjnYsaUXCdjP++dwKsUHwlU70vuC5Osd3N6OOhtoP
+         VSfuaMHgU/vipjVv6UOxKMorv0rcaCdCOqsEZNEwb/6jtTspg0SQO9QEfM4Vxk+Mo54O
+         lDbWZNaXyLkKMFe8zZOjUf5V7M035Td/G7YLJNXfK1kiV/OY8WbqByOXSTVpFG6k1C24
+         mCkw==
+X-Gm-Message-State: AO0yUKUiOt2+Phidtc+fWhimu0Ie9qAA8HlVpmC+0LQgbukkBC7iQNko
+	o+1NStI3g80ScT9mPy2eEhiOR8Itq/2KV4O7cI0=
+X-Google-Smtp-Source: AK7set9MAA6a6ynFO+gDtutmyGvlPyt/4OzXqctsuhavf3gBNuMQnyPFgL6n6k0UoXXuy5mpHU9/Ab0EqCnH9V4GS08=
+X-Received: by 2002:a17:906:4bcb:b0:8b1:28f6:8ab3 with SMTP id
+ x11-20020a1709064bcb00b008b128f68ab3mr9586577ejv.15.1678295156815; Wed, 08
+ Mar 2023 09:05:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for
- IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>
-References: <202212221206.Lt61kYrt-lkp@intel.com>
- <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org> <Y6tAgP7UoP3aYBjq@spud>
- <d5bd9e86-473e-7577-4472-33eb2acbe8fa@infradead.org> <Y/lUvq3TSXL6tJOk@spud>
- <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
- <4F5BE5CB-1AB5-4725-860A-1231A72FCE1D@kernel.org>
- <9d44f863-8644-459a-9fd7-918f742d437e@spud>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <9d44f863-8644-459a-9fd7-918f742d437e@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230308035416.2591326-4-andrii@kernel.org> <202303082209.VIxMyiGz-lkp@intel.com>
+In-Reply-To: <202303082209.VIxMyiGz-lkp@intel.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 8 Mar 2023 09:05:44 -0800
+Message-ID: <CAEf4BzbTsiFOQdCanh5DWwOg7dUZTtNBkUJDwg4jztw5dEWSdA@mail.gmail.com>
+Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
+To: kernel test robot <lkp@intel.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org, ast@kernel.org, 
+	daniel@iogearbox.net, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	kernel-team@meta.com, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+On Wed, Mar 8, 2023 at 7:02=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Andrii,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bp=
+f-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%=
+40kernel.org
+> patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded it=
+erator loops
+> config: hexagon-randconfig-r015-20230305 (https://download.01.org/0day-ci=
+/archive/20230308/202303082209.VIxMyiGz-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 6740=
+9911353323ca5edf2049ef0df54132fa1ca7)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/8f263e1296a91ff15=
+4a033d7cffbac3ee0ebf2ae
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Andrii-Nakryiko/bpf-factor-out-f=
+etching-basic-kfunc-metadata/20230308-115539
+>         git checkout 8f263e1296a91ff154a033d7cffbac3ee0ebf2ae
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 O=3Dbuild_dir ARCH=3Dhexagon olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 O=3Dbuild_dir ARCH=3Dhexagon SHELL=3D/bin/bash kernel/bpf/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303082209.VIxMyiGz-lkp@i=
+ntel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from kernel/bpf/verifier.c:7:
+>    In file included from include/linux/bpf-cgroup.h:5:
+>    In file included from include/linux/bpf.h:31:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:26:
+>    In file included from include/linux/kernel_stat.h:9:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:547:31: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __raw_readb(PCI_IOBASE + addr);
+>                              ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:560:61: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE +=
+ addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded fro=
+m macro '__le16_to_cpu'
+>    #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+>                                                      ^
+>    In file included from kernel/bpf/verifier.c:7:
+>    In file included from include/linux/bpf-cgroup.h:5:
+>    In file included from include/linux/bpf.h:31:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:26:
+>    In file included from include/linux/kernel_stat.h:9:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:573:61: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val =3D __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE +=
+ addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded fro=
+m macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>                                                      ^
+>    In file included from kernel/bpf/verifier.c:7:
+>    In file included from include/linux/bpf-cgroup.h:5:
+>    In file included from include/linux/bpf.h:31:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:26:
+>    In file included from include/linux/kernel_stat.h:9:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
+:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/hexagon/include/asm/io.h:334:
+>    include/asm-generic/io.h:584:33: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writeb(value, PCI_IOBASE + addr);
+>                                ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:594:59: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + add=
+r);
+>                                                          ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:604:59: warning: performing pointer arithmeti=
+c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + add=
+r);
+>                                                          ~~~~~~~~~~ ^
+> >> kernel/bpf/verifier.c:1244:23: warning: variable 'j' is uninitialized =
+when used here [-Wuninitialized]
+>                    if (slot->slot_type[j] =3D=3D STACK_ITER)
+>                                        ^
+>    kernel/bpf/verifier.c:1229:15: note: initialize the variable 'j' to si=
+lence this warning
+>            int spi, i, j;
+>                         ^
+>                          =3D 0
+>    7 warnings generated.
+>
+>
+> vim +/j +1244 kernel/bpf/verifier.c
+>
+>   1224
+>   1225  static bool is_iter_reg_valid_uninit(struct bpf_verifier_env *env=
+,
+>   1226                                       struct bpf_reg_state *reg, i=
+nt nr_slots)
+>   1227  {
+>   1228          struct bpf_func_state *state =3D func(env, reg);
+>   1229          int spi, i, j;
+>   1230
+>   1231          /* For -ERANGE (i.e. spi not falling into allocated stack=
+ slots), we
+>   1232           * will do check_mem_access to check and update stack bou=
+nds later, so
+>   1233           * return true for that case.
+>   1234           */
+>   1235          spi =3D iter_get_spi(env, reg, nr_slots);
+>   1236          if (spi =3D=3D -ERANGE)
+>   1237                  return true;
+>   1238          if (spi < 0)
+>   1239                  return spi;
 
-On 3/8/23 08:08, Conor Dooley wrote:
-> On Sat, Feb 25, 2023 at 01:43:44PM +0000, Conor Dooley wrote:
->>
->>
->> On 25 February 2023 00:28:36 GMT, Randy Dunlap <rdunlap@infradead.org> wrote:
->>>
->>>
->>> On 2/24/23 16:22, Conor Dooley wrote:
->>>> On Fri, Feb 24, 2023 at 04:12:49PM -0800, Randy Dunlap wrote:
->>>>> Hi Conor, Palmer,
->>>>>
->>>>> On 12/27/22 10:59, Conor Dooley wrote:
->>>>>> Hey Randy,
->>>>>>
->>>>>> On Thu, Dec 22, 2022 at 05:00:06PM -0800, Randy Dunlap wrote:
->>>>>>> On 12/21/22 20:49, kernel test robot wrote:
->>>>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>>>>>>> head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
->>>>>>>> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
->>>>>>>> date:   6 weeks ago
->>>>>>>> config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA-0-0
->>>>>>>> reproduce:
->>>>>>>>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->>>>>>>>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->>>>>>>>         git fetch --no-tags linus master
->>>>>>>>         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
->>>>>>>>         # 1. reproduce by kismet
->>>>>>>>            # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
->>>>>>>>            kismet --linux-ksrc=linux --selectees CONFIG_IOMMU_IO_PGTABLE_LPAE --selectors CONFIG_IPMMU_VMSA -a=riscv
->>>>>>>>         # 2. reproduce by make
->>>>>>>>            # save the config file to linux source tree
->>>>>>>>            cd linux
->>>>>>>>            make ARCH=riscv olddefconfig
->>>>>>>>
->>>>>>>> If you fix the issue, kindly add following tag where applicable
->>>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>>>>
->>>>>>>> kismet warnings: (new ones prefixed by >>)
->>>>>>>>>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
->>>>>>>>    .config:4814:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
->>>>>>>>    
->>>>>>>>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
->>>>>>>>      Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
->>>>>>>>      Selected by [y]:
->>>>>>>>      - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y])
->>>>>>>>
->>>>>>>
->>>>>>> Maybe this:
->>>>>>>
->>>>>>> ---
->>>>>>>  drivers/iommu/Kconfig |    3 ++-
->>>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff -- a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
->>>>>>> --- a/drivers/iommu/Kconfig
->>>>>>> +++ b/drivers/iommu/Kconfig
->>>>>>> @@ -32,7 +32,8 @@ config IOMMU_IO_PGTABLE
->>>>>>>  config IOMMU_IO_PGTABLE_LPAE
->>>>>>>  	bool "ARMv7/v8 Long Descriptor Format"
->>>>>>>  	select IOMMU_IO_PGTABLE
->>>>>>> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
->>>>>>> +	depends on ARM || ARM64 || ARCH_RENESAS || \
->>>>>>> +		(COMPILE_TEST && !GENERIC_ATOMIC64)
->>>>>>>  	help
->>>>>>>  	  Enable support for the ARM long descriptor pagetable format.
->>>>>>>  	  This allocator supports 4K/2M/1G, 16K/32M and 64K/512M page
->>>>>>>
->>>>>>>
->>>>>>> or is way off?
->>>>>>
->>>>>> Apologies for the radio silence here..
->>>>>>
->>>>>> Palmer initially sent a workaround and there was some discussion there:
->>>>>> https://lore.kernel.org/all/20221214180409.7354-1-palmer@rivosinc.com/
->>>>>> Guo sent a patch too:
->>>>>> https://lore.kernel.org/linux-riscv/20221215073212.1966823-1-guoren@kernel.org/
->>>>>>
->>>>>> I suppose Christmas is doing Christmas things :)
->>>>>
->>>>> Has this been solved (merged) yet?
->>>>> I'm still seeing a warning on linux-next-20230224.
->>>>
->>>> I thought it was fixed in the iommu tree with this series:
->>>> https://lore.kernel.org/all/7a53ac6f-640b-436d-9bfa-3e49066b2460@arm.com/
->>>>
->>>> If it is not, I'll take a look tomorrow...
->>>
->>> I see this warning on today's linux-next-20230224:
->>>
->>> WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
->>>  Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
->>>  Selected by [y]:
->>>  - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
->>>
->>> with the attached config file. Please have a look.
->>
->> My main hard drive in my dev machine died overnight, so I'll have to renage on my tomorrow promise above.
-> 
-> I finally got around to looking at this today. I tried Palmer's original
-> reproducer (riscv32 allmodconfig) on top of v6.3-rc1 & this randconfig +
-> olddefconfig on it, and couldn't get the selection to trigger.
-> Maybe I misunderstand the randconfig process, but I had thought that
-> olddefconfig was supposed to be (the equivalent of) idempotent for
-> randconfigs.
+also, this should be return false
 
-That's what I usually do also:
-cp some_old_randconfig_file .config
-make olddefconfig
+>   1240
+>   1241          for (i =3D 0; i < nr_slots; i++) {
+>   1242                  struct bpf_stack_state *slot =3D &state->stack[sp=
+i - i];
+>   1243
 
-> Robin did make some changes to the IOMMU Kconfig stuff that landed in
-> v6.3, so perhaps that's what has eventually sorted this out.
+for (j =3D 0; j < BPF_REG_SIZE; j++) got lost during rebasing, sigh. I
+have a test that's testing this exact condition to be checked
+properly, and it is passing (that is proper return false is returned
+here) consistently with the garbage value of j :(
 
-Yes, it looks like Robin's commit d286a58bc8f4 fixed this problem.
+Anyways, restored for loop here.
 
-> Please LMK if I've misunderstood & ruined the randconfig w/
-> olddefconfig!
-
-Looks good now. Thanks.
-
--- 
-~Randy
+> > 1244                  if (slot->slot_type[j] =3D=3D STACK_ITER)
+>   1245                          return false;
+>   1246          }
+>   1247
+>   1248          return true;
+>   1249  }
+>   1250
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
