@@ -1,241 +1,127 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBE679F5;
-	Wed,  8 Mar 2023 17:05:58 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id da10so68559594edb.3;
-        Wed, 08 Mar 2023 09:05:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678295157;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2dSIBHZShgDNyZL1npO1Q8csh+EoPik7yFTi46Ldsdk=;
-        b=Uo9E9VDh/xbP8rRjf097dL5laxKmBy2kRlhQIM3m3TcHfPOneGkRCZPhaeLrJuiMF4
-         c/rC0RHgABq2GuIPsj4hTSjdct9vjHOjzgXUZIViBzGMCSrLEWXGEcSL849EsQJd+pvG
-         NTiOlZNpSdzNG+O1hPQGxBrE2nmu6HW3xBUubdThBxzXhDMluOy1UDJfw75Cz7qFhhgf
-         /ji5RlsZn9rokIzbekEtxhQWcn3ys7y9miBV3xhHXgd5EP5ec1yKeavd83ozFOx+iwmu
-         MxI0OqcY2NvBh17xZ0fJFIqm0yZrXM0+YBzKTTnnnbv4zaIAdvgqLbVtZsFjGdhqRysE
-         sWiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678295157;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2dSIBHZShgDNyZL1npO1Q8csh+EoPik7yFTi46Ldsdk=;
-        b=7SR5hPXLazURNUzIBNjjlitRXUZ7qGOhB8FvfGrP1aEMCzPniocZoh3geXUlBgHSUd
-         sL7g/+xCTTN7vbVSpEMvm0HfpbtUQXiwHtjVuyxNBU0I/baL6FppwCHUTdSiUgLvbCjn
-         xcwah7rBPzgcK5R3QERdhv0UDSrxjnYsaUXCdjP++dwKsUHwlU70vuC5Osd3N6OOhtoP
-         VSfuaMHgU/vipjVv6UOxKMorv0rcaCdCOqsEZNEwb/6jtTspg0SQO9QEfM4Vxk+Mo54O
-         lDbWZNaXyLkKMFe8zZOjUf5V7M035Td/G7YLJNXfK1kiV/OY8WbqByOXSTVpFG6k1C24
-         mCkw==
-X-Gm-Message-State: AO0yUKUiOt2+Phidtc+fWhimu0Ie9qAA8HlVpmC+0LQgbukkBC7iQNko
-	o+1NStI3g80ScT9mPy2eEhiOR8Itq/2KV4O7cI0=
-X-Google-Smtp-Source: AK7set9MAA6a6ynFO+gDtutmyGvlPyt/4OzXqctsuhavf3gBNuMQnyPFgL6n6k0UoXXuy5mpHU9/Ab0EqCnH9V4GS08=
-X-Received: by 2002:a17:906:4bcb:b0:8b1:28f6:8ab3 with SMTP id
- x11-20020a1709064bcb00b008b128f68ab3mr9586577ejv.15.1678295156815; Wed, 08
- Mar 2023 09:05:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1617A8462;
+	Wed,  8 Mar 2023 17:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678296957; x=1709832957;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VOMowpisuT+Vu8Qd1JnOmOwSzbYzkLa2oKEzLeAm7eM=;
+  b=VcdMtYuaE/lnmCjkGikFYKqPolPDHAHZwyZBaqCWg6xC/N2HkDw3skMs
+   yObT0li1tzTVTdOtlrYE7xcYQ9vkstQcCP5pZxXLs5rIEE0N1AA7j6xqf
+   2B/J0vTv/Q6w9L6TynieiNSgMUaL2/1eB3OAoDtTeLSZ3Jq6L7yhZ5e+U
+   T1tdeprGfuVLFh11JCimxvTPf6VB6PSixbktbrCTAFNGe0VUZl6zmh0da
+   iNZWxAQKeSpFpXUtqHyF+kDS0/FnnvrN451U0JVIzYXSh7+EODu9n6orF
+   rk7r2iZhh26ud5zlSqKat1wiAc/hf+2D1T+I0rQmT1m00jzNY96GIE2e1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398802387"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="398802387"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 09:35:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820315270"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="820315270"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 09:35:54 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZxhh-0002Iz-2K;
+	Wed, 08 Mar 2023 17:35:53 +0000
+Date: Thu, 9 Mar 2023 01:34:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 1239/1915] security/security.c:3566: warning:
+ expecting prototype for security_sem_ctl(). Prototype was for
+ security_sem_semctl() instead
+Message-ID: <202303090143.xmmvxZYq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230308035416.2591326-4-andrii@kernel.org> <202303082209.VIxMyiGz-lkp@intel.com>
-In-Reply-To: <202303082209.VIxMyiGz-lkp@intel.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Wed, 8 Mar 2023 09:05:44 -0800
-Message-ID: <CAEf4BzbTsiFOQdCanh5DWwOg7dUZTtNBkUJDwg4jztw5dEWSdA@mail.gmail.com>
-Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
-To: kernel test robot <lkp@intel.com>
-Cc: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org, ast@kernel.org, 
-	daniel@iogearbox.net, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	kernel-team@meta.com, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Mar 8, 2023 at 7:02=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Andrii,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bp=
-f-factor-out-fetching-basic-kfunc-metadata/20230308-115539
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%=
-40kernel.org
-> patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded it=
-erator loops
-> config: hexagon-randconfig-r015-20230305 (https://download.01.org/0day-ci=
-/archive/20230308/202303082209.VIxMyiGz-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 6740=
-9911353323ca5edf2049ef0df54132fa1ca7)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/8f263e1296a91ff15=
-4a033d7cffbac3ee0ebf2ae
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Andrii-Nakryiko/bpf-factor-out-f=
-etching-basic-kfunc-metadata/20230308-115539
->         git checkout 8f263e1296a91ff154a033d7cffbac3ee0ebf2ae
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dhexagon olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dhexagon SHELL=3D/bin/bash kernel/bpf/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303082209.VIxMyiGz-lkp@i=
-ntel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from kernel/bpf/verifier.c:7:
->    In file included from include/linux/bpf-cgroup.h:5:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:26:
->    In file included from include/linux/kernel_stat.h:9:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
-:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:334:
->    include/asm-generic/io.h:547:31: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            val =3D __raw_readb(PCI_IOBASE + addr);
->                              ~~~~~~~~~~ ^
->    include/asm-generic/io.h:560:61: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            val =3D __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE +=
- addr));
->                                                            ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded fro=
-m macro '__le16_to_cpu'
->    #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->                                                      ^
->    In file included from kernel/bpf/verifier.c:7:
->    In file included from include/linux/bpf-cgroup.h:5:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:26:
->    In file included from include/linux/kernel_stat.h:9:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
-:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:334:
->    include/asm-generic/io.h:573:61: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            val =3D __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE +=
- addr));
->                                                            ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded fro=
-m macro '__le32_to_cpu'
->    #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->                                                      ^
->    In file included from kernel/bpf/verifier.c:7:
->    In file included from include/linux/bpf-cgroup.h:5:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:26:
->    In file included from include/linux/kernel_stat.h:9:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1=
-:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:334:
->    include/asm-generic/io.h:584:33: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            __raw_writeb(value, PCI_IOBASE + addr);
->                                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:594:59: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + add=
-r);
->                                                          ~~~~~~~~~~ ^
->    include/asm-generic/io.h:604:59: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + add=
-r);
->                                                          ~~~~~~~~~~ ^
-> >> kernel/bpf/verifier.c:1244:23: warning: variable 'j' is uninitialized =
-when used here [-Wuninitialized]
->                    if (slot->slot_type[j] =3D=3D STACK_ITER)
->                                        ^
->    kernel/bpf/verifier.c:1229:15: note: initialize the variable 'j' to si=
-lence this warning
->            int spi, i, j;
->                         ^
->                          =3D 0
->    7 warnings generated.
->
->
-> vim +/j +1244 kernel/bpf/verifier.c
->
->   1224
->   1225  static bool is_iter_reg_valid_uninit(struct bpf_verifier_env *env=
-,
->   1226                                       struct bpf_reg_state *reg, i=
-nt nr_slots)
->   1227  {
->   1228          struct bpf_func_state *state =3D func(env, reg);
->   1229          int spi, i, j;
->   1230
->   1231          /* For -ERANGE (i.e. spi not falling into allocated stack=
- slots), we
->   1232           * will do check_mem_access to check and update stack bou=
-nds later, so
->   1233           * return true for that case.
->   1234           */
->   1235          spi =3D iter_get_spi(env, reg, nr_slots);
->   1236          if (spi =3D=3D -ERANGE)
->   1237                  return true;
->   1238          if (spi < 0)
->   1239                  return spi;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fc31900c948610e7b5c2f15fb7795832c8325327
+commit: 43fad282187695e25c51425ee9f5f9f08fe5e15d [1239/1915] lsm: move the sysv hook comments to security/security.c
+config: x86_64-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230309/202303090143.xmmvxZYq-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=43fad282187695e25c51425ee9f5f9f08fe5e15d
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 43fad282187695e25c51425ee9f5f9f08fe5e15d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-also, this should be return false
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090143.xmmvxZYq-lkp@intel.com/
 
->   1240
->   1241          for (i =3D 0; i < nr_slots; i++) {
->   1242                  struct bpf_stack_state *slot =3D &state->stack[sp=
-i - i];
->   1243
+All warnings (new ones prefixed by >>):
 
-for (j =3D 0; j < BPF_REG_SIZE; j++) got lost during rebasing, sigh. I
-have a test that's testing this exact condition to be checked
-properly, and it is passing (that is proper return false is returned
-here) consistently with the garbage value of j :(
+   security/security.c:1083: warning: Function parameter or member 'mnt_opts' not described in 'security_free_mnt_opts'
+   security/security.c:1083: warning: Excess function parameter 'mnt_ops' description in 'security_free_mnt_opts'
+   security/security.c:1101: warning: Function parameter or member 'mnt_opts' not described in 'security_sb_eat_lsm_opts'
+   security/security.c:1101: warning: Excess function parameter 'mnt_ops' description in 'security_sb_eat_lsm_opts'
+   security/security.c:1269: warning: Function parameter or member 'oldsb' not described in 'security_sb_clone_mnt_opts'
+   security/security.c:1269: warning: Function parameter or member 'newsb' not described in 'security_sb_clone_mnt_opts'
+   security/security.c:1269: warning: Excess function parameter 'olddb' description in 'security_sb_clone_mnt_opts'
+   security/security.c:1269: warning: Excess function parameter 'newdb' description in 'security_sb_clone_mnt_opts'
+   security/security.c:1760: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * security_inode_symlink() Check if creating a symbolic link is allowed
+   security/security.c:1976: warning: Function parameter or member 'size' not described in 'security_inode_setxattr'
+   security/security.c:2533: warning: Function parameter or member 'prot' not described in 'security_file_mprotect'
+   security/security.c:2533: warning: Excess function parameter 'prog' description in 'security_file_mprotect'
+   security/security.c:3267: warning: Function parameter or member 'flag' not described in 'security_ipc_permission'
+   security/security.c:3267: warning: Excess function parameter 'flags' description in 'security_ipc_permission'
+>> security/security.c:3566: warning: expecting prototype for security_sem_ctl(). Prototype was for security_sem_semctl() instead
+   security/security.c:3838: warning: expecting prototype for security_socket_create(). Prototype was for security_socket_post_create() instead
+   security/security.c:4100: warning: Function parameter or member 'priority' not described in 'security_sk_alloc'
+   security/security.c:4100: warning: Excess function parameter 'priotity' description in 'security_sk_alloc'
+   security/security.c:4157: warning: Function parameter or member 'parent' not described in 'security_sock_graft'
+   security/security.c:4157: warning: Excess function parameter 'sock' description in 'security_sock_graft'
+   security/security.c:4614: warning: Function parameter or member 'xp' not described in 'security_xfrm_state_pol_flow_match'
+   security/security.c:4720: warning: Function parameter or member '_buffer' not described in 'security_key_getsecurity'
+   security/security.c:4720: warning: Excess function parameter 'buffer' description in 'security_key_getsecurity'
 
-Anyways, restored for loop here.
 
-> > 1244                  if (slot->slot_type[j] =3D=3D STACK_ITER)
->   1245                          return false;
->   1246          }
->   1247
->   1248          return true;
->   1249  }
->   1250
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+vim +3566 security/security.c
+
+20510f2f4e2dab James Morris      2007-10-16  3554  
+43fad282187695 Paul Moore        2023-02-16  3555  /**
+43fad282187695 Paul Moore        2023-02-16  3556   * security_sem_ctl() - Check if a sysv semaphore operation is allowed
+43fad282187695 Paul Moore        2023-02-16  3557   * @sma: sysv ipc permission structure
+43fad282187695 Paul Moore        2023-02-16  3558   * @cmd: operation
+43fad282187695 Paul Moore        2023-02-16  3559   *
+43fad282187695 Paul Moore        2023-02-16  3560   * Check permission when a semaphore operation specified by @cmd is to be
+43fad282187695 Paul Moore        2023-02-16  3561   * performed on the semaphore.
+43fad282187695 Paul Moore        2023-02-16  3562   *
+43fad282187695 Paul Moore        2023-02-16  3563   * Return: Returns 0 if permission is granted.
+43fad282187695 Paul Moore        2023-02-16  3564   */
+aefad9593ec5ad Eric W. Biederman 2018-03-22  3565  int security_sem_semctl(struct kern_ipc_perm *sma, int cmd)
+20510f2f4e2dab James Morris      2007-10-16 @3566  {
+f25fce3e8f1f15 Casey Schaufler   2015-05-02  3567  	return call_int_hook(sem_semctl, 0, sma, cmd);
+20510f2f4e2dab James Morris      2007-10-16  3568  }
+20510f2f4e2dab James Morris      2007-10-16  3569  
+
+:::::: The code at line 3566 was first introduced by commit
+:::::: 20510f2f4e2dabb0ff6c13901807627ec9452f98 security: Convert LSM into a static interface
+
+:::::: TO: James Morris <jmorris@namei.org>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
