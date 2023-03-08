@@ -1,42 +1,42 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B386A8BF3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 19:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B03BA48
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 20:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678305598; x=1709841598;
+  t=1678305600; x=1709841600;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PlXhxjvdnru+c2ulBGuXcfwTsMBYDjgJ+iI/nk/TX1k=;
-  b=hZsgfIypI2iW3zOqlG5bTm8TaMmkNx66g3Y5ocWH8BlWRbsRbAsaYJbj
-   +9VON3tVIacCJIwrNbZYdRLBrhkAfrOgBimB/bQvU+DrUX++rhWrEqd/t
-   nrt+IL696DC5NeyYoHIAq+8tUOXw7y46rkOhZ7VhMdLZOEfMEPNzjNhGw
-   wcII1/LN49ywjx2UiZhm5wuXQTfxcmLkkqx2NltYpnm/tXjtxaGLm2pX3
-   QUxlDNDXlWnTKOFzAZlCaDKW9Mqw4hxZ7NNVWavoI3T/oqVHKITjOFYAs
-   6yndPHaEYQmBJkG4AKAoEiM688VD9Jv2yacNlGFCeBLllMKhVoNZ4ymKw
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337783810"
+  bh=MXYFuwA5rZb2IsNa0fNHQ8OgPedk8Erffs5T0liUS9k=;
+  b=fJDbCFNXjISvx5NzUxFiN8VjIf8J892B3KswKaAQMfpJrDrtNIHf6FI+
+   x50u9T8XfINxAzCghjqlZCGU1YEqb0nh5ksj0v9mPJL0tizSyFbdm9ouB
+   JWSH6z2U2YsB1X3daKBYdBs1G1faJUjGIvS3+dRFWrT+taTB7ApiPhViz
+   uYhY5j86yYwTk6zXSdGHSrnppS+gXWqFQyS/DG97t8/cBHpJjuVeNrjoS
+   9X90RDZ4up2DRO6q7zj2xEipWUL/WC9DJTFrbkGcqgBpxzQ8gy4BAWqhx
+   +i/LTEPn7DFK4aHKNpm40D2zVQkiEXHJJxtdgQbndRev8h+fiDDzrMTYu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337783812"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="337783810"
+   d="scan'208";a="337783812"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 11:59:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627061024"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627061027"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="627061024"
+   d="scan'208";a="627061027"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 08 Mar 2023 11:59:57 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZzx6-0002Nh-2W;
+	id 1pZzx6-0002No-2j;
 	Wed, 08 Mar 2023 19:59:56 +0000
-Date: Thu, 9 Mar 2023 03:59:16 +0800
+Date: Thu, 9 Mar 2023 03:59:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 198/198] fs/udf/inode.c:1850:21: error:
- no member named 'i_hidden' in 'struct udf_inode_info'
-Message-ID: <202303090327.LHXh7avV-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 198/198] fs/udf/inode.c:1850:33: error:
+ 'struct udf_inode_info' has no member named 'i_hidden'
+Message-ID: <202303090348.pyCv6vje-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,30 +49,28 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
 head:   8766782326e9b6fe5a4dacf3083e7f9ed034179b
 commit: 8766782326e9b6fe5a4dacf3083e7f9ed034179b [198/198] udf: Detect system inodes linked into directory hierarchy
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230309/202303090327.LHXh7avV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230309/202303090348.pyCv6vje-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=8766782326e9b6fe5a4dacf3083e7f9ed034179b
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-4.19
         git checkout 8766782326e9b6fe5a4dacf3083e7f9ed034179b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/udf/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/udf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090327.LHXh7avV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090348.pyCv6vje-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/udf/inode.c:1850:21: error: no member named 'i_hidden' in 'struct udf_inode_info'
-                   if (UDF_I(inode)->i_hidden != hidden_inode) {
-                       ~~~~~~~~~~~~  ^
-   1 error generated.
+   fs/udf/inode.c: In function '__udf_iget':
+>> fs/udf/inode.c:1850:33: error: 'struct udf_inode_info' has no member named 'i_hidden'
+    1850 |                 if (UDF_I(inode)->i_hidden != hidden_inode) {
+         |                                 ^~
 
 
 vim +1850 fs/udf/inode.c
