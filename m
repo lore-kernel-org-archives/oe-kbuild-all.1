@@ -1,42 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B065C7C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 02:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F77A39C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 02:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678242214; x=1709778214;
+  t=1678242216; x=1709778216;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xDCYWOSzpKAXkdNbI7bYj3Kew1lYHD+0tSb1EB66fCo=;
-  b=nDdzwRQj0wphJyuwZA6QkuLBVcs8iXy/utuLdhbX8oBgNnvDa/Acw6mJ
-   0zyg7R9OPXiHgCqGs9n50YAVdt25u5qnFSSaak8ztBHqt/s7C7gh1NnOf
-   J/WpIvMoDRWwHd/ikqCtiniqdXsqe1Fx/0MhQcTJ/n/6SzBAX/8Vvk2YU
-   BiUgY1Vcib2n9jVLi7bCYB2Nf/9YOs6NcIdlV5wATUr0EKdb3yzmJ9Mtj
-   b586fAJ18fnTf+FSRWLk1/2qHwE6e7JjOkm6sJHK+649M2HNvhRRAit+4
-   rba5tSaDnh9qxqXj3jtCRgOPdYgLiLGRaMaKEF+nladsVGrWGYDbQZlEi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324348049"
+  bh=2FhHBp2SpLFj0XfF7E29FqaYiidzNYe4t+AW7TKWKQw=;
+  b=nQYoltqBAZbmah/CcTvYvEwrBiNDo6HRZGCbNxziZX197R1TW84aF5sq
+   6EOzLaaIu50C4qZpOD/+JQWTwZIP5ROmDqNebG7uVdDRTR0C5WYtrWGSk
+   Wu3T58LPSggo6w6QAm8E+oU7nOdkU3AAXwkF+BCtGPAFl6pZGVmtSKCAO
+   7iA19oU40Kkcbt3oc1q285pTsQDh6gsS55JmnZlZf9I2R/rKEzulkfy/d
+   j19xKYhjQlQ4eumgX+qaAVpWEJW+gFAfJ/OvgGHO7DN93GCC6KeSdXAdy
+   PRgRH/yYV6au3TrkFay4fu93GSkO0fxbVh3u6VnYF13AtBHnyL0PjzoXv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324348052"
 X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="324348049"
+   d="scan'208";a="324348052"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 18:23:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="922608265"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="922608266"
 X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="922608265"
+   d="scan'208";a="922608266"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 07 Mar 2023 18:23:33 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZjSm-0001oD-1J;
+	id 1pZjSm-0001oB-1D;
 	Wed, 08 Mar 2023 02:23:32 +0000
-Date: Wed, 8 Mar 2023 10:23:29 +0800
+Date: Wed, 8 Mar 2023 10:23:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android13-5.15-arcvm 40/40] mm/vmscan.c:5278:5:
  warning: no previous prototype for 'print_node_mglru'
-Message-ID: <202303081041.5Ph6IFtj-lkp@intel.com>
+Message-ID: <202303081011.U0Ga3S90-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,22 +49,20 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android13-5.15-arcvm
 head:   e09e14eaa904078befb89ae73f24f9ee6f7dab6e
 commit: e09e14eaa904078befb89ae73f24f9ee6f7dab6e [40/40] CHROMIUM: Implementation of MGLRU in sysfs
-config: arm-randconfig-r046-20230306 (https://download.01.org/0day-ci/archive/20230308/202303081041.5Ph6IFtj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+config: i386-randconfig-a002-20230306 (https://download.01.org/0day-ci/archive/20230308/202303081011.U0Ga3S90-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android13-5.15-arcvm
         git checkout e09e14eaa904078befb89ae73f24f9ee6f7dab6e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303081041.5Ph6IFtj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303081011.U0Ga3S90-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
