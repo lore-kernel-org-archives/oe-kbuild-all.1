@@ -1,187 +1,121 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9529479F2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678293296; x=1709829296;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EB0dJo8S95HEyVxgOsBQRdyHYN+2pZJXz4/tRQLenEg=;
-  b=PflcEloVHhQyaagawJ2EN6bhdEcAt4nd2+01YjOCOO8y2wRRcBTc5qqQ
-   q7IsG4+FDOu2JpCjVogHZuQnn271HjGSQUcaUEpAGGyKE+PfIH7sqyiWT
-   KHOY9/FIHTu6zz18oXQNbrKcGe4I0RmulL/l+33Fh0BCensjoi3+wrBUH
-   DSSk2rYuOSteTX2lLBlay7VpDuO1fluc9UHnPTpJJ4UbhpiuZhMZ3BJo7
-   SMpYnv0X/xdhsFmFi9IfcKDnCtyvBMicFe163BUZunGyrN5uLkbjFGN/p
-   T7CndK06wU1Ss+5ERMKntxPExV7VM6ZN0QhIms61nwZLUvW0jKox+EepG
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422474576"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="422474576"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:34:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820292052"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="820292052"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 08:34:53 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZwke-0002GP-0Y;
-	Wed, 08 Mar 2023 16:34:52 +0000
-Date: Thu, 9 Mar 2023 00:33:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Evgeniy Baskov <baskov@ispras.ru>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Subject: [ardb:efi-x86-nx 5/24] arch/x86/mm/ident_map.c:19:8: warning: no
- previous prototype for 'ident_split_large_pmd'
-Message-ID: <202303090031.t72VFmyu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AAC79F0;
+	Wed,  8 Mar 2023 16:37:02 +0000 (UTC)
+Received: from mail.ispras.ru (unknown [83.149.199.84])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 3BD2C40737CA;
+	Wed,  8 Mar 2023 16:30:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 3BD2C40737CA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1678293019;
+	bh=XJKh/p1kSUE3LVFYIVycWpl1C//df/YgD/SzFuBsZ3k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VsB/TyeAfdEx43Qc8GtkoTdBhP2VzD7whpD8GQn3JDsIEggI5CKVBSyJSC7Ep7Itq
+	 ivuVDYW4MOkwSm2ctzBMeBoEBHjjkUZ1JVdXpz2r5ZI2urv17XcMIWkhscBpOALeK6
+	 +VEWiiWaL1d84tG4+LY2yawjmzmS61Al9ea98rOE=
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Wed, 08 Mar 2023 19:30:19 +0300
+From: Evgeniy Baskov <baskov@ispras.ru>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [ardb:efi-x86-nx 10/24] drivers/firmware/efi/libstub/mem.c:170
+ efi_adjust_memory_range_protection() error: uninitialized symbol
+ 'rounded_start'.
+In-Reply-To: <8e0bd257-dad0-47e2-8e30-916f9042c77d@kili.mountain>
+References: <8e0bd257-dad0-47e2-8e30-916f9042c77d@kili.mountain>
+User-Agent: Roundcube Webmail/1.4.4
+Message-ID: <9c94967d7afa4a1898f8765cb8d14fd8@ispras.ru>
+X-Sender: baskov@ispras.ru
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
-head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
-commit: 26f02800cb89d842e554a5e030a40560adc7221b [5/24] x86/boot: Support 4KB pages for identity mapping
-config: x86_64-randconfig-r002-20230306 (https://download.01.org/0day-ci/archive/20230309/202303090031.t72VFmyu-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=26f02800cb89d842e554a5e030a40560adc7221b
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb efi-x86-nx
-        git checkout 26f02800cb89d842e554a5e030a40560adc7221b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+On 2023-03-08 19:21, Dan Carpenter wrote:
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git 
+> efi-x86-nx
+> head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
+> commit: 6b4ae58e7147165ec019e3899a5d4d14e0396110 [10/24] efi/libstub:
+> Move helper function to related file
+> config: loongarch-randconfig-m041-20230305
+> (https://download.01.org/0day-ci/archive/20230309/202303090050.RhPPJRPD-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202303090050.RhPPJRPD-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/firmware/efi/libstub/mem.c:170
+> efi_adjust_memory_range_protection() error: uninitialized symbol
+> 'rounded_start'.
+> drivers/firmware/efi/libstub/mem.c:170
+> efi_adjust_memory_range_protection() error: uninitialized symbol
+> 'rounded_end'.
+> 
+> vim +/rounded_start +170 drivers/firmware/efi/libstub/mem.c
+> 
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  143  efi_status_t
+> efi_adjust_memory_range_protection(unsigned long start,
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  144  						unsigned long 
+> size,
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  145  						unsigned long 
+> attributes)
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  146  {
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  147  	efi_status_t status;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  148
+> 	efi_gcd_memory_space_desc_t desc;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  149  	efi_physical_addr_t 
+> end, next;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  150  	efi_physical_addr_t
+> rounded_start, rounded_end;
+> 
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  151  	efi_physical_addr_t
+> unprotect_start, unprotect_size;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  152
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  153  	if (efi_dxe_table == 
+> NULL)
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  154  		return 
+> EFI_UNSUPPORTED;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  155
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  156  	/*
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  157  	 * This function
+> should not be used to modify attributes
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  158  	 * other than
+> writable/executable.
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  159  	 */
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  160
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  161  	if ((attributes &
+> ~(EFI_MEMORY_RO | EFI_MEMORY_XP)) != 0)
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  162  		return 
+> EFI_INVALID_PARAMETER;
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  163
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  164  	/*
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  165  	 * Disallow
+> simultaniously executable and writable memory
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  166  	 * to inforce W^X
+> policy if direct extraction code is enabled.
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  167  	 */
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  168
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25  169  	if ((attributes &
+> (EFI_MEMORY_RO | EFI_MEMORY_XP)) == 0) {
+> 6b4ae58e714716 Evgeniy Baskov 2022-10-25 @170  		efi_warn("W^X
+> violation at [%08lx,%08lx]\n",
+> 
+> Presumably this prints rounded_start and rounded_end.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090031.t72VFmyu-lkp@intel.com/
+Yes, thank you!
+I will move the initialization of rounded_start/rounded_end
+a few lines higher and that will be enough.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/mm/init_64.c:61:
->> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for 'ident_split_large_pmd' [-Wmissing-prototypes]
-      19 | pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-         |        ^~~~~~~~~~~~~~~~~~~~~
->> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for 'ident_split_large_pud' [-Wmissing-prototypes]
-     102 | pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-         |        ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
-
-    18	
-  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-    20				     pmd_t *pmdp, unsigned long page_addr)
-    21	{
-    22		unsigned long pmd_addr, page_flags;
-    23		pte_t *pte;
-    24	
-    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
-    26		if (!pte)
-    27			return NULL;
-    28	
-    29		pmd_addr = page_addr & PMD_MASK;
-    30	
-    31		/* Not a large page - clear PSE flag */
-    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
-    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
-    34	
-    35		return pte;
-    36	}
-    37	
-    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
-    39				  unsigned long addr, unsigned long end,
-    40				  unsigned long flags)
-    41	{
-    42		unsigned long next;
-    43		bool new_table = 0;
-    44	
-    45		for (; addr < end; addr = next) {
-    46			pmd_t *pmd = pmd_page + pmd_index(addr);
-    47			pte_t *pte;
-    48	
-    49			next = (addr & PMD_MASK) + PMD_SIZE;
-    50			if (next > end)
-    51				next = end;
-    52	
-    53			/*
-    54			 * Use 2M pages if 4k pages are not allowed or
-    55			 * we are not mapping extra, i.e. address and size are aligned.
-    56			 */
-    57	
-    58			if (!info->allow_4kpages ||
-    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
-    60	
-    61				pmd_t pmdval;
-    62	
-    63				addr &= PMD_MASK;
-    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
-    65				set_pmd(pmd, pmdval);
-    66				continue;
-    67			}
-    68	
-    69			/*
-    70			 * If currently mapped page is large, we need to split it.
-    71			 * The case when we don't can remap 2M page to 2M page
-    72			 * with different flags is already covered above.
-    73			 *
-    74			 * If there's nothing mapped to desired address,
-    75			 * we need to allocate new page table.
-    76			 */
-    77	
-    78			if (pmd_large(*pmd)) {
-    79				pte = ident_split_large_pmd(info, pmd, addr);
-    80				new_table = 1;
-    81			} else if (!pmd_present(*pmd)) {
-    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
-    83				new_table = 1;
-    84			} else {
-    85				pte = pte_offset_kernel(pmd, 0);
-    86				new_table = 0;
-    87			}
-    88	
-    89			if (!pte)
-    90				return -ENOMEM;
-    91	
-    92			ident_pte_init(info, pte, addr, next, flags);
-    93	
-    94			if (new_table)
-    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
-    96		}
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	
- > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-   103				     pud_t *pudp, unsigned long page_addr)
-   104	{
-   105		unsigned long pud_addr, page_flags;
-   106		pmd_t *pmd;
-   107	
-   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
-   109		if (!pmd)
-   110			return NULL;
-   111	
-   112		pud_addr = page_addr & PUD_MASK;
-   113	
-   114		/* Not a large page - clear PSE flag */
-   115		page_flags = pud_flags(*pudp) & ~_PSE;
-   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
-   117	
-   118		return pmd;
-   119	}
-   120	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Evgeniy Baskov
