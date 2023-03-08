@@ -1,43 +1,50 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26417B;
-	Wed,  8 Mar 2023 06:47:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678258076; x=1709794076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VbGizSNsIdrCN7f4a30B9CpO48PO4QQhUY2fO6W5Sec=;
-  b=PEMRG8LBVteRNwR0hv4nIFB/eBdwOFk8p+9n+kntT6w4coFe658b0e52
-   FNop4gzkIgpZ34+55yICCJDPW/U0D9Cxt7NybUrIU9607aKDJiovegGB8
-   G64L1IX0DagcKqYs+i2tZOvsMKOXvwbvF/nbCoHQq1bevbuiYFO9JCuCe
-   QyWxuzeuF7unSCebEEmVLKNEEQAA4ax8PYX4pEskk6gpjb8OJRa61p984
-   0BQV9pVNL769l/WrgUxFRzEmTrZkXj/dtWnCTUr6RW9rwR78cWEYoPKAC
-   oz4okTqaFBGtBahopuiqrs9LrhNnhJsHQGb+Xt04YiiXn3VOQPDGBawSq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="338402576"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="338402576"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 22:47:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="800648679"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="800648679"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Mar 2023 22:47:38 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZnaL-0001w1-0w;
-	Wed, 08 Mar 2023 06:47:37 +0000
-Date: Wed, 8 Mar 2023 14:46:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [miquelraynal:nvmem-layouts-and-of-cleanup 19/35]
- drivers/nvmem/core.c:770:2: error: implicit declaration of function
- 'of_device_node_request_module' is invalid in C99
-Message-ID: <202303081413.rSnFgltK-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6517B;
+	Wed,  8 Mar 2023 07:25:27 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso518861wmp.4;
+        Tue, 07 Mar 2023 23:25:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678260325;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
+        b=Ar1Kw+3Cd8R9WsbkF8PpjiTEkqaWgDtMf9g8slDb1drzA+acsM5DiVLC2Q8Pxou7HN
+         WHYA5jAGtWiNm6JGZ7ls9imUThUG3zYND/kC0ovl9mOhu4mx73N8VCIQ0UspL9AFrZV/
+         d6SrsVfeeOSFMNOnmWMPU/Ka52g3KksoYU7fa9kzEV+0OONRXm07PI0J6i3WpWervYxR
+         4umc31qGg4bSZ9r+9kC+OwV4nDQRCLUZPmz11OIFYF3UceMfMyB8MYjJ8TX7cxSEiiYh
+         Y6S9jpvybYUhk4QvxKxHueiUZP7wjiEXL7l1kv7uHbiSp4JEDTHSXSsM0Y/uIk8KuO1C
+         QUEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678260325;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
+        b=hZflS03RVoropZH+DAWUIDcgMpq+HegnEW27m/OQpbU7QwdXTFJamTE24leD0+MzjD
+         prb3r11oF/R6mkwBiBYq5bYHrXPodOUN7dfm8UcbX29vxzlqkHx7CMjKS3RKNX92/mIg
+         cpkxqDyjbz/XVa4WMHxOk0RxlRNsAznfVFvx27Q15n8nuAQl6e61khIHW2LWhQlWwSBz
+         BSABahtCTgHQAY7GaoRlum8aH0t4d7Pvg9tdXeQeh65k10k/ceDMchE/0iDg1M8wOXTC
+         rvdMY31lNqysg7pzyRZyKQnHn0bxt0qkFBMKAqIqd4z5XexAPMcxqSpppPv9TCjbabgk
+         Hf2A==
+X-Gm-Message-State: AO0yUKVbA0v9fj4glOGGWA9vfXHdyqYmLpp5ndvn2u8KFlgx2EH8NXor
+	xGpP88J/E7J/mH0k3c4HpDL5tPEyq0A=
+X-Google-Smtp-Source: AK7set80Sf5TgjubnRfPClcG0YQkC7SpHnnE6aUHOpcXOKzbncuY3weU4cMxaZXyW5pt2RTOk/xalA==
+X-Received: by 2002:a05:600c:1c95:b0:3e2:1dac:b071 with SMTP id k21-20020a05600c1c9500b003e21dacb071mr12083247wms.13.1678260325104;
+        Tue, 07 Mar 2023 23:25:25 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id hu21-20020a05600ca29500b003eaee9e0d22sm14940691wmb.33.2023.03.07.23.25.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 23:25:24 -0800 (PST)
+Date: Wed, 8 Mar 2023 10:25:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-filter-upstream 5/31]
+ drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable
+ dereferenced before check 'bnode' (see line 187)
+Message-ID: <8034dfc2-f83d-4f75-b7e1-40ae52bacaf8@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +54,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/miquelraynal/linux-0day.git nvmem-layouts-and-of-cleanup
-head:   d8752324726fdde6bb205a5aa95ae8ff7d84eff7
-commit: 836c64997070350f5797f17b1d7845b362836896 [19/35] nvmem: core: request layout modules loading
-config: x86_64-randconfig-r026-20230306 (https://download.01.org/0day-ci/archive/20230308/202303081413.rSnFgltK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/miquelraynal/linux-0day/commit/836c64997070350f5797f17b1d7845b362836896
-        git remote add miquelraynal https://github.com/miquelraynal/linux-0day.git
-        git fetch --no-tags miquelraynal nvmem-layouts-and-of-cleanup
-        git checkout 836c64997070350f5797f17b1d7845b362836896
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+tree:   https://github.com/intel/tdx.git guest-filter-upstream
+head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
+commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
+config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230308/202303080452.BPTZeOyI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303081413.rSnFgltK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303080452.BPTZeOyI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable dereferenced before check 'bnode' (see line 187)
 
->> drivers/nvmem/core.c:770:2: error: implicit declaration of function 'of_device_node_request_module' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           of_device_node_request_module(layout_np);
-           ^
-   1 error generated.
+Old smatch warnings:
+drivers/base/da_firmware.c:146 parse_firmware_devices() warn: Please consider using kcalloc instead of kmalloc_array
 
+vim +/bnode +189 drivers/base/da_firmware.c
 
-vim +/of_device_node_request_module +770 drivers/nvmem/core.c
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  169  static int __init parse_firmware_data(struct cpio_data *cpio)
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  170  {
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  171  	struct da_firmware_hdr *fhdr = cpio->data;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  172  	void *cur = cpio->data, *end;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  173  	struct da_bus_node *bnode;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  174  	struct da_bus_hdr *bhdr;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  175  	size_t size;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  176  
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  177  	pr_debug("firmware version: %d.%d type: %d count: %d\n",
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  178  		 fhdr->major_ver, fhdr->minor_ver, fhdr->type, fhdr->count);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  179  
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  180  	cur = cur + sizeof(*fhdr);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  181  	end = cur + cpio->size - sizeof(struct da_bus_hdr);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  182  
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  183  	while (cur <= end) {
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  184  		bhdr = (struct da_bus_hdr *)cur;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  185  		bnode = alloc_bus_node(bhdr->bus, bhdr->count);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  186  		list_add_tail(&bnode->list, &platform_da_list);
+                                                                                       ^^^^^^^^^^^
 
-   755	
-   756	static struct nvmem_layout *nvmem_layout_get(struct nvmem_device *nvmem)
-   757	{
-   758		struct device_node *layout_np, *np = nvmem->dev.of_node;
-   759		struct nvmem_layout *l, *layout = ERR_PTR(-EPROBE_DEFER);
-   760	
-   761		layout_np = of_get_child_by_name(np, "nvmem-layout");
-   762		if (!layout_np)
-   763			return NULL;
-   764	
-   765		/*
-   766		 * In case the nvmem device was built-in while the layout was built as a
-   767		 * module, we shall manually request the layout driver loading otherwise
-   768		 * we'll never have any match.
-   769		 */
- > 770		of_device_node_request_module(layout_np);
-   771	
-   772		spin_lock(&nvmem_layout_lock);
-   773	
-   774		list_for_each_entry(l, &nvmem_layouts, node) {
-   775			if (of_match_node(l->of_match_table, layout_np)) {
-   776				if (try_module_get(l->owner))
-   777					layout = l;
-   778	
-   779				break;
-   780			}
-   781		}
-   782	
-   783		spin_unlock(&nvmem_layout_lock);
-   784		of_node_put(layout_np);
-   785	
-   786		return layout;
-   787	}
-   788	
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @187  		pr_debug("parsing %s node count:%d\n", bnode->name, bnode->count);
+                                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+Dereferences.
+
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  188  		cur =  cur + sizeof(*bhdr);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @189  		if (!bnode)
+                                                                            ^^^^^^^
+Check needs to be earlier.
+
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  190  			goto out;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  191  		size = parse_firmware_devices(bnode, cur);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  192  		cur = cur + size;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  193  	}
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  194  
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  195  	return 0;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  196  
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  197  out:
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  198  	free_da_list(&platform_da_list);
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  199  	return -EINVAL;
+d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  200  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
