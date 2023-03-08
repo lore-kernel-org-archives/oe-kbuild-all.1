@@ -1,185 +1,201 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF11A79DA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678291471; x=1709827471;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BpFetAArDcCPBr/nMaSDYetLHZ8h17rjsD15eRLfVDE=;
-  b=F1QhusDvdZUvDWqN9YHX+6c5cnZWk5NhdUAYVD/9meTMwPaNGC7D7y9q
-   g38ZaT/tLLzmP7G7hC8VO4eyHhITJPeA2c9AJU/SXZXtKhkL8F3J18pix
-   zLvJNkGAsxVhE+aEqW2TjRovief48O81+cbiwjf8JFblu2FH47SYBgdEg
-   lSG2pmmxcYERGgd+GWyWCn/0gWMOpN8v8Ejoyruggs4F9uvlzO3fgI4pr
-   qs+fKeYZgey6kV97E5nTX7WlxMOGqHDzPCXv+C8h/68O5g1paTEjzjOw4
-   lTpHqLV6Nn8UjqfQHZ1A6uZmTJr/zQVzlAJWWVwKoZyFdoHpF92oqLbSB
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398773088"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="398773088"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:03:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820278713"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="820278713"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 08:03:50 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZwGb-0002FB-0b;
-	Wed, 08 Mar 2023 16:03:49 +0000
-Date: Thu, 9 Mar 2023 00:03:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kui-Feng Lee <kuifeng@meta.com>, bpf@vger.kernel.org, ast@kernel.org,
-	martin.lau@linux.dev, song@kernel.org, kernel-team@meta.com,
-	andrii@kernel.org, sdf@google.com
-Cc: oe-kbuild-all@lists.linux.dev, Kui-Feng Lee <kuifeng@meta.com>
-Subject: Re: [PATCH bpf-next v5 3/8] bpf: Create links for BPF struct_ops
- maps.
-Message-ID: <202303082340.qYFHo45I-lkp@intel.com>
-References: <20230308005050.255859-4-kuifeng@meta.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657E79DA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:08:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9EE6C433D2;
+	Wed,  8 Mar 2023 16:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678291691;
+	bh=e4NbZWKO/V45NaOYQf+6f1MNBCr8ETT1f5nT2bzQUUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cslh1bZC3DrYN3zxF41wTCqITPLFLnWK+SCXXr3ggkRoHYw9FBMfvJVX7ctCPwc8H
+	 qYBVOqJz8aBjk8s5twOOmKDxl7W6oGwLeE2p++E7arFd2GFr+ZfNX2oJMkEzLiUvXh
+	 1HHTPdT90mfqhbUOsCdM+N8C1BVJlr6hCiRIzdCID0ZPZ0bw6DOTGW0TFlrZaBDcEm
+	 /2rFok3ltl6u3xY8ZwNnh9gXUVIMfGcow7wgvT1FSPdwig5eYqTT0TVMux3hE+mpaL
+	 CIWjALqfTTZ6nL+tILWZ7xQRWGyeuIQOrvCQC1m4rz7DU71Nn4jRjzkblrnUAS1CBN
+	 ScDULCAMLCRaw==
+Date: Wed, 8 Mar 2023 16:08:07 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for
+ IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
+Message-ID: <9d44f863-8644-459a-9fd7-918f742d437e@spud>
+References: <202212221206.Lt61kYrt-lkp@intel.com>
+ <e1680223-2819-172e-20ea-daea3282e9eb@infradead.org>
+ <Y6tAgP7UoP3aYBjq@spud>
+ <d5bd9e86-473e-7577-4472-33eb2acbe8fa@infradead.org>
+ <Y/lUvq3TSXL6tJOk@spud>
+ <ae2452d4-52cf-4e11-8248-05fb7be77dc8@infradead.org>
+ <4F5BE5CB-1AB5-4725-860A-1231A72FCE1D@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="L8FKWPrPzRFHqD5a"
+Content-Disposition: inline
+In-Reply-To: <4F5BE5CB-1AB5-4725-860A-1231A72FCE1D@kernel.org>
+
+
+--L8FKWPrPzRFHqD5a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308005050.255859-4-kuifeng@meta.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kui-Feng,
+On Sat, Feb 25, 2023 at 01:43:44PM +0000, Conor Dooley wrote:
+>=20
+>=20
+> On 25 February 2023 00:28:36 GMT, Randy Dunlap <rdunlap@infradead.org> wr=
+ote:
+> >
+> >
+> >On 2/24/23 16:22, Conor Dooley wrote:
+> >> On Fri, Feb 24, 2023 at 04:12:49PM -0800, Randy Dunlap wrote:
+> >>> Hi Conor, Palmer,
+> >>>
+> >>> On 12/27/22 10:59, Conor Dooley wrote:
+> >>>> Hey Randy,
+> >>>>
+> >>>> On Thu, Dec 22, 2022 at 05:00:06PM -0800, Randy Dunlap wrote:
+> >>>>> On 12/21/22 20:49, kernel test robot wrote:
+> >>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l=
+inux.git master
+> >>>>>> head:   9d2f6060fe4c3b49d0cdc1dce1c99296f33379c8
+> >>>>>> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.so=
+cs: Add ARCH_RENESAS kconfig option
+> >>>>>> date:   6 weeks ago
+> >>>>>> config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMS=
+A-0-0
+> >>>>>> reproduce:
+> >>>>>>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds=
+/linux.git/commit/?id=3D8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+> >>>>>>         git remote add linus https://git.kernel.org/pub/scm/linux/=
+kernel/git/torvalds/linux.git
+> >>>>>>         git fetch --no-tags linus master
+> >>>>>>         git checkout 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1
+> >>>>>>         # 1. reproduce by kismet
+> >>>>>>            # install kmax per https://github.com/paulgazz/kmax/blo=
+b/master/README.md
+> >>>>>>            kismet --linux-ksrc=3Dlinux --selectees CONFIG_IOMMU_IO=
+_PGTABLE_LPAE --selectors CONFIG_IPMMU_VMSA -a=3Driscv
+> >>>>>>         # 2. reproduce by make
+> >>>>>>            # save the config file to linux source tree
+> >>>>>>            cd linux
+> >>>>>>            make ARCH=3Driscv olddefconfig
+> >>>>>>
+> >>>>>> If you fix the issue, kindly add following tag where applicable
+> >>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>>>>>
+> >>>>>> kismet warnings: (new ones prefixed by >>)
+> >>>>>>>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO=
+_PGTABLE_LPAE when selected by IPMMU_VMSA
+> >>>>>>    .config:4814:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI=
+' invalid for ARCH_MMAP_RND_BITS
+> >>>>>>   =20
+> >>>>>>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABL=
+E_LPAE
+> >>>>>>      Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMP=
+ILE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+> >>>>>>      Selected by [y]:
+> >>>>>>      - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS =
+[=3Dy] || COMPILE_TEST [=3Dy] && !GENERIC_ATOMIC64 [=3Dy])
+> >>>>>>
+> >>>>>
+> >>>>> Maybe this:
+> >>>>>
+> >>>>> ---
+> >>>>>  drivers/iommu/Kconfig |    3 ++-
+> >>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff -- a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> >>>>> --- a/drivers/iommu/Kconfig
+> >>>>> +++ b/drivers/iommu/Kconfig
+> >>>>> @@ -32,7 +32,8 @@ config IOMMU_IO_PGTABLE
+> >>>>>  config IOMMU_IO_PGTABLE_LPAE
+> >>>>>  	bool "ARMv7/v8 Long Descriptor Format"
+> >>>>>  	select IOMMU_IO_PGTABLE
+> >>>>> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> >>>>> +	depends on ARM || ARM64 || ARCH_RENESAS || \
+> >>>>> +		(COMPILE_TEST && !GENERIC_ATOMIC64)
+> >>>>>  	help
+> >>>>>  	  Enable support for the ARM long descriptor pagetable format.
+> >>>>>  	  This allocator supports 4K/2M/1G, 16K/32M and 64K/512M page
+> >>>>>
+> >>>>>
+> >>>>> or is way off?
+> >>>>
+> >>>> Apologies for the radio silence here..
+> >>>>
+> >>>> Palmer initially sent a workaround and there was some discussion the=
+re:
+> >>>> https://lore.kernel.org/all/20221214180409.7354-1-palmer@rivosinc.co=
+m/
+> >>>> Guo sent a patch too:
+> >>>> https://lore.kernel.org/linux-riscv/20221215073212.1966823-1-guoren@=
+kernel.org/
+> >>>>
+> >>>> I suppose Christmas is doing Christmas things :)
+> >>>
+> >>> Has this been solved (merged) yet?
+> >>> I'm still seeing a warning on linux-next-20230224.
+> >>=20
+> >> I thought it was fixed in the iommu tree with this series:
+> >> https://lore.kernel.org/all/7a53ac6f-640b-436d-9bfa-3e49066b2460@arm.c=
+om/
+> >>=20
+> >> If it is not, I'll take a look tomorrow...
+> >
+> >I see this warning on today's linux-next-20230224:
+> >
+> >WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+> >  Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST =
+[=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
+> >  Selected by [y]:
+> >  - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||=
+ COMPILE_TEST [=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
+> >
+> >with the attached config file. Please have a look.
+>=20
+> My main hard drive in my dev machine died overnight, so I'll have to rena=
+ge on my tomorrow promise above.
 
-Thank you for the patch! Yet something to improve:
+I finally got around to looking at this today. I tried Palmer's original
+reproducer (riscv32 allmodconfig) on top of v6.3-rc1 & this randconfig +
+olddefconfig on it, and couldn't get the selection to trigger.
+Maybe I misunderstand the randconfig process, but I had thought that
+olddefconfig was supposed to be (the equivalent of) idempotent for
+randconfigs.
 
-[auto build test ERROR on bpf-next/master]
+Robin did make some changes to the IOMMU Kconfig stuff that landed in
+v6.3, so perhaps that's what has eventually sorted this out.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kui-Feng-Lee/bpf-Retire-the-struct_ops-map-kvalue-refcnt/20230308-085434
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230308005050.255859-4-kuifeng%40meta.com
-patch subject: [PATCH bpf-next v5 3/8] bpf: Create links for BPF struct_ops maps.
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230308/202303082340.qYFHo45I-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/de9e43a5ac82dde718d80d8347e867a8fc935e0a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kui-Feng-Lee/bpf-Retire-the-struct_ops-map-kvalue-refcnt/20230308-085434
-        git checkout de9e43a5ac82dde718d80d8347e867a8fc935e0a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Please LMK if I've misunderstood & ruined the randconfig w/
+olddefconfig!
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082340.qYFHo45I-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/virtio_net.c:13:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from net/ipv4/netfilter/nf_reject_ipv4.c:8:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/netfilter/nf_reject_ipv4.c: In function 'nf_send_reset':
-   net/ipv4/netfilter/nf_reject_ipv4.c:244:23: warning: variable 'niph' set but not used [-Wunused-but-set-variable]
-     244 |         struct iphdr *niph;
-         |                       ^~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/bpf/core.c:21:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:1632:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1632 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2069:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
-    2069 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
-         |      ^~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/kallsyms.c:25:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
-     663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
-         |            ^~~~~~~~~~~~~~~~
---
-   In file included from include/linux/bpf-cgroup.h:5,
-                    from net/socket.c:55:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/socket.c: In function '__sys_getsockopt':
-   net/socket.c:2300:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
-    2300 |         int max_optlen;
-         |             ^~~~~~~~~~
---
-   In file included from net/ipv6/ip6_fib.c:18:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/ip6_fib.c: In function 'fib6_add':
-   net/ipv6/ip6_fib.c:1378:32: warning: variable 'pn' set but not used [-Wunused-but-set-variable]
-    1378 |         struct fib6_node *fn, *pn = NULL;
-         |                                ^~
---
-   In file included from include/linux/filter.h:9,
-                    from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from include/linux/netfilter_ipv6.h:11,
-                    from net/ipv6/netfilter/nf_reject_ipv6.c:12:
->> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
-    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
-    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/netfilter/nf_reject_ipv6.c: In function 'nf_send_reset6':
-   net/ipv6/netfilter/nf_reject_ipv6.c:287:25: warning: variable 'ip6h' set but not used [-Wunused-but-set-variable]
-     287 |         struct ipv6hdr *ip6h;
-         |                         ^~~~
+Cheers,
+Conor.
 
 
-vim +/bpf_struct_ops_link_create +2388 include/linux/bpf.h
+--L8FKWPrPzRFHqD5a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  2387	
-> 2388	static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-  2389	{
-  2390		return -EOPNOTSUPP;
-  2391	}
-  2392	
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAiy5wAKCRB4tDGHoIJi
+0ntcAQCLjikAV45Qq4/uG+EzSVedxdIDV3svsRLUtvmkOy8QSgEA6L7W3j3Sx0U8
+RiTAkJnJ1t+OsTI4wzdUYH7o3h7xMwk=
+=i5s6
+-----END PGP SIGNATURE-----
+
+--L8FKWPrPzRFHqD5a--
