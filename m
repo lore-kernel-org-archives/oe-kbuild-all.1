@@ -1,42 +1,46 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3EB7C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 09:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C82C7C;
+	Wed,  8 Mar 2023 09:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678267903; x=1709803903;
+  t=1678268504; x=1709804504;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=obmR/RHDy6NCyjO3XkS+c9F7BiYYdSGbRSyVNdZ96qs=;
-  b=fQFLKnVZxM7ZCE3FXqm8GpS17OSExbg9aoWyjWzsCMgGgttwd/nvLM//
-   3+pWGMEToiSduO/HeoxyrzOtA+jpYTf1V0lTcTEOoR7EX0CZ+onWLNvXK
-   CmkrIeNjneJltQonckwxKTDNVEpoHg1pTqYh6i/LAEw8bHev2FsCy76zO
-   nE8ElGF+3okN9qJkmasXINPPAEhq60v3LS6H3/9Mk5Aa0KjV+qzDfWYOY
-   tp3GdUNveR9et+sjXvaMG9jP7EBYStEhFfzwnqlZUwQDDSWJ69J9sspoM
-   NeUbwBVk1NzkPrNrGXjjdHfHO8NgOhErfL9twqI/AWUMR0XWEWYdg7dJ9
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324421790"
+  bh=IblLpwxZIoJkhkBRlOiMaraXUkJJvz5IuZTuP/5Ke/M=;
+  b=ayBTTHeiXkdNUDoqaVpYtmCbHVrSJAUoLdAfPl8BFbk94A4UjCqGhZe4
+   S2ysEkx4pMfhaT8eDi+WWPEu3r5Q7ncQxmFw4u/YxAng565gRS9ONWlGr
+   QjTAKQk+MQ3WhIvzQ/zhRwZdrDgG/1I1/9RNcbgP/Zefd+krrCiQqEyEG
+   FdM1LJ2N7ztajQVYtMh8jH2M40mYZeL34dK1mVAMIZ9oJkc1kCsMERj69
+   JIBMWSrjT8Shma0tNpta2TOVw3at7t9FmndhSZ42D1F5cH/ZP1R0sUk6f
+   2aZX1Qh5c6SH6/xB6YslRuAoAzctGS/gHLyxomiXcFKCvYZLpFc2viez+
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324423508"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="324421790"
+   d="scan'208";a="324423508"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:31:42 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:41:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="851016349"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="851017754"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="851016349"
+   d="scan'208";a="851017754"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Mar 2023 01:31:41 -0800
+  by orsmga005.jf.intel.com with ESMTP; 08 Mar 2023 01:41:41 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZq96-00020w-2T;
-	Wed, 08 Mar 2023 09:31:40 +0000
-Date: Wed, 8 Mar 2023 17:31:10 +0800
+	id 1pZqIn-00021T-0Z;
+	Wed, 08 Mar 2023 09:41:41 +0000
+Date: Wed, 8 Mar 2023 17:41:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Evgeniy Baskov <baskov@ispras.ru>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Subject: [ardb:for-kernelci 5/23] arch/x86/mm/ident_map.c:19:8: warning: no
- previous prototype for 'ident_split_large_pmd'
-Message-ID: <202303081758.wjUcKEAW-lkp@intel.com>
+To: Fangrui Song <maskray@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [stable:linux-4.19.y 3083/9999] block/blk-iolatency.c:303:7:
+ warning: variable 'changed' set but not used
+Message-ID: <202303081732.fAIJixwH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,141 +50,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
-head:   307a19a22eea94622a082f1bce0959cfb6f7d9f7
-commit: e5a05147bd0061090db95126181ff8096645fad6 [5/23] x86/boot: Support 4KB pages for identity mapping
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303081758.wjUcKEAW-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Fangrui,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   5504146b2053f842426834d275002974109f39a6
+commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [3083/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+config: mips-randconfig-c004-20230305 (https://download.01.org/0day-ci/archive/20230308/202303081732.fAIJixwH-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=e5a05147bd0061090db95126181ff8096645fad6
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb for-kernelci
-        git checkout e5a05147bd0061090db95126181ff8096645fad6
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=69c122751164c3c343eea205fd5c3e1d5132f967
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 69c122751164c3c343eea205fd5c3e1d5132f967
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303081758.wjUcKEAW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303081732.fAIJixwH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/mm/init_64.c:61:
->> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for 'ident_split_large_pmd' [-Wmissing-prototypes]
-      19 | pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-         |        ^~~~~~~~~~~~~~~~~~~~~
->> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for 'ident_split_large_pud' [-Wmissing-prototypes]
-     102 | pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-         |        ^~~~~~~~~~~~~~~~~~~~~
+>> block/blk-iolatency.c:303:7: warning: variable 'changed' set but not used [-Wunused-but-set-variable]
+           bool changed = false;
+                ^
+>> block/blk-iolatency.c:758:24: warning: variable 'blkiolat' set but not used [-Wunused-but-set-variable]
+           struct blk_iolatency *blkiolat;
+                                 ^
+   2 warnings generated.
 
 
-vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
+vim +/changed +303 block/blk-iolatency.c
 
-    18	
-  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-    20				     pmd_t *pmdp, unsigned long page_addr)
-    21	{
-    22		unsigned long pmd_addr, page_flags;
-    23		pte_t *pte;
-    24	
-    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
-    26		if (!pte)
-    27			return NULL;
-    28	
-    29		pmd_addr = page_addr & PMD_MASK;
-    30	
-    31		/* Not a large page - clear PSE flag */
-    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
-    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
-    34	
-    35		return pte;
-    36	}
-    37	
-    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
-    39				  unsigned long addr, unsigned long end,
-    40				  unsigned long flags)
-    41	{
-    42		unsigned long next;
-    43		bool new_table = 0;
-    44	
-    45		for (; addr < end; addr = next) {
-    46			pmd_t *pmd = pmd_page + pmd_index(addr);
-    47			pte_t *pte;
-    48	
-    49			next = (addr & PMD_MASK) + PMD_SIZE;
-    50			if (next > end)
-    51				next = end;
-    52	
-    53			/*
-    54			 * Use 2M pages if 4k pages are not allowed or
-    55			 * we are not mapping extra, i.e. address and size are aligned.
-    56			 */
-    57	
-    58			if (!info->allow_4kpages ||
-    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
-    60	
-    61				pmd_t pmdval;
-    62	
-    63				addr &= PMD_MASK;
-    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
-    65				set_pmd(pmd, pmdval);
-    66				continue;
-    67			}
-    68	
-    69			/*
-    70			 * If currently mapped page is large, we need to split it.
-    71			 * The case when we don't can remap 2M page to 2M page
-    72			 * with different flags is already covered above.
-    73			 *
-    74			 * If there's nothing mapped to desired address,
-    75			 * we need to allocate new page table.
-    76			 */
-    77	
-    78			if (pmd_large(*pmd)) {
-    79				pte = ident_split_large_pmd(info, pmd, addr);
-    80				new_table = 1;
-    81			} else if (!pmd_present(*pmd)) {
-    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
-    83				new_table = 1;
-    84			} else {
-    85				pte = pte_offset_kernel(pmd, 0);
-    86				new_table = 0;
-    87			}
-    88	
-    89			if (!pte)
-    90				return -ENOMEM;
-    91	
-    92			ident_pte_init(info, pte, addr, next, flags);
-    93	
-    94			if (new_table)
-    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
-    96		}
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	
- > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-   103				     pud_t *pudp, unsigned long page_addr)
-   104	{
-   105		unsigned long pud_addr, page_flags;
-   106		pmd_t *pmd;
-   107	
-   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
-   109		if (!pmd)
-   110			return NULL;
-   111	
-   112		pud_addr = page_addr & PUD_MASK;
-   113	
-   114		/* Not a large page - clear PSE flag */
-   115		page_flags = pud_flags(*pudp) & ~_PSE;
-   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
-   117	
-   118		return pmd;
-   119	}
-   120	
+d70675121546c3 Josef Bacik 2018-07-03  292  
+d70675121546c3 Josef Bacik 2018-07-03  293  /*
+d70675121546c3 Josef Bacik 2018-07-03  294   * Change the queue depth of the iolatency_grp.  We add/subtract 1/16th of the
+d70675121546c3 Josef Bacik 2018-07-03  295   * queue depth at a time so we don't get wild swings and hopefully dial in to
+d70675121546c3 Josef Bacik 2018-07-03  296   * fairer distribution of the overall queue depth.
+d70675121546c3 Josef Bacik 2018-07-03  297   */
+d70675121546c3 Josef Bacik 2018-07-03  298  static void scale_change(struct iolatency_grp *iolat, bool up)
+d70675121546c3 Josef Bacik 2018-07-03  299  {
+d70675121546c3 Josef Bacik 2018-07-03  300  	unsigned long qd = blk_queue_depth(iolat->blkiolat->rqos.q);
+d70675121546c3 Josef Bacik 2018-07-03  301  	unsigned long scale = scale_amount(qd, up);
+d70675121546c3 Josef Bacik 2018-07-03  302  	unsigned long old = iolat->rq_depth.max_depth;
+d70675121546c3 Josef Bacik 2018-07-03 @303  	bool changed = false;
+d70675121546c3 Josef Bacik 2018-07-03  304  
+d70675121546c3 Josef Bacik 2018-07-03  305  	if (old > qd)
+d70675121546c3 Josef Bacik 2018-07-03  306  		old = qd;
+d70675121546c3 Josef Bacik 2018-07-03  307  
+d70675121546c3 Josef Bacik 2018-07-03  308  	if (up) {
+d70675121546c3 Josef Bacik 2018-07-03  309  		if (old == 1 && blkcg_unuse_delay(lat_to_blkg(iolat)))
+d70675121546c3 Josef Bacik 2018-07-03  310  			return;
+d70675121546c3 Josef Bacik 2018-07-03  311  
+d70675121546c3 Josef Bacik 2018-07-03  312  		if (old < qd) {
+d70675121546c3 Josef Bacik 2018-07-03  313  			changed = true;
+d70675121546c3 Josef Bacik 2018-07-03  314  			old += scale;
+d70675121546c3 Josef Bacik 2018-07-03  315  			old = min(old, qd);
+d70675121546c3 Josef Bacik 2018-07-03  316  			iolat->rq_depth.max_depth = old;
+d70675121546c3 Josef Bacik 2018-07-03  317  			wake_up_all(&iolat->rq_wait.wait);
+d70675121546c3 Josef Bacik 2018-07-03  318  		}
+d70675121546c3 Josef Bacik 2018-07-03  319  	} else if (old > 1) {
+d70675121546c3 Josef Bacik 2018-07-03  320  		old >>= 1;
+d70675121546c3 Josef Bacik 2018-07-03  321  		changed = true;
+d70675121546c3 Josef Bacik 2018-07-03  322  		iolat->rq_depth.max_depth = max(old, 1UL);
+d70675121546c3 Josef Bacik 2018-07-03  323  	}
+d70675121546c3 Josef Bacik 2018-07-03  324  }
+d70675121546c3 Josef Bacik 2018-07-03  325  
+
+:::::: The code at line 303 was first introduced by commit
+:::::: d70675121546c35feaceebf7ed9caed8716640f3 block: introduce blk-iolatency io controller
+
+:::::: TO: Josef Bacik <jbacik@fb.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
