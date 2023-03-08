@@ -1,50 +1,43 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6517B;
-	Wed,  8 Mar 2023 07:25:27 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso518861wmp.4;
-        Tue, 07 Mar 2023 23:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678260325;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
-        b=Ar1Kw+3Cd8R9WsbkF8PpjiTEkqaWgDtMf9g8slDb1drzA+acsM5DiVLC2Q8Pxou7HN
-         WHYA5jAGtWiNm6JGZ7ls9imUThUG3zYND/kC0ovl9mOhu4mx73N8VCIQ0UspL9AFrZV/
-         d6SrsVfeeOSFMNOnmWMPU/Ka52g3KksoYU7fa9kzEV+0OONRXm07PI0J6i3WpWervYxR
-         4umc31qGg4bSZ9r+9kC+OwV4nDQRCLUZPmz11OIFYF3UceMfMyB8MYjJ8TX7cxSEiiYh
-         Y6S9jpvybYUhk4QvxKxHueiUZP7wjiEXL7l1kv7uHbiSp4JEDTHSXSsM0Y/uIk8KuO1C
-         QUEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678260325;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
-        b=hZflS03RVoropZH+DAWUIDcgMpq+HegnEW27m/OQpbU7QwdXTFJamTE24leD0+MzjD
-         prb3r11oF/R6mkwBiBYq5bYHrXPodOUN7dfm8UcbX29vxzlqkHx7CMjKS3RKNX92/mIg
-         cpkxqDyjbz/XVa4WMHxOk0RxlRNsAznfVFvx27Q15n8nuAQl6e61khIHW2LWhQlWwSBz
-         BSABahtCTgHQAY7GaoRlum8aH0t4d7Pvg9tdXeQeh65k10k/ceDMchE/0iDg1M8wOXTC
-         rvdMY31lNqysg7pzyRZyKQnHn0bxt0qkFBMKAqIqd4z5XexAPMcxqSpppPv9TCjbabgk
-         Hf2A==
-X-Gm-Message-State: AO0yUKVbA0v9fj4glOGGWA9vfXHdyqYmLpp5ndvn2u8KFlgx2EH8NXor
-	xGpP88J/E7J/mH0k3c4HpDL5tPEyq0A=
-X-Google-Smtp-Source: AK7set80Sf5TgjubnRfPClcG0YQkC7SpHnnE6aUHOpcXOKzbncuY3weU4cMxaZXyW5pt2RTOk/xalA==
-X-Received: by 2002:a05:600c:1c95:b0:3e2:1dac:b071 with SMTP id k21-20020a05600c1c9500b003e21dacb071mr12083247wms.13.1678260325104;
-        Tue, 07 Mar 2023 23:25:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id hu21-20020a05600ca29500b003eaee9e0d22sm14940691wmb.33.2023.03.07.23.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 23:25:24 -0800 (PST)
-Date: Wed, 8 Mar 2023 10:25:20 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-filter-upstream 5/31]
- drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable
- dereferenced before check 'bnode' (see line 187)
-Message-ID: <8034dfc2-f83d-4f75-b7e1-40ae52bacaf8@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5227C;
+	Wed,  8 Mar 2023 08:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678264842; x=1709800842;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gB7WDPIHJt5t/8v281bB3fITw5uht69zDV1c3D9xXos=;
+  b=YVh3BgEjyXPk2D7BM/zyWCash+0vSKMyAyJcytD3cCMGePu1Mr0Hpxa1
+   A5WchOL+4v/vk2mNTqL48K6bn7Q/Gyfu3xqSUbbPuh96t/3Ou3FCmx9dd
+   dgGn3uSLOWeFt39kjDGj4OgFqiTN9BC1j/DxTd2aghfoVMrkD+lE+RUMG
+   h+gT8wAAwpQ+DoXhXT7+kF+o7NG5/DLQ6eoRCcJEdnEhzUvsLvte/40Gk
+   GFfzsM789gAp78p6MFdwXqoEEuPSPhvgeJAdTQlb704tV4/us1er+SvO4
+   mQHtD7TImA/oTjLSVnG2dpSyNJCnDfIFenrooREMKWx6ll7fkgA5jB7KU
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422369799"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="422369799"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 00:40:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006249531"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="1006249531"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 00:40:40 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZpLj-0001zP-28;
+	Wed, 08 Mar 2023 08:40:39 +0000
+Date: Wed, 8 Mar 2023 16:39:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: [jpoimboe:objtool/core 10/24] arch/mips/include/asm/smp.h:44:29:
+ error: use of undeclared identifier 'CONFIG_MIPS_NR_CPU_NR_MAP'
+Message-ID: <202303081612.leLRNMzo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,67 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-filter-upstream
-head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
-commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
-config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230308/202303080452.BPTZeOyI-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/core
+head:   ed8d2d280a75ca9deb6d307e116acff4b8ef0782
+commit: 09b0d89f25b23d7ed2df68a6bf2fa1ec484a15c6 [10/24] mips/cpu: Expose play_dead()'s prototype definition
+config: mips-bcm63xx_defconfig (https://download.01.org/0day-ci/archive/20230308/202303081612.leLRNMzo-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=09b0d89f25b23d7ed2df68a6bf2fa1ec484a15c6
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe objtool/core
+        git checkout 09b0d89f25b23d7ed2df68a6bf2fa1ec484a15c6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash arch/mips/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303080452.BPTZeOyI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303081612.leLRNMzo-lkp@intel.com/
 
-New smatch warnings:
-drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable dereferenced before check 'bnode' (see line 187)
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/base/da_firmware.c:146 parse_firmware_devices() warn: Please consider using kcalloc instead of kmalloc_array
+   In file included from arch/mips/kernel/smp-bmips.c:41:
+>> arch/mips/include/asm/smp.h:44:29: error: use of undeclared identifier 'CONFIG_MIPS_NR_CPU_NR_MAP'
+   extern int __cpu_number_map[CONFIG_MIPS_NR_CPU_NR_MAP];
+                               ^
+   arch/mips/include/asm/smp.h:71:20: error: redefinition of 'smp_send_reschedule'
+   static inline void smp_send_reschedule(int cpu)
+                      ^
+   include/linux/smp.h:198:20: note: previous definition is here
+   static inline void smp_send_reschedule(int cpu) { }
+                      ^
+   In file included from arch/mips/kernel/smp-bmips.c:41:
+   arch/mips/include/asm/smp.h:75:8: error: incomplete definition of type 'struct plat_smp_ops'
+           mp_ops->send_ipi_single(cpu, SMP_RESCHEDULE_YOURSELF);
+           ~~~~~~^
+   arch/mips/include/asm/smp-ops.h:57:8: note: forward declaration of 'struct plat_smp_ops'
+   struct plat_smp_ops;
+          ^
+   In file included from arch/mips/kernel/smp-bmips.c:41:
+   arch/mips/include/asm/smp.h:130:8: error: incomplete definition of type 'struct plat_smp_ops'
+           mp_ops->send_ipi_single(cpu, SMP_CALL_FUNCTION);
+           ~~~~~~^
+   arch/mips/include/asm/smp-ops.h:57:8: note: forward declaration of 'struct plat_smp_ops'
+   struct plat_smp_ops;
+          ^
+   In file included from arch/mips/kernel/smp-bmips.c:41:
+   arch/mips/include/asm/smp.h:137:8: error: incomplete definition of type 'struct plat_smp_ops'
+           mp_ops->send_ipi_mask(mask, SMP_CALL_FUNCTION);
+           ~~~~~~^
+   arch/mips/include/asm/smp-ops.h:57:8: note: forward declaration of 'struct plat_smp_ops'
+   struct plat_smp_ops;
+          ^
+   5 errors generated.
 
-vim +/bnode +189 drivers/base/da_firmware.c
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  169  static int __init parse_firmware_data(struct cpio_data *cpio)
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  170  {
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  171  	struct da_firmware_hdr *fhdr = cpio->data;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  172  	void *cur = cpio->data, *end;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  173  	struct da_bus_node *bnode;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  174  	struct da_bus_hdr *bhdr;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  175  	size_t size;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  176  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  177  	pr_debug("firmware version: %d.%d type: %d count: %d\n",
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  178  		 fhdr->major_ver, fhdr->minor_ver, fhdr->type, fhdr->count);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  179  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  180  	cur = cur + sizeof(*fhdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  181  	end = cur + cpio->size - sizeof(struct da_bus_hdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  182  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  183  	while (cur <= end) {
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  184  		bhdr = (struct da_bus_hdr *)cur;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  185  		bnode = alloc_bus_node(bhdr->bus, bhdr->count);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  186  		list_add_tail(&bnode->list, &platform_da_list);
-                                                                                       ^^^^^^^^^^^
+vim +/CONFIG_MIPS_NR_CPU_NR_MAP +44 arch/mips/include/asm/smp.h
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @187  		pr_debug("parsing %s node count:%d\n", bnode->name, bnode->count);
-                                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
-Dereferences.
+^1da177e4c3f41 include/asm-mips/smp.h      Linus Torvalds 2005-04-16  41  
+^1da177e4c3f41 include/asm-mips/smp.h      Linus Torvalds 2005-04-16  42  /* Map from cpu id to sequential logical cpu number.  This will only
+^1da177e4c3f41 include/asm-mips/smp.h      Linus Torvalds 2005-04-16  43     not be idempotent when cpus failed to come on-line.	*/
+7820b84be844d8 arch/mips/include/asm/smp.h David Daney    2017-09-28 @44  extern int __cpu_number_map[CONFIG_MIPS_NR_CPU_NR_MAP];
+^1da177e4c3f41 include/asm-mips/smp.h      Linus Torvalds 2005-04-16  45  #define cpu_number_map(cpu)  __cpu_number_map[cpu]
+^1da177e4c3f41 include/asm-mips/smp.h      Linus Torvalds 2005-04-16  46  
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  188  		cur =  cur + sizeof(*bhdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @189  		if (!bnode)
-                                                                            ^^^^^^^
-Check needs to be earlier.
+:::::: The code at line 44 was first introduced by commit
+:::::: 7820b84be844d8d863122b1323f2a4bc2441b783 MIPS: Allow __cpu_number_map to be larger than NR_CPUS
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  190  			goto out;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  191  		size = parse_firmware_devices(bnode, cur);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  192  		cur = cur + size;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  193  	}
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  194  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  195  	return 0;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  196  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  197  out:
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  198  	free_da_list(&platform_da_list);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  199  	return -EINVAL;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  200  }
+:::::: TO: David Daney <david.daney@cavium.com>
+:::::: CC: James Hogan <jhogan@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
