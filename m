@@ -1,43 +1,46 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DC479E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF11A79DA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678291469; x=1709827469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x6nq8Kr3Jb9wuaAsuaBGOE0/UnXvlgmiC6WsraoXHcQ=;
-  b=kZYjUxYPQk2jr1Q03JrwMtT7aV/+Z88N/XG/9E7uxSV0uAS3H3uwVPjA
-   XgjYF/WbeYJg7v+4ly4Cf9y9TjgeU1NFnZgMTOdYQGaC2wX5PROdlku48
-   BjcuU0AC5Xi1n0Bezkf927IfbIB5IlA46Tbu38bc1rZkuetXgdG7Pr2kF
-   rHlrNfukyN7LZPWqWX0ThjLn84z0GqNjhoigoYPlr693q4zJ2nrPK27bf
-   GJzPagroveYClNIgw+dBgj1zSMRuxSYlI+gYTSX75DYSHiikBSESQIuSo
-   aFwOATUvngbvE3NMdhMOCNqNpWo6mO+g1L6wBzBFpeEpnQjxW5sHLC4vn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398773081"
+  t=1678291471; x=1709827471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BpFetAArDcCPBr/nMaSDYetLHZ8h17rjsD15eRLfVDE=;
+  b=F1QhusDvdZUvDWqN9YHX+6c5cnZWk5NhdUAYVD/9meTMwPaNGC7D7y9q
+   g38ZaT/tLLzmP7G7hC8VO4eyHhITJPeA2c9AJU/SXZXtKhkL8F3J18pix
+   zLvJNkGAsxVhE+aEqW2TjRovief48O81+cbiwjf8JFblu2FH47SYBgdEg
+   lSG2pmmxcYERGgd+GWyWCn/0gWMOpN8v8Ejoyruggs4F9uvlzO3fgI4pr
+   qs+fKeYZgey6kV97E5nTX7WlxMOGqHDzPCXv+C8h/68O5g1paTEjzjOw4
+   lTpHqLV6Nn8UjqfQHZ1A6uZmTJr/zQVzlAJWWVwKoZyFdoHpF92oqLbSB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398773088"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="398773081"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:03:51 -0800
+   d="scan'208";a="398773088"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:03:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="745956168"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820278713"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="745956168"
+   d="scan'208";a="820278713"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2023 08:03:50 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 08:03:50 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZwGb-0002FD-0e;
+	id 1pZwGb-0002FB-0b;
 	Wed, 08 Mar 2023 16:03:49 +0000
-Date: Thu, 9 Mar 2023 00:03:12 +0800
+Date: Thu, 9 Mar 2023 00:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Evgeniy Baskov <baskov@ispras.ru>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Subject: [ardb:efi-x86-nx 5/24] arch/x86/mm/ident_map.c:102:7: sparse:
- sparse: symbol 'ident_split_large_pud' was not declared. Should it be
- static?
-Message-ID: <202303082354.uSelRyZd-lkp@intel.com>
+To: Kui-Feng Lee <kuifeng@meta.com>, bpf@vger.kernel.org, ast@kernel.org,
+	martin.lau@linux.dev, song@kernel.org, kernel-team@meta.com,
+	andrii@kernel.org, sdf@google.com
+Cc: oe-kbuild-all@lists.linux.dev, Kui-Feng Lee <kuifeng@meta.com>
+Subject: Re: [PATCH bpf-next v5 3/8] bpf: Create links for BPF struct_ops
+ maps.
+Message-ID: <202303082340.qYFHo45I-lkp@intel.com>
+References: <20230308005050.255859-4-kuifeng@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,31 +49,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230308005050.255859-4-kuifeng@meta.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
-head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
-commit: 26f02800cb89d842e554a5e030a40560adc7221b [5/24] x86/boot: Support 4KB pages for identity mapping
-config: x86_64-randconfig-s023 (https://download.01.org/0day-ci/archive/20230308/202303082354.uSelRyZd-lkp@intel.com/config)
+Hi Kui-Feng,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kui-Feng-Lee/bpf-Retire-the-struct_ops-map-kvalue-refcnt/20230308-085434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230308005050.255859-4-kuifeng%40meta.com
+patch subject: [PATCH bpf-next v5 3/8] bpf: Create links for BPF struct_ops maps.
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230308/202303082340.qYFHo45I-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=26f02800cb89d842e554a5e030a40560adc7221b
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb efi-x86-nx
-        git checkout 26f02800cb89d842e554a5e030a40560adc7221b
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/de9e43a5ac82dde718d80d8347e867a8fc935e0a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kui-Feng-Lee/bpf-Retire-the-struct_ops-map-kvalue-refcnt/20230308-085434
+        git checkout de9e43a5ac82dde718d80d8347e867a8fc935e0a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082354.uSelRyZd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303082340.qYFHo45I-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/mm/init_64.c: note: in included file:
->> arch/x86/mm/ident_map.c:102:7: sparse: sparse: symbol 'ident_split_large_pud' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/virtio_net.c:13:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/filter.h:9,
+                    from include/net/sock_reuseport.h:5,
+                    from include/net/tcp.h:35,
+                    from net/ipv4/netfilter/nf_reject_ipv4.c:8:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/netfilter/nf_reject_ipv4.c: In function 'nf_send_reset':
+   net/ipv4/netfilter/nf_reject_ipv4.c:244:23: warning: variable 'niph' set but not used [-Wunused-but-set-variable]
+     244 |         struct iphdr *niph;
+         |                       ^~~~
+--
+   In file included from include/linux/filter.h:9,
+                    from kernel/bpf/core.c:21:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/core.c:1632:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
+    1632 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/core.c:2069:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
+    2069 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
+         |      ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/filter.h:9,
+                    from kernel/kallsyms.c:25:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
+     663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
+         |            ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/bpf-cgroup.h:5,
+                    from net/socket.c:55:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/socket.c: In function '__sys_getsockopt':
+   net/socket.c:2300:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
+    2300 |         int max_optlen;
+         |             ^~~~~~~~~~
+--
+   In file included from net/ipv6/ip6_fib.c:18:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv6/ip6_fib.c: In function 'fib6_add':
+   net/ipv6/ip6_fib.c:1378:32: warning: variable 'pn' set but not used [-Wunused-but-set-variable]
+    1378 |         struct fib6_node *fn, *pn = NULL;
+         |                                ^~
+--
+   In file included from include/linux/filter.h:9,
+                    from include/net/sock_reuseport.h:5,
+                    from include/net/tcp.h:35,
+                    from include/linux/netfilter_ipv6.h:11,
+                    from net/ipv6/netfilter/nf_reject_ipv6.c:12:
+>> include/linux/bpf.h:2388:19: error: redefinition of 'bpf_struct_ops_link_create'
+    2388 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf.h:1592:19: note: previous definition of 'bpf_struct_ops_link_create' with type 'int(union bpf_attr *)'
+    1592 | static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv6/netfilter/nf_reject_ipv6.c: In function 'nf_send_reset6':
+   net/ipv6/netfilter/nf_reject_ipv6.c:287:25: warning: variable 'ip6h' set but not used [-Wunused-but-set-variable]
+     287 |         struct ipv6hdr *ip6h;
+         |                         ^~~~
+
+
+vim +/bpf_struct_ops_link_create +2388 include/linux/bpf.h
+
+  2387	
+> 2388	static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+  2389	{
+  2390		return -EOPNOTSUPP;
+  2391	}
+  2392	
 
 -- 
 0-DAY CI Kernel Test Service
