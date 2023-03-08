@@ -1,42 +1,42 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978CD36A;
-	Wed,  8 Mar 2023 16:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9529479F2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 16:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678293294; x=1709829294;
+  t=1678293296; x=1709829296;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S/CWG2Hj9kzJU1x0vGgsQg2iSQVU/Sy7dBK7o94pPYA=;
-  b=hxYonSU3W9KfiH4eWnNIbAyBM9CoYnquDXDo/cHVMfH3Eo6CXL+ozfXM
-   LqFikk1/7101UkKnjxm/6YO2gSaCyyGsmwAvBzxYiiMEaW44HrEl/C3z6
-   Ww/hZNQcC7lE5s0UbCYkaj6gn6S4ooZ57EYQekeTXVLVescPeW+y+sCqS
-   hdV9AkXDPD1OsJN5Jrz1VItNt2ImiHlzeZO/V5FUS1HVKhUPX4DgPDcXh
-   QWzQS8i8dU4n70IlrgImFI6pyxZFcjmRwHnutlX2hAtVtEJW8qutAc88W
-   NavUiwtwKoGaAsPbaQ+W91VQ8Wxvu9tuuS0FNo4oDhfHsG9JNNXWLRVwD
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422474574"
+  bh=EB0dJo8S95HEyVxgOsBQRdyHYN+2pZJXz4/tRQLenEg=;
+  b=PflcEloVHhQyaagawJ2EN6bhdEcAt4nd2+01YjOCOO8y2wRRcBTc5qqQ
+   q7IsG4+FDOu2JpCjVogHZuQnn271HjGSQUcaUEpAGGyKE+PfIH7sqyiWT
+   KHOY9/FIHTu6zz18oXQNbrKcGe4I0RmulL/l+33Fh0BCensjoi3+wrBUH
+   DSSk2rYuOSteTX2lLBlay7VpDuO1fluc9UHnPTpJJ4UbhpiuZhMZ3BJo7
+   SMpYnv0X/xdhsFmFi9IfcKDnCtyvBMicFe163BUZunGyrN5uLkbjFGN/p
+   T7CndK06wU1Ss+5ERMKntxPExV7VM6ZN0QhIms61nwZLUvW0jKox+EepG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422474576"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="422474574"
+   d="scan'208";a="422474576"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:34:53 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:34:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820292050"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="820292052"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="820292050"
+   d="scan'208";a="820292052"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 08:34:53 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZwke-0002GN-0S;
+	id 1pZwke-0002GP-0Y;
 	Wed, 08 Mar 2023 16:34:52 +0000
 Date: Thu, 9 Mar 2023 00:33:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.2 136/139] fs/debugfs/file.c:959:9: warning:
- no previous prototype for function 'debugfs_read_file_cpumask'
-Message-ID: <202303090038.R0U1uPBw-lkp@intel.com>
+To: Evgeniy Baskov <baskov@ispras.ru>
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Subject: [ardb:efi-x86-nx 5/24] arch/x86/mm/ident_map.c:19:8: warning: no
+ previous prototype for 'ident_split_large_pmd'
+Message-ID: <202303090031.t72VFmyu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,77 +46,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.2
-head:   b04a157f0da06d80607a04ca0c1f58b610ba4a44
-commit: eca824efb549effb3884515952c8587ee46cc8fb [136/139] debugfs: Add helpers for creating cpumask entries in debugfs
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230309/202303090038.R0U1uPBw-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
+head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
+commit: 26f02800cb89d842e554a5e030a40560adc7221b [5/24] x86/boot: Support 4KB pages for identity mapping
+config: x86_64-randconfig-r002-20230306 (https://download.01.org/0day-ci/archive/20230309/202303090031.t72VFmyu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=eca824efb549effb3884515952c8587ee46cc8fb
-        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
-        git fetch --no-tags morse mpam/snapshot/v6.2
-        git checkout eca824efb549effb3884515952c8587ee46cc8fb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=26f02800cb89d842e554a5e030a40560adc7221b
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb efi-x86-nx
+        git checkout 26f02800cb89d842e554a5e030a40560adc7221b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/debugfs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090038.R0U1uPBw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090031.t72VFmyu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/debugfs/file.c:959:9: warning: no previous prototype for function 'debugfs_read_file_cpumask' [-Wmissing-prototypes]
-   ssize_t debugfs_read_file_cpumask(struct file *file, char __user *user_buf,
-           ^
-   fs/debugfs/file.c:959:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   ssize_t debugfs_read_file_cpumask(struct file *file, char __user *user_buf,
-   ^
-   static 
-   1 warning generated.
+   In file included from arch/x86/mm/init_64.c:61:
+>> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for 'ident_split_large_pmd' [-Wmissing-prototypes]
+      19 | pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for 'ident_split_large_pud' [-Wmissing-prototypes]
+     102 | pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/debugfs_read_file_cpumask +959 fs/debugfs/file.c
+vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
 
-   958	
- > 959	ssize_t debugfs_read_file_cpumask(struct file *file, char __user *user_buf,
-   960					   size_t count, loff_t *ppos)
-   961	{
-   962		struct dentry *dentry = F_DENTRY(file);
-   963		struct cpumask *cpumask;
-   964		char *kernel_buf;
-   965		ssize_t ret;
-   966		int len;
-   967	
-   968		ret = debugfs_file_get(dentry);
-   969		if (unlikely(ret))
-   970			return ret;
-   971	
-   972		/* How long is a piece of string? */
-   973		kernel_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
-   974		if (!kernel_buf) {
-   975			debugfs_file_put(dentry);
-   976			return -ENOMEM;
-   977		}
-   978	
-   979		cpumask = (struct cpumask *)file->private_data;
-   980		len = scnprintf(kernel_buf, PAGE_SIZE,
-   981				"%*pb\n", cpumask_pr_args(cpumask));
-   982		debugfs_file_put(dentry);
-   983		if (len + 1 >= PAGE_SIZE) {
-   984			kfree(kernel_buf);
-   985			return -EIO;
-   986		}
-   987	
-   988		ret = simple_read_from_buffer(user_buf, count, ppos, kernel_buf, len);
-   989		kfree(kernel_buf);
-   990	
-   991		return ret;
-   992	}
-   993	
+    18	
+  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+    20				     pmd_t *pmdp, unsigned long page_addr)
+    21	{
+    22		unsigned long pmd_addr, page_flags;
+    23		pte_t *pte;
+    24	
+    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
+    26		if (!pte)
+    27			return NULL;
+    28	
+    29		pmd_addr = page_addr & PMD_MASK;
+    30	
+    31		/* Not a large page - clear PSE flag */
+    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
+    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
+    34	
+    35		return pte;
+    36	}
+    37	
+    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
+    39				  unsigned long addr, unsigned long end,
+    40				  unsigned long flags)
+    41	{
+    42		unsigned long next;
+    43		bool new_table = 0;
+    44	
+    45		for (; addr < end; addr = next) {
+    46			pmd_t *pmd = pmd_page + pmd_index(addr);
+    47			pte_t *pte;
+    48	
+    49			next = (addr & PMD_MASK) + PMD_SIZE;
+    50			if (next > end)
+    51				next = end;
+    52	
+    53			/*
+    54			 * Use 2M pages if 4k pages are not allowed or
+    55			 * we are not mapping extra, i.e. address and size are aligned.
+    56			 */
+    57	
+    58			if (!info->allow_4kpages ||
+    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
+    60	
+    61				pmd_t pmdval;
+    62	
+    63				addr &= PMD_MASK;
+    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
+    65				set_pmd(pmd, pmdval);
+    66				continue;
+    67			}
+    68	
+    69			/*
+    70			 * If currently mapped page is large, we need to split it.
+    71			 * The case when we don't can remap 2M page to 2M page
+    72			 * with different flags is already covered above.
+    73			 *
+    74			 * If there's nothing mapped to desired address,
+    75			 * we need to allocate new page table.
+    76			 */
+    77	
+    78			if (pmd_large(*pmd)) {
+    79				pte = ident_split_large_pmd(info, pmd, addr);
+    80				new_table = 1;
+    81			} else if (!pmd_present(*pmd)) {
+    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
+    83				new_table = 1;
+    84			} else {
+    85				pte = pte_offset_kernel(pmd, 0);
+    86				new_table = 0;
+    87			}
+    88	
+    89			if (!pte)
+    90				return -ENOMEM;
+    91	
+    92			ident_pte_init(info, pte, addr, next, flags);
+    93	
+    94			if (new_table)
+    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
+    96		}
+    97	
+    98		return 0;
+    99	}
+   100	
+   101	
+ > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+   103				     pud_t *pudp, unsigned long page_addr)
+   104	{
+   105		unsigned long pud_addr, page_flags;
+   106		pmd_t *pmd;
+   107	
+   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
+   109		if (!pmd)
+   110			return NULL;
+   111	
+   112		pud_addr = page_addr & PUD_MASK;
+   113	
+   114		/* Not a large page - clear PSE flag */
+   115		page_flags = pud_flags(*pudp) & ~_PSE;
+   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
+   117	
+   118		return pmd;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
