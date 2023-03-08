@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B50E6D38
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 13:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCAB6D38;
+	Wed,  8 Mar 2023 14:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678283988; x=1709819988;
+  t=1678285191; x=1709821191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PNKgVbdiZoQzmmlNx3nHznYDAnTPVivtpJ3s3x4aK1U=;
-  b=mAy4L/TdSgDB5hhuoA0iefrX3rYz9sbvfn+9OF9YhgKKHGkUW32wHAFT
-   A158FT8NHw0KpQZs+hLEf48vHjLRYcOEbnwmc1Yoqi1uy2kAgDWNeqARW
-   AQftORMd44B0bCY+qjFFOayPffVyEEJJ83UTBFLH7iRrGmAOL26WCAozK
-   RZOTtDlzfZqJWfub9lYD6Qll70Ov+oOaV4rM66CwN6l2VwHotHaTsfLTL
-   ZNGCmcSiPHmRuPfWOGBavO/8qkuUzSDaDahDpcu70dZTTTNze0x0PNery
-   zDBU0osSqrdUcBre2ntaMzUK6uDhklG2TFloCpvzn70nqflx7vyvM8i7c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="363793277"
+  bh=MYKSRNhxw96IUQMCBazg68wJ6R+1e8wARf5Nz6MscDI=;
+  b=a2h69jSdL29wcxoVwSmyL3Ja+PGNY33cfbOqBnuAkZy9R76qwkZC2S5B
+   8PZBkUgd98DDA000hpaLurB9VzhOQvsvvehikxiPli1mJEhO39XjNsg1q
+   EGG2WYlZfwliZFCITwBw1T90KpMUj3VbYqZdoMvBtoXoxLollrtFmKqKU
+   7ST98f1PiAuQS1+fJsDiPACXdPWY0KslVHRjEXEC5GG26Y1gKU957TSMF
+   bERy1DYTXcDWlbuZlimRgct74bqkZtmk3AzWrTgAyyFLVpC+mvorjFj2x
+   zJsJpyP8acACJ5fnXu4tTPPzYNWG/+is2KB4FZsGlcayhqiLK2sFL7mMQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="337678359"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="363793277"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 05:59:47 -0800
+   d="scan'208";a="337678359"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 06:19:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006334723"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="745922247"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="1006334723"
+   d="scan'208";a="745922247"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 05:59:46 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2023 06:19:47 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZuKY-0002AO-0c;
-	Wed, 08 Mar 2023 13:59:46 +0000
-Date: Wed, 8 Mar 2023 21:59:14 +0800
+	id 1pZudu-0002Aj-1O;
+	Wed, 08 Mar 2023 14:19:46 +0000
+Date: Wed, 8 Mar 2023 22:19:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:for-usb-next 8/14]
- drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted
- __le32
-Message-ID: <202303082106.YhLmsktf-lkp@intel.com>
+To: Evgeniy Baskov <baskov@ispras.ru>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ard Biesheuvel <ardb@kernel.org>
+Subject: [ardb:efi-x86-nx 10/24] drivers/firmware/efi/libstub/mem.c:171:20:
+ warning: variable 'rounded_start' is uninitialized when used here
+Message-ID: <202303082221.muIbxFhj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,110 +47,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-head:   a1d18a67ae7cf71edacfdfad8bd5abf8d0e3787f
-commit: 383d00635a264b0044c2342fcad36160fb0e3249 [8/14] xhci: dbc: Provide sysfs option to configure dbc descriptors
-config: openrisc-randconfig-s052-20230305 (https://download.01.org/0day-ci/archive/20230308/202303082106.YhLmsktf-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
+head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
+commit: 6b4ae58e7147165ec019e3899a5d4d14e0396110 [10/24] efi/libstub: Move helper function to related file
+config: riscv-randconfig-r001-20230305 (https://download.01.org/0day-ci/archive/20230308/202303082221.muIbxFhj-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?id=383d00635a264b0044c2342fcad36160fb0e3249
-        git remote add mnyman-xhci https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git
-        git fetch --no-tags mnyman-xhci for-usb-next
-        git checkout 383d00635a264b0044c2342fcad36160fb0e3249
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=6b4ae58e7147165ec019e3899a5d4d14e0396110
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb efi-x86-nx
+        git checkout 6b4ae58e7147165ec019e3899a5d4d14e0396110
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/usb/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/firmware/efi/libstub/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082106.YhLmsktf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303082221.muIbxFhj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/host/xhci-dbgcap.c:127:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:127:18: sparse:     expected unsigned int [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:127:18: sparse:     got restricted __le32 [usertype]
-   drivers/usb/host/xhci-dbgcap.c:130:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:130:18: sparse:     expected unsigned int [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:130:18: sparse:     got restricted __le32 [usertype]
-   drivers/usb/host/xhci-dbgcap.c:269:25: sparse: sparse: invalid assignment: &=
-   drivers/usb/host/xhci-dbgcap.c:269:25: sparse:    left side has type unsigned int
-   drivers/usb/host/xhci-dbgcap.c:269:25: sparse:    right side has type restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:271:25: sparse: sparse: invalid assignment: |=
-   drivers/usb/host/xhci-dbgcap.c:271:25: sparse:    left side has type unsigned int
-   drivers/usb/host/xhci-dbgcap.c:271:25: sparse:    right side has type restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:723:53: sparse: sparse: restricted __le64 degrades to integer
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1009:20: sparse: sparse: cast to restricted __le32
->> drivers/usb/host/xhci-dbgcap.c:1010:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:1010:18: sparse:     expected unsigned int [assigned] [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:1010:18: sparse:     got restricted __le32 [usertype]
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1049:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1050:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:1050:18: sparse:     expected unsigned int [assigned] [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:1050:18: sparse:     got restricted __le32 [usertype]
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1088:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1089:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:1089:18: sparse:     expected unsigned int [assigned] [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:1089:18: sparse:     got restricted __le32 [usertype]
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1131:20: sparse: sparse: cast to restricted __le32
-   drivers/usb/host/xhci-dbgcap.c:1132:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] dev_info @@     got restricted __le32 [usertype] @@
-   drivers/usb/host/xhci-dbgcap.c:1132:18: sparse:     expected unsigned int [assigned] [usertype] dev_info
-   drivers/usb/host/xhci-dbgcap.c:1132:18: sparse:     got restricted __le32 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +1009 drivers/usb/host/xhci-dbgcap.c
+>> drivers/firmware/efi/libstub/mem.c:171:20: warning: variable 'rounded_start' is uninitialized when used here [-Wuninitialized]
+                            (unsigned long)rounded_start,
+                                           ^~~~~~~~~~~~~
+   drivers/firmware/efi/libstub/efistub.h:71:45: note: expanded from macro 'efi_warn'
+           efi_printk(KERN_WARNING "WARNING: " fmt, ##__VA_ARGS__)
+                                                      ^~~~~~~~~~~
+   drivers/firmware/efi/libstub/mem.c:150:35: note: initialize the variable 'rounded_start' to silence this warning
+           efi_physical_addr_t rounded_start, rounded_end;
+                                            ^
+                                             = 0
+>> drivers/firmware/efi/libstub/mem.c:172:20: warning: variable 'rounded_end' is uninitialized when used here [-Wuninitialized]
+                            (unsigned long)rounded_end);
+                                           ^~~~~~~~~~~
+   drivers/firmware/efi/libstub/efistub.h:71:45: note: expanded from macro 'efi_warn'
+           efi_printk(KERN_WARNING "WARNING: " fmt, ##__VA_ARGS__)
+                                                      ^~~~~~~~~~~
+   drivers/firmware/efi/libstub/mem.c:150:48: note: initialize the variable 'rounded_end' to silence this warning
+           efi_physical_addr_t rounded_start, rounded_end;
+                                                         ^
+                                                          = 0
+   2 warnings generated.
 
-   988	
-   989	static ssize_t dbc_idVendor_store(struct device *dev,
-   990				     struct device_attribute *attr,
-   991				     const char *buf, size_t size)
-   992	{
-   993		struct xhci_dbc		*dbc;
-   994		struct xhci_hcd		*xhci;
-   995		void __iomem		*ptr;
-   996		u16			value;
-   997		u32			dev_info;
-   998	
-   999		if (kstrtou16(buf, 0, &value))
-  1000			return -EINVAL;
-  1001	
-  1002		xhci = hcd_to_xhci(dev_get_drvdata(dev));
-  1003		dbc = xhci->dbc;
-  1004		if (dbc->state != DS_DISABLED)
-  1005			return -EBUSY;
-  1006	
-  1007		dbc->idVendor = value;
-  1008		ptr = &dbc->regs->devinfo1;
-> 1009		dev_info = le32_to_cpu(readl(ptr));
-> 1010		dev_info = cpu_to_le32((dev_info & ~(0xffffu << 16)) | (value << 16));
-  1011		writel(dev_info, ptr);
-  1012	
-  1013		return size;
-  1014	}
-  1015	
+
+vim +/rounded_start +171 drivers/firmware/efi/libstub/mem.c
+
+   131	
+   132	/**
+   133	 * efi_adjust_memory_range_protection() - change memory range protection attributes
+   134	 * @start:	memory range start address
+   135	 * @size:	memory range size
+   136	 *
+   137	 * Actual memory range for which memory attributes are modified is
+   138	 * the smallest ranged with start address and size aligned to EFI_PAGE_SIZE
+   139	 * that includes [start, start + size].
+   140	 *
+   141	 * @return: status code
+   142	 */
+   143	efi_status_t efi_adjust_memory_range_protection(unsigned long start,
+   144							unsigned long size,
+   145							unsigned long attributes)
+   146	{
+   147		efi_status_t status;
+   148		efi_gcd_memory_space_desc_t desc;
+   149		efi_physical_addr_t end, next;
+   150		efi_physical_addr_t rounded_start, rounded_end;
+   151		efi_physical_addr_t unprotect_start, unprotect_size;
+   152	
+   153		if (efi_dxe_table == NULL)
+   154			return EFI_UNSUPPORTED;
+   155	
+   156		/*
+   157		 * This function should not be used to modify attributes
+   158		 * other than writable/executable.
+   159		 */
+   160	
+   161		if ((attributes & ~(EFI_MEMORY_RO | EFI_MEMORY_XP)) != 0)
+   162			return EFI_INVALID_PARAMETER;
+   163	
+   164		/*
+   165		 * Disallow simultaniously executable and writable memory
+   166		 * to inforce W^X policy if direct extraction code is enabled.
+   167		 */
+   168	
+   169		if ((attributes & (EFI_MEMORY_RO | EFI_MEMORY_XP)) == 0) {
+   170			efi_warn("W^X violation at [%08lx,%08lx]\n",
+ > 171				 (unsigned long)rounded_start,
+ > 172				 (unsigned long)rounded_end);
 
 -- 
 0-DAY CI Kernel Test Service
