@@ -1,44 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1B6AB6;
-	Wed,  8 Mar 2023 13:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62676ABA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 13:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678281528; x=1709817528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3zCpvSVcxYUVkNs7AHqxMx28ifWCTyYoFVEoi4GlhbY=;
-  b=ctK8uooOdqRkbsqVnqRtBc2MSdhprdQrdi8kwrQiv7yu31qbmzodLuXS
-   L8ZOt741OCX+lPI8nxxqBTPfR6Jw4E/X8Y7z/0dlVV+4I17Kl7vbW7bLV
-   vc+h9hTCQO2BE6rYRNzN4e/zZS3UbtSA8EatF9QZrXIVe+D7j5W//U0tK
-   0KvwW4xpxrQpbUnGeFeCL4jJpzSUaCpB2rThSfD6DpP56lwnNRunlgJK3
-   9RPbtIYA13T/5baIRUil7/aRXqJDFTF1IPRL8QY7vrC1agtHE9ip4ly/J
-   7FnNhYR69e+Bcqxki3+t4l8WvpTviCJZwh02oxhq63Qq+dOn226g4kt/x
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="315808226"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uWaO33/6S2A465EuxnH3FeXvCBqZccS+M5414m2SxVM=;
+  b=RWmYYFVWn0VzknG+nlatX3XAih89wHjaVY2SXSu/RrWxxg+tX1VwT2zo
+   2y1pQhafOh5p5Dt0MyiDcx/j5LRyHrT/+lB0ZW6PofZIvqge/W+tvJvOv
+   oZyNTD3GaBADKr86I8Zr5Bf2ihkJNBlIXriAi0hS2Px64NVfNHtZZd7LC
+   7bckPs7usflaPUnPX0oovD9TGmIY/QIFdk7NZ4tskDLbPxF8rHAvaM8+n
+   ZmQXdRS7LYWU5r6ld5JZW7yTF5nF9b6Wtk9HairFlf6ANQdoAUYCsOgvk
+   kBFtVxbKmePK0PzHbz0nFN9hrGsk0IBeAADxNeLqIboQEySNfVGwo9zvG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="333619840"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="315808226"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 05:18:47 -0800
+   d="scan'208";a="333619840"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 05:18:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="626916511"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="851079525"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="626916511"
+   d="scan'208";a="851079525"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Mar 2023 05:18:46 -0800
+  by orsmga005.jf.intel.com with ESMTP; 08 Mar 2023 05:18:46 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZtgr-000295-1C;
+	id 1pZtgr-000298-1P;
 	Wed, 08 Mar 2023 13:18:45 +0000
-Date: Wed, 8 Mar 2023 21:18:17 +0800
+Date: Wed, 8 Mar 2023 21:18:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/8] platform/x86: ISST: Enumerate TPMI SST and create
- framework
-Message-ID: <202303082101.fF7OWAtH-lkp@intel.com>
-References: <20230308070642.1727167-3-srinivas.pandruvada@linux.intel.com>
+To: Lijo Lazar <lijo.lazar@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: [linux-next:master 1761/1915]
+ drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:315:17:
+ sparse: sparse: incompatible types in conditional expression (different base
+ types):
+Message-ID: <202303082135.NjdX1Bij-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +50,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308070642.1727167-3-srinivas.pandruvada@linux.intel.com>
 
-Hi Srinivas,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc1 next-20230308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Pandruvada/platform-x86-ISST-Add-support-for-MSR-0x54/20230308-150906
-patch link:    https://lore.kernel.org/r/20230308070642.1727167-3-srinivas.pandruvada%40linux.intel.com
-patch subject: [PATCH v2 2/8] platform/x86: ISST: Enumerate TPMI SST and create framework
-config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230308/202303082101.fF7OWAtH-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fc31900c948610e7b5c2f15fb7795832c8325327
+commit: 511a95552ec878fc59a294652ebbf73a0e8e0c76 [1761/1915] drm/amd/pm: Add SMU 13.0.6 support
+config: alpha-randconfig-s033-20230305 (https://download.01.org/0day-ci/archive/20230308/202303082135.NjdX1Bij-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2e4ff37ca5561b5d2ff368395f8d5d043a684ca5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Srinivas-Pandruvada/platform-x86-ISST-Add-support-for-MSR-0x54/20230308-150906
-        git checkout 2e4ff37ca5561b5d2ff368395f8d5d043a684ca5
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=511a95552ec878fc59a294652ebbf73a0e8e0c76
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 511a95552ec878fc59a294652ebbf73a0e8e0c76
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082101.fF7OWAtH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303082135.NjdX1Bij-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h):
+   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgv_sriovmsg.h:315:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
+   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgv_sriovmsg.h:319:49: sparse: sparse: static assertion failed: "amd_sriov_msg_pf2vf_info must be 1 KB"
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:315:17: sparse: sparse: incompatible types in conditional expression (different base types):
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:315:17: sparse:    void
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:315:17: sparse:    int
 
->> drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:245:5: error: no member named 'api_version' in 'struct isst_if_cmd_cb'
-           cb.api_version = ISST_TPMI_API_VERSION;
-           ~~ ^
->> drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:246:5: error: no member named 'def_ioctl' in 'struct isst_if_cmd_cb'
-           cb.def_ioctl = isst_if_def_ioctl;
-           ~~ ^
->> drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:248:30: error: use of undeclared identifier 'ISST_IF_DEV_TPMI'
-           ret = isst_if_cdev_register(ISST_IF_DEV_TPMI, &cb);
-                                       ^
-   drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:264:27: error: use of undeclared identifier 'ISST_IF_DEV_TPMI'
-                   isst_if_cdev_unregister(ISST_IF_DEV_TPMI);
-                                           ^
-   4 errors generated.
+vim +315 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c
 
-
-vim +245 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
-
-   222	
-   223	int tpmi_sst_init(void)
-   224	{
-   225		struct isst_if_cmd_cb cb;
-   226		int ret = 0;
-   227	
-   228		mutex_lock(&isst_tpmi_dev_lock);
-   229	
-   230		if (isst_core_usage_count) {
-   231			++isst_core_usage_count;
-   232			goto init_done;
-   233		}
-   234	
-   235		isst_common.sst_inst = kcalloc(topology_max_packages(),
-   236					       sizeof(*isst_common.sst_inst),
-   237					       GFP_KERNEL);
-   238		if (!isst_common.sst_inst)
-   239			return -ENOMEM;
-   240	
-   241		memset(&cb, 0, sizeof(cb));
-   242		cb.cmd_size = sizeof(struct isst_if_io_reg);
-   243		cb.offset = offsetof(struct isst_if_io_regs, io_reg);
-   244		cb.cmd_callback = NULL;
- > 245		cb.api_version = ISST_TPMI_API_VERSION;
- > 246		cb.def_ioctl = isst_if_def_ioctl;
-   247		cb.owner = THIS_MODULE;
- > 248		ret = isst_if_cdev_register(ISST_IF_DEV_TPMI, &cb);
-   249		if (ret)
-   250			kfree(isst_common.sst_inst);
-   251	init_done:
-   252		mutex_unlock(&isst_tpmi_dev_lock);
-   253		return ret;
-   254	}
-   255	EXPORT_SYMBOL_NS_GPL(tpmi_sst_init, INTEL_TPMI_SST);
-   256	
+   296	
+   297	static int smu_v13_0_6_get_metrics_table(struct smu_context *smu,
+   298						 void *metrics_table, bool bypass_cache)
+   299	{
+   300		struct smu_table_context *smu_table = &smu->smu_table;
+   301		uint32_t table_size = smu_table->tables[SMU_TABLE_SMU_METRICS].size;
+   302		struct smu_table *table = &smu_table->driver_table;
+   303		int ret;
+   304	
+   305		if (bypass_cache || !smu_table->metrics_time ||
+   306		    time_after(jiffies,
+   307			       smu_table->metrics_time + msecs_to_jiffies(1))) {
+   308			ret = smu_cmn_send_smc_msg(smu, SMU_MSG_GetMetricsTable, NULL);
+   309			if (ret) {
+   310				dev_info(smu->adev->dev,
+   311					 "Failed to export SMU metrics table!\n");
+   312				return ret;
+   313			}
+   314	
+ > 315			amdgpu_asic_invalidate_hdp(smu->adev, NULL);
+   316			memcpy(smu_table->metrics_table, table->cpu_addr, table_size);
+   317	
+   318			smu_table->metrics_time = jiffies;
+   319		}
+   320	
+   321		if (metrics_table)
+   322			memcpy(metrics_table, smu_table->metrics_table, table_size);
+   323	
+   324		return 0;
+   325	}
+   326	
 
 -- 
 0-DAY CI Kernel Test Service
