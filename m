@@ -1,42 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EB27C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 09:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3EB7C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 09:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678266703; x=1709802703;
+  t=1678267903; x=1709803903;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QAkCW9c0TjjtjLgELCOM1fqTGIy237JSXaQJdZjD0Nw=;
-  b=OegSC5UXVeHmrJa6mMOyKP2w0aIkgLKFH8pzaxAXOEnmfgXA3X9xR/z7
-   EYFYsccyq2PrMfuk+JsLgx1qWRdmw0DxMdY7lJ8fgPmhNF1gqYDTi/d6s
-   WQ2bS4UvLeBqocXzBuMVJmlqS92udACwx1BcAPvYmogXAPbgDDcgSldEx
-   KmLvQ3Vzz9+kgkdHnDGXUupWn7C8mfI7OPltCj9tUu0J1nqomvo9zSTbP
-   UFImfM+fWMc+PrKKja2XKAYavZgpRjeTLpvEY7SPubHWdT02Hhq1eIQD8
-   Cw+C2yBPMVWgtVZwKNX9LGaQO1ERh1ED3hyBGwI5fO69A3+LwwxpSwmMj
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="319937637"
+  bh=obmR/RHDy6NCyjO3XkS+c9F7BiYYdSGbRSyVNdZ96qs=;
+  b=fQFLKnVZxM7ZCE3FXqm8GpS17OSExbg9aoWyjWzsCMgGgttwd/nvLM//
+   3+pWGMEToiSduO/HeoxyrzOtA+jpYTf1V0lTcTEOoR7EX0CZ+onWLNvXK
+   CmkrIeNjneJltQonckwxKTDNVEpoHg1pTqYh6i/LAEw8bHev2FsCy76zO
+   nE8ElGF+3okN9qJkmasXINPPAEhq60v3LS6H3/9Mk5Aa0KjV+qzDfWYOY
+   tp3GdUNveR9et+sjXvaMG9jP7EBYStEhFfzwnqlZUwQDDSWJ69J9sspoM
+   NeUbwBVk1NzkPrNrGXjjdHfHO8NgOhErfL9twqI/AWUMR0XWEWYdg7dJ9
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="324421790"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="319937637"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:11:42 -0800
+   d="scan'208";a="324421790"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:31:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="787046764"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="851016349"
 X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
-   d="scan'208";a="787046764"
+   d="scan'208";a="851016349"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Mar 2023 01:11:41 -0800
+  by orsmga005.jf.intel.com with ESMTP; 08 Mar 2023 01:31:41 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZppk-00020F-0a;
-	Wed, 08 Mar 2023 09:11:40 +0000
-Date: Wed, 8 Mar 2023 17:10:40 +0800
+	id 1pZq96-00020w-2T;
+	Wed, 08 Mar 2023 09:31:40 +0000
+Date: Wed, 8 Mar 2023 17:31:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Chinner <dchinner@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [mcgrof:20230307-larger-bs-then-ps-xfs 7/11]
- fs/iomap/buffered-io.c:1424:22: warning: variable 'status' set but not used
-Message-ID: <202303081740.RJYdJ9MG-lkp@intel.com>
+To: Evgeniy Baskov <baskov@ispras.ru>
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Subject: [ardb:for-kernelci 5/23] arch/x86/mm/ident_map.c:19:8: warning: no
+ previous prototype for 'ident_split_large_pmd'
+Message-ID: <202303081758.wjUcKEAW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,98 +46,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230307-larger-bs-then-ps-xfs
-head:   e42ac7981c9cbcd80d1ffa2ad03c96574a320a62
-commit: 89e0dbe34eb365d865a0b459668e5abe17cf95c8 [7/11] iomap: zero-around in iomap_page_mkwrite
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303081740.RJYdJ9MG-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
+head:   307a19a22eea94622a082f1bce0959cfb6f7d9f7
+commit: e5a05147bd0061090db95126181ff8096645fad6 [5/23] x86/boot: Support 4KB pages for identity mapping
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303081758.wjUcKEAW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=89e0dbe34eb365d865a0b459668e5abe17cf95c8
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230307-larger-bs-then-ps-xfs
-        git checkout 89e0dbe34eb365d865a0b459668e5abe17cf95c8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=e5a05147bd0061090db95126181ff8096645fad6
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb for-kernelci
+        git checkout e5a05147bd0061090db95126181ff8096645fad6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/iomap/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303081740.RJYdJ9MG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303081758.wjUcKEAW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/iomap/buffered-io.c: In function 'iomap_folio_mkwrite_iter':
->> fs/iomap/buffered-io.c:1424:22: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-    1424 |                 long status;
-         |                      ^~~~~~
+   In file included from arch/x86/mm/init_64.c:61:
+>> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for 'ident_split_large_pmd' [-Wmissing-prototypes]
+      19 | pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for 'ident_split_large_pud' [-Wmissing-prototypes]
+     102 | pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/status +1424 fs/iomap/buffered-io.c
+vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
 
-  1411	
-  1412	static loff_t iomap_folio_mkwrite_iter(struct iomap_iter *iter,
-  1413			struct folio *folio, const struct iomap_ops *ops)
-  1414	{
-  1415		loff_t length = iomap_length(iter);
-  1416		loff_t ret;
-  1417	
-  1418		/*
-  1419		 * if we need to zero-around, we have to unlock the page we were given.
-  1420		 * No big deal, we just have to repeat the "is this page ours" checks
-  1421		 * after relocking it
-  1422		 */
-  1423		if (iomap_need_zero_around(iter)) {
-> 1424			long status;
-  1425			loff_t size;
-  1426	
-  1427			/*
-  1428			 * This only happens for block size > page size, so the file
-  1429			 * offset of a page fault should always be page aligned.
-  1430			 */
-  1431			WARN_ON(offset_in_folio(folio, iter->pos));
-  1432	
-  1433			folio_unlock(folio);
-  1434			status = iomap_zero_around(iter, iter->pos, length, ops);
-  1435			folio_lock(folio);
-  1436			size = i_size_read(iter->inode);
-  1437			if ((folio->mapping != iter->inode->i_mapping) ||
-  1438			    (folio_pos(folio) > size)) {
-  1439				/* We overload EFAULT to mean page got truncated */
-  1440				return -EFAULT;
-  1441			}
-  1442	
-  1443			if (folio_pos(folio) != iter->pos) {
-  1444				/* it moved in the file! */
-  1445				return -EFAULT;
-  1446			}
-  1447	
-  1448			/* return failure now if zeroing had an error */
-  1449			if (ret)
-  1450				return ret;
-  1451	
-  1452			/* trim down the length is we straddle EOF. */
-  1453			if (((folio->index + 1) << PAGE_SHIFT) > size)
-  1454				length = offset_in_folio(folio, size);
-  1455	
-  1456		}
-  1457	
-  1458		if (iter->iomap.flags & IOMAP_F_BUFFER_HEAD) {
-  1459			ret = __block_write_begin_int(folio, iter->pos, length, NULL,
-  1460						      &iter->iomap);
-  1461			if (ret)
-  1462				return ret;
-  1463			block_commit_write(&folio->page, 0, length);
-  1464		} else {
-  1465			WARN_ON_ONCE(!folio_test_uptodate(folio));
-  1466			folio_mark_dirty(folio);
-  1467		}
-  1468	
-  1469		return length;
-  1470	}
-  1471	
+    18	
+  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+    20				     pmd_t *pmdp, unsigned long page_addr)
+    21	{
+    22		unsigned long pmd_addr, page_flags;
+    23		pte_t *pte;
+    24	
+    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
+    26		if (!pte)
+    27			return NULL;
+    28	
+    29		pmd_addr = page_addr & PMD_MASK;
+    30	
+    31		/* Not a large page - clear PSE flag */
+    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
+    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
+    34	
+    35		return pte;
+    36	}
+    37	
+    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
+    39				  unsigned long addr, unsigned long end,
+    40				  unsigned long flags)
+    41	{
+    42		unsigned long next;
+    43		bool new_table = 0;
+    44	
+    45		for (; addr < end; addr = next) {
+    46			pmd_t *pmd = pmd_page + pmd_index(addr);
+    47			pte_t *pte;
+    48	
+    49			next = (addr & PMD_MASK) + PMD_SIZE;
+    50			if (next > end)
+    51				next = end;
+    52	
+    53			/*
+    54			 * Use 2M pages if 4k pages are not allowed or
+    55			 * we are not mapping extra, i.e. address and size are aligned.
+    56			 */
+    57	
+    58			if (!info->allow_4kpages ||
+    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
+    60	
+    61				pmd_t pmdval;
+    62	
+    63				addr &= PMD_MASK;
+    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
+    65				set_pmd(pmd, pmdval);
+    66				continue;
+    67			}
+    68	
+    69			/*
+    70			 * If currently mapped page is large, we need to split it.
+    71			 * The case when we don't can remap 2M page to 2M page
+    72			 * with different flags is already covered above.
+    73			 *
+    74			 * If there's nothing mapped to desired address,
+    75			 * we need to allocate new page table.
+    76			 */
+    77	
+    78			if (pmd_large(*pmd)) {
+    79				pte = ident_split_large_pmd(info, pmd, addr);
+    80				new_table = 1;
+    81			} else if (!pmd_present(*pmd)) {
+    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
+    83				new_table = 1;
+    84			} else {
+    85				pte = pte_offset_kernel(pmd, 0);
+    86				new_table = 0;
+    87			}
+    88	
+    89			if (!pte)
+    90				return -ENOMEM;
+    91	
+    92			ident_pte_init(info, pte, addr, next, flags);
+    93	
+    94			if (new_table)
+    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
+    96		}
+    97	
+    98		return 0;
+    99	}
+   100	
+   101	
+ > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+   103				     pud_t *pudp, unsigned long page_addr)
+   104	{
+   105		unsigned long pud_addr, page_flags;
+   106		pmd_t *pmd;
+   107	
+   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
+   109		if (!pmd)
+   110			return NULL;
+   111	
+   112		pud_addr = page_addr & PUD_MASK;
+   113	
+   114		/* Not a large page - clear PSE flag */
+   115		page_flags = pud_flags(*pudp) & ~_PSE;
+   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
+   117	
+   118		return pmd;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
