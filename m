@@ -1,44 +1,45 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459F679CD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 15:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C7579DA;
+	Wed,  8 Mar 2023 15:52:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678290771; x=1709826771;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VyfQkMJR0JQekuqWtPHEMripwY8LIAK89LlqSvaTLyM=;
-  b=YcubyEnf6fNhRAVKN8n/Z6XH8HI4kSVjwKGavM+xWP1IJYx0GHnSM8ol
-   e8d6COZNWfGB4RmZvkkhUbk437zVRJr86qlnAmeK4bvEGSgEnimTrn8or
-   5UM4x4npRhC/WADwJWVxXe+rFKdMgDUAvJrZ0CYMrTq92WIDOHo3dU6r5
-   V0WQW+xbFv7NLUK2Ey6hSP/OF9qvt60skZRedmk0tF9iULu3yUkLZW02Y
-   osp/Mfa9CyDJrmGiZrq9sUfC8RB156C2+hgtN2mTlgU/uPAVlRexrToA2
-   9Sb9nljUUcuVrY+kOfw4cDrAB/1pFd6/lI8Ax/miGuQUaDAH7slIOZHLl
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="336207664"
+  t=1678290772; x=1709826772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ksZy6yBgs1wq/8pT/Ohy0X8X8VT76kvpenT/22U/R6U=;
+  b=DhkUNBXdcBkC+y/sbUGOho+1bbj/3NEZqlk9BmG52PfyT3N35ax/Dsq5
+   +Uh9pvWYESAOwXzdhSwgxq3u8kOBIJJWLltM5F2lnLm7aH/14NchA2NQr
+   J1hdnz7pjZ2UOec5TQ5mfWnqUnQK+vnWNbSCVbYCrLnd1fGNLjEDx5trt
+   rHmLoS1dS9RLMotd/9hxzJxWyqWutg1nVLX97F+PDqyaRusOT8GVXiGoP
+   5ri3rVgZiUBVnahISE0TXq8xq22b8zzo1ypjgDlOu8AnSTE+NwTDlGOSl
+   wXWNA9ECLH0rWPlwzb+9QSYVDvci+Dyu8hQkN3fkwH0Hcde3MCHlmUfer
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="336207671"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="336207664"
+   d="scan'208";a="336207671"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 07:52:50 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 07:52:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="766029012"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="766029013"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="766029012"
+   d="scan'208";a="766029013"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 07:52:49 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZw5w-0002Eh-2n;
+	id 1pZw5w-0002Ej-2u;
 	Wed, 08 Mar 2023 15:52:48 +0000
-Date: Wed, 8 Mar 2023 23:52:46 +0800
+Date: Wed, 8 Mar 2023 23:52:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.14 134/146]
- drivers/thermal/intel_powerclamp.c:782:38: error: implicit declaration of
- function 'topology_max_die_per_package'; did you mean
- 'topology_max_packages'?
-Message-ID: <202303082317.TylAQuf5-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
+	kernel-team@meta.com, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH v4 bpf-next 4/8] bpf: implement number iterator
+Message-ID: <202303082315.foifky6G-lkp@intel.com>
+References: <20230308035416.2591326-5-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,98 +48,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230308035416.2591326-5-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.14
-head:   ec5cc00d36670922ecb7e0b14c1909e2b0d7b3b1
-commit: bdfde1a14a124ee09558214f1b2b855072c749e4 [134/146] thermal: intel: powerclamp: Fix cur_state for multi package system
-config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230308/202303082317.TylAQuf5-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+Hi Andrii,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230308035416.2591326-5-andrii%40kernel.org
+patch subject: [PATCH v4 bpf-next 4/8] bpf: implement number iterator
+config: i386-randconfig-a015-20230306 (https://download.01.org/0day-ci/archive/20230308/202303082315.foifky6G-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=bdfde1a14a124ee09558214f1b2b855072c749e4
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-4.14
-        git checkout bdfde1a14a124ee09558214f1b2b855072c749e4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/19acf9ca01e2927a29d3235b3aa73598430dcb70
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+        git checkout 19acf9ca01e2927a29d3235b3aa73598430dcb70
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash LDFLAGS=-z max-page-size=0x200000  drivers/thermal/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082317.TylAQuf5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303082315.foifky6G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/thermal/intel_powerclamp.c: In function 'powerclamp_init':
->> drivers/thermal/intel_powerclamp.c:782:38: error: implicit declaration of function 'topology_max_die_per_package'; did you mean 'topology_max_packages'? [-Werror=implicit-function-declaration]
-     if (topology_max_packages() == 1 && topology_max_die_per_package() == 1)
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                         topology_max_packages
-   cc1: some warnings being treated as errors
+>> kernel/bpf/bpf_iter.c:794:2: error: call to __compiletime_assert_395 declared with 'error' attribute: BUILD_BUG_ON failed: __alignof__(struct bpf_iter_num_kern) != __alignof__(struct bpf_iter_num)
+           BUILD_BUG_ON(__alignof__(struct bpf_iter_num_kern) != __alignof__(struct bpf_iter_num));
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:399:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:387:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:380:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:74:1: note: expanded from here
+   __compiletime_assert_395
+   ^
+   1 error generated.
 
 
-vim +782 drivers/thermal/intel_powerclamp.c
+vim +/error +794 kernel/bpf/bpf_iter.c
 
-   749	
-   750	static int __init powerclamp_init(void)
-   751	{
-   752		int retval;
-   753		int bitmap_size;
-   754	
-   755		bitmap_size = BITS_TO_LONGS(num_possible_cpus()) * sizeof(long);
-   756		cpu_clamping_mask = kzalloc(bitmap_size, GFP_KERNEL);
-   757		if (!cpu_clamping_mask)
-   758			return -ENOMEM;
-   759	
-   760		/* probe cpu features and ids here */
-   761		retval = powerclamp_probe();
-   762		if (retval)
-   763			goto exit_free;
-   764	
-   765		/* set default limit, maybe adjusted during runtime based on feedback */
-   766		window_size = 2;
-   767		retval = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
-   768						   "thermal/intel_powerclamp:online",
-   769						   powerclamp_cpu_online,
-   770						   powerclamp_cpu_predown);
-   771		if (retval < 0)
-   772			goto exit_free;
-   773	
-   774		hp_state = retval;
-   775	
-   776		worker_data = alloc_percpu(struct powerclamp_worker_data);
-   777		if (!worker_data) {
-   778			retval = -ENOMEM;
-   779			goto exit_unregister;
-   780		}
-   781	
- > 782		if (topology_max_packages() == 1 && topology_max_die_per_package() == 1)
-   783			poll_pkg_cstate_enable = true;
    784	
-   785		cooling_dev = thermal_cooling_device_register("intel_powerclamp", NULL,
-   786							&powerclamp_cooling_ops);
-   787		if (IS_ERR(cooling_dev)) {
-   788			retval = -ENODEV;
-   789			goto exit_free_thread;
-   790		}
-   791	
-   792		if (!duration)
-   793			duration = jiffies_to_msecs(DEFAULT_DURATION_JIFFIES);
-   794	
-   795		powerclamp_create_debug_files();
-   796	
-   797		return 0;
-   798	
-   799	exit_free_thread:
-   800		free_percpu(worker_data);
-   801	exit_unregister:
-   802		cpuhp_remove_state_nocalls(hp_state);
-   803	exit_free:
-   804		kfree(cpu_clamping_mask);
-   805		return retval;
-   806	}
-   807	module_init(powerclamp_init);
-   808	
+   785	__diag_push();
+   786	__diag_ignore_all("-Wmissing-prototypes",
+   787			  "Global functions as their definitions will be in vmlinux BTF");
+   788	
+   789	__bpf_kfunc int bpf_iter_num_new(struct bpf_iter_num *it, int start, int end)
+   790	{
+   791		struct bpf_iter_num_kern *s = (void *)it;
+   792	
+   793		BUILD_BUG_ON(sizeof(struct bpf_iter_num_kern) != sizeof(struct bpf_iter_num));
+ > 794		BUILD_BUG_ON(__alignof__(struct bpf_iter_num_kern) != __alignof__(struct bpf_iter_num));
+   795	
+   796		BTF_TYPE_EMIT(struct btf_iter_num);
+   797	
+   798		/* start == end is legit, it's an empty range and we'll just get NULL
+   799		 * on first (and any subsequent) bpf_iter_num_next() call
+   800		 */
+   801		if (start > end) {
+   802			s->cur = s->end = 0;
+   803			return -EINVAL;
+   804		}
+   805	
+   806		/* avoid overflows, e.g., if start == INT_MIN and end == INT_MAX */
+   807		if ((s64)end - (s64)start > BPF_MAX_LOOPS) {
+   808			s->cur = s->end = 0;
+   809			return -E2BIG;
+   810		}
+   811	
+   812		/* user will call bpf_iter_num_next() first,
+   813		 * which will set s->cur to exactly start value;
+   814		 * underflow shouldn't matter
+   815		 */
+   816		s->cur = start - 1;
+   817		s->end = end;
+   818	
+   819		return 0;
+   820	}
+   821	
 
 -- 
 0-DAY CI Kernel Test Service
