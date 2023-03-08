@@ -1,42 +1,43 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B03BA48
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 20:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4087B8BF3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 20:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678305600; x=1709841600;
+  t=1678305601; x=1709841601;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MXYFuwA5rZb2IsNa0fNHQ8OgPedk8Erffs5T0liUS9k=;
-  b=fJDbCFNXjISvx5NzUxFiN8VjIf8J892B3KswKaAQMfpJrDrtNIHf6FI+
-   x50u9T8XfINxAzCghjqlZCGU1YEqb0nh5ksj0v9mPJL0tizSyFbdm9ouB
-   JWSH6z2U2YsB1X3daKBYdBs1G1faJUjGIvS3+dRFWrT+taTB7ApiPhViz
-   uYhY5j86yYwTk6zXSdGHSrnppS+gXWqFQyS/DG97t8/cBHpJjuVeNrjoS
-   9X90RDZ4up2DRO6q7zj2xEipWUL/WC9DJTFrbkGcqgBpxzQ8gy4BAWqhx
-   +i/LTEPn7DFK4aHKNpm40D2zVQkiEXHJJxtdgQbndRev8h+fiDDzrMTYu
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337783812"
+  bh=ULAiKdJ7Sq2BySuFi9xZPuOxpMn7M82AJjm5F0ROKhQ=;
+  b=EPsq1lbZbuvlxNX2uRxS73nwpWL7lcCv+pYu8TJpWECn85UcjuUa6dCP
+   HHwZJrm6L2zCUY3Voy31PXOh2bNn2UJxfRp/5ZdrfeDGWqCX+8KraEqMr
+   BgStpoXTw5Pg9BERU6nY199+tKZ1dhggJDSwDtEEJiNQm0ZtbWwzlfmy1
+   XeJMJl/MyXYdz4av9kWDQkTmyU+Pi72HivL9C1sEpzz7qSeqT2Kz7Rxgo
+   SG1pWHxlYk4dMg/Xcl5eCcuAqJvCFZeAn/RLGkK2QeKNpVx5pWtZHyPMX
+   Infpdn2cZO5S8FBDDJClzPGrwKsIfSYvEI76OHuUCAdTVxlMOIpbGhg6Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337783814"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="337783812"
+   d="scan'208";a="337783814"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 11:59:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627061027"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627061026"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="627061027"
+   d="scan'208";a="627061026"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 08 Mar 2023 11:59:57 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZzx6-0002No-2j;
+	id 1pZzx6-0002Nj-2a;
 	Wed, 08 Mar 2023 19:59:56 +0000
 Date: Thu, 9 Mar 2023 03:59:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 198/198] fs/udf/inode.c:1850:33: error:
- 'struct udf_inode_info' has no member named 'i_hidden'
-Message-ID: <202303090348.pyCv6vje-lkp@intel.com>
+To: Evgeniy Baskov <baskov@ispras.ru>
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Subject: [ardb:efi-x86-nx 12/24]
+ arch/x86/boot/compressed/ident_map_64.c:95:15: sparse: sparse: symbol
+ 'kernel_add_identity_map_' was not declared. Should it be static?
+Message-ID: <202303090348.l0pqa8oz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +47,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
-head:   8766782326e9b6fe5a4dacf3083e7f9ed034179b
-commit: 8766782326e9b6fe5a4dacf3083e7f9ed034179b [198/198] udf: Detect system inodes linked into directory hierarchy
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230309/202303090348.pyCv6vje-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
+head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
+commit: 72df0ae166b896e7584f288dcdcc9fa63b360030 [12/24] x86/boot: Make kernel_add_identity_map() a pointer
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230309/202303090348.l0pqa8oz-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=8766782326e9b6fe5a4dacf3083e7f9ed034179b
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-4.19
-        git checkout 8766782326e9b6fe5a4dacf3083e7f9ed034179b
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=72df0ae166b896e7584f288dcdcc9fa63b360030
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb efi-x86-nx
+        git checkout 72df0ae166b896e7584f288dcdcc9fa63b360030
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/udf/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090348.pyCv6vje-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090348.l0pqa8oz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   fs/udf/inode.c: In function '__udf_iget':
->> fs/udf/inode.c:1850:33: error: 'struct udf_inode_info' has no member named 'i_hidden'
-    1850 |                 if (UDF_I(inode)->i_hidden != hidden_inode) {
-         |                                 ^~
-
-
-vim +1850 fs/udf/inode.c
-
-  1838	
-  1839	struct inode *__udf_iget(struct super_block *sb, struct kernel_lb_addr *ino,
-  1840				 bool hidden_inode)
-  1841	{
-  1842		unsigned long block = udf_get_lb_pblock(sb, ino, 0);
-  1843		struct inode *inode = iget_locked(sb, block);
-  1844		int err;
-  1845	
-  1846		if (!inode)
-  1847			return ERR_PTR(-ENOMEM);
-  1848	
-  1849		if (!(inode->i_state & I_NEW)) {
-> 1850			if (UDF_I(inode)->i_hidden != hidden_inode) {
-  1851				iput(inode);
-  1852				return ERR_PTR(-EFSCORRUPTED);
-  1853			}
-  1854			return inode;
-  1855		}
-  1856	
-  1857		memcpy(&UDF_I(inode)->i_location, ino, sizeof(struct kernel_lb_addr));
-  1858		err = udf_read_inode(inode, hidden_inode);
-  1859		if (err < 0) {
-  1860			iget_failed(inode);
-  1861			return ERR_PTR(err);
-  1862		}
-  1863		unlock_new_inode(inode);
-  1864	
-  1865		return inode;
-  1866	}
-  1867	
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/boot/compressed/ident_map_64.c: note: in included file:
+   arch/x86/boot/compressed/../../mm/ident_map.c:102:7: sparse: sparse: symbol 'ident_split_large_pud' was not declared. Should it be static?
+>> arch/x86/boot/compressed/ident_map_64.c:95:15: sparse: sparse: symbol 'kernel_add_identity_map_' was not declared. Should it be static?
+   arch/x86/boot/compressed/ident_map_64.c:179:23: sparse: sparse: memset with byte count of 237568
+   arch/x86/boot/compressed/ident_map_64.c:183:23: sparse: sparse: memset with byte count of 262144
 
 -- 
 0-DAY CI Kernel Test Service
