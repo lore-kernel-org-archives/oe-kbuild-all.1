@@ -1,44 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95510647;
-	Wed,  8 Mar 2023 05:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923BB647
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 05:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678253799; x=1709789799;
+  t=1678254464; x=1709790464;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/PU/5UgLhrOpJXpRDW5FLj7jSvg2KnF33Ge3DhHH6m8=;
-  b=TMbt+9ff/IEoZvH2DHVYoRsW5UgCSQTpHyYJyOA8sa5DLNqsWNTJzMk0
-   17bX6U3saChp6nA21Ho0KlmFqMiE2t8xhNMkCbXccz0z9rqf6TGCqPPcM
-   BplFnLi9jPaDjZhP4BpYCoYpeaOiLrh/06JNqlObDE9ivybGKfwBmPekX
-   DjSUGUf5uSTd+wwxq9uu+RtD2eLyBW3n2ar6HA7+gNC485sYRf3573wVD
-   sZ4r3V/n5RKaV2yK9W7NGzL0cLzUI+tyLqnSDoht3qjTOTar1D3HFpUVc
-   Xy8+Sm5eQ986hbVrEwBtaC5NpvWOkR6jGXs/PRNUUoC4rKD172MGFxGp+
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="334782031"
+  bh=XHvZcn2BnJpIhEVOKMVzYPuP+tUQV/V0Bq5Ai0EPWxU=;
+  b=Wjwu3+QY0H3iA62MzNUDnZO1lMh0MrvbuGyNq0MYn4XjqBKQLPSB+o/E
+   96lmS3maphiLRLzyGQMM+x2AocYdSSFkB2mHKPlRjgYjqEyngylI8ZVi6
+   8JmkzQy0A7WriizaSbHD3uQtFhJxtZA2Tu+EX8zU4kusrG5/D6Iy4qyLe
+   fszaCRDu9IquSQ+E7FFTKNzLkOtkgvTkS4dLJis2BQu8IWioxVNJhXZLQ
+   XAef++ReQFSZkmRjG72wWZDN2ipi+GGvS5rscqKwkA9WJF/H5ApH7/ELV
+   GXBNISbCUeHDq8b84K9aiUVwJ+8vPUP+xjgt1c4ONpGEYW3ni3IKaFwpY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398647423"
 X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="334782031"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 21:36:38 -0800
+   d="scan'208";a="398647423"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 21:47:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="745777385"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="707055192"
 X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="745777385"
+   d="scan'208";a="707055192"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Mar 2023 21:36:37 -0800
+  by orsmga008.jf.intel.com with ESMTP; 07 Mar 2023 21:47:37 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZmTc-0001uh-1P;
-	Wed, 08 Mar 2023 05:36:36 +0000
-Date: Wed, 8 Mar 2023 13:36:35 +0800
+	id 1pZmeG-0001ut-1y;
+	Wed, 08 Mar 2023 05:47:36 +0000
+Date: Wed, 8 Mar 2023 13:46:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1234/1915] security/security.c:3647: warning:
- expecting prototype for security_socket_create(). Prototype was for
- security_socket_post_create() instead
-Message-ID: <202303081345.OAmwqAh7-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2022-12 23043/23271]
+ drivers/dma-buf/dma-buf-sysfs-stats.c:142:2: error: static_assert failed due
+ to requirement 'sizeof(struct kobject) >= sizeof(struct work_struct)'
+ "kobject is smaller than work_struct"
+Message-ID: <202303081309.Fn3qHS2F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +48,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fc31900c948610e7b5c2f15fb7795832c8325327
-commit: 6b6bbe8c02a1bc7ef7f0aa490a3601a16cd145fe [1234/1915] lsm: move the socket hook comments to security/security.c
-config: x86_64-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230308/202303081345.OAmwqAh7-lkp@intel.com/config)
+Hi Mercier,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2022-12
+head:   8d44cb1a9e4253fe215bcc16435564f8d2e42333
+commit: 5aec776ef8c9319df4938fa87e8f2df018426960 [23043/23271] BACKPORT: ANDROID: dma-buf: Move sysfs work out of DMA-BUF export path
+config: x86_64-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230308/202303081309.Fn3qHS2F-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6b6bbe8c02a1bc7ef7f0aa490a3601a16cd145fe
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6b6bbe8c02a1bc7ef7f0aa490a3601a16cd145fe
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.10-2022-12
+        git checkout 5aec776ef8c9319df4938fa87e8f2df018426960
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303081345.OAmwqAh7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303081309.Fn3qHS2F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   security/security.c:1083: warning: Function parameter or member 'mnt_opts' not described in 'security_free_mnt_opts'
-   security/security.c:1083: warning: Excess function parameter 'mnt_ops' description in 'security_free_mnt_opts'
-   security/security.c:1101: warning: Function parameter or member 'mnt_opts' not described in 'security_sb_eat_lsm_opts'
-   security/security.c:1101: warning: Excess function parameter 'mnt_ops' description in 'security_sb_eat_lsm_opts'
-   security/security.c:1269: warning: Function parameter or member 'oldsb' not described in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Function parameter or member 'newsb' not described in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Excess function parameter 'olddb' description in 'security_sb_clone_mnt_opts'
-   security/security.c:1269: warning: Excess function parameter 'newdb' description in 'security_sb_clone_mnt_opts'
-   security/security.c:1760: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * security_inode_symlink() Check if creating a symbolic link is allowed
-   security/security.c:1976: warning: Function parameter or member 'size' not described in 'security_inode_setxattr'
-   security/security.c:2533: warning: Function parameter or member 'prot' not described in 'security_file_mprotect'
-   security/security.c:2533: warning: Excess function parameter 'prog' description in 'security_file_mprotect'
->> security/security.c:3647: warning: expecting prototype for security_socket_create(). Prototype was for security_socket_post_create() instead
-   security/security.c:3909: warning: Function parameter or member 'priority' not described in 'security_sk_alloc'
-   security/security.c:3909: warning: Excess function parameter 'priotity' description in 'security_sk_alloc'
-   security/security.c:3966: warning: Function parameter or member 'parent' not described in 'security_sock_graft'
-   security/security.c:3966: warning: Excess function parameter 'sock' description in 'security_sock_graft'
+>> drivers/dma-buf/dma-buf-sysfs-stats.c:142:2: error: static_assert failed due to requirement 'sizeof(struct kobject) >= sizeof(struct work_struct)' "kobject is smaller than work_struct"
+           _Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +3647 security/security.c
+vim +142 drivers/dma-buf/dma-buf-sysfs-stats.c
 
-20510f2f4e2dabb James Morris    2007-10-16  3626  
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3627  /**
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3628   * security_socket_create() - Initialize a newly created socket
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3629   * @sock: socket
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3630   * @family: protocol family
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3631   * @type: communications type
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3632   * @protocol: requested protocol
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3633   * @kern: set to 1 if a kernel socket is requested
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3634   *
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3635   * This hook allows a module to update or allocate a per-socket security
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3636   * structure. Note that the security field was not added directly to the socket
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3637   * structure, but rather, the socket security information is stored in the
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3638   * associated inode.  Typically, the inode alloc_security hook will allocate
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3639   * and attach security information to SOCK_INODE(sock)->i_security.  This hook
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3640   * may be used to update the SOCK_INODE(sock)->i_security field with additional
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3641   * information that wasn't available when the inode was allocated.
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3642   *
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3643   * Return: Returns 0 if permission is granted.
-6b6bbe8c02a1bc7 Paul Moore      2023-02-12  3644   */
-20510f2f4e2dabb James Morris    2007-10-16  3645  int security_socket_post_create(struct socket *sock, int family,
-20510f2f4e2dabb James Morris    2007-10-16  3646  				int type, int protocol, int kern)
-20510f2f4e2dabb James Morris    2007-10-16 @3647  {
-f25fce3e8f1f15d Casey Schaufler 2015-05-02  3648  	return call_int_hook(socket_post_create, 0, sock, family, type,
-20510f2f4e2dabb James Morris    2007-10-16  3649  						protocol, kern);
-20510f2f4e2dabb James Morris    2007-10-16  3650  }
-20510f2f4e2dabb James Morris    2007-10-16  3651  
-
-:::::: The code at line 3647 was first introduced by commit
-:::::: 20510f2f4e2dabb0ff6c13901807627ec9452f98 security: Convert LSM into a static interface
-
-:::::: TO: James Morris <jmorris@namei.org>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+   138	
+   139	static void sysfs_add_workfn(struct work_struct *work)
+   140	{
+   141		/* The ABI would have to change for this to be false, but let's be paranoid. */
+ > 142		_Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+   143			"kobject is smaller than work_struct");
+   144	
+   145		struct dma_buf_sysfs_entry *sysfs_entry =
+   146			container_of((struct kobject *)work, struct dma_buf_sysfs_entry, kobj);
+   147		struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+   148	
+   149		/*
+   150		 * A dmabuf is ref-counted via its file member. If this handler holds the only
+   151		 * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+   152		 * optimization and a race; when the reference count drops to 1 immediately after
+   153		 * this check it is not harmful as the sysfs entry will still get cleaned up in
+   154		 * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+   155		 * is released, and that can't happen until the end of this function.
+   156		 */
+   157		if (file_count(dmabuf->file) > 1) {
+   158			/*
+   159			 * kobject_init_and_add expects kobject to be zero-filled, but we have populated it
+   160			 * to trigger this work function.
+   161			 */
+   162			memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysfs_entry->kobj));
+   163			dmabuf->sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
+   164			if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma_buf_ktype, NULL,
+   165							"%lu", file_inode(dmabuf->file)->i_ino)) {
+   166				kobject_put(&dmabuf->sysfs_entry->kobj);
+   167				dmabuf->sysfs_entry = NULL;
+   168			}
+   169		} else {
+   170			/*
+   171			 * Free the sysfs_entry and reset the pointer so dma_buf_stats_teardown doesn't
+   172			 * attempt to operate on it.
+   173			 */
+   174			kfree(dmabuf->sysfs_entry);
+   175			dmabuf->sysfs_entry = NULL;
+   176		}
+   177		dma_buf_put(dmabuf);
+   178	}
+   179	
 
 -- 
 0-DAY CI Kernel Test Service
