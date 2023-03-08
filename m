@@ -1,199 +1,197 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E71F747F;
-	Wed,  8 Mar 2023 14:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678287115; x=1709823115;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=82zHbdHA3LGTfEv2fShHor44/p6WhEM+7UrkyocdcPg=;
-  b=dK+0oexdukfyioyDCnvs7xBsxWY8sm8MyenuVtWdJXn24xt5XpSiBLhT
-   DWymhzbSVfRv7ofqMHxCHl56xaIkEcI/wUVLW19d/i9FZhoxIdhvUrZSg
-   yNUYfSpph4u5p+R3FT7H7xF8LTITKafzLJuz33JP2VxYvIPTPAsRIajDz
-   a7l8noqWeD1kN0V3Ney5rzkAc8Q9r1QQXYg0p8uWbNJru2p84DknQwT29
-   RbgW7gZQlz0NrqFOM9Ov6zN98ic3icAoKjit2FmW3nWax/F9xcYITv2lW
-   qMTG7Xh9o5lmbka+AGgOWdgJov+/FnBmPnU1gldg6idcgHZr84dF8CHhU
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="363806093"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="363806093"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 06:51:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="766009451"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="766009451"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 06:51:47 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZv8t-0002Br-02;
-	Wed, 08 Mar 2023 14:51:47 +0000
-Date: Wed, 8 Mar 2023 22:50:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Evgeniy Baskov <baskov@ispras.ru>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ard Biesheuvel <ardb@kernel.org>
-Subject: [ardb:efi-x86-nx 5/24] arch/x86/mm/ident_map.c:19:8: warning: no
- previous prototype for function 'ident_split_large_pmd'
-Message-ID: <202303082219.1MyCkO2j-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCA97491
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 14:57:14 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id u9so66994481edd.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Mar 2023 06:57:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678287433;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UbYh/W1Fs/fFmchMFnpfyRdMkOMcvrfTqWNY38sSzsA=;
+        b=M4MdMnI+XTerK1kGMClHbQew66CG12nz2yEmsldlQPsYogUEt0/iIHrNu3BI3PCsdo
+         NOKvZ9vcTzX9uFh1gYgLVt5KIrOkB2X0hLr/nDJvmI2SOhU1caMiDRYTIJ80wPEhHHDU
+         +iSpW75jPU+9Y3vofGNdto3SiR150bsFM7yOfPIxUNXfspRMHUxICQNTKJZpacYxLUiW
+         8pTZ6G5y131YUHCbg3rcmUG4X8aS6XOVDZl+p7er08W9FdKhHCRJlQGg9N1Cs0ZrSQHk
+         7qx01br1Wo+fHvKWMSLcNG0Q0HvcSQw7cvHRe15fuFwfSLRbqudATS/XYMpkmWA/M8OA
+         E8lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678287433;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UbYh/W1Fs/fFmchMFnpfyRdMkOMcvrfTqWNY38sSzsA=;
+        b=dlchqE3hJV9/gCLX2SoU+4V9KdW3Ihv/YzXON/cwgRO3+LFX195epVld3b8KKvo6PZ
+         lrP7EP2BhIbi53/dLUD/AwfdiG+IS93ArPoXvqOG7zEDIZD5YGXQm5Cf8oniEEcdLQxB
+         mFynIPWp/xpjVTC9wCh2CXFqmse7VynIunUtnZLU3HUattl/WwLQMNscgR8yW8K/4Glo
+         7Eevx/L//Ea7oOTJjlzaLGQqo2OXV4l31ipN/G0zEx1pc53x6oEs5YA/+34fG+cBGeae
+         cXdYvPX4hZp/vo8MCHZ+db4KjyRZC6029rcMeirXXChMQLOJrjZA14H9GqlzFqGM0mm/
+         XL2g==
+X-Gm-Message-State: AO0yUKUUGMCnyjx2JZx4oDuW/hNXNez/CrYQeYzhM5m1n0pUptbNqgR3
+	gRcbmMjwG9nKyaM15j+1IEmfqJARAknQYJliXJ4=
+X-Google-Smtp-Source: AK7set+AdV1zu4+ft8Oj4nLbScWI1GqFW1grJAmpz+I3c7UowpzRf09rMqeg95+d4OMhNWL7XrZynXtAvY04ctK8gIo=
+X-Received: by 2002:a17:906:1ec6:b0:8b0:7e1d:f6fa with SMTP id
+ m6-20020a1709061ec600b008b07e1df6famr8788268ejj.15.1678287433056; Wed, 08 Mar
+ 2023 06:57:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230308035416.2591326-5-andrii@kernel.org> <202303082250.AUFm2qRJ-lkp@intel.com>
+In-Reply-To: <202303082250.AUFm2qRJ-lkp@intel.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 8 Mar 2023 06:57:00 -0800
+Message-ID: <CAEf4BzYeTN9TPdDBFL6wQ2O=Fpteb2iAwfcKr2YECUGmGQ8kbg@mail.gmail.com>
+Subject: Re: [PATCH v4 bpf-next 4/8] bpf: implement number iterator
+To: kernel test robot <lkp@intel.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org, ast@kernel.org, 
+	daniel@iogearbox.net, oe-kbuild-all@lists.linux.dev, kernel-team@meta.com, 
+	Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-x86-nx
-head:   8171142f3e4c96f6be75a6195de59d1607f1bd4b
-commit: 26f02800cb89d842e554a5e030a40560adc7221b [5/24] x86/boot: Support 4KB pages for identity mapping
-config: x86_64-randconfig-a011-20230306 (https://download.01.org/0day-ci/archive/20230308/202303082219.1MyCkO2j-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=26f02800cb89d842e554a5e030a40560adc7221b
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb efi-x86-nx
-        git checkout 26f02800cb89d842e554a5e030a40560adc7221b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/mm/ kernel/bpf/
+On Wed, Mar 8, 2023 at 6:30=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Andrii,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bp=
+f-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230308035416.2591326-5-andrii%=
+40kernel.org
+> patch subject: [PATCH v4 bpf-next 4/8] bpf: implement number iterator
+> config: nios2-randconfig-r001-20230306 (https://download.01.org/0day-ci/a=
+rchive/20230308/202303082250.AUFm2qRJ-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/19acf9ca01e2927a2=
+9d3235b3aa73598430dcb70
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Andrii-Nakryiko/bpf-factor-out-f=
+etching-basic-kfunc-metadata/20230308-115539
+>         git checkout 19acf9ca01e2927a29d3235b3aa73598430dcb70
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dnios2 olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dnios2 SHELL=3D/bin/bash kernel/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303082250.AUFm2qRJ-lkp@i=
+ntel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from <command-line>:
+>    kernel/bpf/bpf_iter.c: In function 'bpf_iter_num_new':
+> >> include/linux/compiler_types.h:399:45: error: call to '__compiletime_a=
+ssert_426' declared with attribute error: BUILD_BUG_ON failed: __alignof__(=
+struct bpf_iter_num_kern) !=3D __alignof__(struct bpf_iter_num)
+>      399 |         _compiletime_assert(condition, msg, __compiletime_asse=
+rt_, __COUNTER__)
+>          |                                             ^
+>    include/linux/compiler_types.h:380:25: note: in definition of macro '_=
+_compiletime_assert'
+>      380 |                         prefix ## suffix();                   =
+          \
+>          |                         ^~~~~~
+>    include/linux/compiler_types.h:399:9: note: in expansion of macro '_co=
+mpiletime_assert'
+>      399 |         _compiletime_assert(condition, msg, __compiletime_asse=
+rt_, __COUNTER__)
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compilet=
+ime_assert'
+>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond)=
+, msg)
+>          |                                     ^~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG=
+_ON_MSG'
+>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #c=
+ondition)
+>          |         ^~~~~~~~~~~~~~~~
+>    kernel/bpf/bpf_iter.c:794:9: note: in expansion of macro 'BUILD_BUG_ON=
+'
+>      794 |         BUILD_BUG_ON(__alignof__(struct bpf_iter_num_kern) !=
+=3D __alignof__(struct bpf_iter_num));
+>          |         ^~~~~~~~~~~~
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303082219.1MyCkO2j-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/mm/init_64.c:61:
->> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for function 'ident_split_large_pmd' [-Wmissing-prototypes]
-   pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-          ^
-   arch/x86/mm/ident_map.c:19:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-   ^
-   static 
->> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for function 'ident_split_large_pud' [-Wmissing-prototypes]
-   pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-          ^
-   arch/x86/mm/ident_map.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-   ^
-   static 
-   2 warnings generated.
+Well, of course, u64 is not 8-byte aligned on 32-bit architecture,
+thanks. I'll do the following change in the next revision:
 
 
-vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
+diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+index bf8b77d9a17e..4abddb668a10 100644
+--- a/include/uapi/linux/bpf.h
++++ b/include/uapi/linux/bpf.h
+@@ -7118,6 +7118,6 @@ struct bpf_iter_num {
+         * alignment requirements in vmlinux.h, generated from BTF
+         */
+        __u64 __opaque[1];
+-};
++} __attribute__((aligned(8)));
 
-    18	
-  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
-    20				     pmd_t *pmdp, unsigned long page_addr)
-    21	{
-    22		unsigned long pmd_addr, page_flags;
-    23		pte_t *pte;
-    24	
-    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
-    26		if (!pte)
-    27			return NULL;
-    28	
-    29		pmd_addr = page_addr & PMD_MASK;
-    30	
-    31		/* Not a large page - clear PSE flag */
-    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
-    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
-    34	
-    35		return pte;
-    36	}
-    37	
-    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
-    39				  unsigned long addr, unsigned long end,
-    40				  unsigned long flags)
-    41	{
-    42		unsigned long next;
-    43		bool new_table = 0;
-    44	
-    45		for (; addr < end; addr = next) {
-    46			pmd_t *pmd = pmd_page + pmd_index(addr);
-    47			pte_t *pte;
-    48	
-    49			next = (addr & PMD_MASK) + PMD_SIZE;
-    50			if (next > end)
-    51				next = end;
-    52	
-    53			/*
-    54			 * Use 2M pages if 4k pages are not allowed or
-    55			 * we are not mapping extra, i.e. address and size are aligned.
-    56			 */
-    57	
-    58			if (!info->allow_4kpages ||
-    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
-    60	
-    61				pmd_t pmdval;
-    62	
-    63				addr &= PMD_MASK;
-    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
-    65				set_pmd(pmd, pmdval);
-    66				continue;
-    67			}
-    68	
-    69			/*
-    70			 * If currently mapped page is large, we need to split it.
-    71			 * The case when we don't can remap 2M page to 2M page
-    72			 * with different flags is already covered above.
-    73			 *
-    74			 * If there's nothing mapped to desired address,
-    75			 * we need to allocate new page table.
-    76			 */
-    77	
-    78			if (pmd_large(*pmd)) {
-    79				pte = ident_split_large_pmd(info, pmd, addr);
-    80				new_table = 1;
-    81			} else if (!pmd_present(*pmd)) {
-    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
-    83				new_table = 1;
-    84			} else {
-    85				pte = pte_offset_kernel(pmd, 0);
-    86				new_table = 0;
-    87			}
-    88	
-    89			if (!pte)
-    90				return -ENOMEM;
-    91	
-    92			ident_pte_init(info, pte, addr, next, flags);
-    93	
-    94			if (new_table)
-    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
-    96		}
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	
- > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
-   103				     pud_t *pudp, unsigned long page_addr)
-   104	{
-   105		unsigned long pud_addr, page_flags;
-   106		pmd_t *pmd;
-   107	
-   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
-   109		if (!pmd)
-   110			return NULL;
-   111	
-   112		pud_addr = page_addr & PUD_MASK;
-   113	
-   114		/* Not a large page - clear PSE flag */
-   115		page_flags = pud_flags(*pudp) & ~_PSE;
-   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
-   117	
-   118		return pmd;
-   119	}
-   120	
+ #endif /* _UAPI__LINUX_BPF_H__ */
+diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/bpf.=
+h
+index bf8b77d9a17e..4abddb668a10 100644
+--- a/tools/include/uapi/linux/bpf.h
++++ b/tools/include/uapi/linux/bpf.h
+@@ -7118,6 +7118,6 @@ struct bpf_iter_num {
+         * alignment requirements in vmlinux.h, generated from BTF
+         */
+        __u64 __opaque[1];
+-};
++} __attribute__((aligned(8)));
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+>
+> vim +/__compiletime_assert_426 +399 include/linux/compiler_types.h
+>
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  385
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  #define _compiletime_assert(c=
+ondition, msg, prefix, suffix) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  387      __compiletime_assert(cond=
+ition, msg, prefix, suffix)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  388
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  389  /**
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * compiletime_assert - break=
+ build and emit msg if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   * @condition: a compile-time=
+ constant condition to check
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * @msg:       a message to e=
+mit if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   *
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * In tradition of POSIX asse=
+rt, this macro will break the build if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   * supplied condition is *fal=
+se*, emitting the supplied error message if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  396   * compiler has support to do=
+ so.
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  397   */
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  #define compiletime_assert(co=
+ndition, msg) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @399      _compiletime_assert(condi=
+tion, msg, __compiletime_assert_, __COUNTER__)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  400
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
