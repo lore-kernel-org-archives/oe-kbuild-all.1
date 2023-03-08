@@ -1,44 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996E9657
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Mar 2023 20:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD1C657;
+	Wed,  8 Mar 2023 21:02:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678308666; x=1709844666;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ekNnRc9bVNbrEGAoemQAtszrJBdp1aKfrI5BQfMZzlg=;
-  b=Dnx5TeOrYI8nZAYFh8OrHb+dZNT2rEtdhLaOjtktfYbotmlIYJVsJxHy
-   mJRuouz1lkHPQn9SDFQpDRyAGdgM88Diraw6INC9NieAA+NXi47+SiMYa
-   907CWtoW4U7u3dxrz3JEYhkS6+eRGPrJIv2mfdeNvDqSy/d3SfhMr0EnP
-   zMp4LsHTHkrZfcLtpParo8KC30bjSY7jmUjVlMz4kAsW1B+yCO93IYx0v
-   7Qdvhu0c9dlOyLo3KC8O7ZF8b8yvnZ72PVJbd62hVCaMg5ADZ89b2U9Or
-   a1tmQZayS63q5katxIReowl4bnCQQRAT4mGVELYSq2NN+RrxmVR7flKzl
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320103107"
+  t=1678309321; x=1709845321;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4h+DzKQ2OlM6SP8197YncaUzixfIkTFeYm9PCu84nEQ=;
+  b=K3QiMwuU0OLDcapLJzk6wEuNZzQqp4Lra6ghGPcYAaBFdF0zVXE0lVda
+   qXF6UWhPLAHJ9w5ztYXtcu1pp93RkUNJ3Srqzc3RZTrW5tNBvEPWB0Z0x
+   QR2xf+j2V7KaQ9sVvgT/g3a62yKI2CbYjtD5qea52K3H/LftX+R5CLC9o
+   pdSliyqRx7gLAz35t35N4E9mEnmEExYqDp7c4I63+VwIfq+Slo4V0ZduT
+   IKr2PVbZm4udAOgfajOGt7aRQg4Xg1DtsTIgFikcJbGS3X7l3YHEhPEdo
+   fxFuF5F4c0AsKK4McjKIAVJbk3dhsge0qW9gT1NZ49icigNYu8aE6OZut
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="315932426"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="320103107"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 12:51:02 -0800
+   d="scan'208";a="315932426"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 13:02:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="670468948"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627080662"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="670468948"
+   d="scan'208";a="627080662"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Mar 2023 12:50:58 -0800
+  by orsmga003.jf.intel.com with ESMTP; 08 Mar 2023 13:01:58 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pa0kT-0002OX-1V;
-	Wed, 08 Mar 2023 20:50:57 +0000
-Date: Thu, 9 Mar 2023 04:50:43 +0800
+	id 1pa0v7-0002Or-2B;
+	Wed, 08 Mar 2023 21:01:57 +0000
+Date: Thu, 9 Mar 2023 05:01:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 4/7] soc: qcom: Make the Qualcomm UFS/SDCC ICE a
- dedicated driver
-Message-ID: <202303090452.BnFbrmdA-lkp@intel.com>
-References: <20230308155838.1094920-5-abel.vesa@linaro.org>
+To: Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Subject: ld.lld: error: undefined symbol: memcpy
+Message-ID: <202303090422.ss2Hbm4f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,88 +48,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308155838.1094920-5-abel.vesa@linaro.org>
 
-Hi Abel,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.3-rc1 next-20230308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-soc-qcom-Add-schema-for-Inline-Crypto-Engine/20230309-000152
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230308155838.1094920-5-abel.vesa%40linaro.org
-patch subject: [RFC PATCH v2 4/7] soc: qcom: Make the Qualcomm UFS/SDCC ICE a dedicated driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303090452.BnFbrmdA-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   63355b9884b3d1677de6bd1517cd2b8a9bf53978
+commit: 36be5cba99f6f9984a9a9f0454f95a38f4184d3e kasan: treat meminstrinsic as builtins in uninstrumented files
+date:   6 days ago
+config: powerpc-randconfig-r036-20230305 (https://download.01.org/0day-ci/archive/20230309/202303090422.ss2Hbm4f-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/633203cb3c00e8a4fc2cb442e3ff8bc16a4a685c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Abel-Vesa/dt-bindings-soc-qcom-Add-schema-for-Inline-Crypto-Engine/20230309-000152
-        git checkout 633203cb3c00e8a4fc2cb442e3ff8bc16a4a685c
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=36be5cba99f6f9984a9a9f0454f95a38f4184d3e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 36be5cba99f6f9984a9a9f0454f95a38f4184d3e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090452.BnFbrmdA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090422.ss2Hbm4f-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/soc/qcom/ice.c: In function 'qcom_ice_check_supported':
->> drivers/soc/qcom/ice.c:48:21: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      48 |         int major = FIELD_GET(GENMASK(31, 24), regval);
-         |                     ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_GET +48 drivers/soc/qcom/ice.c
-
-    36	
-    37	#define qcom_ice_writel(engine, val, reg)	\
-    38		writel((val), (engine)->base + (reg))
-    39	
-    40	#define qcom_ice_readl(engine, reg)	\
-    41		readl((engine)->base + (reg))
-    42	
-    43	/* Only one ICE instance is currently supported by HW */
-    44	static bool qcom_ice_check_supported(struct qcom_ice *ice)
-    45	{
-    46		u32 regval = qcom_ice_readl(ice, QCOM_ICE_REG_VERSION);
-    47		struct device *dev = ice->dev;
-  > 48		int major = FIELD_GET(GENMASK(31, 24), regval);
-    49		int minor = FIELD_GET(GENMASK(23, 16), regval);
-    50		int step = FIELD_GET(GENMASK(15, 0), regval);
-    51	
-    52		/* For now this driver only supports ICE version 3. */
-    53		if (major != 3) {
-    54			dev_warn(dev, "Unsupported ICE version: v%d.%d.%d\n",
-    55				 major, minor, step);
-    56			return false;
-    57		}
-    58	
-    59		dev_info(dev, "Found QC Inline Crypto Engine (ICE) v%d.%d.%d\n",
-    60			 major, minor, step);
-    61	
-    62		/* If fuses are blown, ICE might not work in the standard way. */
-    63		regval = qcom_ice_readl(ice, QCOM_ICE_REG_FUSE_SETTING);
-    64		if (regval & (QCOM_ICE_FUSE_SETTING_MASK |
-    65			      QCOM_ICE_FORCE_HW_KEY0_SETTING_MASK |
-    66			      QCOM_ICE_FORCE_HW_KEY1_SETTING_MASK)) {
-    67			dev_warn(dev, "Fuses are blown; ICE is unusable!\n");
-    68			return false;
-    69		}
-    70	
-    71		return true;
-    72	}
-    73	
+>> ld.lld: error: undefined symbol: memcpy
+   >>> referenced by xmon.c:1896 (arch/powerpc/xmon/xmon.c:1896)
+   >>>               arch/powerpc/xmon/xmon.o:(prregs) in archive vmlinux.a
+   >>> referenced by zstd_compress.c:4814 (lib/zstd/compress/zstd_compress.c:4814)
+   >>>               lib/zstd/compress/zstd_compress.o:(ZSTD_createCDict_advanced2) in archive vmlinux.a
+   >>> referenced by zstd_compress.c:4910 (lib/zstd/compress/zstd_compress.c:4910)
+   >>>               lib/zstd/compress/zstd_compress.o:(ZSTD_initStaticCDict) in archive vmlinux.a
+   >>> referenced 5 more times
+--
+>> ld.lld: error: undefined symbol: memset
+   >>> referenced by slab_common.c:579 (mm/slab_common.c:579)
+   >>>               mm/slab_common.o:(kmem_dump_obj) in archive vmlinux.a
+   >>> referenced by kasan_test.c:558 (mm/kasan/kasan_test.c:558)
+   >>>               mm/kasan/kasan_test.o:(kmalloc_oob_in_memset) in archive vmlinux.a
+   >>> referenced by kasan_test.c:505 (mm/kasan/kasan_test.c:505)
+   >>>               mm/kasan/kasan_test.o:(kmalloc_oob_memset_2) in archive vmlinux.a
+   >>> referenced 10 more times
 
 -- 
 0-DAY CI Kernel Test Service
