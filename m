@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF8863A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 09:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9770E63C4;
+	Thu,  9 Mar 2023 10:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678355542; x=1709891542;
+  t=1678358003; x=1709894003;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JYmVndWvYsqeuPYUp1jFfbi0/DPDevKqO7et5ZeWcRs=;
-  b=KUKXxqyIf66GvJhkt3c2PUWvT1jyxq9g7sJWkOcwltBkymFazq8Tq2zg
-   bobK7wlAaohrFv5FgqqmGaEe9Exqyqcha4nYSypJ3UILwx35bLbcpoI5y
-   yQ3I6c9jaG9gHZVvRQtY6mTEOJkoVn9WaDrsME/NIzK2Dt9eMs3Njej5o
-   /EljJIS/h2TLqutyudviamVN7aa3UbjpX9ZDkHOmjRUBtU4SNspixZV/L
-   qpFeYXtT3skLD7py4rX7cuSjuPZ25RMIUodlp7SMe+vmEcVckXouZpJcS
-   +yGx+5x2LBsuLoYj1ZDbLTqQGciAj35p9caUj5+GZNV4SduHCtxGJb440
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="335108064"
+  bh=jgELmDwU4JTto3X3J1RMJ9Ze0a+CJPc+Pq9uH6p3Zvs=;
+  b=W2YY0M2+n5jcUozJKeemvbiI17GpXE0inTMiTM5bYGdH9AjakyXVxRCN
+   4dHjgOkBlgSFV9WwAgF3EcGLl2J/cpYEWDyo3o/z1gvJ/07DK6+CboXGU
+   npYbcedMaA6eePd544sF66tb4pNCBebsPIkDtq96mzoIiuPHsRo9OgP9x
+   Q3ocogFn3kbSV5IA2c3LPUABWVihFspZkKO2bXS7Rqk3lWpDYlAQX4fAI
+   17SGYUSujMYuyk7cjSoBNSFM1hIoAdpWC8t6HY60fBSMji7C9HBItx8/5
+   sr0cq0dYiy4EO0gLEHkUvj6co0K0t7eGsD1Byr1hD1oLRMPOB5Rszm3x6
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337938961"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="335108064"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 01:52:21 -0800
+   d="scan'208";a="337938961"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 02:33:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="1006666100"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627305379"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="1006666100"
+   d="scan'208";a="627305379"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Mar 2023 01:52:20 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 02:33:22 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paCwd-0002rN-2p;
-	Thu, 09 Mar 2023 09:52:19 +0000
-Date: Thu, 9 Mar 2023 17:51:32 +0800
+	id 1paDaL-0002t9-18;
+	Thu, 09 Mar 2023 10:33:21 +0000
+Date: Thu, 9 Mar 2023 18:32:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "MP, Sureshkumar" <sureshkumar.mp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, nanli2x <nanx.li@intel.com>
-Subject: [intel-lts:5.15/linux 3746/23027]
- drivers/iio/adc/ti-ads7142q1.c:156:13: warning: variable 'err' set but not
- used
-Message-ID: <202303091715.E4firaOX-lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:parallel-6.2-rc8-v12bis 12/12]
+ arch/x86/kernel/smpboot.c:1550:62: error: use of undeclared identifier
+ 'sev_es_enable_key'
+Message-ID: <202303091825.jctzG76s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,103 +47,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sureshkumar,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   2533aa36ba52e96057d68a4ab377a6293b91c1fc
-commit: cffd430bb5a19172072aba6b50007eaba72f3e0b [3746/23027] ADS7142 TI ADC driver support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303091715.E4firaOX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-rc8-v12bis
+head:   8a53f16b29065ddbde40a73415dae32d2f4c82e5
+commit: 8a53f16b29065ddbde40a73415dae32d2f4c82e5 [12/12] x86/smpboot: Allow parallel bringup for SEV-ES
+config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230309/202303091825.jctzG76s-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/cffd430bb5a19172072aba6b50007eaba72f3e0b
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.15/linux
-        git checkout cffd430bb5a19172072aba6b50007eaba72f3e0b
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 parallel-6.2-rc8-v12bis
+        git checkout 8a53f16b29065ddbde40a73415dae32d2f4c82e5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/counter/ drivers/gpu/drm/bridge/ drivers/gpu/drm/mcde/ drivers/iio/adc/ drivers/media/i2c/ drivers/net/can/m_can/ drivers/pwm/ drivers/spi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091715.E4firaOX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091825.jctzG76s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ti-ads7142q1.c: In function 'ads7142_read_raw':
->> drivers/iio/adc/ti-ads7142q1.c:156:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     156 |         int err;
-         |             ^~~
+>> arch/x86/kernel/smpboot.c:1550:62: error: use of undeclared identifier 'sev_es_enable_key'
+                   if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+                                                                              ^
+>> arch/x86/kernel/smpboot.c:1550:62: error: use of undeclared identifier 'sev_es_enable_key'
+>> arch/x86/kernel/smpboot.c:1550:62: error: use of undeclared identifier 'sev_es_enable_key'
+>> arch/x86/kernel/smpboot.c:1550:62: error: use of undeclared identifier 'sev_es_enable_key'
+>> arch/x86/kernel/smpboot.c:1550:38: error: invalid argument type 'void' to unary expression
+                   if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:509:35: note: expanded from macro 'static_branch_unlikely'
+   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:80:30: note: expanded from macro 'unlikely_notrace'
+   # define unlikely_notrace(x)    unlikely(x)
+                                   ^~~~~~~~~~~
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   5 errors generated.
+--
+>> arch/x86/kernel/head_64.S:274:2: error: invalid instruction mnemonic 'vmgexit'
+    vmgexit
+    ^~~~~~~
 
 
-vim +/err +156 drivers/iio/adc/ti-ads7142q1.c
+vim +/sev_es_enable_key +1550 arch/x86/kernel/smpboot.c
 
-   148	
-   149	static int ads7142_read_raw(struct iio_dev *iio,
-   150				    struct iio_chan_spec const *channel, int *value,
-   151				    int *value2, long mask)
-   152	{
-   153		struct ads7142 *adc = iio_priv(iio);
-   154		u8 adc_data[32];
-   155		u8 data;
- > 156		int err;
-   157	
-   158		switch (mask) {
-   159		case IIO_CHAN_INFO_AVERAGE_RAW:
-   160			//mutex_lock(&priv->lock);
-   161			/* Abort the present sequence */
-   162			err = ads7142_reg_write(adc->i2c, ADS7142_REG_ABORT_SEQUENCE, ADS7142_VAL_ABORT_SEQUENCE);
-   163			err = ads7142_reg_read(adc->i2c, ADS7142_REG_ABORT_SEQUENCE, &data);
-   164	
-   165			/* Perform Offset Calibration */
-   166			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OFFSET_CAL, ADS7142_VAL_TRIG_OFFCAL);
-   167	
-   168			/* Select Autonomous Mode with both Channels enabled */
-   169			err = ads7142_reg_write(adc->i2c, ADS7142_REG_CHANNEL_INPUT_CFG, ADS7142_VAL_CHANNEL_INPUT_CFG_2_CHANNEL_SINGLE_ENDED);
-   170	
-   171			/* Select the operation mode of the device */
-   172			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OPMODE_SEL, ADS7142_VAL_OPMODE_SEL_AUTONOMOUS_MONITORING_MODE);
-   173	
-   174			/* Select the channel for auto sequencing */
-   175			/* channel_0 -> bit 0 to be set and channel_1 -> bit 1 to be set */
-   176			err = ads7142_reg_write(adc->i2c, ADS7142_REG_AUTO_SEQ_CHEN, (1 << channel->channel));
-   177	
-   178			/* Select the low power or high speed oscillator */
-   179			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OSC_SEL, ADS7142_VAL_OSC_SEL_HSZ_HSO);
-   180	
-   181			/* Set the minimum nCLK value for one conversion to maximize sampling speed */
-   182			err = ads7142_reg_write(adc->i2c, ADS7142_REG_nCLK_SEL, 21);
-   183	
-   184			/* Select the Data Buffer output data Configuration */
-   185			err = ads7142_reg_write(adc->i2c, ADS7142_REG_DOUT_FORMAT_CFG, ADS7142_VAL_DOUT_FORMAT_CFG_DOUT_FORMAT2);
-   186	
-   187			/* Select the Data Buffer opmode for Start Burst mode */
-   188			err = ads7142_reg_write(adc->i2c, ADS7142_REG_DATA_BUFFER_OPMODE, ADS7142_VAL_DATA_BUFFER_STARTSTOP_CNTRL_STARTBURST);
-   189	
-   190			/* Set the SEQ_START Bit to begin the sampling sequence */
-   191			err = ads7142_reg_write(adc->i2c, ADS7142_REG_START_SEQUENCE, ADS7142_VAL_START_SEQUENCE);
-   192	
-   193			msleep(500);
-   194	
-   195			/* read sampling raw data from internal data buffer */
-   196			err = ads7142_data_buffer_read(adc->i2c, 32, adc_data);
-   197	
-   198			/* do average of raw data value */
-   199			ads7142_raw_data_avg_value(adc_data, value);
-   200			return IIO_VAL_INT;
-   201	
-   202		default:
-   203			break;
-   204	
-   205		}
-   206	
-   207		return -EINVAL;
-   208	}
-   209	
+  1512	
+  1513	
+  1514	/*
+  1515	 * We can do 64-bit AP bringup in parallel if the CPU reports its APIC
+  1516	 * ID in CPUID (either leaf 0x0B if we need the full APIC ID in X2APIC
+  1517	 * mode, or leaf 0x01 if 8 bits are sufficient). Otherwise it's too
+  1518	 * hard. And not for SEV-ES guests because they can't use CPUID that
+  1519	 * early.
+  1520	 */
+  1521	static bool __init prepare_parallel_bringup(void)
+  1522	{
+  1523		if (IS_ENABLED(CONFIG_X86_32) || boot_cpu_data.cpuid_level < 1)
+  1524			return false;
+  1525	
+  1526		if (x2apic_mode) {
+  1527			unsigned int eax, ebx, ecx, edx;
+  1528	
+  1529			if (boot_cpu_data.cpuid_level < 0xb)
+  1530				return false;
+  1531	
+  1532			/*
+  1533			 * To support parallel bringup in x2apic mode, the AP will need
+  1534			 * to obtain its APIC ID from CPUID 0x0B, since CPUID 0x01 has
+  1535			 * only 8 bits. Check that it is present and seems correct.
+  1536			 */
+  1537			cpuid_count(0xb, 0, &eax, &ebx, &ecx, &edx);
+  1538	
+  1539			/*
+  1540			 * AMD says that if executed with an umimplemented level in
+  1541			 * ECX, then it will return all zeroes in EAX. Intel says it
+  1542			 * will return zeroes in both EAX and EBX. Checking only EAX
+  1543			 * should be sufficient.
+  1544			 */
+  1545			if (!eax) {
+  1546				pr_info("Disabling parallel bringup because CPUID 0xb looks untrustworthy\n");
+  1547				return false;
+  1548			}
+  1549	
+> 1550			if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+  1551				pr_debug("Using SEV-ES CPUID 0xb for parallel CPU startup\n");
+  1552				smpboot_control = STARTUP_APICID_SEV_ES;
+  1553			} else if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT)) {
+  1554				/*
+  1555				 * Other forms of memory encryption need to implement a way of
+  1556				 * finding the APs' APIC IDs that early.
+  1557				 */
+  1558				return false;
+  1559			} else {
+  1560				pr_debug("Using CPUID 0xb for parallel CPU startup\n");
+  1561				smpboot_control = STARTUP_APICID_CPUID_0B;
+  1562			}
+  1563		} else {
+  1564			if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT))
+  1565				return false;
+  1566	
+  1567			/* Without X2APIC, what's in CPUID 0x01 should suffice. */
+  1568			pr_debug("Using CPUID 0x1 for parallel CPU startup\n");
+  1569			smpboot_control = STARTUP_APICID_CPUID_01;
+  1570		}
+  1571	
+  1572		cpuhp_setup_state_nocalls(CPUHP_BP_PARALLEL_DYN, "x86/cpu:kick",
+  1573					  native_cpu_kick, NULL);
+  1574	
+  1575		return true;
+  1576	}
+  1577	
 
 -- 
 0-DAY CI Kernel Test Service
