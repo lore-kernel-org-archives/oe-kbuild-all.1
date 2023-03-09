@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2AC7E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 05:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E787E6;
+	Thu,  9 Mar 2023 05:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678338135; x=1709874135;
+  t=1678338733; x=1709874733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GT2cc1kUiLRNcQF/6/hFTE3EgaKK8agFVhCOMI9p8sM=;
-  b=FrS4Y87IeptnpWVWMk+3Y8qLWXXcgyw3xGAkanXxIkfpmt9BalIBR0Mq
-   yS+aLOd593XTrK7sswPjMi8SYGTIVt2dYHQQCagBUIuMSMKP5QNGoKkwd
-   UtW5eUXrO/3j0c7vyiZ8wpUGMvkpg2YPWDx7BADunEzwCnKKSsO2Lm1KK
-   iEcP15MsDWb/mdlm0mShf4XesvIZN6b9rZ2SYvYvPM004V6pBsKSeo0gO
-   BrJCr0qkVLCzERXuPPsxSgsPGUvQ6jr7f8F5g3pVjVaJA1A1uxwzJ9xnI
-   BbRYDVivZK75EnzscBRfvd56mgPfOK/LlGjOQl+UCrMJ3N2mV80TPXqk8
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401189414"
+  bh=+0a9CZUjYqpgNjvX4JZ1RYHZ0LUH4tprN9VJF6FupPE=;
+  b=m9H8krnFabAObFruHhxc1Tc2NCX024jrIwYyzHP8GVAwKprq1SiOqP/O
+   qgwBN5M7PlUy85ETiBUTDreZDriCGWmGtW4zlhbYaih8bqztLIdlLKGUT
+   uBe3VAfM/nCp5aW0vzM6guFk9/fmZ4bL1DCXmMxbDjSSQYJ0260WmSjxU
+   nNcPkt+yNWVHSrQ7Y6ZzQEB5Xf/5un59sqBtL1YS7yZDUslwKMI8YaChg
+   xqYWcraGplRbeLMg536ECLkHkDjNLhL9UYS4hdQ/wyNrNEL9FL1XH1/BS
+   YUJpJdaj6nAdj/JhUziTBKhs9or9ks64N4zvNz8hOyZ3p8ace2xgIi5mJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337880696"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="401189414"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 21:02:13 -0800
+   d="scan'208";a="337880696"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 21:12:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820473698"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="923087081"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="820473698"
+   d="scan'208";a="923087081"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2023 21:02:11 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 08 Mar 2023 21:12:11 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pa8Pq-0002ev-11;
-	Thu, 09 Mar 2023 05:02:10 +0000
-Date: Thu, 9 Mar 2023 13:01:25 +0800
+	id 1pa8ZW-0002fb-2G;
+	Thu, 09 Mar 2023 05:12:10 +0000
+Date: Thu, 9 Mar 2023 13:11:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-imx/pm-imx5.c:244:17: sparse: sparse: restricted
- suspend_state_t degrades to integer
-Message-ID: <202303091256.uTPXyvY5-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi_2 1/11] include/linux/trace_events.h:799:5:
+ warning: no previous prototype for function 'bpf_uprobe_multi_link_attach'
+Message-ID: <202303091346.11gid2X6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,263 +46,421 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a98c9cae232800c319ed69e1063480d31430887
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   11 months ago
-config: arm-randconfig-s053-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091256.uTPXyvY5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_2
+head:   10c9ee1a8d9260b0588aa9afde019a886ac8a9fe
+commit: 86797164e5e9eb54802e4a3a3d1a5648958a2a0f [1/11] bpf: Add multi uprobe link
+config: hexagon-randconfig-r041-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091346.11gid2X6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=86797164e5e9eb54802e4a3a3d1a5648958a2a0f
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi_2
+        git checkout 86797164e5e9eb54802e4a3a3d1a5648958a2a0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-imx/ arch/arm/mach-shmobile/ drivers/irqchip/ drivers/soc/bcm/brcmstb/pm/ drivers/video/fbdev/ drivers/w1/masters/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091256.uTPXyvY5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091346.11gid2X6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mach-imx/pm-imx5.c:244:17: sparse: sparse: restricted suspend_state_t degrades to integer
-   arch/arm/mach-imx/pm-imx5.c:244:25: sparse: sparse: restricted suspend_state_t degrades to integer
-   arch/arm/mach-imx/pm-imx5.c:244:42: sparse: sparse: restricted suspend_state_t degrades to integer
-   arch/arm/mach-imx/pm-imx5.c:244:51: sparse: sparse: restricted suspend_state_t degrades to integer
->> arch/arm/mach-imx/pm-imx5.c:342:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct imx5_cpu_suspend_info *suspend_info @@     got void [noderef] __iomem *static [addressable] [toplevel] suspend_ocram_base @@
-   arch/arm/mach-imx/pm-imx5.c:342:22: sparse:     expected struct imx5_cpu_suspend_info *suspend_info
-   arch/arm/mach-imx/pm-imx5.c:342:22: sparse:     got void [noderef] __iomem *static [addressable] [toplevel] suspend_ocram_base
->> arch/arm/mach-imx/pm-imx5.c:360:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     got void [noderef] __iomem *
->> arch/arm/mach-imx/pm-imx5.c:360:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     got void [noderef] __iomem *
->> arch/arm/mach-imx/pm-imx5.c:360:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     expected void *
-   arch/arm/mach-imx/pm-imx5.c:360:36: sparse:     got void [noderef] __iomem *
---
->> arch/arm/mach-imx/pm-imx6.c:373:24: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/arm/mach-imx/pm-imx6.c:513:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base @@
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base
->> arch/arm/mach-imx/pm-imx6.c:513:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base @@
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base
->> arch/arm/mach-imx/pm-imx6.c:513:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base @@
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     expected void *
-   arch/arm/mach-imx/pm-imx6.c:513:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base
->> arch/arm/mach-imx/pm-imx6.c:514:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct imx6_cpu_pm_info *pm_info @@     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base @@
-   arch/arm/mach-imx/pm-imx6.c:514:17: sparse:     expected struct imx6_cpu_pm_info *pm_info
-   arch/arm/mach-imx/pm-imx6.c:514:17: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] suspend_ocram_base
->> arch/arm/mach-imx/pm-imx6.c:570:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     got void [noderef] __iomem *
->> arch/arm/mach-imx/pm-imx6.c:570:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     expected void const *
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     got void [noderef] __iomem *
->> arch/arm/mach-imx/pm-imx6.c:570:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     expected void *
-   arch/arm/mach-imx/pm-imx6.c:570:36: sparse:     got void [noderef] __iomem *
---
->> drivers/irqchip/irq-rda-intc.c:96:51: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *host_data @@     got void [noderef] __iomem *static [assigned] [toplevel] rda_intc_base @@
-   drivers/irqchip/irq-rda-intc.c:96:51: sparse:     expected void *host_data
-   drivers/irqchip/irq-rda-intc.c:96:51: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] rda_intc_base
---
->> drivers/irqchip/irq-vic.c:193:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *data @@     got void [noderef] __iomem *base @@
-   drivers/irqchip/irq-vic.c:193:33: sparse:     expected void *data
-   drivers/irqchip/irq-vic.c:193:33: sparse:     got void [noderef] __iomem *base
->> drivers/irqchip/irq-vic.c:308:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
-   drivers/irqchip/irq-vic.c:308:56: sparse:     expected void [noderef] __iomem *base
-   drivers/irqchip/irq-vic.c:308:56: sparse:     got void *
-   drivers/irqchip/irq-vic.c:317:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
-   drivers/irqchip/irq-vic.c:317:56: sparse:     expected void [noderef] __iomem *base
-   drivers/irqchip/irq-vic.c:317:56: sparse:     got void *
-   drivers/irqchip/irq-vic.c:324:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
-   drivers/irqchip/irq-vic.c:324:56: sparse:     expected void [noderef] __iomem *base
-   drivers/irqchip/irq-vic.c:324:56: sparse:     got void *
---
->> drivers/video/fbdev/vt8500lcdfb.c:361:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void *[assigned] fb_mem_virt @@
-   drivers/video/fbdev/vt8500lcdfb.c:361:33: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/vt8500lcdfb.c:361:33: sparse:     got void *[assigned] fb_mem_virt
->> drivers/video/fbdev/vt8500lcdfb.c:364:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *palette_cpu @@     got void * @@
-   drivers/video/fbdev/vt8500lcdfb.c:364:33: sparse:     expected void [noderef] __iomem *palette_cpu
-   drivers/video/fbdev/vt8500lcdfb.c:364:33: sparse:     got void *
->> drivers/video/fbdev/vt8500lcdfb.c:434:30: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got void [noderef] __iomem *palette_cpu @@
-   drivers/video/fbdev/vt8500lcdfb.c:434:30: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/vt8500lcdfb.c:434:30: sparse:     got void [noderef] __iomem *palette_cpu
-   drivers/video/fbdev/vt8500lcdfb.c:459:30: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got void [noderef] __iomem *palette_cpu @@
-   drivers/video/fbdev/vt8500lcdfb.c:459:30: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/vt8500lcdfb.c:459:30: sparse:     got void [noderef] __iomem *palette_cpu
---
->> drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram @@
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     expected void const *
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram
->> drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram @@
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     expected void const *
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram
->> drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram @@
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     expected void *
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:366:16: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] boot_sram
->> drivers/soc/bcm/brcmstb/pm/pm-arm.c:660:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:660:31: sparse:     expected void [noderef] __iomem *
-   drivers/soc/bcm/brcmstb/pm/pm-arm.c:660:31: sparse:     got void *
---
->> drivers/w1/masters/omap_hdq.c:226:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] rn_le @@     got restricted __le64 [usertype] @@
-   drivers/w1/masters/omap_hdq.c:226:15: sparse:     expected unsigned long long [usertype] rn_le
-   drivers/w1/masters/omap_hdq.c:226:15: sparse:     got restricted __le64 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +244 arch/arm/mach-imx/pm-imx5.c
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+>> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+       ^
+   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   ^
+   static 
+   init/main.c:775:20: warning: no previous prototype for function 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
+   void __init __weak arch_post_acpi_subsys_init(void) { }
+                      ^
+   init/main.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak arch_post_acpi_subsys_init(void) { }
+   ^
+   static 
+   init/main.c:787:20: warning: no previous prototype for function 'mem_encrypt_init' [-Wmissing-prototypes]
+   void __init __weak mem_encrypt_init(void) { }
+                      ^
+   init/main.c:787:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak mem_encrypt_init(void) { }
+   ^
+   static 
+   init/main.c:789:20: warning: no previous prototype for function 'poking_init' [-Wmissing-prototypes]
+   void __init __weak poking_init(void) { }
+                      ^
+   init/main.c:789:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak poking_init(void) { }
+   ^
+   static 
+   10 warnings generated.
+--
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from init/do_mounts.c:28:
+   In file included from init/do_mounts.h:5:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+>> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+       ^
+   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   ^
+   static 
+   7 warnings generated.
+--
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from kernel/fork.c:55:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+>> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+       ^
+   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   ^
+   static 
+   kernel/fork.c:162:13: warning: no previous prototype for function 'arch_release_task_struct' [-Wmissing-prototypes]
+   void __weak arch_release_task_struct(struct task_struct *tsk)
+               ^
+   kernel/fork.c:162:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __weak arch_release_task_struct(struct task_struct *tsk)
+   ^
+   static 
+   kernel/fork.c:862:20: warning: no previous prototype for function 'arch_task_cache_init' [-Wmissing-prototypes]
+   void __init __weak arch_task_cache_init(void) { }
+                      ^
+   kernel/fork.c:862:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak arch_task_cache_init(void) { }
+   ^
+   static 
+   kernel/fork.c:957:12: warning: no previous prototype for function 'arch_dup_task_struct' [-Wmissing-prototypes]
+   int __weak arch_dup_task_struct(struct task_struct *dst,
+              ^
+   kernel/fork.c:957:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __weak arch_dup_task_struct(struct task_struct *dst,
+   ^
+   static 
+   10 warnings generated.
+--
+   In file included from kernel/cpu.c:13:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/cpu.c:13:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/cpu.c:13:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from kernel/cpu.c:40:
+   In file included from include/trace/events/power.h:12:
+>> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+       ^
+   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   ^
+   static 
+   kernel/cpu.c:110:20: warning: unused function 'cpuhp_lock_acquire' [-Wunused-function]
+   static inline void cpuhp_lock_acquire(bool bringup) { }
+                      ^
+   kernel/cpu.c:111:20: warning: unused function 'cpuhp_lock_release' [-Wunused-function]
+   static inline void cpuhp_lock_release(bool bringup) { }
+                      ^
+   9 warnings generated.
+--
+   In file included from kernel/signal.c:26:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/signal.c:26:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/signal.c:26:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from kernel/signal.c:30:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+>> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+       ^
+   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   ^
+   static 
+   kernel/signal.c:4774:6: warning: no previous prototype for function 'kdb_send_sig' [-Wmissing-prototypes]
+   void kdb_send_sig(struct task_struct *t, int sig)
+        ^
+   kernel/signal.c:4774:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void kdb_send_sig(struct task_struct *t, int sig)
+   ^
+   static 
+   8 warnings generated.
+..
 
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  241  
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  242  static int mx5_pm_valid(suspend_state_t state)
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  243  {
-784a90c0a7d8f5 Sascha Hauer       2011-11-07 @244  	return (state > PM_SUSPEND_ON && state <= PM_SUSPEND_MAX);
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  245  }
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  246  
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  247  static const struct platform_suspend_ops mx5_suspend_ops = {
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  248  	.valid = mx5_pm_valid,
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  249  	.enter = mx5_suspend_enter,
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  250  };
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  251  
-ccc12b32dc8c8e Robert Lee         2012-05-21  252  static inline int imx5_cpu_do_idle(void)
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  253  {
-ccc12b32dc8c8e Robert Lee         2012-05-21  254  	int ret = tzic_enable_wake();
-ccc12b32dc8c8e Robert Lee         2012-05-21  255  
-ccc12b32dc8c8e Robert Lee         2012-05-21  256  	if (likely(!ret))
-565fa91f236524 Robert Lee         2012-05-21  257  		cpu_do_idle();
-ccc12b32dc8c8e Robert Lee         2012-05-21  258  
-ccc12b32dc8c8e Robert Lee         2012-05-21  259  	return ret;
-565fa91f236524 Robert Lee         2012-05-21  260  }
-784a90c0a7d8f5 Sascha Hauer       2011-11-07  261  
-ccc12b32dc8c8e Robert Lee         2012-05-21  262  static void imx5_pm_idle(void)
-ccc12b32dc8c8e Robert Lee         2012-05-21  263  {
-ccc12b32dc8c8e Robert Lee         2012-05-21  264  	imx5_cpu_do_idle();
-ccc12b32dc8c8e Robert Lee         2012-05-21  265  }
-ccc12b32dc8c8e Robert Lee         2012-05-21  266  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  267  static int __init imx_suspend_alloc_ocram(
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  268  				size_t size,
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  269  				void __iomem **virt_out,
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  270  				phys_addr_t *phys_out)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  271  {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  272  	struct device_node *node;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  273  	struct platform_device *pdev;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  274  	struct gen_pool *ocram_pool;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  275  	unsigned long ocram_base;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  276  	void __iomem *virt;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  277  	phys_addr_t phys;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  278  	int ret = 0;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  279  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  280  	/* Copied from imx6: TODO factorize */
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  281  	node = of_find_compatible_node(NULL, NULL, "mmio-sram");
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  282  	if (!node) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  283  		pr_warn("%s: failed to find ocram node!\n", __func__);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  284  		return -ENODEV;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  285  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  286  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  287  	pdev = of_find_device_by_node(node);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  288  	if (!pdev) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  289  		pr_warn("%s: failed to find ocram device!\n", __func__);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  290  		ret = -ENODEV;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  291  		goto put_node;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  292  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  293  
-73858173593c31 Vladimir Zapolskiy 2015-09-04  294  	ocram_pool = gen_pool_get(&pdev->dev, NULL);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  295  	if (!ocram_pool) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  296  		pr_warn("%s: ocram pool unavailable!\n", __func__);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  297  		ret = -ENODEV;
-586745f1598ccf yu kuai            2020-06-04  298  		goto put_device;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  299  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  300  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  301  	ocram_base = gen_pool_alloc(ocram_pool, size);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  302  	if (!ocram_base) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  303  		pr_warn("%s: unable to alloc ocram!\n", __func__);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  304  		ret = -ENOMEM;
-586745f1598ccf yu kuai            2020-06-04  305  		goto put_device;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  306  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  307  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  308  	phys = gen_pool_virt_to_phys(ocram_pool, ocram_base);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  309  	virt = __arm_ioremap_exec(phys, size, false);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  310  	if (phys_out)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  311  		*phys_out = phys;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  312  	if (virt_out)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  313  		*virt_out = virt;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  314  
-586745f1598ccf yu kuai            2020-06-04  315  put_device:
-586745f1598ccf yu kuai            2020-06-04  316  	put_device(&pdev->dev);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  317  put_node:
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  318  	of_node_put(node);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  319  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  320  	return ret;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  321  }
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  322  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  323  static int __init imx5_suspend_init(const struct imx5_pm_data *soc_data)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  324  {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  325  	struct imx5_cpu_suspend_info *suspend_info;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  326  	int ret;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  327  	/* Need this to avoid compile error due to const typeof in fncpy.h */
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  328  	void (*suspend_asm)(void __iomem *) = soc_data->suspend_asm;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  329  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  330  	if (!suspend_asm)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  331  		return 0;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  332  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  333  	if (!soc_data->suspend_asm_sz || !*soc_data->suspend_asm_sz)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  334  		return -EINVAL;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  335  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  336  	ret = imx_suspend_alloc_ocram(
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  337  		*soc_data->suspend_asm_sz + sizeof(*suspend_info),
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  338  		&suspend_ocram_base, NULL);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  339  	if (ret)
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  340  		return ret;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  341  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12 @342  	suspend_info = suspend_ocram_base;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  343  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  344  	suspend_info->io_count = soc_data->suspend_io_count;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  345  	memcpy(suspend_info->io_state, soc_data->suspend_io_config,
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  346  	       sizeof(*suspend_info->io_state) * soc_data->suspend_io_count);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  347  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  348  	suspend_info->m4if_base = ioremap(soc_data->m4if_addr, SZ_16K);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  349  	if (!suspend_info->m4if_base) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  350  		ret = -ENOMEM;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  351  		goto failed_map_m4if;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  352  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  353  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  354  	suspend_info->iomuxc_base = ioremap(soc_data->iomuxc_addr, SZ_16K);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  355  	if (!suspend_info->iomuxc_base) {
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  356  		ret = -ENOMEM;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  357  		goto failed_map_iomuxc;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  358  	}
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  359  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12 @360  	imx5_suspend_in_ocram_fn = fncpy(
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  361  		suspend_ocram_base + sizeof(*suspend_info),
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  362  		suspend_asm,
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  363  		*soc_data->suspend_asm_sz);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  364  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  365  	return 0;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  366  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  367  failed_map_iomuxc:
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  368  	iounmap(suspend_info->m4if_base);
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  369  
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  370  failed_map_m4if:
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  371  	return ret;
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  372  }
-1579c7b9fe0105 Martin Fuzzey      2015-05-12  373  
 
-:::::: The code at line 244 was first introduced by commit
-:::::: 784a90c0a7d8f5aa94b6c7d295ad44ae8e045aa3 ARM i.MX: Merge i.MX5 support into mach-imx
+vim +/bpf_uprobe_multi_link_attach +799 include/linux/trace_events.h
 
-:::::: TO: Sascha Hauer <s.hauer@pengutronix.de>
-:::::: CC: Sascha Hauer <s.hauer@pengutronix.de>
+   766	
+   767	static inline int
+   768	perf_event_query_prog_array(struct perf_event *event, void __user *info)
+   769	{
+   770		return -EOPNOTSUPP;
+   771	}
+   772	static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+   773	{
+   774		return -EOPNOTSUPP;
+   775	}
+   776	static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+   777	{
+   778		return -EOPNOTSUPP;
+   779	}
+   780	static inline struct bpf_raw_event_map *bpf_get_raw_tracepoint(const char *name)
+   781	{
+   782		return NULL;
+   783	}
+   784	static inline void bpf_put_raw_tracepoint(struct bpf_raw_event_map *btp)
+   785	{
+   786	}
+   787	static inline int bpf_get_perf_event_info(const struct perf_event *event,
+   788						  u32 *prog_id, u32 *fd_type,
+   789						  const char **buf, u64 *probe_offset,
+   790						  u64 *probe_addr)
+   791	{
+   792		return -EOPNOTSUPP;
+   793	}
+   794	static inline int
+   795	bpf_kprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   796	{
+   797		return -EOPNOTSUPP;
+   798	}
+ > 799	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   800	{
+   801		return -EOPNOTSUPP;
+   802	}
+   803	#endif
+   804	
 
 -- 
 0-DAY CI Kernel Test Service
