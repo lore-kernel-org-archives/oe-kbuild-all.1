@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BE3807;
-	Thu,  9 Mar 2023 07:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1F807
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 07:47:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678347376; x=1709883376;
+  t=1678348036; x=1709884036;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JVKllO5gWq3oAyU+AytHYrjKR8iu2GBs/d/9cZe83Y8=;
-  b=SDsNRWpG7sres1TNFif+9v0IWCMgJPlsrWW51EtWV4upongCalBZ7h0i
-   lIFE1ah6vF/neLAek7CoL4E9KQwCTWqXmcrimGxPY0hXJ24mKn3FvwmT+
-   xNNOxar+H5ScuuukBIaz8zN7ewzdQ1nGOJEnd81T79KXzSx+5U6L+6Rni
-   cxXtYVUyNp0B5N8v4EWaEkBMC4DNwsnhtx3IL5OlUoEg9yZm9ObrQZw3y
-   VfyLxf10EG5vE7tZIb8WQfzcuz/TdGHTqSZCzXwRGA6gkwHBhdI3TQg8M
-   y0656ctkPBnzzosbL0iOI76vZ5KDtKWtInZzKdD1snpGVyvjf3LbaYjm9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="364015818"
+  bh=Ejfuq4p10REPkyjwp3nJWlY211upcBI69n5Zp39mejE=;
+  b=bfRqA0ZiXtMNc1maTDW+Od1ruhdvu6gTMzKUtkQJZrEOkbzmEgBW1hSq
+   HIl7J9QOdAO0AKnPAuntIFo9/RZr4/v1MR0obCXOxKJgRO2F1C6bvxhZr
+   b8Zwspc30pvv6qxWMxQfmiXBKnGJKZvg0EXWYpwsvk1bivXdvAlFp6PrG
+   8iCj3KBZtlbE2UNl0mPqgIwN2FlsLRFlymZZxT/ZYGHMyXKSIUkD3N8BA
+   Ehk09aFGCEhryMGPkRKeBLSOTEwNkA1hm+bDeULFcDIYuqqC4CwT5cYH1
+   OiNjV9+wA4cGZReHJASoOry9Qr9/FkIidmR+beSwm94SsMkMba8UKCGw0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398958830"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="364015818"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:36:15 -0800
+   d="scan'208";a="398958830"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:47:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746216721"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="677278758"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="746216721"
+   d="scan'208";a="677278758"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2023 23:36:14 -0800
+  by orsmga002.jf.intel.com with ESMTP; 08 Mar 2023 23:47:14 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paAov-0002kb-2S;
-	Thu, 09 Mar 2023 07:36:13 +0000
-Date: Thu, 9 Mar 2023 15:36:12 +0800
+	id 1paAzZ-0002kj-3A;
+	Thu, 09 Mar 2023 07:47:13 +0000
+Date: Thu, 9 Mar 2023 15:46:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Boris Burkov <boris@bur.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v3] btrfs: fix dio continue after short write due to
  buffer page fault
-Message-ID: <202303091543.12BtMYMB-lkp@intel.com>
+Message-ID: <202303091501.3JopRswb-lkp@intel.com>
 References: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,38 +63,38 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-fix-di
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
 patch link:    https://lore.kernel.org/r/6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris%40bur.io
 patch subject: [PATCH v3] btrfs: fix dio continue after short write due to buffer page fault
-config: riscv-randconfig-r042-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091543.12BtMYMB-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+config: arc-randconfig-r043-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091501.3JopRswb-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/938364315c6a1c0055382359a2d94d4d069a273c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
         git checkout 938364315c6a1c0055382359a2d94d4d069a273c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/btrfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091543.12BtMYMB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091501.3JopRswb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/btrfs/inode.c:7001:12: error: call to undeclared function 'btrfs_alloc_ordered_extent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-                     ^
->> fs/btrfs/inode.c:7001:10: error: incompatible integer to pointer conversion assigning to 'struct btrfs_ordered_extent *' from 'int' [-Wint-conversion]
-           ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   fs/btrfs/inode.c: In function 'btrfs_create_dio_extent':
+>> fs/btrfs/inode.c:7001:19: error: implicit declaration of function 'btrfs_alloc_ordered_extent'; did you mean 'btrfs_split_ordered_extent'? [-Werror=implicit-function-declaration]
+    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                   btrfs_split_ordered_extent
+>> fs/btrfs/inode.c:7001:17: warning: assignment to 'struct btrfs_ordered_extent *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
+         |                 ^
+   cc1: some warnings being treated as errors
 
 
-vim +/btrfs_alloc_ordered_extent +7001 fs/btrfs/inode.c
+vim +7001 fs/btrfs/inode.c
 
   6978	
   6979	static struct extent_map *btrfs_create_dio_extent(struct btrfs_inode *inode,
