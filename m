@@ -1,130 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85579804
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 06:37:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41827C433D2;
-	Thu,  9 Mar 2023 06:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678343845;
-	bh=RBBE41VWOhEkgOfDrb/0jzbup8THu+1nIa/pbGcAMpg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=suHrLRaFNcZ0Fu9pkHROmGnCJypaZIYJHKJl5/SI4OXZz5oEJZnUQ+Wa9f3MD1ZJe
-	 W81ythQik74PEy6UDX6zDn7C40Dc3dIScJrOyC9kPhvnkxc4bsaNt064XQo/5GP9gb
-	 ib7Qj0qGpQAI/seX7jNEtUKGABUDKOZbELukES/rKnq81an6+lDOUsfqxQR4idy5lw
-	 yhgnBmLSdJLuDZG32SuR7Tdvs+pueqPI6KNC8Zf7Kh5MWwwuabMBZ/f9lj0EKo8UhU
-	 St7LDZKzd5HR4CHYWuzAESSnMzaQfkSo5RMsF1B1ciUSeTKX19eTJ+tGpm8pivSwau
-	 Ckf7Gx+0KaNyQ==
-Message-ID: <35ecc535-7ee5-f45d-39a4-ac3044535f6a@kernel.org>
-Date: Thu, 9 Mar 2023 07:37:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D4807
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 06:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678344318; x=1709880318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Cs3vNazsszbTUlWEUkC6mluH9xTzAryK1Hv6ySX6Awc=;
+  b=GDPwt1eu5X4rO9fLc1lQ+DL1aWBqRVrOleES5y2DByF3cjJQOecu0Amm
+   erNn184NLWMq92EVfXPBpYD7ms54xgkZoC9BNejjZaYnr1CAohXtLOVhj
+   bnMz4+pxZdox11PLVObuKRRNVCrVi9xzC8MJfI6QHcwebMErTS/GSjl4G
+   qffT60D1j7Fk7AJ7AXZ+NWi/EjgMMgJPw9nIqQV/ZW4HYHQ21fRDLxz4x
+   0ApqJHtW9NXxFWtxUv21VLMAEAUxbO4WhKlhrvYU+qtKvUhk0UhZS7UZl
+   Ofc6JJCmOGrcaxvrNS9IVMAh/O56ZiYH1xBXX/X2rQmdKwraBp+iRXeqs
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316026713"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="316026713"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:45:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="741433490"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="741433490"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Mar 2023 22:45:13 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1paA1Y-0002ij-28;
+	Thu, 09 Mar 2023 06:45:12 +0000
+Date: Thu, 9 Mar 2023 14:44:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [intel-tdx:guest-filter-upstream 5/31] htmldocs:
+ Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching
+ underline for section title overline.
+Message-ID: <202303091408.0yK4MVg7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
- support
-Content-Language: en-US
-To: zhuyinbo <zhuyinbo@loongson.cn>, kernel test robot <lkp@intel.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
- loongson-kernel@lists.loongnix.cn
-References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
- <202303082037.QPfBP64A-lkp@intel.com>
- <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
- <a16ac33d-e313-2eeb-007d-20f61d670308@loongson.cn>
- <6180156d-109c-2f41-69ee-0a854dc3772e@kernel.org>
- <e51a23e5-ad69-d415-860f-3a9ab38bfbe9@loongson.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <e51a23e5-ad69-d415-860f-3a9ab38bfbe9@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 09/03/2023 07:27, zhuyinbo wrote:
-> 
-> 在 2023/3/9 下午2:09, Krzysztof Kozlowski 写道:
->> On 09/03/2023 04:18, zhuyinbo wrote:
->>> 在 2023/3/9 上午10:58, zhuyinbo 写道:
->>>> 在 2023/3/8 下午8:16, kernel test robot 写道:
->>>>> Hi Yinbo,
->>>>>
->>>>> I love your patch! Yet something to improve:
->>>>>
->>>>> [auto build test ERROR on clk/clk-next]
->>>>> [also build test ERROR on robh/for-next linus/master v6.3-rc1
->>>>> next-20230308]
->>>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>>>> And when submitting patch, we suggest to use '--base' as documented in
->>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>>
->>>>> url:
->>>>> https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->>>>> base: https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
->>>>> clk-next
->>>>> patch link:
->>>>> https://lore.kernel.org/r/20230307115022.12846-2-zhuyinbo%40loongson.cn
->>>>> patch subject: [PATCH v13 2/2] clk: clk-loongson2: add clock
->>>>> controller driver support
->>>>> config: mips-allyesconfig
->>>>> (https://download.01.org/0day-ci/archive/20230308/202303082037.QPfBP64A-lkp@intel.com/config)
->>>>> compiler: mips-linux-gcc (GCC) 12.1.0
->>>>> reproduce (this is a W=1 build):
->>>>>           wget
->>>>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
->>>>> -O ~/bin/make.cross
->>>>>           chmod +x ~/bin/make.cross
->>>>>           #
->>>>> https://github.com/intel-lab-lkp/linux/commit/391d6fc63ac65f5456e4755c9dd85232a6296285
->>>>>           git remote add linux-review
->>>>> https://github.com/intel-lab-lkp/linux
->>>>>           git fetch --no-tags linux-review
->>>>> Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->>>>>           git checkout 391d6fc63ac65f5456e4755c9dd85232a6296285
->>>>>           # save the config file
->>>>>           mkdir build_dir && cp config build_dir/.config
->>>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
->>>>> make.cross W=1 O=build_dir ARCH=mips olddefconfig
->>>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
->>>>> make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
->>>>>
->>>>> If you fix the issue, kindly add following tag where applicable
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Link:
->>>>> https://lore.kernel.org/oe-kbuild-all/202303082037.QPfBP64A-lkp@intel.com/
->>>>>
->>>>> All errors (new ones prefixed by >>):
->>>>>
->>>>>      drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
->>>>>>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of
->>>>>>> function 'readq'; did you mean 'readl'?
->>>>>>> [-Werror=implicit-function-declaration]
->>>>>         79 |         val = readq(loongson2_pll_base + offset);
->>>>>            |               ^~~~~
->>>>>            |               readl
->>>>>      cc1: some warnings being treated as errors
->>>> The CONFIG_64BIT not enabled in your config file, I will add a depend
->>>> on "CONFIG_64BIT" in my clock driver to fix this compile error.
->>> My clock is for LoongArch platform, The LOONGARCH had select
->>> "CONFIG_64BIT", I will add a depend on "LOONGARCH" in my clock driver to
->>> fix this compile error.
->> No. Fix your code instead.
-> 
-> but the readq that ask CONFIG_64BIT is enabled,  definition in 
-> include/asm-generic/io.h
-> 
-> so need enable CONFIG_64BIT for my clk driver.
+tree:   https://github.com/intel/tdx.git guest-filter-upstream
+head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
+commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
+reproduce:
+        # https://github.com/intel/tdx/commit/d0c26c6546ae5c1271597dc8fa1633456881afab
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-filter-upstream
+        git checkout d0c26c6546ae5c1271597dc8fa1633456881afab
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Ah, you are right, the error was not about the cast but missing readq.
-Yeah, you should depend on 64BIT. Not on Loongarch because the code
-should compile test on other archs.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091408.0yK4MVg7-lkp@intel.com/
 
-Best regards,
-Krzysztof
+All warnings (new ones prefixed by >>):
 
+>> Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching underline for section title overline.
+
+vim +30 Documentation/driver-api/device-authorize.rst
+
+    29	
+  > 30	----------------------------------------------------
+    31	|             struct da_firmware_hdr               |
+    32	|                (type=0, count=2)                 |
+    33	----------------------------------------------------
+    34	|             struct da_bus_hdr                    |
+    35	|              (bus="pci", count=2)                |
+    36	----------------------------------------------------
+    37	|             struct da_pci_devce_id               |
+    38	|                                                  |
+    39	----------------------------------------------------
+    40	|             struct da_pci_device_id              |
+    41	|                                                  |
+    42	----------------------------------------------------
+    43	|             struct da_bus_hdr                    |
+    44	|              (bus="platform", count=2)           |
+    45	----------------------------------------------------
+    46	|             struct da_bus_device_id              |
+    47	|                                                  |
+    48	----------------------------------------------------
+    49	|             struct da_bus_device_id              |
+    50	|                                                  |
+    51	----------------------------------------------------
+    52	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
