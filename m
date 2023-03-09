@@ -1,147 +1,116 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597AA7B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 03:18:09 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.35])
-	by gateway (Coremail) with SMTP id _____8Dx3trwTwlkVjQKAA--.1976S3;
-	Thu, 09 Mar 2023 11:18:08 +0800 (CST)
-Received: from [10.20.42.35] (unknown [10.20.42.35])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxHuTpTwlkWhxQAA--.37414S3;
-	Thu, 09 Mar 2023 11:18:03 +0800 (CST)
-Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
- support
-From: zhuyinbo <zhuyinbo@loongson.cn>
-To: kernel test robot <lkp@intel.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
- loongson-kernel@lists.loongnix.cn
-References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
- <202303082037.QPfBP64A-lkp@intel.com>
- <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
-Message-ID: <a16ac33d-e313-2eeb-007d-20f61d670308@loongson.cn>
-Date: Thu, 9 Mar 2023 11:18:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C3A7B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 03:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678333149; x=1709869149;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gsO9F5yTQpAzcPBK5xDvs5ykYTxCADh1lcZlziHCxYY=;
+  b=jwAoD7Ml+mxhWZY9qOE2iHTz9NX16Sw+ArQWAA27syXRp+JWDmdg4RK+
+   HgM8VDM7tZMbHWySxZLW0kUQLK1YrJndkNFu03t29Xg61tlxEwayk7boM
+   60hBJBSQvHHhE2kHGIEsIdC7Zw8BJKxV9cmamVg1A4PYHu7/Hy7v+Lr/h
+   4urotN8uZ1+i95oaUCqwRyWToOix3Y5m2euui8/d9n7Devh7FwoP8C8kh
+   On8ex2sem1HxaS8DAvKoNxg23pAAixcXS20Q/gNd/XXYAD61dGS+mMTa7
+   wjxKaAySqRizSXPWKqRLY90LmZPYffCY68jP+Vuv0QeQWWq6VzGZ46MV+
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324662545"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="324662545"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 19:39:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="707435862"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="707435862"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 08 Mar 2023 19:39:07 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pa77T-0002aX-0C;
+	Thu, 09 Mar 2023 03:39:07 +0000
+Date: Thu, 9 Mar 2023 11:38:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Brian Gerst <brgerst@gmail.com>,
+	Usama Arif <usama.arif@bytedance.com>
+Subject: [dwmw2:parallel-6.2-v14 9/12] arch/x86/kernel/cpu/topology.c:35:5:
+ warning: no previous prototype for 'check_extended_topology_leaf'
+Message-ID: <202303091146.RrViPavq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:AQAAf8AxHuTpTwlkWhxQAA--.37414S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWF18ur13tF17Gr15Wr1ftFb_yoWrAw4xpw
-	4ktryUJryFqr18Xr4UKryUXry5tr4DJ3WDJr1UJFyUZrWDZw1jqr4I9F1jgr1DJr4kGryU
-	Jr1DXrWxuF17JwUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	ba8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64
-	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28E
-	F7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487
-	Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l42xK82IY6x
-	8ErcxFaVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I
-	3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
-	WUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
-	cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
-	Xa7IU8c_-PUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-v14
+head:   09fe2cb4dcbf4dce5b30501259605c1aeb8ab4d6
+commit: 8e06b9843fec8b88bf8583c9e6915aa2aaa115ac [9/12] x86/smpboot: Support parallel startup of secondary CPUs
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303091146.RrViPavq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 parallel-6.2-v14
+        git checkout 8e06b9843fec8b88bf8583c9e6915aa2aaa115ac
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/cpu/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091146.RrViPavq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kernel/cpu/topology.c:35:5: warning: no previous prototype for 'check_extended_topology_leaf' [-Wmissing-prototypes]
+      35 | int check_extended_topology_leaf(int leaf)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-在 2023/3/9 上午10:58, zhuyinbo 写道:
->
-> 在 2023/3/8 下午8:16, kernel test robot 写道:
->> Hi Yinbo,
->>
->> I love your patch! Yet something to improve:
->>
->> [auto build test ERROR on clk/clk-next]
->> [also build test ERROR on robh/for-next linus/master v6.3-rc1 
->> next-20230308]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url: 
->> https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->> base: https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git 
->> clk-next
->> patch link: 
->> https://lore.kernel.org/r/20230307115022.12846-2-zhuyinbo%40loongson.cn
->> patch subject: [PATCH v13 2/2] clk: clk-loongson2: add clock 
->> controller driver support
->> config: mips-allyesconfig 
->> (https://download.01.org/0day-ci/archive/20230308/202303082037.QPfBP64A-lkp@intel.com/config)
->> compiler: mips-linux-gcc (GCC) 12.1.0
->> reproduce (this is a W=1 build):
->>          wget 
->> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
->> -O ~/bin/make.cross
->>          chmod +x ~/bin/make.cross
->>          # 
->> https://github.com/intel-lab-lkp/linux/commit/391d6fc63ac65f5456e4755c9dd85232a6296285
->>          git remote add linux-review 
->> https://github.com/intel-lab-lkp/linux
->>          git fetch --no-tags linux-review 
->> Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->>          git checkout 391d6fc63ac65f5456e4755c9dd85232a6296285
->>          # save the config file
->>          mkdir build_dir && cp config build_dir/.config
->>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 
->> make.cross W=1 O=build_dir ARCH=mips olddefconfig
->>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 
->> make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Link: 
->> https://lore.kernel.org/oe-kbuild-all/202303082037.QPfBP64A-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
->>>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of 
->>>> function 'readq'; did you mean 'readl'? 
->>>> [-Werror=implicit-function-declaration]
->>        79 |         val = readq(loongson2_pll_base + offset);
->>           |               ^~~~~
->>           |               readl
->>     cc1: some warnings being treated as errors
->
-> The CONFIG_64BIT not enabled in your config file, I will add a depend 
-> on "CONFIG_64BIT" in my clock driver to fix this compile error.
-My clock is for LoongArch platform, The LOONGARCH had select 
-"CONFIG_64BIT", I will add a depend on "LOONGARCH" in my clock driver to 
-fix this compile error.
->
->>
->>
->> vim +79 drivers/clk/clk-loongson2.c
->>
->>      73
->>      74    static unsigned long loongson2_calc_pll_rate(int offset, 
->> unsigned long rate)
->>      75    {
->>      76        u64 val;
->>      77        u32 mult = 1, div = 1;
->>      78
->>    > 79        val = readq(loongson2_pll_base + offset);
->>      80
->>      81        mult = (val >> LOONGSON2_PLL_MULT_SHIFT) &
->>      82                clk_div_mask(LOONGSON2_PLL_MULT_WIDTH);
->>      83        div = (val >> LOONGSON2_PLL_DIV_SHIFT) &
->>      84                clk_div_mask(LOONGSON2_PLL_DIV_WIDTH);
->>      85
->>      86        return div_u64((u64)rate * mult, div);
->>      87    }
->>      88
->>
+vim +/check_extended_topology_leaf +35 arch/x86/kernel/cpu/topology.c
 
+    30	
+    31	#ifdef CONFIG_SMP
+    32	/*
+    33	 * Check if given CPUID extended topology "leaf" is implemented
+    34	 */
+  > 35	int check_extended_topology_leaf(int leaf)
+    36	{
+    37		unsigned int eax, ebx, ecx, edx;
+    38	
+    39		cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+    40	
+    41		if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
+    42			return -1;
+    43	
+    44		return 0;
+    45	}
+    46	/*
+    47	 * Return best CPUID Extended Topology Leaf supported
+    48	 */
+    49	static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
+    50	{
+    51		if (c->cpuid_level >= 0x1f) {
+    52			if (check_extended_topology_leaf(0x1f) == 0)
+    53				return 0x1f;
+    54		}
+    55	
+    56		if (c->cpuid_level >= 0xb) {
+    57			if (check_extended_topology_leaf(0xb) == 0)
+    58				return 0xb;
+    59		}
+    60	
+    61		return -1;
+    62	}
+    63	#endif
+    64	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
