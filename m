@@ -1,103 +1,150 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB57863A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 09:49:49 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.35])
-	by gateway (Coremail) with SMTP id _____8DxE4S6qwlkYlkKAA--.13647S3;
-	Thu, 09 Mar 2023 17:49:46 +0800 (CST)
-Received: from [10.20.42.35] (unknown [10.20.42.35])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Axur23qwlka3JQAA--.8637S3;
-	Thu, 09 Mar 2023 17:49:43 +0800 (CST)
-Subject: Re: [linux-next:master 995/2428] kismet: WARNING: unmet direct
- dependencies detected for GPIO_SYSCON when selected by GPIO_SAMA5D2_PIOBU
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Jianmin Lv <lvjianmin@loongson.cn>,
- Hongchen Zhang <zhanghongchen@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, Juxin Gao <gaojuxin@loongson.cn>,
- Linus Walleij <linus.walleij@linaro.org>, zhuyinbo@loongson.cn
-References: <202303091430.hbWEMt4b-lkp@intel.com>
-From: zhuyinbo <zhuyinbo@loongson.cn>
-Message-ID: <cdf7c3b8-b538-1666-18e2-63a3d0ae3e4f@loongson.cn>
-Date: Thu, 9 Mar 2023 17:49:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF8863A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 09:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678355542; x=1709891542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JYmVndWvYsqeuPYUp1jFfbi0/DPDevKqO7et5ZeWcRs=;
+  b=KUKXxqyIf66GvJhkt3c2PUWvT1jyxq9g7sJWkOcwltBkymFazq8Tq2zg
+   bobK7wlAaohrFv5FgqqmGaEe9Exqyqcha4nYSypJ3UILwx35bLbcpoI5y
+   yQ3I6c9jaG9gHZVvRQtY6mTEOJkoVn9WaDrsME/NIzK2Dt9eMs3Njej5o
+   /EljJIS/h2TLqutyudviamVN7aa3UbjpX9ZDkHOmjRUBtU4SNspixZV/L
+   qpFeYXtT3skLD7py4rX7cuSjuPZ25RMIUodlp7SMe+vmEcVckXouZpJcS
+   +yGx+5x2LBsuLoYj1ZDbLTqQGciAj35p9caUj5+GZNV4SduHCtxGJb440
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="335108064"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="335108064"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 01:52:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="1006666100"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="1006666100"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 09 Mar 2023 01:52:20 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1paCwd-0002rN-2p;
+	Thu, 09 Mar 2023 09:52:19 +0000
+Date: Thu, 9 Mar 2023 17:51:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: "MP, Sureshkumar" <sureshkumar.mp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, nanli2x <nanx.li@intel.com>
+Subject: [intel-lts:5.15/linux 3746/23027]
+ drivers/iio/adc/ti-ads7142q1.c:156:13: warning: variable 'err' set but not
+ used
+Message-ID: <202303091715.E4firaOX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202303091430.hbWEMt4b-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:AQAAf8Axur23qwlka3JQAA--.8637S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZr18Gw13GFyruw1DXr4ruFg_yoW5GF43pF
-	W0yF4v9r18XF109ayj9F17uF40qr1DC3y5ZrZ7Gr1Fvay7ArykXrn3ur43ZFyqyrn8Cw43
-	KFy5ur98G3y8ua7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bx8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64
-	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28E
-	F7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM2
-	8EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAq
-	jxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
-	AFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
-	0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz4
-	8v1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
-	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
-	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
-	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2js
-	IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j8pnQUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Sureshkumar,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   2533aa36ba52e96057d68a4ab377a6293b91c1fc
+commit: cffd430bb5a19172072aba6b50007eaba72f3e0b [3746/23027] ADS7142 TI ADC driver support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303091715.E4firaOX-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/linux-intel-lts/commit/cffd430bb5a19172072aba6b50007eaba72f3e0b
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.15/linux
+        git checkout cffd430bb5a19172072aba6b50007eaba72f3e0b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/counter/ drivers/gpu/drm/bridge/ drivers/gpu/drm/mcde/ drivers/iio/adc/ drivers/media/i2c/ drivers/net/can/m_can/ drivers/pwm/ drivers/spi/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091715.E4firaOX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/iio/adc/ti-ads7142q1.c: In function 'ads7142_read_raw':
+>> drivers/iio/adc/ti-ads7142q1.c:156:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+     156 |         int err;
+         |             ^~~
 
 
-在 2023/3/9 下午2:44, kernel test robot 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   2c6433e9294b6d0f4d8f08c3c70a3eac434d3ec8
-> commit: 7944d3b7fe86067509751473aa917fdfd662d92c [995/2428] gpio: loongson: add gpio driver support
-> config: x86_64-kismet-CONFIG_GPIO_SYSCON-CONFIG_GPIO_SAMA5D2_PIOBU-0-0 (https://download.01.org/0day-ci/archive/20230309/202303091430.hbWEMt4b-lkp@intel.com/config)
-> reproduce:
->          # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7944d3b7fe86067509751473aa917fdfd662d92c
->          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->          git fetch --no-tags linux-next master
->          git checkout 7944d3b7fe86067509751473aa917fdfd662d92c
->          # 1. reproduce by kismet
->             # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
->             kismet --linux-ksrc=linux --selectees CONFIG_GPIO_SYSCON --selectors CONFIG_GPIO_SAMA5D2_PIOBU -a=x86_64
->          # 2. reproduce by make
->             # save the config file to linux source tree
->             cd linux
->             make ARCH=x86_64 olddefconfig
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303091430.hbWEMt4b-lkp@intel.com/
->
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for GPIO_SYSCON when selected by GPIO_SAMA5D2_PIOBU
->     .config:5169:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
->     .config:12935:warning: symbol value 'ONFIG_NR_CPUS_DEFAUL' invalid for NR_CPUS
->     
->     WARNING: unmet direct dependencies detected for OF_GPIO
->       Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
->       Selected by [y]:
->       - GPIO_LOONGSON_64BIT [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (LOONGARCH || COMPILE_TEST [=y])
+vim +/err +156 drivers/iio/adc/ti-ads7142q1.c
 
-This warning  is "unmet direct dependencies detected for OF_GPIO ",  it 
-should be GPIO_LOONGSON_64BIT not depend  OF_GPIO  rather than select 
-OF_GPIO,
+   148	
+   149	static int ads7142_read_raw(struct iio_dev *iio,
+   150				    struct iio_chan_spec const *channel, int *value,
+   151				    int *value2, long mask)
+   152	{
+   153		struct ads7142 *adc = iio_priv(iio);
+   154		u8 adc_data[32];
+   155		u8 data;
+ > 156		int err;
+   157	
+   158		switch (mask) {
+   159		case IIO_CHAN_INFO_AVERAGE_RAW:
+   160			//mutex_lock(&priv->lock);
+   161			/* Abort the present sequence */
+   162			err = ads7142_reg_write(adc->i2c, ADS7142_REG_ABORT_SEQUENCE, ADS7142_VAL_ABORT_SEQUENCE);
+   163			err = ads7142_reg_read(adc->i2c, ADS7142_REG_ABORT_SEQUENCE, &data);
+   164	
+   165			/* Perform Offset Calibration */
+   166			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OFFSET_CAL, ADS7142_VAL_TRIG_OFFCAL);
+   167	
+   168			/* Select Autonomous Mode with both Channels enabled */
+   169			err = ads7142_reg_write(adc->i2c, ADS7142_REG_CHANNEL_INPUT_CFG, ADS7142_VAL_CHANNEL_INPUT_CFG_2_CHANNEL_SINGLE_ENDED);
+   170	
+   171			/* Select the operation mode of the device */
+   172			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OPMODE_SEL, ADS7142_VAL_OPMODE_SEL_AUTONOMOUS_MONITORING_MODE);
+   173	
+   174			/* Select the channel for auto sequencing */
+   175			/* channel_0 -> bit 0 to be set and channel_1 -> bit 1 to be set */
+   176			err = ads7142_reg_write(adc->i2c, ADS7142_REG_AUTO_SEQ_CHEN, (1 << channel->channel));
+   177	
+   178			/* Select the low power or high speed oscillator */
+   179			err = ads7142_reg_write(adc->i2c, ADS7142_REG_OSC_SEL, ADS7142_VAL_OSC_SEL_HSZ_HSO);
+   180	
+   181			/* Set the minimum nCLK value for one conversion to maximize sampling speed */
+   182			err = ads7142_reg_write(adc->i2c, ADS7142_REG_nCLK_SEL, 21);
+   183	
+   184			/* Select the Data Buffer output data Configuration */
+   185			err = ads7142_reg_write(adc->i2c, ADS7142_REG_DOUT_FORMAT_CFG, ADS7142_VAL_DOUT_FORMAT_CFG_DOUT_FORMAT2);
+   186	
+   187			/* Select the Data Buffer opmode for Start Burst mode */
+   188			err = ads7142_reg_write(adc->i2c, ADS7142_REG_DATA_BUFFER_OPMODE, ADS7142_VAL_DATA_BUFFER_STARTSTOP_CNTRL_STARTBURST);
+   189	
+   190			/* Set the SEQ_START Bit to begin the sampling sequence */
+   191			err = ads7142_reg_write(adc->i2c, ADS7142_REG_START_SEQUENCE, ADS7142_VAL_START_SEQUENCE);
+   192	
+   193			msleep(500);
+   194	
+   195			/* read sampling raw data from internal data buffer */
+   196			err = ads7142_data_buffer_read(adc->i2c, 32, adc_data);
+   197	
+   198			/* do average of raw data value */
+   199			ads7142_raw_data_avg_value(adc_data, value);
+   200			return IIO_VAL_INT;
+   201	
+   202		default:
+   203			break;
+   204	
+   205		}
+   206	
+   207		return -EINVAL;
+   208	}
+   209	
 
-I will add a depend on "OF_GPIO" replace select "OF_GPIO"  for loongson 
-gpio driver to fix this warning.
-
->     
->     WARNING: unmet direct dependencies detected for GPIO_SYSCON
->       Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
->       Selected by [y]:
->       - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
