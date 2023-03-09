@@ -1,44 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1F807
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 07:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B922F817
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 07:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678348036; x=1709884036;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ejfuq4p10REPkyjwp3nJWlY211upcBI69n5Zp39mejE=;
-  b=bfRqA0ZiXtMNc1maTDW+Od1ruhdvu6gTMzKUtkQJZrEOkbzmEgBW1hSq
-   HIl7J9QOdAO0AKnPAuntIFo9/RZr4/v1MR0obCXOxKJgRO2F1C6bvxhZr
-   b8Zwspc30pvv6qxWMxQfmiXBKnGJKZvg0EXWYpwsvk1bivXdvAlFp6PrG
-   8iCj3KBZtlbE2UNl0mPqgIwN2FlsLRFlymZZxT/ZYGHMyXKSIUkD3N8BA
-   Ehk09aFGCEhryMGPkRKeBLSOTEwNkA1hm+bDeULFcDIYuqqC4CwT5cYH1
-   OiNjV9+wA4cGZReHJASoOry9Qr9/FkIidmR+beSwm94SsMkMba8UKCGw0
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k18HhiGZt3YzR7hw6H4WVoixfJZPFZVFqUIxGzo8Q+c=;
+  b=LKy8C5KJtjLyXKX8mHKz33N+IGokDNoHhyBD+SH5yKot6xfT7D2vmYMA
+   p4ExoTA+7QAQjy8uCJaS8a3yRm3AiZEG/lb0LnD9HLECRsRcQkrx1f8KA
+   3tu5zv3ecjFGBLaxZx0Blx80g+xf4aqy4O5Gbqe2Y6tYv/X9702mZYgmB
+   YZDiCd8f22aLtmHaG2fabaraHEdt8V/QchemYIOPrz882uy0VlTfY6bDS
+   ZxBy0QtaVhddH/LRORkAL5/ugootj4EVjpd67N2qnZ40wiY8mlutf7huG
+   ACTqzMrdp2izYwHrDPKWCVvoJDcrU+FmAGxbK8g/QHrrG5KVChuNH1Fil
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398958830"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401216042"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="398958830"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:47:15 -0800
+   d="scan'208";a="401216042"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:47:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="677278758"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766333577"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="677278758"
+   d="scan'208";a="766333577"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 08 Mar 2023 23:47:14 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 23:47:14 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paAzZ-0002kj-3A;
-	Thu, 09 Mar 2023 07:47:13 +0000
+	id 1paAza-0002km-0E;
+	Thu, 09 Mar 2023 07:47:14 +0000
 Date: Thu, 9 Mar 2023 15:46:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Burkov <boris@bur.io>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] btrfs: fix dio continue after short write due to
- buffer page fault
-Message-ID: <202303091501.3JopRswb-lkp@intel.com>
-References: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
+To: zouxiaoh <xiaohong.zou@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>,
+	Chen Meng J <meng.j.chen@intel.com>
+Subject: [intel-lts:5.15/linux 25/38] versioncheck:
+ ./drivers/media/platform/intel/ipu6-acpi-common.c: 16 linux/version.h not
+ needed.
+Message-ID: <202303091505.ktosTqN3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,99 +47,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
 
-Hi Boris,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris%40bur.io
-patch subject: [PATCH v3] btrfs: fix dio continue after short write due to buffer page fault
-config: arc-randconfig-r043-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091501.3JopRswb-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/938364315c6a1c0055382359a2d94d4d069a273c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
-        git checkout 938364315c6a1c0055382359a2d94d4d069a273c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/btrfs/
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   2533aa36ba52e96057d68a4ab377a6293b91c1fc
+commit: 749d43047fcec4edeff7ac888e732305dab791a3 [25/38] media: i2c: fix allyes build issue
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091501.3JopRswb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091505.ktosTqN3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   fs/btrfs/inode.c: In function 'btrfs_create_dio_extent':
->> fs/btrfs/inode.c:7001:19: error: implicit declaration of function 'btrfs_alloc_ordered_extent'; did you mean 'btrfs_split_ordered_extent'? [-Werror=implicit-function-declaration]
-    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                   btrfs_split_ordered_extent
->> fs/btrfs/inode.c:7001:17: warning: assignment to 'struct btrfs_ordered_extent *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    7001 |         ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-         |                 ^
-   cc1: some warnings being treated as errors
-
-
-vim +7001 fs/btrfs/inode.c
-
-  6978	
-  6979	static struct extent_map *btrfs_create_dio_extent(struct btrfs_inode *inode,
-  6980							  struct btrfs_dio_data *dio_data,
-  6981							  const u64 start,
-  6982							  const u64 len,
-  6983							  const u64 orig_start,
-  6984							  const u64 block_start,
-  6985							  const u64 block_len,
-  6986							  const u64 orig_block_len,
-  6987							  const u64 ram_bytes,
-  6988							  const int type)
-  6989	{
-  6990		struct extent_map *em = NULL;
-  6991		struct btrfs_ordered_extent *ordered;
-  6992	
-  6993		if (type != BTRFS_ORDERED_NOCOW) {
-  6994			em = create_io_em(inode, start, len, orig_start, block_start,
-  6995					  block_len, orig_block_len, ram_bytes,
-  6996					  BTRFS_COMPRESS_NONE, /* compress_type */
-  6997					  type);
-  6998			if (IS_ERR(em))
-  6999				goto out;
-  7000		}
-> 7001		ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-  7002						     block_start, block_len, 0,
-  7003						     (1 << type) |
-  7004						     (1 << BTRFS_ORDERED_DIRECT),
-  7005						     BTRFS_COMPRESS_NONE);
-  7006		if (IS_ERR(ordered)) {
-  7007			if (em) {
-  7008				free_extent_map(em);
-  7009				btrfs_drop_extent_map_range(inode, start,
-  7010							    start + len - 1, false);
-  7011			}
-  7012			em = ERR_PTR(PTR_ERR(ordered));
-  7013		} else {
-  7014			ASSERT(!dio_data->ordered);
-  7015			dio_data->ordered = ordered;
-  7016		}
-  7017	 out:
-  7018	
-  7019		return em;
-  7020	}
-  7021	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./drivers/media/i2c/ar0234.c: 17 linux/version.h not needed.
+   ./drivers/media/i2c/d4xx.c: 32 linux/version.h not needed.
+   ./drivers/media/i2c/hm11b1.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/imx390.c: 15 linux/version.h not needed.
+   ./drivers/media/i2c/lt6911uxc.c: 24 linux/version.h not needed.
+   ./drivers/media/i2c/ov01a10.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov01a1s.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov02c10.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/ov8856.c: 10 linux/version.h not needed.
+   ./drivers/media/i2c/power_ctrl_logic.c: 9 linux/version.h not needed.
+   ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
+   ./drivers/media/i2c/ti960-des.c: 11 linux/version.h not needed.
+   ./drivers/media/i2c/ti964.c: 11 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-dma.c: 14 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 6 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys-video.c: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys.c: 14 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-psys.c: 16 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu6/ipu6-psys.c: 12 linux/version.h not needed.
+>> ./drivers/media/platform/intel/ipu6-acpi-common.c: 16 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version.c: 17 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
