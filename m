@@ -1,151 +1,147 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB0F7E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 06:27:42 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.35])
-	by gateway (Coremail) with SMTP id _____8CxidlcfAlkaEMKAA--.1962S3;
-	Thu, 09 Mar 2023 14:27:40 +0800 (CST)
-Received: from [10.20.42.35] (unknown [10.20.42.35])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxPuRSfAlkbT1QAA--.39752S3;
-	Thu, 09 Mar 2023 14:27:35 +0800 (CST)
-Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
- support
-To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>,
- Michael Turquette <mturquette@baylibre.com>, zhuyinbo@loongson.cn,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
- loongson-kernel@lists.loongnix.cn
-References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
- <202303082037.QPfBP64A-lkp@intel.com>
- <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
- <a16ac33d-e313-2eeb-007d-20f61d670308@loongson.cn>
- <6180156d-109c-2f41-69ee-0a854dc3772e@kernel.org>
-From: zhuyinbo <zhuyinbo@loongson.cn>
-Message-ID: <e51a23e5-ad69-d415-860f-3a9ab38bfbe9@loongson.cn>
-Date: Thu, 9 Mar 2023 14:27:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C4E807;
+	Thu,  9 Mar 2023 06:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678343656; x=1709879656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DFur0ADkrDQu5z47A56cwxkrUqueuqQBgYWp7cDhzEk=;
+  b=flWznKTNe4ag9Jj8B8mye+03VXfq1WWqu/LXwQQ2h4FVD0qh9Z4K2fKG
+   lbsQvxExXFx1UusEZ7ZiIJnkGo2ZTojjsXNSZnfArMvgzkk+XfQxRSlJ5
+   sb5G2o25UIxJQGbwliXp0otpJAgl1nNcPLZpxFFJJ6Z/m7zzwul6oRJF2
+   6x/7urWHiWhlYhFg9FwDyufF5qQkB8xNWIfzt+g1XnVfp34isPkzTDFZ4
+   jEwAkZnlNreeWN2ujJK0/BoFE3p8T4HGGLgtNob/5/IhnLCH4JEnhtsuX
+   6jqkZ0rxQoJCNJ+AKeIRF+bOfjNnmM+tOfcABYL1Fd1b3utES7+xRetM4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316024907"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="316024907"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:34:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="741429960"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="741429960"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Mar 2023 22:34:12 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pa9qu-0002i7-1C;
+	Thu, 09 Mar 2023 06:34:12 +0000
+Date: Thu, 9 Mar 2023 14:33:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Saravana Kannan <saravanak@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linux-next:master 1298/2428] drivers/clk/mvebu/kirkwood.c:358:1:
+ error: expected identifier or '('
+Message-ID: <202303091435.ae36t8f6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <6180156d-109c-2f41-69ee-0a854dc3772e@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:AQAAf8CxPuRSfAlkbT1QAA--.39752S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCFWftF4DKF1kuw4rGFWxJFb_yoWrAry7pF
-	48JFZFyryrXr10qrW8Kr1DWryYqr4DJ3WUXr1DGF1xZFZFvw1Ygr409r1jgr1DWrs3GrWU
-	Jrn5XryxuF1UJrUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bxkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64
-	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28E
-	F7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487
-	Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l42xK82IY6x
-	8ErcxFaVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
-	x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrw
-	CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
-	42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z2
-	80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8c_-PUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2c6433e9294b6d0f4d8f08c3c70a3eac434d3ec8
+commit: c28cd1f3433c7e339315d1ddacaeacf0fdfbe252 [1298/2428] clk: Mark a fwnode as initialized when using CLK_OF_DECLARE() macro
+config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20230309/202303091435.ae36t8f6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c28cd1f3433c7e339315d1ddacaeacf0fdfbe252
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout c28cd1f3433c7e339315d1ddacaeacf0fdfbe252
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091435.ae36t8f6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/clk/mvebu/kirkwood.c:358:1: error: expected identifier or '('
+   CLK_OF_DECLARE(98dx1135_clk, "marvell,mv98dx1135-core-clock",
+   ^
+   include/linux/clk-provider.h:1367:21: note: expanded from macro 'CLK_OF_DECLARE'
+           static void __init name##_of_clk_init_declare(struct device_node *np) \
+                              ^
+   <scratch space>:133:1: note: expanded from here
+   98dx1135_clk_of_clk_init_declare
+   ^
+>> drivers/clk/mvebu/kirkwood.c:358:1: error: invalid digit 'd' in decimal constant
+   include/linux/clk-provider.h:1372:34: note: expanded from macro 'CLK_OF_DECLARE'
+           OF_DECLARE_1(clk, name, compat, name##_of_clk_init_declare)
+                                           ^
+   <scratch space>:134:3: note: expanded from here
+   98dx1135_clk_of_clk_init_declare
+     ^
+>> drivers/clk/mvebu/kirkwood.c:358:1: error: invalid digit 'd' in decimal constant
+   include/linux/clk-provider.h:1372:34: note: expanded from macro 'CLK_OF_DECLARE'
+           OF_DECLARE_1(clk, name, compat, name##_of_clk_init_declare)
+                                           ^
+   <scratch space>:134:3: note: expanded from here
+   98dx1135_clk_of_clk_init_declare
+     ^
+>> drivers/clk/mvebu/kirkwood.c:358:1: error: invalid digit 'd' in decimal constant
+   include/linux/clk-provider.h:1372:34: note: expanded from macro 'CLK_OF_DECLARE'
+           OF_DECLARE_1(clk, name, compat, name##_of_clk_init_declare)
+                                           ^
+   <scratch space>:134:3: note: expanded from here
+   98dx1135_clk_of_clk_init_declare
+     ^
+   4 errors generated.
 
 
-在 2023/3/9 下午2:09, Krzysztof Kozlowski 写道:
-> On 09/03/2023 04:18, zhuyinbo wrote:
->> 在 2023/3/9 上午10:58, zhuyinbo 写道:
->>> 在 2023/3/8 下午8:16, kernel test robot 写道:
->>>> Hi Yinbo,
->>>>
->>>> I love your patch! Yet something to improve:
->>>>
->>>> [auto build test ERROR on clk/clk-next]
->>>> [also build test ERROR on robh/for-next linus/master v6.3-rc1
->>>> next-20230308]
->>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>>> And when submitting patch, we suggest to use '--base' as documented in
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url:
->>>> https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->>>> base: https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
->>>> clk-next
->>>> patch link:
->>>> https://lore.kernel.org/r/20230307115022.12846-2-zhuyinbo%40loongson.cn
->>>> patch subject: [PATCH v13 2/2] clk: clk-loongson2: add clock
->>>> controller driver support
->>>> config: mips-allyesconfig
->>>> (https://download.01.org/0day-ci/archive/20230308/202303082037.QPfBP64A-lkp@intel.com/config)
->>>> compiler: mips-linux-gcc (GCC) 12.1.0
->>>> reproduce (this is a W=1 build):
->>>>           wget
->>>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross
->>>> -O ~/bin/make.cross
->>>>           chmod +x ~/bin/make.cross
->>>>           #
->>>> https://github.com/intel-lab-lkp/linux/commit/391d6fc63ac65f5456e4755c9dd85232a6296285
->>>>           git remote add linux-review
->>>> https://github.com/intel-lab-lkp/linux
->>>>           git fetch --no-tags linux-review
->>>> Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
->>>>           git checkout 391d6fc63ac65f5456e4755c9dd85232a6296285
->>>>           # save the config file
->>>>           mkdir build_dir && cp config build_dir/.config
->>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
->>>> make.cross W=1 O=build_dir ARCH=mips olddefconfig
->>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0
->>>> make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
->>>>
->>>> If you fix the issue, kindly add following tag where applicable
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Link:
->>>> https://lore.kernel.org/oe-kbuild-all/202303082037.QPfBP64A-lkp@intel.com/
->>>>
->>>> All errors (new ones prefixed by >>):
->>>>
->>>>      drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
->>>>>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of
->>>>>> function 'readq'; did you mean 'readl'?
->>>>>> [-Werror=implicit-function-declaration]
->>>>         79 |         val = readq(loongson2_pll_base + offset);
->>>>            |               ^~~~~
->>>>            |               readl
->>>>      cc1: some warnings being treated as errors
->>> The CONFIG_64BIT not enabled in your config file, I will add a depend
->>> on "CONFIG_64BIT" in my clock driver to fix this compile error.
->> My clock is for LoongArch platform, The LOONGARCH had select
->> "CONFIG_64BIT", I will add a depend on "LOONGARCH" in my clock driver to
->> fix this compile error.
-> No. Fix your code instead.
+vim +358 drivers/clk/mvebu/kirkwood.c
 
-but the readq that ask CONFIG_64BIT is enabled,  definition in 
-include/asm-generic/io.h
+e8e8a9b0d86c09 Mike Turquette        2014-08-27  333  
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  334  static void __init kirkwood_clk_init(struct device_node *np)
+e89406c957459a Sebastian Hesselbarth 2013-05-11  335  {
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  336  	struct device_node *cgnp =
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  337  		of_find_compatible_node(NULL, NULL, "marvell,kirkwood-gating-clock");
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  338  
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  339  
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  340  	if (of_device_is_compatible(np, "marvell,mv88f6180-core-clock"))
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  341  		mvebu_coreclk_setup(np, &mv88f6180_coreclks);
+88aa7af9c18038 Chris Packham         2019-06-18  342  	else if (of_device_is_compatible(np, "marvell,mv98dx1135-core-clock"))
+88aa7af9c18038 Chris Packham         2019-06-18  343  		mvebu_coreclk_setup(np, &mv98dx1135_coreclks);
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  344  	else
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  345  		mvebu_coreclk_setup(np, &kirkwood_coreclks);
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  346  
+105299381d8720 Mike Turquette        2014-08-18  347  	if (cgnp) {
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  348  		mvebu_clk_gating_setup(cgnp, kirkwood_gating_desc);
+105299381d8720 Mike Turquette        2014-08-18  349  		kirkwood_clk_muxing_setup(cgnp, kirkwood_mux_desc);
+e7beeab9c61591 Yangtao Li            2018-12-26  350  
+e7beeab9c61591 Yangtao Li            2018-12-26  351  		of_node_put(cgnp);
+105299381d8720 Mike Turquette        2014-08-18  352  	}
+e89406c957459a Sebastian Hesselbarth 2013-05-11  353  }
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  354  CLK_OF_DECLARE(kirkwood_clk, "marvell,kirkwood-core-clock",
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  355  	       kirkwood_clk_init);
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  356  CLK_OF_DECLARE(mv88f6180_clk, "marvell,mv88f6180-core-clock",
+58d516ae95cbf7 Sebastian Hesselbarth 2014-01-25  357  	       kirkwood_clk_init);
+88aa7af9c18038 Chris Packham         2019-06-18 @358  CLK_OF_DECLARE(98dx1135_clk, "marvell,mv98dx1135-core-clock",
 
-so need enable CONFIG_64BIT for my clk driver.
+:::::: The code at line 358 was first introduced by commit
+:::::: 88aa7af9c180381d9612ebbb5c8b0b3f96514373 clk: kirkwood: Add support for MV98DX1135
 
+:::::: TO: Chris Packham <chris.packham@alliedtelesis.co.nz>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
-#ifdef CONFIG_64BIT
-#ifndef readq
-#define readq readq
-static inline u64 readq(const volatile void __iomem *addr)
-{
-         u64 val;
-
-         __io_br();
-         val = __le64_to_cpu(__raw_readq(addr));
-         __io_ar();
-         return val;
-}
-#endif
-#endif /* CONFIG_64BIT */
-
->
-> Best regards,
-> Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
