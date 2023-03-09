@@ -1,44 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC6A2F2E;
-	Thu,  9 Mar 2023 08:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292152F2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678351159; x=1709887159;
+  t=1678351231; x=1709887231;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cbf1Ncl8p0ehmjqS5+NU7ep1xq2VRI4mxQ3NB8kFqsI=;
-  b=Wfwt6lKxxyfmr8+Iz/J2xCzASNHSLKnw1XptWWhaBUnJY/rHF3yssfki
-   9f4XgqRzI/Q+J76+f/iOK+obzEye4kPTPZu5304XXdNL5fVxKC5KABzAZ
-   LJWPe6sqeQhX+UcPvnmaDTO/8spxUmNryAK+QM8I5EHzIEu1+fPdvCEub
-   lOcra2OfFictZSE230/fOVCzmJD09wwIBc0Dyn86DI4GQ+X63la35btkz
-   NWXuM4XWrNdnJ6/k4LR76HXtcHItqez1w7SX9pG2WXOGFI8Si8Bi0OiZT
-   NeiWA3xay61bR5HxPSnIFZtyqDDL9AkrYojOYYMtigFrYg8e40SQW1Ir3
+  bh=G5dU4hHATFfv7G2/A3JDJPT5blZGxoer2PPC5vaPk28=;
+  b=F7sDRGqzRU1G6ypv4Q+T0j47VyH++JH5wkKwhzj+Vz0Jg0LMfmQRTLUs
+   u786UA3OcXZml9aDBm+AlkOXeasnoqs3UODBklsrRKadUCaz5SUwXhoIn
+   6YgBL3204LDfo4hTj4jZWSGcqgH/vtfT1GpVUdEjO4hquxHIlcEpWMjON
+   IqSP3SAqfJFFZL/gv3GRMe8iOBGVoVLcIKPyZKdisFCpKOVfTPeyn1gaa
+   OEnNRw6TOHnxvgxMZzKO+2fQ0ISAvhDPeBXsHprrKQIV1UaGHkdkuG/km
+   lRVRrGhfEjCtXc8wxRgZf8owG2ffxNq+sRDSF79+WOvRcRCWUpspMl6zp
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="335094316"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="422661722"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="335094316"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:39:18 -0800
+   d="scan'208";a="422661722"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:40:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766345406"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746235109"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="766345406"
+   d="scan'208";a="746235109"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2023 00:39:17 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 00:40:17 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paBnw-0002oL-18;
-	Thu, 09 Mar 2023 08:39:16 +0000
-Date: Thu, 9 Mar 2023 16:39:15 +0800
+	id 1paBou-0002oS-1W;
+	Thu, 09 Mar 2023 08:40:16 +0000
+Date: Thu, 9 Mar 2023 16:39:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Burkov <boris@bur.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] btrfs: fix dio continue after short write due to
- buffer page fault
-Message-ID: <202303091632.k53VZjyD-lkp@intel.com>
-References: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
+To: James Clark <james.clark@arm.com>, coresight@lists.linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, James Clark <james.clark@arm.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/8] coresight: Fix CTI module refcount leak by making it
+ a helper device
+Message-ID: <202303091610.lmXasuRR-lkp@intel.com>
+References: <20230308173904.3449231-9-james.clark@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,97 +52,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris@bur.io>
+In-Reply-To: <20230308173904.3449231-9-james.clark@arm.com>
 
-Hi Boris,
+Hi James,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.3-rc1 next-20230309]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc1 next-20230309]
+[cannot apply to atorgue-stm32/stm32-next soc/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/6733f2fac24b674d9f60dc1093de30513c099629.1678212067.git.boris%40bur.io
-patch subject: [PATCH v3] btrfs: fix dio continue after short write due to buffer page fault
-config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230309/202303091632.k53VZjyD-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
+patch link:    https://lore.kernel.org/r/20230308173904.3449231-9-james.clark%40arm.com
+patch subject: [PATCH 8/8] coresight: Fix CTI module refcount leak by making it a helper device
+config: arm-randconfig-r005-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091610.lmXasuRR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/938364315c6a1c0055382359a2d94d4d069a273c
+        # https://github.com/intel-lab-lkp/linux/commit/f9e928551717a3c3c97e8264ed48a11a27d1667d
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Boris-Burkov/btrfs-fix-dio-continue-after-short-write-due-to-buffer-page-fault/20230308-044956
-        git checkout 938364315c6a1c0055382359a2d94d4d069a273c
+        git fetch --no-tags linux-review James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
+        git checkout f9e928551717a3c3c97e8264ed48a11a27d1667d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091632.k53VZjyD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091610.lmXasuRR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/btrfs/inode.c:7001:12: error: implicit declaration of function 'btrfs_alloc_ordered_extent' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-                     ^
->> fs/btrfs/inode.c:7001:10: warning: incompatible integer to pointer conversion assigning to 'struct btrfs_ordered_extent *' from 'int' [-Wint-conversion]
-           ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+>> drivers/hwtracing/coresight/coresight-cti-core.c:586:26: warning: no previous prototype for 'cti__get_cti_device' [-Wmissing-prototypes]
+     586 | struct coresight_device *cti__get_cti_device(struct coresight_device *csdev)
+         |                          ^~~~~~~~~~~~~~~~~~~
 
 
-vim +7001 fs/btrfs/inode.c
+vim +/cti__get_cti_device +586 drivers/hwtracing/coresight/coresight-cti-core.c
 
-  6978	
-  6979	static struct extent_map *btrfs_create_dio_extent(struct btrfs_inode *inode,
-  6980							  struct btrfs_dio_data *dio_data,
-  6981							  const u64 start,
-  6982							  const u64 len,
-  6983							  const u64 orig_start,
-  6984							  const u64 block_start,
-  6985							  const u64 block_len,
-  6986							  const u64 orig_block_len,
-  6987							  const u64 ram_bytes,
-  6988							  const int type)
-  6989	{
-  6990		struct extent_map *em = NULL;
-  6991		struct btrfs_ordered_extent *ordered;
-  6992	
-  6993		if (type != BTRFS_ORDERED_NOCOW) {
-  6994			em = create_io_em(inode, start, len, orig_start, block_start,
-  6995					  block_len, orig_block_len, ram_bytes,
-  6996					  BTRFS_COMPRESS_NONE, /* compress_type */
-  6997					  type);
-  6998			if (IS_ERR(em))
-  6999				goto out;
-  7000		}
-> 7001		ordered = btrfs_alloc_ordered_extent(inode, start, len, len,
-  7002						     block_start, block_len, 0,
-  7003						     (1 << type) |
-  7004						     (1 << BTRFS_ORDERED_DIRECT),
-  7005						     BTRFS_COMPRESS_NONE);
-  7006		if (IS_ERR(ordered)) {
-  7007			if (em) {
-  7008				free_extent_map(em);
-  7009				btrfs_drop_extent_map_range(inode, start,
-  7010							    start + len - 1, false);
-  7011			}
-  7012			em = ERR_PTR(PTR_ERR(ordered));
-  7013		} else {
-  7014			ASSERT(!dio_data->ordered);
-  7015			dio_data->ordered = ordered;
-  7016		}
-  7017	 out:
-  7018	
-  7019		return em;
-  7020	}
-  7021	
+   585	
+ > 586	struct coresight_device *cti__get_cti_device(struct coresight_device *csdev)
+   587	{
+   588		int i;
+   589		struct coresight_device *tmp;
+   590	
+   591		for (i = 0; i < csdev->pdata->nr_outconns; i++) {
+   592			tmp = csdev->pdata->out_conns[i].child_dev;
+   593	
+   594			if (tmp && tmp->type == CORESIGHT_DEV_TYPE_HELPER &&
+   595			    tmp->subtype.helper_subtype ==
+   596				    CORESIGHT_DEV_SUBTYPE_HELPER_ECT_CTI)
+   597				return tmp;
+   598		}
+   599		return NULL;
+   600	}
+   601	
 
 -- 
 0-DAY CI Kernel Test Service
