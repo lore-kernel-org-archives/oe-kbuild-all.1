@@ -1,49 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811E829B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509332F36
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:29:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678349959; x=1709885959;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LxitaPLDKDiwktycQFO+JpurANiChLYy613O1BTD8w8=;
-  b=YVG2HiwceAVGW1PpW8gSuKq1SZWLYR0HLu7+3D48NnTh0qZg1Pkep6o2
-   G5uD4HQyN3G7j5TdJ2vgo+w+8lDhbqSPAEF8tcVDkLaqskb263/7CB0SC
-   OMM8FcSdGLbHuzUSD64l+sX+ACd7ThQhi9KuB+qpK3H6SRwCHN4Ki39Z/
-   JEBp3kzeIRwX2JuQEFLbYu8fKyT7e6ywOCZZSF/SZrn+bC6xOGScc0FKq
-   6a8zPny2wQZiKBpsEBZbr5kNbJvRNYh4cfGWiV3HIHfv4EcIsWyiktnOL
-   eOznPtE2YXsEPjxf1gcNcxTwdI6BqBc1cz5qaaZmiwgLvpSFD/QybOigO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324707097"
+  t=1678350558; x=1709886558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3sAqvuE3e36iVtqO7mpMJHlwYEU6KHFttY94Oj74Sj4=;
+  b=e7WtvEz+mbdZ7Nh9unm85y3wM32vIp22PM+oLyXzGSTV4m+RlvpB2CTC
+   atDuBku+4HbmZitjRFBNqxpdFihy6t78pjf0phEdyyahF/jIwRSkNmX1t
+   etqDYojjTVZ7BV4UI+fou8OyIifq4WNwpWe2A0pVVf+oF408Bipr4nZOH
+   06ehi4Bil/F4G0YT6HmYg+lsEoXlwS7IqU5qA6yszxIYZoKBouOu0Mv8K
+   junudDCQQQgaJnpwOvaavT1bexzuCtbo3ttynA9iC0UNc3+dN6y3BMgeu
+   5OlF3Q0O5EXhWGW0Gh3cqwaqz4YX6ol1KkJZaxaztSKBb/ZwIKtnMW7Af
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="333857804"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="324707097"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:19:18 -0800
+   d="scan'208";a="333857804"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:29:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627267779"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746232563"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="627267779"
+   d="scan'208";a="746232563"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 00:19:16 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 00:29:16 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paBUZ-0002ms-1T;
-	Thu, 09 Mar 2023 08:19:15 +0000
-Date: Thu, 9 Mar 2023 16:18:20 +0800
+	id 1paBeG-0002np-09;
+	Thu, 09 Mar 2023 08:29:16 +0000
+Date: Thu, 9 Mar 2023 16:28:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Clark <james.clark@arm.com>, coresight@lists.linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, James Clark <james.clark@arm.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/8] coresight: Refactor out buffer allocation function
- for ETR
-Message-ID: <202303091603.UuxHblt7-lkp@intel.com>
-References: <20230308173904.3449231-7-james.clark@arm.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:parallel-6.2-rc8-v12bis 12/12]
+ arch/x86/kernel/smpboot.c:1550:76: error: 'sev_es_enable_key' undeclared
+Message-ID: <202303091621.mjGSLJz6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,114 +45,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308173904.3449231-7-james.clark@arm.com>
 
-Hi James,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc1 next-20230309]
-[cannot apply to atorgue-stm32/stm32-next soc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
-patch link:    https://lore.kernel.org/r/20230308173904.3449231-7-james.clark%40arm.com
-patch subject: [PATCH 6/8] coresight: Refactor out buffer allocation function for ETR
-config: arm-randconfig-r046-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091603.UuxHblt7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-rc8-v12bis
+head:   8a53f16b29065ddbde40a73415dae32d2f4c82e5
+commit: 8a53f16b29065ddbde40a73415dae32d2f4c82e5 [12/12] x86/smpboot: Allow parallel bringup for SEV-ES
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230309/202303091621.mjGSLJz6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3651e0e04e2a01c3cbcb4a4e9289092f2377dc13
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
-        git checkout 3651e0e04e2a01c3cbcb4a4e9289092f2377dc13
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 parallel-6.2-rc8-v12bis
+        git checkout 8a53f16b29065ddbde40a73415dae32d2f4c82e5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091603.UuxHblt7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091621.mjGSLJz6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/coresight/coresight-tmc-etr.c: In function 'tmc_etr_get_sysfs_buffer':
->> drivers/hwtracing/coresight/coresight-tmc-etr.c:1174:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    1174 |         int ret = 0;
-         |             ^~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from arch/x86/kernel/smpboot.c:42:
+   arch/x86/kernel/smpboot.c: In function 'prepare_parallel_bringup':
+>> arch/x86/kernel/smpboot.c:1550:76: error: 'sev_es_enable_key' undeclared (first use in this function)
+    1550 |                 if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+         |                                                                            ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/jump_label.h:509:41: note: in expansion of macro 'unlikely_notrace'
+     509 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:509:58: note: in expansion of macro 'static_key_enabled'
+     509 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
+         |                                                          ^~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/smpboot.c:1550:52: note: in expansion of macro 'static_branch_unlikely'
+    1550 |                 if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/smpboot.c:1550:76: note: each undeclared identifier is reported only once for each function it appears in
+    1550 |                 if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+         |                                                                            ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/jump_label.h:509:41: note: in expansion of macro 'unlikely_notrace'
+     509 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:509:58: note: in expansion of macro 'static_key_enabled'
+     509 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
+         |                                                          ^~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/smpboot.c:1550:52: note: in expansion of macro 'static_branch_unlikely'
+    1550 |                 if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +1174 drivers/hwtracing/coresight/coresight-tmc-etr.c
+vim +/sev_es_enable_key +1550 arch/x86/kernel/smpboot.c
 
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1171  
-3651e0e04e2a01 James Clark      2023-03-08  1172  static struct etr_buf *tmc_etr_get_sysfs_buffer(struct coresight_device *csdev)
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1173  {
-de5461970b3e9e Mathieu Poirier  2016-05-03 @1174  	int ret = 0;
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1175  	unsigned long flags;
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1176  	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1177  	struct etr_buf *sysfs_buf = NULL, *new_buf = NULL, *free_buf = NULL;
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1178  
-de5461970b3e9e Mathieu Poirier  2016-05-03  1179  	/*
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1180  	 * If we are enabling the ETR from disabled state, we need to make
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1181  	 * sure we have a buffer with the right size. The etr_buf is not reset
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1182  	 * immediately after we stop the tracing in SYSFS mode as we wait for
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1183  	 * the user to collect the data. We may be able to reuse the existing
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1184  	 * buffer, provided the size matches. Any allocation has to be done
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1185  	 * with the lock released.
-de5461970b3e9e Mathieu Poirier  2016-05-03  1186  	 */
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1187  	spin_lock_irqsave(&drvdata->spinlock, flags);
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1188  	sysfs_buf = READ_ONCE(drvdata->sysfs_buf);
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1189  	if (!sysfs_buf || (sysfs_buf->size != drvdata->size)) {
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1190  		spin_unlock_irqrestore(&drvdata->spinlock, flags);
-de5461970b3e9e Mathieu Poirier  2016-05-03  1191  
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1192  		/* Allocate memory with the locks released */
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1193  		free_buf = new_buf = tmc_etr_setup_sysfs_buf(drvdata);
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1194  		if (IS_ERR(new_buf))
-3651e0e04e2a01 James Clark      2023-03-08  1195  			return new_buf;
-de5461970b3e9e Mathieu Poirier  2016-05-03  1196  
-de5461970b3e9e Mathieu Poirier  2016-05-03  1197  		/* Let's try again */
-de5461970b3e9e Mathieu Poirier  2016-05-03  1198  		spin_lock_irqsave(&drvdata->spinlock, flags);
-de5461970b3e9e Mathieu Poirier  2016-05-03  1199  	}
-de5461970b3e9e Mathieu Poirier  2016-05-03  1200  
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1201  	if (drvdata->reading || drvdata->mode == CS_MODE_PERF) {
-de5461970b3e9e Mathieu Poirier  2016-05-03  1202  		ret = -EBUSY;
-de5461970b3e9e Mathieu Poirier  2016-05-03  1203  		goto out;
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1204  	}
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1205  
-f2facc3366d77e Mathieu Poirier  2016-05-03  1206  	/*
-f2facc3366d77e Mathieu Poirier  2016-05-03  1207  	 * In sysFS mode we can have multiple writers per sink.  Since this
-f2facc3366d77e Mathieu Poirier  2016-05-03  1208  	 * sink is already enabled no memory is needed and the HW need not be
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1209  	 * touched, even if the buffer size has changed.
-f2facc3366d77e Mathieu Poirier  2016-05-03  1210  	 */
-f973d88b757037 Mathieu Poirier  2019-04-25  1211  	if (drvdata->mode == CS_MODE_SYSFS) {
-f973d88b757037 Mathieu Poirier  2019-04-25  1212  		atomic_inc(csdev->refcnt);
-f2facc3366d77e Mathieu Poirier  2016-05-03  1213  		goto out;
-f973d88b757037 Mathieu Poirier  2019-04-25  1214  	}
-f2facc3366d77e Mathieu Poirier  2016-05-03  1215  
-de5461970b3e9e Mathieu Poirier  2016-05-03  1216  	/*
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1217  	 * If we don't have a buffer or it doesn't match the requested size,
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1218  	 * use the buffer allocated above. Otherwise reuse the existing buffer.
-de5461970b3e9e Mathieu Poirier  2016-05-03  1219  	 */
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1220  	sysfs_buf = READ_ONCE(drvdata->sysfs_buf);
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1221  	if (!sysfs_buf || (new_buf && sysfs_buf->size != new_buf->size)) {
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1222  		free_buf = sysfs_buf;
-96a7f644006ecc Suzuki K Poulose 2018-09-20  1223  		drvdata->sysfs_buf = new_buf;
-de5461970b3e9e Mathieu Poirier  2016-05-03  1224  	}
-de5461970b3e9e Mathieu Poirier  2016-05-03  1225  
-de5461970b3e9e Mathieu Poirier  2016-05-03  1226  out:
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1227  	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-6c6ed1e244c053 Mathieu Poirier  2016-05-03  1228  
-de5461970b3e9e Mathieu Poirier  2016-05-03  1229  	/* Free memory outside the spinlock if need be */
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1230  	if (free_buf)
-75f4e3619fe202 Suzuki K Poulose 2018-07-11  1231  		tmc_etr_free_sysfs_buf(free_buf);
-3651e0e04e2a01 James Clark      2023-03-08  1232  	return drvdata->sysfs_buf;
-3651e0e04e2a01 James Clark      2023-03-08  1233  }
-3651e0e04e2a01 James Clark      2023-03-08  1234  
+  1512	
+  1513	
+  1514	/*
+  1515	 * We can do 64-bit AP bringup in parallel if the CPU reports its APIC
+  1516	 * ID in CPUID (either leaf 0x0B if we need the full APIC ID in X2APIC
+  1517	 * mode, or leaf 0x01 if 8 bits are sufficient). Otherwise it's too
+  1518	 * hard. And not for SEV-ES guests because they can't use CPUID that
+  1519	 * early.
+  1520	 */
+  1521	static bool __init prepare_parallel_bringup(void)
+  1522	{
+  1523		if (IS_ENABLED(CONFIG_X86_32) || boot_cpu_data.cpuid_level < 1)
+  1524			return false;
+  1525	
+  1526		if (x2apic_mode) {
+  1527			unsigned int eax, ebx, ecx, edx;
+  1528	
+  1529			if (boot_cpu_data.cpuid_level < 0xb)
+  1530				return false;
+  1531	
+  1532			/*
+  1533			 * To support parallel bringup in x2apic mode, the AP will need
+  1534			 * to obtain its APIC ID from CPUID 0x0B, since CPUID 0x01 has
+  1535			 * only 8 bits. Check that it is present and seems correct.
+  1536			 */
+  1537			cpuid_count(0xb, 0, &eax, &ebx, &ecx, &edx);
+  1538	
+  1539			/*
+  1540			 * AMD says that if executed with an umimplemented level in
+  1541			 * ECX, then it will return all zeroes in EAX. Intel says it
+  1542			 * will return zeroes in both EAX and EBX. Checking only EAX
+  1543			 * should be sufficient.
+  1544			 */
+  1545			if (!eax) {
+  1546				pr_info("Disabling parallel bringup because CPUID 0xb looks untrustworthy\n");
+  1547				return false;
+  1548			}
+  1549	
+> 1550			if (IS_ENABLED(AMD_MEM_ENCRYPT) && static_branch_unlikely(&sev_es_enable_key)) {
+  1551				pr_debug("Using SEV-ES CPUID 0xb for parallel CPU startup\n");
+  1552				smpboot_control = STARTUP_APICID_SEV_ES;
+  1553			} else if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT)) {
+  1554				/*
+  1555				 * Other forms of memory encryption need to implement a way of
+  1556				 * finding the APs' APIC IDs that early.
+  1557				 */
+  1558				return false;
+  1559			} else {
+  1560				pr_debug("Using CPUID 0xb for parallel CPU startup\n");
+  1561				smpboot_control = STARTUP_APICID_CPUID_0B;
+  1562			}
+  1563		} else {
+  1564			if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT))
+  1565				return false;
+  1566	
+  1567			/* Without X2APIC, what's in CPUID 0x01 should suffice. */
+  1568			pr_debug("Using CPUID 0x1 for parallel CPU startup\n");
+  1569			smpboot_control = STARTUP_APICID_CPUID_01;
+  1570		}
+  1571	
+  1572		cpuhp_setup_state_nocalls(CPUHP_BP_PARALLEL_DYN, "x86/cpu:kick",
+  1573					  native_cpu_kick, NULL);
+  1574	
+  1575		return true;
+  1576	}
+  1577	
 
 -- 
 0-DAY CI Kernel Test Service
