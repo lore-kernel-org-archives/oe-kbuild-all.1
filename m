@@ -1,240 +1,97 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6822F28;
-	Thu,  9 Mar 2023 12:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5C79473
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 13:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678366647; x=1709902647;
+  t=1678369107; x=1709905107;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gAO/ZmU8eXx/vsxehuSBxuIdT/XE5J+bjSt1rwDfgxs=;
-  b=gvDUn+t7Vv9uOcvUEk908xLu5XfbBTNlcZIwRfDqUxZncCcALftEAZa/
-   rDwAnA1cTYby8Fzwhj+i3W7FJyN7G5r8HNnrNuPxBekq5ZhV2LaaxTeQ3
-   N7rl287oV1GEJ3evvrhdZAhggTYwwEiCA/z7lH4iWAIFWKEX+FR1pcC6D
-   sqjOwLStCzg3PLteCcUFG4HGn6xlpjJ3393twMYXxcD+sVavLUwXHcq+g
-   bL9ko4mV1iy8UfDnucgd2TgSR0GBNdp7otJPDp5rx8qS8JAJeMf0j31zE
-   jGUImNH+06LLySquovLpIQBir6eVwjVR/5g8vnbE93ULARKnLymBvPNMP
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4RmdgUoJXdLX6iac0D3Xsj342eGCUFQO36LBQvJy4VY=;
+  b=SkLRhQWmJIt+bizqS+7q63WJBNu6fI7GprOyolwEKUceygvYRzUfCp1z
+   hrhlI1dG8Y3haezFLm3xV2m/NyOnHrZS2HfjkNbmez+EV/qwIEprojqeM
+   P71HEIUm5/FfKNcu47zOss8z34kyatTuDQlWVTGc1C6saK9yn3BVPUodO
+   2M+T4QaqdVpEoYTWy7lxrWETMY5WaY7xNCyrybtJUmf85tZ6wDVgp1kH6
+   kTudVuFtI6pd4a58Tm9e6WcCzFoTUQDxM6QloLp+Dzcdm51jd55N9/8vm
+   D4cAR09e8NVZgxLVrDLzwqJjKTzLWtNE0mFZTxY+2zLgYAHMO2Eu8RPAX
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="399012922"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337971808"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="399012922"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:57:27 -0800
+   d="scan'208";a="337971808"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 05:38:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709835799"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="677374573"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="709835799"
+   d="scan'208";a="677374573"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Mar 2023 04:57:25 -0800
+  by orsmga002.jf.intel.com with ESMTP; 09 Mar 2023 05:38:25 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paFpk-0002xN-0z;
-	Thu, 09 Mar 2023 12:57:24 +0000
-Date: Thu, 9 Mar 2023 20:56:43 +0800
+	id 1paGTR-0002yr-0e;
+	Thu, 09 Mar 2023 13:38:25 +0000
+Date: Thu, 9 Mar 2023 21:37:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
- voltage levels
-Message-ID: <202303092028.R5gxePOb-lkp@intel.com>
-References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
+To: =?iso-8859-1?Q?Lu=EDs?= Henriques <lhenriques@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] fscrypt: new helper function -
+ __fscrypt_prepare_atomic_open()
+Message-ID: <202303092108.lUCfozm1-lkp@intel.com>
+References: <20230309121910.18939-2-lhenriques@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230309121910.18939-2-lhenriques@suse.de>
 
-Hi Geert,
+Hi Luís,
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
-[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on ceph-client/testing]
+[also build test ERROR on ceph-client/for-linus linus/master v6.3-rc1 next-20230309]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
-config: s390-buildonly-randconfig-r003-20230308 (https://download.01.org/0day-ci/archive/20230309/202303092028.R5gxePOb-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lu-s-Henriques/fscrypt-new-helper-function-__fscrypt_prepare_atomic_open/20230309-202021
+base:   https://github.com/ceph/ceph-client.git testing
+patch link:    https://lore.kernel.org/r/20230309121910.18939-2-lhenriques%40suse.de
+patch subject: [RFC PATCH 1/2] fscrypt: new helper function - __fscrypt_prepare_atomic_open()
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230309/202303092108.lUCfozm1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
+        # https://github.com/intel-lab-lkp/linux/commit/bc0e93e713bcb2b95af1bcb4ac369a7fe3a72863
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
-        git checkout 513932515f943c5987c5a214520f6875cd507c3e
+        git fetch --no-tags linux-review Lu-s-Henriques/fscrypt-new-helper-function-__fscrypt_prepare_atomic_open/20230309-202021
+        git checkout bc0e93e713bcb2b95af1bcb4ac369a7fe3a72863
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303092028.R5gxePOb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303092108.lUCfozm1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-           PINMUX_GPIO_GP_ALL(),
-           ^
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
->> drivers/pinctrl/renesas/pfc-r8a77950.c:1502:2: error: use of undeclared identifier 'SH_PFC_PIN_CFG_IO_VOLTAGE'
-   drivers/pinctrl/renesas/sh_pfc.h:622:31: note: expanded from macro 'PINMUX_GPIO_GP_ALL'
-   #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-                                           ^
-   drivers/pinctrl/renesas/pfc-r8a77950.c:24:41: note: expanded from macro 'CPU_ALL_GP'
-           PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-                                                  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-
-
-vim +/SH_PFC_PIN_CFG_IO_VOLTAGE +1502 drivers/pinctrl/renesas/pfc-r8a77950.c
-
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  1500  
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  1501  static const struct sh_pfc_pin pinmux_pins[] = {
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03 @1502  	PINMUX_GPIO_GP_ALL(),
-4f062bcb588972 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-01-15  1503  	PINMUX_NOGP_ALL(),
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  1504  };
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  1505  
+   In file included from fs/super.c:34:
+>> include/linux/fscrypt.h:692:5: warning: no previous prototype for '__fscrypt_prepare_atomic_open' [-Wmissing-prototypes]
+     692 | int __fscrypt_prepare_atomic_open(struct inode *dir, struct dentry *dentry)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   ld: fs/ioctl.o: in function `__fscrypt_prepare_atomic_open':
+>> ioctl.c:(.text+0x10a): multiple definition of `__fscrypt_prepare_atomic_open'; fs/super.o:super.c:(.text+0x461): first defined here
+   ld: fs/dcache.o: in function `__fscrypt_prepare_atomic_open':
+   dcache.c:(.text+0x897): multiple definition of `__fscrypt_prepare_atomic_open'; fs/super.o:super.c:(.text+0x461): first defined here
+   ld: fs/libfs.o: in function `__fscrypt_prepare_atomic_open':
+   libfs.c:(.text+0x782): multiple definition of `__fscrypt_prepare_atomic_open'; fs/super.o:super.c:(.text+0x461): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
