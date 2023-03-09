@@ -1,45 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795C5C284
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 19:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50626C284
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 19:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678389521; x=1709925521;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2m7SZJAfJ+zpSO945uFPu0QLmUbls4CYTDjZ+adSxuY=;
-  b=nBP7J+cMICaolRCbnetswaYNdCfIWCtBT2X0pllTtPyNXpnrsvrFxDlO
-   zfdvLUi8PdAUX4b7djREGrGn6p/wvHzWwNSUnUGeNL7gKkMZVTGEMFtFq
-   RJ19vtIrquX7ORL0CXqqG4nD9hsI7vlAouiWoSLWWdHiPr1jclGzE4qyx
-   pOyGMR7bWCm+B/MrN20+g4kO5JQXgyzwd5coXDKAgOBvbdflrTLDVc1nP
-   xaemMNhcT8RoCmu6PGggCdYGsQaF+3//wSpZ25fWq8vQjO+hY0djZD/pi
-   YvSqVQf3mTJcJPpsh7w9TR7b+GuRnQrDCSklrUQo4FBab63cZ6tXlPzwO
+  t=1678390124; x=1709926124;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RiX3I5rjIa2fi2G9lRM4CW/77TS0GdEZn8DowlHJz0o=;
+  b=RSsWkr2FddnoXV5eIbZ0fpRMvZOVLQRcj8Grwhy5WwB8KVqh++ABQwdV
+   e4x1VE4//+JsP0UFlxooee9yNH0E7ITfSIizAZ4INywqY/SyYsBrfOUgp
+   EApJy7FFUR65R4iwCSw8SrCJO+7hmuH6WXAF7taWjzgXPFda1UmpsUI7C
+   WLmcFCX4TQOh6yWJHf/uRi4IaZB5RU86AKu8XdsravU8WPdUxNfMJeBqF
+   zfss+exX+W0kpYeObeQKqB+U3BrefA3P9yUMI6Bd7MT+9JsnXi1u3bKwY
+   4bnoOwBtfRZ7Q7Z/R4tR075NJIx7RgeHtJv+v0xcwAB5fziESqnqUUL7V
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="422814028"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="324893736"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="422814028"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 11:18:39 -0800
+   d="scan'208";a="324893736"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 11:17:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="820743546"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="654884921"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="820743546"
+   d="scan'208";a="654884921"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2023 11:18:38 -0800
+  by orsmga006.jf.intel.com with ESMTP; 09 Mar 2023 11:17:38 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paLmf-0003AZ-1k;
-	Thu, 09 Mar 2023 19:18:37 +0000
-Date: Fri, 10 Mar 2023 03:18:26 +0800
+	id 1paLlh-0003AN-1P;
+	Thu, 09 Mar 2023 19:17:37 +0000
+Date: Fri, 10 Mar 2023 03:16:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+296 bytes kernel size regression] [i386-tinyconfig]
- [8753875763] printk: Bring back the RT bits.
-Message-ID: <640a3102.vilihN4K2Vp0davt%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To: John Ogness <john.ogness@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [rt-devel:linux-6.3.y-rt-rebase 15/47]
+ kernel/printk/printk.c:3341:13: warning: variable 'index' set but not used
+Message-ID: <202303100327.IbeLrGlf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,40 +45,57 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.3.y-rt-rebase
+head:   c0ca8b79d21d0c9a1ac7ed0ebebb5588804ba825
+commit: 8bc429d558376b052de3bb766a424033d39e443b [15/47] serial: 8250: implement write_atomic
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230310/202303100327.IbeLrGlf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=8bc429d558376b052de3bb766a424033d39e443b
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-6.3.y-rt-rebase
+        git checkout 8bc429d558376b052de3bb766a424033d39e443b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash kernel/printk/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303100327.IbeLrGlf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/printk/printk.c: In function 'atomic_console_flush_all':
+>> kernel/printk/printk.c:3341:13: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+    3341 |         int index = 0;
+         |             ^~~~~
 
 
-FYI, we noticed a +296 bytes kernel size regression due to commit:
+vim +/index +3341 kernel/printk/printk.c
 
-commit: 875387576398cac3c3b7e1bfce5013004d9f21c1 (printk: Bring back the RT bits.)
-https://git.kernel.org/cgit/linux/kernel/git/rt/linux-rt-devel.git linux-6.3.y-rt-rebase
+f7ffa0536cb17da John Ogness 2022-02-04  3335  
+f7ffa0536cb17da John Ogness 2022-02-04  3336  static void atomic_console_flush_all(void)
+f7ffa0536cb17da John Ogness 2022-02-04  3337  {
+f7ffa0536cb17da John Ogness 2022-02-04  3338  	unsigned long flags;
+f7ffa0536cb17da John Ogness 2022-02-04  3339  	struct console *con;
+f7ffa0536cb17da John Ogness 2022-02-04  3340  	bool any_progress;
+f7ffa0536cb17da John Ogness 2022-02-04 @3341  	int index = 0;
+f7ffa0536cb17da John Ogness 2022-02-04  3342  
+f7ffa0536cb17da John Ogness 2022-02-04  3343  	if (console_suspended)
+f7ffa0536cb17da John Ogness 2022-02-04  3344  		return;
+f7ffa0536cb17da John Ogness 2022-02-04  3345  
 
+:::::: The code at line 3341 was first introduced by commit
+:::::: f7ffa0536cb17da9589ecda6513bfa0bd1fd1745 printk: add infrastucture for atomic consoles
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
+:::::: TO: John Ogness <john.ogness@linutronix.de>
+:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-85cd1bd2: preempt: Put preempt_enable() within an instrumentation*() section.
-87538757: printk: Bring back the RT bits.
-
-+--------------------------------+----------+----------+-------+
-|             symbol             | 85cd1bd2 | 87538757 | delta |
-+--------------------------------+----------+----------+-------+
-| bzImage                        | 501568   | 501728   | 160   |
-| nm.T.console_unlock            | 64       | 168      | 104   |
-| nm.T.console_lock              | 40       | 110      | 70    |
-| nm.t.printk_activate_kthreads  | 0        | 35       | 35    |
-| nm.T.register_console          | 533      | 567      | 34    |
-| nm.t.unregister_console_locked | 105      | 129      | 24    |
-| nm.T.is_console_locked         | 6        | 28       | 22    |
-| nm.T.console_unblank           | 122      | 131      | 9     |
-| nm.b.console_kthreads_active   | 0        | 4        | 4     |
-| nm.T.resume_console            | 32       | 35       | 3     |
-| nm.B.block_console_kthreads    | 0        | 1        | 1     |
-| nm.b.console_kthreads_blocked  | 0        | 1        | 1     |
-| nm.b.console_locked            | 4        | 0        | -4    |
-| nm.t.console_flush_all         | 129      | 122      | -7    |
-+--------------------------------+----------+----------+-------+
-
-
-
-Thanks
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
