@@ -1,43 +1,49 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5FF29B2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811E829B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678349959; x=1709885959;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EvUHVVVeLaDZbNWE1L2aX/TtA+n6Q1INv3oUvhLyHNY=;
-  b=D8/b/a6v4wfjtWCn9FY2WMTPqURMu4XCgeA039J15kXV5pXB7wcxBfX4
-   Riep/xBnvAyH4oRH69caUPe/2FbPwkrcryaTaruYisfE+G/DmNP4JBGrJ
-   SJiLtVsBINEKSD0BqpskraYoCTyEaRP63/a3tdq1C65FZ1xMEi6Cj0ceL
-   zNDHvI+aJfO24RCM5HmT6RT+GPeOQO0ZfA9NG5b4jOiDaH6zkv4nuSmFN
-   eL6kaUsm+b4z2MgGy2jxdr7N2Fmj8b3hfZR90MVcA7A1BV/wTiCl0HEQx
-   uv0AO8/Bh/M620MIXdg1rTBN7XTFzt6gar44YuraXevOwgYxssdfconYZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324707090"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LxitaPLDKDiwktycQFO+JpurANiChLYy613O1BTD8w8=;
+  b=YVG2HiwceAVGW1PpW8gSuKq1SZWLYR0HLu7+3D48NnTh0qZg1Pkep6o2
+   G5uD4HQyN3G7j5TdJ2vgo+w+8lDhbqSPAEF8tcVDkLaqskb263/7CB0SC
+   OMM8FcSdGLbHuzUSD64l+sX+ACd7ThQhi9KuB+qpK3H6SRwCHN4Ki39Z/
+   JEBp3kzeIRwX2JuQEFLbYu8fKyT7e6ywOCZZSF/SZrn+bC6xOGScc0FKq
+   6a8zPny2wQZiKBpsEBZbr5kNbJvRNYh4cfGWiV3HIHfv4EcIsWyiktnOL
+   eOznPtE2YXsEPjxf1gcNcxTwdI6BqBc1cz5qaaZmiwgLvpSFD/QybOigO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324707097"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="324707090"
+   d="scan'208";a="324707097"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:19:17 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:19:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627267788"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627267779"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="627267788"
+   d="scan'208";a="627267779"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 00:19:15 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 00:19:16 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paBUZ-0002mP-0n;
+	id 1paBUZ-0002ms-1T;
 	Thu, 09 Mar 2023 08:19:15 +0000
-Date: Thu, 9 Mar 2023 16:18:19 +0800
+Date: Thu, 9 Mar 2023 16:18:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:iommufd_nesting 9/39]
- drivers/iommu/iommufd/hw_pagetable.c:100:6: warning: variable 'rc' is used
- uninitialized whenever 'if' condition is true
-Message-ID: <202303091646.RZphKLED-lkp@intel.com>
+To: James Clark <james.clark@arm.com>, coresight@lists.linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, James Clark <james.clark@arm.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/8] coresight: Refactor out buffer allocation function
+ for ETR
+Message-ID: <202303091603.UuxHblt7-lkp@intel.com>
+References: <20230308173904.3449231-7-james.clark@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,166 +52,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230308173904.3449231-7-james.clark@arm.com>
 
-tree:   https://github.com/yiliu1765/iommufd.git iommufd_nesting
-head:   551f84400c686d776a22c80bf3d0de8c948c07c3
-commit: 8b22006bfeef44946dce05dcef9223d76c922f06 [9/39] iommufd: Pass parent hwpt and user_data to iommufd_hw_pagetable_alloc()
-config: arm64-randconfig-r023-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091646.RZphKLED-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi James,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc1 next-20230309]
+[cannot apply to atorgue-stm32/stm32-next soc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
+patch link:    https://lore.kernel.org/r/20230308173904.3449231-7-james.clark%40arm.com
+patch subject: [PATCH 6/8] coresight: Refactor out buffer allocation function for ETR
+config: arm-randconfig-r046-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091603.UuxHblt7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/yiliu1765/iommufd/commit/8b22006bfeef44946dce05dcef9223d76c922f06
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd iommufd_nesting
-        git checkout 8b22006bfeef44946dce05dcef9223d76c922f06
+        # https://github.com/intel-lab-lkp/linux/commit/3651e0e04e2a01c3cbcb4a4e9289092f2377dc13
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review James-Clark/coresight-Use-enum-type-for-cs_mode-wherever-possible/20230309-014226
+        git checkout 3651e0e04e2a01c3cbcb4a4e9289092f2377dc13
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/iommu/iommufd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091646.RZphKLED-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091603.UuxHblt7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/iommufd/hw_pagetable.c:100:6: warning: variable 'rc' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if ((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/hw_pagetable.c:149:17: note: uninitialized use occurs here
-           return ERR_PTR(rc);
-                          ^~
-   drivers/iommu/iommufd/hw_pagetable.c:100:2: note: remove the 'if' if its condition is always false
-           if ((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/iommufd/hw_pagetable.c:100:6: warning: variable 'rc' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-           if ((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/hw_pagetable.c:149:17: note: uninitialized use occurs here
-           return ERR_PTR(rc);
-                          ^~
-   drivers/iommu/iommufd/hw_pagetable.c:100:6: note: remove the '||' if its condition is always false
-           if ((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/hw_pagetable.c:68:8: note: initialize the variable 'rc' to silence this warning
-           int rc;
-                 ^
-                  = 0
-   2 warnings generated.
+   drivers/hwtracing/coresight/coresight-tmc-etr.c: In function 'tmc_etr_get_sysfs_buffer':
+>> drivers/hwtracing/coresight/coresight-tmc-etr.c:1174:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1174 |         int ret = 0;
+         |             ^~~
 
 
-vim +100 drivers/iommu/iommufd/hw_pagetable.c
+vim +/ret +1174 drivers/hwtracing/coresight/coresight-tmc-etr.c
 
-    45	
-    46	/**
-    47	 * iommufd_hw_pagetable_alloc() - Get an iommu_domain for a device
-    48	 * @ictx: iommufd context
-    49	 * @ioas: IOAS to associate the domain with
-    50	 * @idev: Device to get an iommu_domain for
-    51	 * @parent: Optional parent HWPT to associate with the domain with
-    52	 * @user_data: Optional user_data pointer
-    53	 * @immediate_attach: True if idev should be attached to the hwpt
-    54	 *
-    55	 * Allocate a new iommu_domain and return it as a hw_pagetable. The HWPT
-    56	 * will be linked to the given ioas and upon return the underlying iommu_domain
-    57	 * is fully popoulated.
-    58	 */
-    59	struct iommufd_hw_pagetable *
-    60	iommufd_hw_pagetable_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
-    61				   struct iommufd_device *idev,
-    62				   struct iommufd_hw_pagetable *parent,
-    63				   void *user_data, bool immediate_attach)
-    64	{
-    65		const struct iommu_ops *ops = dev_iommu_ops(idev->dev);
-    66		struct iommu_domain *parent_domain = NULL;
-    67		struct iommufd_hw_pagetable *hwpt;
-    68		int rc;
-    69	
-    70		lockdep_assert_held(&ioas->mutex);
-    71	
-    72		if (parent && !ops->domain_alloc_user)
-    73			return ERR_PTR(-EOPNOTSUPP);
-    74	
-    75		hwpt = iommufd_object_alloc(ictx, hwpt, IOMMUFD_OBJ_HW_PAGETABLE);
-    76		if (IS_ERR(hwpt))
-    77			return hwpt;
-    78	
-    79		INIT_LIST_HEAD(&hwpt->hwpt_item);
-    80		/* Pairs with iommufd_hw_pagetable_destroy() */
-    81		refcount_inc(&ioas->obj.users);
-    82		hwpt->ioas = ioas;
-    83		if (parent) {
-    84			hwpt->parent = parent;
-    85			parent_domain = parent->domain;
-    86			refcount_inc(&parent->obj.users);
-    87		}
-    88	
-    89		if (ops->domain_alloc_user)
-    90			hwpt->domain = ops->domain_alloc_user(idev->dev,
-    91							      parent_domain, user_data);
-    92		else
-    93			hwpt->domain = iommu_domain_alloc(idev->dev->bus);
-    94		if (!hwpt->domain) {
-    95			rc = -ENOMEM;
-    96			goto out_abort;
-    97		}
-    98	
-    99		/* It must be either NESTED or UNMANAGED, depending on parent_domain */
- > 100		if ((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-   101		   (!parent_domain && hwpt->domain->type != IOMMU_DOMAIN_UNMANAGED))
-   102			goto out_abort;
-   103	
-   104		/*
-   105		 * Set the coherency mode before we do iopt_table_add_domain() as some
-   106		 * iommus have a per-PTE bit that controls it and need to decide before
-   107		 * doing any maps. It is an iommu driver bug to report
-   108		 * IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail enforce_cache_coherency on
-   109		 * a new domain.
-   110		 */
-   111		if (idev->enforce_cache_coherency) {
-   112			rc = iommufd_hw_pagetable_enforce_cc(hwpt);
-   113			if (WARN_ON(rc))
-   114				goto out_abort;
-   115		}
-   116	
-   117		mutex_lock(&idev->igroup->lock);
-   118	
-   119		/*
-   120		 * immediate_attach exists only to accommodate iommu drivers that cannot
-   121		 * directly allocate a domain. These drivers do not finish creating the
-   122		 * domain until attach is completed. Thus we must have this call
-   123		 * sequence. Once those drivers are fixed this should be removed.
-   124		 *
-   125		 * Note we hold the igroup->lock here which prevents any other thread
-   126		 * from observing igroup->hwpt until we finish setting it up.
-   127		 */
-   128		if (immediate_attach) {
-   129			rc = iommufd_hw_pagetable_attach(hwpt, idev);
-   130			if (rc)
-   131				goto out_unlock;
-   132		}
-   133	
-   134		rc = iopt_table_add_domain(&hwpt->ioas->iopt, hwpt->domain);
-   135		if (rc)
-   136			goto out_detach;
-   137		list_add_tail(&hwpt->hwpt_item, &hwpt->ioas->hwpt_list);
-   138	
-   139		mutex_unlock(&idev->igroup->lock);
-   140		return hwpt;
-   141	
-   142	out_detach:
-   143		if (immediate_attach)
-   144			iommufd_hw_pagetable_detach(idev);
-   145	out_unlock:
-   146		mutex_unlock(&idev->igroup->lock);
-   147	out_abort:
-   148		iommufd_object_abort_and_destroy(ictx, &hwpt->obj);
-   149		return ERR_PTR(rc);
-   150	}
-   151	
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1171  
+3651e0e04e2a01 James Clark      2023-03-08  1172  static struct etr_buf *tmc_etr_get_sysfs_buffer(struct coresight_device *csdev)
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1173  {
+de5461970b3e9e Mathieu Poirier  2016-05-03 @1174  	int ret = 0;
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1175  	unsigned long flags;
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1176  	struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1177  	struct etr_buf *sysfs_buf = NULL, *new_buf = NULL, *free_buf = NULL;
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1178  
+de5461970b3e9e Mathieu Poirier  2016-05-03  1179  	/*
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1180  	 * If we are enabling the ETR from disabled state, we need to make
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1181  	 * sure we have a buffer with the right size. The etr_buf is not reset
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1182  	 * immediately after we stop the tracing in SYSFS mode as we wait for
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1183  	 * the user to collect the data. We may be able to reuse the existing
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1184  	 * buffer, provided the size matches. Any allocation has to be done
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1185  	 * with the lock released.
+de5461970b3e9e Mathieu Poirier  2016-05-03  1186  	 */
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1187  	spin_lock_irqsave(&drvdata->spinlock, flags);
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1188  	sysfs_buf = READ_ONCE(drvdata->sysfs_buf);
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1189  	if (!sysfs_buf || (sysfs_buf->size != drvdata->size)) {
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1190  		spin_unlock_irqrestore(&drvdata->spinlock, flags);
+de5461970b3e9e Mathieu Poirier  2016-05-03  1191  
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1192  		/* Allocate memory with the locks released */
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1193  		free_buf = new_buf = tmc_etr_setup_sysfs_buf(drvdata);
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1194  		if (IS_ERR(new_buf))
+3651e0e04e2a01 James Clark      2023-03-08  1195  			return new_buf;
+de5461970b3e9e Mathieu Poirier  2016-05-03  1196  
+de5461970b3e9e Mathieu Poirier  2016-05-03  1197  		/* Let's try again */
+de5461970b3e9e Mathieu Poirier  2016-05-03  1198  		spin_lock_irqsave(&drvdata->spinlock, flags);
+de5461970b3e9e Mathieu Poirier  2016-05-03  1199  	}
+de5461970b3e9e Mathieu Poirier  2016-05-03  1200  
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1201  	if (drvdata->reading || drvdata->mode == CS_MODE_PERF) {
+de5461970b3e9e Mathieu Poirier  2016-05-03  1202  		ret = -EBUSY;
+de5461970b3e9e Mathieu Poirier  2016-05-03  1203  		goto out;
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1204  	}
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1205  
+f2facc3366d77e Mathieu Poirier  2016-05-03  1206  	/*
+f2facc3366d77e Mathieu Poirier  2016-05-03  1207  	 * In sysFS mode we can have multiple writers per sink.  Since this
+f2facc3366d77e Mathieu Poirier  2016-05-03  1208  	 * sink is already enabled no memory is needed and the HW need not be
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1209  	 * touched, even if the buffer size has changed.
+f2facc3366d77e Mathieu Poirier  2016-05-03  1210  	 */
+f973d88b757037 Mathieu Poirier  2019-04-25  1211  	if (drvdata->mode == CS_MODE_SYSFS) {
+f973d88b757037 Mathieu Poirier  2019-04-25  1212  		atomic_inc(csdev->refcnt);
+f2facc3366d77e Mathieu Poirier  2016-05-03  1213  		goto out;
+f973d88b757037 Mathieu Poirier  2019-04-25  1214  	}
+f2facc3366d77e Mathieu Poirier  2016-05-03  1215  
+de5461970b3e9e Mathieu Poirier  2016-05-03  1216  	/*
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1217  	 * If we don't have a buffer or it doesn't match the requested size,
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1218  	 * use the buffer allocated above. Otherwise reuse the existing buffer.
+de5461970b3e9e Mathieu Poirier  2016-05-03  1219  	 */
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1220  	sysfs_buf = READ_ONCE(drvdata->sysfs_buf);
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1221  	if (!sysfs_buf || (new_buf && sysfs_buf->size != new_buf->size)) {
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1222  		free_buf = sysfs_buf;
+96a7f644006ecc Suzuki K Poulose 2018-09-20  1223  		drvdata->sysfs_buf = new_buf;
+de5461970b3e9e Mathieu Poirier  2016-05-03  1224  	}
+de5461970b3e9e Mathieu Poirier  2016-05-03  1225  
+de5461970b3e9e Mathieu Poirier  2016-05-03  1226  out:
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1227  	spin_unlock_irqrestore(&drvdata->spinlock, flags);
+6c6ed1e244c053 Mathieu Poirier  2016-05-03  1228  
+de5461970b3e9e Mathieu Poirier  2016-05-03  1229  	/* Free memory outside the spinlock if need be */
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1230  	if (free_buf)
+75f4e3619fe202 Suzuki K Poulose 2018-07-11  1231  		tmc_etr_free_sysfs_buf(free_buf);
+3651e0e04e2a01 James Clark      2023-03-08  1232  	return drvdata->sysfs_buf;
+3651e0e04e2a01 James Clark      2023-03-08  1233  }
+3651e0e04e2a01 James Clark      2023-03-08  1234  
 
 -- 
 0-DAY CI Kernel Test Service
