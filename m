@@ -1,467 +1,137 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E787E6;
-	Thu,  9 Mar 2023 05:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678338733; x=1709874733;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+0a9CZUjYqpgNjvX4JZ1RYHZ0LUH4tprN9VJF6FupPE=;
-  b=m9H8krnFabAObFruHhxc1Tc2NCX024jrIwYyzHP8GVAwKprq1SiOqP/O
-   qgwBN5M7PlUy85ETiBUTDreZDriCGWmGtW4zlhbYaih8bqztLIdlLKGUT
-   uBe3VAfM/nCp5aW0vzM6guFk9/fmZ4bL1DCXmMxbDjSSQYJ0260WmSjxU
-   nNcPkt+yNWVHSrQ7Y6ZzQEB5Xf/5un59sqBtL1YS7yZDUslwKMI8YaChg
-   xqYWcraGplRbeLMg536ECLkHkDjNLhL9UYS4hdQ/wyNrNEL9FL1XH1/BS
-   YUJpJdaj6nAdj/JhUziTBKhs9or9ks64N4zvNz8hOyZ3p8ace2xgIi5mJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337880696"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="337880696"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 21:12:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="923087081"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="923087081"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Mar 2023 21:12:11 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pa8ZW-0002fb-2G;
-	Thu, 09 Mar 2023 05:12:10 +0000
-Date: Thu, 9 Mar 2023 13:11:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi_2 1/11] include/linux/trace_events.h:799:5:
- warning: no previous prototype for function 'bpf_uprobe_multi_link_attach'
-Message-ID: <202303091346.11gid2X6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3357E6;
+	Thu,  9 Mar 2023 05:19:49 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id cy23so2328592edb.12;
+        Wed, 08 Mar 2023 21:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678339188;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XA9Ua6B6An6RP3rVZJ6ZH88clwhca28y6cgL9YikeQc=;
+        b=P7gljFgRoN0FfATXgsTakXNbMVB+8MVmeIhCZS0lWnErCEEggI/jbT6JnluvbD0/3C
+         bEXhQW4V96J2rXI4J45+0IJP3gFOflJRB6AHFLuZrviUk8isGWl9LXYZLWCZ/64lcipB
+         4HuzOy3B6cy4D64xphkx91/Jevl7ikHIRsI1QwIsrx5LRJBbuiAcKpuktQpJiPvN4DYU
+         dIRv7x/u50m1w+rngTsCSw5me7Axco5oWMk3L+clbC8ekrA/ewupCe7lqlFx9/Ozaayu
+         dvkXgsKPatmdaozq1mA1dPhxfIiWK71TuY/61FEn9QRoBWMLZtw3FkkS/CFgtGb3Jp7k
+         X3YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678339188;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XA9Ua6B6An6RP3rVZJ6ZH88clwhca28y6cgL9YikeQc=;
+        b=fdrWqUa8Xmb15LnjQQen9TWqTah7+vJgknlpdC41uJxtWbOrcXun7G2yfEgoCzQQEL
+         RLrsq7bDGvXekkjaDcld+9sbGmsCzM+H8DQzCnIXN8vaCNQo9QL+ZPLlhJ8CUdoFvOHP
+         ks96AAFFhk7094ficYa7QC8AbniDTWnbV04ZYZvGxJDzEIeG9g8bxGtFE+BQJcvFUbHu
+         MV/u6K+l9ylQt5ui7m5jGwiZHG/CRTOWGhg7jrn6NF05hp1Ml7IKQtmA8ZVjNFwhnPFs
+         a6xBvakV1BQu3Sqnpg0GiOKKds6oio3/zrgKc4CUgeSzZA61gCYs9YyFuqktgDzpQZsG
+         K7BQ==
+X-Gm-Message-State: AO0yUKVs31iy4ECHeMzfrLHnKUZOW0JIh/3ALw3vCT3Hjpw99+YH5GWM
+	D+H4yva6sirQoReumn77iYaWlqYDu2mNmFzK3l0=
+X-Google-Smtp-Source: AK7set+IydFkLYBqKZo5hwECOIoDIqKc9MbHNPs/CFSLMiIXPh25DogGB5WIwBlgpXsfxdM4f5MUHf3oNNCmXn1mgrA=
+X-Received: by 2002:a17:906:4094:b0:8b1:28e5:a1bc with SMTP id
+ u20-20020a170906409400b008b128e5a1bcmr9555160ejj.5.1678339188070; Wed, 08 Mar
+ 2023 21:19:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230308035416.2591326-4-andrii@kernel.org> <1399021d-b06a-447c-94ca-6cc657c9c0b2@kili.mountain>
+In-Reply-To: <1399021d-b06a-447c-94ca-6cc657c9c0b2@kili.mountain>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 8 Mar 2023 21:19:36 -0800
+Message-ID: <CAEf4BzYzUmoeNPGbb+up8jRa1Q_BsQr4Sh+pb-X-SnswNW8hGA@mail.gmail.com>
+Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org, 
+	ast@kernel.org, daniel@iogearbox.net, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, kernel-team@meta.com, 
+	Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_2
-head:   10c9ee1a8d9260b0588aa9afde019a886ac8a9fe
-commit: 86797164e5e9eb54802e4a3a3d1a5648958a2a0f [1/11] bpf: Add multi uprobe link
-config: hexagon-randconfig-r041-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091346.11gid2X6-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=86797164e5e9eb54802e4a3a3d1a5648958a2a0f
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi_2
-        git checkout 86797164e5e9eb54802e4a3a3d1a5648958a2a0f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+On Wed, Mar 8, 2023 at 8:35=E2=80=AFPM Dan Carpenter <error27@gmail.com> wr=
+ote:
+>
+> Hi Andrii,
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bp=
+f-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%=
+40kernel.org
+> patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded it=
+erator loops
+> config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-=
+ci/archive/20230309/202303090153.YeswNcW4-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.1.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202303090153.YeswNcW4-lkp@intel.com/
+>
+> smatch warnings:
+> kernel/bpf/verifier.c:1244 is_iter_reg_valid_uninit() error: uninitialize=
+d symbol 'j'.
+>
+> vim +/j +1244 kernel/bpf/verifier.c
+>
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1225  static bool is_iter_reg_=
+valid_uninit(struct bpf_verifier_env *env,
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1226                          =
+            struct bpf_reg_state *reg, int nr_slots)
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1227  {
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1228         struct bpf_func_s=
+tate *state =3D func(env, reg);
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1229         int spi, i, j;
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1230
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1231         /* For -ERANGE (i=
+.e. spi not falling into allocated stack slots), we
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1232          * will do check_=
+mem_access to check and update stack bounds later, so
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1233          * return true fo=
+r that case.
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1234          */
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1235         spi =3D iter_get_=
+spi(env, reg, nr_slots);
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1236         if (spi =3D=3D -E=
+RANGE)
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1237                 return tr=
+ue;
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1238         if (spi < 0)
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1239                 return sp=
+i;
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1240
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1241         for (i =3D 0; i <=
+ nr_slots; i++) {
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1242                 struct bp=
+f_stack_state *slot =3D &state->stack[spi - i];
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1243
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07 @1244                 if (slot-=
+>slot_type[j] =3D=3D STACK_ITER)
+>                                                                          =
+           ^
+> s/j/i/?
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091346.11gid2X6-lkp@intel.com/
+nope, I accidentally removed the inner for loop. I fixed all that in
+v5, which was applied today. But thanks for the notification!
 
-All warnings (new ones prefixed by >>):
-
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-       ^
-   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   ^
-   static 
-   init/main.c:775:20: warning: no previous prototype for function 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
-   void __init __weak arch_post_acpi_subsys_init(void) { }
-                      ^
-   init/main.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init __weak arch_post_acpi_subsys_init(void) { }
-   ^
-   static 
-   init/main.c:787:20: warning: no previous prototype for function 'mem_encrypt_init' [-Wmissing-prototypes]
-   void __init __weak mem_encrypt_init(void) { }
-                      ^
-   init/main.c:787:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init __weak mem_encrypt_init(void) { }
-   ^
-   static 
-   init/main.c:789:20: warning: no previous prototype for function 'poking_init' [-Wmissing-prototypes]
-   void __init __weak poking_init(void) { }
-                      ^
-   init/main.c:789:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init __weak poking_init(void) { }
-   ^
-   static 
-   10 warnings generated.
---
-   In file included from init/do_mounts.c:6:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from init/do_mounts.c:6:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from init/do_mounts.c:6:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from init/do_mounts.c:28:
-   In file included from init/do_mounts.h:5:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-       ^
-   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   ^
-   static 
-   7 warnings generated.
---
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from kernel/fork.c:55:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-       ^
-   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   ^
-   static 
-   kernel/fork.c:162:13: warning: no previous prototype for function 'arch_release_task_struct' [-Wmissing-prototypes]
-   void __weak arch_release_task_struct(struct task_struct *tsk)
-               ^
-   kernel/fork.c:162:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_release_task_struct(struct task_struct *tsk)
-   ^
-   static 
-   kernel/fork.c:862:20: warning: no previous prototype for function 'arch_task_cache_init' [-Wmissing-prototypes]
-   void __init __weak arch_task_cache_init(void) { }
-                      ^
-   kernel/fork.c:862:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init __weak arch_task_cache_init(void) { }
-   ^
-   static 
-   kernel/fork.c:957:12: warning: no previous prototype for function 'arch_dup_task_struct' [-Wmissing-prototypes]
-   int __weak arch_dup_task_struct(struct task_struct *dst,
-              ^
-   kernel/fork.c:957:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_dup_task_struct(struct task_struct *dst,
-   ^
-   static 
-   10 warnings generated.
---
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from kernel/cpu.c:40:
-   In file included from include/trace/events/power.h:12:
->> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-       ^
-   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   ^
-   static 
-   kernel/cpu.c:110:20: warning: unused function 'cpuhp_lock_acquire' [-Wunused-function]
-   static inline void cpuhp_lock_acquire(bool bringup) { }
-                      ^
-   kernel/cpu.c:111:20: warning: unused function 'cpuhp_lock_release' [-Wunused-function]
-   static inline void cpuhp_lock_release(bool bringup) { }
-                      ^
-   9 warnings generated.
---
-   In file included from kernel/signal.c:26:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/signal.c:26:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/signal.c:26:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from kernel/signal.c:30:
-   In file included from include/linux/syscalls.h:88:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:799:5: warning: no previous prototype for function 'bpf_uprobe_multi_link_attach' [-Wmissing-prototypes]
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-       ^
-   include/linux/trace_events.h:799:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   ^
-   static 
-   kernel/signal.c:4774:6: warning: no previous prototype for function 'kdb_send_sig' [-Wmissing-prototypes]
-   void kdb_send_sig(struct task_struct *t, int sig)
-        ^
-   kernel/signal.c:4774:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void kdb_send_sig(struct task_struct *t, int sig)
-   ^
-   static 
-   8 warnings generated.
-..
-
-
-vim +/bpf_uprobe_multi_link_attach +799 include/linux/trace_events.h
-
-   766	
-   767	static inline int
-   768	perf_event_query_prog_array(struct perf_event *event, void __user *info)
-   769	{
-   770		return -EOPNOTSUPP;
-   771	}
-   772	static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_prog *p)
-   773	{
-   774		return -EOPNOTSUPP;
-   775	}
-   776	static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_prog *p)
-   777	{
-   778		return -EOPNOTSUPP;
-   779	}
-   780	static inline struct bpf_raw_event_map *bpf_get_raw_tracepoint(const char *name)
-   781	{
-   782		return NULL;
-   783	}
-   784	static inline void bpf_put_raw_tracepoint(struct bpf_raw_event_map *btp)
-   785	{
-   786	}
-   787	static inline int bpf_get_perf_event_info(const struct perf_event *event,
-   788						  u32 *prog_id, u32 *fd_type,
-   789						  const char **buf, u64 *probe_offset,
-   790						  u64 *probe_addr)
-   791	{
-   792		return -EOPNOTSUPP;
-   793	}
-   794	static inline int
-   795	bpf_kprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   796	{
-   797		return -EOPNOTSUPP;
-   798	}
- > 799	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   800	{
-   801		return -EOPNOTSUPP;
-   802	}
-   803	#endif
-   804	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1245                         r=
+eturn false;
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1246         }
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1247
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1248         return true;
+> 8f263e1296a91f Andrii Nakryiko 2023-03-07  1249  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+>
