@@ -1,87 +1,58 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A03BC960
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 22:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678402444; x=1709938444;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cpdAfjaYpVixhKakGst6ihF7g9NsQ28COl2QeFD+vmU=;
-  b=J8Uu6QQSjoQ+7QhkWGjpZOtb+ZZKuS7ZYuTjbWwo6xk0qbP6Q0d8fBZa
-   vRrCQO/+Fz5G3/14E96eok161p67jxMCXL/1S2G5M6HEWfP4rMfvFG29k
-   ergLw8JNk0TVUn8/6Kc/FjS/i5lyQR7YzFqKzymgMdhmE9vLrSjl/E/5s
-   dfE2vF2KaacY5Sek2JonN3X8cfSCCLlN1X9M9iJAzdkz1TadeNI9yQVch
-   pIxwVzFce7jvjD4qsNQkgjfN85qPLo52efJDJQZ/cxunH0fZXr2GeXAtc
-   e6Mytyan2D6Q6XkIb7iL+cp3OxgRPss359DppJ4QFRQ4ZHIkXKdsbhfH/
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="338958457"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="338958457"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 14:54:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="801348156"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="801348156"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Mar 2023 14:54:03 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1paP8o-0003HP-02;
-	Thu, 09 Mar 2023 22:53:42 +0000
-Date: Fri, 10 Mar 2023 06:53:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Minda Chen <minda.chen@starfivetech.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Subject: [esmil:jh71x0 80/117] drivers/usb/cdns3/cdns3-starfive.c:24:
- warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST()
- instead
-Message-ID: <202303100612.ML6qE2SL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03857C963
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 23:47:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A80C433D2;
+	Thu,  9 Mar 2023 23:47:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678405670;
+	bh=NQ0z0vWRZKFSOsNta5bZXQwrrn+JWpr6q/3op/tZXNg=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=KW0qaj+KdPT2EaWE5uLTvMsecdNBQIGz46H7UdCdVjDFKIb/RC/8X/LvZsIJTkbVP
+	 +imQ8wEZlv7TgHnR2B8J0eH9OLup1A91rJAE7An5kjloxS15rX23HoHQEluuNQAqN7
+	 pWzaMkSCxk7vRCl2nmTAT/EJ2C+4dMEjM1H76mCfQv15kmsQNAND6135yZseXe6ynt
+	 3RyPKTbfdhjIKG8PfYPB4Cii18HOmTHGSOO9Snd/cwNcGvjVB1E+KS9PpwDtTJmU3w
+	 TCw6BUC8Y7UJQdo1/uXNxjjTxyEc6InZGRWBe68H212c3pRU6f6i9LNpkVbI0eb/Hy
+	 1Cf+KucTYznSA==
+Message-ID: <ec1fb4d134181a1b1859bcb884dcd494.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
+References: <20230307115022.12846-2-zhuyinbo@loongson.cn> <202303082037.QPfBP64A-lkp@intel.com> <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
+Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver support
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>, Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn, loongson-kernel@lists.loongnix.cn
+To: Krzysztof Kozlowski <krzk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, zhuyinbo <zhuyinbo@loongson.cn>
+Date: Thu, 09 Mar 2023 15:47:46 -0800
+User-Agent: alot/0.10
 
-tree:   https://github.com/esmil/linux jh71x0
-head:   75534dbe282e93f55a9aa7a61eb3dacc6a7c2a37
-commit: 2dcd7d3b252b72762a57f3d590f8b8d9e839bc81 [80/117] usb: cdns3: add StarFive JH7110 USB glue layer
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230310/202303100612.ML6qE2SL-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/esmil/linux/commit/2dcd7d3b252b72762a57f3d590f8b8d9e839bc81
-        git remote add esmil https://github.com/esmil/linux
-        git fetch --no-tags esmil jh71x0
-        git checkout 2dcd7d3b252b72762a57f3d590f8b8d9e839bc81
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/usb/cdns3/
+Quoting zhuyinbo (2023-03-08 18:58:02)
+>=20
+> =E5=9C=A8 2023/3/8 =E4=B8=8B=E5=8D=888:16, kernel test robot =E5=86=99=E9=
+=81=93:
+> > Hi Yinbo,
+> >
+[...]
+> >
+> >     drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
+> >>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of fun=
+ction 'readq'; did you mean 'readl'? [-Werror=3Dimplicit-function-declarati=
+on]
+> >        79 |         val =3D readq(loongson2_pll_base + offset);
+> >           |               ^~~~~
+> >           |               readl
+> >     cc1: some warnings being treated as errors
+>=20
+> The CONFIG_64BIT not enabled in your config file, I will add a depend on =
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303100612.ML6qE2SL-lkp@intel.com/
+> "CONFIG_64BIT" in my clock driver to fix this compile error.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/usb/cdns3/cdns3-starfive.c:24: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
-
-
-vim +24 drivers/usb/cdns3/cdns3-starfive.c
-
-    23	
-  > 24	#define USB_STRAP_HOST			BIT(17)
-    25	#define USB_STRAP_DEVICE		BIT(18)
-    26	#define USB_STRAP_MASK			GENMASK(18, 16)
-    27	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Do you need to use readq() here? Can you read two 32-bit registers with
+readl() and put them together for a 64-bit number?
