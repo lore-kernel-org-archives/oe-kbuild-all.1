@@ -1,115 +1,100 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216027E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 06:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678341808; x=1709877808;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FhQ37SSEcdk0edwdrxtCJA636DjwwzQQ0+pqbNjhwB0=;
-  b=hL7xRfygO80uhoVSbgdqBx8Jk4YAA96q4TrsK9BxDf3jOkcJnvtKkjxb
-   b1ezG6ASQiS6CkW/iD/qVyxYHtnMKk6SkWPOzmkoSN4U05RHDasQF/M0M
-   i7RnP8SoaO83E2YvE0MoNg3A/6eE9u7IAx1FCaPeRhEBT8T7K7R6zqZ3s
-   btW+MsiWmDGhfE5x66tIjo+qcWmf2QKNjOwQlrGiz5o3JxBYTy2kwuOR9
-   1zCN7x5p73SLV6wbshRO80icgyf0+sDoyh9W2EHDxJFARjogVLc8QF2iz
-   nKS74bCtF5LCO7CVlXseNW11ZMSo+qaIGM87eeuZ4qIaEPbeH3/qf1W7J
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316756757"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="316756757"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:03:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="707471318"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="707471318"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Mar 2023 22:03:12 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pa9Mt-0002hN-2h;
-	Thu, 09 Mar 2023 06:03:11 +0000
-Date: Thu, 9 Mar 2023 14:02:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 875/895]
- arch/arm64/include/asm/mte.h:40:25: error: 'PG_arch_3' undeclared; did you
- mean 'PG_arch_2'?
-Message-ID: <202303091415.klp9bIyo-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0F17E6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 06:09:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141E3C433EF;
+	Thu,  9 Mar 2023 06:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678342165;
+	bh=fsLhHcjhO5MajeqhhNrUkIj89nd00dnJ8w3YBl4clAw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hrIEBIkX5gxzeBg72m0QXHTSpFepipJm7bADK0SO0OqyWMSGdo6Lv4/ih+XqQJuXy
+	 wc/brZvytSdfqJhQxyLhn1XgTws0mpHbCq3In1/dx/++OeWGACN/ngYUVG4IQ7Uj/D
+	 Ox1aybG128qoxQoy0SFMSQtb3HQ9J/kncj1pK8TZXePQb2JafflXrZ7zP+BQvJN+wn
+	 d29p3GKgx3ZwSJaH8/qcXpHV+UVePk2K9ezoXqIOCKKFEYFf/2j5eF1x6a80jHcHms
+	 k35cM/0KniwHVcYKSAA41i3b/rN30Q9rtuSL3XMzVYujEAMNf2fHiGHB99gVldEHkP
+	 C1DAuf5pO/I4w==
+Message-ID: <d4148245-fade-e228-6e61-f004f6cff249@kernel.org>
+Date: Thu, 9 Mar 2023 07:09:20 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
+ support
+To: zhuyinbo <zhuyinbo@loongson.cn>, kernel test robot <lkp@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+ Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
+ loongson-kernel@lists.loongnix.cn
+References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
+ <202303082037.QPfBP64A-lkp@intel.com>
+ <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   c6e1ce96835337ed0ee4d20905134db259606f7f
-commit: ac5228fa6a67a6ddd73164ca03c62e596826e864 [875/895] arm64: mte: Lock a page for MTE tag initialisation
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303091415.klp9bIyo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=ac5228fa6a67a6ddd73164ca03c62e596826e864
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-6.1
-        git checkout ac5228fa6a67a6ddd73164ca03c62e596826e864
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
+On 09/03/2023 03:58, zhuyinbo wrote:
+> 
+> 在 2023/3/8 下午8:16, kernel test robot 写道:
+>> Hi Yinbo,
+>>
+>> I love your patch! Yet something to improve:
+>>
+>> [auto build test ERROR on clk/clk-next]
+>> [also build test ERROR on robh/for-next linus/master v6.3-rc1 next-20230308]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+>> patch link:    https://lore.kernel.org/r/20230307115022.12846-2-zhuyinbo%40loongson.cn
+>> patch subject: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver support
+>> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230308/202303082037.QPfBP64A-lkp@intel.com/config)
+>> compiler: mips-linux-gcc (GCC) 12.1.0
+>> reproduce (this is a W=1 build):
+>>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # https://github.com/intel-lab-lkp/linux/commit/391d6fc63ac65f5456e4755c9dd85232a6296285
+>>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>          git fetch --no-tags linux-review Yinbo-Zhu/clk-clk-loongson2-add-clock-controller-driver-support/20230307-195252
+>>          git checkout 391d6fc63ac65f5456e4755c9dd85232a6296285
+>>          # save the config file
+>>          mkdir build_dir && cp config build_dir/.config
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Link: https://lore.kernel.org/oe-kbuild-all/202303082037.QPfBP64A-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
+>>>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
+>>        79 |         val = readq(loongson2_pll_base + offset);
+>>           |               ^~~~~
+>>           |               readl
+>>     cc1: some warnings being treated as errors
+> 
+> The CONFIG_64BIT not enabled in your config file, I will add a depend on 
+> "CONFIG_64BIT" in my clock driver to fix this compile error.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091415.klp9bIyo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm64/include/asm/pgtable.h:12,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/kasan.h:33,
-                    from include/linux/slab.h:148,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:14,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from arch/arm64/kernel/asm-offsets.c:10:
-   arch/arm64/include/asm/mte.h: In function 'try_page_mte_tagging':
->> arch/arm64/include/asm/mte.h:40:25: error: 'PG_arch_3' undeclared (first use in this function); did you mean 'PG_arch_2'?
-      40 | #define PG_mte_lock     PG_arch_3
-         |                         ^~~~~~~~~
-   arch/arm64/include/asm/mte.h:79:31: note: in expansion of macro 'PG_mte_lock'
-      79 |         if (!test_and_set_bit(PG_mte_lock, &page->flags))
-         |                               ^~~~~~~~~~~
-   arch/arm64/include/asm/mte.h:40:25: note: each undeclared identifier is reported only once for each function it appears in
-      40 | #define PG_mte_lock     PG_arch_3
-         |                         ^~~~~~~~~
-   arch/arm64/include/asm/mte.h:79:31: note: in expansion of macro 'PG_mte_lock'
-      79 |         if (!test_and_set_bit(PG_mte_lock, &page->flags))
-         |                               ^~~~~~~~~~~
-   make[2]: *** [scripts/Makefile.build:118: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1282: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:231: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+No, that's not how it should be fixed. Fix your code instead.
 
 
-vim +40 arch/arm64/include/asm/mte.h
 
-    36	
-    37	/* track which pages have valid allocation tags */
-    38	#define PG_mte_tagged	PG_arch_2
-    39	/* simple lock to avoid multiple threads tagging the same page */
-  > 40	#define PG_mte_lock	PG_arch_3
-    41	
+Best regards,
+Krzysztof
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
