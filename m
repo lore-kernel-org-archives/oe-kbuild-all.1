@@ -1,49 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4075817
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 07:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDED807;
+	Thu,  9 Mar 2023 07:58:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678348038; x=1709884038;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qeq63lYyfAfHhk1xOZ63kvMHWyrmYCAuvEirxhJBR10=;
-  b=TbXpqGFYWfKsuTfUSiQnr7LBkle4M7tr9AST8e6CwwUF4RELdiZSjOkQ
-   YirwzFaRdNT/IUpIPlSj1pQOtyYsjk1ZNzwsrEFp0hAMHUzC2VLzA3b/Z
-   vAVutn8/k/rSwX400ska+G6zQ6DMV4H3/CVwlvqwTTv9qHTav3R48FzuE
-   rZxe+Yxe+Be+AJXt4gzdOnVrRBfd7CFKrp2eOfP7g14Jj3mRFgXxiwUfh
-   MVCxpS35qhFt146CSnPs83Lvx6jKEB2ELsdKiFWOfrvUj9IZ8BPmL3bgx
-   axkoFKmo65u1JIvrJIXtKBfXN3gEfAS9Spy1B9d2ffIvkuC9Gm+5hj2OP
+  t=1678348697; x=1709884697;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZfHHT2bb8la7dD8H3H4V81h1OOjZmgGMkaB3rgZ+bcE=;
+  b=OvLsjbTSpm3xdOs2zlKaVBPFGnTMR9MUBw+odzlOoVs4fHJEpvhyJj6c
+   uyjaTITj9qRDV+q1HL0DGXdxNJ7ROP+s0VgGuraiEspEEC4KjJDrIE6Gy
+   ykQmqpYewqkpkTWKzjZeUxLCy/HfbSoe+7bOedLBQGnHP+M7Bt4aLLC6U
+   rC9cQGszMERdcsk4fsRGTlb5gQAueuo1jjK96gPUpw/xdgIqDor/4Ly4j
+   itluuNa6/GnYK63GBr9snb6ZG/AxQvIS5nKrRw4cb7IqnYHkzwtSyAmCx
+   iKazzfiw2wogemc0aOLU61Vozf9cs7wv3BlU79EJHv09GAA5ktYVvp2gZ
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401216043"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398961084"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="401216043"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:47:16 -0800
+   d="scan'208";a="398961084"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 23:58:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766333568"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="677281041"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="766333568"
+   d="scan'208";a="677281041"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 23:47:14 -0800
+  by orsmga002.jf.intel.com with ESMTP; 08 Mar 2023 23:58:15 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paAza-0002ko-0I;
-	Thu, 09 Mar 2023 07:47:14 +0000
-Date: Thu, 9 Mar 2023 15:46:49 +0800
+	id 1paBAE-0002lP-1U;
+	Thu, 09 Mar 2023 07:58:14 +0000
+Date: Thu, 9 Mar 2023 15:57:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	io-uring@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-	Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>,
-	Bernd Schubert <bschubert@ddn.com>, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH V2 05/17] io_uring: support OP_SEND_ZC/OP_RECV for fused
- slave request
-Message-ID: <202303091544.WIDavyIo-lkp@intel.com>
-References: <20230307141520.793891-6-ming.lei@redhat.com>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:palmer/linux/for-next 2/2]
+ arch/riscv/include/asm/hwcap.h:53:13: error: use of undeclared identifier
+ 'RISCV_ISA_EXT_NAME_LEN_MAX'
+Message-ID: <202303091527.UXtPo7vd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,145 +48,303 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307141520.793891-6-ming.lei@redhat.com>
 
-Hi Ming,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.3-rc1 next-20230309]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230307141520.793891-6-ming.lei%40redhat.com
-patch subject: [PATCH V2 05/17] io_uring: support OP_SEND_ZC/OP_RECV for fused slave request
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230309/202303091544.WIDavyIo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block palmer/linux/for-next
+head:   b5cd1d196c7c3b8d1b9d6636ac1c1c5c6b5184a4
+commit: b5cd1d196c7c3b8d1b9d6636ac1c1c5c6b5184a4 [2/2] Merge patch series "riscv, mm: detect svnapot cpu support at runtime"
+config: riscv-randconfig-r042-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091527.UXtPo7vd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/0a921da27026b3ba08aeceb432dd983480281344
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
-        git checkout 0a921da27026b3ba08aeceb432dd983480281344
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/b5cd1d196c7c3b8d1b9d6636ac1c1c5c6b5184a4
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block palmer/linux/for-next
+        git checkout b5cd1d196c7c3b8d1b9d6636ac1c1c5c6b5184a4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091544.WIDavyIo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091527.UXtPo7vd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/bitops.h:6,
-                    from include/linux/kernel.h:22,
-                    from io_uring/net.c:2:
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   include/linux/io_uring_types.h:475:35: note: in expansion of macro 'BIT'
-     475 |         REQ_F_FUSED_SLAVE       = BIT(REQ_F_FUSED_SLAVE_BIT),
-         |                                   ^~~
-   io_uring/net.c: In function 'io_send':
->> io_uring/net.c:385:48: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     385 |                 ret = io_import_kbuf_for_slave((u64)sr->buf, sr->len,
-         |                                                ^
-   io_uring/net.c: In function 'io_recv':
-   io_uring/net.c:880:48: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     880 |                 ret = io_import_kbuf_for_slave((u64)sr->buf, sr->len, ITER_DEST,
-         |                                                ^
-   io_uring/net.c: In function 'io_send_zc':
-   io_uring/net.c:1135:48: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1135 |                 ret = io_import_kbuf_for_slave((u64)zc->buf, zc->len,
-         |                                                ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:29:
+   In file included from include/linux/pgtable.h:6:
+   In file included from arch/riscv/include/asm/pgtable.h:108:
+   In file included from arch/riscv/include/asm/tlbflush.h:12:
+   In file included from arch/riscv/include/asm/errata_list.h:8:
+   In file included from arch/riscv/include/asm/alternative.h:20:
+>> arch/riscv/include/asm/hwcap.h:53:13: error: use of undeclared identifier 'RISCV_ISA_EXT_NAME_LEN_MAX'
+           char uprop[RISCV_ISA_EXT_NAME_LEN_MAX];
+                      ^
+>> arch/riscv/include/asm/hwcap.h:61:27: error: use of undeclared identifier 'RISCV_ISA_EXT_MAX'
+           compiletime_assert(ext < RISCV_ISA_EXT_MAX,
+                                    ^
+   arch/riscv/include/asm/hwcap.h:79:27: error: use of undeclared identifier 'RISCV_ISA_EXT_MAX'
+           compiletime_assert(ext < RISCV_ISA_EXT_MAX,
+                                    ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigorsets, _sig_or)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:137:8: note: expanded from macro '_SIG_SET_BINOP'
+                   a3 = a->sig[3]; a2 = a->sig[2];                         \
+                        ^      ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+--
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:162:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigandnsets, _sig_andn)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:139:3: note: expanded from macro '_SIG_SET_BINOP'
+                   r->sig[3] = op(a3, b3);                                 \
+                   ^      ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:162:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigandnsets, _sig_andn)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:140:3: note: expanded from macro '_SIG_SET_BINOP'
+                   r->sig[2] = op(a2, b2);                                 \
+                   ^      ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_OP(signotset, _sig_not)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:173:27: note: expanded from macro '_SIG_SET_OP'
+           case 4: set->sig[3] = op(set->sig[3]);                          \
+                                    ^        ~
+   include/linux/signal.h:185:24: note: expanded from macro '_sig_not'
+   #define _sig_not(x)     (~(x))
+                              ^
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_OP(signotset, _sig_not)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:173:10: note: expanded from macro '_SIG_SET_OP'
+           case 4: set->sig[3] = op(set->sig[3]);                          \
+                   ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_OP(signotset, _sig_not)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:174:20: note: expanded from macro '_SIG_SET_OP'
+                   set->sig[2] = op(set->sig[2]);                          \
+                                    ^        ~
+   include/linux/signal.h:185:24: note: expanded from macro '_sig_not'
+   #define _sig_not(x)     (~(x))
+                              ^
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:186:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_OP(signotset, _sig_not)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:174:3: note: expanded from macro '_SIG_SET_OP'
+                   set->sig[2] = op(set->sig[2]);                          \
+                   ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/riscv/kernel/asm-offsets.c:12:
+>> arch/riscv/include/asm/kvm_host.h:167:22: error: use of undeclared identifier 'RISCV_ISA_EXT_MAX'; did you mean 'KVM_RISCV_ISA_EXT_MAX'?
+           DECLARE_BITMAP(isa, RISCV_ISA_EXT_MAX);
+                               ^~~~~~~~~~~~~~~~~
+                               KVM_RISCV_ISA_EXT_MAX
+   include/linux/types.h:11:35: note: expanded from macro 'DECLARE_BITMAP'
+           unsigned long name[BITS_TO_LONGS(bits)]
+                                            ^
+   include/linux/bitops.h:19:49: note: expanded from macro 'BITS_TO_LONGS'
+   #define BITS_TO_LONGS(nr)       __KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(long))
+                                                         ^
+   include/uapi/linux/const.h:34:40: note: expanded from macro '__KERNEL_DIV_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                          ^
+   arch/riscv/include/uapi/asm/kvm.h:108:2: note: 'KVM_RISCV_ISA_EXT_MAX' declared here
+           KVM_RISCV_ISA_EXT_MAX,
+           ^
+   28 warnings and 4 errors generated.
+   make[2]: *** [scripts/Makefile.build:114: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1287: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +385 io_uring/net.c
+vim +/RISCV_ISA_EXT_NAME_LEN_MAX +53 arch/riscv/include/asm/hwcap.h
 
-   343	
-   344	int io_send(struct io_kiocb *req, unsigned int issue_flags)
-   345	{
-   346		struct sockaddr_storage __address;
-   347		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
-   348		struct msghdr msg;
-   349		struct socket *sock;
-   350		unsigned flags;
-   351		int min_ret = 0;
-   352		int ret;
-   353	
-   354		msg.msg_name = NULL;
-   355		msg.msg_control = NULL;
-   356		msg.msg_controllen = 0;
-   357		msg.msg_namelen = 0;
-   358		msg.msg_ubuf = NULL;
-   359	
-   360		if (sr->addr) {
-   361			if (req_has_async_data(req)) {
-   362				struct io_async_msghdr *io = req->async_data;
-   363	
-   364				msg.msg_name = &io->addr;
-   365			} else {
-   366				ret = move_addr_to_kernel(sr->addr, sr->addr_len, &__address);
-   367				if (unlikely(ret < 0))
-   368					return ret;
-   369				msg.msg_name = (struct sockaddr *)&__address;
-   370			}
-   371			msg.msg_namelen = sr->addr_len;
-   372		}
-   373	
-   374		if (!(req->flags & REQ_F_POLLED) &&
-   375		    (sr->flags & IORING_RECVSEND_POLL_FIRST))
-   376			return io_setup_async_addr(req, &__address, issue_flags);
-   377	
-   378		sock = sock_from_file(req->file);
-   379		if (unlikely(!sock))
-   380			return -ENOTSOCK;
-   381	
-   382		if (!(req->flags & REQ_F_FUSED_SLAVE))
-   383			ret = import_ubuf(ITER_SOURCE, sr->buf, sr->len, &msg.msg_iter);
-   384		else
- > 385			ret = io_import_kbuf_for_slave((u64)sr->buf, sr->len,
-   386					ITER_SOURCE, &msg.msg_iter, req);
-   387		if (unlikely(ret))
-   388			return ret;
-   389	
-   390		flags = sr->msg_flags;
-   391		if (issue_flags & IO_URING_F_NONBLOCK)
-   392			flags |= MSG_DONTWAIT;
-   393		if (flags & MSG_WAITALL)
-   394			min_ret = iov_iter_count(&msg.msg_iter);
-   395	
-   396		msg.msg_flags = flags;
-   397		ret = sock_sendmsg(sock, &msg);
-   398		if (ret < min_ret) {
-   399			if (ret == -EAGAIN && (issue_flags & IO_URING_F_NONBLOCK))
-   400				return io_setup_async_addr(req, &__address, issue_flags);
-   401	
-   402			if (ret > 0 && io_net_retry(sock, flags)) {
-   403				sr->len -= ret;
-   404				sr->buf += ret;
-   405				sr->done_io += ret;
-   406				req->flags |= REQ_F_PARTIAL_IO;
-   407				return io_setup_async_addr(req, &__address, issue_flags);
-   408			}
-   409			if (ret == -ERESTARTSYS)
-   410				ret = -EINTR;
-   411			req_set_fail(req);
-   412		}
-   413		if (ret >= 0)
-   414			ret += sr->done_io;
-   415		else if (sr->done_io)
-   416			ret = sr->done_io;
-   417		io_req_set_res(req, ret, 0);
-   418		return IOU_OK;
-   419	}
-   420	
+c360cbec351103 Jisheng Zhang 2022-05-22  50  
+a9b202606c6931 Atish Patra   2022-03-14  51  struct riscv_isa_ext_data {
+a9b202606c6931 Atish Patra   2022-03-14  52  	/* Name of the extension displayed to userspace via /proc/cpuinfo */
+a9b202606c6931 Atish Patra   2022-03-14 @53  	char uprop[RISCV_ISA_EXT_NAME_LEN_MAX];
+a9b202606c6931 Atish Patra   2022-03-14  54  	/* The logical ISA extension ID */
+a9b202606c6931 Atish Patra   2022-03-14  55  	unsigned int isa_ext_id;
+a9b202606c6931 Atish Patra   2022-03-14  56  };
+a9b202606c6931 Atish Patra   2022-03-14  57  
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  58  static __always_inline bool
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  59  riscv_has_extension_likely(const unsigned long ext)
+c360cbec351103 Jisheng Zhang 2022-05-22  60  {
+bdda5d554e43f2 Jisheng Zhang 2023-01-29 @61  	compiletime_assert(ext < RISCV_ISA_EXT_MAX,
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  62  			   "ext must be < RISCV_ISA_EXT_MAX");
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  63  
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  64  	asm_volatile_goto(
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  65  	ALTERNATIVE("j	%l[l_no]", "nop", 0, %[ext], 1)
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  66  	:
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  67  	: [ext] "i" (ext)
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  68  	:
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  69  	: l_no);
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  70  
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  71  	return true;
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  72  l_no:
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  73  	return false;
+c360cbec351103 Jisheng Zhang 2022-05-22  74  }
+bdda5d554e43f2 Jisheng Zhang 2023-01-29  75  
+
+:::::: The code at line 53 was first introduced by commit
+:::::: a9b202606c69312cdaa4db187837820ebf7213b2 RISC-V: Improve /proc/cpuinfo output for ISA extensions
+
+:::::: TO: Atish Patra <atishp@rivosinc.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
