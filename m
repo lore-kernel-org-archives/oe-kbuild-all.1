@@ -1,43 +1,51 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F30D7B;
-	Thu,  9 Mar 2023 04:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678334411; x=1709870411;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=flisxBefrd9nYf5ZNXBbQ/CgdoNrmWID0rA5MsX3AiM=;
-  b=hNLqlqtFQw3iXgg07nqEimiF0Vc6IrS5MhKxVBQtABt4CJ2Vwp8AM78y
-   HQQXxEnVF5ag3BQLM1VQuCSbCh3PhPtVabBq65mOCBkl+tQXxeuDP4WX0
-   lXpQShn/JohtBh3cxkxHhfrL70XAUvOs3Wt1A0yXuA1iYnEDDjb7O6r2J
-   B1il6Z4us0t2UsfUopxZcWVtjOl2c4y2UduYyhFlcRW12m/PWXNnfRzkQ
-   cG7pvLaM8D710HwEYL6UpZ238rF9pYfAkPRuISs9RCxQ34kixvXktna6O
-   XXMqPGeHpe1PVevthUs8R0EkIWeRVRTHkXrIZwSEsWep47K0nxW7JNU1u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320175328"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="320175328"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 20:00:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766271920"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="766271920"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 20:00:09 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pa7Rn-0002bR-25;
-	Thu, 09 Mar 2023 04:00:07 +0000
-Date: Thu, 9 Mar 2023 11:59:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:alexghiti_test 49/74] arch/riscv/kvm/aia_aplic.c:264:6:
- warning: variable 'inject' is used uninitialized whenever 'if' condition is
- true
-Message-ID: <202303091140.QlzGjwqv-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD58363D;
+	Thu,  9 Mar 2023 04:35:21 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v16so680986wrn.0;
+        Wed, 08 Mar 2023 20:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678336520;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b2Xo/xHwfvK/YSqpt09zcRTWTIvjKdi+fUryvtYFyDA=;
+        b=W7F+YKl5SZ+OmXzAToWTmFulNeX8DrYioVxTKcfu9zRpDimDUgIwZgDlvmnLcg4Md+
+         wZuQEteq1k6uKzkesk5K0L4tiIl1wiRNGjEPjVG1l6yhOpCnj3sdw0YF8aZ2BHxGtLCv
+         D7J8mkQ+8D4SzpNdNxEqxMePNK/lDlzpQklO0/0WErMTJyywL/x7nl314oBnFlWmmdFL
+         jGrQetHC0HOCkVwlFEjL6+C2k1BQyjAQCUySFDE+9nu+1ZVjklnGpuEQJVXUt/1mwc7S
+         fPQBDYo+4/pWdnpHt5vm0MgAbo7prJPPwFQKo0F57ALVEOXc53M0TFhoMY+rmg7Li8wf
+         7MzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678336520;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b2Xo/xHwfvK/YSqpt09zcRTWTIvjKdi+fUryvtYFyDA=;
+        b=6fNWqm5tdupGj9yI3GU5l06Qj0wMUUfxuL9JlEK15fqkXvzODDygXVPm9yxEvb09Ub
+         HqVBT+CiRMmeSXSZ0BKyUZEtMXVnzcHKy2rGh5HlCdwAcHUBXVyic7rkKwHnJcWzNwyG
+         yHW4kK4JBliyBmpeXGoVh5i4aCkwfAKvOOaOJweaRmKMPSfRf5l15QAoQlrruVGGyrVI
+         hZOcZjIEpdkCuXSqlICrEF0ywAX2eu+sivRafYUId0SkdOawGskCdQmBELMwlwQmiiGO
+         xMhODbBE20Rk+bRAF91AdHt9fayKHKkrbYSYA92dmhwZ3ZVdnN+bqojdVxEy+oWShorY
+         5CfA==
+X-Gm-Message-State: AO0yUKU9wqsM8ZJsp+t7ZrBdMqZC4lOlKeuF0Gen0GRIShzFt/h4mVT8
+	8cZrd+j5Ewi7bCmN/Z7kxltW+cGdVyB4wEyo
+X-Google-Smtp-Source: AK7set+8w9p9l1w+yOEp7qFdAf9LqEuXB0fQZvT2WFR+hUuvO6kKQpFCVz8biYkYYKowkY/tUKkNqA==
+X-Received: by 2002:adf:e641:0:b0:2cd:e125:4559 with SMTP id b1-20020adfe641000000b002cde1254559mr14423735wrn.29.1678336519689;
+        Wed, 08 Mar 2023 20:35:19 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c10-20020adffb0a000000b002ce72cff2ecsm7158846wrr.72.2023.03.08.20.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 20:35:19 -0800 (PST)
+Date: Thu, 9 Mar 2023 07:35:15 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+	bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
+	kernel-team@meta.com, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator
+ loops
+Message-ID: <1399021d-b06a-447c-94ca-6cc657c9c0b2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,112 +54,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230308035416.2591326-4-andrii@kernel.org>
 
-tree:   https://github.com/avpatel/linux.git alexghiti_test
-head:   a66ce4f614559da376cae340d6012bf9a02e3c08
-commit: 1613bb11e44d1b5ab8313985a7497b1c1227d259 [49/74] RISC-V: KVM: Add in-kernel emulation of AIA APLIC
-config: riscv-randconfig-r042-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091140.QlzGjwqv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/avpatel/linux/commit/1613bb11e44d1b5ab8313985a7497b1c1227d259
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel alexghiti_test
-        git checkout 1613bb11e44d1b5ab8313985a7497b1c1227d259
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/
+Hi Andrii,
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%40kernel.org
+patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
+config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230309/202303090153.YeswNcW4-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091140.QlzGjwqv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303090153.YeswNcW4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/verifier.c:1244 is_iter_reg_valid_uninit() error: uninitialized symbol 'j'.
 
->> arch/riscv/kvm/aia_aplic.c:264:6: warning: variable 'inject' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/aia_aplic.c:303:6: note: uninitialized use occurs here
-           if (inject)
-               ^~~~~~
-   arch/riscv/kvm/aia_aplic.c:264:2: note: remove the 'if' if its condition is always false
-           if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/aia_aplic.c:252:13: note: initialize the variable 'inject' to silence this warning
-           bool inject, ie;
-                      ^
-                       = 0
-   1 warning generated.
+vim +/j +1244 kernel/bpf/verifier.c
 
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1225  static bool is_iter_reg_valid_uninit(struct bpf_verifier_env *env,
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1226  				     struct bpf_reg_state *reg, int nr_slots)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1227  {
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1228  	struct bpf_func_state *state = func(env, reg);
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1229  	int spi, i, j;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1230  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1231  	/* For -ERANGE (i.e. spi not falling into allocated stack slots), we
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1232  	 * will do check_mem_access to check and update stack bounds later, so
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1233  	 * return true for that case.
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1234  	 */
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1235  	spi = iter_get_spi(env, reg, nr_slots);
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1236  	if (spi == -ERANGE)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1237  		return true;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1238  	if (spi < 0)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1239  		return spi;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1240  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1241  	for (i = 0; i < nr_slots; i++) {
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1242  		struct bpf_stack_state *slot = &state->stack[spi - i];
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1243  
+8f263e1296a91f Andrii Nakryiko 2023-03-07 @1244  		if (slot->slot_type[j] == STACK_ITER)
+                                                                                    ^
+s/j/i/?
 
-vim +264 arch/riscv/kvm/aia_aplic.c
-
-   248	
-   249	int kvm_riscv_aia_aplic_inject(struct kvm *kvm, u32 source, bool level)
-   250	{
-   251		u32 target;
-   252		bool inject, ie;
-   253		unsigned long flags;
-   254		struct aplic_irq *irqd;
-   255		struct aplic *aplic = kvm->arch.aia.aplic_state;
-   256	
-   257		if (!aplic || !source || (aplic->nr_irqs <= source))
-   258			return -ENODEV;
-   259		irqd = &aplic->irqs[source];
-   260		ie = (aplic->domaincfg & APLIC_DOMAINCFG_IE) ? true : false;
-   261	
-   262		raw_spin_lock_irqsave(&irqd->lock, flags);
-   263	
- > 264		if (irqd->sourcecfg & APLIC_SOURCECFG_D)
-   265			goto skip_unlock;
-   266	
-   267		switch (irqd->sourcecfg & APLIC_SOURCECFG_SM_MASK) {
-   268		case APLIC_SOURCECFG_SM_EDGE_RISE:
-   269			if (level && !(irqd->state & APLIC_IRQ_STATE_INPUT) &&
-   270			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   271				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   272			break;
-   273		case APLIC_SOURCECFG_SM_EDGE_FALL:
-   274			if (!level && (irqd->state & APLIC_IRQ_STATE_INPUT) &&
-   275			    !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   276				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   277			break;
-   278		case APLIC_SOURCECFG_SM_LEVEL_HIGH:
-   279			if (level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   280				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   281			break;
-   282		case APLIC_SOURCECFG_SM_LEVEL_LOW:
-   283			if (!level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
-   284				irqd->state |= APLIC_IRQ_STATE_PENDING;
-   285			break;
-   286		}
-   287	
-   288		if (level)
-   289			irqd->state |= APLIC_IRQ_STATE_INPUT;
-   290		else
-   291			irqd->state &= ~APLIC_IRQ_STATE_INPUT;
-   292	
-   293		inject = false;
-   294		target = irqd->target;
-   295		if (ie && (irqd->state & APLIC_IRQ_STATE_ENPEND)) {
-   296			irqd->state &= ~APLIC_IRQ_STATE_PENDING;
-   297			inject = true;
-   298		}
-   299	
-   300	skip_unlock:
-   301		raw_spin_unlock_irqrestore(&irqd->lock, flags);
-   302	
-   303		if (inject)
-   304			aplic_inject_msi(kvm, source, target);
-   305	
-   306		return 0;
-   307	}
-   308	
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1245  			return false;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1246  	}
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1247  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1248  	return true;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1249  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
