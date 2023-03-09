@@ -1,43 +1,47 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF862F3A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695912F36
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678350559; x=1709886559;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7eLkM3eExnOAEHuzBRl4HrhYD28cOXPWFS8ppY2oubw=;
-  b=T9wUkJIZ6X2NXP8lCZkHHcvMTaycZJJaQFoq41oQskIOKKhf2eHfTY7w
-   EIRo7BXTZK6DwSVQM4z8qgCXt69WNV0PIXkO7kjiEgk8u+q3TVVGMeNDl
-   jZKw0T4dhCOSOqhT30blKPMlb8l1sEmLVnnve804vldQJz7irVa/Kj6AP
-   gD6u/d3g0GzNNS7Gmc4Bu9Xfx0E6rTN/rjg8t17IQsmWF6/0W2n+KttPj
-   7zEOMcgzJaCD9UixS2LciVihF/xssjZoFN8RB2QTOAoeKUG5oBdSN/fiY
-   QUCI86h8jL9CU794oYvhBnjaKDnwCZ01Dijb0ZP/HjK6r93qhiVBwD8lE
+  t=1678350560; x=1709886560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ez34kjscgZUPX0KiPYbpcrQbCpjzHK/+o25b4HpA+Zw=;
+  b=i3payagGRaNgv9wm8ehmxleoJGiGtvShw8DwkMvAa9oGS78uR5JQeqqc
+   fz+t10UKi2LwKjGpMJRABaheIlg8dLQg7GArbl3WEtK5CW272WGdaOGWp
+   64s1Q2K2ynT2MW8tJoxzQa9CGxJdKPTPxr2No5e1oyr3UMkMUUKvSmkjH
+   VZPj70iakwRFPqjDj2WMLHtC+cEbZJVR0oVy+4nNGL63Mijp20QVADZ3X
+   e/e3AmegwsQrrLQrbaYGsgItgCfeP6g6AqFoc+KGhFwCO3eHQTfVL3kFM
+   N6r8DlJ4wqEAlbTc8CpIBq6D0cGjfKycb8/qtTm16zRhgQxT60JWrnEBT
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="333857806"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="333857813"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="333857806"
+   d="scan'208";a="333857813"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:29:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746232564"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746232565"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="746232564"
+   d="scan'208";a="746232565"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 00:29:16 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paBeG-0002nr-0J;
+	id 1paBeG-0002nt-0N;
 	Thu, 09 Mar 2023 08:29:16 +0000
-Date: Thu, 9 Mar 2023 16:28:47 +0800
+Date: Thu, 9 Mar 2023 16:28:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning:
- 'tracker' is used uninitialized
-Message-ID: <202303091658.YVmA2chk-lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
+ voltage levels
+Message-ID: <202303091612.UKr8Fhos-lkp@intel.com>
+References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,88 +50,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a98c9cae232800c319ed69e1063480d31430887
-commit: 41596803302d83a67a80dc1efef4e51ac46acabb LoongArch: Make -mstrict-align configurable
-date:   12 days ago
-config: loongarch-randconfig-r033-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091658.YVmA2chk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Geert,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
+[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
+patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
+config: nios2-randconfig-r004-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091612.UKr8Fhos-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=41596803302d83a67a80dc1efef4e51ac46acabb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 41596803302d83a67a80dc1efef4e51ac46acabb
+        # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+        git checkout 513932515f943c5987c5a214520f6875cd507c3e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/pinctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091658.YVmA2chk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091612.UKr8Fhos-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c: In function 'mlx5_lag_netdev_event':
->> drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning: 'tracker' is used uninitialized [-Wuninitialized]
-    1087 |         struct lag_tracker tracker;
-         |                            ^~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: note: 'tracker' declared here
-    1087 |         struct lag_tracker tracker;
-         |                            ^~~~~~~
+   In file included from drivers/pinctrl/renesas/pfc-r8a77950.c:11:
+>> drivers/pinctrl/renesas/pfc-r8a77950.c:19:48: error: 'SH_PFC_PIN_CFG_IO_VOLTAGE' undeclared here (not in a function); did you mean 'SH_PFC_PIN_CFG_IO_VOLTAGE_MASK'?
+      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:620:20: note: in definition of macro '_GP_GPIO'
+     620 |         .configs = cfg,                                                 \
+         |                    ^~~
+   drivers/pinctrl/renesas/sh_pfc.h:447:9: note: in expansion of macro 'PORT_GP_CFG_1'
+     447 |         PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),                          \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:452:9: note: in expansion of macro 'PORT_GP_CFG_2'
+     452 |         PORT_GP_CFG_2(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:458:9: note: in expansion of macro 'PORT_GP_CFG_4'
+     458 |         PORT_GP_CFG_4(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:464:9: note: in expansion of macro 'PORT_GP_CFG_6'
+     464 |         PORT_GP_CFG_6(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:469:9: note: in expansion of macro 'PORT_GP_CFG_7'
+     469 |         PORT_GP_CFG_7(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:474:9: note: in expansion of macro 'PORT_GP_CFG_8'
+     474 |         PORT_GP_CFG_8(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:479:9: note: in expansion of macro 'PORT_GP_CFG_9'
+     479 |         PORT_GP_CFG_9(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:484:9: note: in expansion of macro 'PORT_GP_CFG_10'
+     484 |         PORT_GP_CFG_10(bank, fn, sfx, cfg),                             \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:489:9: note: in expansion of macro 'PORT_GP_CFG_11'
+     489 |         PORT_GP_CFG_11(bank, fn, sfx, cfg),                             \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/pfc-r8a77950.c:19:9: note: in expansion of macro 'PORT_GP_CFG_12'
+      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:622:41: note: in expansion of macro 'CPU_ALL_GP'
+     622 | #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
+         |                                         ^~~~~~~~~~
+   drivers/pinctrl/renesas/pfc-r8a77950.c:1502:9: note: in expansion of macro 'PINMUX_GPIO_GP_ALL'
+    1502 |         PINMUX_GPIO_GP_ALL(),
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +/tracker +1087 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c
+vim +19 drivers/pinctrl/renesas/pfc-r8a77950.c
 
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1081  
-94db3317781922 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Eli Cohen   2022-01-31  1082  /* this handler is always registered to netdev events */
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1083  static int mlx5_lag_netdev_event(struct notifier_block *this,
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1084  				 unsigned long event, void *ptr)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1085  {
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1086  	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17 @1087  	struct lag_tracker tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1088  	struct mlx5_lag *ldev;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1089  	int changed = 0;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1090  
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1091  	if (event != NETDEV_CHANGEUPPER &&
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1092  	    event != NETDEV_CHANGELOWERSTATE &&
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1093  	    event != NETDEV_CHANGEINFODATA)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1094  		return NOTIFY_DONE;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1095  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1096  	ldev    = container_of(this, struct mlx5_lag, nb);
-9b412cc35f0025 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Jianbo Liu  2020-04-17  1097  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1098  	tracker = ldev->tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1099  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1100  	switch (event) {
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1101  	case NETDEV_CHANGEUPPER:
-a4a9c87ebb689c drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Eli Cohen   2022-02-06  1102  		changed = mlx5_handle_changeupper_event(ldev, &tracker, ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1103  		break;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1104  	case NETDEV_CHANGELOWERSTATE:
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1105  		changed = mlx5_handle_changelowerstate_event(ldev, &tracker,
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1106  							     ndev, ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1107  		break;
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1108  	case NETDEV_CHANGEINFODATA:
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1109  		changed = mlx5_handle_changeinfodata_event(ldev, &tracker, ndev);
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1110  		break;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1111  	}
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1112  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1113  	ldev->tracker = tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1114  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1115  	if (changed)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1116  		mlx5_queue_bond_work(ldev, 0);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1117  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1118  	return NOTIFY_DONE;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1119  }
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1120  
-
-:::::: The code at line 1087 was first introduced by commit
-:::::: 7907f23adc186700efbe56c032527e47485c86ab net/mlx5: Implement RoCE LAG feature
-
-:::::: TO: Aviv Heller <avivh@mellanox.com>
-:::::: CC: Leon Romanovsky <leon@kernel.org>
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  14  
+bd79c92039f117 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-03-21  15  #define CPU_ALL_GP(fn, sfx)						\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  16  	PORT_GP_CFG_16(0, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  17  	PORT_GP_CFG_28(1, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  18  	PORT_GP_CFG_15(2, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03 @19  	PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  20  	PORT_GP_CFG_1(3, 12, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  21  	PORT_GP_CFG_1(3, 13, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  22  	PORT_GP_CFG_1(3, 14, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  23  	PORT_GP_CFG_1(3, 15, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  24  	PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  25  	PORT_GP_CFG_26(5, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  26  	PORT_GP_CFG_32(6, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  27  	PORT_GP_CFG_4(7, fn, sfx, CFG_FLAGS)
+4f062bcb588972 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-01-15  28  
 
 -- 
 0-DAY CI Kernel Test Service
