@@ -1,49 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B902F5B;
-	Thu,  9 Mar 2023 08:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A23233
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 08:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678351820; x=1709887820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hzJZZecRtLBuUUUYuZrjjCAOTv/teU3J5+ZEbs+0u74=;
-  b=abuvcZzHFEh3tPX20o+eHtwYZMrYd2XeyTfJfL17K7nHwE42erlZTJKr
-   Gz6+NIUf7vpzuLAH4n1Nbwy5vwxFpiGto44HUSwdaTrNOipsHDrZkR8d9
-   VhWXO8NIoUyCnpAoEUxqtKcMHSd5Nm7mdKyY8dW8Wm51zVcvlmUaFodFT
-   PkdH/SDs04Ps99WDnqNcMvPayVpULPC8WMk9A4aQDvRy9WMPTW7kRXSRw
-   p6cKi7hLcNikDc23NMeRbZE4Oxp4Rol5M6rnbty+4lEZwPDYsWYIwuD3x
-   C5GJvLM1Nxs04JH4ojtfAO9mLUYySIvtK8VTSPO9YIX5zcM/uQeAm6wm8
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320220094"
+  t=1678351821; x=1709887821;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ku51Pa4Ui6a6sQeyUMqUe2cjg4dnQ1N2J3QTsfYlpMI=;
+  b=Yf34H65XEukKqIOLLu3J7mjvH1ZQ/nHiMTfYAtcsDiaixIFInznxocVj
+   IhO8tlDndqQ15DMk4oqD49DneFoTl8OZmcD+faGIHScVQdfGer6rlHeb+
+   kxQqJGcfjWDatAW+tI32/W2ikiEz21xHDRo37GuSKHXlxonOm51MhcCND
+   KJmKrHn4TmyhnTTP3CNlDkXOUGb4qR53+P4lsuUDXTQzHKLqQk5rH2gCU
+   7RZMD+wOyFE/02EqdXm19R3Xx7V9x5ZgpJTaAuYbB/1EBSYCPMtLM5UVz
+   bFXzDWDjOaShfQowfBIf5xDazAt39ym1Fn7L1zuleTfDEUqiejVNdhoH/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="364031702"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="320220094"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:50:19 -0800
+   d="scan'208";a="364031702"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:50:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="627283830"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="707525167"
 X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="627283830"
+   d="scan'208";a="707525167"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 00:50:17 -0800
+  by orsmga008.jf.intel.com with ESMTP; 09 Mar 2023 00:50:17 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paBya-0002om-2Y;
+	id 1paBya-0002oj-2O;
 	Thu, 09 Mar 2023 08:50:16 +0000
-Date: Thu, 9 Mar 2023 16:49:47 +0800
+Date: Thu, 9 Mar 2023 16:49:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>, Peter Tyser <ptyser@xes-inc.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Davis <afd@ti.com>
-Subject: Re: [PATCH v2 3/6] gpio: sch311x: Use devm_gpiochip_add_data() to
- simplify remove path
-Message-ID: <202303091640.6XjHNouG-lkp@intel.com>
-References: <20230307193346.8718-3-afd@ti.com>
+To: Zhihao Cheng <chengzhihao1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Weinberger <richard@nod.at>
+Subject: [stable:linux-4.19.y 2224/5333] fs/ubifs/ioctl.c:175: Error:
+ unrecognized opcode `csrs sstatus,a2'
+Message-ID: <202303091607.Cc3k9tWi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,58 +47,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307193346.8718-3-afd@ti.com>
 
-Hi Andrew,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/gpio-twl4030-Use-devm_gpiochip_add_data-to-simplify-remove-path/20230308-034717
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20230307193346.8718-3-afd%40ti.com
-patch subject: [PATCH v2 3/6] gpio: sch311x: Use devm_gpiochip_add_data() to simplify remove path
-config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230309/202303091640.6XjHNouG-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   5504146b2053f842426834d275002974109f39a6
+commit: b98a46d053339fa482c7cf9a71b18fbbe8091489 [2224/5333] ubifs: setflags: Make dirtied_ino_d 8 bytes aligned
+config: riscv-randconfig-c024-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091607.Cc3k9tWi-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/fcfc10c6817ac3ea88ced58cce2ae8568b0f2030
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrew-Davis/gpio-twl4030-Use-devm_gpiochip_add_data-to-simplify-remove-path/20230308-034717
-        git checkout fcfc10c6817ac3ea88ced58cce2ae8568b0f2030
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=b98a46d053339fa482c7cf9a71b18fbbe8091489
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout b98a46d053339fa482c7cf9a71b18fbbe8091489
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/ubifs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091640.6XjHNouG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091607.Cc3k9tWi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpio/gpio-sch311x.c:322:13: error: use of undeclared identifier 'sch311x_gpio_remove'
-           .remove         = sch311x_gpio_remove,
-                             ^
-   1 error generated.
+   fs/ubifs/ioctl.c: Assembler messages:
+   fs/ubifs/ioctl.c:166: Error: unrecognized opcode `csrs sstatus,a5'
+   fs/ubifs/ioctl.c:166: Error: unrecognized opcode `csrc sstatus,a5'
+>> fs/ubifs/ioctl.c:175: Error: unrecognized opcode `csrs sstatus,a2'
+>> fs/ubifs/ioctl.c:175: Error: unrecognized opcode `csrc sstatus,a2'
 
 
-vim +/sch311x_gpio_remove +322 drivers/gpio/gpio-sch311x.c
+vim +175 fs/ubifs/ioctl.c
 
-12262bef8f4614 Bruno Randolf 2013-12-04  318  
-12262bef8f4614 Bruno Randolf 2013-12-04  319  static struct platform_driver sch311x_gpio_driver = {
-12262bef8f4614 Bruno Randolf 2013-12-04  320  	.driver.name	= DRV_NAME,
-12262bef8f4614 Bruno Randolf 2013-12-04  321  	.probe		= sch311x_gpio_probe,
-12262bef8f4614 Bruno Randolf 2013-12-04 @322  	.remove		= sch311x_gpio_remove,
-12262bef8f4614 Bruno Randolf 2013-12-04  323  };
-12262bef8f4614 Bruno Randolf 2013-12-04  324  
-12262bef8f4614 Bruno Randolf 2013-12-04  325  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  155  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  156  long ubifs_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  157  {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  158  	int flags, err;
+496ad9aa8ef448 Al Viro            2013-01-23  159  	struct inode *inode = file_inode(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  160  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  161  	switch (cmd) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  162  	case FS_IOC_GETFLAGS:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  163  		flags = ubifs2ioctl(ubifs_inode(inode)->flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  164  
+a9f2fc0e251e71 Artem Bityutskiy   2008-12-23  165  		dbg_gen("get flags: %#x, i_flags %#x", flags, inode->i_flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  166  		return put_user(flags, (int __user *) arg);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  167  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  168  	case FS_IOC_SETFLAGS: {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  169  		if (IS_RDONLY(inode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  170  			return -EROFS;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  171  
+2e1496707560ec Serge E. Hallyn    2011-03-23  172  		if (!inode_owner_or_capable(inode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  173  			return -EACCES;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  174  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @175  		if (get_user(flags, (int __user *) arg))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  176  			return -EFAULT;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  177  
+08ae5ec4be5a6d Hou Tao            2019-02-09  178  		if (flags & ~UBIFS_SUPPORTED_IOCTL_FLAGS)
+08ae5ec4be5a6d Hou Tao            2019-02-09  179  			return -EOPNOTSUPP;
+08ae5ec4be5a6d Hou Tao            2019-02-09  180  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  181  		if (!S_ISDIR(inode->i_mode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  182  			flags &= ~FS_DIRSYNC_FL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  183  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  184  		/*
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  185  		 * Make sure the file-system is read-write and make sure it
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  186  		 * will not become read-only while we are changing the flags.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  187  		 */
+a561be7100cd61 Al Viro            2011-11-23  188  		err = mnt_want_write_file(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  189  		if (err)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  190  			return err;
+a9f2fc0e251e71 Artem Bityutskiy   2008-12-23  191  		dbg_gen("set flags: %#x, i_flags %#x", flags, inode->i_flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  192  		err = setflags(inode, flags);
+2a79f17e4a641a Al Viro            2011-12-09  193  		mnt_drop_write_file(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  194  		return err;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  195  	}
+d475a507457b5c Richard Weinberger 2016-10-20  196  	case FS_IOC_SET_ENCRYPTION_POLICY: {
+d475a507457b5c Richard Weinberger 2016-10-20  197  #ifdef CONFIG_UBIFS_FS_ENCRYPTION
+e021986ee4119e Richard Weinberger 2016-10-19  198  		struct ubifs_info *c = inode->i_sb->s_fs_info;
+d475a507457b5c Richard Weinberger 2016-10-20  199  
+e021986ee4119e Richard Weinberger 2016-10-19  200  		err = ubifs_enable_encryption(c);
+e021986ee4119e Richard Weinberger 2016-10-19  201  		if (err)
+e021986ee4119e Richard Weinberger 2016-10-19  202  			return err;
+e021986ee4119e Richard Weinberger 2016-10-19  203  
+ec9160dacdb08e Richard Weinberger 2016-12-13  204  		return fscrypt_ioctl_set_policy(file, (const void __user *)arg);
+d475a507457b5c Richard Weinberger 2016-10-20  205  #else
+d475a507457b5c Richard Weinberger 2016-10-20  206  		return -EOPNOTSUPP;
+d475a507457b5c Richard Weinberger 2016-10-20  207  #endif
+d475a507457b5c Richard Weinberger 2016-10-20  208  	}
+d475a507457b5c Richard Weinberger 2016-10-20  209  	case FS_IOC_GET_ENCRYPTION_POLICY: {
+d475a507457b5c Richard Weinberger 2016-10-20  210  #ifdef CONFIG_UBIFS_FS_ENCRYPTION
+ec9160dacdb08e Richard Weinberger 2016-12-13  211  		return fscrypt_ioctl_get_policy(file, (void __user *)arg);
+d475a507457b5c Richard Weinberger 2016-10-20  212  #else
+d475a507457b5c Richard Weinberger 2016-10-20  213  		return -EOPNOTSUPP;
+d475a507457b5c Richard Weinberger 2016-10-20  214  #endif
+d475a507457b5c Richard Weinberger 2016-10-20  215  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  216  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  217  	default:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  218  		return -ENOTTY;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  219  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  220  }
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  221  
+
+:::::: The code at line 175 was first introduced by commit
+:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
+
+:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
 
 -- 
 0-DAY CI Kernel Test Service
