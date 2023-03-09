@@ -1,45 +1,51 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5AE944D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 12:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5DF2F28
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 12:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678364787; x=1709900787;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EL1Izt0VLi3TKr0DcBmPss7A6zpKmZUWCYIix1TjWeA=;
-  b=eg3dD07qwSKjBgB5heRSLf+JqrycEqxEGCWC9Vlt1N0WuaRIye4HFSIG
-   U53OKf08ZC+rbULrySs//g6UvCABRxAWP6pN44/3nMOiUYtkGJKQHOyKg
-   mMlVaAGX9Z22t8cyR+SN4WYSP1RQ7IEq2TrPhE39xqn8yg1WPcVldjWEx
-   A8NEr+EMrfkp1N5g9ZsWmKvymoIKabZ8drBpfOD1kgeH8Ve7J8LtHtwwN
-   1ryrN9yV1LNv+t1LouV0cP8j3HXaT7tQdMHtgjwksg+hxopTPMegSS8O0
-   yTeI0MaouUaHroKlbg1fh6MnEf47HMUB4LpCHqBrs/R4ZGQAF+m3PlsRz
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="422702549"
+  t=1678365987; x=1709901987;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pe1PtI7IyWc0oTAI4ntT2uoamMGsiaiqiq3pL8IETsU=;
+  b=e464A+Wkkl+Jt+HfdtcfMGJ7ElF1T/D4pTsTZIu6AGDf+ILYme9LLpWZ
+   CHHztk5VT9iI+GdprxOGuXZRgPwh+eCtW36YSVUmHnDprvmRbYMPh+L1g
+   S3qJT9qIp1CLuqtF+/pDkgPxIi5BO+pHGWDymscaXgPYqAmIFdYVJsZ9c
+   d4gSqfth4iH/OA4sgHHEXG18BeFJXBd5SeyRIFPmeSJ2gQ63TSyrq7CQT
+   xnDgP8wK3j+aE2hECgDUF+dLbKOXxT9FotNTS5YsMclPTku1/gnpSg+2j
+   8pE8TL5Mqj98H7DJ5qq2cFOvz/1g31ToJyVG46n4l8IZgozcqCpxbQms/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320263718"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="422702549"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:26:26 -0800
+   d="scan'208";a="320263718"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:46:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709829044"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="707598458"
 X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="709829044"
+   d="scan'208";a="707598458"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Mar 2023 04:26:24 -0800
+  by orsmga008.jf.intel.com with ESMTP; 09 Mar 2023 04:46:24 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paFLj-0002wf-2P;
-	Thu, 09 Mar 2023 12:26:23 +0000
-Date: Thu, 9 Mar 2023 20:25:53 +0800
+	id 1paFf6-0002x7-0R;
+	Thu, 09 Mar 2023 12:46:24 +0000
+Date: Thu, 9 Mar 2023 20:46:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kangzhen Lou <kangzhen.lou@dell.com>, oliver@neukum.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Kangzhen Lou <kangzhen.lou@dell.com>
-Subject: Re: [PATCH] net: cdc_ncm: support ACPI MAC address pass through
- functionality
-Message-ID: <202303092027.01TO9rlB-lkp@intel.com>
-References: <20230309083436.6729-1-kangzhen.lou@dell.com>
+To: Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Hongchen Zhang <zhanghongchen@loongson.cn>,
+	Liu Peibao <liupeibao@loongson.cn>,
+	Juxin Gao <gaojuxin@loongson.cn>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linux-next:master 995/2428] kismet: WARNING: unmet direct
+ dependencies detected for OF_GPIO when selected by GPIO_LOONGSON_64BIT
+Message-ID: <202303092022.Jqy5pbvx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,114 +54,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230309083436.6729-1-kangzhen.lou@dell.com>
 
-Hi Kangzhen,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on westeri-thunderbolt/next]
-[also build test WARNING on linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kangzhen-Lou/net-cdc_ncm-support-ACPI-MAC-address-pass-through-functionality/20230309-184736
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20230309083436.6729-1-kangzhen.lou%40dell.com
-patch subject: [PATCH] net: cdc_ncm: support ACPI MAC address pass through functionality
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230309/202303092027.01TO9rlB-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/97cd8ee9a774c36093af3d26255e415f6082b4a3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kangzhen-Lou/net-cdc_ncm-support-ACPI-MAC-address-pass-through-functionality/20230309-184736
-        git checkout 97cd8ee9a774c36093af3d26255e415f6082b4a3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/net/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2c6433e9294b6d0f4d8f08c3c70a3eac434d3ec8
+commit: 7944d3b7fe86067509751473aa917fdfd662d92c [995/2428] gpio: loongson: add gpio driver support
+config: x86_64-kismet-CONFIG_OF_GPIO-CONFIG_GPIO_LOONGSON_64BIT-0-0 (https://download.01.org/0day-ci/archive/20230309/202303092022.Jqy5pbvx-lkp@intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7944d3b7fe86067509751473aa917fdfd662d92c
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 7944d3b7fe86067509751473aa917fdfd662d92c
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_OF_GPIO --selectors CONFIG_GPIO_LOONGSON_64BIT -a=x86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=x86_64 olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303092027.01TO9rlB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303092022.Jqy5pbvx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/usb/cdc_ncm.c:818:5: warning: no previous prototype for 'acpi_mac_passthru_invalid' [-Wmissing-prototypes]
-     818 | int acpi_mac_passthru_invalid(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/cdc_ncm.c:851:5: warning: no previous prototype for 'get_acpi_mac_passthru' [-Wmissing-prototypes]
-     851 | int get_acpi_mac_passthru(char *MACAddress)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/cdc_ncm.c: In function 'cdc_ncm_get_ethernet_address':
-   drivers/net/usb/cdc_ncm.c:894:49: warning: passing argument 6 of 'usbnet_read_cmd' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     894 |                               iface_no, dev->net->dev_addr, ETH_ALEN);
-         |                                         ~~~~~~~~^~~~~~~~~~
-   In file included from drivers/net/usb/cdc_ncm.c:53:
-   include/linux/usb/usbnet.h:181:49: note: expected 'void *' but argument is of type 'const unsigned char *'
-     181 |                     u16 value, u16 index, void *data, u16 size);
-         |                                           ~~~~~~^~~~
-   drivers/net/usb/cdc_ncm.c: In function 'cdc_ncm_determine_ethernet_addr':
->> drivers/net/usb/cdc_ncm.c:980:48: warning: passing argument 1 of 'memcpy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     980 |                                 memcpy(dev->net->dev_addr, sa.sa_data, ETH_ALEN);
-         |                                        ~~~~~~~~^~~~~~~~~~
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/net/usb/cdc_ncm.c:41:
-   arch/ia64/include/asm/string.h:19:22: note: expected 'void *' but argument is of type 'const unsigned char *'
-      19 | extern void *memcpy (void *, const void *, __kernel_size_t);
-         |                      ^~~~~~
-
-
-vim +980 drivers/net/usb/cdc_ncm.c
-
-   950	
-   951	static int cdc_ncm_determine_ethernet_addr(struct usb_interface *intf)
-   952	{
-   953		struct sockaddr sa;
-   954		struct usbnet *dev = usb_get_intfdata(intf);
-   955		struct cdc_ncm_ctx *ctx;
-   956		int ret = 0;
-   957	
-   958		if (!dev)
-   959			return 0;
-   960	
-   961		/* MAC pass through function only apply to Realtek RTL8153-DD chip */
-   962		if (!(dev->udev->descriptor.idVendor == 0x0bda
-   963			&& dev->udev->descriptor.idProduct == 0x8153
-   964			&& (dev->udev->descriptor.bcdDevice & 0xff00) == 0x3300))
-   965			return 0;
-   966	
-   967		ctx = (struct cdc_ncm_ctx *)dev->data[0];
-   968		if (!ctx->ether_desc)
-   969			return 0;
-   970	
-   971		ret = cdc_ncm_get_ethernet_address(dev, ctx);
-   972		if (ret) {
-   973			dev_dbg(&intf->dev, "failed to get mac address\n");
-   974			return ret;
-   975		}
-   976	
-   977		if (!get_acpi_mac_passthru(sa.sa_data)) {
-   978			if (memcmp(dev->net->dev_addr, sa.sa_data, ETH_ALEN) != 0) {
-   979				if (!cdc_ncm_set_ethernet_address(dev, &sa))
- > 980					memcpy(dev->net->dev_addr, sa.sa_data, ETH_ALEN);
-   981			}
-   982		}
-   983	
-   984		dev_info(&intf->dev, "MAC-Address: %pM\n", dev->net->dev_addr);
-   985	
-   986		return 0;
-   987	}
-   988	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for OF_GPIO when selected by GPIO_LOONGSON_64BIT
+   .config:4978:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   
+   WARNING: unmet direct dependencies detected for OF_GPIO
+     Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - GPIO_LOONGSON_64BIT [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (LOONGARCH || COMPILE_TEST [=y])
+   
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+     Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+     Selected by [y]:
+     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
+   
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+     Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+     Selected by [y]:
+     - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
