@@ -1,43 +1,48 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2F4C284
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 19:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E24C28F;
+	Thu,  9 Mar 2023 19:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678391320; x=1709927320;
+  t=1678391922; x=1709927922;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pcJgu8uJtzYmRF34MqUAgySR8kl+KKvrtNZ3gcOlzOA=;
-  b=N5Vh4IZkx8NLwR1JQSWBv9fopLr8US1ifrvIxiN+eB64SqrAFOmbJyLM
-   oyGMBVJUyiBr3BqYPOF+hgVk4xE1dnvluYmatzn85K5QTKrSD33bpm7Vw
-   GxDW3DavQ/ZsgWRKzaxrvaUmODaNehSYIvzSC8xqDUrU9newdR5QtHfdx
-   lWpqGiBs9w7BKAI7u9Z1Kwh/Jx2ZMny8Uocr/06CNePuNxnUlrOSVEIx+
-   MnQ9TTc7cWWPMDi6ajDabvSEszgsNKadHZFyMH7bhnbWezEipbbo1szzW
-   iK7X/SX9OL/JuQw+L0PUbEfvL02cuShpaxhbucBOHCf6+w695JjhZ9lRR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="401412220"
+  bh=JXAhm1Bty8aLiuxBuZjUESD2QyeRCdf7zzvthkJPxc8=;
+  b=WGpFTUt49h9S5B2ScCLDvP6IHRC0EO7/uoTfE6iJqr0nAm4z+gDmdwBA
+   Pb5dJpeauw+UY+9Rmp0beyclSQJxTEJP9ejWEG4uP+q/LnegmAopG3Xmc
+   xjMWnBi69Mxlhr6JS8pr+S4EUEIRx8dulbr/xGU4HB22VaQqpCUSrDrPb
+   BBcc6ugc1ccaIaMMtA7nVwjvQUbw2fX59xtgI6jBq87Z/QcOFsKNBtfAJ
+   CR0KCxVJoZuCa3xz/u9OQcbSkxRLb95cjN7/xrwkuJEux40CjU6cyqZJR
+   AsHHmtpAyfu/VYRmfCbcASGg1eY0Cys3wbHanqyF/O4sthTX9phYzI/G3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316950378"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="401412220"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 11:48:39 -0800
+   d="scan'208";a="316950378"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 11:58:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="654902244"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="670851192"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="654902244"
+   d="scan'208";a="670851192"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 Mar 2023 11:48:38 -0800
+  by orsmga007.jf.intel.com with ESMTP; 09 Mar 2023 11:58:39 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paMFh-0003BD-34;
-	Thu, 09 Mar 2023 19:48:37 +0000
-Date: Fri, 10 Mar 2023 03:47:58 +0800
+	id 1paMPO-0003Bd-0m;
+	Thu, 09 Mar 2023 19:58:38 +0000
+Date: Fri, 10 Mar 2023 03:58:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] docs: usb: Add documentation for the UVC Gadget
-Message-ID: <202303100339.eoqe1zbR-lkp@intel.com>
-References: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+To: Huacai Chen <chenhuacai@loongson.cn>, Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+	loongarch@lists.linux.dev, Xuefeng Li <lixuefeng@loongson.cn>,
+	Xuerui Wang <kernel@xen0n.name>, linux-kernel@vger.kernel.org,
+	loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH] efi/libstub: Call setup_graphics() before
+ handle_kernel_image()
+Message-ID: <202303100324.OOW0550T-lkp@intel.com>
+References: <20230309060012.4189412-1-chenhuacai@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,39 +51,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+In-Reply-To: <20230309060012.4189412-1-chenhuacai@loongson.cn>
 
-Hi Daniel,
+Hi Huacai,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next lwn/docs-next westeri-thunderbolt/next linus/master v6.3-rc1 next-20230309]
-[cannot apply to usb/usb-linus]
+[auto build test WARNING on efi/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/docs-usb-Add-documentation-for-the-UVC-Gadget/20230309-005314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230308165213.139315-1-dan.scally%40ideasonboard.com
-patch subject: [PATCH] docs: usb: Add documentation for the UVC Gadget
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/4a6bb99a4b603eb30758a1941ddbb827c6f95a7b
+url:    https://github.com/intel-lab-lkp/linux/commits/Huacai-Chen/efi-libstub-Call-setup_graphics-before-handle_kernel_image/20230309-140124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20230309060012.4189412-1-chenhuacai%40loongson.cn
+patch subject: [PATCH] efi/libstub: Call setup_graphics() before handle_kernel_image()
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230310/202303100324.OOW0550T-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/dcee55720c64cc096ee2f52200a6e72c9b968ce1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Scally/docs-usb-Add-documentation-for-the-UVC-Gadget/20230309-005314
-        git checkout 4a6bb99a4b603eb30758a1941ddbb827c6f95a7b
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        git fetch --no-tags linux-review Huacai-Chen/efi-libstub-Call-setup_graphics-before-handle_kernel_image/20230309-140124
+        git checkout dcee55720c64cc096ee2f52200a6e72c9b968ce1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/firmware/efi/libstub/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303100339.eoqe1zbR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303100324.OOW0550T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> drivers/firmware/efi/libstub/efi-stub-entry.c:8:21: warning: no previous prototype for 'setup_graphics' [-Wmissing-prototypes]
+       8 | struct screen_info *setup_graphics(void)
+         |                     ^~~~~~~~~~~~~~
+
+
+vim +/setup_graphics +8 drivers/firmware/efi/libstub/efi-stub-entry.c
+
+     7	
+   > 8	struct screen_info *setup_graphics(void)
+     9	{
+    10		unsigned long size;
+    11		efi_status_t status;
+    12		efi_guid_t gop_proto = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+    13		void **gop_handle = NULL;
+    14		struct screen_info *si = NULL;
+    15	
+    16		size = 0;
+    17		status = efi_bs_call(locate_handle, EFI_LOCATE_BY_PROTOCOL,
+    18				     &gop_proto, NULL, &size, gop_handle);
+    19		if (status == EFI_BUFFER_TOO_SMALL) {
+    20			si = alloc_screen_info();
+    21			if (!si)
+    22				return NULL;
+    23			status = efi_setup_gop(si, &gop_proto, size);
+    24			if (status != EFI_SUCCESS) {
+    25				free_screen_info(si);
+    26				return NULL;
+    27			}
+    28		}
+    29		return si;
+    30	}
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
