@@ -1,185 +1,170 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4039C26E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 18:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5964C26E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 18:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678385187; x=1709921187;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k/NYcRka9KCU4z6241hts+LzrQoo2UuYI4Ej2AWSnEA=;
-  b=KVqEnzaGGtLgeBJ2VPrgmMkENfJZi1NpOT27E2RD9vB/I1B5Fo4N9m6K
-   DDEFA1UQv1Nt6SH01Bv+SzzR/6VRkpryskbNPpPAEtdo4aGvvGO2/6CO7
-   2a4WPPOHf00dwc1TBXLUUAGVO7uFudXPN0ujdkWjQTnMZ+HPC+PgTFxEY
-   vkEqwlPurBa5AC9+BubF/0fumkBgrWJC9WO2wdTpzJMyGT8Y+t6QLnA8b
-   pXKNyBs7zTDmy1s8jlZNzb/VCVdeclCuTCSwyW6lG/LqpTHR+a4jicS4t
-   egIuL8Hr5tCMJyp9WoBtbjsuZfanR10C0OxbSXJhAFALfHbsQuKDGicly
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316179278"
+  t=1678386338; x=1709922338;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t31bAmvs8PIE1T3a1NHnS6aVNlINx7CCUTNUKzpvmsI=;
+  b=TZijEJlRD/unQ70P0g+tJ4hCo1YEJThrQH29hu3Ql6QKxL8Hddu1aaQy
+   G64pTOxyFK6Adxkgbob45DIIvTQjvsC9Fbz+WpVAHbaIEG9hUydUgYl+Q
+   X6siYZtKo8gROfCXMbhXssWnah6zDnJMKcZON7Q96SBsxkxMIoH2fsRvx
+   3WzAwEUjNSlkAtqC95S27CC5LbR+6qt/c/+9flctf7NxbnEyBkyuvJ92K
+   PdYXN/zyQwhVK7rFODewEv9qQXMi56mDo7gG11jcNsS3C8BC2WrW/uBCa
+   L3msYd7o4D5Yz66HH/gUf6eyhAt/g7SQ4FH+vgduyT9mhx9o6Hy0HPPlp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316925218"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="316179278"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 10:05:37 -0800
+   d="scan'208";a="316925218"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 10:25:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="746414697"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="766534949"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="746414697"
+   d="scan'208";a="766534949"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 10:05:37 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2023 10:25:36 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paKe0-00038T-00;
-	Thu, 09 Mar 2023 18:05:36 +0000
-Date: Fri, 10 Mar 2023 02:04:38 +0800
+	id 1paKxM-000394-1D;
+	Thu, 09 Mar 2023 18:25:36 +0000
+Date: Fri, 10 Mar 2023 02:25:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ambarus:ncycles 1/1] drivers/spi/spi-aspeed-smc.c:593:22: error:
- 'struct <anonymous>' has no member named 'nbytes'
-Message-ID: <202303100211.6QdtIODH-lkp@intel.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [rt-devel:linux-6.3.y-rt-rebase 14/47]
+ kernel/printk/printk.c:3190:56: warning: suggest braces around empty body in
+ an 'if' statement
+Message-ID: <202303100222.bWfuM8ki-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/ambarus/linux-0day ncycles
-head:   9c690f96a2dd7d844295599362acba3b8c95d2eb
-commit: 9c690f96a2dd7d844295599362acba3b8c95d2eb [1/1] spi: spimem: Convert dummy.nbytes to dummy.ncycles
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230310/202303100211.6QdtIODH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.3.y-rt-rebase
+head:   c0ca8b79d21d0c9a1ac7ed0ebebb5588804ba825
+commit: f7ffa0536cb17da9589ecda6513bfa0bd1fd1745 [14/47] printk: add infrastucture for atomic consoles
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230310/202303100222.bWfuM8ki-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/ambarus/linux-0day/commit/9c690f96a2dd7d844295599362acba3b8c95d2eb
-        git remote add ambarus https://github.com/ambarus/linux-0day
-        git fetch --no-tags ambarus ncycles
-        git checkout 9c690f96a2dd7d844295599362acba3b8c95d2eb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=f7ffa0536cb17da9589ecda6513bfa0bd1fd1745
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-6.3.y-rt-rebase
+        git checkout f7ffa0536cb17da9589ecda6513bfa0bd1fd1745
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/printk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303100211.6QdtIODH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303100222.bWfuM8ki-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-aspeed-smc.c: In function 'aspeed_spi_dirmap_create':
->> drivers/spi/spi-aspeed-smc.c:593:22: error: 'struct <anonymous>' has no member named 'nbytes'
-     593 |         if (op->dummy.nbytes)
-         |                      ^
---
-   drivers/spi/spi-hisi-sfc-v3xx.c: In function 'hisi_sfc_v3xx_start_bus':
->> drivers/spi/spi-hisi-sfc-v3xx.c:307:9: error: 'dummy_mbytes' undeclared (first use in this function); did you mean 'dummy_nbytes'?
-     307 |         dummy_mbytes = (op->dummy.ncycles * op->dummy.buswidth) / BITS_PER_BYTE;
-         |         ^~~~~~~~~~~~
-         |         dummy_nbytes
-   drivers/spi/spi-hisi-sfc-v3xx.c:307:9: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/spi/spi-mtk-snfi.c: In function 'mtk_snand_adjust_op_size':
->> drivers/spi/spi-mtk-snfi.c:1276:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    1276 |                 size_t hl = op->cmd.nbytes + op->addr.nbytes + dummy_nbytes;
-         |                 ^~~~~~
---
-   drivers/spi/spi-npcm-fiu.c: In function 'npcm_fiu_set_drd':
->> drivers/spi/spi-npcm-fiu.c:280:27: error: 'struct <anonymous>' has no member named 'cycles'; did you mean 'ncycles'?
-     280 |         fiu->drd_op.dummy.cycles = op->dummy.ncycles;
-         |                           ^~~~~~
-         |                           ncycles
---
-   drivers/spi/spi-nxp-fspi.c: In function 'nxp_fspi_prepare_lut':
->> drivers/spi/spi-nxp-fspi.c:544:22: error: 'const struct <anonymous>' has no member named 'nbytes'
-     544 |         if (op->dummy.nbytes) {
-         |                      ^
---
-   drivers/spi/spi-stm32-qspi.c: In function 'stm32_qspi_transfer_one_message':
->> drivers/spi/spi-stm32-qspi.c:596:47: error: invalid type argument of '->' (have 'struct spi_mem_op')
-     596 |                                             op->dummy.buswidth;
-         |                                               ^~
+   kernel/printk/printk.c: In function '__console_emit_next_record':
+>> kernel/printk/printk.c:3190:56: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+    3190 |                 console_prepend_dropped(&pmsg, dropped);
+         |                                                        ^
+   At top level:
+   kernel/printk/printk.c:2924:13: warning: 'console_is_usable_unlocked' defined but not used [-Wunused-function]
+    2924 | static bool console_is_usable_unlocked(struct console *con)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +593 drivers/spi/spi-aspeed-smc.c
+vim +/if +3190 kernel/printk/printk.c
 
-eeaec1ea05c0e0f Cédric Le Goater 2022-05-09  558  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  559  static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  560  {
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  561  	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  562  	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  563  	struct spi_mem_op *op = &desc->info.op_tmpl;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  564  	u32 ctl_val;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  565  	int ret = 0;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  566  
-8988ba7dec43aab Cédric Le Goater 2022-06-22  567  	dev_dbg(aspi->dev,
-8988ba7dec43aab Cédric Le Goater 2022-06-22  568  		"CE%d %s dirmap [ 0x%.8llx - 0x%.8llx ] OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x\n",
-8988ba7dec43aab Cédric Le Goater 2022-06-22  569  		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
-8988ba7dec43aab Cédric Le Goater 2022-06-22  570  		desc->info.offset, desc->info.offset + desc->info.length,
-8988ba7dec43aab Cédric Le Goater 2022-06-22  571  		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-8988ba7dec43aab Cédric Le Goater 2022-06-22  572  		op->dummy.buswidth, op->data.buswidth,
-9c690f96a2dd7d8 Tudor Ambarus    2023-03-09  573  		op->addr.nbytes, op->dummy.ncycles);
-8988ba7dec43aab Cédric Le Goater 2022-06-22  574  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  575  	chip->clk_freq = desc->mem->spi->max_speed_hz;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  576  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  577  	/* Only for reads */
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  578  	if (op->data.dir != SPI_MEM_DATA_IN)
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  579  		return -EOPNOTSUPP;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  580  
-bb084f94e1bca4a Cédric Le Goater 2022-05-09  581  	aspeed_spi_chip_adjust_window(chip, desc->info.offset, desc->info.length);
-bb084f94e1bca4a Cédric Le Goater 2022-05-09  582  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  583  	if (desc->info.length > chip->ahb_window_size)
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  584  		dev_warn(aspi->dev, "CE%d window (%dMB) too small for mapping",
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  585  			 chip->cs, chip->ahb_window_size >> 20);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  586  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  587  	/* Define the default IO read settings */
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  588  	ctl_val = readl(chip->ctl) & ~CTRL_IO_CMD_MASK;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  589  	ctl_val |= aspeed_spi_get_io_mode(op) |
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  590  		op->cmd.opcode << CTRL_COMMAND_SHIFT |
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  591  		CTRL_IO_MODE_READ;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  592  
-30554a1f0fd6a5d Cédric Le Goater 2022-06-22 @593  	if (op->dummy.nbytes)
-9c690f96a2dd7d8 Tudor Ambarus    2023-03-09  594  		ctl_val |= CTRL_IO_DUMMY_SET(op->dummy.ncycles);
-30554a1f0fd6a5d Cédric Le Goater 2022-06-22  595  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  596  	/* Tune 4BYTE address mode */
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  597  	if (op->addr.nbytes) {
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  598  		u32 addr_mode = readl(aspi->regs + CE_CTRL_REG);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  599  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  600  		if (op->addr.nbytes == 4)
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  601  			addr_mode |= (0x11 << chip->cs);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  602  		else
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  603  			addr_mode &= ~(0x11 << chip->cs);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  604  		writel(addr_mode, aspi->regs + CE_CTRL_REG);
-53526ab27d9c256 Cédric Le Goater 2022-05-09  605  
-53526ab27d9c256 Cédric Le Goater 2022-05-09  606  		/* AST2400 SPI controller sets 4BYTE address mode in
-53526ab27d9c256 Cédric Le Goater 2022-05-09  607  		 * CE0 Control Register
-53526ab27d9c256 Cédric Le Goater 2022-05-09  608  		 */
-53526ab27d9c256 Cédric Le Goater 2022-05-09  609  		if (op->addr.nbytes == 4 && chip->aspi->data == &ast2400_spi_data)
-53526ab27d9c256 Cédric Le Goater 2022-05-09  610  			ctl_val |= CTRL_IO_ADDRESS_4B;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  611  	}
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  612  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  613  	/* READ mode is the controller default setting */
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  614  	chip->ctl_val[ASPEED_SPI_READ] = ctl_val;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  615  	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  616  
-eeaec1ea05c0e0f Cédric Le Goater 2022-05-09  617  	ret = aspeed_spi_do_calibration(chip);
-eeaec1ea05c0e0f Cédric Le Goater 2022-05-09  618  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  619  	dev_info(aspi->dev, "CE%d read buswidth:%d [0x%08x]\n",
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  620  		 chip->cs, op->data.buswidth, chip->ctl_val[ASPEED_SPI_READ]);
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  621  
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  622  	return ret;
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  623  }
-9da06d7bdec7dad Cédric Le Goater 2022-05-09  624  
-
-:::::: The code at line 593 was first introduced by commit
-:::::: 30554a1f0fd6a5d2e2413bdc05389995d5611736 spi: aspeed: Fix division by zero
-
-:::::: TO: Cédric Le Goater <clg@kaod.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  3143	
+  3144	/*
+  3145	 * Print one record for the given console. The record printed is whatever
+  3146	 * record is the next available record for the given console.
+  3147	 *
+  3148	 * @handover will be set to true if a printk waiter has taken over the
+  3149	 * console_lock, in which case the caller is no longer holding both the
+  3150	 * console_lock and the SRCU read lock. Otherwise it is set to false.
+  3151	 *
+  3152	 * @cookie is the cookie from the SRCU read lock.
+  3153	 *
+  3154	 * Returns false if the given console has no next record to print, otherwise
+  3155	 * true.
+  3156	 *
+  3157	 * Requires the console_lock and the SRCU read lock.
+  3158	 */
+  3159	static bool __console_emit_next_record(struct console *con, bool *handover,
+  3160					       int cookie, bool atomic_printing)
+  3161	{
+  3162		static struct printk_buffers pbufs;
+  3163	
+  3164		bool is_extended = con->flags & CON_EXTENDED;
+  3165		char *outbuf = &pbufs.outbuf[0];
+  3166		struct printk_message pmsg = {
+  3167			.pbufs = &pbufs,
+  3168		};
+  3169		unsigned long flags;
+  3170		unsigned long dropped = 0;
+  3171		u64 seq;
+  3172	
+  3173		if (handover)
+  3174			*handover = false;
+  3175	
+  3176		seq = read_console_seq(con);
+  3177		if (!printk_get_next_message(&pmsg, seq, is_extended, true))
+  3178			return false;
+  3179	
+  3180		atomic_long_add((unsigned long)(pmsg.dropped), &con->dropped);
+  3181	
+  3182		/* Skip messages of formatted length 0. */
+  3183		if (pmsg.outbuf_len == 0) {
+  3184			write_console_seq(con, pmsg.seq + 1, atomic_printing);
+  3185			goto skip;
+  3186		}
+  3187	
+  3188		dropped = atomic_long_xchg_relaxed(&con->dropped, 0);
+  3189		if (dropped && !is_extended)
+> 3190			console_prepend_dropped(&pmsg, dropped);
+  3191	
+  3192		if (handover) {
+  3193			/*
+  3194			 * While actively printing out messages, if another printk()
+  3195			 * were to occur on another CPU, it may wait for this one to
+  3196			 * finish. This task can not be preempted if there is a
+  3197			 * waiter waiting to take over.
+  3198			 *
+  3199			 * Interrupts are disabled because the hand over to a waiter
+  3200			 * must not be interrupted until the hand over is completed
+  3201			 * (@console_waiter is cleared).
+  3202			 */
+  3203			printk_safe_enter_irqsave(flags);
+  3204			console_lock_spinning_enable();
+  3205	
+  3206			/* Do not trace print latency. */
+  3207			stop_critical_timings();
+  3208		}
+  3209	
+  3210		/* Write everything out to the hardware. */
+  3211		if (atomic_printing)
+  3212			con->write_atomic(con, outbuf, pmsg.outbuf_len);
+  3213		else
+  3214			con->write(con, outbuf, pmsg.outbuf_len);
+  3215	
+  3216		write_console_seq(con, pmsg.seq + 1, atomic_printing);
+  3217		if (handover) {
+  3218			start_critical_timings();
+  3219	
+  3220			*handover = console_lock_spinning_disable_and_check(cookie);
+  3221			printk_safe_exit_irqrestore(flags);
+  3222		}
+  3223	skip:
+  3224		return true;
+  3225	}
+  3226	
 
 -- 
 0-DAY CI Kernel Test Service
