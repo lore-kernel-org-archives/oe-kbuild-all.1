@@ -1,43 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177208838;
-	Fri, 10 Mar 2023 16:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5678493
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 17:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678464866; x=1710000866;
+  t=1678468010; x=1710004010;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z5E2AiPAcKmUYJ9sAxHNV60/63xTzAyPUkJDDPYWd7k=;
-  b=ZEJ1NiKedYK0uGKg1jJiN3+UhVWLmHUHWQ1m5Th0eIZxH9NtQl56+MEp
-   mdzxnZfk9DgfAvyMrbdAvndp3KDbJZcKjVp4HJaJuTNeXbqa7NdnWpDAr
-   SzkkGTJpG3moS/J3vMlaXx/fu4QS0dxi186P/bAHUiQ2oEBvaZh2rqsCU
-   IFIwJPX/q/YhtwUvVgVIrOM9BVx2SiM0zWkxiQxIVoLVAr7INduAUkk91
-   THaS5K7OO1wiTJULw9QoGuJwc43KaNygoJLe1Rgs/HkY8K1l7/NBTH+Bm
-   GZhxvkC26HHHU0pc2GVDV5miVSQD/jRc9MrUYsv9/2iHEbSyYzFSftzj5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401623867"
+  bh=AES5+2Fh3BTiDTC8WrIuo+taq69qwcusmoVnsbxFpsA=;
+  b=ZGVe7fVn4/J/N5i+AJcSlAK7TmWC00Mo/XjcaMlaIQ5Ih27Tvfij1nPK
+   5uHSJLXZMmQBClHDH63X9jCLf2MP1MzR37H2/EGIBAuAej9IWj7P2cwrk
+   2IeYlPD1877W1ZyQRLyfovQWHB5+mWLO8A+bjs1q0tgEFISm4V+ZYH2Se
+   9lLZS9c7jQgySH0geSumKVqzBrMlQkGum3rjL8b9Lp9UD4qkxmRs7LKNN
+   q1sElnNhCvn68zOtOAdDxr8KTQh5nb1NT+oZ3fbxGNAB5L5tYXySlRNSl
+   ppe+P4NqziPcmQT7TbcRt20Jczp18nI4qlSXTV4LHtAS5HXfdVlGPcZgu
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="335475532"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="401623867"
+   d="scan'208";a="335475532"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 08:14:25 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:05:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007166194"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007191527"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="1007166194"
+   d="scan'208";a="1007191527"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Mar 2023 08:14:24 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Mar 2023 09:05:25 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pafNv-0003zD-1g;
-	Fri, 10 Mar 2023 16:14:23 +0000
-Date: Sat, 11 Mar 2023 00:13:25 +0800
+	id 1pagBI-00041B-2z;
+	Fri, 10 Mar 2023 17:05:24 +0000
+Date: Sat, 11 Mar 2023 01:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 334/652] drivers/clk/qcom/clk-cpu-8996.c:532:2: warning: unannotated
- fall-through between switch labels
-Message-ID: <202303110055.TADpWl6c-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse:
+ incorrect type in initializer (different base types)
+Message-ID: <202303110050.1EF6YVC5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +48,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dmitry,
+Hi Arnd,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   eb6e11ca9bd3d6242c6afa7616b837ccd2a404b5
-commit: 27dbfad00558825ed04e50b4fc1cafb23192b3c1 [334/652] clk: qcom: cpu-8996: simplify the cpu_clk_notifier_cb
-config: arm64-randconfig-r032-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110055.TADpWl6c-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44889ba56cbb3d51154660ccd15818bc77276696
+commit: 92304df83b943776492309f42452effea0cc1089 power: supply: qcom_battmgr: remove bogus do_div()
+date:   9 days ago
+config: openrisc-randconfig-s042-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110050.1EF6YVC5-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/krzk/linux/commit/27dbfad00558825ed04e50b4fc1cafb23192b3c1
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-        git checkout 27dbfad00558825ed04e50b4fc1cafb23192b3c1
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=92304df83b943776492309f42452effea0cc1089
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 92304df83b943776492309f42452effea0cc1089
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/power/supply/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110055.TADpWl6c-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110050.1EF6YVC5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+   drivers/power/supply/qcom_battmgr.c:357:31: sparse:     expected unsigned int [usertype] battery_id
+   drivers/power/supply/qcom_battmgr.c:357:31: sparse:     got restricted __le32 [usertype]
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse:     expected unsigned int [usertype] battery_id
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse:     got restricted __le32 [usertype]
+>> drivers/power/supply/qcom_battmgr.c:1285:30: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] owner @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1285:30: sparse:     expected restricted __le32 [usertype] owner
+   drivers/power/supply/qcom_battmgr.c:1285:30: sparse:     got int
+>> drivers/power/supply/qcom_battmgr.c:1286:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1286:29: sparse:     expected restricted __le32 [usertype] type
+   drivers/power/supply/qcom_battmgr.c:1286:29: sparse:     got int
+>> drivers/power/supply/qcom_battmgr.c:1287:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] opcode @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1287:31: sparse:     expected restricted __le32 [usertype] opcode
+   drivers/power/supply/qcom_battmgr.c:1287:31: sparse:     got int
 
->> drivers/clk/qcom/clk-cpu-8996.c:532:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   drivers/clk/qcom/clk-cpu-8996.c:532:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   1 warning generated.
+vim +357 drivers/power/supply/qcom_battmgr.c
 
+29e8142b5623b5 Bjorn Andersson 2023-02-07  350  
+29e8142b5623b5 Bjorn Andersson 2023-02-07  351  static int qcom_battmgr_update_status(struct qcom_battmgr *battmgr)
+29e8142b5623b5 Bjorn Andersson 2023-02-07  352  {
+29e8142b5623b5 Bjorn Andersson 2023-02-07  353  	struct qcom_battmgr_update_request request = {
+29e8142b5623b5 Bjorn Andersson 2023-02-07  354  		.hdr.owner = cpu_to_le32(PMIC_GLINK_OWNER_BATTMGR),
+29e8142b5623b5 Bjorn Andersson 2023-02-07  355  		.hdr.type = cpu_to_le32(PMIC_GLINK_REQ_RESP),
+29e8142b5623b5 Bjorn Andersson 2023-02-07  356  		.hdr.opcode = cpu_to_le32(BATTMGR_BAT_STATUS),
+29e8142b5623b5 Bjorn Andersson 2023-02-07 @357  		.battery_id = cpu_to_le32(0),
+29e8142b5623b5 Bjorn Andersson 2023-02-07  358  	};
+29e8142b5623b5 Bjorn Andersson 2023-02-07  359  
+29e8142b5623b5 Bjorn Andersson 2023-02-07  360  	return qcom_battmgr_request(battmgr, &request, sizeof(request));
+29e8142b5623b5 Bjorn Andersson 2023-02-07  361  }
+29e8142b5623b5 Bjorn Andersson 2023-02-07  362  
 
-vim +532 drivers/clk/qcom/clk-cpu-8996.c
+:::::: The code at line 357 was first introduced by commit
+:::::: 29e8142b5623b5949587bcc4f591c4e6595c4aca power: supply: Introduce Qualcomm PMIC GLINK power supply
 
-03e342dc45c9ec Loic Poulain     2020-07-03  503  
-03e342dc45c9ec Loic Poulain     2020-07-03  504  static int cpu_clk_notifier_cb(struct notifier_block *nb, unsigned long event,
-03e342dc45c9ec Loic Poulain     2020-07-03  505  			       void *data)
-03e342dc45c9ec Loic Poulain     2020-07-03  506  {
-9a9f5f9a5a0ca3 Yassine Oudjana  2022-06-21  507  	struct clk_cpu_8996_pmux *cpuclk = to_clk_cpu_8996_pmux_nb(nb);
-03e342dc45c9ec Loic Poulain     2020-07-03  508  	struct clk_notifier_data *cnd = data;
-03e342dc45c9ec Loic Poulain     2020-07-03  509  
-03e342dc45c9ec Loic Poulain     2020-07-03  510  	switch (event) {
-03e342dc45c9ec Loic Poulain     2020-07-03  511  	case PRE_RATE_CHANGE:
-03e342dc45c9ec Loic Poulain     2020-07-03  512  		qcom_cpu_clk_msm8996_acd_init(base);
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  513  
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  514  		/*
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  515  		 * Avoid overvolting. clk_core_set_rate_nolock() walks from top
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  516  		 * to bottom, so it will change the rate of the PLL before
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  517  		 * chaging the parent of PMUX. This can result in pmux getting
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  518  		 * clocked twice the expected rate.
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  519  		 *
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  520  		 * Manually switch to PLL/2 here.
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  521  		 */
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  522  		if (cnd->new_rate < DIV_2_THRESHOLD &&
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  523  		    cnd->old_rate > DIV_2_THRESHOLD)
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  524  			clk_cpu_8996_pmux_set_parent(&cpuclk->clkr.hw, SMUX_INDEX);
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  525  
-03e342dc45c9ec Loic Poulain     2020-07-03  526  		break;
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  527  	case ABORT_RATE_CHANGE:
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  528  		/* Revert manual change */
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  529  		if (cnd->new_rate < DIV_2_THRESHOLD &&
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  530  		    cnd->old_rate > DIV_2_THRESHOLD)
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  531  			clk_cpu_8996_pmux_set_parent(&cpuclk->clkr.hw, ACD_INDEX);
-03e342dc45c9ec Loic Poulain     2020-07-03 @532  	default:
-03e342dc45c9ec Loic Poulain     2020-07-03  533  		break;
-03e342dc45c9ec Loic Poulain     2020-07-03  534  	}
-03e342dc45c9ec Loic Poulain     2020-07-03  535  
-27dbfad0055882 Dmitry Baryshkov 2022-07-28  536  	return NOTIFY_OK;
-03e342dc45c9ec Loic Poulain     2020-07-03  537  };
-03e342dc45c9ec Loic Poulain     2020-07-03  538  
-
-:::::: The code at line 532 was first introduced by commit
-:::::: 03e342dc45c9ec07303953d4e4af11879be36609 clk: qcom: Add CPU clock driver for msm8996
-
-:::::: TO: Loic Poulain <loic.poulain@linaro.org>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
