@@ -1,43 +1,27 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048B7ED0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 06:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678431239; x=1709967239;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9yODRWuX90OWEboJ+9uVfTkG9DszCW2bfhw3v8DXgkA=;
-  b=FJkZrUt+8b+SD5K7+A4RJ3ywA9TB5ijY+Noedaujq7lGzTwKeWAYGCR9
-   7zmTVkjTtO4rfQNyg13ruZB/qQviu87l6ixKeNuNcoWWZ09WiUXcbIurv
-   oiZ5jil8maRjdNnzEZTcCkvoZ/vz3ffmuZqXcmS2hYYpSFTXnW2ayog9c
-   Jb2i4qYTr+e7K/EtKThw6pXLl2vRmzm/VK3r017FLUfCnO3kEFG4PFJ1Y
-   vWhrKQR5ix7UsfxzQjKibmIxRhC+XRuRGNG3zPEp4wlJLqofdBYrte+TM
-   WMUgzZq0UlGpLzjdYVmSAz79CczcFbqXMpTvirjrgDCOSJh9qYUKrqqP5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="320517122"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="320517122"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 22:53:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="746601337"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="746601337"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 22:53:57 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1paWdY-0003b1-1I;
-	Fri, 10 Mar 2023 06:53:56 +0000
-Date: Fri, 10 Mar 2023 14:53:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jon Moeller <jon.moeller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Faycal Benmlih <faycal.benmlih@intel.com>
-Subject: [mchinth:socwatch_linux_6_3 7/89] versioncheck:
- ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-Message-ID: <202303101420.ltjsXkaG-lkp@intel.com>
+Received: from muru.com (muru.com [72.249.23.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62B8CED0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 06:57:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by muru.com (Postfix) with ESMTPS id 7E74680F5;
+	Fri, 10 Mar 2023 06:52:39 +0000 (UTC)
+Date: Fri, 10 Mar 2023 08:52:38 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: kernel test robot <lkp@intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-omap@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] serial: core: Start managing serial controllers
+ to enable runtime PM
+Message-ID: <20230310065238.GJ7501@atomide.com>
+References: <20230309085713.57700-1-tony@atomide.com>
+ <202303100516.22vtkWv4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,106 +30,15 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202303100516.22vtkWv4-lkp@intel.com>
 
-tree:   https://github.com/mchinth/linux socwatch_linux_6_3
-head:   2bbe949bea3cbc139c5dd26decd5023b84779d86
-commit: d605aabab41663c9be9e8c549042933189adbf2f [7/89] platform/x86: add sep and socwatch drivers without socperf.
-reproduce:
-        make versioncheck
+* kernel test robot <lkp@intel.com> [230309 21:31]:
+> >> drivers/tty/serial/serial_ctrl.c:17:34: warning: 'serial_ctrl_pm' defined but not used [-Wunused-const-variable=]
+>       17 | static DEFINE_RUNTIME_DEV_PM_OPS(serial_ctrl_pm, NULL, NULL, NULL);
+>          |                                  ^~~~~~~~~~~~~~
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101420.ltjsXkaG-lkp@intel.com/
+Thanks I'll tag it with __maybe_unused.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 182: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 57 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mfd/mt6360-core.c: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
->> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
-   ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
->> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
->> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+Regards,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Tony
