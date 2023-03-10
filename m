@@ -1,44 +1,57 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03DA8481;
-	Fri, 10 Mar 2023 14:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9625C8481
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 14:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678456832; x=1709992832;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hZfmGDq9bhkBaKXX3SftuyJQhvp6qhbd6ftZNrD+R08=;
-  b=h0bgKXbRUR0aw4SrpxOIvBnv8j33kzeXio3MHUoD2KW4X7EHf4PYE89w
-   /a4tbNDzaKpMtsW84ZF8/cXXUPp+SxJrGK3REBGzHCrxhlcoSE3HGlW0D
-   pPlqBGJdE0L30ABTRiNkiq/ppcP72pippkLkEBKL50qUXBEvGKiZyWeNd
-   JNbW6P+2jPrPJf0J6Z7aZgYkNzvAg06gtKxJ6VAi+jMiVfAtem/JrxBXM
-   9saL+qjnnacgQdBSmqP1el958oF3JgrRqjuV0W2Rhv0gJeSL2+QuSJwWR
-   c6QAQs1yBeG0yXNS6PS91xP2RnORiHP3fqXtPseNodg8oRwIT2mjM69fi
+  t=1678457434; x=1709993434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rj8ShkwGMKGCTeEvOru9sLAnbOwvgvSzBx5VX7jvKgs=;
+  b=HH1OHkqrSEVLnDGU/5EdoUUo40/T4rgvdWYD3hx033k67mCP1JIWrQkG
+   +9wn7aGHd4J2MDmzJGPZYjYXWbZ1G2ukbw08EP16ufxmo4tS9waoP4TRV
+   5XrNJSo3PebGAONECM8poQ/fz/z+uRUiJ1dIowgvSJzIEKDfdzi3cwLIo
+   613EbfAI4Ls5Tc+NvcTsOPnv78cLEbvRoyezvWBeB5CKM2I9NwA+DJUwi
+   YvnEttzTMfTFLDMMKoOYE/aQBpgOD2sEn5mT89SR829rq4Rt7xSm/AvUc
+   MbM7rtBoZStbBDJmCe+x25VbcXtL+NAoRgTbH6xdkI8me13xpB4rMi+xs
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401590490"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401593019"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="401590490"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:00:21 -0800
+   d="scan'208";a="401593019"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:10:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="821055831"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="710289477"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="821055831"
+   d="scan'208";a="710289477"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2023 06:00:20 -0800
+  by orsmga001.jf.intel.com with ESMTP; 10 Mar 2023 06:10:20 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1padIB-0003tl-31;
-	Fri, 10 Mar 2023 14:00:19 +0000
-Date: Fri, 10 Mar 2023 21:59:34 +0800
+	id 1padRs-0003u9-0M;
+	Fri, 10 Mar 2023 14:10:20 +0000
+Date: Fri, 10 Mar 2023 22:09:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 306/432]
- arch/x86/include/asm/cpu.h:74:20: error: conflicting types for
- 'tsx_ctrl_clear'
-Message-ID: <202303102105.GQe7NH8s-lkp@intel.com>
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Eugen Hristev <eugen.hristev@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem
+ driver
+Message-ID: <202303102215.Q4YaTkrU-lkp@intel.com>
+References: <20230310120553.60586-7-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,46 +60,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230310120553.60586-7-jack.zhu@starfivetech.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   b4a08c4cd3ed29e3977509b24adc2c59e39825c1
-commit: ab8aab774d78dd59a15a665bbd8d549b367e280d [306/432] [REVERTME] x86/cpu/tsx: Add helper functions to save/restore IA32_TSX_CTRL MSR
-config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230310/202303102105.GQe7NH8s-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Jack,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on robh/for-next linus/master v6.3-rc1 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230310120553.60586-7-jack.zhu%40starfivetech.com
+patch subject: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem driver
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230310/202303102215.Q4YaTkrU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/ab8aab774d78dd59a15a665bbd8d549b367e280d
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout ab8aab774d78dd59a15a665bbd8d549b367e280d
+        # https://github.com/intel-lab-lkp/linux/commit/99a31fd3820a2d95b0d0f381491c473975e0b068
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
+        git checkout 99a31fd3820a2d95b0d0f381491c473975e0b068
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102105.GQe7NH8s-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303102215.Q4YaTkrU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/lib/cpu.c:4:
->> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'
-   static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-                      ^
-   arch/x86/include/asm/cpu.h:73:19: note: previous definition is here
-   static inline u64 tsx_ctrl_clear(void) { return 0; }
-                     ^
-   1 error generated.
-
-
-vim +/tsx_ctrl_clear +74 arch/x86/include/asm/cpu.h
-
-    72	
-    73	static inline u64 tsx_ctrl_clear(void) { return 0; }
-  > 74	static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-    75	
+>> error: include/uapi/linux/stf_isp_ioctl.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
+   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/linux/stf_isp_ioctl.h] Error 1
+   make[2]: Target '__headers' not remade because of errors.
+   make[1]: *** [Makefile:1394: headers] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
