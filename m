@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC2E2F49
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 11:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0D963B5;
+	Fri, 10 Mar 2023 12:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678448778; x=1709984778;
+  t=1678450640; x=1709986640;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o7hg4SolW8RVgtgFZuww+xyDrgP1C46gIwpjxCqkG44=;
-  b=Zf0dMXbauxTf0EnF0cyvwxMIkU6rDD1ORb6aK7+QgrJn9W/WfEdDn8+p
-   C7uR7brxlJvC5lfTMVJ/DXdQop8idB1+XuAXY2f19S86wVz3osRG58uhO
-   ezisO80T+Pfq9/n4EwqlhZWztZxyKw6DvDLshDpEgh6ITmoiRBOm0Zeg1
-   aIFGTCqsurkji1s1VxK50HljEAKzgFF0tZYKsDuNQ1+3T58oOSLlC97Vn
-   +geaYnJB42UzcAoZyUSg6TcxIYzcjuXgzjHzumHUuSyEVyfW6Y4E+nlCd
-   0jz1TxEkZrQe5qluef/uOtbadgc91Oe77aC1Rtd5ROJZj2lgHxiRqiF02
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="338263947"
+  bh=3Ad7ii7tyzRlxU/vh5cqDRQ4FCKOtByrnf3BkBgW9w8=;
+  b=DFRyiSQk44dNKP7ZU0xqHT0ear9BPFHnXCCveDvbuxdH9eK1i88sMd51
+   4NKe7HSEvPfMiSL861ZLyl2Khurnlqz84GVexitTOK6SaRTWqqPUvxWh2
+   y2hT3wsa816m8TavQHrPlkG9Ez4anw8LqLUBKOPrZHz4etgw2NbsJd418
+   Y4UaU8y8V5DPNdzSTD15b2pSbYjLN4K8dznK5yY4p8y+lFL+ZU3RyQpoR
+   G0Ggq8sEC/wug4RtPKA+S5HQSoM3zY12RRbGX+jeTrQPxBL/ThT0C+rtE
+   eO6Src9PLlg1yuBVvPzdLO9ZJl9SBuhEC5cWOfRRZs3Fs1L2ic9XMD+tn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="339079377"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="338263947"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 03:46:18 -0800
+   d="scan'208";a="339079377"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 04:17:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627783937"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="821025625"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="627783937"
+   d="scan'208";a="821025625"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 10 Mar 2023 03:46:17 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2023 04:17:18 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pabCS-0003ox-0i;
-	Fri, 10 Mar 2023 11:46:16 +0000
-Date: Fri, 10 Mar 2023 19:45:49 +0800
+	id 1pabgT-0003qB-2k;
+	Fri, 10 Mar 2023 12:17:17 +0000
+Date: Fri, 10 Mar 2023 20:16:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202303101931.gO4cNEu3-lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:kvm-upstream-workaround 425/432]
+ arch/x86/kvm/mmu/mmu.c:701:5: warning: no previous prototype for function
+ 'kvm_mmu_topup_memory_cache_for_split'
+Message-ID: <202303102045.OKoBkP89-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +47,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44889ba56cbb3d51154660ccd15818bc77276696
-commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
-date:   11 months ago
-config: arm-randconfig-s041-20230310 (https://download.01.org/0day-ci/archive/20230310/202303101931.gO4cNEu3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   b4a08c4cd3ed29e3977509b24adc2c59e39825c1
+commit: 40b0194e911eba584f34f1ff407cb2abf1844656 [425/432] [REVERTME] KVM: TDX, x86/tdp_mmu: Protect Secure-EPT page
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230310/202303102045.OKoBkP89-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
+        # https://github.com/intel/tdx/commit/40b0194e911eba584f34f1ff407cb2abf1844656
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout 40b0194e911eba584f34f1ff407cb2abf1844656
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/video/fbdev/omap/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101931.gO4cNEu3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303102045.OKoBkP89-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
---
->> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +642 drivers/video/fbdev/omap/lcdc.c
+>> arch/x86/kvm/mmu/mmu.c:701:5: warning: no previous prototype for function 'kvm_mmu_topup_memory_cache_for_split' [-Wmissing-prototypes]
+   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
+       ^
+   arch/x86/kvm/mmu/mmu.c:701:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
+   ^
+   static 
+   1 warning generated.
 
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
 
-:::::: The code at line 642 was first introduced by commit
-:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
+vim +/kvm_mmu_topup_memory_cache_for_split +701 arch/x86/kvm/mmu/mmu.c
 
-:::::: TO: Imre Deak <imre.deak@solidboot.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+   700	
+ > 701	int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
+   702	{
+   703		int r = 0;
+   704	#ifdef CONFIG_INTEL_TDX_HOST_DEBUG_MEMORY_CORRUPT
+   705		struct kvm_mmu_memory_cache *mc;
+   706		int start, end, i;
+   707	
+   708		mutex_lock(&kvm->arch.private_spt_for_split_lock);
+   709		mc = &kvm->arch.private_spt_for_split_cache;
+   710		start = kvm_mmu_memory_cache_nr_free_objects(mc);
+   711		r = kvm_mmu_topup_memory_cache(mc, KVM_MAX_HUGEPAGE_LEVEL *
+   712					       kvm->created_vcpus);
+   713		end = kvm_mmu_memory_cache_nr_free_objects(mc);
+   714		for (i = start; i < end; i++)
+   715			kvm_mmu_split_direct_map(virt_to_page(mc->objects[i]));
+   716		mutex_unlock(&kvm->arch.private_spt_for_split_lock);
+   717	#endif
+   718		return r;
+   719	}
+   720	
 
 -- 
 0-DAY CI Kernel Test Service
