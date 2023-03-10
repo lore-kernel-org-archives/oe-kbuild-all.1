@@ -1,44 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C972103
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 07:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AE0C953
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 08:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678434332; x=1709970332;
+  t=1678435630; x=1709971630;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YeiVvXKvP6yRs9eHKuKqHg51+LZEwDW8y1/bbxUmAhs=;
-  b=E67/bvd1ToEjz65RqZ5DdZ7yyVwxFNbzsuHrbHGAJwosJQBpNExFAW6i
-   S19q39cbIR7fA9dUrHVg25Ja7JdLAafaQVAP+O9MEgT+H9+rsLVLO/MI2
-   Zw2VAUkzKTP6fpJsu9wMpJsW95Lbq6DgwuLshAibdVDYgWjhZHKQsSCOa
-   l1FyBTlb6ZiBNxDlIEyq92N6QvKX4v0vF/3WL00M50JiW5rzuS7qNQvLc
-   yYjA0fngo6imtdzOzUhw1NXK5PTQce04uLDeZOggIW3GWu58Jqy6/V3V5
-   6HSyplxThgYW6fYO/Wb4YVTcPie5rhojyZdviN8Q2ClrynEF0T1YmGvFS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316324094"
+  bh=FAeoG9D7s8ehfGSgDCpG4Qrz9tM8/5wCqsfl19KOKtw=;
+  b=V5jiShcg6+A8+gwBTQSwwQ5I8WbP20E4X+PkPtABP7eheNwP11tj2m9T
+   UXlcEuCar23f9bYTJXShxp3vOovuNhelNA+O4e6vOYyqhFo6V8bCU2X9T
+   1Y2TDVcQWw6rXgydS79COZ74XhQ2atVLfxV6oW6S8m0o120jHnM3Mn2bq
+   mmPYJ04fB23RKCYuOJpqVWGE9r/oRDPE0CMepLyL5XYhxSojVHJIw7aph
+   jkKLPPnOtZs+w9qHuVglB9s5R1Gie+KIKqwhi2vWcjSqo4YwP2t3WLOF3
+   5vhASXyC2w4Dp3o8068LHPX+w1Ds5noyB5ZWFh4bfq7buEAQw8bWdxaha
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="364329584"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="316324094"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 23:45:09 -0800
+   d="scan'208";a="364329584"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 00:07:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627715529"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="671005608"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="627715529"
+   d="scan'208";a="671005608"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 23:45:08 -0800
+  by orsmga007.jf.intel.com with ESMTP; 10 Mar 2023 00:06:10 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paXR5-0003d8-2t;
-	Fri, 10 Mar 2023 07:45:07 +0000
-Date: Fri, 10 Mar 2023 15:44:39 +0800
+	id 1paXlR-0003eP-1c;
+	Fri, 10 Mar 2023 08:06:09 +0000
+Date: Fri, 10 Mar 2023 16:05:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manisha Chinthapally <manisha.chinthapally@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Faycal Benmlih <faycal.benmlih@intel.com>
-Subject: [mchinth:socwatch_linux_6_3 23/89] versioncheck:
- ./drivers/platform/x86/socperf/haswellunc_sa.c: 53 linux/version.h not
- needed.
-Message-ID: <202303101534.tgzsNMpK-lkp@intel.com>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mchinth:socwatch_linux_6_3 40/89] versioncheck:
+ ./drivers/platform/x86/socwatchhv/inc/swhv_mobilevisor.h: 70 linux/version.h
+ not needed.
+Message-ID: <202303101603.OUUTsR9D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,13 +49,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/mchinth/linux socwatch_linux_6_3
 head:   2bbe949bea3cbc139c5dd26decd5023b84779d86
-commit: f57492d07625dddac7920eccdb5be08c55ee16fa [23/89] platform/x86: SOCPERF3 support for sep & socwatch
+commit: 80c46c8183c607e70bcb88e9b04febae6c7775a2 [40/89] SEP/SOCWATCH Update SoCWatch driver after rebasing to linux v5.6
 reproduce:
         make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101534.tgzsNMpK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101603.OUUTsR9D-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -116,15 +115,16 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
    ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
    ./drivers/platform/x86/socperf/control.c: 53 linux/version.h not needed.
->> ./drivers/platform/x86/socperf/haswellunc_sa.c: 53 linux/version.h not needed.
+   ./drivers/platform/x86/socperf/haswellunc_sa.c: 53 linux/version.h not needed.
    ./drivers/platform/x86/socperf/inc/socperfdrv.h: 53 linux/version.h not needed.
->> ./drivers/platform/x86/socperf/npk_uncore.c: 53 linux/version.h not needed.
+   ./drivers/platform/x86/socperf/npk_uncore.c: 53 linux/version.h not needed.
    ./drivers/platform/x86/socperf/soc_uncore.c: 53 linux/version.h not needed.
->> ./drivers/platform/x86/socperf/socperfdrv.c: 54 linux/version.h not needed.
+   ./drivers/platform/x86/socperf/socperfdrv.c: 54 linux/version.h not needed.
    ./drivers/platform/x86/socperf/utility.c: 54 linux/version.h not needed.
    ./drivers/platform/x86/socwatch/sw_telem.c: 59 linux/version.h not needed.
    ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 406: need linux/version.h
    ./drivers/platform/x86/socwatchhv/inc/swhv_acrn.h: 70 linux/version.h not needed.
+>> ./drivers/platform/x86/socwatchhv/inc/swhv_mobilevisor.h: 70 linux/version.h not needed.
    ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 66 linux/version.h not needed.
    ./drivers/platform/x86/socwatchhv/swhv_driver.c: 69 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
