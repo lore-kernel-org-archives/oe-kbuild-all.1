@@ -1,43 +1,45 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03084A54
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 05:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC2AA54;
+	Fri, 10 Mar 2023 05:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678426316; x=1709962316;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1KnD7ruYQrvSjKNjc6cYrfXUWN7ADtbpKBgw7kKS0FM=;
-  b=Ud5BOJGhHd7U0uHNxQichCrliCh/XK6QXfUu/BLT0OIIYmXYQPxAYlXb
-   uHbKfbB2DYyMl9K6Tdnr42JWoYIE4P9gEZoCr3lWzu0GcewzEugqZBwwB
-   kFYKDDKphUbDOKpMn5LKr/JnU9PMmGqhYu0tGEhofDiBdv3r7W35ZYnRv
-   DcqpSiKyH0OWspw9EU5vtitK3QnWyFCMWHb5djyYrfRKiEHmNtnG9X/MX
-   s30m0PmafjsJCM72ilRMpLnb4v48MRvtMepczWFp320oSvbBcclhJ9Jgt
-   jGh5UTA6780Lc47pzijdXobHtipoPE53cXsbq5fgtCsweOzhKxcSYfKj5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="339014765"
+  t=1678426319; x=1709962319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DWfDmW7LSGx/qeqdHSHGAX/d0IEog+56aUHCK77FZ/I=;
+  b=FykuxKfITMReJxEiHSrWRrGj5z6vxT+vz7G2c6LtKna8kBAJkAIk0ltY
+   4HbucpLjap1yvUI5DKCWLj+0gPR0kAM5nMSPM+B6n3Hb6kqc7vkYU6Oxt
+   dGN6khwq2V6YlD+1DNyOAF6TDfXDFFlc3VhG/5wq13FBn+DwuQJt5U7jc
+   d75LjpFU1PBOxrhOZNj398HJfdZ/NrLQMtDjiia2crw7kQLR8+8FxyFkM
+   N03dEJpfCOfoLuTkoiGgOBZxmDQ7ANKQUMUjWa+oArfx1Zws7sR8zi71E
+   9jAymGRNO9juUpvKsPnRRirtAl3GYVQXmfB/GqyFh/5/iUq93jsZUglSQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="339014769"
 X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="339014765"
+   d="scan'208";a="339014769"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 21:31:56 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 21:31:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="710148679"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="710148680"
 X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="710148679"
+   d="scan'208";a="710148680"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 09 Mar 2023 21:31:55 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paVMA-0003Xn-2P;
+	id 1paVMA-0003Xj-2H;
 	Fri, 10 Mar 2023 05:31:54 +0000
-Date: Fri, 10 Mar 2023 13:31:36 +0800
+Date: Fri, 10 Mar 2023 13:31:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1415/7894]
- fs/incfs/pseudo_files.c:682:48: sparse: sparse: non size-preserving integer
- to pointer cast
-Message-ID: <202303101320.dS7sFJxT-lkp@intel.com>
+To: Kangzhen Lou <kangzhen.lou@dell.com>, oliver@neukum.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, Kangzhen Lou <kangzhen.lou@dell.com>
+Subject: Re: [PATCH] net: cdc_ncm: support ACPI MAC address pass through
+ functionality
+Message-ID: <202303101331.rzCbgFQa-lkp@intel.com>
+References: <20230309083436.6729-1-kangzhen.lou@dell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,232 +48,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230309083436.6729-1-kangzhen.lou@dell.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   de814afe14b14bf51d89ff8c1861b7a15ef2c3b2
-commit: 8334d69e65f6064aede4fb56fe15ae30630d5337 [1415/7894] ANDROID: Incremental fs: Separate pseudo-file code
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230310/202303101320.dS7sFJxT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout 8334d69e65f6064aede4fb56fe15ae30630d5337
+Hi Kangzhen,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on westeri-thunderbolt/next]
+[also build test ERROR on linus/master v6.3-rc1 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kangzhen-Lou/net-cdc_ncm-support-ACPI-MAC-address-pass-through-functionality/20230309-184736
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+patch link:    https://lore.kernel.org/r/20230309083436.6729-1-kangzhen.lou%40dell.com
+patch subject: [PATCH] net: cdc_ncm: support ACPI MAC address pass through functionality
+config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20230310/202303101331.rzCbgFQa-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/97cd8ee9a774c36093af3d26255e415f6082b4a3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kangzhen-Lou/net-cdc_ncm-support-ACPI-MAC-address-pass-through-functionality/20230309-184736
+        git checkout 97cd8ee9a774c36093af3d26255e415f6082b4a3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash fs/incfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/ drivers/net/usb/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101320.dS7sFJxT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101331.rzCbgFQa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/incfs/pseudo_files.c:885:25: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned long long [usertype] size @@     got restricted __le64 [addressable] [assigned] [usertype] size_attr_value @@
-   fs/incfs/pseudo_files.c:885:25: sparse:     expected unsigned long long [usertype] size
-   fs/incfs/pseudo_files.c:885:25: sparse:     got restricted __le64 [addressable] [assigned] [usertype] size_attr_value
-   fs/incfs/pseudo_files.c:885:42: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned long long [usertype] offset @@     got restricted __le64 [usertype] @@
-   fs/incfs/pseudo_files.c:885:42: sparse:     expected unsigned long long [usertype] offset
-   fs/incfs/pseudo_files.c:885:42: sparse:     got restricted __le64 [usertype]
->> fs/incfs/pseudo_files.c:682:48: sparse: sparse: non size-preserving integer to pointer cast
+All error/warnings (new ones prefixed by >>):
 
-vim +682 fs/incfs/pseudo_files.c
+>> drivers/net/usb/cdc_ncm.c:818:5: warning: no previous prototype for function 'acpi_mac_passthru_invalid' [-Wmissing-prototypes]
+   int acpi_mac_passthru_invalid(void)
+       ^
+   drivers/net/usb/cdc_ncm.c:818:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int acpi_mac_passthru_invalid(void)
+   ^
+   static 
+>> drivers/net/usb/cdc_ncm.c:851:5: warning: no previous prototype for function 'get_acpi_mac_passthru' [-Wmissing-prototypes]
+   int get_acpi_mac_passthru(char *MACAddress)
+       ^
+   drivers/net/usb/cdc_ncm.c:851:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int get_acpi_mac_passthru(char *MACAddress)
+   ^
+   static 
+>> drivers/net/usb/cdc_ncm.c:894:20: error: passing 'const unsigned char *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+                                 iface_no, dev->net->dev_addr, ETH_ALEN);
+                                           ^~~~~~~~~~~~~~~~~~
+   include/linux/usb/usbnet.h:181:35: note: passing argument to parameter 'data' here
+                       u16 value, u16 index, void *data, u16 size);
+                                                   ^
+   drivers/net/usb/cdc_ncm.c:980:12: error: passing 'const unsigned char *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+                                   memcpy(dev->net->dev_addr, sa.sa_data, ETH_ALEN);
+                                          ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/string.h:27:28: note: passing argument to parameter here
+   extern void * memcpy(void *,const void *,__kernel_size_t);
+                              ^
+   2 warnings and 2 errors generated.
 
-   517	
-   518	static long ioctl_create_file(struct mount_info *mi,
-   519				struct incfs_new_file_args __user *usr_args)
-   520	{
-   521		struct incfs_new_file_args args;
-   522		char *file_id_str = NULL;
-   523		struct dentry *index_file_dentry = NULL;
-   524		struct dentry *named_file_dentry = NULL;
-   525		struct path parent_dir_path = {};
-   526		struct inode *index_dir_inode = NULL;
-   527		__le64 size_attr_value = 0;
-   528		char *file_name = NULL;
-   529		char *attr_value = NULL;
-   530		int error = 0;
-   531		bool locked = false;
-   532	
-   533		if (!mi || !mi->mi_index_dir) {
-   534			error = -EFAULT;
-   535			goto out;
-   536		}
-   537	
-   538		if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
-   539			error = -EFAULT;
-   540			goto out;
-   541		}
-   542	
-   543		file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
-   544		if (IS_ERR(file_name)) {
-   545			error = PTR_ERR(file_name);
-   546			file_name = NULL;
-   547			goto out;
-   548		}
-   549	
-   550		error = validate_name(file_name);
-   551		if (error)
-   552			goto out;
-   553	
-   554		file_id_str = file_id_to_str(args.file_id);
-   555		if (!file_id_str) {
-   556			error = -ENOMEM;
-   557			goto out;
-   558		}
-   559	
-   560		error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
-   561		if (error)
-   562			goto out;
-   563		locked = true;
-   564	
-   565		/* Find a directory to put the file into. */
-   566		error = dir_relative_path_resolve(mi,
-   567				u64_to_user_ptr(args.directory_path),
-   568				&parent_dir_path);
-   569		if (error)
-   570			goto out;
-   571	
-   572		if (parent_dir_path.dentry == mi->mi_index_dir) {
-   573			/* Can't create a file directly inside .index */
-   574			error = -EBUSY;
-   575			goto out;
-   576		}
-   577	
-   578		/* Look up a dentry in the parent dir. It should be negative. */
-   579		named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
-   580						file_name);
-   581		if (!named_file_dentry) {
-   582			error = -EFAULT;
-   583			goto out;
-   584		}
-   585		if (IS_ERR(named_file_dentry)) {
-   586			error = PTR_ERR(named_file_dentry);
-   587			named_file_dentry = NULL;
-   588			goto out;
-   589		}
-   590		if (d_really_is_positive(named_file_dentry)) {
-   591			/* File with this path already exists. */
-   592			error = -EEXIST;
-   593			goto out;
-   594		}
-   595		/* Look up a dentry in the .index dir. It should be negative. */
-   596		index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
-   597		if (!index_file_dentry) {
-   598			error = -EFAULT;
-   599			goto out;
-   600		}
-   601		if (IS_ERR(index_file_dentry)) {
-   602			error = PTR_ERR(index_file_dentry);
-   603			index_file_dentry = NULL;
-   604			goto out;
-   605		}
-   606		if (d_really_is_positive(index_file_dentry)) {
-   607			/* File with this ID already exists in index. */
-   608			error = -EEXIST;
-   609			goto out;
-   610		}
-   611	
-   612		/* Creating a file in the .index dir. */
-   613		index_dir_inode = d_inode(mi->mi_index_dir);
-   614		inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
-   615		error = vfs_create(index_dir_inode, index_file_dentry, args.mode | 0222,
-   616				   true);
-   617		inode_unlock(index_dir_inode);
-   618	
-   619		if (error)
-   620			goto out;
-   621		if (!d_really_is_positive(index_file_dentry)) {
-   622			error = -EINVAL;
-   623			goto out;
-   624		}
-   625	
-   626		error = chmod(index_file_dentry, args.mode | 0222);
-   627		if (error) {
-   628			pr_debug("incfs: chmod err: %d\n", error);
-   629			goto delete_index_file;
-   630		}
-   631	
-   632		/* Save the file's ID as an xattr for easy fetching in future. */
-   633		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
-   634			file_id_str, strlen(file_id_str), XATTR_CREATE);
-   635		if (error) {
-   636			pr_debug("incfs: vfs_setxattr err:%d\n", error);
-   637			goto delete_index_file;
-   638		}
-   639	
-   640		/* Save the file's size as an xattr for easy fetching in future. */
-   641		size_attr_value = cpu_to_le64(args.size);
-   642		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
-   643			(char *)&size_attr_value, sizeof(size_attr_value),
-   644			XATTR_CREATE);
-   645		if (error) {
-   646			pr_debug("incfs: vfs_setxattr err:%d\n", error);
-   647			goto delete_index_file;
-   648		}
-   649	
-   650		/* Save the file's attribute as an xattr */
-   651		if (args.file_attr_len && args.file_attr) {
-   652			if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
-   653				error = -E2BIG;
-   654				goto delete_index_file;
-   655			}
-   656	
-   657			attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
-   658			if (!attr_value) {
-   659				error = -ENOMEM;
-   660				goto delete_index_file;
-   661			}
-   662	
-   663			if (copy_from_user(attr_value,
-   664					u64_to_user_ptr(args.file_attr),
-   665					args.file_attr_len) > 0) {
-   666				error = -EFAULT;
-   667				goto delete_index_file;
-   668			}
-   669	
-   670			error = vfs_setxattr(index_file_dentry,
-   671					INCFS_XATTR_METADATA_NAME,
-   672					attr_value, args.file_attr_len,
-   673					XATTR_CREATE);
-   674	
-   675			if (error)
-   676				goto delete_index_file;
-   677		}
-   678	
-   679		/* Initializing a newly created file. */
-   680		error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
-   681				      range(attr_value, args.file_attr_len),
- > 682				      (u8 __user *)args.signature_info,
-   683				      args.signature_size);
-   684		if (error)
-   685			goto delete_index_file;
-   686	
-   687		/* Linking a file with its real name from the requested dir. */
-   688		error = incfs_link(index_file_dentry, named_file_dentry);
-   689	
-   690		if (!error)
-   691			goto out;
-   692	
-   693	delete_index_file:
-   694		incfs_unlink(index_file_dentry);
-   695	
-   696	out:
-   697		if (error)
-   698			pr_debug("incfs: %s err:%d\n", __func__, error);
-   699	
-   700		kfree(file_id_str);
-   701		kfree(file_name);
-   702		kfree(attr_value);
-   703		dput(named_file_dentry);
-   704		dput(index_file_dentry);
-   705		path_put(&parent_dir_path);
-   706		if (locked)
-   707			mutex_unlock(&mi->mi_dir_struct_mutex);
-   708		return error;
-   709	}
-   710	
+
+vim +894 drivers/net/usb/cdc_ncm.c
+
+   817	
+ > 818	int acpi_mac_passthru_invalid(void)
+   819	{
+   820		acpi_status status;
+   821		struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+   822		union acpi_object *obj;
+   823		int ret = -EINVAL;
+   824	
+   825		/* returns _AUXMAC_#AABBCCDDEEFF# */
+   826		status = acpi_evaluate_object(NULL, "\\_SB.AMAC", NULL, &buffer);
+   827		obj = (union acpi_object *)buffer.pointer;
+   828	
+   829		if (!ACPI_SUCCESS(status))
+   830			return -ENODEV;
+   831		if (obj->type != ACPI_TYPE_BUFFER || obj->string.length != 0x17) {
+   832			acpi_info("Invalid buffer for pass-thru MAC addr: (%d, %d)\n",
+   833				  obj->type, obj->string.length);
+   834			goto amacout;
+   835		}
+   836		if (strncmp(obj->string.pointer, "_AUXMAC_#", 9) != 0 ||
+   837		    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
+   838			acpi_info("Invalid header when reading pass-thru MAC addr\n");
+   839			goto amacout;
+   840		}
+   841		/* return success, otherwise return non-zero if invalid buffer read or
+   842		 * MAC pass through is disabled in BIOS
+   843		 */
+   844		ret = 0;
+   845	
+   846	amacout:
+   847		kfree(obj);
+   848		return ret;
+   849	}
+   850	
+ > 851	int get_acpi_mac_passthru(char *MACAddress)
+   852	{
+   853		acpi_status status;
+   854		struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+   855		union acpi_object *obj;
+   856		int ret = -EINVAL;
+   857		unsigned char buf[6];
+   858	
+   859		/* returns _AUXMAC_#AABBCCDDEEFF# */
+   860		status = acpi_evaluate_object(NULL, "\\_SB.AMAC", NULL, &buffer);
+   861		obj = (union acpi_object *)buffer.pointer;
+   862	
+   863		if (!ACPI_SUCCESS(status))
+   864			return -ENODEV;
+   865	
+   866		ret = hex2bin(buf, obj->string.pointer + 9, 6);
+   867		if (!(ret == 0 && is_valid_ether_addr(buf))) {
+   868			acpi_info("Invalid MAC for pass-thru MAC addr: %d, %pM\n",
+   869				  ret, buf);
+   870			ret = -EINVAL;
+   871			goto amacout;
+   872		}
+   873		memcpy(MACAddress, buf, 6);
+   874		acpi_info("Pass-thru MAC addr %pM\n", MACAddress);
+   875	
+   876	amacout:
+   877		kfree(obj);
+   878		return ret;
+   879	}
+   880	
+   881	/* Provide method to get MAC address from the USB device's ethernet controller.
+   882	 * If the device supports CDC_GET_ADDRESS, we should receive just six bytes.
+   883	 * Otherwise, use the prior method by asking for the descriptor.
+   884	 */
+   885	static int cdc_ncm_get_ethernet_address(struct usbnet *dev,
+   886						struct cdc_ncm_ctx *ctx)
+   887	{
+   888		int ret;
+   889		u8 iface_no = ctx->control->cur_altsetting->desc.bInterfaceNumber;
+   890	
+   891		ret = usbnet_read_cmd(dev, USB_CDC_GET_NET_ADDRESS,
+   892				      USB_DIR_IN | USB_TYPE_CLASS
+   893				      | USB_RECIP_INTERFACE, 0,
+ > 894				      iface_no, dev->net->dev_addr, ETH_ALEN);
+   895	
+   896		if (ret == ETH_ALEN) {
+   897			ret = 0;	/* success */
+   898		} else {
+   899			ret = usbnet_get_ethernet_addr(dev,
+   900					ctx->ether_desc->iMACAddress);
+   901		}
+   902	
+   903		return ret;
+   904	}
+   905	
 
 -- 
 0-DAY CI Kernel Test Service
