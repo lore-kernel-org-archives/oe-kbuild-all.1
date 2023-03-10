@@ -1,64 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1715FE4C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 21:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D31E4C7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 22:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678485174; x=1710021174;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9ZQRLQu84HAORpFHSfVd3rSzKA87bHH+2cYOQb+pAc8=;
-  b=kkOzjd47rMS8iLYj00O5yegiyQV4VJTBWfILYmhPz4Ena2ACIQm06DqN
-   gXL4j+E69Aqlb2Bl/qTnJGLeDcAEdHWUngriY3NxbQNM1eaGjhKdECJ9i
-   K0xzEG8S23PA+jKrOzrdtDcm5jBoBe5ALjxM6FvyaZrwwb+WKeP6Z+fX7
-   aoJoJ5A027BBnSjSl7uX0XnhpXqDWT+HFTW/2EOIxUM3/SbH6hNs8ya9E
-   wI07jctuXQDKlQLq3BfzhrtqECD6o4Q2NF+0BKjOa/eRvr07vaB1eLwAp
-   ThXwIsGUrn3MBtqnnHzKAsogBClemPZPQK8rLEBCwpEoyiE9CzqotwHWp
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="335534006"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="335534006"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 13:52:36 -0800
+  t=1678486952; x=1710022952;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=azJWt2x8pbA+gNlePesSRM5iFq9FGaCtHDNlj/Z1AHs=;
+  b=C3S2KynsBf4bIs3H6rVqLPTNJ5TLPcmF7Yeduv4zPvTT65S9k82/W38V
+   FBzqrXBDzBPGwQjoInlv4yLUK1a5fRCXDYS/EENL2N+bLXGqw8/Ox9U4w
+   iIPckNmZHd7HlLHiPay0TwUWdffIX+7sf5NvsjFq/FC9YhWPTs3QVt0z8
+   JcEvfRK9ZU5XTcJyaqfh9fm/bxmrwKg/hHx9sS2kvBMm6DP3c3e7Je1KF
+   qRPMVhLV2//YcI6LisakOxDS/+mCHHP29h3ExyuZ7+G5aJUmQ3LhKOIkv
+   FwrvMEPlPEdYalLcOyDrOkMDX5/w285Hh4mTid126RhDVmqN7kIFv8EAF
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="423107207"
+X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
+   d="scan'208";a="423107207"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 14:22:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="677977037"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="677977037"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="746888738"
+X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
+   d="scan'208";a="746888738"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 13:52:29 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2023 14:22:30 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pakf7-000471-0G;
-	Fri, 10 Mar 2023 21:52:29 +0000
-Date: Sat, 11 Mar 2023 05:51:50 +0800
+	id 1pal89-00047z-2o;
+	Fri, 10 Mar 2023 22:22:29 +0000
+Date: Sat, 11 Mar 2023 06:22:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	"Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Juergen Gross <jgross@suse.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-Message-ID: <202303110550.BLo6P5dS-lkp@intel.com>
-References: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/2] include/trace/stages/init.h:2:23:
+ warning: 'str__dtask__trace_system_name' defined but not used
+Message-ID: <202303110633.121I9Bfo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,125 +45,193 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus powerpc/next powerpc/fixes linus/master v6.3-rc1 next-20230310]
-[cannot apply to soc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-Introduce-pci_dev_for_each_resource/20230311-011642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230310171416.23356-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110550.BLo6P5dS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   f811a96ace7e3c05faae238cb4faeea284944bba
+commit: 1e6d82d24121781b9b35db6313619837ac0bba4e [1/2] ANDROID: Re-apply vendor hooks for information of blocked tasks
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110633.121I9Bfo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/059b4a086017fbf2baacdbe0cc454f569f618ffd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/PCI-Introduce-pci_dev_for_each_resource/20230311-011642
-        git checkout 059b4a086017fbf2baacdbe0cc454f569f618ffd
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-6.1
+        git checkout 1e6d82d24121781b9b35db6313619837ac0bba4e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110550.BLo6P5dS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110633.121I9Bfo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pnp/quirks.c: In function 'quirk_system_pci_resources':
->> drivers/pnp/quirks.c:245:17: error: implicit declaration of function 'pci_dev_for_each_resource' [-Werror=implicit-function-declaration]
-     245 |                 pci_dev_for_each_resource(pdev, r, i) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pnp/quirks.c:245:54: error: expected ';' before '{' token
-     245 |                 pci_dev_for_each_resource(pdev, r, i) {
-         |                                                      ^~
-         |                                                      ;
-   drivers/pnp/quirks.c:233:16: warning: unused variable 'j' [-Wunused-variable]
-     233 |         int i, j;
-         |                ^
-   drivers/pnp/quirks.c:232:26: warning: unused variable 'res' [-Wunused-variable]
-     232 |         struct resource *res, *r;
-         |                          ^~~
-   cc1: some warnings being treated as errors
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sysrqcrash.h:19,
+                    from drivers/android/vendor_hooks.c:23:
+   include/trace/stages/init.h:2:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:20,
+                    from drivers/android/vendor_hooks.c:22:
+   include/trace/stages/init.h:2:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/wqlockup.h:19,
+                    from drivers/android/vendor_hooks.c:21:
+   include/trace/stages/init.h:2:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mpam.h:20,
+                    from drivers/android/vendor_hooks.c:20:
+   include/trace/stages/init.h:2:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpuidle.h:23,
+                    from drivers/android/vendor_hooks.c:19:
+   include/trace/stages/init.h:2:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dtask.h:53,
+                    from drivers/android/vendor_hooks.c:18:
+>> include/trace/stages/init.h:2:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/binder.h:37,
+                    from drivers/android/vendor_hooks.c:17:
+   include/trace/stages/init.h:2:23: warning: 'str__binder__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fpsimd.h:20,
+                    from drivers/android/vendor_hooks.c:16:
+   include/trace/stages/init.h:2:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/pci_dev_for_each_resource +245 drivers/pnp/quirks.c
+vim +/str__dtask__trace_system_name +2 include/trace/stages/init.h
 
-   228	
-   229	static void quirk_system_pci_resources(struct pnp_dev *dev)
-   230	{
-   231		struct pci_dev *pdev = NULL;
-   232		struct resource *res, *r;
-   233		int i, j;
-   234	
-   235		/*
-   236		 * Some BIOSes have PNP motherboard devices with resources that
-   237		 * partially overlap PCI BARs.  The PNP system driver claims these
-   238		 * motherboard resources, which prevents the normal PCI driver from
-   239		 * requesting them later.
-   240		 *
-   241		 * This patch disables the PNP resources that conflict with PCI BARs
-   242		 * so they won't be claimed by the PNP system driver.
-   243		 */
-   244		for_each_pci_dev(pdev) {
- > 245			pci_dev_for_each_resource(pdev, r, i) {
-   246				unsigned long type = resource_type(r);
-   247	
-   248				if (type != IORESOURCE_IO || type != IORESOURCE_MEM ||
-   249				    resource_size(r) == 0)
-   250					continue;
-   251	
-   252				if (r->flags & IORESOURCE_UNSET)
-   253					continue;
-   254	
-   255				for (j = 0;
-   256				     (res = pnp_get_resource(dev, type, j)); j++) {
-   257					if (res->start == 0 && res->end == 0)
-   258						continue;
-   259	
-   260					/*
-   261					 * If the PNP region doesn't overlap the PCI
-   262					 * region at all, there's no problem.
-   263					 */
-   264					if (!resource_overlaps(res, r))
-   265						continue;
-   266	
-   267					/*
-   268					 * If the PNP region completely encloses (or is
-   269					 * at least as large as) the PCI region, that's
-   270					 * also OK.  For example, this happens when the
-   271					 * PNP device describes a bridge with PCI
-   272					 * behind it.
-   273					 */
-   274					if (res->start <= r->start && res->end >= r->end)
-   275						continue;
-   276	
-   277					/*
-   278					 * Otherwise, the PNP region overlaps *part* of
-   279					 * the PCI region, and that might prevent a PCI
-   280					 * driver from requesting its resources.
-   281					 */
-   282					dev_warn(&dev->dev,
-   283						 "disabling %pR because it overlaps %s BAR %d %pR\n",
-   284						 res, pci_name(pdev), i, r);
-   285					res->flags |= IORESOURCE_DISABLED;
-   286				}
-   287			}
-   288		}
-   289	}
-   290	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
