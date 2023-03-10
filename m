@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFDA882C;
-	Fri, 10 Mar 2023 15:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177208838;
+	Fri, 10 Mar 2023 16:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678462416; x=1709998416;
+  t=1678464866; x=1710000866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8Mp5akE/ISTwieZ/580iRYwIhZzKBTLLo6Uloy3SLA8=;
-  b=nCyUAnlkLhXsaZM5tWquggp7bKrUIl94u2eqA95WKw4+V2XvbKvZ9zm2
-   76AFaC73UHNnXFXEl51POnOZnsOAbKaVn5EyMAWYy7Ti2Ce23xGXCMduX
-   ayU7wumq9R8GzDGkQs6NJNPV8M3K80lYBTvn5NoHAqlSBrZ5ZG+7N08dQ
-   KXNcm5LLKluMtUP8QwNhtcItH2sWTBkAk/UkZ8aCq4LcIVXm8q88+AtoT
-   fl/WurNdZ9xJDsV3jU6ymVi6Yx041f7mmwk41ylgs0G/iEGKVs51YFUAE
-   UpCcYjfrO1E6QsgMgcwsy8tzxxAiVJ7tyhUEwyZpTEq3lXej5LMc8OQDb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="339116053"
+  bh=Z5E2AiPAcKmUYJ9sAxHNV60/63xTzAyPUkJDDPYWd7k=;
+  b=ZEJ1NiKedYK0uGKg1jJiN3+UhVWLmHUHWQ1m5Th0eIZxH9NtQl56+MEp
+   mdzxnZfk9DgfAvyMrbdAvndp3KDbJZcKjVp4HJaJuTNeXbqa7NdnWpDAr
+   SzkkGTJpG3moS/J3vMlaXx/fu4QS0dxi186P/bAHUiQ2oEBvaZh2rqsCU
+   IFIwJPX/q/YhtwUvVgVIrOM9BVx2SiM0zWkxiQxIVoLVAr7INduAUkk91
+   THaS5K7OO1wiTJULw9QoGuJwc43KaNygoJLe1Rgs/HkY8K1l7/NBTH+Bm
+   GZhxvkC26HHHU0pc2GVDV5miVSQD/jRc9MrUYsv9/2iHEbSyYzFSftzj5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401623867"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="339116053"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 07:33:23 -0800
+   d="scan'208";a="401623867"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 08:14:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="710313439"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007166194"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="710313439"
+   d="scan'208";a="1007166194"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Mar 2023 07:33:22 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Mar 2023 08:14:24 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paekD-0003xP-32;
-	Fri, 10 Mar 2023 15:33:21 +0000
-Date: Fri, 10 Mar 2023 23:32:47 +0800
+	id 1pafNv-0003zD-1g;
+	Fri, 10 Mar 2023 16:14:23 +0000
+Date: Sat, 11 Mar 2023 00:13:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 425/432]
- arch/x86/kvm/mmu/mmu.c:701:5: error: no previous prototype for function
- 'kvm_mmu_topup_memory_cache_for_split'
-Message-ID: <202303102326.ExMJk6LL-lkp@intel.com>
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+ 334/652] drivers/clk/qcom/clk-cpu-8996.c:532:2: warning: unannotated
+ fall-through between switch labels
+Message-ID: <202303110055.TADpWl6c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,83 +47,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   b4a08c4cd3ed29e3977509b24adc2c59e39825c1
-commit: 40b0194e911eba584f34f1ff407cb2abf1844656 [425/432] [REVERTME] KVM: TDX, x86/tdp_mmu: Protect Secure-EPT page
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230310/202303102326.ExMJk6LL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Dmitry,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+head:   eb6e11ca9bd3d6242c6afa7616b837ccd2a404b5
+commit: 27dbfad00558825ed04e50b4fc1cafb23192b3c1 [334/652] clk: qcom: cpu-8996: simplify the cpu_clk_notifier_cb
+config: arm64-randconfig-r032-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110055.TADpWl6c-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/40b0194e911eba584f34f1ff407cb2abf1844656
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 40b0194e911eba584f34f1ff407cb2abf1844656
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/krzk/linux/commit/27dbfad00558825ed04e50b4fc1cafb23192b3c1
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+        git checkout 27dbfad00558825ed04e50b4fc1cafb23192b3c1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102326.ExMJk6LL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110055.TADpWl6c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/mmu/mmu.c:19:
-   In file included from arch/x86/kvm/irq.h:15:
-   In file included from include/linux/kvm_host.h:42:
-   In file included from include/linux/kvm_para.h:5:
-   In file included from include/uapi/linux/kvm_para.h:37:
-   In file included from arch/x86/include/asm/kvm_para.h:10:
-   arch/x86/include/asm/tdx.h:184:49: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
-                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-                                                                        ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:28: note: expanded from macro 'TDX_SEAMCALL_UD'
-   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-                                            ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:21:25: note: expanded from macro 'TDX_SW_ERROR'
-   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-                                            ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:20:21: note: expanded from macro 'TDX_ERROR'
-   #define TDX_ERROR                       _BITUL(TDX_ERROR_BIT)
-                                           ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
-   #define _BITUL(x)       (_UL(1) << (x))
-                                   ^  ~~~
->> arch/x86/kvm/mmu/mmu.c:701:5: error: no previous prototype for function 'kvm_mmu_topup_memory_cache_for_split' [-Werror,-Wmissing-prototypes]
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-       ^
-   arch/x86/kvm/mmu/mmu.c:701:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   ^
-   static 
-   2 errors generated.
+>> drivers/clk/qcom/clk-cpu-8996.c:532:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   drivers/clk/qcom/clk-cpu-8996.c:532:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   1 warning generated.
 
 
-vim +/kvm_mmu_topup_memory_cache_for_split +701 arch/x86/kvm/mmu/mmu.c
+vim +532 drivers/clk/qcom/clk-cpu-8996.c
 
-   700	
- > 701	int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   702	{
-   703		int r = 0;
-   704	#ifdef CONFIG_INTEL_TDX_HOST_DEBUG_MEMORY_CORRUPT
-   705		struct kvm_mmu_memory_cache *mc;
-   706		int start, end, i;
-   707	
-   708		mutex_lock(&kvm->arch.private_spt_for_split_lock);
-   709		mc = &kvm->arch.private_spt_for_split_cache;
-   710		start = kvm_mmu_memory_cache_nr_free_objects(mc);
-   711		r = kvm_mmu_topup_memory_cache(mc, KVM_MAX_HUGEPAGE_LEVEL *
-   712					       kvm->created_vcpus);
-   713		end = kvm_mmu_memory_cache_nr_free_objects(mc);
-   714		for (i = start; i < end; i++)
-   715			kvm_mmu_split_direct_map(virt_to_page(mc->objects[i]));
-   716		mutex_unlock(&kvm->arch.private_spt_for_split_lock);
-   717	#endif
-   718		return r;
-   719	}
-   720	
+03e342dc45c9ec Loic Poulain     2020-07-03  503  
+03e342dc45c9ec Loic Poulain     2020-07-03  504  static int cpu_clk_notifier_cb(struct notifier_block *nb, unsigned long event,
+03e342dc45c9ec Loic Poulain     2020-07-03  505  			       void *data)
+03e342dc45c9ec Loic Poulain     2020-07-03  506  {
+9a9f5f9a5a0ca3 Yassine Oudjana  2022-06-21  507  	struct clk_cpu_8996_pmux *cpuclk = to_clk_cpu_8996_pmux_nb(nb);
+03e342dc45c9ec Loic Poulain     2020-07-03  508  	struct clk_notifier_data *cnd = data;
+03e342dc45c9ec Loic Poulain     2020-07-03  509  
+03e342dc45c9ec Loic Poulain     2020-07-03  510  	switch (event) {
+03e342dc45c9ec Loic Poulain     2020-07-03  511  	case PRE_RATE_CHANGE:
+03e342dc45c9ec Loic Poulain     2020-07-03  512  		qcom_cpu_clk_msm8996_acd_init(base);
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  513  
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  514  		/*
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  515  		 * Avoid overvolting. clk_core_set_rate_nolock() walks from top
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  516  		 * to bottom, so it will change the rate of the PLL before
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  517  		 * chaging the parent of PMUX. This can result in pmux getting
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  518  		 * clocked twice the expected rate.
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  519  		 *
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  520  		 * Manually switch to PLL/2 here.
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  521  		 */
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  522  		if (cnd->new_rate < DIV_2_THRESHOLD &&
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  523  		    cnd->old_rate > DIV_2_THRESHOLD)
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  524  			clk_cpu_8996_pmux_set_parent(&cpuclk->clkr.hw, SMUX_INDEX);
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  525  
+03e342dc45c9ec Loic Poulain     2020-07-03  526  		break;
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  527  	case ABORT_RATE_CHANGE:
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  528  		/* Revert manual change */
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  529  		if (cnd->new_rate < DIV_2_THRESHOLD &&
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  530  		    cnd->old_rate > DIV_2_THRESHOLD)
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  531  			clk_cpu_8996_pmux_set_parent(&cpuclk->clkr.hw, ACD_INDEX);
+03e342dc45c9ec Loic Poulain     2020-07-03 @532  	default:
+03e342dc45c9ec Loic Poulain     2020-07-03  533  		break;
+03e342dc45c9ec Loic Poulain     2020-07-03  534  	}
+03e342dc45c9ec Loic Poulain     2020-07-03  535  
+27dbfad0055882 Dmitry Baryshkov 2022-07-28  536  	return NOTIFY_OK;
+03e342dc45c9ec Loic Poulain     2020-07-03  537  };
+03e342dc45c9ec Loic Poulain     2020-07-03  538  
+
+:::::: The code at line 532 was first introduced by commit
+:::::: 03e342dc45c9ec07303953d4e4af11879be36609 clk: qcom: Add CPU clock driver for msm8996
+
+:::::: TO: Loic Poulain <loic.poulain@linaro.org>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
