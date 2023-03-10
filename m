@@ -1,48 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4860EDAA0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 19:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0029C320B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 20:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678478370; x=1710014370;
+  t=1678480830; x=1710016830;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O5VKM3HAyY2lRGwQPUcAK28xDD8oo4d3l6vY6CvO918=;
-  b=m3cfEBZTdCF3kdrxmOZPZIHWNTwBNSn4GWx0Nmc3/MQagcbmAaRSThRJ
-   lM/aU8e4H4fNWc+lxP8UDe++8DM786dDkG5/yYVQcErW9eYmXhQ+NNwl5
-   ytFHampDdKl9eSe26owkR02yX0EhDUj5lMh+DW+vuRpvUyJZTRONIwF3e
-   Hjl/dZ8B0U7/RyUm4KZQH8Jsp6apghDvNtF45FL04JhkHozDNoHumlar+
-   /BW5atfwvTH94LPO+IqRQgGEDKe22t603X9L7UYZEMNP9bBYgq8B7O2uj
-   TWgylvkp/qeerb4i3dPLKhxK8ZM1CfcVSQV7T6BdwUgvwLqmyMmhn+pc7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="316466271"
+  bh=8tBfcaIiHFbsWgVXudK4IbW70gDeKO45ljcVBc0g7M0=;
+  b=SGXVajBfyOmSur6Gg1zlxoZHV31bc6H/8BoexdKai69NvnAFjJqJH30B
+   ZGaVBq2KcEljmxTkrANlaz7lvwbb3MKhcQeh2Dz7bm4uM3HRVL9k13rGp
+   Kn2XbzUmXAQack5+eaB0/QemZO8hFEghT/yNneHX1iJ3wRmdjJkt/RGjG
+   L57aY5IAyMXBYbrhomYW4eDD2HJnn23B4zBfWpjRn1Gk8UScxzAcIjjA1
+   qj7r0qJY/QZbHNmtBjuR+dTHhcW7oWcgn+CGpbp2mEEhdE84WfD1waz6T
+   goI0fnZAMitjSbh2c4qCl6lgx2Wn6jfoOawPKjsTkRXn0s3JtCMXklVA2
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="325180055"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="316466271"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 11:59:29 -0800
+   d="scan'208";a="325180055"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 12:40:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="680303683"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="852048417"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="680303683"
+   d="scan'208";a="852048417"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Mar 2023 11:59:28 -0800
+  by orsmga005.jf.intel.com with ESMTP; 10 Mar 2023 12:40:28 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paitj-00044h-1L;
-	Fri, 10 Mar 2023 19:59:27 +0000
-Date: Sat, 11 Mar 2023 03:58:53 +0800
+	id 1pajXP-000455-2F;
+	Fri, 10 Mar 2023 20:40:27 +0000
+Date: Sat, 11 Mar 2023 04:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Haberland <sth@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [linux-stable-rc:linux-5.10.y 9998/9999]
- drivers/s390/block/dasd_diag.c:656:23: error: initialization of 'int
- (*)(struct dasd_device *, __u8)' {aka 'int (*)(struct dasd_device *,
- unsigned char)'} from incompatible pointer type 'int (*)(struct dasd_device
- *, __u8,  __u8)' {aka 'int (*)(struct das...
-Message-ID: <202303110346.7QRIyDbC-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 1/11] kismet: WARNING: unmet direct
+ dependencies detected for CRYPTO_ARC4 when selected by IWL7000
+Message-ID: <202303110405.h2VypY06-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +47,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
-head:   420427e5b0dd499d0e1ba2ccbd30717bb5b36335
-commit: 017c4beada3fd11694ad0a5211ddfa2be196a70e [9998/9999] s390/dasd: add missing discipline function
-config: s390-buildonly-randconfig-r006-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110346.7QRIyDbC-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=017c4beada3fd11694ad0a5211ddfa2be196a70e
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc linux-5.10.y
-        git checkout 017c4beada3fd11694ad0a5211ddfa2be196a70e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/s390/block/
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   421400b80a607403ae326e6a5d2c9fd957296120
+commit: 91a70c368104217f438758873200771879116f92 [1/11] CHROMIUM: driver:  Support iwl7000 driver on v6.1
+config: x86_64-kismet-CONFIG_CRYPTO_ARC4-CONFIG_IWL7000-0-0 (https://download.01.org/0day-ci/archive/20230311/202303110405.h2VypY06-lkp@intel.com/config)
+reproduce:
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 91a70c368104217f438758873200771879116f92
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_CRYPTO_ARC4 --selectors CONFIG_IWL7000 -a=x86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=x86_64 olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110346.7QRIyDbC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110405.h2VypY06-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/s390/block/dasd_diag.c:656:23: error: initialization of 'int (*)(struct dasd_device *, __u8)' {aka 'int (*)(struct dasd_device *, unsigned char)'} from incompatible pointer type 'int (*)(struct dasd_device *, __u8,  __u8)' {aka 'int (*)(struct dasd_device *, unsigned char,  unsigned char)'} [-Werror=incompatible-pointer-types]
-     656 |         .pe_handler = dasd_diag_pe_handler,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/s390/block/dasd_diag.c:656:23: note: (near initialization for 'dasd_diag_discipline.pe_handler')
-   cc1: some warnings being treated as errors
---
->> drivers/s390/block/dasd_fba.c:818:23: error: initialization of 'int (*)(struct dasd_device *, __u8)' {aka 'int (*)(struct dasd_device *, unsigned char)'} from incompatible pointer type 'int (*)(struct dasd_device *, __u8,  __u8)' {aka 'int (*)(struct dasd_device *, unsigned char,  unsigned char)'} [-Werror=incompatible-pointer-types]
-     818 |         .pe_handler = dasd_fba_pe_handler,
-         |                       ^~~~~~~~~~~~~~~~~~~
-   drivers/s390/block/dasd_fba.c:818:23: note: (near initialization for 'dasd_fba_discipline.pe_handler')
-   cc1: some warnings being treated as errors
-
-
-vim +656 drivers/s390/block/dasd_diag.c
-
-   650	
-   651	static struct dasd_discipline dasd_diag_discipline = {
-   652		.owner = THIS_MODULE,
-   653		.name = "DIAG",
-   654		.ebcname = "DIAG",
-   655		.check_device = dasd_diag_check_device,
- > 656		.pe_handler = dasd_diag_pe_handler,
-   657		.fill_geometry = dasd_diag_fill_geometry,
-   658		.setup_blk_queue = dasd_diag_setup_blk_queue,
-   659		.start_IO = dasd_start_diag,
-   660		.term_IO = dasd_diag_term_IO,
-   661		.handle_terminated_request = dasd_diag_handle_terminated_request,
-   662		.erp_action = dasd_diag_erp_action,
-   663		.erp_postaction = dasd_diag_erp_postaction,
-   664		.build_cp = dasd_diag_build_cp,
-   665		.free_cp = dasd_diag_free_cp,
-   666		.dump_sense = dasd_diag_dump_sense,
-   667		.fill_info = dasd_diag_fill_info,
-   668	};
-   669	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_ARC4 when selected by IWL7000
+   .config:5018:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_ARC4
+     Depends on [n]: CRYPTO [=y] && CRYPTO_USER_API_ENABLE_OBSOLETE [=n]
+     Selected by [m]:
+     - IWL7000 [=m] && NETDEVICES [=y] && WLAN [=y] && PCI [=y] && HAS_IOMEM [=y] && CFG80211 [=y] && X86_64 [=y] && m && MODULES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
