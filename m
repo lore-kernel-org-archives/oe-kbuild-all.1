@@ -1,145 +1,278 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7F1C96A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 09:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2432103
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 09:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678439821; x=1709975821;
+  t=1678439969; x=1709975969;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uc4P3JzsrWV43ZpfgeJmhYoqz6MwbNzVrJ2aR3ikCZ4=;
-  b=Bz372eU34Gpopi3z2psljV4R4Q+114g0oicWBetWRVJewtSiHrUGn5LA
-   cl/uGzN20BrK7rI8s7L5wCRf7RNYEubLAAz+GEv9dzdAd/T7mJxB6Ai0I
-   JeKOFonu33mKICbPGGsxFdCUhQQ9jHjqG1sMXqBIaB2G9Qo4PqwtXJj1S
-   LhBQFM8jUoj5QcxVvJra5biaqZrg8oeERiprZH0kqg5GNqg90Rbx1jlLU
-   rSglqaMqmJt+PCzd8CNDNZCMqFYTfigg8CX/ZicxN0eHSyeBrsJiIFp40
-   bdyY51wy0NUV26AHHMNjXuzcFkE6Ka0a9bVoCoF4rL44rPHYCSitX4FBq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316339208"
+  bh=9/+N1xq7fnCrni+/z3Kgli6vGm+Sjl92ym+nr/yX6yo=;
+  b=DqsEqpsmkUBA//kYi5QNZ3gfhtY/s75GPxYJNV/Axce0AuKLDr0Mmrfk
+   WSx4sbghxuA9+lWvYtXmeLRgbpLbFLshnNKmzGv9BXVPJWZFDcggeQTa/
+   9BlUmQYutyd/X7NL9sC5NLJWKhlvAFFpxV7UoVSpJ9K4j9h//8zz8aLC2
+   6sXkbwkOBpgrrvAZcOmzDxwfL+gn2+Ev1aIGQDHt/oG9azrGtEB7hvk3m
+   zZRYVygiUb1EjDsHHopIFdXB6j+Gx1z5lzMvV78jKzlxGp0fRleC9bZ7Y
+   vqyigelZMf8++S6XLHDeWKCTL7goOEejmL43DbNbcL5haey4tNdHAk3NL
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="338240651"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="316339208"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 01:17:00 -0800
+   d="scan'208";a="338240651"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 01:19:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="707945912"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="677736672"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="707945912"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga008.jf.intel.com with ESMTP; 10 Mar 2023 01:17:00 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 10 Mar 2023 01:16:59 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 10 Mar 2023 01:16:59 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Fri, 10 Mar 2023 01:16:51 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EuSZ4EWSq6LangvFRWrXDgNeoWG+apeEsJGhNFMpHUSvbjvluf7FDJfD68M6sCz7H/vu8qnkjhfP0rLbrk1p7tmkvvfSnGrYyVhBS2Go/46uVypdjuNnkoMZT7z8HamgyyhzY5noa/A1SPdX9bG2A9JMvLyD4HvQX55A+No81tTrRKQ1RUOMn6vdqQmkz8NBUWoPl2JwTBXFdmwiniXRHOGMc1mj14ymfpJGvwX5bwCdSljlt9T/C2IGu1zEPHsvggOC2lZ6mm49MM/t6jvgdxloiPdwaqWg8YqxsJv20FMaDEhGCSnf2y8l79HM16igE/Vz2xRNV+vuDmifznWGbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=btlBJZXHWJ1ppaqCPXtusoNTQ0/CTN/hAQBbYQSABEY=;
- b=CBZEDyl5fhl7dgaRkx2o9FHJpwZ8fCcOaddLqdCL3/UcgpbKDE1tCxV3iq787oHbu84I3v3f4FdU2uENuikDv9CALt5MxnknfMp3XtKjflhN/8Dsld7hzJ0+9pzLhB86cdkOPhupuL4rwZbdw/k/cvpaCeikQiGcQ0+5xOovmr8FCOkPlYSoWTtr59w7G8I3/UnYOMRUp3APpYuAf/6m6nR+5Nv1Bb42DGnhr1r2ixOeBxUvuU/NFkRVvfHDuBKBywIkHBtMkS6XOCy+iW/NKsgvtZv0UVaq90rGAP8k3+JF0vj8bgP7fM43HtGM5m9F901bN9bFYfyugL6JfgQmpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by PH8PR11MB7144.namprd11.prod.outlook.com (2603:10b6:510:22c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Fri, 10 Mar
- 2023 09:16:49 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e%3]) with mapi id 15.20.6156.028; Fri, 10 Mar 2023
- 09:16:49 +0000
-Date: Fri, 10 Mar 2023 17:14:02 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Sunita Nadampalli <sunitan@ti.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <vigneshr@ti.com>, <nm@ti.com>, "Praneeth
- Bajjuri" <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-5.10.y 8460/9999]
- drivers/media/platform/vxe-vxd/encoder/topaz_api.c: img_errors.h is included
- more than once.
-Message-ID: <202303010448.DNdmOOVk-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR02CA0106.apcprd02.prod.outlook.com
- (2603:1096:4:92::22) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="677736672"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 01:19:11 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1paYu7-0003hH-0T;
+	Fri, 10 Mar 2023 09:19:11 +0000
+Date: Fri, 10 Mar 2023 17:18:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/property-read 60/75] drivers/usb/misc/usb251xb.c:413:68:
+ error: expected ';' before ')' token
+Message-ID: <202303101721.6tDsJuPB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH8PR11MB7144:EE_
-X-MS-Office365-Filtering-Correlation-Id: d162474c-f934-49a1-593a-08db21482db7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nVKE/BvtaGqxsPVHjBsdvSzKzh/GGFZOf3YHbU2ULEVuzKDDB7pzGChhtZXwENZJ6/uWzAwpfAh3uW3AcTAohUgqG20Bv/+v984EATifdHFUbMkdSo8qNSqNuQtyF/J4TM7OinaKU5nmpbC40mvDcS3iDEp0/2jaO3yysBjzJdx4FYAo8bSRW2SOANYl98Da3EfWvTIIdHgfbMNx5o6vmDp7T8nDRQXoXRJsdUxVoq+l2enU+yMjAE4AnnAJEVGK7YI66NW2egBG/NYWGLJGHrzTLQY9Lkacz7/S9zxBte7BYlLKJrl1kwgdbSN0VAejkULgm4SkNfyzfHZvCQ0N1SR0XABlLTdQ9oq6aADiijaJTe4OlQexYUbmfHeIubOsT6/UEGVb+/2jvos8SIrH4EbDJ+YLDE/cz1J3Prh4TIXYFboYoRR+tZEE1VsqHq1VIu3lBK17g83ouWWCG74E62S3NfXjNk227O5Pbw4ZapR7G2DMrl4q4kSZc3kWmpC1RIwP5yCO+FkP/om4eKAmAS528a2UEStYIxJipPAcsPyCiiZZlk6S5B6iYwMLctK3UDvV0NKgLm/xyjQzKkARwVckMY87UxVwqxJvQhf6dymfITLBJF9+goYxaeZ6gCKl6mvqGBmM4ovkTd9LaQMVOnmAruGiMwyZFMpLyJp5oM4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(346002)(366004)(136003)(376002)(451199018)(2616005)(478600001)(83380400001)(966005)(6486002)(26005)(186003)(6512007)(6506007)(6666004)(1076003)(66476007)(82960400001)(38100700002)(86362001)(66946007)(2906002)(4744005)(36756003)(5660300002)(8936002)(41300700001)(66556008)(6916009)(8676002)(4326008)(316002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DWMUoSUQ6V/q0024yg9YmC4fMXmZ2zS2vB8b0RrUlsbDOgypwNb1a5iX5up5?=
- =?us-ascii?Q?ipmxxD3efALKM/QYLtJlQ13ViMQZUMq6c05PutjnUvOo/jz/6FzTRIfcwqUP?=
- =?us-ascii?Q?EypMuxXaph6ASp7bohMF5PJ7U+PtWzpfsneXIlkZW90lsBWqpAvAWvU4o+dz?=
- =?us-ascii?Q?nwd7EIiTJp4aHWXn2y399nbJNFRS75VKw1CeZaVpLAlgNH67AD2GJcRUave1?=
- =?us-ascii?Q?TNgOUoYuNQU8aM/rkbEcAkMIPtBcd+HVxxECrlAjVeiVg5EEMO1j1N4gSuHw?=
- =?us-ascii?Q?RcnyxR/2fRThQLQhhQShLf6kuRarEAbjpuUmClzxDyUuxuSBsXVvjaC0+sGH?=
- =?us-ascii?Q?gniH7QCrZlfRvVwh27Dfw4L0YS+qqYz2sNzdzW61IKkw9QiSZjZD1LeJg4pX?=
- =?us-ascii?Q?WAlLzq4CNHAZBFqKCmmDI90Ro9dwJI842Ua/kRnOdJ5Ztb5TYSBcMa9UTy4b?=
- =?us-ascii?Q?eBag1UeuCWDCSrfVBDd9Kn+KRbl0OLh1tJE9M3OLE1jt3JPqmuiBTbaBZZdk?=
- =?us-ascii?Q?W0QoZU/LEmHVXUqCCxOgCbPg/gWqkGjTaS53JLJz6N3wEqIXngHdTNjB6NKs?=
- =?us-ascii?Q?yVdBvBorruiqrP1eXO+ba8njK0rKGB0CkfK2eHHzeE1pyUzueSj5LyIEHfVP?=
- =?us-ascii?Q?1ElzpYSVoUYN+R3UW6A+9yQSHdScswldxRHKZR0wfj2aaRiwknj9QiqTw+z2?=
- =?us-ascii?Q?iTI5jeAjw/bF4nprQeSXIMJURbfslrWf4S/vA1R7XPXZ9x357b3Lm+Wo6umW?=
- =?us-ascii?Q?DLtofKVQy8WuwDdOFJuMDRvIWEsgC4u1X/a6fFTtD2T+OIsn0BAjP469QGRm?=
- =?us-ascii?Q?50eC2be2kbccqBkYKOdeeOrEczMoW9E0GvvyGqJCSpIUsZH7K3RqPRpOGe3l?=
- =?us-ascii?Q?Jc0pW6PCdW/VJnZJS0PbVduA5HozrQq+x0AzPXVBYGryzh216BivijolKLLv?=
- =?us-ascii?Q?HDAROgDVcsX7Qhkk4/EjuVWfMG+nFVWgPL4GWqzQdTnFHom5ldBj7DCS+wa+?=
- =?us-ascii?Q?8Yy8kmWrxpU9KclSp91a8d1VeS7mWZPOTPXdTVRKoTuIfVqqBowZmk9asU6Y?=
- =?us-ascii?Q?c27fK2GqR6GGBdrZ9I66XFZw/+63EWeBiD8n7xUNlGelRZ2w/y75AVp9kYA9?=
- =?us-ascii?Q?SWulo7zQOe7AVbSCWYxAp7R1v0YU2QSh1StDbqc99LqMdkn7g0BmSsEhueZU?=
- =?us-ascii?Q?vTJPNSHwlVRPct6Eu83M7mKQAALtBC3HUV8OBcfhIfkGtnpSXytydFQvuuWK?=
- =?us-ascii?Q?Sd8ID5aEh39A4Ops8pjy5Ktoxxr1UW6V2k9T41DxjZy0LIiZ8bpoDQjFoGxH?=
- =?us-ascii?Q?72ToIMxeUTs75XJKI6hqhbwRGc/XsmCUHqJdiPiYjjtkIVSmTvfGAfpmeapd?=
- =?us-ascii?Q?/8U3FXGgGd1M0P2hYLXpF9VhDBYaLP6yeVrw1v54BLJ825M+TI12nNuzhnBo?=
- =?us-ascii?Q?e+1ArwTFIN7zhgl4u+RYBxtjeHcb8P9DHkDKkgXpe/aps69qPhx08Ldq78sI?=
- =?us-ascii?Q?ON5yjliJ7uGBqOFhE4uvc0LDaO2iZfdASv7Xc3NB+RSpf4yNda87NeGW5aH+?=
- =?us-ascii?Q?jTNQ83e8DtYJW//M387HRAXhqVOHgOcI8xEaWRp0cK9tsPwbCYubdH/D86kK?=
- =?us-ascii?Q?lw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d162474c-f934-49a1-593a-08db21482db7
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 09:16:49.2971
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vIuWg16A+/BLbUAXxJb/snEOXrbqL/8dk7a0EiPOl8aWdanfrchwo5dSy98pb3nfbAEVhF1+RQczMzGEswCfpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7144
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y
-head:   c1a12919117a6978f40e723d6e0c67c744e026b9
-commit: f4b2488987a8152607348f34add9a6e858e18429 [8460/9999] v4l: vxe-enc: Add Device specific memory configuration
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/property-read
+head:   74493ede940cb21df9738396bb9dc7c33d1ecc37
+commit: 267fb6d23eaaeb7486efacc1dbe5eaf8a080862e [60/75] usb: Use of_property_read_bool() for boolean properties
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230310/202303101721.6tDsJuPB-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=267fb6d23eaaeb7486efacc1dbe5eaf8a080862e
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/property-read
+        git checkout 267fb6d23eaaeb7486efacc1dbe5eaf8a080862e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/misc/
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Link: https://lore.kernel.org/r/202303010448.DNdmOOVk-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101721.6tDsJuPB-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/media/platform/vxe-vxd/encoder/topaz_api.c: img_errors.h is included more than once.
+All errors (new ones prefixed by >>):
+
+   drivers/usb/misc/usb251xb.c: In function 'usb251xb_get_ofdata':
+>> drivers/usb/misc/usb251xb.c:413:68: error: expected ';' before ')' token
+     413 |         hub->skip_config = of_property_read_bool(np, "skip-config"))
+         |                                                                    ^
+         |                                                                    ;
+>> drivers/usb/misc/usb251xb.c:413:68: error: expected statement before ')' token
+
+
+vim +413 drivers/usb/misc/usb251xb.c
+
+   397	
+   398	static int usb251xb_get_ofdata(struct usb251xb *hub,
+   399				       const struct usb251xb_data *data)
+   400	{
+   401		struct device *dev = hub->dev;
+   402		struct device_node *np = dev->of_node;
+   403		int len;
+   404		u32 property_u32 = 0;
+   405		const char *cproperty_char;
+   406		char str[USB251XB_STRING_BUFSIZE / 2];
+   407	
+   408		if (!np) {
+   409			dev_err(dev, "failed to get ofdata\n");
+   410			return -ENODEV;
+   411		}
+   412	
+ > 413		hub->skip_config = of_property_read_bool(np, "skip-config"))
+   414	
+   415		hub->gpio_reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   416		if (IS_ERR(hub->gpio_reset))
+   417			return dev_err_probe(dev, PTR_ERR(hub->gpio_reset),
+   418					     "unable to request GPIO reset pin\n");
+   419	
+   420		if (of_property_read_u16_array(np, "vendor-id", &hub->vendor_id, 1))
+   421			hub->vendor_id = USB251XB_DEF_VENDOR_ID;
+   422	
+   423		if (of_property_read_u16_array(np, "product-id",
+   424					       &hub->product_id, 1))
+   425			hub->product_id = data->product_id;
+   426	
+   427		if (of_property_read_u16_array(np, "device-id", &hub->device_id, 1))
+   428			hub->device_id = USB251XB_DEF_DEVICE_ID;
+   429	
+   430		hub->conf_data1 = USB251XB_DEF_CONFIG_DATA_1;
+   431		if (of_property_read_bool(np, "self-powered")) {
+   432			hub->conf_data1 |= BIT(7);
+   433	
+   434			/* Configure Over-Current sens when self-powered */
+   435			hub->conf_data1 &= ~BIT(2);
+   436			if (of_property_read_bool(np, "ganged-sensing"))
+   437				hub->conf_data1 &= ~BIT(1);
+   438			else if (of_property_read_bool(np, "individual-sensing"))
+   439				hub->conf_data1 |= BIT(1);
+   440		} else if (of_property_read_bool(np, "bus-powered")) {
+   441			hub->conf_data1 &= ~BIT(7);
+   442	
+   443			/* Disable Over-Current sense when bus-powered */
+   444			hub->conf_data1 |= BIT(2);
+   445		}
+   446	
+   447		if (of_property_read_bool(np, "disable-hi-speed"))
+   448			hub->conf_data1 |= BIT(5);
+   449	
+   450		if (of_property_read_bool(np, "multi-tt"))
+   451			hub->conf_data1 |= BIT(4);
+   452		else if (of_property_read_bool(np, "single-tt"))
+   453			hub->conf_data1 &= ~BIT(4);
+   454	
+   455		if (of_property_read_bool(np, "disable-eop"))
+   456			hub->conf_data1 |= BIT(3);
+   457	
+   458		if (of_property_read_bool(np, "individual-port-switching"))
+   459			hub->conf_data1 |= BIT(0);
+   460		else if (of_property_read_bool(np, "ganged-port-switching"))
+   461			hub->conf_data1 &= ~BIT(0);
+   462	
+   463		hub->conf_data2 = USB251XB_DEF_CONFIG_DATA_2;
+   464		if (of_property_read_bool(np, "dynamic-power-switching"))
+   465			hub->conf_data2 |= BIT(7);
+   466	
+   467		if (!of_property_read_u32(np, "oc-delay-us", &property_u32)) {
+   468			if (property_u32 == 100) {
+   469				/* 100 us*/
+   470				hub->conf_data2 &= ~BIT(5);
+   471				hub->conf_data2 &= ~BIT(4);
+   472			} else if (property_u32 == 4000) {
+   473				/* 4 ms */
+   474				hub->conf_data2 &= ~BIT(5);
+   475				hub->conf_data2 |= BIT(4);
+   476			} else if (property_u32 == 16000) {
+   477				/* 16 ms */
+   478				hub->conf_data2 |= BIT(5);
+   479				hub->conf_data2 |= BIT(4);
+   480			} else {
+   481				/* 8 ms (DEFAULT) */
+   482				hub->conf_data2 |= BIT(5);
+   483				hub->conf_data2 &= ~BIT(4);
+   484			}
+   485		}
+   486	
+   487		if (of_property_read_bool(np, "compound-device"))
+   488			hub->conf_data2 |= BIT(3);
+   489	
+   490		hub->conf_data3 = USB251XB_DEF_CONFIG_DATA_3;
+   491		if (of_property_read_bool(np, "port-mapping-mode"))
+   492			hub->conf_data3 |= BIT(3);
+   493	
+   494		if (data->led_support && of_get_property(np, "led-usb-mode", NULL))
+   495			hub->conf_data3 &= ~BIT(1);
+   496	
+   497		if (of_property_read_bool(np, "string-support"))
+   498			hub->conf_data3 |= BIT(0);
+   499	
+   500		hub->non_rem_dev = USB251XB_DEF_NON_REMOVABLE_DEVICES;
+   501		usb251xb_get_ports_field(hub, "non-removable-ports", data->port_cnt,
+   502					 true, &hub->non_rem_dev);
+   503	
+   504		hub->port_disable_sp = USB251XB_DEF_PORT_DISABLE_SELF;
+   505		usb251xb_get_ports_field(hub, "sp-disabled-ports", data->port_cnt,
+   506					 true, &hub->port_disable_sp);
+   507	
+   508		hub->port_disable_bp = USB251XB_DEF_PORT_DISABLE_BUS;
+   509		usb251xb_get_ports_field(hub, "bp-disabled-ports", data->port_cnt,
+   510					 true, &hub->port_disable_bp);
+   511	
+   512		hub->max_power_sp = USB251XB_DEF_MAX_POWER_SELF;
+   513		if (!of_property_read_u32(np, "sp-max-total-current-microamp",
+   514		    &property_u32))
+   515			hub->max_power_sp = min_t(u8, property_u32 / 2000, 50);
+   516	
+   517		hub->max_power_bp = USB251XB_DEF_MAX_POWER_BUS;
+   518		if (!of_property_read_u32(np, "bp-max-total-current-microamp",
+   519		    &property_u32))
+   520			hub->max_power_bp = min_t(u8, property_u32 / 2000, 255);
+   521	
+   522		hub->max_current_sp = USB251XB_DEF_MAX_CURRENT_SELF;
+   523		if (!of_property_read_u32(np, "sp-max-removable-current-microamp",
+   524		    &property_u32))
+   525			hub->max_current_sp = min_t(u8, property_u32 / 2000, 50);
+   526	
+   527		hub->max_current_bp = USB251XB_DEF_MAX_CURRENT_BUS;
+   528		if (!of_property_read_u32(np, "bp-max-removable-current-microamp",
+   529		    &property_u32))
+   530			hub->max_current_bp = min_t(u8, property_u32 / 2000, 255);
+   531	
+   532		hub->power_on_time = USB251XB_DEF_POWER_ON_TIME;
+   533		if (!of_property_read_u32(np, "power-on-time-ms", &property_u32))
+   534			hub->power_on_time = min_t(u8, property_u32 / 2, 255);
+   535	
+   536		if (of_property_read_u16_array(np, "language-id", &hub->lang_id, 1))
+   537			hub->lang_id = USB251XB_DEF_LANGUAGE_ID;
+   538	
+   539		if (of_property_read_u8(np, "boost-up", &hub->boost_up))
+   540			hub->boost_up = USB251XB_DEF_BOOST_UP;
+   541	
+   542		cproperty_char = of_get_property(np, "manufacturer", NULL);
+   543		strscpy(str, cproperty_char ? : USB251XB_DEF_MANUFACTURER_STRING,
+   544			sizeof(str));
+   545		hub->manufacturer_len = strlen(str) & 0xFF;
+   546		memset(hub->manufacturer, 0, USB251XB_STRING_BUFSIZE);
+   547		len = min_t(size_t, USB251XB_STRING_BUFSIZE / 2, strlen(str));
+   548		len = utf8s_to_utf16s(str, len, UTF16_LITTLE_ENDIAN,
+   549				      (wchar_t *)hub->manufacturer,
+   550				      USB251XB_STRING_BUFSIZE);
+   551	
+   552		cproperty_char = of_get_property(np, "product", NULL);
+   553		strscpy(str, cproperty_char ? : data->product_str, sizeof(str));
+   554		hub->product_len = strlen(str) & 0xFF;
+   555		memset(hub->product, 0, USB251XB_STRING_BUFSIZE);
+   556		len = min_t(size_t, USB251XB_STRING_BUFSIZE / 2, strlen(str));
+   557		len = utf8s_to_utf16s(str, len, UTF16_LITTLE_ENDIAN,
+   558				      (wchar_t *)hub->product,
+   559				      USB251XB_STRING_BUFSIZE);
+   560	
+   561		cproperty_char = of_get_property(np, "serial", NULL);
+   562		strscpy(str, cproperty_char ? : USB251XB_DEF_SERIAL_STRING,
+   563			sizeof(str));
+   564		hub->serial_len = strlen(str) & 0xFF;
+   565		memset(hub->serial, 0, USB251XB_STRING_BUFSIZE);
+   566		len = min_t(size_t, USB251XB_STRING_BUFSIZE / 2, strlen(str));
+   567		len = utf8s_to_utf16s(str, len, UTF16_LITTLE_ENDIAN,
+   568				      (wchar_t *)hub->serial,
+   569				      USB251XB_STRING_BUFSIZE);
+   570	
+   571		/*
+   572		 * The datasheet documents the register as 'Port Swap' but in real the
+   573		 * register controls the USB DP/DM signal swapping for each port.
+   574		 */
+   575		hub->port_swap = USB251XB_DEF_PORT_SWAP;
+   576		usb251xb_get_ports_field(hub, "swap-dx-lanes", data->port_cnt,
+   577					 false, &hub->port_swap);
+   578	
+   579		/* The following parameters are currently not exposed to devicetree, but
+   580		 * may be as soon as needed.
+   581		 */
+   582		hub->bat_charge_en = USB251XB_DEF_BATTERY_CHARGING_ENABLE;
+   583		hub->boost_57 = USB251XB_DEF_BOOST_57;
+   584		hub->boost_14 = USB251XB_DEF_BOOST_14;
+   585		hub->port_map12 = USB251XB_DEF_PORT_MAP_12;
+   586		hub->port_map34 = USB251XB_DEF_PORT_MAP_34;
+   587		hub->port_map56 = USB251XB_DEF_PORT_MAP_56;
+   588		hub->port_map7  = USB251XB_DEF_PORT_MAP_7;
+   589	
+   590		return 0;
+   591	}
+   592	
 
 -- 
 0-DAY CI Kernel Test Service
