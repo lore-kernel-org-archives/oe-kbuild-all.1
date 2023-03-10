@@ -1,42 +1,46 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165D57E1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402F9DAB7
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 20:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678480832; x=1710016832;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BBFXx4cjoW6GnOcNTX2FffvDAh6OXqrNSwD+CRLvOGk=;
-  b=KCv7X35EOfrX0KGK3kALcdumzwI1xXKmfG+r6YaiDrR5KcRjhwyq/z8C
-   n/pYp0X8wxPC2ypPZfqaPksqUj/FVqDMc+x1hML+kr/hshHcx810zbPPa
-   paeseKG2aXzTb2SPZP3dLAfv9Y6Zr9q4q3ijDf+Ycw+cLo6tc3WNevTEY
-   MbGzcLIyXW3r6LGdFiWkrGxLPQIADVczRXh4V/4IodngywcurrDUqVYUc
-   5qv4jL18FaWNQ6Qpq+nSHDZ7Nb24t2+hYSiQvgF4jXvw17lD7GU7DOH7W
-   GLfx/JZti/WlnaeVagtqrQg04goJH10thZo3ncLez46YavcTTzBiaIAEb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="325180056"
+  bh=X5aSf921PHYsGcC17O3UoHBWWgytCW1qbwK7u3RnTP4=;
+  b=IEQE7a9WFMZ9X2kuY9ZkTXv5TshptUpajekucs+Jjvk7yQ5A3P6XSm38
+   wsngpLjUvmnvBHlLqI13VW3NQ3YfwiJFUI50Q9TC05z64a0wmrMGuP34R
+   Fx9VmVRUB92f0EK6RebnJ7RruhzW6dfDw7zMUQkDbRKk3zzGuEAUhqRPD
+   hE/fp/XOnd5f5Udipb0WzwFLmVPpbUfBhPqpY2y386DHeunqWL3018pvE
+   a2NZbBYqWYi9CWpq8A698DcE3pA6PCWRWWuQf09D/HniIcoOn55V+yShm
+   /0fNkuUFceFojY1oSaTa2DviPQNU5lUb3YqVc4zXGVmFMPYwk5NWihhyp
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="325180060"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="325180056"
+   d="scan'208";a="325180060"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 12:40:29 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 12:40:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="852048418"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="852048424"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="852048418"
+   d="scan'208";a="852048424"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 10 Mar 2023 12:40:28 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pajXP-000457-2L;
+	id 1pajXP-00045B-2d;
 	Fri, 10 Mar 2023 20:40:27 +0000
-Date: Sat, 11 Mar 2023 04:39:51 +0800
+Date: Sat, 11 Mar 2023 04:39:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi_3 5/11] kernel/trace/bpf_trace.c:2913:25:
- warning: variable 'size' set but not used
-Message-ID: <202303110431.Cdr8Bsa7-lkp@intel.com>
+Subject: [iwlwifi-chromeos:chromeos-6.1__release/core76-47-and-rex-fixes-clean-no-cfg
+ 1/12] versioncheck: ./drivers/net/wireless/iwl7000/hdrs/config.h: 68: need
+ linux/version.h
+Message-ID: <202303110439.aR42oq6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,97 +50,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_3
-head:   e4e32b8d0e93fb058e99e0bb197f155b3b71cf26
-commit: d7c8fc41fafecf762d8e6fd76a8363d24051f8af [5/11] bpf: Add multi uprobe link
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110431.Cdr8Bsa7-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=d7c8fc41fafecf762d8e6fd76a8363d24051f8af
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi_3
-        git checkout d7c8fc41fafecf762d8e6fd76a8363d24051f8af
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash kernel/trace/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-6.1__release/core76-47-and-rex-fixes-clean-no-cfg
+head:   f548213ef693a97cc6f8fee04412de792e96321e
+commit: 04073ce5ea4665f3505a8e9b085d06856f2a81e4 [1/12] CHROMIUM: iwl7000: add driver
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110431.Cdr8Bsa7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110439.aR42oq6o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   kernel/trace/bpf_trace.c: In function 'bpf_uprobe_multi_link_attach':
->> kernel/trace/bpf_trace.c:2913:25: warning: variable 'size' set but not used [-Wunused-but-set-variable]
-    2913 |         u32 flags, cnt, size, i;
-         |                         ^~~~
-
-
-vim +/size +2913 kernel/trace/bpf_trace.c
-
-  2909	
-  2910	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-  2911	{
-  2912		void __user **upaths, __user *uoffsets, __user *upath, __user *old_upath = NULL;
-> 2913		u32 flags, cnt, size, i;
-  2914		char **paths, *path;
-  2915		int err;
-  2916	
-  2917		/* no support for 32bit archs yet */
-  2918		if (sizeof(u64) != sizeof(void *))
-  2919			return -EOPNOTSUPP;
-  2920	
-  2921		if (prog->expected_attach_type != BPF_TRACE_UPROBE_MULTI)
-  2922			return -EINVAL;
-  2923	
-  2924		flags = attr->link_create.uprobe_multi.flags;
-  2925		if (flags & ~BPF_F_UPROBE_MULTI_RETURN)
-  2926			return -EINVAL;
-  2927	
-  2928		upaths = u64_to_user_ptr(attr->link_create.uprobe_multi.paths);
-  2929		uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
-  2930		if (!!upaths != !!uoffsets)
-  2931			return -EINVAL;
-  2932	
-  2933		cnt = attr->link_create.uprobe_multi.cnt;
-  2934		if (!cnt)
-  2935			return -EINVAL;
-  2936	
-  2937		size = cnt * sizeof(*paths);
-  2938		paths = kvmalloc_array(cnt, sizeof(*paths), GFP_KERNEL);
-  2939		if (!paths)
-  2940			return -ENOMEM;
-  2941	
-  2942		for (i = 0; i < cnt; i++) {
-  2943			if (__get_user(upath, upaths + i)) {
-  2944				err = -EFAULT;
-  2945				goto error;
-  2946			}
-  2947			if (i && old_upath == upath) {
-  2948				paths[i] = paths[i - 1];
-  2949				continue;
-  2950			}
-  2951			path = strndup_user(upath, PATH_MAX);
-  2952			if (IS_ERR(path)) {
-  2953				err = PTR_ERR(path);
-  2954				goto error;
-  2955			}
-  2956			paths[i] = path;
-  2957		}
-  2958	
-  2959		for (i = 0; i < cnt; i++) {
-  2960			trace_printk("path %s\n", paths[i]);
-  2961		}
-  2962	
-  2963	error:
-  2964		kfree(paths);
-  2965		return err;
-  2966	}
-  2967	#else /* !CONFIG_UPROBES */
-  2968	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/drm/img-rogue/1.17/cache_km.c: 47 linux/version.h not needed.
+   ./drivers/gpu/drm/img-rogue/1.17/mt8173/mt8173_sysconfig.c: 552: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/osfunc_arm64.c: 43 linux/version.h not needed.
+   ./drivers/gpu/drm/img-rogue/1.17/osfunc_x86.c: 134: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/pvr_buffer_sync.c: 739: need linux/version.h
+   ./drivers/gpu/drm/img-rogue/1.17/pvr_debugfs.c: 624: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 14 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 6 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys-video.c: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-isys.c: 14 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu-psys.c: 16 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu6/ipu6-psys.c: 12 linux/version.h not needed.
+   ./drivers/media/virtio/virtio_video_driver.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+>> ./drivers/net/wireless/iwl7000/hdrs/config.h: 68: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/hdrs/linux/verification.h: 7 linux/version.h not needed.
+>> ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2405: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 154: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 1239: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/fw/file.h: 995: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2363: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1225: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3173: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 305: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6572: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2767: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2241: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/phy-ctxt.c: 397: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2752: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3320: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2312: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/backports.c: 490: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 118: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5373: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/chan.c: 2067: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 723: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2589: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2539: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/link.c: 500: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/main.c: 1607: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 7778: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5346: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1508: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 2997: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/status.c: 1315: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6059: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/util.c: 5195: need linux/version.h
+>> ./drivers/net/wireless/iwl7000/mac80211/vht.c: 768: need linux/version.h
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
