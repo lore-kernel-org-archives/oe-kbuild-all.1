@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62917B;
-	Fri, 10 Mar 2023 02:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2197B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 03:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678417132; x=1709953132;
+  t=1678419533; x=1709955533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tRqeKWPd2oh6J0+E+X2pCSxoe22TLHofY9ID6INkPDM=;
-  b=nQcDZtBJ0b0d6RxoLqrWNAbg2xIzRXmdGiRucyp2YNBw/jV2PRoje8S+
-   1O0KYQYkzk/utq38rDdPDxVRY9aaH2Fi2XiBj1GadYb4jY/OU0tR65Qos
-   pM1CO6HmECMAv2X727VOW5biTicOYhu4p/aZg+XaFxUG+dKJARLmaem7P
-   syrc6ZLCjQndRutJdBnnmZ2BhFqPWqz8Qo6iIljQ0asEKx3fOhWlxn8jc
-   GaBxHWLcKTFpqqBohyrvjbnV38QgC5JGasqesJu2IhXxcdj82l5kP9Asx
-   OcO1GD7EVXblXG0E4CQe0azYEY/P3Z2HoOeQv6ycgcvMI9dhQeDKsown9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="334108339"
+  bh=BzW+0+zVRAQZpgxT4BamnHspksg/J/6KLmrBeWSYeok=;
+  b=VOA3DVhr89XZLRJSB7+oCsw3rHtdzqu1Mn25xcyNTBi+ePQx6L/wq10v
+   mw9kVzJLf7NI/yubVr5CdNMCi+48wRVTQ8jeSgJxrU01VxpXAOQXSEkbw
+   t9RB4kZQ334Zce4A3531ot5wy9Uk3FAVjPtjnmoVdB7cHkW0T7DXkj1lw
+   AniHG/gZioyRA7iLWLIFPuWfF3xFuB43hDZD877vouzOkYskuPRPVxfIB
+   7YPrDJ0e8XqJtK1Aa3d5vwZKmVKxJvw+D/aCClcJp5qGNmnkQbKUZhYRR
+   /+e9hakv/PE29Q6C/VeY+551aSH90oD4WuQwMi/VE+Y4yxPk0Pn0JTzoi
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="364288493"
 X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="334108339"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 18:58:51 -0800
+   d="scan'208";a="364288493"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 19:38:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="670941964"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="677656545"
 X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="670941964"
+   d="scan'208";a="677656545"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Mar 2023 18:58:50 -0800
+  by orsmga002.jf.intel.com with ESMTP; 09 Mar 2023 19:38:51 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paSy1-0003P9-22;
-	Fri, 10 Mar 2023 02:58:49 +0000
-Date: Fri, 10 Mar 2023 10:57:52 +0800
+	id 1paTal-0003SR-0l;
+	Fri, 10 Mar 2023 03:38:51 +0000
+Date: Fri, 10 Mar 2023 11:38:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:static-call-null-3 1/1]
- include/linux/static_call.h:313:29: warning: pointer type mismatch ('void *'
- and 'void (*)(void)')
-Message-ID: <202303101033.d6i7XKn9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 5/6]
+ drivers/scsi/ufs/ufshcd.c:150:13: warning: 'system_suspending' defined but
+ not used
+Message-ID: <202303101115.LKnkeCZv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,92 +47,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-3
-head:   42d224aeea3da11460b34b148dd1226a5e53a9e8
-commit: 42d224aeea3da11460b34b148dd1226a5e53a9e8 [1/1] static_call: Make NULL static calls consistent
-config: riscv-randconfig-r024-20230308 (https://download.01.org/0day-ci/archive/20230310/202303101033.d6i7XKn9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   174add77871fae6fc97f2e8a6dcaa15541b4077b
+commit: 9ec67418f588672a0034fe7a5284accaaa98a6bd [5/6] BACKPORT: UPSTREAM: scsi: ufs: Track system suspend / resume activity
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230310/202303101115.LKnkeCZv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=42d224aeea3da11460b34b148dd1226a5e53a9e8
-        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
-        git fetch --no-tags jpoimboe static-call-null-3
-        git checkout 42d224aeea3da11460b34b148dd1226a5e53a9e8
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.10
+        git checkout 9ec67418f588672a0034fe7a5284accaaa98a6bd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv prepare
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/scsi/ufs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101033.d6i7XKn9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101115.LKnkeCZv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from arch/riscv/include/asm/kvm_host.h:21:
-   In file included from arch/riscv/include/asm/kvm_vcpu_pmu.h:12:
-   In file included from include/linux/perf/riscv_pmu.h:12:
-   In file included from include/linux/perf_event.h:63:
->> include/linux/static_call.h:313:29: warning: pointer type mismatch ('void *' and 'void (*)(void)') [-Wpointer-type-mismatch]
-           WRITE_ONCE(key->func, func ? : __static_call_nop);
-                                 ~~~~ ^   ~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-                           ^~~
-   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
-           *(volatile typeof(x) *)&(x) = (val);                            \
-                                          ^~~
-   1 warning generated.
---
-   In file included from net/mac80211/rc80211_minstrel_ht.c:15:
-   In file included from net/mac80211/rate.h:18:
-   In file included from net/mac80211/driver-ops.h:13:
-   In file included from net/mac80211/trace.h:11:
-   In file included from include/linux/tracepoint.h:22:
->> include/linux/static_call.h:313:29: warning: pointer type mismatch ('void *' and 'void (*)(void)') [-Wpointer-type-mismatch]
-           WRITE_ONCE(key->func, func ? : __static_call_nop);
-                                 ~~~~ ^   ~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-                           ^~~
-   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
-           *(volatile typeof(x) *)&(x) = (val);                            \
-                                          ^~~
-   net/mac80211/rc80211_minstrel_ht.c:1711:6: warning: variable 'n_supported' set but not used [-Wunused-but-set-variable]
-           int n_supported = 0;
-               ^
-   2 warnings generated.
---
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from arch/riscv/include/asm/kvm_host.h:21:
-   In file included from arch/riscv/include/asm/kvm_vcpu_pmu.h:12:
-   In file included from include/linux/perf/riscv_pmu.h:12:
-   In file included from include/linux/perf_event.h:63:
->> include/linux/static_call.h:313:29: warning: pointer type mismatch ('void *' and 'void (*)(void)') [-Wpointer-type-mismatch]
-           WRITE_ONCE(key->func, func ? : __static_call_nop);
-                                 ~~~~ ^   ~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-                           ^~~
-   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
-           *(volatile typeof(x) *)&(x) = (val);                            \
-                                          ^~~
-   1 warning generated.
+>> drivers/scsi/ufs/ufshcd.c:150:13: warning: 'system_suspending' defined but not used [-Wunused-variable]
+     150 | static bool system_suspending;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +313 include/linux/static_call.h
+vim +/system_suspending +150 drivers/scsi/ufs/ufshcd.c
 
-   309	
-   310	static inline
-   311	void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-   312	{
- > 313		WRITE_ONCE(key->func, func ? : __static_call_nop);
-   314	}
-   315	
+   149	
+ > 150	static bool system_suspending;
+   151	
 
 -- 
 0-DAY CI Kernel Test Service
