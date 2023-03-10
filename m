@@ -1,43 +1,50 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2F72598;
-	Fri, 10 Mar 2023 10:54:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5832F49
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 11:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678445657; x=1709981657;
+  t=1678446919; x=1709982919;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XevK55Fhdi1F4E2UswEgkp6e+jGL+EBQhW2E/dZl4mE=;
-  b=e7dC4WwHEUds1IG2aRCHWAdzXrLcpqH51sGc47vtPFgdyHF21BxFdbXo
-   74nhI2cWYBb9VGBfEhKWY2HnMvNt6Wy8FOPmf08rNO6PU4kFT+37EkfJn
-   KRE9FLDJ3hfAKJF8mpfVGWWFbN2mfsDiZiq7qrz4848QHh+4KAg6i1uL7
-   FRlhQLu2hpOwoUKNlKw8zPuVmKnwoRbtZ3CpP7u1XtMBPdahKCT5gUU9k
-   2jCiD12PG4D+KKiOcuaD4pip2oACXpKgtzkOnz1lJbXckKQ1LPgcb/PmT
-   M46iwfuoTmk+XRZ0Fuw7h3vtQV+SBY/DOiKjUOmAzhZILeGG3tt5W+gR3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="334178685"
+  bh=HuenYvK1oTqAt2IQvUgRSYn1H95EixqifwINchc7Xz8=;
+  b=TYmodF3QzDGy6IhPQJcX2j3bh3aUBYsTKpa8czTb0d2xBfoPLbRcrFo9
+   //VkIk5VR6N2Hlsck82yJ4kyIxGmUHZuObr49fBr0Kh+jE24PjtgX36Aq
+   7WulvlCv1WC5Ist53IUPBW2f5YpAvRYKmXMQRCyus4ODwN69QlIfqqqoT
+   zpq+7lcgRNEc+Yos1xzF7SgCEio73ZQ6GP81vgwd2CEIN1vgO3fBgSIIY
+   ANvR6Gf4E5JZiHArpgBPOXOim4355oHnQQ3zSXm+1gxRC93jcCkQReiCw
+   3e11WckX8eFdECocVB4lzzFU2LyMXPTEUnAkEcFakSWdEmfE9SkcH+f+l
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="335402028"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="334178685"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 02:54:16 -0800
+   d="scan'208";a="335402028"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 03:15:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="766786487"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="677776009"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="766786487"
+   d="scan'208";a="677776009"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Mar 2023 02:54:14 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 03:15:15 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paaO6-0003mB-19;
-	Fri, 10 Mar 2023 10:54:14 +0000
-Date: Fri, 10 Mar 2023 18:54:09 +0800
+	id 1paaiQ-0003mt-35;
+	Fri, 10 Mar 2023 11:15:14 +0000
+Date: Fri, 10 Mar 2023 19:15:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
- warning: unused variable 'c8sectpfe_match'
-Message-ID: <202303101857.1koJ8iHX-lkp@intel.com>
+To: Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Hongchen Zhang <zhanghongchen@loongson.cn>,
+	Liu Peibao <liupeibao@loongson.cn>,
+	Juxin Gao <gaojuxin@loongson.cn>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linux-next:master 981/2655]
+ drivers/gpio/gpio-loongson-64bit.c:225:3-8: No need to set .owner here. The
+ core will do it.
+Message-ID: <202303101928.ZsKHeQTK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +54,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mauro,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44889ba56cbb3d51154660ccd15818bc77276696
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
-date:   12 months ago
-config: hexagon-randconfig-r031-20230310 (https://download.01.org/0day-ci/archive/20230310/202303101857.1koJ8iHX-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/st/sti/c8sectpfe/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   24469a0e5052ba01a35a15f104717a82b7a4798b
+commit: 7944d3b7fe86067509751473aa917fdfd662d92c [981/2655] gpio: loongson: add gpio driver support
+config: loongarch-randconfig-c024-20230308 (https://download.01.org/0day-ci/archive/20230310/202303101928.ZsKHeQTK-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101857.1koJ8iHX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101928.ZsKHeQTK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
-   static const struct of_device_id c8sectpfe_match[] = {
-                                    ^
-   1 warning generated.
-
-
-vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
-
-:::::: The code at line 1175 was first introduced by commit
-:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
-
-:::::: TO: Peter Griffin <peter.griffin@linaro.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-loongson-64bit.c:225:3-8: No need to set .owner here. The core will do it.
 
 -- 
 0-DAY CI Kernel Test Service
