@@ -1,42 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D31E4C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 22:22:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5862F32
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 22:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678486952; x=1710022952;
+  t=1678487612; x=1710023612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=azJWt2x8pbA+gNlePesSRM5iFq9FGaCtHDNlj/Z1AHs=;
-  b=C3S2KynsBf4bIs3H6rVqLPTNJ5TLPcmF7Yeduv4zPvTT65S9k82/W38V
-   FBzqrXBDzBPGwQjoInlv4yLUK1a5fRCXDYS/EENL2N+bLXGqw8/Ox9U4w
-   iIPckNmZHd7HlLHiPay0TwUWdffIX+7sf5NvsjFq/FC9YhWPTs3QVt0z8
-   JcEvfRK9ZU5XTcJyaqfh9fm/bxmrwKg/hHx9sS2kvBMm6DP3c3e7Je1KF
-   qRPMVhLV2//YcI6LisakOxDS/+mCHHP29h3ExyuZ7+G5aJUmQ3LhKOIkv
-   FwrvMEPlPEdYalLcOyDrOkMDX5/w285Hh4mTid126RhDVmqN7kIFv8EAF
+  bh=pWtOuITaDOWC07TbLa4wJIHLUcCcsZty7UYh6lH03So=;
+  b=amHs05H8QeE3VwoE7O43KryJ9ckiCX+cRsZzWi/PFcgEg3mdbZG+cE89
+   B3LFCQxruYBeNt48fPhKPWBTWUobPamoCxNLlniJxMGVx0j3tnM1MkXXz
+   RFTkwP/9xIB7j0STLtzKT4gEV489Hcsn+c+2VYOb2wpXFqOoCShai45gl
+   1PFX+ikFQaItprnYoqJlpEOlnqhHLbKGEDYjQRykXpvmRSf6UBMYSBruO
+   xPF1fwRFjZzr3ZCtOjo1tWrma/cExxsaAJGHJ+JPK+Ws0/FW4Qwk6Tqnv
+   vuOo4yE28wvzdmO3tvjEWaXfphf3AxcPrcOdQ1Hyilhnnj2vfFsZqReCW
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="423107207"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="399442697"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="423107207"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 14:22:31 -0800
+   d="scan'208";a="399442697"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 14:33:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="746888738"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="923829347"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="746888738"
+   d="scan'208";a="923829347"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2023 14:22:30 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 10 Mar 2023 14:33:30 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pal89-00047z-2o;
-	Fri, 10 Mar 2023 22:22:29 +0000
-Date: Sat, 11 Mar 2023 06:22:19 +0800
+	id 1palIo-00048T-0m;
+	Fri, 10 Mar 2023 22:33:30 +0000
+Date: Sat, 11 Mar 2023 06:32:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/2] include/trace/stages/init.h:2:23:
- warning: 'str__dtask__trace_system_name' defined but not used
-Message-ID: <202303110633.121I9Bfo-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/pipe-list 30/30]
+ crypto/algif_skcipher.c:197:10: error: 'struct proto_ops' has no member
+ named 'sendpage'
+Message-ID: <202303110620.m9RqsHYS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,192 +48,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   f811a96ace7e3c05faae238cb4faeea284944bba
-commit: 1e6d82d24121781b9b35db6313619837ac0bba4e [1/2] ANDROID: Re-apply vendor hooks for information of blocked tasks
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110633.121I9Bfo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/pipe-list
+head:   e76345d9b0b65f673fbee4ce5c3ef8450e89638e
+commit: e76345d9b0b65f673fbee4ce5c3ef8450e89638e [30/30] sock: Remove ->sendpage*() in favour of sendmsg(MSG_SPLICE_PAGES)
+config: mips-randconfig-r006-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110620.m9RqsHYS-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-6.1
-        git checkout 1e6d82d24121781b9b35db6313619837ac0bba4e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/e76345d9b0b65f673fbee4ce5c3ef8450e89638e
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/pipe-list
+        git checkout e76345d9b0b65f673fbee4ce5c3ef8450e89638e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash crypto/ net/unix/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110633.121I9Bfo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110620.m9RqsHYS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sysrqcrash.h:19,
-                    from drivers/android/vendor_hooks.c:23:
-   include/trace/stages/init.h:2:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/debug.h:20,
-                    from drivers/android/vendor_hooks.c:22:
-   include/trace/stages/init.h:2:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wqlockup.h:19,
-                    from drivers/android/vendor_hooks.c:21:
-   include/trace/stages/init.h:2:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mpam.h:20,
-                    from drivers/android/vendor_hooks.c:20:
-   include/trace/stages/init.h:2:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuidle.h:23,
-                    from drivers/android/vendor_hooks.c:19:
-   include/trace/stages/init.h:2:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dtask.h:53,
-                    from drivers/android/vendor_hooks.c:18:
->> include/trace/stages/init.h:2:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/binder.h:37,
-                    from drivers/android/vendor_hooks.c:17:
-   include/trace/stages/init.h:2:23: warning: 'str__binder__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fpsimd.h:20,
-                    from drivers/android/vendor_hooks.c:16:
-   include/trace/stages/init.h:2:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+>> crypto/algif_skcipher.c:197:10: error: 'struct proto_ops' has no member named 'sendpage'
+     197 |         .sendpage       =       af_alg_sendpage,
+         |          ^~~~~~~~
+>> crypto/algif_skcipher.c:197:33: error: initialization of 'int (*)(struct socket *, struct msghdr *, size_t,  int)' {aka 'int (*)(struct socket *, struct msghdr *, unsigned int,  int)'} from incompatible pointer type 'ssize_t (*)(struct socket *, struct page *, int,  size_t,  int)' {aka 'int (*)(struct socket *, struct page *, int,  unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+     197 |         .sendpage       =       af_alg_sendpage,
+         |                                 ^~~~~~~~~~~~~~~
+   crypto/algif_skcipher.c:197:33: note: (near initialization for 'algif_skcipher_ops.recvmsg')
+   crypto/algif_skcipher.c:198:33: warning: initialized field overwritten [-Woverride-init]
+     198 |         .recvmsg        =       skcipher_recvmsg,
+         |                                 ^~~~~~~~~~~~~~~~
+   crypto/algif_skcipher.c:198:33: note: (near initialization for 'algif_skcipher_ops.recvmsg')
+   crypto/algif_skcipher.c:288:10: error: 'struct proto_ops' has no member named 'sendpage'
+     288 |         .sendpage       =       skcipher_sendpage_nokey,
+         |          ^~~~~~~~
+   crypto/algif_skcipher.c:288:33: error: initialization of 'int (*)(struct socket *, struct msghdr *, size_t,  int)' {aka 'int (*)(struct socket *, struct msghdr *, unsigned int,  int)'} from incompatible pointer type 'ssize_t (*)(struct socket *, struct page *, int,  size_t,  int)' {aka 'int (*)(struct socket *, struct page *, int,  unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+     288 |         .sendpage       =       skcipher_sendpage_nokey,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   crypto/algif_skcipher.c:288:33: note: (near initialization for 'algif_skcipher_ops_nokey.recvmsg')
+   crypto/algif_skcipher.c:289:33: warning: initialized field overwritten [-Woverride-init]
+     289 |         .recvmsg        =       skcipher_recvmsg_nokey,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   crypto/algif_skcipher.c:289:33: note: (near initialization for 'algif_skcipher_ops_nokey.recvmsg')
+   cc1: some warnings being treated as errors
+--
+>> net/unix/af_unix.c:855:10: error: 'const struct proto_ops' has no member named 'sendpage'
+     855 |         .sendpage =     unix_stream_sendpage,
+         |          ^~~~~~~~
+>> net/unix/af_unix.c:855:25: error: initialization of 'ssize_t (*)(struct socket *, loff_t *, struct pipe_inode_info *, size_t,  unsigned int)' {aka 'int (*)(struct socket *, long long int *, struct pipe_inode_info *, unsigned int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct socket *, struct page *, int,  size_t,  int)' {aka 'int (*)(struct socket *, struct page *, int,  unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+     855 |         .sendpage =     unix_stream_sendpage,
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   net/unix/af_unix.c:855:25: note: (near initialization for 'unix_stream_ops.splice_read')
+   net/unix/af_unix.c:856:25: warning: initialized field overwritten [-Woverride-init]
+     856 |         .splice_read =  unix_stream_splice_read,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   net/unix/af_unix.c:856:25: note: (near initialization for 'unix_stream_ops.splice_read')
+   cc1: some warnings being treated as errors
 
 
-vim +/str__dtask__trace_system_name +2 include/trace/stages/init.h
+vim +197 crypto/algif_skcipher.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+8ff590903d5fc7 Herbert Xu      2010-10-19  181  
+8ff590903d5fc7 Herbert Xu      2010-10-19  182  static struct proto_ops algif_skcipher_ops = {
+8ff590903d5fc7 Herbert Xu      2010-10-19  183  	.family		=	PF_ALG,
+8ff590903d5fc7 Herbert Xu      2010-10-19  184  
+8ff590903d5fc7 Herbert Xu      2010-10-19  185  	.connect	=	sock_no_connect,
+8ff590903d5fc7 Herbert Xu      2010-10-19  186  	.socketpair	=	sock_no_socketpair,
+8ff590903d5fc7 Herbert Xu      2010-10-19  187  	.getname	=	sock_no_getname,
+8ff590903d5fc7 Herbert Xu      2010-10-19  188  	.ioctl		=	sock_no_ioctl,
+8ff590903d5fc7 Herbert Xu      2010-10-19  189  	.listen		=	sock_no_listen,
+8ff590903d5fc7 Herbert Xu      2010-10-19  190  	.shutdown	=	sock_no_shutdown,
+8ff590903d5fc7 Herbert Xu      2010-10-19  191  	.mmap		=	sock_no_mmap,
+8ff590903d5fc7 Herbert Xu      2010-10-19  192  	.bind		=	sock_no_bind,
+8ff590903d5fc7 Herbert Xu      2010-10-19  193  	.accept		=	sock_no_accept,
+8ff590903d5fc7 Herbert Xu      2010-10-19  194  
+8ff590903d5fc7 Herbert Xu      2010-10-19  195  	.release	=	af_alg_release,
+8ff590903d5fc7 Herbert Xu      2010-10-19  196  	.sendmsg	=	skcipher_sendmsg,
+2d97591ef43d05 Stephan Mueller 2017-08-02 @197  	.sendpage	=	af_alg_sendpage,
+8ff590903d5fc7 Herbert Xu      2010-10-19  198  	.recvmsg	=	skcipher_recvmsg,
+a11e1d432b51f6 Linus Torvalds  2018-06-28  199  	.poll		=	af_alg_poll,
+8ff590903d5fc7 Herbert Xu      2010-10-19  200  };
+8ff590903d5fc7 Herbert Xu      2010-10-19  201  
 
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+:::::: The code at line 197 was first introduced by commit
+:::::: 2d97591ef43d0587be22ad1b0d758d6df4999a0b crypto: af_alg - consolidation of duplicate code
 
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: TO: Stephan Mueller <smueller@chronox.de>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
