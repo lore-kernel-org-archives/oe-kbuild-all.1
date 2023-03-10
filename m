@@ -1,43 +1,46 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F72D516;
-	Fri, 10 Mar 2023 17:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FBCDA96
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 19:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678470987; x=1710006987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VvUPlZRVbPSx0drls/cN0OLtZdAtuZByVDC9J3grKLo=;
-  b=PebZJ0DWZQNUnYG8uCJ/YBIwBsWIvakbJ7v4Uxu/gKfkuAWMasKc0acN
-   FunGbhDnF1p+czNmlthMTlfK5JcOb3EzNFxk0BaiSfcZisbp7QpBLBSpd
-   X8JXxJzY1a7CKagmGarNFRL36cQewjn2BMFBtcWts1xjwZyCe4jyprnW+
-   bBqhEzySNbcKDtQEBL8e9RZw281bsrmvVTU34NiZ3eQEdECO+ZWXmFeSX
-   en5fC9uLNAKfRJ3hLmf8V/T0Sg3SYhOWT4eGrU+Hh8/hL8gzLrvpWa6Cy
-   qjeH369jFOrCOPsJp3q4unJhKB6SAVYyHLt90uF2qffYKOz0kK2tkrlB7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="325143599"
+  t=1678475309; x=1710011309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sj89mkIxbdQ4VKaoPz17QlIBDrLJBxmyjmVCcpHbqlg=;
+  b=X4FlwlkzQ1Pye1dFYSuTE1pk3gxBJrNltuCFrg+HGoIA8B8H9kW4C2b4
+   PYWglKFfNjmYNooT6AkBIvJLARGfoHT3LxXBa8swYo1Vy5rmQz3/MCnN+
+   E290B4qZwMf0TbdzJpUs8F38LsImfDmrQr3TqtxZfdKeumvPvHWHa3Vmw
+   VZ8uo6bD1pENvAKswMmxd4rF7q39Db19cicIIgPT5EyMQEgxkIklTHJbF
+   pV+NoChwNx4aqXGlPu4UjPp9EpV0rCxGrTNmGbihToyM+x4FazFFcSBA7
+   Utm3FsYXsusz2CtBeQVni9VnS64IJgQ4TQmZqDGliCgXqCv/6WAuPhnZ/
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="325162144"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="325143599"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:56:27 -0800
+   d="scan'208";a="325162144"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 11:08:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="788110877"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007230595"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="788110877"
+   d="scan'208";a="1007230595"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2023 09:56:26 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Mar 2023 11:08:27 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pagyf-000427-1Z;
-	Fri, 10 Mar 2023 17:56:25 +0000
-Date: Sat, 11 Mar 2023 01:55:55 +0800
+	id 1pai6M-00043u-2K;
+	Fri, 10 Mar 2023 19:08:26 +0000
+Date: Sat, 11 Mar 2023 03:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 342/652] drivers/clk/qcom/clk-cbf-8996.c:193:7: warning: variable 'ret' is
- used uninitialized whenever switch case is taken
-Message-ID: <202303110138.rRhdggCl-lkp@intel.com>
+To: Yangtao Li <frank.li@vivo.com>, tytso@mit.edu, adilger.kernel@dilger.ca
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
+	Yangtao Li <frank.li@vivo.com>
+Subject: Re: [PATCH] ext4: convert to DIV_ROUND_UP() in
+ mpage_process_page_bufs()
+Message-ID: <202303110211.LXeNm5uw-lkp@intel.com>
+References: <20230310060734.8780-1-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,104 +49,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230310060734.8780-1-frank.li@vivo.com>
 
-Hi Dmitry,
+Hi Yangtao,
 
-FYI, the error/warning still remains.
+I love your patch! Yet something to improve:
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   eb6e11ca9bd3d6242c6afa7616b837ccd2a404b5
-commit: 46e36546fa73cea293ad26c84a0316bf435d95a3 [342/652] clk: qcom: cbf-8996: rework cbf_clk_notifier_cb
-config: arm64-randconfig-r032-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110138.rRhdggCl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on linus/master v6.3-rc1 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/ext4-convert-to-DIV_ROUND_UP-in-mpage_process_page_bufs/20230310-140903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230310060734.8780-1-frank.li%40vivo.com
+patch subject: [PATCH] ext4: convert to DIV_ROUND_UP() in mpage_process_page_bufs()
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230311/202303110211.LXeNm5uw-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/krzk/linux/commit/46e36546fa73cea293ad26c84a0316bf435d95a3
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-        git checkout 46e36546fa73cea293ad26c84a0316bf435d95a3
+        # https://github.com/intel-lab-lkp/linux/commit/f4d2db5f59592a5688be6e4d2d3dd6f3f94d4f96
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yangtao-Li/ext4-convert-to-DIV_ROUND_UP-in-mpage_process_page_bufs/20230310-140903
+        git checkout f4d2db5f59592a5688be6e4d2d3dd6f3f94d4f96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/qcom/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110138.rRhdggCl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110211.LXeNm5uw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/qcom/clk-cbf-8996.c:193:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-           case ABORT_RATE_CHANGE:
-                ^~~~~~~~~~~~~~~~~
-   include/linux/clk.h:41:28: note: expanded from macro 'ABORT_RATE_CHANGE'
-   #define ABORT_RATE_CHANGE               BIT(2)
-                                           ^~~~~~
-   include/vdso/bits.h:7:19: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                   ^~~~~~~~~~~~~~~
-   drivers/clk/qcom/clk-cbf-8996.c:204:29: note: uninitialized use occurs here
-           return notifier_from_errno(ret);
-                                      ^~~
-   drivers/clk/qcom/clk-cbf-8996.c:180:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-           case PRE_RATE_CHANGE:
-                ^~~~~~~~~~~~~~~
-   include/linux/clk.h:39:27: note: expanded from macro 'PRE_RATE_CHANGE'
-   #define PRE_RATE_CHANGE                 BIT(0)
-                                           ^~~~~~
-   include/vdso/bits.h:7:19: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                   ^~~~~~~~~~~~~~~
-   drivers/clk/qcom/clk-cbf-8996.c:204:29: note: uninitialized use occurs here
-           return notifier_from_errno(ret);
-                                      ^~~
-   drivers/clk/qcom/clk-cbf-8996.c:177:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   2 warnings generated.
-
-
-vim +/ret +193 drivers/clk/qcom/clk-cbf-8996.c
-
-   172	
-   173	static int cbf_clk_notifier_cb(struct notifier_block *nb, unsigned long event,
-   174				       void *data)
-   175	{
-   176		struct clk_notifier_data *cnd = data;
-   177		int ret;
-   178	
-   179		switch (event) {
-   180		case PRE_RATE_CHANGE:
-   181			/*
-   182			 * Avoid overvolting. clk_core_set_rate_nolock() walks from top
-   183			 * to bottom, so it will change the rate of the PLL before
-   184			 * chaging the parent of PMUX. This can result in pmux getting
-   185			 * clocked twice the expected rate.
-   186			 *
-   187			 * Manually switch to PLL/2 here.
-   188			 */
-   189			if (cnd->old_rate > DIV_THRESHOLD &&
-   190			    cnd->new_rate < DIV_THRESHOLD)
-   191				clk_cbf_8996_mux_set_parent(&cbf_mux.clkr.hw, CBF_DIV_INDEX);
-   192			break;
- > 193		case ABORT_RATE_CHANGE:
-   194			/* Revert manual change */
-   195			if (cnd->new_rate < DIV_THRESHOLD &&
-   196			    cnd->old_rate > DIV_THRESHOLD)
-   197				clk_cbf_8996_mux_set_parent(&cbf_mux.clkr.hw, CBF_PLL_INDEX);
-   198			break;
-   199		default:
-   200			ret = 0;
-   201			break;
-   202		}
-   203	
-   204		return notifier_from_errno(ret);
-   205	};
-   206	
+   ld: fs/ext4/inode.o: in function `mpage_process_page_bufs':
+>> inode.c:(.text+0xbda): undefined reference to `__divdi3'
 
 -- 
 0-DAY CI Kernel Test Service
