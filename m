@@ -1,113 +1,132 @@
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [67.231.149.131])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEDEDABB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 21:30:25 +0000 (UTC)
-Received: from pps.filterd (m0122333.ppops.net [127.0.0.1])
-	by mx0a-00190b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32AKQKnh002333;
-	Fri, 10 Mar 2023 21:30:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=6xOr0bWGyLHy5x2SgCpeWLNSE69lPH+PAqyIDGKuw68=;
- b=eSBzYr4rKsLCV29WdadEjkKDCA0x1KLJuA87xw+/luzJsKeHk4jqAdIlBEi1vA0KKE8W
- ITXWqezRtyGPFpzcS15eG03Fyx5UIJKwKAGgHhT44tIH2rSLfDSJ/qCfruF+jqbnn8Y8
- 4SSczaEQX/R4y8jnxWL9YKBiDVOWgUCz5O1LMI7CR7sLXDhjES0YJ7yGvPXynKKxbCNh
- ByYqhrjLDuhj2AwD87pBpUHlHS2qXUpSN/GP25hLTBq0wHfem/vmTDnbcsub8XtzY1TB
- d7k2leu/fX/N1yweSEb2mX+UrihfkyVnWD0XtoUfYuf32k4iwf0O3utfux7U8cCWLeIm bA== 
-Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
-	by mx0a-00190b01.pphosted.com (PPS) with ESMTPS id 3p6fk4nday-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Mar 2023 21:30:09 +0000
-Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
-	by prod-mail-ppoint5.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 32AJQhHV003795;
-	Fri, 10 Mar 2023 13:30:08 -0800
-Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
-	by prod-mail-ppoint5.akamai.com (PPS) with ESMTP id 3p6ffkn63u-1;
-	Fri, 10 Mar 2023 13:30:08 -0800
-Received: from [172.19.47.124] (bos-lpa4700a.bos01.corp.akamai.com [172.19.47.124])
-	by prod-mail-relay11.akamai.com (Postfix) with ESMTP id 7981030AD4;
-	Fri, 10 Mar 2023 21:30:08 +0000 (GMT)
-Message-ID: <b7253da0-3fcd-1047-08c9-197761401d8c@akamai.com>
-Date: Fri, 10 Mar 2023 16:30:08 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E62CC957
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 21:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678484551; x=1710020551;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vN3rkqzUxxNCvHCQSV6du5wyixdcIxCvenA60mqhHxg=;
+  b=MIfF73wsDGotoKooaOxAPtZevvQ3XCW2XAtwfS3ACzZ5IAwO0+EA9Zs7
+   P1pxnZ3r6f0u8+H20iGlTe6sTrJQ6Mb+4elyZ7CUArTxgGE316RmudzlA
+   +9iNGk+eXlqzokCbMQQx2dvYXFWvz7b5iyUdzM1W38KAGHuPvH58DaXI4
+   craJf8gARYoHH3udVtvNTFEPvrD75jlY7dWMtzvg7eZ/L9gcEDPGPAFVT
+   asKC1Zlv4zz+Zf8IIdw+kS/xAkRwRWd1hMWSM3dHlEVpNDO2mLQ+K3D04
+   3eiGO9QS+PsxLLfgt55FiRVa32CtCYKkEtkWn8/ICYbACqRzHaJmZle/p
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="316483947"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="316483947"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 13:42:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="680326122"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="680326122"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 10 Mar 2023 13:42:29 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pakVQ-00046d-2W;
+	Fri, 10 Mar 2023 21:42:28 +0000
+Date: Sat, 11 Mar 2023 05:41:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:static-call-null-3 2/5] include/linux/static_call.h:210:9:
+ warning: data definition has no type or storage class
+Message-ID: <202303110556.xL8rPgkm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [linux-next:master 816/1532]
- drivers/infiniband/ulp/srp/ib_srp.c:66: warning:
- "DEFINE_DYNAMIC_DEBUG_METADATA" redefined
-Content-Language: en-US
-From: Jason Baron <jbaron@akamai.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <202303071444.sIbZTDCy-lkp@intel.com>
- <ZAjo+2O/GhcAb7mc@bombadil.infradead.org>
- <76f17294-fb69-8cb1-575b-56b607287811@akamai.com>
-In-Reply-To: <76f17294-fb69-8cb1-575b-56b607287811@akamai.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-10_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
- malwarescore=0 bulkscore=0 phishscore=0 mlxscore=0 spamscore=0
- mlxlogscore=792 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303100171
-X-Proofpoint-GUID: vCDYS6FMX-zcIA0NXMTBf_DbYz9sDheM
-X-Proofpoint-ORIG-GUID: vCDYS6FMX-zcIA0NXMTBf_DbYz9sDheM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-10_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 spamscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=754 phishscore=0 priorityscore=1501 clxscore=1015 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303100172
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-3
+head:   432e4844ba65840af4a24f5e3f561aead867f6e7
+commit: 999f0b7f8056dcb51476a6515a8601c9d6374aa2 [2/5] static_call: Make NULL static calls return 0
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110556.xL8rPgkm-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=999f0b7f8056dcb51476a6515a8601c9d6374aa2
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe static-call-null-3
+        git checkout 999f0b7f8056dcb51476a6515a8601c9d6374aa2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash kernel/events/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110556.xL8rPgkm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/tracepoint.h:22,
+                    from include/trace/syscall.h:5,
+                    from include/linux/syscalls.h:88,
+                    from kernel/events/core.c:34:
+>> include/linux/static_call.h:210:9: warning: data definition has no type or storage class
+     210 |         ARCH_DEFINE_STATIC_CALL_NULL_TRAMP(name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:210:9: note: in definition of macro 'DEFINE_STATIC_CALL_NULL'
+     210 |         ARCH_DEFINE_STATIC_CALL_NULL_TRAMP(name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:13769:1: note: in expansion of macro 'DEFINE_STATIC_CALL_RET0'
+   13769 | DEFINE_STATIC_CALL_RET0(perf_snapshot_branch_stack, perf_snapshot_branch_stack_t);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:210:9: error: type defaults to 'int' in declaration of 'ARCH_DEFINE_STATIC_CALL_NULL_TRAMP' [-Werror=implicit-int]
+     210 |         ARCH_DEFINE_STATIC_CALL_NULL_TRAMP(name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:210:9: note: in definition of macro 'DEFINE_STATIC_CALL_NULL'
+     210 |         ARCH_DEFINE_STATIC_CALL_NULL_TRAMP(name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:13769:1: note: in expansion of macro 'DEFINE_STATIC_CALL_RET0'
+   13769 | DEFINE_STATIC_CALL_RET0(perf_snapshot_branch_stack, perf_snapshot_branch_stack_t);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call.h:207:16: warning: parameter names (without types) in function declaration
+     207 |         struct static_call_key STATIC_CALL_KEY(name) = {                \
+         |                ^~~~~~~~~~~~~~~
+   include/linux/static_call.h:212:33: note: in expansion of macro 'DEFINE_STATIC_CALL_NULL'
+     212 | #define DEFINE_STATIC_CALL_RET0 DEFINE_STATIC_CALL_NULL
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:13769:1: note: in expansion of macro 'DEFINE_STATIC_CALL_RET0'
+   13769 | DEFINE_STATIC_CALL_RET0(perf_snapshot_branch_stack, perf_snapshot_branch_stack_t);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
+vim +210 include/linux/static_call.h
 
-On 3/8/23 3:04 PM, Jason Baron wrote:
-> 
-> 
-> On 3/8/23 2:58 PM, Luis Chamberlain wrote:
->> On Tue, Mar 07, 2023 at 02:37:52PM +0800, kernel test robot wrote:
->>> tree:   
->>> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git__;!!GjvTz_vk!U0h9mC3o9hyLHdMKkiDSF8QGbG4OjpXUHoA2hrkZN9_XW0Cb3e4Uk2sHDXTT-BfWsSVXa2JKktG7$  master
->>> head:   709c6adf19dc558e44ab5c01659b09a16a2d3c82
->>> commit: b1ec22f8dc85bb0b2e82a528a7ebca377f46d4cb [816/1532] dyndbg: 
->>> use the module notifier callbacks
->>> config: arc-randconfig-r011-20230305 
->>> (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20230307/202303071444.sIbZTDCy-lkp@intel.com/config__;!!GjvTz_vk!U0h9mC3o9hyLHdMKkiDSF8QGbG4OjpXUHoA2hrkZN9_XW0Cb3e4Uk2sHDXTT-BfWsSVXa5JJ-rY1$ )
->>> compiler: arceb-elf-gcc (GCC) 12.1.0
->>> reproduce (this is a W=1 build):
->>
->> Jason can you take a look?
->>
->>    Luis
-> 
-> Hi Luis,
-> 
-> Yes, I saw this. I believe this warning predates the recent series, but 
-> then it's strange for the warning to only be showing up now? I can 
-> confirm whether it's related or not to the new patch, but either way I 
-> will get it fixed.
-> 
-> Thanks,
-> 
-> -Jason
+a945c8345ec0de Peter Zijlstra   2020-08-18  197  
+df21c0d7a94db6 Christophe Leroy 2022-03-14  198  #define DEFINE_STATIC_CALL(name, _func)					\
+115284d89a436e Josh Poimboeuf   2020-08-18  199  	DECLARE_STATIC_CALL(name, _func);				\
+115284d89a436e Josh Poimboeuf   2020-08-18  200  	struct static_call_key STATIC_CALL_KEY(name) = {		\
+df21c0d7a94db6 Christophe Leroy 2022-03-14  201  		.func = _func,						\
+115284d89a436e Josh Poimboeuf   2020-08-18  202  	};								\
+df21c0d7a94db6 Christophe Leroy 2022-03-14  203  	ARCH_DEFINE_STATIC_CALL_TRAMP(name, _func)
+115284d89a436e Josh Poimboeuf   2020-08-18  204  
+452cddbff74b6a Peter Zijlstra   2020-08-18  205  #define DEFINE_STATIC_CALL_NULL(name, _func)				\
+452cddbff74b6a Peter Zijlstra   2020-08-18  206  	DECLARE_STATIC_CALL(name, _func);				\
+452cddbff74b6a Peter Zijlstra   2020-08-18 @207  	struct static_call_key STATIC_CALL_KEY(name) = {		\
+999f0b7f8056dc Josh Poimboeuf   2023-03-10  208  		.func = __static_call_return0,				\
+452cddbff74b6a Peter Zijlstra   2020-08-18  209  	};								\
+452cddbff74b6a Peter Zijlstra   2020-08-18 @210  	ARCH_DEFINE_STATIC_CALL_NULL_TRAMP(name)
+452cddbff74b6a Peter Zijlstra   2020-08-18  211  
 
+:::::: The code at line 210 was first introduced by commit
+:::::: 452cddbff74b6a15b9354505671011700fe03710 static_call: Add static_call_cond()
 
-Ok, I've looked into this now, and it was indeed caused by the recent 
-dyndbg notifier patches. The patch ended up being larger than I had 
-hoped but I think it hopefully prevents future breakage of this type. 
-I've sent the patch separately.
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
-Thanks,
-
--Jason
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
