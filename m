@@ -1,58 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03857C963
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Mar 2023 23:47:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A80C433D2;
-	Thu,  9 Mar 2023 23:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678405670;
-	bh=NQ0z0vWRZKFSOsNta5bZXQwrrn+JWpr6q/3op/tZXNg=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=KW0qaj+KdPT2EaWE5uLTvMsecdNBQIGz46H7UdCdVjDFKIb/RC/8X/LvZsIJTkbVP
-	 +imQ8wEZlv7TgHnR2B8J0eH9OLup1A91rJAE7An5kjloxS15rX23HoHQEluuNQAqN7
-	 pWzaMkSCxk7vRCl2nmTAT/EJ2C+4dMEjM1H76mCfQv15kmsQNAND6135yZseXe6ynt
-	 3RyPKTbfdhjIKG8PfYPB4Cii18HOmTHGSOO9Snd/cwNcGvjVB1E+KS9PpwDtTJmU3w
-	 TCw6BUC8Y7UJQdo1/uXNxjjTxyEc6InZGRWBe68H212c3pRU6f6i9LNpkVbI0eb/Hy
-	 1Cf+KucTYznSA==
-Message-ID: <ec1fb4d134181a1b1859bcb884dcd494.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9347E1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 00:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678407945; x=1709943945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QzXoO3BQZutFN9U9HIvmC02QF+kBA0Ol3geLV6CDoec=;
+  b=MWmxGDm8oeLdkZMAvo5ja8Ku80y85YpZ5nxXLfEx8cUMA32P3xs+wYZI
+   dBruj07vxg3zOUOzxWvjp5Y+xXIZORJ1fsHup28CDbt4OvUhWJ+ifh3u8
+   bpvxQpXMjP+PKOOAIzv7PUAx+KbD4JKHYNfg+31xQgWSNHVbGLgs+t1De
+   jasc5OhRvVWJQ8uPajPOnx1eCE+FPM+qfZH0n11Rlvf9OG69Bfc1lXhZ+
+   WOerDdj858uu5+oipg5MimouAwtA2Qpl/N6U+6BYTbwbkpSoOAwZmfSzC
+   GPhouRKFZSi0yQ+E8fE0C1YOTvwfTlROcB/dRY5wJimRUd7UPOeOPbpmU
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316263064"
+X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
+   d="scan'208";a="316263064"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 16:25:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="787805569"
+X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
+   d="scan'208";a="787805569"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2023 16:25:44 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1paQZr-0003JT-0n;
+	Fri, 10 Mar 2023 00:25:43 +0000
+Date: Fri, 10 Mar 2023 08:24:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15-arcvm
+ 11/16] virtio_video_enc.c:undefined reference to `__udivdi3'
+Message-ID: <202303100835.9UwdSFfJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
-References: <20230307115022.12846-2-zhuyinbo@loongson.cn> <202303082037.QPfBP64A-lkp@intel.com> <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
-Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver support
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>, Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn, loongson-kernel@lists.loongnix.cn
-To: Krzysztof Kozlowski <krzk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, zhuyinbo <zhuyinbo@loongson.cn>
-Date: Thu, 09 Mar 2023 15:47:46 -0800
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Quoting zhuyinbo (2023-03-08 18:58:02)
->=20
-> =E5=9C=A8 2023/3/8 =E4=B8=8B=E5=8D=888:16, kernel test robot =E5=86=99=E9=
-=81=93:
-> > Hi Yinbo,
-> >
-[...]
-> >
-> >     drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
-> >>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of fun=
-ction 'readq'; did you mean 'readl'? [-Werror=3Dimplicit-function-declarati=
-on]
-> >        79 |         val =3D readq(loongson2_pll_base + offset);
-> >           |               ^~~~~
-> >           |               readl
-> >     cc1: some warnings being treated as errors
->=20
-> The CONFIG_64BIT not enabled in your config file, I will add a depend on =
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15-arcvm
+head:   9591ea7f0c71852cb0d31a1b30afcbe04e81f44e
+commit: d12a3174c5d0a6a0f498d6ba2abf6caee3844082 [11/16] Convert nsec to usec in encoder buffer timestamps
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230310/202303100835.9UwdSFfJ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/ammarfaizi2/linux-block/commit/d12a3174c5d0a6a0f498d6ba2abf6caee3844082
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15-arcvm
+        git checkout d12a3174c5d0a6a0f498d6ba2abf6caee3844082
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-> "CONFIG_64BIT" in my clock driver to fix this compile error.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303100835.9UwdSFfJ-lkp@intel.com/
 
-Do you need to use readq() here? Can you read two 32-bit registers with
-readl() and put them together for a 64-bit number?
+All errors (new ones prefixed by >>):
+
+   ld: drivers/media/virtio/virtio_video_enc.o: in function `virtio_video_enc_buf_queue':
+>> virtio_video_enc.c:(.text+0x32f): undefined reference to `__udivdi3'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
