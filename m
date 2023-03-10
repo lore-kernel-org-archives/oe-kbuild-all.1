@@ -1,50 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5832F49
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 11:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0C2F49;
+	Fri, 10 Mar 2023 11:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678446919; x=1709982919;
+  t=1678447577; x=1709983577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HuenYvK1oTqAt2IQvUgRSYn1H95EixqifwINchc7Xz8=;
-  b=TYmodF3QzDGy6IhPQJcX2j3bh3aUBYsTKpa8czTb0d2xBfoPLbRcrFo9
-   //VkIk5VR6N2Hlsck82yJ4kyIxGmUHZuObr49fBr0Kh+jE24PjtgX36Aq
-   7WulvlCv1WC5Ist53IUPBW2f5YpAvRYKmXMQRCyus4ODwN69QlIfqqqoT
-   zpq+7lcgRNEc+Yos1xzF7SgCEio73ZQ6GP81vgwd2CEIN1vgO3fBgSIIY
-   ANvR6Gf4E5JZiHArpgBPOXOim4355oHnQQ3zSXm+1gxRC93jcCkQReiCw
-   3e11WckX8eFdECocVB4lzzFU2LyMXPTEUnAkEcFakSWdEmfE9SkcH+f+l
+  bh=8gWzasV8zIqbV4uzJ5YZgYmSmOknznmzxM/HCFMyDKc=;
+  b=anAn+rHAtfsvQv4UxOHjVQI0VUYTD+GltZAUDtIrKiouSRJxVFGV+2U6
+   h5iDP6Birx/AdDzQNAicBuTyZlAL/tLfaIlU4LtyUqwZRng2x7c5oXNmI
+   JPwZyGYM8SkOqGaj9jFIrcgcxynumcscuST92S8FhixFziTYApj4NzNFA
+   PE1O3r4R3QC9crVfNX95jxS5wBo1tcWTxUQbsw9otaw/Qkjz5cMvbfrLG
+   G2RBq1YTKFLrG63kFwM1ipnOZKy7kJF/5Tgt+GBluemhwNxHi9PAzsbbw
+   N7pEkNWYiFFhTHQitNUrGnO+WWbcdjEgYcceFVYWMRK3Q0kgT3CRErJ1X
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="335402028"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="338261429"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="335402028"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 03:15:18 -0800
+   d="scan'208";a="338261429"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 03:26:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="677776009"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627778986"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="677776009"
+   d="scan'208";a="627778986"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 03:15:15 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Mar 2023 03:26:15 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paaiQ-0003mt-35;
-	Fri, 10 Mar 2023 11:15:14 +0000
-Date: Fri, 10 Mar 2023 19:15:06 +0800
+	id 1paat5-0003nL-0e;
+	Fri, 10 Mar 2023 11:26:15 +0000
+Date: Fri, 10 Mar 2023 19:25:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yinbo Zhu <zhuyinbo@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Jianmin Lv <lvjianmin@loongson.cn>,
-	Hongchen Zhang <zhanghongchen@loongson.cn>,
-	Liu Peibao <liupeibao@loongson.cn>,
-	Juxin Gao <gaojuxin@loongson.cn>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 981/2655]
- drivers/gpio/gpio-loongson-64bit.c:225:3-8: No need to set .owner here. The
- core will do it.
-Message-ID: <202303101928.ZsKHeQTK-lkp@intel.com>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mchinth:socwatch_linux_6_3 41/89]
+ drivers/platform/x86/socwatch/sw_pci.c:64:6: warning: no previous prototype
+ for function 'sw_print_pci_devices_i'
+Message-ID: <202303101924.rF3D9XvD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,18 +47,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   24469a0e5052ba01a35a15f104717a82b7a4798b
-commit: 7944d3b7fe86067509751473aa917fdfd662d92c [981/2655] gpio: loongson: add gpio driver support
-config: loongarch-randconfig-c024-20230308 (https://download.01.org/0day-ci/archive/20230310/202303101928.ZsKHeQTK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Faycal,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/mchinth/linux socwatch_linux_6_3
+head:   2bbe949bea3cbc139c5dd26decd5023b84779d86
+commit: cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19 [41/89] SEP/SOCWATCH Update SoCWatch driver after rebasing to linux v5.7
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230310/202303101924.rF3D9XvD-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/mchinth/linux/commit/cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth socwatch_linux_6_3
+        git checkout cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101928.ZsKHeQTK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101924.rF3D9XvD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-loongson-64bit.c:225:3-8: No need to set .owner here. The core will do it.
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/x86/socwatch/sw_pci.c:64:6: warning: no previous prototype for function 'sw_print_pci_devices_i' [-Wmissing-prototypes]
+   void sw_print_pci_devices_i(void) {
+        ^
+   drivers/platform/x86/socwatch/sw_pci.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sw_print_pci_devices_i(void) {
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/sw_print_pci_devices_i +64 drivers/platform/x86/socwatch/sw_pci.c
+
+    63	
+  > 64	void sw_print_pci_devices_i(void) {
+    65		int i = 0;
+    66	
+    67		for(i = 0; i < s_pci_dev_list.num_entries; ++i) {
+    68			pw_pr_debug("bus: %x, dev: %x, func: %x, vendor: %x, device: %x, class: %x, header: %x\n",
+    69					s_pci_dev_list.info[i].bus, s_pci_dev_list.info[i].device, s_pci_dev_list.info[i].function,
+    70					s_pci_dev_list.info[i].vendorID, s_pci_dev_list.info[i].deviceID, s_pci_dev_list.info[i].classID,
+    71					s_pci_dev_list.info[i].headerType);
+    72		}
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
