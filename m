@@ -1,43 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9337ED0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 07:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0791C39
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 07:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678433112; x=1709969112;
+  t=1678434329; x=1709970329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=szhfwaA2qsyJowTNJVU2fZYh4jv37phL3mTzGJRXIFA=;
-  b=ZCaLWLCWtNGQxvNJAj7xgtCLhBQEgtI3+w3PaPmU0ccXDDx07Nmuqju7
-   80xQXZ+HCJH6RrYnjFj36kaL+nYtF0LyegLaCwq4xzJR+yhkOZ7I3Jy0k
-   4ezY2W7F9t+m3MzAzya9zkFpZ9uM00ftvjHT48pI6GRfI1uNst9hJ8vxu
-   /DpfXcxKX+XFuMSLb5oWb7TBWABZ2h2r8Edv/7V7zHmbiXn0qGDaf/IM4
-   i9aBTrrd8yNPe+atzPN2ubvFbleUjZg1EotYEtAJFmaUD+9vyaIJ/xQw+
-   qfGxNWCmV33v7ZYtVvs6nqvOH53PheQYUdhyLHC3lg5E8qjKTzG8JRnRK
+  bh=hkKXwLcRiLiRVFZvph24bGQal1WVsUQ7fSTQrj7/y38=;
+  b=Cwd4x+K2eICrPzMXfQLpmgNG6j8YNf+z9yNWvGQlczWE9dY9Nxq0bab8
+   zExkG7Ifn+ys/oFiH+GTjVJd/VLrBC7Ty5O8/QqDRWOXqE065BNljHw+G
+   IybsgRyeneNfD0qov3pXvKdnqBjbluA3GeJyLjG5jsQZL0SgTdFIG4AGd
+   u6Jx06HvycQxRhU8TwaW4cTQxlVeemwH1to3Tty3KcAht57jsW2+nwa1M
+   PW92oDU2dinynDRYt1mrnCCZWVbnLqRjvvg65KFwb6LI3e9trnNKv9Tog
+   ar9DWKB/QVs2XgCovYKzrENcfMoTfIkiHF0x58xkh5nrc8/s95YVHLJx3
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="401529610"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="316324092"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="401529610"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 23:25:09 -0800
+   d="scan'208";a="316324092"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 23:45:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="820952416"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627715523"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="820952416"
+   d="scan'208";a="627715523"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2023 23:25:07 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Mar 2023 23:45:08 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paX7j-0003cM-0i;
-	Fri, 10 Mar 2023 07:25:07 +0000
-Date: Fri, 10 Mar 2023 15:24:12 +0800
+	id 1paXR5-0003d5-2b;
+	Fri, 10 Mar 2023 07:45:07 +0000
+Date: Fri, 10 Mar 2023 15:44:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: drivers/powercap/idle_inject.c:130:40-42: WARNING !A || A && B is
- equivalent to !A || B
-Message-ID: <202303101512.mR87EHWR-lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cel:upcall-v7 12/19] loongarch64-linux-ld: xprtsock.c:undefined
+ reference to `tls_client_hello_anon'
+Message-ID: <202303101546.NYCKGVV2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,19 +46,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44889ba56cbb3d51154660ccd15818bc77276696
-commit: acbc661032b8aa0e8359ac77074769ade34a176c powercap: idle_inject: Add update callback
-date:   5 weeks ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230310/202303101512.mR87EHWR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux upcall-v7
+head:   caa52379f0046e974fd16585dd7ede624699d8e2
+commit: 3a513f8aadf250af220bcc904a0d72f675545927 [12/19] SUNRPC: Add RPC-with-TLS support to xprtsock.c
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230310/202303101546.NYCKGVV2-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=3a513f8aadf250af220bcc904a0d72f675545927
+        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+        git fetch --no-tags cel upcall-v7
+        git checkout 3a513f8aadf250af220bcc904a0d72f675545927
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303101512.mR87EHWR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101546.NYCKGVV2-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/powercap/idle_inject.c:130:40-42: WARNING !A || A && B is equivalent to !A || B
+All errors (new ones prefixed by >>):
+
+   loongarch64-linux-ld: net/sunrpc/xprtsock.o: in function `xs_tls_handshake_sync':
+   xprtsock.c:(.text+0x8d0): undefined reference to `tls_client_hello_x509'
+>> loongarch64-linux-ld: xprtsock.c:(.text+0x958): undefined reference to `tls_client_hello_anon'
+>> loongarch64-linux-ld: xprtsock.c:(.text+0x974): undefined reference to `tls_handshake_cancel'
+   loongarch64-linux-ld: net/sunrpc/xprtsock.o: in function `.L103':
+   xprtsock.c:(.text+0xb40): undefined reference to `tls_handshake_cancel'
 
 -- 
 0-DAY CI Kernel Test Service
