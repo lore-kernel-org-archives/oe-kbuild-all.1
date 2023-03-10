@@ -1,35 +1,35 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9625C8481
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 14:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405B08481
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 14:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678457434; x=1709993434;
+  t=1678457436; x=1709993436;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rj8ShkwGMKGCTeEvOru9sLAnbOwvgvSzBx5VX7jvKgs=;
-  b=HH1OHkqrSEVLnDGU/5EdoUUo40/T4rgvdWYD3hx033k67mCP1JIWrQkG
-   +9wn7aGHd4J2MDmzJGPZYjYXWbZ1G2ukbw08EP16ufxmo4tS9waoP4TRV
-   5XrNJSo3PebGAONECM8poQ/fz/z+uRUiJ1dIowgvSJzIEKDfdzi3cwLIo
-   613EbfAI4Ls5Tc+NvcTsOPnv78cLEbvRoyezvWBeB5CKM2I9NwA+DJUwi
-   YvnEttzTMfTFLDMMKoOYE/aQBpgOD2sEn5mT89SR829rq4Rt7xSm/AvUc
-   MbM7rtBoZStbBDJmCe+x25VbcXtL+NAoRgTbH6xdkI8me13xpB4rMi+xs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401593019"
+  bh=MQKZIOF/wMb0UoRLhTSf5HRmzAguZQNRAQCPCfA7mto=;
+  b=Ch23oQRy/iCE1WEbhVdzITVkXvBsv8VecXEQ/NXhrbTBt6QNLi6WfDbq
+   4teu+LyGNW6NaIiW8zx61pjTwQqFc5alccAO3vtB6TtCklxU6eY4LIlTL
+   jjexgQW7jAmWT0sw1uVlj7mpFrEBN2w6dgHM35OQ0Zucd1TWtxxo0DVkE
+   i4+5A4KJTFeIpJpNLjZ0BvXmClsv3fmk1KueHZYos9xslty+t4hZziGrC
+   /5ipHM3ltx8SKF+jpryG+hfIvsHaF4E6jqAR4R9JhlyrW+mw8RYonxIQg
+   Ro9pOT4iJTDyoTcqyVCuo+bIOKgJQEJQfEKJMlJt4HcB9Ykusf77QcuQ8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="336753281"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="401593019"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:10:25 -0800
+   d="scan'208";a="336753281"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:10:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="710289477"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="741990954"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="710289477"
+   d="scan'208";a="741990954"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Mar 2023 06:10:20 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 06:10:20 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1padRs-0003u9-0M;
+	id 1padRs-0003u7-0G;
 	Fri, 10 Mar 2023 14:10:20 +0000
 Date: Fri, 10 Mar 2023 22:09:51 +0800
 From: kernel test robot <lkp@intel.com>
@@ -50,7 +50,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
 	jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
 Subject: Re: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem
  driver
-Message-ID: <202303102215.Q4YaTkrU-lkp@intel.com>
+Message-ID: <202303102141.A9LHC4MD-lkp@intel.com>
 References: <20230310120553.60586-7-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,7 +76,7 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-binding
 base:   git://linuxtv.org/media_tree.git master
 patch link:    https://lore.kernel.org/r/20230310120553.60586-7-jack.zhu%40starfivetech.com
 patch subject: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem driver
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230310/202303102215.Q4YaTkrU-lkp@intel.com/config)
+config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20230310/202303102141.A9LHC4MD-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/intel-lab-lkp/linux/commit/99a31fd3820a2d95b0d0f381491c473975e0b068
@@ -90,7 +90,7 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102215.Q4YaTkrU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303102141.A9LHC4MD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
