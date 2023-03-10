@@ -1,57 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405B08481
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 14:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92595848C;
+	Fri, 10 Mar 2023 14:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678457436; x=1709993436;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MQKZIOF/wMb0UoRLhTSf5HRmzAguZQNRAQCPCfA7mto=;
-  b=Ch23oQRy/iCE1WEbhVdzITVkXvBsv8VecXEQ/NXhrbTBt6QNLi6WfDbq
-   4teu+LyGNW6NaIiW8zx61pjTwQqFc5alccAO3vtB6TtCklxU6eY4LIlTL
-   jjexgQW7jAmWT0sw1uVlj7mpFrEBN2w6dgHM35OQ0Zucd1TWtxxo0DVkE
-   i4+5A4KJTFeIpJpNLjZ0BvXmClsv3fmk1KueHZYos9xslty+t4hZziGrC
-   /5ipHM3ltx8SKF+jpryG+hfIvsHaF4E6jqAR4R9JhlyrW+mw8RYonxIQg
-   Ro9pOT4iJTDyoTcqyVCuo+bIOKgJQEJQfEKJMlJt4HcB9Ykusf77QcuQ8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="336753281"
+  t=1678458033; x=1709994033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uxbeE3FAZbOOcKU8f7Pwu/IY2hjOdxGpCVrvdRTHmSI=;
+  b=WGb0B/WhX+nvzwxi+Tlhe38r+u1c2Qe2S8BeyKoTq++lO/bnK67nrcAm
+   egjVI89ErhUDzAtahaPbzZfIsKG3vogGeOzuGt1aHVURMDuvWhe+ILU42
+   X0YR6BTx+FEQEiR4lHAhOUkJ5qhi85Cptnh9Qqe4AkcML3+T3GtmlwCF1
+   y2VpKAVh3EyNsGhdIpvy+x/dnuO1tJpGhbOTnx6przp5OCq7dVKkQztfw
+   9f/QalLYvTO06gxnPypuzTnNysZ4h+bbH21WnZWZXokt1UoJIJIfx9aAp
+   AQC/uIBj429BueQ+uOkD0fXE7CUuRD3d0wZM4Z2xlMj3U4FA/pMQPCYju
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401595265"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="336753281"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:10:35 -0800
+   d="scan'208";a="401595265"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:20:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="741990954"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="671095624"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="741990954"
+   d="scan'208";a="671095624"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 06:10:20 -0800
+  by orsmga007.jf.intel.com with ESMTP; 10 Mar 2023 06:20:20 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1padRs-0003u7-0G;
-	Fri, 10 Mar 2023 14:10:20 +0000
-Date: Fri, 10 Mar 2023 22:09:51 +0800
+	id 1padbY-0003uN-0h;
+	Fri, 10 Mar 2023 14:20:20 +0000
+Date: Fri, 10 Mar 2023 22:20:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jack Zhu <jack.zhu@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Eugen Hristev <eugen.hristev@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem
- driver
-Message-ID: <202303102141.A9LHC4MD-lkp@intel.com>
-References: <20230310120553.60586-7-jack.zhu@starfivetech.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sean Christopherson <sean.j.christopherson@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 172/432]
+ arch/x86/include/asm/tdx.h:114:49: error: shift count >= width of type
+Message-ID: <202303102255.bbPxT7IW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,47 +46,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310120553.60586-7-jack.zhu@starfivetech.com>
 
-Hi Jack,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on robh/for-next linus/master v6.3-rc1 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230310120553.60586-7-jack.zhu%40starfivetech.com
-patch subject: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem driver
-config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20230310/202303102141.A9LHC4MD-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   b4a08c4cd3ed29e3977509b24adc2c59e39825c1
+commit: e83792bfbe07a14fa2c616e2aad763434062b3c0 [172/432] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230310/202303102255.bbPxT7IW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/99a31fd3820a2d95b0d0f381491c473975e0b068
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
-        git checkout 99a31fd3820a2d95b0d0f381491c473975e0b068
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/tdx/commit/e83792bfbe07a14fa2c616e2aad763434062b3c0
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout e83792bfbe07a14fa2c616e2aad763434062b3c0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102141.A9LHC4MD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303102255.bbPxT7IW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error: include/uapi/linux/stf_isp_ioctl.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/linux/stf_isp_ioctl.h] Error 1
-   make[2]: Target '__headers' not remade because of errors.
-   make[1]: *** [Makefile:1394: headers] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from arch/x86/kvm/kvm-asm-offsets.c:10:
+   In file included from arch/x86/kvm/vmx/vmx.h:5:
+   In file included from include/linux/kvm_host.h:42:
+   In file included from include/linux/kvm_para.h:5:
+   In file included from include/uapi/linux/kvm_para.h:37:
+   In file included from arch/x86/include/asm/kvm_para.h:10:
+>> arch/x86/include/asm/tdx.h:114:49: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   1 error generated.
+
+
+vim +114 arch/x86/include/asm/tdx.h
+
+   102	
+   103	#ifdef CONFIG_INTEL_TDX_HOST
+   104	bool platform_tdx_enabled(void);
+   105	int tdx_cpu_enable(void);
+   106	int tdx_enable(void);
+   107	u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+   108		       struct tdx_module_output *out);
+   109	#else	/* !CONFIG_INTEL_TDX_HOST */
+   110	static inline bool platform_tdx_enabled(void) { return false; }
+   111	static inline int tdx_cpu_enable(void) { return -EINVAL; }
+   112	static inline int tdx_enable(void)  { return -EINVAL; }
+   113	static inline u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+ > 114				     struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+   115	#endif	/* CONFIG_INTEL_TDX_HOST */
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
