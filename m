@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259D96ADB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Mar 2023 12:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD296ADB;
+	Fri, 10 Mar 2023 12:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678453103; x=1709989103;
+  t=1678453118; x=1709989118;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B1TOzhmFS6jPdApKzS3fR6ueF8FbxFE7HBGzQdsCoaY=;
-  b=SqzpnmQc9mKyfIU7IxvFd2oJQyXxynBgt1GW/1RqCk+DYxSeBoZCgc3g
-   sgNcKu7JyqztZlQr05/JaBY+NsVrh8r43OFwll/kz6FzMaqYCEaf4XZ1l
-   HAHgsZpJqfyhZEdqjoMnQuzoHyi4lvo6SnvpMTXUNckpUQRLWhW+Ge2mZ
-   towvo5eF/9UdBZoXbcUbqkt+zLohxhXI36vqLmiDBIbKdcKRPXEW7/hvT
-   H47RKSjbn2I9mWIIGIxCExho1lrvRrfsLZEztfh2enC5wRhH7vn7+FAyA
-   PmlNyAckMuZjrfY3GKTXJGaP4NH5d/V/YssBPJqiST5ILSidsT9YA8u+a
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="320572943"
+  bh=MaBqVEaZcE32Jvoqf7DhB8Nxha1L58hQtwPzl972mow=;
+  b=CIxNtV0b8jEvbTKxXCDDSaCnLYQRAOYLXsSkY4qAX1S6Xt3UKmjOfHkP
+   WaiSYtKqpV4ySiOuOns9UvYQx44dCnxbYCuy0Ivp+39Vy+bJ6XteavNjP
+   cpwu9crzfmnwuZNz8vxYhUs3Ery5/kG6WdNG1KV78KhoS9FMsv6PsgfSd
+   xXkmgXX0SJhvfzsj+/S9itKksqlZ3cN6AW/uQEFEisTGcNL9daM9KPSmc
+   frXi390wbFo+g3v5L9RnHOiG6A4h33P49RQL+50cP/N3ZWfbsWjmJ6oVT
+   sOHiAGfPeagp9cN8rR3xlSWwJvbSyNcvqqp35xnneNed/p7wdzQ8A1rXA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="317110870"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="320572943"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 04:58:21 -0800
+   d="scan'208";a="317110870"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 04:58:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="627803208"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="707996774"
 X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="627803208"
+   d="scan'208";a="707996774"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 10 Mar 2023 04:58:19 -0800
+  by orsmga008.jf.intel.com with ESMTP; 10 Mar 2023 04:58:19 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pacKB-0003s5-0D;
+	id 1pacKB-0003s3-02;
 	Fri, 10 Mar 2023 12:58:19 +0000
-Date: Fri, 10 Mar 2023 20:58:11 +0800
+Date: Fri, 10 Mar 2023 20:58:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Sean Christopherson <sean.j.christopherson@intel.com>
 Subject: [intel-tdx:kvm-upstream-workaround 172/432]
- include/uapi/linux/const.h:28:33: error: left shift count >= width of type
-Message-ID: <202303102024.MzAME3ol-lkp@intel.com>
+ arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type
+Message-ID: <202303102004.RkRh1ndu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,106 +50,107 @@ Content-Disposition: inline
 tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   b4a08c4cd3ed29e3977509b24adc2c59e39825c1
 commit: e83792bfbe07a14fa2c616e2aad763434062b3c0 [172/432] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230310/202303102024.MzAME3ol-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230310/202303102004.RkRh1ndu-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel/tdx/commit/e83792bfbe07a14fa2c616e2aad763434062b3c0
         git remote add intel-tdx https://github.com/intel/tdx.git
         git fetch --no-tags intel-tdx kvm-upstream-workaround
         git checkout e83792bfbe07a14fa2c616e2aad763434062b3c0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kernel/ drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102024.MzAME3ol-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303102004.RkRh1ndu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/crypto.h:16,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
-      19 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
-      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
-      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/asm-offsets.c:21:
+>> arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type [-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   1 warning generated.
 --
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/list.h:9,
-                    from drivers/gpu/drm/i915/gt/mock_engine.h:9,
-                    from <command-line>:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
-      19 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
-      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
-      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from arch/x86/platform/pvh/enlighten.c:7:
+   In file included from arch/x86/include/asm/hypervisor.h:37:
+   In file included from arch/x86/include/asm/kvm_para.h:10:
+>> arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type [-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   arch/x86/platform/pvh/enlighten.c:120:13: warning: no previous prototype for function 'xen_prepare_pvh' [-Wmissing-prototypes]
+   void __init xen_prepare_pvh(void)
+               ^
+   arch/x86/platform/pvh/enlighten.c:120:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init xen_prepare_pvh(void)
+   ^
+   static 
+   2 warnings generated.
 --
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/crypto.h:16,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
-      19 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
-      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
-      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/asm-offsets.c:21:
+>> arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type [-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   1 warning generated.
 
 
-vim +28 include/uapi/linux/const.h
+vim +114 arch/x86/include/asm/tdx.h
 
-2dd8a62c647691 Masahiro Yamada 2018-04-10  27  
-21e7bc600e3b66 Masahiro Yamada 2018-04-10 @28  #define _BITUL(x)	(_UL(1) << (x))
-21e7bc600e3b66 Masahiro Yamada 2018-04-10  29  #define _BITULL(x)	(_ULL(1) << (x))
-2fc016c5bd8aad H. Peter Anvin  2013-04-27  30  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 21e7bc600e3b662020c05fd0749bcf85f16336f7 linux/const.h: refactor _BITUL and _BITULL a bit
-
-:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   102	
+   103	#ifdef CONFIG_INTEL_TDX_HOST
+   104	bool platform_tdx_enabled(void);
+   105	int tdx_cpu_enable(void);
+   106	int tdx_enable(void);
+   107	u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+   108		       struct tdx_module_output *out);
+   109	#else	/* !CONFIG_INTEL_TDX_HOST */
+   110	static inline bool platform_tdx_enabled(void) { return false; }
+   111	static inline int tdx_cpu_enable(void) { return -EINVAL; }
+   112	static inline int tdx_enable(void)  { return -EINVAL; }
+   113	static inline u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+ > 114				     struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+   115	#endif	/* CONFIG_INTEL_TDX_HOST */
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
