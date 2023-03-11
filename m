@@ -1,91 +1,87 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919C41876
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 14:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678543435; x=1710079435;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pi1L+DfKJ4QRQ20FUJYxIR/4mc0GqTkvUVZRwOjHz9Q=;
-  b=UlEAL9vQhJXIN/vaX7pAccfv4fYzU8Yj4J2vPAdJOHTGty4VqXsh1nyy
-   3pgYCA7UgXPp1VOYnFd9B09yDJZgXvceS8UbNvh5dyrpOI4TSqCvIa6B3
-   w4nYd49ccKI/+rae7h+i1oKrhfnn2/qTwF7E2ELjeSugoJZyHIuO9CK5Y
-   vvJd0E05yrpnYEQldbvF3pB26OkKPYDh2k5RsTxVpESQMaYwV9GMI2nNg
-   rPtGMHUsGnfkV9dkzMd14nQX3LungzTW9mOzNmuDanUCbJK/Gw1kc1/pf
-   jjY91lUNwrwqTLBZ0nes3dxrISdnCKdHXQFfZLq2AdQ7HvMa26Q1M9K3k
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325262187"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="325262187"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 06:03:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="821408597"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="821408597"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2023 06:03:53 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pazpA-0004cS-2X;
-	Sat, 11 Mar 2023 14:03:52 +0000
-Date: Sat, 11 Mar 2023 22:03:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: ERROR: modpost: "__divsi3_table" [lib/lz4/lz4_compress.ko] undefined!
-Message-ID: <202303112110.YfYi4GtV-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D4C7B;
+	Sat, 11 Mar 2023 15:15:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B0FFC4339E;
+	Sat, 11 Mar 2023 15:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678547714;
+	bh=WRaPMgPwoMyVfWOrMK/gri/pJ94fL6M3Kw9x+oiTxO0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=gZhJB2F9iy6FmxvX8SyqZbZ4M5nomLJ55sweLYLeFmKNlVXuX4g39QyJWygTVktxi
+	 9OxR1w1ydSBoi5qTew5drMKsPV6cT2lCPDxk5msXp29XkKDKx8cBQxkMzOoXoR+zeo
+	 PPK7LDTAizFwRw/rTsNttnxVIEHxkpEQhNO7v+8QT7s8zDtOdPf96ixtiMBhUvILP0
+	 r63pglxm6Y7OBB+OX7bDX8oFg22wJ2/hI3kJYkb6p39hlC3FvVkYAoyG2+rgouCL73
+	 nc7DqlBnuPv36ND4fYSQLCCVuqiyg/7L2dYz/BiczwCi+pyY0hScAXtq+IOhhFQTdi
+	 9yYijtH2oeWbg==
+Received: by mail-ua1-f54.google.com with SMTP id n4so5485877ual.13;
+        Sat, 11 Mar 2023 07:15:14 -0800 (PST)
+X-Gm-Message-State: AO0yUKXo+Qm8siLNySB2ixPVzwsosz2TsVamxczveAV6mWubhxdQ3ql4
+	xU9aBk4UEvt3o8XBJVeLF7SgfWHRs3I43AHGnA==
+X-Google-Smtp-Source: AK7set8bzSrdqy8+6YvY1DEekvcd7XPtfCqoKUDgoIQxF8sLBXDP8W8tOeQonNhJP3Pia6+DI8c59rOwGnTGo0UkVGw=
+X-Received: by 2002:a1f:6d42:0:b0:401:b9fd:7053 with SMTP id
+ i63-20020a1f6d42000000b00401b9fd7053mr18828740vkc.2.1678547713018; Sat, 11
+ Mar 2023 07:15:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230310144729.1545943-1-robh@kernel.org> <202303111229.3Uuc8JQV-lkp@intel.com>
+In-Reply-To: <202303111229.3Uuc8JQV-lkp@intel.com>
+From: Rob Herring <robh@kernel.org>
+Date: Sat, 11 Mar 2023 09:15:01 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+kE3v+=WptWet=JHp2-FCOFah_YzWHFbbfSH-Wh_0o5A@mail.gmail.com>
+Message-ID: <CAL_Jsq+kE3v+=WptWet=JHp2-FCOFah_YzWHFbbfSH-Wh_0o5A@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Use of_property_present() for testing DT property presence
+To: kernel test robot <lkp@intel.com>
+Cc: Russell King <linux@armlinux.org.uk>, Helge Deller <deller@gmx.de>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Masahiro,
+On Fri, Mar 10, 2023 at 10:41=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Rob,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on drm-misc/drm-misc-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/fbdev-=
+Use-of_property_present-for-testing-DT-property-presence/20230310-225754
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230310144729.1545943-1-robh%40=
+kernel.org
+> patch subject: [PATCH] fbdev: Use of_property_present() for testing DT pr=
+operty presence
+> config: arm64-randconfig-r032-20230310 (https://download.01.org/0day-ci/a=
+rchive/20230311/202303111229.3Uuc8JQV-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 6740=
+9911353323ca5edf2049ef0df54132fa1ca7)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm64 cross compiling tool for clang build
+>         # apt-get install binutils-aarch64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/c013f4111f36b0b43=
+27e7fbf46c0dd93399e9209
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Rob-Herring/fbdev-Use-of_propert=
+y_present-for-testing-DT-property-presence/20230310-225754
+>         git checkout c013f4111f36b0b4327e7fbf46c0dd93399e9209
 
-First bad commit (maybe != root cause):
+Looks like this patch was applied to drm-next which was/is based on
+v6.2-rc6. This patch is dependent on a change in v6.3-rc1.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ef5f68cc1f829b492b19cd4df5af4454aa816b93
-commit: 5750121ae7382ebac8d47ce6d68012d6cd1d7926 kbuild: list sub-directories in ./Kbuild
-date:   5 months ago
-config: nios2-randconfig-r011-20230310 (https://download.01.org/0day-ci/archive/20230311/202303112110.YfYi4GtV-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5750121ae7382ebac8d47ce6d68012d6cd1d7926
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 5750121ae7382ebac8d47ce6d68012d6cd1d7926
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303112110.YfYi4GtV-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-ERROR: modpost: "__mulsi3" [kernel/rcu/rcuscale.ko] undefined!
-ERROR: modpost: "__mulsi3" [kernel/time/time_test.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/nls/nls_euc-jp.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/fuse/virtiofs.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/autofs/autofs4.ko] undefined!
-ERROR: modpost: "__mulsi3" [security/keys/encrypted-keys/encrypted-keys.ko] undefined!
-ERROR: modpost: "__mulsi3" [lib/lzo/lzo_compress.ko] undefined!
-ERROR: modpost: "__mulsi3" [lib/lz4/lz4_compress.ko] undefined!
->> ERROR: modpost: "__divsi3_table" [lib/lz4/lz4_compress.ko] undefined!
-ERROR: modpost: "__mulsi3" [lib/lz4/lz4hc_compress.ko] undefined!
-WARNING: modpost: suppressed 208 unresolved symbol warnings because there were too many)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Rob
