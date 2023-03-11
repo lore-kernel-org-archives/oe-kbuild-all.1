@@ -1,42 +1,43 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D29A7B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 04:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6527F7B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 04:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678507243; x=1710043243;
+  t=1678507245; x=1710043245;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XpY+I9XmzHcHMDOHMDWQgmRo3bGs36Sp42F5TDxUJvo=;
-  b=kqI1WarCLfz37uYbSWPVxlpipeO+0FxDAKM778fVHl9HATIY3Sw09qnX
-   VO2ZDZSoI4MbG1MSynMTiGG2Dln/H0EF+6hvgZZiJoIvYhQ8Upxk0BCYz
-   iqYDZW1iP6ef5tQxVziHKX6sBrrIH9Rcw56G18aDDhd9J8ehOL41wVJab
-   AEhdsWeYEkv5aScqPgZxClFquT8nnBlPDLWNhNUU/4e2jMHGij+srsZuw
-   V4tud0IsRfkwbbcIu6ki/21+SOlCotwcZDsda0x51PyB6vdkaK+KbcMhf
-   leR8l4gV19wgPfmWVJNkI0dd09Tcuoz1ox35OHdrdrqsg8Vu10KnDXLNQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="423141690"
+  bh=UjdEiJkZXsWyH/rqVEWgDi9cW9FlBOVzKv7U5HbnVak=;
+  b=KHEGayfH7ipJ1RYaEjYWUBa01SJ48Mnknh/N3iq4286YBirPjPkAolfC
+   DG3gVt0yiS8cStc1tZZsdtGYHyZWYhpxUHxs7AHpMNDyK5lt9Ho9VEnTB
+   +bvRWxkhb9GQ8jAOnRDHJZlc5UL81h+qCXUzLNdnZmP4KHu8HbOy887iZ
+   UGMrHUyi45v7qu11+aQRtVY3SqNUPmQz4oIwxv1K/PVYSAMr/vllQu1Lq
+   gxZ4b9j5aOf2Q0Q/uwUc5Apl/bTRylcgG+/gqgYeyfsWGc9LRlt3Yy22i
+   tz8eEcd6wv6zQ2rl8GpGcri0uRM4uyXSB9WHBA/2zLv1o9VwpbatxrGBY
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="423141696"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="423141690"
+   d="scan'208";a="423141696"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 20:00:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="628053093"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="628053092"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="628053093"
+   d="scan'208";a="628053092"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 10 Mar 2023 20:00:40 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paqPP-0004K3-1m;
+	id 1paqPP-0004K1-1W;
 	Sat, 11 Mar 2023 04:00:39 +0000
-Date: Sat, 11 Mar 2023 12:00:13 +0800
+Date: Sat, 11 Mar 2023 12:00:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Baron <jbaron@akamai.com>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [mcgrof:modules-next 9/9] lib/dynamic_debug.c:857:6: warning: no
- previous prototype for '__dynamic_pr_debug'
-Message-ID: <202303111154.0Bioi0Ph-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi_3 5/11] (.text+0x1a8): multiple definition
+ of `bpf_uprobe_multi_link_attach'; microblaze-linux-ld: DWARF error: could
+ not find abbrev number 3896
+Message-ID: <202303111104.3I6HYgwF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,95 +47,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-head:   40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
-commit: 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d [9/9] dyndbg: cleanup dynamic usage in ib_srp.c
-config: openrisc-randconfig-r002-20230310 (https://download.01.org/0day-ci/archive/20230311/202303111154.0Bioi0Ph-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_3
+head:   e4e32b8d0e93fb058e99e0bb197f155b3b71cf26
+commit: d7c8fc41fafecf762d8e6fd76a8363d24051f8af [5/11] bpf: Add multi uprobe link
+config: microblaze-randconfig-r004-20230310 (https://download.01.org/0day-ci/archive/20230311/202303111104.3I6HYgwF-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof modules-next
-        git checkout 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=d7c8fc41fafecf762d8e6fd76a8363d24051f8af
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi_3
+        git checkout d7c8fc41fafecf762d8e6fd76a8363d24051f8af
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303111154.0Bioi0Ph-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303111104.3I6HYgwF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/dynamic_debug.c:857:6: warning: no previous prototype for '__dynamic_pr_debug' [-Wmissing-prototypes]
-     857 | void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
-         |      ^~~~~~~~~~~~~~~~~~
->> lib/dynamic_debug.c:877:6: warning: no previous prototype for '__dynamic_dev_dbg' [-Wmissing-prototypes]
-     877 | void __dynamic_dev_dbg(struct _ddebug *descriptor,
-         |      ^~~~~~~~~~~~~~~~~
-
-
-vim +/__dynamic_pr_debug +857 lib/dynamic_debug.c
-
-640d1eaff2c09e Jim Cromie      2021-05-04  856  
-906d201530f2c5 Joe Perches     2014-09-24 @857  void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
-8ba6ebf583f12d Bart Van Assche 2011-01-23  858  {
-8ba6ebf583f12d Bart Van Assche 2011-01-23  859  	va_list args;
-431625dac14de7 Jason Baron     2011-10-04  860  	struct va_format vaf;
-640d1eaff2c09e Jim Cromie      2021-05-04  861  	char buf[PREFIX_SIZE] = "";
-8ba6ebf583f12d Bart Van Assche 2011-01-23  862  
-8ba6ebf583f12d Bart Van Assche 2011-01-23  863  	BUG_ON(!descriptor);
-8ba6ebf583f12d Bart Van Assche 2011-01-23  864  	BUG_ON(!fmt);
-8ba6ebf583f12d Bart Van Assche 2011-01-23  865  
-8ba6ebf583f12d Bart Van Assche 2011-01-23  866  	va_start(args, fmt);
-798efc60e42768 Joe Perches     2012-09-12  867  
-431625dac14de7 Jason Baron     2011-10-04  868  	vaf.fmt = fmt;
-431625dac14de7 Jason Baron     2011-10-04  869  	vaf.va = &args;
-798efc60e42768 Joe Perches     2012-09-12  870  
-906d201530f2c5 Joe Perches     2014-09-24  871  	printk(KERN_DEBUG "%s%pV", dynamic_emit_prefix(descriptor, buf), &vaf);
-798efc60e42768 Joe Perches     2012-09-12  872  
-8ba6ebf583f12d Bart Van Assche 2011-01-23  873  	va_end(args);
-8ba6ebf583f12d Bart Van Assche 2011-01-23  874  }
-8ba6ebf583f12d Bart Van Assche 2011-01-23  875  EXPORT_SYMBOL(__dynamic_pr_debug);
-8ba6ebf583f12d Bart Van Assche 2011-01-23  876  
-906d201530f2c5 Joe Perches     2014-09-24 @877  void __dynamic_dev_dbg(struct _ddebug *descriptor,
-cbc4663552ee47 Joe Perches     2011-08-11  878  		      const struct device *dev, const char *fmt, ...)
-cbc4663552ee47 Joe Perches     2011-08-11  879  {
-cbc4663552ee47 Joe Perches     2011-08-11  880  	struct va_format vaf;
-cbc4663552ee47 Joe Perches     2011-08-11  881  	va_list args;
-cbc4663552ee47 Joe Perches     2011-08-11  882  
-cbc4663552ee47 Joe Perches     2011-08-11  883  	BUG_ON(!descriptor);
-cbc4663552ee47 Joe Perches     2011-08-11  884  	BUG_ON(!fmt);
-cbc4663552ee47 Joe Perches     2011-08-11  885  
-cbc4663552ee47 Joe Perches     2011-08-11  886  	va_start(args, fmt);
-798efc60e42768 Joe Perches     2012-09-12  887  
-cbc4663552ee47 Joe Perches     2011-08-11  888  	vaf.fmt = fmt;
-cbc4663552ee47 Joe Perches     2011-08-11  889  	vaf.va = &args;
-798efc60e42768 Joe Perches     2012-09-12  890  
-798efc60e42768 Joe Perches     2012-09-12  891  	if (!dev) {
-906d201530f2c5 Joe Perches     2014-09-24  892  		printk(KERN_DEBUG "(NULL device *): %pV", &vaf);
-798efc60e42768 Joe Perches     2012-09-12  893  	} else {
-640d1eaff2c09e Jim Cromie      2021-05-04  894  		char buf[PREFIX_SIZE] = "";
-798efc60e42768 Joe Perches     2012-09-12  895  
-a39d4a857d4bb0 Joe Perches     2014-12-10  896  		dev_printk_emit(LOGLEVEL_DEBUG, dev, "%s%s %s: %pV",
-798efc60e42768 Joe Perches     2012-09-12  897  				dynamic_emit_prefix(descriptor, buf),
-666f355f3805d6 Joe Perches     2012-09-12  898  				dev_driver_string(dev), dev_name(dev),
-666f355f3805d6 Joe Perches     2012-09-12  899  				&vaf);
-798efc60e42768 Joe Perches     2012-09-12  900  	}
-798efc60e42768 Joe Perches     2012-09-12  901  
-cbc4663552ee47 Joe Perches     2011-08-11  902  	va_end(args);
-cbc4663552ee47 Joe Perches     2011-08-11  903  }
-cbc4663552ee47 Joe Perches     2011-08-11  904  EXPORT_SYMBOL(__dynamic_dev_dbg);
-cbc4663552ee47 Joe Perches     2011-08-11  905  
-
-:::::: The code at line 857 was first introduced by commit
-:::::: 906d201530f2c52aeb4eee31895c71cdccf1e9a0 dynamic_debug: change __dynamic_<foo>_dbg return types to void
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 982297937
+   init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
+>> (.text+0x1a8): multiple definition of `bpf_uprobe_multi_link_attach'; microblaze-linux-ld: DWARF error: could not find abbrev number 3896
+   init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 86
+   init/do_mounts_initrd.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 62
+   init/initramfs.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 15698
+   arch/microblaze/kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xef4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 54
+   arch/microblaze/kernel/sys_microblaze.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 5658
+   kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1b78): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 108
+   kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 34
+   kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1290): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 104
+   kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x200c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 751
+   kernel/softirq.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xb54): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 7548
+   kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 17
+   kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xc0c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 68
+   kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x8cc): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 2075280295
+   kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2468): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 122
+   kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2d78): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 65
+   kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x610): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 50
+   kernel/workqueue.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x537c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 2913622
+   kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 15941
+   kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x740): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 26
+   kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2e8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 50
+   kernel/groups.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x30): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 15377
+   kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x8b0c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 29
+   kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2328): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 113502061
+   kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xac0c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 123
+   kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x3da4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 113
+   kernel/locking/mutex.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2288): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 13
+   kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x74): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 21
+   kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2534): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 20010
+   kernel/rcu/update.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2020): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 1049313
+   kernel/kcmp.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x11e0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 17
+   kernel/time/time.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x640): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 1582
+   kernel/time/timer.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x3f50): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 3
+   kernel/time/hrtimer.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1364): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
+   microblaze-linux-ld: microblaze-linux-ld: DWARF error: could not find abbrev number 78
+   kernel/time/alarmtimer.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x15f4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x950): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
