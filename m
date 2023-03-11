@@ -1,43 +1,48 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036197B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 04:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E4F10ED;
+	Sat, 11 Mar 2023 04:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678509702; x=1710045702;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KGIfsOvi6rhZzn24loMfNzMni7uqjpMcX3DTg3GG7ho=;
-  b=Sp1oEL4qxpg2quuI25X5BeZIGXtqIjkPhKRlwADX230GkYY6fASG3RZf
-   Wo9hmIMW7t6vCaz955YxkLNTHDnxKQqag6jSSz5T2VSGm+o3h/O/6GnIu
-   Lh+25ojQjajEv3btf+ym+BcpKDN6ipO8wqXzBZ2LLADKWh72GvxraMRHd
-   7plWLlGqI7eENlX36+NBckOuL7QmVDqdfQT5nuqISu0SIrdrscKmIWM0Z
-   RWMdqN9Od/2NuWYblllemV7JEUhE09XWkONcaGvpoarxCKZ9DI//T0CHJ
-   a5bwXHlAiiaBGe8NmwrfNyPclR4mzMfik1s3jrIShzXSRtnpRGf+wjDFK
+  t=1678509703; x=1710045703;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C+Y5bxY9qe45ry63psa0DIaiA7c2eI/wBZK0raAHYVQ=;
+  b=Duo1TnOZ4UAMdph5almpr8MOKGBcF7dCNbi5lf+2lAeQZdYETiUl7aly
+   DIDAI2jhMI/Oj3TDRAQ4P2cvTm3wFaJT/d6qb1FQP+1/8TgFIkKiiGA6P
+   /kXSePdF8Sl2ZMp+L94V2XHlS/fkpJSDvrMSLMoZ+qL5RTOlarr03rMoL
+   PndSgQ4vIzc+ZjzgYlj7Wc+g+dJld6Kl5xeLO+CEoPYW3nvysNa9Fb0BV
+   x00a/PIy1kia/+n+uS63JTIOB0ii/OKI3x5ZUns+Zra9PXZga9Jj0j+qR
+   SgEASVVimtQenwA47Pxl4W4DYZwnTEr/wyaWmsblFcUSysrk0O3P7yE0R
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="316522265"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="316522269"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="316522265"
+   d="scan'208";a="316522269"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 20:41:41 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 20:41:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="680435842"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="680435840"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="680435842"
+   d="scan'208";a="680435840"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 10 Mar 2023 20:41:40 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1par35-0004Kf-2p;
+	id 1par35-0004Kd-2k;
 	Sat, 11 Mar 2023 04:41:39 +0000
 Date: Sat, 11 Mar 2023 12:40:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi_3 5/11] do_mounts.c:(.text+0x400): multiple
- definition of `bpf_uprobe_multi_link_attach'; arc-elf-ld: DWARF error: could
- not find abbrev number 48
-Message-ID: <202303111248.gEbOdF3S-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Helge Deller <deller@gmx.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] fbdev: Use of_property_present() for testing DT property
+ presence
+Message-ID: <202303111229.3Uuc8JQV-lkp@intel.com>
+References: <20230310144729.1545943-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,133 +51,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230310144729.1545943-1-robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_3
-head:   e4e32b8d0e93fb058e99e0bb197f155b3b71cf26
-commit: d7c8fc41fafecf762d8e6fd76a8363d24051f8af [5/11] bpf: Add multi uprobe link
-config: arc-randconfig-r006-20230310 (https://download.01.org/0day-ci/archive/20230311/202303111248.gEbOdF3S-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+Hi Rob,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230310144729.1545943-1-robh%40kernel.org
+patch subject: [PATCH] fbdev: Use of_property_present() for testing DT property presence
+config: arm64-randconfig-r032-20230310 (https://download.01.org/0day-ci/archive/20230311/202303111229.3Uuc8JQV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=d7c8fc41fafecf762d8e6fd76a8363d24051f8af
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi_3
-        git checkout d7c8fc41fafecf762d8e6fd76a8363d24051f8af
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/c013f4111f36b0b4327e7fbf46c0dd93399e9209
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
+        git checkout c013f4111f36b0b4327e7fbf46c0dd93399e9209
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/video/fbdev/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303111248.gEbOdF3S-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303111229.3Uuc8JQV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 1870179
-   init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
->> do_mounts.c:(.text+0x400): multiple definition of `bpf_uprobe_multi_link_attach'; arc-elf-ld: DWARF error: could not find abbrev number 48
-   init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 73
-   init/noinitramfs.o: in function `bpf_uprobe_multi_link_attach':
-   noinitramfs.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 72
-   arch/arc/kernel/process.o: in function `bpf_uprobe_multi_link_attach':
-   process.c:(.text+0x80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 69
-   arch/arc/kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
-   signal.c:(.text+0x5c0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 40
-   arch/arc/kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
-   sys.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 113460261
-   arch/arc/mm/cache.o: in function `bpf_uprobe_multi_link_attach':
-   cache.c:(.text+0x280): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 14365
-   kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
-   fork.c:(.text+0xf40): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 8499
-   kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
-   exec_domain.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 70
-   kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
-   cpu.c:(.text+0x5c0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 20
-   kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
-   exit.c:(.text+0xac0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 12774
-   kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
-   sysctl.c:(.text+0x300): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 107
-   kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
-   capability.c:(.text+0xc0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 52
-   kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
-   ptrace.c:(.text+0x640): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 176528215
-   kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
-   signal.c:(.text+0xc80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 21208928
-   kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
-   sys.c:(.text+0x1280): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 153328858
-   kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
-   umh.c:(.text+0x840): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 4329
-   kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
-   pid.c:(.text+0x640): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 74
-   kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
-   nsproxy.c:(.text+0x200): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 2560
-   kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
-   reboot.c:(.text+0xac0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: kernel/kmod.o: in function `bpf_uprobe_multi_link_attach':
-   kmod.c:(.text+0x380): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 78
-   kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
-   core.c:(.text+0x1bc0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 72
-   kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
-   fair.c:(.text+0x1080): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 92
-   kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
-   build_policy.c:(.text+0x3880): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 85
-   kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
-   build_utility.c:(.text+0x34c0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 3956139004
-   kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
-   qos.c:(.text+0x80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 93
-   kernel/power/main.o: in function `bpf_uprobe_multi_link_attach':
-   main.c:(.text+0xc0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 90
-   kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
-   printk.c:(.text+0x2f40): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 5
-   kernel/module/main.o: in function `bpf_uprobe_multi_link_attach':
-   main.c:(.text+0xf80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 1999490
-   kernel/kcmp.o: in function `bpf_uprobe_multi_link_attach':
-   kcmp.c:(.text+0x400): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 2613
-   kernel/time/time.o: in function `bpf_uprobe_multi_link_attach':
-   time.c:(.text+0xd40): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 3207
-   kernel/time/timer.o: in function `bpf_uprobe_multi_link_attach':
-   timer.c:(.text+0x10c0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 21
-   kernel/time/hrtimer.o: in function `bpf_uprobe_multi_link_attach':
-   hrtimer.c:(.text+0x1040): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 75
-   kernel/time/posix-timers.o: in function `bpf_uprobe_multi_link_attach':
-   posix-timers.c:(.text+0x1380): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 13069
-   kernel/time/posix-clock.o: in function `bpf_uprobe_multi_link_attach':
-   posix-clock.c:(.text+0x600): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x280): first defined here
-   arc-elf-ld: arc-elf-ld: DWARF error: could not find abbrev number 4637
+>> drivers/video/fbdev/amba-clcd.c:857:6: error: call to undeclared function 'of_property_present'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (of_property_present(node, "memory-region")) {
+               ^
+   drivers/video/fbdev/amba-clcd.c:857:6: note: did you mean 'fwnode_property_present'?
+   include/linux/property.h:59:6: note: 'fwnode_property_present' declared here
+   bool fwnode_property_present(const struct fwnode_handle *fwnode,
+        ^
+   1 error generated.
+
+
+vim +/of_property_present +857 drivers/video/fbdev/amba-clcd.c
+
+   843	
+   844	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
+   845	{
+   846		struct clcd_board *board = devm_kzalloc(&dev->dev, sizeof(*board),
+   847				GFP_KERNEL);
+   848		struct device_node *node = dev->dev.of_node;
+   849	
+   850		if (!board)
+   851			return NULL;
+   852	
+   853		board->name = of_node_full_name(node);
+   854		board->caps = CLCD_CAP_ALL;
+   855		board->check = clcdfb_check;
+   856		board->decode = clcdfb_decode;
+ > 857		if (of_property_present(node, "memory-region")) {
+   858			board->setup = clcdfb_of_vram_setup;
+   859			board->mmap = clcdfb_of_vram_mmap;
+   860			board->remove = clcdfb_of_vram_remove;
+   861		} else {
+   862			board->setup = clcdfb_of_dma_setup;
+   863			board->mmap = clcdfb_of_dma_mmap;
+   864			board->remove = clcdfb_of_dma_remove;
+   865		}
+   866	
+   867		return board;
+   868	}
+   869	#else
+   870	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
+   871	{
+   872		return NULL;
+   873	}
+   874	#endif
+   875	
 
 -- 
 0-DAY CI Kernel Test Service
