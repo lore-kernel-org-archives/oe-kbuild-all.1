@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ACE7B;
-	Sat, 11 Mar 2023 09:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631ED7B;
+	Sat, 11 Mar 2023 11:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678528730; x=1710064730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8MLlFo1tWIAE4Qg82ReTvbSKU+i9OXto4btiLFarMG4=;
-  b=jv9Vbuhi/VLv4I37qPOpjtIYrDpJhE+NKMKE3C5IT/jmp5G/HRssxUqs
-   Zmz9QFZ7oY2A23EJY+HVizf/tM9azyIAMYbl9F+qAcmau8aSCKA4AaHvB
-   5pheIxJ7UELjpK2r/CVg71VcVQpu0x9W1pxypT2kahoCZ+lXaHI8zgB+d
-   n2J7+BMtPRtBXpSUAtkx+0IUmzP3JybiUumRIgMbugu7atg05d6e2V8po
-   2ZKGSDh257AYJ60Ed7qgdcZwseDF167DUsYTmDctr3IpCIUU/0AkR4ZTd
-   IcIlagw+buXd+268gx8VLeNgZk4CnnACFTLX//152wkkoH2u4mjSN4YA6
+  t=1678533051; x=1710069051;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=niaJgS+nl35vG9hYt9aMRIyR8iR8gItOK1rIc+d1Wh4=;
+  b=iMFakmLQykVVL2I+xUwhF7n+GMtDB5HN8Fh7ki3/NNgidN6BfMhGNdOo
+   QV8IR5DPMqMdRWaOQc3TNKVB9NNylwxYD22xr97v6+raTdHll02OYWnTJ
+   wTsjJqt/Enldeip48mduT+dklKTWUF+LAVu7oqVYMzUgAoMgBnG7KXrYk
+   4e7P0VZm9ki314D941Cpf0h2XMiXyAfAvaTkdkxIHPh3RFG7mrUBVll5q
+   cgmbePz9xKgQE76EtqLrt8VU+RS4g4Oh2pTFLXr5rOI74m+8zmIO/Xo97
+   pXGt2nFCGc/vvobZBSvhryt7lXV7yPYRpMZznn+leooneKQ/yjUOzjGyK
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="423158956"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="317284863"
 X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="423158956"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 01:58:49 -0800
+   d="scan'208";a="317284863"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 03:10:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="821378868"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="708318165"
 X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="821378868"
+   d="scan'208";a="708318165"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2023 01:58:48 -0800
+  by orsmga008.jf.intel.com with ESMTP; 11 Mar 2023 03:10:48 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pavzz-0004VA-1j;
-	Sat, 11 Mar 2023 09:58:47 +0000
-Date: Sat, 11 Mar 2023 17:58:09 +0800
+	id 1pax7g-0004WX-10;
+	Sat, 11 Mar 2023 11:10:48 +0000
+Date: Sat, 11 Mar 2023 19:09:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Pagani <marpagan@redhat.com>
+To: Goldwyn Rodrigues <rgoldwyn@suse.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
-Message-ID: <202303111722.dBMPUXdj-lkp@intel.com>
-References: <20230310170412.708363-5-marpagan@redhat.com>
+Subject: [goldwynr:lock-rearrange 11/21] fs/btrfs/inode.c:7808:11: error:
+ call to undeclared function 'find_lock_delalloc_range'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202303111920.jLCblj0U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,59 +46,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310170412.708363-5-marpagan@redhat.com>
 
-Hi Marco,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc1 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
-patch link:    https://lore.kernel.org/r/20230310170412.708363-5-marpagan%40redhat.com
-patch subject: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230311/202303111722.dBMPUXdj-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/goldwynr/linux lock-rearrange
+head:   cf186c1bdf9992b2e1f6b970ec5db50595bfc363
+commit: 970a0d3be13f4c873d5912b3b62cfabd6fa12215 [11/21] btrfs: locking extents for async writeback
+config: arm-randconfig-r046-20230310 (https://download.01.org/0day-ci/archive/20230311/202303111920.jLCblj0U-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6af16afaf84ee6f061e6953eebca1a786c5be576
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
-        git checkout 6af16afaf84ee6f061e6953eebca1a786c5be576
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/goldwynr/linux/commit/970a0d3be13f4c873d5912b3b62cfabd6fa12215
+        git remote add goldwynr https://github.com/goldwynr/linux
+        git fetch --no-tags goldwynr lock-rearrange
+        git checkout 970a0d3be13f4c873d5912b3b62cfabd6fa12215
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303111722.dBMPUXdj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303111920.jLCblj0U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
->> drivers/fpga/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
-   fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
-   fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
-   kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore files
-   lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
-   mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
-   net/sunrpc/.kunitconfig: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+>> fs/btrfs/inode.c:7808:11: error: call to undeclared function 'find_lock_delalloc_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   found = find_lock_delalloc_range(&inode->vfs_inode, NULL, &cur_start, &cur_end);
+                           ^
+   1 error generated.
+
+
+vim +/find_lock_delalloc_range +7808 fs/btrfs/inode.c
+
+  7794	
+  7795	static int btrfs_writepages_async(struct btrfs_inode *inode, struct writeback_control *wbc, u64 start, u64 end)
+  7796	{
+  7797		u64 last_start, cur_start = start;
+  7798		u64 cur_end;
+  7799		int ret = 0;
+  7800	
+  7801		lock_extent(&inode->io_tree, start, end, NULL);
+  7802	
+  7803		while (cur_start < end) {
+  7804			bool found;
+  7805			last_start = cur_start;
+  7806			cur_end = end;
+  7807	
+> 7808			found = find_lock_delalloc_range(&inode->vfs_inode, NULL, &cur_start, &cur_end);
+  7809			/* Nothing to writeback */
+  7810			if (!found) {
+  7811				unlock_extent(&inode->io_tree, cur_start, cur_end, NULL);
+  7812				cur_start = cur_end + 1;
+  7813				continue;
+  7814			}
+  7815	
+  7816			/* A hole with no pages, unlock part therof */
+  7817			if (cur_start > last_start)
+  7818				unlock_extent(&inode->io_tree, last_start, cur_start - 1, NULL);
+  7819	
+  7820			/* Got more than we requested for */
+  7821			if (cur_end > end) {
+  7822				if (try_lock_extent(&inode->io_tree, end + 1, cur_end, NULL)) {
+  7823					/* Try writing the whole extent */
+  7824					end = cur_end;
+  7825				} else {
+  7826					/*
+  7827					 * Someone is holding the extent lock.
+  7828					 * Unlock pages from last part of extent, and
+  7829					 * write just as much writepage requested for
+  7830					 */
+  7831					__unlock_for_delalloc(&inode->vfs_inode, NULL, end + 1, cur_end);
+  7832					cur_end = end;
+  7833				}
+  7834			}
+  7835	
+  7836			ret = cow_file_range_async(inode, wbc, cur_start, cur_end);
+  7837			if (ret < 0) {
+  7838				unlock_extent(&inode->io_tree, cur_start, end, NULL);
+  7839				break;
+  7840			}
+  7841	
+  7842			cur_start = cur_end + 1;
+  7843		}
+  7844	
+  7845		return ret;
+  7846	}
+  7847	
 
 -- 
 0-DAY CI Kernel Test Service
