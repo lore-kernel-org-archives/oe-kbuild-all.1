@@ -1,46 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9158A5C;
-	Sat, 11 Mar 2023 01:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A181EA1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 02:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678496799; x=1710032799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LFlIn+JZ3z1wP1i72hr4lJuGlwH1uBFpybV7Fncs9cY=;
-  b=agWdhWAV4XxHLbePMKEsWQhqsNNo8MwSRXxc8scuJsUpcqQ8IEaEEJ7Z
-   TknIfsfv7PeVeXEuqull6BVyT9aerq3RbVvJFsaIMMFHREY07RlpTzmwY
-   g7eqctx0GHH++oIkz2Zg4s7YeNOarUVgxukbnuQxlDqvYXx9/K/BVW4vk
-   eqz8vv7py93r+fHMmg51JsXCeY72AxhUZ6ncCm17anbhqGV5OLOygVPw1
-   no0I9xEhtLXeLulkjt0PFzDcoJEVHb1tHvSIIBpSXaESykY/sKoNA/dT7
-   bwiF28pXuiU9egbS/MIfLIKPBMJWNRwv4ZilsUHlGBBMI+Gzp/jlgzJWS
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="317252722"
+  t=1678501720; x=1710037720;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XPZHOa1ScopsZZyzgNWzaxCYy7FO1VyW3n/DC2fZBzE=;
+  b=QMOBScLd1aiUUWeMp8cy4liyFzYPkVsf/2rIfoJvemKQ68nhwAvSAax2
+   t95v2YFFAm0gzBFxqtNAcW81tI/lgpReetSAu0q2NNzFMHmazd1VOvnfV
+   LJuhhSMLUy+s89cnRq4E2Q0zyhnX/KckI/W3wCHCDIudg7ZBtcsOr/6JA
+   LD8xnfkA+9WHFXxlQxuQu7OnIjRrzfJLP3II+LqB4BjPPEwQg6hQjhHag
+   JHBWagrQidmS/5nr4VFAJXL5Z8vkbGt/4gHjuxRxkW3FpbHRlqE3Dnt+s
+   CFJYzYveaS0NqWwDV7jP3+f1Xd5swKxlsNm1gOZolluPYSdssGc1Wepbf
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="401730306"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="317252722"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 17:06:39 -0800
+   d="scan'208";a="401730306"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 18:28:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="746943351"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="708234166"
 X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
-   d="scan'208";a="746943351"
+   d="scan'208";a="708234166"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2023 17:06:37 -0800
+  by orsmga008.jf.intel.com with ESMTP; 10 Mar 2023 18:28:38 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pangy-0004F3-0i;
-	Sat, 11 Mar 2023 01:06:36 +0000
-Date: Sat, 11 Mar 2023 09:06:32 +0800
+	id 1paoyM-0004Ht-03;
+	Sat, 11 Mar 2023 02:28:38 +0000
+Date: Sat, 11 Mar 2023 10:28:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kloudifold <cloudifold.3125@gmail.com>, teddy.wang@siliconmotion.com,
-	sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750: Rename camel case functions in
- sm750_cursor.*
-Message-ID: <202303110849.X24WnHnM-lkp@intel.com>
-References: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:sysctl-testing 43/44] net/sunrpc/sysctl.c:51:35: error:
+ 'proc_dodebug' undeclared here (not in a function); did you mean
+ 'rpc_debug'?
+Message-ID: <202303111048.EpaZrpLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,116 +46,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
 
-Hi Kloudifold,
+Hi Luis,
 
-Thank you for the patch! Yet something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
-patch link:    https://lore.kernel.org/r/ZAuiDTDT8dmBcRoH%40CloudiRingWorld
-patch subject: [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110849.X24WnHnM-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git sysctl-testing
+head:   6c8aff8eb18d8b9ced4a13576d557c965182bd7a
+commit: fab46485992acfd5f9186bbc75ff573be2462a2b [43/44] sunrpc: move sunrpc_table above
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230311/202303111048.EpaZrpLT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c82f66fbd5902ae486c4e2227e5071a59c49a05a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
-        git checkout c82f66fbd5902ae486c4e2227e5071a59c49a05a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=fab46485992acfd5f9186bbc75ff573be2462a2b
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof sysctl-testing
+        git checkout fab46485992acfd5f9186bbc75ff573be2462a2b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303111048.EpaZrpLT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_ops_cursor':
->> drivers/staging/sm750fb/sm750.c:124:17: error: implicit declaration of function 'sm750_hw_cursor_setSize'; did you mean 'sm750_hw_cursor_set_size'? [-Werror=implicit-function-declaration]
-     124 |                 sm750_hw_cursor_setSize(cursor,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 sm750_hw_cursor_set_size
->> drivers/staging/sm750fb/sm750.c:129:17: error: implicit declaration of function 'sm750_hw_cursor_setPos'; did you mean 'sm750_hw_cursor_set_pos'? [-Werror=implicit-function-declaration]
-     129 |                 sm750_hw_cursor_setPos(cursor,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 sm750_hw_cursor_set_pos
->> drivers/staging/sm750fb/sm750.c:145:17: error: implicit declaration of function 'sm750_hw_cursor_setColor'; did you mean 'sm750_hw_cursor_set_color'? [-Werror=implicit-function-declaration]
-     145 |                 sm750_hw_cursor_setColor(cursor, fg, bg);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 sm750_hw_cursor_set_color
->> drivers/staging/sm750fb/sm750.c:149:17: error: implicit declaration of function 'sm750_hw_cursor_setData'; did you mean 'sm750_hw_cursor_set_data'? [-Werror=implicit-function-declaration]
-     149 |                 sm750_hw_cursor_setData(cursor,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 sm750_hw_cursor_set_data
-   cc1: some warnings being treated as errors
+>> net/sunrpc/sysctl.c:51:35: error: 'proc_dodebug' undeclared here (not in a function); did you mean 'rpc_debug'?
+      51 |                 .proc_handler   = proc_dodebug
+         |                                   ^~~~~~~~~~~~
+         |                                   rpc_debug
+>> net/sunrpc/sysctl.c:78:35: error: 'proc_do_xprt' undeclared here (not in a function)
+      78 |                 .proc_handler   = proc_do_xprt,
+         |                                   ^~~~~~~~~~~~
+   net/sunrpc/sysctl.c:131:1: warning: 'proc_dodebug' defined but not used [-Wunused-function]
+     131 | proc_dodebug(struct ctl_table *table, int write, void *buffer, size_t *lenp,
+         | ^~~~~~~~~~~~
+   net/sunrpc/sysctl.c:109:12: warning: 'proc_do_xprt' defined but not used [-Wunused-function]
+     109 | static int proc_do_xprt(struct ctl_table *table, int write,
+         |            ^~~~~~~~~~~~
 
 
-vim +124 drivers/staging/sm750fb/sm750.c
+vim +51 net/sunrpc/sysctl.c
 
-81dee67e215b23 Sudip Mukherjee      2015-03-03  104  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  105  /* no hardware cursor supported under version 2.6.10, kernel bug */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  106  static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  107  {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  108  	struct lynxfb_par *par;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  109  	struct lynxfb_crtc *crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  110  	struct lynx_cursor *cursor;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  111  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  112  	par = info->par;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  113  	crtc = &par->crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  114  	cursor = &crtc->cursor;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  115  
-39f9137268ee3d Benjamin Philip      2021-07-26  116  	if (fbcursor->image.width > cursor->max_w ||
-cfdafb7608b4cf Benjamin Philip      2021-07-26  117  	    fbcursor->image.height > cursor->max_h ||
-81dee67e215b23 Sudip Mukherjee      2015-03-03  118  	    fbcursor->image.depth > 1) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  119  		return -ENXIO;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  120  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  121  
-52d0744d751d8f Arnd Bergmann        2016-11-09  122  	sm750_hw_cursor_disable(cursor);
-f46a04c75605fd Michel von Czettritz 2015-03-27  123  	if (fbcursor->set & FB_CUR_SETSIZE)
-52d0744d751d8f Arnd Bergmann        2016-11-09 @124  		sm750_hw_cursor_setSize(cursor,
-3318bb5e945f70 Michel von Czettritz 2015-03-26  125  					fbcursor->image.width,
-3318bb5e945f70 Michel von Czettritz 2015-03-26  126  					fbcursor->image.height);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  127  
-3318bb5e945f70 Michel von Czettritz 2015-03-26  128  	if (fbcursor->set & FB_CUR_SETPOS)
-52d0744d751d8f Arnd Bergmann        2016-11-09 @129  		sm750_hw_cursor_setPos(cursor,
-3318bb5e945f70 Michel von Czettritz 2015-03-26  130  				       fbcursor->image.dx - info->var.xoffset,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  131  				       fbcursor->image.dy - info->var.yoffset);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  132  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  133  	if (fbcursor->set & FB_CUR_SETCMAP) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  134  		/* get the 16bit color of kernel means */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  135  		u16 fg, bg;
-876e5a701f17e4 Michel von Czettritz 2015-03-26  136  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  137  		fg = ((info->cmap.red[fbcursor->image.fg_color] & 0xf800)) |
-81dee67e215b23 Sudip Mukherjee      2015-03-03  138  		     ((info->cmap.green[fbcursor->image.fg_color] & 0xfc00) >> 5) |
-81dee67e215b23 Sudip Mukherjee      2015-03-03  139  		     ((info->cmap.blue[fbcursor->image.fg_color] & 0xf800) >> 11);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  140  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  141  		bg = ((info->cmap.red[fbcursor->image.bg_color] & 0xf800)) |
-81dee67e215b23 Sudip Mukherjee      2015-03-03  142  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
-81dee67e215b23 Sudip Mukherjee      2015-03-03  143  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  144  
-52d0744d751d8f Arnd Bergmann        2016-11-09 @145  		sm750_hw_cursor_setColor(cursor, fg, bg);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  146  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  147  
-70407df77665c0 Michel von Czettritz 2015-03-26  148  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
-52d0744d751d8f Arnd Bergmann        2016-11-09 @149  		sm750_hw_cursor_setData(cursor,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  150  					fbcursor->rop,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  151  					fbcursor->image.data,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  152  					fbcursor->mask);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  153  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  154  
-f46a04c75605fd Michel von Czettritz 2015-03-27  155  	if (fbcursor->enable)
-52d0744d751d8f Arnd Bergmann        2016-11-09  156  		sm750_hw_cursor_enable(cursor);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  157  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  158  	return 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  159  }
-81dee67e215b23 Sudip Mukherjee      2015-03-03  160  
+    44	
+    45	static struct ctl_table debug_table[] = {
+    46		{
+    47			.procname	= "rpc_debug",
+    48			.data		= &rpc_debug,
+    49			.maxlen		= sizeof(int),
+    50			.mode		= 0644,
+  > 51			.proc_handler	= proc_dodebug
+    52		},
+    53		{
+    54			.procname	= "nfs_debug",
+    55			.data		= &nfs_debug,
+    56			.maxlen		= sizeof(int),
+    57			.mode		= 0644,
+    58			.proc_handler	= proc_dodebug
+    59		},
+    60		{
+    61			.procname	= "nfsd_debug",
+    62			.data		= &nfsd_debug,
+    63			.maxlen		= sizeof(int),
+    64			.mode		= 0644,
+    65			.proc_handler	= proc_dodebug
+    66		},
+    67		{
+    68			.procname	= "nlm_debug",
+    69			.data		= &nlm_debug,
+    70			.maxlen		= sizeof(int),
+    71			.mode		= 0644,
+    72			.proc_handler	= proc_dodebug
+    73		},
+    74		{
+    75			.procname	= "transports",
+    76			.maxlen		= 256,
+    77			.mode		= 0444,
+  > 78			.proc_handler	= proc_do_xprt,
+    79		},
+    80		{ }
+    81	};
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
