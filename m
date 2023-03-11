@@ -1,47 +1,71 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788561875
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Mar 2023 13:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678542175; x=1710078175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x+ZRr0pj7ADlwQU5k8M99g/tAgS3JVQU+0XabB88Cew=;
-  b=ifixLZ3iyI3mSRH1UqDpTh08bhiEFl8bpf7aov3H36sAz8C2A8wV2AeK
-   aNB6XOoT94hdLnPaiiBeyWvG1OuhmG2v36XdlOh4E6azYa+7m9vjtARY7
-   gkTk6w39pCVr6ylWgPXuJdZY5d/XA3Y6mnh8ufxFmB2upLTi/vwRiBhPq
-   0Em/1jYttHh9QHDN3n31tlIFK+LkrZwd+zrJdAPwgdpOaY2v0BdEOzQqy
-   jfC7D5TNZwunjvfXvYMtXSIuyybK6p+dhjm60yURMkU0pekCfRRWvrQ2B
-   BHeWqK5h4rUMnVeST/Zp2g+2VREl5VyQ1AA4BCgdsnvvOGKguC+CB9CI7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325260776"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="325260776"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 05:42:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="678156174"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="678156174"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Mar 2023 05:42:52 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pazUq-0004bR-0O;
-	Sat, 11 Mar 2023 13:42:52 +0000
-Date: Sat, 11 Mar 2023 21:42:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: Use of_property_present() for testing DT property
- presence
-Message-ID: <202303112153.uPbFjEUI-lkp@intel.com>
-References: <20230310144729.1545943-1-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EE17B;
+	Sat, 11 Mar 2023 13:54:39 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso7976491wmq.1;
+        Sat, 11 Mar 2023 05:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678542877;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
+        b=EgpADp9mPyWPriOHQHt/ftRejPRpNulP0dfOXzeleBhIPgj1NGQIJbytBzJ2k1iF4R
+         CyITUZOvJLHKAPxgRdheh7BTJmNg+LH8xo7nE4cpnK/TrtstTxkyuMZEe6QB0uKZbsho
+         bha6cNC4l0ab+HfNrdxjVgcV4nNCXjrWHLvd5AgmtK0unzXSSZWpk338fqWEaWfbfDXc
+         gS8s4MTSvK5KviuS4DzupSZgdAs7GDKSC97xY/DJNQkr+LExD4sU3rKuRX3/o8kJ1rWj
+         n5Cc6BbMqxbQX9xXF/Ai+zkDgJk3y+PUHE9rOyhjFvIaxai7o22SnhvFxKXJxhQbJB/I
+         C2Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678542877;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
+        b=RhDf3pHuZvH/t4A3Ia09WRt7TeNXX0NuxT6o6If2HAkUbNoQ55ZW0WlQg+34zYBDiL
+         oKizxhfnyd6l+GEYSH54FbqehPKPjMZYq+ADSNjBmzKmVwxXioRtd7feD84REC+I+OGh
+         xyo3VmgTOhKQwNCQwSReDjJKtnnRcge4jhrAKjIo2BDsnKRiG3trquhTD++dHyVMx9nM
+         wAFtAi5owo1+G3Bl4xQJkALFJ1C/fmt1PA6vIxrQc9RyRYrWZ1YZtM25MCl4xa9pC/y8
+         enQUJ+0IsKu5qJhIJr3kJm4bfSjOO7aGNMFcJBhbL1xI/kV4rcYQKQwdzHhGugTIBjqN
+         6tlQ==
+X-Gm-Message-State: AO0yUKXxLiAS9IDzc9t3Y8UB/FQOBJxaDY5CkroTTrsk92hieepMLRyy
+	zMUcOVTwdbT1caumIP/jQIn1zjOkyiXXOujI
+X-Google-Smtp-Source: AK7set8Q/kmI9mpEEdXrr7E14surqp2hrZc9WFbOGPYrv2F11V19h1lecKjCq/bjwK7VwWka+od15A==
+X-Received: by 2002:a05:600c:4e8c:b0:3eb:4cb5:dfa with SMTP id f12-20020a05600c4e8c00b003eb4cb50dfamr5440417wmq.31.1678542877399;
+        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id hn4-20020a05600ca38400b003dc1d668866sm2899772wmb.10.2023.03.11.05.54.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
+Date: Sat, 11 Mar 2023 16:54:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Juergen Gross <jgross@suse.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
+Message-ID: <d057ac5c-5947-41e1-abc7-9428fbd2fbe2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,85 +74,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310144729.1545943-1-robh@kernel.org>
+In-Reply-To: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
 
-Hi Rob,
+Hi Andy,
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230310144729.1545943-1-robh%40kernel.org
-patch subject: [PATCH] fbdev: Use of_property_present() for testing DT property presence
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303112153.uPbFjEUI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c013f4111f36b0b4327e7fbf46c0dd93399e9209
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
-        git checkout c013f4111f36b0b4327e7fbf46c0dd93399e9209
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-Introduce-pci_dev_for_each_resource/20230311-011642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230310171416.23356-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230311/202303112149.xD47qKOY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303112153.uPbFjEUI-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303112149.xD47qKOY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pnp/quirks.c:248 quirk_system_pci_resources() warn: was && intended here instead of ||?
 
-   drivers/video/fbdev/amba-clcd.c: In function 'clcdfb_of_get_board':
->> drivers/video/fbdev/amba-clcd.c:857:13: error: implicit declaration of function 'of_property_present'; did you mean 'fwnode_property_present'? [-Werror=implicit-function-declaration]
-     857 |         if (of_property_present(node, "memory-region")) {
-         |             ^~~~~~~~~~~~~~~~~~~
-         |             fwnode_property_present
-   cc1: some warnings being treated as errors
+vim +248 drivers/pnp/quirks.c
 
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  229  static void quirk_system_pci_resources(struct pnp_dev *dev)
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  230  {
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  231  	struct pci_dev *pdev = NULL;
+059b4a086017fb Mika Westerberg 2023-03-10  232  	struct resource *res, *r;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  233  	int i, j;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  234  
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  235  	/*
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  236  	 * Some BIOSes have PNP motherboard devices with resources that
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  237  	 * partially overlap PCI BARs.  The PNP system driver claims these
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  238  	 * motherboard resources, which prevents the normal PCI driver from
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  239  	 * requesting them later.
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  240  	 *
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  241  	 * This patch disables the PNP resources that conflict with PCI BARs
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  242  	 * so they won't be claimed by the PNP system driver.
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  243  	 */
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  244  	for_each_pci_dev(pdev) {
+059b4a086017fb Mika Westerberg 2023-03-10  245  		pci_dev_for_each_resource(pdev, r, i) {
+059b4a086017fb Mika Westerberg 2023-03-10  246  			unsigned long type = resource_type(r);
+999ed65ad12e37 Rene Herman     2008-07-25  247  
+059b4a086017fb Mika Westerberg 2023-03-10 @248  			if (type != IORESOURCE_IO || type != IORESOURCE_MEM ||
+                                                                                                  ^^
+This || needs to be &&.  This loop will always hit the continue path
+without doing anything.
 
-vim +857 drivers/video/fbdev/amba-clcd.c
-
-   843	
-   844	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
-   845	{
-   846		struct clcd_board *board = devm_kzalloc(&dev->dev, sizeof(*board),
-   847				GFP_KERNEL);
-   848		struct device_node *node = dev->dev.of_node;
-   849	
-   850		if (!board)
-   851			return NULL;
-   852	
-   853		board->name = of_node_full_name(node);
-   854		board->caps = CLCD_CAP_ALL;
-   855		board->check = clcdfb_check;
-   856		board->decode = clcdfb_decode;
- > 857		if (of_property_present(node, "memory-region")) {
-   858			board->setup = clcdfb_of_vram_setup;
-   859			board->mmap = clcdfb_of_vram_mmap;
-   860			board->remove = clcdfb_of_vram_remove;
-   861		} else {
-   862			board->setup = clcdfb_of_dma_setup;
-   863			board->mmap = clcdfb_of_dma_mmap;
-   864			board->remove = clcdfb_of_dma_remove;
-   865		}
-   866	
-   867		return board;
-   868	}
-   869	#else
-   870	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
-   871	{
-   872		return NULL;
-   873	}
-   874	#endif
-   875	
+059b4a086017fb Mika Westerberg 2023-03-10  249  			    resource_size(r) == 0)
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  250  				continue;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  251  
+059b4a086017fb Mika Westerberg 2023-03-10  252  			if (r->flags & IORESOURCE_UNSET)
+f7834c092c4299 Bjorn Helgaas   2015-03-03  253  				continue;
+f7834c092c4299 Bjorn Helgaas   2015-03-03  254  
+95ab3669f78306 Bjorn Helgaas   2008-04-28  255  			for (j = 0;
+999ed65ad12e37 Rene Herman     2008-07-25  256  			     (res = pnp_get_resource(dev, type, j)); j++) {
+aee3ad815dd291 Bjorn Helgaas   2008-06-27  257  				if (res->start == 0 && res->end == 0)
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  258  					continue;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  259  
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  260  				/*
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  261  				 * If the PNP region doesn't overlap the PCI
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  262  				 * region at all, there's no problem.
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  263  				 */
+059b4a086017fb Mika Westerberg 2023-03-10  264  				if (!resource_overlaps(res, r))
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  265  					continue;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  266  
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  267  				/*
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  268  				 * If the PNP region completely encloses (or is
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  269  				 * at least as large as) the PCI region, that's
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  270  				 * also OK.  For example, this happens when the
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  271  				 * PNP device describes a bridge with PCI
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  272  				 * behind it.
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  273  				 */
+059b4a086017fb Mika Westerberg 2023-03-10  274  				if (res->start <= r->start && res->end >= r->end)
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  275  					continue;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  276  
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  277  				/*
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  278  				 * Otherwise, the PNP region overlaps *part* of
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  279  				 * the PCI region, and that might prevent a PCI
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  280  				 * driver from requesting its resources.
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  281  				 */
+c7dabef8a2c59e Bjorn Helgaas   2009-10-27  282  				dev_warn(&dev->dev,
+059b4a086017fb Mika Westerberg 2023-03-10  283  					 "disabling %pR because it overlaps %s BAR %d %pR\n",
+059b4a086017fb Mika Westerberg 2023-03-10  284  					 res, pci_name(pdev), i, r);
+4b34fe156455d2 Bjorn Helgaas   2008-06-02  285  				res->flags |= IORESOURCE_DISABLED;
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  286  			}
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  287  		}
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  288  	}
+0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  289  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
