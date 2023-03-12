@@ -1,46 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18CB1860
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 07:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A62185F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 07:06:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678604718; x=1710140718;
+  t=1678604776; x=1710140776;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TkAky7VyI1vY3IUJayZw9KuFEd3vbvX1JJFA4r8SCTE=;
-  b=JMz8RtaBFPf3/dQzfeXx4P1MKyPTNwxNzGQz7U2xeY2/TNWkIXr/8H+Y
-   3lLg0NDGhJXE97qpfU1cl1rZs/JTqsX8zIYQT0Y6xc2/cvza5DPD/lTNx
-   uV8krr0Tk8GUfDcOQGxWgMfNrIjUlZocRzHvCUvl2FW178ISjpIYfNbOf
-   d5D9lelTLEwiPJ+XXWemk+g3NA+P7qKi6zsN6lRTvXShx8lomhSr1DoJU
-   Dse2r7S37mtuNe2qdasZQLYVcpoAs+lc8jP0ftSRdDzg/pO/MGvcG7AE/
-   +EfnebfizRNDhkv6DoV13iS/ycvEKLstiLrEyI9lwMWrYBOznkILWfOlJ
+  bh=wzI+2Y2PI3+mDL4cMeYCLwWxaFJXIMZ4fXV65OaoBYc=;
+  b=g4ZDjnivG1SSyRpjM7xNw/TstNrkDDQymxIeW8UK79TPlNh5l5hi2iOt
+   Nblo3fZCHoESamZq6mE9dBGHl7c9jN7BKSQIxd4rG6vRqHV5uFP7so1MK
+   Wc97Q7wdkulKtBK7Ab1hsGTtJ/4zACiqzmk7A8ceZn8wbty7R8a/3oVxR
+   jXs8FLCFx59WVbstQySpEnmsl0xSj9BLymFVrAsLIW4fAEPAk+sJbAJcn
+   n75ze7qxxxomPqTXKO7FrNNX9MpZ2skIjBGkC/Gn8S/cQ6xPoBSbxLDsL
+   nj07DDYNQUqb1+YSONot72Gmpr9A3IkW8fmV9GQhbrvied3aszqOxTwy5
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325323409"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325323495"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="325323409"
+   d="scan'208";a="325323495"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 23:05:16 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 23:06:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="678307689"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="678307766"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="678307689"
+   d="scan'208";a="678307766"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Mar 2023 23:05:15 -0800
+  by orsmga002.jf.intel.com with ESMTP; 11 Mar 2023 23:06:15 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbFla-00055E-2H;
-	Sun, 12 Mar 2023 07:05:14 +0000
-Date: Sun, 12 Mar 2023 15:05:09 +0800
+	id 1pbFmY-00055J-2M;
+	Sun, 12 Mar 2023 07:06:14 +0000
+Date: Sun, 12 Mar 2023 15:05:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [pdx86-platform-drivers-x86:review-hans 24/62]
- drivers/platform/x86/x86-android-tablets/lenovo.c:441: undefined reference
- to `intel_soc_pmic_exec_mipi_pmic_seq_element'
-Message-ID: <202303121457.gnk66ujX-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.2/prjc 290/371] kernel/sched/smp.h:14:20: error: redefinition
+ of 'flush_smp_call_function_queue'
+Message-ID: <202303121502.Ee62GQc5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,16 +46,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-hans
-head:   02c464b73645404654359ad21f368a13735e2850
-commit: 9b1d2662b8c586eb10cb939c7ae2c25bb36d2b61 [24/62] platform/x86: x86-android-tablets: Add touchscreen support for Lenovo Yoga Tab 3 Pro YT3-X90F
-config: x86_64-randconfig-r035-20221128 (https://download.01.org/0day-ci/archive/20230312/202303121457.gnk66ujX-lkp@intel.com/config)
+tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
+head:   66bb0e6d857d9b3bce5062779df9216e00986c6f
+commit: 7b3d43238e0fd4a97c85581d819604e81ff0b585 [290/371] sched/alt: [Sync] 16bf5a5e1ec5 smp: Rename flush_smp_call_function_from_idle()
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230312/202303121502.Ee62GQc5-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?id=9b1d2662b8c586eb10cb939c7ae2c25bb36d2b61
-        git remote add pdx86-platform-drivers-x86 https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-        git fetch --no-tags pdx86-platform-drivers-x86 review-hans
-        git checkout 9b1d2662b8c586eb10cb939c7ae2c25bb36d2b61
+        # https://github.com/zen-kernel/zen-kernel/commit/7b3d43238e0fd4a97c85581d819604e81ff0b585
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.2/prjc
+        git checkout 7b3d43238e0fd4a97c85581d819604e81ff0b585
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
@@ -67,65 +63,45 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303121457.gnk66ujX-lkp@intel.com/
-
-Note: the pdx86-platform-drivers-x86/review-hans HEAD 02c464b73645404654359ad21f368a13735e2850 builds fine.
-      It only hurts bisectability.
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121502.Ee62GQc5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `lenovo_yt3_init':
->> drivers/platform/x86/x86-android-tablets/lenovo.c:441: undefined reference to `intel_soc_pmic_exec_mipi_pmic_seq_element'
->> ld: drivers/platform/x86/x86-android-tablets/lenovo.c:442: undefined reference to `intel_soc_pmic_exec_mipi_pmic_seq_element'
+   In file included from kernel/sched/build_policy.c:35:
+>> kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
+      14 | static inline void flush_smp_call_function_queue(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/sched.h:9,
+                    from kernel/sched/build_policy.c:34:
+   kernel/sched/alt_sched.h:296:20: note: previous definition of 'flush_smp_call_function_queue' with type 'void(void)'
+     296 | static inline void flush_smp_call_function_queue(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/idle.c: In function 'cpu_idle_poll':
+   kernel/sched/idle.c:56:9: error: implicit declaration of function 'ct_idle_enter'; did you mean 'cpuidle_enter'? [-Werror=implicit-function-declaration]
+      56 |         ct_idle_enter();
+         |         ^~~~~~~~~~~~~
+         |         cpuidle_enter
+   kernel/sched/idle.c:63:9: error: implicit declaration of function 'ct_idle_exit'; did you mean 'ct_irq_exit'? [-Werror=implicit-function-declaration]
+      63 |         ct_idle_exit();
+         |         ^~~~~~~~~~~~
+         |         ct_irq_exit
+   cc1: some warnings being treated as errors
 
 
-vim +441 drivers/platform/x86/x86-android-tablets/lenovo.c
+vim +/flush_smp_call_function_queue +14 kernel/sched/smp.h
 
-   402	
-   403	static int __init lenovo_yt3_init(void)
-   404	{
-   405		struct gpio_desc *gpiod;
-   406		int ret;
-   407	
-   408		/*
-   409		 * The "bq25892_0" charger IC has its /CE (Charge-Enable) and OTG pins
-   410		 * connected to GPIOs, rather then having them hardwired to the correct
-   411		 * values as is normally done.
-   412		 *
-   413		 * The bq25890_charger driver controls these through I2C, but this only
-   414		 * works if not overridden by the pins. Set these pins here:
-   415		 * 1. Set /CE to 0 to allow charging.
-   416		 * 2. Set OTG to 0 disable V5 boost output since the 5V boost output of
-   417		 *    the main "bq25892_1" charger is used when necessary.
-   418		 */
-   419	
-   420		/* /CE pin */
-   421		ret = x86_android_tablet_get_gpiod("INT33FF:02", 22, &gpiod);
-   422		if (ret < 0)
-   423			return ret;
-   424	
-   425		/*
-   426		 * The gpio_desc returned by x86_android_tablet_get_gpiod() is a "raw"
-   427		 * gpio_desc, that is there is no way to pass lookup-flags like
-   428		 * GPIO_ACTIVE_LOW. Set the GPIO to 0 here to enable charging since
-   429		 * the /CE pin is active-low, but not marked as such in the gpio_desc.
-   430		 */
-   431		gpiod_set_value(gpiod, 0);
-   432	
-   433		/* OTG pin */
-   434		ret = x86_android_tablet_get_gpiod("INT33FF:03", 19, &gpiod);
-   435		if (ret < 0)
-   436			return ret;
-   437	
-   438		gpiod_set_value(gpiod, 0);
-   439	
-   440		/* Enable the regulators used by the touchscreen */
- > 441		intel_soc_pmic_exec_mipi_pmic_seq_element(0x6e, 0x9b, 0x02, 0xff);
- > 442		intel_soc_pmic_exec_mipi_pmic_seq_element(0x6e, 0xa0, 0x02, 0xff);
-   443	
-   444		return 0;
-   445	}
-   446	
+d664e399128bd7 Thomas Gleixner 2022-04-13  10  
+d664e399128bd7 Thomas Gleixner 2022-04-13  11  #ifdef CONFIG_SMP
+16bf5a5e1ec564 Thomas Gleixner 2022-04-13  12  extern void flush_smp_call_function_queue(void);
+d664e399128bd7 Thomas Gleixner 2022-04-13  13  #else
+16bf5a5e1ec564 Thomas Gleixner 2022-04-13 @14  static inline void flush_smp_call_function_queue(void) { }
+
+:::::: The code at line 14 was first introduced by commit
+:::::: 16bf5a5e1ec56474ed2a19d72f272ed09a5d3ea1 smp: Rename flush_smp_call_function_from_idle()
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
