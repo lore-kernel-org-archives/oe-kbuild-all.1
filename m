@@ -1,43 +1,47 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402DF15A0;
-	Sun, 12 Mar 2023 05:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70C217C0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 05:13:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678597994; x=1710133994;
+  t=1678597995; x=1710133995;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v8aXfeyTz6tm5vPZonw1jhwvy0f/MlJD8DSMZJtwbYc=;
-  b=EYx7pXCSdKIVVjJP3/0GwhSFEudh5YBL6Vri2DV050aAU/l5sJXRQSCj
-   eX7jUeJ1cFbCXAUy0cQTdI3qB1PjDDN6IjVoycsVt3FR/1kTMpZwQymtz
-   fyerMLTTmWLx3k+YJLX0MkIhkoTErEgUO5cCVugxQvJ69H0Ko5mnb5EhX
-   Hkp7PsMPwHpwSFpYdCSzMcXkIQj8rHsOVuBWZpX0j0Zn9QwMna6IjJ2cv
-   qQaXn4Ac2dIl6Kwcn9VS6j10iL77PTdTyI2tixT9Rh5AwzGiaQ74uN6Go
-   /q8bjYFDBt0CbY3R/hsBK2tX4VbNrndrBZzFbnZLDQxh7+742mc/HUMZS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="364620203"
+  bh=2tdRpSuMRaDaRBUHSXUSd/IiKyotGE0EDCaRbWdcOLw=;
+  b=Zj2XX//71ZKmyV66Ab4bomX7ZQppfmw9u5/nqwHXYuMGHdSTc8eqXMYp
+   PqD1wIQSI0iZDmpJRUKxG4C+TOT22rfEMkEKKdxbUAZmU8o3u4BfduvSa
+   fnjsivojglc80anIWtQrXNaQc/cKYDoNPAc5OX/2m8802X5OJoHAVEojN
+   JEqZ4HfCv5S814qH7JvNd05B7WYD/OqfsHCf3AvavS0ZMOVafPsk1r2UH
+   6gq8w7jSk3uVs/hh/NehfPsqFJwKoe00hk1cM+eN9eJetWOOiXfwoxsmT
+   B3U8hSCH6/n41SMqKcRUPL53tTdi93HYQdU1wq+8ffSkreDuczz53a9+b
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="364620207"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="364620203"
+   d="scan'208";a="364620207"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 21:13:13 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 21:13:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="852365372"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="852365373"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="852365372"
+   d="scan'208";a="852365373"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 11 Mar 2023 21:13:11 -0800
+  by orsmga005.jf.intel.com with ESMTP; 11 Mar 2023 21:13:12 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbE19-0004zt-0Y;
+	id 1pbE19-0004zw-0f;
 	Sun, 12 Mar 2023 05:13:11 +0000
-Date: Sun, 12 Mar 2023 13:12:55 +0800
+Date: Sun, 12 Mar 2023 13:12:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v6 6/6] ptp_ocp: implement DPLL ops
-Message-ID: <202303121343.kC8XYcdk-lkp@intel.com>
-References: <20230312022807.278528-7-vadfed@meta.com>
+To: Eric Blake <eblake@redhat.com>, josef@toxicpanda.com,
+	linux-block@vger.kernel.org, nbd@other.debian.org
+Cc: oe-kbuild-all@lists.linux.dev, philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] block nbd: use req.cookie instead of req.handle
+Message-ID: <202303121323.Jd35Q1Au-lkp@intel.com>
+References: <20230310201525.2615385-4-eblake@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,288 +50,337 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230312022807.278528-7-vadfed@meta.com>
+In-Reply-To: <20230310201525.2615385-4-eblake@redhat.com>
 
-Hi Vadim,
+Hi Eric,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc1 next-20230310]
-[cannot apply to tnguy-next-queue/dev-queue]
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.3-rc1 next-20230310]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230312-103056
-patch link:    https://lore.kernel.org/r/20230312022807.278528-7-vadfed%40meta.com
-patch subject: [PATCH RFC v6 6/6] ptp_ocp: implement DPLL ops
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230312/202303121343.kC8XYcdk-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Blake/uapi-nbd-improve-doc-links-to-userspace-spec/20230311-041759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230310201525.2615385-4-eblake%40redhat.com
+patch subject: [PATCH 3/3] block nbd: use req.cookie instead of req.handle
+config: loongarch-randconfig-s052-20230310 (https://download.01.org/0day-ci/archive/20230312/202303121323.Jd35Q1Au-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/fe16623a48f3c6592be80872758c19822b70ae62
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/ee3462cd07240f936d4a304b8b7da8c1d610e2af
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230312-103056
-        git checkout fe16623a48f3c6592be80872758c19822b70ae62
+        git fetch --no-tags linux-review Eric-Blake/uapi-nbd-improve-doc-links-to-userspace-spec/20230311-041759
+        git checkout ee3462cd07240f936d4a304b8b7da8c1d610e2af
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dpll/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/block/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303121343.kC8XYcdk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121323.Jd35Q1Au-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/block/nbd.c:609:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [addressable] [assigned] [usertype] cookie @@     got unsigned long long [assigned] [usertype] handle @@
+   drivers/block/nbd.c:609:24: sparse:     expected restricted __be64 [addressable] [assigned] [usertype] cookie
+   drivers/block/nbd.c:609:24: sparse:     got unsigned long long [assigned] [usertype] handle
+   drivers/block/nbd.c:631:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/block/nbd.c:631:32: sparse:     expected int
+   drivers/block/nbd.c:631:32: sparse:     got restricted blk_status_t [usertype]
+   drivers/block/nbd.c:672:48: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/block/nbd.c:672:48: sparse:     expected int
+   drivers/block/nbd.c:672:48: sparse:     got restricted blk_status_t [usertype]
+>> drivers/block/nbd.c:735:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] handle @@     got restricted __be64 [usertype] cookie @@
+   drivers/block/nbd.c:735:16: sparse:     expected unsigned long long [usertype] handle
+   drivers/block/nbd.c:735:16: sparse:     got restricted __be64 [usertype] cookie
+   drivers/block/nbd.c:1077:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted blk_status_t [usertype] @@
+   drivers/block/nbd.c:1077:21: sparse:     expected int [assigned] ret
+   drivers/block/nbd.c:1077:21: sparse:     got restricted blk_status_t [usertype]
+   drivers/block/nbd.c:1082:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted blk_status_t @@     got int [assigned] ret @@
+   drivers/block/nbd.c:1082:16: sparse:     expected restricted blk_status_t
+   drivers/block/nbd.c:1082:16: sparse:     got int [assigned] ret
 
->> drivers/dpll/dpll_core.c:285:1: warning: no previous prototype for function 'dpll_device_alloc' [-Wmissing-prototypes]
-   dpll_device_alloc(const u64 clock_id, u32 dev_driver_id, struct module *module)
-   ^
-   drivers/dpll/dpll_core.c:284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct dpll_device *
-   ^
-   static 
->> drivers/dpll/dpll_core.c:439:1: warning: no previous prototype for function 'dpll_pin_alloc' [-Wmissing-prototypes]
-   dpll_pin_alloc(u64 clock_id, u8 device_drv_id,  struct module *module,
-   ^
-   drivers/dpll/dpll_core.c:438:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct dpll_pin *
-   ^
-   static 
-   2 warnings generated.
---
->> drivers/dpll/dpll_netlink.c:1062:13: warning: no previous prototype for function 'dpll_netlink_fini' [-Wmissing-prototypes]
-   void __exit dpll_netlink_fini(void)
-               ^
-   drivers/dpll/dpll_netlink.c:1062:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __exit dpll_netlink_fini(void)
-   ^
-   static 
-   1 warning generated.
+vim +609 drivers/block/nbd.c
 
-
-vim +/dpll_device_alloc +285 drivers/dpll/dpll_core.c
-
-55b810a5137d33 Vadim Fedorenko 2023-03-11  269  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  270  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  271  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  272   * dpll_device_alloc - allocate the memory for dpll device
-55b810a5137d33 Vadim Fedorenko 2023-03-11  273   * @clock_id: clock_id of creator
-55b810a5137d33 Vadim Fedorenko 2023-03-11  274   * @dev_driver_id: id given by dev driver
-55b810a5137d33 Vadim Fedorenko 2023-03-11  275   * @module: reference to registering module
-55b810a5137d33 Vadim Fedorenko 2023-03-11  276   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  277   * Allocates memory and initialize dpll device, hold its reference on global
-55b810a5137d33 Vadim Fedorenko 2023-03-11  278   * xarray.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  279   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  280   * Return:
-55b810a5137d33 Vadim Fedorenko 2023-03-11  281   * * dpll_device struct pointer if succeeded
-55b810a5137d33 Vadim Fedorenko 2023-03-11  282   * * ERR_PTR(X) - failed allocation
-55b810a5137d33 Vadim Fedorenko 2023-03-11  283   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  284  struct dpll_device *
-55b810a5137d33 Vadim Fedorenko 2023-03-11 @285  dpll_device_alloc(const u64 clock_id, u32 dev_driver_id, struct module *module)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  286  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  287  	struct dpll_device *dpll;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  288  	int ret;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  289  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  290  	dpll = kzalloc(sizeof(*dpll), GFP_KERNEL);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  291  	if (!dpll)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  292  		return ERR_PTR(-ENOMEM);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  293  	refcount_set(&dpll->refcount, 1);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  294  	dpll->dev.class = &dpll_class;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  295  	dpll->dev_driver_id = dev_driver_id;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  296  	dpll->clock_id = clock_id;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  297  	dpll->module = module;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  298  	ret = xa_alloc(&dpll_device_xa, &dpll->id, dpll,
-55b810a5137d33 Vadim Fedorenko 2023-03-11  299  		       xa_limit_16b, GFP_KERNEL);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  300  	if (ret) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  301  		kfree(dpll);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  302  		return ERR_PTR(ret);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  303  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  304  	xa_init_flags(&dpll->pin_refs, XA_FLAGS_ALLOC);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  305  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  306  	return dpll;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  307  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  308  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  309  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  310   * dpll_device_get - find existing or create new dpll device
-55b810a5137d33 Vadim Fedorenko 2023-03-11  311   * @clock_id: clock_id of creator
-55b810a5137d33 Vadim Fedorenko 2023-03-11  312   * @dev_driver_id: id given by dev driver
-55b810a5137d33 Vadim Fedorenko 2023-03-11  313   * @module: reference to registering module
-55b810a5137d33 Vadim Fedorenko 2023-03-11  314   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  315   * Get existing object of a dpll device, unique for given arguments.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  316   * Create new if doesn't exist yet.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  317   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  318   * Return:
-55b810a5137d33 Vadim Fedorenko 2023-03-11  319   * * valid dpll_device struct pointer if succeeded
-55b810a5137d33 Vadim Fedorenko 2023-03-11  320   * * ERR_PTR of an error
-55b810a5137d33 Vadim Fedorenko 2023-03-11  321   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  322  struct dpll_device *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  323  dpll_device_get(u64 clock_id, u32 dev_driver_id, struct module *module)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  324  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  325  	struct dpll_device *dpll, *ret = NULL;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  326  	unsigned long index;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  327  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  328  	mutex_lock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  329  	xa_for_each(&dpll_device_xa, index, dpll) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  330  		if (dpll->clock_id == clock_id &&
-55b810a5137d33 Vadim Fedorenko 2023-03-11  331  		    dpll->dev_driver_id == dev_driver_id &&
-55b810a5137d33 Vadim Fedorenko 2023-03-11  332  		    dpll->module == module) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  333  			ret = dpll;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  334  			refcount_inc(&ret->refcount);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  335  			break;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  336  		}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  337  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  338  	if (!ret)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  339  		ret = dpll_device_alloc(clock_id, dev_driver_id, module);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  340  	mutex_unlock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  341  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  342  	return ret;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  343  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  344  EXPORT_SYMBOL_GPL(dpll_device_get);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  345  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  346  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  347   * dpll_device_put - decrease the refcount and free memory if possible
-55b810a5137d33 Vadim Fedorenko 2023-03-11  348   * @dpll: dpll_device struct pointer
-55b810a5137d33 Vadim Fedorenko 2023-03-11  349   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  350   * Drop reference for a dpll device, if all references are gone, delete
-55b810a5137d33 Vadim Fedorenko 2023-03-11  351   * dpll device object.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  352   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  353  void dpll_device_put(struct dpll_device *dpll)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  354  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  355  	if (!dpll)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  356  		return;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  357  	mutex_lock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  358  	if (refcount_dec_and_test(&dpll->refcount)) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  359  		WARN_ON_ONCE(!xa_empty(&dpll->pin_refs));
-55b810a5137d33 Vadim Fedorenko 2023-03-11  360  		xa_destroy(&dpll->pin_refs);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  361  		xa_erase(&dpll_device_xa, dpll->id);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  362  		kfree(dpll);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  363  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  364  	mutex_unlock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  365  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  366  EXPORT_SYMBOL_GPL(dpll_device_put);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  367  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  368  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  369   * dpll_device_register - register the dpll device in the subsystem
-55b810a5137d33 Vadim Fedorenko 2023-03-11  370   * @dpll: pointer to a dpll
-55b810a5137d33 Vadim Fedorenko 2023-03-11  371   * @type: type of a dpll
-55b810a5137d33 Vadim Fedorenko 2023-03-11  372   * @ops: ops for a dpll device
-55b810a5137d33 Vadim Fedorenko 2023-03-11  373   * @priv: pointer to private information of owner
-55b810a5137d33 Vadim Fedorenko 2023-03-11  374   * @owner: pointer to owner device
-55b810a5137d33 Vadim Fedorenko 2023-03-11  375   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  376   * Make dpll device available for user space.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  377   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  378   * Return:
-55b810a5137d33 Vadim Fedorenko 2023-03-11  379   * * 0 on success
-55b810a5137d33 Vadim Fedorenko 2023-03-11  380   * * -EINVAL on failure
-55b810a5137d33 Vadim Fedorenko 2023-03-11  381   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  382  int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
-55b810a5137d33 Vadim Fedorenko 2023-03-11  383  			 struct dpll_device_ops *ops, void *priv,
-55b810a5137d33 Vadim Fedorenko 2023-03-11  384  			 struct device *owner)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  385  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  386  	if (WARN_ON(!ops || !owner))
-55b810a5137d33 Vadim Fedorenko 2023-03-11  387  		return -EINVAL;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  388  	if (WARN_ON(type <= DPLL_TYPE_UNSPEC || type > DPLL_TYPE_MAX))
-55b810a5137d33 Vadim Fedorenko 2023-03-11  389  		return -EINVAL;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  390  	mutex_lock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  391  	if (ASSERT_DPLL_NOT_REGISTERED(dpll)) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  392  		mutex_unlock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  393  		return -EEXIST;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  394  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  395  	dpll->dev.bus = owner->bus;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  396  	dpll->parent = owner;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  397  	dpll->type = type;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  398  	dpll->ops = ops;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  399  	dev_set_name(&dpll->dev, "%s_%d", dev_name(owner),
-55b810a5137d33 Vadim Fedorenko 2023-03-11  400  		     dpll->dev_driver_id);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  401  	dpll->priv = priv;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  402  	xa_set_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  403  	mutex_unlock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  404  	dpll_notify_device_create(dpll);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  405  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  406  	return 0;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  407  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  408  EXPORT_SYMBOL_GPL(dpll_device_register);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  409  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  410  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  411   * dpll_device_unregister - deregister dpll device
-55b810a5137d33 Vadim Fedorenko 2023-03-11  412   * @dpll: registered dpll pointer
-55b810a5137d33 Vadim Fedorenko 2023-03-11  413   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  414   * Deregister device, make it unavailable for userspace.
-55b810a5137d33 Vadim Fedorenko 2023-03-11  415   * Note: It does not free the memory
-55b810a5137d33 Vadim Fedorenko 2023-03-11  416   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  417  void dpll_device_unregister(struct dpll_device *dpll)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  418  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  419  	mutex_lock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  420  	ASSERT_DPLL_REGISTERED(dpll);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  421  	xa_clear_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  422  	mutex_unlock(&dpll_device_xa_lock);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  423  	dpll_notify_device_delete(dpll);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  424  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  425  EXPORT_SYMBOL_GPL(dpll_device_unregister);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  426  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  427  /**
-55b810a5137d33 Vadim Fedorenko 2023-03-11  428   * dpll_pin_alloc - allocate the memory for dpll pin
-55b810a5137d33 Vadim Fedorenko 2023-03-11  429   * @clock_id: clock_id of creator
-55b810a5137d33 Vadim Fedorenko 2023-03-11  430   * @dev_driver_id: id given by dev driver
-55b810a5137d33 Vadim Fedorenko 2023-03-11  431   * @module: reference to registering module
-55b810a5137d33 Vadim Fedorenko 2023-03-11  432   * @prop: dpll pin properties
-55b810a5137d33 Vadim Fedorenko 2023-03-11  433   *
-55b810a5137d33 Vadim Fedorenko 2023-03-11  434   * Return:
-55b810a5137d33 Vadim Fedorenko 2023-03-11  435   * * valid allocated dpll_pin struct pointer if succeeded
-55b810a5137d33 Vadim Fedorenko 2023-03-11  436   * * ERR_PTR of an error
-55b810a5137d33 Vadim Fedorenko 2023-03-11  437   */
-55b810a5137d33 Vadim Fedorenko 2023-03-11  438  struct dpll_pin *
-55b810a5137d33 Vadim Fedorenko 2023-03-11 @439  dpll_pin_alloc(u64 clock_id, u8 device_drv_id,	struct module *module,
-55b810a5137d33 Vadim Fedorenko 2023-03-11  440  	       const struct dpll_pin_properties *prop)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  441  {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  442  	struct dpll_pin *pin;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  443  	int ret;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  444  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  445  	pin = kzalloc(sizeof(*pin), GFP_KERNEL);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  446  	if (!pin)
-55b810a5137d33 Vadim Fedorenko 2023-03-11  447  		return ERR_PTR(-ENOMEM);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  448  	pin->dev_driver_id = device_drv_id;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  449  	pin->clock_id = clock_id;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  450  	pin->module = module;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  451  	refcount_set(&pin->refcount, 1);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  452  	if (WARN_ON(!prop->description)) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  453  		ret = -EINVAL;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  454  		goto release;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  455  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  456  	pin->prop.description = kstrdup(prop->description, GFP_KERNEL);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  457  	if (!pin->prop.description) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  458  		ret = -ENOMEM;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  459  		goto release;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  460  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  461  	if (WARN_ON(prop->type <= DPLL_PIN_TYPE_UNSPEC ||
-55b810a5137d33 Vadim Fedorenko 2023-03-11  462  		    prop->type > DPLL_PIN_TYPE_MAX)) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  463  		ret = -EINVAL;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  464  		goto release;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  465  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  466  	pin->prop.type = prop->type;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  467  	pin->prop.capabilities = prop->capabilities;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  468  	pin->prop.freq_supported = prop->freq_supported;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  469  	pin->prop.any_freq_min = prop->any_freq_min;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  470  	pin->prop.any_freq_max = prop->any_freq_max;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  471  	xa_init_flags(&pin->dpll_refs, XA_FLAGS_ALLOC);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  472  	xa_init_flags(&pin->parent_refs, XA_FLAGS_ALLOC);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  473  	ret = xa_alloc(&dpll_pin_xa, &pin->idx, pin,
-55b810a5137d33 Vadim Fedorenko 2023-03-11  474  		       xa_limit_16b, GFP_KERNEL);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  475  release:
-55b810a5137d33 Vadim Fedorenko 2023-03-11  476  	if (ret) {
-55b810a5137d33 Vadim Fedorenko 2023-03-11  477  		xa_destroy(&pin->dpll_refs);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  478  		xa_destroy(&pin->parent_refs);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  479  		kfree(pin->prop.description);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  480  		kfree(pin->rclk_dev_name);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  481  		kfree(pin);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  482  		return ERR_PTR(ret);
-55b810a5137d33 Vadim Fedorenko 2023-03-11  483  	}
-55b810a5137d33 Vadim Fedorenko 2023-03-11  484  
-55b810a5137d33 Vadim Fedorenko 2023-03-11  485  	return pin;
-55b810a5137d33 Vadim Fedorenko 2023-03-11  486  }
-55b810a5137d33 Vadim Fedorenko 2023-03-11  487  
+   549	
+   550	/* always call with the tx_lock held */
+   551	static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
+   552	{
+   553		struct request *req = blk_mq_rq_from_pdu(cmd);
+   554		struct nbd_config *config = nbd->config;
+   555		struct nbd_sock *nsock = config->socks[index];
+   556		int result;
+   557		struct nbd_request request = {.magic = htonl(NBD_REQUEST_MAGIC)};
+   558		struct kvec iov = {.iov_base = &request, .iov_len = sizeof(request)};
+   559		struct iov_iter from;
+   560		unsigned long size = blk_rq_bytes(req);
+   561		struct bio *bio;
+   562		u64 handle;
+   563		u32 type;
+   564		u32 nbd_cmd_flags = 0;
+   565		int sent = nsock->sent, skip = 0;
+   566	
+   567		iov_iter_kvec(&from, ITER_SOURCE, &iov, 1, sizeof(request));
+   568	
+   569		type = req_to_nbd_cmd_type(req);
+   570		if (type == U32_MAX)
+   571			return -EIO;
+   572	
+   573		if (rq_data_dir(req) == WRITE &&
+   574		    (config->flags & NBD_FLAG_READ_ONLY)) {
+   575			dev_err_ratelimited(disk_to_dev(nbd->disk),
+   576					    "Write on read-only\n");
+   577			return -EIO;
+   578		}
+   579	
+   580		if (req->cmd_flags & REQ_FUA)
+   581			nbd_cmd_flags |= NBD_CMD_FLAG_FUA;
+   582	
+   583		/* We did a partial send previously, and we at least sent the whole
+   584		 * request struct, so just go and send the rest of the pages in the
+   585		 * request.
+   586		 */
+   587		if (sent) {
+   588			if (sent >= sizeof(request)) {
+   589				skip = sent - sizeof(request);
+   590	
+   591				/* initialize handle for tracing purposes */
+   592				handle = nbd_cmd_handle(cmd);
+   593	
+   594				goto send_pages;
+   595			}
+   596			iov_iter_advance(&from, sent);
+   597		} else {
+   598			cmd->cmd_cookie++;
+   599		}
+   600		cmd->index = index;
+   601		cmd->cookie = nsock->cookie;
+   602		cmd->retries = 0;
+   603		request.type = htonl(type | nbd_cmd_flags);
+   604		if (type != NBD_CMD_FLUSH) {
+   605			request.from = cpu_to_be64((u64)blk_rq_pos(req) << 9);
+   606			request.len = htonl(size);
+   607		}
+   608		handle = nbd_cmd_handle(cmd);
+ > 609		request.cookie = handle;
+   610	
+   611		trace_nbd_send_request(&request, nbd->index, blk_mq_rq_from_pdu(cmd));
+   612	
+   613		dev_dbg(nbd_to_dev(nbd), "request %p: sending control (%s@%llu,%uB)\n",
+   614			req, nbdcmd_to_ascii(type),
+   615			(unsigned long long)blk_rq_pos(req) << 9, blk_rq_bytes(req));
+   616		result = sock_xmit(nbd, index, 1, &from,
+   617				(type == NBD_CMD_WRITE) ? MSG_MORE : 0, &sent);
+   618		trace_nbd_header_sent(req, handle);
+   619		if (result < 0) {
+   620			if (was_interrupted(result)) {
+   621				/* If we havne't sent anything we can just return BUSY,
+   622				 * however if we have sent something we need to make
+   623				 * sure we only allow this req to be sent until we are
+   624				 * completely done.
+   625				 */
+   626				if (sent) {
+   627					nsock->pending = req;
+   628					nsock->sent = sent;
+   629				}
+   630				set_bit(NBD_CMD_REQUEUED, &cmd->flags);
+   631				return BLK_STS_RESOURCE;
+   632			}
+   633			dev_err_ratelimited(disk_to_dev(nbd->disk),
+   634				"Send control failed (result %d)\n", result);
+   635			return -EAGAIN;
+   636		}
+   637	send_pages:
+   638		if (type != NBD_CMD_WRITE)
+   639			goto out;
+   640	
+   641		bio = req->bio;
+   642		while (bio) {
+   643			struct bio *next = bio->bi_next;
+   644			struct bvec_iter iter;
+   645			struct bio_vec bvec;
+   646	
+   647			bio_for_each_segment(bvec, bio, iter) {
+   648				bool is_last = !next && bio_iter_last(bvec, iter);
+   649				int flags = is_last ? 0 : MSG_MORE;
+   650	
+   651				dev_dbg(nbd_to_dev(nbd), "request %p: sending %d bytes data\n",
+   652					req, bvec.bv_len);
+   653				iov_iter_bvec(&from, ITER_SOURCE, &bvec, 1, bvec.bv_len);
+   654				if (skip) {
+   655					if (skip >= iov_iter_count(&from)) {
+   656						skip -= iov_iter_count(&from);
+   657						continue;
+   658					}
+   659					iov_iter_advance(&from, skip);
+   660					skip = 0;
+   661				}
+   662				result = sock_xmit(nbd, index, 1, &from, flags, &sent);
+   663				if (result < 0) {
+   664					if (was_interrupted(result)) {
+   665						/* We've already sent the header, we
+   666						 * have no choice but to set pending and
+   667						 * return BUSY.
+   668						 */
+   669						nsock->pending = req;
+   670						nsock->sent = sent;
+   671						set_bit(NBD_CMD_REQUEUED, &cmd->flags);
+   672						return BLK_STS_RESOURCE;
+   673					}
+   674					dev_err(disk_to_dev(nbd->disk),
+   675						"Send data failed (result %d)\n",
+   676						result);
+   677					return -EAGAIN;
+   678				}
+   679				/*
+   680				 * The completion might already have come in,
+   681				 * so break for the last one instead of letting
+   682				 * the iterator do it. This prevents use-after-free
+   683				 * of the bio.
+   684				 */
+   685				if (is_last)
+   686					break;
+   687			}
+   688			bio = next;
+   689		}
+   690	out:
+   691		trace_nbd_payload_sent(req, handle);
+   692		nsock->pending = NULL;
+   693		nsock->sent = 0;
+   694		return 0;
+   695	}
+   696	
+   697	static int nbd_read_reply(struct nbd_device *nbd, int index,
+   698				  struct nbd_reply *reply)
+   699	{
+   700		struct kvec iov = {.iov_base = reply, .iov_len = sizeof(*reply)};
+   701		struct iov_iter to;
+   702		int result;
+   703	
+   704		reply->magic = 0;
+   705		iov_iter_kvec(&to, ITER_DEST, &iov, 1, sizeof(*reply));
+   706		result = sock_xmit(nbd, index, 0, &to, MSG_WAITALL, NULL);
+   707		if (result < 0) {
+   708			if (!nbd_disconnected(nbd->config))
+   709				dev_err(disk_to_dev(nbd->disk),
+   710					"Receive control failed (result %d)\n", result);
+   711			return result;
+   712		}
+   713	
+   714		if (ntohl(reply->magic) != NBD_REPLY_MAGIC) {
+   715			dev_err(disk_to_dev(nbd->disk), "Wrong magic (0x%lx)\n",
+   716					(unsigned long)ntohl(reply->magic));
+   717			return -EPROTO;
+   718		}
+   719	
+   720		return 0;
+   721	}
+   722	
+   723	/* NULL returned = something went wrong, inform userspace */
+   724	static struct nbd_cmd *nbd_handle_reply(struct nbd_device *nbd, int index,
+   725						struct nbd_reply *reply)
+   726	{
+   727		int result;
+   728		struct nbd_cmd *cmd;
+   729		struct request *req = NULL;
+   730		u64 handle;
+   731		u16 hwq;
+   732		u32 tag;
+   733		int ret = 0;
+   734	
+ > 735		handle = reply->cookie;
+   736		tag = nbd_handle_to_tag(handle);
+   737		hwq = blk_mq_unique_tag_to_hwq(tag);
+   738		if (hwq < nbd->tag_set.nr_hw_queues)
+   739			req = blk_mq_tag_to_rq(nbd->tag_set.tags[hwq],
+   740					       blk_mq_unique_tag_to_tag(tag));
+   741		if (!req || !blk_mq_request_started(req)) {
+   742			dev_err(disk_to_dev(nbd->disk), "Unexpected reply (%d) %p\n",
+   743				tag, req);
+   744			return ERR_PTR(-ENOENT);
+   745		}
+   746		trace_nbd_header_received(req, handle);
+   747		cmd = blk_mq_rq_to_pdu(req);
+   748	
+   749		mutex_lock(&cmd->lock);
+   750		if (!test_bit(NBD_CMD_INFLIGHT, &cmd->flags)) {
+   751			dev_err(disk_to_dev(nbd->disk), "Suspicious reply %d (status %u flags %lu)",
+   752				tag, cmd->status, cmd->flags);
+   753			ret = -ENOENT;
+   754			goto out;
+   755		}
+   756		if (cmd->index != index) {
+   757			dev_err(disk_to_dev(nbd->disk), "Unexpected reply %d from different sock %d (expected %d)",
+   758				tag, index, cmd->index);
+   759			ret = -ENOENT;
+   760			goto out;
+   761		}
+   762		if (cmd->cmd_cookie != nbd_handle_to_cookie(handle)) {
+   763			dev_err(disk_to_dev(nbd->disk), "Double reply on req %p, cmd_cookie %u, handle cookie %u\n",
+   764				req, cmd->cmd_cookie, nbd_handle_to_cookie(handle));
+   765			ret = -ENOENT;
+   766			goto out;
+   767		}
+   768		if (cmd->status != BLK_STS_OK) {
+   769			dev_err(disk_to_dev(nbd->disk), "Command already handled %p\n",
+   770				req);
+   771			ret = -ENOENT;
+   772			goto out;
+   773		}
+   774		if (test_bit(NBD_CMD_REQUEUED, &cmd->flags)) {
+   775			dev_err(disk_to_dev(nbd->disk), "Raced with timeout on req %p\n",
+   776				req);
+   777			ret = -ENOENT;
+   778			goto out;
+   779		}
+   780		if (ntohl(reply->error)) {
+   781			dev_err(disk_to_dev(nbd->disk), "Other side returned error (%d)\n",
+   782				ntohl(reply->error));
+   783			cmd->status = BLK_STS_IOERR;
+   784			goto out;
+   785		}
+   786	
+   787		dev_dbg(nbd_to_dev(nbd), "request %p: got reply\n", req);
+   788		if (rq_data_dir(req) != WRITE) {
+   789			struct req_iterator iter;
+   790			struct bio_vec bvec;
+   791			struct iov_iter to;
+   792	
+   793			rq_for_each_segment(bvec, req, iter) {
+   794				iov_iter_bvec(&to, ITER_DEST, &bvec, 1, bvec.bv_len);
+   795				result = sock_xmit(nbd, index, 0, &to, MSG_WAITALL, NULL);
+   796				if (result < 0) {
+   797					dev_err(disk_to_dev(nbd->disk), "Receive data failed (result %d)\n",
+   798						result);
+   799					/*
+   800					 * If we've disconnected, we need to make sure we
+   801					 * complete this request, otherwise error out
+   802					 * and let the timeout stuff handle resubmitting
+   803					 * this request onto another connection.
+   804					 */
+   805					if (nbd_disconnected(nbd->config)) {
+   806						cmd->status = BLK_STS_IOERR;
+   807						goto out;
+   808					}
+   809					ret = -EIO;
+   810					goto out;
+   811				}
+   812				dev_dbg(nbd_to_dev(nbd), "request %p: got %d bytes data\n",
+   813					req, bvec.bv_len);
+   814			}
+   815		}
+   816	out:
+   817		trace_nbd_payload_received(req, handle);
+   818		mutex_unlock(&cmd->lock);
+   819		return ret ? ERR_PTR(ret) : cmd;
+   820	}
+   821	
 
 -- 
 0-DAY CI Kernel Test Service
