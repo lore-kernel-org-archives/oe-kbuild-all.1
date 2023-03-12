@@ -1,44 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230EF1848
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 05:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731D91854;
+	Sun, 12 Mar 2023 05:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678599855; x=1710135855;
+  t=1678599856; x=1710135856;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5rpbwkC/T7Ge8tXMUt4r72Ai90k4S0R5laITXbhGfzQ=;
-  b=SMYcPKN4FvM/J/8TH+FY83sjX2tAp9HjDNGKYazeRjrA3gHYNmlFlXSa
-   PtwqZ5129qbBkIluPmjx/9Jqj/Vov0M7YHavkgdIx5i13RaRhicnV90X3
-   v5Y2dW4yqbZJeLNfQkRAmNi5j3Cmg2rRwcsGgz1rIZWlRstBdNRZpcJo4
-   rL9QT08zpGeRatse/grN4BDqOPlNOhAXyo4XDqOVGEmRbXm9YxRiXH43+
-   8DhwcY1EraU1FUEhR8uqmwXtLbaATAouR/7nZHxFIwu2ZtvcVoxB5Yvnk
-   kB4W9KYalcH/pgGXXKZ71VPSeiEsGUDQ1D5DeWN+ioolrf6jgclhbba1z
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325319703"
+  bh=jsiQ5463Plb0MX2lmmrZElqxKltDLBI8xEWfXPARVpE=;
+  b=ZhLSdJ52nnTviJ2kwFIfA8CqL8NDxn5uVKpVQ9Sl75IWCJlwRxjTMKp2
+   jFnL8eoL6GFjhrAMO1Q+BJ9aU66G4rhu96i+dFpnxGT4BJI2bqSQ0SGP8
+   t7hwAC9qgveCnJn+oVhXxf0Nf4cXDBTZDAucfvU0kgHzPAe3cBJFcRfLD
+   WF7FNjZ3cBaq333mXlBgLUFGHBR5ZsnpW0srdxm0cTl5Erub8Crdt/G9f
+   yPs5/WLpNWatcDlUmk3oTRjxr7DEqgSCZusLbhuzFNco47XrLmqgUV9fX
+   Y8TmcoxX8R/D2gWfcWkaZ3+I38IZV3olmp4KxCVFU615D0/rRRMXKF2Q9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="320815927"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="325319703"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 21:44:14 -0800
+   d="scan'208";a="320815927"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 21:44:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="747203005"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="924123762"
 X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="747203005"
+   d="scan'208";a="924123762"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Mar 2023 21:44:13 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 11 Mar 2023 21:44:12 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbEVA-00051I-0O;
+	id 1pbEVA-00051F-0E;
 	Sun, 12 Mar 2023 05:44:12 +0000
-Date: Sun, 12 Mar 2023 13:43:38 +0800
+Date: Sun, 12 Mar 2023 13:43:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Subject: [drm-tip:drm-tip 5/7]
- drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:34: error: unused variable
- 'i915'
-Message-ID: <202303121304.7ijxTeDU-lkp@intel.com>
+ drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:27: warning: unused
+ variable 'i915'
+Message-ID: <202303121305.SUrb4Y2b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,28 +51,29 @@ Content-Disposition: inline
 tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
 head:   b21ced77ae1dbc3d8b01d3aef3c99bba7377a69b
 commit: 878ab630c6059f436bdf6bdef59f97eb5753a155 [5/7] Merge remote-tracking branch 'drm-intel/drm-intel-gt-next' into drm-tip
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230312/202303121304.7ijxTeDU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230312/202303121305.SUrb4Y2b-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
         git fetch --no-tags drm-tip drm-tip
         git checkout 878ab630c6059f436bdf6bdef59f97eb5753a155
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303121304.7ijxTeDU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121305.SUrb4Y2b-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gt/intel_workarounds.c: In function 'dg1_gt_workarounds_init':
->> drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:34: error: unused variable 'i915' [-Werror=unused-variable]
-    1479 |         struct drm_i915_private *i915 = gt->i915;
-         |                                  ^~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:27: warning: unused variable 'i915' [-Wunused-variable]
+           struct drm_i915_private *i915 = gt->i915;
+                                    ^
+   1 warning generated.
 
 
 vim +/i915 +1479 drivers/gpu/drm/i915/gt/intel_workarounds.c
