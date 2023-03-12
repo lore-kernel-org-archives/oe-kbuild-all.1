@@ -1,56 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6771103
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 02:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FC21103;
+	Sun, 12 Mar 2023 02:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678586956; x=1710122956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XmKC7vQVVfZU0bA+FbafUjgEDixlcV/5Wbr0HiZW5pQ=;
-  b=UynnqJgPPJswSg08eubYk78r14Gt/iRwC2lJGJsv4GqUgjOQEjTuuzYm
-   j5nufqTKk4D9kAtU6U/BU4Y0oNsjCSw41qfdkANYP+VL43ixkCoQVkHsN
-   GNwuTVOBCFCvcOpry4nhVN62sX0TVVVx+A0DvSaep016cdUawRA6+5asJ
-   wbeNdwHNSBOo8dcMdgrmgsDGUT+qHSz608PWpE7uMsuldMq9BUHLcrHOv
-   beoh+o2KaKnvWsoudFw4+A6tEiOwJfpwmiB4SLbfGS6U4nA2CCAZBvIxH
-   f1kphOmX2Do0D7msz5tVHjR0IQBE1oc6iPepO9CtKzmukAy2sB3DrLhO4
+  t=1678587551; x=1710123551;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gQvrLwymSeUYUBXN6bfNtx+lGaa0mkDDp6THoXHHbC4=;
+  b=cSy3WMWnz3GgmRtACgSN8FrQ5UETamHQmuaq4uq8gB0GWFG76SlwXJ66
+   oFVMEMZiJTavhwBkyEvYbjT727cZ4VRLxL6Bf5yuy4SEnn7P0wUJQAsD3
+   K8N2+6L778ARohcb/DfBkPANn463f93q8MjZYlIAlhv67JpE7xWH0/pfM
+   kHJOLIBFGZ8XHzYEREKWbgvR+/767R36KBQMtfJ3WnoggT4TYU7IIiNUA
+   AdQMip76yEoWDgoiax2mu2Nn9B+X6uPsORhAKAOvxYoQRsDDGd2kSMbNn
+   SzP4IoBfU9wgQq+3ctM/qZ2oQnB8plYuWhmtyN9rkLoMH9q5KfbUeFzbQ
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="364612600"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="401820516"
 X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="364612600"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 18:09:15 -0800
+   d="scan'208";a="401820516"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 18:19:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="678265676"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="710713107"
 X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="678265676"
+   d="scan'208";a="710713107"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Mar 2023 18:09:08 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Mar 2023 18:19:09 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbB92-0004vR-0f;
-	Sun, 12 Mar 2023 02:09:08 +0000
-Date: Sun, 12 Mar 2023 10:08:36 +0800
+	id 1pbBIi-0004vj-1G;
+	Sun, 12 Mar 2023 02:19:08 +0000
+Date: Sun, 12 Mar 2023 10:18:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brad Larson <blarson@amd.com>, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
-	adrian.hunter@intel.com, alcooperx@gmail.com,
-	andy.shevchenko@gmail.com, arnd@arndb.de, blarson@amd.com,
-	brendan.higgins@linux.dev, briannorris@chromium.org,
-	brijeshkumar.singh@amd.com, catalin.marinas@arm.com,
-	davidgow@google.com, gsomlo@gmail.com, gerg@linux-m68k.org,
-	krzk@kernel.org, krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-	lee.jones@linaro.org, broonie@kernel.org,
-	yamada.masahiro@socionext.com, p.zabel@pengutronix.de,
-	piotrs@cadence.com, p.yadav@ti.com, rdunlap@infradead.org,
-	robh+dt@kernel.org, samuel@sholland.org, fancer.lancer@gmail.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v11 15/15] soc: amd: Add support for AMD Pensando SoC
- Controller
-Message-ID: <202303120925.SxLjwOd2-lkp@intel.com>
-References: <20230312004445.15913-16-blarson@amd.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:sysctl-testing 43/44] net/sunrpc/sysctl.c:135:19: error: use
+ of undeclared identifier 'proc_dodebug'; did you mean 'rpc_debug'?
+Message-ID: <202303121035.WHHXW9OR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,142 +45,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230312004445.15913-16-blarson@amd.com>
 
-Hi Brad,
+Hi Luis,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brad-Larson/dt-bindings-arm-add-AMD-Pensando-boards/20230312-085000
-base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-patch link:    https://lore.kernel.org/r/20230312004445.15913-16-blarson%40amd.com
-patch subject: [PATCH v11 15/15] soc: amd: Add support for AMD Pensando SoC Controller
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230312/202303120925.SxLjwOd2-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git sysctl-testing
+head:   f66d0fcc0d9164174c2e72045110f43557649cad
+commit: 95e20e8aa440148ec8eed523ecc683e4dad15644 [43/44] sunrpc: move sunrpc_table and proc routines above
+config: x86_64-randconfig-a001 (https://download.01.org/0day-ci/archive/20230312/202303121035.WHHXW9OR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2a812dc8022120f2ff9130618bd33e8c678be177
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Brad-Larson/dt-bindings-arm-add-AMD-Pensando-boards/20230312-085000
-        git checkout 2a812dc8022120f2ff9130618bd33e8c678be177
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=95e20e8aa440148ec8eed523ecc683e4dad15644
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof sysctl-testing
+        git checkout 95e20e8aa440148ec8eed523ecc683e4dad15644
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/soc/amd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303120925.SxLjwOd2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121035.WHHXW9OR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/soc/amd/pensando-ctrl.c: In function 'penctrl_ioctl':
->> drivers/soc/amd/pensando-ctrl.c:97:44: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      97 |         if (copy_from_user((void *)tx_buf, (void __user *)msg->tx_buf, msg->len)) {
-         |                                            ^
-   drivers/soc/amd/pensando-ctrl.c:120:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     120 |         if (copy_to_user((void __user *)msg->rx_buf, (void *)rx_buf, msg->len))
-         |                          ^
+   In file included from net/sunrpc/sysctl.c:20:
+   In file included from include/linux/sunrpc/sched.h:19:
+   include/linux/sunrpc/xdr.h:753:10: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+           if (len > SIZE_MAX / sizeof(*p))
+               ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+>> net/sunrpc/sysctl.c:135:19: error: use of undeclared identifier 'proc_dodebug'; did you mean 'rpc_debug'?
+                   .proc_handler   = proc_dodebug
+                                     ^~~~~~~~~~~~
+                                     rpc_debug
+   net/sunrpc/sysctl.c:30:19: note: 'rpc_debug' declared here
+   EXPORT_SYMBOL_GPL(rpc_debug);
+                     ^
+   net/sunrpc/sysctl.c:142:19: error: use of undeclared identifier 'proc_dodebug'; did you mean 'rpc_debug'?
+                   .proc_handler   = proc_dodebug
+                                     ^~~~~~~~~~~~
+                                     rpc_debug
+   net/sunrpc/sysctl.c:30:19: note: 'rpc_debug' declared here
+   EXPORT_SYMBOL_GPL(rpc_debug);
+                     ^
+   net/sunrpc/sysctl.c:149:19: error: use of undeclared identifier 'proc_dodebug'; did you mean 'rpc_debug'?
+                   .proc_handler   = proc_dodebug
+                                     ^~~~~~~~~~~~
+                                     rpc_debug
+   net/sunrpc/sysctl.c:30:19: note: 'rpc_debug' declared here
+   EXPORT_SYMBOL_GPL(rpc_debug);
+                     ^
+   net/sunrpc/sysctl.c:156:19: error: use of undeclared identifier 'proc_dodebug'; did you mean 'rpc_debug'?
+                   .proc_handler   = proc_dodebug
+                                     ^~~~~~~~~~~~
+                                     rpc_debug
+   net/sunrpc/sysctl.c:30:19: note: 'rpc_debug' declared here
+   EXPORT_SYMBOL_GPL(rpc_debug);
+                     ^
+>> net/sunrpc/sysctl.c:162:19: error: use of undeclared identifier 'proc_do_xprt'
+                   .proc_handler   = proc_do_xprt,
+                                     ^
+   net/sunrpc/sysctl.c:178:1: warning: no previous prototype for function 'rpc_register_sysctl' [-Wmissing-prototypes]
+   rpc_register_sysctl(void)
+   ^
+   net/sunrpc/sysctl.c:177:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void
+   ^
+   static 
+   net/sunrpc/sysctl.c:185:1: warning: no previous prototype for function 'rpc_unregister_sysctl' [-Wmissing-prototypes]
+   rpc_unregister_sysctl(void)
+   ^
+   net/sunrpc/sysctl.c:184:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void
+   ^
+   static 
+   3 warnings and 5 errors generated.
 
 
-vim +97 drivers/soc/amd/pensando-ctrl.c
+vim +135 net/sunrpc/sysctl.c
 
-    35	
-    36	static long
-    37	penctrl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-    38	{
-    39		struct spi_transfer t[2] = { 0 };
-    40		struct penctrl_device *penctrl;
-    41		struct penctrl_spi_xfer *msg;
-    42		struct spi_device *spi_dev;
-    43		unsigned int num_msgs;
-    44		struct spi_message m;
-    45		u8 tx_buf[PENCTRL_MAX_MSG_LEN];
-    46		u8 rx_buf[PENCTRL_MAX_MSG_LEN];
-    47		u32 size;
-    48		int ret;
-    49	
-    50		/* Check for a valid command */
-    51		if (_IOC_TYPE(cmd) != PENCTRL_IOC_MAGIC)
-    52			return -ENOTTY;
-    53	
-    54		if (_IOC_NR(cmd) > PENCTRL_IOC_MAXNR)
-    55			return -ENOTTY;
-    56	
-    57		if (_IOC_DIR(cmd) & _IOC_READ)
-    58			ret = !access_ok((void __user *)arg, _IOC_SIZE(cmd));
-    59		else if (_IOC_DIR(cmd) & _IOC_WRITE)
-    60			ret = !access_ok((void __user *)arg, _IOC_SIZE(cmd));
-    61	
-    62		if (ret)
-    63			return -EFAULT;
-    64	
-    65		/* Get a reference to the SPI device */
-    66		penctrl = filp->private_data;
-    67		if (!penctrl)
-    68			return -ESHUTDOWN;
-    69	
-    70		spi_dev = spi_dev_get(penctrl->spi_dev);
-    71		if (!spi_dev)
-    72			return -ESHUTDOWN;
-    73	
-    74		/* Verify and prepare spi message */
-    75		size = _IOC_SIZE(cmd);
-    76		if ((size % sizeof(struct penctrl_spi_xfer)) != 0) {
-    77			ret = -EINVAL;
-    78			goto done;
-    79		}
-    80		num_msgs = size / sizeof(struct penctrl_spi_xfer);
-    81		if (num_msgs == 0) {
-    82			ret = -EINVAL;
-    83			goto done;
-    84		}
-    85		msg = memdup_user((struct penctrl_spi_xfer __user *)arg, size);
-    86		if (!msg) {
-    87			ret = PTR_ERR(msg);
-    88			goto done;
-    89		}
-    90		if (msg->len > PENCTRL_MAX_MSG_LEN) {
-    91			ret = -EINVAL;
-    92			goto done;
-    93		}
-    94	
-    95		t[0].tx_buf = tx_buf;
-    96		t[0].len = msg->len;
-  > 97		if (copy_from_user((void *)tx_buf, (void __user *)msg->tx_buf, msg->len)) {
-    98			ret = -EFAULT;
-    99			goto done;
-   100		}
-   101		if (num_msgs > 1) {
-   102			msg++;
-   103			if (msg->len > PENCTRL_MAX_MSG_LEN) {
-   104				ret = -EINVAL;
-   105				goto done;
-   106			}
-   107			t[1].rx_buf = rx_buf;
-   108			t[1].len = msg->len;
-   109		}
-   110		spi_message_init_with_transfers(&m, t, num_msgs);
-   111	
-   112		/* Perform the transfer */
-   113		mutex_lock(&spi_lock);
-   114		ret = spi_sync(spi_dev, &m);
-   115		mutex_unlock(&spi_lock);
-   116	
-   117		if (ret || (num_msgs == 1))
-   118			goto done;
-   119	
-   120		if (copy_to_user((void __user *)msg->rx_buf, (void *)rx_buf, msg->len))
-   121			ret = -EFAULT;
-   122	
-   123	done:
-   124		spi_dev_put(spi_dev);
-   125		return ret;
-   126	}
-   127	
+a246b0105bbd9a Chuck Lever       2005-08-11  128  
+fe2c6338fd2c6f Joe Perches       2013-06-11  129  static struct ctl_table debug_table[] = {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  130  	{
+^1da177e4c3f41 Linus Torvalds    2005-04-16  131  		.procname	= "rpc_debug",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  132  		.data		= &rpc_debug,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  133  		.maxlen		= sizeof(int),
+^1da177e4c3f41 Linus Torvalds    2005-04-16  134  		.mode		= 0644,
+6d4561110a3e9f Eric W. Biederman 2009-11-16 @135  		.proc_handler	= proc_dodebug
+^1da177e4c3f41 Linus Torvalds    2005-04-16  136  	},
+^1da177e4c3f41 Linus Torvalds    2005-04-16  137  	{
+^1da177e4c3f41 Linus Torvalds    2005-04-16  138  		.procname	= "nfs_debug",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  139  		.data		= &nfs_debug,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  140  		.maxlen		= sizeof(int),
+^1da177e4c3f41 Linus Torvalds    2005-04-16  141  		.mode		= 0644,
+6d4561110a3e9f Eric W. Biederman 2009-11-16  142  		.proc_handler	= proc_dodebug
+^1da177e4c3f41 Linus Torvalds    2005-04-16  143  	},
+^1da177e4c3f41 Linus Torvalds    2005-04-16  144  	{
+^1da177e4c3f41 Linus Torvalds    2005-04-16  145  		.procname	= "nfsd_debug",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  146  		.data		= &nfsd_debug,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  147  		.maxlen		= sizeof(int),
+^1da177e4c3f41 Linus Torvalds    2005-04-16  148  		.mode		= 0644,
+6d4561110a3e9f Eric W. Biederman 2009-11-16  149  		.proc_handler	= proc_dodebug
+^1da177e4c3f41 Linus Torvalds    2005-04-16  150  	},
+^1da177e4c3f41 Linus Torvalds    2005-04-16  151  	{
+^1da177e4c3f41 Linus Torvalds    2005-04-16  152  		.procname	= "nlm_debug",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  153  		.data		= &nlm_debug,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  154  		.maxlen		= sizeof(int),
+^1da177e4c3f41 Linus Torvalds    2005-04-16  155  		.mode		= 0644,
+6d4561110a3e9f Eric W. Biederman 2009-11-16  156  		.proc_handler	= proc_dodebug
+^1da177e4c3f41 Linus Torvalds    2005-04-16  157  	},
+dc9a16e49dbba3 Tom Tucker        2007-12-30  158  	{
+dc9a16e49dbba3 Tom Tucker        2007-12-30  159  		.procname	= "transports",
+dc9a16e49dbba3 Tom Tucker        2007-12-30  160  		.maxlen		= 256,
+dc9a16e49dbba3 Tom Tucker        2007-12-30  161  		.mode		= 0444,
+6d4561110a3e9f Eric W. Biederman 2009-11-16 @162  		.proc_handler	= proc_do_xprt,
+dc9a16e49dbba3 Tom Tucker        2007-12-30  163  	},
+f8572d8f2a2ba7 Eric W. Biederman 2009-11-05  164  	{ }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  165  };
+^1da177e4c3f41 Linus Torvalds    2005-04-16  166  
+
+:::::: The code at line 135 was first introduced by commit
+:::::: 6d4561110a3e9fa742aeec6717248a491dfb1878 sysctl: Drop & in front of every proc_handler.
+
+:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
+:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
 
 -- 
 0-DAY CI Kernel Test Service
