@@ -1,109 +1,104 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E87D1877
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 08:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678608440; x=1710144440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YmPy1TGrnZZKXeOcBlADYDdV8fSPWUUk6Ex8sYrXxqI=;
-  b=LWv2VZ+FtXpYW7OrH0irtjcUjJquX+hjjSh++7fULNdML6c27EF6N1Aw
-   Iki1T3F5CfVAEE7sP/Jz9QslPhRAHgSDkohviskEth1em+hNZiXyYRm4p
-   R8cSzNgtcE0xAO/69EuBcg8JEDNqdZfQVZOWM69oyd7zlN+jYz1vhFxvG
-   OJC6wI0OM13ShVz/PfSxYPGJGfW6lsQr4Zi50qvZiWBtPpB8lFQqdv9vI
-   LhY9Kkb5H96SSNgIUwcb7nXIyLFjLFCYJc11EDBDrKdG1zLlQia8ynZ+K
-   jRt0nbVKtRN2WQ/t5MUJjTaLhh8mI49GNj3v1lQSw63hgSXkKtTWjxSgX
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="364628160"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="364628160"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 00:07:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="628285419"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="628285419"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 Mar 2023 00:07:17 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pbGjc-00057l-1E;
-	Sun, 12 Mar 2023 08:07:16 +0000
-Date: Sun, 12 Mar 2023 16:06:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	lpieralisi@kernel.org, kw@linux.com
-Cc: oe-kbuild-all@lists.linux.dev, kishon@kernel.org, bhelgaas@google.com,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v2 1/7] PCI: endpoint: Pass EPF device ID to the probe
- function
-Message-ID: <202303121526.qVIG9eBb-lkp@intel.com>
-References: <20230307151416.176595-2-manivannan.sadhasivam@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9719BEC3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 22:46:52 +0000 (UTC)
+Received: from mercury (unknown [185.209.196.169])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 882006602F13;
+	Sun, 12 Mar 2023 22:46:44 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1678661204;
+	bh=MTii68UXbEJyigv+rC2VJmnMysj4S0AVTawLMJCZCS8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nsnYAxtv9e6JLpZfb5Dh6vIuxwGi6XBcOoi+cGhRpXjQGEOi4v6Na7aPxWkoeMzjq
+	 +VMB3XsdTBJWlqX71AXg4hfnWbQVVyh9rftK/Q/x/s7CG72QEfgoAr1TdA7ERK88X0
+	 eSC1ISYLVd/6gu/EtBrG2/Hlx5iV7OSzUUt1bcsAPl0ZXWiKL69+lMhjYjEMe3rzlH
+	 jhoAIsr8235La7BGG9diUcAvZq8F6GOzo8x4JrtmfmAZUTK2nJ3Rd11geGW2ylsfAi
+	 8Azn8zp40SVP/sEk85IWOfnibsk90JaQnwsMuas1EPYA8qZkzPxiiA3vhvRZYWnL/Y
+	 v2efZhdtX2jOw==
+Received: by mercury (Postfix, from userid 1000)
+	id 0D2C41060FD4; Sun, 12 Mar 2023 23:46:42 +0100 (CET)
+Date: Sun, 12 Mar 2023 23:46:41 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-pm@vger.kernel.org
+Subject: Re: drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse:
+ incorrect type in initializer (different base types)
+Message-ID: <1fdf00a0-4830-465a-801c-147472fdcd22@mercury.local>
+References: <202303110050.1EF6YVC5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dx3tdltyysw5wcwj"
+Content-Disposition: inline
+In-Reply-To: <202303110050.1EF6YVC5-lkp@intel.com>
+
+
+--dx3tdltyysw5wcwj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307151416.176595-2-manivannan.sadhasivam@linaro.org>
 
-Hi Manivannan,
+Hi Bjorn,
 
-I love your patch! Yet something to improve:
+Can you please send a follow up patch for the sparse warnings in
+qcom_battmgr [0]? It looks like there are two issues:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus jonmason-ntb/ntb-next linus/master v6.3-rc1 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+1. qcom_battmgr_update_request.battery_id is u32 instead of __le32
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/PCI-endpoint-Pass-EPF-device-ID-to-the-probe-function/20230307-232050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230307151416.176595-2-manivannan.sadhasivam%40linaro.org
-patch subject: [PATCH v2 1/7] PCI: endpoint: Pass EPF device ID to the probe function
-config: x86_64-randconfig-a016-20220905 (https://download.01.org/0day-ci/archive/20230312/202303121526.qVIG9eBb-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/26f2c0c8a0b85aceb28bc5688851fab125a55ac6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Manivannan-Sadhasivam/PCI-endpoint-Pass-EPF-device-ID-to-the-probe-function/20230307-232050
-        git checkout 26f2c0c8a0b85aceb28bc5688851fab125a55ac6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+2. qcom_battmgr_enable_worker is missing cpu_to_le32() when building
+   struct qcom_battmgr_enable_request
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303121526.qVIG9eBb-lkp@intel.com/
+[0] https://lore.kernel.org/all/202303110050.1EF6YVC5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+>    drivers/power/supply/qcom_battmgr.c:357:31: sparse:     expected unsigned int [usertype] battery_id
+>    drivers/power/supply/qcom_battmgr.c:357:31: sparse:     got restricted __le32 [usertype]
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse:     expected unsigned int [usertype] battery_id
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse:     got restricted __le32 [usertype]
+> >> drivers/power/supply/qcom_battmgr.c:1285:30: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] owner @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1285:30: sparse:     expected restricted __le32 [usertype] owner
+>    drivers/power/supply/qcom_battmgr.c:1285:30: sparse:     got int
+> >> drivers/power/supply/qcom_battmgr.c:1286:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1286:29: sparse:     expected restricted __le32 [usertype] type
+>    drivers/power/supply/qcom_battmgr.c:1286:29: sparse:     got int
+> >> drivers/power/supply/qcom_battmgr.c:1287:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] opcode @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1287:31: sparse:     expected restricted __le32 [usertype] opcode
+>    drivers/power/supply/qcom_battmgr.c:1287:31: sparse:     got int
 
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:1433:27: error: initialization of 'int (*)(struct pci_epf *, const struct pci_epf_device_id *)' from incompatible pointer type 'int (*)(struct pci_epf *)' [-Werror=incompatible-pointer-types]
-    1433 |         .probe          = epf_ntb_probe,
-         |                           ^~~~~~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1433:27: note: (near initialization for 'epf_ntb_driver.probe')
-   cc1: some warnings being treated as errors
+-- Sebastian
 
+--dx3tdltyysw5wcwj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +1433 drivers/pci/endpoint/functions/pci-epf-vntb.c
+-----BEGIN PGP SIGNATURE-----
 
-e35f56bb03304a Frank Li 2022-02-22  1430  
-e35f56bb03304a Frank Li 2022-02-22  1431  static struct pci_epf_driver epf_ntb_driver = {
-e35f56bb03304a Frank Li 2022-02-22  1432  	.driver.name    = "pci_epf_vntb",
-e35f56bb03304a Frank Li 2022-02-22 @1433  	.probe          = epf_ntb_probe,
-e35f56bb03304a Frank Li 2022-02-22  1434  	.id_table       = epf_ntb_ids,
-e35f56bb03304a Frank Li 2022-02-22  1435  	.ops            = &epf_ntb_ops,
-e35f56bb03304a Frank Li 2022-02-22  1436  	.owner          = THIS_MODULE,
-e35f56bb03304a Frank Li 2022-02-22  1437  };
-e35f56bb03304a Frank Li 2022-02-22  1438  
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmQOVksACgkQ2O7X88g7
++por+A//RI7dYm0hzeTkTcP+T3pb09fz6dwlsWcoLmzi00a5gu2EhtN/UQjhAqEN
+1slZ9k3PIfBzYFERJBSeIct6r9ysd8WP2e2XrL8ItMN/aGrdh9mYkd7l6vOZkrlb
+b/aNyO1aNPVik+qZOzy3fgDLIObbQxfPzHZ9bBQNBycp4qMtLAQ2oS7FcwTlrJ18
+pHhIKQ87kpf/u3rzR6V9iQguIoTgCKBKAg2bNUVjOveKKA2cmzRoLoB5R+Fc8Oke
+VOlCKUYttwXB+zYTTSoPIxJIOy32kFNiLFt10F3BJbS2SdhmdmWz7zC/VKlJB0Eu
+oVq8IvDzjBKWpT/+UB1c8lLBj8HJ52AT0J4VoweM3P+JWPuibhSx24FvsSEjPYzg
+j5bRxr0mlHrK35hyTRGAYvOIInX7REaMYsC0Cgup5z1GmA6zQdPptsnSTURCOOxU
+o+5H6qe3/++GqWXrd8xuoiXh5bzRVoLCo/fNg32536tdwMpQ2MkxSRZCaSUzCVbc
+twP75tMqE1iI0bgybNHbgsjMxueh1WnGEdAYgs+NXIAx1FGc5oAjj8AAeuN0L/ou
+vY/q20xEeXhb444Wc6ITadByYGsa9q/SQjglklJ98aRgVaus+oQn2H+RauL2HQSi
+zzaQ5D6AB6XM5G7v5Txyh6Wq4wF7YSW+RJKj5ZyKHiNBsMfQX0o=
+=bG3l
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--dx3tdltyysw5wcwj--
