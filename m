@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF90E4D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Mar 2023 04:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402DF15A0;
+	Sun, 12 Mar 2023 05:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678596134; x=1710132134;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mJtUokxHAmikr678ALxY4+VBPT8le8GHRbshyDEKzFQ=;
-  b=NazMylq6oxgQEKjotcwc6tS0GIwsd1A5QH6dpkW4LxjsIwCe6VBJk8em
-   fQXSYorN5YhUlZJvKtRKZjbc0sg2htxzchIlTIjbFKxxo29sRAyIsxFYq
-   3YOFAV78v6iTV8R67qwLYuhumO9OrTby4K49FZIQa3mcGzb3VR4aOqtow
-   nth8ZYv7ZvdtV9FPPIrodEFUmOsG29Oh1Tz14x+MYH6zlhR2B7MC/f5h0
-   JltNPGoOjPMNhFVaWwCouxTWpq/w7xNdNCvM2AzLkgINE1A37Jr7R090I
-   qlOPxLeENNWIG74JH4TMi0S2YGWmaX+bq/vzao3DIx/uAbDnQsSRgZWMs
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="320813801"
-X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="320813801"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 20:42:12 -0800
+  t=1678597994; x=1710133994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v8aXfeyTz6tm5vPZonw1jhwvy0f/MlJD8DSMZJtwbYc=;
+  b=EYx7pXCSdKIVVjJP3/0GwhSFEudh5YBL6Vri2DV050aAU/l5sJXRQSCj
+   eX7jUeJ1cFbCXAUy0cQTdI3qB1PjDDN6IjVoycsVt3FR/1kTMpZwQymtz
+   fyerMLTTmWLx3k+YJLX0MkIhkoTErEgUO5cCVugxQvJ69H0Ko5mnb5EhX
+   Hkp7PsMPwHpwSFpYdCSzMcXkIQj8rHsOVuBWZpX0j0Zn9QwMna6IjJ2cv
+   qQaXn4Ac2dIl6Kwcn9VS6j10iL77PTdTyI2tixT9Rh5AwzGiaQ74uN6Go
+   /q8bjYFDBt0CbY3R/hsBK2tX4VbNrndrBZzFbnZLDQxh7+742mc/HUMZS
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="364620203"
+X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
+   d="scan'208";a="364620203"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 21:13:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="628253644"
-X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="628253644"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="852365372"
+X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
+   d="scan'208";a="852365372"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 11 Mar 2023 20:42:11 -0800
+  by orsmga005.jf.intel.com with ESMTP; 11 Mar 2023 21:13:11 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbDX8-0004z7-1l;
-	Sun, 12 Mar 2023 04:42:10 +0000
-Date: Sun, 12 Mar 2023 12:41:44 +0800
+	id 1pbE19-0004zt-0Y;
+	Sun, 12 Mar 2023 05:13:11 +0000
+Date: Sun, 12 Mar 2023 13:12:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.2/prjc 295/371] kernel/sched/alt_core.c:2339:6: warning: no
- previous prototype for function 'sched_ttwu_pending'
-Message-ID: <202303121211.WTEzb2Uk-lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v6 6/6] ptp_ocp: implement DPLL ops
+Message-ID: <202303121343.kC8XYcdk-lkp@intel.com>
+References: <20230312022807.278528-7-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,237 +46,288 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230312022807.278528-7-vadfed@meta.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
-head:   66bb0e6d857d9b3bce5062779df9216e00986c6f
-commit: 758c39a103c58a35cb772408e0ceb8ff65399e12 [295/371] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
-config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230312/202303121211.WTEzb2Uk-lkp@intel.com/config)
+Hi Vadim,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc1 next-20230310]
+[cannot apply to tnguy-next-queue/dev-queue]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230312-103056
+patch link:    https://lore.kernel.org/r/20230312022807.278528-7-vadfed%40meta.com
+patch subject: [PATCH RFC v6 6/6] ptp_ocp: implement DPLL ops
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230312/202303121343.kC8XYcdk-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/758c39a103c58a35cb772408e0ceb8ff65399e12
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.2/prjc
-        git checkout 758c39a103c58a35cb772408e0ceb8ff65399e12
+        # https://github.com/intel-lab-lkp/linux/commit/fe16623a48f3c6592be80872758c19822b70ae62
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230312-103056
+        git checkout fe16623a48f3c6592be80872758c19822b70ae62
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dpll/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303121211.WTEzb2Uk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121343.kC8XYcdk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sched/alt_core.c:632:15: error: conflicting types for 'sched_cpu_util'
-   unsigned long sched_cpu_util(int cpu, unsigned long max)
-                 ^
-   include/linux/sched.h:2319:15: note: previous declaration is here
-   unsigned long sched_cpu_util(int cpu);
-                 ^
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for function 'resched_curr' [-Wmissing-prototypes]
-   void resched_curr(struct rq *rq)
-        ^
-   kernel/sched/alt_core.c:966:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_curr(struct rq *rq)
+>> drivers/dpll/dpll_core.c:285:1: warning: no previous prototype for function 'dpll_device_alloc' [-Wmissing-prototypes]
+   dpll_device_alloc(const u64 clock_id, u32 dev_driver_id, struct module *module)
+   ^
+   drivers/dpll/dpll_core.c:284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct dpll_device *
    ^
    static 
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for function 'resched_cpu' [-Wmissing-prototypes]
-   void resched_cpu(int cpu)
-        ^
-   kernel/sched/alt_core.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void resched_cpu(int cpu)
+>> drivers/dpll/dpll_core.c:439:1: warning: no previous prototype for function 'dpll_pin_alloc' [-Wmissing-prototypes]
+   dpll_pin_alloc(u64 clock_id, u8 device_drv_id,  struct module *module,
+   ^
+   drivers/dpll/dpll_core.c:438:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct dpll_pin *
    ^
    static 
-   kernel/sched/alt_core.c:1192:6: warning: no previous prototype for function 'hrtick_start' [-Wmissing-prototypes]
-   void hrtick_start(struct rq *rq, u64 delay)
-        ^
-   kernel/sched/alt_core.c:1192:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void hrtick_start(struct rq *rq, u64 delay)
-   ^
-   static 
->> kernel/sched/alt_core.c:2339:6: warning: no previous prototype for function 'sched_ttwu_pending' [-Wmissing-prototypes]
-   void sched_ttwu_pending(void *arg)
-        ^
-   kernel/sched/alt_core.c:2339:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_ttwu_pending(void *arg)
-   ^
-   static 
->> kernel/sched/alt_core.c:2372:6: warning: no previous prototype for function 'send_call_function_single_ipi' [-Wmissing-prototypes]
-   void send_call_function_single_ipi(int cpu)
-        ^
-   kernel/sched/alt_core.c:2372:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void send_call_function_single_ipi(int cpu)
-   ^
-   static 
-   kernel/sched/alt_core.c:4558:21: error: use of undeclared identifier 'PF_FROZEN'
-                                   !(prev->flags & PF_FROZEN);
-                                                   ^
-   kernel/sched/alt_core.c:4674:6: error: implicit declaration of function 'tsk_is_pi_blocked' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (tsk_is_pi_blocked(tsk))
+   2 warnings generated.
+--
+>> drivers/dpll/dpll_netlink.c:1062:13: warning: no previous prototype for function 'dpll_netlink_fini' [-Wmissing-prototypes]
+   void __exit dpll_netlink_fini(void)
                ^
-   kernel/sched/alt_core.c:4734:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
-   asmlinkage __visible void __sched schedule_user(void)
-                                     ^
-   kernel/sched/alt_core.c:4734:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage __visible void __sched schedule_user(void)
-                        ^
-                        static 
->> kernel/sched/alt_core.c:6770:6: warning: no previous prototype for function 'idle_task_exit' [-Wmissing-prototypes]
-   void idle_task_exit(void)
-        ^
-   kernel/sched/alt_core.c:6770:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void idle_task_exit(void)
+   drivers/dpll/dpll_netlink.c:1062:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __exit dpll_netlink_fini(void)
    ^
    static 
->> kernel/sched/alt_core.c:6980:5: warning: no previous prototype for function 'sched_cpu_activate' [-Wmissing-prototypes]
-   int sched_cpu_activate(unsigned int cpu)
-       ^
-   kernel/sched/alt_core.c:6980:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_cpu_activate(unsigned int cpu)
-   ^
-   static 
->> kernel/sched/alt_core.c:7019:5: warning: no previous prototype for function 'sched_cpu_deactivate' [-Wmissing-prototypes]
-   int sched_cpu_deactivate(unsigned int cpu)
-       ^
-   kernel/sched/alt_core.c:7019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_cpu_deactivate(unsigned int cpu)
-   ^
-   static 
->> kernel/sched/alt_core.c:7083:5: warning: no previous prototype for function 'sched_cpu_starting' [-Wmissing-prototypes]
-   int sched_cpu_starting(unsigned int cpu)
-       ^
-   kernel/sched/alt_core.c:7083:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_cpu_starting(unsigned int cpu)
-   ^
-   static 
->> kernel/sched/alt_core.c:7103:5: warning: no previous prototype for function 'sched_cpu_wait_empty' [-Wmissing-prototypes]
-   int sched_cpu_wait_empty(unsigned int cpu)
-       ^
-   kernel/sched/alt_core.c:7103:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_cpu_wait_empty(unsigned int cpu)
-   ^
-   static 
->> kernel/sched/alt_core.c:7145:5: warning: no previous prototype for function 'sched_cpu_dying' [-Wmissing-prototypes]
-   int sched_cpu_dying(unsigned int cpu)
-       ^
-   kernel/sched/alt_core.c:7145:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_cpu_dying(unsigned int cpu)
-   ^
-   static 
-   kernel/sched/alt_core.c:7226:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
-   void __init sched_init_smp(void)
-               ^
-   kernel/sched/alt_core.c:7226:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init_smp(void)
-   ^
-   static 
-   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
-   void __init sched_init(void)
-               ^
-   kernel/sched/alt_core.c:7278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init sched_init(void)
-   ^
-   static 
-   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for function 'sched_create_group' [-Wmissing-prototypes]
-   struct task_group *sched_create_group(struct task_group *parent)
-                      ^
-   kernel/sched/alt_core.c:7633:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct task_group *sched_create_group(struct task_group *parent)
-   ^
-   static 
-   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for function 'sched_online_group' [-Wmissing-prototypes]
-   void sched_online_group(struct task_group *tg, struct task_group *parent)
-        ^
-   kernel/sched/alt_core.c:7644:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_online_group(struct task_group *tg, struct task_group *parent)
-   ^
-   static 
-   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for function 'sched_destroy_group' [-Wmissing-prototypes]
-   void sched_destroy_group(struct task_group *tg)
-        ^
-   kernel/sched/alt_core.c:7655:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_destroy_group(struct task_group *tg)
-   ^
-   static 
-   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for function 'sched_release_group' [-Wmissing-prototypes]
-   void sched_release_group(struct task_group *tg)
-        ^
-   kernel/sched/alt_core.c:7661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void sched_release_group(struct task_group *tg)
-   ^
-   static 
-   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for function 'sched_group_set_shares' [-Wmissing-prototypes]
-   int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-       ^
-   kernel/sched/alt_core.c:7731:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-   ^
-   static 
-   kernel/sched/alt_core.c:7800:20: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           .legacy_cftypes = cpu_legacy_files,
-                             ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7799:20: note: previous initialization is here
-           .legacy_cftypes = cpu_files,
-                             ^~~~~~~~~
-   20 warnings and 3 errors generated.
+   1 warning generated.
 
 
-vim +/sched_ttwu_pending +2339 kernel/sched/alt_core.c
+vim +/dpll_device_alloc +285 drivers/dpll/dpll_core.c
 
-8b025fc742d760 Alfred Chen 2019-08-19  2337  
-8b025fc742d760 Alfred Chen 2019-08-19  2338  #ifdef CONFIG_SMP
-e39d8404e72561 Alfred Chen 2020-08-02 @2339  void sched_ttwu_pending(void *arg)
-f8991b9e3a5cad Alfred Chen 2020-07-29  2340  {
-e39d8404e72561 Alfred Chen 2020-08-02  2341  	struct llist_node *llist = arg;
-f8991b9e3a5cad Alfred Chen 2020-07-29  2342  	struct rq *rq = this_rq();
-f8991b9e3a5cad Alfred Chen 2020-07-29  2343  	struct task_struct *p, *t;
-f8991b9e3a5cad Alfred Chen 2020-07-29  2344  	struct rq_flags rf;
-f8991b9e3a5cad Alfred Chen 2020-07-29  2345  
-f8991b9e3a5cad Alfred Chen 2020-07-29  2346  	if (!llist)
-f8991b9e3a5cad Alfred Chen 2020-07-29  2347  		return;
-f8991b9e3a5cad Alfred Chen 2020-07-29  2348  
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2349  	/*
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2350  	 * rq::ttwu_pending racy indication of out-standing wakeups.
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2351  	 * Races such that false-negatives are possible, since they
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2352  	 * are shorter lived that false-positives would be.
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2353  	 */
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2354  	WRITE_ONCE(rq->ttwu_pending, 0);
-b466ff5f12b0b4 Alfred Chen 2020-08-02  2355  
-f8991b9e3a5cad Alfred Chen 2020-07-29  2356  	rq_lock_irqsave(rq, &rf);
-f8991b9e3a5cad Alfred Chen 2020-07-29  2357  	update_rq_clock(rq);
-f8991b9e3a5cad Alfred Chen 2020-07-29  2358  
-e4068f211f8300 Alfred Chen 2020-08-02  2359  	llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-9c686a903b7d25 Alfred Chen 2020-08-02  2360  		if (WARN_ON_ONCE(p->on_cpu))
-9c686a903b7d25 Alfred Chen 2020-08-02  2361  			smp_cond_load_acquire(&p->on_cpu, !VAL);
-9c686a903b7d25 Alfred Chen 2020-08-02  2362  
-9c686a903b7d25 Alfred Chen 2020-08-02  2363  		if (WARN_ON_ONCE(task_cpu(p) != cpu_of(rq)))
-9c686a903b7d25 Alfred Chen 2020-08-02  2364  			set_task_cpu(p, cpu_of(rq));
-9c686a903b7d25 Alfred Chen 2020-08-02  2365  
-f8991b9e3a5cad Alfred Chen 2020-07-29  2366  		ttwu_do_activate(rq, p, p->sched_remote_wakeup ? WF_MIGRATED : 0);
-9c686a903b7d25 Alfred Chen 2020-08-02  2367  	}
-9c686a903b7d25 Alfred Chen 2020-08-02  2368  
-f8991b9e3a5cad Alfred Chen 2020-07-29  2369  	rq_unlock_irqrestore(rq, &rf);
-f8991b9e3a5cad Alfred Chen 2020-07-29  2370  }
-f8991b9e3a5cad Alfred Chen 2020-07-29  2371  
-7c968298d72e8a Alfred Chen 2020-08-02 @2372  void send_call_function_single_ipi(int cpu)
-7c968298d72e8a Alfred Chen 2020-08-02  2373  {
-7c968298d72e8a Alfred Chen 2020-08-02  2374  	struct rq *rq = cpu_rq(cpu);
-7c968298d72e8a Alfred Chen 2020-08-02  2375  
-7c968298d72e8a Alfred Chen 2020-08-02  2376  	if (!set_nr_if_polling(rq->idle))
-7c968298d72e8a Alfred Chen 2020-08-02  2377  		arch_send_call_function_single_ipi(cpu);
-7c968298d72e8a Alfred Chen 2020-08-02  2378  	else
-7c968298d72e8a Alfred Chen 2020-08-02  2379  		trace_sched_wake_idle_without_ipi(cpu);
-7c968298d72e8a Alfred Chen 2020-08-02  2380  }
-7c968298d72e8a Alfred Chen 2020-08-02  2381  
-
-:::::: The code at line 2339 was first introduced by commit
-:::::: e39d8404e7256171faa653b4e7bb535ab3f435df sched/alt: [Sync] a148866489fb sched: Replace rq::wake_list
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+55b810a5137d33 Vadim Fedorenko 2023-03-11  269  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  270  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  271  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  272   * dpll_device_alloc - allocate the memory for dpll device
+55b810a5137d33 Vadim Fedorenko 2023-03-11  273   * @clock_id: clock_id of creator
+55b810a5137d33 Vadim Fedorenko 2023-03-11  274   * @dev_driver_id: id given by dev driver
+55b810a5137d33 Vadim Fedorenko 2023-03-11  275   * @module: reference to registering module
+55b810a5137d33 Vadim Fedorenko 2023-03-11  276   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  277   * Allocates memory and initialize dpll device, hold its reference on global
+55b810a5137d33 Vadim Fedorenko 2023-03-11  278   * xarray.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  279   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  280   * Return:
+55b810a5137d33 Vadim Fedorenko 2023-03-11  281   * * dpll_device struct pointer if succeeded
+55b810a5137d33 Vadim Fedorenko 2023-03-11  282   * * ERR_PTR(X) - failed allocation
+55b810a5137d33 Vadim Fedorenko 2023-03-11  283   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  284  struct dpll_device *
+55b810a5137d33 Vadim Fedorenko 2023-03-11 @285  dpll_device_alloc(const u64 clock_id, u32 dev_driver_id, struct module *module)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  286  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  287  	struct dpll_device *dpll;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  288  	int ret;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  289  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  290  	dpll = kzalloc(sizeof(*dpll), GFP_KERNEL);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  291  	if (!dpll)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  292  		return ERR_PTR(-ENOMEM);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  293  	refcount_set(&dpll->refcount, 1);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  294  	dpll->dev.class = &dpll_class;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  295  	dpll->dev_driver_id = dev_driver_id;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  296  	dpll->clock_id = clock_id;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  297  	dpll->module = module;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  298  	ret = xa_alloc(&dpll_device_xa, &dpll->id, dpll,
+55b810a5137d33 Vadim Fedorenko 2023-03-11  299  		       xa_limit_16b, GFP_KERNEL);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  300  	if (ret) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  301  		kfree(dpll);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  302  		return ERR_PTR(ret);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  303  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  304  	xa_init_flags(&dpll->pin_refs, XA_FLAGS_ALLOC);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  305  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  306  	return dpll;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  307  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  308  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  309  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  310   * dpll_device_get - find existing or create new dpll device
+55b810a5137d33 Vadim Fedorenko 2023-03-11  311   * @clock_id: clock_id of creator
+55b810a5137d33 Vadim Fedorenko 2023-03-11  312   * @dev_driver_id: id given by dev driver
+55b810a5137d33 Vadim Fedorenko 2023-03-11  313   * @module: reference to registering module
+55b810a5137d33 Vadim Fedorenko 2023-03-11  314   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  315   * Get existing object of a dpll device, unique for given arguments.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  316   * Create new if doesn't exist yet.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  317   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  318   * Return:
+55b810a5137d33 Vadim Fedorenko 2023-03-11  319   * * valid dpll_device struct pointer if succeeded
+55b810a5137d33 Vadim Fedorenko 2023-03-11  320   * * ERR_PTR of an error
+55b810a5137d33 Vadim Fedorenko 2023-03-11  321   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  322  struct dpll_device *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  323  dpll_device_get(u64 clock_id, u32 dev_driver_id, struct module *module)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  324  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  325  	struct dpll_device *dpll, *ret = NULL;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  326  	unsigned long index;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  327  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  328  	mutex_lock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  329  	xa_for_each(&dpll_device_xa, index, dpll) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  330  		if (dpll->clock_id == clock_id &&
+55b810a5137d33 Vadim Fedorenko 2023-03-11  331  		    dpll->dev_driver_id == dev_driver_id &&
+55b810a5137d33 Vadim Fedorenko 2023-03-11  332  		    dpll->module == module) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  333  			ret = dpll;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  334  			refcount_inc(&ret->refcount);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  335  			break;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  336  		}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  337  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  338  	if (!ret)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  339  		ret = dpll_device_alloc(clock_id, dev_driver_id, module);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  340  	mutex_unlock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  341  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  342  	return ret;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  343  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  344  EXPORT_SYMBOL_GPL(dpll_device_get);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  345  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  346  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  347   * dpll_device_put - decrease the refcount and free memory if possible
+55b810a5137d33 Vadim Fedorenko 2023-03-11  348   * @dpll: dpll_device struct pointer
+55b810a5137d33 Vadim Fedorenko 2023-03-11  349   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  350   * Drop reference for a dpll device, if all references are gone, delete
+55b810a5137d33 Vadim Fedorenko 2023-03-11  351   * dpll device object.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  352   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  353  void dpll_device_put(struct dpll_device *dpll)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  354  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  355  	if (!dpll)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  356  		return;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  357  	mutex_lock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  358  	if (refcount_dec_and_test(&dpll->refcount)) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  359  		WARN_ON_ONCE(!xa_empty(&dpll->pin_refs));
+55b810a5137d33 Vadim Fedorenko 2023-03-11  360  		xa_destroy(&dpll->pin_refs);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  361  		xa_erase(&dpll_device_xa, dpll->id);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  362  		kfree(dpll);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  363  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  364  	mutex_unlock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  365  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  366  EXPORT_SYMBOL_GPL(dpll_device_put);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  367  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  368  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  369   * dpll_device_register - register the dpll device in the subsystem
+55b810a5137d33 Vadim Fedorenko 2023-03-11  370   * @dpll: pointer to a dpll
+55b810a5137d33 Vadim Fedorenko 2023-03-11  371   * @type: type of a dpll
+55b810a5137d33 Vadim Fedorenko 2023-03-11  372   * @ops: ops for a dpll device
+55b810a5137d33 Vadim Fedorenko 2023-03-11  373   * @priv: pointer to private information of owner
+55b810a5137d33 Vadim Fedorenko 2023-03-11  374   * @owner: pointer to owner device
+55b810a5137d33 Vadim Fedorenko 2023-03-11  375   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  376   * Make dpll device available for user space.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  377   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  378   * Return:
+55b810a5137d33 Vadim Fedorenko 2023-03-11  379   * * 0 on success
+55b810a5137d33 Vadim Fedorenko 2023-03-11  380   * * -EINVAL on failure
+55b810a5137d33 Vadim Fedorenko 2023-03-11  381   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  382  int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
+55b810a5137d33 Vadim Fedorenko 2023-03-11  383  			 struct dpll_device_ops *ops, void *priv,
+55b810a5137d33 Vadim Fedorenko 2023-03-11  384  			 struct device *owner)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  385  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  386  	if (WARN_ON(!ops || !owner))
+55b810a5137d33 Vadim Fedorenko 2023-03-11  387  		return -EINVAL;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  388  	if (WARN_ON(type <= DPLL_TYPE_UNSPEC || type > DPLL_TYPE_MAX))
+55b810a5137d33 Vadim Fedorenko 2023-03-11  389  		return -EINVAL;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  390  	mutex_lock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  391  	if (ASSERT_DPLL_NOT_REGISTERED(dpll)) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  392  		mutex_unlock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  393  		return -EEXIST;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  394  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  395  	dpll->dev.bus = owner->bus;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  396  	dpll->parent = owner;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  397  	dpll->type = type;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  398  	dpll->ops = ops;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  399  	dev_set_name(&dpll->dev, "%s_%d", dev_name(owner),
+55b810a5137d33 Vadim Fedorenko 2023-03-11  400  		     dpll->dev_driver_id);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  401  	dpll->priv = priv;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  402  	xa_set_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  403  	mutex_unlock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  404  	dpll_notify_device_create(dpll);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  405  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  406  	return 0;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  407  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  408  EXPORT_SYMBOL_GPL(dpll_device_register);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  409  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  410  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  411   * dpll_device_unregister - deregister dpll device
+55b810a5137d33 Vadim Fedorenko 2023-03-11  412   * @dpll: registered dpll pointer
+55b810a5137d33 Vadim Fedorenko 2023-03-11  413   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  414   * Deregister device, make it unavailable for userspace.
+55b810a5137d33 Vadim Fedorenko 2023-03-11  415   * Note: It does not free the memory
+55b810a5137d33 Vadim Fedorenko 2023-03-11  416   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  417  void dpll_device_unregister(struct dpll_device *dpll)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  418  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  419  	mutex_lock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  420  	ASSERT_DPLL_REGISTERED(dpll);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  421  	xa_clear_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  422  	mutex_unlock(&dpll_device_xa_lock);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  423  	dpll_notify_device_delete(dpll);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  424  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  425  EXPORT_SYMBOL_GPL(dpll_device_unregister);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  426  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  427  /**
+55b810a5137d33 Vadim Fedorenko 2023-03-11  428   * dpll_pin_alloc - allocate the memory for dpll pin
+55b810a5137d33 Vadim Fedorenko 2023-03-11  429   * @clock_id: clock_id of creator
+55b810a5137d33 Vadim Fedorenko 2023-03-11  430   * @dev_driver_id: id given by dev driver
+55b810a5137d33 Vadim Fedorenko 2023-03-11  431   * @module: reference to registering module
+55b810a5137d33 Vadim Fedorenko 2023-03-11  432   * @prop: dpll pin properties
+55b810a5137d33 Vadim Fedorenko 2023-03-11  433   *
+55b810a5137d33 Vadim Fedorenko 2023-03-11  434   * Return:
+55b810a5137d33 Vadim Fedorenko 2023-03-11  435   * * valid allocated dpll_pin struct pointer if succeeded
+55b810a5137d33 Vadim Fedorenko 2023-03-11  436   * * ERR_PTR of an error
+55b810a5137d33 Vadim Fedorenko 2023-03-11  437   */
+55b810a5137d33 Vadim Fedorenko 2023-03-11  438  struct dpll_pin *
+55b810a5137d33 Vadim Fedorenko 2023-03-11 @439  dpll_pin_alloc(u64 clock_id, u8 device_drv_id,	struct module *module,
+55b810a5137d33 Vadim Fedorenko 2023-03-11  440  	       const struct dpll_pin_properties *prop)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  441  {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  442  	struct dpll_pin *pin;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  443  	int ret;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  444  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  445  	pin = kzalloc(sizeof(*pin), GFP_KERNEL);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  446  	if (!pin)
+55b810a5137d33 Vadim Fedorenko 2023-03-11  447  		return ERR_PTR(-ENOMEM);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  448  	pin->dev_driver_id = device_drv_id;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  449  	pin->clock_id = clock_id;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  450  	pin->module = module;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  451  	refcount_set(&pin->refcount, 1);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  452  	if (WARN_ON(!prop->description)) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  453  		ret = -EINVAL;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  454  		goto release;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  455  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  456  	pin->prop.description = kstrdup(prop->description, GFP_KERNEL);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  457  	if (!pin->prop.description) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  458  		ret = -ENOMEM;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  459  		goto release;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  460  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  461  	if (WARN_ON(prop->type <= DPLL_PIN_TYPE_UNSPEC ||
+55b810a5137d33 Vadim Fedorenko 2023-03-11  462  		    prop->type > DPLL_PIN_TYPE_MAX)) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  463  		ret = -EINVAL;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  464  		goto release;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  465  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  466  	pin->prop.type = prop->type;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  467  	pin->prop.capabilities = prop->capabilities;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  468  	pin->prop.freq_supported = prop->freq_supported;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  469  	pin->prop.any_freq_min = prop->any_freq_min;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  470  	pin->prop.any_freq_max = prop->any_freq_max;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  471  	xa_init_flags(&pin->dpll_refs, XA_FLAGS_ALLOC);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  472  	xa_init_flags(&pin->parent_refs, XA_FLAGS_ALLOC);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  473  	ret = xa_alloc(&dpll_pin_xa, &pin->idx, pin,
+55b810a5137d33 Vadim Fedorenko 2023-03-11  474  		       xa_limit_16b, GFP_KERNEL);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  475  release:
+55b810a5137d33 Vadim Fedorenko 2023-03-11  476  	if (ret) {
+55b810a5137d33 Vadim Fedorenko 2023-03-11  477  		xa_destroy(&pin->dpll_refs);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  478  		xa_destroy(&pin->parent_refs);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  479  		kfree(pin->prop.description);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  480  		kfree(pin->rclk_dev_name);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  481  		kfree(pin);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  482  		return ERR_PTR(ret);
+55b810a5137d33 Vadim Fedorenko 2023-03-11  483  	}
+55b810a5137d33 Vadim Fedorenko 2023-03-11  484  
+55b810a5137d33 Vadim Fedorenko 2023-03-11  485  	return pin;
+55b810a5137d33 Vadim Fedorenko 2023-03-11  486  }
+55b810a5137d33 Vadim Fedorenko 2023-03-11  487  
 
 -- 
 0-DAY CI Kernel Test Service
