@@ -1,41 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4749D8C17;
-	Mon, 13 Mar 2023 20:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F4D8F4E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 22:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678740827; x=1710276827;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Y1ThLjPjo5bnAdM0jpDoTnc4FDe1W9P1zHjKggvyrvk=;
-  b=js5ck9qINjaJbWBfw1zSwL7IRi1KTOYOrBvIF6P535tVSDFIwvWIqNCS
-   ZKDnVT8NoNTg+yJNGO1IHxQuFCoV6vcP1MV3JQ1JFSR4DO9eGt3Fu+u+j
-   2ww0+DfNwaTCIvN+Fc/JI2Ce4UrAlWnh2hhxQXEirATwEP8y4bH55jnBK
-   Z17lfWptzQugiQGuVRZY+bbUIUny+PU0py6Us36ehyriIgU2ojbKsUvvD
-   v4CK7hJRz801JWGDohildg48PBW9QJwjR4IvYvVjV2xWnxGiAETzQjTqx
-   AC7ZmN7VTE90KzsfTvqhiT0k2yI2rB2V4oznsPWQUFjtNrqvC3dajgOG6
+  t=1678748272; x=1710284272;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qca/1FB4IJf73J/1rMwLppRXhRCcYlJXxz50/bSwuXg=;
+  b=g9Td+RX9bIfp47/hrQlwIpBDn27OYsfa1EqvovvYTceXUbR/rNQMac1r
+   L9goMCdtulYXa26l6N4X+T1it8jwNa13Zco4RdtMdo/KqabNqHsgIDll6
+   /XH0PTZMPttnfY8PAAx04inn54YeH7sFYDbICkEjH7NWF4uydeQ7J8qf2
+   fWUpla2syTX03wccMlTJxOIMUEie8lFPGXiRxA7OxUJmQQ+Phy+YPA6Nr
+   /7UYVySp6UrJMl2sfFx5FoskFh6tIfDAWxuk4g9/DcvndDDS12VZSUrbt
+   9F+QmzrZ+J0SrZnfnH/4cRKLKI6t+xggbTRRhIkr6IRTGcamZObslm/fe
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="337281401"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="337281401"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 13:53:45 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334755692"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
+   d="scan'208";a="334755692"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 15:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="681180854"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="681180854"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="822139325"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
+   d="scan'208";a="822139325"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Mar 2023 13:53:44 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2023 15:57:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbpAt-00067E-2s;
-	Mon, 13 Mar 2023 20:53:43 +0000
-Date: Tue, 14 Mar 2023 04:53:30 +0800
+	id 1pbr6z-0006DR-2H;
+	Mon, 13 Mar 2023 22:57:49 +0000
+Date: Tue, 14 Mar 2023 06:57:22 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: ct_irq_enter+0x35: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202303140438.RQu7HYOs-lkp@intel.com>
+To: Kiran K <kiran.k@intel.com>, linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ravishankar.srivatsa@intel.com,
+	chethan.tumkur.narayan@intel.com, Kiran K <kiran.k@intel.com>
+Subject: Re: [PATCH v1] Bluetooth: btintel: Add support to reset bluetooth
+ via ACPI DSM
+Message-ID: <202303140634.L887SSqU-lkp@intel.com>
+References: <20230313151549.15791-1-kiran.k@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,99 +48,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230313151549.15791-1-kiran.k@intel.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Frederic Weisbecker <frederic@kernel.org>
-CC: "Paul E. McKenney" <paulmck@kernel.org>
-CC: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Hi Kiran,
 
-Hi Frederic,
+Thank you for the patch! Yet something to improve:
 
-FYI, the error/warning still remains.
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on linus/master v6.3-rc2 next-20230310]
+[cannot apply to bluetooth/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc89d7fb499b0162e081f434d45e8d1b47e82ece
-commit: 3864caafe7c66f01b188ffccb6a4215f3bf56292 rcu/context-tracking: Remove rcu_irq_enter/exit()
-date:   8 months ago
-config: x86_64-randconfig-k001-20230313 (https://download.01.org/0day-ci/archive/20230314/202303140438.RQu7HYOs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel-Add-support-to-reset-bluetooth-via-ACPI-DSM/20230313-230800
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20230313151549.15791-1-kiran.k%40intel.com
+patch subject: [PATCH v1] Bluetooth: btintel: Add support to reset bluetooth via ACPI DSM
+config: arc-randconfig-r043-20230313 (https://download.01.org/0day-ci/archive/20230314/202303140634.L887SSqU-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3864caafe7c66f01b188ffccb6a4215f3bf56292
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3864caafe7c66f01b188ffccb6a4215f3bf56292
+        # https://github.com/intel-lab-lkp/linux/commit/6a89221ddaa7b13fa1da2d345e61b2bf8efd5a87
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kiran-K/Bluetooth-btintel-Add-support-to-reset-bluetooth-via-ACPI-DSM/20230313-230800
+        git checkout 6a89221ddaa7b13fa1da2d345e61b2bf8efd5a87
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140438.RQu7HYOs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140634.L887SSqU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x87: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x56: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_start+0x6b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_enter+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_enter+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter+0x1e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_exit+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_exit+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_nmi_enter+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit+0x25: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x55: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x5c: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_irq_enter+0x35: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_irq_exit+0x35: call to ftrace_likely_update() leaves .noinstr.text section
+   drivers/bluetooth/btintel.c: In function 'btintel_set_dsm_reset_method':
+>> drivers/bluetooth/btintel.c:2450:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Werror=implicit-function-declaration]
+    2450 |         if (!acpi_has_method(handle, "_PRR")) {
+         |              ^~~~~~~~~~~~~~~
+         |              acpi_has_watchdog
+   cc1: some warnings being treated as errors
 
 
-objdump-func vmlinux.o ct_irq_enter:
-0000 0000000000004993 <ct_irq_enter>:
-0000     4993:	53                   	push   %rbx
-0001     4994:	83 3d 00 00 00 00 00 	cmpl   $0x0,0x0(%rip)        # 499b <ct_irq_enter+0x8>	4996: R_X86_64_PC32	debug_locks-0x5
-0008     499b:	74 0b                	je     49a8 <ct_irq_enter+0x15>
-000a     499d:	65 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%eax        # 49a4 <ct_irq_enter+0x11>	49a0: R_X86_64_PC32	lockdep_recursion-0x4
-0011     49a4:	85 c0                	test   %eax,%eax
-0013     49a6:	74 04                	je     49ac <ct_irq_enter+0x19>
-0015     49a8:	31 c0                	xor    %eax,%eax
-0017     49aa:	eb 0c                	jmp    49b8 <ct_irq_enter+0x25>
-0019     49ac:	65 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%eax        # 49b3 <ct_irq_enter+0x20>	49af: R_X86_64_PC32	hardirqs_enabled-0x4
-0020     49b3:	85 c0                	test   %eax,%eax
-0022     49b5:	0f 95 c0             	setne  %al
-0025     49b8:	0f b6 d8             	movzbl %al,%ebx
-0028     49bb:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	49be: R_X86_64_32S	_ftrace_annotated_branch+0x47b20
-002f     49c2:	89 de                	mov    %ebx,%esi
-0031     49c4:	31 d2                	xor    %edx,%edx
-0033     49c6:	31 c9                	xor    %ecx,%ecx
-0035     49c8:	e8 00 00 00 00       	call   49cd <ct_irq_enter+0x3a>	49c9: R_X86_64_PLT32	ftrace_likely_update-0x4
-003a     49cd:	84 db                	test   %bl,%bl
-003c     49cf:	74 04                	je     49d5 <ct_irq_enter+0x42>
-003e     49d1:	90                   	nop
-003f     49d2:	0f 0b                	ud2
-0041     49d4:	90                   	nop
-0042     49d5:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	49d8: R_X86_64_32S	_ftrace_annotated_branch+0x47b50
-0049     49dc:	89 de                	mov    %ebx,%esi
-004b     49de:	31 d2                	xor    %edx,%edx
-004d     49e0:	31 c9                	xor    %ecx,%ecx
-004f     49e2:	e8 00 00 00 00       	call   49e7 <ct_irq_enter+0x54>	49e3: R_X86_64_PLT32	ftrace_likely_update-0x4
-0054     49e7:	5b                   	pop    %rbx
-0055     49e8:	e9 00 00 00 00       	jmp    49ed <ct_nmi_enter>	49e9: R_X86_64_PLT32	ct_nmi_enter-0x4
+vim +2450 drivers/bluetooth/btintel.c
+
+  2430	
+  2431	static void btintel_set_dsm_reset_method(struct hci_dev *hdev,
+  2432						 struct intel_version_tlv *ver_tlv)
+  2433	{
+  2434		struct btintel_data *data = hci_get_priv(hdev);
+  2435		acpi_handle handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
+  2436		u8 reset_payload[4] = {0x01, 0x00, 0x01, 0x00};
+  2437		union acpi_object *obj, argv4;
+  2438		enum {
+  2439			RESET_TYPE_WDISABLE2,
+  2440			RESET_TYPE_VSEC
+  2441		};
+  2442	
+  2443		handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
+  2444	
+  2445		if (!handle) {
+  2446			bt_dev_dbg(hdev, "No support for bluetooth device in ACPI firmware");
+  2447			return;
+  2448		}
+  2449	
+> 2450		if (!acpi_has_method(handle, "_PRR")) {
+  2451			bt_dev_err(hdev, "No support for _PRR ACPI method");
+  2452			return;
+  2453		}
+  2454	
+  2455		switch (ver_tlv->cnvi_top & 0xfff) {
+  2456		case 0x910: /* GalePeak2 */
+  2457			reset_payload[2] = RESET_TYPE_VSEC;
+  2458			break;
+  2459		default:
+  2460			/* WDISABLE2 is the default reset method */
+  2461			reset_payload[2] = RESET_TYPE_WDISABLE2;
+  2462	
+  2463			if (!acpi_check_dsm(handle, &btintel_guid_dsm, 0,
+  2464					    BIT(DSM_SET_WDISABLE2_DELAY))) {
+  2465				bt_dev_err(hdev, "No dsm support to set reset delay");
+  2466				return;
+  2467			}
+  2468			argv4.integer.type = ACPI_TYPE_INTEGER;
+  2469			/* delay required to toggle BT power */
+  2470			argv4.integer.value = 160;
+  2471			obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
+  2472						DSM_SET_WDISABLE2_DELAY, &argv4);
+  2473			if (!obj) {
+  2474				bt_dev_err(hdev, "Failed to call dsm to set reset delay");
+  2475				return;
+  2476			}
+  2477			ACPI_FREE(obj);
+  2478		}
+  2479	
+  2480		bt_dev_info(hdev, "DSM reset method type: 0x%02x", reset_payload[2]);
+  2481	
+  2482		if (!acpi_check_dsm(handle, &btintel_guid_dsm, 0,
+  2483				    DSM_SET_RESET_METHOD)) {
+  2484			bt_dev_warn(hdev, "No support for dsm to set reset method");
+  2485			return;
+  2486		}
+  2487		argv4.buffer.type = ACPI_TYPE_BUFFER;
+  2488		argv4.buffer.length = sizeof(reset_payload);
+  2489		argv4.buffer.pointer = reset_payload;
+  2490	
+  2491		obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
+  2492					DSM_SET_RESET_METHOD, &argv4);
+  2493		if (!obj) {
+  2494			bt_dev_err(hdev, "Failed to call dsm to set reset method");
+  2495			return;
+  2496		}
+  2497		ACPI_FREE(obj);
+  2498		data->acpi_reset_method = btintel_acpi_reset_method;
+  2499	}
+  2500	
 
 -- 
 0-DAY CI Kernel Test Service
