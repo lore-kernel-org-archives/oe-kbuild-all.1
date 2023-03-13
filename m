@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF7E23A7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 09:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBE023A7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 09:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678699447; x=1710235447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5eKna93qlCchLz0TuRcweLqy+k1PfjGuBiQVGMdnOaU=;
-  b=T7sNVI79I64kaMDDCzTssIi6h/wZxdwsDw/17dbCytgjr/zmc1Ob6o6b
-   LjdkwpA+mIBrkuPFnrkbQJXKFE9egpnkoQAIrdpet7CJ7YiTzQTgp0crl
-   uH1I6n+7ooepirIFsU2g0vd8BYaiohpaIC7cNPV58qLr/f1w4acrMc9df
-   /k2NIJmeDFjSeATXzWTsC6qm4LT8oM4vJWw0sQqUtoFb/LcJGd/JhgDoD
-   w4V5VVCB0+JZuSwKXUywa/yG6IZ7jyFcf7LO/WNs24pTgcmmUS4/g5Eq0
-   2wLQ614Id7Rapo9HnXqNihyDlA2uCEyh/1y+8KOCzoqC7QEPc24EPN4FC
+  t=1678700710; x=1710236710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/T6IuNMp9hcjQyUHOMww1SBI2NJsOyDeL0Q9XjSabwA=;
+  b=Z/CpS8q+LZX+x/L4a7OggODagTXNJHL1KZVvQsWiIJdMMifaIryp02Dm
+   T1Npd2VXVI4UZdg70E6Q95XuNa8Kozvw+HrKA8fJkAR3kdmk1Gsjiuows
+   j+nAeWoYo43BFg6l+GK1dsYknCVIFIHvzgkUQOLEv+Xbr8azLOjEPPqL8
+   00Pqmp2UyJgd749/zCFH1DGWuFf7CoqXWT9y2p6ii5QgzA4uLd/iJ3Ed2
+   BlvrXcPqBtSiMggOOg0DguEs/er73bY1O07wbTdCz8MazVrS25lli70p4
+   VZsG4JxGzX9eV8FArN7+Y65H+J8IMU0zD6Gn/sPWPBjIuVsx0SV2pMXCn
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="423367142"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="334582267"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="423367142"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:24:06 -0700
+   d="scan'208";a="334582267"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:45:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="1007916813"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="711063569"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="1007916813"
+   d="scan'208";a="711063569"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Mar 2023 02:24:05 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Mar 2023 02:45:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbePV-0005VR-0B;
-	Mon, 13 Mar 2023 09:24:05 +0000
-Date: Mon, 13 Mar 2023 17:23:36 +0800
+	id 1pbejr-0005X4-2i;
+	Mon, 13 Mar 2023 09:45:07 +0000
+Date: Mon, 13 Mar 2023 17:44:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:01.03-gsp-ada 55/68]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:644:71: error: passing
- argument 3 of 'dma_alloc_coherent' from incompatible pointer type
-Message-ID: <202303131754.uLxeNA0X-lkp@intel.com>
+To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Naohiro Aota <naohiro.aota@wdc.com>
+Subject: Re: [PATCH 1/2] btrfs: zoned: count fresh BG region as zone unusable
+Message-ID: <202303131759.8M0pXaNR-lkp@intel.com>
+References: <bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,74 +46,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota@wdc.com>
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
-head:   89da5e5109a92f4be025e40b80d1f1a6c1d6d8c7
-commit: da80f989581a7be4549c3459d0f073c0d6e808fb [55/68] WIPdrm/nouveau/gsp/tu102-: add support for booting GSP-RM
-config: csky-randconfig-r031-20230313 (https://download.01.org/0day-ci/archive/20230313/202303131754.uLxeNA0X-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Naohiro,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.3-rc2 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230313-150709
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota%40wdc.com
+patch subject: [PATCH 1/2] btrfs: zoned: count fresh BG region as zone unusable
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230313/202303131759.8M0pXaNR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add skeggsb-nouveau https://gitlab.freedesktop.org/skeggsb/nouveau
-        git fetch --no-tags skeggsb-nouveau 01.03-gsp-ada
-        git checkout da80f989581a7be4549c3459d0f073c0d6e808fb
+        # https://github.com/intel-lab-lkp/linux/commit/c266ae6ba937488d8339e586ebcc8c93d3389eb0
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230313-150709
+        git checkout c266ae6ba937488d8339e586ebcc8c93d3389eb0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/gpu/drm/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/btrfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303131754.uLxeNA0X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303131759.8M0pXaNR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c: In function 'nvkm_gsp_mem_ctor':
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:644:71: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     644 |         mem->data = dma_alloc_coherent(gsp->subdev.device->dev, size, &mem->addr, GFP_KERNEL);
-         |                                                                       ^~~~~~~~~~
-         |                                                                       |
-         |                                                                       u64 * {aka long long unsigned int *}
-   In file included from arch/csky/include/asm/pci.h:8,
-                    from include/linux/pci.h:1967,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:22:
-   include/linux/dma-mapping.h:421:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     421 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c: In function 'r525_gsp_oneinit':
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c:1119:58: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1119 |                                                          &gsp->radix3[i].addr, GFP_KERNEL);
-         |                                                          ^~~~~~~~~~~~~~~~~~~~
-         |                                                          |
-         |                                                          u64 * {aka long long unsigned int *}
-   include/linux/dma-mapping.h:421:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     421 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/kernel.h:22,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/pagemap.h:8,
+                    from fs/btrfs/free-space-cache.c:6:
+   fs/btrfs/free-space-cache.c: In function '__btrfs_add_free_space_zoned':
+>> fs/btrfs/free-space-cache.c:2700:27: error: 'BTRFS_FS_ACTIVE_ZONE_TRACKING' undeclared (first use in this function)
+    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
+      49 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   fs/btrfs/free-space-cache.c:2700:18: note: in expansion of macro 'test_bit'
+    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+         |                  ^~~~~~~~
+   fs/btrfs/free-space-cache.c:2700:27: note: each undeclared identifier is reported only once for each function it appears in
+    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
+      49 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   fs/btrfs/free-space-cache.c:2700:18: note: in expansion of macro 'test_bit'
+    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+         |                  ^~~~~~~~
+--
+   In file included from fs/btrfs/zoned.c:3:
+   fs/btrfs/zoned.c: In function 'btrfs_calc_zone_unusable':
+>> fs/btrfs/zoned.c:1586:22: error: 'BTRFS_FS_ACTIVE_ZONE_TRACKING' undeclared (first use in this function)
+    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
+      49 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   fs/btrfs/zoned.c:1586:13: note: in expansion of macro 'test_bit'
+    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
+         |             ^~~~~~~~
+   fs/btrfs/zoned.c:1586:22: note: each undeclared identifier is reported only once for each function it appears in
+    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
+      49 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   fs/btrfs/zoned.c:1586:13: note: in expansion of macro 'test_bit'
+    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
+         |             ^~~~~~~~
 
 
-vim +/dma_alloc_coherent +644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r525.c
+vim +/BTRFS_FS_ACTIVE_ZONE_TRACKING +2700 fs/btrfs/free-space-cache.c
 
-   639	
-   640	static int
-   641	nvkm_gsp_mem_ctor(struct nvkm_gsp *gsp, u32 size, struct nvkm_gsp_mem *mem)
-   642	{
-   643		mem->size = size;
- > 644		mem->data = dma_alloc_coherent(gsp->subdev.device->dev, size, &mem->addr, GFP_KERNEL);
-   645		if (WARN_ON(!mem->data))
-   646			return -ENOMEM;
-   647	
-   648		return 0;
-   649	}
-   650	
+  2678	
+  2679	static int __btrfs_add_free_space_zoned(struct btrfs_block_group *block_group,
+  2680						u64 bytenr, u64 size, bool used)
+  2681	{
+  2682		struct btrfs_space_info *sinfo = block_group->space_info;
+  2683		struct btrfs_free_space_ctl *ctl = block_group->free_space_ctl;
+  2684		u64 offset = bytenr - block_group->start;
+  2685		u64 to_free, to_unusable;
+  2686		int bg_reclaim_threshold = 0;
+  2687		bool initial = (size == block_group->length);
+  2688		u64 reclaimable_unusable;
+  2689	
+  2690		WARN_ON(!initial && offset + size > block_group->zone_capacity);
+  2691	
+  2692		if (!initial)
+  2693			bg_reclaim_threshold = READ_ONCE(sinfo->bg_reclaim_threshold);
+  2694	
+  2695		spin_lock(&ctl->tree_lock);
+  2696		/* Count initial region as zone_unusable until it gets activated. */
+  2697		if (!used)
+  2698			to_free = size;
+  2699		else if (initial &&
+> 2700			 test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
+  2701			 block_group->flags & (BTRFS_BLOCK_GROUP_METADATA | BTRFS_BLOCK_GROUP_SYSTEM))
+  2702			to_free = 0;
+  2703		else if (initial)
+  2704			to_free = block_group->zone_capacity;
+  2705		else if (offset >= block_group->alloc_offset)
+  2706			to_free = size;
+  2707		else if (offset + size <= block_group->alloc_offset)
+  2708			to_free = 0;
+  2709		else
+  2710			to_free = offset + size - block_group->alloc_offset;
+  2711		to_unusable = size - to_free;
+  2712	
+  2713		ctl->free_space += to_free;
+  2714		/*
+  2715		 * If the block group is read-only, we should account freed space into
+  2716		 * bytes_readonly.
+  2717		 */
+  2718		if (!block_group->ro)
+  2719			block_group->zone_unusable += to_unusable;
+  2720		spin_unlock(&ctl->tree_lock);
+  2721		if (!used) {
+  2722			spin_lock(&block_group->lock);
+  2723			block_group->alloc_offset -= size;
+  2724			spin_unlock(&block_group->lock);
+  2725		}
+  2726	
+  2727		reclaimable_unusable = block_group->zone_unusable -
+  2728				       (block_group->length - block_group->zone_capacity);
+  2729		/* All the region is now unusable. Mark it as unused and reclaim */
+  2730		if (block_group->zone_unusable == block_group->length &&
+  2731		    block_group->alloc_offset) {
+  2732			btrfs_mark_bg_unused(block_group);
+  2733		} else if (bg_reclaim_threshold &&
+  2734			   reclaimable_unusable >=
+  2735			   mult_perc(block_group->zone_capacity, bg_reclaim_threshold)) {
+  2736			btrfs_mark_bg_to_reclaim(block_group);
+  2737		}
+  2738	
+  2739		return 0;
+  2740	}
+  2741	
 
 -- 
 0-DAY CI Kernel Test Service
