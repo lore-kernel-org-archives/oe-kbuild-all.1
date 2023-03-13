@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA55184F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 05:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F63184F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 06:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678686524; x=1710222524;
+  t=1678687205; x=1710223205;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fTe5COlRH3nMIvS/fnBmV57fdGBoBxGzmiUuVUaFyPs=;
-  b=gwpP2/7aaPngPu24NI6EQmrgTjjNn4LB3twiGw7j8z4cdUIAxhNpcxcc
-   g62eHo3xdBPWEL54rAhyIU757vrTJEqyXyegLplwem4FSm850LNhyLc0A
-   oF7WVTIRCni5CL25zKSxwogy8CvqfnEo9Xl9JdUTZQhwnpd6NLYRjkS/C
-   XJbLtGkFqwu2DyIg7fSm2e6oTC2rtoBFR8G4BEta2VGGppJVfFrng/r6O
-   PnwbUY4A7dzNEb3t4xVtZ1VAbwwZKgzcpP5s4suA3iSB+RJwJLaY7W/BN
-   7LiGZVG67jxtn9zYETaA6yhOMBLgTUJHzbEJK1VI7PzLnnt6uAvspB48P
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="339436338"
+  bh=9LAgopaploPZACqsNNZorDiLqTiT+gwaURiirAok+Js=;
+  b=jcbAT/62RuBkVWKEJj8i84i7QOjN2x//JQPE8Z8EK7NFZg2Dt9bmuT56
+   4gbtzWDEpZN5WgszLO2pueyD7mUrqxyvtrpujPr38/2vIxFHGPDb9zr6x
+   oE98LPwU2wF1aM3a7x1rJyOmRu5ugs/R8jyJdJCjalzRvwS0vBRZDIWtc
+   Qgikz3oOz6WpZMm3YZtMsG/Xg5p2KZX2lOtjY8W000EsfANeoRUsV794E
+   fNE8mnpnbpVNwEbuXJuvwhl/FWERwlyqn+8sm0TTNf8BWr7j60LzIQpGJ
+   IdCNNoCYtwPuw/3wf+hET7KNog7EFG7KUJQ/NrNffuGmb392/9OpG+Dh0
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="401936817"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="339436338"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 22:48:43 -0700
+   d="scan'208";a="401936817"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 22:59:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="788796857"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="678567816"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="788796857"
+   d="scan'208";a="678567816"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Mar 2023 22:48:42 -0700
+  by orsmga002.jf.intel.com with ESMTP; 12 Mar 2023 22:59:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbb34-0005IC-0E;
-	Mon, 13 Mar 2023 05:48:42 +0000
-Date: Mon, 13 Mar 2023 13:48:36 +0800
+	id 1pbbDi-0005Ig-1H;
+	Mon, 13 Mar 2023 05:59:42 +0000
+Date: Mon, 13 Mar 2023 13:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/vfio_device_cdev_v7_candidate 18/32]
- drivers/vfio/vfio_main.c:1281: warning: This comment starts with '/**', but
- isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202303131347.8kMnnhVH-lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: include/linux/compiler_types.h:328:45: error: call to
+ '__compiletime_assert_290' declared with attribute error: BUILD_BUG_ON
+ failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+Message-ID: <202303131346.U0sUkZH1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +48,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/vfio_device_cdev_v7_candidate
-head:   e3cf0848eac9960f7ecb898d997a9e8200d552b0
-commit: 5c5adb99ef9957a0f7d0b7c926d656542e3a681e [18/32] vfio/pci: Accept device fd in VFIO_DEVICE_PCI_HOT_RESET ioctl
-config: x86_64-randconfig-a012-20230313 (https://download.01.org/0day-ci/archive/20230313/202303131347.8kMnnhVH-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Vineet,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eeac8ede17557680855031c6f305ece2378af326
+commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
+date:   1 year, 7 months ago
+config: arc-randconfig-r034-20230312 (https://download.01.org/0day-ci/archive/20230313/202303131346.U0sUkZH1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/yiliu1765/iommufd/commit/5c5adb99ef9957a0f7d0b7c926d656542e3a681e
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd wip/vfio_device_cdev_v7_candidate
-        git checkout 5c5adb99ef9957a0f7d0b7c926d656542e3a681e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9820ff76f95fa26d33e412254a89cd65b23142d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d9820ff76f95fa26d33e412254a89cd65b23142d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/vfio/ net/sunrpc/auth_gss/auth_rpcgss.ko
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303131347.8kMnnhVH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303131346.U0sUkZH1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/vfio/vfio_main.c:1281: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Return true if the input file is a vfio device file and has opened
+   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
+      35 | long __init arc_get_mem_sz(void)
+         |             ^~~~~~~~~~~~~~
+   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
+      88 | void __init setup_arch_memory(void)
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/arc/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_290' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
+     309 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/init.c:194:9: note: in expansion of macro 'BUILD_BUG_ON'
+     194 |         BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
+         |         ^~~~~~~~~~~~
 
 
-vim +1281 drivers/vfio/vfio_main.c
+vim +/__compiletime_assert_290 +328 include/linux/compiler_types.h
 
-  1279	
-  1280	/**
-> 1281	 * Return true if the input file is a vfio device file and has opened
-  1282	 * the input device. Otherwise, return false.
-  1283	 */
-  1284	static bool vfio_file_has_device_access(struct file *file,
-  1285						struct vfio_device *device)
-  1286	{
-  1287		struct vfio_device *vdev = vfio_device_from_file(file);
-  1288		struct vfio_device_file *df;
-  1289	
-  1290		if (!vdev || vdev != device)
-  1291			return false;
-  1292	
-  1293		df = file->private_data;
-  1294	
-  1295		return READ_ONCE(df->access_granted);
-  1296	}
-  1297	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
