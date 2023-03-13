@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0333A2F45;
-	Mon, 13 Mar 2023 16:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87A42F45
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 17:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678726594; x=1710262594;
+  t=1678727194; x=1710263194;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zD13Ckz6EK9mreFo9v1e3TxNTwk0HugqznginmxynRg=;
-  b=EXM5IfYhl1kHVKzwrDA568lT53HkhwPpWWLc1bp6mBHog5irOfUJQd3I
-   eunXKMKrRVKDFrzcQbBTm4+OzxwFXE3lyed+258HTLBTC98xZpAfZU8ub
-   Mpg6yhMlXooKcZI4xbCH1x2aQHYmF305QVx/sdBan5zCR+u08UrQam0A3
-   0kEJCgZ3g+lI8Q2Siau5Sn7FD5yA9tWWKbmG50Lk9oArcQ+REZuVfNU5C
-   AXJEHzq8Rkevm+PCE6m/z7sAXY+PIFEc2kD1cSOyzsN2El0HAU7BvIdRO
-   CgPwDdXdOnQ4nBb/99HPA/iftKnffz5qheaaehueZC6R4Nf1p8+wNrzMM
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399792966"
+  bh=inA6SFwkeIINKc/hXRs0COv3aYVnHnCD+JAYP4E2f5U=;
+  b=fFNecLqQjMPMSRBBmsf6wkI+Af9fCLegin1ssAeVXOnDkLIxMWbJoA7m
+   +XFuJFjIZycGCH1SO8+9/Ti7sud7U0tHNZK45td5JdaVDaeoP0PZVxA+x
+   Zsr4s9qjKVaTmbzgn4DFSXUgc/JqX5dhzh7XhUBZGAtSfiUkWHXk7Tg64
+   Sh2nVuamVQ7uiu2QfqvxZQJMcrYm0ReTBFDXtrtHQthMySgkhwSqTZfpa
+   S5IzXF413WWcjSt8aXX5B3YYGqQfBzfBwJpI0aAwlUEVlbhq9TMYiAyTD
+   jB8fUHfW/Gedl1L2bXm7Pb6EUj2gzjtf9AY7xfMsKOtBl86OhPBueJom4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317592318"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="399792966"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 09:56:33 -0700
+   d="scan'208";a="317592318"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 10:06:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924572275"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="802528249"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="924572275"
+   d="scan'208";a="802528249"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Mar 2023 09:56:32 -0700
+  by orsmga004.jf.intel.com with ESMTP; 13 Mar 2023 10:06:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pblTL-0005uS-2V;
-	Mon, 13 Mar 2023 16:56:31 +0000
-Date: Tue, 14 Mar 2023 00:55:54 +0800
+	id 1pbld2-0005uq-0A;
+	Mon, 13 Mar 2023 17:06:32 +0000
+Date: Tue, 14 Mar 2023 01:06:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yin Fengwei <fengwei.yin@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v4 1/5] rmap: move hugetlb try_to_unmap to dedicated
  function
-Message-ID: <202303140016.q8dVJMP2-lkp@intel.com>
+Message-ID: <202303140050.bbSbHSLn-lkp@intel.com>
 References: <20230313124526.1207490-2-fengwei.yin@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,32 +63,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Yin-Fengwei/rmap-move-hug
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230313124526.1207490-2-fengwei.yin%40intel.com
 patch subject: [PATCH v4 1/5] rmap: move hugetlb try_to_unmap to dedicated function
-config: arm-buildonly-randconfig-r001-20230312 (https://download.01.org/0day-ci/archive/20230314/202303140016.q8dVJMP2-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+config: riscv-randconfig-r042-20230312 (https://download.01.org/0day-ci/archive/20230314/202303140050.bbSbHSLn-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://github.com/intel-lab-lkp/linux/commit/c43d03caaff9b0b9a869fd2a9b8beed7bc833f2a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Yin-Fengwei/rmap-move-hugetlb-try_to_unmap-to-dedicated-function/20230313-204656
         git checkout c43d03caaff9b0b9a869fd2a9b8beed7bc833f2a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140016.q8dVJMP2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140050.bbSbHSLn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/rmap.c:1513:6: error: call to undeclared function 'huge_pte_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (huge_pte_dirty(pteval))
-               ^
-   1 error generated.
+   mm/rmap.c: In function 'try_to_unmap_one_hugetlb':
+>> mm/rmap.c:1513:13: error: implicit declaration of function 'huge_pte_dirty' [-Werror=implicit-function-declaration]
+    1513 |         if (huge_pte_dirty(pteval))
+         |             ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
 vim +/huge_pte_dirty +1513 mm/rmap.c
