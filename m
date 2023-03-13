@@ -1,44 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F4D8F4E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 22:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964548F52;
+	Mon, 13 Mar 2023 22:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1678748272; x=1710284272;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Qca/1FB4IJf73J/1rMwLppRXhRCcYlJXxz50/bSwuXg=;
-  b=g9Td+RX9bIfp47/hrQlwIpBDn27OYsfa1EqvovvYTceXUbR/rNQMac1r
-   L9goMCdtulYXa26l6N4X+T1it8jwNa13Zco4RdtMdo/KqabNqHsgIDll6
-   /XH0PTZMPttnfY8PAAx04inn54YeH7sFYDbICkEjH7NWF4uydeQ7J8qf2
-   fWUpla2syTX03wccMlTJxOIMUEie8lFPGXiRxA7OxUJmQQ+Phy+YPA6Nr
-   /7UYVySp6UrJMl2sfFx5FoskFh6tIfDAWxuk4g9/DcvndDDS12VZSUrbt
-   9F+QmzrZ+J0SrZnfnH/4cRKLKI6t+xggbTRRhIkr6IRTGcamZObslm/fe
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334755692"
+  bh=MdwhS/fy7ChF/duuTrs/VEPfJyrERgmoiRJftpdQphM=;
+  b=ah6NJIVOJcAeQDgyfOvQej8td1buFqlOa1tGRmuVjAJvyXLTAnqNk5U4
+   TSuS3U7IYi2KV2ti8uOzMDXYjGApTlbxr/e2L08jN/T0f1OG3FsvRCaxA
+   fDy29juwRIWveCaA97StBgu0ghKf0QXQEnF0gKD7Y8b+0d/5enU/bpjh9
+   5cYXRvVaxMuUdlFZh7eQybj17Zu43t9XhFrSUYg0MAUVp8AUzibX1kPKY
+   8w9lWsQFo0aFI340NOz0rdq9TOgqM7fjbGYxfO7746+7PN1DHSaMNCMQf
+   Bw6xDQGBdxJKw0nt5EeNoJbmYZzkfgxH72JwrzH2M/PPx6edV3foMKxz/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317664687"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="334755692"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 15:57:51 -0700
+   d="scan'208";a="317664687"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 15:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="822139325"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747770053"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="822139325"
+   d="scan'208";a="747770053"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2023 15:57:50 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 15:57:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbr6z-0006DR-2H;
+	id 1pbr6z-0006DM-25;
 	Mon, 13 Mar 2023 22:57:49 +0000
-Date: Tue, 14 Mar 2023 06:57:22 +0800
+Date: Tue, 14 Mar 2023 06:57:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kiran K <kiran.k@intel.com>, linux-bluetooth@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ravishankar.srivatsa@intel.com,
-	chethan.tumkur.narayan@intel.com, Kiran K <kiran.k@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ravishankar.srivatsa@intel.com, chethan.tumkur.narayan@intel.com,
+	Kiran K <kiran.k@intel.com>
 Subject: Re: [PATCH v1] Bluetooth: btintel: Add support to reset bluetooth
  via ACPI DSM
-Message-ID: <202303140634.L887SSqU-lkp@intel.com>
+Message-ID: <202303140618.ncRRCBV2-lkp@intel.com>
 References: <20230313151549.15791-1-kiran.k@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,8 +66,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
 patch link:    https://lore.kernel.org/r/20230313151549.15791-1-kiran.k%40intel.com
 patch subject: [PATCH v1] Bluetooth: btintel: Add support to reset bluetooth via ACPI DSM
-config: arc-randconfig-r043-20230313 (https://download.01.org/0day-ci/archive/20230314/202303140634.L887SSqU-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+config: hexagon-randconfig-r045-20230313 (https://download.01.org/0day-ci/archive/20230314/202303140618.ncRRCBV2-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -76,24 +77,65 @@ reproduce (this is a W=1 build):
         git checkout 6a89221ddaa7b13fa1da2d345e61b2bf8efd5a87
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/bluetooth/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140634.L887SSqU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140618.ncRRCBV2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/bluetooth/btintel.c: In function 'btintel_set_dsm_reset_method':
->> drivers/bluetooth/btintel.c:2450:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Werror=implicit-function-declaration]
-    2450 |         if (!acpi_has_method(handle, "_PRR")) {
-         |              ^~~~~~~~~~~~~~~
-         |              acpi_has_watchdog
-   cc1: some warnings being treated as errors
+   In file included from drivers/bluetooth/btintel.c:11:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/bluetooth/btintel.c:11:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/bluetooth/btintel.c:11:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/bluetooth/btintel.c:2450:7: error: call to undeclared function 'acpi_has_method'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (!acpi_has_method(handle, "_PRR")) {
+                ^
+   drivers/bluetooth/btintel.c:2450:7: note: did you mean 'acpi_has_watchdog'?
+   include/linux/acpi.h:1442:20: note: 'acpi_has_watchdog' declared here
+   static inline bool acpi_has_watchdog(void) { return false; }
+                      ^
+   6 warnings and 1 error generated.
 
 
-vim +2450 drivers/bluetooth/btintel.c
+vim +/acpi_has_method +2450 drivers/bluetooth/btintel.c
 
   2430	
   2431	static void btintel_set_dsm_reset_method(struct hci_dev *hdev,
