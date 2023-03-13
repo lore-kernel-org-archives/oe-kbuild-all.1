@@ -1,181 +1,114 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [67.231.157.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05034184;
-	Mon, 13 Mar 2023 00:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678667909; x=1710203909;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=zIDzHS98Bx4Ll/s1PowvBQEr3pBZoVCs9f4AsoKP2gs=;
-  b=awASnU0tT8RfE7MYCzJITRDCxP12TlHjAhSm/9pnIEDsl9MmCvcTdXhx
-   KJKcAhSwIdjW+oZ5oR+07R3ysrBr+liGBnhf6HujIzwst4OefD0Yz3ugI
-   1bZYPFq/qa0HHZRvclENeH3nnvd6c+JQZWX4qwMKa9twJCkO3OYvgZ6Vm
-   ZOYgDOcXrPL1NkVep9Xk9HoefO4UX7aDCkCK7aLsffB6T7YKE2w7uZzWc
-   9Xak7MDmrddU2UmVHVIUEK//cYcE/B8VC5stY2PB+YlO0wxRYJopkl159
-   yrz+NetioU5Cfu4MA7/YFel6dCp8MEsWtmpscG1q67gB6WfYT0USkbhjK
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="337056016"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="337056016"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 17:38:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="710935188"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="710935188"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga001.jf.intel.com with ESMTP; 12 Mar 2023 17:38:27 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Sun, 12 Mar 2023 17:38:27 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Sun, 12 Mar 2023 17:38:26 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Sun, 12 Mar 2023 17:38:26 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.106)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Sun, 12 Mar 2023 17:38:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V3uyh8RDhRqDp9+lvN6OqxWKyui4oqZ/drpPA8D+MkbVr2ZJmCTMIgOfdwg9ChzQpFB7JoTLVYbKc1GFg8Ln+yB8yRGG4MOVmhCYle5E+uWm6j/uR+tU8W7V/4CjanAaMGs8jXTpxZds1DUPmVqbcIZZw4SRPj3NB/4ok0d+E32onYnbJSQnbFsPLqA492k3fXbUgz8c/91Tv+hrg7jVmL5PaFW1qjZT0uBYvWtDNXJRCHk2jFvzjIb5XKhB7d4RNTjP6CjQkizZBCENDzJjvFkoxMeqOtwJkfY64MOhQawdDewo87heaCstptkahiKkbPP9G9mrCmNfILXeVb2lAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FheZ9GPO01SnsW3+AN6Z7lQNrIj7hIPDklcSN+A6tNo=;
- b=GipBzVZ7TB7CbxUY/WRn/I4wrUlOy/3i/NCGhYH6oGwAfahKEFCIVkSpzCPnfZuegQWueH2DP21mjz/QnwWgJIdNxFYWHN7kDYNt2oWVDglkeXZpyHgFSp9BMeTCgA7UkSw5rRqn4Kt/DuGe+tTDEbrEcZrtZXLKqsiFzXjBGvxutWjB3Ixx9J98zrhODmVs4iU5BPMZ85tvBRUH4rMI9CdBpK3+2KbcjRRloOPsg+u54vCNFNBL1hE3aGysfZdiuk64Ys5YUkukbYNstGTVZCpwQaJ/1ie9plVEnoiyw+E0zwnRgD0NyaoOkKli9+wnXzSBbZ8cvkQsLnHssknyaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by SN7PR11MB8065.namprd11.prod.outlook.com (2603:10b6:806:2de::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
- 2023 00:38:21 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
- 00:38:21 +0000
-Date: Sun, 12 Mar 2023 17:38:17 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: kernel test robot <lkp@intel.com>, Kloudifold <cloudifold.3125@gmail.com>,
-	<teddy.wang@siliconmotion.com>, <sudipm.mukherjee@gmail.com>,
-	<gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
-	<outreachy@lists.linux.dev>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: sm750: Rename camel case functions in
- sm750_cursor.*
-Message-ID: <640e7079b2723_229a8929448@iweiny-mobl.notmuch>
-References: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
- <202303110849.X24WnHnM-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202303110849.X24WnHnM-lkp@intel.com>
-X-ClientProxiedBy: BYAPR07CA0058.namprd07.prod.outlook.com
- (2603:10b6:a03:60::35) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BCB15CA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 04:21:18 +0000 (UTC)
+Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
+	by m0050096.ppops.net-00190b01. (8.17.1.19/8.17.1.19) with ESMTP id 32CMAHrW000482;
+	Mon, 13 Mar 2023 04:21:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=TzJVh+dxMT6mR15lG3sKLDEd6Y26nG7ZzyEy72FTopo=;
+ b=OV9k2OEQuGGy0p7/sREm9aCbSX7QARZgh7Bdy3KNNeuBBA63fz8o45Tk+DZfel2byTyc
+ Vt61OEkje+0NIhp3/WhekUJui6Qhuk6mKgHW5Ka4fmawpixwRYhUHYOTRx2aNd0VuF5V
+ XyixErX1XU8iWGsMYMehtL46ijmmz5BwUEMQxWm/jWhVwd8McVHeLhLhKX1+T5nTOS2e
+ o6yrlpCG+cYO1Z6Es62hUYGS6eQtHKXHSwB/8xHHkkrqXnEnAEqudHNWd4hcZB89ijus
+ Azr9MrygJCsdPZwlLuDfbRdHDFYfpCI7kx1L8hDG0XonjoEN9Gx4uMuErKGyXmubekyd Qg== 
+Received: from prod-mail-ppoint1 (prod-mail-ppoint1.akamai.com [184.51.33.18] (may be forged))
+	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3p8jxjfu1c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Mar 2023 04:21:12 +0000
+Received: from pps.filterd (prod-mail-ppoint1.akamai.com [127.0.0.1])
+	by prod-mail-ppoint1.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 32CN16eE008402;
+	Mon, 13 Mar 2023 00:21:11 -0400
+Received: from prod-mail-relay10.akamai.com ([172.27.118.251])
+	by prod-mail-ppoint1.akamai.com (PPS) with ESMTP id 3p8nv3689v-1;
+	Mon, 13 Mar 2023 00:21:11 -0400
+Received: from [172.19.47.106] (bos-lpa4700a.bos01.corp.akamai.com [172.19.47.106])
+	by prod-mail-relay10.akamai.com (Postfix) with ESMTP id 292F95473B;
+	Mon, 13 Mar 2023 04:21:11 +0000 (GMT)
+Message-ID: <6f66fbe7-49da-a2ab-cc2c-596a572ea6c2@akamai.com>
+Date: Mon, 13 Mar 2023 00:21:10 -0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SN7PR11MB8065:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf346700-951b-4960-a320-08db235b3f36
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0joKhsdnygaK3D6z3XS0v7/bit6HnDqpsqcfQoUoV5odmFOPbRKX5t97Mc0LqIiEsa/1+obNXcCWXp+A5g34Xiakv6/vQ0VNGWRUg8MBNcCHquu7j5lUom2cmGrhrLk4B2RL3NJWwe6H//4dPz9LMYINykxVJsH+0eWE3HQF3Q6sMU3OLwUJXm4D9BS2EMkRYqh9Bb51vnLyPYEvMVpeMD4KubEJh40UlbgWG2tyQvE/16tvcLT7bOwEAq0JyL0Mtbczzxk47c5vZTL5EGjth/+s//Y2hUSQCGpDwfwJ3QcKJMzRJHP668QIlkCR+AArDeyYIi8e6jFqYl5SYziM0zYYijnWpuN4nWEkGbdcfyztx1a90bqpFEGUhOvXX9Kew/BzGnWCi5Oy7wFPAH8ZhMhZgf6EyOcmHnUXzJW8gTkbC0itXe1hm6G5IHRGEopmv5+Lwo6WvSVykkWjWrbX2plaXxvb8yGKPiy94Tg+wO0EO/vOsGDFsg5K9KHUIx2OiMzyqdFhcXxJ7AnsRnF9OSjw6bZjJ6P/gHZpSDVF/S6pC/f1ay+SvgPV3CEuyt0TfQmpbtboRO+BiwgBPehWM0qP3P+zti6hBAyiW9nQe0XlvEIwN+68qptA/nYqu4SXlpH0EL7S9F3o9CeIS/KcqwXaN1qW4x0J1NkLzVJbjfM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(366004)(346002)(136003)(376002)(396003)(451199018)(9686003)(6512007)(26005)(6506007)(6666004)(186003)(44832011)(2906002)(6486002)(966005)(83380400001)(5660300002)(316002)(110136005)(66556008)(41300700001)(66946007)(66476007)(38100700002)(8676002)(4326008)(478600001)(8936002)(86362001)(82960400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?737wgA5EsEEw32YpF0fOOV0dtvh1q8uZZoord99i4k/OcmIqr3D7nQMgws3u?=
- =?us-ascii?Q?z5a1YzD5RqNrVUIEp9FU7Z9EjRCwFN6EiWZD1qYWxOJ1Z1tBCJ6TzpwBiuj5?=
- =?us-ascii?Q?JMx8HN20WcXCsi1hQehjfn+lzAB3tPuGaQirpoXk9SQmjzR82XOnmDLNzsn1?=
- =?us-ascii?Q?f6ysEqMaaztviiVX8lOHIBpy9IdK0i88juWZRTpTNczOwgZ4VYSJuSPyVLRS?=
- =?us-ascii?Q?S5J//dXezFGF8M9Co3pD/u7cJjm216eAW0of6Ftzje2VTb+wT0VYzELIXj5v?=
- =?us-ascii?Q?D301uGBiqTxHZ2Xb4UQ79wd5V1z8AckzEXIEZMfkdRolaHlVE6IlEPSMHGzM?=
- =?us-ascii?Q?f5fnMufVAsM8VZQ6RVwh6QRN/vA7aCnJIwNBfxUM2w8eNClLxyxBU54v0vUn?=
- =?us-ascii?Q?CxVPah8OEqpxV41bWvuGe5lBMg/1xIqHfaTJlR3cnUU3sRzb0Q0MaL0xtut3?=
- =?us-ascii?Q?l2CGI5y2w08Nen1rV/Rt6wyKfq8acRZRtmMh0WTLDr8Bzt8v0/66x+Y0/04M?=
- =?us-ascii?Q?NJ20E2rwg9KScKXdK7JoeuHKPc8pccsXKoVm7U+Nim4jWlxUdhSxWU+BAbfH?=
- =?us-ascii?Q?QoYKtH6FAP1SK4iNzhJS7gLBUgbqhddHNW/ReFTrUd/gLAKYPuo5QrH5pOZv?=
- =?us-ascii?Q?lnvfjdRVCTQxLN7/VrJgZPwEsCIH6Mvt3MsFqB7B8o1z00MIeAI+NI/wUInh?=
- =?us-ascii?Q?gJwwGRN1rKGEoP8AwNUEFckrFUn4rVA2dzwWtScZ06DPcQ80++YIzVyVRjlN?=
- =?us-ascii?Q?5NRoHA+eRFMkvT68M9AdHKImwscqSV1VpPRxh5LFf4/+RZ6UokXOd8zdv/5h?=
- =?us-ascii?Q?VHobjfY5kQBWvKBX++abafuDwZkaW/Wircsa2VPQH+N2xCxVOk81cbhJAJOv?=
- =?us-ascii?Q?JW7ad11NQ9ZA2XsjVVUCfWo5SYySQKevv0QBz7Du5fduO6DAnUvHKaqzwxYD?=
- =?us-ascii?Q?vYQncu7bHzoUnwqy8+eeLiq2wfsl4e505o+O5x3GH05USyQUWo11YsVPmEqG?=
- =?us-ascii?Q?oq9sPCdNcVJyd0QlQtrwSfH971z+4Y68mghfdqswRHfjhNmYt4HsVaIgLjYz?=
- =?us-ascii?Q?la7TuSpaiMdgQVZR+zD2aHZPyZnozNy5krznXmU70G022c+BBtxMtHNumJVd?=
- =?us-ascii?Q?vXv/sgoS5Nnh3xIiUrHc2EaKSl4MKF6+gq5u0bXoBPr6zxIzAe9DmxZ+2J95?=
- =?us-ascii?Q?3/zmlAvyppITees9Hq0mmlM9di4O04yU7OG4XW3A5WNVk11Nlos6bfvdWAFI?=
- =?us-ascii?Q?wVMUbBl/JbjsHB2lfIY5egJ3XjAtJ/K7oNOEycOWJg3+5Jojb1+HFR+yMLqg?=
- =?us-ascii?Q?/en0oBEv9Z7IbU0TlTLTZl2UHOfgUUgOkcERvAAj8eRk5y4YxVV3YpvE+DpM?=
- =?us-ascii?Q?hiEvx6yjfoBPZ7IqU/0rtJDp4Pmlc8eWlBtDGRUR5aKyAf8i2CmM8Dlpc9X2?=
- =?us-ascii?Q?MxYt08qcv4Q7Y0kUM+RLtECJyZ2XNBkZC6hqWHyVw50PsoZjt4/gjndZDx4I?=
- =?us-ascii?Q?PjTDi1M4NW71F0Vur5iDqokinlrEewMu8BsdrkAe2zzQFoIdKWiQOS0VnHSl?=
- =?us-ascii?Q?YTt3M+EQUJJ2RBeBXvuflD2gyw7CE12pa44p1H4Q?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf346700-951b-4960-a320-08db235b3f36
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 00:38:21.5879
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mHvhipZ0NCh/l/Nr+IzyYtK6fE45kTW284InBJUbX5wbK3dVFClYL0uTqBZNHHl8WeQVMtDoYyhAYJOF62uvgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8065
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [mcgrof:modules-next 9/9] lib/dynamic_debug.c:857:6: warning: no
+ previous prototype for '__dynamic_pr_debug'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
+References: <202303111333.Rqs7rhRE-lkp@intel.com>
+From: Jason Baron <jbaron@akamai.com>
+In-Reply-To: <202303111333.Rqs7rhRE-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303130035
+X-Proofpoint-GUID: 2GlquSqBA9z-A-aR1RyEc2nV9V_WpZRy
+X-Proofpoint-ORIG-GUID: 2GlquSqBA9z-A-aR1RyEc2nV9V_WpZRy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303130035
 
-kernel test robot wrote:
-> Hi Kloudifold,
->
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on staging/staging-testing]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
-> patch link:    https://lore.kernel.org/r/ZAuiDTDT8dmBcRoH%40CloudiRingWorld
-> patch subject: [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110849.X24WnHnM-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 12.1.0
+On 3/11/23 12:01 AM, kernel test robot wrote:
+> tree:   https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvdaXu2a4$  modules-next
+> head:   40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
+> commit: 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d [9/9] dyndbg: cleanup dynamic usage in ib_srp.c
+> config: parisc-randconfig-r011-20230310 (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20230311/202303111333.Rqs7rhRE-lkp@intel.com/config__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv3X0Zx8I$ )
+> compiler: hppa-linux-gcc (GCC) 12.1.0
 > reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/c82f66fbd5902ae486c4e2227e5071a59c49a05a
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
->         git checkout c82f66fbd5902ae486c4e2227e5071a59c49a05a
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
+>          wget https://urldefense.com/v3/__https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvxXRA7As$  -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv3nGWtus$
+>          git remote add mcgrof https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvdaXu2a4$
+>          git fetch --no-tags mcgrof modules-next
+>          git checkout 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 > 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+> | Link: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202303111333.Rqs7rhRE-lkp@intel.com/__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv-uYrPWM$
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> lib/dynamic_debug.c:857:6: warning: no previous prototype for '__dynamic_pr_debug' [-Wmissing-prototypes]
+>       857 | void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
+>           |      ^~~~~~~~~~~~~~~~~~
+>>> lib/dynamic_debug.c:877:6: warning: no previous prototype for '__dynamic_dev_dbg' [-Wmissing-prototypes]
+>       877 | void __dynamic_dev_dbg(struct _ddebug *descriptor,
+>           |      ^~~~~~~~~~~~~~~~~
+>>> lib/dynamic_debug.c:908:6: warning: no previous prototype for '__dynamic_netdev_dbg' [-Wmissing-prototypes]
+>       908 | void __dynamic_netdev_dbg(struct _ddebug *descriptor,
+>           |      ^~~~~~~~~~~~~~~~~~~~
+> 
 
-Kloudifold,
+Hi Luis,
 
-As this report shows it looks like you did not compile your patch before
-sending it.  Please do so at a minimum.
+More Whack-A-Mole here. I cross-compiled to reproduce this error and 
+seems like lots of functions in other files hit this warning. However, 
+it's newly introduced with the latest patch added to modules-next, and 
+thus I've sent a patch in reply to the thread to address it. Perhaps, it 
+can be folded into the previous patch if it makes sense?
 
-Also, when making substitutions such as this 'git grep' is your friend:
+Thanks,
 
-$ git grep sm750_hw_cursor_setSize
-drivers/staging/sm750fb/sm750.c: sm750_hw_cursor_setSize(cursor,
-drivers/staging/sm750fb/sm750_cursor.c:void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
-drivers/staging/sm750fb/sm750_cursor.h:void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
-
-Ira
+-Jason
