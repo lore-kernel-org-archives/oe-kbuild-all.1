@@ -1,42 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A2D881E;
-	Mon, 13 Mar 2023 19:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266AF8838
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 19:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678735301; x=1710271301;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=lSjmJQeRGnGTPyw0qM4AQ1aCsXMaONbghYyGyYC86nw=;
-  b=eIiy69cPI7Xe+TRMo8oc6VZ9xZjkGBy4W80Q1QDFPII8r8n6lCcSzOHm
-   inD0U8/EMsqefogLNv82CThjCUUBKcZsbeQOZ5VIcrHToh/Kt6ShicBl4
-   LKMb/3PN2QY3X8bWO75pNW4KhQGmZBaRmfw3/hBcRYxR9qe2ui5Q5xp3o
-   u+P52hWAJ/vLT43Pef7bqwLwMe3w/Rj5jAGsiGukc30jhhghZ82i7G0Tb
-   wTyf5P/vaNv6gXW6hAWBv13Jr/itRLK06l9QGtI/mHDBFd0dZkeziikiY
-   5k3f3xZTrYfzMkwAJVS7eQTmyDBWRMjtJxjaNKUEBDa4I2JhjR/pAN9ti
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423511127"
+  t=1678736505; x=1710272505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GrC6ZCQTChhQGSTFhYt8h667inQF0PzLbKR2MzixbE4=;
+  b=YbSBbbIIH8kKpIY54RtVJk71//+vvRQUFoJzqzJYH/T37lC1heYIMaC2
+   A3LhvqHvyZOGB3pgWbjbJDRyUyAv91j+/WufDuMwfosAQGbpR83xFJ0Eq
+   BNzmkBwHOeG2zfunjCVsEnrrexpfF7ytXVAW9U1kiNeSfMQwptD2Sgd5r
+   +0ymacSu5U+P+MkjVpuFVUNI8i4JbNp7tWUtAEa96phkHwONzoUKtvao8
+   qNmwErsrieq8S2CdFFLTaU5cUCpgWbX2AsqvlmbxXJM8ewAPNJJdvlSwY
+   Ubz8bwURRze4UBLua1qF26zzedVL193A73zaWQLGSGf6eR2ZSf+hfx5FZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399836326"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="423511127"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 12:21:41 -0700
+   d="scan'208";a="399836326"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 12:41:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747719199"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="681161162"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="747719199"
+   d="scan'208";a="681161162"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 12:21:39 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Mar 2023 12:41:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbnjn-00062m-1A;
-	Mon, 13 Mar 2023 19:21:39 +0000
-Date: Tue, 14 Mar 2023 03:21:07 +0800
+	id 1pbo3B-000640-2e;
+	Mon, 13 Mar 2023 19:41:41 +0000
+Date: Tue, 14 Mar 2023 03:41:35 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: net/mac80211/he.c:158:33: warning: taking address of packed member
- 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value
-Message-ID: <202303140338.cK6wfgbh-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
+	Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: [linux-stable-rc:queue/4.19 14/29]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:654: Error: unrecognized opcode
+ `csrs sstatus,s1'
+Message-ID: <202303140350.TNwkFGAm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,237 +47,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-net/mac80211/he.c: 158:33: warning: taking address of packed member
- 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 160:12: warning: taking address of packed member
- 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 169:34: warning: taking address of packed member
- 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 171:13: warning: taking address of packed member
- 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in
- an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 186:34: warning: taking address of packed member
- 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
- in an unaligned pointer value [-Waddress-of-packed-member]
-net/mac80211/he.c: 188:13: warning: taking address of packed member
- 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result
- in an unaligned pointer value [-Waddress-of-packed-member]
 
-TO: Wen Gong <wgong@codeaurora.org>
-CC: Johannes Berg <johannes.berg@intel.com>
-
-Hi Wen,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-5.15.y
-head:   2ddbd0f967b34872290e0f98fae32b91b4de7b87
-commit: 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6 mac80211: reduce peer HE MCS/NSS to own capabilities
-date:   2 years, 2 months ago
-config: mips-loongson2k_defconfig (https://download.01.org/0day-ci/archive/20230314/202303140338.cK6wfgbh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
+head:   89c8cb5c83fd68dac5183ac25c24c6c4899279e4
+commit: c5f0f3170661c2294e9ffc3f64d2ff2a3eecee0d [14/29] riscv: Using PATCHABLE_FUNCTION_ENTRY instead of MCOUNT
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230314/202303140350.TNwkFGAm-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips64el-linux-gnuabi64
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus stable/linux-5.15.y
-        git checkout 7f7aa94bcaf03d0f18a6853d8f7dad6a4d25bbd6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=c5f0f3170661c2294e9ffc3f64d2ff2a3eecee0d
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/4.19
+        git checkout c5f0f3170661c2294e9ffc3f64d2ff2a3eecee0d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/ipv4/ net/ipv6/ net/mac80211/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140338.cK6wfgbh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140350.TNwkFGAm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/mac80211/he.c:9:
-   In file included from net/mac80211/ieee80211_i.h:16:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/net/checksum.h:22:
-   arch/mips/include/asm/checksum.h:161:9: error: unsupported inline asm: input with type 'unsigned long' matching output with type '__wsum' (aka 'unsigned int')
-           : "0" ((__force unsigned long)daddr),
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/mac80211/he.c:9:
-   In file included from net/mac80211/ieee80211_i.h:30:
-   In file included from include/net/mac80211.h:22:
-   In file included from include/net/codel.h:48:
-   In file included from include/net/inet_ecn.h:9:
-   In file included from include/net/inet_sock.h:22:
-   In file included from include/net/sock.h:61:
-   include/linux/poll.h:142:27: warning: division by zero is undefined [-Wdivision-by-zero]
-                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-                                           ^~~~~~~~~
-   include/linux/poll.h:140:32: note: expanded from macro 'M'
-   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
-           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-                                                            ^ ~~~~~~~~~
-   include/linux/poll.h:142:39: warning: division by zero is undefined [-Wdivision-by-zero]
-                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-                                                       ^~~~~~~~~
-   include/linux/poll.h:140:32: note: expanded from macro 'M'
-   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:126:51: note: expanded from macro '__MAP'
-           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-                                                            ^ ~~~~~~~~~
->> net/mac80211/he.c:158:33: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:159:12: warning: taking address of packed member 'rx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &he_cap->he_mcs_nss_supp.rx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:160:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:161:12: warning: taking address of packed member 'tx_mcs_80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                         &he_cap->he_mcs_nss_supp.tx_mcs_80);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:169:34: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:170:13: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.rx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:171:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:172:13: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.tx_mcs_160);
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:174:29: warning: taking address of packed member 'rx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:175:29: warning: taking address of packed member 'tx_mcs_160' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:186:34: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:187:13: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/he.c:188:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:189:13: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                                                 &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:191:29: warning: taking address of packed member 'rx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/he.c:192:29: warning: taking address of packed member 'tx_mcs_80p80' of class or structure 'ieee80211_he_mcs_nss_supp' may result in an unaligned pointer value [-Waddress-of-packed-member]
-                   ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   18 warnings and 1 error generated.
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:51,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:29:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c: Assembler messages:
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:654: Error: unrecognized opcode `csrs sstatus,s1'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:654: Error: unrecognized opcode `csrc sstatus,s1'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:586: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:586: Error: unrecognized opcode `csrc sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:439: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:439: Error: unrecognized opcode `csrc sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:401: Error: unrecognized opcode `csrs sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:401: Error: unrecognized opcode `csrc sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:281: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:281: Error: unrecognized opcode `csrc sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:243: Error: unrecognized opcode `csrs sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:243: Error: unrecognized opcode `csrc sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:360: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:360: Error: unrecognized opcode `csrc sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:322: Error: unrecognized opcode `csrs sstatus,s2'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:322: Error: unrecognized opcode `csrc sstatus,s2'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:733: Error: unrecognized opcode `csrs sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:733: Error: unrecognized opcode `csrc sstatus,s4'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:528: Error: unrecognized opcode `csrs sstatus,s2'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:528: Error: unrecognized opcode `csrc sstatus,s2'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:166: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:166: Error: unrecognized opcode `csrc sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:168: Error: unrecognized opcode `csrs sstatus,s3'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:168: Error: unrecognized opcode `csrc sstatus,s3'
+--
+   In file included from include/linux/sunrpc/sched.h:19,
+                    from include/linux/sunrpc/auth.h:15,
+                    from include/linux/nfs_fs.h:31,
+                    from kernel/sysctl.c:53:
+   include/linux/sunrpc/xdr.h: In function 'xdr_stream_decode_uint32_array':
+   include/linux/sunrpc/xdr.h:512:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+     512 |         if (len > SIZE_MAX / sizeof(*p))
+         |                 ^
+   kernel/sysctl.c: Assembler messages:
+   kernel/sysctl.c:2237: Error: unrecognized opcode `csrs sstatus,a4'
+   kernel/sysctl.c:2237: Error: unrecognized opcode `csrc sstatus,a4'
+>> kernel/sysctl.c:1987: Error: unrecognized opcode `csrs sstatus,s5'
+>> kernel/sysctl.c:1987: Error: unrecognized opcode `csrc sstatus,s5'
+   kernel/sysctl.c:2013: Error: unrecognized opcode `csrs sstatus,a3'
+   kernel/sysctl.c:2013: Error: unrecognized opcode `csrc sstatus,a3'
 
 
-vim +158 net/mac80211/he.c
+vim +654 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
 
-   105	
-   106	void
-   107	ieee80211_he_cap_ie_to_sta_he_cap(struct ieee80211_sub_if_data *sdata,
-   108					  struct ieee80211_supported_band *sband,
-   109					  const u8 *he_cap_ie, u8 he_cap_len,
-   110					  const struct ieee80211_he_6ghz_capa *he_6ghz_capa,
-   111					  struct sta_info *sta)
-   112	{
-   113		struct ieee80211_sta_he_cap *he_cap = &sta->sta.he_cap;
-   114		struct ieee80211_sta_he_cap own_he_cap = sband->iftype_data->he_cap;
-   115		struct ieee80211_he_cap_elem *he_cap_ie_elem = (void *)he_cap_ie;
-   116		u8 he_ppe_size;
-   117		u8 mcs_nss_size;
-   118		u8 he_total_size;
-   119		bool own_160, peer_160, own_80p80, peer_80p80;
-   120	
-   121		memset(he_cap, 0, sizeof(*he_cap));
-   122	
-   123		if (!he_cap_ie || !ieee80211_get_he_sta_cap(sband))
-   124			return;
-   125	
-   126		/* Make sure size is OK */
-   127		mcs_nss_size = ieee80211_he_mcs_nss_size(he_cap_ie_elem);
-   128		he_ppe_size =
-   129			ieee80211_he_ppe_size(he_cap_ie[sizeof(he_cap->he_cap_elem) +
-   130							mcs_nss_size],
-   131					      he_cap_ie_elem->phy_cap_info);
-   132		he_total_size = sizeof(he_cap->he_cap_elem) + mcs_nss_size +
-   133				he_ppe_size;
-   134		if (he_cap_len < he_total_size)
-   135			return;
-   136	
-   137		memcpy(&he_cap->he_cap_elem, he_cap_ie, sizeof(he_cap->he_cap_elem));
-   138	
-   139		/* HE Tx/Rx HE MCS NSS Support Field */
-   140		memcpy(&he_cap->he_mcs_nss_supp,
-   141		       &he_cap_ie[sizeof(he_cap->he_cap_elem)], mcs_nss_size);
-   142	
-   143		/* Check if there are (optional) PPE Thresholds */
-   144		if (he_cap->he_cap_elem.phy_cap_info[6] &
-   145		    IEEE80211_HE_PHY_CAP6_PPE_THRESHOLD_PRESENT)
-   146			memcpy(he_cap->ppe_thres,
-   147			       &he_cap_ie[sizeof(he_cap->he_cap_elem) + mcs_nss_size],
-   148			       he_ppe_size);
-   149	
-   150		he_cap->has_he = true;
-   151	
-   152		sta->cur_max_bandwidth = ieee80211_sta_cap_rx_bw(sta);
-   153		sta->sta.bandwidth = ieee80211_sta_cur_vht_bw(sta);
-   154	
-   155		if (sband->band == NL80211_BAND_6GHZ && he_6ghz_capa)
-   156			ieee80211_update_from_he_6ghz_capa(he_6ghz_capa, sta);
-   157	
- > 158		ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80,
- > 159					      &he_cap->he_mcs_nss_supp.rx_mcs_80,
- > 160					      &own_he_cap.he_mcs_nss_supp.tx_mcs_80,
- > 161					      &he_cap->he_mcs_nss_supp.tx_mcs_80);
-   162	
-   163		own_160 = own_he_cap.he_cap_elem.phy_cap_info[0] &
-   164			  IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   165		peer_160 = he_cap->he_cap_elem.phy_cap_info[0] &
-   166			   IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   167	
-   168		if (peer_160 && own_160) {
- > 169			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_160,
-   170						      &he_cap->he_mcs_nss_supp.rx_mcs_160,
- > 171						      &own_he_cap.he_mcs_nss_supp.tx_mcs_160,
- > 172						      &he_cap->he_mcs_nss_supp.tx_mcs_160);
-   173		} else if (peer_160 && !own_160) {
-   174			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_160);
- > 175			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_160);
-   176			he_cap->he_cap_elem.phy_cap_info[0] &=
-   177				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G;
-   178		}
-   179	
-   180		own_80p80 = own_he_cap.he_cap_elem.phy_cap_info[0] &
-   181			    IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   182		peer_80p80 = he_cap->he_cap_elem.phy_cap_info[0] &
-   183			     IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   184	
-   185		if (peer_80p80 && own_80p80) {
- > 186			ieee80211_he_mcs_intersection(&own_he_cap.he_mcs_nss_supp.rx_mcs_80p80,
-   187						      &he_cap->he_mcs_nss_supp.rx_mcs_80p80,
- > 188						      &own_he_cap.he_mcs_nss_supp.tx_mcs_80p80,
-   189						      &he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-   190		} else if (peer_80p80 && !own_80p80) {
-   191			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.rx_mcs_80p80);
-   192			ieee80211_he_mcs_disable(&he_cap->he_mcs_nss_supp.tx_mcs_80p80);
-   193			he_cap->he_cap_elem.phy_cap_info[0] &=
-   194				~IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
-   195		}
-   196	}
-   197	
+75758255dc0fae Alex Deucher 2017-12-14  595  
+7e4237dbe494f9 Tom St Denis 2018-05-02  596  /** amdgpu_debugfs_wave_read - Read WAVE STATUS data
+7e4237dbe494f9 Tom St Denis 2018-05-02  597   *
+7e4237dbe494f9 Tom St Denis 2018-05-02  598   * @f: open file handle
+7e4237dbe494f9 Tom St Denis 2018-05-02  599   * @buf: User buffer to store read data in
+7e4237dbe494f9 Tom St Denis 2018-05-02  600   * @size: Number of bytes to read
+7e4237dbe494f9 Tom St Denis 2018-05-02  601   * @pos:  Offset to seek to
+7e4237dbe494f9 Tom St Denis 2018-05-02  602   *
+7e4237dbe494f9 Tom St Denis 2018-05-02  603   * The offset being sought changes which wave that the status data
+7e4237dbe494f9 Tom St Denis 2018-05-02  604   * will be returned for.  The bits are used as follows:
+7e4237dbe494f9 Tom St Denis 2018-05-02  605   *
+7e4237dbe494f9 Tom St Denis 2018-05-02  606   * Bits 0..6: 	Byte offset into data
+7e4237dbe494f9 Tom St Denis 2018-05-02  607   * Bits 7..14:	SE selector
+7e4237dbe494f9 Tom St Denis 2018-05-02  608   * Bits 15..22:	SH/SA selector
+7e4237dbe494f9 Tom St Denis 2018-05-02  609   * Bits 23..30: CU/{WGP+SIMD} selector
+7e4237dbe494f9 Tom St Denis 2018-05-02  610   * Bits 31..36: WAVE ID selector
+7e4237dbe494f9 Tom St Denis 2018-05-02  611   * Bits 37..44: SIMD ID selector
+7e4237dbe494f9 Tom St Denis 2018-05-02  612   *
+7e4237dbe494f9 Tom St Denis 2018-05-02  613   * The returned data begins with one DWORD of version information
+7e4237dbe494f9 Tom St Denis 2018-05-02  614   * Followed by WAVE STATUS registers relevant to the GFX IP version
+7e4237dbe494f9 Tom St Denis 2018-05-02  615   * being used.  See gfx_v8_0_read_wave_data() for an example output.
+7e4237dbe494f9 Tom St Denis 2018-05-02  616   */
+75758255dc0fae Alex Deucher 2017-12-14  617  static ssize_t amdgpu_debugfs_wave_read(struct file *f, char __user *buf,
+75758255dc0fae Alex Deucher 2017-12-14  618  					size_t size, loff_t *pos)
+75758255dc0fae Alex Deucher 2017-12-14  619  {
+75758255dc0fae Alex Deucher 2017-12-14  620  	struct amdgpu_device *adev = f->f_inode->i_private;
+75758255dc0fae Alex Deucher 2017-12-14  621  	int r, x;
+75758255dc0fae Alex Deucher 2017-12-14  622  	ssize_t result=0;
+75758255dc0fae Alex Deucher 2017-12-14  623  	uint32_t offset, se, sh, cu, wave, simd, data[32];
+75758255dc0fae Alex Deucher 2017-12-14  624  
+75758255dc0fae Alex Deucher 2017-12-14  625  	if (size & 3 || *pos & 3)
+75758255dc0fae Alex Deucher 2017-12-14  626  		return -EINVAL;
+75758255dc0fae Alex Deucher 2017-12-14  627  
+75758255dc0fae Alex Deucher 2017-12-14  628  	/* decode offset */
+75758255dc0fae Alex Deucher 2017-12-14  629  	offset = (*pos & GENMASK_ULL(6, 0));
+75758255dc0fae Alex Deucher 2017-12-14  630  	se = (*pos & GENMASK_ULL(14, 7)) >> 7;
+75758255dc0fae Alex Deucher 2017-12-14  631  	sh = (*pos & GENMASK_ULL(22, 15)) >> 15;
+75758255dc0fae Alex Deucher 2017-12-14  632  	cu = (*pos & GENMASK_ULL(30, 23)) >> 23;
+75758255dc0fae Alex Deucher 2017-12-14  633  	wave = (*pos & GENMASK_ULL(36, 31)) >> 31;
+75758255dc0fae Alex Deucher 2017-12-14  634  	simd = (*pos & GENMASK_ULL(44, 37)) >> 37;
+75758255dc0fae Alex Deucher 2017-12-14  635  
+75758255dc0fae Alex Deucher 2017-12-14  636  	/* switch to the specific se/sh/cu */
+75758255dc0fae Alex Deucher 2017-12-14  637  	mutex_lock(&adev->grbm_idx_mutex);
+75758255dc0fae Alex Deucher 2017-12-14  638  	amdgpu_gfx_select_se_sh(adev, se, sh, cu);
+75758255dc0fae Alex Deucher 2017-12-14  639  
+75758255dc0fae Alex Deucher 2017-12-14  640  	x = 0;
+75758255dc0fae Alex Deucher 2017-12-14  641  	if (adev->gfx.funcs->read_wave_data)
+75758255dc0fae Alex Deucher 2017-12-14  642  		adev->gfx.funcs->read_wave_data(adev, simd, wave, data, &x);
+75758255dc0fae Alex Deucher 2017-12-14  643  
+75758255dc0fae Alex Deucher 2017-12-14  644  	amdgpu_gfx_select_se_sh(adev, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+75758255dc0fae Alex Deucher 2017-12-14  645  	mutex_unlock(&adev->grbm_idx_mutex);
+75758255dc0fae Alex Deucher 2017-12-14  646  
+75758255dc0fae Alex Deucher 2017-12-14  647  	if (!x)
+75758255dc0fae Alex Deucher 2017-12-14  648  		return -EINVAL;
+75758255dc0fae Alex Deucher 2017-12-14  649  
+75758255dc0fae Alex Deucher 2017-12-14  650  	while (size && (offset < x * 4)) {
+75758255dc0fae Alex Deucher 2017-12-14  651  		uint32_t value;
+75758255dc0fae Alex Deucher 2017-12-14  652  
+75758255dc0fae Alex Deucher 2017-12-14  653  		value = data[offset >> 2];
+75758255dc0fae Alex Deucher 2017-12-14 @654  		r = put_user(value, (uint32_t *)buf);
+75758255dc0fae Alex Deucher 2017-12-14  655  		if (r)
+75758255dc0fae Alex Deucher 2017-12-14  656  			return r;
+75758255dc0fae Alex Deucher 2017-12-14  657  
+75758255dc0fae Alex Deucher 2017-12-14  658  		result += 4;
+75758255dc0fae Alex Deucher 2017-12-14  659  		buf += 4;
+75758255dc0fae Alex Deucher 2017-12-14  660  		offset += 4;
+75758255dc0fae Alex Deucher 2017-12-14  661  		size -= 4;
+75758255dc0fae Alex Deucher 2017-12-14  662  	}
+75758255dc0fae Alex Deucher 2017-12-14  663  
+75758255dc0fae Alex Deucher 2017-12-14  664  	return result;
+75758255dc0fae Alex Deucher 2017-12-14  665  }
+75758255dc0fae Alex Deucher 2017-12-14  666  
+
+:::::: The code at line 654 was first introduced by commit
+:::::: 75758255dc0fae76a845fd5185cfcdf60990cc99 drm/amdgpu: move debugfs functions to their own file
+
+:::::: TO: Alex Deucher <alexander.deucher@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
