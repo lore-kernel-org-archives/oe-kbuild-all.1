@@ -1,43 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5538F23C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 11:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CA723C5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 11:38:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678707502; x=1710243502;
+  t=1678707504; x=1710243504;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wB1949SDSrjiqFQxaAkJ8tQ54lDYIrDgQk++V6gz5Q=;
-  b=gEf8JppNiRppoJr8W/3eKXrVWDZP0So1IfFzJ4027HMdT6LAdr76WN78
-   W2w/6zLJOwcxuhoV8bsQjCCkhtjcPGcbe3bj30EDYkAzJs591/fSHzPp5
-   N8r5HiRrDOFIUs9Frv3XX6CB7afJAuaZ92LNDGojzXTCg8vmVW8bR0d+p
-   okPBOyxTDOTgeRpqFvAozL1h5ydS5clgBIv71mC4Kiu9kOfqPx8VONU6C
-   2zLQQxbx4XVaLPAYrSiaWkrt6/LoqeTBwTQjY3ozSP5WfbP8cc8JwW8Nn
-   oAR1y4AE1n1mP40oSfUtHhM1qMaSz2JvQnovreqkYKGBmDBJcnvUl/qAo
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="401993394"
+  bh=XIS7N4cxHVe5X6HIRp0SI7GZLGPPF9IQLTV2AHkfDMI=;
+  b=X1KrzIBaf5D2IOLmkcZtXFRW96gkajW0dV8Ic2X1ARhdJteDgFoNjiBJ
+   h3B9mkhQtnDhYys/JLZRF6bYJLKALa0TibpY+/GUlxDeWEehKiuLccny1
+   WNb8o0vJVg/TUU+VVRbU1WwXvKR6Qt7ROJivRnZT8jwoRp49XcSHqLPUY
+   gRay3OLdMePXBL+nceJVjS3Fxj/6NpeOGsBzKM5/84PR/fLrNxe9j8oh3
+   h7NUY2vgBtBSoaWxGcr51jaD71rPAyTSDLktz+/jcY7XbNY7eR9UzLlkA
+   JCcTjHIhP8GLempSPuWox4B7CmZQnqCZBCTSnpRe1IW4k6m32FiC+Cz3U
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="401993396"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="401993394"
+   d="scan'208";a="401993396"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 04:38:13 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 04:38:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="747581148"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="747581149"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="747581148"
+   d="scan'208";a="747581149"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 04:38:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbgVI-0005dC-1U;
+	id 1pbgVI-0005dE-1Y;
 	Mon, 13 Mar 2023 11:38:12 +0000
-Date: Mon, 13 Mar 2023 19:37:34 +0800
+Date: Mon, 13 Mar 2023 19:37:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [skeggsb-nouveau:01.03-gsp-ada 58/68]
  drivers/gpu/drm/nouveau/nvkm/engine/fifo/r525.c:287:1: warning: no previous
  prototype for 'r525_fifo_runl_ctor'
-Message-ID: <202303131935.cdIBstcd-lkp@intel.com>
+Message-ID: <202303131926.BLQ5TDLz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,8 +50,8 @@ Content-Disposition: inline
 tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
 head:   89da5e5109a92f4be025e40b80d1f1a6c1d6d8c7
 commit: 09e551038a5b001eb367789a28e56c5bca36af72 [58/68] fifo
-config: arm-randconfig-r046-20230313 (https://download.01.org/0day-ci/archive/20230313/202303131935.cdIBstcd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230313/202303131926.BLQ5TDLz-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -60,12 +60,12 @@ reproduce (this is a W=1 build):
         git checkout 09e551038a5b001eb367789a28e56c5bca36af72
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303131935.cdIBstcd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303131926.BLQ5TDLz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
