@@ -1,44 +1,46 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F63184F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 06:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D2C184F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 06:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678687205; x=1710223205;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9LAgopaploPZACqsNNZorDiLqTiT+gwaURiirAok+Js=;
-  b=jcbAT/62RuBkVWKEJj8i84i7QOjN2x//JQPE8Z8EK7NFZg2Dt9bmuT56
-   4gbtzWDEpZN5WgszLO2pueyD7mUrqxyvtrpujPr38/2vIxFHGPDb9zr6x
-   oE98LPwU2wF1aM3a7x1rJyOmRu5ugs/R8jyJdJCjalzRvwS0vBRZDIWtc
-   Qgikz3oOz6WpZMm3YZtMsG/Xg5p2KZX2lOtjY8W000EsfANeoRUsV794E
-   fNE8mnpnbpVNwEbuXJuvwhl/FWERwlyqn+8sm0TTNf8BWr7j60LzIQpGJ
-   IdCNNoCYtwPuw/3wf+hET7KNog7EFG7KUJQ/NrNffuGmb392/9OpG+Dh0
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="401936817"
+  t=1678687786; x=1710223786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UTWSxpQ2QGeZJSUsj4ujFPfig9PIr6xPySKRUXSA88Y=;
+  b=d65yip8w7YTeIuOYphXnpT1L+duXykPOpv7xYToBFYwWQfgBDWDyYWfp
+   rCwrAFtk41ZPLAWodN+V6ElrykD2MCA2ZX3UDOOOu3PufJU2HJqCtZcJ/
+   jOpsFlV+q+1jz7cHJOO+OIv46c3q8ItKaCvPXWS8pY69pwc/U1asPaDSK
+   bcYAs31NeeXJvvfUde4bu9Uo0iNnod3bcVY40P9Z1mU9aOzkducS7GA9F
+   6rdX84IQZTtlabNGHmgWEJEU1SxNfgJ20182N1+djkFMaLoSENcAO3OrZ
+   rvfrn9amRbeuEJgFnWf1d9rakrpIaxhKQcS/+YKHpy3UlU+u84MZ/RE0L
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="334545444"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="401936817"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 22:59:44 -0700
+   d="scan'208";a="334545444"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 23:09:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="678567816"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="924380873"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="678567816"
+   d="scan'208";a="924380873"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 12 Mar 2023 22:59:43 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 12 Mar 2023 23:09:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbbDi-0005Ig-1H;
-	Mon, 13 Mar 2023 05:59:42 +0000
-Date: Mon, 13 Mar 2023 13:59:20 +0800
+	id 1pbbNO-0005Iw-24;
+	Mon, 13 Mar 2023 06:09:42 +0000
+Date: Mon, 13 Mar 2023 14:09:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: include/linux/compiler_types.h:328:45: error: call to
- '__compiletime_assert_290' declared with attribute error: BUILD_BUG_ON
- failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
-Message-ID: <202303131346.U0sUkZH1-lkp@intel.com>
+To: Shyam Prasad N <nspmangalore@gmail.com>, smfrench@gmail.com,
+	bharathsm.hsk@gmail.com, pc@cjr.nz, tom@talpey.com,
+	linux-cifs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>
+Subject: Re: [PATCH 10/11] cifs: handle when server stops supporting
+ multichannel
+Message-ID: <202303131424.W2jbbLmc-lkp@intel.com>
+References: <20230310153211.10982-10-sprasad@microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,87 +49,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230310153211.10982-10-sprasad@microsoft.com>
 
-Hi Vineet,
+Hi Shyam,
 
-FYI, the error/warning still remains.
+I love your patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eeac8ede17557680855031c6f305ece2378af326
-commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
-date:   1 year, 7 months ago
-config: arc-randconfig-r034-20230312 (https://download.01.org/0day-ci/archive/20230313/202303131346.U0sUkZH1-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9820ff76f95fa26d33e412254a89cd65b23142d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d9820ff76f95fa26d33e412254a89cd65b23142d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/mm/
+[auto build test WARNING on cifs/for-next]
+[also build test WARNING on linus/master v6.3-rc2 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Prasad-N/cifs-generate-signkey-for-the-channel-that-s-reconnecting/20230310-234711
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20230310153211.10982-10-sprasad%40microsoft.com
+patch subject: [PATCH 10/11] cifs: handle when server stops supporting multichannel
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230313/202303131424.W2jbbLmc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303131346.U0sUkZH1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303131424.W2jbbLmc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+fs/cifs/sess.c:299 cifs_disable_extra_channels() warn: unsigned '--iface->weight_fulfilled' is never less than zero.
 
-   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
-      35 | long __init arc_get_mem_sz(void)
-         |             ^~~~~~~~~~~~~~
-   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
-      88 | void __init setup_arch_memory(void)
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   arch/arc/mm/init.c: In function 'mem_init':
->> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_290' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
-     309 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/arc/mm/init.c:194:9: note: in expansion of macro 'BUILD_BUG_ON'
-     194 |         BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
-         |         ^~~~~~~~~~~~
+Old smatch warnings:
+fs/cifs/sess.c:401 cifs_chan_update_iface() warn: unsigned '--old_iface->weight_fulfilled' is never less than zero.
+fs/cifs/sess.c:412 cifs_chan_update_iface() warn: unsigned '--old_iface->weight_fulfilled' is never less than zero.
 
+vim +299 fs/cifs/sess.c
 
-vim +/__compiletime_assert_290 +328 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
-
-:::::: The code at line 328 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   276	
+   277	/*
+   278	 * called when multichannel is disabled by the server
+   279	 */
+   280	void
+   281	cifs_disable_extra_channels(struct cifs_ses *ses)
+   282	{
+   283		int i, chan_count;
+   284		struct cifs_server_iface *iface = NULL;
+   285		struct TCP_Server_Info *server = NULL;
+   286	
+   287		spin_lock(&ses->chan_lock);
+   288		chan_count = ses->chan_count;
+   289		ses->chan_count = 1;
+   290		for (i = 1; i < chan_count; i++) {
+   291			iface = ses->chans[i].iface;
+   292			server = ses->chans[i].server;
+   293			spin_unlock(&ses->chan_lock);
+   294	
+   295			if (iface) {
+   296				spin_lock(&ses->iface_lock);
+   297				kref_put(&iface->refcount, release_iface);
+   298				iface->num_channels--;
+ > 299				if (--iface->weight_fulfilled < 0)
+   300					iface->weight_fulfilled = 0;
+   301				spin_unlock(&ses->iface_lock);
+   302			}
+   303			cifs_put_tcp_session(server, 0);
+   304	
+   305			spin_lock(&ses->chan_lock);
+   306			ses->chans[i].iface = NULL;
+   307			ses->chans[i].server = NULL;
+   308		}
+   309		spin_unlock(&ses->chan_lock);
+   310	}
+   311	
 
 -- 
 0-DAY CI Kernel Test Service
