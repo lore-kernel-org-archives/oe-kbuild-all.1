@@ -1,102 +1,113 @@
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [67.231.157.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142BD184F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 04:42:10 +0000 (UTC)
-Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
-	by m0050096.ppops.net-00190b01. (8.17.1.19/8.17.1.19) with ESMTP id 32CML3Tr031926;
-	Mon, 13 Mar 2023 04:17:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=from : to : cc :
- subject : date : message-id : in-reply-to; s=jan2016.eng;
- bh=GA0OIMIe/te/tCiaXAMGrHwzfSBwy5TphThL/QXIFNA=;
- b=WOxYekk8gNr98W/vgE398a1QVp+DR4B1g/NBNoJ+snDUiTIclPScpFA2XcXCuOV/o+xk
- BUsG+kV/aUKydp1yfZ2Oe8QeCSg22mklVDPn3+whcsWfRm3ZUcZKnqtbJYdnE1iUbiUS
- 0IEmVPjEQGlyOufTxvib6FXhwGzRN+j5YlTQ/DGm80IbVRkDvWoG6pc76VA6eWUKFD1k
- VSPmDYGzKEq45P1Av/m2o/SbfKhAXLKUIe8mK8G29IfJHL+jTFreg9dn4oK0X93dXP4Z
- o1885JaOh+zPrjOL7SSD5dbM5fyLezamdfScqBqc2ef1GPNGH/VeRDA92MeIYlhvcLdD dw== 
-Received: from prod-mail-ppoint3 (a72-247-45-31.deploy.static.akamaitechnologies.com [72.247.45.31] (may be forged))
-	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3p8jxjfsaa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Mar 2023 04:17:43 +0000
-Received: from pps.filterd (prod-mail-ppoint3.akamai.com [127.0.0.1])
-	by prod-mail-ppoint3.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 32D3s96e010477;
-	Mon, 13 Mar 2023 00:17:42 -0400
-Received: from prod-mail-relay18.dfw02.corp.akamai.com ([172.27.165.172])
-	by prod-mail-ppoint3.akamai.com (PPS) with ESMTP id 3p97e454sh-1;
-	Mon, 13 Mar 2023 00:17:42 -0400
-Received: from bos-lhv9ol.bos01.corp.akamai.com (unknown [172.28.222.101])
-	by prod-mail-relay18.dfw02.corp.akamai.com (Postfix) with ESMTP id 6783BFA;
-	Mon, 13 Mar 2023 04:17:42 +0000 (GMT)
-From: Jason Baron <jbaron@akamai.com>
-To: mcgrof@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH] dyndbg: ensure exported functions have a prototype
-Date: Mon, 13 Mar 2023 00:17:26 -0400
-Message-Id: <20230313041726.155116-1-jbaron@akamai.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <202303111333.Rqs7rhRE-lkp@intel.com>
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=318 phishscore=0
- malwarescore=0 adultscore=0 bulkscore=0 spamscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130035
-X-Proofpoint-GUID: DUvurz_ubGWO_ecO3m6sC_7Q3GTe_5cW
-X-Proofpoint-ORIG-GUID: DUvurz_ubGWO_ecO3m6sC_7Q3GTe_5cW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
- mlxlogscore=271 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303130035
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C88184F;
+	Mon, 13 Mar 2023 04:48:24 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id l7-20020a05600c1d0700b003eb5e6d906bso6954889wms.5;
+        Sun, 12 Mar 2023 21:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678682902;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M21+fx8VgRvCtJkZ4erGQfjLhdoMaFXaxiDc3wHZ8+s=;
+        b=QJ+EtW5lU4yDqocoA6jVvVh/chHzJmzdYAvzma92JGjE0LSGeyjehkyPC/BARqOYXD
+         8RQtNWZyuZMZB51bMqaT+MHlOZT2+qamLc1raOBdFlLYpDlfogC+ZPMl0zgbAvG9DK9Y
+         F6oUPaakBADv3KS4+y7lqrIfes9UClmx/b+Cb4wM3j54pMtJBLkpCtkTdHC7b28PVsXQ
+         M5/c5UzxffjOnxAzR90qI23xrQAQcQD82hleW0OJsAQkkMOQnpx7JgD7pry14C1tHzMP
+         AQlkVjtOmkq2VqRrPhEE1pdH/7fGrRwvfiXk3lJQV6CynkP/jwUDwFRoTEOT20yp1Oyn
+         42Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678682902;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M21+fx8VgRvCtJkZ4erGQfjLhdoMaFXaxiDc3wHZ8+s=;
+        b=cbp0GeXCvVyf3VNqj2GAEclOqUBb1VAqwN/EhEqyGZ8o6DOQyJ3ZUhffwPT/mN10In
+         tSJS4JSFiUA5qIJaJ1bd+fBo5RJpBcPaTpdRYCH+Vpsh8+SWEOkfDkm39424w0xwPfut
+         75tMRKDulEr+AoE2y2tGoXjyyPTyrQvAuWsuf59pshdRSD7V0W1sj+GgrimxBJllgyLm
+         FTRc/LoCfFkzWtV7+JOR3ip55s4MAb4PTP63NJIJjCJP7SsHaZcwurpaNj7QCHMcYfqK
+         SZ49xe4M0OUzuCWbQ+H2jTjRau4yaIYeDrLQ7ZOQZZvtgkQwcSqtGCrXj0kmfhXJad4W
+         vf3A==
+X-Gm-Message-State: AO0yUKUzgFlu+UzhLsv1INyN3auA9y6FTSVyGCGJG0GHSastKvNYTKJv
+	FUAXxPMg/ya0oiTx5HBDuzSRWyju9t0=
+X-Google-Smtp-Source: AK7set/hh9csBOA4mQDggSQD6w5M1WtyEWGzF+5eUyn4XBVei8qHu3hQ515fCP20XP1o6DuPbd5OPw==
+X-Received: by 2002:a05:600c:1c95:b0:3db:3e8:feca with SMTP id k21-20020a05600c1c9500b003db03e8fecamr7743729wms.15.1678682901937;
+        Sun, 12 Mar 2023 21:48:21 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p25-20020a05600c205900b003eaf666cbe0sm7842351wmg.27.2023.03.12.21.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 21:48:21 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:48:17 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Roger Lu <roger.lu@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [linux-next:master 1161/2655] drivers/soc/mediatek/mtk-svs.c:1740
+ svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+Message-ID: <ff08eeea-d898-4f60-b90b-23e233d28239@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-After commit 3b5dda5ee141("dyndbg: cleanup dynamic usage in
-ib_srp.c"), the exported functions in lib/dynamic_debug.c itself may
-not have a prototype if CONFIG_DYNAMIC_DEBUG=n and
-CONFIG_DYNAMIC_CORE=y. This can tigger the -Wmissing-prototypes
-warning.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   24469a0e5052ba01a35a15f104717a82b7a4798b
+commit: 9f195f3a1e696b6576988c1e58fa7389beae3351 [1161/2655] soc: mediatek: mtk-svs: use svs get efuse common function
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120758.x4oFgtr4-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
-The exported functions are behind (include/linux/dynamic_debug.h):
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303120758.x4oFgtr4-lkp@intel.com/
 
-if defined(CONFIG_DYNAMIC_DEBUG) || \
- (defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
+New smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-Thus, by adding -DDYNAMIC_CONFIG_MODULE to the lib/Makefile we
-can ensure that the exported functions have a prototype in all cases,
-since lib/dynamic_debug.c is built whenever
-CONFIG_DYNAMIC_DEBUG_CORE=y.
+Old smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-CC: Jim Cromie <jim.cromie@gmail.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202303111333.Rqs7rhRE-lkp@intel.com/__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv-uYrPWM$ 
-Signed-off-by: Jason Baron <jbaron@akamai.com>
----
- lib/Makefile | 3 +++
- 1 file changed, 3 insertions(+)
+vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
 
-diff --git a/lib/Makefile b/lib/Makefile
-index baf2821f7a00..7afcd85f78f6 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -231,6 +231,9 @@ lib-$(CONFIG_GENERIC_BUG) += bug.o
- obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
- 
- obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
-+#ensure exported functions have prototypes
-+CFLAGS_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+
- obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
- 
- obj-$(CONFIG_NLATTR) += nlattr.o
+9f195f3a1e696b Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
+9f195f3a1e696b Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
+9f195f3a1e696b Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1735  {
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1737  
+9f195f3a1e696b Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
+9f195f3a1e696b Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
+
+I guess this warning is showing up as new because you renamed the
+svs_get_efuse_data() function.
+
+The bug is that if nvmem_cell_get() returns NULL then the return is not
+handled correctly.  But nvmem_cell_get() never returns NULL.  So it's
+bad code, but in run time the bug is impossible to hit.
+
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1743  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1744  
+9f195f3a1e696b Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
+9f195f3a1e696b Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
+9f195f3a1e696b Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
+9f195f3a1e696b Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1751  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1752  
+9f195f3a1e696b Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1755  
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1757  }
+
 -- 
-2.17.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
