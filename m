@@ -1,175 +1,113 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4473E2569
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 13:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F212569
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 13:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678713081; x=1710249081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LFUTKGU/ETRbfZQDuqEGPBTpbd55fyNqoer1bSK4V0Y=;
-  b=T2bAFN0qb7nb04UGRS+hIonHiVgGca+7q9M7wrpv+Vz55dWQOPB817Mw
-   omlc7NXJ87oc019c+UKOJ7kU3XXtkZ82qxEyiZzOWInzDiqcP3QI1COqw
-   W3ijDhBiKTA17Z+xZUGx7I0/6BLt5Zxud/P1OYmdxrsF7e9RA50UU5KMq
-   bAcOo7csgXKieJRCHS31gLsF69zsrrvSikCAUC2IxnjJGb1FyTtjDURpu
-   YhyD7EHIdaLkIryYQDdvCgssLtEo5meVK2Aoqvf1CaGn4/OlloWYZdJYe
-   V2K4XX8gm1hnUUGRcfTWrzIPHJv6MOZW155TikA06dSKCyxtm5TwAsvOY
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="338690648"
+  t=1678713083; x=1710249083;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5/v8hZeX3JHTuddiH+ohsP0faMUyO1GG9lvlYbgaG4s=;
+  b=G6wRaSfFrzeckYzbZQvhH1s5JhDzShxbYetRQNS0P94epqwIeklRq9lP
+   oLScbdfsMxrO9LHzIuFBqePx03+2CMElftcYK6GsjGPqNe92gD59re7na
+   qJqwebtHF2RQhMmvSLEQ0djAzypFRafxT19plqfqYBnqUezA+Y3HxFFD4
+   UkYza1VkuNVZnjHaHe2ib3z9uuBoPqnKaPe+R8ArVVcH/LuneaiwNJAL7
+   bDf/BZS3RfbcCJIChADZ/KMNWPFC4pkzdNyj1n7rr5mctOKLdJr+AXJx5
+   tKRrdnblVCzSuV8ONwloyupqsQM7l4f4Jm9EjDLuSlESueUvCCZi8vKsS
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="316788223"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="338690648"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:11:20 -0700
+   d="scan'208";a="316788223"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:11:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="681037151"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="671890390"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="681037151"
+   d="scan'208";a="671890390"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Mar 2023 06:11:19 -0700
+  by orsmga007.jf.intel.com with ESMTP; 13 Mar 2023 06:11:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbhxO-0005gX-34;
-	Mon, 13 Mar 2023 13:11:18 +0000
-Date: Mon, 13 Mar 2023 21:10:22 +0800
+	id 1pbhxP-0005gb-03;
+	Mon, 13 Mar 2023 13:11:19 +0000
+Date: Mon, 13 Mar 2023 21:10:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:01.03-gsp-ada 61/68]
- drivers/gpu/drm/nouveau/nvkm/engine/gr/r525.c:232:22: warning: variable
- 'nonmapped' set but not used
-Message-ID: <202303132114.AAeCFf5J-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/5] clocksource: timer-stm32-lp: Mark driver as
+ non-removable
+Message-ID: <202303132013.6jB1U6Dg-lkp@intel.com>
+References: <20230313075430.2730803-3-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230313075430.2730803-3-u.kleine-koenig@pengutronix.de>
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 01.03-gsp-ada
-head:   89da5e5109a92f4be025e40b80d1f1a6c1d6d8c7
-commit: dd4f302a8aa6f5cf904fc48fecef3b0ec47ea317 [61/68] gr
-config: arm-randconfig-r046-20230313 (https://download.01.org/0day-ci/archive/20230313/202303132114.AAeCFf5J-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Uwe,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/clocksource-sh_mtu2-Mark-driver-as-non-removable/20230313-155913
+base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+patch link:    https://lore.kernel.org/r/20230313075430.2730803-3-u.kleine-koenig%40pengutronix.de
+patch subject: [PATCH 2/5] clocksource: timer-stm32-lp: Mark driver as non-removable
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230313/202303132013.6jB1U6Dg-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add skeggsb-nouveau https://gitlab.freedesktop.org/skeggsb/nouveau
-        git fetch --no-tags skeggsb-nouveau 01.03-gsp-ada
-        git checkout dd4f302a8aa6f5cf904fc48fecef3b0ec47ea317
+        # https://github.com/intel-lab-lkp/linux/commit/d4016ca907c0dd473c1f28ce43f4ef2495cf1dd5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Uwe-Kleine-K-nig/clocksource-sh_mtu2-Mark-driver-as-non-removable/20230313-155913
+        git checkout d4016ca907c0dd473c1f28ce43f4ef2495cf1dd5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303132114.AAeCFf5J-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303132013.6jB1U6Dg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/engine/gr/r525.c: In function 'r525_gr_oneinit_ctx':
->> drivers/gpu/drm/nouveau/nvkm/engine/gr/r525.c:232:22: warning: variable 'nonmapped' set but not used [-Wunused-but-set-variable]
-     232 |                 bool nonmapped = false;
-         |                      ^~~~~~~~~
+>> drivers/clocksource/timer-stm32-lp.c:205:19: error: 'stm32_clkevent_lp_remove' undeclared here (not in a function); did you mean 'stm32_clkevent_lp_probe'?
+     205 |         .remove = stm32_clkevent_lp_remove,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                   stm32_clkevent_lp_probe
+   drivers/clocksource/timer-stm32-lp.c:142:12: warning: 'stm32_clkevent_lp_probe' defined but not used [-Wunused-function]
+     142 | static int stm32_clkevent_lp_probe(struct platform_device *pdev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/nonmapped +232 drivers/gpu/drm/nouveau/nvkm/engine/gr/r525.c
+vim +205 drivers/clocksource/timer-stm32-lp.c
 
-   212	
-   213	static int
-   214	r525_gr_oneinit_ctx(struct r525_gr *gr)
-   215	{
-   216		NV2080_CTRL_INTERNAL_STATIC_GR_GET_CONTEXT_BUFFERS_INFO_PARAMS *info;
-   217		struct nvkm_device *device = gr->base.engine.subdev.device;
-   218		struct nvkm_gsp *gsp = device->gsp;
-   219		int ret;
-   220	
-   221		info = nvkm_gsp_rm_ctrl_rd(gsp, gsp->client, gsp->subdevice,
-   222					   NV2080_CTRL_CMD_INTERNAL_STATIC_KGR_GET_CONTEXT_BUFFERS_INFO,
-   223					   sizeof(*info));
-   224		if (WARN_ON(IS_ERR(info)))
-   225			return PTR_ERR(info);
-   226	
-   227		for (int i = 0; i < ARRAY_SIZE(info->engineContextBuffersInfo[0].engine); i++) {
-   228			u32 size = info->engineContextBuffersInfo[0].engine[i].size;
-   229			u32 align = info->engineContextBuffersInfo[0].engine[i].alignment;
-   230			bool global = true;
-   231			bool init = false;
- > 232			bool nonmapped = false;
-   233			bool priv = true;
-   234			bool ro = false;
-   235			int id;
-   236	
-   237			switch (i) {
-   238			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS:
-   239				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_MAIN;
-   240				size = ALIGN(size, 0x1000) + 64 * 0x1000; /* per-subctx headers */
-   241				global = false;
-   242				init = true;
-   243				break;
-   244			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_PATCH:
-   245				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_PATCH;
-   246				global = false;
-   247				init = true;
-   248				priv = false;
-   249				break;
-   250			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_BUNDLE_CB:
-   251				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_BUFFER_BUNDLE_CB;
-   252				break;
-   253			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_PAGEPOOL:
-   254				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_PAGEPOOL;
-   255				break;
-   256			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_ATTRIBUTE_CB:
-   257				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_ATTRIBUTE_CB;
-   258				break;
-   259			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_RTV_CB_GLOBAL:
-   260				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_RTV_CB_GLOBAL;
-   261				break;
-   262			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_FECS_EVENT:
-   263				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_FECS_EVENT;
-   264				init = true;
-   265				break;
-   266			case NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPHICS_PRIV_ACCESS_MAP:
-   267				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_PRIV_ACCESS_MAP;
-   268				nonmapped = true; // for just this one
-   269				id = NV2080_CTRL_GPU_PROMOTE_CTX_BUFFER_ID_UNRESTRICTED_PRIV_ACCESS_MAP;
-   270				init = true; // for both
-   271				priv = false; // for both
-   272				ro = true; // for just this one
-   273				break;
-   274			default:
-   275				continue;
-   276			}
-   277	
-   278			if (WARN_ON(gr->ctxbuf_nr == ARRAY_SIZE(gr->ctxbuf)))
-   279				continue;
-   280	
-   281			gr->ctxbuf[gr->ctxbuf_nr].global = global;
-   282			gr->ctxbuf[gr->ctxbuf_nr].size = size;
-   283			gr->ctxbuf[gr->ctxbuf_nr].align = align;
-   284			gr->ctxbuf[gr->ctxbuf_nr].bufferId = id;
-   285			gr->ctxbuf[gr->ctxbuf_nr].init = init;
-   286			gr->ctxbuf[gr->ctxbuf_nr].priv = priv;
-   287			gr->ctxbuf[gr->ctxbuf_nr].ro = ro;
-   288	
-   289			if (global) {
-   290				ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST,
-   291						      gr->ctxbuf[gr->ctxbuf_nr].size,
-   292						      gr->ctxbuf[gr->ctxbuf_nr].align,
-   293						      true, &gr->ctxbuf[gr->ctxbuf_nr].mem);
-   294				if (ret)
-   295					return ret;
-   296			}
-   297	
-   298			gr->ctxbuf_nr++;
-   299		}
-   300	
-   301		nvkm_gsp_rm_ctrl_done(gsp, info);
-   302		return 0;
-   303	}
-   304	
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  203  
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  204  static struct platform_driver stm32_clkevent_lp_driver = {
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03 @205  	.remove = stm32_clkevent_lp_remove,
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  206  	.driver	= {
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  207  		.name = "stm32-lptimer-timer",
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  208  		.of_match_table = of_match_ptr(stm32_clkevent_lp_of_match),
+d4016ca907c0dd Uwe Kleine-König  2023-03-13  209  		.suppress_bind_attrs = true,
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  210  	},
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  211  };
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  212  module_platform_driver(stm32_clkevent_lp_driver);
+48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  213  
 
 -- 
 0-DAY CI Kernel Test Service
