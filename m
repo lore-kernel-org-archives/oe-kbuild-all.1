@@ -1,114 +1,129 @@
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [67.231.157.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BCB15CA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 04:21:18 +0000 (UTC)
-Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
-	by m0050096.ppops.net-00190b01. (8.17.1.19/8.17.1.19) with ESMTP id 32CMAHrW000482;
-	Mon, 13 Mar 2023 04:21:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=TzJVh+dxMT6mR15lG3sKLDEd6Y26nG7ZzyEy72FTopo=;
- b=OV9k2OEQuGGy0p7/sREm9aCbSX7QARZgh7Bdy3KNNeuBBA63fz8o45Tk+DZfel2byTyc
- Vt61OEkje+0NIhp3/WhekUJui6Qhuk6mKgHW5Ka4fmawpixwRYhUHYOTRx2aNd0VuF5V
- XyixErX1XU8iWGsMYMehtL46ijmmz5BwUEMQxWm/jWhVwd8McVHeLhLhKX1+T5nTOS2e
- o6yrlpCG+cYO1Z6Es62hUYGS6eQtHKXHSwB/8xHHkkrqXnEnAEqudHNWd4hcZB89ijus
- Azr9MrygJCsdPZwlLuDfbRdHDFYfpCI7kx1L8hDG0XonjoEN9Gx4uMuErKGyXmubekyd Qg== 
-Received: from prod-mail-ppoint1 (prod-mail-ppoint1.akamai.com [184.51.33.18] (may be forged))
-	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3p8jxjfu1c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Mar 2023 04:21:12 +0000
-Received: from pps.filterd (prod-mail-ppoint1.akamai.com [127.0.0.1])
-	by prod-mail-ppoint1.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 32CN16eE008402;
-	Mon, 13 Mar 2023 00:21:11 -0400
-Received: from prod-mail-relay10.akamai.com ([172.27.118.251])
-	by prod-mail-ppoint1.akamai.com (PPS) with ESMTP id 3p8nv3689v-1;
-	Mon, 13 Mar 2023 00:21:11 -0400
-Received: from [172.19.47.106] (bos-lpa4700a.bos01.corp.akamai.com [172.19.47.106])
-	by prod-mail-relay10.akamai.com (Postfix) with ESMTP id 292F95473B;
-	Mon, 13 Mar 2023 04:21:11 +0000 (GMT)
-Message-ID: <6f66fbe7-49da-a2ab-cc2c-596a572ea6c2@akamai.com>
-Date: Mon, 13 Mar 2023 00:21:10 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BF2184F;
+	Mon, 13 Mar 2023 04:36:44 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id ay8so1726446wmb.1;
+        Sun, 12 Mar 2023 21:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=o8UFDtry4uG1JbWAltEud3mIbYrFjovuA16M/p1MxxmdZzNiBEhexzUGojCZBwEFlp
+         fJcPjpPXs4mQeTB5Yr+z85ztvyu4LL3T8+KrUqp5t5GDqI910fvVlZ878MJuAH2qCKKf
+         NCeklxFow7mAXbMUVIRT0gH1UY0HjcyZnRehs6Q+NCloAR4y5fSOZL/H4dLqf13/Mmc4
+         XLlfwl6mgJSvFVcLtRvQzrQqbC8IAB8qBDGwoaye5gbsF8iS8wSeMETb31PfD17oiI03
+         6TxCm900m+1G5hzyf28lu2ozkICGb0eUnEPUZH8s+qNCB0M2Tqz3AZJzl9Y/ZC6+Pc2P
+         WIWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=OTtgWu12RTPOi/u6IcrTYu/oB1luiCXwZYwMyjDNhP+GDZ3dg2FE+Pd7p0qE5kYpeY
+         i292zdvpd5u9atiXrqDT/iwjuMs0Fj21ghkcFlHEht8VurzyJcAhv2k/fHWg2gWIjTT3
+         RxOOcg0QFDQLj8iN24wXYgQkU1VjxnYbYV0ypOeOAoJNuBaK7efCLV3pqVJFmF1qxCeL
+         P/v0OBVXk26OKhaH9AgkRSWTBHVwVJb+i/83evZfmuOwmpQng4JIAF+GujIBOc4O4LOI
+         urPjTjd311MiorWNukr4kqcpYsNkzou+0fwuigBMVFvywdiLv536ThK1Vjl3PaE0caYv
+         kyKg==
+X-Gm-Message-State: AO0yUKUucysch7qhMFAWAnSRrs2jfOE6IAt+IaAyblVmjCdA5mdB5DoK
+	OiDDMcQ0vrG6DYZWh6kFnuStllswoU8=
+X-Google-Smtp-Source: AK7set+92T7zGiAWcx1G/zea8syZ/x/ZAOEQVX1oETWHiO4OPz7n5Ubnyu927iW/B/MnO5SdkvhlxQ==
+X-Received: by 2002:a05:600c:4751:b0:3ea:f0d6:5d36 with SMTP id w17-20020a05600c475100b003eaf0d65d36mr9722929wmo.29.1678682202670;
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003eb68bb61c8sm7659421wme.3.2023.03.12.21.36.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:36:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Benjamin Roszak <benjamin545@gmail.com>
+Subject: Re: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+Message-ID: <84114d96-87ac-4fc1-842d-aefb1da49914@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [mcgrof:modules-next 9/9] lib/dynamic_debug.c:857:6: warning: no
- previous prototype for '__dynamic_pr_debug'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
-References: <202303111333.Rqs7rhRE-lkp@intel.com>
-From: Jason Baron <jbaron@akamai.com>
-In-Reply-To: <202303111333.Rqs7rhRE-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130035
-X-Proofpoint-GUID: 2GlquSqBA9z-A-aR1RyEc2nV9V_WpZRy
-X-Proofpoint-ORIG-GUID: 2GlquSqBA9z-A-aR1RyEc2nV9V_WpZRy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303130035
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124034058.3407235-3-christianshewitt@gmail.com>
 
-On 3/11/23 12:01 AM, kernel test robot wrote:
-> tree:   https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvdaXu2a4$  modules-next
-> head:   40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
-> commit: 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d [9/9] dyndbg: cleanup dynamic usage in ib_srp.c
-> config: parisc-randconfig-r011-20230310 (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20230311/202303111333.Rqs7rhRE-lkp@intel.com/config__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv3X0Zx8I$ )
-> compiler: hppa-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://urldefense.com/v3/__https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvxXRA7As$  -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv3nGWtus$
->          git remote add mcgrof https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_HvdaXu2a4$
->          git fetch --no-tags mcgrof modules-next
->          git checkout 40cf65c2c7dfb5bd2e553e80c20f4693430b6d4d
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202303111333.Rqs7rhRE-lkp@intel.com/__;!!GjvTz_vk!UY-kgys0XdPUeY6rTX_-r8Bq3Jxd2BsmLVXx_TjSIX5be32flJLNsGMrdGCIZ_Hv-uYrPWM$
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> lib/dynamic_debug.c:857:6: warning: no previous prototype for '__dynamic_pr_debug' [-Wmissing-prototypes]
->       857 | void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
->           |      ^~~~~~~~~~~~~~~~~~
->>> lib/dynamic_debug.c:877:6: warning: no previous prototype for '__dynamic_dev_dbg' [-Wmissing-prototypes]
->       877 | void __dynamic_dev_dbg(struct _ddebug *descriptor,
->           |      ^~~~~~~~~~~~~~~~~
->>> lib/dynamic_debug.c:908:6: warning: no previous prototype for '__dynamic_netdev_dbg' [-Wmissing-prototypes]
->       908 | void __dynamic_netdev_dbg(struct _ddebug *descriptor,
->           |      ^~~~~~~~~~~~~~~~~~~~
-> 
+Hi Christian,
 
-Hi Luis,
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-More Whack-A-Mole here. I cross-compiled to reproduce this error and 
-seems like lots of functions in other files hit this warning. However, 
-it's newly introduced with the latest patch added to modules-next, and 
-thus I've sent a patch in reply to the thread to address it. Perhaps, it 
-can be folded into the previous patch if it makes sense?
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230124-114201
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230124034058.3407235-3-christianshewitt%40gmail.com
+patch subject: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120441.YFGHDOya-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
-Thanks,
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
 
--Jason
+smatch warnings:
+drivers/staging/media/meson/vdec/codec_hevc.c:734 codec_hevc_prepare_new_frame() warn: possible memory leak of 'new_frame'
+
+vim +/new_frame +734 drivers/staging/media/meson/vdec/codec_hevc.c
+
+015f7814a5a991 Maxime Jourdan 2023-01-24  718  static struct hevc_frame *
+015f7814a5a991 Maxime Jourdan 2023-01-24  719  codec_hevc_prepare_new_frame(struct amvdec_session *sess)
+015f7814a5a991 Maxime Jourdan 2023-01-24  720  {
+015f7814a5a991 Maxime Jourdan 2023-01-24  721  	struct amvdec_core *core = sess->core;
+015f7814a5a991 Maxime Jourdan 2023-01-24  722  	struct hevc_frame *new_frame = NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  723  	struct codec_hevc *hevc = sess->priv;
+015f7814a5a991 Maxime Jourdan 2023-01-24  724  	struct vb2_v4l2_buffer *vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  725  	union rpm_param *params = &hevc->rpm_param;
+015f7814a5a991 Maxime Jourdan 2023-01-24  726  
+015f7814a5a991 Maxime Jourdan 2023-01-24  727  	new_frame = kzalloc(sizeof(*new_frame), GFP_KERNEL);
+015f7814a5a991 Maxime Jourdan 2023-01-24  728  	if (!new_frame)
+015f7814a5a991 Maxime Jourdan 2023-01-24  729  		return NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  730  
+015f7814a5a991 Maxime Jourdan 2023-01-24  731  	vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
+015f7814a5a991 Maxime Jourdan 2023-01-24  732  	if (!vbuf) {
+015f7814a5a991 Maxime Jourdan 2023-01-24  733  		dev_err(sess->core->dev, "No dst buffer available\n");
+015f7814a5a991 Maxime Jourdan 2023-01-24 @734  		return NULL;
+
+kfree(new_frame);
+
+015f7814a5a991 Maxime Jourdan 2023-01-24  735  	}
+015f7814a5a991 Maxime Jourdan 2023-01-24  736  
+015f7814a5a991 Maxime Jourdan 2023-01-24  737  	new_frame->vbuf = vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  738  	new_frame->referenced = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  739  	new_frame->show = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  740  	new_frame->poc = hevc->curr_poc;
+015f7814a5a991 Maxime Jourdan 2023-01-24  741  	new_frame->cur_slice_type = params->p.slice_type;
+015f7814a5a991 Maxime Jourdan 2023-01-24  742  	new_frame->num_reorder_pic = params->p.sps_num_reorder_pics_0;
+015f7814a5a991 Maxime Jourdan 2023-01-24  743  	new_frame->offset = amvdec_read_dos(core, HEVC_SHIFT_BYTE_COUNT);
+015f7814a5a991 Maxime Jourdan 2023-01-24  744  
+015f7814a5a991 Maxime Jourdan 2023-01-24  745  	list_add_tail(&new_frame->list, &hevc->ref_frames_list);
+015f7814a5a991 Maxime Jourdan 2023-01-24  746  	hevc->frames_num++;
+015f7814a5a991 Maxime Jourdan 2023-01-24  747  
+015f7814a5a991 Maxime Jourdan 2023-01-24  748  	return new_frame;
+015f7814a5a991 Maxime Jourdan 2023-01-24  749  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
