@@ -1,43 +1,48 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBE023A7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 09:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C4223BC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 09:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678700710; x=1710236710;
+  t=1678700711; x=1710236711;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/T6IuNMp9hcjQyUHOMww1SBI2NJsOyDeL0Q9XjSabwA=;
-  b=Z/CpS8q+LZX+x/L4a7OggODagTXNJHL1KZVvQsWiIJdMMifaIryp02Dm
-   T1Npd2VXVI4UZdg70E6Q95XuNa8Kozvw+HrKA8fJkAR3kdmk1Gsjiuows
-   j+nAeWoYo43BFg6l+GK1dsYknCVIFIHvzgkUQOLEv+Xbr8azLOjEPPqL8
-   00Pqmp2UyJgd749/zCFH1DGWuFf7CoqXWT9y2p6ii5QgzA4uLd/iJ3Ed2
-   BlvrXcPqBtSiMggOOg0DguEs/er73bY1O07wbTdCz8MazVrS25lli70p4
-   VZsG4JxGzX9eV8FArN7+Y65H+J8IMU0zD6Gn/sPWPBjIuVsx0SV2pMXCn
+  bh=TReTk24bbiXEi1gHGeFE2C7gjJwpDCxBUwc5iby4wHM=;
+  b=a9mxAPbIllxPmOEf+1KCJspPsqGmevYyplak1HxrG3xGedjRW1eu9J9U
+   RPecdcYPXPn1z7abnyX+c7G+4FGYlAtt13cjuFrOFtEHN2gLpq4wq+/qj
+   CH5T/yaA/KHbSfL2iQlnuDf22KYBWUAPEjGnF6ZXFcZPjIuRK3xXPTS5i
+   zbDQZc46VnnQBYkd/zzEE3soJVgtLjLRqHbHXMMPLphUHakEC7UKQSTGE
+   m2t1IEr0fTZdeExvItmU+3o9DTXXjQqOigeDRkc0bEzbO+7dMuTvhvfoF
+   olC1rIIOeg/Yo+p088x50TNF54b9eB/9eYnWJg63phwv4H7YB8oIPT8pP
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="334582267"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="401974931"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="334582267"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:45:09 -0700
+   d="scan'208";a="401974931"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:45:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="711063569"
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="678624245"
 X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="711063569"
+   d="scan'208";a="678624245"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 Mar 2023 02:45:08 -0700
+  by orsmga002.jf.intel.com with ESMTP; 13 Mar 2023 02:45:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbejr-0005X4-2i;
+	id 1pbejr-0005Ww-2S;
 	Mon, 13 Mar 2023 09:45:07 +0000
-Date: Mon, 13 Mar 2023 17:44:17 +0800
+Date: Mon, 13 Mar 2023 17:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Naohiro Aota <naohiro.aota@wdc.com>
-Subject: Re: [PATCH 1/2] btrfs: zoned: count fresh BG region as zone unusable
-Message-ID: <202303131759.8M0pXaNR-lkp@intel.com>
-References: <bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota@wdc.com>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Kalle Valo <kvalo@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Dongliang Mu <dzm91@hust.edu.cn>, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] wifi: ray_cs: remove one redundant del_timer
+Message-ID: <202303131721.wELY9b9M-lkp@intel.com>
+References: <20230313065823.256731-1-dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,158 +51,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota@wdc.com>
+In-Reply-To: <20230313065823.256731-1-dzm91@hust.edu.cn>
 
-Hi Naohiro,
+Hi Dongliang,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.3-rc2 next-20230310]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.3-rc2 next-20230310]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230313-150709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/bdcc434abd271dfd2b75c1b018ed6dbe425f562e.1678689012.git.naohiro.aota%40wdc.com
-patch subject: [PATCH 1/2] btrfs: zoned: count fresh BG region as zone unusable
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230313/202303131759.8M0pXaNR-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/wifi-ray_cs-add-sanity-check-on-local-sram-rmem-amem/20230313-150341
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230313065823.256731-1-dzm91%40hust.edu.cn
+patch subject: [PATCH 1/2] wifi: ray_cs: remove one redundant del_timer
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230313/202303131721.wELY9b9M-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/c266ae6ba937488d8339e586ebcc8c93d3389eb0
+        # https://github.com/intel-lab-lkp/linux/commit/8b405d9c164f51ae0d9a2b1e0b0460b09e71e5c9
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Naohiro-Aota/btrfs-zoned-count-fresh-BG-region-as-zone-unusable/20230313-150709
-        git checkout c266ae6ba937488d8339e586ebcc8c93d3389eb0
+        git fetch --no-tags linux-review Dongliang-Mu/wifi-ray_cs-add-sanity-check-on-local-sram-rmem-amem/20230313-150341
+        git checkout 8b405d9c164f51ae0d9a2b1e0b0460b09e71e5c9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/btrfs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303131759.8M0pXaNR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303131721.wELY9b9M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:22,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/pagemap.h:8,
-                    from fs/btrfs/free-space-cache.c:6:
-   fs/btrfs/free-space-cache.c: In function '__btrfs_add_free_space_zoned':
->> fs/btrfs/free-space-cache.c:2700:27: error: 'BTRFS_FS_ACTIVE_ZONE_TRACKING' undeclared (first use in this function)
-    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
-      49 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   fs/btrfs/free-space-cache.c:2700:18: note: in expansion of macro 'test_bit'
-    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
-         |                  ^~~~~~~~
-   fs/btrfs/free-space-cache.c:2700:27: note: each undeclared identifier is reported only once for each function it appears in
-    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
-      49 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   fs/btrfs/free-space-cache.c:2700:18: note: in expansion of macro 'test_bit'
-    2700 |                  test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
-         |                  ^~~~~~~~
---
-   In file included from fs/btrfs/zoned.c:3:
-   fs/btrfs/zoned.c: In function 'btrfs_calc_zone_unusable':
->> fs/btrfs/zoned.c:1586:22: error: 'BTRFS_FS_ACTIVE_ZONE_TRACKING' undeclared (first use in this function)
-    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
-      49 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   fs/btrfs/zoned.c:1586:13: note: in expansion of macro 'test_bit'
-    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
-         |             ^~~~~~~~
-   fs/btrfs/zoned.c:1586:22: note: each undeclared identifier is reported only once for each function it appears in
-    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:49:32: note: in definition of macro 'bitop'
-      49 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   fs/btrfs/zoned.c:1586:13: note: in expansion of macro 'test_bit'
-    1586 |         if (test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &cache->fs_info->flags) &&
-         |             ^~~~~~~~
+   drivers/net/wireless/ray_cs.c: In function 'ray_detach':
+>> drivers/net/wireless/ray_cs.c:325:20: warning: unused variable 'local' [-Wunused-variable]
+     325 |         ray_dev_t *local;
+         |                    ^~~~~
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/paravirt.h:17,
+                    from arch/x86/include/asm/cpuid.h:62,
+                    from arch/x86/include/asm/processor.h:19,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/net/wireless/ray_cs.c:20:
+   In function 'strncpy',
+       inlined from 'init_startup_params' at drivers/net/wireless/ray_cs.c:625:3:
+   include/linux/fortify-string.h:68:33: warning: '__builtin_strncpy' specified bound 32 equals destination size [-Wstringop-truncation]
+      68 | #define __underlying_strncpy    __builtin_strncpy
+         |                                 ^
+   include/linux/fortify-string.h:151:16: note: in expansion of macro '__underlying_strncpy'
+     151 |         return __underlying_strncpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/BTRFS_FS_ACTIVE_ZONE_TRACKING +2700 fs/btrfs/free-space-cache.c
+vim +/local +325 drivers/net/wireless/ray_cs.c
 
-  2678	
-  2679	static int __btrfs_add_free_space_zoned(struct btrfs_block_group *block_group,
-  2680						u64 bytenr, u64 size, bool used)
-  2681	{
-  2682		struct btrfs_space_info *sinfo = block_group->space_info;
-  2683		struct btrfs_free_space_ctl *ctl = block_group->free_space_ctl;
-  2684		u64 offset = bytenr - block_group->start;
-  2685		u64 to_free, to_unusable;
-  2686		int bg_reclaim_threshold = 0;
-  2687		bool initial = (size == block_group->length);
-  2688		u64 reclaimable_unusable;
-  2689	
-  2690		WARN_ON(!initial && offset + size > block_group->zone_capacity);
-  2691	
-  2692		if (!initial)
-  2693			bg_reclaim_threshold = READ_ONCE(sinfo->bg_reclaim_threshold);
-  2694	
-  2695		spin_lock(&ctl->tree_lock);
-  2696		/* Count initial region as zone_unusable until it gets activated. */
-  2697		if (!used)
-  2698			to_free = size;
-  2699		else if (initial &&
-> 2700			 test_bit(BTRFS_FS_ACTIVE_ZONE_TRACKING, &block_group->fs_info->flags) &&
-  2701			 block_group->flags & (BTRFS_BLOCK_GROUP_METADATA | BTRFS_BLOCK_GROUP_SYSTEM))
-  2702			to_free = 0;
-  2703		else if (initial)
-  2704			to_free = block_group->zone_capacity;
-  2705		else if (offset >= block_group->alloc_offset)
-  2706			to_free = size;
-  2707		else if (offset + size <= block_group->alloc_offset)
-  2708			to_free = 0;
-  2709		else
-  2710			to_free = offset + size - block_group->alloc_offset;
-  2711		to_unusable = size - to_free;
-  2712	
-  2713		ctl->free_space += to_free;
-  2714		/*
-  2715		 * If the block group is read-only, we should account freed space into
-  2716		 * bytes_readonly.
-  2717		 */
-  2718		if (!block_group->ro)
-  2719			block_group->zone_unusable += to_unusable;
-  2720		spin_unlock(&ctl->tree_lock);
-  2721		if (!used) {
-  2722			spin_lock(&block_group->lock);
-  2723			block_group->alloc_offset -= size;
-  2724			spin_unlock(&block_group->lock);
-  2725		}
-  2726	
-  2727		reclaimable_unusable = block_group->zone_unusable -
-  2728				       (block_group->length - block_group->zone_capacity);
-  2729		/* All the region is now unusable. Mark it as unused and reclaim */
-  2730		if (block_group->zone_unusable == block_group->length &&
-  2731		    block_group->alloc_offset) {
-  2732			btrfs_mark_bg_unused(block_group);
-  2733		} else if (bg_reclaim_threshold &&
-  2734			   reclaimable_unusable >=
-  2735			   mult_perc(block_group->zone_capacity, bg_reclaim_threshold)) {
-  2736			btrfs_mark_bg_to_reclaim(block_group);
-  2737		}
-  2738	
-  2739		return 0;
-  2740	}
-  2741	
+141fa61f10c419 John Daiker       2009-03-10  321  
+fba395eee7d3f3 Dominik Brodowski 2006-03-31  322  static void ray_detach(struct pcmcia_device *link)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  323  {
+cc3b4866bee996 Dominik Brodowski 2005-11-14  324  	struct net_device *dev;
+cc3b4866bee996 Dominik Brodowski 2005-11-14 @325  	ray_dev_t *local;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  326  
+624dd66957e53e Dominik Brodowski 2009-10-24  327  	dev_dbg(&link->dev, "ray_detach\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  328  
+fd238232cd0ff4 Dominik Brodowski 2006-03-05  329  	this_device = NULL;
+cc3b4866bee996 Dominik Brodowski 2005-11-14  330  	dev = link->priv;
+cc3b4866bee996 Dominik Brodowski 2005-11-14  331  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  332  	ray_release(link);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  333  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  334  	if (link->priv) {
+141fa61f10c419 John Daiker       2009-03-10  335  		unregister_netdev(dev);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  336  		free_netdev(dev);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  337  	}
+624dd66957e53e Dominik Brodowski 2009-10-24  338  	dev_dbg(&link->dev, "ray_cs ray_detach ending\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  339  } /* ray_detach */
+141fa61f10c419 John Daiker       2009-03-10  340  
 
 -- 
 0-DAY CI Kernel Test Service
