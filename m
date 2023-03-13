@@ -1,80 +1,78 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F212569
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 13:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E803328F2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 15:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678713083; x=1710249083;
+  t=1678719837; x=1710255837;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5/v8hZeX3JHTuddiH+ohsP0faMUyO1GG9lvlYbgaG4s=;
-  b=G6wRaSfFrzeckYzbZQvhH1s5JhDzShxbYetRQNS0P94epqwIeklRq9lP
-   oLScbdfsMxrO9LHzIuFBqePx03+2CMElftcYK6GsjGPqNe92gD59re7na
-   qJqwebtHF2RQhMmvSLEQ0djAzypFRafxT19plqfqYBnqUezA+Y3HxFFD4
-   UkYza1VkuNVZnjHaHe2ib3z9uuBoPqnKaPe+R8ArVVcH/LuneaiwNJAL7
-   bDf/BZS3RfbcCJIChADZ/KMNWPFC4pkzdNyj1n7rr5mctOKLdJr+AXJx5
-   tKRrdnblVCzSuV8ONwloyupqsQM7l4f4Jm9EjDLuSlESueUvCCZi8vKsS
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="316788223"
+   mime-version:in-reply-to;
+  bh=nnPVxqaWPSM62/7tvPcwit7boeqwp9uA7g0BvtONDlc=;
+  b=SQi/DIzuSQcXNEQtUvFHM8GZWTaVQUGflhx9fNZnI/t19UnAfNTmWIG/
+   K5r9J67IYtEgPmSwwzQvXIbnesILhDuJXn3GJw7jw0WtuOF288zcn2ZW5
+   8Ykw63LilYXDJYeJKymVjua/uTggcE1Yno40H8Bur7yySBa48spXA2ZCC
+   kv9GckKCS/4pm1ceZFxohzsagR9gEQU4X8vXG8aqLwvJPy1pKHqzQMrYA
+   9Vlrm4SEKjlwohmNam/KX8lKqdv90E7rwXAApEnwxP6VbQwtRaf1ZlQ3a
+   /B5KFSgGCjNkAx7ENhy11WV7p3Z5CdegNq7FCPtP8aqFgIkXlLdd0zJbw
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="339536931"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="316788223"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:11:22 -0700
+   d="scan'208";a="339536931"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 08:03:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="671890390"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="1008016668"
 X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="671890390"
+   d="scan'208";a="1008016668"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 13 Mar 2023 06:11:19 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 13 Mar 2023 08:03:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbhxP-0005gb-03;
-	Mon, 13 Mar 2023 13:11:19 +0000
-Date: Mon, 13 Mar 2023 21:10:21 +0800
+	id 1pbjhs-0005n0-1m;
+	Mon, 13 Mar 2023 15:03:24 +0000
+Date: Mon, 13 Mar 2023 23:02:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
+To: Song Shuai <suagrfillet@gmail.com>, sudeep.holla@arm.com,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	conor.dooley@microchip.com, ionela.voinescu@arm.com
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/5] clocksource: timer-stm32-lp: Mark driver as
- non-removable
-Message-ID: <202303132013.6jB1U6Dg-lkp@intel.com>
-References: <20230313075430.2730803-3-u.kleine-koenig@pengutronix.de>
+	Song Shuai <suagrfillet@gmail.com>
+Subject: Re: [PATCH] arch_topology: Clear LLC sibling when cacheinfo teardown
+Message-ID: <202303132209.invDMo8L-lkp@intel.com>
+References: <20230313102752.1134472-1-suagrfillet@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230313075430.2730803-3-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230313102752.1134472-1-suagrfillet@gmail.com>
 
-Hi Uwe,
+Hi Song,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test ERROR on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.3-rc2 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/clocksource-sh_mtu2-Mark-driver-as-non-removable/20230313-155913
-base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-patch link:    https://lore.kernel.org/r/20230313075430.2730803-3-u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH 2/5] clocksource: timer-stm32-lp: Mark driver as non-removable
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230313/202303132013.6jB1U6Dg-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Song-Shuai/arch_topology-Clear-LLC-sibling-when-cacheinfo-teardown/20230313-182946
+patch link:    https://lore.kernel.org/r/20230313102752.1134472-1-suagrfillet%40gmail.com
+patch subject: [PATCH] arch_topology: Clear LLC sibling when cacheinfo teardown
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230313/202303132209.invDMo8L-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d4016ca907c0dd473c1f28ce43f4ef2495cf1dd5
+        # https://github.com/intel-lab-lkp/linux/commit/a9aca0a81b31b421e3bbfa08fd205a8bec651afe
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Uwe-Kleine-K-nig/clocksource-sh_mtu2-Mark-driver-as-non-removable/20230313-155913
-        git checkout d4016ca907c0dd473c1f28ce43f4ef2495cf1dd5
+        git fetch --no-tags linux-review Song-Shuai/arch_topology-Clear-LLC-sibling-when-cacheinfo-teardown/20230313-182946
+        git checkout a9aca0a81b31b421e3bbfa08fd205a8bec651afe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
@@ -82,32 +80,30 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303132013.6jB1U6Dg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303132209.invDMo8L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clocksource/timer-stm32-lp.c:205:19: error: 'stm32_clkevent_lp_remove' undeclared here (not in a function); did you mean 'stm32_clkevent_lp_probe'?
-     205 |         .remove = stm32_clkevent_lp_remove,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                   stm32_clkevent_lp_probe
-   drivers/clocksource/timer-stm32-lp.c:142:12: warning: 'stm32_clkevent_lp_probe' defined but not used [-Wunused-function]
-     142 | static int stm32_clkevent_lp_probe(struct platform_device *pdev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c: In function 'cacheinfo_cpu_pre_down':
+>> drivers/base/cacheinfo.c:818:9: error: implicit declaration of function 'clear_llc_topology' [-Werror=implicit-function-declaration]
+     818 |         clear_llc_topology(cpu);
+         |         ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +205 drivers/clocksource/timer-stm32-lp.c
+vim +/clear_llc_topology +818 drivers/base/cacheinfo.c
 
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  203  
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  204  static struct platform_driver stm32_clkevent_lp_driver = {
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03 @205  	.remove = stm32_clkevent_lp_remove,
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  206  	.driver	= {
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  207  		.name = "stm32-lptimer-timer",
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  208  		.of_match_table = of_match_ptr(stm32_clkevent_lp_of_match),
-d4016ca907c0dd Uwe Kleine-König  2023-03-13  209  		.suppress_bind_attrs = true,
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  210  	},
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  211  };
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  212  module_platform_driver(stm32_clkevent_lp_driver);
-48b41c5e2de6c5 Benjamin Gaignard 2020-06-03  213  
+   811	
+   812	static int cacheinfo_cpu_pre_down(unsigned int cpu)
+   813	{
+   814		if (cpumask_test_and_clear_cpu(cpu, &cache_dev_map))
+   815			cpu_cache_sysfs_exit(cpu);
+   816	
+   817		free_cache_attributes(cpu);
+ > 818		clear_llc_topology(cpu);
+   819		return 0;
+   820	}
+   821	
 
 -- 
 0-DAY CI Kernel Test Service
