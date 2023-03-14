@@ -1,46 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8934D8F4E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Mar 2023 23:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413F2180
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 00:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678751335; x=1710287335;
+  t=1678752656; x=1710288656;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P2sFRGX2tyldNG8s4paLbEaKwLiCCpkP6wJ6OMWsOh4=;
-  b=Xr8qVGNVBKTNdR1pqOQwpCOx+rIzKHCSYR8fR6AQdgVLeEqxs2fidSea
-   9UpjEkpO4w1M075CmwTx//HdfzYucqgitGVFQH8rrYqVR9Ub4joGMfpEG
-   puSnOfsyht8C03Virz9vL6955fl7Lgc2O2yTQNDedxksa8JGUc/ldvZHY
-   CIbjd9aYKjoi+NiI8X2qWt7wXlKzgFL0ONmdlZ/DjXULJKlfD35Y8AaTW
-   b66GjVIodujWC64beKTlggWwZqMP5vNlcYseQQqLEIviMEWV53z0RUOlJ
-   yYUQsdx4YMfj3n7tTxuKPlwCNSCarhVdzPdDaauiARmvRJ7PrVK3vD1+G
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317673674"
+  bh=Pif9g2Hy6tVnxIcY/bqY6k4qxAqJzvCqaLV9EEe7nl4=;
+  b=Xz42eW39aPEyh4TDipCFOamcvYpBI3NQLYyEAzyl9cA2fqGuwXmiV+Jw
+   9++dWsweXVaYzHawy69jtuUarM+7raSkxZqHrOeZ/0WX51bV4jgU4Dpr1
+   HFmk4CAqPMV1ZI1k07VtEIFT1/phk6+3aISYwhL73mNnx4JLEMEe0BlRu
+   PS5r0s+VmK3Ta6FRsElGxqDpZjcQsJ+hCHayPXxGvrQrLG90CjHMZUp2m
+   Q7BmbwnSc9YFLABHbtNUX2T8Ac5oKgrFFoiTrrx/AB0KqYLiYtxQHzmGP
+   SJ/7Gv6ExbwI9gRVNyf8MxzKP0HSbDc3YAJXkIDhhWFqqqBoWjp/ZSgPQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321143957"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="317673674"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 16:48:54 -0700
+   d="scan'208";a="321143957"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 17:10:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="1008183439"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767896138"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="1008183439"
+   d="scan'208";a="767896138"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Mar 2023 16:48:53 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2023 17:10:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbruO-0006Fw-1V;
-	Mon, 13 Mar 2023 23:48:52 +0000
-Date: Tue, 14 Mar 2023 07:48:30 +0800
+	id 1pbsFh-0006H2-28;
+	Tue, 14 Mar 2023 00:10:53 +0000
+Date: Tue, 14 Mar 2023 08:10:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.10.y 5636/9999]
- drivers/gpu/drm/vc4/vc4_dsi.c:617:35: warning: 'dsi0_regs' defined but not
- used
-Message-ID: <202303140727.tgVAtoI7-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 52/91] sound/soc/ti/davinci-i2s.c:618:12:
+ error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
+Message-ID: <202303140827.E1tEJUpu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,70 +47,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Maxime,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   955623617f2f505ac08d0efda2bb50c1a52e2c96
-commit: 6cc1edddcf02f69664887ea7ed4b604481ae300e [5636/9999] drm/vc4: dsi: Introduce a variant structure
-config: x86_64-buildonly-randconfig-r004-20230313 (https://download.01.org/0day-ci/archive/20230314/202303140727.tgVAtoI7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   86a62a3b93d7da9a5a00f69791aeaa9ca040e5ba
+commit: dc94c861974bb68c9d65dc5c77bdf58e062bfd62 [52/91] UPSTREAM: ASoC: soc-dai.h: cleanup Playback/Capture data for snd_soc_dai
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230314/202303140827.E1tEJUpu-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=6cc1edddcf02f69664887ea7ed4b604481ae300e
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.10.y
-        git checkout 6cc1edddcf02f69664887ea7ed4b604481ae300e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout dc94c861974bb68c9d65dc5c77bdf58e062bfd62
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/vc4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash sound/soc/ti/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140727.tgVAtoI7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140827.E1tEJUpu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the chrome-os/chromeos-6.1 HEAD 86a62a3b93d7da9a5a00f69791aeaa9ca040e5ba builds fine.
+      It only hurts bisectability.
 
->> drivers/gpu/drm/vc4/vc4_dsi.c:617:35: warning: 'dsi0_regs' defined but not used [-Wunused-const-variable=]
-     617 | static const struct debugfs_reg32 dsi0_regs[] = {
-         |                                   ^~~~~~~~~
+All errors (new ones prefixed by >>):
+
+   sound/soc/ti/davinci-i2s.c: In function 'davinci_i2s_dai_probe':
+>> sound/soc/ti/davinci-i2s.c:618:12: error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
+     618 |         dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
+         |            ^~
+>> sound/soc/ti/davinci-i2s.c:619:12: error: 'struct snd_soc_dai' has no member named 'capture_dma_data'
+     619 |         dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
+         |            ^~
+--
+   sound/soc/ti/davinci-vcif.c: In function 'davinci_vcif_dai_probe':
+>> sound/soc/ti/davinci-vcif.c:165:12: error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
+     165 |         dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
+         |            ^~
+>> sound/soc/ti/davinci-vcif.c:166:12: error: 'struct snd_soc_dai' has no member named 'capture_dma_data'
+     166 |         dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
+         |            ^~
 
 
-vim +/dsi0_regs +617 drivers/gpu/drm/vc4/vc4_dsi.c
+vim +618 sound/soc/ti/davinci-i2s.c
 
-4078f575714423 Eric Anholt 2017-01-31  616  
-3051719af11eb4 Eric Anholt 2019-02-20 @617  static const struct debugfs_reg32 dsi0_regs[] = {
-3051719af11eb4 Eric Anholt 2019-02-20  618  	VC4_REG32(DSI0_CTRL),
-3051719af11eb4 Eric Anholt 2019-02-20  619  	VC4_REG32(DSI0_STAT),
-3051719af11eb4 Eric Anholt 2019-02-20  620  	VC4_REG32(DSI0_HSTX_TO_CNT),
-3051719af11eb4 Eric Anholt 2019-02-20  621  	VC4_REG32(DSI0_LPRX_TO_CNT),
-3051719af11eb4 Eric Anholt 2019-02-20  622  	VC4_REG32(DSI0_TA_TO_CNT),
-3051719af11eb4 Eric Anholt 2019-02-20  623  	VC4_REG32(DSI0_PR_TO_CNT),
-3051719af11eb4 Eric Anholt 2019-02-20  624  	VC4_REG32(DSI0_DISP0_CTRL),
-3051719af11eb4 Eric Anholt 2019-02-20  625  	VC4_REG32(DSI0_DISP1_CTRL),
-3051719af11eb4 Eric Anholt 2019-02-20  626  	VC4_REG32(DSI0_INT_STAT),
-3051719af11eb4 Eric Anholt 2019-02-20  627  	VC4_REG32(DSI0_INT_EN),
-3051719af11eb4 Eric Anholt 2019-02-20  628  	VC4_REG32(DSI0_PHYC),
-3051719af11eb4 Eric Anholt 2019-02-20  629  	VC4_REG32(DSI0_HS_CLT0),
-3051719af11eb4 Eric Anholt 2019-02-20  630  	VC4_REG32(DSI0_HS_CLT1),
-3051719af11eb4 Eric Anholt 2019-02-20  631  	VC4_REG32(DSI0_HS_CLT2),
-3051719af11eb4 Eric Anholt 2019-02-20  632  	VC4_REG32(DSI0_HS_DLT3),
-3051719af11eb4 Eric Anholt 2019-02-20  633  	VC4_REG32(DSI0_HS_DLT4),
-3051719af11eb4 Eric Anholt 2019-02-20  634  	VC4_REG32(DSI0_HS_DLT5),
-3051719af11eb4 Eric Anholt 2019-02-20  635  	VC4_REG32(DSI0_HS_DLT6),
-3051719af11eb4 Eric Anholt 2019-02-20  636  	VC4_REG32(DSI0_HS_DLT7),
-3051719af11eb4 Eric Anholt 2019-02-20  637  	VC4_REG32(DSI0_PHY_AFEC0),
-3051719af11eb4 Eric Anholt 2019-02-20  638  	VC4_REG32(DSI0_PHY_AFEC1),
-3051719af11eb4 Eric Anholt 2019-02-20  639  	VC4_REG32(DSI0_ID),
-4078f575714423 Eric Anholt 2017-01-31  640  };
-4078f575714423 Eric Anholt 2017-01-31  641  
+5204d49676dae3 sound/soc/davinci/davinci-i2s.c Chaithrika U S 2009-06-05  613  
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  614  static int davinci_i2s_dai_probe(struct snd_soc_dai *dai)
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  615  {
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  616  	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(dai);
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  617  
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03 @618  	dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03 @619  	dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  620  
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  621  	return 0;
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  622  }
+257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  623  
 
-:::::: The code at line 617 was first introduced by commit
-:::::: 3051719af11eb48dc8947826cfb66dbe0f281c7d drm/vc4: Use drm_print_regset32() for our debug register dumping.
+:::::: The code at line 618 was first introduced by commit
+:::::: 257ade78b6019cf1570c1239894a7a6a549768e1 ASoC: davinci-i2s: Convert to use edma-pcm
 
-:::::: TO: Eric Anholt <eric@anholt.net>
-:::::: CC: Eric Anholt <eric@anholt.net>
+:::::: TO: Peter Ujfalusi <peter.ujfalusi@ti.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
