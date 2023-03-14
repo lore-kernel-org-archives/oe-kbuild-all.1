@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E113D8C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 13:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A003D8C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 13:42:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678800723; x=1710336723;
+  t=1678801366; x=1710337366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gi5cXv5mRpuK+/4Lcbbwrki5276g14Wq+F7DD1hd+0U=;
-  b=hwdgftNpciUEq7lpboJl8+e936u6kJwFn8Ss4N+Ww+HvKLEseQfgCT6T
-   ANTgoqhVHKF8Ssw5bqGJfkrboXFhlWI7obmQhSroqCifOmzkBX8uFg7mE
-   yJSY0zaoAsTu+AHNINEwYp7tKyEMxKPtJFqmtJcxy4Pj8mBirdXPMxi9L
-   628y2YTNsfsE5ttLkV699+08fCc0p9GXd9Bdj6P8JRq0fV90h5eCSBg3E
-   RyhnuFAy9a0UNUnX73Rz+5YEEZ4JF1qdafz6aplZ+JHEd5Djdhlyp3Wg1
-   oNBS0zv11eoAVKbV0o7JcFvD8811M3xu+QjFrCy2UbrfjPuBKHbOM/0D3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317069754"
+  bh=xhdqOBgm+eT6EU2uj0PPSEDkI+5sG6KNz51gn81GQAc=;
+  b=f307msAVegVLUfEFn8V0G3sB5O5/ljjMOIPOCrq3RNV+YKfKosQDTqFX
+   c0Ma52s8azBNnimPCZZy9hqRBza3xsr6NFhjivsqGa70UcUVtU4gR8VdC
+   Y6QgjTZauckfOnYdut/PyncDh+Yb0rmglwVI6WPSTZRFJGXZgGLpgmbgr
+   AC2bmzhybjUF3WahLd4pZ9gN3+le/tt5g3E4ISN3/fe0ZZTUfvKNszWL6
+   bpYGQML0Qd/IohCeV650u4GAm7ipnTtBFmNh8nn2QJBdQD5mX6YFJ7jrW
+   N106rgRHGcAzlWQSg5qtXWDyTBTCDgr/dwamVirdb0mCwDFazbt7Rrgzq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317815128"
 X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="317069754"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 06:31:39 -0700
+   d="scan'208";a="317815128"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 06:42:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="768083755"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="768083755"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="672341802"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="672341802"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Mar 2023 06:31:38 -0700
+  by orsmga007.jf.intel.com with ESMTP; 14 Mar 2023 06:42:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pc4kb-0006wW-2j;
-	Tue, 14 Mar 2023 13:31:37 +0000
-Date: Tue, 14 Mar 2023 21:31:11 +0800
+	id 1pc4vG-0006x1-0V;
+	Tue, 14 Mar 2023 13:42:38 +0000
+Date: Tue, 14 Mar 2023 21:41:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split 30/30]
- arch/arm/include/asm/uaccess.h:54:21: error: implicit declaration of
- function 'current_user_ttbr'
-Message-ID: <202303142109.ge6LkN2J-lkp@intel.com>
+ net/ethtool/ioctl.c:2536:1: warning: the frame size of 1120 bytes is larger
+ than 1024 bytes
+Message-ID: <202303142100.KIUtk9qg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,7 +50,7 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split
 head:   8c7a9ba4d5ab142c56f970395de2c419dbcd0a72
 commit: 8c7a9ba4d5ab142c56f970395de2c419dbcd0a72 [30/30] switch PGD/TTBR0 in <asm/uaccess-asm.h>
-config: arm-randconfig-r013-20230313 (https://download.01.org/0day-ci/archive/20230314/202303142109.ge6LkN2J-lkp@intel.com/config)
+config: arm-randconfig-r046-20230313 (https://download.01.org/0day-ci/archive/20230314/202303142100.KIUtk9qg-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -62,99 +62,65 @@ reproduce (this is a W=1 build):
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpio/ fs/ net/ethtool/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303142109.ge6LkN2J-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303142100.KIUtk9qg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/include/asm/pgtable.h:25,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/arm/kernel/asm-offsets.c:12:
-   arch/arm/include/asm/pgtable-nommu.h:49: warning: "ZERO_PAGE" redefined
-      49 | #define ZERO_PAGE(vaddr)        (virt_to_page((const void *)0))
-         | 
-   arch/arm/include/asm/pgtable.h:19: note: this is the location of the previous definition
-      19 | #define ZERO_PAGE(vaddr)        (empty_zero_page)
-         | 
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:740:
-   arch/arm/include/asm/uaccess.h: In function 'uaccess_save_and_enable':
->> arch/arm/include/asm/uaccess.h:54:21: error: implicit declaration of function 'current_user_ttbr' [-Werror=implicit-function-declaration]
-      54 |         user_ttbr = current_user_ttbr();
-         |                     ^~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:55:23: error: implicit declaration of function 'read_sysreg'; did you mean 'read_seqretry'? [-Werror=implicit-function-declaration]
-      55 |         kernel_ttbr = read_sysreg(TTBR1);
-         |                       ^~~~~~~~~~~
-         |                       read_seqretry
->> arch/arm/include/asm/uaccess.h:55:35: error: 'TTBR1' undeclared (first use in this function)
-      55 |         kernel_ttbr = read_sysreg(TTBR1);
-         |                                   ^~~~~
-   arch/arm/include/asm/uaccess.h:55:35: note: each undeclared identifier is reported only once for each function it appears in
-   arch/arm/include/asm/uaccess.h:56:9: error: implicit declaration of function 'write_sysreg' [-Werror=implicit-function-declaration]
-      56 |         write_sysreg(user_ttbr, TTBR0);
-         |         ^~~~~~~~~~~~
->> arch/arm/include/asm/uaccess.h:56:33: error: 'TTBR0' undeclared (first use in this function)
-      56 |         write_sysreg(user_ttbr, TTBR0);
-         |                                 ^~~~~
-   arch/arm/include/asm/uaccess.h: In function 'uaccess_restore':
-   arch/arm/include/asm/uaccess.h:69:29: error: 'TTBR0' undeclared (first use in this function)
-      69 |         write_sysreg(flags, TTBR0);
-         |                             ^~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   net/ethtool/ioctl.c: In function 'ethtool_get_per_queue_coalesce':
+>> net/ethtool/ioctl.c:2536:1: warning: the frame size of 1120 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    2536 | }
+         | ^
+--
+   drivers/gpio/gpiolib-cdev.c: In function 'linereq_create':
+>> drivers/gpio/gpiolib-cdev.c:1768:1: warning: the frame size of 1136 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1768 | }
+         | ^
 
 
-vim +/current_user_ttbr +54 arch/arm/include/asm/uaccess.h
+vim +2536 net/ethtool/ioctl.c
 
-    28	
-    29	/*
-    30	 * These two functions allow hooking accesses to userspace to increase
-    31	 * system integrity by ensuring that the kernel can not inadvertantly
-    32	 * perform such accesses (eg, via list poison values) which could then
-    33	 * be exploited for priviledge escalation.
-    34	 */
-    35	static __always_inline unsigned int uaccess_save_and_enable(void)
-    36	{
-    37	#ifdef CONFIG_CPU_SW_DOMAIN_PAN
-    38		unsigned int old_domain = get_domain();
-    39	
-    40		/* Set the current domain access to permit user accesses */
-    41		set_domain((old_domain & ~domain_mask(DOMAIN_USER)) |
-    42			   domain_val(DOMAIN_USER, DOMAIN_CLIENT));
-    43	
-    44		return old_domain;
-    45	#else
-    46		/*
-    47		 * Intended semantics: switch to the userspace MM context (enable
-    48		 * userspace), then return (save) the previous kernelspace TTBR0
-    49		 * value.
-    50		 */
-    51		/* FIXME: ifdef CONFIG_VMSPLIT_4G_4G */
-    52		u64 user_ttbr, kernel_ttbr;
-    53	
-  > 54		user_ttbr = current_user_ttbr();
-  > 55		kernel_ttbr = read_sysreg(TTBR1);
-  > 56		write_sysreg(user_ttbr, TTBR0);
-    57	
-    58		return kernel_ttbr;
-    59	#endif
-    60	}
-    61	
+f0db9b07341584 net/core/ethtool.c Govindarajulu Varadarajan 2014-09-03  2506  
+3499e87ea0413e net/core/ethtool.c Arnd Bergmann             2019-03-07  2507  static noinline_for_stack int
+3499e87ea0413e net/core/ethtool.c Arnd Bergmann             2019-03-07  2508  ethtool_get_per_queue_coalesce(struct net_device *dev,
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2509  			       void __user *useraddr,
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2510  			       struct ethtool_per_queue_op *per_queue_opt)
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2511  {
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2512  	u32 bit;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2513  	int ret;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2514  	DECLARE_BITMAP(queue_mask, MAX_NUM_QUEUE);
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2515  
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2516  	if (!dev->ethtool_ops->get_per_queue_coalesce)
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2517  		return -EOPNOTSUPP;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2518  
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2519  	useraddr += sizeof(*per_queue_opt);
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2520  
+3aa56885e51683 net/core/ethtool.c Yury Norov                2018-02-06  2521  	bitmap_from_arr32(queue_mask, per_queue_opt->queue_mask,
+3aa56885e51683 net/core/ethtool.c Yury Norov                2018-02-06  2522  			  MAX_NUM_QUEUE);
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2523  
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2524  	for_each_set_bit(bit, queue_mask, MAX_NUM_QUEUE) {
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2525  		struct ethtool_coalesce coalesce = { .cmd = ETHTOOL_GCOALESCE };
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2526  
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2527  		ret = dev->ethtool_ops->get_per_queue_coalesce(dev, bit, &coalesce);
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2528  		if (ret != 0)
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2529  			return ret;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2530  		if (copy_to_user(useraddr, &coalesce, sizeof(coalesce)))
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2531  			return -EFAULT;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2532  		useraddr += sizeof(coalesce);
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2533  	}
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2534  
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2535  	return 0;
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19 @2536  }
+421797b1aa363c net/core/ethtool.c Kan Liang                 2016-02-19  2537  
+
+:::::: The code at line 2536 was first introduced by commit
+:::::: 421797b1aa363cb897f29f7d365e068dc9d9db81 net/ethtool: support get coalesce per queue
+
+:::::: TO: Kan Liang <kan.liang@intel.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
