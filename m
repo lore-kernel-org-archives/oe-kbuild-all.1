@@ -1,253 +1,189 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0DB17C6;
-	Tue, 14 Mar 2023 02:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725D217C6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 03:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678762525; x=1710298525;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=NFzAXXoB1e7+XH5IaSm2cBjMNsWm1wKGgsZ/Zq0L7zA=;
-  b=IlOMXuwOira1cxJMVUfHKFZvadPQ6aHuQ8B5oSvMs+iyTWsHGhF+Dxw5
-   j9jdkqfQ6fcpgU0ads/CHpaL9vhBzBnY7KaVTUyRWyJ1oz3OumLRiloyN
-   engy6qMA+F5PqI43+nmLkwfOQmFnH95kvx2CXXk5r6G4cNLAzYmpoqLpL
-   +/NtKYX8IL6rPk7tKWMIYL907lMMDisjUakV9rWGqof+Vvr7oD57CVsvl
-   x8SgPvmwwOFodSXzavmHRqsoGpFf/7ERcgxuO6JhV5HU0PRbGIRdj8IOT
-   Vx/N3cfzetMy3etKFZNyFNBEM4wfp1amqReoCdlZ42EeolK4SiKZhITxq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399904817"
+  t=1678764973; x=1710300973;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7OVkzDFdr10CAt6fo+ovMmij8CZMEraNrBFiDKP4qEw=;
+  b=CEJWgE1mAHKjR+/YvwZ2gaRZZwZo9Mu63W3/wf16Ymlxo4wThbAgxttW
+   1t7nG6ri9GL4wBnYakLRHk4J2tt0mnzBU/b+JiEoi9Vbj7tGWA3sAnquL
+   zkTackNcmYBYHMXRjkAKJ/KoEoWlg39t7lltIfrnEMafdv9pF1rP1LRxY
+   NF+/d7gmq5dCu32+kvZhu+C2y7LoSVkxvmLslthOWzUu5QD8pg+x5CYx0
+   DNo3vOlf3QACOafJk0P2s5qAAnd6IRjwPoDcBaWqXDksMEDDenBxK9KNg
+   ltNI2R22MbhG0v5otY5jGAkDDXtxl6Pf93ykUF5qtqcNfCfnYHssiqNip
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334799133"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="399904817"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 19:55:12 -0700
+   d="scan'208";a="334799133"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 20:36:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="789166479"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747847954"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="789166479"
+   d="scan'208";a="747847954"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2023 19:55:10 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 20:36:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbuof-0006Qq-0g;
-	Tue, 14 Mar 2023 02:55:09 +0000
-Date: Tue, 14 Mar 2023 10:54:44 +0800
+	id 1pbvSN-0006TE-0B;
+	Tue, 14 Mar 2023 03:36:11 +0000
+Date: Tue, 14 Mar 2023 11:35:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
-	John Harrison <john.c.harrison@intel.com>,
-	Badal Nilawar <badal.nilawar@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH v2] drm/i915/guc: Disable PL1 power limit when loading
- GuC firmware
-Message-ID: <202303141032.GnWWCyaD-lkp@intel.com>
-References: <20230313234936.2005565-1-ashutosh.dixit@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/6] include/trace/stages/init.h:2:23:
+ warning: 'str__softlockup__trace_system_name' defined but not used
+Message-ID: <202303141110.rcqlEcHi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230313234936.2005565-1-ashutosh.dixit@intel.com>
 
-Hi Ashutosh,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.3-rc2 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashutosh-Dixit/drm-i915-guc-Disable-PL1-power-limit-when-loading-GuC-firmware/20230314-075114
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230313234936.2005565-1-ashutosh.dixit%40intel.com
-patch subject: [PATCH v2] drm/i915/guc: Disable PL1 power limit when loading GuC firmware
-config: x86_64-randconfig-a016-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141032.GnWWCyaD-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   68e294c322fb06c986649d3c67c1d8c77a932e26
+commit: 8635a0911839994b57dbed917793a60f1231ddf4 [2/6] ANDROID: softlockup: add vendor hook for a softlockup task
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303141110.rcqlEcHi-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/931e5a87acb79926043e557341fb0dfd68a9b88d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ashutosh-Dixit/drm-i915-guc-Disable-PL1-power-limit-when-loading-GuC-firmware/20230314-075114
-        git checkout 931e5a87acb79926043e557341fb0dfd68a9b88d
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-6.1
+        git checkout 8635a0911839994b57dbed917793a60f1231ddf4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303141032.GnWWCyaD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303141110.rcqlEcHi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/gt/uc/intel_uc.c:483:6: warning: variable 'pl1en' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (ret)
-               ^~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:572:28: note: uninitialized use occurs here
-           hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-                                     ^~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:483:2: note: remove the 'if' if its condition is always false
-           if (ret)
-           ^~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:474:6: warning: variable 'pl1en' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!intel_uc_fw_is_loadable(&guc->fw)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:572:28: note: uninitialized use occurs here
-           hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-                                     ^~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:474:2: note: remove the 'if' if its condition is always false
-           if (!intel_uc_fw_is_loadable(&guc->fw)) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/uc/intel_uc.c:464:26: note: initialize the variable 'pl1en' to silence this warning
-           int ret, attempts, pl1en;
-                                   ^
-                                    = 0
-   2 warnings generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/softlockup.h:17,
+                    from drivers/android/vendor_hooks.c:53:
+>> include/trace/stages/init.h:2:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bug.h:16,
+                    from drivers/android/vendor_hooks.c:52:
+   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/hung_task.h:23,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/stages/init.h:2:23: warning: 'str__hung_task__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:29,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:18,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic_v3.h:29,
+                    from drivers/android/vendor_hooks.c:48:
+   include/trace/stages/init.h:2:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
 
 
-vim +483 drivers/gpu/drm/i915/gt/uc/intel_uc.c
+vim +/str__softlockup__trace_system_name +2 include/trace/stages/init.h
 
-afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  457  
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  458  static int __uc_init_hw(struct intel_uc *uc)
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  459  {
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  460  	struct intel_gt *gt = uc_to_gt(uc);
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  461  	struct drm_i915_private *i915 = gt->i915;
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  462  	struct intel_guc *guc = &uc->guc;
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  463  	struct intel_huc *huc = &uc->huc;
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  464  	int ret, attempts, pl1en;
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  465  
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  466  	GEM_BUG_ON(!intel_uc_supports_guc(uc));
-bfe5a40a7b9a96 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  467  	GEM_BUG_ON(!intel_uc_wants_guc(uc));
-356c484822e6ac drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-16  468  
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  469  	print_fw_ver(gt, &guc->fw);
-afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  470  
-afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  471  	if (intel_uc_uses_huc(uc))
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  472  		print_fw_ver(gt, &huc->fw);
-afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  473  
-42f96e5bd41e91 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  474  	if (!intel_uc_fw_is_loadable(&guc->fw)) {
-6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  475  		ret = __uc_check_hw(uc) ||
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  476  		      intel_uc_fw_is_overridden(&guc->fw) ||
-202c98e7169248 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  477  		      intel_uc_wants_guc_submission(uc) ?
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  478  		      intel_uc_fw_status_to_error(guc->fw.status) : 0;
-ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  479  		goto err_out;
-ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  480  	}
-ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  481  
-63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  482  	ret = uc_init_wopcm(uc);
-63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30 @483  	if (ret)
-63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  484  		goto err_out;
-63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  485  
-e5a1ad035938e6 drivers/gpu/drm/i915/gt/uc/intel_uc.c Matthew Brost          2021-07-26  486  	intel_guc_reset_interrupts(guc);
-61b5c1587dd82a drivers/gpu/drm/i915/intel_uc.c       Michał Winiarski       2017-12-13  487  
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  488  	/* WaEnableuKernelHeaderValidFix:skl */
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  489  	/* WaEnableGuCBootHashCheckNotSet:skl,bxt,kbl */
-c816723b6b8a62 drivers/gpu/drm/i915/gt/uc/intel_uc.c Lucas De Marchi        2021-06-05  490  	if (GRAPHICS_VER(i915) == 9)
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  491  		attempts = 3;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  492  	else
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  493  		attempts = 1;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  494  
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  495  	/* Disable PL1 limit before raising freq */
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  496  	hwm_power_max_disable(gt, &pl1en);
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  497  
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  498  	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  499  
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  500  	while (attempts--) {
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  501  		/*
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  502  		 * Always reset the GuC just before (re)loading, so
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  503  		 * that the state and timing are fairly predictable
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  504  		 */
-771051eaa74661 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-02  505  		ret = __uc_sanitize(uc);
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  506  		if (ret)
-61b5c1587dd82a drivers/gpu/drm/i915/intel_uc.c       Michał Winiarski       2017-12-13  507  			goto err_out;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  508  
-a8dc0f6d187bcc drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  509  		intel_huc_fw_upload(huc);
-386e300fe9fae7 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2019-05-27  510  		intel_guc_ads_reset(guc);
-2bf8fb39eb70b6 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-24  511  		intel_guc_write_params(guc);
-e8668bbcb0f91c drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-10-16  512  		ret = intel_guc_fw_upload(guc);
-52b832606038c5 drivers/gpu/drm/i915/intel_uc.c       Robert M. Fosha        2019-03-29  513  		if (ret == 0)
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  514  			break;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  515  
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  516  		gt_dbg(gt, "GuC fw load failed (%pe) will reset and retry %d more time(s)\n",
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  517  		       ERR_PTR(ret), attempts);
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  518  	}
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  519  
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  520  	/* Did we succeded or run out of retries? */
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  521  	if (ret)
-ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  522  		goto err_log_capture;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  523  
-789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  524  	ret = guc_enable_communication(guc);
-789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  525  	if (ret)
-ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  526  		goto err_log_capture;
-789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  527  
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  528  	/*
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  529  	 * GSC-loaded HuC is authenticated by the GSC, so we don't need to
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  530  	 * trigger the auth here. However, given that the HuC loaded this way
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  531  	 * survive GT reset, we still need to update our SW bookkeeping to make
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  532  	 * sure it reflects the correct HW status.
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  533  	 */
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  534  	if (intel_huc_is_loaded_by_gsc(huc))
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  535  		intel_huc_update_auth_status(huc);
-6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  536  	else
-a8dc0f6d187bcc drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  537  		intel_huc_auth(huc);
-0dfa1cee613e03 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-12-06  538  
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  539  	if (intel_uc_uses_guc_submission(uc)) {
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  540  		ret = intel_guc_submission_enable(guc);
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  541  		if (ret)
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  542  			goto err_log_capture;
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  543  	}
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  544  
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  545  	if (intel_uc_uses_guc_slpc(uc)) {
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  546  		ret = intel_guc_slpc_enable(&guc->slpc);
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  547  		if (ret)
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  548  			goto err_submission;
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  549  	} else {
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  550  		/* Restore GT back to RPn for non-SLPC path */
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  551  		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  552  	}
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  553  
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  554  	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  555  
-4fd4fde8e42e16 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-06  556  	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
-4fd4fde8e42e16 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-06  557  	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  558  
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  559  	return 0;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  560  
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  561  	/*
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  562  	 * We've failed to load the firmware :(
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  563  	 */
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  564  err_submission:
-63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  565  	intel_guc_submission_disable(guc);
-ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  566  err_log_capture:
-32ff76e80c2400 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-02  567  	__uc_capture_load_err_log(uc);
-121981fafe699d drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-12-06  568  err_out:
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  569  	/* Return GT back to RPn */
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  570  	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  571  
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  572  	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  573  
-ca7b2c1bbede61 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-13  574  	__uc_sanitize(uc);
-89195bab5d8c54 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2019-05-22  575  
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  576  	if (!ret) {
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  577  		gt_notice(gt, "GuC is uninitialized\n");
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  578  		/* We want to run without GuC submission */
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  579  		return 0;
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  580  	}
-ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  581  
-2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  582  	gt_probe_error(gt, "GuC initialization failed %pe\n", ERR_PTR(ret));
-a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  583  
-a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  584  	/* We want to keep KMS alive */
-a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  585  	return -EIO;
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  586  }
-6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  587  
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
