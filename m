@@ -1,43 +1,42 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D49015AE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 01:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9037015AE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 01:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678758183; x=1710294183;
+  t=1678758845; x=1710294845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WY6exKDHvDnwHwl4DcWG1JX6mEQX0HGsrW5pvZHLJGY=;
-  b=OUAdAfImjQCdDt2tkWS1lSmk3CzIOjiuKiZ4peMz91ZY9QLYeYoBwtHi
-   t4X+nwy7iGBPPm6s3kVXP5CYkq2ONNFglkUIfYwPRLycz8nE1L1DsoP9q
-   MTvS4AaRDMnhgsVWTb7/4Nm0Bm26BNXuNDvtUKtvhH/u34Eh1aUYvHOYZ
-   ddpM3+iXLne/82WFPAtHtQmr5+AGObUt83Qa5wiHKnDPCMKABXhRWH8D7
-   jHZDVFXcdkTFykNLMpg7RiPRTe3CnHLRHOueQgXnqf9N/yQw3tarUs4RB
-   2cWuVN9s1/ZHlwIlHgNaz2eG6GkQI7kuIoaNKXR3Md011mqRTJ4B9qrk9
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399892853"
+  bh=NZ/ldfhxsKjH4i3ynQzSjGsJN9dsNrr2pHDuSLVSLOg=;
+  b=jcUB0gLhbs47QZIXlqM4A5rhiJCKcpKd9q/MQrStg35GTnI+wx/m1YRR
+   TJsBCHYlHKh2U5DwsPVyjprG9E65AoDPqQmiWh39hzHA4KEhBljxYjVXd
+   /PS9xaMKb4zUclci3ggote5kgDBzWbFkCe7/W/kDxrL5eWJwWkPuxFfhG
+   QhIj8NqIptT4g4QIbFaJzHrij1YVTGyRCdVE1VtklSHpiQ5kDSfL6BlVF
+   JRTyTEdK9ZNvAF7QyEiB0WoyrAH7z7QF40hHAy4Q6Wpz5dJ9505YCyON4
+   T7udeCOrXDd7JOil/55/Gzc9WEfdnRLmFGDXZ5+9QbgqXPL35kyGccxUi
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399894957"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="399892853"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 18:43:02 -0700
+   d="scan'208";a="399894957"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 18:54:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656164099"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="743118512"
 X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="656164099"
+   d="scan'208";a="743118512"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 Mar 2023 18:43:01 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 13 Mar 2023 18:54:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbtgr-0006Mu-0Q;
-	Tue, 14 Mar 2023 01:43:01 +0000
-Date: Tue, 14 Mar 2023 09:42:52 +0800
+	id 1pbtrX-0006NE-1L;
+	Tue, 14 Mar 2023 01:54:03 +0000
+Date: Tue, 14 Mar 2023 09:53:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1/1]
- drivers/trusty/trusty-log.c:678:9: warning: no previous prototype for
- 'trusty_log_sfile_dev_read'
-Message-ID: <202303140923.6NrZ0Yfy-lkp@intel.com>
+Subject: [android-common:android14-6.1 1/6] include/trace/stages/init.h:2:23:
+ warning: 'str__bug__trace_system_name' defined but not used
+Message-ID: <202303140921.ekceYWRM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +46,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   2cb5328839ee3dede473b095b8d8e4c8371c44e5
-commit: 2cb5328839ee3dede473b095b8d8e4c8371c44e5 [1/1] ANDROID: trusty-log: fix potential use-after-free
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303140923.6NrZ0Yfy-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   68e294c322fb06c986649d3c67c1d8c77a932e26
+commit: e74b4da79162aaf5ad40d1df6200da47953d0ff1 [1/6] ANDROID: bug: add vendor hook for bug trap
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303140921.ekceYWRM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout 2cb5328839ee3dede473b095b8d8e4c8371c44e5
+        git fetch --no-tags android-common android14-6.1
+        git checkout e74b4da79162aaf5ad40d1df6200da47953d0ff1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140923.6NrZ0Yfy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140921.ekceYWRM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/trusty/trusty-log.c: In function 'trusty_log_seq_next':
-   drivers/trusty/trusty-log.c:455:21: warning: left shift count >= width of type [-Wshift-count-overflow]
-     455 |         *pos = (1UL << 32) + log_sfile_sink->get;
-         |                     ^~
-   drivers/trusty/trusty-log.c: At top level:
->> drivers/trusty/trusty-log.c:678:9: warning: no previous prototype for 'trusty_log_sfile_dev_read' [-Wmissing-prototypes]
-     678 | ssize_t trusty_log_sfile_dev_read(struct file *filp, char __user *buf,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bug.h:16,
+                    from drivers/android/vendor_hooks.c:52:
+>> include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/hung_task.h:23,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/stages/init.h:2:23: warning: 'str__hung_task__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:29,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:18,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic_v3.h:29,
+                    from drivers/android/vendor_hooks.c:48:
+   include/trace/stages/init.h:2:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic.h:20,
+                    from drivers/android/vendor_hooks.c:47:
+   include/trace/stages/init.h:2:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
 
 
-vim +/trusty_log_sfile_dev_read +678 drivers/trusty/trusty-log.c
+vim +/str__bug__trace_system_name +2 include/trace/stages/init.h
 
-   677	
- > 678	ssize_t trusty_log_sfile_dev_read(struct file *filp, char __user *buf,
-   679					  size_t size, loff_t *ppos)
-   680	{
-   681		struct seq_file *sfile;
-   682		struct trusty_log_sfile *lb;
-   683		struct trusty_log_state *s;
-   684	
-   685		sfile = filp->private_data;
-   686		lb = sfile->private;
-   687		s = container_of(lb, struct trusty_log_state, log_sfile);
-   688	
-   689		if (!s->registered) {
-   690			dev_err(s->dev, "invalid read fd\n");
-   691			return -EINVAL;
-   692		}
-   693	
-   694		return seq_read(filp, buf, size, ppos);
-   695	}
-   696	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
