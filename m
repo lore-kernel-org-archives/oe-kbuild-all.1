@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E7B23A0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 05:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB74123A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 05:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678771098; x=1710307098;
+  t=1678771766; x=1710307766;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vox9Mv77m2khEuUaKszARld2blyI1/O70cPNAswv8CY=;
-  b=ZirTZFeIBonxrFWcnrv5tu7jEt1tzYvhKucGpE6NG80BLGzlZaRB9nod
-   eLPvmq7+cN/fykjzJapUiNF3Y7GsKNnFk1YdFelRslnj5fLc3s9apOwOQ
-   4LeeWwKcR+6QKHSZJRbHnRNbwdxDDtUc1rfbY6VTDzkDvivnbgTKd2V/l
-   6q/jl3HOfN7mmW6hAw0kNqjzRXqbr+PxeQtB7RYqZcqhhLMy4y+KD921V
-   +BTyjcY0yqyvEqfSgG6QG7c3ClOJWAVOYAiC1IsySX07/jO1/bOd9p4rS
-   zpI8T2zWtM/0sI7lRl6YemOMjdn8djwH12qkk9q/XimbT+ny/kqlXLwHg
+  bh=CaR4OlxBUd2jkf//MHgog5qtngRBarc1nMxJ5Cp9dh8=;
+  b=PcVBjKJInpnyhhhWkU7xcT/QVjGXo+blDcahSNcoT9ycGqk9pzBuZmSR
+   YmCXrnkfqOp/V+cTgmA0PmG77dsOhfWIZEeACWb+4cuwO/V+I9B4UFqms
+   vOLg7OeWhcK6wodmjH+adx5LaGbSh+z+EMXyqfCnajtn2vcQOhRxAXxbr
+   FdF7JitPO6cLhen25U7C0UbEykMWuQhj50/OhLn7/PscqbSFw2Ka5IOgR
+   XsMkwhfzhe58k2/L0N3OOesYqF8g/f1rEMWRnliYm5Aa2ioCcHH7lcadf
+   G9MHcWBqs/94+hQF1QSjZdgopfucNk9nbvhv/3FFtWN3g2NAbFS8W9hsc
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423601839"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317721641"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="423601839"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 22:18:18 -0700
+   d="scan'208";a="317721641"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 22:29:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656208829"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="789201871"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="656208829"
+   d="scan'208";a="789201871"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 Mar 2023 22:18:16 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2023 22:29:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbx39-0006Yy-29;
-	Tue, 14 Mar 2023 05:18:15 +0000
-Date: Tue, 14 Mar 2023 13:17:51 +0800
+	id 1pbxDn-0006ZM-35;
+	Tue, 14 Mar 2023 05:29:15 +0000
+Date: Tue, 14 Mar 2023 13:28:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi_6 1/12] (.text+0x11c): multiple definition
- of `bpf_uprobe_multi_link_attach'; csky-linux-ld: DWARF error: could not
- find abbrev number 123
-Message-ID: <202303141310.fFk2Rcen-lkp@intel.com>
+Subject: [jolsa-perf:uprobe_multi_6 1/12] do_mounts.c:(.text+0x4d0): multiple
+ definition of `bpf_uprobe_multi_link_attach'; nios2-linux-ld: DWARF error:
+ could not find abbrev number 115
+Message-ID: <202303141310.5eDP37o3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,8 +50,8 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_6
 head:   3f2899fc03dd194fc538daca944ed9560d265fb3
 commit: 8dd01ea9b045f53b6b8625fde50a896de89e075d [1/12] bpf: Add multi uprobe link
-config: csky-randconfig-r002-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141310.fFk2Rcen-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+config: nios2-buildonly-randconfig-r003-20230312 (https://download.01.org/0day-ci/archive/20230314/202303141310.5eDP37o3-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -61,118 +61,118 @@ reproduce (this is a W=1 build):
         git checkout 8dd01ea9b045f53b6b8625fde50a896de89e075d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303141310.fFk2Rcen-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303141310.5eDP37o3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 981994155
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 45
    init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
->> (.text+0x11c): multiple definition of `bpf_uprobe_multi_link_attach'; csky-linux-ld: DWARF error: could not find abbrev number 123
-   init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 20
+>> do_mounts.c:(.text+0x4d0): multiple definition of `bpf_uprobe_multi_link_attach'; nios2-linux-ld: DWARF error: could not find abbrev number 115
+   init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 10137
    init/do_mounts_initrd.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 1317637
+   do_mounts_initrd.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 1281
    init/initramfs.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x3c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 56
-   arch/csky/kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x4fc): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 8287
-   arch/csky/kernel/syscall.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 93921127
-   arch/csky/kernel/syscall_table.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 21
-   arch/csky/kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x92c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 254125701
-   arch/csky/mm/syscache.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 61
+   initramfs.c:(.text+0xb8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 138035030
+   arch/nios2/kernel/sys_nios2.o: in function `bpf_uprobe_multi_link_attach':
+   sys_nios2.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 91228
+   arch/nios2/kernel/syscall_table.o: in function `bpf_uprobe_multi_link_attach':
+   syscall_table.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 26
    kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x2010): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 16
+   fork.c:(.text+0xd80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 1531421
    kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 44
+   exec_domain.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 960641327
    kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1120): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 109
+   cpu.c:(.text+0x7c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 6309
    kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x17d0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 87
-   kernel/softirq.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0xb64): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 105
+   exit.c:(.text+0xaac): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 122110742
    kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 79
+   sysctl.c:(.text+0x60): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 15289
    kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x724): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 39
+   capability.c:(.text+0x708): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 54
    kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0xc5c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 32
+   ptrace.c:(.text+0x6c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 12155
    kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1d70): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 3792
+   signal.c:(.text+0x11c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 76
    kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x2240): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 28
+   sys.c:(.text+0x14d0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 118
    kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x608): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 41
-   kernel/workqueue.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x3c3c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 14744
+   umh.c:(.text+0x9b8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 9950
    kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x2b0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 488827
+   pid.c:(.text+0x4e8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 56
    kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x674): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 39
+   nsproxy.c:(.text+0x3f4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 33
    kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x330): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 98
+   reboot.c:(.text+0x9ec): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 103
+   kernel/kmod.o: in function `bpf_uprobe_multi_link_attach':
+   kmod.c:(.text+0x450): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 117
    kernel/groups.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 156424237
+   groups.c:(.text+0x268): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 10
    kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x5b7c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 10742
+   core.c:(.text+0x16cc): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 6745
    kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1c28): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 90
+   fair.c:(.text+0x19b0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 13484
    kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x3818): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 11018
+   build_policy.c:(.text+0x2f0c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 79890666
    kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x14f4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 162009245
-   kernel/locking/mutex.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1bb4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 100
+   build_utility.c:(.text+0x1a38): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 1748109740
    kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 168752136
+   qos.c:(.text+0x2b4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 8968
+   kernel/power/process.o: in function `bpf_uprobe_multi_link_attach':
+   process.c:(.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 1176136209
    kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x840): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 1728582
-   kernel/rcu/update.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x1b18): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 83
-   kernel/rcu/tree.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x64c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
-   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 13910
+   printk.c:(.text+0x3010): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 59
+   kernel/module/main.o: in function `bpf_uprobe_multi_link_attach':
+   main.c:(.text+0x1188): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 115
    kernel/kcmp.o: in function `bpf_uprobe_multi_link_attach':
-   (.text+0x564): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   kcmp.c:(.text+0x3c4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 11591
+   kernel/freezer.o: in function `bpf_uprobe_multi_link_attach':
+   freezer.c:(.text+0x400): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 15844
+   kernel/time/time.o: in function `bpf_uprobe_multi_link_attach':
+   time.c:(.text+0xb64): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 111829043
+   kernel/time/timer.o: in function `bpf_uprobe_multi_link_attach':
+   timer.c:(.text+0x1490): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 4073677985
+   kernel/time/hrtimer.o: in function `bpf_uprobe_multi_link_attach':
+   hrtimer.c:(.text+0x14d4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 128530858
+   kernel/time/posix-timers.o: in function `bpf_uprobe_multi_link_attach':
+   posix-timers.c:(.text+0x1548): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:main.c:(.text+0x1b4): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
