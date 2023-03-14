@@ -1,125 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5E23C30;
-	Tue, 14 Mar 2023 16:57:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E889C4339C;
-	Tue, 14 Mar 2023 16:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678813055;
-	bh=GJtJbGnCLhXOWQnAhqQtOK2QLCvHGROZaNmfiHX/LF0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CrbhC8arCDKyWRK3CWHuEPBIy7gCONvSW8TFsjVfmSM7G/PO3y079vfggOR7eoBOe
-	 IucG/5OZ4aRsAZoznuKMLV9Fc1QXegE6stfrbgRWLHcYR2O01BLMpLdtTKOuGD9apX
-	 jl1SwdBrqNhkti8xZQ7pycK1NyMYZeCvYSotPvPTtmHDKmGOfi+MZbB86OneX0zHd8
-	 1arw5z/fjmLHELHTGxZW6bmTmWFHXZv5a1Mp6vxvantoqNNVG6kLEdPOhIQZIxcKif
-	 jxmQGKnj7O/ENEq4CJNMuAd4EjbDCzyIt1CMtYChga7j7xthv+Yj29MZKsuL/HnNAq
-	 ff8Vm3MQPL7+A==
-Received: by mail-lf1-f51.google.com with SMTP id o8so901425lfo.0;
-        Tue, 14 Mar 2023 09:57:35 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXROyhc2IKOQSCtKqO96yi73YIx5phGdoyXQzUnVc/kCddcOonp
-	eyyLSOOXABz7o3HE8Tc8hEOmmborW8iQ2eif5sI=
-X-Google-Smtp-Source: AK7set+W3E16p3kGZxFB4cOCKA49Y9H0cdVIINDarVP230VZbJIst/KanPg/890/Bn8Dr6KvGXjZFLZfVDk426MMnRY=
-X-Received: by 2002:ac2:4835:0:b0:4db:1a0d:f261 with SMTP id
- 21-20020ac24835000000b004db1a0df261mr989882lft.3.1678813053632; Tue, 14 Mar
- 2023 09:57:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B613C30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 17:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678814208; x=1710350208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zWgLG6xZP3tF/SUfhq70iU9Mn541eOYzqSxbrqH2r00=;
+  b=AvArblcXCXZ9bOvqf9PXYoPhRMXE2P5zWEQQTlsUmyPGuOGWAs/Ntu7o
+   pSZSfQJeP0cvx+Lwi/5ZxXHQAgNZjzlQ74gTzQh0R56b/aIC/0gx4/kFP
+   zJVimcgciaAegyVy1v73MFZDVuVmS/QIps4ZzqWT3mnKS6pbXn/RmnPYA
+   7LAa0UVvFyYFM7aOOPQqEKS+5YRnt8gaA/C/UBDJM98buR/89ccOiBZZ1
+   hzfymDQ1jJ5FXXHQlsoQOr7Z1h0pRwMU3GBu0botIBZ/BbQ9g4D4BhgHI
+   QYPuwOYHmgk1Cc52nQKvRFZlRXhOGzYBaJ+pDRjLBBMJA/Rt6ZhLwilZs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365161715"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="365161715"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 10:16:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="925007348"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="925007348"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Mar 2023 10:16:45 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pc8GT-00073g-0J;
+	Tue, 14 Mar 2023 17:16:45 +0000
+Date: Wed, 15 Mar 2023 01:15:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	io-uring@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
+	Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>,
+	Bernd Schubert <bschubert@ddn.com>, Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH V2 07/17] block: ublk_drv: add common exit handling
+Message-ID: <202303150036.BLkTgToJ-lkp@intel.com>
+References: <20230307141520.793891-8-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202303141758.4EtLtIA1-lkp@intel.com> <777b8f63-4d41-66dc-3cb5-8ff8c916ce01@huawei.com>
-In-Reply-To: <777b8f63-4d41-66dc-3cb5-8ff8c916ce01@huawei.com>
-From: Song Liu <song@kernel.org>
-Date: Tue, 14 Mar 2023 09:57:21 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6N-TYRmp_H2EDEacm++PVJ+k-RXEBgwfjWhzrK0paqPA@mail.gmail.com>
-Message-ID: <CAPhsuW6N-TYRmp_H2EDEacm++PVJ+k-RXEBgwfjWhzrK0paqPA@mail.gmail.com>
-Subject: Re: [song-md:md-next 15/18] drivers/md/md-cluster.c:425:42: error:
- use of undeclared identifier 'mddev'; did you mean 'mode'?
-To: Yu Kuai <yukuai3@huawei.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-raid@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307141520.793891-8-ming.lei@redhat.com>
 
-On Tue, Mar 14, 2023 at 2:27=E2=80=AFAM Yu Kuai <yukuai3@huawei.com> wrote:
->
-> Hi, Song
->
-> =E5=9C=A8 2023/03/14 17:13, kernel test robot =E5=86=99=E9=81=93:
-> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-ne=
-xt
-> > head:   ec7246c9455e83f452055cec9c39bd54e72217a4
-> > commit: 48b34bba06372e5f6645716b57394db28fa7260c [15/18] md: refactor m=
-d_wakeup_thread()
-> > config: s390-randconfig-r032-20230312 (https://download.01.org/0day-ci/=
-archive/20230314/202303141758.4EtLtIA1-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67=
-409911353323ca5edf2049ef0df54132fa1ca7)
-> > reproduce (this is a W=3D1 build):
-> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/=
-sbin/make.cross -O ~/bin/make.cross
-> >          chmod +x ~/bin/make.cross
-> >          # install s390 cross compiling tool for clang build
-> >          # apt-get install binutils-s390x-linux-gnu
-> >          # https://git.kernel.org/pub/scm/linux/kernel/git/song/md.git/=
-commit/?id=3D48b34bba06372e5f6645716b57394db28fa7260c
-> >          git remote add song-md git://git.kernel.org/pub/scm/linux/kern=
-el/git/song/md.git
-> >          git fetch --no-tags song-md md-next
-> >          git checkout 48b34bba06372e5f6645716b57394db28fa7260c
-> >          # save the config file
-> >          mkdir build_dir && cp config build_dir/.config
-> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Ds390 olddefconfig
-> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Ds390 SHELL=3D/bin/bash drivers/md/
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202303141758.4EtLtIA1-lkp=
-@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> drivers/md/md-cluster.c:425:42: error: use of undeclared identifier '=
-mddev'; did you mean 'mode'?
-> >                             md_wakeup_thread(&cinfo->recv_thread, mddev=
-);
-> >                                                                   ^~~~~
-> >                                                                   mode
-> >     drivers/md/md-cluster.c:418:37: note: 'mode' declared here
-> >     static void ack_bast(void *arg, int mode)
-> >                                         ^
-> >     1 error generated.
-> >
-> >
-> > vim +425 drivers/md/md-cluster.c
-> >
-> >     412
-> >     413       /*
-> >     414        * The BAST function for the ack lock resource
-> >     415        * This function wakes up the receive thread in
-> >     416        * order to receive and process the message.
-> >     417        */
-> >     418       static void ack_bast(void *arg, int mode)
-> >     419       {
-> >     420               struct dlm_lock_resource *res =3D arg;
-> >     421               struct md_cluster_info *cinfo =3D res->mddev->clu=
-ster_info;
-> >     422
-> >     423               if (mode =3D=3D DLM_LOCK_EX) {
-> >     424                       if (test_bit(MD_CLUSTER_ALREADY_IN_CLUSTE=
-R, &cinfo->state))
-> >   > 425                               md_wakeup_thread(&cinfo->recv_thr=
-ead, mddev);
->
-> Sorry that I didn't open md-cluster config, and I failed to test this in
-> my environment.
-> Sincerely sorry for the trouble, I'll send new version and make sure all>=
- model is tested.
+Hi Ming,
 
-No worries. Thanks for working on this.
+I love your patch! Perhaps something to improve:
 
-Song
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc2 next-20230314]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230307141520.793891-8-ming.lei%40redhat.com
+patch subject: [PATCH V2 07/17] block: ublk_drv: add common exit handling
+config: microblaze-randconfig-s033-20230308 (https://download.01.org/0day-ci/archive/20230315/202303150036.BLkTgToJ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/53855edaeebdbd21c916cbb864ac45cb64def9cd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
+        git checkout 53855edaeebdbd21c916cbb864ac45cb64def9cd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/block/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303150036.BLkTgToJ-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/block/ublk_drv.c:665:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t @@
+   drivers/block/ublk_drv.c:665:21: sparse:     expected int res
+   drivers/block/ublk_drv.c:665:21: sparse:     got restricted blk_status_t
+>> drivers/block/ublk_drv.c:696:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] error @@     got int res @@
+   drivers/block/ublk_drv.c:696:33: sparse:     expected restricted blk_status_t [usertype] error
+   drivers/block/ublk_drv.c:696:33: sparse:     got int res
+
+vim +665 drivers/block/ublk_drv.c
+
+   651	
+   652	/* todo: handle partial completion */
+   653	static void ublk_complete_rq(struct request *req)
+   654	{
+   655		struct ublk_queue *ubq = req->mq_hctx->driver_data;
+   656		struct ublk_io *io = &ubq->ios[req->tag];
+   657		unsigned int unmapped_bytes;
+   658		int res = BLK_STS_OK;
+   659	
+   660		/* failed read IO if nothing is read */
+   661		if (!io->res && req_op(req) == REQ_OP_READ)
+   662			io->res = -EIO;
+   663	
+   664		if (io->res < 0) {
+ > 665			res = errno_to_blk_status(io->res);
+   666			goto exit;
+   667		}
+   668	
+   669		/*
+   670		 * FLUSH, DISCARD or WRITE_ZEROES usually won't return bytes returned, so end them
+   671		 * directly.
+   672		 *
+   673		 * Both the two needn't unmap.
+   674		 */
+   675		if (req_op(req) != REQ_OP_READ && req_op(req) != REQ_OP_WRITE)
+   676			goto exit;
+   677	
+   678		/* for READ request, writing data in iod->addr to rq buffers */
+   679		unmapped_bytes = ublk_unmap_io(ubq, req, io);
+   680	
+   681		/*
+   682		 * Extremely impossible since we got data filled in just before
+   683		 *
+   684		 * Re-read simply for this unlikely case.
+   685		 */
+   686		if (unlikely(unmapped_bytes < io->res))
+   687			io->res = unmapped_bytes;
+   688	
+   689		if (blk_update_request(req, BLK_STS_OK, io->res))
+   690			blk_mq_requeue_request(req, true);
+   691		else
+   692			__blk_mq_end_request(req, BLK_STS_OK);
+   693	
+   694		return;
+   695	exit:
+ > 696		blk_mq_end_request(req, res);
+   697	}
+   698	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
