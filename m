@@ -1,43 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF132565
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 07:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292AE28EF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 08:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678778484; x=1710314484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9VQ9m+bDLFvsTRx+tow1UVLXopy/Kf4eFlBUqvMASQI=;
-  b=Rib0AZbfevq2QMzUtxUdnW6WL/AW9sd0kDd7poX7kvCQBTvlAeYp62hK
-   axWdRceAhUyUdxyhiNeSrVnkKx0yODHzdL7kh6uKGCH6CurG0AzPw+nuq
-   hiVf1+lQ91prDasI9iDjLcqf/wblZMgXOGv/6ZNqZrfmYGGgDkQu5YuaJ
-   1EyRBGA0nSIIguhXOUbgOB5qPvbaKOClFo9mjZTs3CbVaPligB3JoBlP2
-   mJkBaHLH/cgTtwaXUCGQXdObr28CD+r95qI4OkMItCwC1K4YEBcrKzdpk
-   3EPgZn5L/txtYAHkgRfmCO62oCbhBqZ1BsDW6fxJLGZbWMuYBYR/HeNGc
+  t=1678783947; x=1710319947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7wfTUUQBo4q6tPItku8Fgbsdoen8/cQ7rOQLQtGn10s=;
+  b=evWCQv8TDbxnYb7bgJF2NDqmGYRlH0sLH/DuG77zKYEPDjjg9Gbggqpo
+   Fo6Tb3PgcFa0G3LS3S46wyY/5VkI/0UTtqXJQ7Vo1+ZZHwF+sOlMjbGuf
+   NP6/9J9/OLS79jFWY3jgOrALm8KxZ+Wb+cCrYeg/2HJWNjXSHhAKTfzFH
+   giSVvjCC4IQtwYMwqRykb478RFuqd1L6F4qOmEMScWkGGvtYSlikF2NAQ
+   VOm+ibGo9jOvRorcJvB3cIDWEeGnTSx2z+SE5cbQnG1g1hGH8PF0jnCmL
+   riPRSOELcgVIgLp6HgNiU3HwiSeukgTSXSuOL/x5Vl30u9zwm7mUd3PY5
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317739043"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="337392535"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="317739043"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 00:21:24 -0700
+   d="scan'208";a="337392535"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 01:52:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="678993561"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="853098950"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="678993561"
+   d="scan'208";a="853098950"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 14 Mar 2023 00:21:22 -0700
+  by orsmga005.jf.intel.com with ESMTP; 14 Mar 2023 01:52:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbyyI-0006f2-0k;
-	Tue, 14 Mar 2023 07:21:22 +0000
-Date: Tue, 14 Mar 2023 15:20:45 +0800
+	id 1pc0OO-0006im-1Q;
+	Tue, 14 Mar 2023 08:52:24 +0000
+Date: Tue, 14 Mar 2023 16:52:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Message-ID: <202303141529.kHv8YSba-lkp@intel.com>
-References: <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+To: Imre Deak <imre.deak@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: [linux-next:master 2536/3406]
+ drivers/gpu/drm/i915/i915_driver.c:556:9: error: implicit declaration of
+ function 'intel_opregion_cleanup'; did you mean 'intel_opregion_setup'?
+Message-ID: <202303141610.6L1VO7Gw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,157 +48,184 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230313135916.862852-3-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc2 next-20230314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Use-vb2_get_buffer-as-helper-everywhere/20230313-220116
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230313135916.862852-3-benjamin.gaignard%40collabora.com
-patch subject: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-config: arc-randconfig-r043-20230312 (https://download.01.org/0day-ci/archive/20230314/202303141529.kHv8YSba-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ec0fa9a0a6fac454745c930bdb8619d0a354bac9
+commit: 3e226e4a21808e4582020f813b041504f316022f [2536/3406] drm/i915/opregion: Cleanup opregion after errors during driver loading
+config: i386-buildonly-randconfig-r006-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141610.6L1VO7Gw-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c6ebf39fc540139888f85f470b6984f2387d714b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Use-vb2_get_buffer-as-helper-everywhere/20230313-220116
-        git checkout c6ebf39fc540139888f85f470b6984f2387d714b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3e226e4a21808e4582020f813b041504f316022f
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3e226e4a21808e4582020f813b041504f316022f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303141529.kHv8YSba-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303141610.6L1VO7Gw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/common/videobuf2/videobuf2-core.c: In function '__vb2_queue_free':
->> drivers/media/common/videobuf2/videobuf2-core.c:550:42: error: 'struct vb2_queue' has no member named 'bufs'
-     550 |                 struct vb2_buffer *vb = q->bufs[buffer];
-         |                                          ^~
+   drivers/gpu/drm/i915/i915_driver.c: In function 'i915_driver_hw_probe':
+>> drivers/gpu/drm/i915/i915_driver.c:556:9: error: implicit declaration of function 'intel_opregion_cleanup'; did you mean 'intel_opregion_setup'? [-Werror=implicit-function-declaration]
+     556 |         intel_opregion_cleanup(dev_priv);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         intel_opregion_setup
+   cc1: some warnings being treated as errors
 
 
-vim +550 drivers/media/common/videobuf2/videobuf2-core.c
+vim +556 drivers/gpu/drm/i915/i915_driver.c
 
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  495  
-2a87af6ba1b9df drivers/media/v4l2-core/videobuf2-core.c        Mauro Carvalho Chehab 2017-11-27  496  /*
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  497   * __vb2_queue_free() - free buffers at the end of the queue - video memory and
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  498   * related information, if no buffers are left return the queue to an
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  499   * uninitialized state. Might be called even if the queue has already been freed.
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  500   */
-01cb370ff6c5ab drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-11-30  501  static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  502  {
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  503  	unsigned int buffer;
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  504  
-01cb370ff6c5ab drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-11-30  505  	lockdep_assert_held(&q->mmap_lock);
-63faabfd89f4db drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2013-12-13  506  
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  507  	/* Call driver-provided cleanup function for each buffer, if provided */
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  508  	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  509  	     ++buffer) {
-ca690d47356726 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-03-13  510  		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-256f3162c17595 drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  511  
-256f3162c17595 drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  512  		if (vb && vb->planes[0].mem_priv)
-a1d36d8c705e10 drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-03-17  513  			call_void_vb_qop(vb, buf_cleanup, vb);
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  514  	}
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  515  
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  516  	/* Release video buffer memory */
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  517  	__vb2_free_mem(q, buffers);
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  518  
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  519  #ifdef CONFIG_VIDEO_ADV_DEBUG
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  520  	/*
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  521  	 * Check that all the calls were balances during the life-time of this
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  522  	 * queue. If not (or if the debug level is 1 or up), then dump the
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  523  	 * counters to the kernel log.
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  524  	 */
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  525  	if (q->num_buffers) {
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  526  		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
-a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  527  				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  528  				  q->cnt_wait_prepare != q->cnt_wait_finish;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  529  
-af3bac1a7c8a21 drivers/media/v4l2-core/videobuf2-core.c        Junghak Sung          2015-11-03  530  		if (unbalanced || debug) {
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  531  			pr_info("counters for queue %p:%s\n", q,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  532  				unbalanced ? " UNBALANCED!" : "");
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  533  			pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  534  				q->cnt_queue_setup, q->cnt_start_streaming,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  535  				q->cnt_stop_streaming);
-a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  536  			pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
-a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  537  				q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  538  			pr_info("     wait_prepare: %u wait_finish: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  539  				q->cnt_wait_prepare, q->cnt_wait_finish);
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  540  		}
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  541  		q->cnt_queue_setup = 0;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  542  		q->cnt_wait_prepare = 0;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  543  		q->cnt_wait_finish = 0;
-a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  544  		q->cnt_prepare_streaming = 0;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  545  		q->cnt_start_streaming = 0;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  546  		q->cnt_stop_streaming = 0;
-a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  547  		q->cnt_unprepare_streaming = 0;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  548  	}
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  549  	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29 @550  		struct vb2_buffer *vb = q->bufs[buffer];
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  551  		bool unbalanced = vb->cnt_mem_alloc != vb->cnt_mem_put ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  552  				  vb->cnt_mem_prepare != vb->cnt_mem_finish ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  553  				  vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  554  				  vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  555  				  vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  556  				  vb->cnt_buf_queue != vb->cnt_buf_done ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  557  				  vb->cnt_buf_prepare != vb->cnt_buf_finish ||
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  558  				  vb->cnt_buf_init != vb->cnt_buf_cleanup;
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  559  
-af3bac1a7c8a21 drivers/media/v4l2-core/videobuf2-core.c        Junghak Sung          2015-11-03  560  		if (unbalanced || debug) {
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  561  			pr_info("   counters for queue %p, buffer %d:%s\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  562  				q, buffer, unbalanced ? " UNBALANCED!" : "");
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  563  			pr_info("     buf_init: %u buf_cleanup: %u buf_prepare: %u buf_finish: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  564  				vb->cnt_buf_init, vb->cnt_buf_cleanup,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  565  				vb->cnt_buf_prepare, vb->cnt_buf_finish);
-28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  566  			pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
-28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  567  				vb->cnt_buf_out_validate, vb->cnt_buf_queue,
-28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  568  				vb->cnt_buf_done, vb->cnt_buf_request_complete);
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  569  			pr_info("     alloc: %u put: %u prepare: %u finish: %u mmap: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  570  				vb->cnt_mem_alloc, vb->cnt_mem_put,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  571  				vb->cnt_mem_prepare, vb->cnt_mem_finish,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  572  				vb->cnt_mem_mmap);
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  573  			pr_info("     get_userptr: %u put_userptr: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  574  				vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  575  			pr_info("     attach_dmabuf: %u detach_dmabuf: %u map_dmabuf: %u unmap_dmabuf: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  576  				vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  577  				vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
-2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  578  			pr_info("     get_dmabuf: %u num_users: %u vaddr: %u cookie: %u\n",
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  579  				vb->cnt_mem_get_dmabuf,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  580  				vb->cnt_mem_num_users,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  581  				vb->cnt_mem_vaddr,
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  582  				vb->cnt_mem_cookie);
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  583  		}
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  584  	}
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  585  #endif
-b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  586  
-3e947c36af524b drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-08-10  587  	/* Free vb2 buffers */
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  588  	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  589  	     ++buffer) {
-ca690d47356726 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-03-13  590  		struct vb2_buffer *vb2 = vb2_get_buffer(q, buffer);
-ca690d47356726 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-03-13  591  
-ca690d47356726 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-03-13  592  		vb2_del_buffer(q, vb2);
-ca690d47356726 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-03-13  593  		kfree(vb2);
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  594  	}
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  595  
-2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  596  	q->num_buffers -= buffers;
-a7afcaccfab2fb drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-02-24  597  	if (!q->num_buffers) {
-ce4686702f8f56 drivers/media/common/videobuf/videobuf2-core.c  Satendra Singh Thakur 2017-12-28  598  		q->memory = VB2_MEMORY_UNKNOWN;
-bd50d999d4d4f3 drivers/media/video/videobuf2-core.c            Marek Szyprowski      2011-10-25  599  		INIT_LIST_HEAD(&q->queued_list);
-a7afcaccfab2fb drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-02-24  600  	}
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  601  }
-e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  602  
+   425	
+   426	/**
+   427	 * i915_driver_hw_probe - setup state requiring device access
+   428	 * @dev_priv: device private
+   429	 *
+   430	 * Setup state that requires accessing the device, but doesn't require
+   431	 * exposing the driver via kernel internal or userspace interfaces.
+   432	 */
+   433	static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+   434	{
+   435		struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+   436		struct pci_dev *root_pdev;
+   437		int ret;
+   438	
+   439		if (i915_inject_probe_failure(dev_priv))
+   440			return -ENODEV;
+   441	
+   442		if (HAS_PPGTT(dev_priv)) {
+   443			if (intel_vgpu_active(dev_priv) &&
+   444			    !intel_vgpu_has_full_ppgtt(dev_priv)) {
+   445				i915_report_error(dev_priv,
+   446						  "incompatible vGPU found, support for isolated ppGTT required\n");
+   447				return -ENXIO;
+   448			}
+   449		}
+   450	
+   451		if (HAS_EXECLISTS(dev_priv)) {
+   452			/*
+   453			 * Older GVT emulation depends upon intercepting CSB mmio,
+   454			 * which we no longer use, preferring to use the HWSP cache
+   455			 * instead.
+   456			 */
+   457			if (intel_vgpu_active(dev_priv) &&
+   458			    !intel_vgpu_has_hwsp_emulation(dev_priv)) {
+   459				i915_report_error(dev_priv,
+   460						  "old vGPU host found, support for HWSP emulation required\n");
+   461				return -ENXIO;
+   462			}
+   463		}
+   464	
+   465		/* needs to be done before ggtt probe */
+   466		intel_dram_edram_detect(dev_priv);
+   467	
+   468		ret = i915_set_dma_info(dev_priv);
+   469		if (ret)
+   470			return ret;
+   471	
+   472		i915_perf_init(dev_priv);
+   473	
+   474		ret = i915_ggtt_probe_hw(dev_priv);
+   475		if (ret)
+   476			goto err_perf;
+   477	
+   478		ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, dev_priv->drm.driver);
+   479		if (ret)
+   480			goto err_ggtt;
+   481	
+   482		ret = i915_ggtt_init_hw(dev_priv);
+   483		if (ret)
+   484			goto err_ggtt;
+   485	
+   486		ret = intel_memory_regions_hw_probe(dev_priv);
+   487		if (ret)
+   488			goto err_ggtt;
+   489	
+   490		ret = intel_gt_tiles_init(dev_priv);
+   491		if (ret)
+   492			goto err_mem_regions;
+   493	
+   494		ret = i915_ggtt_enable_hw(dev_priv);
+   495		if (ret) {
+   496			drm_err(&dev_priv->drm, "failed to enable GGTT\n");
+   497			goto err_mem_regions;
+   498		}
+   499	
+   500		pci_set_master(pdev);
+   501	
+   502		/* On the 945G/GM, the chipset reports the MSI capability on the
+   503		 * integrated graphics even though the support isn't actually there
+   504		 * according to the published specs.  It doesn't appear to function
+   505		 * correctly in testing on 945G.
+   506		 * This may be a side effect of MSI having been made available for PEG
+   507		 * and the registers being closely associated.
+   508		 *
+   509		 * According to chipset errata, on the 965GM, MSI interrupts may
+   510		 * be lost or delayed, and was defeatured. MSI interrupts seem to
+   511		 * get lost on g4x as well, and interrupt delivery seems to stay
+   512		 * properly dead afterwards. So we'll just disable them for all
+   513		 * pre-gen5 chipsets.
+   514		 *
+   515		 * dp aux and gmbus irq on gen4 seems to be able to generate legacy
+   516		 * interrupts even when in MSI mode. This results in spurious
+   517		 * interrupt warnings if the legacy irq no. is shared with another
+   518		 * device. The kernel then disables that interrupt source and so
+   519		 * prevents the other device from working properly.
+   520		 */
+   521		if (GRAPHICS_VER(dev_priv) >= 5) {
+   522			if (pci_enable_msi(pdev) < 0)
+   523				drm_dbg(&dev_priv->drm, "can't enable MSI");
+   524		}
+   525	
+   526		ret = intel_gvt_init(dev_priv);
+   527		if (ret)
+   528			goto err_msi;
+   529	
+   530		intel_opregion_setup(dev_priv);
+   531	
+   532		ret = i915_pcode_init(dev_priv);
+   533		if (ret)
+   534			goto err_opregion;
+   535	
+   536		/*
+   537		 * Fill the dram structure to get the system dram info. This will be
+   538		 * used for memory latency calculation.
+   539		 */
+   540		intel_dram_detect(dev_priv);
+   541	
+   542		intel_bw_init_hw(dev_priv);
+   543	
+   544		/*
+   545		 * FIXME: Temporary hammer to avoid freezing the machine on our DGFX
+   546		 * This should be totally removed when we handle the pci states properly
+   547		 * on runtime PM and on s2idle cases.
+   548		 */
+   549		root_pdev = pcie_find_root_port(pdev);
+   550		if (root_pdev)
+   551			pci_d3cold_disable(root_pdev);
+   552	
+   553		return 0;
+   554	
+   555	err_opregion:
+ > 556		intel_opregion_cleanup(dev_priv);
+   557	err_msi:
+   558		if (pdev->msi_enabled)
+   559			pci_disable_msi(pdev);
+   560	err_mem_regions:
+   561		intel_memory_regions_driver_release(dev_priv);
+   562	err_ggtt:
+   563		i915_ggtt_driver_release(dev_priv);
+   564		i915_gem_drain_freed_objects(dev_priv);
+   565		i915_ggtt_driver_late_release(dev_priv);
+   566	err_perf:
+   567		i915_perf_fini(dev_priv);
+   568		return ret;
+   569	}
+   570	
 
 -- 
 0-DAY CI Kernel Test Service
