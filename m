@@ -1,114 +1,92 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413F2180
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 00:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678752656; x=1710288656;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pif9g2Hy6tVnxIcY/bqY6k4qxAqJzvCqaLV9EEe7nl4=;
-  b=Xz42eW39aPEyh4TDipCFOamcvYpBI3NQLYyEAzyl9cA2fqGuwXmiV+Jw
-   9++dWsweXVaYzHawy69jtuUarM+7raSkxZqHrOeZ/0WX51bV4jgU4Dpr1
-   HFmk4CAqPMV1ZI1k07VtEIFT1/phk6+3aISYwhL73mNnx4JLEMEe0BlRu
-   PS5r0s+VmK3Ta6FRsElGxqDpZjcQsJ+hCHayPXxGvrQrLG90CjHMZUp2m
-   Q7BmbwnSc9YFLABHbtNUX2T8Ac5oKgrFFoiTrrx/AB0KqYLiYtxQHzmGP
-   SJ/7Gv6ExbwI9gRVNyf8MxzKP0HSbDc3YAJXkIDhhWFqqqBoWjp/ZSgPQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321143957"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="321143957"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 17:10:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767896138"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; 
-   d="scan'208";a="767896138"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2023 17:10:54 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pbsFh-0006H2-28;
-	Tue, 14 Mar 2023 00:10:53 +0000
-Date: Tue, 14 Mar 2023 08:10:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 52/91] sound/soc/ti/davinci-i2s.c:618:12:
- error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
-Message-ID: <202303140827.E1tEJUpu-lkp@intel.com>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5618A15AE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 01:07:23 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.35])
+	by gateway (Coremail) with SMTP id _____8AxrtrJyA9k0wkMAA--.5230S3;
+	Tue, 14 Mar 2023 09:07:21 +0800 (CST)
+Received: from [10.20.42.35] (unknown [10.20.42.35])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxY+XEyA9kgNZWAA--.49244S3;
+	Tue, 14 Mar 2023 09:07:21 +0800 (CST)
+Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
+ support
+To: Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Rob Herring
+ <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+ Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
+ loongson-kernel@lists.loongnix.cn, zhuyinbo@loongson.cn
+References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
+ <202303082037.QPfBP64A-lkp@intel.com>
+ <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
+ <ec1fb4d134181a1b1859bcb884dcd494.sboyd@kernel.org>
+ <c03e47f7-bb26-0114-b300-357634b0e581@kernel.org>
+ <61eee19400e9a45ce9543bfd92a27eaa.sboyd@kernel.org>
+From: zhuyinbo <zhuyinbo@loongson.cn>
+Message-ID: <958bfe5b-c7c5-3373-a904-d9a32b428e02@loongson.cn>
+Date: Tue, 14 Mar 2023 09:07:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   86a62a3b93d7da9a5a00f69791aeaa9ca040e5ba
-commit: dc94c861974bb68c9d65dc5c77bdf58e062bfd62 [52/91] UPSTREAM: ASoC: soc-dai.h: cleanup Playback/Capture data for snd_soc_dai
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230314/202303140827.E1tEJUpu-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-6.1
-        git checkout dc94c861974bb68c9d65dc5c77bdf58e062bfd62
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash sound/soc/ti/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140827.E1tEJUpu-lkp@intel.com/
-
-Note: the chrome-os/chromeos-6.1 HEAD 86a62a3b93d7da9a5a00f69791aeaa9ca040e5ba builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   sound/soc/ti/davinci-i2s.c: In function 'davinci_i2s_dai_probe':
->> sound/soc/ti/davinci-i2s.c:618:12: error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
-     618 |         dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
-         |            ^~
->> sound/soc/ti/davinci-i2s.c:619:12: error: 'struct snd_soc_dai' has no member named 'capture_dma_data'
-     619 |         dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
-         |            ^~
---
-   sound/soc/ti/davinci-vcif.c: In function 'davinci_vcif_dai_probe':
->> sound/soc/ti/davinci-vcif.c:165:12: error: 'struct snd_soc_dai' has no member named 'playback_dma_data'
-     165 |         dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
-         |            ^~
->> sound/soc/ti/davinci-vcif.c:166:12: error: 'struct snd_soc_dai' has no member named 'capture_dma_data'
-     166 |         dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
-         |            ^~
+In-Reply-To: <61eee19400e9a45ce9543bfd92a27eaa.sboyd@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:AQAAf8AxY+XEyA9kgNZWAA--.49244S3
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uFWrGr13tFyrGr15Jry8Grg_yoW8GFyDpa
+	y7Aa4qkw4vqr1Uury0vr1fuFWay3yxJ3W3Xr1DG3s7ur9Y93s5Kas5K3WxW3y5Jr45Cr43
+	X3W8K3y3WF4Yyw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	b3xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64
+	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28E
+	F7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAq
+	jxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
+	AFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
+	0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz4
+	8v1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s02
+	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw
+	0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+	c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+	v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
+	U1tl1PUUUUU==
 
 
-vim +618 sound/soc/ti/davinci-i2s.c
+在 2023/3/14 上午2:20, Stephen Boyd 写道:
+> Quoting Krzysztof Kozlowski (2023-03-10 00:42:47)
+>> On 10/03/2023 00:47, Stephen Boyd wrote:
+>>> Quoting zhuyinbo (2023-03-08 18:58:02)
+>>>> 在 2023/3/8 下午8:16, kernel test robot 写道:
+>>>>> Hi Yinbo,
+>>>>>
+>>> [...]
+>>>>>      drivers/clk/clk-loongson2.c: In function 'loongson2_calc_pll_rate':
+>>>>>>> drivers/clk/clk-loongson2.c:79:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
+>>>>>         79 |         val = readq(loongson2_pll_base + offset);
+>>>>>            |               ^~~~~
+>>>>>            |               readl
+>>>>>      cc1: some warnings being treated as errors
+>>>> The CONFIG_64BIT not enabled in your config file, I will add a depend on
+>>>> "CONFIG_64BIT" in my clock driver to fix this compile error.
+>>> Do you need to use readq() here? Can you read two 32-bit registers with
+>>> readl() and put them together for a 64-bit number?
+>> If the platform supports 64-bit reads and these are actually one
+>> register, then readq makes sense - code is more readable, smaller, more
+>> efficient.
+>>
+> Please read the section in Documentation/driver-api/device-io.rst about
+> hi_lo_readq() and <linux/io-64-nonatomic-lo-hi.h>. We shouldn't need to
+> restrict the driver to CONFIG_64BIT. Instead, include one of these
+> header files to get the IO access primitives.
 
-5204d49676dae3 sound/soc/davinci/davinci-i2s.c Chaithrika U S 2009-06-05  613  
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  614  static int davinci_i2s_dai_probe(struct snd_soc_dai *dai)
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  615  {
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  616  	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(dai);
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  617  
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03 @618  	dai->playback_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03 @619  	dai->capture_dma_data = &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE];
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  620  
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  621  	return 0;
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  622  }
-257ade78b6019c sound/soc/davinci/davinci-i2s.c Peter Ujfalusi 2015-03-03  623  
+okay, I got it.
 
-:::::: The code at line 618 was first introduced by commit
-:::::: 257ade78b6019cf1570c1239894a7a6a549768e1 ASoC: davinci-i2s: Convert to use edma-pcm
+Thanks your advice!
 
-:::::: TO: Peter Ujfalusi <peter.ujfalusi@ti.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
