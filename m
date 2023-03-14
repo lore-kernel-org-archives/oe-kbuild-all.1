@@ -1,75 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2522565
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 06:49:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7B5C433D2;
-	Tue, 14 Mar 2023 06:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678776586;
-	bh=vCpyz//zBAiE3DDnV70snQunPQySkUISt26QGR58L2M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dJ2wjyyy+fGA/jE3q8gu9NJHiF5dAQ8LMCFKH33kpSxe5bNyMgoYDOOjjUQeIMCu+
-	 clyABbuIb70AHUF9IMC1ljHMsysbzoUsGvPz7t5bhxRqpOpYnvcMFu0tiTPCsipwAu
-	 EMIZ9pSdS+Q+t0Gnk1P6i4WaR+47PbzPiIdlL78qXbXnaY6eMik1L0JHGrrvnKllT1
-	 duz7m8/9vWRg6KnND0LIiTfkcEpzdUhhRLeDLNYcirGTB7wBlv1oa4+6om0tg6EMNK
-	 rbm9loBWx3NwaCbJY7YY7SlpvDhp/JCgHF68lIkI8HwI5WjRM7BKdhuSGgxx1kfGLq
-	 79/CKe1G4vSiQ==
-Message-ID: <6ff60914-0c39-9916-2e3a-a906b4cdef0d@kernel.org>
-Date: Tue, 14 Mar 2023 07:49:40 +0100
+Received: from muru.com (muru.com [72.249.23.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0484A2565
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 07:06:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by muru.com (Postfix) with ESMTPS id E46C380C1;
+	Tue, 14 Mar 2023 07:06:23 +0000 (UTC)
+Date: Tue, 14 Mar 2023 09:06:22 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-omap@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] serial: core: Start managing serial controllers
+ to enable runtime PM
+Message-ID: <20230314070622.GL7501@atomide.com>
+References: <20230309085713.57700-1-tony@atomide.com>
+ <202303100516.22vtkWv4-lkp@intel.com>
+ <20230310065238.GJ7501@atomide.com>
+ <ZAs0pvTByHWbb+9N@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver
- support
-Content-Language: en-US
-To: Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Rob Herring
- <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, zhuyinbo <zhuyinbo@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn,
- loongson-kernel@lists.loongnix.cn
-References: <20230307115022.12846-2-zhuyinbo@loongson.cn>
- <202303082037.QPfBP64A-lkp@intel.com>
- <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn>
- <ec1fb4d134181a1b1859bcb884dcd494.sboyd@kernel.org>
- <c03e47f7-bb26-0114-b300-357634b0e581@kernel.org>
- <61eee19400e9a45ce9543bfd92a27eaa.sboyd@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <61eee19400e9a45ce9543bfd92a27eaa.sboyd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZAs0pvTByHWbb+9N@smile.fi.intel.com>
 
-On 13/03/2023 19:20, Stephen Boyd wrote:
->>>> The CONFIG_64BIT not enabled in your config file, I will add a depend on 
->>>> "CONFIG_64BIT" in my clock driver to fix this compile error.
->>>
->>> Do you need to use readq() here? Can you read two 32-bit registers with
->>> readl() and put them together for a 64-bit number?
->>
->> If the platform supports 64-bit reads and these are actually one
->> register, then readq makes sense - code is more readable, smaller, more
->> efficient.
->>
+Hi,
+
+* Andy Shevchenko <andriy.shevchenko@intel.com> [230310 13:46]:
+> On Fri, Mar 10, 2023 at 08:52:38AM +0200, Tony Lindgren wrote:
+> > * kernel test robot <lkp@intel.com> [230309 21:31]:
+> > > >> drivers/tty/serial/serial_ctrl.c:17:34: warning: 'serial_ctrl_pm' defined but not used [-Wunused-const-variable=]
+> > >       17 | static DEFINE_RUNTIME_DEV_PM_OPS(serial_ctrl_pm, NULL, NULL, NULL);
+> > >          |                                  ^~~~~~~~~~~~~~
+> > 
+> > Thanks I'll tag it with __maybe_unused.
 > 
-> Please read the section in Documentation/driver-api/device-io.rst about
-> hi_lo_readq() and <linux/io-64-nonatomic-lo-hi.h>. We shouldn't need to
-> restrict the driver to CONFIG_64BIT. Instead, include one of these
-> header files to get the IO access primitives.
+> It requires to use pm_ptr() macro, it was designed exactly to *not* spread
+> __maybe_unused.
 
-These primitives are for 32bit access. Quoting: "on 32-bit
-architectures". What's the point of them if the code *will never* run on
-32-bit? It will be a fake choice of linux/io-64-nonatomic-lo-hi.h or
-linux/io-64-nonatomic-hi-lo.h misleading users to think this was tested
-on 32-bit.
+Heh yeah.. Turns out the issue here is that the serial_ctrl_pm ops is not
+used at all for serial_ctrl.c and can be just dropped.
 
-Best regards,
-Krzysztof
+Regards,
 
+Tony
