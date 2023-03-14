@@ -1,52 +1,42 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C824F3D8C;
-	Tue, 14 Mar 2023 14:08:36 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id eg48so3315296edb.13;
-        Tue, 14 Mar 2023 07:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678802915;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2fh50q0+/HEalk1h1oQC2pXaNeew6AKaitkp7RgML7Q=;
-        b=J1G5R1YnRKN2hzDDJInJdLGi2sJjFHgYNB/uDk3DMY1eqELgKvyT78qq1VUN3anRAY
-         7bQSxtcGc/J2RWnxz9XLdnE6L2mMC+St1n4XEuYo5fqdTxQqDTgiG32m1SHSOkSyf2Fx
-         N2tQmCPw42aVW6+WXa6j4dzCYdEFvXA/s0bwrCWY/vbjBJzILEPQU4YckdkJ1kc7zVpo
-         FOrPmSS5JHhOD0ddM3fuhoJHzS3RdXzs89cFbifyy/8R/Ah3f/Sf9HO99/WwuM0dSMPh
-         ucVk8oMa4kZ2wxA+wDl00F0MiojdNoiQlAa4SfM1Hg9a//XOuUbXMSIyGxdJCDCho1ZA
-         Ts2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678802915;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2fh50q0+/HEalk1h1oQC2pXaNeew6AKaitkp7RgML7Q=;
-        b=AKLduPtYFXIE0n7A6Rvs/lXmAwiKSDAyWZMla3ynllPI6fyrHy/C0yKr9MQvqk8ZYE
-         rpayoavfY29vfJgMUxIwPtgU974HLIl9lZqUJ2DUvuLUNychzSZSSCIPtfv4posSFrbe
-         PIoCpwOb20S72XB4tJHZ/cHKZVGmuqRduayXZbq8KstDrN2oDOjeq+0hoSMiCfh7gfaW
-         qzunDNGni959Hg4y/PBm/+nI4ZmTKcA558xQkiuIdPuAv3MupdfZl3bPVlzo6bzFT6QG
-         zmOcpCt+PQtK039Vk13eHicgKinKUE8fatULnzIzgb+bKk6MaD8nh7bAxIUsgaGdteIB
-         Y5+A==
-X-Gm-Message-State: AO0yUKWX6dLIV0WrAFhyJtfMrLL01C0W0zZPNwmd/OYnf9IRczlILnob
-	FQUQT7Tt3+U85ZcBtJQW/z4=
-X-Google-Smtp-Source: AK7set86cuDzNUeHz96tiWnCTlYRXr331XXgSySDYske0mghcxOZyatZQSOnYpKOjpb3zG7dWQVokw==
-X-Received: by 2002:a05:6402:516a:b0:4fc:c7c8:e78d with SMTP id d10-20020a056402516a00b004fcc7c8e78dmr6730921ede.31.1678802914820;
-        Tue, 14 Mar 2023 07:08:34 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.111.116])
-        by smtp.gmail.com with ESMTPSA id kk1-20020a170907766100b0092b8c1f41ebsm1198352ejc.24.2023.03.14.07.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 07:08:34 -0700 (PDT)
-Date: Tue, 14 Mar 2023 19:08:31 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBB/30ZBW9EU1QfK@khadija-virtual-machine>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <202303141159.6wN9HNP9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D848F63
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 14:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678803162; x=1710339162;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=14FHr2aZU8By+5tzSCrgy6b5bdOpQwJcqciPm47ZXzs=;
+  b=LrgdOCPTNBRXHf7n3MWEE1CTlYqPLHItbp73i983oojthFObL5b56Je/
+   nxmQxBFa2+LnElru44uzvByXTTctw0SCa5azzHvZLU6aneJgqAQo0E7y8
+   rlNedKhvXYeME3p38PPhsn7FWEoSyQzSdw5ZxVldptkpuH0PCct9DBd2J
+   DrwB3BTgeD9HhaZpTRMYjWi7wCWjyl3WLggQJOFYyiR+60qfd9sz6p3dH
+   zqoKEsJhwsblEuOyWZrb+gXliqkfymjJnsk5ZbO8ayixGG1fvdjlcaCb2
+   Pn2Famlc6GyIeuZfaPshjyK/cfCdUNXO1gUGxMoEV97D66tC6eClT9q5e
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="423706675"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="423706675"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 07:12:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="629056161"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="629056161"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 14 Mar 2023 07:12:40 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pc5OJ-0006ye-1i;
+	Tue, 14 Mar 2023 14:12:39 +0000
+Date: Tue, 14 Mar 2023 22:12:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/010-mailbox 7/10] drivers/soc/apple/rtkit.c:625:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202303142244.rS2u3j6T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,197 +45,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303141159.6wN9HNP9-lkp@intel.com>
 
-On Tue, Mar 14, 2023 at 11:45:51AM +0800, kernel test robot wrote:
-> Hi Khadija,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on staging/staging-testing]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
-> patch link:    https://lore.kernel.org/r/ZA9mThZ7NyRrQAMX%40khadija-virtual-machine
-> patch subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-> config: arm64-randconfig-r012-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141159.6wN9HNP9-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
->         git checkout 9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/axis-fifo/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303141159.6wN9HNP9-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/staging/axis-fifo/axis-fifo.c:817:18: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
->                    read_timeout = MAX_SCHEDULE_TIMEOUT;
->                                 ~ ^~~~~~~~~~~~~~~~~~~~
->    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
->    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
->                                            ^~~~~~~~
->    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
->    #define LONG_MAX        ((long)(~0UL >> 1))
->                             ^~~~~~~~~~~~~~~~~
->    drivers/staging/axis-fifo/axis-fifo.c:822:19: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
->                    write_timeout = MAX_SCHEDULE_TIMEOUT;
->                                  ~ ^~~~~~~~~~~~~~~~~~~~
->    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
->    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
->                                            ^~~~~~~~
->    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
->    #define LONG_MAX        ((long)(~0UL >> 1))
->                             ^~~~~~~~~~~~~~~~~
->    2 warnings generated.
->
+tree:   https://github.com/AsahiLinux/linux bits/010-mailbox
+head:   6c4ce154f77d8de759ffc90c817b68191a010c18
+commit: 359eb0b5ab26d199347e6aa29045363381fd2973 [7/10] soc: apple: rtkit: Port to the internal mailbox driver
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230314/202303142244.rS2u3j6T-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/359eb0b5ab26d199347e6aa29045363381fd2973
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/010-mailbox
+        git checkout 359eb0b5ab26d199347e6aa29045363381fd2973
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/soc/apple/
 
-Hi everyone!
-Kindly let me know if I should look into these warnings.
-Thank you!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303142244.rS2u3j6T-lkp@intel.com/
 
-Regards,
-Khadija
+All errors (new ones prefixed by >>):
+
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:625:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     625 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
+   drivers/soc/apple/rtkit.c: At top level:
+   drivers/soc/apple/rtkit.c:669:21: warning: no previous prototype for 'apple_rtkit_init' [-Wmissing-prototypes]
+     669 | struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+         |                     ^~~~~~~~~~~~~~~~
 
 
-> 
-> vim +817 drivers/staging/axis-fifo/axis-fifo.c
-> 
->    805	
->    806	static int axis_fifo_probe(struct platform_device *pdev)
->    807	{
->    808		struct resource *r_mem; /* IO mem resources */
->    809		struct device *dev = &pdev->dev; /* OS device (from device tree) */
->    810		struct axis_fifo *fifo = NULL;
->    811		char *device_name;
->    812		int rc = 0; /* error return value */
->    813	
->    814		if (read_timeout >= 0)
->    815			read_timeout = msecs_to_jiffies(read_timeout);
->    816		else
->  > 817			read_timeout = MAX_SCHEDULE_TIMEOUT;
->    818	
->    819		if (write_timeout >= 0)
->    820			write_timeout = msecs_to_jiffies(write_timeout);
->    821		else
->    822			write_timeout = MAX_SCHEDULE_TIMEOUT;
->    823	
->    824		/* ----------------------------
->    825		 *     init wrapper device
->    826		 * ----------------------------
->    827		 */
->    828	
->    829		device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
->    830		if (!device_name)
->    831			return -ENOMEM;
->    832	
->    833		/* allocate device wrapper memory */
->    834		fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
->    835		if (!fifo)
->    836			return -ENOMEM;
->    837	
->    838		dev_set_drvdata(dev, fifo);
->    839		fifo->dt_device = dev;
->    840	
->    841		init_waitqueue_head(&fifo->read_queue);
->    842		init_waitqueue_head(&fifo->write_queue);
->    843	
->    844		mutex_init(&fifo->read_lock);
->    845		mutex_init(&fifo->write_lock);
->    846	
->    847		/* ----------------------------
->    848		 *   init device memory space
->    849		 * ----------------------------
->    850		 */
->    851	
->    852		/* get iospace for the device */
->    853		r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->    854		if (!r_mem) {
->    855			dev_err(fifo->dt_device, "invalid address\n");
->    856			rc = -ENODEV;
->    857			goto err_initial;
->    858		}
->    859	
->    860		/* request physical memory */
->    861		fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
->    862		if (IS_ERR(fifo->base_addr)) {
->    863			rc = PTR_ERR(fifo->base_addr);
->    864			goto err_initial;
->    865		}
->    866	
->    867		dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
->    868	
->    869		/* create unique device name */
->    870		snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
->    871		dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
->    872	
->    873		/* ----------------------------
->    874		 *          init IP
->    875		 * ----------------------------
->    876		 */
->    877	
->    878		rc = axis_fifo_parse_dt(fifo);
->    879		if (rc)
->    880			goto err_initial;
->    881	
->    882		reset_ip_core(fifo);
->    883	
->    884		/* ----------------------------
->    885		 *    init device interrupts
->    886		 * ----------------------------
->    887		 */
->    888	
->    889		/* get IRQ resource */
->    890		rc = platform_get_irq(pdev, 0);
->    891		if (rc < 0)
->    892			goto err_initial;
->    893	
->    894		/* request IRQ */
->    895		fifo->irq = rc;
->    896		rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
->    897				      DRIVER_NAME, fifo);
->    898		if (rc) {
->    899			dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
->    900				fifo->irq);
->    901			goto err_initial;
->    902		}
->    903	
->    904		/* ----------------------------
->    905		 *      init char device
->    906		 * ----------------------------
->    907		 */
->    908	
->    909		/* create character device */
->    910		fifo->miscdev.fops = &fops;
->    911		fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
->    912		fifo->miscdev.name = device_name;
->    913		fifo->miscdev.groups = axis_fifo_attrs_groups;
->    914		fifo->miscdev.parent = dev;
->    915		rc = misc_register(&fifo->miscdev);
->    916		if (rc < 0)
->    917			goto err_initial;
->    918	
->    919		dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
->    920			 &r_mem->start, &fifo->base_addr, fifo->irq);
->    921	
->    922		return 0;
->    923	
->    924	err_initial:
->    925		dev_set_drvdata(dev, NULL);
->    926		return rc;
->    927	}
->    928	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+vim +625 drivers/soc/apple/rtkit.c
+
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  612  
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  613  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  614  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  615  {
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  616  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  617  	int ret;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  618  	long t;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  619  
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  620  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  621  	if (ret < 0)
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  622  		return ret;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  623  
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  624  	if (atomic) {
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01 @625  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  626  		if (ret < 0)
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  627  			return ret;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  628  
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  629  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  630  			return 0;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  631  
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  632  		return -ETIME;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  633  	} else {
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  634  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  635  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  636  		if (t < 0)
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  637  			return t;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  638  		else if (t == 0)
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  639  			return -ETIME;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  640  		return 0;
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  641  	}
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  642  }
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  643  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a5 Sven Peter 2022-05-01  644  
+
+:::::: The code at line 625 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
