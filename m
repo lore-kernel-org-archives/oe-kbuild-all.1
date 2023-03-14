@@ -1,46 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977CD23A0;
-	Tue, 14 Mar 2023 05:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E7B23A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Mar 2023 05:18:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678770499; x=1710306499;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bbs9+ffYl0KK+4Q+2/p1FmY+Jfc9viWy0OjDOfk+zZI=;
-  b=AzBbbJlBwdUatrpWoBC6XpGHdf0PJE+FTqSJPgJ0zvOLU3lZ5MK79gNw
-   iJC0yTJriqJuaEp6bi78uxBXjJDgtClI5pTGv9Jd4oV882+kKsGxe8H3z
-   vZFaKZ/VSezKWKBZNbztHbJa/Ixr3zMK66sQ5lwHqvJatxVB8apBKeF2B
-   rqFh4RK066yRQXIGds83WPlWban80ciiFGYigrlskYasA9dkNq2okYmGZ
-   5z1f5pnafqvEc/vs5Y4jtNfrtoqxENWsBMZraZSaAzo1MSJwKexBFolhx
-   teoVlzeAu65NCauTcQzOOTeHRyraXH5fbHC00PbQ3tY7fZGkqwfKJJs4N
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="316978846"
+  t=1678771098; x=1710307098;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vox9Mv77m2khEuUaKszARld2blyI1/O70cPNAswv8CY=;
+  b=ZirTZFeIBonxrFWcnrv5tu7jEt1tzYvhKucGpE6NG80BLGzlZaRB9nod
+   eLPvmq7+cN/fykjzJapUiNF3Y7GsKNnFk1YdFelRslnj5fLc3s9apOwOQ
+   4LeeWwKcR+6QKHSZJRbHnRNbwdxDDtUc1rfbY6VTDzkDvivnbgTKd2V/l
+   6q/jl3HOfN7mmW6hAw0kNqjzRXqbr+PxeQtB7RYqZcqhhLMy4y+KD921V
+   +BTyjcY0yqyvEqfSgG6QG7c3ClOJWAVOYAiC1IsySX07/jO1/bOd9p4rS
+   zpI8T2zWtM/0sI7lRl6YemOMjdn8djwH12qkk9q/XimbT+ny/kqlXLwHg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423601839"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="316978846"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 22:08:17 -0700
+   d="scan'208";a="423601839"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 22:18:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747864920"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656208829"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="747864920"
+   d="scan'208";a="656208829"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 22:08:15 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Mar 2023 22:18:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pbwtS-0006Y6-1s;
-	Tue, 14 Mar 2023 05:08:14 +0000
-Date: Tue, 14 Mar 2023 13:07:29 +0800
+	id 1pbx39-0006Yy-29;
+	Tue, 14 Mar 2023 05:18:15 +0000
+Date: Tue, 14 Mar 2023 13:17:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Shuai <suagrfillet@gmail.com>, sudeep.holla@arm.com,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	conor.dooley@microchip.com, ionela.voinescu@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Song Shuai <suagrfillet@gmail.com>
-Subject: Re: [PATCH] arch_topology: Clear LLC sibling when cacheinfo teardown
-Message-ID: <202303141252.uMIMFRnT-lkp@intel.com>
-References: <20230313102752.1134472-1-suagrfillet@gmail.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi_6 1/12] (.text+0x11c): multiple definition
+ of `bpf_uprobe_multi_link_attach'; csky-linux-ld: DWARF error: could not
+ find abbrev number 123
+Message-ID: <202303141310.fFk2Rcen-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,62 +46,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230313102752.1134472-1-suagrfillet@gmail.com>
 
-Hi Song,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.3-rc2 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Shuai/arch_topology-Clear-LLC-sibling-when-cacheinfo-teardown/20230313-182946
-patch link:    https://lore.kernel.org/r/20230313102752.1134472-1-suagrfillet%40gmail.com
-patch subject: [PATCH] arch_topology: Clear LLC sibling when cacheinfo teardown
-config: arm-randconfig-r046-20230312 (https://download.01.org/0day-ci/archive/20230314/202303141252.uMIMFRnT-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_6
+head:   3f2899fc03dd194fc538daca944ed9560d265fb3
+commit: 8dd01ea9b045f53b6b8625fde50a896de89e075d [1/12] bpf: Add multi uprobe link
+config: csky-randconfig-r002-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141310.fFk2Rcen-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/a9aca0a81b31b421e3bbfa08fd205a8bec651afe
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Song-Shuai/arch_topology-Clear-LLC-sibling-when-cacheinfo-teardown/20230313-182946
-        git checkout a9aca0a81b31b421e3bbfa08fd205a8bec651afe
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=8dd01ea9b045f53b6b8625fde50a896de89e075d
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi_6
+        git checkout 8dd01ea9b045f53b6b8625fde50a896de89e075d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/base/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303141252.uMIMFRnT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303141310.fFk2Rcen-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/base/cacheinfo.c:818:2: error: call to undeclared function 'clear_llc_topology'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           clear_llc_topology(cpu);
-           ^
-   1 error generated.
-
-
-vim +/clear_llc_topology +818 drivers/base/cacheinfo.c
-
-   811	
-   812	static int cacheinfo_cpu_pre_down(unsigned int cpu)
-   813	{
-   814		if (cpumask_test_and_clear_cpu(cpu, &cache_dev_map))
-   815			cpu_cache_sysfs_exit(cpu);
-   816	
-   817		free_cache_attributes(cpu);
- > 818		clear_llc_topology(cpu);
-   819		return 0;
-   820	}
-   821	
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 981994155
+   init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
+>> (.text+0x11c): multiple definition of `bpf_uprobe_multi_link_attach'; csky-linux-ld: DWARF error: could not find abbrev number 123
+   init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 20
+   init/do_mounts_initrd.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 1317637
+   init/initramfs.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x3c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 56
+   arch/csky/kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x4fc): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 8287
+   arch/csky/kernel/syscall.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 93921127
+   arch/csky/kernel/syscall_table.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 21
+   arch/csky/kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x92c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 254125701
+   arch/csky/mm/syscache.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 61
+   kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2010): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 16
+   kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 44
+   kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1120): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 109
+   kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x17d0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 87
+   kernel/softirq.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xb64): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 105
+   kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 79
+   kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x724): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 39
+   kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0xc5c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 32
+   kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1d70): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 3792
+   kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2240): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 28
+   kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x608): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 41
+   kernel/workqueue.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x3c3c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 14744
+   kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x2b0): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 488827
+   kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x674): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 39
+   kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x330): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 98
+   kernel/groups.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x80): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 156424237
+   kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x5b7c): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 10742
+   kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1c28): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 90
+   kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x3818): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 11018
+   kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x14f4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 162009245
+   kernel/locking/mutex.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1bb4): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 100
+   kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 168752136
+   kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x840): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 1728582
+   kernel/rcu/update.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x1b18): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 83
+   kernel/rcu/tree.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x64c8): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
+   csky-linux-ld: csky-linux-ld: DWARF error: could not find abbrev number 13910
+   kernel/kcmp.o: in function `bpf_uprobe_multi_link_attach':
+   (.text+0x564): multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:(.text+0x85c): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
