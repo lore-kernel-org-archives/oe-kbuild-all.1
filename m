@@ -1,109 +1,157 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02923CE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 07:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82718256E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 07:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678865732; x=1710401732;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Wq9KKZhjpStMaYwHob6hwfQLVY9oOfgddK2kpFMELLw=;
-  b=geW69HYcR5AKN4SxLDxSW+EnsipHye0aPimdJtQWanDfVKrfQ5VR9Prs
-   lcM+6/tWxPCwDNYePfrKaOagq369gqgG+TtSIHDHVMhNv+6m4HxgL43ip
-   lMyKwWVsa76CjPWKCe+4+dUmqMaE46kSg1P3uJT4YDAgzWBH1Vz2WBQOO
-   9iYwuKBeoVZ5m+pdQAyBF6k7Ci4dhbL+PAzVC64/fJtJrhWp7yNXDpYSB
-   uNThpK6BB/6NmusCFujYwVPolnaZrtXU9kNyY6pUDt748onv/q4o9LJiM
-   c7O/ok836ozHdHoMjGMwhvzelpZ8/tcjLrXKlJQR1OuCg+VIrV1BcTdIW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321478402"
+  t=1678866992; x=1710402992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=m9ftHGeRXaLlpkcbh58hf1RiC3roN1mjfGwzEaMGxis=;
+  b=VeCQVjIApstQHpuaVA7NJyjT6kr4t8LP+zpf5GNpeOHg6wcnzdiKRPjE
+   sL2LtS0DK1vh0WR+oHxHmZL5rjsC0cn9XdkRoNfQZrKTTi7r6NrSY45dx
+   e9LGtgkX07AA2fl0WGM+dcHSWoOIjsYkKFloCcq/aGs0XYQF/h/WNLGVi
+   UiSB8OG+SKhEM9eoxOHkRaWQ0EblShrQmjCl5vbZMYZUMmaeLrVTZdxFL
+   NrnH4XtgTNUYHLoi/F+QJ32SPB0h6R/WtV6lVNUGFJsyVjgEXoPqp1y1P
+   TN+cY9cb7072bo7jD3mc91LqzIL9FFKKE3DoVlb9P5rcN4hwD5FXig1lS
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="402511428"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="321478402"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 00:35:28 -0700
+   d="scan'208";a="402511428"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 00:56:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="853506500"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="629367653"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="853506500"
+   d="scan'208";a="629367653"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Mar 2023 00:35:25 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Mar 2023 00:56:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcLfR-0007WL-0n;
-	Wed, 15 Mar 2023 07:35:25 +0000
-Date: Wed, 15 Mar 2023 15:34:34 +0800
+	id 1pcLzl-0007Wl-1j;
+	Wed, 15 Mar 2023 07:56:25 +0000
+Date: Wed, 15 Mar 2023 15:55:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: [linux-stable-rc:queue/5.4 13/68]
- drivers/gpu/drm/drm_edid.c:5119:28: warning: passing argument 1 of
- 'is_hdmi2_sink' discards 'const' qualifier from pointer target type
-Message-ID: <202303151517.bKL0wFX4-lkp@intel.com>
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [linux-stable-rc:queue/5.4 63/68] drivers/tty/ehv_bytechan.c:121:27:
+ error: 'NO_IRQ' undeclared; did you mean 'do_IRQ'?
+Message-ID: <202303151555.yBEhtAp3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.4
 head:   88ec32cc649883f1cbb6e0cbdd1be0cc11314709
-commit: c1a997f02bbd6d15f0eb1d921be231d4efec7064 [13/68] drm/edid: fix AVI infoframe aspect ratio handling
-config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230315/202303151517.bKL0wFX4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+commit: cd6ffca552d537428e7a4f48b608f76137c59532 [63/68] powerpc: Check !irq instead of irq == NO_IRQ and remove NO_IRQ
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230315/202303151555.yBEhtAp3-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=c1a997f02bbd6d15f0eb1d921be231d4efec7064
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=cd6ffca552d537428e7a4f48b608f76137c59532
         git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
         git fetch --no-tags linux-stable-rc queue/5.4
-        git checkout c1a997f02bbd6d15f0eb1d921be231d4efec7064
+        git checkout cd6ffca552d537428e7a4f48b608f76137c59532
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/tty/ drivers/uio/ drivers/usb/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151517.bKL0wFX4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151555.yBEhtAp3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_edid.c: In function 'vic_for_avi_infoframe':
->> drivers/gpu/drm/drm_edid.c:5119:28: warning: passing argument 1 of 'is_hdmi2_sink' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    5119 |         if (!is_hdmi2_sink(connector) && vic > 64)
-         |                            ^~~~~~~~~
-   drivers/gpu/drm/drm_edid.c:4994:49: note: expected 'struct drm_connector *' but argument is of type 'const struct drm_connector *'
-    4994 | static bool is_hdmi2_sink(struct drm_connector *connector)
-         |                           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   drivers/tty/ehv_bytechan.c: In function 'find_console_handle':
+>> drivers/tty/ehv_bytechan.c:121:27: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     121 |         if (stdout_irq == NO_IRQ) {
+         |                           ^~~~~~
+         |                           do_IRQ
+   drivers/tty/ehv_bytechan.c:121:27: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/tty/ehv_bytechan.c: In function 'ehv_bc_tty_probe':
+   drivers/tty/ehv_bytechan.c:699:28: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     699 |         if ((bc->rx_irq == NO_IRQ) || (bc->tx_irq == NO_IRQ)) {
+         |                            ^~~~~~
+         |                            do_IRQ
+--
+   drivers/uio/uio_fsl_elbc_gpcm.c: In function 'uio_fsl_elbc_gpcm_probe':
+>> drivers/uio/uio_fsl_elbc_gpcm.c:397:20: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     397 |         if (irq != NO_IRQ) {
+         |                    ^~~~~~
+         |                    do_IRQ
+   drivers/uio/uio_fsl_elbc_gpcm.c:397:20: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from drivers/usb/host/ehci-hcd.c:1292:
+   drivers/usb/host/ehci-ppc-of.c: In function 'ehci_hcd_ppc_of_probe':
+>> drivers/usb/host/ehci-ppc-of.c:122:20: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     122 |         if (irq == NO_IRQ) {
+         |                    ^~~~~~
+         |                    do_IRQ
+   drivers/usb/host/ehci-ppc-of.c:122:20: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from drivers/usb/host/ohci-hcd.c:1255:
+   drivers/usb/host/ohci-ppc-of.c: In function 'ohci_hcd_ppc_of_probe':
+>> drivers/usb/host/ohci-ppc-of.c:126:20: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     126 |         if (irq == NO_IRQ) {
+         |                    ^~~~~~
+         |                    do_IRQ
+   drivers/usb/host/ohci-ppc-of.c:126:20: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +5119 drivers/gpu/drm/drm_edid.c
+vim +121 drivers/tty/ehv_bytechan.c
 
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5109  
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5110  /*
-c1a997f02bbd6d Jani Nikula   2023-01-04  5111   * Avoid sending VICs defined in HDMI 2.0 in AVI infoframes to sinks that
-c1a997f02bbd6d Jani Nikula   2023-01-04  5112   * conform to HDMI 1.4.
-c1a997f02bbd6d Jani Nikula   2023-01-04  5113   *
-c1a997f02bbd6d Jani Nikula   2023-01-04  5114   * HDMI 1.4 (CTA-861-D) VIC range: [1..64]
-c1a997f02bbd6d Jani Nikula   2023-01-04  5115   * HDMI 2.0 (CTA-861-F) VIC range: [1..107]
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5116   */
-c1a997f02bbd6d Jani Nikula   2023-01-04  5117  static u8 vic_for_avi_infoframe(const struct drm_connector *connector, u8 vic)
-c1a997f02bbd6d Jani Nikula   2023-01-04  5118  {
-7c7263a4d075fc Ville Syrjälä 2019-10-04 @5119  	if (!is_hdmi2_sink(connector) && vic > 64)
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5120  		return 0;
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5121  
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5122  	return vic;
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5123  }
-7c7263a4d075fc Ville Syrjälä 2019-10-04  5124  
+dcd83aaff1c8cb Timur Tabi   2011-07-08  101  
+dcd83aaff1c8cb Timur Tabi   2011-07-08  102  /*
+dcd83aaff1c8cb Timur Tabi   2011-07-08  103   * find the byte channel handle to use for the console
+dcd83aaff1c8cb Timur Tabi   2011-07-08  104   *
+dcd83aaff1c8cb Timur Tabi   2011-07-08  105   * The byte channel to be used for the console is specified via a "stdout"
+dcd83aaff1c8cb Timur Tabi   2011-07-08  106   * property in the /chosen node.
+dcd83aaff1c8cb Timur Tabi   2011-07-08  107   */
+dcd83aaff1c8cb Timur Tabi   2011-07-08  108  static int find_console_handle(void)
+dcd83aaff1c8cb Timur Tabi   2011-07-08  109  {
+a752ee56ad84bf Grant Likely 2014-03-28  110  	struct device_node *np = of_stdout;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  111  	const uint32_t *iprop;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  112  
+dcd83aaff1c8cb Timur Tabi   2011-07-08  113  	/* We don't care what the aliased node is actually called.  We only
+dcd83aaff1c8cb Timur Tabi   2011-07-08  114  	 * care if it's compatible with "epapr,hv-byte-channel", because that
+a752ee56ad84bf Grant Likely 2014-03-28  115  	 * indicates that it's a byte channel node.
+dcd83aaff1c8cb Timur Tabi   2011-07-08  116  	 */
+a752ee56ad84bf Grant Likely 2014-03-28  117  	if (!np || !of_device_is_compatible(np, "epapr,hv-byte-channel"))
+dcd83aaff1c8cb Timur Tabi   2011-07-08  118  		return 0;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  119  
+dcd83aaff1c8cb Timur Tabi   2011-07-08  120  	stdout_irq = irq_of_parse_and_map(np, 0);
+dcd83aaff1c8cb Timur Tabi   2011-07-08 @121  	if (stdout_irq == NO_IRQ) {
+a73ee8438c6da1 Rob Herring  2017-07-18  122  		pr_err("ehv-bc: no 'interrupts' property in %pOF node\n", np);
+dcd83aaff1c8cb Timur Tabi   2011-07-08  123  		return 0;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  124  	}
+dcd83aaff1c8cb Timur Tabi   2011-07-08  125  
+dcd83aaff1c8cb Timur Tabi   2011-07-08  126  	/*
+dcd83aaff1c8cb Timur Tabi   2011-07-08  127  	 * The 'hv-handle' property contains the handle for this byte channel.
+dcd83aaff1c8cb Timur Tabi   2011-07-08  128  	 */
+dcd83aaff1c8cb Timur Tabi   2011-07-08  129  	iprop = of_get_property(np, "hv-handle", NULL);
+dcd83aaff1c8cb Timur Tabi   2011-07-08  130  	if (!iprop) {
+fff10721d8b819 Rob Herring  2018-08-27  131  		pr_err("ehv-bc: no 'hv-handle' property in %pOFn node\n",
+fff10721d8b819 Rob Herring  2018-08-27  132  		       np);
+dcd83aaff1c8cb Timur Tabi   2011-07-08  133  		return 0;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  134  	}
+dcd83aaff1c8cb Timur Tabi   2011-07-08  135  	stdout_bc = be32_to_cpu(*iprop);
+dcd83aaff1c8cb Timur Tabi   2011-07-08  136  	return 1;
+dcd83aaff1c8cb Timur Tabi   2011-07-08  137  }
+dcd83aaff1c8cb Timur Tabi   2011-07-08  138  
 
-:::::: The code at line 5119 was first introduced by commit
-:::::: 7c7263a4d075fc94143b9b05320982e86391f61f drm/edid: Extract drm_mode_cea_vic()
+:::::: The code at line 121 was first introduced by commit
+:::::: dcd83aaff1c8cbd5b48c152b559e0af3ea1a7b65 tty/powerpc: introduce the ePAPR embedded hypervisor byte channel driver
 
-:::::: TO: Ville Syrjälä <ville.syrjala@linux.intel.com>
-:::::: CC: Sasha Levin <sashal@kernel.org>
+:::::: TO: Timur Tabi <timur@freescale.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
