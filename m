@@ -1,55 +1,57 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615B96FC3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 20:55:55 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id s17so11572815pgv.4
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 13:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20210112.gappssmtp.com; s=20210112; t=1678913754;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=imHwkZmtdo+G134HfW8QY38rrBjXWKOKW5gZ2oqTMOo=;
-        b=2DEuKMxEcucR8xRm9szIy8+Xb1gbAp2c6IGg+rD17Ly6BfsFupQILKWw+ykZpsku33
-         5mQ6bMNCECBn29e7TFsdmwSGFGJBqCNCu95Ii4fTD8fCy0XW9SCx9a5IMf7x7tVoEYyI
-         B5vuS06JWS4rm0giy0vAGIdJiq3oCmqtdXU67tFegwAcZltwhiXqhNVnald6I4yM/iwV
-         4RxuXGCoie8WLfgOu+ywzJ6hk3QjAqC09W/E/ratfzKVhfH4XJYb/hsaFZEUKAJC2Vz6
-         e1Hbw16zn7+n+vE71oe+s5rHmxqhYHHbL1lLiJh2sD1kBczzYJSXVJqVi1KIfkmewks+
-         4izA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678913754;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=imHwkZmtdo+G134HfW8QY38rrBjXWKOKW5gZ2oqTMOo=;
-        b=LEZsJ7EJ1Ni1rw5f0uLs/i3wITCo7NJOKPgXMRTs406+y5kAFK3hvqJJQ5iLh5OOgG
-         dq7eaX4w2oH9jUzrSUI8ZnOGHAttZUuhWe3Cvg2/qK1B74GjyCtHncPPst8gbuzS2t0o
-         5D5qxoBnGVKhBV2zD+g7aBhzvfYhJt5UGBYYeDok/1peNzI3XCyWS1KXYQzz5yaTOrC3
-         /TVeBZJyG9Mp6NJLZsqlXNDX4FYr3HtDoxJbgp4UlSyy8yAavrZaYBStOehyI7Uak2xv
-         lO/2CXlVbgsynBtNmImgDPRe0qKUwjuz7LhJJNr5OKgxIhVkyVGZS3CpM4zOcbB6Nsb2
-         28jw==
-X-Gm-Message-State: AO0yUKXZs0xC4xsucfUQHM8Yz2wBMmcfds+4Iuw2FtHx0+0Lrxsvg5qv
-	MJ3CcG014rOlzFZkuyKL1kxrQQ==
-X-Google-Smtp-Source: AK7set+eU6Dd3+B8Lg5NkIP+nmrpJkcMcp/O2LFm6PFmwU+7nTVpYZWQ2rQLS1P1G5i3dYAUVnMzRg==
-X-Received: by 2002:aa7:9813:0:b0:625:d630:4e1b with SMTP id e19-20020aa79813000000b00625d6304e1bmr774222pfl.31.1678913754626;
-        Wed, 15 Mar 2023 13:55:54 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-91-157.pa.nsw.optusnet.com.au. [49.181.91.157])
-        by smtp.gmail.com with ESMTPSA id n3-20020aa78a43000000b00625d5635617sm627735pfa.67.2023.03.15.13.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 13:55:54 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-	(envelope-from <david@fromorbit.com>)
-	id 1pcYA2-009CD4-Cw; Thu, 16 Mar 2023 07:55:50 +1100
-Date: Thu, 16 Mar 2023 07:55:50 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-mm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, yebin10@huawei.com
-Subject: Re: [PATCH 4/4] pcpcntr: remove percpu_counter_sum_all()
-Message-ID: <20230315205550.GS360264@dread.disaster.area>
-References: <20230315084938.2544737-5-david@fromorbit.com>
- <202303160333.XqIRz3JU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876AA6FC3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 21:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678914312; x=1710450312;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zgcxU04kk7R74eIwM5VvQS7PnF5BOcPygMlUIObyV7o=;
+  b=BgUFfDsBry+qtkWULkwbeXHnnUTyRzanHtCdMH50GQazz2xrEHgplvTo
+   4prPCh0mAH870UoD/+Y1M2pOydzqla5WeHFyxhCkkA5yjRmFMlVuwYzrI
+   q1+I5JgJOMdxS5kj9NjS0xJqGIWKShTNSndxE9gn4iWJLgQDwpoLyZ6mn
+   NV7VPUkTsPrC6hzsXF8A6Niwkfbjh2KiJWcr7Nh3859bkrDCvNuva4u74
+   Re2jl37tHxqQ8yrclaP3l/h8fv0uSLusH973YP7ATZL77b4pXteNLnmjP
+   /ln30s6jR8oe+Kffh6mvqzy9d0fBhisgT35W1XOffm3RLHh2e/YozYNei
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="337835816"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="337835816"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 14:05:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="822941919"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="822941919"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2023 14:05:08 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pcYJ1-00082F-15;
+	Wed, 15 Mar 2023 21:05:07 +0000
+Date: Thu, 16 Mar 2023 05:04:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herve Codina via Alsa-devel <alsa-devel@alsa-project.org>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Derek Kiernan <derek.kiernan@xilinx.com>,
+	Dragan Cvetic <dragan.cvetic@xilinx.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256
+ framer
+Message-ID: <202303160430.HUK3FkVq-lkp@intel.com>
+References: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,85 +60,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303160333.XqIRz3JU-lkp@intel.com>
+In-Reply-To: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
 
-On Thu, Mar 16, 2023 at 03:22:31AM +0800, kernel test robot wrote:
-> Hi Dave,
-> 
-> Thank you for the patch! Yet something to improve:
+Hi Herve,
 
-No, ithere is nothing wrong with my patch series, this is something
-for _you_ to improve.
+Thank you for the patch! Perhaps something to improve:
 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.3-rc2 next-20230315]
-> [cannot apply to dennis-percpu/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/cpumask-introduce-for_each_cpu_or/20230315-165202
-> patch link:    https://lore.kernel.org/r/20230315084938.2544737-5-david%40fromorbit.com
-> patch subject: [PATCH 4/4] pcpcntr: remove percpu_counter_sum_all()
-> config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230316/202303160333.XqIRz3JU-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/8360dcb55f1eb08fe7a1f457f3b99bef8e306c8b
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Dave-Chinner/cpumask-introduce-for_each_cpu_or/20230315-165202
->         git checkout 8360dcb55f1eb08fe7a1f457f3b99bef8e306c8b
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=i386 olddefconfig
->         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hwmon/ fs/xfs/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303160333.XqIRz3JU-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/string.h:5,
->                     from include/linux/uuid.h:11,
->                     from fs/xfs/xfs_linux.h:10,
->                     from fs/xfs/xfs.h:22,
->                     from fs/xfs/xfs_super.c:7:
->    fs/xfs/xfs_super.c: In function 'xfs_destroy_percpu_counters':
-> >> fs/xfs/xfs_super.c:1079:16: error: implicit declaration of function 'percpu_counter_sum_all'; did you mean 'percpu_counter_sum'? [-Werror=implicit-function-declaration]
->     1079 |                percpu_counter_sum_all(&mp->m_delalloc_blks) == 0);
->          |                ^~~~~~~~~~~~~~~~~~~~~~
->    include/linux/compiler.h:77:45: note: in definition of macro 'likely'
->       77 | # define likely(x)      __builtin_expect(!!(x), 1)
->          |                                             ^
->    fs/xfs/xfs_super.c:1078:9: note: in expansion of macro 'ASSERT'
->     1078 |         ASSERT(xfs_is_shutdown(mp) ||
->          |         ^~~~~~
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +1079 fs/xfs/xfs_super.c
-> 
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1070  
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1071  static void
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1072  xfs_destroy_percpu_counters(
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1073  	struct xfs_mount	*mp)
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1074  {
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1075  	percpu_counter_destroy(&mp->m_icount);
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1076  	percpu_counter_destroy(&mp->m_ifree);
-> 8757c38f2cf6e5 Ian Kent        2019-11-04  1077  	percpu_counter_destroy(&mp->m_fdblocks);
-> 75c8c50fa16a23 Dave Chinner    2021-08-18  1078  	ASSERT(xfs_is_shutdown(mp) ||
-> c35278f526edf1 Ye Bin          2023-03-14 @1079  	       percpu_counter_sum_all(&mp->m_delalloc_blks) == 0);
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on robh/for-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc2 next-20230315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This change has not been committed to any tree that I am aware of.
-It was only posted to the XFS list yesterday, and I effectively
-NACK'd it and wrote this patchset instead to fix the issue.
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/167888778959.26.12757990479414568225%40mailman-core.alsa-project.org
+patch subject: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256 framer
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303160430.HUK3FkVq-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/93791052da597151cddbe64bc3013d9fec19550f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
+        git checkout 93791052da597151cddbe64bc3013d9fec19550f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/misc/
 
-IOWs, if -anyone- has actually committed this change to add
-percpu_counter_sum_all() to XFS, they've done the wrong thing.
-Hence this build failure is a robot issue, not a problem with my
-patch series.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303160430.HUK3FkVq-lkp@intel.com/
 
--Dave.
+All warnings (new ones prefixed by >>):
+
+>> drivers/misc/pef2256.c:1054:38: warning: duplicate 'const' declaration specifier [-Wduplicate-decl-specifier]
+    1054 | static const struct pinctrl_pin_desc const pef2256_v12_pins[] = {
+         |                                      ^~~~~
+   drivers/misc/pef2256.c:1065:38: warning: duplicate 'const' declaration specifier [-Wduplicate-decl-specifier]
+    1065 | static const struct pinctrl_pin_desc const pef2256_v2x_pins[] = {
+         |                                      ^~~~~
+
+
+vim +/const +1054 drivers/misc/pef2256.c
+
+  1053	
+> 1054	static const struct pinctrl_pin_desc const pef2256_v12_pins[] = {
+  1055		PEF2256_PINCTRL_PIN(0, "RPA", PEF2256_PC1, PEF2256_12_PC_RPC_MASK),
+  1056		PEF2256_PINCTRL_PIN(1, "RPB", PEF2256_PC2, PEF2256_12_PC_RPC_MASK),
+  1057		PEF2256_PINCTRL_PIN(2, "RPC", PEF2256_PC3, PEF2256_12_PC_RPC_MASK),
+  1058		PEF2256_PINCTRL_PIN(3, "RPD", PEF2256_PC4, PEF2256_12_PC_RPC_MASK),
+  1059		PEF2256_PINCTRL_PIN(4, "XPA", PEF2256_PC1, PEF2256_12_PC_XPC_MASK),
+  1060		PEF2256_PINCTRL_PIN(5, "XPB", PEF2256_PC2, PEF2256_12_PC_XPC_MASK),
+  1061		PEF2256_PINCTRL_PIN(6, "XPC", PEF2256_PC3, PEF2256_12_PC_XPC_MASK),
+  1062		PEF2256_PINCTRL_PIN(7, "XPD", PEF2256_PC4, PEF2256_12_PC_XPC_MASK),
+  1063	};
+  1064	
+
 -- 
-Dave Chinner
-david@fromorbit.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
