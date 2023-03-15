@@ -1,49 +1,45 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B89920EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 05:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD15F2116
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 06:54:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678857689; x=1710393689;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2/TH1LWxLih8S4MHEb64nBaGJRSX7584AONhxzPciDI=;
-  b=ltov5rHMPyf7hY3P59RsL2oZNekvh5Ut+nOwEfS+wyGoI3EKGFufFZKs
-   SiZlzKbl1jATgjcSmVtTwuvf5or4J3tHF5rqT3jjF9Rw7acLu3q2ZTkcD
-   Fr3XLK35Bp5mZhqDqY06ntSiPkPBsL/ZiSyOpRlr1DTrsPjb+zhvVda6W
-   sYmy8TPtpBXrzNqofkY5FlO+zXGU2O+aiSkSN7Bo7JcfarUHtxW39Q7Fw
-   /zPPvJvs1LSLC1BYgpos/FDK7qCIrwiQGWDYtpUQmW0aOXgr0TVM5JCkE
-   scVSM8URv4jdRaVVB0MXzkTnGKrzrC+68oR7bxi3q1elFlYhd5bCpN4LJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365294000"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="365294000"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 22:21:15 -0700
+  t=1678863267; x=1710399267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oH0pIw1t1Q5l+FVqk87kr7L//imzZXpxT26OsrTd8RE=;
+  b=K0+x65g8/17YYcEXXjNYzt/qusv8lx3tvWV8N+PZJgoGBYdhznm0KiwI
+   yWe8c6VD/YVqW5Zgqo0g1+LELlBmGup0fNHAQQ/gNpfE6v1tEKUBtZ5Uw
+   /3yT1nmXrjEb3QrJXbC4fpLNLgSlbqPsqJQC/CVYaSXjL+pxcPBn6Xk8d
+   cgydKfxcuJ0tgL2L154b3+fKUXW0fgKrUnflTNzlOH2z8zrNwPddRDf5X
+   L0p2F/sBIvNCZd+SXMDpizM+QfjUc5kCGoPsg89AJNDu55jUQRjb7BWvw
+   m/4Dg/Dj5dTQ0SJHIyDDB4WghI1TILpYK0884TQY2VKl6ove1YfJ42Wpy
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400211612"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="400211612"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 23:54:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="672609063"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="672609063"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="822661806"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="822661806"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 14 Mar 2023 22:21:10 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2023 23:54:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcJZV-0007Sh-1W;
-	Wed, 15 Mar 2023 05:21:09 +0000
-Date: Wed, 15 Mar 2023 13:20:58 +0800
+	id 1pcL1k-0007VD-1X;
+	Wed, 15 Mar 2023 06:54:24 +0000
+Date: Wed, 15 Mar 2023 14:53:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	io-uring@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-	Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>,
-	Bernd Schubert <bschubert@ddn.com>, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH V2 13/17] block: ublk_drv: grab request reference when
- the request is handled by userspace
-Message-ID: <202303151232.tHK2H9T3-lkp@intel.com>
-References: <20230307141520.793891-14-ming.lei@redhat.com>
+To: Wenjing Liu <wenjing.liu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>
+Subject: [linux-next:master 3547/3780]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:258:10:
+ warning: no previous prototype for 'link_timing_bandwidth_kbps'
+Message-ID: <202303151409.por0SBf7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,127 +48,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307141520.793891-14-ming.lei@redhat.com>
 
-Hi Ming,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc2 next-20230314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230307141520.793891-14-ming.lei%40redhat.com
-patch subject: [PATCH V2 13/17] block: ublk_drv: grab request reference when the request is handled by userspace
-config: microblaze-randconfig-s033-20230308 (https://download.01.org/0day-ci/archive/20230315/202303151232.tHK2H9T3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   225b6b81afe63b3850b7cee0a3590f51144f2a75
+commit: 98ce7d32e2154a6676d4dc7e6877af68cebf8832 [3547/3780] drm/amd/display: convert link.h functions to function pointer style
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303151409.por0SBf7-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/8e1a2115a8d58ff04cbc1aad6192805e29d0b63e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
-        git checkout 8e1a2115a8d58ff04cbc1aad6192805e29d0b63e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=98ce7d32e2154a6676d4dc7e6877af68cebf8832
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 98ce7d32e2154a6676d4dc7e6877af68cebf8832
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151232.tHK2H9T3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151409.por0SBf7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/block/ublk_drv.c:688:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t [usertype] @@
-   drivers/block/ublk_drv.c:688:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:688:21: sparse:     got restricted blk_status_t [usertype]
-   drivers/block/ublk_drv.c:697:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t @@
-   drivers/block/ublk_drv.c:697:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:697:21: sparse:     got restricted blk_status_t
-   drivers/block/ublk_drv.c:728:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] error @@     got int res @@
-   drivers/block/ublk_drv.c:728:33: sparse:     expected restricted blk_status_t [usertype] error
-   drivers/block/ublk_drv.c:728:33: sparse:     got int res
->> drivers/block/ublk_drv.c:688:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t [usertype] @@
-   drivers/block/ublk_drv.c:688:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:688:21: sparse:     got restricted blk_status_t [usertype]
-   drivers/block/ublk_drv.c:697:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t @@
-   drivers/block/ublk_drv.c:697:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:697:21: sparse:     got restricted blk_status_t
-   drivers/block/ublk_drv.c:728:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] error @@     got int res @@
-   drivers/block/ublk_drv.c:728:33: sparse:     expected restricted blk_status_t [usertype] error
-   drivers/block/ublk_drv.c:728:33: sparse:     got int res
->> drivers/block/ublk_drv.c:688:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t [usertype] @@
-   drivers/block/ublk_drv.c:688:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:688:21: sparse:     got restricted blk_status_t [usertype]
-   drivers/block/ublk_drv.c:697:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int res @@     got restricted blk_status_t @@
-   drivers/block/ublk_drv.c:697:21: sparse:     expected int res
-   drivers/block/ublk_drv.c:697:21: sparse:     got restricted blk_status_t
-   drivers/block/ublk_drv.c:728:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] error @@     got int res @@
-   drivers/block/ublk_drv.c:728:33: sparse:     expected restricted blk_status_t [usertype] error
-   drivers/block/ublk_drv.c:728:33: sparse:     got int res
+All warnings (new ones prefixed by >>):
 
-vim +688 drivers/block/ublk_drv.c
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:258:10: warning: no previous prototype for 'link_timing_bandwidth_kbps' [-Wmissing-prototypes]
+     258 | uint32_t link_timing_bandwidth_kbps(const struct dc_crtc_timing *timing)
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/link.h:78,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.h:27,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:31:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:143:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
+     143 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
+         |                      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:140:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
+     140 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:138:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
+     138 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:135:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
+     135 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:133:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
+     133 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
+     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   677	
-   678	/* todo: handle partial completion */
-   679	static inline void __ublk_complete_rq(struct request *req)
-   680	{
-   681		struct ublk_queue *ubq = req->mq_hctx->driver_data;
-   682		struct ublk_io *io = &ubq->ios[req->tag];
-   683		unsigned int unmapped_bytes;
-   684		int res = BLK_STS_OK;
-   685	
-   686		/* called from ublk_abort_queue() code path */
-   687		if (io->flags & UBLK_IO_FLAG_ABORTED) {
- > 688			res = BLK_STS_IOERR;
-   689			goto exit;
-   690		}
-   691	
-   692		/* failed read IO if nothing is read */
-   693		if (!io->res && req_op(req) == REQ_OP_READ)
-   694			io->res = -EIO;
-   695	
-   696		if (io->res < 0) {
-   697			res = errno_to_blk_status(io->res);
-   698			goto exit;
-   699		}
-   700	
-   701		/*
-   702		 * FLUSH, DISCARD or WRITE_ZEROES usually won't return bytes returned, so end them
-   703		 * directly.
-   704		 *
-   705		 * Both the two needn't unmap.
-   706		 */
-   707		if (req_op(req) != REQ_OP_READ && req_op(req) != REQ_OP_WRITE)
-   708			goto exit;
-   709	
-   710		/* for READ request, writing data in iod->addr to rq buffers */
-   711		unmapped_bytes = ublk_unmap_io(ubq, req, io);
-   712	
-   713		/*
-   714		 * Extremely impossible since we got data filled in just before
-   715		 *
-   716		 * Re-read simply for this unlikely case.
-   717		 */
-   718		if (unlikely(unmapped_bytes < io->res))
-   719			io->res = unmapped_bytes;
-   720	
-   721		if (blk_update_request(req, BLK_STS_OK, io->res))
-   722			blk_mq_requeue_request(req, true);
-   723		else
-   724			__blk_mq_end_request(req, BLK_STS_OK);
-   725	
-   726		return;
-   727	exit:
-   728		blk_mq_end_request(req, res);
-   729	}
-   730	
+
+vim +/link_timing_bandwidth_kbps +258 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c
+
+   257	
+ > 258	uint32_t link_timing_bandwidth_kbps(const struct dc_crtc_timing *timing)
+   259	{
+   260		uint32_t bits_per_channel = 0;
+   261		uint32_t kbps;
+   262	
+   263		if (timing->flags.DSC)
+   264			return dc_dsc_stream_bandwidth_in_kbps(timing,
+   265					timing->dsc_cfg.bits_per_pixel,
+   266					timing->dsc_cfg.num_slices_h,
+   267					timing->dsc_cfg.is_dp);
+   268	
+   269		switch (timing->display_color_depth) {
+   270		case COLOR_DEPTH_666:
+   271			bits_per_channel = 6;
+   272			break;
+   273		case COLOR_DEPTH_888:
+   274			bits_per_channel = 8;
+   275			break;
+   276		case COLOR_DEPTH_101010:
+   277			bits_per_channel = 10;
+   278			break;
+   279		case COLOR_DEPTH_121212:
+   280			bits_per_channel = 12;
+   281			break;
+   282		case COLOR_DEPTH_141414:
+   283			bits_per_channel = 14;
+   284			break;
+   285		case COLOR_DEPTH_161616:
+   286			bits_per_channel = 16;
+   287			break;
+   288		default:
+   289			ASSERT(bits_per_channel != 0);
+   290			bits_per_channel = 8;
+   291			break;
+   292		}
+   293	
+   294		kbps = timing->pix_clk_100hz / 10;
+   295		kbps *= bits_per_channel;
+   296	
+   297		if (timing->flags.Y_ONLY != 1) {
+   298			/*Only YOnly make reduce bandwidth by 1/3 compares to RGB*/
+   299			kbps *= 3;
+   300			if (timing->pixel_encoding == PIXEL_ENCODING_YCBCR420)
+   301				kbps /= 2;
+   302			else if (timing->pixel_encoding == PIXEL_ENCODING_YCBCR422)
+   303				kbps = kbps * 2 / 3;
+   304		}
+   305	
+   306		return kbps;
+   307	}
+   308	
 
 -- 
 0-DAY CI Kernel Test Service
