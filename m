@@ -1,50 +1,49 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637947460;
-	Wed, 15 Mar 2023 21:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C8C7460;
+	Wed, 15 Mar 2023 21:47:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678916181; x=1710452181;
+  t=1678916833; x=1710452833;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bN4ryWZxzvEFPRc6DSLUskI5Lq1cF0UDC0McBXRKWV0=;
-  b=du6i+H164nhUx0xm3rrdPV8HIjdhRMVugOdiQHtYPWexHudU8sQ3/tRX
-   OXNYqDW0+0yfuCRSQgTldAImvahUGS2fRUpcFse3ZHL7okYy7PnJ0kKFh
-   Q61rzq4Bh76i2iPH6wB3BNvrM9gv6rESE0GfgLHf5DTLuRKZCctfc8FCc
-   HQ7IEzmCBWbzXcP3Tp7qWmnIIXWWwnfraQuxxTXBP+HfX9SkQEb9zW5zV
-   Af/YE45jE5TPD8M+3NFSUcSdJV86jWXTSWWo9eI3OIcR4VWMkmUmyKpmd
-   OzoxTMV1EZIbQyolOiynU9JNBA4ZUS9YJ9czV2iSUaRS94xZpTPCX0JMn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="402693620"
+  bh=cHzP/3Tzs/wORixRirXSEWJE6PYaNKurlGF+KU1RKV8=;
+  b=WJ+8Wk09AcGeT/eFJ7FgD2efy1oPn1aRK8GX7wEW+svWzJdsKCsYe3fl
+   VCqRShqYyEHkD19BLPUztcyQqBOdRW8DYgxTu/0gZBM0kjd3lmDt5sK7Z
+   UWAkBhM8INu+gDhSnJzPT3JI3qMgqvsvhwq494v8bE+5CHjsAUUxjwzcu
+   6EZp7UJWvvT4LuwnaEaTdsAiVqxMqkJiIdjwYob0ggqXW1QvY2BwhLL2R
+   dKlOW1Y7nhhcmsPTgujQQ5Y6rvD6TcnRdmtpCgX3+T6qn04nZSHYMo19V
+   G33MmD8vtun3+8zhOPnqgbyya5r+KooXOyzHFZAMgrSeI3J5b50G/5nik
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="337842527"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="402693620"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 14:36:12 -0700
+   d="scan'208";a="337842527"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 14:47:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="709822609"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="748604027"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="709822609"
+   d="scan'208";a="748604027"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 Mar 2023 14:36:09 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 15 Mar 2023 14:47:09 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcYn2-00083D-1R;
-	Wed, 15 Mar 2023 21:36:08 +0000
-Date: Thu, 16 Mar 2023 05:36:05 +0800
+	id 1pcYxg-00083T-2T;
+	Wed, 15 Mar 2023 21:47:08 +0000
+Date: Thu, 16 Mar 2023 05:46:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>, michael.hennerich@analog.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, nuno.sa@analog.com,
-	linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-Message-ID: <202303160514.ZHer8I6t-lkp@intel.com>
-References: <20230314105257.17345-3-paul@crapouillou.net>
+To: Desnes Nunes <desnesn@redhat.com>, iommu@lists.linux.dev,
+	linux-scsi@vger.kernel.org, storagedev@microchip.com,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de, martin.petersen@oracle.com,
+	don.brace@microchip.com, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, jejb@linux.ibm.com, jsnitsel@redhat.com,
+	Desnes Nunes <desnesn@redhat.com>
+Subject: Re: [PATCH 2/3] dma-debug: add cacheline to user/kernel space dump
+ messages
+Message-ID: <202303160548.ReyuTsGD-lkp@intel.com>
+References: <20230315192130.970021-3-desnesn@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,48 +52,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230314105257.17345-3-paul@crapouillou.net>
+In-Reply-To: <20230315192130.970021-3-desnesn@redhat.com>
 
-Hi Paul,
+Hi Desnes,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3-rc2 next-20230315]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master hch-configfs/for-next v6.3-rc2 next-20230315]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230314105257.17345-3-paul%40crapouillou.net
-patch subject: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-config: i386-randconfig-a014-20230313 (https://download.01.org/0day-ci/archive/20230316/202303160514.ZHer8I6t-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Desnes-Nunes/dma-debug-small-dma_debug_entry-s-comment-and-variable-name-updates/20230316-032542
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230315192130.970021-3-desnesn%40redhat.com
+patch subject: [PATCH 2/3] dma-debug: add cacheline to user/kernel space dump messages
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303160548.ReyuTsGD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        # https://github.com/intel-lab-lkp/linux/commit/ae3f8fdd17c54b837d476952733456723c472ed8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
-        git checkout 4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        git fetch --no-tags linux-review Desnes-Nunes/dma-debug-small-dma_debug_entry-s-comment-and-variable-name-updates/20230316-032542
+        git checkout ae3f8fdd17c54b837d476952733456723c472ed8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/dma/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303160514.ZHer8I6t-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303160548.ReyuTsGD-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module usb_f_fs uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:7,
+                    from include/linux/dma-map-ops.h:9,
+                    from kernel/dma/debug.c:12:
+   kernel/dma/debug.c: In function 'debug_dma_dump_mappings':
+>> kernel/dma/debug.c:537:42: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 9 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     537 |                                          "%s idx %d P=%llx N=%lx D=%llx L=%llx cln=%llx %s %s\n",
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   kernel/dma/debug.c:536:33: note: in expansion of macro 'dev_info'
+     536 |                                 dev_info(entry->dev,
+         |                                 ^~~~~~~~
+   kernel/dma/debug.c:537:87: note: format string is defined here
+     537 |                                          "%s idx %d P=%llx N=%lx D=%llx L=%llx cln=%llx %s %s\n",
+         |                                                                                    ~~~^
+         |                                                                                       |
+         |                                                                                       long long unsigned int
+         |                                                                                    %x
+   kernel/dma/debug.c: In function 'dump_show':
+   kernel/dma/debug.c:568:87: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 11 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     568 |                                    "%s %s %s idx %d P=%llx N=%lx D=%llx L=%llx cln=%llx %s %s\n",
+         |                                                                                    ~~~^
+         |                                                                                       |
+         |                                                                                       long long unsigned int
+         |                                                                                    %x
+   ......
+     574 |                                    cln, dir2name[entry->direction],
+         |                                    ~~~                                                 
+         |                                    |
+         |                                    phys_addr_t {aka unsigned int}
+
+
+vim +537 kernel/dma/debug.c
+
+   518	
+   519	/*
+   520	 * Dump mappings entries on kernel space for debugging purposes
+   521	 */
+   522	void debug_dma_dump_mappings(struct device *dev)
+   523	{
+   524		int idx;
+   525		phys_addr_t cln;
+   526	
+   527		for (idx = 0; idx < HASH_SIZE; idx++) {
+   528			struct hash_bucket *bucket = &dma_entry_hash[idx];
+   529			struct dma_debug_entry *entry;
+   530			unsigned long flags;
+   531	
+   532			spin_lock_irqsave(&bucket->lock, flags);
+   533			list_for_each_entry(entry, &bucket->list, list) {
+   534				if (!dev || dev == entry->dev) {
+   535					cln = to_cacheline_number(entry);
+   536					dev_info(entry->dev,
+ > 537						 "%s idx %d P=%llx N=%lx D=%llx L=%llx cln=%llx %s %s\n",
+   538						 type2name[entry->type], idx,
+   539						 phys_addr(entry), entry->pfn,
+   540						 entry->dev_addr, entry->size,
+   541						 cln, dir2name[entry->direction],
+   542						 maperr2str[entry->map_err_type]);
+   543				}
+   544			}
+   545			spin_unlock_irqrestore(&bucket->lock, flags);
+   546	
+   547			cond_resched();
+   548		}
+   549	}
+   550	
 
 -- 
 0-DAY CI Kernel Test Service
