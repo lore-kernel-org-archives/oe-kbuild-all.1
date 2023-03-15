@@ -1,42 +1,45 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66B6210B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 10:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423AA28EA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 10:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678876277; x=1710412277;
+  t=1678877446; x=1710413446;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zDA8LDJA4mq7gxaihqBA+MUS0gfsGtJJYGp1Ox2GcaA=;
-  b=TcW2EYCFz2vw/lGLbjVMif0IMAH8/i1lGQxUEt22alpNMazcVrnJvh16
-   Jap63rr1etGOLvCGEUeQI6hIih9O2RIVXc2ypv4cTNbLVY1UJ/K7L52j1
-   fLREo/HKnJ6yXYMd49mqtbn1o7dV1zfVLTPdBp/8Ojz3BBR5FsxhtABPf
-   XDDUswX/MesNcYQ8i+dr3+b8ufbSbrvhslLQbbfoTLDUvvG/R7F0CHzAr
-   d6yua81+VOYuHTg6v8XTm72KXE1O0Pezz1S5mDYkSrT9HZHbknKes28Ps
-   n62rYOqaKlhktzyf6ZUgX8nA9LWvx2y7iVvc0JwnMwdRipsgBrP0f85aw
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365348923"
+  bh=YOC5Xy20QwRgnSopyIcbMMTDhK8RJhvOHRWg1L7iBUg=;
+  b=PSGxGKLMj9eoU3aXqpgcbb+L3TrVNSyQnN8e4i5HgP4iWB/nC9udqgqd
+   Tc+/3x1KhA0tFXtUeO7wh4vDKeaas9ym6Y0PF+gMHl6eywU35exR8/m/d
+   kCiZMmnJuIiUh1UvqLeBHWPttKomap3qz3qvvkgqqScW0zs44DFPDQbGj
+   AJrWELOk1sJe9K32tfkVAUvtLm7csoI4HHD0Vlb3p/19tI7NuMYqGGxEg
+   8Ni8X06N7UaqI/RbR+SEeBYkL73Ol8kFODQj3TY46m9GXXV+/FfxxW+y0
+   TIVK7CPeOiid9fYQ9QTWjSM+6wNLxBDCCrnXAHvuj4lKT/C8EV4MlW3EM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="340034098"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="365348923"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:30:44 -0700
+   d="scan'208";a="340034098"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:50:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="743643059"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="711884229"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="743643059"
+   d="scan'208";a="711884229"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Mar 2023 03:30:43 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Mar 2023 03:50:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcOP4-0007cB-2e;
-	Wed, 15 Mar 2023 10:30:42 +0000
-Date: Wed, 15 Mar 2023 18:29:46 +0800
+	id 1pcOiR-0007cV-0p;
+	Wed, 15 Mar 2023 10:50:43 +0000
+Date: Wed, 15 Mar 2023 18:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/2] arch/arm64/kvm/arm.c:2015:46:
- error: 'smccc_trng_available' undeclared
-Message-ID: <202303151802.hqpkOEAT-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
+	Cai Xinchen <caixinchen1@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-stable-rc:queue/4.19 41/42] kernel/cgroup/cgroup.c:2237:9:
+ error: implicit declaration of function 'get_online_cpus'; did you mean
+ 'get_online_mems'?
+Message-ID: <202303151816.KSWgiPht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,107 +49,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   7899985277527b29c47929a6d6a89c5c89b406ad
-commit: 61365541c6f8d881182488fa90c64645c24b285f [1/2] ANDROID: KVM: arm64: relay entropy requests from protected guests directly to secure
-config: arm64-buildonly-randconfig-r001-20230315 (https://download.01.org/0day-ci/archive/20230315/202303151802.hqpkOEAT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
+head:   c791a62cbcc10c6e2c28ea77fb74b95cd33916e3
+commit: 5eaeeca9e096543f6f53c4859aa083b739514d36 [41/42] cgroup: Fix threadgroup_rwsem <-> cpus_read_lock() deadlock
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230315/202303151816.KSWgiPht-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 61365541c6f8d881182488fa90c64645c24b285f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=5eaeeca9e096543f6f53c4859aa083b739514d36
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/4.19
+        git checkout 5eaeeca9e096543f6f53c4859aa083b739514d36
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/cgroup/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151802.hqpkOEAT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151816.KSWgiPht-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/arm.c: In function 'kvm_hyp_init_symbols':
->> arch/arm64/kvm/arm.c:2015:46: error: 'smccc_trng_available' undeclared (first use in this function)
-    2015 |         kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
-         |                                              ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/arm.c:2015:46: note: each undeclared identifier is reported only once for each function it appears in
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   kernel/cgroup/cgroup.c: In function 'cgroup_attach_lock':
+>> kernel/cgroup/cgroup.c:2237:9: error: implicit declaration of function 'get_online_cpus'; did you mean 'get_online_mems'? [-Werror=implicit-function-declaration]
+    2237 |         get_online_cpus();
+         |         ^~~~~~~~~~~~~~~
+         |         get_online_mems
+   kernel/cgroup/cgroup.c: In function 'cgroup_attach_unlock':
+>> kernel/cgroup/cgroup.c:2248:9: error: implicit declaration of function 'put_online_cpus'; did you mean 'num_online_cpus'? [-Werror=implicit-function-declaration]
+    2248 |         put_online_cpus();
+         |         ^~~~~~~~~~~~~~~
+         |         num_online_cpus
+   cc1: some warnings being treated as errors
 
 
-vim +/smccc_trng_available +2015 arch/arm64/kvm/arm.c
+vim +2237 kernel/cgroup/cgroup.c
 
-  2002	
-  2003	static void kvm_hyp_init_symbols(void)
-  2004	{
-  2005		kvm_nvhe_sym(id_aa64pfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR0_EL1);
-  2006		kvm_nvhe_sym(id_aa64pfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR1_EL1);
-  2007		kvm_nvhe_sym(id_aa64isar0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR0_EL1);
-  2008		kvm_nvhe_sym(id_aa64isar1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR1_EL1);
-  2009		kvm_nvhe_sym(id_aa64isar2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR2_EL1);
-  2010		kvm_nvhe_sym(id_aa64mmfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
-  2011		kvm_nvhe_sym(id_aa64mmfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR1_EL1);
-  2012		kvm_nvhe_sym(id_aa64mmfr2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR2_EL1);
-  2013		kvm_nvhe_sym(__icache_flags) = __icache_flags;
-  2014		kvm_nvhe_sym(kvm_arm_vmid_bits) = kvm_arm_vmid_bits;
-> 2015		kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
-  2016	}
-  2017	
+  2211	
+  2212	/**
+  2213	 * cgroup_attach_lock - Lock for ->attach()
+  2214	 * @lock_threadgroup: whether to down_write cgroup_threadgroup_rwsem
+  2215	 *
+  2216	 * cgroup migration sometimes needs to stabilize threadgroups against forks and
+  2217	 * exits by write-locking cgroup_threadgroup_rwsem. However, some ->attach()
+  2218	 * implementations (e.g. cpuset), also need to disable CPU hotplug.
+  2219	 * Unfortunately, letting ->attach() operations acquire cpus_read_lock() can
+  2220	 * lead to deadlocks.
+  2221	 *
+  2222	 * Bringing up a CPU may involve creating and destroying tasks which requires
+  2223	 * read-locking threadgroup_rwsem, so threadgroup_rwsem nests inside
+  2224	 * cpus_read_lock(). If we call an ->attach() which acquires the cpus lock while
+  2225	 * write-locking threadgroup_rwsem, the locking order is reversed and we end up
+  2226	 * waiting for an on-going CPU hotplug operation which in turn is waiting for
+  2227	 * the threadgroup_rwsem to be released to create new tasks. For more details:
+  2228	 *
+  2229	 *   http://lkml.kernel.org/r/20220711174629.uehfmqegcwn2lqzu@wubuntu
+  2230	 *
+  2231	 * Resolve the situation by always acquiring cpus_read_lock() before optionally
+  2232	 * write-locking cgroup_threadgroup_rwsem. This allows ->attach() to assume that
+  2233	 * CPU hotplug is disabled on entry.
+  2234	 */
+  2235	static void cgroup_attach_lock(void)
+  2236	{
+> 2237		get_online_cpus();
+  2238		percpu_down_write(&cgroup_threadgroup_rwsem);
+  2239	}
+  2240	
+  2241	/**
+  2242	 * cgroup_attach_unlock - Undo cgroup_attach_lock()
+  2243	 * @lock_threadgroup: whether to up_write cgroup_threadgroup_rwsem
+  2244	 */
+  2245	static void cgroup_attach_unlock(void)
+  2246	{
+  2247		percpu_up_write(&cgroup_threadgroup_rwsem);
+> 2248		put_online_cpus();
+  2249	}
+  2250	
 
 -- 
 0-DAY CI Kernel Test Service
