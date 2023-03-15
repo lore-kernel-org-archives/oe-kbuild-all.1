@@ -1,44 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1FF211C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 06:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2DD23A3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 07:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678863270; x=1710399270;
+  t=1678865729; x=1710401729;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HJUvjMIoATm12dkYWBDQcfINtkmtWwm2Qk/UG1buo6U=;
-  b=F8UKK0ZjOxXoQTT6M//mqeBjI4FqaHxZ1+3lyAWKLQA+O76omqf+nFhj
-   pSqQuUS/Yx2Fpq1ZMbHOREQLub/nmo3fUrTb/EHwF0OFmP2EKj4xVgVzn
-   hui3D7HYwaFPzRl+kfzJg8JTUI0KdwiEIjXL15GB1hVWqdsARQZkPg5zM
-   rBteK0opWDpyIyabF5+N3k2Eou/C3S0w2wwn9auVA1Ch4jQj/8kczmHNn
-   OqKY537lkB7vMywMGCBxRF8EZRWOyAz5BwcgFJnxWHJlre/KgpZFr3khq
-   v9rZXdORIWLY5KCmpX44+WeD2u9toVRemocRXO141yfmLUtRC8jLz/xgP
+  bh=YwNOluGUr6TAzIfDknULahapktFFr2Qc8bNi1e8kNj8=;
+  b=DLIJGquJTIQAMwH76+4b598Kxuk5euRbKpEAjTVSxsCYu383BsmlSPRz
+   Q+qhvRT+4eWdS6CmGJy8izsC1ihXu6d5LM7mwqx7s+TrwYraOpRyZI1vw
+   +Q6ge0nXxvXLmMHHaDh1RewF/lnqOYwWVJuDu5YabV59G1UFV33U6IAqX
+   j6DCA1VgauEkZMSxl++mnRJiyUQ5UCD4A3tzlmwlN/dvXHUqoS2mASE1U
+   YgdQltgzgn3frl/7wwPW3btDwwIqyg+x/0r2UYBjUaGQTEZgAP1Ihid3q
+   zueA1bS3nIxqpT1nHo1EJGfOsly+1eySztKWJ6KnsOV5Ifk7loDxHw+Pr
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400211617"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321478399"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="400211617"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 23:54:27 -0700
+   d="scan'208";a="321478399"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 00:35:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="822661807"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="853506490"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="822661807"
+   d="scan'208";a="853506490"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2023 23:54:25 -0700
+  by orsmga005.jf.intel.com with ESMTP; 15 Mar 2023 00:35:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcL1k-0007VF-1i;
-	Wed, 15 Mar 2023 06:54:24 +0000
-Date: Wed, 15 Mar 2023 14:53:27 +0800
+	id 1pcLfR-0007WJ-0e;
+	Wed, 15 Mar 2023 07:35:25 +0000
+Date: Wed, 15 Mar 2023 15:34:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
-	Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: [linux-stable-rc:queue/4.19 14/37]
- drivers/misc/genwqe/card_dev.c:1097: Error: unrecognized opcode `csrs
- sstatus,s4'
-Message-ID: <202303151449.KbuglTxH-lkp@intel.com>
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [linux-stable-rc:queue/5.10 77/85]
+ drivers/usb/host/fhci-hcd.c:697:24: error: 'NO_IRQ' undeclared; did you mean
+ 'do_IRQ'?
+Message-ID: <202303151512.vgAzDv9e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,244 +48,267 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/4.19
-head:   ceab06d3ee4b9b96e8572e8da01748a56bb4cae2
-commit: 4df82b9549d63f7fd7d441f2c5a5bcc15335269d [14/37] riscv: Using PATCHABLE_FUNCTION_ENTRY instead of MCOUNT
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230315/202303151449.KbuglTxH-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.10
+head:   bb0818a7908bae8863a2ea628dd3fc43a9cdd702
+commit: 4a3c7e913d4c3cdde0c38f5a51bf1bffa7aa2778 [77/85] powerpc: Check !irq instead of irq == NO_IRQ and remove NO_IRQ
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230315/202303151512.vgAzDv9e-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=4df82b9549d63f7fd7d441f2c5a5bcc15335269d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=4a3c7e913d4c3cdde0c38f5a51bf1bffa7aa2778
         git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/4.19
-        git checkout 4df82b9549d63f7fd7d441f2c5a5bcc15335269d
+        git fetch --no-tags linux-stable-rc queue/5.10
+        git checkout 4a3c7e913d4c3cdde0c38f5a51bf1bffa7aa2778
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/misc/genwqe/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash M=drivers/usb/host
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151449.KbuglTxH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151512.vgAzDv9e-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/misc/genwqe/card_dev.c: Assembler messages:
-   drivers/misc/genwqe/card_dev.c:1070: Error: unrecognized opcode `csrs sstatus,a3'
-   drivers/misc/genwqe/card_dev.c:1070: Error: unrecognized opcode `csrc sstatus,a3'
-   drivers/misc/genwqe/card_dev.c:1077: Error: unrecognized opcode `csrs sstatus,a3'
-   drivers/misc/genwqe/card_dev.c:1077: Error: unrecognized opcode `csrc sstatus,a3'
-   drivers/misc/genwqe/card_dev.c:1084: Error: unrecognized opcode `csrs sstatus,a4'
-   drivers/misc/genwqe/card_dev.c:1084: Error: unrecognized opcode `csrc sstatus,a4'
->> drivers/misc/genwqe/card_dev.c:1097: Error: unrecognized opcode `csrs sstatus,s4'
->> drivers/misc/genwqe/card_dev.c:1097: Error: unrecognized opcode `csrc sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1103: Error: unrecognized opcode `csrs sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1103: Error: unrecognized opcode `csrc sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1113: Error: unrecognized opcode `csrs sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1113: Error: unrecognized opcode `csrc sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1120: Error: unrecognized opcode `csrs sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1120: Error: unrecognized opcode `csrc sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1133: Error: unrecognized opcode `csrs sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1133: Error: unrecognized opcode `csrc sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1139: Error: unrecognized opcode `csrs sstatus,s4'
-   drivers/misc/genwqe/card_dev.c:1139: Error: unrecognized opcode `csrc sstatus,s4'
+   drivers/usb/host/fhci-hcd.c: In function 'of_fhci_probe':
+>> drivers/usb/host/fhci-hcd.c:697:24: error: 'NO_IRQ' undeclared (first use in this function); did you mean 'do_IRQ'?
+     697 |         if (usb_irq == NO_IRQ) {
+         |                        ^~~~~~
+         |                        do_IRQ
+   drivers/usb/host/fhci-hcd.c:697:24: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1097 drivers/misc/genwqe/card_dev.c
+vim +697 drivers/usb/host/fhci-hcd.c
 
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1040  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1041  /**
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1042   * genwqe_ioctl() - IO control
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1043   * @filp:       file handle
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1044   * @cmd:        command identifier (passed from user)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1045   * @arg:        argument (passed from user)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1046   *
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1047   * Return: 0 success
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1048   */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1049  static long genwqe_ioctl(struct file *filp, unsigned int cmd,
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1050  			 unsigned long arg)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1051  {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1052  	int rc = 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1053  	struct genwqe_file *cfile = (struct genwqe_file *)filp->private_data;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1054  	struct genwqe_dev *cd = cfile->cd;
-fb145456fa4f43 Kleber Sacilotto de Souza 2014-06-04  1055  	struct pci_dev *pci_dev = cd->pci_dev;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1056  	struct genwqe_reg_io __user *io;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1057  	u64 val;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1058  	u32 reg_offs;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1059  
-fb145456fa4f43 Kleber Sacilotto de Souza 2014-06-04  1060  	/* Return -EIO if card hit EEH */
-fb145456fa4f43 Kleber Sacilotto de Souza 2014-06-04  1061  	if (pci_channel_offline(pci_dev))
-fb145456fa4f43 Kleber Sacilotto de Souza 2014-06-04  1062  		return -EIO;
-fb145456fa4f43 Kleber Sacilotto de Souza 2014-06-04  1063  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1064  	if (_IOC_TYPE(cmd) != GENWQE_IOC_CODE)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1065  		return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1066  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1067  	switch (cmd) {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1068  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1069  	case GENWQE_GET_CARD_STATE:
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1070  		put_user(cd->card_state, (enum genwqe_card_state __user *)arg);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1071  		return 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1072  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1073  		/* Register access */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1074  	case GENWQE_READ_REG64: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1075  		io = (struct genwqe_reg_io __user *)arg;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1076  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1077  		if (get_user(reg_offs, &io->num))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1078  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1079  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1080  		if ((reg_offs >= cd->mmio_len) || (reg_offs & 0x7))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1081  			return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1082  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1083  		val = __genwqe_readq(cd, reg_offs);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1084  		put_user(val, &io->val64);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1085  		return 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1086  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1087  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1088  	case GENWQE_WRITE_REG64: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1089  		io = (struct genwqe_reg_io __user *)arg;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1090  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1091  		if (!capable(CAP_SYS_ADMIN))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1092  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1093  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1094  		if ((filp->f_flags & O_ACCMODE) == O_RDONLY)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1095  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1096  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22 @1097  		if (get_user(reg_offs, &io->num))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1098  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1099  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1100  		if ((reg_offs >= cd->mmio_len) || (reg_offs & 0x7))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1101  			return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1102  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1103  		if (get_user(val, &io->val64))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1104  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1105  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1106  		__genwqe_writeq(cd, reg_offs, val);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1107  		return 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1108  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1109  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1110  	case GENWQE_READ_REG32: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1111  		io = (struct genwqe_reg_io __user *)arg;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1112  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1113  		if (get_user(reg_offs, &io->num))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1114  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1115  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1116  		if ((reg_offs >= cd->mmio_len) || (reg_offs & 0x3))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1117  			return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1118  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1119  		val = __genwqe_readl(cd, reg_offs);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1120  		put_user(val, &io->val64);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1121  		return 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1122  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1123  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1124  	case GENWQE_WRITE_REG32: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1125  		io = (struct genwqe_reg_io __user *)arg;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1126  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1127  		if (!capable(CAP_SYS_ADMIN))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1128  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1129  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1130  		if ((filp->f_flags & O_ACCMODE) == O_RDONLY)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1131  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1132  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1133  		if (get_user(reg_offs, &io->num))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1134  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1135  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1136  		if ((reg_offs >= cd->mmio_len) || (reg_offs & 0x3))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1137  			return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1138  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1139  		if (get_user(val, &io->val64))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1140  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1141  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1142  		__genwqe_writel(cd, reg_offs, val);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1143  		return 0;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1144  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1145  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1146  		/* Flash update/reading */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1147  	case GENWQE_SLU_UPDATE: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1148  		struct genwqe_bitstream load;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1149  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1150  		if (!genwqe_is_privileged(cd))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1151  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1152  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1153  		if ((filp->f_flags & O_ACCMODE) == O_RDONLY)
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1154  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1155  
-58d66ce732378f Frank Haverkamp           2013-12-20  1156  		if (copy_from_user(&load, (void __user *)arg,
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1157  				   sizeof(load)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1158  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1159  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1160  		rc = do_flash_update(cfile, &load);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1161  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1162  		if (copy_to_user((void __user *)arg, &load, sizeof(load)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1163  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1164  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1165  		return rc;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1166  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1167  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1168  	case GENWQE_SLU_READ: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1169  		struct genwqe_bitstream load;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1170  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1171  		if (!genwqe_is_privileged(cd))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1172  			return -EPERM;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1173  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1174  		if (genwqe_flash_readback_fails(cd))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1175  			return -ENOSPC;	 /* known to fail for old versions */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1176  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1177  		if (copy_from_user(&load, (void __user *)arg, sizeof(load)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1178  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1179  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1180  		rc = do_flash_read(cfile, &load);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1181  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1182  		if (copy_to_user((void __user *)arg, &load, sizeof(load)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1183  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1184  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1185  		return rc;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1186  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1187  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1188  		/* memory pinning and unpinning */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1189  	case GENWQE_PIN_MEM: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1190  		struct genwqe_mem m;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1191  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1192  		if (copy_from_user(&m, (void __user *)arg, sizeof(m)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1193  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1194  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1195  		return genwqe_pin_mem(cfile, &m);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1196  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1197  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1198  	case GENWQE_UNPIN_MEM: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1199  		struct genwqe_mem m;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1200  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1201  		if (copy_from_user(&m, (void __user *)arg, sizeof(m)))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1202  			return -EFAULT;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1203  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1204  		return genwqe_unpin_mem(cfile, &m);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1205  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1206  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1207  		/* launch an DDCB and wait for completion */
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1208  	case GENWQE_EXECUTE_DDCB:
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1209  		return do_execute_ddcb(cfile, arg, 0);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1210  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1211  	case GENWQE_EXECUTE_RAW_DDCB: {
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1212  
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1213  		if (!capable(CAP_SYS_ADMIN))
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1214  			return -EPERM;
-d276b6c54d47a4 Frank Haverkamp           2013-12-22  1215  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1216  		return do_execute_ddcb(cfile, arg, 1);
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1217  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1218  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1219  	default:
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1220  		return -EINVAL;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1221  	}
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1222  
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1223  	return rc;
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1224  }
-eaf4722d4645c6 Frank Haverkamp           2013-12-09  1225  
+236dd4d18f293e Anton Vorontsov           2009-01-10  560  
+41ac7b3ab7fe1d Bill Pemberton            2012-11-19  561  static int of_fhci_probe(struct platform_device *ofdev)
+236dd4d18f293e Anton Vorontsov           2009-01-10  562  {
+236dd4d18f293e Anton Vorontsov           2009-01-10  563  	struct device *dev = &ofdev->dev;
+61c7a080a5a061 Grant Likely              2010-04-13  564  	struct device_node *node = dev->of_node;
+236dd4d18f293e Anton Vorontsov           2009-01-10  565  	struct usb_hcd *hcd;
+236dd4d18f293e Anton Vorontsov           2009-01-10  566  	struct fhci_hcd *fhci;
+236dd4d18f293e Anton Vorontsov           2009-01-10  567  	struct resource usb_regs;
+236dd4d18f293e Anton Vorontsov           2009-01-10  568  	unsigned long pram_addr;
+236dd4d18f293e Anton Vorontsov           2009-01-10  569  	unsigned int usb_irq;
+236dd4d18f293e Anton Vorontsov           2009-01-10  570  	const char *sprop;
+236dd4d18f293e Anton Vorontsov           2009-01-10  571  	const u32 *iprop;
+236dd4d18f293e Anton Vorontsov           2009-01-10  572  	int size;
+236dd4d18f293e Anton Vorontsov           2009-01-10  573  	int ret;
+236dd4d18f293e Anton Vorontsov           2009-01-10  574  	int i;
+236dd4d18f293e Anton Vorontsov           2009-01-10  575  	int j;
+236dd4d18f293e Anton Vorontsov           2009-01-10  576  
+236dd4d18f293e Anton Vorontsov           2009-01-10  577  	if (usb_disabled())
+236dd4d18f293e Anton Vorontsov           2009-01-10  578  		return -ENODEV;
+236dd4d18f293e Anton Vorontsov           2009-01-10  579  
+236dd4d18f293e Anton Vorontsov           2009-01-10  580  	sprop = of_get_property(node, "mode", NULL);
+236dd4d18f293e Anton Vorontsov           2009-01-10  581  	if (sprop && strcmp(sprop, "host"))
+236dd4d18f293e Anton Vorontsov           2009-01-10  582  		return -ENODEV;
+236dd4d18f293e Anton Vorontsov           2009-01-10  583  
+6866ac9db02ac1 Sachin Sant               2009-02-16  584  	hcd = usb_create_hcd(&fhci_driver, dev, dev_name(dev));
+236dd4d18f293e Anton Vorontsov           2009-01-10  585  	if (!hcd) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  586  		dev_err(dev, "could not create hcd\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  587  		return -ENOMEM;
+236dd4d18f293e Anton Vorontsov           2009-01-10  588  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  589  
+236dd4d18f293e Anton Vorontsov           2009-01-10  590  	fhci = hcd_to_fhci(hcd);
+236dd4d18f293e Anton Vorontsov           2009-01-10  591  	hcd->self.controller = dev;
+236dd4d18f293e Anton Vorontsov           2009-01-10  592  	dev_set_drvdata(dev, hcd);
+236dd4d18f293e Anton Vorontsov           2009-01-10  593  
+236dd4d18f293e Anton Vorontsov           2009-01-10  594  	iprop = of_get_property(node, "hub-power-budget", &size);
+236dd4d18f293e Anton Vorontsov           2009-01-10  595  	if (iprop && size == sizeof(*iprop))
+236dd4d18f293e Anton Vorontsov           2009-01-10  596  		hcd->power_budget = *iprop;
+236dd4d18f293e Anton Vorontsov           2009-01-10  597  
+236dd4d18f293e Anton Vorontsov           2009-01-10  598  	/* FHCI registers. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  599  	ret = of_address_to_resource(node, 0, &usb_regs);
+236dd4d18f293e Anton Vorontsov           2009-01-10  600  	if (ret) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  601  		dev_err(dev, "could not get regs\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  602  		goto err_regs;
+236dd4d18f293e Anton Vorontsov           2009-01-10  603  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  604  
+28f65c11f2ffb3 Joe Perches               2011-06-09  605  	hcd->regs = ioremap(usb_regs.start, resource_size(&usb_regs));
+236dd4d18f293e Anton Vorontsov           2009-01-10  606  	if (!hcd->regs) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  607  		dev_err(dev, "could not ioremap regs\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  608  		ret = -ENOMEM;
+236dd4d18f293e Anton Vorontsov           2009-01-10  609  		goto err_regs;
+236dd4d18f293e Anton Vorontsov           2009-01-10  610  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  611  	fhci->regs = hcd->regs;
+236dd4d18f293e Anton Vorontsov           2009-01-10  612  
+236dd4d18f293e Anton Vorontsov           2009-01-10  613  	/* Parameter RAM. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  614  	iprop = of_get_property(node, "reg", &size);
+236dd4d18f293e Anton Vorontsov           2009-01-10  615  	if (!iprop || size < sizeof(*iprop) * 4) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  616  		dev_err(dev, "can't get pram offset\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  617  		ret = -EINVAL;
+236dd4d18f293e Anton Vorontsov           2009-01-10  618  		goto err_pram;
+236dd4d18f293e Anton Vorontsov           2009-01-10  619  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  620  
+39eb4ed556c145 Joakim Tjernlund          2011-08-23  621  	pram_addr = cpm_muram_alloc(FHCI_PRAM_SIZE, 64);
+236dd4d18f293e Anton Vorontsov           2009-01-10  622  	if (IS_ERR_VALUE(pram_addr)) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  623  		dev_err(dev, "failed to allocate usb pram\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  624  		ret = -ENOMEM;
+236dd4d18f293e Anton Vorontsov           2009-01-10  625  		goto err_pram;
+236dd4d18f293e Anton Vorontsov           2009-01-10  626  	}
+39eb4ed556c145 Joakim Tjernlund          2011-08-23  627  
+39eb4ed556c145 Joakim Tjernlund          2011-08-23  628  	qe_issue_cmd(QE_ASSIGN_PAGE_TO_DEVICE, QE_CR_SUBBLOCK_USB,
+39eb4ed556c145 Joakim Tjernlund          2011-08-23  629  		     QE_CR_PROTOCOL_UNSPECIFIED, pram_addr);
+236dd4d18f293e Anton Vorontsov           2009-01-10  630  	fhci->pram = cpm_muram_addr(pram_addr);
+236dd4d18f293e Anton Vorontsov           2009-01-10  631  
+236dd4d18f293e Anton Vorontsov           2009-01-10  632  	/* GPIOs and pins */
+236dd4d18f293e Anton Vorontsov           2009-01-10  633  	for (i = 0; i < NUM_GPIOS; i++) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  634  		int gpio;
+236dd4d18f293e Anton Vorontsov           2009-01-10  635  		enum of_gpio_flags flags;
+236dd4d18f293e Anton Vorontsov           2009-01-10  636  
+236dd4d18f293e Anton Vorontsov           2009-01-10  637  		gpio = of_get_gpio_flags(node, i, &flags);
+236dd4d18f293e Anton Vorontsov           2009-01-10  638  		fhci->gpios[i] = gpio;
+236dd4d18f293e Anton Vorontsov           2009-01-10  639  		fhci->alow_gpios[i] = flags & OF_GPIO_ACTIVE_LOW;
+236dd4d18f293e Anton Vorontsov           2009-01-10  640  
+236dd4d18f293e Anton Vorontsov           2009-01-10  641  		if (!gpio_is_valid(gpio)) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  642  			if (i < GPIO_SPEED) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  643  				dev_err(dev, "incorrect GPIO%d: %d\n",
+236dd4d18f293e Anton Vorontsov           2009-01-10  644  					i, gpio);
+236dd4d18f293e Anton Vorontsov           2009-01-10  645  				goto err_gpios;
+236dd4d18f293e Anton Vorontsov           2009-01-10  646  			} else {
+236dd4d18f293e Anton Vorontsov           2009-01-10  647  				dev_info(dev, "assuming board doesn't have "
+236dd4d18f293e Anton Vorontsov           2009-01-10  648  					"%s gpio\n", i == GPIO_SPEED ?
+236dd4d18f293e Anton Vorontsov           2009-01-10  649  					"speed" : "power");
+236dd4d18f293e Anton Vorontsov           2009-01-10  650  				continue;
+236dd4d18f293e Anton Vorontsov           2009-01-10  651  			}
+236dd4d18f293e Anton Vorontsov           2009-01-10  652  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  653  
+6866ac9db02ac1 Sachin Sant               2009-02-16  654  		ret = gpio_request(gpio, dev_name(dev));
+236dd4d18f293e Anton Vorontsov           2009-01-10  655  		if (ret) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  656  			dev_err(dev, "failed to request gpio %d", i);
+236dd4d18f293e Anton Vorontsov           2009-01-10  657  			goto err_gpios;
+236dd4d18f293e Anton Vorontsov           2009-01-10  658  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  659  
+236dd4d18f293e Anton Vorontsov           2009-01-10  660  		if (i >= GPIO_SPEED) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  661  			ret = gpio_direction_output(gpio, 0);
+236dd4d18f293e Anton Vorontsov           2009-01-10  662  			if (ret) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  663  				dev_err(dev, "failed to set gpio %d as "
+236dd4d18f293e Anton Vorontsov           2009-01-10  664  					"an output\n", i);
+236dd4d18f293e Anton Vorontsov           2009-01-10  665  				i++;
+236dd4d18f293e Anton Vorontsov           2009-01-10  666  				goto err_gpios;
+236dd4d18f293e Anton Vorontsov           2009-01-10  667  			}
+236dd4d18f293e Anton Vorontsov           2009-01-10  668  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  669  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  670  
+236dd4d18f293e Anton Vorontsov           2009-01-10  671  	for (j = 0; j < NUM_PINS; j++) {
+61c7a080a5a061 Grant Likely              2010-04-13  672  		fhci->pins[j] = qe_pin_request(node, j);
+236dd4d18f293e Anton Vorontsov           2009-01-10  673  		if (IS_ERR(fhci->pins[j])) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  674  			ret = PTR_ERR(fhci->pins[j]);
+236dd4d18f293e Anton Vorontsov           2009-01-10  675  			dev_err(dev, "can't get pin %d: %d\n", j, ret);
+236dd4d18f293e Anton Vorontsov           2009-01-10  676  			goto err_pins;
+236dd4d18f293e Anton Vorontsov           2009-01-10  677  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  678  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  679  
+236dd4d18f293e Anton Vorontsov           2009-01-10  680  	/* Frame limit timer and its interrupt. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  681  	fhci->timer = gtm_get_timer16();
+236dd4d18f293e Anton Vorontsov           2009-01-10  682  	if (IS_ERR(fhci->timer)) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  683  		ret = PTR_ERR(fhci->timer);
+236dd4d18f293e Anton Vorontsov           2009-01-10  684  		dev_err(dev, "failed to request qe timer: %i", ret);
+236dd4d18f293e Anton Vorontsov           2009-01-10  685  		goto err_get_timer;
+236dd4d18f293e Anton Vorontsov           2009-01-10  686  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  687  
+236dd4d18f293e Anton Vorontsov           2009-01-10  688  	ret = request_irq(fhci->timer->irq, fhci_frame_limit_timer_irq,
+b5dd18d8747010 Yong Zhang                2011-09-07  689  			  0, "qe timer (usb)", hcd);
+236dd4d18f293e Anton Vorontsov           2009-01-10  690  	if (ret) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  691  		dev_err(dev, "failed to request timer irq");
+236dd4d18f293e Anton Vorontsov           2009-01-10  692  		goto err_timer_irq;
+236dd4d18f293e Anton Vorontsov           2009-01-10  693  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  694  
+236dd4d18f293e Anton Vorontsov           2009-01-10  695  	/* USB Host interrupt. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  696  	usb_irq = irq_of_parse_and_map(node, 0);
+236dd4d18f293e Anton Vorontsov           2009-01-10 @697  	if (usb_irq == NO_IRQ) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  698  		dev_err(dev, "could not get usb irq\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  699  		ret = -EINVAL;
+236dd4d18f293e Anton Vorontsov           2009-01-10  700  		goto err_usb_irq;
+236dd4d18f293e Anton Vorontsov           2009-01-10  701  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  702  
+236dd4d18f293e Anton Vorontsov           2009-01-10  703  	/* Clocks. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  704  	sprop = of_get_property(node, "fsl,fullspeed-clock", NULL);
+236dd4d18f293e Anton Vorontsov           2009-01-10  705  	if (sprop) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  706  		fhci->fullspeed_clk = qe_clock_source(sprop);
+236dd4d18f293e Anton Vorontsov           2009-01-10  707  		if (fhci->fullspeed_clk == QE_CLK_DUMMY) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  708  			dev_err(dev, "wrong fullspeed-clock\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  709  			ret = -EINVAL;
+236dd4d18f293e Anton Vorontsov           2009-01-10  710  			goto err_clocks;
+236dd4d18f293e Anton Vorontsov           2009-01-10  711  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  712  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  713  
+236dd4d18f293e Anton Vorontsov           2009-01-10  714  	sprop = of_get_property(node, "fsl,lowspeed-clock", NULL);
+236dd4d18f293e Anton Vorontsov           2009-01-10  715  	if (sprop) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  716  		fhci->lowspeed_clk = qe_clock_source(sprop);
+236dd4d18f293e Anton Vorontsov           2009-01-10  717  		if (fhci->lowspeed_clk == QE_CLK_DUMMY) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  718  			dev_err(dev, "wrong lowspeed-clock\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  719  			ret = -EINVAL;
+236dd4d18f293e Anton Vorontsov           2009-01-10  720  			goto err_clocks;
+236dd4d18f293e Anton Vorontsov           2009-01-10  721  		}
+236dd4d18f293e Anton Vorontsov           2009-01-10  722  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  723  
+236dd4d18f293e Anton Vorontsov           2009-01-10  724  	if (fhci->fullspeed_clk == QE_CLK_NONE &&
+236dd4d18f293e Anton Vorontsov           2009-01-10  725  			fhci->lowspeed_clk == QE_CLK_NONE) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  726  		dev_err(dev, "no clocks specified\n");
+236dd4d18f293e Anton Vorontsov           2009-01-10  727  		ret = -EINVAL;
+236dd4d18f293e Anton Vorontsov           2009-01-10  728  		goto err_clocks;
+236dd4d18f293e Anton Vorontsov           2009-01-10  729  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  730  
+236dd4d18f293e Anton Vorontsov           2009-01-10  731  	dev_info(dev, "at 0x%p, irq %d\n", hcd->regs, usb_irq);
+236dd4d18f293e Anton Vorontsov           2009-01-10  732  
+236dd4d18f293e Anton Vorontsov           2009-01-10  733  	fhci_config_transceiver(fhci, FHCI_PORT_POWER_OFF);
+236dd4d18f293e Anton Vorontsov           2009-01-10  734  
+236dd4d18f293e Anton Vorontsov           2009-01-10  735  	/* Start with full-speed, if possible. */
+236dd4d18f293e Anton Vorontsov           2009-01-10  736  	if (fhci->fullspeed_clk != QE_CLK_NONE) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  737  		fhci_config_transceiver(fhci, FHCI_PORT_FULL);
+236dd4d18f293e Anton Vorontsov           2009-01-10  738  		qe_usb_clock_set(fhci->fullspeed_clk, USB_CLOCK);
+236dd4d18f293e Anton Vorontsov           2009-01-10  739  	} else {
+236dd4d18f293e Anton Vorontsov           2009-01-10  740  		fhci_config_transceiver(fhci, FHCI_PORT_LOW);
+236dd4d18f293e Anton Vorontsov           2009-01-10  741  		qe_usb_clock_set(fhci->lowspeed_clk, USB_CLOCK >> 3);
+236dd4d18f293e Anton Vorontsov           2009-01-10  742  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  743  
+236dd4d18f293e Anton Vorontsov           2009-01-10  744  	/* Clear and disable any pending interrupts. */
+cf61fdb944534f Guilherme Maciel Ferreira 2012-06-23  745  	out_be16(&fhci->regs->usb_usber, 0xffff);
+cf61fdb944534f Guilherme Maciel Ferreira 2012-06-23  746  	out_be16(&fhci->regs->usb_usbmr, 0);
+236dd4d18f293e Anton Vorontsov           2009-01-10  747  
+b5dd18d8747010 Yong Zhang                2011-09-07  748  	ret = usb_add_hcd(hcd, usb_irq, 0);
+236dd4d18f293e Anton Vorontsov           2009-01-10  749  	if (ret < 0)
+236dd4d18f293e Anton Vorontsov           2009-01-10  750  		goto err_add_hcd;
+236dd4d18f293e Anton Vorontsov           2009-01-10  751  
+3c9740a117d40a Peter Chen                2013-11-05  752  	device_wakeup_enable(hcd->self.controller);
+3c9740a117d40a Peter Chen                2013-11-05  753  
+236dd4d18f293e Anton Vorontsov           2009-01-10  754  	fhci_dfs_create(fhci);
+236dd4d18f293e Anton Vorontsov           2009-01-10  755  
+236dd4d18f293e Anton Vorontsov           2009-01-10  756  	return 0;
+236dd4d18f293e Anton Vorontsov           2009-01-10  757  
+236dd4d18f293e Anton Vorontsov           2009-01-10  758  err_add_hcd:
+236dd4d18f293e Anton Vorontsov           2009-01-10  759  err_clocks:
+236dd4d18f293e Anton Vorontsov           2009-01-10  760  	irq_dispose_mapping(usb_irq);
+236dd4d18f293e Anton Vorontsov           2009-01-10  761  err_usb_irq:
+236dd4d18f293e Anton Vorontsov           2009-01-10  762  	free_irq(fhci->timer->irq, hcd);
+236dd4d18f293e Anton Vorontsov           2009-01-10  763  err_timer_irq:
+236dd4d18f293e Anton Vorontsov           2009-01-10  764  	gtm_put_timer16(fhci->timer);
+236dd4d18f293e Anton Vorontsov           2009-01-10  765  err_get_timer:
+236dd4d18f293e Anton Vorontsov           2009-01-10  766  err_pins:
+236dd4d18f293e Anton Vorontsov           2009-01-10  767  	while (--j >= 0)
+236dd4d18f293e Anton Vorontsov           2009-01-10  768  		qe_pin_free(fhci->pins[j]);
+236dd4d18f293e Anton Vorontsov           2009-01-10  769  err_gpios:
+236dd4d18f293e Anton Vorontsov           2009-01-10  770  	while (--i >= 0) {
+236dd4d18f293e Anton Vorontsov           2009-01-10  771  		if (gpio_is_valid(fhci->gpios[i]))
+236dd4d18f293e Anton Vorontsov           2009-01-10  772  			gpio_free(fhci->gpios[i]);
+236dd4d18f293e Anton Vorontsov           2009-01-10  773  	}
+236dd4d18f293e Anton Vorontsov           2009-01-10  774  	cpm_muram_free(pram_addr);
+236dd4d18f293e Anton Vorontsov           2009-01-10  775  err_pram:
+236dd4d18f293e Anton Vorontsov           2009-01-10  776  	iounmap(hcd->regs);
+236dd4d18f293e Anton Vorontsov           2009-01-10  777  err_regs:
+236dd4d18f293e Anton Vorontsov           2009-01-10  778  	usb_put_hcd(hcd);
+236dd4d18f293e Anton Vorontsov           2009-01-10  779  	return ret;
+236dd4d18f293e Anton Vorontsov           2009-01-10  780  }
+236dd4d18f293e Anton Vorontsov           2009-01-10  781  
 
-:::::: The code at line 1097 was first introduced by commit
-:::::: d276b6c54d47a427e4cffd7c84f3b631a1edf98e GenWQE: Rework return code for flash-update ioctl
+:::::: The code at line 697 was first introduced by commit
+:::::: 236dd4d18f293e3c9798f35c08272196826a980d USB: Driver for Freescale QUICC Engine USB Host Controller
 
-:::::: TO: Frank Haverkamp <haver@linux.vnet.ibm.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Anton Vorontsov <avorontsov@ru.mvista.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@kvm.kroah.org>
 
 -- 
 0-DAY CI Kernel Test Service
