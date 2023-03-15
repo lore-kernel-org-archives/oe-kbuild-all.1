@@ -1,45 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15BD4431
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 13:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884CF538D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 14:06:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678885516; x=1710421516;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UpQUpBxxyaEjLoFqHt0eaV3ezGS6tMZlfewo6xWRFnU=;
-  b=HvoaSWiMc9hPlotka+o7YE53Lfo0Yoh68nZ0Joc8WXdlHeXgJIQOg50S
-   lbgN8slA/n76w7X5n4rzv8sXmpcGBtjnUUgrj8OZkZzAY1FER4BYajwJg
-   fDjWIuuDFjLRs8CDjkCfuabQp7z8U6sD4JTIS8l6voBWL7uhGr7Co+fBT
-   gltgEUT/AhojFQolReNMq7VclDefm4DYEaNcanDkH2Y6WpeIe64aO9Tmb
-   iEP1FHrwOmGDR8jRA1srLymh3KrAQuLT7Q33WqFP9lO6KVeMb5ETpmiPF
-   WbpJbRON4jEfr5V8x11WXUH3P3l9KrKrxhG430+kY9QoobDZjo9Yhpnxv
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="318090076"
+  t=1678889171; x=1710425171;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5ya/74mvnP4PMIHAo/bOK3WxY75pn72VhUA2amnmr9U=;
+  b=PPwS6aznyzfT8phVTBONQHoM2QyoyAfpxH6MpuMUjYdTtnrsSsshyif/
+   CHrik4fyfadBn4A6/S1r6VujC3/zEA8UKnu686kZ1ItYUjsAHZgl5Kjz+
+   V9FKQjIm684Rz03n0BJqp/R35JYsmbrD1AT46rMHM6bdvKmkm2FGpJBNJ
+   727JGtsHFwu5vPkxFfzakYRy740BwoqbbR74c2TsZWcWk6oF6Dw/S8gQw
+   VArDGfMEThdkCEqXE/JgfUO6R+uTsW3tPCI3naGijCBDhQubI8LwpYWpF
+   m6T1RcDM+HPOaIm6LAycr18uNMWN9N44+GDInbMVkH/yqBjGzBk44ic5L
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="336398447"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="318090076"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 06:04:48 -0700
+   d="scan'208";a="336398447"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 07:05:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="748426245"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="1008848721"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="748426245"
+   d="scan'208";a="1008848721"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Mar 2023 06:04:46 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 15 Mar 2023 07:05:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcQo9-0007gR-3D;
-	Wed, 15 Mar 2023 13:04:46 +0000
-Date: Wed, 15 Mar 2023 21:04:24 +0800
+	id 1pcRlH-0007jz-16;
+	Wed, 15 Mar 2023 14:05:51 +0000
+Date: Wed, 15 Mar 2023 22:05:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Felix Fietkau <nbd@nbd.name>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, johannes@sipsolutions.net,
-	Ryder Lee <ryder.lee@mediatek.com>
-Subject: Re: [PATCH 7/7] mac80211: implement support for yet another mesh
- A-MSDU format
-Message-ID: <202303152012.0WeM62qN-lkp@intel.com>
-References: <20230314095956.62085-7-nbd@nbd.name>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/2] kernel/gki_module.c:35:6:
+ warning: no previous prototype for 'gki_is_module_protected_export'
+Message-ID: <202303152202.ifUsAUc1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,38 +45,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230314095956.62085-7-nbd@nbd.name>
 
-Hi Felix,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Fietkau/wifi-mac80211-fix-race-in-mesh-sequence-number-assignment/20230314-180138
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230314095956.62085-7-nbd%40nbd.name
-patch subject: [PATCH 7/7] mac80211: implement support for yet another mesh A-MSDU format
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/c393207cf2199fbd0a5aaf929ddccdec98ef66bc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Felix-Fietkau/wifi-mac80211-fix-race-in-mesh-sequence-number-assignment/20230314-180138
-        git checkout c393207cf2199fbd0a5aaf929ddccdec98ef66bc
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   7899985277527b29c47929a6d6a89c5c89b406ad
+commit: fd1e768866606ff230280f26faca797bb47bd8c0 [1/2] ANDROID: GKI: Protect exports of protected GKI modules
+config: arm64-buildonly-randconfig-r001-20230315 (https://download.01.org/0day-ci/archive/20230315/202303152202.ifUsAUc1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout fd1e768866606ff230280f26faca797bb47bd8c0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303152012.0WeM62qN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303152202.ifUsAUc1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/driver-api/80211/mac80211-advanced:214: ./net/mac80211/sta_info.h:628: WARNING: Unexpected indentation.
+>> kernel/gki_module.c:35:6: warning: no previous prototype for 'gki_is_module_protected_export' [-Wmissing-prototypes]
+      35 | bool gki_is_module_protected_export(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/gki_module.c:46:6: warning: no previous prototype for 'gki_is_module_unprotected_symbol' [-Wmissing-prototypes]
+      46 | bool gki_is_module_unprotected_symbol(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+
+vim +/gki_is_module_protected_export +35 kernel/gki_module.c
+
+    29	
+    30	/**
+    31	 * gki_is_module_protected_export - Is a symbol exported from a protected GKI module?
+    32	 *
+    33	 * @name:	Symbol being checked against exported symbols from protected GKI modules
+    34	 */
+  > 35	bool gki_is_module_protected_export(const char *name)
+    36	{
+    37		return bsearch(name, gki_protected_exports_symbols, NR_PROTECTED_EXPORTS_SYMBOLS,
+    38			       MAX_PROTECTED_EXPORTS_NAME_LEN, cmp_name) != NULL;
+    39	}
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
