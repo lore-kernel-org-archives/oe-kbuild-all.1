@@ -1,50 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938FE2F25
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 09:59:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66B6210B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 10:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678874386; x=1710410386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X6BAVsKWLXtrazjgu9pdHPUztlPGwZ8uFR32xRG5cjk=;
-  b=QeaqUWrrQPBJBh69P0zwM4XW5tLigbTGbRjLuEraqj2I/ZG61oc9sZlx
-   Bt/DHamuRDpbqkAKtyJsZkMlOIMA9aZzbchfxxkmqVz19XV+tyV7J22ZU
-   WZylj+DGqeAkeeN4TU2WOfSkCHe5RpAFwKndm7jczqQbokRmUs6qew4eY
-   xKmDeig7MJ1p89deQo3BZvSrLlwxucJsG1P47ZYziHOV97Jb22D82nRvu
-   VeiO7yzrwrgSmvtHT+1QT7DkAYOK+tRfIJTmomLU07HtTW8bwlJzzC1rN
-   o9MzWsQbJP8gq7w6RMrhTHvL2JsyJCgHIbHj4uI6k1svFByN3gXUFzyd7
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321502518"
+  t=1678876277; x=1710412277;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zDA8LDJA4mq7gxaihqBA+MUS0gfsGtJJYGp1Ox2GcaA=;
+  b=TcW2EYCFz2vw/lGLbjVMif0IMAH8/i1lGQxUEt22alpNMazcVrnJvh16
+   Jap63rr1etGOLvCGEUeQI6hIih9O2RIVXc2ypv4cTNbLVY1UJ/K7L52j1
+   fLREo/HKnJ6yXYMd49mqtbn1o7dV1zfVLTPdBp/8Ojz3BBR5FsxhtABPf
+   XDDUswX/MesNcYQ8i+dr3+b8ufbSbrvhslLQbbfoTLDUvvG/R7F0CHzAr
+   d6yua81+VOYuHTg6v8XTm72KXE1O0Pezz1S5mDYkSrT9HZHbknKes28Ps
+   n62rYOqaKlhktzyf6ZUgX8nA9LWvx2y7iVvc0JwnMwdRipsgBrP0f85aw
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365348923"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="321502518"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 02:59:46 -0700
+   d="scan'208";a="365348923"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:30:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="656699487"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="743643059"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="656699487"
+   d="scan'208";a="743643059"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 15 Mar 2023 02:59:42 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 15 Mar 2023 03:30:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcNv4-0007bb-0m;
-	Wed, 15 Mar 2023 09:59:42 +0000
-Date: Wed, 15 Mar 2023 17:59:09 +0800
+	id 1pcOP4-0007cB-2e;
+	Wed, 15 Mar 2023 10:30:42 +0000
+Date: Wed, 15 Mar 2023 18:29:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin Kurbanov <mmkurbanov@sberdevices.ru>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@sberdevices.ru,
-	devicetree@vger.kernel.org,
-	Martin Kurbanov <mmkurbanov@sberdevices.ru>
-Subject: Re: [PATCH v3 2/2] leds: add aw20xx driver
-Message-ID: <202303151746.f6VVX4iZ-lkp@intel.com>
-References: <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/2] arch/arm64/kvm/arm.c:2015:46:
+ error: 'smccc_trng_available' undeclared
+Message-ID: <202303151802.hqpkOEAT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,63 +45,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
 
-Hi Martin,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on pavel-leds/for-next]
-[cannot apply to lee-leds/for-leds-next robh/for-next linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kurbanov/leds-add-aw20xx-driver/20230314-210251
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-patch link:    https://lore.kernel.org/r/20230314120252.48263-3-mmkurbanov%40sberdevices.ru
-patch subject: [PATCH v3 2/2] leds: add aw20xx driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303151746.f6VVX4iZ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   7899985277527b29c47929a6d6a89c5c89b406ad
+commit: 61365541c6f8d881182488fa90c64645c24b285f [1/2] ANDROID: KVM: arm64: relay entropy requests from protected guests directly to secure
+config: arm64-buildonly-randconfig-r001-20230315 (https://download.01.org/0day-ci/archive/20230315/202303151802.hqpkOEAT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9760204574f3c53a9753b6daf20125c8552ce8ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Martin-Kurbanov/leds-add-aw20xx-driver/20230314-210251
-        git checkout 9760204574f3c53a9753b6daf20125c8552ce8ae
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 61365541c6f8d881182488fa90c64645c24b285f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151746.f6VVX4iZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151802.hqpkOEAT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `kernel_entry':
-   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
-   mips-linux-ld: drivers/leds/leds-aw200xx.o: in function `aw200xx_probe_dt':
->> leds-aw200xx.c:(.text.aw200xx_probe_dt+0x164): undefined reference to `__udivdi3'
->> mips-linux-ld: leds-aw200xx.c:(.text.aw200xx_probe_dt+0x184): undefined reference to `__udivdi3'
-   mips-linux-ld: leds-aw200xx.c:(.text.aw200xx_probe_dt+0x53c): undefined reference to `__udivdi3'
+   arch/arm64/kvm/arm.c: In function 'kvm_hyp_init_symbols':
+>> arch/arm64/kvm/arm.c:2015:46: error: 'smccc_trng_available' undeclared (first use in this function)
+    2015 |         kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/arm.c:2015:46: note: each undeclared identifier is reported only once for each function it appears in
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+
+vim +/smccc_trng_available +2015 arch/arm64/kvm/arm.c
+
+  2002	
+  2003	static void kvm_hyp_init_symbols(void)
+  2004	{
+  2005		kvm_nvhe_sym(id_aa64pfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR0_EL1);
+  2006		kvm_nvhe_sym(id_aa64pfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR1_EL1);
+  2007		kvm_nvhe_sym(id_aa64isar0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR0_EL1);
+  2008		kvm_nvhe_sym(id_aa64isar1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR1_EL1);
+  2009		kvm_nvhe_sym(id_aa64isar2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR2_EL1);
+  2010		kvm_nvhe_sym(id_aa64mmfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
+  2011		kvm_nvhe_sym(id_aa64mmfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR1_EL1);
+  2012		kvm_nvhe_sym(id_aa64mmfr2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR2_EL1);
+  2013		kvm_nvhe_sym(__icache_flags) = __icache_flags;
+  2014		kvm_nvhe_sym(kvm_arm_vmid_bits) = kvm_arm_vmid_bits;
+> 2015		kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
+  2016	}
+  2017	
 
 -- 
 0-DAY CI Kernel Test Service
