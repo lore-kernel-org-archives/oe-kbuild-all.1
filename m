@@ -1,103 +1,159 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE6E4432
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 12:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678883031; x=1710419031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sqa5ETRPA8mWWtxvPChxrgVub4MEZRvt0xOoJBar2EI=;
-  b=ir+5TrpnEv5o0t+4E6Qc5DgP49bbyAMZo9ailYwVHJsle6Oz693CLwR6
-   bk7SME2o8UqL7AjoaUQphUU0/DtNM+qE6V2zsUKOqpM6L3rUeEPKvoOB0
-   WJskOogtDw/JCCf6TSN/nSwNlf5QYtMJlV8tYgEBmqGzohIvTNAsRdmwT
-   6Ul+wWGmJMfTb5hn1VWDuQjTusc2gWZuPjp3GNfZB16sW82y29EmnaAm1
-   MTctZxenbYdHOKHfpeRbVNW7FMU0K/K+cgFu6j/CIDKeVcw03PUTo40pC
-   L/lqXjr2H35lK1/0+9hEJ0lkLzMOJCOVmmJsMX6Y+fe5TFCl+BKUX0mQw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="335171852"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="335171852"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 05:23:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="768464686"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="768464686"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2023 05:23:46 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pcQAT-0007f8-0r;
-	Wed, 15 Mar 2023 12:23:45 +0000
-Date: Wed, 15 Mar 2023 20:23:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@seco.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-phy@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	Camelia Alexandra Groza <camelia.groza@nxp.com>,
-	Madalin Bucur <madalin.bucur@nxp.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Sean Anderson <sean.anderson@seco.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	=?iso-8859-1?Q?Fern=E1ndez?= Rojas <noltari@gmail.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v11 03/13] dt-bindings: Convert gpio-mmio to yaml
-Message-ID: <202303152008.kxRjSW73-lkp@intel.com>
-References: <20230313161138.3598068-4-sean.anderson@seco.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31044431
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 12:44:08 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id bi20so2559792wmb.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 05:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=layalina-io.20210112.gappssmtp.com; s=20210112; t=1678884247;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ODrKHFuHlbbNzMQSNmLvZciPVvtivzZwnmk84xLYGq0=;
+        b=OzL2gM+UeEjoL3AEB1ovAx5nyEtQ95ak+w2uwFAEK/6rlQrnD8kQW8qdoVrMBHY5q6
+         CFB5lZmIjqRv59FjX2RgNJJgEbb31VpaA+xZc0FfuRcrwDG9djcr+uUf/8JSfhZFJcLn
+         vFVK/CncDHKTmBfoe2ZQ6ZHmawYJu7HM+Uf9oIhPKRJ4H5p2lo+n/GXDV7uwgx5GAvBE
+         pgSOXgQhVgoQN/BDx2wp9O/b256b1f9jelA0RkFjl1sw2FnhZuUJse2GXB7ZjdeurEZP
+         HGlXZMEjwSDxO8MjZvRsiUt/0wF/aowPpReYc2qrRl39OK0huzpgylEvZ7J6Y66wmdkI
+         hfVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678884247;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ODrKHFuHlbbNzMQSNmLvZciPVvtivzZwnmk84xLYGq0=;
+        b=oJCi82NndjpwHHp6jVC8HoWFXGAp/8ER7FTE84spYDsUrXCdKQVcXj335tIbvJvY8C
+         BNoucxmEBSsHfLa1SxU/eW0w6In9ClnTBcFKfRIE2gzlKRj9pIevPOlOpu0QDScZ10oK
+         c1RipNkrWSLERV/tjpw1OzRIFEovyWPGN+22RKTCI1tzrOeLDSiIicUZTA1pttiaIL9b
+         1vBhqzLRI6LeKkUpSI3zsyLEUwk1Vkv/5owzzOZFly9MFS5H5OG5E/wnxKfZSXljl+gO
+         x3VQ6uKUOKKsJEgDovvyEI9Aw9Zs8l9i2lMNmeAzTv7PQMq1iKGjTBnyqmbKH2mzHftC
+         4PTw==
+X-Gm-Message-State: AO0yUKVB8Mfed7B/49oAk95ksWQkuN9PN9cz930XLURlUtXrQSfHJYhb
+	T75sO9OiSZREwUEEZobT/5jZtg==
+X-Google-Smtp-Source: AK7set+Z0vhcZUReAUpqHE6U38OoZ+F+omEGy2JIABcogYA40skZwwrIul6i1UFqxPSsxHb6jd1iVg==
+X-Received: by 2002:a05:600c:3b99:b0:3ed:2352:eebd with SMTP id n25-20020a05600c3b9900b003ed2352eebdmr10204827wms.11.1678884246784;
+        Wed, 15 Mar 2023 05:44:06 -0700 (PDT)
+Received: from airbuntu (host86-168-251-3.range86-168.btcentralplus.com. [86.168.251.3])
+        by smtp.gmail.com with ESMTPSA id t8-20020a05600c450800b003daf6e3bc2fsm5714405wmo.1.2023.03.15.05.44.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 05:44:06 -0700 (PDT)
+Date: Wed, 15 Mar 2023 12:44:04 +0000
+From: Qais Yousef <qyousef@layalina.io>
+To: kernel test robot <lkp@intel.com>
+Cc: Qais Yousef <qais.yousef@arm.com>, oe-kbuild-all@lists.linux.dev,
+	Sasha Levin <sashal@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [linux-stable-rc:queue/5.10 96/108]
+ kernel/sched/sched.h:2560:27: error: 'struct rq' has no member named
+ 'cpu_capacity_inverted'
+Message-ID: <20230315124404.3266l6k3ygsyempp@airbuntu>
+References: <202303151800.NP9tJsgK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230313161138.3598068-4-sean.anderson@seco.com>
+In-Reply-To: <202303151800.NP9tJsgK-lkp@intel.com>
 
-Hi Sean,
+On 03/15/23 19:01, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.10
+> head:   e6a15a9d1bcf661f6bb79a1c2dce0c796234ac80
+> commit: db4f76185823d00afb688cbd63fdf7200de209ea [96/108] sched/fair: Detect capacity inversion
+> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230315/202303151800.NP9tJsgK-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=db4f76185823d00afb688cbd63fdf7200de209ea
+>         git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+>         git fetch --no-tags linux-stable-rc queue/5.10
+>         git checkout db4f76185823d00afb688cbd63fdf7200de209ea
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303151800.NP9tJsgK-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from kernel/sched/core.c:13:
+>    kernel/sched/sched.h: In function 'cpu_in_capacity_inversion':
+> >> kernel/sched/sched.h:2560:27: error: 'struct rq' has no member named 'cpu_capacity_inverted'
+>     2560 |         return cpu_rq(cpu)->cpu_capacity_inverted;
+>          |                           ^~
+>    kernel/sched/core.c: In function 'ttwu_stat':
+>    kernel/sched/core.c:2430:20: warning: variable 'rq' set but not used [-Wunused-but-set-variable]
+>     2430 |         struct rq *rq;
+>          |                    ^~
+> --
+>    In file included from kernel/sched/loadavg.c:9:
+>    kernel/sched/sched.h: In function 'cpu_in_capacity_inversion':
+> >> kernel/sched/sched.h:2560:27: error: 'struct rq' has no member named 'cpu_capacity_inverted'
+>     2560 |         return cpu_rq(cpu)->cpu_capacity_inverted;
+>          |                           ^~
 
-I love your patch! Perhaps something to improve:
+Need to extend the #ifdef CONFIG_SMP to wrap the new functioin
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on brgl/gpio/for-next clk/clk-next linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+	index 10b717533f62..852e856eed48 100644
+	--- a/kernel/sched/sched.h
+	+++ b/kernel/sched/sched.h
+	@@ -2540,7 +2540,6 @@ static inline unsigned long capacity_orig_of(int cpu)
+	 {
+		return cpu_rq(cpu)->cpu_capacity_orig;
+	 }
+	-#endif
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-phy-Add-2500BASE-X-and-10GBASE-R/20230314-001522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230313161138.3598068-4-sean.anderson%40seco.com
-patch subject: [PATCH v11 03/13] dt-bindings: Convert gpio-mmio to yaml
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/2d1e86be168e32ea3d3f11325881f7cb1e5492f8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sean-Anderson/dt-bindings-phy-Add-2500BASE-X-and-10GBASE-R/20230314-001522
-        git checkout 2d1e86be168e32ea3d3f11325881f7cb1e5492f8
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+	 /*
+	  * Returns inverted capacity if the CPU is in capacity inversion state.
+	@@ -2559,6 +2558,7 @@ static inline unsigned long cpu_in_capacity_inversion(int cpu)
+	 {
+		return cpu_rq(cpu)->cpu_capacity_inverted;
+	 }
+	+#endif
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303152008.kxRjSW73-lkp@intel.com/
+	 /**
+	  * enum schedutil_type - CPU utilization type
 
-All warnings (new ones prefixed by >>):
+Should I resend with the fix applied?
 
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm6318-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm63268-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm6328-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm6358-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm6362-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
->> Warning: Documentation/devicetree/bindings/mfd/brcm,bcm6368-gpio-sysctl.yaml references a file that doesn't exist: Documentation/devicetree/bindings/gpio/brcm,bcm6345-gpio.yaml
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks!
+
+--
+Qais Yousef
+
+> 
+> 
+> vim +2560 kernel/sched/sched.h
+> 
+>   2544	
+>   2545	/*
+>   2546	 * Returns inverted capacity if the CPU is in capacity inversion state.
+>   2547	 * 0 otherwise.
+>   2548	 *
+>   2549	 * Capacity inversion detection only considers thermal impact where actual
+>   2550	 * performance points (OPPs) gets dropped.
+>   2551	 *
+>   2552	 * Capacity inversion state happens when another performance domain that has
+>   2553	 * equal or lower capacity_orig_of() becomes effectively larger than the perf
+>   2554	 * domain this CPU belongs to due to thermal pressure throttling it hard.
+>   2555	 *
+>   2556	 * See comment in update_cpu_capacity().
+>   2557	 */
+>   2558	static inline unsigned long cpu_in_capacity_inversion(int cpu)
+>   2559	{
+> > 2560		return cpu_rq(cpu)->cpu_capacity_inverted;
+>   2561	}
+>   2562	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
