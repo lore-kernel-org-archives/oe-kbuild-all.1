@@ -1,46 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAEA747E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 22:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4BE7487
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 22:49:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678919292; x=1710455292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KOM7hWuc+mursDdv+bZS6bFfc0Blf43vlrc6huzBfUc=;
-  b=n9lKwmyvRWHlkxDMywb+tUnNjM8qtR+Y+BiE0TlY1scjDmxjFI9vyz58
-   yA6FOiPocopLkgnrpLvg3n8DO93HBi65GTmiH3o6oRKzxnDEecBm/tFy2
-   MS3CtbQ9Uv2elgB3RBnK/kkwc6TMEtzoy8IntD/qLEQJAzugpdo+H4It0
-   ZPGj58Y7ltzjg0j7zY5/3APGxyXeTjRmXIQs6AS/ajfQxdAuV5QVUnP9v
-   veeFNKIW5MeMj8S4Jkm1DaW3a1WtO1EEGkQVbBaGfw69PLBIYoFB09iSq
-   dcZOnd3ZF4HIE9HQu8sZhhivn92STN+2Dencb1pxzZp0a5a0gGvYLBWud
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="424102830"
+  t=1678920566; x=1710456566;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bb7Dz9B3Kr3HNQDazh5xVfdj9rYOdKQhOzpJVvXgOCk=;
+  b=ahEr+cJhu7m1H0wMeS6RFUwletAVILKur8pO4etAJy96Rv0h051BwpNQ
+   JjBbND/i1/phcnY93zudIedWEzmT8PBtEyejyKkSNfC9yvZLoQXMARsyT
+   QLk5GhAAbee8H76J9jXUsHtyyabgitnI5cakLUKBUahSmAcXW0AgQXePZ
+   /A+xZdJS4Y6suMnIdySAGzP/2TGsYSZpfwiuwQlRaSGsCfvMhVNcE0XRe
+   qV0plo+/OV+a2umBx8uWCG8JxLhlcHHVv8yOnjgchHtgQyVTv+kM9Tvnw
+   6sSXmX/AKYmCEcKuq+/PwsoWtMEdRkC/h9tvX7ZnVwywIBBTlKfRMa2Gi
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="400411206"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="424102830"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:28:12 -0700
+   d="scan'208";a="400411206"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:49:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="656937318"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="748628072"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="656937318"
+   d="scan'208";a="748628072"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 15 Mar 2023 15:28:10 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 15 Mar 2023 15:49:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcZbN-000857-2y;
-	Wed, 15 Mar 2023 22:28:09 +0000
-Date: Thu, 16 Mar 2023 06:28:09 +0800
+	id 1pcZvj-00085z-0R;
+	Wed, 15 Mar 2023 22:49:11 +0000
+Date: Thu, 16 Mar 2023 06:48:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: phinex <phinex@realtek.com>, jdelvare@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	phinex@realtek.com
-Subject: Re: [PATCH v1] hwmon: drivetemp: support to be a platform driver for
- thermal_of
-Message-ID: <202303160645.7Nrjce3N-lkp@intel.com>
-References: <20230315121606.GA71707@threadripper>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Subject: [leon-rdma:rdma-next 26/31]
+ drivers/net/ethernet/mellanox/mlx4/intf.c:53:6: warning: no previous
+ prototype for 'is_eth_supported'
+Message-ID: <202303160655.hEOs7oXW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,52 +46,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315121606.GA71707@threadripper>
 
-Hi phinex,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/phinex/hwmon-drivetemp-support-to-be-a-platform-driver-for-thermal_of/20230315-201903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230315121606.GA71707%40threadripper
-patch subject: [PATCH v1] hwmon: drivetemp: support to be a platform driver for thermal_of
-config: i386-randconfig-a012 (https://download.01.org/0day-ci/archive/20230316/202303160645.7Nrjce3N-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   712b4584a71d7f86b5f870dae8ee6e5abd42971f
+commit: 49f2c235465534f179d6044a2c72f840ab0671ad [26/31] mlx4: Connect the ethernet part to the auxiliary bus
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303160655.hEOs7oXW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/1c53b683440a584685795fa8ff831379577081b0
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review phinex/hwmon-drivetemp-support-to-be-a-platform-driver-for-thermal_of/20230315-201903
-        git checkout 1c53b683440a584685795fa8ff831379577081b0
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commit/?id=49f2c235465534f179d6044a2c72f840ab0671ad
+        git remote add leon-rdma https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git
+        git fetch --no-tags leon-rdma rdma-next
+        git checkout 49f2c235465534f179d6044a2c72f840ab0671ad
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hwmon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303160645.7Nrjce3N-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303160655.hEOs7oXW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/drivetemp.c:116:36: warning: 'tz' defined but not used [-Wunused-variable]
-     116 | static struct thermal_zone_device *tz;
-         |                                    ^~
+>> drivers/net/ethernet/mellanox/mlx4/intf.c:53:6: warning: no previous prototype for 'is_eth_supported' [-Wmissing-prototypes]
+      53 | bool is_eth_supported(struct mlx4_dev *dev)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/tz +116 drivers/hwmon/drivetemp.c
+vim +/is_eth_supported +53 drivers/net/ethernet/mellanox/mlx4/intf.c
 
-   114	
-   115	/*A single thermal_zone for all HDD sensors */
- > 116	static struct thermal_zone_device *tz;
-   117	#define MAX_NAME_LEN 255
-   118	
+    52	
+  > 53	bool is_eth_supported(struct mlx4_dev *dev)
+    54	{
+    55		for (int port = 1; port <= dev->caps.num_ports; port++)
+    56			if (dev->caps.port_type[port] == MLX4_PORT_TYPE_ETH)
+    57				return true;
+    58	
+    59		return false;
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
