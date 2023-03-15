@@ -1,44 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAD5193
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 23:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D47C193
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 23:51:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678923615; x=1710459615;
+  t=1678924275; x=1710460275;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ke0hmfx59qkGDbp2j8xWS9KEQdipUHzjtNcPr7NwLAI=;
-  b=RLNuC7JXF2clAVHag/qqsAYDN1mP32ewg6qWv6PrmJzRBGH+d/v8n0NA
-   nKtSyGdtLK/xVKAXXQ8NetHZ9dQWXe8WC7mAqinx8PTZ67PrHoK9RYpWF
-   BMiHR+gGUwLxgM1ar1KFedSfjfh5cQmq+PXiii+Yj5ARUEu82qF6I4FrQ
-   QyyyvURQ3m2N2G7xw2FVPL6vfa7LgDma5suesvva4aLPER76K6pJbmk9n
-   x9wNAEg+AFv5jVHJxIe2TrQtS1NrnY8QhksDX5eKOMMw/pa5RfJXDHAHd
-   +QVC9/0l3vt/eN4FTn6DgTe4OT2TXIn7KRbCb0cYKJOgK8d48b1sOsfvn
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="337859495"
+  bh=i2dqkdZgaBfrsXi6liDW/QZl+g2JNRwll3nxZE2WWuY=;
+  b=SdpOuVIrf35sNEhHgnMBfL9BD4NhhVowVrwNQvF1XJ40MXsmL3Igl3AB
+   Bb8iVHFcrIe3agnT4Bjn/5+JfauCU4eW7/ZuC1VxJlC5zOY5SqMLAIMFt
+   52ja17cgHCthbFClfK0bOHCBvDmYJkmzoekBF6jiQPtJLzD8xng2B/X+g
+   mi08DC4xsa9NGtMnzBPr0WWYQDhTb1zjVLigjWOrQwWz1pJfVQeMri7t9
+   J2lMaA1Vn+2ooknOGv6s5S/AvgDg9VOMN9piB6taJRugZ/XcDrULw+FU5
+   NZ53w/AxJORA3A5hzkrdbJv6KqHx37tKcX1qyMSlwMkTr+zcc9aBFQsBi
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="321687299"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="337859495"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 16:40:14 -0700
+   d="scan'208";a="321687299"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 16:51:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="743901603"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="768702952"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="743901603"
+   d="scan'208";a="768702952"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Mar 2023 16:40:13 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2023 16:51:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcaj6-00087v-25;
-	Wed, 15 Mar 2023 23:40:12 +0000
-Date: Thu, 16 Mar 2023 07:39:52 +0800
+	id 1pcatl-00088l-0N;
+	Wed, 15 Mar 2023 23:51:13 +0000
+Date: Thu, 16 Mar 2023 07:50:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luca Weiss <luca@z3ntu.xyz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [sailus-media-tree:master 50/68] drivers/media/i2c/ov2685.c:408:24:
- error: implicit declaration of function 'v4l2_subdev_get_try_crop'
-Message-ID: <202303160714.dOJ3WZdw-lkp@intel.com>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Subject: [leon-rdma:rdma-next 27/31]
+ drivers/net/ethernet/mellanox/mlx4/intf.c:62:6: warning: no previous
+ prototype for 'is_ib_supported'
+Message-ID: <202303160758.xTpKSTx0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,58 +47,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   fe3eff3ec489e6ea226ac38fe84d40583fe4298b
-commit: 5a073632109dd9a9721812f43ce272e0f7859fa7 [50/68] media: i2c: ov2685: Add .get_selection() support
-config: arc-buildonly-randconfig-r001-20230312 (https://download.01.org/0day-ci/archive/20230316/202303160714.dOJ3WZdw-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   712b4584a71d7f86b5f870dae8ee6e5abd42971f
+commit: ed40d1a4b21149df98f2d3975d3b6752e33e2b88 [27/31] mlx4: Connect the infiniband part to the auxiliary bus
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303160758.xTpKSTx0-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
-        git fetch --no-tags sailus-media-tree master
-        git checkout 5a073632109dd9a9721812f43ce272e0f7859fa7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commit/?id=ed40d1a4b21149df98f2d3975d3b6752e33e2b88
+        git remote add leon-rdma https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git
+        git fetch --no-tags leon-rdma rdma-next
+        git checkout ed40d1a4b21149df98f2d3975d3b6752e33e2b88
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303160714.dOJ3WZdw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303160758.xTpKSTx0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/ov2685.c: In function '__ov2685_get_pad_crop':
->> drivers/media/i2c/ov2685.c:408:24: error: implicit declaration of function 'v4l2_subdev_get_try_crop' [-Werror=implicit-function-declaration]
-     408 |                 return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ov2685.c:408:24: warning: returning 'int' from a function with return type 'const struct v4l2_rect *' makes pointer from integer without a cast [-Wint-conversion]
-     408 |                 return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/net/ethernet/mellanox/mlx4/intf.c:53:6: warning: no previous prototype for 'is_eth_supported' [-Wmissing-prototypes]
+      53 | bool is_eth_supported(struct mlx4_dev *dev)
+         |      ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx4/intf.c:62:6: warning: no previous prototype for 'is_ib_supported' [-Wmissing-prototypes]
+      62 | bool is_ib_supported(struct mlx4_dev *dev)
+         |      ^~~~~~~~~~~~~~~
 
 
-vim +/v4l2_subdev_get_try_crop +408 drivers/media/i2c/ov2685.c
+vim +/is_ib_supported +62 drivers/net/ethernet/mellanox/mlx4/intf.c
 
-   398	
-   399	static const struct v4l2_rect *
-   400	__ov2685_get_pad_crop(struct ov2685 *ov2685,
-   401			      struct v4l2_subdev_state *state, unsigned int pad,
-   402			      enum v4l2_subdev_format_whence which)
-   403	{
-   404		const struct ov2685_mode *mode = ov2685->cur_mode;
-   405	
-   406		switch (which) {
-   407		case V4L2_SUBDEV_FORMAT_TRY:
- > 408			return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
-   409		case V4L2_SUBDEV_FORMAT_ACTIVE:
-   410			return mode->analog_crop;
-   411		}
-   412	
-   413		return NULL;
-   414	}
-   415	
+    61	
+  > 62	bool is_ib_supported(struct mlx4_dev *dev)
+    63	{
+    64		for (int port = 1; port <= dev->caps.num_ports; port++)
+    65			if (dev->caps.port_type[port] == MLX4_PORT_TYPE_IB)
+    66				return true;
+    67	
+    68		if (dev->caps.flags & MLX4_DEV_CAP_FLAG_IBOE)
+    69			return true;
+    70	
+    71		return false;
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
