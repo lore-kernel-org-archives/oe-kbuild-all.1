@@ -1,100 +1,81 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0A6D2F6;
-	Tue, 14 Mar 2023 23:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678836238; x=1710372238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9JSluFsQgkYA1CSEXZw29hUEPKHlRuKNC1VLjY8g/5I=;
-  b=XPNranuZ1mISccNUwK/M1OIapBhPFta4we665n9K/S9Ju3T6u8ojIPkU
-   pqlJxDRxj2gVcyaFW4/yyHMy+6spSGLO86ccFmjYr41dlBiqYJ1UUbceC
-   4chcB4QkQKoRM+8UNyxGA3gYCT5RtcgVLY8zr7W62faNFzNppj3cOEDPU
-   EajgV7P/YwfMZBrRCkEHEdeGlN2KkvTCIr/OX6A7+qKg7nemiPKtrA9BM
-   N2bVXSDE9aoe9T+OktBj+jKL7a/zMe2Ty8M+pgU3DUGqFyzpJu62jFFAD
-   XByscWU2wrHfl/B0z7NoJKO6kyzFtUJWIXaNLzSQNteq1EcO1vXaEfchJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321410898"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="321410898"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 16:23:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789560177"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="789560177"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2023 16:23:54 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pcDzm-0007GC-0h;
-	Tue, 14 Mar 2023 23:23:54 +0000
-Date: Wed, 15 Mar 2023 07:23:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Komal Bajaj <quic_kbajaj@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Rishabh Bhatnagar <rishabhb@codeaurora.org>,
-	Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Andy Gross <agross@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Komal Bajaj <quic_kbajaj@quicinc.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] soc: qcom: Add LLCC support for multi channel DDR
-Message-ID: <202303150713.cMgW2Qnu-lkp@intel.com>
-References: <20230313124040.9463-5-quic_kbajaj@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB397E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 00:26:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877FAC433D2;
+	Wed, 15 Mar 2023 00:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678839983;
+	bh=lobEGi0h71abQ+OUCFajCF1V21Qb2ZNrY1ahlNRzi/E=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=RvUKfhl4lZ0LRKM49iRT91oXmLfZowNPYgnLuQg0uheJx7lUGg7anCRq3QhGKcIH8
+	 LOWLa8LTzvvhE2xbKhMrSk17QXlRt9l/h9cS9tQB8iOjnZwPs+W9DDN97puQpyNBWg
+	 EjrkQZpkMaxsV7zGV+jYmRJNra1H+w/rICx0T7aFLQCaEq8w/+0E82nOmThQHovakA
+	 Zm2xh/Vx+FOqtiJl1twuJOSKqfj1u30jNYl1tJ/792ZMOJinHAaM8SN1yy3xUVU3Qq
+	 1faBtCXuZUakV2QASJDcMIaFYx/pjH1uuBYnGumdradVFaB87lfr0Z/Hh9/WXG9KIR
+	 1Rp/U/fcxYd1A==
+Message-ID: <c9e0e9b838cc046637059e771755f995.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230313124040.9463-5-quic_kbajaj@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <6ff60914-0c39-9916-2e3a-a906b4cdef0d@kernel.org>
+References: <20230307115022.12846-2-zhuyinbo@loongson.cn> <202303082037.QPfBP64A-lkp@intel.com> <b94ee1d2-b224-f9d5-3f3c-0096634f4c93@loongson.cn> <ec1fb4d134181a1b1859bcb884dcd494.sboyd@kernel.org> <c03e47f7-bb26-0114-b300-357634b0e581@kernel.org> <61eee19400e9a45ce9543bfd92a27eaa.sboyd@kernel.org> <6ff60914-0c39-9916-2e3a-a906b4cdef0d@kernel.org>
+Subject: Re: [PATCH v13 2/2] clk: clk-loongson2: add clock controller driver support
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>, Liu Peibao <liupeibao@loongson.cn>, wanghongliang@loongson.cn, loongson-kernel@lists.loongnix.cn
+To: Krzysztof Kozlowski <krzk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, zhuyinbo <zhuyinbo@loongson.cn>
+Date: Tue, 14 Mar 2023 17:26:21 -0700
+User-Agent: alot/0.10
 
-Hi Komal,
+Quoting Krzysztof Kozlowski (2023-03-13 23:49:40)
+> On 13/03/2023 19:20, Stephen Boyd wrote:
+> >>>> The CONFIG_64BIT not enabled in your config file, I will add a depen=
+d on=20
+> >>>> "CONFIG_64BIT" in my clock driver to fix this compile error.
+> >>>
+> >>> Do you need to use readq() here? Can you read two 32-bit registers wi=
+th
+> >>> readl() and put them together for a 64-bit number?
+> >>
+> >> If the platform supports 64-bit reads and these are actually one
+> >> register, then readq makes sense - code is more readable, smaller, more
+> >> efficient.
+> >>
+> >=20
+> > Please read the section in Documentation/driver-api/device-io.rst about
+> > hi_lo_readq() and <linux/io-64-nonatomic-lo-hi.h>. We shouldn't need to
+> > restrict the driver to CONFIG_64BIT. Instead, include one of these
+> > header files to get the IO access primitives.
+>=20
+> These primitives are for 32bit access. Quoting: "on 32-bit
+> architectures". What's the point of them if the code *will never* run on
+> 32-bit?
 
-Thank you for the patch! Yet something to improve:
+They're there to make drivers portable.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.3-rc2 next-20230314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> It will be a fake choice of linux/io-64-nonatomic-lo-hi.h or
+> linux/io-64-nonatomic-hi-lo.h misleading users to think this was tested
+> on 32-bit.
+>=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Komal-Bajaj/soc-qcom-llcc-Refactor-llcc-driver-to-support-multiple-configuration/20230313-204310
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230313124040.9463-5-quic_kbajaj%40quicinc.com
-patch subject: [PATCH v2 4/5] soc: qcom: Add LLCC support for multi channel DDR
-config: mips-randconfig-r021-20230312 (https://download.01.org/0day-ci/archive/20230315/202303150713.cMgW2Qnu-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/fe14182092383680f24bc88d81d199261453fa71
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Komal-Bajaj/soc-qcom-llcc-Refactor-llcc-driver-to-support-multiple-configuration/20230313-204310
-        git checkout fe14182092383680f24bc88d81d199261453fa71
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+I don't think anyone is really going to care that it hasn't been tested.
+It's not like the Linux kernel driver is the source of truth for
+integrating IP blocks into different architectures. If it's wrong
+someone will fix it when they try to use the hardware on 32-bit systems.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303150713.cMgW2Qnu-lkp@intel.com/
+Can the register handle being read/written with two 32-bit accesses? I
+still don't think we've had any answer to that question. If so, pick the
+one that makes the most sense and move on.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "qcom_scm_io_readl" [drivers/soc/qcom/llcc-qcom.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+In Linux, we try to write portable drivers. This way anyone can compile
+the driver on any host architecture with whatever compiler they're
+using. Otherwise, they have to download a cross compiler for the target
+architecture to simply build test the code. Also, the Linux kernel is
+fairly portable. We try to limit architecture specific code to arch/ and
+so anything in drivers/ is ideally portable code.
