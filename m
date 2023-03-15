@@ -1,52 +1,50 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966F87E;
-	Wed, 15 Mar 2023 04:03:07 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id x22so6209939wmj.3;
-        Tue, 14 Mar 2023 21:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678852985;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LKipZg32j4aSYL/ldQSJVuc/wPyuqxco8uSwoElc/X8=;
-        b=Zf81Oo+oWlBnof984tD+2xXftdUSEI6tRb13AeHtCVEPCFLxbywgsxT2VOSx90hj69
-         wbU4X0LpP+1x4lewxwCtAcnfchfKN+HcyaHAwje3YyMYi3UKNxsvkpJ6T3rrNha7CYu7
-         xNcw9bYfPSFx4OjwZxewMbmB2LJuaCBCeMzW+vHzjqt9olDKLk7Au9cU/+Bm/hNVv7hs
-         fMIJcjz9L+6JEw3F8umgAA/luX+G6CIX1vVRqjT5l+TlxrSfsop8D6nY1Kreqh386oyt
-         OIgxAc9WQWa90VD9fm7g+fJJ+iAoYR8y9K5zVBYQtMfgfAwE54qt9qN/v1917uQ6K3zg
-         prDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678852985;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LKipZg32j4aSYL/ldQSJVuc/wPyuqxco8uSwoElc/X8=;
-        b=oSwVpRN0RsxO2z0J3hjWY4JlFuSXc9YmmvQPJkaUpKc9QkuJ+51Lq+iSVGqx/L0CuD
-         V5xyo3eDqEF8ShnUHLJy7TjsD3OEmFxC2mv7cNEjKT/taVKvSecZ9FDNpYNiJMGZYS1K
-         cm6Umc/FnaiAFzqL1esK5FVO7D8v1T7fPP25JE2sy9FpuwuAUnYupMPq0aXZAwg7WSfb
-         SjOJ2mposxGHVF28g2LMFyNQAlwwdXtfAGlLAHtJRi7RyjoBtQpPxqGjSfro7JoiHYPP
-         LSudvSDeGZjUG7xRElun6eVDmSw0WzZ9QQVm4AX8kL1JKXb8wOHPO4/Pl/PohByRiOyv
-         KkHA==
-X-Gm-Message-State: AO0yUKVuX+0chNORXaN39Mm9+YYNRQgIR3E4jx4mTI/gnp+7m2Y8S3Xd
-	ePtP5Xy0aadvrRlJ4jHRt7XZmgm3bOQ=
-X-Google-Smtp-Source: AK7set9+zU5NflcbfyDYbrOnB7l6MiUXZzaFVy5MWupsPgtQa4A2GoEu/V38pEZLCOuveMJkd+7oIA==
-X-Received: by 2002:a05:600c:19c7:b0:3ed:2b49:1571 with SMTP id u7-20020a05600c19c700b003ed2b491571mr4683283wmq.20.1678852985252;
-        Tue, 14 Mar 2023 21:03:05 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k6-20020a05600c1c8600b003e209b45f6bsm467905wms.29.2023.03.14.21.03.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 21:03:04 -0700 (PDT)
-Date: Wed, 15 Mar 2023 07:03:00 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, mingzhe.zou@easystack.cn, colyli@suse.de,
-	andrea.tomassetti-opensource@devo.com, bcache@lists.ewheeler.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kent.overstreet@gmail.com,
-	linux-bcache@vger.kernel.org, zoumingzhe@qq.com,
-	Dongsheng Yang <dongsheng.yang@easystack.cn>,
-	mingzhe <mingzhe.zou@easystack.cn>
-Subject: Re: [PATCH v2 3/3] bcache: support overlay bcache
-Message-ID: <ecf6a168-dd9c-4a11-a872-088030ef47a5@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6AA7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 04:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678853471; x=1710389471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NmlTEcB7miDnUD/zT191iNoKNj9ysREtbMNV9yeHARU=;
+  b=hUAa70uebePehwzPsvsunco2Pgr4EVqn2d4qXLs7FpWek6ggIvF6QH38
+   I284iRTSlQhz7PBQ+N9ud3FqJagSlpK5vjx1/EUs6/pmH6c3RVzKQhHVj
+   TXF9b88Cr4TdvGxBdjGmI9wgKL8tGKNVPWSizbhLXj1eccPBxIAKEzo/r
+   2TZOkQRFhGX8l8HIaJswGJO4hxDo3S5z/AX7C4UolErVAIGtKc4eCajP3
+   VlyGmJMgwuF8iNSJlliKGIv+/FyWmqWorvcbkyR5cFNww2DFqPaEwJTpB
+   pOe+KTjRTv/LdIs+9jCZ0Jh28eHHWpMRMVGrEoc9ImmNQO6rfDaUQYBwc
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400191840"
+X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
+   d="scan'208";a="400191840"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 21:11:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="672591554"
+X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
+   d="scan'208";a="672591554"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 14 Mar 2023 21:11:08 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pcITj-0007Pz-0h;
+	Wed, 15 Mar 2023 04:11:07 +0000
+Date: Wed, 15 Mar 2023 12:10:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Cercueil <paul@crapouillou.net>,
+	michael.hennerich@analog.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	nuno.sa@analog.com, linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
+Message-ID: <202303151116.lxbyxGM6-lkp@intel.com>
+References: <20230314105257.17345-3-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,83 +53,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230202030221.14397-3-mingzhe.zou@easystack.cn>
+In-Reply-To: <20230314105257.17345-3-paul@crapouillou.net>
 
-Hi,
+Hi Paul,
 
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3-rc2 next-20230314]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230202-110624
-patch link:    https://lore.kernel.org/r/20230202030221.14397-3-mingzhe.zou%40easystack.cn
-patch subject: [PATCH v2 3/3] bcache: support overlay bcache
-config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230315/202303150200.4UK2OWti-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230314105257.17345-3-paul%40crapouillou.net
+patch subject: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230315/202303151116.lxbyxGM6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
+        git checkout 4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303150200.4UK2OWti-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151116.lxbyxGM6-lkp@intel.com/
 
-smatch warnings:
-drivers/md/bcache/super.c:1573 flash_dev_run() warn: missing error code 'err'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/err +1573 drivers/md/bcache/super.c
-
-cafe563591446c Kent Overstreet   2013-03-23  1540  static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
-cafe563591446c Kent Overstreet   2013-03-23  1541  {
-bbce89267a538f Dongsheng Yang    2023-02-02  1542  	int ret;
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1543  	int err = -ENOMEM;
-cafe563591446c Kent Overstreet   2013-03-23  1544  	struct bcache_device *d = kzalloc(sizeof(struct bcache_device),
-cafe563591446c Kent Overstreet   2013-03-23  1545  					  GFP_KERNEL);
-cafe563591446c Kent Overstreet   2013-03-23  1546  	if (!d)
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1547  		goto err_ret;
-cafe563591446c Kent Overstreet   2013-03-23  1548  
-cafe563591446c Kent Overstreet   2013-03-23  1549  	closure_init(&d->cl, NULL);
-cafe563591446c Kent Overstreet   2013-03-23  1550  	set_closure_fn(&d->cl, flash_dev_flush, system_wq);
-cafe563591446c Kent Overstreet   2013-03-23  1551  
-cafe563591446c Kent Overstreet   2013-03-23  1552  	kobject_init(&d->kobj, &bch_flash_dev_ktype);
-cafe563591446c Kent Overstreet   2013-03-23  1553  
-4e1ebae3ee4e0c Coly Li           2020-10-01  1554  	if (bcache_device_init(d, block_bytes(c->cache), u->sectors,
-c62b37d96b6eb3 Christoph Hellwig 2020-07-01  1555  			NULL, &bcache_flash_ops))
-cafe563591446c Kent Overstreet   2013-03-23  1556  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  1557  
-cafe563591446c Kent Overstreet   2013-03-23  1558  	bcache_device_attach(d, c, u - c->uuids);
-175206cf9ab631 Tang Junhui       2017-09-07  1559  	bch_sectors_dirty_init(d);
-cafe563591446c Kent Overstreet   2013-03-23  1560  	bch_flash_dev_request_init(d);
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1561  	err = add_disk(d->disk);
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1562  	if (err)
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1563  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  1564  
-bbce89267a538f Dongsheng Yang    2023-02-02  1565  	err = kobject_add(&d->kobj, &disk_to_dev(d->disk)->kobj, "bcache_fdev");
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1566  	if (err)
-cafe563591446c Kent Overstreet   2013-03-23  1567  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  1568  
-bbce89267a538f Dongsheng Yang    2023-02-02  1569  	ret = sysfs_create_link_nowarn(&disk_to_dev(d->disk)->kobj,
-bbce89267a538f Dongsheng Yang    2023-02-02  1570  				       &d->kobj, "bcache");
-bbce89267a538f Dongsheng Yang    2023-02-02  1571  	if (ret && ret != -EEXIST) {
-bbce89267a538f Dongsheng Yang    2023-02-02  1572  		pr_err("Couldn't create lagacy flash dev ->bcache");
-bbce89267a538f Dongsheng Yang    2023-02-02 @1573  		goto err;
-
-Get rid of the "ret" variable and use "err" instead.
-
-bbce89267a538f Dongsheng Yang    2023-02-02  1574  	}
-bbce89267a538f Dongsheng Yang    2023-02-02  1575  
-cafe563591446c Kent Overstreet   2013-03-23  1576  	bcache_device_link(d, c, "volume");
-cafe563591446c Kent Overstreet   2013-03-23  1577  
-5342fd4255021e Coly Li           2021-01-04  1578  	if (bch_has_feature_obso_large_bucket(&c->cache->sb)) {
-5342fd4255021e Coly Li           2021-01-04  1579  		pr_err("The obsoleted large bucket layout is unsupported, set the bcache device into read-only\n");
-5342fd4255021e Coly Li           2021-01-04  1580  		pr_err("Please update to the latest bcache-tools to create the cache device\n");
-5342fd4255021e Coly Li           2021-01-04  1581  		set_disk_ro(d->disk, 1);
-5342fd4255021e Coly Li           2021-01-04  1582  	}
-5342fd4255021e Coly Li           2021-01-04  1583  
-cafe563591446c Kent Overstreet   2013-03-23  1584  	return 0;
-cafe563591446c Kent Overstreet   2013-03-23  1585  err:
-cafe563591446c Kent Overstreet   2013-03-23  1586  	kobject_put(&d->kobj);
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1587  err_ret:
-2961c3bbcaec0e Luis Chamberlain  2021-10-15  1588  	return err;
-cafe563591446c Kent Overstreet   2013-03-23  1589  }
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module usb_f_fs uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
