@@ -1,49 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2A953AB;
-	Wed, 15 Mar 2023 15:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C40253AB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 15:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678894047; x=1710430047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rmafdlE9K7jY5w4f+o52ZlOCBd18WnbGUnpIwlNMkYU=;
-  b=PjZ3SahBppoClZt9iyDjVGF9n9p/xGi4y5Xhog5ikCYydYSMbZy7aDsz
-   AgnFWugqU0QANRJKVFBQEjukR/VOw0AFZ6Eohm3ZgoWGOtjwnOPmLhCJS
-   XHj828/WNwhqIKD+zVmqi8B7lJuP9HG2fCfMF9CVcXhH28zwtHSgcrgu2
-   girV9oZmwxTq0FyyfexNWUTp2nGdZZdXsZaUquhoH+I2yLKhyGpf79iyW
-   rgmtQxF5M1edkFZIW+tXVkaKJ6dbyqbiEPe8/4OAVhH1UpsoL4e9VJVJD
-   UJRkNEOlAh27nejQjk24nLSXCiVyg/PYKhtnRgn1DC4INKN3U4x/MQstC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="424005293"
+  t=1678894678; x=1710430678;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=my+1eaYYbjkuQi8/aV/P27e7gqYYBgLvC5nNOOiwsmM=;
+  b=MnVBalFDG1sw169fzpxOBUPxaOUjSASwmHawrLmY3mTPzE+6vlFXFbXl
+   Xqr9XNjBkYDLputT6uzbc+ie077tKRblgpHJ3P3XvGlUCIbJH3DcSXSvJ
+   caxTLostO+WEy5KjCRNAmWLTVl9vjBVsJDiUHglOkjgp8Qh9G0HYAB4Qz
+   Lgr2fuNdv9qEtM3jICEB1Y3VU/o2AjadeHQ6TduBou411VoK36H8+M5+6
+   gUmundldqr67O9eF8aoBb9QnOk02tud/7VfnPKdUhRzE8Rny5y/xKjwGd
+   EjzeO3i5Z2U5D9A13n9HB19kW9WcWNcygFRvBVoxU1Ps8uTMnVTcMTQrm
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="321577062"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="424005293"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 08:26:57 -0700
+   d="scan'208";a="321577062"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 08:37:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="853652434"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="711965134"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="853652434"
+   d="scan'208";a="711965134"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Mar 2023 08:26:54 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Mar 2023 08:37:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcT1i-0007oZ-0V;
-	Wed, 15 Mar 2023 15:26:54 +0000
-Date: Wed, 15 Mar 2023 23:26:51 +0800
+	id 1pcTCM-0007pP-1x;
+	Wed, 15 Mar 2023 15:37:54 +0000
+Date: Wed, 15 Mar 2023 23:37:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mel Gorman <mgorman@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH 10/10] mm, treewide: Redefine MAX_ORDER sanely
-Message-ID: <202303152343.D93IbJmn-lkp@intel.com>
-References: <20230315113133.11326-11-kirill.shutemov@linux.intel.com>
+To: Jon Derrick <jonathan.derrick@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	Song Liu <song@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: [song-md:md-next 6/14] drivers/md/md-bitmap.c:242 __write_sb_page()
+ warn: unsigned 'offset' is never less than zero.
+Message-ID: <202303152311.cmIqIgUw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,81 +46,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315113133.11326-11-kirill.shutemov@linux.intel.com>
 
-Hi Kirill,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kirill-A-Shutemov/sparc-mm-Fix-MAX_ORDER-usage-in-tsb_grow/20230315-193254
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230315113133.11326-11-kirill.shutemov%40linux.intel.com
-patch subject: [PATCH 10/10] mm, treewide: Redefine MAX_ORDER sanely
-config: arm-randconfig-r033-20230313 (https://download.01.org/0day-ci/archive/20230315/202303152343.D93IbJmn-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/ccefb5df94c3c6c966f6f583d60c9d9c832b7a34
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kirill-A-Shutemov/sparc-mm-Fix-MAX_ORDER-usage-in-tsb_grow/20230315-193254
-        git checkout ccefb5df94c3c6c966f6f583d60c9d9c832b7a34
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+head:   703c560db9a7b61c6ac7cb5fd634d7d5c1c4f38f
+commit: d0c7aab97dbfa289ea6ac06acf65c5191f41f9c6 [6/14] md: Fix types in sb writer
+config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230315/202303152311.cmIqIgUw-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303152343.D93IbJmn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303152311.cmIqIgUw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/md/md-bitmap.c:242 __write_sb_page() warn: unsigned 'offset' is never less than zero.
 
->> mm/memblock.c:2046:11: warning: comparison of distinct pointer types ('typeof (11) *' (aka 'int *') and 'typeof (__ffs(start)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-                   order = min(MAX_ORDER, __ffs(start));
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   1 warning generated.
+vim +/offset +242 drivers/md/md-bitmap.c
 
+b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  211  
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  212  static int __write_sb_page(struct md_rdev *rdev, struct bitmap *bitmap,
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  213  			   struct page *page)
+a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  214  {
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  215  	struct block_device *bdev;
+fd01b88c75a718 drivers/md/bitmap.c    NeilBrown        2011-10-11  216  	struct mddev *mddev = bitmap->mddev;
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown        2012-05-22  217  	struct bitmap_storage *store = &bitmap->storage;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  218  	sector_t offset = mddev->bitmap_info.offset;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  219  	sector_t ps, sboff, doff;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  220  	unsigned int size = PAGE_SIZE;
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  221  
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  222  	bdev = (rdev->meta_bdev) ? rdev->meta_bdev : rdev->bdev;
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  223  	if (page->index == store->file_pages - 1) {
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  224  		unsigned int last_page_size = store->bytes & (PAGE_SIZE - 1);
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  225  
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  226  		if (last_page_size == 0)
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  227  			last_page_size = PAGE_SIZE;
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  228  		size = roundup(last_page_size,
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  229  			       bdev_logical_block_size(bdev));
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  230  	}
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  231  
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  232  	ps = page->index * PAGE_SIZE / SECTOR_SIZE;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  233  	sboff = rdev->sb_start + offset;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  234  	doff = rdev->data_offset;
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  235  
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  236  	/* Just make sure we aren't corrupting data or metadata */
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  237  	if (mddev->external) {
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  238  		/* Bitmap could be anywhere. */
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  239  		if (sboff + ps > doff &&
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  240  		    sboff < (doff + mddev->dev_sectors + PAGE_SIZE / SECTOR_SIZE))
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  241  			return -EINVAL;
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14 @242  	} else if (offset < 0) {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  243  		/* DATA  BITMAP METADATA  */
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  244  		if (offset + ps + size / SECTOR_SIZE > 0)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  245  			/* bitmap runs in to metadata */
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  246  			return -EINVAL;
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  247  
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  248  		if (doff + mddev->dev_sectors > sboff)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  249  			/* data runs in to bitmap */
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  250  			return -EINVAL;
+0f420358e3a2ab drivers/md/bitmap.c    Andre Noll       2008-07-11  251  	} else if (rdev->sb_start < rdev->data_offset) {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  252  		/* METADATA BITMAP DATA */
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  253  		if (sboff + ps + size / SECTOR_SIZE > doff)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  254  			/* bitmap runs in to data */
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  255  			return -EINVAL;
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  256  	} else {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  257  		/* DATA METADATA BITMAP - no problems */
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  258  	}
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  259  
+d0c7aab97dbfa2 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  260  	md_super_write(mddev, rdev, sboff + ps, (int) size, page);
+459bd47c515277 drivers/md/md-bitmap.c Jon Derrick      2023-02-24  261  	return 0;
+ab6085c795a71b drivers/md/bitmap.c    NeilBrown        2007-05-23  262  }
+a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  263  
 
-vim +2046 mm/memblock.c
+:::::: The code at line 242 was first introduced by commit
+:::::: f6af949c5672115313cc3c976d85b0533f607d7e md: support bitmap offset appropriate for external-metadata arrays.
 
-  2040	
-  2041	static void __init __free_pages_memory(unsigned long start, unsigned long end)
-  2042	{
-  2043		int order;
-  2044	
-  2045		while (start < end) {
-> 2046			order = min(MAX_ORDER, __ffs(start));
-  2047	
-  2048			while (start + (1UL << order) > end)
-  2049				order--;
-  2050	
-  2051			memblock_free_pages(pfn_to_page(start), start, order);
-  2052	
-  2053			start += (1UL << order);
-  2054		}
-  2055	}
-  2056	
+:::::: TO: NeilBrown <neilb@suse.de>
+:::::: CC: NeilBrown <neilb@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
