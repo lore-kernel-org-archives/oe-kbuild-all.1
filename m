@@ -1,43 +1,44 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF3A7E;
-	Wed, 15 Mar 2023 01:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F587E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 03:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678845483; x=1710381483;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dBqrCU20tlu6LXfstZSYCLCaAg6v1/DeCAl32Lzd5FE=;
-  b=a+pmg7i4QwRPWynmND6hPUVkmGbQOVfztv3QmjcyeKkQscADlT1Kl2NF
-   uJteTYF6MLzzxKX9EgS4YtDaikXDeEPlL2uGPmOqAwfVwImAacRGDLz4C
-   J8wEEXLHviZ55815A0MvUztA/D6W1d1Mg28p45WRjlzuGdx3MX1Pxz1lC
-   A4Ayg0IKRYHK0UwgwTQXcaOZ5Jr0nR67GdCE/l2UIF+EnIGGmOpCvSPb1
-   i7inzA4Gh+EeABif/SqQx9d+AL+uXb+QL1dsbdK7Z58D3dfk6CVZTOfkW
-   0sTDFn2igpU6PLEpZ3hRouNqE+njWexA43tdn+S4DeuZX3Gs0k/akw1BI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="325950359"
+  t=1678851008; x=1710387008;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z7yFjW7+uL0ldvJCZ6BYXbLC6XJndAoKdZyXqL5gf4Y=;
+  b=GtiEdYnspQ1CcPZtNHlsYZXi/Z1khswovaYcwjt5C5S3QF6EfRCnCAMA
+   18NrcwIFqZWKHRSpGsgMvl2WWzRrGzLa4hny7j7ryqCwDB+WBpWeuEM/Y
+   hMeBLEnKWRWnN0uSLEJlVpkaNuK9IPG6DtE0McNb9aCupY00jL/CYFqED
+   UlVC6wwecP1q38DyxCRspDOixtIBap6AkkN0VwYWQwoK/FvChafJ0fv/I
+   a+SPdlpkwhm/S40gFQNhrUHBHQ5x+rYphw30W/bIxZiYyap7vI4XyfMnH
+   z3YPeJkYLwGodJhDJqg79XgOIoczx/1X8AvvsezGcZGR460kPf0PMKXnM
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="325967079"
 X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="325950359"
+   d="scan'208";a="325967079"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 18:58:02 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 20:30:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789605949"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789631427"
 X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="789605949"
+   d="scan'208";a="789631427"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2023 18:58:01 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2023 20:30:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcGOu-0007Kt-1s;
-	Wed, 15 Mar 2023 01:58:00 +0000
-Date: Wed, 15 Mar 2023 09:57:10 +0800
+	id 1pcHq2-0007OZ-09;
+	Wed, 15 Mar 2023 03:30:06 +0000
+Date: Wed, 15 Mar 2023 11:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Message-ID: <202303150924.yFreJjHP-lkp@intel.com>
-References: <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+To: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Hersen Wu <hersenxs.wu@amd.com>
+Subject: [agd5f:drm-next 176/195]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:211:6:
+ warning: no previous prototype for 'is_synaptics_cascaded_panamera'
+Message-ID: <202303151107.vwwbKTqt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,87 +47,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230313135916.862852-3-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc2 next-20230314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Use-vb2_get_buffer-as-helper-everywhere/20230313-220116
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230313135916.862852-3-benjamin.gaignard%40collabora.com
-patch subject: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303150924.yFreJjHP-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   136a1f7e9240b262eb1a700bfdb6610745aff8ba
+commit: 54c7b715b5efe405dfd5fdafcaf930214b9c1fa9 [176/195] drm/amd/display: Add DSC Support for Synaptics Cascaded MST Hub
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303151107.vwwbKTqt-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c6ebf39fc540139888f85f470b6984f2387d714b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Use-vb2_get_buffer-as-helper-everywhere/20230313-220116
-        git checkout c6ebf39fc540139888f85f470b6984f2387d714b
+        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
+        git fetch --no-tags agd5f drm-next
+        git checkout 54c7b715b5efe405dfd5fdafcaf930214b9c1fa9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303150924.yFreJjHP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151107.vwwbKTqt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1098:22: error: no member named 'bufs' in 'struct vb2_queue'
-           vb = pipe->vb_queue.bufs[buf->index];
-                ~~~~~~~~~~~~~~ ^
-   1 error generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:211:6: warning: no previous prototype for 'is_synaptics_cascaded_panamera' [-Wmissing-prototypes]
+     211 | bool is_synaptics_cascaded_panamera(struct dc_link *link, struct drm_dp_mst_port *port)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:39:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:143:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
+     143 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
+         |                      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:140:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
+     140 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:138:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
+     138 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:135:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
+     135 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:133:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
+     133 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
+     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:35,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:30:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1098 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+vim +/is_synaptics_cascaded_panamera +211 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c
 
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1083  
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1084  static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1085  {
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1086  	struct video_device *vdev = video_devdata(file);
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1087  	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1088  	struct atomisp_sub_device *asd = pipe->asd;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1089  	struct atomisp_device *isp = video_get_drvdata(vdev);
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1090  	struct ia_css_frame *frame;
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1091  	struct vb2_buffer *vb;
-f315c1acba84fe1 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-09-03  1092  	int ret;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1093  
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1094  	ret = vb2_ioctl_dqbuf(file, fh, buf);
-f315c1acba84fe1 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-09-03  1095  	if (ret)
-f315c1acba84fe1 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-09-03  1096  		return ret;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1097  
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08 @1098  	vb = pipe->vb_queue.bufs[buf->index];
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1099  	frame = vb_to_frame(vb);
-cf223056fb29772 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-09-02  1100  
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1101  	buf->reserved = asd->frame_status[buf->index];
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1102  
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1103  	/*
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1104  	 * Hack:
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1105  	 * Currently frame_status in the enum type which takes no more lower
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1106  	 * 8 bit.
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1107  	 * use bit[31:16] for exp_id as it is only in the range of 1~255
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1108  	 */
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1109  	buf->reserved &= 0x0000ffff;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1110  	if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
-cb48ae89be3b6e9 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-10-08  1111  		buf->reserved |= frame->exp_id;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1112  	buf->reserved2 = pipe->frame_config_id[buf->index];
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1113  
-eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1114  	dev_dbg(isp->dev,
-eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1115  		"dqbuf buffer %d (%s) for asd%d with exp_id %d, isp_config_id %d\n",
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1116  		buf->index, vdev->name, asd->index, buf->reserved >> 16,
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1117  		buf->reserved2);
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1118  	return 0;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1119  }
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1120  
+   210	
+ > 211	bool is_synaptics_cascaded_panamera(struct dc_link *link, struct drm_dp_mst_port *port)
+   212	{
+   213		u8 branch_vendor_data[4] = { 0 }; // Vendor data 0x50C ~ 0x50F
+   214	
+   215		if (drm_dp_dpcd_read(port->mgr->aux, DP_BRANCH_VENDOR_SPECIFIC_START, &branch_vendor_data, 4) == 4) {
+   216			if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_90CC24 &&
+   217					IS_SYNAPTICS_CASCADED_PANAMERA(link->dpcd_caps.branch_dev_name, branch_vendor_data)) {
+   218				DRM_INFO("Synaptics Cascaded MST hub\n");
+   219				return true;
+   220			}
+   221		}
+   222	
+   223		return false;
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
