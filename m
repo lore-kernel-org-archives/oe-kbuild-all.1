@@ -1,44 +1,52 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F587E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Mar 2023 03:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678851008; x=1710387008;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z7yFjW7+uL0ldvJCZ6BYXbLC6XJndAoKdZyXqL5gf4Y=;
-  b=GtiEdYnspQ1CcPZtNHlsYZXi/Z1khswovaYcwjt5C5S3QF6EfRCnCAMA
-   18NrcwIFqZWKHRSpGsgMvl2WWzRrGzLa4hny7j7ryqCwDB+WBpWeuEM/Y
-   hMeBLEnKWRWnN0uSLEJlVpkaNuK9IPG6DtE0McNb9aCupY00jL/CYFqED
-   UlVC6wwecP1q38DyxCRspDOixtIBap6AkkN0VwYWQwoK/FvChafJ0fv/I
-   a+SPdlpkwhm/S40gFQNhrUHBHQ5x+rYphw30W/bIxZiYyap7vI4XyfMnH
-   z3YPeJkYLwGodJhDJqg79XgOIoczx/1X8AvvsezGcZGR460kPf0PMKXnM
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="325967079"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="325967079"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 20:30:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789631427"
-X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="789631427"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2023 20:30:06 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pcHq2-0007OZ-09;
-	Wed, 15 Mar 2023 03:30:06 +0000
-Date: Wed, 15 Mar 2023 11:29:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Hersen Wu <hersenxs.wu@amd.com>
-Subject: [agd5f:drm-next 176/195]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:211:6:
- warning: no previous prototype for 'is_synaptics_cascaded_panamera'
-Message-ID: <202303151107.vwwbKTqt-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966F87E;
+	Wed, 15 Mar 2023 04:03:07 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id x22so6209939wmj.3;
+        Tue, 14 Mar 2023 21:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678852985;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LKipZg32j4aSYL/ldQSJVuc/wPyuqxco8uSwoElc/X8=;
+        b=Zf81Oo+oWlBnof984tD+2xXftdUSEI6tRb13AeHtCVEPCFLxbywgsxT2VOSx90hj69
+         wbU4X0LpP+1x4lewxwCtAcnfchfKN+HcyaHAwje3YyMYi3UKNxsvkpJ6T3rrNha7CYu7
+         xNcw9bYfPSFx4OjwZxewMbmB2LJuaCBCeMzW+vHzjqt9olDKLk7Au9cU/+Bm/hNVv7hs
+         fMIJcjz9L+6JEw3F8umgAA/luX+G6CIX1vVRqjT5l+TlxrSfsop8D6nY1Kreqh386oyt
+         OIgxAc9WQWa90VD9fm7g+fJJ+iAoYR8y9K5zVBYQtMfgfAwE54qt9qN/v1917uQ6K3zg
+         prDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678852985;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LKipZg32j4aSYL/ldQSJVuc/wPyuqxco8uSwoElc/X8=;
+        b=oSwVpRN0RsxO2z0J3hjWY4JlFuSXc9YmmvQPJkaUpKc9QkuJ+51Lq+iSVGqx/L0CuD
+         V5xyo3eDqEF8ShnUHLJy7TjsD3OEmFxC2mv7cNEjKT/taVKvSecZ9FDNpYNiJMGZYS1K
+         cm6Umc/FnaiAFzqL1esK5FVO7D8v1T7fPP25JE2sy9FpuwuAUnYupMPq0aXZAwg7WSfb
+         SjOJ2mposxGHVF28g2LMFyNQAlwwdXtfAGlLAHtJRi7RyjoBtQpPxqGjSfro7JoiHYPP
+         LSudvSDeGZjUG7xRElun6eVDmSw0WzZ9QQVm4AX8kL1JKXb8wOHPO4/Pl/PohByRiOyv
+         KkHA==
+X-Gm-Message-State: AO0yUKVuX+0chNORXaN39Mm9+YYNRQgIR3E4jx4mTI/gnp+7m2Y8S3Xd
+	ePtP5Xy0aadvrRlJ4jHRt7XZmgm3bOQ=
+X-Google-Smtp-Source: AK7set9+zU5NflcbfyDYbrOnB7l6MiUXZzaFVy5MWupsPgtQa4A2GoEu/V38pEZLCOuveMJkd+7oIA==
+X-Received: by 2002:a05:600c:19c7:b0:3ed:2b49:1571 with SMTP id u7-20020a05600c19c700b003ed2b491571mr4683283wmq.20.1678852985252;
+        Tue, 14 Mar 2023 21:03:05 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k6-20020a05600c1c8600b003e209b45f6bsm467905wms.29.2023.03.14.21.03.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 21:03:04 -0700 (PDT)
+Date: Wed, 15 Mar 2023 07:03:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, mingzhe.zou@easystack.cn, colyli@suse.de,
+	andrea.tomassetti-opensource@devo.com, bcache@lists.ewheeler.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kent.overstreet@gmail.com,
+	linux-bcache@vger.kernel.org, zoumingzhe@qq.com,
+	Dongsheng Yang <dongsheng.yang@easystack.cn>,
+	mingzhe <mingzhe.zou@easystack.cn>
+Subject: Re: [PATCH v2 3/3] bcache: support overlay bcache
+Message-ID: <ecf6a168-dd9c-4a11-a872-088030ef47a5@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,79 +55,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230202030221.14397-3-mingzhe.zou@easystack.cn>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   136a1f7e9240b262eb1a700bfdb6610745aff8ba
-commit: 54c7b715b5efe405dfd5fdafcaf930214b9c1fa9 [176/195] drm/amd/display: Add DSC Support for Synaptics Cascaded MST Hub
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303151107.vwwbKTqt-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
-        git fetch --no-tags agd5f drm-next
-        git checkout 54c7b715b5efe405dfd5fdafcaf930214b9c1fa9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/
+Hi,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230202-110624
+patch link:    https://lore.kernel.org/r/20230202030221.14397-3-mingzhe.zou%40easystack.cn
+patch subject: [PATCH v2 3/3] bcache: support overlay bcache
+config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230315/202303150200.4UK2OWti-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303151107.vwwbKTqt-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303150200.4UK2OWti-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/md/bcache/super.c:1573 flash_dev_run() warn: missing error code 'err'
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:211:6: warning: no previous prototype for 'is_synaptics_cascaded_panamera' [-Wmissing-prototypes]
-     211 | bool is_synaptics_cascaded_panamera(struct dc_link *link, struct drm_dp_mst_port *port)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:39:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:143:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     143 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:140:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
-     140 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:138:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
-     138 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:135:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     135 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:133:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     133 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:35,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:30:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
-      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/err +1573 drivers/md/bcache/super.c
 
+cafe563591446c Kent Overstreet   2013-03-23  1540  static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
+cafe563591446c Kent Overstreet   2013-03-23  1541  {
+bbce89267a538f Dongsheng Yang    2023-02-02  1542  	int ret;
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1543  	int err = -ENOMEM;
+cafe563591446c Kent Overstreet   2013-03-23  1544  	struct bcache_device *d = kzalloc(sizeof(struct bcache_device),
+cafe563591446c Kent Overstreet   2013-03-23  1545  					  GFP_KERNEL);
+cafe563591446c Kent Overstreet   2013-03-23  1546  	if (!d)
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1547  		goto err_ret;
+cafe563591446c Kent Overstreet   2013-03-23  1548  
+cafe563591446c Kent Overstreet   2013-03-23  1549  	closure_init(&d->cl, NULL);
+cafe563591446c Kent Overstreet   2013-03-23  1550  	set_closure_fn(&d->cl, flash_dev_flush, system_wq);
+cafe563591446c Kent Overstreet   2013-03-23  1551  
+cafe563591446c Kent Overstreet   2013-03-23  1552  	kobject_init(&d->kobj, &bch_flash_dev_ktype);
+cafe563591446c Kent Overstreet   2013-03-23  1553  
+4e1ebae3ee4e0c Coly Li           2020-10-01  1554  	if (bcache_device_init(d, block_bytes(c->cache), u->sectors,
+c62b37d96b6eb3 Christoph Hellwig 2020-07-01  1555  			NULL, &bcache_flash_ops))
+cafe563591446c Kent Overstreet   2013-03-23  1556  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1557  
+cafe563591446c Kent Overstreet   2013-03-23  1558  	bcache_device_attach(d, c, u - c->uuids);
+175206cf9ab631 Tang Junhui       2017-09-07  1559  	bch_sectors_dirty_init(d);
+cafe563591446c Kent Overstreet   2013-03-23  1560  	bch_flash_dev_request_init(d);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1561  	err = add_disk(d->disk);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1562  	if (err)
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1563  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1564  
+bbce89267a538f Dongsheng Yang    2023-02-02  1565  	err = kobject_add(&d->kobj, &disk_to_dev(d->disk)->kobj, "bcache_fdev");
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1566  	if (err)
+cafe563591446c Kent Overstreet   2013-03-23  1567  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1568  
+bbce89267a538f Dongsheng Yang    2023-02-02  1569  	ret = sysfs_create_link_nowarn(&disk_to_dev(d->disk)->kobj,
+bbce89267a538f Dongsheng Yang    2023-02-02  1570  				       &d->kobj, "bcache");
+bbce89267a538f Dongsheng Yang    2023-02-02  1571  	if (ret && ret != -EEXIST) {
+bbce89267a538f Dongsheng Yang    2023-02-02  1572  		pr_err("Couldn't create lagacy flash dev ->bcache");
+bbce89267a538f Dongsheng Yang    2023-02-02 @1573  		goto err;
 
-vim +/is_synaptics_cascaded_panamera +211 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c
+Get rid of the "ret" variable and use "err" instead.
 
-   210	
- > 211	bool is_synaptics_cascaded_panamera(struct dc_link *link, struct drm_dp_mst_port *port)
-   212	{
-   213		u8 branch_vendor_data[4] = { 0 }; // Vendor data 0x50C ~ 0x50F
-   214	
-   215		if (drm_dp_dpcd_read(port->mgr->aux, DP_BRANCH_VENDOR_SPECIFIC_START, &branch_vendor_data, 4) == 4) {
-   216			if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_90CC24 &&
-   217					IS_SYNAPTICS_CASCADED_PANAMERA(link->dpcd_caps.branch_dev_name, branch_vendor_data)) {
-   218				DRM_INFO("Synaptics Cascaded MST hub\n");
-   219				return true;
-   220			}
-   221		}
-   222	
-   223		return false;
-   224	}
-   225	
+bbce89267a538f Dongsheng Yang    2023-02-02  1574  	}
+bbce89267a538f Dongsheng Yang    2023-02-02  1575  
+cafe563591446c Kent Overstreet   2013-03-23  1576  	bcache_device_link(d, c, "volume");
+cafe563591446c Kent Overstreet   2013-03-23  1577  
+5342fd4255021e Coly Li           2021-01-04  1578  	if (bch_has_feature_obso_large_bucket(&c->cache->sb)) {
+5342fd4255021e Coly Li           2021-01-04  1579  		pr_err("The obsoleted large bucket layout is unsupported, set the bcache device into read-only\n");
+5342fd4255021e Coly Li           2021-01-04  1580  		pr_err("Please update to the latest bcache-tools to create the cache device\n");
+5342fd4255021e Coly Li           2021-01-04  1581  		set_disk_ro(d->disk, 1);
+5342fd4255021e Coly Li           2021-01-04  1582  	}
+5342fd4255021e Coly Li           2021-01-04  1583  
+cafe563591446c Kent Overstreet   2013-03-23  1584  	return 0;
+cafe563591446c Kent Overstreet   2013-03-23  1585  err:
+cafe563591446c Kent Overstreet   2013-03-23  1586  	kobject_put(&d->kobj);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1587  err_ret:
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1588  	return err;
+cafe563591446c Kent Overstreet   2013-03-23  1589  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
