@@ -1,50 +1,52 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7E4569E;
-	Thu, 16 Mar 2023 16:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D32612F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 18:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678984373; x=1710520373;
+  t=1678989788; x=1710525788;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f3CiC2QaSsYUVd8b13hI0y9f5nq5N4yNeInHX5rBGGY=;
-  b=b6oOL3cbnG4UwLdjDTb2nr0/hKZ7e8fA5oU2IJA5Dbl99wFWmV4Jesuz
-   xM6xEwwUW7S4rFauZv4KbPIAY8wfeTnAv8NXwMyvllIGlz37ZnflG7S1Q
-   wNGfVILPsncMIZqJvcZyiLFkP97bo8Lb8VDHgMkXVu7ohOQYBtl56tWi3
-   MZUQsbgA6rztqUEnXmmA5jjWl4K7p2FdSn4D/piAOD3B1zU8Z3cnkc0u8
-   aG1pv+N7SfrpunjSKP1mvn1SlEdhWmy6mshPVdTwtBVKiB3ESivuQywEM
-   sKbf9n/qNvNU3fE61ZVBLd+Eaeu5D5ShcBf/ZZurQzHirK/StLvwRuckB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="338060656"
+  bh=t3Z0AZq8QfGR1uNwW45+qvzjp/J3+V0/B7NRGW+sJ0k=;
+  b=XqILQmeN9ZCsWG935H8hjkDF6TEsMdfVHxpwbAlfO4Qu4MHdSOw7uTr8
+   RKWfOJZbrpZvRE4R1BhjBHFTlW0y6C7AyHJGFuos6DU4gd69R3pvF3iVG
+   6QApTshDiGcwccNRTqswviPJ+d+WHZdQD+C83fm+kVuHOGLcM8kiUAaQ2
+   TcQuCLoiKuKTc/UhxVdtL1/qae3FAV47NG8UtQ4BlUzgKLEpNd6Jr6lfF
+   CA3oG8LEIljIwom37npPDNiQS/R2h26/ZeSqBKhHFPOKXrvRKfPuMH7id
+   f/dxEhFdsO02ztdrDREzSYinzm4OckjhSWpbJmZzQUQ+OYj2VOM7HhEsl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="321927617"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="338060656"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 09:31:40 -0700
+   d="scan'208";a="321927617"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 11:02:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854117073"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="925851460"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="854117073"
+   d="scan'208";a="925851460"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 16 Mar 2023 09:31:35 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 11:02:38 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcqVr-0008d0-15;
-	Thu, 16 Mar 2023 16:31:35 +0000
-Date: Fri, 17 Mar 2023 00:30:58 +0800
+	id 1pcrvx-0008fe-17;
+	Thu, 16 Mar 2023 18:02:37 +0000
+Date: Fri, 17 Mar 2023 02:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: hildawu@realtek.com, marcel@holtmann.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	johan.hedberg@gmail.com, luiz.dentz@gmail.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, apusaka@chromium.org,
-	mmandlik@google.com, yinghsu@chromium.org, max.chou@realtek.com,
-	alex_lu@realsil.com.cn, kidman@realtek.com
-Subject: Re: [PATCH] Bluetooth: msft: Extended monitor tracking by address
- filter
-Message-ID: <202303170056.UsZ6RDV4-lkp@intel.com>
-References: <20230316090729.14572-1-hildawu@realtek.com>
+To: Chen-Yu Tsai <wenst@chromium.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Balsam CHIHI <bchihi@baylibre.com>, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] thermal/drivers/mediatek/lvts_thermal: Register
+ thermal zones as hwmon sensors
+Message-ID: <202303170104.d4JG4Rmo-lkp@intel.com>
+References: <20230315034449.2604197-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,127 +55,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316090729.14572-1-hildawu@realtek.com>
+In-Reply-To: <20230315034449.2604197-1-wenst@chromium.org>
 
-Hi,
+Hi Chen-Yu,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master net-next/main net/main linus/master v6.3-rc2 next-20230316]
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on linus/master v6.3-rc2 next-20230316]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/hildawu-realtek-com/Bluetooth-msft-Extended-monitor-tracking-by-address-filter/20230316-170950
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20230316090729.14572-1-hildawu%40realtek.com
-patch subject: [PATCH] Bluetooth: msft: Extended monitor tracking by address filter
-config: i386-randconfig-a016-20230313 (https://download.01.org/0day-ci/archive/20230317/202303170056.UsZ6RDV4-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/thermal-drivers-mediatek-lvts_thermal-Register-thermal-zones-as-hwmon-sensors/20230315-114601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20230315034449.2604197-1-wenst%40chromium.org
+patch subject: [PATCH RESEND] thermal/drivers/mediatek/lvts_thermal: Register thermal zones as hwmon sensors
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303170104.d4JG4Rmo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cee47af4605a9e5cba61be1ab1d92e8748d92e1e
+        # https://github.com/intel-lab-lkp/linux/commit/1f9bbeb9645230bb309c589d8bea6bf066628b44
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review hildawu-realtek-com/Bluetooth-msft-Extended-monitor-tracking-by-address-filter/20230316-170950
-        git checkout cee47af4605a9e5cba61be1ab1d92e8748d92e1e
+        git fetch --no-tags linux-review Chen-Yu-Tsai/thermal-drivers-mediatek-lvts_thermal-Register-thermal-zones-as-hwmon-sensors/20230315-114601
+        git checkout 1f9bbeb9645230bb309c589d8bea6bf066628b44
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/bluetooth/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/misc/ drivers/net/mdio/ drivers/pci/controller/ drivers/rtc/ drivers/thermal/mediatek/ drivers/tty/serial/ drivers/usb/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170056.UsZ6RDV4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303170104.d4JG4Rmo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/bluetooth/msft.c:521:43: warning: variable 'rp' set but not used [-Wunused-but-set-variable]
-           struct msft_rp_le_monitor_advertisement *rp;
-                                                    ^
-   1 warning generated.
+   drivers/thermal/mediatek/lvts_thermal.c: In function 'lvts_ctrl_start':
+>> drivers/thermal/mediatek/lvts_thermal.c:997:55: error: 'chip' undeclared (first use in this function)
+     997 |                 if (devm_thermal_add_hwmon_sysfs(dev, chip->tz_dev))
+         |                                                       ^~~~
+   drivers/thermal/mediatek/lvts_thermal.c:997:55: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/rp +521 net/bluetooth/msft.c
+vim +/chip +997 drivers/thermal/mediatek/lvts_thermal.c
 
-   507	
-   508	static int msft_add_monitor_sync(struct hci_dev *hdev,
-   509					 struct adv_monitor *monitor)
-   510	{
-   511		struct msft_cp_le_monitor_advertisement *cp;
-   512		struct msft_le_monitor_advertisement_pattern_data *pattern_data;
-   513		struct msft_le_monitor_advertisement_pattern *pattern;
-   514		struct adv_pattern *entry;
-   515		size_t total_size = sizeof(*cp) + sizeof(*pattern_data);
-   516		ptrdiff_t offset = 0;
-   517		u8 pattern_count = 0;
-   518		struct sk_buff *skb;
-   519		int err;
-   520		struct msft_monitor_advertisement_handle_data *handle_data;
- > 521		struct msft_rp_le_monitor_advertisement *rp;
-   522	
-   523		if (!msft_monitor_pattern_valid(monitor))
-   524			return -EINVAL;
-   525	
-   526		list_for_each_entry(entry, &monitor->patterns, list) {
-   527			pattern_count++;
-   528			total_size += sizeof(*pattern) + entry->length;
-   529		}
-   530	
-   531		cp = kmalloc(total_size, GFP_KERNEL);
-   532		if (!cp)
-   533			return -ENOMEM;
-   534	
-   535		cp->sub_opcode = MSFT_OP_LE_MONITOR_ADVERTISEMENT;
-   536		cp->rssi_high = monitor->rssi.high_threshold;
-   537		cp->rssi_low = monitor->rssi.low_threshold;
-   538		cp->rssi_low_interval = (u8)monitor->rssi.low_threshold_timeout;
-   539		cp->rssi_sampling_period = monitor->rssi.sampling_period;
-   540	
-   541		cp->cond_type = MSFT_MONITOR_ADVERTISEMENT_TYPE_PATTERN;
-   542	
-   543		pattern_data = (void *)cp->data;
-   544		pattern_data->count = pattern_count;
-   545	
-   546		list_for_each_entry(entry, &monitor->patterns, list) {
-   547			pattern = (void *)(pattern_data->data + offset);
-   548			/* the length also includes data_type and offset */
-   549			pattern->length = entry->length + 2;
-   550			pattern->data_type = entry->ad_type;
-   551			pattern->start_byte = entry->offset;
-   552			memcpy(pattern->pattern, entry->value, entry->length);
-   553			offset += sizeof(*pattern) + entry->length;
-   554		}
-   555	
-   556		skb = __hci_cmd_sync(hdev, hdev->msft_opcode, total_size, cp,
-   557				     HCI_CMD_TIMEOUT);
-   558	
-   559		if (IS_ERR_OR_NULL(skb)) {
-   560			kfree(cp);
-   561			return PTR_ERR(skb);
-   562		}
-   563	
-   564		err = msft_le_monitor_advertisement_cb(hdev, hdev->msft_opcode,
-   565						       monitor, skb);
-   566		if (!err) {
-   567			rp = (struct msft_rp_le_monitor_advertisement *)skb->data;
-   568			handle_data = msft_find_handle_data(hdev, monitor->handle,
-   569							    true);
-   570			if (handle_data) {
-   571				handle_data->rssi_high   = cp->rssi_high;
-   572				handle_data->rssi_low    = cp->rssi_low;
-   573				handle_data->rssi_low_interval    =
-   574							cp->rssi_low_interval;
-   575				handle_data->rssi_sampling_period =
-   576							cp->rssi_sampling_period;
-   577			}
-   578		}
-   579		kfree(cp);
-   580	
-   581		return err;
-   582	}
-   583	
+   971	
+   972	static int lvts_ctrl_start(struct device *dev, struct lvts_ctrl *lvts_ctrl)
+   973	{
+   974		struct lvts_sensor *lvts_sensors = lvts_ctrl->sensors;
+   975		struct thermal_zone_device *tz;
+   976		u32 sensor_map = 0;
+   977		int i;
+   978	
+   979		for (i = 0; i < lvts_ctrl->num_lvts_sensor; i++) {
+   980	
+   981			int dt_id = lvts_sensors[i].dt_id;
+   982	
+   983			tz = devm_thermal_of_zone_register(dev, dt_id, &lvts_sensors[i],
+   984							   &lvts_ops);
+   985			if (IS_ERR(tz)) {
+   986				/*
+   987				 * This thermal zone is not described in the
+   988				 * device tree. It is not an error from the
+   989				 * thermal OF code POV, we just continue.
+   990				 */
+   991				if (PTR_ERR(tz) == -ENODEV)
+   992					continue;
+   993	
+   994				return PTR_ERR(tz);
+   995			}
+   996	
+ > 997			if (devm_thermal_add_hwmon_sysfs(dev, chip->tz_dev))
+   998				dev_warn(dev, "zone %d: Failed to add hwmon sysfs attributes\n", dt_id);
+   999	
+  1000			/*
+  1001			 * The thermal zone pointer will be needed in the
+  1002			 * interrupt handler, we store it in the sensor
+  1003			 * structure. The thermal domain structure will be
+  1004			 * passed to the interrupt handler private data as the
+  1005			 * interrupt is shared for all the controller
+  1006			 * belonging to the thermal domain.
+  1007			 */
+  1008			lvts_sensors[i].tz = tz;
+  1009	
+  1010			/*
+  1011			 * This sensor was correctly associated with a thermal
+  1012			 * zone, let's set the corresponding bit in the sensor
+  1013			 * map, so we can enable the temperature monitoring in
+  1014			 * the hardware thermal controller.
+  1015			 */
+  1016			sensor_map |= BIT(i);
+  1017		}
+  1018	
+  1019		/*
+  1020		 * Bits:
+  1021		 *      9: Single point access flow
+  1022		 *    0-3: Enable sensing point 0-3
+  1023		 *
+  1024		 * The initialization of the thermal zones give us
+  1025		 * which sensor point to enable. If any thermal zone
+  1026		 * was not described in the device tree, it won't be
+  1027		 * enabled here in the sensor map.
+  1028		 */
+  1029		writel(sensor_map | BIT(9), LVTS_MONCTL0(lvts_ctrl->base));
+  1030	
+  1031		return 0;
+  1032	}
+  1033	
 
 -- 
 0-DAY CI Kernel Test Service
