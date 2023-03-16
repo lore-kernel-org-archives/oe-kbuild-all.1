@@ -1,45 +1,57 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F0FAD32;
-	Thu, 16 Mar 2023 21:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64378AD32
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 22:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679000808; x=1710536808;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6mE4pCdOhtBNBY6oqJoafqJJU8ImsF0HTPAumdxJVaQ=;
-  b=GjF15+thvhrougIwSkPThS1vHk4P0DIUsSc39hwKgtvarZG3K7ZTRUZZ
-   rFlU+rfd1AxlnLGS5d2ehtoAnfMHcqELvsnyJNaf5kNqAK5/S3sQmyLGp
-   yJYnEuadbRDFQqX0QNPX9Gaqxc+By8UpLDb82LS151ogDH9pi3/IFiOak
-   JK487pL0hnJuCqQiy3EuLMQd3Js04vBRgEdimDcwHwDN729iD9CS5SKBh
-   Dpfu8TG7TuQTpk1XasZvNnujomtrlsLs0MJQWIhumC0M61pJsn4p/WRVz
-   pt+XjXZVmqagWOHIgmrK/AU7ATxz3le6UkY10sKIkeprYFcZo3SZ03MmZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="424383523"
+  t=1679004471; x=1710540471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NUccJEQeyuFmY2OUH22+mD2DNXjeXrjGLxyTCvS9pEY=;
+  b=lMznxs/qshTbSSZkv+DZPVCDfunz3h4iUTefMNEBg1rsspKbv5ywpLVM
+   rqEkZdQLdkiW6DmeybcQXcA8tAh8t2085IaXBA50n3+hMN8f8Oym24vgP
+   6Px2NtaBw/mXJao1KZrW+gKdZanrIQ9fDmmDEcBqrPtROzNWckvp8OTTf
+   qHLwDuD5OqUhDhOghPKVqE6aH1OcgVGqpO7ZlVYkO7Io4kfOWHP7VnpOe
+   cE0GKvsyo4EBNEQyj/Zb5j86ew6kjBZhnIYvmrXLSHGMnuJrRmN95056f
+   ljxCo+RdCIZHVs3Y6JOF1R2NnDMYfuIrA5HXnoohd+jMjSFStBzJJdBQP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="339665723"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="424383523"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 14:06:47 -0700
+   d="scan'208";a="339665723"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 15:07:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="673308621"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854217836"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="673308621"
+   d="scan'208";a="854217836"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 16 Mar 2023 14:06:45 -0700
+  by orsmga005.jf.intel.com with ESMTP; 16 Mar 2023 15:07:46 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcuo8-0008qc-0u;
-	Thu, 16 Mar 2023 21:06:44 +0000
-Date: Fri, 17 Mar 2023 05:06:05 +0800
+	id 1pcvlB-0008rW-0U;
+	Thu, 16 Mar 2023 22:07:45 +0000
+Date: Fri, 17 Mar 2023 06:07:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jason A. Donenfeld" <zx2c4@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>, Eric Biggers <ebiggers@google.com>,
-	Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
-Subject: [stable:linux-5.4.y 4197/7834] ERROR: "sha_transform"
- [crypto/sha1_generic.ko] undefined!
-Message-ID: <202303170515.Ls4W3urG-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	John Crispin <john@phrozen.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next PATCH 01/11] net: dsa: qca8k: add LEDs basic support
+Message-ID: <202303170529.8ag9rmM4-lkp@intel.com>
+References: <20230307170046.28917-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,33 +60,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230307170046.28917-2-ansuelsmth@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   b829e8b6e1a7bb8cd3042b927113a22fed0b0d47
-commit: c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0 [4197/7834] random: use BLAKE2s instead of SHA1 in extraction
-config: mips-randconfig-r003-20230313 (https://download.01.org/0day-ci/archive/20230317/202303170515.Ls4W3urG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi Christian,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-dsa-qca8k-add-LEDs-basic-support/20230308-063832
+patch link:    https://lore.kernel.org/r/20230307170046.28917-2-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH 01/11] net: dsa: qca8k: add LEDs basic support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303170529.8ag9rmM4-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.4.y
-        git checkout c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0
+        # https://github.com/intel-lab-lkp/linux/commit/ce1977c679b8737815636b72f4e65c2de59e8f7d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-Marangi/net-dsa-qca8k-add-LEDs-basic-support/20230308-063832
+        git checkout ce1977c679b8737815636b72f4e65c2de59e8f7d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/dsa/qca/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170515.Ls4W3urG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303170529.8ag9rmM4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ERROR: "sha_transform" [crypto/sha1_generic.ko] undefined!
+>> drivers/net/dsa/qca/qca8k-leds.c:171:1: error: redefinition of 'qca8k_setup_led_ctrl'
+     171 | qca8k_setup_led_ctrl(struct qca8k_priv *priv)
+         | ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/dsa/qca/qca8k-leds.c:5:
+   drivers/net/dsa/qca/qca8k.h:577:19: note: previous definition of 'qca8k_setup_led_ctrl' with type 'int(struct qca8k_priv *)'
+     577 | static inline int qca8k_setup_led_ctrl(struct qca8k_priv *priv)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/qca8k_setup_led_ctrl +171 drivers/net/dsa/qca/qca8k-leds.c
+
+   169	
+   170	int
+ > 171	qca8k_setup_led_ctrl(struct qca8k_priv *priv)
 
 -- 
 0-DAY CI Kernel Test Service
