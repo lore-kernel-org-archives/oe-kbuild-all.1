@@ -1,43 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8E1323B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 12:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A981C33CC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 13:57:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678971392; x=1710507392;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOpEHvKiVWSWdvLi+F4Kkyvs0hPWD9/34qtln3LsbrI=;
-  b=L32WZxaY85vvi8EUGB8V8iGyYE9RP7HYArf864RrVZrcyNytons5IuJk
-   HaIvT6lJguF56YKw3OcpPIEQbtaMDClnV/80Aj3a/QQ0RheZZobdlckSU
-   Txf1P9XlX0ToPbD+NhyD0OEAp0wNVljXsk+tBQhzJZPAs2rQ0PKCRDunA
-   KuRLQwBMdryiQ+VRXDAgFs1Z2nxWXMqmIXnEr+Nqg8VedyBKOz81LvEvR
-   D5GmqrNTK6Zca7+o495VD/NmTBP80c1ixVFjpvGQGdzIYlXFLq4aXNtHB
-   UDDrCKSjdA5xhXE6pBX0g6PD8wYyD+4JP5+RNR3VxrYnQU+UwDbCRDlYg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="321814976"
+  t=1678975061; x=1710511061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s7hHsNvEy9sL2ZtKAMVyiclWXWrI1obFzENceJn78mw=;
+  b=JgLDVs3/2s6dPqFIx/MGCEZkHJFPN3D9WXqav6h8vLPuY0Vw9Gl6EXIj
+   zwKwJqeoTlowNXd/gqR8HgUEaURRt9Pj4e5WzKXtMteclgcuYd3Y2n7PW
+   iaIYC7hdwZ41CDvt3OcyaU8PGyWoh/Jhlj/8jvcegISXTZHSXGtYu0Q9A
+   bhw4ULNv3X5lDyOffDAIc982mYLFcQ0Cn99En16BGMqvU5QxpRvDlIy78
+   TdcdvthjZuvTimHan96Ambun8HzB/S5V4yduRg6LZrcWgyTibT9blMakP
+   uhNS8iOw7AINHVvLJpBhNjaXaOuGMpYdtWJoTr9iZ0syuRAUPq3oeVXgw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="335476340"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="321814976"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 05:56:31 -0700
+   d="scan'208";a="335476340"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 06:57:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="925766793"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="823253011"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="925766793"
+   d="scan'208";a="823253011"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 05:56:30 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2023 06:57:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcn9h-0008Wa-2Y;
-	Thu, 16 Mar 2023 12:56:29 +0000
-Date: Thu, 16 Mar 2023 20:56:28 +0800
+	id 1pco6k-0008YQ-36;
+	Thu, 16 Mar 2023 13:57:30 +0000
+Date: Thu, 16 Mar 2023 21:57:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kathiravan T <quic_kathirav@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
-Subject: [qcom:arm64-for-6.4 59/93]
- arch/arm64/boot/dts/qcom/ipq5332.dtsi:8:10: fatal error:
- dt-bindings/clock/qcom,ipq5332-gcc.h: No such file or directory
-Message-ID: <202303162002.jQMR3mY1-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/1] regulator: s5m8767: Replace of_gpio.h with what
+ indeed is used
+Message-ID: <202303162117.0C6F17Nm-lkp@intel.com>
+References: <20230316120113.86421-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,42 +47,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230316120113.86421-1-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.4
-head:   608465f798bb3eaf6773a49b893902860858e294
-commit: 0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f [59/93] arm64: dts: qcom: add IPQ5332 SoC and MI01.2 board support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230316/202303162002.jQMR3mY1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Andy,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on linus/master v6.3-rc2 next-20230316]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/regulator-s5m8767-Replace-of_gpio-h-with-what-indeed-is-used/20230316-200231
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20230316120113.86421-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] regulator: s5m8767: Replace of_gpio.h with what indeed is used
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303162117.0C6F17Nm-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git/commit/?id=0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f
-        git remote add qcom https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux
-        git fetch --no-tags qcom arm64-for-6.4
-        git checkout 0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f
+        # https://github.com/intel-lab-lkp/linux/commit/8e00ea5df88a02a09c2e6b669ebf3d1d7ead9adc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/regulator-s5m8767-Replace-of_gpio-h-with-what-indeed-is-used/20230316-200231
+        git checkout 8e00ea5df88a02a09c2e6b669ebf3d1d7ead9adc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303162002.jQMR3mY1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303162117.0C6F17Nm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/qcom/ipq5332-mi01.2.dts:10:
->> arch/arm64/boot/dts/qcom/ipq5332.dtsi:8:10: fatal error: dt-bindings/clock/qcom,ipq5332-gcc.h: No such file or directory
-       8 | #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   drivers/regulator/s5m8767.c: In function 's5m8767_pmic_dt_parse_dvs_gpio':
+>> drivers/regulator/s5m8767.c:492:24: error: implicit declaration of function 'of_get_named_gpio' [-Werror=implicit-function-declaration]
+     492 |                 gpio = of_get_named_gpio(pmic_np,
+         |                        ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +8 arch/arm64/boot/dts/qcom/ipq5332.dtsi
+vim +/of_get_named_gpio +492 drivers/regulator/s5m8767.c
 
-   > 8	#include <dt-bindings/clock/qcom,ipq5332-gcc.h>
-     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    10	
+ee1e0994ab1bd3 Krzysztof Kozlowski 2014-01-24  482  
+ee1e0994ab1bd3 Krzysztof Kozlowski 2014-01-24  483  
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  484  #ifdef CONFIG_OF
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  485  static int s5m8767_pmic_dt_parse_dvs_gpio(struct sec_pmic_dev *iodev,
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  486  			struct sec_platform_data *pdata,
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  487  			struct device_node *pmic_np)
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  488  {
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  489  	int i, gpio;
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  490  
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  491  	for (i = 0; i < 3; i++) {
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03 @492  		gpio = of_get_named_gpio(pmic_np,
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  493  					"s5m8767,pmic-buck-dvs-gpios", i);
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  494  		if (!gpio_is_valid(gpio)) {
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  495  			dev_err(iodev->dev, "invalid gpio[%d]: %d\n", i, gpio);
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  496  			return -EINVAL;
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  497  		}
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  498  		pdata->buck_gpios[i] = gpio;
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  499  	}
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  500  	return 0;
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  501  }
+26aec009f6b61c Amit Daniel Kachhap 2013-02-03  502  
 
 -- 
 0-DAY CI Kernel Test Service
