@@ -1,44 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D828B37C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 02:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FE037C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 03:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678935260; x=1710471260;
+  t=1678936529; x=1710472529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jO7ZKF0SMRgP44pxK/XBR8FWmntt3r6YB0sYJx3ToFY=;
-  b=GOpQv9FcP688+lC/5QOBOKj0DcyZlllLhLeknwj2RNA2AOH5lYij+eX8
-   TTqYVrGdIN0v0mBuyquQP5Dctc+uRAN12OqNwcUhHZN/xse7e2ZTtwcM6
-   H4UbkR5F2hQ12GmTEwB8ioh6DWKRE/iyRHP6DHI91jaRnj1wpt3Yor8XO
-   GCZ5uTCQHHYnzFkM9MAt/AuIZPx2k1HFHRBPTymOO4fnJiF5GjdznvW2A
-   NZcA72dUpJxpFjN2/El/XOvRpuVtSPWSPgVKXQaUvIz9/ZH9Ux66v4Jd5
-   enswbARehXinbut2zo34/iBk88gljtaFew/ksJiXHDmv8W4JhNi8MByMW
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="336565859"
+  bh=k7zP0fnKZDWTB6+Lh8ydVZUl//a+b2Hi6xGAT73/wJo=;
+  b=ZzTUzZzx4G8qQ97Aw9ZumrqoJrSMCxTkwTcXH8Jc5XDn5sD6JjXJHm6N
+   iipzlL6jHmz8vP7LiwH4Iczr+iBSOCtlQJqUI1aoA1lKcblEXpUOuSGDK
+   Rpxup9wAHO32q1DIzCMQX3Aommocs8RzwAcJ8lL8KDXY2B1l31IrG3/PO
+   7UIbiuqBP1ZgMKRy9nG4yjHSYh/a32yzM3btNX1db65SA6XFy01Y96puj
+   M9i5ksWqv7m+BvwFPFO65WmdHs1zR96489ZhiOLwLBWfOeq9bVmNbePFv
+   DD+ir4tOP898iiiyBlTy887dvJntALU9wjV/3Rofp2LU12GJ0Tgv4UHAI
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="365564618"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="336565859"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 19:54:20 -0700
+   d="scan'208";a="365564618"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 20:15:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="790092130"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="672972724"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="790092130"
+   d="scan'208";a="672972724"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2023 19:54:19 -0700
+  by orsmga007.jf.intel.com with ESMTP; 15 Mar 2023 20:15:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcdkw-0008GV-0u;
-	Thu, 16 Mar 2023 02:54:18 +0000
-Date: Thu, 16 Mar 2023 10:54:04 +0800
+	id 1pce5G-0008HD-2n;
+	Thu, 16 Mar 2023 03:15:18 +0000
+Date: Thu, 16 Mar 2023 11:14:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 9399/9999] arch/x86/kernel/smp.o: warning:
- objtool: sysvec_reboot()+0x4c: unreachable instruction
-Message-ID: <202303161032.qYNd8hr5-lkp@intel.com>
+To: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/pci/controller/pcie-rockchip-ep.c:302:13: error: 'mmc'
+ undeclared
+Message-ID: <202303161101.V2flmDMS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,66 +46,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   2ddbd0f967b34872290e0f98fae32b91b4de7b87
-commit: 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee [9399/9999] x86: Mark stop_this_cpu() __noreturn
-config: x86_64-randconfig-a001-20230313 (https://download.01.org/0day-ci/archive/20230316/202303161032.qYNd8hr5-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/PCI-endpoint-Automatically-create-a-function-specific-attributes-group/20230308-170657
+head:   7b6ed26025e4f5d5c353ad7f4f06e1c58643ceb1
+commit: f87a7257008e97aba171ff131f59060d9b7f7e87 PCI: rockchip: Add parameter check for RK3399 PCIe endpoint core set_msi()
+date:   8 days ago
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303161101.V2flmDMS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=54aa76ad5f0148ad54fc7ad42ad5a079bc12efee
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f87a7257008e97aba171ff131f59060d9b7f7e87
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Damien-Le-Moal/PCI-endpoint-Automatically-create-a-function-specific-attributes-group/20230308-170657
+        git checkout f87a7257008e97aba171ff131f59060d9b7f7e87
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161032.qYNd8hr5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161101.V2flmDMS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/smp.o: warning: objtool: sysvec_reboot()+0x4c: unreachable instruction
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_set_msi':
+>> drivers/pci/controller/pcie-rockchip-ep.c:302:13: error: 'mmc' undeclared (first use in this function)
+     302 |         if (mmc > 0x5) {
+         |             ^~~
+   drivers/pci/controller/pcie-rockchip-ep.c:302:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_probe':
+   drivers/pci/controller/pcie-rockchip-ep.c:543:13: warning: unused variable 'cfg' [-Wunused-variable]
+     543 |         u32 cfg;
+         |             ^~~
 
 
-objdump-func vmlinux.o sysvec_reboot:
-0000 0000000000002900 <sysvec_reboot>:
-0000     2900:	55                   	push   %rbp
-0001     2901:	48 89 e5             	mov    %rsp,%rbp
-0004     2904:	41 55                	push   %r13
-0006     2906:	41 54                	push   %r12
-0008     2908:	49 89 fc             	mov    %rdi,%r12
-000b     290b:	e8 00 00 00 00       	call   2910 <sysvec_reboot+0x10>	290c: R_X86_64_PLT32	irqentry_enter-0x4
-0010     2910:	41 f6 84 24 88 00 00 00 03 	testb  $0x3,0x88(%r12)
-0019     2919:	75 51                	jne    296c <sysvec_reboot+0x6c>
-001b     291b:	41 89 c5             	mov    %eax,%r13d
-001e     291e:	65 8a 05 00 00 00 00 	mov    %gs:0x0(%rip),%al        # 2925 <sysvec_reboot+0x25>	2921: R_X86_64_PC32	hardirq_stack_inuse-0x4
-0025     2925:	84 c0                	test   %al,%al
-0027     2927:	75 43                	jne    296c <sysvec_reboot+0x6c>
-0029     2929:	65 c6 05 00 00 00 00 01 	movb   $0x1,%gs:0x0(%rip)        # 2931 <sysvec_reboot+0x31>	292c: R_X86_64_PC32	hardirq_stack_inuse-0x5
-0031     2931:	65 4c 8b 1d 00 00 00 00 	mov    %gs:0x0(%rip),%r11        # 2939 <sysvec_reboot+0x39>	2935: R_X86_64_PC32	hardirq_stack_ptr-0x4
-0039     2939:	49 89 23             	mov    %rsp,(%r11)
-003c     293c:	4c 89 dc             	mov    %r11,%rsp
-003f     293f:	e8 00 00 00 00       	call   2944 <sysvec_reboot+0x44>	2940: R_X86_64_PLT32	irq_enter_rcu-0x4
-0044     2944:	4c 89 e7             	mov    %r12,%rdi
-0047     2947:	e8 00 00 00 00       	call   294c <sysvec_reboot+0x4c>	2948: R_X86_64_PC32	.text+0xbd27c
-004c     294c:	e8 00 00 00 00       	call   2951 <sysvec_reboot+0x51>	294d: R_X86_64_PLT32	irq_exit_rcu-0x4
-0051     2951:	5c                   	pop    %rsp
-0052     2952:	44 89 ee             	mov    %r13d,%esi
-0055     2955:	4c 89 e7             	mov    %r12,%rdi
-0058     2958:	65 c6 05 00 00 00 00 00 	movb   $0x0,%gs:0x0(%rip)        # 2960 <sysvec_reboot+0x60>	295b: R_X86_64_PC32	hardirq_stack_inuse-0x5
-0060     2960:	e8 00 00 00 00       	call   2965 <sysvec_reboot+0x65>	2961: R_X86_64_PLT32	irqentry_exit-0x4
-0065     2965:	41 5c                	pop    %r12
-0067     2967:	41 5d                	pop    %r13
-0069     2969:	5d                   	pop    %rbp
-006a     296a:	c3                   	ret
-006b     296b:	cc                   	int3
-006c     296c:	e8 00 00 00 00       	call   2971 <sysvec_reboot+0x71>	296d: R_X86_64_PLT32	irq_enter_rcu-0x4
-0071     2971:	4c 89 e7             	mov    %r12,%rdi
-0074     2974:	e8 00 00 00 00       	call   2979 <sysvec_reboot+0x79>	2975: R_X86_64_PC32	.text+0xbd27c
-0079     2979:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+vim +/mmc +302 drivers/pci/controller/pcie-rockchip-ep.c
+
+   289	
+   290	static int rockchip_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
+   291					    u8 multi_msg_cap)
+   292	{
+   293		struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
+   294		struct rockchip_pcie *rockchip = &ep->rockchip;
+   295		u32 flags;
+   296	
+   297		if (fn) {
+   298			dev_err(&epc->dev, "This endpoint controller only supports a single physical function\n");
+   299			return -EINVAL;
+   300		}
+   301	
+ > 302		if (mmc > 0x5) {
+   303			dev_err(&epc->dev, "Number of MSI IRQs cannot be more than 32\n");
+   304			return -EINVAL;
+   305		}
+   306	
+   307		flags = rockchip_pcie_read(rockchip,
+   308					   ROCKCHIP_PCIE_EP_FUNC_BASE(fn) +
+   309					   ROCKCHIP_PCIE_EP_MSI_CTRL_REG);
+   310		flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_MASK;
+   311		flags |=
+   312		   (multi_msg_cap << ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_OFFSET) |
+   313		   (PCI_MSI_FLAGS_64BIT << ROCKCHIP_PCIE_EP_MSI_FLAGS_OFFSET);
+   314		flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MASK_MSI_CAP;
+   315		rockchip_pcie_write(rockchip, flags,
+   316				    ROCKCHIP_PCIE_EP_FUNC_BASE(fn) +
+   317				    ROCKCHIP_PCIE_EP_MSI_CTRL_REG);
+   318		return 0;
+   319	}
+   320	
 
 -- 
 0-DAY CI Kernel Test Service
