@@ -1,57 +1,50 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B112376
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 04:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3783376;
+	Thu, 16 Mar 2023 04:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678941445; x=1710477445;
+  t=1678942045; x=1710478045;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rgl4ed1JC7vqgeVrdEh8septQp9vTsOYW6sEJJUN/mg=;
-  b=dFrWU7/1xEBtLQ7ZCbYh6xI/08DY4kkuehBbN/TTvFPazhK85p3WqgRk
-   50bbw6B5l4EGN2AWkM89zuR8N0Imde5ghf4U+pf6w/DlcoQpGqqFQIzEy
-   eJCuR5uCfuBFjaf6SPnucKs43jyRKJZEjFm6+S8uP0Mc8zusGV3IRATmT
-   4sVb9MgHqkYdux1Lo00IAiLZ6AQxiDw0QjfeIurNe2NoAImSQ31M4KW2j
-   0aaGwenCaaJEnPI/b4z4cEMCUJFDV/YMcQYOu5uyBN8j0C5p2cRi2cDtj
-   DRSGANACZOOmCgiGLjPdxO0AYmKgZEujCCvceUiuyfzP4C4qwvfaqEj1Y
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="340251290"
+  bh=OTKMO1yUHR8eFmXY+y8U27OXRlNvGqlxdrG28TwNNno=;
+  b=FGDZk/PUdxOHAOqOMIz7DnLDsgwP47cxL60EI4ZetrREMgm8XDv/uuCt
+   58hFGyEC1WhtuRUQvR8a9Zu8PwnEjLhOJnD/n5sjDhHtEm2S0akPWOhzX
+   kRv+uorLCO5m+YJLDZ6S4HodHYFKAr9x4sKMEM3zLAj/bLbKwPB/hju2y
+   BG5cj7Anx5AotZE3NKxnYStZ4mVuETBbkNAS5Sv7vor9+qWkVsYJDlGj7
+   /fR0ZYXazD4okyUhEb7tR1yLJ4nX6qv/aIYkEe2q42iLKsQcO9i7P8KLG
+   oMIjoh0/lvWWAaXWfNyzSSjEml6zlStO1gm+PtlgT4Czs+DBGt/iHh+aD
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="337906089"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="340251290"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 21:37:24 -0700
+   d="scan'208";a="337906089"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 21:47:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="823072788"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="629723573"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="823072788"
+   d="scan'208";a="629723573"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2023 21:37:20 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Mar 2023 21:47:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcfMd-0008IV-2j;
-	Thu, 16 Mar 2023 04:37:19 +0000
-Date: Thu, 16 Mar 2023 12:36:26 +0800
+	id 1pcfWK-0008Ih-1C;
+	Thu, 16 Mar 2023 04:47:20 +0000
+Date: Thu, 16 Mar 2023 12:46:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herve Codina via Alsa-devel <alsa-devel@alsa-project.org>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Derek Kiernan <derek.kiernan@xilinx.com>,
-	Dragan Cvetic <dragan.cvetic@xilinx.com>,
-	Arnd Bergmann <arnd@arndb.de>,
+To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256
- framer
-Message-ID: <202303161232.ujDKi8PQ-lkp@intel.com>
-References: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] extcon: usbc-tusb320: add usb_role_switch support
+Message-ID: <202303161221.vGdSsAr9-lkp@intel.com>
+References: <20230315220246.951213-2-alvin@pqrs.dk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,53 +53,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
+In-Reply-To: <20230315220246.951213-2-alvin@pqrs.dk>
 
-Hi Herve,
+Hi Alvin,
 
-Thank you for the patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on robh/for-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc2 next-20230315]
+[auto build test WARNING on chanwoo-extcon/extcon-next]
+[also build test WARNING on next-20230316]
+[cannot apply to linus/master v6.3-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/167888778959.26.12757990479414568225%40mailman-core.alsa-project.org
-patch subject: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256 framer
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161232.ujDKi8PQ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Alvin-ipraga/extcon-usbc-tusb320-add-usb_role_switch-support/20230316-060433
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-next
+patch link:    https://lore.kernel.org/r/20230315220246.951213-2-alvin%40pqrs.dk
+patch subject: [PATCH 2/2] extcon: usbc-tusb320: add usb_role_switch support
+config: i386-randconfig-a013-20230313 (https://download.01.org/0day-ci/archive/20230316/202303161221.vGdSsAr9-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/93791052da597151cddbe64bc3013d9fec19550f
+        # https://github.com/intel-lab-lkp/linux/commit/8ed7905410ebc9e2de0bd58d4cdd0a8225529f42
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
-        git checkout 93791052da597151cddbe64bc3013d9fec19550f
+        git fetch --no-tags linux-review Alvin-ipraga/extcon-usbc-tusb320-add-usb_role_switch-support/20230316-060433
+        git checkout 8ed7905410ebc9e2de0bd58d4cdd0a8225529f42
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/extcon/ fs/ksmbd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161232.ujDKi8PQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161221.vGdSsAr9-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
->> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/misc/pef2256.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-WARNING: modpost: suppressed 16 unresolved symbol warnings because there were too many)
+>> drivers/extcon/extcon-usbc-tusb320.c:280:26: warning: unused variable 'role_sw' [-Wunused-variable]
+           struct usb_role_switch *role_sw = priv->role_sw;
+                                   ^
+   1 warning generated.
+
+
+vim +/role_sw +280 drivers/extcon/extcon-usbc-tusb320.c
+
+   277	
+   278	static void tusb320_typec_irq_handler(struct tusb320_priv *priv, u8 reg9)
+   279	{
+ > 280		struct usb_role_switch *role_sw = priv->role_sw;
+   281		struct typec_port *port = priv->port;
+   282		struct device *dev = priv->dev;
+   283		int typec_mode;
+   284		enum usb_role usb_role;
+   285		enum typec_role pwr_role;
+   286		enum typec_data_role data_role;
+   287		u8 state, mode, accessory;
+   288		int ret, reg8;
+   289		bool ori;
+   290	
+   291		ret = regmap_read(priv->regmap, TUSB320_REG8, &reg8);
+   292		if (ret) {
+   293			dev_err(dev, "error during reg8 i2c read, ret=%d!\n", ret);
+   294			return;
+   295		}
+   296	
+   297		ori = reg9 & TUSB320_REG9_CABLE_DIRECTION;
+   298		typec_set_orientation(port, ori ? TYPEC_ORIENTATION_REVERSE :
+   299						  TYPEC_ORIENTATION_NORMAL);
+   300	
+   301		state = FIELD_GET(TUSB320_REG9_ATTACHED_STATE, reg9);
+   302		accessory = FIELD_GET(TUSB320_REG8_ACCESSORY_CONNECTED, reg8);
+   303	
+   304		switch (state) {
+   305		case TUSB320_ATTACHED_STATE_DFP:
+   306			typec_mode = TYPEC_MODE_USB2;
+   307			usb_role = USB_ROLE_HOST;
+   308			pwr_role = TYPEC_SOURCE;
+   309			data_role = TYPEC_HOST;
+   310			break;
+   311		case TUSB320_ATTACHED_STATE_UFP:
+   312			typec_mode = TYPEC_MODE_USB2;
+   313			usb_role = USB_ROLE_DEVICE;
+   314			pwr_role = TYPEC_SINK;
+   315			data_role = TYPEC_DEVICE;
+   316			break;
+   317		case TUSB320_ATTACHED_STATE_ACC:
+   318			/*
+   319			 * Accessory detected. For debug accessories, just make some
+   320			 * qualified guesses as to the role for lack of a better option.
+   321			 */
+   322			if (accessory == TUSB320_REG8_ACCESSORY_CONNECTED_AUDIO ||
+   323			    accessory == TUSB320_REG8_ACCESSORY_CONNECTED_ACHRG) {
+   324				typec_mode = TYPEC_MODE_AUDIO;
+   325				usb_role = USB_ROLE_NONE;
+   326				pwr_role = TYPEC_SINK;
+   327				data_role = TYPEC_DEVICE;
+   328				break;
+   329			} else if (accessory ==
+   330				   TUSB320_REG8_ACCESSORY_CONNECTED_DBGDFP) {
+   331				typec_mode = TYPEC_MODE_DEBUG;
+   332				pwr_role = TYPEC_SOURCE;
+   333				usb_role = USB_ROLE_HOST;
+   334				data_role = TYPEC_HOST;
+   335				break;
+   336			} else if (accessory ==
+   337				   TUSB320_REG8_ACCESSORY_CONNECTED_DBGUFP) {
+   338				typec_mode = TYPEC_MODE_DEBUG;
+   339				pwr_role = TYPEC_SINK;
+   340				usb_role = USB_ROLE_DEVICE;
+   341				data_role = TYPEC_DEVICE;
+   342				break;
+   343			}
+   344	
+   345			dev_warn(priv->dev, "unexpected ACCESSORY_CONNECTED state %d\n",
+   346				 accessory);
+   347	
+   348			fallthrough;
+   349		default:
+   350			typec_mode = TYPEC_MODE_USB2;
+   351			usb_role = USB_ROLE_NONE;
+   352			pwr_role = TYPEC_SINK;
+   353			data_role = TYPEC_DEVICE;
+   354			break;
+   355		}
+   356	
+   357		typec_set_vconn_role(port, pwr_role);
+   358		typec_set_pwr_role(port, pwr_role);
+   359		typec_set_data_role(port, data_role);
+   360		typec_set_mode(port, typec_mode);
+   361		usb_role_switch_set_role(priv->role_sw, usb_role);
+   362	
+   363		mode = FIELD_GET(TUSB320_REG8_CURRENT_MODE_DETECT, reg8);
+   364		if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_DEF)
+   365			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_USB);
+   366		else if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_MED)
+   367			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_1_5A);
+   368		else if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_HI)
+   369			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_3_0A);
+   370		else	/* Charge through accessory */
+   371			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_USB);
+   372	}
+   373	
 
 -- 
 0-DAY CI Kernel Test Service
