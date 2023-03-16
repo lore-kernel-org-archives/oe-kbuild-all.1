@@ -1,44 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A981C33CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 13:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5933CC;
+	Thu, 16 Mar 2023 14:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678975061; x=1710511061;
+  t=1678975734; x=1710511734;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s7hHsNvEy9sL2ZtKAMVyiclWXWrI1obFzENceJn78mw=;
-  b=JgLDVs3/2s6dPqFIx/MGCEZkHJFPN3D9WXqav6h8vLPuY0Vw9Gl6EXIj
-   zwKwJqeoTlowNXd/gqR8HgUEaURRt9Pj4e5WzKXtMteclgcuYd3Y2n7PW
-   iaIYC7hdwZ41CDvt3OcyaU8PGyWoh/Jhlj/8jvcegISXTZHSXGtYu0Q9A
-   bhw4ULNv3X5lDyOffDAIc982mYLFcQ0Cn99En16BGMqvU5QxpRvDlIy78
-   TdcdvthjZuvTimHan96Ambun8HzB/S5V4yduRg6LZrcWgyTibT9blMakP
-   uhNS8iOw7AINHVvLJpBhNjaXaOuGMpYdtWJoTr9iZ0syuRAUPq3oeVXgw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="335476340"
+  bh=st3XNtfhg5o86Dx/8Z5ncGm7eToP7n/Ee0w0PIniNPA=;
+  b=jdCAoAkdeOyX+jqUnffelLTZJfWgTHfg4w6FmlIjL8dHkd0jsA365B60
+   ci3vr5sd5UkCZOUgCt7KTo3YMgqyXMJcLI13Z6KBeL02U7Lam2RUULFAP
+   1P6MQldA7T7fzaO++DLebutI9gX4SHmZ5GAV6zbbtKDN9XcW39J27Sx3/
+   7ijJxl4r+C4n6r04LP+Hhf2ulRB+k/dZYf4HQXPCvZHd8x849Ypu4t3/p
+   IZ/PLcpbPipiizglGXkV7XdKCrkcv63C9EsjZ2D7oisQYZpkeR37AbTj6
+   egg8LlKLPwyyWnd+/Wpl55IGNkY8SWiIqvJ4Ll8zU5NJnZ3Af0Jma/D8s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318388080"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="335476340"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 06:57:32 -0700
+   d="scan'208";a="318388080"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 07:08:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="823253011"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="768964342"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="823253011"
+   d="scan'208";a="768964342"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2023 06:57:31 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2023 07:08:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pco6k-0008YQ-36;
-	Thu, 16 Mar 2023 13:57:30 +0000
-Date: Thu, 16 Mar 2023 21:57:16 +0800
+	id 1pcoHP-0008Yg-0d;
+	Thu, 16 Mar 2023 14:08:31 +0000
+Date: Thu, 16 Mar 2023 22:07:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 1/1] regulator: s5m8767: Replace of_gpio.h with what
- indeed is used
-Message-ID: <202303162117.0C6F17Nm-lkp@intel.com>
-References: <20230316120113.86421-1-andriy.shevchenko@linux.intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <202303162137.a6Y0CjU8-lkp@intel.com>
+References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +48,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316120113.86421-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 
-Hi Andy,
+Hi Khadija,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on linus/master v6.3-rc2 next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/regulator-s5m8767-Replace-of_gpio-h-with-what-indeed-is-used/20230316-200231
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20230316120113.86421-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] regulator: s5m8767: Replace of_gpio.h with what indeed is used
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303162117.0C6F17Nm-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
+patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303162137.a6Y0CjU8-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8e00ea5df88a02a09c2e6b669ebf3d1d7ead9adc
+        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/regulator-s5m8767-Replace-of_gpio-h-with-what-indeed-is-used/20230316-200231
-        git checkout 8e00ea5df88a02a09c2e6b669ebf3d1d7ead9adc
+        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303162117.0C6F17Nm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303162137.a6Y0CjU8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/regulator/s5m8767.c: In function 's5m8767_pmic_dt_parse_dvs_gpio':
->> drivers/regulator/s5m8767.c:492:24: error: implicit declaration of function 'of_get_named_gpio' [-Werror=implicit-function-declaration]
-     492 |                 gpio = of_get_named_gpio(pmic_np,
-         |                        ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/kernel.h:29,
+                    from drivers/staging/axis-fifo/axis-fifo.c:17:
+   drivers/staging/axis-fifo/axis-fifo.c: In function 'axis_fifo_init':
+>> include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
+     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+         |         ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
+     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+         |         ^~~~~~~
 
 
-vim +/of_get_named_gpio +492 drivers/regulator/s5m8767.c
+vim +5 include/linux/kern_levels.h
 
-ee1e0994ab1bd3 Krzysztof Kozlowski 2014-01-24  482  
-ee1e0994ab1bd3 Krzysztof Kozlowski 2014-01-24  483  
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  484  #ifdef CONFIG_OF
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  485  static int s5m8767_pmic_dt_parse_dvs_gpio(struct sec_pmic_dev *iodev,
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  486  			struct sec_platform_data *pdata,
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  487  			struct device_node *pmic_np)
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  488  {
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  489  	int i, gpio;
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  490  
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  491  	for (i = 0; i < 3; i++) {
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03 @492  		gpio = of_get_named_gpio(pmic_np,
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  493  					"s5m8767,pmic-buck-dvs-gpios", i);
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  494  		if (!gpio_is_valid(gpio)) {
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  495  			dev_err(iodev->dev, "invalid gpio[%d]: %d\n", i, gpio);
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  496  			return -EINVAL;
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  497  		}
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  498  		pdata->buck_gpios[i] = gpio;
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  499  	}
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  500  	return 0;
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  501  }
-26aec009f6b61c Amit Daniel Kachhap 2013-02-03  502  
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
