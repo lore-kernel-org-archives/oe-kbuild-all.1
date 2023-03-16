@@ -1,47 +1,43 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F5E364
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 12:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8E1323B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 12:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678970196; x=1710506196;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0VNdeGsSmFwWcpyMxSZKKLNkZhIZ+u3xoeNhoZCNaOc=;
-  b=IgVE+YKueaR5dIHkiXsGzecPNBtdQJMxUdP0ZM49qhM+0DJ7Xh7bL4XK
-   mZlRgVUHsYPiYTDnzVEOaK0OKVDgDoXp8rHKTxMenuQl+07JaPOjC5ZnX
-   NemFEE/E5AxEZkay22+1naLmjshb6BU9wEzSiajlXfUsy2fyNPmswk2kU
-   8nIZNmdyHQsW5CaLh70K3s6IgV/9BI5ozsfPAEO3Gd03kjXizF8f1c5h8
-   FNow5ELabIZerRdN7zkXo88hRrZcoRlvALvdXrJqQ3DIeizttiz97QiHK
-   W89JCf8FW/ahf3TUtvYE2gKt7NhFCUCweAtDZW+gz1UZn2KOrjDNDLiGc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="321810650"
+  t=1678971392; x=1710507392;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GOpEHvKiVWSWdvLi+F4Kkyvs0hPWD9/34qtln3LsbrI=;
+  b=L32WZxaY85vvi8EUGB8V8iGyYE9RP7HYArf864RrVZrcyNytons5IuJk
+   HaIvT6lJguF56YKw3OcpPIEQbtaMDClnV/80Aj3a/QQ0RheZZobdlckSU
+   Txf1P9XlX0ToPbD+NhyD0OEAp0wNVljXsk+tBQhzJZPAs2rQ0PKCRDunA
+   KuRLQwBMdryiQ+VRXDAgFs1Z2nxWXMqmIXnEr+Nqg8VedyBKOz81LvEvR
+   D5GmqrNTK6Zca7+o495VD/NmTBP80c1ixVFjpvGQGdzIYlXFLq4aXNtHB
+   UDDrCKSjdA5xhXE6pBX0g6PD8wYyD+4JP5+RNR3VxrYnQU+UwDbCRDlYg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="321814976"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="321810650"
+   d="scan'208";a="321814976"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 05:36:34 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 05:56:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="925761028"
+X-IronPort-AV: E=McAfee;i="6600,9927,10650"; a="925766793"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="925761028"
+   d="scan'208";a="925766793"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 05:36:30 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 05:56:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcmqL-0008W6-1e;
-	Thu, 16 Mar 2023 12:36:29 +0000
-Date: Thu, 16 Mar 2023 20:35:59 +0800
+	id 1pcn9h-0008Wa-2Y;
+	Thu, 16 Mar 2023 12:56:29 +0000
+Date: Thu, 16 Mar 2023 20:56:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org,
-	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v7 04/11] LSM: syscalls for current process attributes
-Message-ID: <202303162018.FY1iL9wN-lkp@intel.com>
-References: <20230315224704.2672-5-casey@schaufler-ca.com>
+To: Kathiravan T <quic_kathirav@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [qcom:arm64-for-6.4 59/93]
+ arch/arm64/boot/dts/qcom/ipq5332.dtsi:8:10: fatal error:
+ dt-bindings/clock/qcom,ipq5332-gcc.h: No such file or directory
+Message-ID: <202303162002.jQMR3mY1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,105 +46,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315224704.2672-5-casey@schaufler-ca.com>
 
-Hi Casey,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on shuah-kselftest/fixes linus/master v6.3-rc2]
-[cannot apply to tip/perf/core acme/perf/core next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230316-074751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230315224704.2672-5-casey%40schaufler-ca.com
-patch subject: [PATCH v7 04/11] LSM: syscalls for current process attributes
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303162018.FY1iL9wN-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.4
+head:   608465f798bb3eaf6773a49b893902860858e294
+commit: 0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f [59/93] arm64: dts: qcom: add IPQ5332 SoC and MI01.2 board support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230316/202303162002.jQMR3mY1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0883a93af669a6fcb80a9cc74737d5285a1c46ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230316-074751
-        git checkout 0883a93af669a6fcb80a9cc74737d5285a1c46ae
+        # https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git/commit/?id=0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f
+        git remote add qcom https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux
+        git fetch --no-tags qcom arm64-for-6.4
+        git checkout 0360f0ea8c0f67ec8a25c5ec89f044dbc66b5c5f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303162018.FY1iL9wN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303162002.jQMR3mY1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from security/lsm_syscalls.c:15:
->> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_lsm_set_self_attr'; have 'long int(unsigned int,  struct lsm_ctx *, size_t,  u32)' {aka 'long int(unsigned int,  struct lsm_ctx *, unsigned int,  unsigned int)'}
-     243 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:229:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     229 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:31:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-      31 | SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:1064:17: note: previous declaration of 'sys_lsm_set_self_attr' with type 'long int(unsigned int,  struct lsm_ctx *, __u64)' {aka 'long int(unsigned int,  struct lsm_ctx *, long long unsigned int)'}
-    1064 | asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_lsm_get_self_attr'; have 'long int(unsigned int,  struct lsm_ctx *, size_t *, u32)' {aka 'long int(unsigned int,  struct lsm_ctx *, unsigned int *, unsigned int)'}
-     243 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:229:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     229 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:51:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-      51 | SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:1062:17: note: previous declaration of 'sys_lsm_get_self_attr' with type 'long int(unsigned int,  struct lsm_ctx *, size_t *, __u64)' {aka 'long int(unsigned int,  struct lsm_ctx *, unsigned int *, long long unsigned int)'}
-    1062 | asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/boot/dts/qcom/ipq5332-mi01.2.dts:10:
+>> arch/arm64/boot/dts/qcom/ipq5332.dtsi:8:10: fatal error: dt-bindings/clock/qcom,ipq5332-gcc.h: No such file or directory
+       8 | #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +243 include/linux/syscalls.h
+vim +8 arch/arm64/boot/dts/qcom/ipq5332.dtsi
 
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  232  
-e145242ea0df6b Dominik Brodowski   2018-04-09  233  /*
-e145242ea0df6b Dominik Brodowski   2018-04-09  234   * The asmlinkage stub is aliased to a function named __se_sys_*() which
-e145242ea0df6b Dominik Brodowski   2018-04-09  235   * sign-extends 32-bit ints to longs whenever needed. The actual work is
-e145242ea0df6b Dominik Brodowski   2018-04-09  236   * done within __do_sys_*().
-e145242ea0df6b Dominik Brodowski   2018-04-09  237   */
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  238  #ifndef __SYSCALL_DEFINEx
-bed1ffca022cc8 Frederic Weisbecker 2009-03-13  239  #define __SYSCALL_DEFINEx(x, name, ...)					\
-bee20031772af3 Arnd Bergmann       2018-06-19  240  	__diag_push();							\
-bee20031772af3 Arnd Bergmann       2018-06-19  241  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
-bee20031772af3 Arnd Bergmann       2018-06-19  242  		      "Type aliasing is used to sanitize syscall arguments");\
-83460ec8dcac14 Andi Kleen          2013-11-12 @243  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  244  		__attribute__((alias(__stringify(__se_sys##name))));	\
-c9a211951c7c79 Howard McLauchlan   2018-03-21  245  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
-e145242ea0df6b Dominik Brodowski   2018-04-09  246  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-e145242ea0df6b Dominik Brodowski   2018-04-09  247  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  248  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-1a94bc34768e46 Heiko Carstens      2009-01-14  249  	{								\
-e145242ea0df6b Dominik Brodowski   2018-04-09  250  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-07fe6e00f6cca6 Al Viro             2013-01-21  251  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
-2cf0966683430b Al Viro             2013-01-21  252  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
-2cf0966683430b Al Viro             2013-01-21  253  		return ret;						\
-1a94bc34768e46 Heiko Carstens      2009-01-14  254  	}								\
-bee20031772af3 Arnd Bergmann       2018-06-19  255  	__diag_pop();							\
-e145242ea0df6b Dominik Brodowski   2018-04-09  256  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  257  #endif /* __SYSCALL_DEFINEx */
-1a94bc34768e46 Heiko Carstens      2009-01-14  258  
+   > 8	#include <dt-bindings/clock/qcom,ipq5332-gcc.h>
+     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
+    10	
 
 -- 
 0-DAY CI Kernel Test Service
