@@ -1,43 +1,41 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E49E37C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 02:13:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F332337C;
+	Thu, 16 Mar 2023 02:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678932800; x=1710468800;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4w3N0ZXf0bX5W4/Yzbp3dvW+PxeyaJiSYMntDqWBH6U=;
-  b=TCqXgTOp8VbZaTmaXVuRts3DGyfNqDrYQKMcnK0yha2bBZfPTK6ZnPyZ
-   Z2VhkmoIeuA4CnR9TtrckCgowykUzMBWh4R6RlH3lzo7G+1BBKSeq2aKh
-   WHwkBlWX3xyyRD9nYwO5fe2Fuxz/tqHOAhUbYDQUIbNQwvYL8EnZqwN0E
-   L90uXKR2pdPRLvnIRXgKmOhPPf0PtgTbJjrL06iNFmZWrqwIKplaF8vBB
-   uaQp21gqTe7nQDpAiNSRCZhZtZsQo861IcHvSwIkB3PO/huAiuzMha9CV
-   db6I96iHRoTP5gA2/+l9DyrHOgjsOkNImjgbWstbGEoXr8is4gaQsF5/N
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="365555416"
+  t=1678933459; x=1710469459;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=D0nY6BATEh+ajtPGqyCpQvrGLnMjiNv+AVMvsl1etDw=;
+  b=WOKzrLZ47pi59i/+srQc2Ru67SRShch/+vjOlUojMi0cVCTFibes2mHu
+   cyjj3mo2erYhImCVVQ0MheRCx1Mt71JQ228WkqJe9thWa/1uOsP2PDH9s
+   jvpI46CEl9r9T4Myfm7L1Q+JBOYJ3ThurMmFk1eKXDgbU8/u/ll8lAzJA
+   TjAIgvbZQGYxzQKahuNe5wfgThZ2R4cB1d+k9Om4flRqNVjSRC9uGGvH3
+   i7sYraUB1uiW1qZOXgq8SSG8YhW+shDMQv5QZNKTqN61s22QGebd1ZuIn
+   H4htVRpzjocqnxcOyj0rynEPPYVk+pvOfAv9SZcs8GikeVQE5ap22yFRs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="400446508"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="365555416"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 19:13:19 -0700
+   d="scan'208";a="400446508"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 19:24:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="768745364"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="743932031"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="768745364"
+   d="scan'208";a="743932031"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2023 19:13:18 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 15 Mar 2023 19:24:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcd7F-0008FH-1m;
-	Thu, 16 Mar 2023 02:13:17 +0000
-Date: Thu, 16 Mar 2023 10:13:10 +0800
+	id 1pcdHt-0008FX-27;
+	Thu, 16 Mar 2023 02:24:17 +0000
+Date: Thu, 16 Mar 2023 10:23:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-next 5/9] arch/x86/include/asm/pci.h:108:20: error:
- redefinition of 'pci_disable_early'
-Message-ID: <202303161057.zO7nRFCp-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [stable:linux-5.15.y 9399/9999] arch/x86/kernel/smp.o: warning:
+ objtool: sysvec_reboot()+0x43: unreachable instruction
+Message-ID: <202303161024.sBg5z9uA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +45,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-next
-head:   2e1127685f89b30a441346a6cb731e2a54013e7c
-commit: 50e3da113c473c65e33a73bac4d8d47f6654ffc7 [5/9] Merge remote-tracking branch 'origin/guest-hardening-disable-features' into guest-next
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230316/202303161057.zO7nRFCp-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Sasha Levin <sashal@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   2ddbd0f967b34872290e0f98fae32b91b4de7b87
+commit: 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee [9399/9999] x86: Mark stop_this_cpu() __noreturn
+config: x86_64-randconfig-a014-20230313 (https://download.01.org/0day-ci/archive/20230316/202303161024.sBg5z9uA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/50e3da113c473c65e33a73bac4d8d47f6654ffc7
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-next
-        git checkout 50e3da113c473c65e33a73bac4d8d47f6654ffc7
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=54aa76ad5f0148ad54fc7ad42ad5a079bc12efee
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kernel/cpu/mtrr/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161057.zO7nRFCp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161024.sBg5z9uA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/pci.h:1967,
-                    from arch/x86/kernel/cpu/mtrr/mtrr.c:44:
->> arch/x86/include/asm/pci.h:108:20: error: redefinition of 'pci_disable_early'
-     108 | static inline void pci_disable_early(void) { }
-         |                    ^~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/pci.h:100:20: note: previous definition of 'pci_disable_early' with type 'void(void)'
-     100 | static inline void pci_disable_early(void) { }
-         |                    ^~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/pci.h:109:20: error: redefinition of 'pci_disable_mmconf'
-     109 | static inline void pci_disable_mmconf(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/pci.h:101:20: note: previous definition of 'pci_disable_mmconf' with type 'void(void)'
-     101 | static inline void pci_disable_mmconf(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/smp.o: warning: objtool: sysvec_reboot()+0x43: unreachable instruction
 
 
-vim +/pci_disable_early +108 arch/x86/include/asm/pci.h
-
-f3e6f164c23898 include/asm-x86/pci.h      Greg Kroah-Hartman         2007-10-12  103  
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30  104  #ifdef CONFIG_PCI
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30  105  void pci_disable_early(void);
-276648eb824909 arch/x86/include/asm/pci.h Kuppuswamy Sathyanarayanan 2021-11-10  106  void pci_disable_mmconf(void);
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30  107  #else
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30 @108  static inline void pci_disable_early(void) { }
-276648eb824909 arch/x86/include/asm/pci.h Kuppuswamy Sathyanarayanan 2021-11-10 @109  static inline void pci_disable_mmconf(void) { }
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30  110  #endif
-236191ab4f4677 arch/x86/include/asm/pci.h Andi Kleen                 2021-06-30  111  
-
-:::::: The code at line 108 was first introduced by commit
-:::::: 236191ab4f46778b57e021b6efe07f08b0aa517d x86/tdx: Disable early PCI in TDX
-
-:::::: TO: Andi Kleen <ak@linux.intel.com>
-:::::: CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+objdump-func vmlinux.o sysvec_reboot:
+0000 0000000000001f7f <sysvec_reboot>:
+0000     1f7f:	55                   	push   %rbp
+0001     1f80:	53                   	push   %rbx
+0002     1f81:	48 89 fb             	mov    %rdi,%rbx
+0005     1f84:	e8 00 00 00 00       	call   1f89 <sysvec_reboot+0xa>	1f85: R_X86_64_PLT32	irqentry_enter-0x4
+000a     1f89:	f6 83 88 00 00 00 03 	testb  $0x3,0x88(%rbx)
+0011     1f90:	75 4c                	jne    1fde <sysvec_reboot+0x5f>
+0013     1f92:	89 c5                	mov    %eax,%ebp
+0015     1f94:	65 8a 05 00 00 00 00 	mov    %gs:0x0(%rip),%al        # 1f9b <sysvec_reboot+0x1c>	1f97: R_X86_64_PC32	hardirq_stack_inuse-0x4
+001c     1f9b:	84 c0                	test   %al,%al
+001e     1f9d:	75 3f                	jne    1fde <sysvec_reboot+0x5f>
+0020     1f9f:	65 c6 05 00 00 00 00 01 	movb   $0x1,%gs:0x0(%rip)        # 1fa7 <sysvec_reboot+0x28>	1fa2: R_X86_64_PC32	hardirq_stack_inuse-0x5
+0028     1fa7:	65 4c 8b 1d 00 00 00 00 	mov    %gs:0x0(%rip),%r11        # 1faf <sysvec_reboot+0x30>	1fab: R_X86_64_PC32	hardirq_stack_ptr-0x4
+0030     1faf:	49 89 23             	mov    %rsp,(%r11)
+0033     1fb2:	4c 89 dc             	mov    %r11,%rsp
+0036     1fb5:	e8 00 00 00 00       	call   1fba <sysvec_reboot+0x3b>	1fb6: R_X86_64_PLT32	irq_enter_rcu-0x4
+003b     1fba:	48 89 df             	mov    %rbx,%rdi
+003e     1fbd:	e8 00 00 00 00       	call   1fc2 <sysvec_reboot+0x43>	1fbe: R_X86_64_PLT32	.text+0xb0154
+0043     1fc2:	e8 00 00 00 00       	call   1fc7 <sysvec_reboot+0x48>	1fc3: R_X86_64_PLT32	irq_exit_rcu-0x4
+0048     1fc7:	5c                   	pop    %rsp
+0049     1fc8:	65 c6 05 00 00 00 00 00 	movb   $0x0,%gs:0x0(%rip)        # 1fd0 <sysvec_reboot+0x51>	1fcb: R_X86_64_PC32	hardirq_stack_inuse-0x5
+0051     1fd0:	40 0f b6 f5          	movzbl %bpl,%esi
+0055     1fd4:	48 89 df             	mov    %rbx,%rdi
+0058     1fd7:	5b                   	pop    %rbx
+0059     1fd8:	5d                   	pop    %rbp
+005a     1fd9:	e9 00 00 00 00       	jmp    1fde <sysvec_reboot+0x5f>	1fda: R_X86_64_PLT32	irqentry_exit-0x4
+005f     1fde:	e8 00 00 00 00       	call   1fe3 <sysvec_reboot+0x64>	1fdf: R_X86_64_PLT32	irq_enter_rcu-0x4
+0064     1fe3:	48 89 df             	mov    %rbx,%rdi
+0067     1fe6:	e8 00 00 00 00       	call   1feb <sysvec_reschedule_ipi>	1fe7: R_X86_64_PLT32	.text+0xb0154
 
 -- 
 0-DAY CI Kernel Test Service
