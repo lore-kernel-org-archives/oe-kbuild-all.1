@@ -1,46 +1,64 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5902574
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 09:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0378A2574
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 09:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678959210; x=1710495210;
+  t=1678959213; x=1710495213;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Es8gXpWFt4PFKee/2ySsCx37zzXpOdN7ikcR/wK0ZBA=;
-  b=TndH2+O0czRxu+TiDSHNSVxa4oGAD2TM91a0sxkX5jTawZp0nU+XpiyK
-   gAOOCAhSquzRMNFb+2EcppZDA9ol5clPVhxneDz8D8r/Le7XAZWF+RGcO
-   ZLBGJGyCepuN9tC7rvlKTpwXRsSPET/kklE38Y9IbL3KHJMrITV9QBITM
-   b93iYlBjhmxIs1dpec/8hP9jl2sviQKUajA0M526HVhutzyy3Ih3LFKUF
-   4GFEtJ7Gl+4fS9CQEhMyQTiTDO3HvpT8V+0niPf4AQL2Vk8GuNi8oJJxI
-   ebpXcfbXzXTJ3tJdqqpvUdSD9LSdrJ/3oImWnU7MZ+4vqKljAZBza5Luq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="339466432"
+  bh=vviP9jkscFvbPc1PciingGxOCazB42N7+7fnQuehKsk=;
+  b=U1WWYTDFSKZNFKEm0ibP9Jx8UjsTLQMpmVqrKzB7Gi8a89A/l6yzgewl
+   P52kbkNzmEgc2fiSU4k6PXibmDy+hkSjMRJVL6cp8ROElccutfN1PkGvs
+   JTda8GAmdsBt2TaX80Xvpwwz24U4JqtdK3eqBYLYORWh/IrB1FAVOpg+4
+   MoDtAZ/bc+WyoCHWlQB+DIHFLwUkFTTLxdcKHg9nhibY80VSYAtwLdqcG
+   d/6krdMtZTlmu1m/TjthFpFvQ+Ht46qtd80XxmsChxiXV3ny7GJimzdQL
+   Lgsk/ePssRsJaqP54+EvAlTZPflJp6dc69SaHeAx3bUyvhIDPminnKB+f
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="339466442"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="339466432"
+   d="scan'208";a="339466442"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 02:33:29 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 02:33:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="710026418"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="710026419"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="710026418"
+   d="scan'208";a="710026419"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 02:33:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcjzC-0008RU-0f;
+	id 1pcjzC-0008RS-0S;
 	Thu, 16 Mar 2023 09:33:26 +0000
-Date: Thu, 16 Mar 2023 17:32:41 +0800
+Date: Thu, 16 Mar 2023 17:32:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v2 3/6] mm: Add VM_FAULT_ARCH_* codes
-Message-ID: <202303161725.tJspbzJz-lkp@intel.com>
-References: <20230315030359.14162-4-palmer@rivosinc.com>
+To: Hao Zhang <quic_hazha@quicinc.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Konrad Dybcio <konradybcio@gmail.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hao Zhang <quic_hazha@quicinc.com>,
+	Leo Yan <leo.yan@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Tingwei Zhang <quic_tingweiz@quicinc.com>,
+	Jinlong Mao <quic_jinlmao@quicinc.com>,
+	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+	Tao Zhang <quic_taozha@quicinc.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] Coresight: Add coresight dummy driver
+Message-ID: <202303161702.oIkvUip5-lkp@intel.com>
+References: <20230316032005.6509-2-quic_hazha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,80 +67,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315030359.14162-4-palmer@rivosinc.com>
+In-Reply-To: <20230316032005.6509-2-quic_hazha@quicinc.com>
 
-Hi Palmer,
+Hi Hao,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.3-rc2 next-20230316]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Palmer-Dabbelt/riscv-mm-fault-simplify-code-for-do_page_fault/20230315-111507
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230315030359.14162-4-palmer%40rivosinc.com
-patch subject: [PATCH v2 3/6] mm: Add VM_FAULT_ARCH_* codes
-config: s390-randconfig-r044-20230312 (https://download.01.org/0day-ci/archive/20230316/202303161725.tJspbzJz-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Zhang/Coresight-Add-coresight-dummy-driver/20230316-112827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230316032005.6509-2-quic_hazha%40quicinc.com
+patch subject: [PATCH v1 1/3] Coresight: Add coresight dummy driver
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303161702.oIkvUip5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d25cdd69b804d954e31ad8835750a8707e11af32
+        # https://github.com/intel-lab-lkp/linux/commit/140cd28ed9031020826cfb5e62e80e28f7504895
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Palmer-Dabbelt/riscv-mm-fault-simplify-code-for-do_page_fault/20230315-111507
-        git checkout d25cdd69b804d954e31ad8835750a8707e11af32
+        git fetch --no-tags linux-review Hao-Zhang/Coresight-Add-coresight-dummy-driver/20230316-112827
+        git checkout 140cd28ed9031020826cfb5e62e80e28f7504895
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161725.tJspbzJz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161702.oIkvUip5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/fs_dax.h:286,
-                    from fs/dax.c:31:
-   include/trace/events/fs_dax.h: In function 'trace_raw_output_dax_pmd_fault_class':
->> include/trace/stages/stage3_trace_output.h:70:37: error: expected expression before ',' token
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/events/fs_dax.h:38:9: note: in expansion of macro 'TP_printk'
-      38 |         TP_printk("dev %d:%d ino %#lx %s %s address %#lx vm_start "
-         |         ^~~~~~~~~
-   include/trace/events/fs_dax.h:50:17: note: in expansion of macro '__print_flags'
-      50 |                 __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-         |                 ^~~~~~~~~~~~~
-   include/trace/events/fs_dax.h: In function 'trace_raw_output_dax_pte_fault_class':
->> include/trace/stages/stage3_trace_output.h:70:37: error: expected expression before ',' token
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/events/fs_dax.h:174:9: note: in expansion of macro 'TP_printk'
-     174 |         TP_printk("dev %d:%d ino %#lx %s %s address %#lx pgoff %#lx %s",
-         |         ^~~~~~~~~
-   include/trace/events/fs_dax.h:182:17: note: in expansion of macro '__print_flags'
-     182 |                 __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-         |                 ^~~~~~~~~~~~~
+>> drivers/hwtracing/coresight/coresight-dummy.c:163:12: warning: no previous prototype for 'dummy_init' [-Wmissing-prototypes]
+     163 | int __init dummy_init(void)
+         |            ^~~~~~~~~~
+>> drivers/hwtracing/coresight/coresight-dummy.c:169:13: warning: no previous prototype for 'dummy_exit' [-Wmissing-prototypes]
+     169 | void __exit dummy_exit(void)
+         |             ^~~~~~~~~~
 
 
-vim +70 include/trace/stages/stage3_trace_output.h
+vim +/dummy_init +163 drivers/hwtracing/coresight/coresight-dummy.c
 
-1bc191051dca28 include/trace/stages/stage3_defines.h Linus Torvalds          2022-03-23  65  
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  66) #undef __print_flags
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  67) #define __print_flags(flag, delim, flag_array...)			\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  68) 	({								\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  69) 		static const struct trace_print_flags __flags[] =	\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03 @70) 			{ flag_array, { -1, NULL }};			\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  71) 		trace_print_flags_seq(p, delim, flag, __flags);	\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  72) 	})
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  73) 
+   162	
+ > 163	int __init dummy_init(void)
+   164	{
+   165		return platform_driver_register(&dummy_driver);
+   166	}
+   167	module_init(dummy_init);
+   168	
+ > 169	void __exit dummy_exit(void)
+   170	{
+   171		platform_driver_unregister(&dummy_driver);
+   172	}
+   173	module_exit(dummy_exit);
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
