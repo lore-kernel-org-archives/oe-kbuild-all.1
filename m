@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E0D649
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 05:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189BF17CF;
+	Thu, 16 Mar 2023 07:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678946365; x=1710482365;
+  t=1678950026; x=1710486026;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DOkMIZf1mhyCo2lraTxx6Qr1NvK0kF0pXhiQOe0/4Do=;
-  b=aeM6F8EGMrsW3QVmrt3aWEteCDy6s9uatteRCM84RDZVl/N8l86qc70f
-   oS6QFxW7YE4C1ECP5plHmJx/93uKFvO1JSJhYWAT1X1ZqXmQqQ6wOx71J
-   lGMhFvuxIlu+VWg/jM4yJbI2l8Y0cMkt+BB8QWgIPr30xL7EF4xgLrxcM
-   EYXy+wzEACIutO608d+I7SiUY/rm9VLmbGGBjruP8nXESfw7wMrh1TnUn
-   gzvOJCzYhvr5qFeRIxERqh5khyybGAbigTguq1SA71EZ82bgUL+uqwkDn
-   o+6pjDoXy1KZX4IpIJYDVPqHDvxQp6lcIUQskMC3844qmGMhw95GgqOOx
+  bh=ZHIGD/BGcOCGdHI4J+LV7f5E8DEIn5mKG3Ix9Ltnh4o=;
+  b=Y05NlmMlhSvf3qKUp0cdhELUiE9h6RWuKZN85KoJ7X2v6XiLe21DKzjJ
+   omHti+6TQR/fxeahNLnWTaIFJG0PCZWxhjqKZSJ6EbTkq70+2CE3GFhLM
+   lUoZtxtRa6/9ldAbwxcLIbUJ00+6QRogR+U9Td78XAKezr78RJnJu9McH
+   d9ZDrqRJYijidzdajqVma7aOyR+c/wJ4vPM+NG4pAAsX9rGlzVshG8VzI
+   sQspvm0lQJYfF63IBQ2/5DLeg3fTD3sDBGgvSdfij93VHcy3Cfbzie2HU
+   6y90G6K9b1i9GRS3T3enwEd2zZSvK/tONb34qzQWSK6993hHlqafNs/ME
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="321739326"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="402779443"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="321739326"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 22:59:24 -0700
+   d="scan'208";a="402779443"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 00:00:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="682159678"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="709972636"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="682159678"
+   d="scan'208";a="709972636"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Mar 2023 22:59:23 -0700
+  by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 00:00:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcge2-0008M7-1u;
-	Thu, 16 Mar 2023 05:59:22 +0000
-Date: Thu, 16 Mar 2023 13:58:58 +0800
+	id 1pchb5-0008Na-28;
+	Thu, 16 Mar 2023 07:00:23 +0000
+Date: Thu, 16 Mar 2023 14:59:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rcuref 3/4] arch/alpha/include/asm/xchg.h:234:32:
- sparse: sparse: cast truncates bits from constant value (ffffffffe0000000
- becomes 0)
-Message-ID: <202303161336.weKSG97V-lkp@intel.com>
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:riscv_sbi_nested_v1 63/66]
+ arch/riscv/kvm/vcpu_switch.S:260:81: error: invalid reassignment of
+ non-absolute variable '.L__sym_size___kvm_riscv_switch_to'
+Message-ID: <202303161434.wymxY221-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,61 +47,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rcuref
-head:   b48867a9deae75963046e4cfc216d14e8740224f
-commit: c6ae5caf51cfb4e6ef3c606e079e4ffb669e1fbf [3/4] atomics: Provide rcuref - scalable reference counting
-config: alpha-randconfig-s043-20230312 (https://download.01.org/0day-ci/archive/20230316/202303161336.weKSG97V-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
+head:   40fabad953e9b049d3490f29e9c3eac00faf08b3
+commit: 444a752085c10f4fa2822e3c7d8baf445a7209be [63/66] RISC-V: KVM: Use SBI sync SRET call when available
+config: riscv-randconfig-r002-20230312 (https://download.01.org/0day-ci/archive/20230316/202303161434.wymxY221-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=c6ae5caf51cfb4e6ef3c606e079e4ffb669e1fbf
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel rcuref
-        git checkout c6ae5caf51cfb4e6ef3c606e079e4ffb669e1fbf
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/avpatel/linux/commit/444a752085c10f4fa2822e3c7d8baf445a7209be
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_sbi_nested_v1
+        git checkout 444a752085c10f4fa2822e3c7d8baf445a7209be
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161336.weKSG97V-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161434.wymxY221-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/rcuref.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
->> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0000000 becomes 0)
-   arch/alpha/include/asm/xchg.h:236:32: sparse: sparse: cast truncates bits from constant value (ffffffffe0000000 becomes 0)
+All errors (new ones prefixed by >>):
 
-vim +234 arch/alpha/include/asm/xchg.h
+>> arch/riscv/kvm/vcpu_switch.S:260:81: error: invalid reassignment of non-absolute variable '.L__sym_size___kvm_riscv_switch_to'
+   .type __kvm_riscv_switch_to STT_FUNC ; .set .L__sym_size___kvm_riscv_switch_to, .-__kvm_riscv_switch_to ; .size __kvm_riscv_switch_to, .L__sym_size___kvm_riscv_switch_to
+                                                                                   ^
 
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  227  
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  228  static __always_inline unsigned long
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  229  ____cmpxchg(, volatile void *ptr, unsigned long old, unsigned long new,
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  230  	      int size)
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  231  {
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  232  	switch (size) {
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  233  		case 1:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @234  			return ____cmpxchg(_u8, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  235  		case 2:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  236  			return ____cmpxchg(_u16, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  237  		case 4:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  238  			return ____cmpxchg(_u32, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  239  		case 8:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  240  			return ____cmpxchg(_u64, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  241  	}
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  242  	__cmpxchg_called_with_bad_pointer();
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  243  	return old;
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  244  }
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  245  
 
-:::::: The code at line 234 was first introduced by commit
-:::::: a6209d6d71f2ab8c63cc1587ef65490d83022baf alpha: xchg/cmpxchg cleanup and fixes
+vim +260 arch/riscv/kvm/vcpu_switch.S
 
-:::::: TO: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+444a752085c10f Anup Patel 2022-10-09  230  
+444a752085c10f Anup Patel 2022-10-09  231  	/*
+444a752085c10f Anup Patel 2022-10-09  232  	 * Parameters:
+444a752085c10f Anup Patel 2022-10-09  233  	 * A0 <= Pointer to struct kvm_vcpu_arch
+444a752085c10f Anup Patel 2022-10-09  234  	 * A1 <= SBI extension ID
+444a752085c10f Anup Patel 2022-10-09  235  	 * A2 <= SBI function ID
+444a752085c10f Anup Patel 2022-10-09  236  	 * A3 <= Flags for SBI sync SRET call
+444a752085c10f Anup Patel 2022-10-09  237  	 */
+444a752085c10f Anup Patel 2022-10-09  238  ENTRY(__kvm_riscv_nacl_switch_to)
+444a752085c10f Anup Patel 2022-10-09  239  	SAVE_HOST_GPRS
+444a752085c10f Anup Patel 2022-10-09  240  
+444a752085c10f Anup Patel 2022-10-09  241  	SAVE_HOST_AND_RESTORE_GUEST_CSRS __kvm_riscv_nacl_switch_to_return
+444a752085c10f Anup Patel 2022-10-09  242  
+444a752085c10f Anup Patel 2022-10-09  243  	/* Resume Guest using SBI nested acceleration */
+444a752085c10f Anup Patel 2022-10-09  244  	add	a0, a3, zero
+444a752085c10f Anup Patel 2022-10-09  245  	add	a6, a2, zero
+444a752085c10f Anup Patel 2022-10-09  246  	add	a7, a1, zero
+444a752085c10f Anup Patel 2022-10-09  247  	ecall
+444a752085c10f Anup Patel 2022-10-09  248  
+444a752085c10f Anup Patel 2022-10-09  249  	/* Back to Host */
+444a752085c10f Anup Patel 2022-10-09  250  	.align 2
+444a752085c10f Anup Patel 2022-10-09  251  __kvm_riscv_nacl_switch_to_return:
+444a752085c10f Anup Patel 2022-10-09  252  	SAVE_GUEST_GPRS
+444a752085c10f Anup Patel 2022-10-09  253  
+444a752085c10f Anup Patel 2022-10-09  254  	SAVE_GUEST_AND_RESTORE_HOST_CSRS
+444a752085c10f Anup Patel 2022-10-09  255  
+444a752085c10f Anup Patel 2022-10-09  256  	RESTORE_HOST_GPRS
+34bde9d8b9e6e5 Anup Patel 2021-09-27  257  
+34bde9d8b9e6e5 Anup Patel 2021-09-27  258  	/* Return to C code */
+34bde9d8b9e6e5 Anup Patel 2021-09-27  259  	ret
+34bde9d8b9e6e5 Anup Patel 2021-09-27 @260  ENDPROC(__kvm_riscv_switch_to)
+9f7013265112a9 Anup Patel 2021-09-27  261  
+
+:::::: The code at line 260 was first introduced by commit
+:::::: 34bde9d8b9e6e5249db3c07cf1ebfe75c23c671c RISC-V: KVM: Implement VCPU world-switch
+
+:::::: TO: Anup Patel <anup.patel@wdc.com>
+:::::: CC: Anup Patel <anup@brainfault.org>
 
 -- 
 0-DAY CI Kernel Test Service
