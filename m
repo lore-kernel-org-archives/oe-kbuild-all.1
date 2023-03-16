@@ -1,44 +1,57 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CCC37C;
-	Thu, 16 Mar 2023 04:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B112376
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 04:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678939521; x=1710475521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hpH6L+I/nEbsBP3kL+1fD0Z4aYVWtT5wrEZd2/6GUiQ=;
-  b=FFDt7k/HqKjr0StMrKax/bbbp86cvdFnphxxFBeMmnGls2HLZs/5HwD0
-   xh6MGnV9SGonAaURPvJZmbIp0t3/u/FybVZtXYpdQpbd5V3r/i//VBtKL
-   7I7lGTYlMGCg6S4pyV09+q7Ml+9+IoSl/MFytBwU6pUNMARWXl1kWMhlh
-   j65KbFMUEPmLZN45oWdxJdD7xGB7/5Xk/AE3Sm1nwJDFPVYBzWETihSn8
-   6QZH6blv8uK5P5QdiCLxk2Ujef9Xu/lDupG/QiSM+OhMwVztof5rF8wtW
-   Ah/K4DlX/CKo0LzB4hcYrmb/CKMX/uleMxb4dNppNKMpDyVpjWEUsu84U
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="317535894"
+  t=1678941445; x=1710477445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rgl4ed1JC7vqgeVrdEh8septQp9vTsOYW6sEJJUN/mg=;
+  b=dFrWU7/1xEBtLQ7ZCbYh6xI/08DY4kkuehBbN/TTvFPazhK85p3WqgRk
+   50bbw6B5l4EGN2AWkM89zuR8N0Imde5ghf4U+pf6w/DlcoQpGqqFQIzEy
+   eJCuR5uCfuBFjaf6SPnucKs43jyRKJZEjFm6+S8uP0Mc8zusGV3IRATmT
+   4sVb9MgHqkYdux1Lo00IAiLZ6AQxiDw0QjfeIurNe2NoAImSQ31M4KW2j
+   0aaGwenCaaJEnPI/b4z4cEMCUJFDV/YMcQYOu5uyBN8j0C5p2cRi2cDtj
+   DRSGANACZOOmCgiGLjPdxO0AYmKgZEujCCvceUiuyfzP4C4qwvfaqEj1Y
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="340251290"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="317535894"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 21:05:20 -0700
+   d="scan'208";a="340251290"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 21:37:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="790108656"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="823072788"
 X-IronPort-AV: E=Sophos;i="5.98,264,1673942400"; 
-   d="scan'208";a="790108656"
+   d="scan'208";a="823072788"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2023 21:05:19 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2023 21:37:20 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcerf-0008Hn-0q;
-	Thu, 16 Mar 2023 04:05:19 +0000
-Date: Thu, 16 Mar 2023 12:05:02 +0800
+	id 1pcfMd-0008IV-2j;
+	Thu, 16 Mar 2023 04:37:19 +0000
+Date: Thu, 16 Mar 2023 12:36:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 26/31]
- drivers/net/ethernet/mellanox/mlx4/intf.c:53:6: warning: no previous
- prototype for function 'is_eth_supported'
-Message-ID: <202303161132.FK0lyTWs-lkp@intel.com>
+To: Herve Codina via Alsa-devel <alsa-devel@alsa-project.org>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Derek Kiernan <derek.kiernan@xilinx.com>,
+	Dragan Cvetic <dragan.cvetic@xilinx.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256
+ framer
+Message-ID: <202303161232.ujDKi8PQ-lkp@intel.com>
+References: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,52 +60,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <167888778959.26.12757990479414568225@mailman-core.alsa-project.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   712b4584a71d7f86b5f870dae8ee6e5abd42971f
-commit: 49f2c235465534f179d6044a2c72f840ab0671ad [26/31] mlx4: Connect the ethernet part to the auxiliary bus
-config: i386-randconfig-a013-20230313 (https://download.01.org/0day-ci/archive/20230316/202303161132.FK0lyTWs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Herve,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on robh/for-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc2 next-20230315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/167888778959.26.12757990479414568225%40mailman-core.alsa-project.org
+patch subject: [PATCH 2/7] drivers: misc: Add support for the Lantiq PEF2256 framer
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161232.ujDKi8PQ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commit/?id=49f2c235465534f179d6044a2c72f840ab0671ad
-        git remote add leon-rdma https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git
-        git fetch --no-tags leon-rdma rdma-next
-        git checkout 49f2c235465534f179d6044a2c72f840ab0671ad
+        # https://github.com/intel-lab-lkp/linux/commit/93791052da597151cddbe64bc3013d9fec19550f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Herve-Codina-via-Alsa-devel/drivers-misc-Add-support-for-the-Lantiq-PEF2256-framer/20230315-214833
+        git checkout 93791052da597151cddbe64bc3013d9fec19550f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161132.FK0lyTWs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161232.ujDKi8PQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/ethernet/mellanox/mlx4/intf.c:53:6: warning: no previous prototype for function 'is_eth_supported' [-Wmissing-prototypes]
-   bool is_eth_supported(struct mlx4_dev *dev)
-        ^
-   drivers/net/ethernet/mellanox/mlx4/intf.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool is_eth_supported(struct mlx4_dev *dev)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/is_eth_supported +53 drivers/net/ethernet/mellanox/mlx4/intf.c
-
-    52	
-  > 53	bool is_eth_supported(struct mlx4_dev *dev)
-    54	{
-    55		for (int port = 1; port <= dev->caps.num_ports; port++)
-    56			if (dev->caps.port_type[port] == MLX4_PORT_TYPE_ETH)
-    57				return true;
-    58	
-    59		return false;
-    60	}
-    61	
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+>> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/misc/pef2256.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+WARNING: modpost: suppressed 16 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
