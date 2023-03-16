@@ -1,64 +1,53 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0378A2574
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 09:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FF528E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 09:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678959213; x=1710495213;
+  t=1678960413; x=1710496413;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vviP9jkscFvbPc1PciingGxOCazB42N7+7fnQuehKsk=;
-  b=U1WWYTDFSKZNFKEm0ibP9Jx8UjsTLQMpmVqrKzB7Gi8a89A/l6yzgewl
-   P52kbkNzmEgc2fiSU4k6PXibmDy+hkSjMRJVL6cp8ROElccutfN1PkGvs
-   JTda8GAmdsBt2TaX80Xvpwwz24U4JqtdK3eqBYLYORWh/IrB1FAVOpg+4
-   MoDtAZ/bc+WyoCHWlQB+DIHFLwUkFTTLxdcKHg9nhibY80VSYAtwLdqcG
-   d/6krdMtZTlmu1m/TjthFpFvQ+Ht46qtd80XxmsChxiXV3ny7GJimzdQL
-   Lgsk/ePssRsJaqP54+EvAlTZPflJp6dc69SaHeAx3bUyvhIDPminnKB+f
+  bh=YrRk+kQWpdZ+wI3PSipWf7W+koCn9M7Bp4aMjsiW2GY=;
+  b=aGLzrfiFyHl/oIJiOqfEHYecmXX1I75djJdMIFRYHyLfTWIW1ciW9SCE
+   SDm/enxm8xk3oGRG5aUL5j59ZPG/aWGDT3C397cbasVyEw0kjboNFJ14/
+   Fxwa1kPr8IlxbCKXXzLdgLXFtYyo4aCQUFSRdMm1F7Qyb1SDPT/soObEG
+   JhMeC+ip5wVi1gHIVp7gtTbNQLGzu0ZYvW+Ydupf7XOqU7mj27+QdVBRZ
+   KHDhCuBujn7EuctrF3A0XlvaRgl9RCS+/sPIVP+mgTq8pq8gVblMQdmR7
+   N8BRx/twY7xOU6EAz1+ASj7V5jlJUseS/OqL+pSm6UYS910aGjq5hgPYb
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="339466442"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="335425490"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="339466442"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 02:33:32 -0700
+   d="scan'208";a="335425490"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 02:53:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="710026419"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1009162153"
 X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="710026419"
+   d="scan'208";a="1009162153"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 02:33:26 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2023 02:53:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcjzC-0008RS-0S;
-	Thu, 16 Mar 2023 09:33:26 +0000
-Date: Thu, 16 Mar 2023 17:32:42 +0800
+	id 1pckIZ-0008Sc-0S;
+	Thu, 16 Mar 2023 09:53:27 +0000
+Date: Thu, 16 Mar 2023 17:53:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hao Zhang <quic_hazha@quicinc.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Konrad Dybcio <konradybcio@gmail.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hao Zhang <quic_hazha@quicinc.com>,
-	Leo Yan <leo.yan@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Tingwei Zhang <quic_tingweiz@quicinc.com>,
-	Jinlong Mao <quic_jinlmao@quicinc.com>,
-	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-	Tao Zhang <quic_taozha@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] Coresight: Add coresight dummy driver
-Message-ID: <202303161702.oIkvUip5-lkp@intel.com>
-References: <20230316032005.6509-2-quic_hazha@quicinc.com>
+To: Sui Jingfeng <15330273260@189.cn>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	suijingfeng <suijingfeng@loongson.cn>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian Koenig <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
+	Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display
+ controller
+Message-ID: <202303161727.8HnBf6cW-lkp@intel.com>
+References: <20230315211550.2620818-3-15330273260@189.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,65 +56,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316032005.6509-2-quic_hazha@quicinc.com>
+In-Reply-To: <20230315211550.2620818-3-15330273260@189.cn>
 
-Hi Hao,
+Hi Sui,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on robh/for-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
 [also build test WARNING on linus/master v6.3-rc2 next-20230316]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Zhang/Coresight-Add-coresight-dummy-driver/20230316-112827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230316032005.6509-2-quic_hazha%40quicinc.com
-patch subject: [PATCH v1 1/3] Coresight: Add coresight dummy driver
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303161702.oIkvUip5-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230315211550.2620818-3-15330273260%40189.cn
+patch subject: [PATCH v7 2/2] drm: add kms driver for loongson display controller
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161727.8HnBf6cW-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/140cd28ed9031020826cfb5e62e80e28f7504895
+        # https://github.com/intel-lab-lkp/linux/commit/ba899dba3475b9612f212e3b1daedc3d9a299458
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hao-Zhang/Coresight-Add-coresight-dummy-driver/20230316-112827
-        git checkout 140cd28ed9031020826cfb5e62e80e28f7504895
+        git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+        git checkout ba899dba3475b9612f212e3b1daedc3d9a299458
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161702.oIkvUip5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303161727.8HnBf6cW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-dummy.c:163:12: warning: no previous prototype for 'dummy_init' [-Wmissing-prototypes]
-     163 | int __init dummy_init(void)
-         |            ^~~~~~~~~~
->> drivers/hwtracing/coresight/coresight-dummy.c:169:13: warning: no previous prototype for 'dummy_exit' [-Wmissing-prototypes]
-     169 | void __exit dummy_exit(void)
-         |             ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_gem.c: In function 'lsdc_show_buffer_object':
+>> drivers/gpu/drm/loongson/lsdc_gem.c:280:51: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     280 |                 seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+         |                                                ~~~^
+         |                                                   |
+         |                                                   long unsigned int
+         |                                                %8u
+     281 |                            i,
+     282 |                            lsdc_bo_size(tbo) >> 10,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~ 
+         |                                              |
+         |                                              size_t {aka unsigned int}
 
 
-vim +/dummy_init +163 drivers/hwtracing/coresight/coresight-dummy.c
+vim +280 drivers/gpu/drm/loongson/lsdc_gem.c
 
-   162	
- > 163	int __init dummy_init(void)
-   164	{
-   165		return platform_driver_register(&dummy_driver);
-   166	}
-   167	module_init(dummy_init);
-   168	
- > 169	void __exit dummy_exit(void)
-   170	{
-   171		platform_driver_unregister(&dummy_driver);
-   172	}
-   173	module_exit(dummy_exit);
-   174	
+   264	
+   265	int lsdc_show_buffer_object(struct seq_file *m, void *arg)
+   266	{
+   267	#ifdef CONFIG_DEBUG_FS
+   268		struct drm_info_node *node = (struct drm_info_node *)m->private;
+   269		struct drm_device *ddev = node->minor->dev;
+   270		struct lsdc_device *ldev = to_lsdc(ddev);
+   271		struct lsdc_bo *lbo;
+   272		unsigned int i = 0;
+   273	
+   274		mutex_lock(&ldev->gem.mutex);
+   275	
+   276		list_for_each_entry(lbo, &ldev->gem.objects, list) {
+   277			struct ttm_buffer_object *tbo = &lbo->tbo;
+   278			struct ttm_resource *resource = tbo->resource;
+   279	
+ > 280			seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
 
 -- 
 0-DAY CI Kernel Test Service
