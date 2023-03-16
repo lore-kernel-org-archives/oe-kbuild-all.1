@@ -1,48 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603CDAD4E;
-	Thu, 16 Mar 2023 23:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C57BAD4E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 23:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679009390; x=1710545390;
+  t=1679010660; x=1710546660;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Rbr/g7dQDAdpmJSSKnIlY6nrlZaM5+D6RZogNiDirpg=;
-  b=gQjnWktty25ryLEaUk71GIpEH38F2AUx1BS2MLFPNDnl0XqtNB3NtFN7
-   ptpYB++JvnF14lH1bJ9rsv7yWEQETVK8ittQ0gkwG2AEVQRWdrTJu912r
-   wyxYrgVl3oJlbEe48ayudrby3i9ksb45Poqt3X9nrhr7R/bY/zsCEt/ZB
-   CG8M5+v2tx4fkXKD8p1K6CYEnbqN5kVbgr2ajTiXGSu8044Q0DFiSwqe5
-   HvvbXHinhDFBOpq2rscZjY+bZczEB+iU6pfi5EJGkB/+NVY1KU1xRA4rx
-   4DMVZeAUo6PdkgvsG0EF6nnj8aJ9Fztr40KJ3GZOSowf2KANmkBMidcln
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="326502865"
+  bh=HYh2yjwxxolCh/KcrNvRu0dI0MlLh3G+ulItT32xy3w=;
+  b=FUVum6YQGKHwAKpQadE57uHY8u8RFJxhdQU4zgFa1xealk9WWpvZxvs1
+   No5M9+ICkcdxUqyA5jNlusewVjXqb+yyk6d82sY4n1P8rQQVUssNklUw0
+   Z5DvPRm02n6hgeGTbhAqwdc4qOP4ksbmoXG49AyR+fRIin+3QZdLjNMHm
+   6HSUdSOlKLiNN/Ha8iIMHHJn6PI6FKLggOKdKY1ea6MphLDiD8N2WKREv
+   duWXkJd6f890QJLt/1xe20V9UVOaUZjGH1COfxgaULLfjoBHU2HUFW+Rf
+   txX+MwP2/p7yZ108HhGgakRpfD8ny9wd+CeVLkqfeHu5PoYYbDJr90J7d
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="317795083"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="326502865"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 16:29:49 -0700
+   d="scan'208";a="317795083"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 16:50:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="1009437979"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="657367445"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="1009437979"
+   d="scan'208";a="657367445"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2023 16:29:46 -0700
+  by orsmga006.jf.intel.com with ESMTP; 16 Mar 2023 16:50:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcx2Y-0008so-0Y;
-	Thu, 16 Mar 2023 23:29:46 +0000
-Date: Fri, 17 Mar 2023 07:29:34 +0800
+	id 1pcxMs-0008ta-26;
+	Thu, 16 Mar 2023 23:50:46 +0000
+Date: Fri, 17 Mar 2023 07:50:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com, sanyog.r.kale@intel.com,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 2/2] soundwire: bus: Update sdw_nread/nwrite_no_pm to
- handle page boundaries
-Message-ID: <202303170749.83Yd8Oh0-lkp@intel.com>
-References: <20230316155734.3191577-2-ckeepax@opensource.cirrus.com>
+To: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+	davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>,
+	Christian Brauner <brauner@kernel.org>, linux-arch@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] scm: add SO_PASSPIDFD and SCM_PIDFD
+Message-ID: <202303170733.ZQbJFE5x-lkp@intel.com>
+References: <20230316131526.283569-2-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,93 +54,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316155734.3191577-2-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20230316131526.283569-2-aleksandr.mikhalitsyn@canonical.com>
 
-Hi Charles,
+Hi Alexander,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc2 next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/soundwire-bus-Update-sdw_nread-nwrite_no_pm-to-handle-page-boundaries/20230317-000005
-patch link:    https://lore.kernel.org/r/20230316155734.3191577-2-ckeepax%40opensource.cirrus.com
-patch subject: [PATCH 2/2] soundwire: bus: Update sdw_nread/nwrite_no_pm to handle page boundaries
-config: i386-randconfig-a011-20230313 (https://download.01.org/0day-ci/archive/20230317/202303170749.83Yd8Oh0-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/scm-add-SO_PASSPIDFD-and-SCM_PIDFD/20230316-214315
+patch link:    https://lore.kernel.org/r/20230316131526.283569-2-aleksandr.mikhalitsyn%40canonical.com
+patch subject: [PATCH net-next 1/3] scm: add SO_PASSPIDFD and SCM_PIDFD
+config: s390-buildonly-randconfig-r002-20230312 (https://download.01.org/0day-ci/archive/20230317/202303170733.ZQbJFE5x-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6944d7175bd15a9a16a411c57f200d3bcecd3c00
+        # https://github.com/intel-lab-lkp/linux/commit/41687b4ae0dcef1fdffd656e533f9f35214043d0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Charles-Keepax/soundwire-bus-Update-sdw_nread-nwrite_no_pm-to-handle-page-boundaries/20230317-000005
-        git checkout 6944d7175bd15a9a16a411c57f200d3bcecd3c00
+        git fetch --no-tags linux-review Alexander-Mikhalitsyn/scm-add-SO_PASSPIDFD-and-SCM_PIDFD/20230316-214315
+        git checkout 41687b4ae0dcef1fdffd656e533f9f35214043d0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/soundwire/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170749.83Yd8Oh0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303170733.ZQbJFE5x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/soundwire/bus.c:398:10: warning: comparison of distinct pointer types ('typeof (count) *' (aka 'unsigned int *') and 'typeof ((((((int)(sizeof(struct (unnamed struct at drivers/soundwire/bus.c:398:10))))) + (((~(((0UL)))) - ((((1UL))) << (0)) + 1) & (~(((0UL))) >> (32 - 1 - (14))))) + 1) - (addr & ((((int)(sizeof(struct (unnamed struct at drivers/soundwire/bus.c:398:10))))) + (((~(((0UL)))) - ((((1UL))) << (0)) + 1) & (~(((0UL))) >> (32 - 1 - (14))))))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-                   size = min(count, (SDW_REGADDR + 1) - (addr & SDW_REGADDR));
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +398 drivers/soundwire/bus.c
-
-   384	
-   385	/*
-   386	 * Read/Write IO functions.
-   387	 */
-   388	
-   389	static int sdw_ntransfer_no_pm(struct sdw_slave *slave, u32 addr, u8 flags,
-   390				       size_t count, u8 *val)
-   391	{
-   392		struct sdw_msg msg;
-   393		size_t size;
-   394		int ret;
-   395	
-   396		while (count) {
-   397			// Only handle bytes up to next page boundary
- > 398			size = min(count, (SDW_REGADDR + 1) - (addr & SDW_REGADDR));
-   399	
-   400			ret = sdw_fill_msg(&msg, slave, addr, size, slave->dev_num, flags, val);
-   401			if (ret < 0)
-   402				return ret;
-   403	
-   404			ret = sdw_transfer(slave->bus, &msg);
-   405			if (ret < 0 && !slave->is_mockup_device)
-   406				return ret;
-   407	
-   408			addr += size;
-   409			val += size;
-   410			count -= size;
-   411		}
-   412	
-   413		return 0;
-   414	}
-   415	
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+>> ERROR: modpost: "pidfd_create" [net/unix/unix.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
