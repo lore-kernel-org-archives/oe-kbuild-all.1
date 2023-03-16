@@ -1,49 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF35191
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 00:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684C937A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Mar 2023 00:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678926677; x=1710462677;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tQjCpDdlBQOPYNMm3lvVMmFMiyKlXDKFGgNr7hy+Aoc=;
-  b=hmmVXinuxSHfQ7ak7PaQlHrcZN77OxWDKGXpeQ3Re6EBoO5hAv6Vg22Q
-   HIocIWoSHDD+h4TX3csbH/WXNzYXy7fioh8a8NBiUTI0QxCJN8Z1pl3MA
-   y0t+JA0MI5k3eZMwUQGqh8P12bh3Kc3NY8r43aQVz3TDazofVFfLlCrv/
-   I6ClO2Cjlui9pQUZVx/Emoz1kxyznpET2SCPaIqSXULIHCT0Rx9AtsNMp
-   5rIkjIvbVSpfaYuulVNal+nx/5UKxpPcm5N+ZertKhkcrMMBs/JrVkgGU
-   EDWIar1p3zHckoe90Mb7qWYddpTOhhfUmYL9zoLLrI1+wriUfk9XN32gy
+  t=1678927636; x=1710463636;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=k6y8x3QVhVMEFGgBzZkQgq8VEz6KEnSUj9UHzHObRUM=;
+  b=Hg/fwBtLPlXr+gRPxLExQdbUBbZNoOgOMFI1joUNIeT2hyKmgK1CFFQJ
+   E0yO/rv+uNZP3ltFOfEV0ndY3cCEkT3TVqQPz8WgVDFDOSLWWbbpb5/ql
+   Rmkd1MYEloEoscdpqq/gtA6sJUU00y+kDkO5e6bN07S9CpjyLFl3uZWdV
+   QlJgC5kIGAFHg5645vJqUWx3hNQ8BGZDSRsUtWjTqzfjTnmANMmXGDafs
+   JK4V29rzG4Y3b0X1H1IAbp70IbvJuksXThaKgPwG62lYbMQIkUZSSKmvU
+   WnLiLl1pKowv9XjSXNj7kA1CB3siRIyD981dCpVEbTs9u9XC3Ey17+t3r
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="336540964"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="400431449"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="336540964"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 17:31:16 -0700
+   d="scan'208";a="400431449"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 17:47:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="712126055"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1009026085"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="712126055"
+   d="scan'208";a="1009026085"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 15 Mar 2023 17:31:14 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 15 Mar 2023 17:47:14 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcbWT-00089a-1r;
-	Thu, 16 Mar 2023 00:31:13 +0000
-Date: Thu, 16 Mar 2023 08:30:59 +0800
+	id 1pcblx-0008AB-2Y;
+	Thu, 16 Mar 2023 00:47:13 +0000
+Date: Thu, 16 Mar 2023 08:46:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] extcon: usbc-tusb320: add usb_role_switch support
-Message-ID: <202303160838.j3Q18WnL-lkp@intel.com>
-References: <20230315220246.951213-2-alvin@pqrs.dk>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com
+Subject: [lkp] [+118 bytes kernel size regression] [i386-tinyconfig]
+ [6e6937ac88] fs: introduce lock_rename_child() helper
+Message-ID: <ZBJm/VySI5NOYpji@7948dbfe554b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,146 +46,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315220246.951213-2-alvin@pqrs.dk>
-
-Hi Alvin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on chanwoo-extcon/extcon-next]
-[cannot apply to linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alvin-ipraga/extcon-usbc-tusb320-add-usb_role_switch-support/20230316-060433
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-next
-patch link:    https://lore.kernel.org/r/20230315220246.951213-2-alvin%40pqrs.dk
-patch subject: [PATCH 2/2] extcon: usbc-tusb320: add usb_role_switch support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303160838.j3Q18WnL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/8ed7905410ebc9e2de0bd58d4cdd0a8225529f42
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alvin-ipraga/extcon-usbc-tusb320-add-usb_role_switch-support/20230316-060433
-        git checkout 8ed7905410ebc9e2de0bd58d4cdd0a8225529f42
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303160838.j3Q18WnL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/extcon/extcon-usbc-tusb320.c: In function 'tusb320_typec_irq_handler':
->> drivers/extcon/extcon-usbc-tusb320.c:280:33: warning: unused variable 'role_sw' [-Wunused-variable]
-     280 |         struct usb_role_switch *role_sw = priv->role_sw;
-         |                                 ^~~~~~~
+In-Reply-To: <20230315223435.5139-3-linkinjeon@kernel.org>
 
 
-vim +/role_sw +280 drivers/extcon/extcon-usbc-tusb320.c
+FYI, we noticed a +118 bytes kernel size regression due to commit:
 
-   277	
-   278	static void tusb320_typec_irq_handler(struct tusb320_priv *priv, u8 reg9)
-   279	{
- > 280		struct usb_role_switch *role_sw = priv->role_sw;
-   281		struct typec_port *port = priv->port;
-   282		struct device *dev = priv->dev;
-   283		int typec_mode;
-   284		enum usb_role usb_role;
-   285		enum typec_role pwr_role;
-   286		enum typec_data_role data_role;
-   287		u8 state, mode, accessory;
-   288		int ret, reg8;
-   289		bool ori;
-   290	
-   291		ret = regmap_read(priv->regmap, TUSB320_REG8, &reg8);
-   292		if (ret) {
-   293			dev_err(dev, "error during reg8 i2c read, ret=%d!\n", ret);
-   294			return;
-   295		}
-   296	
-   297		ori = reg9 & TUSB320_REG9_CABLE_DIRECTION;
-   298		typec_set_orientation(port, ori ? TYPEC_ORIENTATION_REVERSE :
-   299						  TYPEC_ORIENTATION_NORMAL);
-   300	
-   301		state = FIELD_GET(TUSB320_REG9_ATTACHED_STATE, reg9);
-   302		accessory = FIELD_GET(TUSB320_REG8_ACCESSORY_CONNECTED, reg8);
-   303	
-   304		switch (state) {
-   305		case TUSB320_ATTACHED_STATE_DFP:
-   306			typec_mode = TYPEC_MODE_USB2;
-   307			usb_role = USB_ROLE_HOST;
-   308			pwr_role = TYPEC_SOURCE;
-   309			data_role = TYPEC_HOST;
-   310			break;
-   311		case TUSB320_ATTACHED_STATE_UFP:
-   312			typec_mode = TYPEC_MODE_USB2;
-   313			usb_role = USB_ROLE_DEVICE;
-   314			pwr_role = TYPEC_SINK;
-   315			data_role = TYPEC_DEVICE;
-   316			break;
-   317		case TUSB320_ATTACHED_STATE_ACC:
-   318			/*
-   319			 * Accessory detected. For debug accessories, just make some
-   320			 * qualified guesses as to the role for lack of a better option.
-   321			 */
-   322			if (accessory == TUSB320_REG8_ACCESSORY_CONNECTED_AUDIO ||
-   323			    accessory == TUSB320_REG8_ACCESSORY_CONNECTED_ACHRG) {
-   324				typec_mode = TYPEC_MODE_AUDIO;
-   325				usb_role = USB_ROLE_NONE;
-   326				pwr_role = TYPEC_SINK;
-   327				data_role = TYPEC_DEVICE;
-   328				break;
-   329			} else if (accessory ==
-   330				   TUSB320_REG8_ACCESSORY_CONNECTED_DBGDFP) {
-   331				typec_mode = TYPEC_MODE_DEBUG;
-   332				pwr_role = TYPEC_SOURCE;
-   333				usb_role = USB_ROLE_HOST;
-   334				data_role = TYPEC_HOST;
-   335				break;
-   336			} else if (accessory ==
-   337				   TUSB320_REG8_ACCESSORY_CONNECTED_DBGUFP) {
-   338				typec_mode = TYPEC_MODE_DEBUG;
-   339				pwr_role = TYPEC_SINK;
-   340				usb_role = USB_ROLE_DEVICE;
-   341				data_role = TYPEC_DEVICE;
-   342				break;
-   343			}
-   344	
-   345			dev_warn(priv->dev, "unexpected ACCESSORY_CONNECTED state %d\n",
-   346				 accessory);
-   347	
-   348			fallthrough;
-   349		default:
-   350			typec_mode = TYPEC_MODE_USB2;
-   351			usb_role = USB_ROLE_NONE;
-   352			pwr_role = TYPEC_SINK;
-   353			data_role = TYPEC_DEVICE;
-   354			break;
-   355		}
-   356	
-   357		typec_set_vconn_role(port, pwr_role);
-   358		typec_set_pwr_role(port, pwr_role);
-   359		typec_set_data_role(port, data_role);
-   360		typec_set_mode(port, typec_mode);
-   361		usb_role_switch_set_role(priv->role_sw, usb_role);
-   362	
-   363		mode = FIELD_GET(TUSB320_REG8_CURRENT_MODE_DETECT, reg8);
-   364		if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_DEF)
-   365			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_USB);
-   366		else if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_MED)
-   367			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_1_5A);
-   368		else if (mode == TUSB320_REG8_CURRENT_MODE_DETECT_HI)
-   369			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_3_0A);
-   370		else	/* Charge through accessory */
-   371			typec_set_pwr_opmode(port, TYPEC_PWR_MODE_USB);
-   372	}
-   373	
+commit: 6e6937ac882828b632bbcecf35ce35d280a2b4fb (fs: introduce lock_rename_child() helper)
+url: https://github.com/intel-lab-lkp/linux/commits/Namjae-Jeon/ksmbd-remove-internal-h-include/20230316-063731
+base: https://git.kernel.org/cgit/linux/kernel/git/vfs/idmapping.git for-next
+patch link: https://lore.kernel.org/all/20230315223435.5139-3-linkinjeon@kernel.org/
+patch subject: [PATCH v8 2/3] fs: introduce lock_rename_child() helper
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
+
+2d2e9d60: ksmbd: remove internal.h include
+6e6937ac: fs: introduce lock_rename_child() helper
+
++---------------------------+----------+----------+-------+
+|          symbol           | 2d2e9d60 | 6e6937ac | delta |
++---------------------------+----------+----------+-------+
+| nm.T.lock_rename_child    | 0        | 98       | 98    |
+| nm.t.lock_two_directories | 0        | 77       | 77    |
+| bzImage                   | 501536   | 501600   | 64    |
+| nm.T.lock_rename          | 109      | 52       | -57   |
++---------------------------+----------+----------+-------+
+
+
+
+Thanks
+
+
