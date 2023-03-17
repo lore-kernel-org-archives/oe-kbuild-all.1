@@ -1,48 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC3B62D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 03:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9036E62D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 03:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679024158; x=1710560158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IHt4G0WAu2gSTDXf0Ktg9cVBi8lPEQATGOe4AJGToN8=;
-  b=XS26bdmuVuJHSjnQ0rPqYIAt588mHhA8CtIE4lilXqEz9+YZxMLxHiRh
-   KKhb5eUcBpwvbbHe9DXiqRdfL3IPoYj2fo1Fs4GcZuKG7cdzrTUB9yGDi
-   0/3kS8du8y5M/qZkDbFM0VKzzuhUg63c3fDHYoRRk4GvsvyqptywTcw8Y
-   nPAB5DcJ/6/uapx9Tgl4dZV4ojPXVkHBwVZ0VrPExYlUg+xbUCewHKk9d
-   cF2Rnux0VTA5+ni9GY9Z9Z+1rZPrPIRn+7oNV/wy79Fe1uIyH29yPCiqw
-   DhGUNW7Bt2LK1HtmGw4yTjguWHFAgXUF1K9QHOgUoQR4BQEJwEsBRix+i
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318567508"
+  t=1679025357; x=1710561357;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IVpPBm34pMV+LjVSdsPggQzH8UJLm/ibRoHhxkSyeAc=;
+  b=QJxMiz3Cg7gJrqQiUTjcf2p66lfibp7jYe2tEczxZNW+7CzXC1q+Aj2I
+   YWsnyI/XPJo1t+S0wH/LJDXRtpjZrdI88IUKwa7g3U+eEezshL1pIV7PH
+   VugAfq1ddYHN5T7n5RxKlf68dfvVxnApz4IR/1N8In3387bORYma3XrAr
+   qjJfJnqSESyGrHOh6zoTIIVPr11yB95Al6N3GiQT5cxJpvsV/eLyJgRPq
+   6jz4Jor2MZqr5qdjQ4lbAAA3Tkh1t+6llVGu7biT/qq80WmoFsAQ/namS
+   fDq3Win5y3ssf5+QDZEbbnBJv8StJxiRk2rEuxBx3pPN6jMzn+XEg6Hzs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="335665180"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="318567508"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 20:35:57 -0700
+   d="scan'208";a="335665180"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 20:55:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="926001442"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="749114558"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="926001442"
+   d="scan'208";a="749114558"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 20:35:54 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2023 20:55:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd0sj-00092s-2I;
-	Fri, 17 Mar 2023 03:35:53 +0000
-Date: Fri, 17 Mar 2023 11:35:24 +0800
+	id 1pd1C6-00093a-0m;
+	Fri, 17 Mar 2023 03:55:54 +0000
+Date: Fri, 17 Mar 2023 11:55:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald via Alsa-devel <alsa-devel@alsa-project.org>,
-	broonie@kernel.org, pierre-louis.bossart@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>
-Subject: Re: [PATCH v2 8/8] ASoC: cs35l56: Add driver for Cirrus Logic CS35L56
-Message-ID: <202303171105.3mGHjK8s-lkp@intel.com>
-References: <167872265923.26.336497278776737619@mailman-core.alsa-project.org>
+To: Avraham Stern <avraham.stern@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: [iwlwifi-next:pending 6/20] ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/net/wireless/intel/iwlwifi/mvm/iwlmvm.ko] undefined!
+Message-ID: <202303171120.dS0f5NIi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,153 +46,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <167872265923.26.336497278776737619@mailman-core.alsa-project.org>
 
-Hi Richard,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on linus/master v6.3-rc2 next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald-via-Alsa-devel/ASoC-wm_adsp-Use-no_core_startstop-to-prevent-creating-preload-control/20230313-235605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/167872265923.26.336497278776737619%40mailman-core.alsa-project.org
-patch subject: [PATCH v2 8/8] ASoC: cs35l56: Add driver for Cirrus Logic CS35L56
-config: x86_64-buildonly-randconfig-r004-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171105.3mGHjK8s-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git pending
+head:   95c0ef33f4a09287f7ded7a3c0f86daba8564b1a
+commit: 7a2b9c4760b2623c824fc3532320288805bf1574 [6/20] wifi: iwlwifi: mvm: implement PHC clock adjustments
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303171120.dS0f5NIi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/5856c94d659f9c9963f5c37762cf201e1f1765e9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Richard-Fitzgerald-via-Alsa-devel/ASoC-wm_adsp-Use-no_core_startstop-to-prevent-creating-preload-control/20230313-235605
-        git checkout 5856c94d659f9c9963f5c37762cf201e1f1765e9
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git/commit/?id=7a2b9c4760b2623c824fc3532320288805bf1574
+        git remote add iwlwifi-next https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git
+        git fetch --no-tags iwlwifi-next pending
+        git checkout 7a2b9c4760b2623c824fc3532320288805bf1574
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171105.3mGHjK8s-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171120.dS0f5NIi-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/platform/x86/serial-multi-instantiate.c: In function 'smi_spi_probe':
->> drivers/platform/x86/serial-multi-instantiate.c:98:15: error: implicit declaration of function 'acpi_spi_count_resources'; did you mean 'acpi_set_current_resources'? [-Werror=implicit-function-declaration]
-      98 |         ret = acpi_spi_count_resources(adev);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-         |               acpi_set_current_resources
->> drivers/platform/x86/serial-multi-instantiate.c:112:27: error: implicit declaration of function 'acpi_spi_device_alloc' [-Werror=implicit-function-declaration]
-     112 |                 spi_dev = acpi_spi_device_alloc(NULL, adev, i);
-         |                           ^~~~~~~~~~~~~~~~~~~~~
->> drivers/platform/x86/serial-multi-instantiate.c:112:25: warning: assignment to 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     112 |                 spi_dev = acpi_spi_device_alloc(NULL, adev, i);
-         |                         ^
->> drivers/platform/x86/serial-multi-instantiate.c:115:59: error: invalid use of undefined type 'struct acpi_device'
-     115 |                                             dev_name(&adev->dev));
-         |                                                           ^~
-   drivers/platform/x86/serial-multi-instantiate.c:137:53: error: invalid use of undefined type 'struct acpi_device'
-     137 |                                       dev_name(&adev->dev));
-         |                                                     ^~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE
-   Depends on [n]: X86_PLATFORM_DEVICES [=n] && I2C [=y] && SPI [=y] && ACPI [=n]
-   Selected by [y]:
-   - SND_SOC_CS35L56_I2C [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=y]
-   - SND_SOC_CS35L56_SPI [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SPI_MASTER [=y]
-
-
-vim +112 drivers/platform/x86/serial-multi-instantiate.c
-
-68f201f9061c000 Stefan Binding  2022-01-21   79  
-68f201f9061c000 Stefan Binding  2022-01-21   80  /**
-68f201f9061c000 Stefan Binding  2022-01-21   81   * smi_spi_probe - Instantiate multiple SPI devices from inst array
-68f201f9061c000 Stefan Binding  2022-01-21   82   * @pdev:	Platform device
-68f201f9061c000 Stefan Binding  2022-01-21   83   * @smi:	Internal struct for Serial multi instantiate driver
-68f201f9061c000 Stefan Binding  2022-01-21   84   * @inst_array:	Array of instances to probe
-68f201f9061c000 Stefan Binding  2022-01-21   85   *
-68f201f9061c000 Stefan Binding  2022-01-21   86   * Returns the number of SPI devices instantiate, Zero if none is found or a negative error code.
-68f201f9061c000 Stefan Binding  2022-01-21   87   */
-8b50c48d59a9cd0 Andy Shevchenko 2022-07-10   88  static int smi_spi_probe(struct platform_device *pdev, struct smi *smi,
-68f201f9061c000 Stefan Binding  2022-01-21   89  			 const struct smi_instance *inst_array)
-68f201f9061c000 Stefan Binding  2022-01-21   90  {
-68f201f9061c000 Stefan Binding  2022-01-21   91  	struct device *dev = &pdev->dev;
-8b50c48d59a9cd0 Andy Shevchenko 2022-07-10   92  	struct acpi_device *adev = ACPI_COMPANION(dev);
-68f201f9061c000 Stefan Binding  2022-01-21   93  	struct spi_controller *ctlr;
-68f201f9061c000 Stefan Binding  2022-01-21   94  	struct spi_device *spi_dev;
-68f201f9061c000 Stefan Binding  2022-01-21   95  	char name[50];
-68f201f9061c000 Stefan Binding  2022-01-21   96  	int i, ret, count;
-68f201f9061c000 Stefan Binding  2022-01-21   97  
-68f201f9061c000 Stefan Binding  2022-01-21  @98  	ret = acpi_spi_count_resources(adev);
-68f201f9061c000 Stefan Binding  2022-01-21   99  	if (ret < 0)
-68f201f9061c000 Stefan Binding  2022-01-21  100  		return ret;
-f3e13bbc6f5a84f Andy Shevchenko 2022-07-10  101  	if (!ret)
-2b5b27826a48eea Andy Shevchenko 2022-07-10  102  		return -ENOENT;
-68f201f9061c000 Stefan Binding  2022-01-21  103  
-68f201f9061c000 Stefan Binding  2022-01-21  104  	count = ret;
-68f201f9061c000 Stefan Binding  2022-01-21  105  
-68f201f9061c000 Stefan Binding  2022-01-21  106  	smi->spi_devs = devm_kcalloc(dev, count, sizeof(*smi->spi_devs), GFP_KERNEL);
-68f201f9061c000 Stefan Binding  2022-01-21  107  	if (!smi->spi_devs)
-68f201f9061c000 Stefan Binding  2022-01-21  108  		return -ENOMEM;
-68f201f9061c000 Stefan Binding  2022-01-21  109  
-68f201f9061c000 Stefan Binding  2022-01-21  110  	for (i = 0; i < count && inst_array[i].type; i++) {
-68f201f9061c000 Stefan Binding  2022-01-21  111  
-68f201f9061c000 Stefan Binding  2022-01-21 @112  		spi_dev = acpi_spi_device_alloc(NULL, adev, i);
-68f201f9061c000 Stefan Binding  2022-01-21  113  		if (IS_ERR(spi_dev)) {
-14a9aa99aca6c28 Andy Shevchenko 2022-07-10  114  			ret = dev_err_probe(dev, PTR_ERR(spi_dev), "failed to allocate SPI device %s from ACPI\n",
-14a9aa99aca6c28 Andy Shevchenko 2022-07-10 @115  					    dev_name(&adev->dev));
-68f201f9061c000 Stefan Binding  2022-01-21  116  			goto error;
-68f201f9061c000 Stefan Binding  2022-01-21  117  		}
-68f201f9061c000 Stefan Binding  2022-01-21  118  
-68f201f9061c000 Stefan Binding  2022-01-21  119  		ctlr = spi_dev->controller;
-68f201f9061c000 Stefan Binding  2022-01-21  120  
-68f201f9061c000 Stefan Binding  2022-01-21  121  		strscpy(spi_dev->modalias, inst_array[i].type, sizeof(spi_dev->modalias));
-68f201f9061c000 Stefan Binding  2022-01-21  122  
-68f201f9061c000 Stefan Binding  2022-01-21  123  		ret = smi_get_irq(pdev, adev, &inst_array[i]);
-68f201f9061c000 Stefan Binding  2022-01-21  124  		if (ret < 0) {
-68f201f9061c000 Stefan Binding  2022-01-21  125  			spi_dev_put(spi_dev);
-68f201f9061c000 Stefan Binding  2022-01-21  126  			goto error;
-68f201f9061c000 Stefan Binding  2022-01-21  127  		}
-68f201f9061c000 Stefan Binding  2022-01-21  128  		spi_dev->irq = ret;
-68f201f9061c000 Stefan Binding  2022-01-21  129  
-68f201f9061c000 Stefan Binding  2022-01-21  130  		snprintf(name, sizeof(name), "%s-%s-%s.%d", dev_name(&ctlr->dev), dev_name(dev),
-68f201f9061c000 Stefan Binding  2022-01-21  131  			 inst_array[i].type, i);
-68f201f9061c000 Stefan Binding  2022-01-21  132  		spi_dev->dev.init_name = name;
-68f201f9061c000 Stefan Binding  2022-01-21  133  
-68f201f9061c000 Stefan Binding  2022-01-21  134  		ret = spi_add_device(spi_dev);
-68f201f9061c000 Stefan Binding  2022-01-21  135  		if (ret) {
-14a9aa99aca6c28 Andy Shevchenko 2022-07-10  136  			dev_err_probe(&ctlr->dev, ret, "failed to add SPI device %s from ACPI\n",
-14a9aa99aca6c28 Andy Shevchenko 2022-07-10  137  				      dev_name(&adev->dev));
-68f201f9061c000 Stefan Binding  2022-01-21  138  			spi_dev_put(spi_dev);
-68f201f9061c000 Stefan Binding  2022-01-21  139  			goto error;
-68f201f9061c000 Stefan Binding  2022-01-21  140  		}
-68f201f9061c000 Stefan Binding  2022-01-21  141  
-68f201f9061c000 Stefan Binding  2022-01-21  142  		dev_dbg(dev, "SPI device %s using chip select %u", name, spi_dev->chip_select);
-68f201f9061c000 Stefan Binding  2022-01-21  143  
-68f201f9061c000 Stefan Binding  2022-01-21  144  		smi->spi_devs[i] = spi_dev;
-68f201f9061c000 Stefan Binding  2022-01-21  145  		smi->spi_num++;
-68f201f9061c000 Stefan Binding  2022-01-21  146  	}
-68f201f9061c000 Stefan Binding  2022-01-21  147  
-68f201f9061c000 Stefan Binding  2022-01-21  148  	if (smi->spi_num < count) {
-68f201f9061c000 Stefan Binding  2022-01-21  149  		dev_dbg(dev, "Error finding driver, idx %d\n", i);
-68f201f9061c000 Stefan Binding  2022-01-21  150  		ret = -ENODEV;
-68f201f9061c000 Stefan Binding  2022-01-21  151  		goto error;
-68f201f9061c000 Stefan Binding  2022-01-21  152  	}
-68f201f9061c000 Stefan Binding  2022-01-21  153  
-68f201f9061c000 Stefan Binding  2022-01-21  154  	dev_info(dev, "Instantiated %d SPI devices.\n", smi->spi_num);
-68f201f9061c000 Stefan Binding  2022-01-21  155  
-68f201f9061c000 Stefan Binding  2022-01-21  156  	return 0;
-68f201f9061c000 Stefan Binding  2022-01-21  157  error:
-68f201f9061c000 Stefan Binding  2022-01-21  158  	smi_devs_unregister(smi);
-68f201f9061c000 Stefan Binding  2022-01-21  159  
-68f201f9061c000 Stefan Binding  2022-01-21  160  	return ret;
-35a36cbb7b1ce75 Lucas Tanure    2022-01-21  161  }
-35a36cbb7b1ce75 Lucas Tanure    2022-01-21  162  
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/net/wireless/intel/iwlwifi/mvm/iwlmvm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
