@@ -1,45 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B1C1FBD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 09:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F682577;
+	Fri, 17 Mar 2023 10:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679047026; x=1710583026;
+  t=1679048887; x=1710584887;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hoVHF5Bcw+l9VWLKnSvHM1eA+V1JoChLir7f99Arapw=;
-  b=jdBYHt/7JsMG67Y8lNC2i92s39ECOnirYFEdV2AioYNVY1cc/+72+q79
-   9HAKLFogdajQ8DdjWg56v+X4rk4ofGpyN+UpRN6SFQB9iPd3FDu4LPOTw
-   r1J4SVCC0qDfRBJ7w43kksy7XgBkUk1XQytkOGiDtJwxaqy7UVS9pTm0H
-   gnJ6ze1mp6RGu/qfA5RfqBaEEDn/1XT2TPTsKKnxSRAcSGLhejRphDXi1
-   x4UVq8BIl+ifdUZsK2qMP3XZTNOTYxq8aBTBtxjWVop6qq7d//7uu08zY
-   Jb8LR9xBlYRCRJhN+luN77IKqpSkkeYqwxL7hXRSuxfSrc1kT2ky5+t0z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="340589322"
+  bh=G5DNTuDv3tUNoyk9z9iVWAj0/1fS2QPU9VfLFMhWOuY=;
+  b=nQmMItusmJhdRppSH4rcBRQKn/sNK4DWoePaeVHSwd8zVWdYecU5nLnn
+   W6HbyCHOxccBYzqMFSXZtQNnoRK4mMTKSrBzDvRCkGpHdok52WPxGpzIC
+   9RV0W0CmzXn8pmzwIMS8U33YaMTcCbrJJSTJbFXL9F+tthsvApq9IbGmR
+   Sm/+ifzPS438rORXGk21rFTYGOHxMupoATbHgrf4PYrzIXRcBJ7jq5Xg1
+   eBSDQ1iHYa3gk6nPv+F7hJUaucW54D6INnBxZDEXBngHe+AlL9HV5TOi8
+   za5BOJHu3CCvzAShdrdsB4pumIfnnCdzLhZEvb3g8nkb7iCAUVebfY8Cl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="424502820"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="340589322"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 02:57:05 -0700
+   d="scan'208";a="424502820"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 03:28:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="682626481"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="680259240"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="682626481"
+   d="scan'208";a="680259240"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Mar 2023 02:57:04 -0700
+  by orsmga002.jf.intel.com with ESMTP; 17 Mar 2023 03:28:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd6pb-0009H4-2O;
-	Fri, 17 Mar 2023 09:57:03 +0000
-Date: Fri, 17 Mar 2023 17:57:01 +0800
+	id 1pd7Jc-0009I4-1L;
+	Fri, 17 Mar 2023 10:28:04 +0000
+Date: Fri, 17 Mar 2023 18:27:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: ChiYuan Huang <cy_huang@richtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, Alice Chen <alice_chen@richtek.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: [lee-leds:for-leds-next 13/15]
- drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit declaration of
- function 'FIELD_GET'
-Message-ID: <202303171729.CcgyFx17-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split-pointless-c13
+ 11/31] arch/hexagon/include/asm/page.h:139:19: error: invalid operands to
+ binary expression ('void *' and 'int')
+Message-ID: <202303171822.005KzVII-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,63 +47,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
-commit: 55a8a5c16eb37e7723244337af04388557f4fa2f [13/15] leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303171729.CcgyFx17-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Linus,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split-pointless-c13
+head:   961fd7e75191ae82383f80c1dfd97559f14965b8
+commit: 00b68620a99582d03ba1c5430d474963f31b575e [11/31] Hexagon: Make pfn accessors statics inlines
+config: hexagon-randconfig-r041-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171822.005KzVII-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?id=55a8a5c16eb37e7723244337af04388557f4fa2f
-        git remote add lee-leds https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git
-        git fetch --no-tags lee-leds for-leds-next
-        git checkout 55a8a5c16eb37e7723244337af04388557f4fa2f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=00b68620a99582d03ba1c5430d474963f31b575e
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator kernel-in-vmalloc-v6.2-rc3-just-ttbr0-split-pointless-c13
+        git checkout 00b68620a99582d03ba1c5430d474963f31b575e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/leds/rgb/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171729.CcgyFx17-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171822.005KzVII-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/leds/rgb/leds-mt6370-rgb.c: In function 'mt6370_check_vendor_info':
->> drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     889 |         vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
-         |               ^~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:14:
+   In file included from include/linux/sem.h:5:
+   In file included from include/uapi/linux/sem.h:5:
+   In file included from include/linux/ipc.h:5:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/hexagon/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/hexagon/include/asm/thread_info.h:16:
+>> arch/hexagon/include/asm/page.h:139:19: error: invalid operands to binary expression ('void *' and 'int')
+           return __va(pfn) << PAGE_SHIFT;
+                  ~~~~~~~~~ ^  ~~~~~~~~~~
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigorsets, _sig_or)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:137:8: note: expanded from macro '_SIG_SET_BINOP'
+                   a3 = a->sig[3]; a2 = a->sig[2];                         \
+                        ^      ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:156:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigorsets, _sig_or)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:137:24: note: expanded from macro '_SIG_SET_BINOP'
+                   a3 = a->sig[3]; a2 = a->sig[2];                         \
 
 
-vim +/FIELD_GET +889 drivers/leds/rgb/leds-mt6370-rgb.c
+vim +139 arch/hexagon/include/asm/page.h
 
-   879	
-   880	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-   881	{
-   882		unsigned int devinfo, vid;
-   883		int ret;
-   884	
-   885		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
-   886		if (ret)
-   887			return ret;
-   888	
- > 889		vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
-   890		if (vid == MT6372_VENDOR_ID || vid == MT6372C_VENDOR_ID) {
-   891			priv->reg_fields = mt6372_reg_fields;
-   892			priv->ranges = mt6372_led_ranges;
-   893			priv->pdata = &mt6372_pdata;
-   894		} else {
-   895			/* Common for MT6370/71 */
-   896			priv->reg_fields = common_reg_fields;
-   897			priv->ranges = common_led_ranges;
-   898			priv->pdata = &common_pdata;
-   899		}
-   900	
-   901		return 0;
-   902	}
-   903	
+   136	
+   137	static inline void * pfn_to_virt(unsigned long pfn)
+   138	{
+ > 139		return __va(pfn) << PAGE_SHIFT;
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
