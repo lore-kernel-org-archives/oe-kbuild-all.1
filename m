@@ -1,172 +1,153 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8EE377
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 01:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679017432; x=1710553432;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xgb+a0rwTD3inuNxFx9eQL4OANTkslQlWbXNbnZWmAA=;
-  b=ir/lk2PewWiOKAgptVnu+DjM8IgyI8gmMqPtyhuOPvGOMMahq5MtsJe0
-   4FHr58jb3AqEXFfKTC94ISahgswoueUnmeWtNBsLZyeANZMnbmkGAcIQ3
-   7lOOpxjWWXQq6ejzJMABqhPEXDlhtqjTdPaepI4pC8+NC/npxxGXw8okb
-   QkE5nYukKPGYfErvcg5EQQGdY49MXv9fFRvzZzoy/FMNQ23YHYWjk+DLq
-   +w14s0QRJz0MsXAnf1yld28Mm++T2SQb/pD5DNfKhdSSPQjPos/ey2N1d
-   4iqYZMsbwHCretZRTAqAe9Ng2dPvlCfEY51ppelbNd5IlrsQXANJrlvHz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="338173018"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="338173018"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 18:43:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="925979098"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="925979098"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 18:43:50 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pcz8I-0008xe-15;
-	Fri, 17 Mar 2023 01:43:50 +0000
-Date: Fri, 17 Mar 2023 09:43:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/cpu-test 3/3] drivers/thermal/cpuidle_cooling.c:201:15:
- error: implicit declaration of function 'get_cpu_device'; did you mean
- 'get_device'?
-Message-ID: <202303170930.g8akm3wP-lkp@intel.com>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C4B377
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 02:19:13 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+	by gateway (Coremail) with SMTP id _____8Dx_5cfzhNkaTINAA--.19317S3;
+	Fri, 17 Mar 2023 10:19:11 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxoOQXzhNk8BADAA--.14729S3;
+	Fri, 17 Mar 2023 10:19:03 +0800 (CST)
+Message-ID: <d8c7df2e-b170-7287-437a-b70778c43a3d@loongson.cn>
+Date: Fri, 17 Mar 2023 10:19:03 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display
+ controller
+To: kernel test robot <lkp@intel.com>, Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
+ Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20230315211550.2620818-3-15330273260@189.cn>
+ <202303161727.8HnBf6cW-lkp@intel.com>
+Content-Language: en-US
+From: Sui jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <202303161727.8HnBf6cW-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxoOQXzhNk8BADAA--.14729S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWw4DAFWkZw1UKF4rJr13Jwb_yoWrWryxpa
+	1Yka9xKrW8Xr48GaykGa97Ca4aqan5X34UXryUGw15Z3ZFvFWqgr1I9FWY9rsrKFn7KFW2
+	yrZ3uF1kWFnrZaDanT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+	1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+	x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+	n4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+	ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+	87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+	AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+	s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI
+	8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+	IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+	jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUUU==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/cpu-test
-head:   ae7627e0dd2bed9915a4c4033ba36c5fc48c2c0e
-commit: ae7627e0dd2bed9915a4c4033ba36c5fc48c2c0e [3/3] of: Drop cpu.h include from of_device.h
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303170930.g8akm3wP-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=ae7627e0dd2bed9915a4c4033ba36c5fc48c2c0e
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/cpu-test
-        git checkout ae7627e0dd2bed9915a4c4033ba36c5fc48c2c0e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/thermal/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170930.g8akm3wP-lkp@intel.com/
+On 2023/3/16 17:53, kernel test robot wrote:
+> Hi Sui,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on drm-misc/drm-misc-next]
+> [also build test WARNING on linus/master v6.3-rc2 next-20230316]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230315211550.2620818-3-15330273260%40189.cn
+> patch subject: [PATCH v7 2/2] drm: add kms driver for loongson display controller
+> config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161727.8HnBf6cW-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/ba899dba3475b9612f212e3b1daedc3d9a299458
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+>          git checkout ba899dba3475b9612f212e3b1daedc3d9a299458
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303161727.8HnBf6cW-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     drivers/gpu/drm/loongson/lsdc_gem.c: In function 'lsdc_show_buffer_object':
+>>> drivers/gpu/drm/loongson/lsdc_gem.c:280:51: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+>       280 |                 seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+>           |                                                ~~~^
+>           |                                                   |
+>           |                                                   long unsigned int
+>           |                                                %8u
+>       281 |                            i,
+>       282 |                            lsdc_bo_size(tbo) >> 10,
+>           |                            ~~~~~~~~~~~~~~~~~~~~~~~
+>           |                                              |
+>           |                                              size_t {aka unsigned int}
+>
+>
+> vim +280 drivers/gpu/drm/loongson/lsdc_gem.c
+>
+>     264	
+>     265	int lsdc_show_buffer_object(struct seq_file *m, void *arg)
+>     266	{
+>     267	#ifdef CONFIG_DEBUG_FS
+>     268		struct drm_info_node *node = (struct drm_info_node *)m->private;
+>     269		struct drm_device *ddev = node->minor->dev;
+>     270		struct lsdc_device *ldev = to_lsdc(ddev);
+>     271		struct lsdc_bo *lbo;
+>     272		unsigned int i = 0;
+>     273	
+>     274		mutex_lock(&ldev->gem.mutex);
+>     275	
+>     276		list_for_each_entry(lbo, &ldev->gem.objects, list) {
+>     277			struct ttm_buffer_object *tbo = &lbo->tbo;
+>     278			struct ttm_resource *resource = tbo->resource;
+>     279	
+>   > 280			seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+>
+Hi, this is buffer objects tracking implemented in v7
 
-All error/warnings (new ones prefixed by >>):
+For example,
 
-   drivers/thermal/cpuidle_cooling.c: In function '__cpuidle_cooling_register':
->> drivers/thermal/cpuidle_cooling.c:201:15: error: implicit declaration of function 'get_cpu_device'; did you mean 'get_device'? [-Werror=implicit-function-declaration]
-     201 |         dev = get_cpu_device(cpumask_first(drv->cpumask));
-         |               ^~~~~~~~~~~~~~
-         |               get_device
->> drivers/thermal/cpuidle_cooling.c:201:13: warning: assignment to 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     201 |         dev = get_cpu_device(cpumask_first(drv->cpumask));
-         |             ^
-   cc1: some warnings being treated as errors
+[root@fedora 0]# pwd
+
+/sys/kernel/debug/dri/0
+
+[root@fedora 0]# cat chip
+
+I'm in LS7A2000, running on cpu 0xc0, cpu revison: 0x11
+
+[root@fedora 0]# cat bos
+bo[0000]: size:     8112kB VRAM
+bo[0001]: size:    16208kB VRAM
+bo[0002]: size:       16kB VRAM
+bo[0003]: size:       16kB VRAM
 
 
-vim +201 drivers/thermal/cpuidle_cooling.c
+When using with modesetting driver with shadowfb option enabled.
 
-a4c428e523490b Daniel Lezcano 2019-12-19  156  
-a4c428e523490b Daniel Lezcano 2019-12-19  157  /**
-dfd0bda3703cda Daniel Lezcano 2020-04-29  158   * __cpuidle_cooling_register: register the cooling device
-a4c428e523490b Daniel Lezcano 2019-12-19  159   * @drv: a cpuidle driver structure pointer
-dfd0bda3703cda Daniel Lezcano 2020-04-29  160   * @np: a device node structure pointer used for the thermal binding
-a4c428e523490b Daniel Lezcano 2019-12-19  161   *
-dfd0bda3703cda Daniel Lezcano 2020-04-29  162   * This function is in charge of allocating the cpuidle cooling device
-dfd0bda3703cda Daniel Lezcano 2020-04-29  163   * structure, the idle injection, initialize them and register the
-dfd0bda3703cda Daniel Lezcano 2020-04-29  164   * cooling device to the thermal framework.
-a4c428e523490b Daniel Lezcano 2019-12-19  165   *
-dfd0bda3703cda Daniel Lezcano 2020-04-29  166   * Return: zero on success, a negative value returned by one of the
-dfd0bda3703cda Daniel Lezcano 2020-04-29  167   * underlying subsystem in case of error
-a4c428e523490b Daniel Lezcano 2019-12-19  168   */
-dfd0bda3703cda Daniel Lezcano 2020-04-29  169  static int __cpuidle_cooling_register(struct device_node *np,
-a4c428e523490b Daniel Lezcano 2019-12-19  170  				      struct cpuidle_driver *drv)
-a4c428e523490b Daniel Lezcano 2019-12-19  171  {
-a4c428e523490b Daniel Lezcano 2019-12-19  172  	struct idle_inject_device *ii_dev;
-a4c428e523490b Daniel Lezcano 2019-12-19  173  	struct cpuidle_cooling_device *idle_cdev;
-a4c428e523490b Daniel Lezcano 2019-12-19  174  	struct thermal_cooling_device *cdev;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  175  	struct device *dev;
-dfd0bda3703cda Daniel Lezcano 2020-04-29  176  	unsigned int idle_duration_us = TICK_USEC;
-dfd0bda3703cda Daniel Lezcano 2020-04-29  177  	unsigned int latency_us = UINT_MAX;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  178  	char *name;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  179  	int ret;
-a4c428e523490b Daniel Lezcano 2019-12-19  180  
-a4c428e523490b Daniel Lezcano 2019-12-19  181  	idle_cdev = kzalloc(sizeof(*idle_cdev), GFP_KERNEL);
-a4c428e523490b Daniel Lezcano 2019-12-19  182  	if (!idle_cdev) {
-a4c428e523490b Daniel Lezcano 2019-12-19  183  		ret = -ENOMEM;
-a4c428e523490b Daniel Lezcano 2019-12-19  184  		goto out;
-a4c428e523490b Daniel Lezcano 2019-12-19  185  	}
-a4c428e523490b Daniel Lezcano 2019-12-19  186  
-a4c428e523490b Daniel Lezcano 2019-12-19  187  	ii_dev = idle_inject_register(drv->cpumask);
-a4c428e523490b Daniel Lezcano 2019-12-19  188  	if (!ii_dev) {
-a4c428e523490b Daniel Lezcano 2019-12-19  189  		ret = -EINVAL;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  190  		goto out_kfree;
-a4c428e523490b Daniel Lezcano 2019-12-19  191  	}
-a4c428e523490b Daniel Lezcano 2019-12-19  192  
-dfd0bda3703cda Daniel Lezcano 2020-04-29  193  	of_property_read_u32(np, "duration-us", &idle_duration_us);
-dfd0bda3703cda Daniel Lezcano 2020-04-29  194  	of_property_read_u32(np, "exit-latency-us", &latency_us);
-dfd0bda3703cda Daniel Lezcano 2020-04-29  195  
-dfd0bda3703cda Daniel Lezcano 2020-04-29  196  	idle_inject_set_duration(ii_dev, TICK_USEC, idle_duration_us);
-dfd0bda3703cda Daniel Lezcano 2020-04-29  197  	idle_inject_set_latency(ii_dev, latency_us);
-a4c428e523490b Daniel Lezcano 2019-12-19  198  
-a4c428e523490b Daniel Lezcano 2019-12-19  199  	idle_cdev->ii_dev = ii_dev;
-a4c428e523490b Daniel Lezcano 2019-12-19  200  
-6fd1b186d900ac Daniel Lezcano 2021-03-14 @201  	dev = get_cpu_device(cpumask_first(drv->cpumask));
-a4c428e523490b Daniel Lezcano 2019-12-19  202  
-6fd1b186d900ac Daniel Lezcano 2021-03-14  203  	name = kasprintf(GFP_KERNEL, "idle-%s", dev_name(dev));
-6fd1b186d900ac Daniel Lezcano 2021-03-14  204  	if (!name) {
-6fd1b186d900ac Daniel Lezcano 2021-03-14  205  		ret = -ENOMEM;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  206  		goto out_unregister;
-6fd1b186d900ac Daniel Lezcano 2021-03-14  207  	}
-6fd1b186d900ac Daniel Lezcano 2021-03-14  208  
-6fd1b186d900ac Daniel Lezcano 2021-03-14  209  	cdev = thermal_of_cooling_device_register(np, name, idle_cdev,
-a4c428e523490b Daniel Lezcano 2019-12-19  210  						  &cpuidle_cooling_ops);
-a4c428e523490b Daniel Lezcano 2019-12-19  211  	if (IS_ERR(cdev)) {
-a4c428e523490b Daniel Lezcano 2019-12-19  212  		ret = PTR_ERR(cdev);
-6cc7b38c0ca318 Daniel Lezcano 2021-03-19  213  		goto out_kfree_name;
-a4c428e523490b Daniel Lezcano 2019-12-19  214  	}
-a4c428e523490b Daniel Lezcano 2019-12-19  215  
-dfd0bda3703cda Daniel Lezcano 2020-04-29  216  	pr_debug("%s: Idle injection set with idle duration=%u, latency=%u\n",
-6fd1b186d900ac Daniel Lezcano 2021-03-14  217  		 name, idle_duration_us, latency_us);
-dfd0bda3703cda Daniel Lezcano 2020-04-29  218  
-6cc7b38c0ca318 Daniel Lezcano 2021-03-19  219  	kfree(name);
-6cc7b38c0ca318 Daniel Lezcano 2021-03-19  220  
-a4c428e523490b Daniel Lezcano 2019-12-19  221  	return 0;
-a4c428e523490b Daniel Lezcano 2019-12-19  222  
-6cc7b38c0ca318 Daniel Lezcano 2021-03-19  223  out_kfree_name:
-6cc7b38c0ca318 Daniel Lezcano 2021-03-19  224  	kfree(name);
-a4c428e523490b Daniel Lezcano 2019-12-19  225  out_unregister:
-a4c428e523490b Daniel Lezcano 2019-12-19  226  	idle_inject_unregister(ii_dev);
-a4c428e523490b Daniel Lezcano 2019-12-19  227  out_kfree:
-a4c428e523490b Daniel Lezcano 2019-12-19  228  	kfree(idle_cdev);
-a4c428e523490b Daniel Lezcano 2019-12-19  229  out:
-a4c428e523490b Daniel Lezcano 2019-12-19  230  	return ret;
-a4c428e523490b Daniel Lezcano 2019-12-19  231  }
-a4c428e523490b Daniel Lezcano 2019-12-19  232  
+by default we have only 4 BOs create, the first one is for fbcon,  the 
+largest one is  framebuffer of double screen.
 
-:::::: The code at line 201 was first introduced by commit
-:::::: 6fd1b186d900acf4cef9d3c23ec2839022a46345 thermal/drivers/cpuidle_cooling: Use device name instead of auto-numbering
+another two is hardware cursor bo.  Our system page size is 16KB by default.
 
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
