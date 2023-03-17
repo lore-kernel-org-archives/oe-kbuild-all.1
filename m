@@ -1,45 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B65E79C5;
-	Fri, 17 Mar 2023 19:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E9079C5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 20:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679082620; x=1710618620;
+  t=1679084441; x=1710620441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zABSeeyeT25T6hQEqEWV96Sflk0MTHkgreGhnKwSQbM=;
-  b=DJ27AZpLAYkYCDF01fdhMIPHH3FYxYEAgXU2euch5OUk+wZft9XmY4Si
-   D+qcDMWE0kdRJ5qR+P/AjEA4DeF5N/AeE+vymOrV+Ccm3JG4nSJ52Ltpi
-   NfdNu94aWQy2w1tMpUozY81/fjpu/HeXl2lAAtPaMtHLHbZFwePEXjFcj
-   tAsUvPSfrQu7ZtqvBMv4ceqADmdI7NYHnx56VYA5IQ7OcCBovtb9d6efD
-   SAaHLg82DSv7ZOtHR038EHnvIe/i5JIcoyI3MtlTDOeRy4fKcMdKleIWY
-   EqYbwu6uB1MJBmHqEHzLzXQJkDCe6LCshmWmX3ho8XjCpGMPwcZ4TZ5Su
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="403218462"
+  bh=VH3APdDgcOV4x/cDAHMRiznLObk8L7ulHHcNpxqfsZQ=;
+  b=FgsXS8vlq0q/uIiAIVe0DBJPDtMK/aPOagDTHXv1STyyB1BZNqvD8FJE
+   Ht5xJAK4QaZRDaOrwacd3StTejPY2yv03a9ZpyCzVsrCVzqLlTWPtzOwF
+   bKKSxXZEHlMZDpnqpM6BTeriewkIlH9Mr8pInx6/OXvlsWtu3CZe7yYYy
+   zgfJuRhXOLXcSXXrQ1KFW9dobpbbV3SB0cECZP2NfxnNbPzPH0FE8U0ld
+   Nx5980eSyJk1LNfYc8eiJWKH86LQwg9wDtQiXfS5BWTnXXrqCrY8aqbdT
+   zME3scK5k7DJB84hWNywRTbFyJ3H5K/SxgTQA6yDI/CaVspcwTDoqpOiP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335849338"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="403218462"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 12:50:19 -0700
+   d="scan'208";a="335849338"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 13:20:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="769476300"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="854574957"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="769476300"
+   d="scan'208";a="854574957"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Mar 2023 12:50:18 -0700
+  by orsmga005.jf.intel.com with ESMTP; 17 Mar 2023 13:20:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdG5h-0009YM-2F;
-	Fri, 17 Mar 2023 19:50:17 +0000
-Date: Sat, 18 Mar 2023 03:49:18 +0800
+	id 1pdGYk-0009ZO-1p;
+	Fri, 17 Mar 2023 20:20:18 +0000
+Date: Sat, 18 Mar 2023 04:19:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-efi@vger.kernel.org,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: [efi:urgent 12/12]
- drivers/firmware/efi/libstub/efi-stub-helper.c:513:6: warning: variable 'dp'
- is used uninitialized whenever 'if' condition is false
-Message-ID: <202303180324.XvQkFoRV-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-dai-ops-2023-03-17-v1 64/64]
+ sound/soc/pxa/pxa-ssp.c:833:18: error: 'struct snd_soc_dai_driver' has no
+ member named 'probe'
+Message-ID: <202303180450.1cv3R2nT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,117 +47,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git urgent
-head:   86237b46f2b202331c07e4c6c2633ce3d3ba7f13
-commit: 86237b46f2b202331c07e4c6c2633ce3d3ba7f13 [12/12] efi: libstub: Look for initrd LoadFile2 protocol on image handle
-config: riscv-randconfig-r042-20230313 (https://download.01.org/0day-ci/archive/20230318/202303180324.XvQkFoRV-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://github.com/morimoto/linux sound-dai-ops-2023-03-17-v1
+head:   ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
+commit: ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5 [64/64] ASoC: soc-dai.h: remove unused call back functions
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230318/202303180450.1cv3R2nT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/commit/?id=86237b46f2b202331c07e4c6c2633ce3d3ba7f13
-        git remote add efi https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git
-        git fetch --no-tags efi urgent
-        git checkout 86237b46f2b202331c07e4c6c2633ce3d3ba7f13
+        # https://github.com/morimoto/linux/commit/ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
+        git remote add morimoto https://github.com/morimoto/linux
+        git fetch --no-tags morimoto sound-dai-ops-2023-03-17-v1
+        git checkout ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/firmware/efi/libstub/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303180324.XvQkFoRV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303180450.1cv3R2nT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/firmware/efi/libstub/efi-stub-helper.c:513:6: warning: variable 'dp' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (status != EFI_SUCCESS) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/efi/libstub/efi-stub-helper.c:528:42: note: uninitialized use occurs here
-           status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
-                                                   ^~
-   drivers/firmware/efi/libstub/efistub.h:59:38: note: expanded from macro 'efi_call_proto'
-           efi_fn_call(__inst, func, __inst, ##__VA_ARGS__);       \
-                                               ^~~~~~~~~~~
-   drivers/firmware/efi/libstub/efistub.h:53:51: note: expanded from macro 'efi_fn_call'
-   #define efi_fn_call(inst, func, ...)    (inst)->func(__VA_ARGS__)
-                                                        ^~~~~~~~~~~
-   drivers/firmware/efi/libstub/efi-stub-helper.c:513:2: note: remove the 'if' if its condition is always true
-           if (status != EFI_SUCCESS) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/efi/libstub/efi-stub-helper.c:505:32: note: initialize the variable 'dp' to silence this warning
-           efi_device_path_protocol_t *dp;
-                                         ^
-                                          = NULL
-   1 warning generated.
+>> sound/soc/pxa/pxa-ssp.c:833:18: error: 'struct snd_soc_dai_driver' has no member named 'probe'
+     833 |                 .probe = pxa_ssp_probe,
+         |                  ^~~~~
+>> sound/soc/pxa/pxa-ssp.c:833:26: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
+     833 |                 .probe = pxa_ssp_probe,
+         |                          ^~~~~~~~~~~~~
+   sound/soc/pxa/pxa-ssp.c:833:26: note: (near initialization for 'pxa_ssp_dai.name')
+>> sound/soc/pxa/pxa-ssp.c:834:18: error: 'struct snd_soc_dai_driver' has no member named 'remove'
+     834 |                 .remove = pxa_ssp_remove,
+         |                  ^~~~~~
+   sound/soc/pxa/pxa-ssp.c:834:27: warning: initialization of 'unsigned int' from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a cast [-Wint-conversion]
+     834 |                 .remove = pxa_ssp_remove,
+         |                           ^~~~~~~~~~~~~~
+   sound/soc/pxa/pxa-ssp.c:834:27: note: (near initialization for 'pxa_ssp_dai.id')
+   cc1: some warnings being treated as errors
+--
+>> sound/soc/pxa/mmp-sspa.c:353:10: error: 'struct snd_soc_dai_driver' has no member named 'probe'
+     353 |         .probe = mmp_sspa_probe,
+         |          ^~~~~
+>> sound/soc/pxa/mmp-sspa.c:353:18: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
+     353 |         .probe = mmp_sspa_probe,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/pxa/mmp-sspa.c:353:18: note: (near initialization for 'mmp_sspa_dai.name')
+   cc1: some warnings being treated as errors
+--
+>> sound/soc/ux500/ux500_msp_dai.c:698:10: error: 'struct snd_soc_dai_driver' has no member named 'probe'
+     698 |         .probe                 = ux500_msp_dai_of_probe,
+         |          ^~~~~
+>> sound/soc/ux500/ux500_msp_dai.c:698:34: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
+     698 |         .probe                 = ux500_msp_dai_of_probe,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/ux500/ux500_msp_dai.c:698:34: note: (near initialization for 'ux500_msp_dai_drv.name')
+   cc1: some warnings being treated as errors
 
 
-vim +513 drivers/firmware/efi/libstub/efi-stub-helper.c
+vim +833 sound/soc/pxa/pxa-ssp.c
 
-   483	
-   484	/**
-   485	 * efi_load_initrd_lf2() - load the initrd from the Linux initrd device path
-   486	 * @image_handle: EFI handle of the loaded image
-   487	 * @initrd:	  pointer of struct to store the address where the initrd was
-   488	 *                loaded and the size of the loaded initrd
-   489	 * @max:	  upper limit for the initrd memory allocation
-   490	 *
-   491	 * Return:
-   492	 * * %EFI_SUCCESS if the initrd was loaded successfully, in which
-   493	 *   case @load_addr and @load_size are assigned accordingly
-   494	 * * %EFI_NOT_FOUND if no LoadFile2 protocol exists on the initrd device path
-   495	 * * %EFI_OUT_OF_RESOURCES if memory allocation failed
-   496	 * * %EFI_LOAD_ERROR in all other cases
-   497	 */
-   498	static
-   499	efi_status_t efi_load_initrd_lf2(efi_handle_t image_handle,
-   500					 struct linux_efi_initrd *initrd,
-   501					 unsigned long max)
-   502	{
-   503		efi_guid_t lf2_proto_guid = EFI_LOAD_FILE2_PROTOCOL_GUID;
-   504		efi_guid_t initrd_lf2_proto_guid = LINUX_EFI_INITRD_LF2_PROTOCOL_GUID;
-   505		efi_device_path_protocol_t *dp;
-   506		efi_load_file2_protocol_t *lf2;
-   507		efi_handle_t handle;
-   508		efi_status_t status;
-   509	
-   510		/* first look for a initrd loading protocol specific to this image */
-   511		status = efi_bs_call(handle_protocol, image_handle, &initrd_lf2_proto_guid,
-   512				     (void **)&lf2);
- > 513		if (status != EFI_SUCCESS) {
-   514			/* look for the global singleton initrd loading protocol */
-   515			dp = (efi_device_path_protocol_t *)&initrd_dev_path;
-   516			status = efi_bs_call(locate_device_path, &lf2_proto_guid, &dp,
-   517					     &handle);
-   518			if (status != EFI_SUCCESS)
-   519				return status;
-   520	
-   521			status = efi_bs_call(handle_protocol, handle, &lf2_proto_guid,
-   522					     (void **)&lf2);
-   523			if (status != EFI_SUCCESS)
-   524				return status;
-   525		}
-   526	
-   527		initrd->size = 0;
-   528		status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
-   529		if (status != EFI_BUFFER_TOO_SMALL)
-   530			return EFI_LOAD_ERROR;
-   531	
-   532		status = efi_allocate_pages(initrd->size, &initrd->base, max);
-   533		if (status != EFI_SUCCESS)
-   534			return status;
-   535	
-   536		status = efi_call_proto(lf2, load_file, dp, false, &initrd->size,
-   537					(void *)initrd->base);
-   538		if (status != EFI_SUCCESS) {
-   539			efi_free(initrd->size, initrd->base);
-   540			return EFI_LOAD_ERROR;
-   541		}
-   542		return EFI_SUCCESS;
-   543	}
-   544	
+6335d05548eece Eric Miao      2009-03-03  831  
+f0fba2ad1b6b53 Liam Girdwood  2010-03-17  832  static struct snd_soc_dai_driver pxa_ssp_dai = {
+1b340bd7e444f2 Mark Brown     2008-07-30 @833  		.probe = pxa_ssp_probe,
+1b340bd7e444f2 Mark Brown     2008-07-30 @834  		.remove = pxa_ssp_remove,
+1b340bd7e444f2 Mark Brown     2008-07-30  835  		.playback = {
+1b340bd7e444f2 Mark Brown     2008-07-30  836  			.channels_min = 1,
+f34762b6470481 Graeme Gregory 2009-09-25  837  			.channels_max = 8,
+1b340bd7e444f2 Mark Brown     2008-07-30  838  			.rates = PXA_SSP_RATES,
+1b340bd7e444f2 Mark Brown     2008-07-30  839  			.formats = PXA_SSP_FORMATS,
+1b340bd7e444f2 Mark Brown     2008-07-30  840  		},
+1b340bd7e444f2 Mark Brown     2008-07-30  841  		.capture = {
+1b340bd7e444f2 Mark Brown     2008-07-30  842  			 .channels_min = 1,
+f34762b6470481 Graeme Gregory 2009-09-25  843  			 .channels_max = 8,
+1b340bd7e444f2 Mark Brown     2008-07-30  844  			.rates = PXA_SSP_RATES,
+1b340bd7e444f2 Mark Brown     2008-07-30  845  			.formats = PXA_SSP_FORMATS,
+1b340bd7e444f2 Mark Brown     2008-07-30  846  		 },
+6335d05548eece Eric Miao      2009-03-03  847  		.ops = &pxa_ssp_dai_ops,
+f0fba2ad1b6b53 Liam Girdwood  2010-03-17  848  };
+f0fba2ad1b6b53 Liam Girdwood  2010-03-17  849  
+
+:::::: The code at line 833 was first introduced by commit
+:::::: 1b340bd7e444f20eb2df88c65fa34960c4736ee9 ASoC: Add PXA SSP support
+
+:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 -- 
 0-DAY CI Kernel Test Service
