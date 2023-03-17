@@ -1,44 +1,56 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FA679D6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 22:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B3079D6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 22:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679091802; x=1710627802;
+  t=1679091805; x=1710627805;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sn2ex3/P8ZcRXVDLwKWvn1Kdw+sapR80g3zEzgrpHDA=;
-  b=WYMDyCOwERTr3Hh9rM/Hr7l953edLDHYYfJAjdn+o90+azmoFOuy+8Nz
-   diepnH1Xu+KzDd6m4rzJnunSQUzGnUELXQgnhCizvEH42M/KMriGphBpW
-   lSRtT5W8KcIgReLm3NiAh3BdFwCX9Zxwlc/RugyUMX50tFWZBU+/Qqs87
-   us3o4OZQMIEXDa2MiL3V+UgsmWVHY25rA1XlqoKrvyKsy1KZw+ztbkft5
-   ce6rdjMtUUcT/4GyZOdDelxYpWb37v6fB6D5lmobSJS9q+idGfpGw/dZv
-   qDfma9d2mx5A6YYAGRkjKdeqy74vgMLccTjfzBvTLBgthV8zn/JDLcpkx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="340730362"
+  bh=CxoqtRpgIYa299cxTvwVvIrPSLBWaBzvtQOQGfPiu+g=;
+  b=NvTKMOSkQfjGRvWK86Yh2wg/4MMfDJYhYjcLATyAqJ5RTpnsV+hRgWZq
+   dRqVhX4wqCMnmdsdjBfcxIjE3QZ5MFSNdyjxgz41XBTCmjz6NEBu79feo
+   K5hNCwuxLWFI+VUGB65LUtMH8uNLTpGpnrxCMaPIZglV0lyAE56mQfgKW
+   XT8QCosNZqE85hIWIZdss5hweWY/E0+hB6WuWdFpZq7pDHWhnqwf0ibq2
+   T4LPuMpFzF62Sw921luPgnQgqGzveM1Rodx9LuCqI+CMlq2SFykTGSoZN
+   zDamjoerb0BBSoerSnz81nYHtj7TSbkdTwmp1yYfD71eigcUD1sEjXfsV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="340730367"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="340730362"
+   d="scan'208";a="340730367"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 15:23:22 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 15:23:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="680434768"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="680434769"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="680434768"
+   d="scan'208";a="680434769"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 17 Mar 2023 15:23:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdITo-0009bq-2D;
+	id 1pdITo-0009bs-2K;
 	Fri, 17 Mar 2023 22:23:20 +0000
-Date: Sat, 18 Mar 2023 06:22:41 +0800
+Date: Sat, 18 Mar 2023 06:22:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/4] Bluetooth: hci_qca: Add support for QTI Bluetooth
- chip wcn6855
-Message-ID: <202303180653.cjf2U6RM-lkp@intel.com>
-References: <20230316034759.73489-3-steev@kali.org>
+To: Michal Hocko <mhocko@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Leonardo Bras <leobras@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Frederic Weisbecker <fweisbecker@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	LKML <linux-kernel@vger.kernel.org>, Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 2/2] memcg: do not drain charge pcp caches on remote
+ isolated cpus
+Message-ID: <202303180617.7E3aIlHf-lkp@intel.com>
+References: <20230317134448.11082-3-mhocko@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +59,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316034759.73489-3-steev@kali.org>
+In-Reply-To: <20230317134448.11082-3-mhocko@kernel.org>
 
-Hi Steev,
+Hi Michal,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on bluetooth-next/master bluetooth/master linus/master v6.3-rc2 next-20230317]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.3-rc2 next-20230317]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steev-Klimaszewski/dt-bindings-net-Add-WCN6855-Bluetooth/20230316-114914
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230316034759.73489-3-steev%40kali.org
-patch subject: [PATCH v6 2/4] Bluetooth: hci_qca: Add support for QTI Bluetooth chip wcn6855
-config: i386-randconfig-r003-20230313 (https://download.01.org/0day-ci/archive/20230318/202303180653.cjf2U6RM-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Hocko/sched-isolation-Add-cpu_is_isolated-API/20230317-214621
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230317134448.11082-3-mhocko%40kernel.org
+patch subject: [PATCH 2/2] memcg: do not drain charge pcp caches on remote isolated cpus
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230318/202303180617.7E3aIlHf-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/2b31edfc2f1b766e5f49220b14ee4570f83456c7
+        # https://github.com/intel-lab-lkp/linux/commit/b376cfcf40a43276e1280950bb926fdf3521940a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Steev-Klimaszewski/dt-bindings-net-Add-WCN6855-Bluetooth/20230316-114914
-        git checkout 2b31edfc2f1b766e5f49220b14ee4570f83456c7
+        git fetch --no-tags linux-review Michal-Hocko/sched-isolation-Add-cpu_is_isolated-API/20230317-214621
+        git checkout b376cfcf40a43276e1280950bb926fdf3521940a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/bluetooth/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303180653.cjf2U6RM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303180617.7E3aIlHf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/bluetooth/hci_qca.c:1894:37: warning: 'qca_soc_data_wcn6855' defined but not used [-Wunused-const-variable=]
-    1894 | static const struct qca_device_data qca_soc_data_wcn6855 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1877:37: warning: 'qca_soc_data_wcn6750' defined but not used [-Wunused-const-variable=]
-    1877 | static const struct qca_device_data qca_soc_data_wcn6750 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1861:37: warning: 'qca_soc_data_wcn3998' defined but not used [-Wunused-const-variable=]
-    1861 | static const struct qca_device_data qca_soc_data_wcn3998 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1849:37: warning: 'qca_soc_data_wcn3991' defined but not used [-Wunused-const-variable=]
-    1849 | static const struct qca_device_data qca_soc_data_wcn3991 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1838:37: warning: 'qca_soc_data_wcn3990' defined but not used [-Wunused-const-variable=]
-    1838 | static const struct qca_device_data qca_soc_data_wcn3990 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'drain_all_stock':
+>> mm/memcontrol.c:2369:35: error: implicit declaration of function 'cpu_is_isolated' [-Werror=implicit-function-declaration]
+    2369 |                         else if (!cpu_is_isolated(cpu))
+         |                                   ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/qca_soc_data_wcn6855 +1894 drivers/bluetooth/hci_qca.c
+vim +/cpu_is_isolated +2369 mm/memcontrol.c
 
-  1893	
-> 1894	static const struct qca_device_data qca_soc_data_wcn6855 = {
-  1895		.soc_type = QCA_WCN6855,
-  1896		.vregs = (struct qca_vreg []) {
-  1897			{ "vddio", 5000 },
-  1898			{ "vddbtcxmx", 126000 },
-  1899			{ "vddrfacmn", 12500 },
-  1900			{ "vddrfa0p8", 102000 },
-  1901			{ "vddrfa1p7", 302000 },
-  1902			{ "vddrfa1p2", 257000 },
-  1903		},
-  1904		.num_vregs = 6,
-  1905		.capabilities = QCA_CAP_WIDEBAND_SPEECH | QCA_CAP_VALID_LE_STATES,
-  1906	};
-  1907	
+  2331	
+  2332	/*
+  2333	 * Drains all per-CPU charge caches for given root_memcg resp. subtree
+  2334	 * of the hierarchy under it.
+  2335	 */
+  2336	static void drain_all_stock(struct mem_cgroup *root_memcg)
+  2337	{
+  2338		int cpu, curcpu;
+  2339	
+  2340		/* If someone's already draining, avoid adding running more workers. */
+  2341		if (!mutex_trylock(&percpu_charge_mutex))
+  2342			return;
+  2343		/*
+  2344		 * Notify other cpus that system-wide "drain" is running
+  2345		 * We do not care about races with the cpu hotplug because cpu down
+  2346		 * as well as workers from this path always operate on the local
+  2347		 * per-cpu data. CPU up doesn't touch memcg_stock at all.
+  2348		 */
+  2349		migrate_disable();
+  2350		curcpu = smp_processor_id();
+  2351		for_each_online_cpu(cpu) {
+  2352			struct memcg_stock_pcp *stock = &per_cpu(memcg_stock, cpu);
+  2353			struct mem_cgroup *memcg;
+  2354			bool flush = false;
+  2355	
+  2356			rcu_read_lock();
+  2357			memcg = stock->cached;
+  2358			if (memcg && stock->nr_pages &&
+  2359			    mem_cgroup_is_descendant(memcg, root_memcg))
+  2360				flush = true;
+  2361			else if (obj_stock_flush_required(stock, root_memcg))
+  2362				flush = true;
+  2363			rcu_read_unlock();
+  2364	
+  2365			if (flush &&
+  2366			    !test_and_set_bit(FLUSHING_CACHED_CHARGE, &stock->flags)) {
+  2367				if (cpu == curcpu)
+  2368					drain_local_stock(&stock->work);
+> 2369				else if (!cpu_is_isolated(cpu))
+  2370					schedule_work_on(cpu, &stock->work);
+  2371			}
+  2372		}
+  2373		migrate_enable();
+  2374		mutex_unlock(&percpu_charge_mutex);
+  2375	}
+  2376	
 
 -- 
 0-DAY CI Kernel Test Service
