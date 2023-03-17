@@ -1,45 +1,32 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D16F641
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 05:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679029680; x=1710565680;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OJitu/MYQH5jonPEvDtzRMxAeAn8tKOpeFdj9UqgqmY=;
-  b=N3enp/nm8UzAgPHEae156VmI2J9/D6L3I8cX3DmLTxCoYzAta5s6ihgW
-   h5d7RcZgMKzMtLe+R4T+DN7DG4GN2Aiw75o4xfY8jqNqxEzzeLvCsRGUN
-   wzmKzM4Q9QnaMGDxTbsGAtdBsECYO/Ybj4M7QsucIuAHq7Vy+CgmiE+7O
-   buN0nNigEGqhygxnGE17OlsBPotGpzg/OyDsUZpu4cG8JtOBBpUOVpWG6
-   K9gfSOgIwcoO7E/Syw9ExczTL1SDIA0sVv6gH1zzKuHhqPDFEfU3Rd9cT
-   uJbXBr+4tNuwEivXm+PmWCYJfPkHOqwp/eVZAoltxG0i5/WEY2NCL6zYM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="365878718"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="365878718"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 22:07:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="790596787"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="790596787"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2023 22:07:57 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pd2Jo-00096c-2Z;
-	Fri, 17 Mar 2023 05:07:56 +0000
-Date: Fri, 17 Mar 2023 13:07:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next 3/6] bpf: switch BPF verifier log to be a
- rotating log by default
-Message-ID: <202303171242.biyrTbVN-lkp@intel.com>
-References: <20230316183013.2882810-4-andrii@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186E6641;
+	Fri, 17 Mar 2023 05:23:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A399C433EF;
+	Fri, 17 Mar 2023 05:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679030580;
+	bh=xJQNrDRxaUaFwVWort65OpSrd15uaBouLl4R0fdXr00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OJGZ4GiphrYotwcMHRtEQkOPOdUzuAY6KzsU1KdQjcuiBdg0Qpk9zyQ5HodjXBQwz
+	 jASO5f8IbOugRrtS3GUCcOAqxkjLq5tOtYcyeu6mlJ78uCZq3mkwJ1Jd7zaVKMRyK/
+	 yXsiVosV21bL7MxvWpjBDjXu/fyjfbLPvvDGc9780FYiT8L/Aj1FVCoyxLnMl9ubjx
+	 eBPyNPBd/PioKjDHHJu2xfm5Rq/d2V3aMUoK4esjqUhjZB2JkE2mrDt22ktmCByq5E
+	 5J/KjLT7RL0ISrydi9WaANwg3Wr3GqtH0aKbkZGNsCcXVUEpFBocZb2RupB1SxKzj5
+	 4DrU8+UdIA02Q==
+Date: Thu, 16 Mar 2023 22:22:58 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Jason A. Donenfeld" <zx2c4@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
+Subject: Re: [stable:linux-5.4.y 4197/7834] ERROR: "sha_transform"
+ [crypto/sha1_generic.ko] undefined!
+Message-ID: <20230317052258.GB882@sol.localdomain>
+References: <202303170515.Ls4W3urG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,130 +35,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316183013.2882810-4-andrii@kernel.org>
+In-Reply-To: <202303170515.Ls4W3urG-lkp@intel.com>
 
-Hi Andrii,
+On Fri, Mar 17, 2023 at 05:06:05AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
+> head:   b829e8b6e1a7bb8cd3042b927113a22fed0b0d47
+> commit: c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0 [4197/7834] random: use BLAKE2s instead of SHA1 in extraction
+> config: mips-randconfig-r003-20230313 (https://download.01.org/0day-ci/archive/20230317/202303170515.Ls4W3urG-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install mips cross compiling tool for clang build
+>         # apt-get install binutils-mipsel-linux-gnu
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0
+>         git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+>         git fetch --no-tags stable linux-5.4.y
+>         git checkout c2f0a89cd1d5a00c5bf48060987cf53ada93d4b0
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303170515.Ls4W3urG-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ERROR: "sha_transform" [crypto/sha1_generic.ko] undefined!
+> 
 
-I love your patch! Yet something to improve:
+I'm not sure what's causing this.  Before v6.0, sha_transform() was always
+built-in.  It did use "lib-y" instead of "obj-y", though, which maybe matters
+here?  Maybe removing the caller of sha_transform() from random.c somehow made
+it unavailable to modules if all other callers were disabled too.
 
-[auto build test ERROR on bpf-next/master]
+Anyway, I'm not sure it's worth investigating this old issue further...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-split-off-basic-BPF-verifier-log-into-separate-file/20230317-023431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230316183013.2882810-4-andrii%40kernel.org
-patch subject: [PATCH bpf-next 3/6] bpf: switch BPF verifier log to be a rotating log by default
-config: i386-randconfig-a002-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171242.biyrTbVN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/f2876fe2427e5bdfbbb27980025b969c93f46c4b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-split-off-basic-BPF-verifier-log-into-separate-file/20230317-023431
-        git checkout f2876fe2427e5bdfbbb27980025b969c93f46c4b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171242.biyrTbVN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: kernel/bpf/log.o: in function `bpf_verifier_vlog':
->> kernel/bpf/log.c:59: undefined reference to `__umoddi3'
->> ld: kernel/bpf/log.c:60: undefined reference to `__umoddi3'
-   ld: kernel/bpf/log.o: in function `bpf_vlog_finalize':
-   kernel/bpf/log.c:212: undefined reference to `__umoddi3'
-
-
-vim +59 kernel/bpf/log.c
-
-    17	
-    18	void bpf_verifier_vlog(struct bpf_verifier_log *log, const char *fmt,
-    19			       va_list args)
-    20	{
-    21		unsigned int n;
-    22	
-    23		n = vscnprintf(log->kbuf, BPF_VERIFIER_TMP_LOG_SIZE, fmt, args);
-    24	
-    25		WARN_ONCE(n >= BPF_VERIFIER_TMP_LOG_SIZE - 1,
-    26			  "verifier log line truncated - local buffer too short\n");
-    27	
-    28		if (log->level == BPF_LOG_KERNEL) {
-    29			bool newline = n > 0 && log->kbuf[n - 1] == '\n';
-    30	
-    31			pr_err("BPF: %s%s", log->kbuf, newline ? "" : "\n");
-    32			return;
-    33		}
-    34	
-    35		if (log->level & BPF_LOG_FIXED) {
-    36			n = min(log->len_total - bpf_log_used(log) - 1, n);
-    37			log->kbuf[n] = '\0';
-    38			n += 1;
-    39	
-    40			if (copy_to_user(log->ubuf + log->end_pos, log->kbuf, n))
-    41				goto fail;
-    42	
-    43			log->end_pos += n - 1; /* don't count terminating '\0' */
-    44		} else {
-    45			u64 new_end, new_start, cur_pos;
-    46			u32 buf_start, buf_end, new_n;
-    47	
-    48			log->kbuf[n] = '\0';
-    49			n += 1;
-    50	
-    51			new_end = log->end_pos + n;
-    52			if (new_end - log->start_pos >= log->len_total)
-    53				new_start = new_end - log->len_total;
-    54			else
-    55				new_start = log->start_pos;
-    56			new_n = min(n, log->len_total);
-    57			cur_pos = new_end - new_n;
-    58	
-  > 59			buf_start = cur_pos % log->len_total;
-  > 60			buf_end = new_end % log->len_total;
-    61			/* new_end and buf_end are exclusive indices, so if buf_end is
-    62			 * exactly zero, then it actually points right to the end of
-    63			 * ubuf and there is no wrap around
-    64			 */
-    65			if (buf_end == 0)
-    66				buf_end = log->len_total;
-    67	
-    68			/* if buf_start > buf_end, we wrapped around;
-    69			 * if buf_start == buf_end, then we fill ubuf completely; we
-    70			 * can't have buf_start == buf_end to mean that there is
-    71			 * nothing to write, because we always write at least
-    72			 * something, even if terminal '\0'
-    73			 */
-    74			if (buf_start < buf_end) {
-    75				/* message fits within contiguous chunk of ubuf */
-    76				if (copy_to_user(log->ubuf + buf_start,
-    77						 log->kbuf + n - new_n,
-    78						 buf_end - buf_start))
-    79					goto fail;
-    80			} else {
-    81				/* message wraps around the end of ubuf, copy in two chunks */
-    82				if (copy_to_user(log->ubuf + buf_start,
-    83						 log->kbuf + n - new_n,
-    84						 log->len_total - buf_start))
-    85					goto fail;
-    86				if (copy_to_user(log->ubuf,
-    87						 log->kbuf + n - buf_end,
-    88						 buf_end))
-    89					goto fail;
-    90			}
-    91	
-    92			log->start_pos = new_start;
-    93			log->end_pos = new_end - 1; /* don't count terminating '\0' */
-    94		}
-    95	
-    96		return;
-    97	fail:
-    98		log->ubuf = NULL;
-    99	}
-   100	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+- Eric
