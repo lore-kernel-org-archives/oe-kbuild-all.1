@@ -1,49 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF087475
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 17:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182B97475
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 18:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679073439; x=1710609439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i7Um5WgX0/Ow2OiYnXCvKojE79q9wI7ohWbytUP/Llc=;
-  b=mUgpyvmczhsTdb5mLmKFGvuIUCGKr8fBLAVGKjNrR4yDa69StWDoEf5I
-   DXPIPPOkh4Is0KDLGCR7x/5lPpeo9gHaWphhgm56dfJm6FCiYjvaWMXBc
-   3mgWtFdIIiTcsHLSaHJsUnh4rN5ru63F7cjZgIZ5PXT3cjJgv1cVjgGaU
-   WZVATTu8wBTxQqRhV0Pk/Ezjmx1SPXP1a60f4/icuRCQokS+U5cRG7jjX
-   gmduxuT8E9IBVxO8vObNfObYxMgb2M8U9AOOQ7dfivwz9fQw9RxJO5ExV
-   We7IL9RCu4opc6UoeuFaahhjhMuqXBQYiUFrvZ+0yDF9oxTGhemAQiFCi
+  t=1679076498; x=1710612498;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PXO2TNDe2Y0UfGLHCDkc624zArbTsFBgI+ncQU5dl+U=;
+  b=IHggMptEqvaxX90bXevcloroYJllgqrE365bA760xQ9j59ZbVh0fPUtF
+   FrmB0EIZ1y+OhvK4lWy8qxQmXmS/zgFgC5V6AsIkIV0PzNoSSh1ys/ZP7
+   dZ4pj2giVXWTvAN7tZeKU5Xfk46CsyUl+rZG8v+Nq6c8RovkbLdaGLC2Q
+   xW+Iw7pViQo/miFGiToKpCPgQmZWkAcFiqxwcduJwHVopD1orJRxYgUBN
+   QE8iVMO5+T1jgZe2jb/4KlAcVoEipEfO0ohPYWzyku21P0TcZPNfkyGyv
+   dGQVzGi4FHoC/pn7lHxhwbQ7psVWTWcXJT+JNTJseZg5SqVmXXv/qXfLL
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318718292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="340684884"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="318718292"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 10:17:18 -0700
+   d="scan'208";a="340684884"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 11:08:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="712817421"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="790827429"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="712817421"
+   d="scan'208";a="790827429"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Mar 2023 10:17:15 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Mar 2023 11:08:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdDhb-0009VG-0Q;
-	Fri, 17 Mar 2023 17:17:15 +0000
-Date: Sat, 18 Mar 2023 01:16:37 +0800
+	id 1pdEUx-0009WA-2g;
+	Fri, 17 Mar 2023 18:08:15 +0000
+Date: Sat, 18 Mar 2023 02:07:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Liam Beguin <liambeguin@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 5/8] iio: test: test gain-time-scale helpers
-Message-ID: <202303180046.bcS0xv8j-lkp@intel.com>
-References: <31cf5765078b2d808d9e66eb623cde70ee6478ac.1679062529.git.mazziesaccount@gmail.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/uaccess/fixes 1/4] usercopy_kunit.c:undefined reference
+ to `insert_vm_struct'
+Message-ID: <202303180207.edqtP01s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,56 +45,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <31cf5765078b2d808d9e66eb623cde70ee6478ac.1679062529.git.mazziesaccount@gmail.com>
 
-Hi Matti,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on eeac8ede17557680855031c6f305ece2378af326]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/drm-tests-helpers-rename-generic-helpers/20230317-224949
-base:   eeac8ede17557680855031c6f305ece2378af326
-patch link:    https://lore.kernel.org/r/31cf5765078b2d808d9e66eb623cde70ee6478ac.1679062529.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v4 5/8] iio: test: test gain-time-scale helpers
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230318/202303180046.bcS0xv8j-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/uaccess/fixes
+head:   bcab174e50dd95f92848c50fdfec65390e201a4b
+commit: ec0cb0c84a9b083ec60a9d601f96fdf1eac85bb6 [1/4] lib: test copy_{to,from}_user()
+config: sh-randconfig-r014-20230312 (https://download.01.org/0day-ci/archive/20230318/202303180207.edqtP01s-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/37a2c62820ca249a8d3ab9f1b80eaa71e0d5749b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matti-Vaittinen/drm-tests-helpers-rename-generic-helpers/20230317-224949
-        git checkout 37a2c62820ca249a8d3ab9f1b80eaa71e0d5749b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=ec0cb0c84a9b083ec60a9d601f96fdf1eac85bb6
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
+        git fetch --no-tags mark arm64/uaccess/fixes
+        git checkout ec0cb0c84a9b083ec60a9d601f96fdf1eac85bb6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/base/test/ drivers/iio/test/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303180046.bcS0xv8j-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303180207.edqtP01s-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iio/test/iio-test-gts.c:7:10: fatal error: kunit/platform_device.h: No such file or directory
-       7 | #include <kunit/platform_device.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> drivers/base/test/test_kunit_device.c:11:10: fatal error: kunit/platform_device.h: No such file or directory
-      11 | #include <kunit/platform_device.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +7 drivers/iio/test/iio-test-gts.c
-
-   > 7	#include <kunit/platform_device.h>
-     8	#include <kunit/test.h>
-     9	#include <linux/iio/iio-gts-helper.h>
-    10	#include <linux/iio/types.h>
-    11	
+   sh4-linux-ld: lib/usercopy_kunit.o: in function `usercopy_test_init':
+>> usercopy_kunit.c:(.text+0x5dc): undefined reference to `insert_vm_struct'
 
 -- 
 0-DAY CI Kernel Test Service
