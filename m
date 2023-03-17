@@ -1,227 +1,258 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5991A377
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 02:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF9626
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 02:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679019904; x=1710555904;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=lN0S0duYEVhVpeYJoWbsZCurdfLSk8Po8nthinSp1NI=;
-  b=l6JJHoLfHjLcSF0QLYh/vJDlrqWRDMaKT2xcovLSAnUaksmdeDQ0j8n1
-   ITMh3uLsgSl+llqt8zsv574Hdr+0czhSscEo1jXspqTRDlhCb+ZKzCrRO
-   qiyF/Tfv7+SAkDP8jWOZOt+1YtmzIhAEjd+1CThfST5/hy2LWABG1CQEV
-   TvuNof6AdZX2bsgyOzNmr5Xd2ssxXcxvU79GV1kR7pOxkDTOwjvpWJgq+
-   E+265gj0cGtRj5snctmypOVDo6dNRIZNbe3JoeCWRTgpOzB7EfWGX6sO2
-   6k5aIbdVlYh6JXD1kVpCw+zhS26qWCgI8C2TcRcYbA/v9KSSN12PX+l4k
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="365858538"
+  t=1679021947; x=1710557947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZZD0S82dYmiwAi0cefV4b0Z98GMD1Cnk8mYMjhQS7/Y=;
+  b=K104RhEwkyQy2CKg5sVSMG7ncKBZKuzotvzO5/ftRomf5PjQaYQ/uyPA
+   lsjdcr0nLJqNuiNF8oghodcsLEQG7d5q7lPl7zQszbr9HY51ES+0KOG6U
+   mpyhN1uSbAacJtzEpvoKYLDCRkoTIEvj1/0+BR4u5l5ZC1CoP4GLTKGeg
+   +pKDpBKFqKmqiJNj2eeLS43hdLU9g+eOYyF4xojqnYqKUvLs1b3vyY7qk
+   1H7zluOnaYni6DIB1Q/Dej5yRJ64RLZrl/bx8NItaoWa7bX4ifaFbAOx2
+   jWo5NNvta0jrT9e35D1Sj8IKV2HZQWOe3C+WSRrA8bg0lqQvBg1uE/WFM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="339707730"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="365858538"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 19:24:53 -0700
+   d="scan'208";a="339707730"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 19:54:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="769187710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="710359280"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="769187710"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2023 19:24:52 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 16 Mar 2023 19:24:52 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 16 Mar 2023 19:24:51 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 16 Mar 2023 19:24:51 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.102)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Thu, 16 Mar 2023 19:24:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hs5YdC7KLL2Q5rlrekDk83A+DIdht2/RFXmniNzh3oN/eWJIY648nNUJA8bOQIg6WlrbOAOdJxs535j5rFdLu0UXZaslkPK+MEfj6s+7gwlDw5ks6DebIBxwenVQCO0zLolmFMDf5jWAEBlj/o/yMMFunEU96jIKZmVTR43d5dIkaZU9Yvl6lK76YmU302LkooA5tsIrn1gWhbs3tIIW6iXI6a7R5rNRRIBVgFy1sJwwhq8+iOVcmX6RkwqLn6srzKWYEhYio30wh3TZ2r6oTcczcJm1BawZkVCne4OBXez0+MpQI8nsvN9R1DM5p1sut+HWQ5H5iiypfw10G5FL+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k0YL0wa8vDpUsOp2T9OAKgdKcEz68gdusDSue7mfgpo=;
- b=B+xSrV2yKADWX3sbiTOvYq1MBMlLlaWgBH0HEnTOaplQUwQPerNdguqAroZyQGTNsoaEtlR40kU2EKqObbeUm3nA6c966hs24SLWtgBIZ/hcxkC62srKlXsSeYRZB6Or1/gDalfha0OzdzrLUfTRMFB5Kiid42SAAuajqcDwq2m6h6xRnqE0RcUY/PuN4crTV+EHDO3sjbsynwVByVckghMID0b4z57ykhmNIjWYcptldH+630RjVS29/DVsmwD4Owh00GAYxAoRsk5Z964DusszQZGZSfilmEHIMMjDZ00J1d1ndsLg0J2QVfTrFDiv8mNgj6TjsvVYUvvhpzTN2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SN7PR11MB7139.namprd11.prod.outlook.com (2603:10b6:806:2a2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Fri, 17 Mar
- 2023 02:24:47 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::66b:243c:7f3d:db9e%4]) with mapi id 15.20.6178.033; Fri, 17 Mar 2023
- 02:24:47 +0000
-Date: Fri, 17 Mar 2023 10:22:02 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Dave Chinner <david@fromorbit.com>, "Darrick J. Wong" <djwong@kernel.org>
-CC: kernel test robot <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-mm@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<yebin10@huawei.com>
-Subject: Re: [PATCH 4/4] pcpcntr: remove percpu_counter_sum_all()
-Message-ID: <ZBPOyjUIInaKhnNd@yujie-X299>
-References: <20230315084938.2544737-5-david@fromorbit.com>
- <202303160333.XqIRz3JU-lkp@intel.com>
- <20230315205550.GS360264@dread.disaster.area>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230315205550.GS360264@dread.disaster.area>
-X-ClientProxiedBy: SG2PR06CA0218.apcprd06.prod.outlook.com
- (2603:1096:4:68::26) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="710359280"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 19:54:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pd0F2-00090o-0d;
+	Fri, 17 Mar 2023 02:54:52 +0000
+Date: Fri, 17 Mar 2023 10:54:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:block-for-next 1/9] arch/x86/include/asm/bitops.h:252:9:
+ warning: 'tmp' may be used uninitialized in this function
+Message-ID: <202303171045.ExeVo14r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SN7PR11MB7139:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85f7f642-3076-4b35-238e-08db268ec711
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +tz7+j8AdwtZb4bDJ2HZdmLB2v0ljS31mIib1M2Ev1/QtYtHalDZN6MawQGgj94wN6JRWNFJx9+8VpqWZgA3UAebvrzbskYAepe/UAgX1mFUp2f53feBWINXCBDpY0z5T2VGhT+B/JFDc2lScbp2lWVV5r1qvV3ZmBdi4Lp/AAebYwJ6oielrSgr+Pw67mf/UoaGU9qNt7GyYo1H5Y5bZjMwDwlkB72haDONFYJ0DUxOWMvyHz5gBty3dXzqRsUiYyZ3ddZtWLihE0y6meokG1gyNXWfQNTiCyEySQgnj/1STwYwHucCDjH9c6nraLjpnyNM1jztyJM4iELzIspI/KWZ5T7y4r2PmWZPG6ruBHRU4cF4PZblpnD0zLQO0SRFiUd+EB+ARstdiRWbzC7KmjMqt5ekM5++Bn/dW4pxIzBYLZJ3LB6472VpPkCYobnVFSxZOIRkU7zqrYILr76J+rJ3EaXSrh7/bZKen5yPqxdsRIPtpHOaMaozg9xSGYo5XNw0jsSQ/Qfu4L4j9v0bwTAwlIgM+UHRJNlyh9iB6MutvjPP5Bz/KzhS25XV94kKBplU+ZqOeMBpyIKF8c16GtichfYTJm1SUJ5dt7aSGaqA66eqmerXbSsFzgWN90ueDCrAqkCMs7N2OKJtijG3yOLPFOGYl43wG9gYFiQkXX8iIgTRwXcpV3G6NGTNNxPOAUd2kUM0zXi4qRAUi7ISBo9Dqv++C555kLxxFA9LWUw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(346002)(376002)(366004)(136003)(396003)(39860400002)(451199018)(110136005)(966005)(41300700001)(478600001)(8676002)(8936002)(66556008)(66476007)(33716001)(86362001)(66946007)(38100700002)(82960400001)(4326008)(26005)(9686003)(186003)(6666004)(6486002)(44832011)(6512007)(5660300002)(2906002)(6506007)(316002)(83380400001)(133343001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rocWwkkTVNsUXnULBKkGrLOa43+kPyEV9b75RsdFZAletRQDB335iKCFDSJV?=
- =?us-ascii?Q?P4sSi2hOsdwGzmXIFFrgzEGxyXOvG8pvohcniP2yeEOgoAac7OocIbm0Hh+w?=
- =?us-ascii?Q?KMFDM9raVoTxuMCg+xIIn0s8Dnz5cVw9kGrtGeQyHzfAREr+BIceW8EG/J37?=
- =?us-ascii?Q?ePzbdJsZw1BP8RjK36wJ8wMAr3t919zmsCWnEnoeyVBPJ9KD/X/DlmCih2YH?=
- =?us-ascii?Q?GoOGZiwszC55DCMzqkVFoGdlm9eF0Z6TzmD96QCKZxrqDWI838Z0YEs8U2EG?=
- =?us-ascii?Q?VOmSMme+cw8sWdeJhaJPJkSLX3EgdJ2GaVZuXpStvlP1TWsWONjhOTELH7fS?=
- =?us-ascii?Q?lKb0TLrxMm8QoVeb9BrbzzBEqKkrYuy985uCA8lgF0/t1UIzLqjnx86hYm2V?=
- =?us-ascii?Q?lCOh7lQDrdwoD+UlwnHT1H7cnOmK1LwPdR2vbJ90TQ7dl70vDrWcsKk0X/o5?=
- =?us-ascii?Q?yEFScCHP28Z9Ct+l/nVWH/QGSkpRUz0k5zudu1ZqvigDreBMZANd/gOkhpcL?=
- =?us-ascii?Q?I+KKL22ZGAjAhF0YJN71Myk7yziO3ZBkWDR7DIDX4ePJ7uDox67yAXA8pPv/?=
- =?us-ascii?Q?4TyPsiEDAclNMbGNBs7UUuaf87Mk3y2NGf77z9zLmatWzTGFvVWVqagP6JjP?=
- =?us-ascii?Q?/yPcMork8o6H1RnzElP4xkBfogS4+v3C9fnKleotsLIaPpd0mqCFIyp0oS8X?=
- =?us-ascii?Q?CZDM9czXmSRLobv+NOPllBzIzd7n6DzsO967S+VW09bGmUxoP/tiS2vIlJ2Q?=
- =?us-ascii?Q?QoOK+s1h5/QEOhVpdEFojoDvtSPk+sMQBXcSRy1ZVCphnorsMBrHiblP8RK0?=
- =?us-ascii?Q?iPCqZ7pphYH+yF6Ukbs42OTQfgVltd5D/DPRLXb415BFaOsOxQxaBW/7e4Ea?=
- =?us-ascii?Q?2lQJv5ySFOzfOIv7EXDpbDCpBXdYz43o7jHk2uKaaOWfLm0nfyC0FdstI/u3?=
- =?us-ascii?Q?jjVjvGLeF0cI3YIapr5iZ2ziyGhHF5hBuGprWTUnb0vz3VskYl3FQ9p3TtOp?=
- =?us-ascii?Q?8svxtp7lSJuzP57Of1eBYOJDjaxGPWrJS1H6S+aLozr6U/nG4sCqoPzqC/dm?=
- =?us-ascii?Q?g3rbdTlKyqDcfcUytkGe1A7I2ZaRcndcKRl7NE9VtLGO8K3Hq4ff6BQsTKpW?=
- =?us-ascii?Q?iNTDyRG+SccIFPZ3NseR/zvO5uAqFwwROQSHoIBH5XvrqC4LAMoIkfk/pBo2?=
- =?us-ascii?Q?DiJzPpmo8vSUoSmkzAaxIYFfL7YK9KbOTtaTc2+iqFkNu3VMJGQFcjhkP4ww?=
- =?us-ascii?Q?a/lxgzaGtW53gdW5KwCDwfouVfD1p35jWPJOlH8PcckBFnaFFB5ElDsGsFHe?=
- =?us-ascii?Q?VeHXNobKqcdn4l7Ot62dFtrY73BGaHyXy/6rMzyhed5M9RziDnSu1vwxumhJ?=
- =?us-ascii?Q?O6G7F2nVlNANYwaBY+BAON7oVj47Pn7U4wve6Su72wNPClTjZa/4u2dP9pZe?=
- =?us-ascii?Q?YQZXUJFO9RFtv/zQbXQ84xly4AOuPfHMTLTjo2bvYGY7S+CMc9hdgh5WrXWn?=
- =?us-ascii?Q?S9aFZDbzQfckCcmed/HL7iyY2O+BISG4OGzR9Ayu0rxhNPrmOOAAbSBifpFM?=
- =?us-ascii?Q?ja18TqLEgBCj/XGALQB7lDoUoeoi3fbtbLsBraE1?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85f7f642-3076-4b35-238e-08db268ec711
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 02:24:47.7568
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7JNcE4VibAPFI7hPq54hYQPIsV+NFLg03hfX/MIUpPsYJ1RecJEWuUO8ceeqsdJH4JDjiHCqU2IbtShr5aZmtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7139
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 16, 2023 at 07:55:50AM +1100, Dave Chinner wrote:
-> On Thu, Mar 16, 2023 at 03:22:31AM +0800, kernel test robot wrote:
-> > Hi Dave,
-> > 
-> > Thank you for the patch! Yet something to improve:
-> 
-> No, ithere is nothing wrong with my patch series, this is something
-> for _you_ to improve.
-> 
-> > [auto build test ERROR on linus/master]
-> > [also build test ERROR on v6.3-rc2 next-20230315]
-> > [cannot apply to dennis-percpu/for-next]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/cpumask-introduce-for_each_cpu_or/20230315-165202
-> > patch link:    https://lore.kernel.org/r/20230315084938.2544737-5-david%40fromorbit.com
-> > patch subject: [PATCH 4/4] pcpcntr: remove percpu_counter_sum_all()
-> > config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230316/202303160333.XqIRz3JU-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > reproduce (this is a W=1 build):
-> >         # https://github.com/intel-lab-lkp/linux/commit/8360dcb55f1eb08fe7a1f457f3b99bef8e306c8b
-> >         git remote add linux-review https://github.com/intel-lab-lkp/linux
-> >         git fetch --no-tags linux-review Dave-Chinner/cpumask-introduce-for_each_cpu_or/20230315-165202
-> >         git checkout 8360dcb55f1eb08fe7a1f457f3b99bef8e306c8b
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         make W=1 O=build_dir ARCH=i386 olddefconfig
-> >         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hwmon/ fs/xfs/
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202303160333.XqIRz3JU-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from include/linux/string.h:5,
-> >                     from include/linux/uuid.h:11,
-> >                     from fs/xfs/xfs_linux.h:10,
-> >                     from fs/xfs/xfs.h:22,
-> >                     from fs/xfs/xfs_super.c:7:
-> >    fs/xfs/xfs_super.c: In function 'xfs_destroy_percpu_counters':
-> > >> fs/xfs/xfs_super.c:1079:16: error: implicit declaration of function 'percpu_counter_sum_all'; did you mean 'percpu_counter_sum'? [-Werror=implicit-function-declaration]
-> >     1079 |                percpu_counter_sum_all(&mp->m_delalloc_blks) == 0);
-> >          |                ^~~~~~~~~~~~~~~~~~~~~~
-> >    include/linux/compiler.h:77:45: note: in definition of macro 'likely'
-> >       77 | # define likely(x)      __builtin_expect(!!(x), 1)
-> >          |                                             ^
-> >    fs/xfs/xfs_super.c:1078:9: note: in expansion of macro 'ASSERT'
-> >     1078 |         ASSERT(xfs_is_shutdown(mp) ||
-> >          |         ^~~~~~
-> >    cc1: some warnings being treated as errors
-> > 
-> > 
-> > vim +1079 fs/xfs/xfs_super.c
-> > 
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1070  
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1071  static void
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1072  xfs_destroy_percpu_counters(
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1073  	struct xfs_mount	*mp)
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1074  {
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1075  	percpu_counter_destroy(&mp->m_icount);
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1076  	percpu_counter_destroy(&mp->m_ifree);
-> > 8757c38f2cf6e5 Ian Kent        2019-11-04  1077  	percpu_counter_destroy(&mp->m_fdblocks);
-> > 75c8c50fa16a23 Dave Chinner    2021-08-18  1078  	ASSERT(xfs_is_shutdown(mp) ||
-> > c35278f526edf1 Ye Bin          2023-03-14 @1079  	       percpu_counter_sum_all(&mp->m_delalloc_blks) == 0);
-> 
-> This change has not been committed to any tree that I am aware of.
-> It was only posted to the XFS list yesterday, and I effectively
-> NACK'd it and wrote this patchset instead to fix the issue.
-> 
-> IOWs, if -anyone- has actually committed this change to add
-> percpu_counter_sum_all() to XFS, they've done the wrong thing.
-> Hence this build failure is a robot issue, not a problem with my
-> patch series.
+tree:   https://github.com/bvanassche/linux block-for-next
+head:   a084a3355b4ab79c64e557f93e56a0c5d7c952cb
+commit: d354197f2169268c6fbb0aec6f06f2257a01099d [1/9] Enable -Wmaybe-uninitialized
+config: x86_64-randconfig-a001-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171045.ExeVo14r-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/bvanassche/linux/commit/d354197f2169268c6fbb0aec6f06f2257a01099d
+        git remote add bvanassche https://github.com/bvanassche/linux
+        git fetch --no-tags bvanassche block-for-next
+        git checkout d354197f2169268c6fbb0aec6f06f2257a01099d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/ drivers/char/tpm/ drivers/clk/ drivers/dma-buf/ drivers/gpu/drm/ drivers/hwmon/ drivers/i3c/ drivers/iio/proximity/ drivers/iommu/iommufd/ fs/afs/ kernel/futex/ kernel/sched/ kernel/trace/ lib/ mm/ net/bridge/ net/mctp/ net/mptcp/ net/netfilter/ security/apparmor/
 
-Sorry about this false positive report.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171045.ExeVo14r-lkp@intel.com/
 
-The robot misinterpreted the link in the cover letter, and wrongly
-thought it was a prerequisite patch for this patch series, leading to
-this false report.
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-We will improve the robot and increase the accuracy.
+All warnings (new ones prefixed by >>):
 
+   In file included from include/linux/bitops.h:68,
+                    from lib/find_bit.c:15:
+   lib/find_bit.c: In function '__find_nth_and_andnot_bit':
+>> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     252 |         asm("rep; bsf %1,%0"
+         |         ^~~
+   lib/find_bit.c:73:56: note: 'tmp' was declared here
+      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
+         |                                                        ^~~
+   lib/find_bit.c:163:16: note: in expansion of macro 'FIND_NTH_BIT'
+     163 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx] & ~addr3[idx], size, n);
+         |                ^~~~~~~~~~~~
+   In file included from include/linux/bitops.h:68,
+                    from lib/find_bit.c:15:
+   lib/find_bit.c: In function '__find_nth_bit':
+>> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     252 |         asm("rep; bsf %1,%0"
+         |         ^~~
+   lib/find_bit.c:73:56: note: 'tmp' was declared here
+      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
+         |                                                        ^~~
+   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
+     140 |         return FIND_NTH_BIT(addr[idx], size, n);
+         |                ^~~~~~~~~~~~
+   In file included from include/linux/bitops.h:68,
+                    from lib/find_bit.c:15:
+   lib/find_bit.c: In function '__find_nth_and_bit':
+>> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     252 |         asm("rep; bsf %1,%0"
+         |         ^~~
+   lib/find_bit.c:73:56: note: 'tmp' was declared here
+      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
+         |                                                        ^~~
+   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
+     147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, n);
+         |                ^~~~~~~~~~~~
+   In file included from include/linux/bitops.h:68,
+                    from lib/find_bit.c:15:
+   lib/find_bit.c: In function '__find_nth_andnot_bit':
+>> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     252 |         asm("rep; bsf %1,%0"
+         |         ^~~
+   lib/find_bit.c:73:56: note: 'tmp' was declared here
+      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
+         |                                                        ^~~
+   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
+     154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size, n);
+         |                ^~~~~~~~~~~~
 --
-Best Regards,
-Yujie
+   mm/gup.c: In function 'internal_get_user_pages_fast':
+>> mm/gup.c:2937:20: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    2937 |                 if (read_seqcount_retry(&current->mm->write_protect_seq, seq)) {
+         |                    ^
+   mm/gup.c:2905:18: note: 'seq' was declared here
+    2905 |         unsigned seq;
+         |                  ^~~
+--
+   drivers/acpi/pci_root.c: In function 'acpi_pci_osc_control_set':
+>> drivers/acpi/pci_root.c:391:50: warning: 'cxl_result' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     391 |                         cxl_missing = cxl_ctrl & ~(*cxl_mask);
+         |                                                  ^~~~~~~~~~~~
+--
+   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_capabilities':
+>> fs/afs/fsclient.c:1674:50: warning: 'count' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    1674 |                 afs_extract_discard(call, (count - 1) * sizeof(__be32));
+         |                                           ~~~~~~~^~~~
+--
+   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
+   drivers/clk/clkdev.c:173:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     173 |                 vscnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
+         |                 ^~~~~~~~~~
+   In file included from include/linux/module.h:12,
+                    from drivers/clk/clkdev.c:9:
+   drivers/clk/clkdev.c: In function 'devm_clk_hw_register_clkdev':
+>> include/linux/list.h:137:9: warning: 'cl' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     137 |         __list_del(entry->prev, entry->next);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clkdev.c:372:28: note: 'cl' was declared here
+     372 |         struct clk_lookup *cl;
+         |                            ^~
+--
+   drivers/dma-buf/dma-fence-unwrap.c: In function '__dma_fence_unwrap_merge':
+>> drivers/dma-buf/dma-fence-unwrap.c:129:74: warning: 'sel' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     129 |                                 fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+         |                                                                          ^
+--
+   In file included from include/linux/ktime.h:25,
+                    from include/linux/timer.h:6,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/mm_types.h:19,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/if_ether.h:19,
+                    from net/bridge/br_multicast.c:10:
+   net/bridge/br_multicast.c: In function 'br_ip6_multicast_alloc_query.constprop':
+>> include/linux/jiffies.h:107:22: warning: 'llqt' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     107 |          ((long)((b) - (a)) < 0))
+         |                      ^
+   net/bridge/br_multicast.c:1092:23: note: 'llqt' was declared here
+    1092 |         unsigned long llqt;
+         |                       ^~~~
+   In file included from include/linux/ktime.h:25,
+                    from include/linux/timer.h:6,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/mm_types.h:19,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/if_ether.h:19,
+                    from net/bridge/br_multicast.c:10:
+   net/bridge/br_multicast.c: In function 'br_ip4_multicast_alloc_query.constprop':
+>> include/linux/jiffies.h:107:22: warning: 'lmqt' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     107 |          ((long)((b) - (a)) < 0))
+         |                      ^
+   net/bridge/br_multicast.c:943:23: note: 'lmqt' was declared here
+     943 |         unsigned long lmqt;
+         |                       ^~~~
+--
+   drivers/hwmon/adt7475.c: In function 'load_config':
+>> drivers/hwmon/adt7475.c:1497:15: warning: 'prop2' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    1497 |         ret = of_property_read_string(client->dev.of_node, propname, &function);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/adt7475.c:1525:29: note: 'prop2' was declared here
+    1525 |         const char *prop1, *prop2;
+         |                             ^~~~~
+>> drivers/hwmon/adt7475.c:1471:15: warning: 'prop1' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    1471 |         ret = of_property_read_string(client->dev.of_node, propname, &function);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/adt7475.c:1525:21: note: 'prop1' was declared here
+    1525 |         const char *prop1, *prop2;
+         |                     ^~~~~
+--
+   drivers/hwmon/pwm-fan.c: In function 'pwm_fan_probe':
+>> drivers/hwmon/pwm-fan.c:594:35: warning: 'fan_channel_config' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     594 |                 fan_channel_config[i] = HWMON_F_INPUT;
+         |                                   ^
+--
+   In file included from include/linux/if_arp.h:22,
+                    from net/mctp/af_mctp.c:10:
+   net/mctp/af_mctp.c: In function 'mctp_sendmsg':
+>> include/linux/skbuff.h:2716:19: warning: 'hlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    2716 |         skb->data += len;
+         |                   ^~
+   net/mctp/af_mctp.c:102:13: note: 'hlen' was declared here
+     102 |         int hlen;
+         |             ^~~~
+--
+   security/apparmor/policy_unpack.c: In function 'unpack_secmark':
+>> security/apparmor/policy_unpack.c:597:31: warning: 'size' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     597 |                 for (i = 0; i < size; i++)
+         |                             ~~^~~~~~
+..
+
+
+vim +/tmp +252 arch/x86/include/asm/bitops.h
+
+8238b4579866b7 Mikulas Patocka 2022-08-26  249  
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  250  static __always_inline unsigned long variable__ffs(unsigned long word)
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  251  {
+fdb6649ab7c142 Vincent Mailhol 2022-09-07 @252  	asm("rep; bsf %1,%0"
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  253  		: "=r" (word)
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  254  		: "rm" (word));
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  255  	return word;
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  256  }
+fdb6649ab7c142 Vincent Mailhol 2022-09-07  257  
+
+:::::: The code at line 252 was first introduced by commit
+:::::: fdb6649ab7c142e497539a471e573c2593b9c923 x86/asm/bitops: Use __builtin_ctzl() to evaluate constant expressions
+
+:::::: TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+:::::: CC: Borislav Petkov <bp@suse.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
