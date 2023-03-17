@@ -1,45 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B3065D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 07:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9753E65A;
+	Fri, 17 Mar 2023 07:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679036402; x=1710572402;
+  t=1679036407; x=1710572407;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=63tbON/PblLIHY7/lGHmLj1Dwq9FlkQQr4Dabyz/ktI=;
-  b=BD6oKLndvryCwFTlQAs8v461189K6+2LPz/hY6DNRmdSYBlirWjqLyjA
-   ujPrALPQ+ErlbVd9REdyHGxC10mqAoDIwnr4Bkmyl8EdlV8XOO3Y/FGQx
-   8l9dv1aMrT4tf2u7Ena5XoKiE9Wm/n0KTfSM3LTbAqFrsU76o8VwkQR8S
-   f3JjU3ivHCkq7+4m70G293bysXUOvstcp653L0Y3Bcg8xenA5GjyE3OxH
-   uObmtPyoyG0iruuFRNOTP41egdw9nL/nNTUYfHd3AqQM6tcX+EFCgXWMf
-   oa2oR4EDuYlLr19/Q8k+4ELtXu/nbAWXvX3sBWrOKPgvny+aYr2/7TkB2
+  bh=HmUuQQWsDjqrwKPydo5APzukhRwHmoaeu4nkVvVcBhE=;
+  b=JCIrw8mJ7eBvxj/eHw5z8/YZt112hX2YViRle/di4VrBg3tcFgP6iVS5
+   3T3yfH9nx69l17uv6O/Hw/F1/bV1cyjV+dkEJFyjJ3NYVmDkQDtvXdlyE
+   i5Cu8UO2lA4gsJfgjCZbaeOpsE2DIfuwWYoZTFWS8QiABNwgLgJwjgekl
+   LdUIkWXb6FL32AfpG0TrKLG5pVBlgPU4as/toPOCPiSx2lQM/MgeR+46N
+   z19gtq7AHvUFbA5sSXCZpK9XeaE/eGMRvHsUS/M7aRxtXbfo7Jdeb2nup
+   xeAKgxP6tp148fwgrSReibnNkUhdjfDwKvgSwZ8NRP3fmQSRH5g6x/D64
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="338215308"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318592995"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="338215308"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 00:00:02 -0700
+   d="scan'208";a="318592995"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 00:00:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="710403559"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="657456549"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="710403559"
+   d="scan'208";a="657456549"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 17 Mar 2023 00:00:00 -0700
+  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 00:00:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd44F-0009AK-25;
+	id 1pd44F-0009AH-1l;
 	Fri, 17 Mar 2023 06:59:59 +0000
-Date: Fri, 17 Mar 2023 14:59:45 +0800
+Date: Fri, 17 Mar 2023 14:59:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next 3/6] bpf: switch BPF verifier log to be a
- rotating log by default
-Message-ID: <202303171434.ljQyQS6z-lkp@intel.com>
-References: <20230316183013.2882810-4-andrii@kernel.org>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <202303171454.sScrVVOh-lkp@intel.com>
+References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,45 +48,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316183013.2882810-4-andrii@kernel.org>
+In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 
-Hi Andrii,
+Hi Khadija,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-split-off-basic-BPF-verifier-log-into-separate-file/20230317-023431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230316183013.2882810-4-andrii%40kernel.org
-patch subject: [PATCH bpf-next 3/6] bpf: switch BPF verifier log to be a rotating log by default
-config: m68k-buildonly-randconfig-r001-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171434.ljQyQS6z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
+patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+config: hexagon-randconfig-r033-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171454.sScrVVOh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f2876fe2427e5bdfbbb27980025b969c93f46c4b
+        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-split-off-basic-BPF-verifier-log-into-separate-file/20230317-023431
-        git checkout f2876fe2427e5bdfbbb27980025b969c93f46c4b
+        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/axis-fifo/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171434.ljQyQS6z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171454.sScrVVOh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: section .rodata VMA [0000000000001000,00000000004e5d2f] overlaps section .text VMA [0000000000000400,0000000000628bcf]
-   m68k-linux-ld: m68k-linux-ld: DWARF error: could not find abbrev number 119
-   kernel/bpf/log.o: in function `bpf_verifier_vlog':
->> log.c:(.text+0x2fe): undefined reference to `__umoddi3'
->> m68k-linux-ld: log.c:(.text+0x332): undefined reference to `__umoddi3'
-   m68k-linux-ld: kernel/bpf/log.o: in function `bpf_vlog_finalize':
-   log.c:(.text+0x570): undefined reference to `__umoddi3'
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/staging/axis-fifo/axis-fifo.c:958:3: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+                   read_timeout, write_timeout);
+                   ^~~~~~~~~~~~
+   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                   ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:958:17: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+                   read_timeout, write_timeout);
+                                 ^~~~~~~~~~~~~
+   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                   ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   8 warnings generated.
+
+
+vim +958 drivers/staging/axis-fifo/axis-fifo.c
+
+4a965c5f89decd Jacob Feder 2018-07-22  954  
+4a965c5f89decd Jacob Feder 2018-07-22  955  static int __init axis_fifo_init(void)
+4a965c5f89decd Jacob Feder 2018-07-22  956  {
+4a965c5f89decd Jacob Feder 2018-07-22  957  	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+4a965c5f89decd Jacob Feder 2018-07-22 @958  		read_timeout, write_timeout);
+4a965c5f89decd Jacob Feder 2018-07-22  959  	return platform_driver_register(&axis_fifo_driver);
+4a965c5f89decd Jacob Feder 2018-07-22  960  }
+4a965c5f89decd Jacob Feder 2018-07-22  961  
 
 -- 
 0-DAY CI Kernel Test Service
