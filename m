@@ -1,44 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83516AAD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 13:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9EE3214;
+	Fri, 17 Mar 2023 14:32:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679060530; x=1710596530;
+  t=1679063534; x=1710599534;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sQ5GoTh47y1LZxGGtWG+scGP6CV0ERpljxuG+rsgUuA=;
-  b=mcFmVOqRyO/S02QWDeLQf+FiJ5ZkOujXMp0/lPQbmidXuN9HXDHWTm49
-   PB1vedKaI/OHPNUV++vyvSKhaAa1mrepSa3wo3nGcuYURjX6QkMwF3dTo
-   r0wO3yQ94iPoXHjv9iZPNboP75Xh1jIsoDLURNhnapEj0KWpwcKVAGvs+
-   EM3yney6CDpYlMduKDH3sE/3KO/T2x9Qe2UEmBKCF44u8iIuFFRxzE/V0
-   Sb9vYkijvYb27B3tG7N7Kn4xL39pqS7nHWmlabgQWSS09FEX5WpD3Qrjo
-   C03+CuZunkg/cc/lu/Et/NTdFf/of5Df6nL5O5RDnsQdJvxMewY+e9vbq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="336961299"
+  bh=QMqyIaAb3NKMzqGJDm6abhaEJ44/9E5TFV0FszrfTP4=;
+  b=ilbjTFHeKF+vK4JeWI6mLwBBLgbtDmFobh4teoZjL+jddAzrytX/d8XG
+   ueN6YSI/Gx8Ggj/OJb2/aOpqjgaDYe8hxdr6Spj8CwS2y2rfwqwoTnxjI
+   9krlYIYIv6bUO+PWBxcDlefoJR/TNjllnmC+D2r48W2Su6cN4U4xxaGmQ
+   P/90L4LLQbCsUHmDK7bEOXsjyG6CEYOKD10TU6LrgN7O9BwRklFcm5/qA
+   YB+7E80WmJRuPi/0eptXIpE+rMJIG2LDzI2lQ67MI3lgNnU860YH/QQ3W
+   UYtx3bixE1CCyRK1EUQNSFs+AefmI1gIQ6GLgpQewVtuPJXieQsNH1Jt+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="400849822"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="336961299"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 06:42:10 -0700
+   d="scan'208";a="400849822"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 07:32:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="749257885"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="823683486"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="749257885"
+   d="scan'208";a="823683486"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Mar 2023 06:42:09 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Mar 2023 07:32:10 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdALQ-0009NC-1o;
-	Fri, 17 Mar 2023 13:42:08 +0000
-Date: Fri, 17 Mar 2023 21:41:23 +0800
+	id 1pdB7q-0009PW-0M;
+	Fri, 17 Mar 2023 14:32:10 +0000
+Date: Fri, 17 Mar 2023 22:32:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-dai-ops-2023-03-17-v1 64/64]
- sound/soc/pxa/pxa-ssp.c:834:27: warning: initialization of 'unsigned int'
- from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a
- cast
-Message-ID: <202303172114.8rHG3iCp-lkp@intel.com>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>
+Subject: drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:248:34: warning: unused
+ variable 'vop2_dt_match'
+Message-ID: <202303172222.InRnZuTT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,73 +48,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-dai-ops-2023-03-17-v1
-head:   ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
-commit: ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5 [64/64] ASoC: soc-dai.h: remove unused call back functions
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230317/202303172114.8rHG3iCp-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Andy,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   38e04b3e4240a6d8fb43129ebad41608db64bc6f
+commit: 604be85547ce4d61b89292d2f9a78c721b778c16 drm/rockchip: Add VOP2 driver
+date:   11 months ago
+config: s390-randconfig-c005-20230315 (https://download.01.org/0day-ci/archive/20230317/202303172222.InRnZuTT-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/morimoto/linux/commit/ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
-        git remote add morimoto https://github.com/morimoto/linux
-        git fetch --no-tags morimoto sound-dai-ops-2023-03-17-v1
-        git checkout ac006aa2dfde34cedc5570e1ae3b38b6e4d49fa5
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=604be85547ce4d61b89292d2f9a78c721b778c16
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 604be85547ce4d61b89292d2f9a78c721b778c16
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash sound/soc/pxa/ sound/soc/ux500/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303172114.8rHG3iCp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303172222.InRnZuTT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/pxa/pxa-ssp.c:833:18: error: 'struct snd_soc_dai_driver' has no member named 'probe'
-     833 |                 .probe = pxa_ssp_probe,
-         |                  ^~~~~
-   sound/soc/pxa/pxa-ssp.c:833:26: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
-     833 |                 .probe = pxa_ssp_probe,
-         |                          ^~~~~~~~~~~~~
-   sound/soc/pxa/pxa-ssp.c:833:26: note: (near initialization for 'pxa_ssp_dai.name')
-   sound/soc/pxa/pxa-ssp.c:834:18: error: 'struct snd_soc_dai_driver' has no member named 'remove'
-     834 |                 .remove = pxa_ssp_remove,
-         |                  ^~~~~~
->> sound/soc/pxa/pxa-ssp.c:834:27: warning: initialization of 'unsigned int' from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a cast [-Wint-conversion]
-     834 |                 .remove = pxa_ssp_remove,
-         |                           ^~~~~~~~~~~~~~
-   sound/soc/pxa/pxa-ssp.c:834:27: note: (near initialization for 'pxa_ssp_dai.id')
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:248:34: warning: unused variable 'vop2_dt_match' [-Wunused-const-variable]
+   static const struct of_device_id vop2_dt_match[] = {
+                                    ^
+   13 warnings generated.
 
 
-vim +834 sound/soc/pxa/pxa-ssp.c
+vim +/vop2_dt_match +248 drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
 
-6335d05548eece Eric Miao      2009-03-03  831  
-f0fba2ad1b6b53 Liam Girdwood  2010-03-17  832  static struct snd_soc_dai_driver pxa_ssp_dai = {
-1b340bd7e444f2 Mark Brown     2008-07-30  833  		.probe = pxa_ssp_probe,
-1b340bd7e444f2 Mark Brown     2008-07-30 @834  		.remove = pxa_ssp_remove,
-1b340bd7e444f2 Mark Brown     2008-07-30  835  		.playback = {
-1b340bd7e444f2 Mark Brown     2008-07-30  836  			.channels_min = 1,
-f34762b6470481 Graeme Gregory 2009-09-25  837  			.channels_max = 8,
-1b340bd7e444f2 Mark Brown     2008-07-30  838  			.rates = PXA_SSP_RATES,
-1b340bd7e444f2 Mark Brown     2008-07-30  839  			.formats = PXA_SSP_FORMATS,
-1b340bd7e444f2 Mark Brown     2008-07-30  840  		},
-1b340bd7e444f2 Mark Brown     2008-07-30  841  		.capture = {
-1b340bd7e444f2 Mark Brown     2008-07-30  842  			 .channels_min = 1,
-f34762b6470481 Graeme Gregory 2009-09-25  843  			 .channels_max = 8,
-1b340bd7e444f2 Mark Brown     2008-07-30  844  			.rates = PXA_SSP_RATES,
-1b340bd7e444f2 Mark Brown     2008-07-30  845  			.formats = PXA_SSP_FORMATS,
-1b340bd7e444f2 Mark Brown     2008-07-30  846  		 },
-6335d05548eece Eric Miao      2009-03-03  847  		.ops = &pxa_ssp_dai_ops,
-f0fba2ad1b6b53 Liam Girdwood  2010-03-17  848  };
-f0fba2ad1b6b53 Liam Girdwood  2010-03-17  849  
-
-:::::: The code at line 834 was first introduced by commit
-:::::: 1b340bd7e444f20eb2df88c65fa34960c4736ee9 ASoC: Add PXA SSP support
-
-:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+   247	
+ > 248	static const struct of_device_id vop2_dt_match[] = {
+   249		{
+   250			.compatible = "rockchip,rk3566-vop",
+   251			.data = &rk3566_vop,
+   252		}, {
+   253			.compatible = "rockchip,rk3568-vop",
+   254			.data = &rk3568_vop,
+   255		}, {
+   256		},
+   257	};
+   258	MODULE_DEVICE_TABLE(of, vop2_dt_match);
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
