@@ -1,42 +1,48 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF9626
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 02:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC3B62D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Mar 2023 03:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679021947; x=1710557947;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZZD0S82dYmiwAi0cefV4b0Z98GMD1Cnk8mYMjhQS7/Y=;
-  b=K104RhEwkyQy2CKg5sVSMG7ncKBZKuzotvzO5/ftRomf5PjQaYQ/uyPA
-   lsjdcr0nLJqNuiNF8oghodcsLEQG7d5q7lPl7zQszbr9HY51ES+0KOG6U
-   mpyhN1uSbAacJtzEpvoKYLDCRkoTIEvj1/0+BR4u5l5ZC1CoP4GLTKGeg
-   +pKDpBKFqKmqiJNj2eeLS43hdLU9g+eOYyF4xojqnYqKUvLs1b3vyY7qk
-   1H7zluOnaYni6DIB1Q/Dej5yRJ64RLZrl/bx8NItaoWa7bX4ifaFbAOx2
-   jWo5NNvta0jrT9e35D1Sj8IKV2HZQWOe3C+WSRrA8bg0lqQvBg1uE/WFM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="339707730"
+  t=1679024158; x=1710560158;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IHt4G0WAu2gSTDXf0Ktg9cVBi8lPEQATGOe4AJGToN8=;
+  b=XS26bdmuVuJHSjnQ0rPqYIAt588mHhA8CtIE4lilXqEz9+YZxMLxHiRh
+   KKhb5eUcBpwvbbHe9DXiqRdfL3IPoYj2fo1Fs4GcZuKG7cdzrTUB9yGDi
+   0/3kS8du8y5M/qZkDbFM0VKzzuhUg63c3fDHYoRRk4GvsvyqptywTcw8Y
+   nPAB5DcJ/6/uapx9Tgl4dZV4ojPXVkHBwVZ0VrPExYlUg+xbUCewHKk9d
+   cF2Rnux0VTA5+ni9GY9Z9Z+1rZPrPIRn+7oNV/wy79Fe1uIyH29yPCiqw
+   DhGUNW7Bt2LK1HtmGw4yTjguWHFAgXUF1K9QHOgUoQR4BQEJwEsBRix+i
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318567508"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="339707730"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 19:54:54 -0700
+   d="scan'208";a="318567508"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 20:35:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="710359280"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="926001442"
 X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="710359280"
+   d="scan'208";a="926001442"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 19:54:53 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 20:35:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd0F2-00090o-0d;
-	Fri, 17 Mar 2023 02:54:52 +0000
-Date: Fri, 17 Mar 2023 10:54:44 +0800
+	id 1pd0sj-00092s-2I;
+	Fri, 17 Mar 2023 03:35:53 +0000
+Date: Fri, 17 Mar 2023 11:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:block-for-next 1/9] arch/x86/include/asm/bitops.h:252:9:
- warning: 'tmp' may be used uninitialized in this function
-Message-ID: <202303171045.ExeVo14r-lkp@intel.com>
+To: Richard Fitzgerald via Alsa-devel <alsa-devel@alsa-project.org>,
+	broonie@kernel.org, pierre-louis.bossart@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>
+Subject: Re: [PATCH v2 8/8] ASoC: cs35l56: Add driver for Cirrus Logic CS35L56
+Message-ID: <202303171105.3mGHjK8s-lkp@intel.com>
+References: <167872265923.26.336497278776737619@mailman-core.alsa-project.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,213 +51,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <167872265923.26.336497278776737619@mailman-core.alsa-project.org>
 
-tree:   https://github.com/bvanassche/linux block-for-next
-head:   a084a3355b4ab79c64e557f93e56a0c5d7c952cb
-commit: d354197f2169268c6fbb0aec6f06f2257a01099d [1/9] Enable -Wmaybe-uninitialized
-config: x86_64-randconfig-a001-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171045.ExeVo14r-lkp@intel.com/config)
+Hi Richard,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.3-rc2 next-20230316]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald-via-Alsa-devel/ASoC-wm_adsp-Use-no_core_startstop-to-prevent-creating-preload-control/20230313-235605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/167872265923.26.336497278776737619%40mailman-core.alsa-project.org
+patch subject: [PATCH v2 8/8] ASoC: cs35l56: Add driver for Cirrus Logic CS35L56
+config: x86_64-buildonly-randconfig-r004-20230313 (https://download.01.org/0day-ci/archive/20230317/202303171105.3mGHjK8s-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/bvanassche/linux/commit/d354197f2169268c6fbb0aec6f06f2257a01099d
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche block-for-next
-        git checkout d354197f2169268c6fbb0aec6f06f2257a01099d
+        # https://github.com/intel-lab-lkp/linux/commit/5856c94d659f9c9963f5c37762cf201e1f1765e9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Richard-Fitzgerald-via-Alsa-devel/ASoC-wm_adsp-Use-no_core_startstop-to-prevent-creating-preload-control/20230313-235605
+        git checkout 5856c94d659f9c9963f5c37762cf201e1f1765e9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/ drivers/char/tpm/ drivers/clk/ drivers/dma-buf/ drivers/gpu/drm/ drivers/hwmon/ drivers/i3c/ drivers/iio/proximity/ drivers/iommu/iommufd/ fs/afs/ kernel/futex/ kernel/sched/ kernel/trace/ lib/ mm/ net/bridge/ net/mctp/ net/mptcp/ net/netfilter/ security/apparmor/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171045.ExeVo14r-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171105.3mGHjK8s-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+All error/warnings (new ones prefixed by >>):
 
-All warnings (new ones prefixed by >>):
+   drivers/platform/x86/serial-multi-instantiate.c: In function 'smi_spi_probe':
+>> drivers/platform/x86/serial-multi-instantiate.c:98:15: error: implicit declaration of function 'acpi_spi_count_resources'; did you mean 'acpi_set_current_resources'? [-Werror=implicit-function-declaration]
+      98 |         ret = acpi_spi_count_resources(adev);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |               acpi_set_current_resources
+>> drivers/platform/x86/serial-multi-instantiate.c:112:27: error: implicit declaration of function 'acpi_spi_device_alloc' [-Werror=implicit-function-declaration]
+     112 |                 spi_dev = acpi_spi_device_alloc(NULL, adev, i);
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/serial-multi-instantiate.c:112:25: warning: assignment to 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     112 |                 spi_dev = acpi_spi_device_alloc(NULL, adev, i);
+         |                         ^
+>> drivers/platform/x86/serial-multi-instantiate.c:115:59: error: invalid use of undefined type 'struct acpi_device'
+     115 |                                             dev_name(&adev->dev));
+         |                                                           ^~
+   drivers/platform/x86/serial-multi-instantiate.c:137:53: error: invalid use of undefined type 'struct acpi_device'
+     137 |                                       dev_name(&adev->dev));
+         |                                                     ^~
+   cc1: some warnings being treated as errors
 
-   In file included from include/linux/bitops.h:68,
-                    from lib/find_bit.c:15:
-   lib/find_bit.c: In function '__find_nth_and_andnot_bit':
->> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     252 |         asm("rep; bsf %1,%0"
-         |         ^~~
-   lib/find_bit.c:73:56: note: 'tmp' was declared here
-      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
-         |                                                        ^~~
-   lib/find_bit.c:163:16: note: in expansion of macro 'FIND_NTH_BIT'
-     163 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx] & ~addr3[idx], size, n);
-         |                ^~~~~~~~~~~~
-   In file included from include/linux/bitops.h:68,
-                    from lib/find_bit.c:15:
-   lib/find_bit.c: In function '__find_nth_bit':
->> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     252 |         asm("rep; bsf %1,%0"
-         |         ^~~
-   lib/find_bit.c:73:56: note: 'tmp' was declared here
-      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
-         |                                                        ^~~
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-     140 |         return FIND_NTH_BIT(addr[idx], size, n);
-         |                ^~~~~~~~~~~~
-   In file included from include/linux/bitops.h:68,
-                    from lib/find_bit.c:15:
-   lib/find_bit.c: In function '__find_nth_and_bit':
->> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     252 |         asm("rep; bsf %1,%0"
-         |         ^~~
-   lib/find_bit.c:73:56: note: 'tmp' was declared here
-      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
-         |                                                        ^~~
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-     147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, n);
-         |                ^~~~~~~~~~~~
-   In file included from include/linux/bitops.h:68,
-                    from lib/find_bit.c:15:
-   lib/find_bit.c: In function '__find_nth_andnot_bit':
->> arch/x86/include/asm/bitops.h:252:9: warning: 'tmp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     252 |         asm("rep; bsf %1,%0"
-         |         ^~~
-   lib/find_bit.c:73:56: note: 'tmp' was declared here
-      73 |         unsigned long sz = (size), nr = (num), idx, w, tmp;                     \
-         |                                                        ^~~
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-     154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size, n);
-         |                ^~~~~~~~~~~~
---
-   mm/gup.c: In function 'internal_get_user_pages_fast':
->> mm/gup.c:2937:20: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    2937 |                 if (read_seqcount_retry(&current->mm->write_protect_seq, seq)) {
-         |                    ^
-   mm/gup.c:2905:18: note: 'seq' was declared here
-    2905 |         unsigned seq;
-         |                  ^~~
---
-   drivers/acpi/pci_root.c: In function 'acpi_pci_osc_control_set':
->> drivers/acpi/pci_root.c:391:50: warning: 'cxl_result' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     391 |                         cxl_missing = cxl_ctrl & ~(*cxl_mask);
-         |                                                  ^~~~~~~~~~~~
---
-   fs/afs/fsclient.c: In function 'afs_deliver_fs_get_capabilities':
->> fs/afs/fsclient.c:1674:50: warning: 'count' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    1674 |                 afs_extract_discard(call, (count - 1) * sizeof(__be32));
-         |                                           ~~~~~~~^~~~
---
-   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
-   drivers/clk/clkdev.c:173:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     173 |                 vscnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
-         |                 ^~~~~~~~~~
-   In file included from include/linux/module.h:12,
-                    from drivers/clk/clkdev.c:9:
-   drivers/clk/clkdev.c: In function 'devm_clk_hw_register_clkdev':
->> include/linux/list.h:137:9: warning: 'cl' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     137 |         __list_del(entry->prev, entry->next);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clkdev.c:372:28: note: 'cl' was declared here
-     372 |         struct clk_lookup *cl;
-         |                            ^~
---
-   drivers/dma-buf/dma-fence-unwrap.c: In function '__dma_fence_unwrap_merge':
->> drivers/dma-buf/dma-fence-unwrap.c:129:74: warning: 'sel' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     129 |                                 fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-         |                                                                          ^
---
-   In file included from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/if_ether.h:19,
-                    from net/bridge/br_multicast.c:10:
-   net/bridge/br_multicast.c: In function 'br_ip6_multicast_alloc_query.constprop':
->> include/linux/jiffies.h:107:22: warning: 'llqt' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     107 |          ((long)((b) - (a)) < 0))
-         |                      ^
-   net/bridge/br_multicast.c:1092:23: note: 'llqt' was declared here
-    1092 |         unsigned long llqt;
-         |                       ^~~~
-   In file included from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/if_ether.h:19,
-                    from net/bridge/br_multicast.c:10:
-   net/bridge/br_multicast.c: In function 'br_ip4_multicast_alloc_query.constprop':
->> include/linux/jiffies.h:107:22: warning: 'lmqt' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     107 |          ((long)((b) - (a)) < 0))
-         |                      ^
-   net/bridge/br_multicast.c:943:23: note: 'lmqt' was declared here
-     943 |         unsigned long lmqt;
-         |                       ^~~~
---
-   drivers/hwmon/adt7475.c: In function 'load_config':
->> drivers/hwmon/adt7475.c:1497:15: warning: 'prop2' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    1497 |         ret = of_property_read_string(client->dev.of_node, propname, &function);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/adt7475.c:1525:29: note: 'prop2' was declared here
-    1525 |         const char *prop1, *prop2;
-         |                             ^~~~~
->> drivers/hwmon/adt7475.c:1471:15: warning: 'prop1' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    1471 |         ret = of_property_read_string(client->dev.of_node, propname, &function);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/adt7475.c:1525:21: note: 'prop1' was declared here
-    1525 |         const char *prop1, *prop2;
-         |                     ^~~~~
---
-   drivers/hwmon/pwm-fan.c: In function 'pwm_fan_probe':
->> drivers/hwmon/pwm-fan.c:594:35: warning: 'fan_channel_config' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     594 |                 fan_channel_config[i] = HWMON_F_INPUT;
-         |                                   ^
---
-   In file included from include/linux/if_arp.h:22,
-                    from net/mctp/af_mctp.c:10:
-   net/mctp/af_mctp.c: In function 'mctp_sendmsg':
->> include/linux/skbuff.h:2716:19: warning: 'hlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    2716 |         skb->data += len;
-         |                   ^~
-   net/mctp/af_mctp.c:102:13: note: 'hlen' was declared here
-     102 |         int hlen;
-         |             ^~~~
---
-   security/apparmor/policy_unpack.c: In function 'unpack_secmark':
->> security/apparmor/policy_unpack.c:597:31: warning: 'size' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     597 |                 for (i = 0; i < size; i++)
-         |                             ~~^~~~~~
-..
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SERIAL_MULTI_INSTANTIATE
+   Depends on [n]: X86_PLATFORM_DEVICES [=n] && I2C [=y] && SPI [=y] && ACPI [=n]
+   Selected by [y]:
+   - SND_SOC_CS35L56_I2C [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=y]
+   - SND_SOC_CS35L56_SPI [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SPI_MASTER [=y]
 
 
-vim +/tmp +252 arch/x86/include/asm/bitops.h
+vim +112 drivers/platform/x86/serial-multi-instantiate.c
 
-8238b4579866b7 Mikulas Patocka 2022-08-26  249  
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  250  static __always_inline unsigned long variable__ffs(unsigned long word)
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  251  {
-fdb6649ab7c142 Vincent Mailhol 2022-09-07 @252  	asm("rep; bsf %1,%0"
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  253  		: "=r" (word)
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  254  		: "rm" (word));
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  255  	return word;
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  256  }
-fdb6649ab7c142 Vincent Mailhol 2022-09-07  257  
-
-:::::: The code at line 252 was first introduced by commit
-:::::: fdb6649ab7c142e497539a471e573c2593b9c923 x86/asm/bitops: Use __builtin_ctzl() to evaluate constant expressions
-
-:::::: TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-:::::: CC: Borislav Petkov <bp@suse.de>
+68f201f9061c000 Stefan Binding  2022-01-21   79  
+68f201f9061c000 Stefan Binding  2022-01-21   80  /**
+68f201f9061c000 Stefan Binding  2022-01-21   81   * smi_spi_probe - Instantiate multiple SPI devices from inst array
+68f201f9061c000 Stefan Binding  2022-01-21   82   * @pdev:	Platform device
+68f201f9061c000 Stefan Binding  2022-01-21   83   * @smi:	Internal struct for Serial multi instantiate driver
+68f201f9061c000 Stefan Binding  2022-01-21   84   * @inst_array:	Array of instances to probe
+68f201f9061c000 Stefan Binding  2022-01-21   85   *
+68f201f9061c000 Stefan Binding  2022-01-21   86   * Returns the number of SPI devices instantiate, Zero if none is found or a negative error code.
+68f201f9061c000 Stefan Binding  2022-01-21   87   */
+8b50c48d59a9cd0 Andy Shevchenko 2022-07-10   88  static int smi_spi_probe(struct platform_device *pdev, struct smi *smi,
+68f201f9061c000 Stefan Binding  2022-01-21   89  			 const struct smi_instance *inst_array)
+68f201f9061c000 Stefan Binding  2022-01-21   90  {
+68f201f9061c000 Stefan Binding  2022-01-21   91  	struct device *dev = &pdev->dev;
+8b50c48d59a9cd0 Andy Shevchenko 2022-07-10   92  	struct acpi_device *adev = ACPI_COMPANION(dev);
+68f201f9061c000 Stefan Binding  2022-01-21   93  	struct spi_controller *ctlr;
+68f201f9061c000 Stefan Binding  2022-01-21   94  	struct spi_device *spi_dev;
+68f201f9061c000 Stefan Binding  2022-01-21   95  	char name[50];
+68f201f9061c000 Stefan Binding  2022-01-21   96  	int i, ret, count;
+68f201f9061c000 Stefan Binding  2022-01-21   97  
+68f201f9061c000 Stefan Binding  2022-01-21  @98  	ret = acpi_spi_count_resources(adev);
+68f201f9061c000 Stefan Binding  2022-01-21   99  	if (ret < 0)
+68f201f9061c000 Stefan Binding  2022-01-21  100  		return ret;
+f3e13bbc6f5a84f Andy Shevchenko 2022-07-10  101  	if (!ret)
+2b5b27826a48eea Andy Shevchenko 2022-07-10  102  		return -ENOENT;
+68f201f9061c000 Stefan Binding  2022-01-21  103  
+68f201f9061c000 Stefan Binding  2022-01-21  104  	count = ret;
+68f201f9061c000 Stefan Binding  2022-01-21  105  
+68f201f9061c000 Stefan Binding  2022-01-21  106  	smi->spi_devs = devm_kcalloc(dev, count, sizeof(*smi->spi_devs), GFP_KERNEL);
+68f201f9061c000 Stefan Binding  2022-01-21  107  	if (!smi->spi_devs)
+68f201f9061c000 Stefan Binding  2022-01-21  108  		return -ENOMEM;
+68f201f9061c000 Stefan Binding  2022-01-21  109  
+68f201f9061c000 Stefan Binding  2022-01-21  110  	for (i = 0; i < count && inst_array[i].type; i++) {
+68f201f9061c000 Stefan Binding  2022-01-21  111  
+68f201f9061c000 Stefan Binding  2022-01-21 @112  		spi_dev = acpi_spi_device_alloc(NULL, adev, i);
+68f201f9061c000 Stefan Binding  2022-01-21  113  		if (IS_ERR(spi_dev)) {
+14a9aa99aca6c28 Andy Shevchenko 2022-07-10  114  			ret = dev_err_probe(dev, PTR_ERR(spi_dev), "failed to allocate SPI device %s from ACPI\n",
+14a9aa99aca6c28 Andy Shevchenko 2022-07-10 @115  					    dev_name(&adev->dev));
+68f201f9061c000 Stefan Binding  2022-01-21  116  			goto error;
+68f201f9061c000 Stefan Binding  2022-01-21  117  		}
+68f201f9061c000 Stefan Binding  2022-01-21  118  
+68f201f9061c000 Stefan Binding  2022-01-21  119  		ctlr = spi_dev->controller;
+68f201f9061c000 Stefan Binding  2022-01-21  120  
+68f201f9061c000 Stefan Binding  2022-01-21  121  		strscpy(spi_dev->modalias, inst_array[i].type, sizeof(spi_dev->modalias));
+68f201f9061c000 Stefan Binding  2022-01-21  122  
+68f201f9061c000 Stefan Binding  2022-01-21  123  		ret = smi_get_irq(pdev, adev, &inst_array[i]);
+68f201f9061c000 Stefan Binding  2022-01-21  124  		if (ret < 0) {
+68f201f9061c000 Stefan Binding  2022-01-21  125  			spi_dev_put(spi_dev);
+68f201f9061c000 Stefan Binding  2022-01-21  126  			goto error;
+68f201f9061c000 Stefan Binding  2022-01-21  127  		}
+68f201f9061c000 Stefan Binding  2022-01-21  128  		spi_dev->irq = ret;
+68f201f9061c000 Stefan Binding  2022-01-21  129  
+68f201f9061c000 Stefan Binding  2022-01-21  130  		snprintf(name, sizeof(name), "%s-%s-%s.%d", dev_name(&ctlr->dev), dev_name(dev),
+68f201f9061c000 Stefan Binding  2022-01-21  131  			 inst_array[i].type, i);
+68f201f9061c000 Stefan Binding  2022-01-21  132  		spi_dev->dev.init_name = name;
+68f201f9061c000 Stefan Binding  2022-01-21  133  
+68f201f9061c000 Stefan Binding  2022-01-21  134  		ret = spi_add_device(spi_dev);
+68f201f9061c000 Stefan Binding  2022-01-21  135  		if (ret) {
+14a9aa99aca6c28 Andy Shevchenko 2022-07-10  136  			dev_err_probe(&ctlr->dev, ret, "failed to add SPI device %s from ACPI\n",
+14a9aa99aca6c28 Andy Shevchenko 2022-07-10  137  				      dev_name(&adev->dev));
+68f201f9061c000 Stefan Binding  2022-01-21  138  			spi_dev_put(spi_dev);
+68f201f9061c000 Stefan Binding  2022-01-21  139  			goto error;
+68f201f9061c000 Stefan Binding  2022-01-21  140  		}
+68f201f9061c000 Stefan Binding  2022-01-21  141  
+68f201f9061c000 Stefan Binding  2022-01-21  142  		dev_dbg(dev, "SPI device %s using chip select %u", name, spi_dev->chip_select);
+68f201f9061c000 Stefan Binding  2022-01-21  143  
+68f201f9061c000 Stefan Binding  2022-01-21  144  		smi->spi_devs[i] = spi_dev;
+68f201f9061c000 Stefan Binding  2022-01-21  145  		smi->spi_num++;
+68f201f9061c000 Stefan Binding  2022-01-21  146  	}
+68f201f9061c000 Stefan Binding  2022-01-21  147  
+68f201f9061c000 Stefan Binding  2022-01-21  148  	if (smi->spi_num < count) {
+68f201f9061c000 Stefan Binding  2022-01-21  149  		dev_dbg(dev, "Error finding driver, idx %d\n", i);
+68f201f9061c000 Stefan Binding  2022-01-21  150  		ret = -ENODEV;
+68f201f9061c000 Stefan Binding  2022-01-21  151  		goto error;
+68f201f9061c000 Stefan Binding  2022-01-21  152  	}
+68f201f9061c000 Stefan Binding  2022-01-21  153  
+68f201f9061c000 Stefan Binding  2022-01-21  154  	dev_info(dev, "Instantiated %d SPI devices.\n", smi->spi_num);
+68f201f9061c000 Stefan Binding  2022-01-21  155  
+68f201f9061c000 Stefan Binding  2022-01-21  156  	return 0;
+68f201f9061c000 Stefan Binding  2022-01-21  157  error:
+68f201f9061c000 Stefan Binding  2022-01-21  158  	smi_devs_unregister(smi);
+68f201f9061c000 Stefan Binding  2022-01-21  159  
+68f201f9061c000 Stefan Binding  2022-01-21  160  	return ret;
+35a36cbb7b1ce75 Lucas Tanure    2022-01-21  161  }
+35a36cbb7b1ce75 Lucas Tanure    2022-01-21  162  
 
 -- 
 0-DAY CI Kernel Test Service
