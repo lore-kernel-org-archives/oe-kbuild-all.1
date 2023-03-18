@@ -1,408 +1,99 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C476163D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 02:51:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679107891; x=1710643891;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ri2MCaeRMo6RBnFVcxLkbYtQnqAfUdd4PsrPlosgVbA=;
-  b=bMY5i9s+CaAja8c/NV5VXhQuA+haxgbaYxw581xaB8KExgMk7/1lTf8s
-   ee6dVq1WrEfxoH5FhB0rUMkqBlCQk+B7riO0vJyENBO4q11SNg01xJ9Fa
-   5ATjNVy8wqfYSo/ahiefD7tapU/osGopYsZDXQDfw+yZ93K13LbI3abZ7
-   /DDuhTVbq8qb8ljukXx6q/aywjvlrtdl8TOTnd/Wc1cFPhkHQXV/ZoQMM
-   UKVPYSG4KfWIekEe8XC0F5MtqMGGJdV+FFeUTwdb4PVOWUKiq2H1JjIF0
-   TmLB4DFH75hwlgcSltRbnn6lbqv9Ow96H5accC1OgnzJaZQauulbpHbzE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="400978372"
-X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="400978372"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 19:51:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="680497574"
-X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="680497574"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 17 Mar 2023 19:51:30 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pdMfJ-0009l1-1J;
-	Sat, 18 Mar 2023 02:51:29 +0000
-Date: Sat, 18 Mar 2023 10:50:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:static-call-null-4 9/9]
- include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_unseal'
- undeclared; did you mean '__SCK__trusted_key_unseal'?
-Message-ID: <202303181054.8s0MllvU-lkp@intel.com>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4FD763B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 02:52:11 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.35])
+	by gateway (Coremail) with SMTP id _____8DxE0xTJxVkCakNAA--.20075S3;
+	Sat, 18 Mar 2023 10:52:03 +0800 (CST)
+Received: from [10.20.42.35] (unknown [10.20.42.35])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxsOROJxVkn4kEAA--.20675S3;
+	Sat, 18 Mar 2023 10:51:58 +0800 (CST)
+Subject: Re: [PATCH v2 2/2] spi: loongson: add bus driver for the loongson spi
+ controller
+To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+ wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
+ loongson-kernel@lists.loongnix.cn, zhuyinbo@loongson.cn
+References: <20230317082950.12738-3-zhuyinbo@loongson.cn>
+ <202303180159.1qAKqnp9-lkp@intel.com>
+From: zhuyinbo <zhuyinbo@loongson.cn>
+Message-ID: <804d327e-57e0-4183-79c6-f9650ac59a8f@loongson.cn>
+Date: Sat, 18 Mar 2023 10:51:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-4
-head:   7f7e0649e8daa4d77b60c9f9924def9324036069
-commit: 7f7e0649e8daa4d77b60c9f9924def9324036069 [9/9] todo
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230318/202303181054.8s0MllvU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=7f7e0649e8daa4d77b60c9f9924def9324036069
-        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
-        git fetch --no-tags jpoimboe static-call-null-4
-        git checkout 7f7e0649e8daa4d77b60c9f9924def9324036069
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash security/keys/trusted-keys/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181054.8s0MllvU-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   security/keys/trusted-keys/trusted_core.c: In function 'trusted_instantiate':
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_unseal' undeclared (first use in this function); did you mean '__SCK__trusted_key_unseal'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:271:18: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     271 |         ((typeof(STATIC_CALL_TRAMP(name))*)(STATIC_CALL_KEY(name).func))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:215:9: note: in expansion of macro '__static_call'
-     215 |         __static_call(name);                                            \
-         |         ^~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:182:23: note: in expansion of macro 'static_call'
-     182 |                 ret = static_call(trusted_key_unseal)(payload, datablob);
-         |                       ^~~~~~~~~~~
-   include/linux/static_call_types.h:19:41: note: each undeclared identifier is reported only once for each function it appears in
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:271:18: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     271 |         ((typeof(STATIC_CALL_TRAMP(name))*)(STATIC_CALL_KEY(name).func))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:215:9: note: in expansion of macro '__static_call'
-     215 |         __static_call(name);                                            \
-         |         ^~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:182:23: note: in expansion of macro 'static_call'
-     182 |                 ret = static_call(trusted_key_unseal)(payload, datablob);
-         |                       ^~~~~~~~~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_get_random' undeclared (first use in this function); did you mean '__SCK__trusted_key_get_random'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:271:18: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     271 |         ((typeof(STATIC_CALL_TRAMP(name))*)(STATIC_CALL_KEY(name).func))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:215:9: note: in expansion of macro '__static_call'
-     215 |         __static_call(name);                                            \
-         |         ^~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:189:23: note: in expansion of macro 'static_call'
-     189 |                 ret = static_call(trusted_key_get_random)(payload->key,
-         |                       ^~~~~~~~~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_seal' undeclared (first use in this function); did you mean '__SCK__trusted_key_seal'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:271:18: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     271 |         ((typeof(STATIC_CALL_TRAMP(name))*)(STATIC_CALL_KEY(name).func))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:215:9: note: in expansion of macro '__static_call'
-     215 |         __static_call(name);                                            \
-         |         ^~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:200:23: note: in expansion of macro 'static_call'
-     200 |                 ret = static_call(trusted_key_seal)(payload, datablob);
-         |                       ^~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c: In function 'trusted_update':
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_seal' undeclared (first use in this function); did you mean '__SCK__trusted_key_seal'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:271:18: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     271 |         ((typeof(STATIC_CALL_TRAMP(name))*)(STATIC_CALL_KEY(name).func))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:215:9: note: in expansion of macro '__static_call'
-     215 |         __static_call(name);                                            \
-         |         ^~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:269:15: note: in expansion of macro 'static_call'
-     269 |         ret = static_call(trusted_key_seal)(new_p, datablob);
-         |               ^~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c: In function 'init_trusted':
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_init' undeclared (first use in this function); did you mean '__SCK__trusted_key_init'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:222:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                 ^~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:362:17: note: in expansion of macro 'static_call_update'
-     362 |                 static_call_update(trusted_key_init,
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:31,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rbtree.h:24,
-                    from include/linux/key.h:15,
-                    from include/keys/user-type.h:11,
-                    from security/keys/trusted-keys/trusted_core.c:9:
->> include/linux/static_call.h:222:48: warning: initialization of 'int' from 'int (*)(void)' makes integer from pointer without a cast [-Wint-conversion]
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                ^
-   security/keys/trusted-keys/trusted_core.c:362:17: note: in expansion of macro 'static_call_update'
-     362 |                 static_call_update(trusted_key_init,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:224:60: warning: passing argument 3 of '__static_call_update' makes pointer from integer without a cast [-Wint-conversion]
-     224 |                              STATIC_CALL_TRAMP_ADDR(name), __F);        \
-         |                                                            ^~~
-         |                                                            |
-         |                                                            int
-   security/keys/trusted-keys/trusted_core.c:362:17: note: in expansion of macro 'static_call_update'
-     362 |                 static_call_update(trusted_key_init,
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:299:75: note: expected 'void *' but argument is of type 'int'
-     299 | void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-         |                                                                     ~~~~~~^~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_seal' undeclared (first use in this function); did you mean '__SCK__trusted_key_seal'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:222:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                 ^~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:364:17: note: in expansion of macro 'static_call_update'
-     364 |                 static_call_update(trusted_key_seal,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:222:48: warning: initialization of 'int' from 'int (*)(struct trusted_key_payload *, char *)' makes integer from pointer without a cast [-Wint-conversion]
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                ^
-   security/keys/trusted-keys/trusted_core.c:364:17: note: in expansion of macro 'static_call_update'
-     364 |                 static_call_update(trusted_key_seal,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:224:60: warning: passing argument 3 of '__static_call_update' makes pointer from integer without a cast [-Wint-conversion]
-     224 |                              STATIC_CALL_TRAMP_ADDR(name), __F);        \
-         |                                                            ^~~
-         |                                                            |
-         |                                                            int
-   security/keys/trusted-keys/trusted_core.c:364:17: note: in expansion of macro 'static_call_update'
-     364 |                 static_call_update(trusted_key_seal,
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:299:75: note: expected 'void *' but argument is of type 'int'
-     299 | void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-         |                                                                     ~~~~~~^~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_unseal' undeclared (first use in this function); did you mean '__SCK__trusted_key_unseal'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:222:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                 ^~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:366:17: note: in expansion of macro 'static_call_update'
-     366 |                 static_call_update(trusted_key_unseal,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:222:48: warning: initialization of 'int' from 'int (*)(struct trusted_key_payload *, char *)' makes integer from pointer without a cast [-Wint-conversion]
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                ^
-   security/keys/trusted-keys/trusted_core.c:366:17: note: in expansion of macro 'static_call_update'
-     366 |                 static_call_update(trusted_key_unseal,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:224:60: warning: passing argument 3 of '__static_call_update' makes pointer from integer without a cast [-Wint-conversion]
-     224 |                              STATIC_CALL_TRAMP_ADDR(name), __F);        \
-         |                                                            ^~~
-         |                                                            |
-         |                                                            int
-   security/keys/trusted-keys/trusted_core.c:366:17: note: in expansion of macro 'static_call_update'
-     366 |                 static_call_update(trusted_key_unseal,
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:299:75: note: expected 'void *' but argument is of type 'int'
-     299 | void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-         |                                                                     ~~~~~~^~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_get_random' undeclared (first use in this function); did you mean '__SCK__trusted_key_get_random'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:222:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                 ^~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:368:17: note: in expansion of macro 'static_call_update'
-     368 |                 static_call_update(trusted_key_get_random,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:222:48: warning: initialization of 'int' from 'int (*)(unsigned char *, size_t)' {aka 'int (*)(unsigned char *, unsigned int)'} makes integer from pointer without a cast [-Wint-conversion]
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                ^
-   security/keys/trusted-keys/trusted_core.c:368:17: note: in expansion of macro 'static_call_update'
-     368 |                 static_call_update(trusted_key_get_random,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:224:60: warning: passing argument 3 of '__static_call_update' makes pointer from integer without a cast [-Wint-conversion]
-     224 |                              STATIC_CALL_TRAMP_ADDR(name), __F);        \
-         |                                                            ^~~
-         |                                                            |
-         |                                                            int
-   security/keys/trusted-keys/trusted_core.c:368:17: note: in expansion of macro 'static_call_update'
-     368 |                 static_call_update(trusted_key_get_random,
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:299:75: note: expected 'void *' but argument is of type 'int'
-     299 | void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-         |                                                                     ~~~~~~^~~~
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_exit' undeclared (first use in this function); did you mean '__SCK__trusted_key_exit'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:222:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                 ^~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:370:17: note: in expansion of macro 'static_call_update'
-     370 |                 static_call_update(trusted_key_exit,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:222:48: warning: initialization of 'int' from 'void (*)(void)' makes integer from pointer without a cast [-Wint-conversion]
-     222 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                ^
-   security/keys/trusted-keys/trusted_core.c:370:17: note: in expansion of macro 'static_call_update'
-     370 |                 static_call_update(trusted_key_exit,
-         |                 ^~~~~~~~~~~~~~~~~~
->> include/linux/static_call.h:224:60: warning: passing argument 3 of '__static_call_update' makes pointer from integer without a cast [-Wint-conversion]
-     224 |                              STATIC_CALL_TRAMP_ADDR(name), __F);        \
-         |                                                            ^~~
-         |                                                            |
-         |                                                            int
-   security/keys/trusted-keys/trusted_core.c:370:17: note: in expansion of macro 'static_call_update'
-     370 |                 static_call_update(trusted_key_exit,
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:299:75: note: expected 'void *' but argument is of type 'int'
-     299 | void __static_call_update(struct static_call_key *key, void *tramp, void *func)
-         |                                                                     ~~~~~~^~~~
-   security/keys/trusted-keys/trusted_core.c: In function 'cleanup_trusted':
->> include/linux/static_call_types.h:19:41: error: '__SCT__trusted_key_exit' undeclared (first use in this function); did you mean '__SCK__trusted_key_exit'?
-      19 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
-         |                                         ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/static_call_types.h:22:41: note: in expansion of macro '__PASTE'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~
-   include/linux/static_call_types.h:22:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-      22 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:291:17: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     291 |         (typeof(STATIC_CALL_TRAMP(name))*)func;                         \
-         |                 ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:218:47: note: in expansion of macro '__static_call_cond'
-     218 | #define static_call_cond(name)          (void)__static_call_cond(name)
-         |                                               ^~~~~~~~~~~~~~~~~~
-   security/keys/trusted-keys/trusted_core.c:391:9: note: in expansion of macro 'static_call_cond'
-     391 |         static_call_cond(trusted_key_exit)();
-         |         ^~~~~~~~~~~~~~~~
+In-Reply-To: <202303180159.1qAKqnp9-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:AQAAf8CxsOROJxVkn4kEAA--.20675S3
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxZw1xGr18AF17Xw18Ar4xZwb_yoW5GFy8p3
+	y8CFsxKryFqr18GaykGayDWF4jqrs8XwnrXFyDZF4UuFZxZFyjqrs29r1YgrnI9F4vgFy8
+	ZrWfXF9Y9a4UAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	bx8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64
+	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28E
+	F7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAq
+	jxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
+	AFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
+	0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz4
+	8v1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
+	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2js
+	IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jj2NtUUUUU=
 
 
-vim +19 include/linux/static_call_types.h
+在 2023/3/18 上午2:07, kernel test robot 写道:
+> Hi Yinbo,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on broonie-spi/for-next]
+> [also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.3-rc2 next-20230317]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230317-163907
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> patch link:    https://lore.kernel.org/r/20230317082950.12738-3-zhuyinbo%40loongson.cn
+> patch subject: [PATCH v2 2/2] spi: loongson: add bus driver for the loongson spi controller
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230318/202303180159.1qAKqnp9-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/a532955fcee3d37eb4332cea2b868f74ace0bc72
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230317-163907
+>          git checkout a532955fcee3d37eb4332cea2b868f74ace0bc72
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303180159.1qAKqnp9-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+>>> ERROR: modpost: "__udivdi3" [drivers/spi/spi-loongson.ko] undefined!
 
-115284d89a436e Josh Poimboeuf 2020-08-18  18  
-115284d89a436e Josh Poimboeuf 2020-08-18 @19  #define STATIC_CALL_TRAMP_PREFIX	__SCT__
-115284d89a436e Josh Poimboeuf 2020-08-18  20  #define STATIC_CALL_TRAMP_PREFIX_STR	__stringify(STATIC_CALL_TRAMP_PREFIX)
-9183c3f9ed710a Josh Poimboeuf 2020-08-18  21  #define STATIC_CALL_TRAMP_PREFIX_LEN	(sizeof(STATIC_CALL_TRAMP_PREFIX_STR) - 1)
-115284d89a436e Josh Poimboeuf 2020-08-18  22  #define STATIC_CALL_TRAMP(name)		__PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-115284d89a436e Josh Poimboeuf 2020-08-18  23  #define STATIC_CALL_TRAMP_STR(name)	__stringify(STATIC_CALL_TRAMP(name))
-115284d89a436e Josh Poimboeuf 2020-08-18  24  
+This "__udivdi3" undefined!" ERROR that due to u64 / u32 and not use do_div, I think add following change
+that can fix this ERROR.
 
-:::::: The code at line 19 was first introduced by commit
-:::::: 115284d89a436e9b66da0c6c4f6efded806874b2 static_call: Add basic static call infrastructure
+-               div = DIV_ROUND_UP(loongson_spi->clk_rate, hz);
 
-:::::: TO: Josh Poimboeuf <jpoimboe@redhat.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
++               div = DIV_ROUND_UP_ULL(loongson_spi->clk_rate, hz);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
