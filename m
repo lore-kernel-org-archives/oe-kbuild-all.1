@@ -1,42 +1,41 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95D863D2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 19:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82A6746B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 20:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679166414; x=1710702414;
+  t=1679172595; x=1710708595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/1UEoVuOvvsboY0RO0tSRLaCb+OMWsXgB32jNVQngTk=;
-  b=Tjydze7NteNKv1UXrsHo/eqi/wkrf3u4qymjKrZIvfA3NrxxnaSA3C8W
-   98hvk+DENOLH/67yFEf2tRaBMtwDOX31CSgd8bEPw8K2bv+6un+7tZ+Yp
-   7de89eMDFWftsY7x45dX8XNWGVLLFfnS9sKD7o408piXZox1tfCvfk1n2
-   oLo8IbaWshmRsDTEwYXfZc+LaIDntddg1zBxZ3BfJwqbXwmpDb/D9GwiE
-   uzxmRO5/Qh4cyhywwLGeZXXc4R2x/QM/8gQqXg5I6ZGScqQO/C48Kt6ip
-   dSZS29TPjRBx+SP7qqF4TwybuC4IZQuV7ans9/UrqldqF/esIAVkuFk3M
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="337164110"
+  bh=1uPvqFkj6xuETldZ6mZqMSkNUnGUIg7Gas4Q9O07BA8=;
+  b=S+ZKQ0uWqan3rVniwaLJo6ZfwOUmIAlhdCer1OL63WsoyiW4kfIBmQVb
+   vWKyYUWouXEwAjGlHQTrexapAo6pX4fOm/vfVjm3ESJSUyJpxDkN6PojM
+   IG7RhiXxbmndnbLBIYZXdsJeXkQrV59LX+GAhw49+s/QSln2hO27MHMGO
+   SNdMl5tK9/Ff0Q+PZtbZUTeZR3VYpl/fKhJNjcYossEpUPADUQvdeiGH4
+   kTREuVmO5gFk3SmfLxlcR5WoL9j0SKDIhhrpeS1ec7HjtsXAE3ymYEXuG
+   1BXy5iw7iL++qmW8Wo0hkw4ICuPtN0UUBhkG0o7GgGM1z8fPoTmsOgDsi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="322307176"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="337164110"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 12:06:54 -0700
+   d="scan'208";a="322307176"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 13:49:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="713104556"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="657923989"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="713104556"
+   d="scan'208";a="657923989"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Mar 2023 12:06:52 -0700
+  by orsmga006.jf.intel.com with ESMTP; 18 Mar 2023 13:49:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdbtE-000ADy-00;
-	Sat, 18 Mar 2023 19:06:52 +0000
-Date: Sun, 19 Mar 2023 03:05:54 +0800
+	id 1pddUv-000AGd-29;
+	Sat, 18 Mar 2023 20:49:53 +0000
+Date: Sun, 19 Mar 2023 04:48:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
+To: Kees Cook <keescook@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype
- for 'mpc52xx_psc_spi_transfer_one_message'
-Message-ID: <202303190242.zHzK9uDP-lkp@intel.com>
+Subject: undefined reference to `ftrace_likely_update'
+Message-ID: <202303190415.4WEArirP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,86 +45,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
+Hi Kees,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   efbcbb12ee99f750c9f25c873b55ad774871de2a
-commit: 145cfc3840e5931a789a8e2e76af841ab4cad44b spi: mpc52xx-psc: Switch to using core message queue
-date:   9 months ago
-config: powerpc-randconfig-r006-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190242.zHzK9uDP-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+head:   534293368afa1a953c283310b82e4dc58309d51e
+commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN for cross-field memcpy()
+date:   6 months ago
+config: s390-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190415.4WEArirP-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=145cfc3840e5931a789a8e2e76af841ab4cad44b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=54d9469bc515dc5fcbc20eecbe19cea868b70d68
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 145cfc3840e5931a789a8e2e76af841ab4cad44b
+        git checkout 54d9469bc515dc5fcbc20eecbe19cea868b70d68
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/spi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303190242.zHzK9uDP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190415.4WEArirP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype for 'mpc52xx_psc_spi_transfer_one_message' [-Wmissing-prototypes]
-     195 | int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/mpc52xx_psc_spi_transfer_one_message +195 drivers/spi/spi-mpc52xx-psc.c
-
-   194	
- > 195	int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
-   196						 struct spi_message *m)
-   197	{
-   198		struct spi_device *spi;
-   199		struct spi_transfer *t = NULL;
-   200		unsigned cs_change;
-   201		int status;
-   202	
-   203		spi = m->spi;
-   204		cs_change = 1;
-   205		status = 0;
-   206		list_for_each_entry (t, &m->transfers, transfer_list) {
-   207			if (t->bits_per_word || t->speed_hz) {
-   208				status = mpc52xx_psc_spi_transfer_setup(spi, t);
-   209				if (status < 0)
-   210					break;
-   211			}
-   212	
-   213			if (cs_change)
-   214				mpc52xx_psc_spi_activate_cs(spi);
-   215			cs_change = t->cs_change;
-   216	
-   217			status = mpc52xx_psc_spi_transfer_rxtx(spi, t);
-   218			if (status)
-   219				break;
-   220			m->actual_length += t->len;
-   221	
-   222			spi_transfer_delay_exec(t);
-   223	
-   224			if (cs_change)
-   225				mpc52xx_psc_spi_deactivate_cs(spi);
-   226		}
-   227	
-   228		m->status = status;
-   229		if (status || !cs_change)
-   230			mpc52xx_psc_spi_deactivate_cs(spi);
-   231	
-   232		mpc52xx_psc_spi_transfer_setup(spi, NULL);
-   233	
-   234		spi_finalize_current_message(ctlr);
-   235	
-   236		return 0;
-   237	}
-   238	
+   s390-linux-ld: arch/s390/purgatory/purgatory: in function `sha256_update':
+>> (.text+0x248c): undefined reference to `ftrace_likely_update'
+>> s390-linux-ld: (.text+0x2984): undefined reference to `ftrace_likely_update'
 
 -- 
 0-DAY CI Kernel Test Service
