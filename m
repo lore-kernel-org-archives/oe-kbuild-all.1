@@ -1,45 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4717637
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 02:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B74363B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 02:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679106631; x=1710642631;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GvmzAJef4m3BJVSEAGAssA83vtoA9QXJ2aaMijbn1ok=;
-  b=S5hERZF5NcaG6H7nEDTTnFtLkoS/O5Xby8iy1LrEpCV2z4rRPhd7m40R
-   uyVnDf1JB9FQo1ABvvxe6UQaYWimnO2WtJxOvwj/HXriH+Wp3diiDZ8WX
-   JTcl2NvKb5Sj+Zw8ww/xVDCFlBnl8iU6RhndW34Em/Tn3Ao6zwzgKrIGT
-   3Ih0Hu/PybaliiNrwYjlL5E2Xy9iWegHV6HF1GBqz1/K1TgX58zski+jE
-   4BVZ76R/Nk6PydCtrqrbk6/szUKfNEJjXLCTcDkNx10uDWsnKCwsTpKac
-   EObU/8q06ObSWucFZdkqsLMTem4O0enOZgzTtCUcillqdA0FQB7s8Si+i
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335894896"
+  t=1679107891; x=1710643891;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x+TFmuq7FCvkr7223gykz9hvuHlw0ZwBSUzIGPXuZ50=;
+  b=ARLxb4AJSbfIprjKHw0X9izvsPzte0sKEOwkdi9NT97Rj55BnbSr9xmx
+   1glO/n64H06UKVrRVlC01x/ptM3ng++ccAi7625XRt1JIoimmZY3n5nqX
+   3SOEAOvnDZj+Htkq1cMErhCnOdPvItCHzv4xp17HKIqeYrryD6wadslc+
+   QCGezywUVy3ZA8gbfyZFtkGhegrStaECsIE/v8iNI3yZf8PYxifb1+weE
+   aykj6KEfO443WuTTiGZF8Gjq4vBVLkU1oaHDT1NsUwKvOy28IbK5Qg46c
+   zLc4+rXvJZJ/SiLXtbLycdS0hWxGuD+A3D5ozrBRpWCBXQ0Otyjx8YZi6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="326763738"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="335894896"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 19:30:31 -0700
+   d="scan'208";a="326763738"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 19:51:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673775340"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="769581911"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="673775340"
+   d="scan'208";a="769581911"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 19:30:29 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Mar 2023 19:51:29 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdMKy-0009js-2F;
-	Sat, 18 Mar 2023 02:30:28 +0000
-Date: Sat, 18 Mar 2023 10:29:53 +0800
+	id 1pdMfJ-0009ky-1E;
+	Sat, 18 Mar 2023 02:51:29 +0000
+Date: Sat, 18 Mar 2023 10:50:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Keeping <john@metanate.com>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, John Keeping <john@metanate.com>,
-	"moderated list:SOUND" <alsa-devel@alsa-project.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Fix recursive locking on XRUN
-Message-ID: <202303181006.qGZbdrAN-lkp@intel.com>
-References: <20230317195128.3911155-1-john@metanate.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:20230317-module-alloc-opts 31/31]
+ kernel/module/main.c:2673:6: warning: no previous prototype for
+ 'module_autoload_proceed'
+Message-ID: <202303181000.UuSMCCkz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +46,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230317195128.3911155-1-john@metanate.com>
 
-Hi John,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Keeping/ALSA-usb-audio-Fix-recursive-locking-on-XRUN/20230318-035430
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230317195128.3911155-1-john%40metanate.com
-patch subject: [PATCH] ALSA: usb-audio: Fix recursive locking on XRUN
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230318/202303181006.qGZbdrAN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230317-module-alloc-opts
+head:   68dfd11f7ebeb379312f4fc89c2792ce52d71ab4
+commit: 68dfd11f7ebeb379312f4fc89c2792ce52d71ab4 [31/31] module: add a sanity check prior to allowing kernel module auto-loading
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230318/202303181000.UuSMCCkz-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/21bbf1266d22cbc0e1ec7c8d535738f66bbc9801
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review John-Keeping/ALSA-usb-audio-Fix-recursive-locking-on-XRUN/20230318-035430
-        git checkout 21bbf1266d22cbc0e1ec7c8d535738f66bbc9801
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=68dfd11f7ebeb379312f4fc89c2792ce52d71ab4
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof 20230317-module-alloc-opts
+        git checkout 68dfd11f7ebeb379312f4fc89c2792ce52d71ab4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181006.qGZbdrAN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181000.UuSMCCkz-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "snd_pcm_stop_xrun_under_stream_lock" [sound/usb/snd-usb-audio.ko] undefined!
+   kernel/module/main.c: In function 'move_module':
+   kernel/module/main.c:2227:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    2227 |         int ret = -ENOMEM;
+         |             ^~~
+   kernel/module/main.c: At top level:
+>> kernel/module/main.c:2673:6: warning: no previous prototype for 'module_autoload_proceed' [-Wmissing-prototypes]
+    2673 | bool module_autoload_proceed(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/module_autoload_proceed +2673 kernel/module/main.c
+
+  2667	
+  2668	/*
+  2669	 * We allow contention of the module_mutex here because kernel module
+  2670	 * auto-loading a special feature *and* because we are only allowing
+  2671	 * MAX_KMOD_CONCURRENT possible checks at a time for a module.
+  2672	 */
+> 2673	bool module_autoload_proceed(const char *name)
+  2674	{
+  2675		int err;
+  2676	
+  2677		mutex_lock(&module_mutex);
+  2678		err = module_patient_check_exists(name);
+  2679		mutex_unlock(&module_mutex);
+  2680	
+  2681		if (err == -EEXIST)
+  2682			return false;
+  2683		return true;
+  2684	}
+  2685	
 
 -- 
 0-DAY CI Kernel Test Service
