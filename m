@@ -1,99 +1,101 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5A87F8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 07:10:40 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.35])
-	by gateway (Coremail) with SMTP id _____8Axz__tYxVkIbwNAA--.20207S3;
-	Sat, 18 Mar 2023 15:10:38 +0800 (CST)
-Received: from [10.20.42.35] (unknown [10.20.42.35])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxX+ToYxVkdMEEAA--.21293S3;
-	Sat, 18 Mar 2023 15:10:33 +0800 (CST)
-Subject: Re: [PATCH v2 2/2] spi: loongson: add bus driver for the loongson spi
- controller
-To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
- loongson-kernel@lists.loongnix.cn, zhuyinbo@loongson.cn
-References: <20230317082950.12738-3-zhuyinbo@loongson.cn>
- <202303181149.mdhwoup2-lkp@intel.com>
-From: zhuyinbo <zhuyinbo@loongson.cn>
-Message-ID: <38ee7d1d-3308-a29e-9d5b-71f62c729e6b@loongson.cn>
-Date: Sat, 18 Mar 2023 15:10:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4B27F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 07:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679124579; x=1710660579;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ztTBMVUZ86u8zaw6fje3cm6bXWwcmrPjNpJtbKmtByw=;
+  b=YB28gY1AwzBnYjreIh7+PhZmliUabUIc87fjNHTF8/G9oeZn+FFZMd25
+   +CoSeMtuCPWBT7UEqpvzWMfn6mNX2pD9G0bHoXooP77U/J3ZTNNxlYvTC
+   pF68vivnGmvzUf8lAwNoYDP6gCZPo0x07aFmKdMlBbfv5QlQIQCI++xmL
+   X9k0xWXi6ZoSnmbhzdjynhVGmD9l8WxzN59lrVB9PTzjC1sIPfv4E+H4R
+   9pCmwdqQgRTQ8fIU4Ifbb5iK/cP2Y8MBI6WMCG29U2aIDvCN7v966/zvK
+   H1ubZDEeo+BLMKsGZMJXFUcCJOQCL23k5K65EWczLSKw37SWieU96ggea
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="326778874"
+X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
+   d="scan'208";a="326778874"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 00:29:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="1009919833"
+X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
+   d="scan'208";a="1009919833"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Mar 2023 00:29:37 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pdR0T-0009uH-0s;
+	Sat, 18 Mar 2023 07:29:37 +0000
+Date: Sat, 18 Mar 2023 15:29:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-drm-fix-next 2/20] include/linux/module.h:558:29: error:
+ field 'dyndbg_info' has incomplete type
+Message-ID: <202303181500.HHk2ltjV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202303181149.mdhwoup2-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:AQAAf8BxX+ToYxVkdMEEAA--.21293S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZw1xGr18AF17Xr4UKr1rJFb_yoW5Gr4fpa
-	yUuFZIgr1rXr18WaykGayDXa1Yqws8X3srXFWDur45ZFZFvryjqrs29ry5Xrnrur1kGFy8
-	Zr4rWrWvka47AaDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bDAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64
-	kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28E
-	F7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY
-	6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrV
-	C2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE
-	7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14
-	v26r126r1DMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_WwCFx2IqxVCFs4IE
-	7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I
-	0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAI
-	cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcV
-	CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0a0PUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/jimc/linux.git dd-drm-fix-next
+head:   cd23709c1ee6c57c8cee65dd371c3c03bd8d3220
+commit: 6d401a03e8e7c163a40988faf567cf9d25ec8665 [2/20] dyndbg: use the module notifier callbacks
+config: x86_64-randconfig-r035-20230313 (https://download.01.org/0day-ci/archive/20230318/202303181500.HHk2ltjV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/jimc/linux/commit/6d401a03e8e7c163a40988faf567cf9d25ec8665
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-drm-fix-next
+        git checkout 6d401a03e8e7c163a40988faf567cf9d25ec8665
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 prepare
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181500.HHk2ltjV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/crypto/aria.h:22,
+                    from arch/x86/kernel/asm-offsets.c:10:
+>> include/linux/module.h:558:29: error: field 'dyndbg_info' has incomplete type
+     558 |         struct _ddebug_info dyndbg_info;
+         |                             ^~~~~~~~~~~
+   make[2]: *** [scripts/Makefile.build:114: arch/x86/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1287: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-在 2023/3/18 上午11:21, kernel test robot 写道:
-> Hi Yinbo,
->
-> I love your patch! Yet something to improve:
->
-> [auto build test ERROR on broonie-spi/for-next]
-> [also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.3-rc2 next-20230317]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230317-163907
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-> patch link:    https://lore.kernel.org/r/20230317082950.12738-3-zhuyinbo%40loongson.cn
-> patch subject: [PATCH v2 2/2] spi: loongson: add bus driver for the loongson spi controller
-> config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230318/202303181149.mdhwoup2-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/a532955fcee3d37eb4332cea2b868f74ace0bc72
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230317-163907
->          git checkout a532955fcee3d37eb4332cea2b868f74ace0bc72
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303181149.mdhwoup2-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     arm-linux-gnueabi-ld: drivers/spi/spi-loongson.o: in function `loongson_spi_update_state':
->>> spi-loongson.c:(.text+0x430): undefined reference to `__aeabi_uldivmod'
+vim +/dyndbg_info +558 include/linux/module.h
 
-This Error's reason  was same with "__udivdi3" undefined!" ERROR and  
-use do_div replace "/"  operatators can fix this
+   552	
+   553	#ifdef CONFIG_FUNCTION_ERROR_INJECTION
+   554		struct error_injection_entry *ei_funcs;
+   555		unsigned int num_ei_funcs;
+   556	#endif
+   557	#ifdef CONFIG_DYNAMIC_DEBUG_CORE
+ > 558		struct _ddebug_info dyndbg_info;
+   559	#endif
+   560	} ____cacheline_aligned __randomize_layout;
+   561	#ifndef MODULE_ARCH_INIT
+   562	#define MODULE_ARCH_INIT {}
+   563	#endif
+   564	
 
-issue when it comes to division of 64bit.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
