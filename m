@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDCC63B;
-	Sat, 18 Mar 2023 03:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837E363B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 04:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679111614; x=1710647614;
+  t=1679112273; x=1710648273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S2f/TBK9TNbpy6yhoy/gvDHeEir8NTdazt/q4DUsQ7c=;
-  b=AGvVJVrU0SGtj/elzWz48aX5n7Md/N0nMC5a5Umv+xdppjPZ4oCet+Hy
-   xjG3/hE6nd0Ng39gFV3megvW6zdMpkMWcQxlV5JhnU40f61hwSCEcWUAo
-   tzto8zP0m/VYkdyx8g23Qe+qRKKZmQjerUEL79H3NzX6Vk5ouGq0qgh/9
-   7b9kvODbQzXSC4wByjOybbi8QJbHPPlxY69gdaSJx751U3Lfkr5ay/5Jy
-   K8eFoUh+7TIobtP5QowmV+ZEiN2U7rdsMQiC1ZGgcbe+aAVIT8SgBWaHj
-   AOXJc3mYfwEkHjYMAvAhfYTFL9lFH69XH74msCxhAx+UZHiivXVgyrWSs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="338425477"
+  bh=Mps8J5Ka0iPrd7rY1nDNY3+tb07JGzLIpe8We57NPk0=;
+  b=n4dTdFXFCpQLPlz+jWKQs0aAn7cuiLQHspxZKqNK+GR/RfU4PciUg9lq
+   C0kxrnZmUU48PlJCBbP+lKmS4NiT/zsqYF/x1eM2+1ghUX3QzpxKSAnOk
+   by8ysZTVycL/V2VLc+vSyznTVQiWonmT1NkFUEO4BgUPLTKszOIrsKN9N
+   2PFikVvvL0x077HRRKSJCo/0ibK+6Xm2YEjvW7E/V5hu64VBR11Tpy2qi
+   0a3I/AVwq8OLM1kyDmF94ML1KYKdrzpk0hJV6cMojJidbx4iwYRHaT+YO
+   6aaDxiT4lhxTI/7fbiGEFwB4DRoTgvJWx2vScCBHrSciRn5CAReZZ2Hm0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335901113"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="338425477"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 20:53:33 -0700
+   d="scan'208";a="335901113"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 21:04:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="657787206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="712981673"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="657787206"
+   d="scan'208";a="712981673"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 20:53:31 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Mar 2023 21:04:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdNdK-0009nO-2N;
-	Sat, 18 Mar 2023 03:53:30 +0000
-Date: Sat, 18 Mar 2023 11:53:20 +0800
+	id 1pdNny-0009nW-2i;
+	Sat, 18 Mar 2023 04:04:30 +0000
+Date: Sat, 18 Mar 2023 12:03:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:20230317-module-alloc-opts 27/31]
- kernel/module/main.c:2260:8: warning: variable 't' is used uninitialized
- whenever 'if' condition is true
-Message-ID: <202303181140.NLoSoXrr-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-noreturn 27/39] fs/btrfs/tree-log.c:6216:23:
+ warning: 'last_range_start' may be used uninitialized in this function
+Message-ID: <202303181133.EDAXPMD0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +46,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230317-module-alloc-opts
-head:   68dfd11f7ebeb379312f4fc89c2792ce52d71ab4
-commit: 139e5ac36c4aa1e28a51bf98a7304d3040c6da6b [27/31] module: add stop-grap sanity check on module memcpy()
-config: x86_64-randconfig-r026-20230313 (https://download.01.org/0day-ci/archive/20230318/202303181140.NLoSoXrr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-noreturn
+head:   1a9145211975418e41e0dbe38726975a06f14b1d
+commit: 420c3420d18ffbf0c08720f41f60987162846e9c [27/39] btrfs: Mark btrfs_assertfail() __noreturn
+config: x86_64-randconfig-a003-20230313 (https://download.01.org/0day-ci/archive/20230318/202303181133.EDAXPMD0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=139e5ac36c4aa1e28a51bf98a7304d3040c6da6b
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230317-module-alloc-opts
-        git checkout 139e5ac36c4aa1e28a51bf98a7304d3040c6da6b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=420c3420d18ffbf0c08720f41f60987162846e9c
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe objtool-noreturn
+        git checkout 420c3420d18ffbf0c08720f41f60987162846e9c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/module/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/btrfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181140.NLoSoXrr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181133.EDAXPMD0-lkp@intel.com/
+
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
 All warnings (new ones prefixed by >>):
 
-   kernel/module/main.c:2217:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret = -ENOMEM;
-               ^
->> kernel/module/main.c:2260:8: warning: variable 't' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-                           if (i == info->index.mod &&
-                               ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module/main.c:2280:7: note: uninitialized use occurs here
-           for (t--; t >= 0; t--)
-                ^
-   kernel/module/main.c:2260:4: note: remove the 'if' if its condition is always false
-                           if (i == info->index.mod &&
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module/main.c:2216:2: note: variable 't' is declared here
-           enum mod_mem_type t;
-           ^
-   2 warnings generated.
+   fs/btrfs/tree-log.c: In function 'log_delayed_deletions_incremental.isra':
+>> fs/btrfs/tree-log.c:6216:23: warning: 'last_range_start' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    6216 |                 ret = insert_dir_log_key(trans, log, path, key.objectid,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6217 |                                          first_dir_index, last_dir_index);
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2260 kernel/module/main.c
+vim +/last_range_start +6216 fs/btrfs/tree-log.c
 
-  2211	
-  2212	static int move_module(struct module *mod, struct load_info *info)
-  2213	{
-  2214		int i;
-  2215		void *ptr;
-  2216		enum mod_mem_type t;
-  2217		int ret = -ENOMEM;
-  2218	
-  2219		for_each_mod_mem_type(type) {
-  2220			if (!mod->mem[type].size) {
-  2221				mod->mem[type].base = NULL;
-  2222				continue;
-  2223			}
-  2224			mod->mem[type].size = PAGE_ALIGN(mod->mem[type].size);
-  2225			ptr = module_memory_alloc(mod->mem[type].size, type);
-  2226	
-  2227			/*
-  2228			 * The pointer to this block is stored in the module structure
-  2229			 * which is inside the block. Just mark it as not being a
-  2230			 * leak.
-  2231			 */
-  2232			kmemleak_ignore(ptr);
-  2233			if (!ptr) {
-  2234				t = type;
-  2235				goto out_enomem;
-  2236			}
-  2237			memset(ptr, 0, mod->mem[type].size);
-  2238			mod->mem[type].base = ptr;
-  2239		}
-  2240	
-  2241		/* Transfer each section which specifies SHF_ALLOC */
-  2242		pr_debug("final section addresses:\n");
-  2243		for (i = 0; i < info->hdr->e_shnum; i++) {
-  2244			void *dest;
-  2245			Elf_Shdr *shdr = &info->sechdrs[i];
-  2246			enum mod_mem_type type = shdr->sh_entsize >> SH_ENTSIZE_TYPE_SHIFT;
-  2247	
-  2248			if (!(shdr->sh_flags & SHF_ALLOC))
-  2249				continue;
-  2250	
-  2251			dest = mod->mem[type].base + (shdr->sh_entsize & SH_ENTSIZE_OFFSET_MASK);
-  2252	
-  2253			if (shdr->sh_type != SHT_NOBITS) {
-  2254				/*
-  2255				 * Our ELF checker already validated this, but let's
-  2256				 * be pedantic and make the goal clearer. We actually
-  2257				 * end up copying over all modifications made to the
-  2258				 * userspace copy of the entire struct module.
-  2259				 */
-> 2260				if (i == info->index.mod &&
-  2261				   (WARN_ON_ONCE(shdr->sh_size != sizeof(struct module)))) {
-  2262					ret = -ENOEXEC;
-  2263					goto out_enomem;
-  2264				}
-  2265				memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
-  2266			}
-  2267			/*
-  2268			 * Update the userspace copy's ELF section address to point to
-  2269			 * our newly allocated memory as a pure convenience so that
-  2270			 * users of info can keep taking advantage and using the newly
-  2271			 * minted official memory area.
-  2272			 */
-  2273			shdr->sh_addr = (unsigned long)dest;
-  2274			pr_debug("\t0x%lx %s\n",
-  2275				 (long)shdr->sh_addr, info->secstrings + shdr->sh_name);
-  2276		}
-  2277	
-  2278		return 0;
-  2279	out_enomem:
-  2280		for (t--; t >= 0; t--)
-  2281			module_memory_free(mod->mem[t].base, t);
-  2282		return -ENOMEM;
-  2283	}
-  2284	
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6157  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6158  static int log_delayed_deletions_incremental(struct btrfs_trans_handle *trans,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6159  					     struct btrfs_inode *inode,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6160  					     struct btrfs_path *path,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6161  					     const struct list_head *delayed_del_list,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6162  					     struct btrfs_log_ctx *ctx)
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6163  {
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6164  	struct btrfs_root *log = inode->root->log_root;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6165  	const struct btrfs_delayed_item *curr;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6166  	u64 last_range_start;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6167  	u64 last_range_end = 0;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6168  	struct btrfs_key key;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6169  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6170  	key.objectid = btrfs_ino(inode);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6171  	key.type = BTRFS_DIR_INDEX_KEY;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6172  	curr = list_first_entry(delayed_del_list, struct btrfs_delayed_item,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6173  				log_list);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6174  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6175  	while (!list_entry_is_head(curr, delayed_del_list, log_list)) {
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6176  		const struct btrfs_delayed_item *last = curr;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6177  		u64 first_dir_index = curr->index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6178  		u64 last_dir_index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6179  		bool deleted_items = false;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6180  		int ret;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6181  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6182  		key.offset = curr->index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6183  		ret = btrfs_search_slot(trans, log, &key, path, -1, 1);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6184  		if (ret < 0) {
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6185  			return ret;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6186  		} else if (ret == 0) {
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6187  			ret = batch_delete_dir_index_items(trans, inode, path, ctx,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6188  							   delayed_del_list, curr,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6189  							   &last);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6190  			if (ret)
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6191  				return ret;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6192  			deleted_items = true;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6193  		}
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6194  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6195  		btrfs_release_path(path);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6196  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6197  		/*
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6198  		 * If we deleted items from the leaf, it means we have a range
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6199  		 * item logging their range, so no need to add one or update an
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6200  		 * existing one. Otherwise we have to log a dir range item.
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6201  		 */
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6202  		if (deleted_items)
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6203  			goto next_batch;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6204  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6205  		last_dir_index = last->index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6206  		ASSERT(last_dir_index >= first_dir_index);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6207  		/*
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6208  		 * If this range starts right after where the previous one ends,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6209  		 * then we want to reuse the previous range item and change its
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6210  		 * end offset to the end of this range. This is just to minimize
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6211  		 * leaf space usage, by avoiding adding a new range item.
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6212  		 */
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6213  		if (last_range_end != 0 && first_dir_index == last_range_end + 1)
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6214  			first_dir_index = last_range_start;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6215  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22 @6216  		ret = insert_dir_log_key(trans, log, path, key.objectid,
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6217  					 first_dir_index, last_dir_index);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6218  		if (ret)
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6219  			return ret;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6220  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6221  		last_range_start = first_dir_index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6222  		last_range_end = last_dir_index;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6223  next_batch:
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6224  		curr = list_next_entry(last, log_list);
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6225  	}
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6226  
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6227  	return 0;
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6228  }
+30b80f3ce0f9d5 Filipe Manana 2022-08-22  6229  
+
+:::::: The code at line 6216 was first introduced by commit
+:::::: 30b80f3ce0f9d58ab8a2094922f3d54d2fd4f92e btrfs: use delayed items when logging a directory
+
+:::::: TO: Filipe Manana <fdmanana@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
