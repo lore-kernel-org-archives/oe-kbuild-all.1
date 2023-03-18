@@ -1,46 +1,47 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6B53224
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 17:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC18C3224;
+	Sat, 18 Mar 2023 17:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679160892; x=1710696892;
+  t=1679160894; x=1710696894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bgvy2hEz+RvbbUPVSFj2Nbg9Gav6ekmrjgtlpqG5HrM=;
-  b=OYLqofINWiFv9vLca2cAHvfMvzNcGY/fGeCXPvHUiG1HoJVQsDLGWBEP
-   wOcc2TfuVUkOi9iBUq5O/p9itavtoWN/pLhQvyMLhS5ya/tsyJmvdjcJ+
-   s8ToFJHkF3Hr6Fl2QS2wvZ7EZtxRnS3Z+csgF4e8z+1Y6pLKCLoH7rkU3
-   3y/aN96jmaGzv1Hwfabc6niFd2/kr+IYhpQMgZQFjgXl8kmviRRUPh6wH
-   ugETtKjc5GRNjcRrlNY1bERjMDYn8AIJi18t1+hTpHo4rgsh05CK0fNE7
-   aFbdIzLDZhcjTGUj/HtN127OCHYwHcmMIa/mI6AOD/GPbKiVCgNAuCMsJ
+  bh=svVCHPCHrv1TJgEVathoks385vboqfPXDZNkXTPpQg4=;
+  b=C+2bnRRJO8pKLbtOHLhQDH0fj+SuHSm90VIoXHiI/+ArAYTIvnct0YmC
+   4KApodfU/WoiZGdtCreX22WTgbzPFyqY6yTAvlydrDbDAsEEzokzYR6cy
+   myocR7Ulv+o5HijX/lIrHUsQ6uJ30jMc1YmGxJWU2Kyq1ZQhLH6Asv5q/
+   0rM0xR0sMb+m8uhNBIP7GUV1j5tjgH5d/PmFA4H/I+SVe9btx+uH1YGVe
+   xvyWjq9l+7nB0OsWQ83q6Rz/HYddv/CUR6IxBZC8sg15aVgDavUhvrPwA
+   WWQxHyqebvhseJg4vhY1WkjVcTok8oGTBb7SebJbuzZxfoaefeSdEyRf2
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="338470219"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="338470224"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="338470219"
+   d="scan'208";a="338470224"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 10:34:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="683005110"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="683005109"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="683005110"
+   d="scan'208";a="683005109"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 18 Mar 2023 10:34:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdaS9-000ABM-2T;
+	id 1pdaS9-000ABK-2O;
 	Sat, 18 Mar 2023 17:34:49 +0000
-Date: Sun, 19 Mar 2023 01:33:56 +0800
+Date: Sun, 19 Mar 2023 01:33:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Marian Cichy <m.cichy@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
 Subject: [linux-next:master 3041/4413]
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:18: error: implicit declaration of
- function 'devm_drm_of_get_bridge'
-Message-ID: <202303190127.uylmokJl-lkp@intel.com>
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:11: error: call to undeclared
+ function 'devm_drm_of_get_bridge'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202303190142.TjYYpbba-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,41 +54,41 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   6f08c1de13a9403341c18b66638a05588b2663ce
 commit: c87e859cdeb5d106cb861326e3135c606d61f88d [3041/4413] drm/imx/lcdc: Implement DRM driver for imx25
-config: ia64-randconfig-r033-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190127.uylmokJl-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+config: mips-randconfig-r001-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190142.TjYYpbba-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c87e859cdeb5d106cb861326e3135c606d61f88d
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
         git checkout c87e859cdeb5d106cb861326e3135c606d61f88d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/imx/lcdc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303190127.uylmokJl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190142.TjYYpbba-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_probe':
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:18: error: implicit declaration of function 'devm_drm_of_get_bridge' [-Werror=implicit-function-declaration]
-     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:16: warning: assignment to 'struct drm_bridge *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-         |                ^
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:15: error: implicit declaration of function 'drm_bridge_attach' [-Werror=implicit-function-declaration]
-     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |               ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: error: 'DRM_BRIDGE_ATTACH_NO_CONNECTOR' undeclared (first use in this function)
-     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:11: error: call to undeclared function 'devm_drm_of_get_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+                    ^
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:9: error: incompatible integer to pointer conversion assigning to 'struct drm_bridge *' from 'int' [-Wint-conversion]
+           bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:8: error: call to undeclared function 'drm_bridge_attach'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+                 ^
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:61: error: use of undeclared identifier 'DRM_BRIDGE_ATTACH_NO_CONNECTOR'
+           ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+                                                                      ^
+   4 errors generated.
 
 
 vim +/devm_drm_of_get_bridge +411 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
