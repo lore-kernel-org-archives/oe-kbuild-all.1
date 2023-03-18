@@ -1,46 +1,46 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AED7F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 05:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D222D7F5;
+	Sat, 18 Mar 2023 05:46:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1679118398; x=1710654398;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QXZtVBxXqVz/93gDu2a3c/Voh1hGJ7yBlRIDZK5sUQw=;
-  b=GoQy7YdHGalFEVgM/4Ks1ulf7k8MqKETbVvxZ6V5cBoiNhvv7gxko0Sg
-   ZyLmX+v2bL96EPanbej0eHV5u0zxpdmXURSA2Y6PQsnfIUR13/sEOYuiW
-   xkLFlTY2OIVwa5c8Wh5VbiMmaUP7nxAzDYspB2S8BQB7RshvbjNY3x0Yb
-   dW3ecbEHism7pQ4citTv/U3LHOV+l3zbn7cffzjUbxhfrsh0F+WeXEMy7
-   +qTo+LIomjz4WoO5y/wDGU0Ils+7HmGVg+bMhlSzcKf6amCGvREEuKaz5
-   GbjNCQJ/LA8T4H5mQpxUtcknIdUP701nzq/dKbM0ODfyI3DGE13iSsKR3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="424685483"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v9eB5JkgWbfJRDOeGsFJR4NKDaaEpmYmAYqO21RbRDY=;
+  b=RJUo9t8eVrvSn/m3tF+W7FRhnAGpoGD9XeSyrsZsmFn+v27jM3Qh0VMJ
+   Fz1XgFg65RKrtekm3D6frNTi8axzSZ8Y1501xz+08CeCLxc4hCrxyxoqd
+   L2ci7fwOJNicXCpImsfiZmJeYVQFX7cLpxkh7nyQfUCNstnNLyjQA8bK5
+   /284VzuSSDZeSn36uLN00SSZdfGpfYnV2l+ivzRmXGqL7e3d/r5fzoJ1i
+   2IRuttfOQmlCJCeOkjLQnUOl/ehF4v2Y/gqYREAhrBVS/l9Lc9yxrbilY
+   /NT4PBHe4rf3pBzZ9BgZ25Kf3uYH1/BC3/932tx28VTUT6y5fdcxr8Mj2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335905684"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="424685483"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 22:46:36 -0700
+   d="scan'208";a="335905684"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 22:46:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="790989681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="744788455"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="790989681"
+   d="scan'208";a="744788455"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Mar 2023 22:46:35 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 17 Mar 2023 22:46:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdPOk-0009pq-1c;
+	id 1pdPOk-0009po-1G;
 	Sat, 18 Mar 2023 05:46:34 +0000
-Date: Sat, 18 Mar 2023 13:46:18 +0800
+Date: Sat, 18 Mar 2023 13:46:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Brett Creeley <brett.creeley@intel.com>
-Subject: [tnguy-next-queue:dev-queue 42/44]
- drivers/net/ethernet/intel/ice/ice_main.c:4561:5: error: redefinition of
- 'ice_pf_fwlog_update_modules'
-Message-ID: <202303181356.6AePiBhC-lkp@intel.com>
+To: John Keeping <john@metanate.com>, Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	John Keeping <john@metanate.com>,
+	"moderated list:SOUND" <alsa-devel@alsa-project.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix recursive locking on XRUN
+Message-ID: <202303181348.8bLUUc1G-lkp@intel.com>
+References: <20230317195128.3911155-1-john@metanate.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,88 +49,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230317195128.3911155-1-john@metanate.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   f3c2b472377ca0b45ef0ae86b89c247340459720
-commit: a6e11130511dd2437ac5dbdfc3fa9b77eb3e2277 [42/44] ice: add ability to set FW log configuration
-config: riscv-randconfig-r042-20230318 (https://download.01.org/0day-ci/archive/20230318/202303181356.6AePiBhC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi John,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.3-rc2 next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Keeping/ALSA-usb-audio-Fix-recursive-locking-on-XRUN/20230318-035430
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230317195128.3911155-1-john%40metanate.com
+patch subject: [PATCH] ALSA: usb-audio: Fix recursive locking on XRUN
+config: x86_64-randconfig-a013-20230313 (https://download.01.org/0day-ci/archive/20230318/202303181348.8bLUUc1G-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git/commit/?id=a6e11130511dd2437ac5dbdfc3fa9b77eb3e2277
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch --no-tags tnguy-next-queue dev-queue
-        git checkout a6e11130511dd2437ac5dbdfc3fa9b77eb3e2277
+        # https://github.com/intel-lab-lkp/linux/commit/21bbf1266d22cbc0e1ec7c8d535738f66bbc9801
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review John-Keeping/ALSA-usb-audio-Fix-recursive-locking-on-XRUN/20230318-035430
+        git checkout 21bbf1266d22cbc0e1ec7c8d535738f66bbc9801
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181356.6AePiBhC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181348.8bLUUc1G-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/net/ethernet/intel/ice/ice_main.c:9:
->> drivers/net/ethernet/intel/ice/ice.h:888:1: warning: no previous prototype for 'ice_pf_fwlog_update_modules' [-Wmissing-prototypes]
-     888 | ice_pf_fwlog_update_modules(struct ice_pf *pf, u8 log_level,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_main.c:4561:5: error: redefinition of 'ice_pf_fwlog_update_modules'
-    4561 | int ice_pf_fwlog_update_modules(struct ice_pf *pf, u8 log_level,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice.h:888:1: note: previous definition of 'ice_pf_fwlog_update_modules' with type 'int(struct ice_pf *, u8,  u32)' {aka 'int(struct ice_pf *, unsigned char,  unsigned int)'}
-     888 | ice_pf_fwlog_update_modules(struct ice_pf *pf, u8 log_level,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/net/ethernet/intel/ice/ice_lib.h:7,
-                    from drivers/net/ethernet/intel/ice/ice_switch.c:4:
->> drivers/net/ethernet/intel/ice/ice.h:888:1: warning: no previous prototype for 'ice_pf_fwlog_update_modules' [-Wmissing-prototypes]
-     888 | ice_pf_fwlog_update_modules(struct ice_pf *pf, u8 log_level,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/ice_pf_fwlog_update_modules +4561 drivers/net/ethernet/intel/ice/ice_main.c
-
-  4554	
-  4555	/**
-  4556	 * ice_pf_fwlog_update_modules - update 1 or more modules via debugfs
-  4557	 * @pf: pointer to the PF struct
-  4558	 * @log_level: log_level to use for the @events
-  4559	 * @events: events to update
-  4560	 */
-> 4561	int ice_pf_fwlog_update_modules(struct ice_pf *pf, u8 log_level,
-  4562					u32 events)
-  4563	{
-  4564		struct ice_fwlog_module_entry *entries;
-  4565		struct ice_hw *hw = &pf->hw;
-  4566		u16 max_bits;
-  4567		int i;
-  4568	
-  4569		if (log_level >= ICE_FWLOG_LEVEL_INVALID) {
-  4570			dev_err(ice_pf_to_dev(pf), "Invalid FW log level %u, all level(s) >= %u are invalid\n",
-  4571				log_level, ICE_FWLOG_LEVEL_INVALID);
-  4572			return -EINVAL;
-  4573		}
-  4574	
-  4575		entries = (struct ice_fwlog_module_entry *)hw->fwlog_cfg.module_entries;
-  4576	
-  4577		max_bits = min_t(u32, BITS_PER_TYPE(u32),
-  4578				 ICE_AQC_FW_LOG_ID_MAX);
-  4579	
-  4580		/* look for the set bits in events. the driver can't use any of the
-  4581		 * built in bitops because they all need an unsigned long type which
-  4582		 * events is not
-  4583		 */
-  4584		for (i = 0; i < max_bits; i++) {
-  4585			if (BIT(i) & events)
-  4586				entries[i].log_level = log_level;
-  4587		}
-  4588	
-  4589		return 0;
-  4590	}
-  4591	
+>> ERROR: modpost: "snd_pcm_stop_xrun_under_stream_lock" [sound/usb/snd-usb-audio.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
