@@ -1,49 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A40A33C0;
-	Sat, 18 Mar 2023 18:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95D863D2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 19:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679165756; x=1710701756;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UQeD0VGWp/2m7vB76CpmPBDiMvvWfCbuAHZTBTn2+IE=;
-  b=m8Xyn2am8K8bmfj81PuSkqLC3lqDqreErCC24F8wKmztQ/OjLQHcQR0O
-   4nuogF7aERSd1QudKMg1JvsujLCx3svU+Hy/bDw/xg+DinhS8e9x7LLsF
-   G49EwV5Sk4j7Ba43T09Jt0AuN5YC5c5oC4T58TkB33+bSpOJ5HTBQcbjf
-   suHbtjKHY+w3rhUy5h4vGqWxGdVzvffI3ImyLuOgojKD+MW3UwzI50W+V
-   6T0NdmUbEdxLN9sqslTHrIbWlraQeFafESNb3+4UDhmitU69nkMkuB4yj
-   TwCcSpwVH/Vww0NOcYHeQbk+ceKF2fmkFKK76V2kVlnleZXmyhFM1s9qn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="326820078"
+  t=1679166414; x=1710702414;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/1UEoVuOvvsboY0RO0tSRLaCb+OMWsXgB32jNVQngTk=;
+  b=Tjydze7NteNKv1UXrsHo/eqi/wkrf3u4qymjKrZIvfA3NrxxnaSA3C8W
+   98hvk+DENOLH/67yFEf2tRaBMtwDOX31CSgd8bEPw8K2bv+6un+7tZ+Yp
+   7de89eMDFWftsY7x45dX8XNWGVLLFfnS9sKD7o408piXZox1tfCvfk1n2
+   oLo8IbaWshmRsDTEwYXfZc+LaIDntddg1zBxZ3BfJwqbXwmpDb/D9GwiE
+   uzxmRO5/Qh4cyhywwLGeZXXc4R2x/QM/8gQqXg5I6ZGScqQO/C48Kt6ip
+   dSZS29TPjRBx+SP7qqF4TwybuC4IZQuV7ans9/UrqldqF/esIAVkuFk3M
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="337164110"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="326820078"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 11:55:55 -0700
+   d="scan'208";a="337164110"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 12:06:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="630627711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="713104556"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="630627711"
+   d="scan'208";a="713104556"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Mar 2023 11:55:53 -0700
+  by orsmga001.jf.intel.com with ESMTP; 18 Mar 2023 12:06:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdbiZ-000ADq-2P;
-	Sat, 18 Mar 2023 18:55:51 +0000
-Date: Sun, 19 Mar 2023 02:55:33 +0800
+	id 1pdbtE-000ADy-00;
+	Sat, 18 Mar 2023 19:06:52 +0000
+Date: Sun, 19 Mar 2023 03:05:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>,
-	Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] Staging: nvec: Change container_of macro to an inline
- function.
-Message-ID: <202303190233.v2KJFmIG-lkp@intel.com>
-References: <20230318170514.GA49181@sumitra.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype
+ for 'mpc52xx_psc_spi_transfer_one_message'
+Message-ID: <202303190242.zHzK9uDP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,86 +45,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230318170514.GA49181@sumitra.com>
 
-Hi Sumitra,
+Hi Mark,
 
-Thank you for the patch! Yet something to improve:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
-patch link:    https://lore.kernel.org/r/20230318170514.GA49181%40sumitra.com
-patch subject: [PATCH] Staging: nvec: Change container_of macro to an inline function.
-config: arm64-randconfig-r014-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190233.v2KJFmIG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   efbcbb12ee99f750c9f25c873b55ad774871de2a
+commit: 145cfc3840e5931a789a8e2e76af841ab4cad44b spi: mpc52xx-psc: Switch to using core message queue
+date:   9 months ago
+config: powerpc-randconfig-r006-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190242.zHzK9uDP-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/e58807d27f0ba705144bce72751f5cb0a75b9682
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
-        git checkout e58807d27f0ba705144bce72751f5cb0a75b9682
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=145cfc3840e5931a789a8e2e76af841ab4cad44b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 145cfc3840e5931a789a8e2e76af841ab4cad44b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/nvec/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303190233.v2KJFmIG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190242.zHzK9uDP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/nvec/nvec_paz00.c:19:9: error: incomplete definition of type 'struct nvec_led'
-           return container_of(led_cdev, struct nvec_led, cdev);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:20:47: note: expanded from macro 'container_of'
-           static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:338:74: note: expanded from macro '__same_type'
-   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                                                                            ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                          ^~~~
-   drivers/staging/nvec/nvec_paz00.c:17:22: note: forward declaration of 'struct nvec_led'
-   static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
-                        ^
->> drivers/staging/nvec/nvec_paz00.c:19:9: error: offsetof of incomplete type 'struct nvec_led'
-           return container_of(led_cdev, struct nvec_led, cdev);
-                  ^                      ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-           ((type *)(__mptr - offsetof(type, member))); })
-                              ^        ~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-   #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-                                   ^                  ~~~~
-   drivers/staging/nvec/nvec_paz00.c:17:22: note: forward declaration of 'struct nvec_led'
-   static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
-                        ^
->> drivers/staging/nvec/nvec_paz00.c:19:9: error: returning 'void' from a function with incompatible result type 'struct nvec_led *'
-           return container_of(led_cdev, struct nvec_led, cdev);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:41: note: expanded from macro 'container_of'
-   #define container_of(ptr, type, member) ({                              \
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
+>> drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype for 'mpc52xx_psc_spi_transfer_one_message' [-Wmissing-prototypes]
+     195 | int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +19 drivers/staging/nvec/nvec_paz00.c
+vim +/mpc52xx_psc_spi_transfer_one_message +195 drivers/spi/spi-mpc52xx-psc.c
 
-    16	
-    17	static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
-    18	{
-  > 19		return container_of(led_cdev, struct nvec_led, cdev);
-    20	}
-    21	
+   194	
+ > 195	int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
+   196						 struct spi_message *m)
+   197	{
+   198		struct spi_device *spi;
+   199		struct spi_transfer *t = NULL;
+   200		unsigned cs_change;
+   201		int status;
+   202	
+   203		spi = m->spi;
+   204		cs_change = 1;
+   205		status = 0;
+   206		list_for_each_entry (t, &m->transfers, transfer_list) {
+   207			if (t->bits_per_word || t->speed_hz) {
+   208				status = mpc52xx_psc_spi_transfer_setup(spi, t);
+   209				if (status < 0)
+   210					break;
+   211			}
+   212	
+   213			if (cs_change)
+   214				mpc52xx_psc_spi_activate_cs(spi);
+   215			cs_change = t->cs_change;
+   216	
+   217			status = mpc52xx_psc_spi_transfer_rxtx(spi, t);
+   218			if (status)
+   219				break;
+   220			m->actual_length += t->len;
+   221	
+   222			spi_transfer_delay_exec(t);
+   223	
+   224			if (cs_change)
+   225				mpc52xx_psc_spi_deactivate_cs(spi);
+   226		}
+   227	
+   228		m->status = status;
+   229		if (status || !cs_change)
+   230			mpc52xx_psc_spi_deactivate_cs(spi);
+   231	
+   232		mpc52xx_psc_spi_transfer_setup(spi, NULL);
+   233	
+   234		spi_finalize_current_message(ctlr);
+   235	
+   236		return 0;
+   237	}
+   238	
 
 -- 
 0-DAY CI Kernel Test Service
