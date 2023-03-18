@@ -1,59 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA91C1106;
-	Sat, 18 Mar 2023 10:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3C3136C;
+	Sat, 18 Mar 2023 11:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679135147; x=1710671147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QeuqZ4d2XSEH7Pd96Bs2l+zOIKCKzXxApnquS6nmsNM=;
-  b=fIq7UPpxlGObp1uKyd/9brsDvmfMdXbLLwwlllauNB8VbfWM0YjHY3ZM
-   mSrMnvXY8iUvbYyNzMa5VMJJbmYM3eF6FnoT9jdkQQJMDxZB75XCD8ao3
-   hWZaiQ2SpnD03SdYf8LxNbCRQyrdShHkJsdGx4y6+85mM5NML+XHBeTCm
-   TFCJ3vPOlLd6bptJBHkvTBpKyhYA5Y+YIkBZi2hWSBMzfgXpyCXSm5ueM
-   D3a5gAEDNlQevdhRgtr0D2+lIhSLnRFyaVozxZiYTzkPKMdk6o911wGLm
-   N1kphlIKD8u/2Pe5YjVwgDavpF6aa3KRF9miunBk1GkpfK88BXKrTwrlt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318823486"
+  t=1679138805; x=1710674805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L2oqCvx4RHKWo8xb5jcyGinNVpYpRC2MUhwZ1bhLdis=;
+  b=Ag9pR7ik0OGLYRVM5uH/386E76ftMtaPyk2eBDh9oC05hmjY+2T8DY6y
+   rzAea6kk49JyE4KLW0uO3WVbGntW2lUKy80Pacr5TashdGgN4o2UlnKUr
+   M5nJgw5uQ4dMBqn+1bQi2akOj0eUwtxvQb93kxy6JFT8vf+gT3LdSqZps
+   Gede+N2z41LPsKoI/xKiU+XIeQc2OQnjgxqBes0lMzB+r/9FWrfjCtlTi
+   UT9gPlF6oPle2N0jkfidpIuJyqUlxuOGAzLgqzH4Z4T7IZFqzGx3uGLcD
+   3wgBc1xUDRa8XOCeDhjd2KyTru3kDLCY2GsQaFNX3C+n7ic+Hx7GDXl8Q
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="338446377"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="318823486"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 03:25:47 -0700
+   d="scan'208";a="338446377"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 04:26:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="804384418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="854759570"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="804384418"
+   d="scan'208";a="854759570"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Mar 2023 03:25:42 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Mar 2023 04:26:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdTkr-000A0M-11;
-	Sat, 18 Mar 2023 10:25:41 +0000
-Date: Sat, 18 Mar 2023 18:24:53 +0800
+	id 1pdUhu-000A1u-15;
+	Sat, 18 Mar 2023 11:26:42 +0000
+Date: Sat, 18 Mar 2023 19:26:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	suzuki.poulose@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	scclevenger@os.amperecomputing.com,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-	devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] coresight: etm4x: Change etm4_platform_driver driver
- for MMIO devices
-Message-ID: <202303181800.KxbuwjRT-lkp@intel.com>
-References: <20230317030501.1811905-5-anshuman.khandual@arm.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.2.0-net-next-phy-leds 27/28]
+ drivers/net/phy/phy_device.c:3096:8: error: no member named
+ 'hw_control_get_device' in 'struct led_classdev'
+Message-ID: <202303181928.Sf9EiOxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +46,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230317030501.1811905-5-anshuman.khandual@arm.com>
 
-Hi Anshuman,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on soc/for-next rafael-pm/linux-next linus/master v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-etm4x-Allocate-and-device-assign-struct-etmv4_drvdata-earlier/20230317-110755
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230317030501.1811905-5-anshuman.khandual%40arm.com
-patch subject: [PATCH 4/7] coresight: etm4x: Change etm4_platform_driver driver for MMIO devices
-config: arm64-buildonly-randconfig-r002-20230312 (https://download.01.org/0day-ci/archive/20230318/202303181800.KxbuwjRT-lkp@intel.com/config)
+tree:   https://github.com/lunn/linux.git v6.2.0-net-next-phy-leds
+head:   8a9b1a5ad5dd0e48585009020088a2ee5bdd6688
+commit: 7c2cfe88a4bf5b643c74c16e15be9119689e475d [27/28] net: phy: Implement hw_control_get_device()
+config: riscv-randconfig-r011-20230313 (https://download.01.org/0day-ci/archive/20230318/202303181928.Sf9EiOxx-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/f02ad9e7f97ab4fc1f90c7e6399004e9ec89ef26
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anshuman-Khandual/coresight-etm4x-Allocate-and-device-assign-struct-etmv4_drvdata-earlier/20230317-110755
-        git checkout f02ad9e7f97ab4fc1f90c7e6399004e9ec89ef26
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/lunn/linux/commit/7c2cfe88a4bf5b643c74c16e15be9119689e475d
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.2.0-net-next-phy-leds
+        git checkout 7c2cfe88a4bf5b643c74c16e15be9119689e475d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/hwtracing/coresight/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/phy/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181800.KxbuwjRT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181928.Sf9EiOxx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:2336:32: warning: unused variable 'etm4_dev_pm_ops' [-Wunused-const-variable]
-   static const struct dev_pm_ops etm4_dev_pm_ops = {
-                                  ^
-   1 warning generated.
+   drivers/net/phy/phy_device.c:3095:9: error: no member named 'hw_control_configure' in 'struct led_classdev'
+                   cdev->hw_control_configure = phy_led_hw_control_configure;
+                   ~~~~  ^
+>> drivers/net/phy/phy_device.c:3096:8: error: no member named 'hw_control_get_device' in 'struct led_classdev'
+           cdev->hw_control_get_device = phy_led_hw_control_get_device;
+           ~~~~  ^
+   2 errors generated.
 
 
-vim +/etm4_dev_pm_ops +2336 drivers/hwtracing/coresight/coresight-etm4x-core.c
+vim +3096 drivers/net/phy/phy_device.c
 
-  2335	
-> 2336	static const struct dev_pm_ops etm4_dev_pm_ops = {
-  2337		SET_RUNTIME_PM_OPS(etm4_runtime_suspend, etm4_runtime_resume, NULL)
-  2338	};
-  2339	
+  3067	
+  3068	static int of_phy_led(struct phy_device *phydev,
+  3069			      struct device_node *led)
+  3070	{
+  3071		struct device *dev = &phydev->mdio.dev;
+  3072		struct led_init_data init_data = {};
+  3073		struct led_classdev *cdev;
+  3074		struct phy_led *phyled;
+  3075		int err;
+  3076	
+  3077		phyled = devm_kzalloc(dev, sizeof(*phyled), GFP_KERNEL);
+  3078		if (!phyled)
+  3079			return -ENOMEM;
+  3080	
+  3081		cdev = &phyled->led_cdev;
+  3082		phyled->phydev = phydev;
+  3083	
+  3084		err = of_property_read_u32(led, "reg", &phyled->index);
+  3085		if (err)
+  3086			return err;
+  3087	
+  3088		if (phydev->drv->led_brightness_set)
+  3089			cdev->brightness_set_blocking = phy_led_set_brightness;
+  3090		if (phydev->drv->led_blink_set)
+  3091			cdev->blink_set = phy_led_blink_set;
+  3092		if (phydev->drv->led_hw_is_supported &&
+  3093		    phydev->drv->led_hw_control_set &&
+  3094		    phydev->drv->led_hw_control_get)
+  3095			cdev->hw_control_configure = phy_led_hw_control_configure;
+> 3096		cdev->hw_control_get_device = phy_led_hw_control_get_device;
+  3097		cdev->max_brightness = 1;
+  3098		init_data.devicename = dev_name(&phydev->mdio.dev);
+  3099		init_data.fwnode = of_fwnode_handle(led);
+  3100	
+  3101		err = devm_led_classdev_register_ext(dev, cdev, &init_data);
+  3102		if (err)
+  3103			return err;
+  3104	
+  3105		list_add(&phyled->list, &phydev->leds);
+  3106	
+  3107		return 0;
+  3108	}
+  3109	
 
 -- 
 0-DAY CI Kernel Test Service
