@@ -1,47 +1,49 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC18C3224;
-	Sat, 18 Mar 2023 17:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A40A33C0;
+	Sat, 18 Mar 2023 18:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679160894; x=1710696894;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=svVCHPCHrv1TJgEVathoks385vboqfPXDZNkXTPpQg4=;
-  b=C+2bnRRJO8pKLbtOHLhQDH0fj+SuHSm90VIoXHiI/+ArAYTIvnct0YmC
-   4KApodfU/WoiZGdtCreX22WTgbzPFyqY6yTAvlydrDbDAsEEzokzYR6cy
-   myocR7Ulv+o5HijX/lIrHUsQ6uJ30jMc1YmGxJWU2Kyq1ZQhLH6Asv5q/
-   0rM0xR0sMb+m8uhNBIP7GUV1j5tjgH5d/PmFA4H/I+SVe9btx+uH1YGVe
-   xvyWjq9l+7nB0OsWQ83q6Rz/HYddv/CUR6IxBZC8sg15aVgDavUhvrPwA
-   WWQxHyqebvhseJg4vhY1WkjVcTok8oGTBb7SebJbuzZxfoaefeSdEyRf2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="338470224"
+  t=1679165756; x=1710701756;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UQeD0VGWp/2m7vB76CpmPBDiMvvWfCbuAHZTBTn2+IE=;
+  b=m8Xyn2am8K8bmfj81PuSkqLC3lqDqreErCC24F8wKmztQ/OjLQHcQR0O
+   4nuogF7aERSd1QudKMg1JvsujLCx3svU+Hy/bDw/xg+DinhS8e9x7LLsF
+   G49EwV5Sk4j7Ba43T09Jt0AuN5YC5c5oC4T58TkB33+bSpOJ5HTBQcbjf
+   suHbtjKHY+w3rhUy5h4vGqWxGdVzvffI3ImyLuOgojKD+MW3UwzI50W+V
+   6T0NdmUbEdxLN9sqslTHrIbWlraQeFafESNb3+4UDhmitU69nkMkuB4yj
+   TwCcSpwVH/Vww0NOcYHeQbk+ceKF2fmkFKK76V2kVlnleZXmyhFM1s9qn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="326820078"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="338470224"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 10:34:51 -0700
+   d="scan'208";a="326820078"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 11:55:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="683005109"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="630627711"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="683005109"
+   d="scan'208";a="630627711"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Mar 2023 10:34:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Mar 2023 11:55:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdaS9-000ABK-2O;
-	Sat, 18 Mar 2023 17:34:49 +0000
-Date: Sun, 19 Mar 2023 01:33:57 +0800
+	id 1pdbiZ-000ADq-2P;
+	Sat, 18 Mar 2023 18:55:51 +0000
+Date: Sun, 19 Mar 2023 02:55:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marian Cichy <m.cichy@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: [linux-next:master 3041/4413]
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:11: error: call to undeclared
- function 'devm_drm_of_get_bridge'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202303190142.TjYYpbba-lkp@intel.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+	Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Staging: nvec: Change container_of macro to an inline
+ function.
+Message-ID: <202303190233.v2KJFmIG-lkp@intel.com>
+References: <20230318170514.GA49181@sumitra.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,176 +52,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230318170514.GA49181@sumitra.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6f08c1de13a9403341c18b66638a05588b2663ce
-commit: c87e859cdeb5d106cb861326e3135c606d61f88d [3041/4413] drm/imx/lcdc: Implement DRM driver for imx25
-config: mips-randconfig-r001-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190142.TjYYpbba-lkp@intel.com/config)
+Hi Sumitra,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
+patch link:    https://lore.kernel.org/r/20230318170514.GA49181%40sumitra.com
+patch subject: [PATCH] Staging: nvec: Change container_of macro to an inline function.
+config: arm64-randconfig-r014-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190233.v2KJFmIG-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c87e859cdeb5d106cb861326e3135c606d61f88d
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout c87e859cdeb5d106cb861326e3135c606d61f88d
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/e58807d27f0ba705144bce72751f5cb0a75b9682
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
+        git checkout e58807d27f0ba705144bce72751f5cb0a75b9682
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/nvec/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303190142.TjYYpbba-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190233.v2KJFmIG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:11: error: call to undeclared function 'devm_drm_of_get_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-                    ^
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:9: error: incompatible integer to pointer conversion assigning to 'struct drm_bridge *' from 'int' [-Wint-conversion]
-           bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:8: error: call to undeclared function 'drm_bridge_attach'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-                 ^
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:61: error: use of undeclared identifier 'DRM_BRIDGE_ATTACH_NO_CONNECTOR'
-           ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-                                                                      ^
-   4 errors generated.
+>> drivers/staging/nvec/nvec_paz00.c:19:9: error: incomplete definition of type 'struct nvec_led'
+           return container_of(led_cdev, struct nvec_led, cdev);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:47: note: expanded from macro 'container_of'
+           static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:338:74: note: expanded from macro '__same_type'
+   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+                                                                            ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   drivers/staging/nvec/nvec_paz00.c:17:22: note: forward declaration of 'struct nvec_led'
+   static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
+                        ^
+>> drivers/staging/nvec/nvec_paz00.c:19:9: error: offsetof of incomplete type 'struct nvec_led'
+           return container_of(led_cdev, struct nvec_led, cdev);
+                  ^                      ~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+           ((type *)(__mptr - offsetof(type, member))); })
+                              ^        ~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+   #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+                                   ^                  ~~~~
+   drivers/staging/nvec/nvec_paz00.c:17:22: note: forward declaration of 'struct nvec_led'
+   static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
+                        ^
+>> drivers/staging/nvec/nvec_paz00.c:19:9: error: returning 'void' from a function with incompatible result type 'struct nvec_led *'
+           return container_of(led_cdev, struct nvec_led, cdev);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:41: note: expanded from macro 'container_of'
+   #define container_of(ptr, type, member) ({                              \
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-vim +/devm_drm_of_get_bridge +411 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+vim +19 drivers/staging/nvec/nvec_paz00.c
 
-   390	
-   391	static int imx_lcdc_probe(struct platform_device *pdev)
-   392	{
-   393		struct imx_lcdc *lcdc;
-   394		struct drm_device *drm;
-   395		struct drm_bridge *bridge;
-   396		int irq;
-   397		int ret;
-   398		struct device *dev = &pdev->dev;
-   399	
-   400		lcdc = devm_drm_dev_alloc(dev, &imx_lcdc_drm_driver,
-   401					  struct imx_lcdc, drm);
-   402		if (!lcdc)
-   403			return -ENOMEM;
-   404	
-   405		drm = &lcdc->drm;
-   406	
-   407		lcdc->base = devm_platform_ioremap_resource(pdev, 0);
-   408		if (IS_ERR(lcdc->base))
-   409			return dev_err_probe(dev, PTR_ERR(lcdc->base), "Cannot get IO memory\n");
-   410	
- > 411		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-   412		if (IS_ERR(bridge))
-   413			return dev_err_probe(dev, PTR_ERR(bridge), "Failed to find bridge\n");
-   414	
-   415		/* Get Clocks */
-   416		lcdc->clk_ipg = devm_clk_get(dev, "ipg");
-   417		if (IS_ERR(lcdc->clk_ipg))
-   418			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ipg), "Failed to get %s clk\n", "ipg");
-   419	
-   420		lcdc->clk_ahb = devm_clk_get(dev, "ahb");
-   421		if (IS_ERR(lcdc->clk_ahb))
-   422			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ahb), "Failed to get %s clk\n", "ahb");
-   423	
-   424		lcdc->clk_per = devm_clk_get(dev, "per");
-   425		if (IS_ERR(lcdc->clk_per))
-   426			return dev_err_probe(dev, PTR_ERR(lcdc->clk_per), "Failed to get %s clk\n", "per");
-   427	
-   428		ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
-   429		if (ret)
-   430			return dev_err_probe(dev, ret, "Cannot set DMA Mask\n");
-   431	
-   432		/* Modeset init */
-   433		ret = drmm_mode_config_init(drm);
-   434		if (ret)
-   435			return dev_err_probe(dev, ret, "Cannot initialize mode configuration structure\n");
-   436	
-   437		/* CRTC, Plane, Encoder */
-   438		ret = drm_simple_display_pipe_init(drm, &lcdc->pipe,
-   439						   &imx_lcdc_pipe_funcs,
-   440						   imx_lcdc_formats,
-   441						   ARRAY_SIZE(imx_lcdc_formats), NULL, NULL);
-   442		if (ret < 0)
-   443			return dev_err_probe(drm->dev, ret, "Cannot setup simple display pipe\n");
-   444	
-   445		ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-   446		if (ret < 0)
-   447			return dev_err_probe(drm->dev, ret, "Failed to initialize vblank\n");
-   448	
- > 449		ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-   450		if (ret)
-   451			return dev_err_probe(drm->dev, ret, "Cannot attach bridge\n");
-   452	
-   453		lcdc->connector = drm_bridge_connector_init(drm, &lcdc->pipe.encoder);
-   454		if (IS_ERR(lcdc->connector))
-   455			return dev_err_probe(drm->dev, PTR_ERR(lcdc->connector), "Cannot init bridge connector\n");
-   456	
-   457		drm_connector_attach_encoder(lcdc->connector, &lcdc->pipe.encoder);
-   458	
-   459		/*
-   460		 * The LCDC controller does not have an enable bit. The
-   461		 * controller starts directly when the clocks are enabled.
-   462		 * If the clocks are enabled when the controller is not yet
-   463		 * programmed with proper register values (enabled at the
-   464		 * bootloader, for example) then it just goes into some undefined
-   465		 * state.
-   466		 * To avoid this issue, let's enable and disable LCDC IPG,
-   467		 * PER and AHB clock so that we force some kind of 'reset'
-   468		 * to the LCDC block.
-   469		 */
-   470	
-   471		ret = clk_prepare_enable(lcdc->clk_ipg);
-   472		if (ret)
-   473			return dev_err_probe(dev, ret, "Cannot enable ipg clock\n");
-   474		clk_disable_unprepare(lcdc->clk_ipg);
-   475	
-   476		ret = clk_prepare_enable(lcdc->clk_per);
-   477		if (ret)
-   478			return dev_err_probe(dev, ret, "Cannot enable per clock\n");
-   479		clk_disable_unprepare(lcdc->clk_per);
-   480	
-   481		ret = clk_prepare_enable(lcdc->clk_ahb);
-   482		if (ret)
-   483			return dev_err_probe(dev, ret, "Cannot enable ahb clock\n");
-   484		clk_disable_unprepare(lcdc->clk_ahb);
-   485	
-   486		drm->mode_config.min_width = LCDC_MIN_XRES;
-   487		drm->mode_config.max_width = LCDC_MAX_XRES;
-   488		drm->mode_config.min_height = LCDC_MIN_YRES;
-   489		drm->mode_config.max_height = LCDC_MAX_YRES;
-   490		drm->mode_config.preferred_depth = 16;
-   491		drm->mode_config.funcs = &imx_lcdc_mode_config_funcs;
-   492		drm->mode_config.helper_private = &imx_lcdc_mode_config_helpers;
-   493	
-   494		drm_mode_config_reset(drm);
-   495	
-   496		irq = platform_get_irq(pdev, 0);
-   497		if (irq < 0) {
-   498			ret = irq;
-   499			return ret;
-   500		}
-   501	
-   502		ret = devm_request_irq(dev, irq, imx_lcdc_irq_handler, 0, "imx-lcdc", lcdc);
-   503		if (ret < 0)
-   504			return dev_err_probe(drm->dev, ret, "Failed to install IRQ handler\n");
-   505	
-   506		platform_set_drvdata(pdev, drm);
-   507	
-   508		ret = drm_dev_register(&lcdc->drm, 0);
-   509		if (ret)
-   510			return dev_err_probe(dev, ret, "Cannot register device\n");
-   511	
-   512		drm_fbdev_generic_setup(drm, 0);
-   513	
-   514		return 0;
-   515	}
-   516	
+    16	
+    17	static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
+    18	{
+  > 19		return container_of(led_cdev, struct nvec_led, cdev);
+    20	}
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
