@@ -1,48 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE66622;
-	Sat, 18 Mar 2023 04:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBDE7EA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 05:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679115335; x=1710651335;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZoOoKSNk9CA4TE6nM8tAJ9g+6sxpEX6EcZivLYL6CX0=;
-  b=n2KJGfILdZO7L1ylb9lhKT/pRP75KmTjz5zdD9VdPgjCUq7WjhraYa+S
-   uSapD7rCZn3fPCWdQPPuyxDJn9sBPQMZTaQGrsQzoxk3cwnYPUX+7DE26
-   W2/YEL8IWZu74wZS1R2EfOUPHRALS+HpoeOCsJXes7sS++SbP35AYTL4w
-   skY86zNbMB+4CnNO6NTUSp3lOC0C78WhZpGiuD4p0RxJbicDaNSl+RE2p
-   0ACphd/Zk0V+5S8DadOYVZADAsm3ctzbFoNjCYAQ04xRKI9v9vo+6bgCu
-   Zyx87mEilynnpfWIIdPQu6NV4P4LqNy+DJHcRDNq486AzdpVVN1uGKky0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335903280"
+  t=1679116536; x=1710652536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6qhHoKc35bNrtScjvZUjEnaaS4X76+xo3xaDDQy3NmU=;
+  b=LMUGoRY7B/MB9qoe+YjgplhzGUPQFQrdq9S+cmb8DaBlU3xfufaVtTrx
+   ZYflhFNv0tMuFQAFTCIp77h3R4Fy0qxc0CzEEbMKbIeaISsIgEOxoJkqc
+   OExI5IK2EfB/32SlTRH4potiDSx97KWNvRTjiG/bnjKiFlPBvl/hRysjo
+   wlX6Wg9J5WGPQVkOxl+NsBW78KlJxt5AJYdUhGDCBADnMMisUDZ6XkL6c
+   slhtBD0fuh86EubdOmduoktg0P0d3mZ2I1YflSwcfF8CZJafdiZvhZ6YA
+   tlEtDrS/eYRaOk2pXoLvZ5jgpDNMVxmoBiJEfcCX3drYmOHvUrS3UR84D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="322256706"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="335903280"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 21:55:35 -0700
+   d="scan'208";a="322256706"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 22:15:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="854696000"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="710735631"
 X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="854696000"
+   d="scan'208";a="710735631"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 17 Mar 2023 21:55:32 -0700
+  by orsmga008.jf.intel.com with ESMTP; 17 Mar 2023 22:15:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdObL-0009oY-2P;
-	Sat, 18 Mar 2023 04:55:31 +0000
-Date: Sat, 18 Mar 2023 12:54:52 +0800
+	id 1pdOuj-0009pG-2J;
+	Sat, 18 Mar 2023 05:15:33 +0000
+Date: Sat, 18 Mar 2023 13:15:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bogdan Ionescu <bogdan.ionescu.work@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-leds@vger.kernel.or,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bogdan Ionescu <bogdan.ionescu.work@gmail.com>
-Subject: Re: [PATCH 2/2] leds: Add support for rohm,bd65b60 led driver
-Message-ID: <202303181228.ZP7Ig92k-lkp@intel.com>
-References: <20230308201451.11629-2-bogdan.ionescu.work@gmail.com>
+To: Ben Gardon <bgardon@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
+Subject: [sean-jc:x86/formalize_shadow_mmu 25/39]
+ arch/x86/kvm/mmu/mmu.c:806:1: error: version control conflict marker in file
+Message-ID: <202303181309.XryQAFFi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,135 +45,247 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308201451.11629-2-bogdan.ionescu.work@gmail.com>
 
-Hi Bogdan,
+Hi Ben,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on robh/for-next pavel-leds/for-next linus/master v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bogdan-Ionescu/leds-Add-support-for-rohm-bd65b60-led-driver/20230309-041730
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20230308201451.11629-2-bogdan.ionescu.work%40gmail.com
-patch subject: [PATCH 2/2] leds: Add support for rohm,bd65b60 led driver
-config: s390-randconfig-r003-20230318 (https://download.01.org/0day-ci/archive/20230318/202303181228.ZP7Ig92k-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://github.com/sean-jc/linux x86/formalize_shadow_mmu
+head:   dd395c7174581183cd66020ac5a784bdf2e79cd1
+commit: 6b83197856f485c960da6f39a01d447f0589aa1b [25/39] KVM: x86/MMU: Move the Shadow MMU implementation to shadow_mmu.c
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230318/202303181309.XryQAFFi-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/72417c0228f115628b1ad307be9d8e53532de6a6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bogdan-Ionescu/leds-Add-support-for-rohm-bd65b60-led-driver/20230309-041730
-        git checkout 72417c0228f115628b1ad307be9d8e53532de6a6
+        # https://github.com/sean-jc/linux/commit/6b83197856f485c960da6f39a01d447f0589aa1b
+        git remote add sean-jc https://github.com/sean-jc/linux
+        git fetch --no-tags sean-jc x86/formalize_shadow_mmu
+        git checkout 6b83197856f485c960da6f39a01d447f0589aa1b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/leds/ drivers/net/usb/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303181228.ZP7Ig92k-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303181309.XryQAFFi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/leds/leds-bd65b60.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/leds/leds-bd65b60.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/leds/leds-bd65b60.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   drivers/leds/leds-bd65b60.c:111:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (led->state != BD65B60_KEEP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/leds-bd65b60.c:116:2: note: uninitialized use occurs here
-           ret |= regmap_update_bits(led->regmap, REG_COMSET1, OVP_MASK, led->ovp);
-           ^~~
-   drivers/leds/leds-bd65b60.c:111:2: note: remove the 'if' if its condition is always true
-           if (led->state != BD65B60_KEEP) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/leds-bd65b60.c:107:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
->> drivers/leds/leds-bd65b60.c:266:34: warning: unused variable 'of_bd65b60_leds_match' [-Wunused-const-variable]
-   static const struct of_device_id of_bd65b60_leds_match[] = {
-                                    ^
-   14 warnings generated.
+   arch/x86/kvm/mmu/mmu.c:215:14: error: static declaration of 'kvm_mmu_page_get_gfn' follows non-static declaration
+     215 | static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index);
+         |              ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/mmu.c:24:
+   arch/x86/kvm/mmu/shadow_mmu.h:57:7: note: previous declaration of 'kvm_mmu_page_get_gfn' with type 'gfn_t(struct kvm_mmu_page *, int)' {aka 'long long unsigned int(struct kvm_mmu_page *, int)'}
+      57 | gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index);
+         |       ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/mmu/mmu.c:806:1: error: version control conflict marker in file
+     806 | <<<<<<< HEAD
+         | ^~~~~~~
+   arch/x86/kvm/mmu/mmu.c: In function 'kvm_handle_error_pfn':
+>> arch/x86/kvm/mmu/mmu.c:833:17: error: implicit declaration of function 'kvm_send_hwpoison_signal' [-Werror=implicit-function-declaration]
+     833 |                 kvm_send_hwpoison_signal(fault->slot, fault->gfn);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/mmu.c:1781:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'ept_fetch':
+   arch/x86/kvm/mmu/paging_tmpl.h:644:9: error: implicit declaration of function 'for_each_shadow_entry' [-Werror=implicit-function-declaration]
+     644 |         for_each_shadow_entry(vcpu, fault->addr, it) {
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/paging_tmpl.h:644:53: error: expected ';' before '{' token
+     644 |         for_each_shadow_entry(vcpu, fault->addr, it) {
+         |                                                     ^~
+         |                                                     ;
+   arch/x86/kvm/mmu/paging_tmpl.h:622:37: warning: unused variable 'access' [-Wunused-variable]
+     622 |         unsigned int direct_access, access;
+         |                                     ^~~~~~
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'ept_sync_spte':
+   arch/x86/kvm/mmu/paging_tmpl.h:934:13: error: implicit declaration of function 'kvm_mmu_page_get_access'; did you mean 'kvm_mmu_page_set_access'? [-Werror=implicit-function-declaration]
+     934 |         if (kvm_mmu_page_get_access(sp, i) == pte_access)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+         |             kvm_mmu_page_set_access
+   In file included from arch/x86/kvm/mmu/mmu.c:1785:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging64_fetch':
+   arch/x86/kvm/mmu/paging_tmpl.h:644:53: error: expected ';' before '{' token
+     644 |         for_each_shadow_entry(vcpu, fault->addr, it) {
+         |                                                     ^~
+         |                                                     ;
+   arch/x86/kvm/mmu/paging_tmpl.h:622:37: warning: unused variable 'access' [-Wunused-variable]
+     622 |         unsigned int direct_access, access;
+         |                                     ^~~~~~
+   In file included from arch/x86/kvm/mmu/mmu.c:1789:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging32_fetch':
+   arch/x86/kvm/mmu/paging_tmpl.h:644:53: error: expected ';' before '{' token
+     644 |         for_each_shadow_entry(vcpu, fault->addr, it) {
+         |                                                     ^~
+         |                                                     ;
+   arch/x86/kvm/mmu/paging_tmpl.h:622:37: warning: unused variable 'access' [-Wunused-variable]
+     622 |         unsigned int direct_access, access;
+         |                                     ^~~~~~
+   arch/x86/kvm/mmu/mmu.c: In function '__kvm_mmu_invalidate_addr':
+   arch/x86/kvm/mmu/mmu.c:2667:35: error: implicit declaration of function 'kvm_sync_spte'; did you mean 'ept_sync_spte'? [-Werror=implicit-function-declaration]
+    2667 |                         int ret = kvm_sync_spte(vcpu, sp, iterator.index);
+         |                                   ^~~~~~~~~~~~~
+         |                                   ept_sync_spte
+   arch/x86/kvm/mmu/mmu.c: At top level:
+>> arch/x86/kvm/mmu/mmu.c:215:14: warning: 'kvm_mmu_page_get_gfn' used but never defined
+     215 | static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index);
+         |              ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+>> arch/x86/kvm/mmu/shadow_mmu.c:48:8: error: redefinition of 'struct pte_list_desc'
+      48 | struct pte_list_desc {
+         |        ^~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:29:8: note: originally defined here
+      29 | struct pte_list_desc {
+         |        ^~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:57:8: error: redefinition of 'struct kvm_shadow_walk_iterator'
+      57 | struct kvm_shadow_walk_iterator {
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:41:8: note: originally defined here
+      41 | struct kvm_shadow_walk_iterator {
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c: In function 'drop_large_spte':
+>> arch/x86/kvm/mmu/shadow_mmu.c:809:17: error: implicit declaration of function 'kvm_flush_remote_tlbs_sptep'; did you mean 'kvm_flush_remote_tlbs_gfn'? [-Werror=implicit-function-declaration]
+     809 |                 kvm_flush_remote_tlbs_sptep(kvm, sptep);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 kvm_flush_remote_tlbs_gfn
+   arch/x86/kvm/mmu/shadow_mmu.c: At top level:
+   arch/x86/kvm/mmu/shadow_mmu.c:903:13: error: static declaration of 'kvm_zap_rmap' follows non-static declaration
+     903 | static bool kvm_zap_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |             ^~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:68:6: note: previous declaration of 'kvm_zap_rmap' with type 'bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, gfn_t,  int,  pte_t)' {aka '_Bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, long long unsigned int,  int,  pte_t)'}
+      68 | bool kvm_zap_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |      ^~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:910:13: error: static declaration of 'kvm_set_pte_rmap' follows non-static declaration
+     910 | static bool kvm_set_pte_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |             ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:71:6: note: previous declaration of 'kvm_set_pte_rmap' with type 'bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, gfn_t,  int,  pte_t)' {aka '_Bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, long long unsigned int,  int,  pte_t)'}
+      71 | bool kvm_set_pte_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |      ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1023:29: error: static declaration of 'kvm_handle_gfn_range' follows non-static declaration
+    1023 | static __always_inline bool kvm_handle_gfn_range(struct kvm *kvm,
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:78:6: note: previous declaration of 'kvm_handle_gfn_range' with type 'bool(struct kvm *, struct kvm_gfn_range *, bool (*)(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, gfn_t,  int,  pte_t))' {aka '_Bool(struct kvm *, struct kvm_gfn_range *, _Bool (*)(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, long long unsigned int,  int,  pte_t))'}
+      78 | bool kvm_handle_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range,
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1038:13: error: static declaration of 'kvm_age_rmap' follows non-static declaration
+    1038 | static bool kvm_age_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |             ^~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:81:6: note: previous declaration of 'kvm_age_rmap' with type 'bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, gfn_t,  int,  pte_t)' {aka '_Bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, long long unsigned int,  int,  pte_t)'}
+      81 | bool kvm_age_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |      ^~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1052:13: error: static declaration of 'kvm_test_age_rmap' follows non-static declaration
+    1052 | static bool kvm_test_age_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:84:6: note: previous declaration of 'kvm_test_age_rmap' with type 'bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, gfn_t,  int,  pte_t)' {aka '_Bool(struct kvm *, struct kvm_rmap_head *, struct kvm_memory_slot *, long long unsigned int,  int,  pte_t)'}
+      84 | bool kvm_test_age_rmap(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+         |      ^~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1170:13: error: static declaration of 'drop_parent_pte' follows non-static declaration
+    1170 | static void drop_parent_pte(struct kvm_mmu_page *sp,
+         |             ^~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:88:6: note: previous declaration of 'drop_parent_pte' with type 'void(struct kvm_mmu_page *, u64 *)' {aka 'void(struct kvm_mmu_page *, long long unsigned int *)'}
+      88 | void drop_parent_pte(struct kvm_mmu_page *sp, u64 *parent_pte);
+         |      ^~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1293:13: error: static declaration of 'kvm_mmu_prepare_zap_page' follows non-static declaration
+    1293 | static bool kvm_mmu_prepare_zap_page(struct kvm *kvm, struct kvm_mmu_page *sp,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:116:6: note: previous declaration of 'kvm_mmu_prepare_zap_page' with type 'bool(struct kvm *, struct kvm_mmu_page *, struct list_head *)' {aka '_Bool(struct kvm *, struct kvm_mmu_page *, struct list_head *)'}
+     116 | bool kvm_mmu_prepare_zap_page(struct kvm *kvm, struct kvm_mmu_page *sp,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1295:13: error: static declaration of 'kvm_mmu_commit_zap_page' follows non-static declaration
+    1295 | static void kvm_mmu_commit_zap_page(struct kvm *kvm,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:118:6: note: previous declaration of 'kvm_mmu_commit_zap_page' with type 'void(struct kvm *, struct list_head *)'
+     118 | void kvm_mmu_commit_zap_page(struct kvm *kvm, struct list_head *invalid_list);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1730:29: error: static declaration of 'kvm_mmu_get_child_sp' follows non-static declaration
+    1730 | static struct kvm_mmu_page *kvm_mmu_get_child_sp(struct kvm_vcpu *vcpu,
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:95:22: note: previous declaration of 'kvm_mmu_get_child_sp' with type 'struct kvm_mmu_page *(struct kvm_vcpu *, u64 *, gfn_t,  bool,  unsigned int)' {aka 'struct kvm_mmu_page *(struct kvm_vcpu *, long long unsigned int *, long long unsigned int,  _Bool,  unsigned int)'}
+      95 | struct kvm_mmu_page *kvm_mmu_get_child_sp(struct kvm_vcpu *vcpu, u64 *sptep,
+         |                      ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1743:13: error: conflicting types for 'shadow_walk_init_using_root'; have 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, hpa_t,  u64)' {aka 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, long long unsigned int,  long long unsigned int)'}
+    1743 | static void shadow_walk_init_using_root(struct kvm_shadow_walk_iterator *iterator,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:99:6: note: previous declaration of 'shadow_walk_init_using_root' with type 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, hpa_t,  u64)' {aka 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, long long unsigned int,  long long unsigned int)'}
+      99 | void shadow_walk_init_using_root(struct kvm_shadow_walk_iterator *iterator,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1772:13: error: conflicting types for 'shadow_walk_init'; have 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, u64)' {aka 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, long long unsigned int)'}
+    1772 | static void shadow_walk_init(struct kvm_shadow_walk_iterator *iterator,
+         |             ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:101:6: note: previous declaration of 'shadow_walk_init' with type 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, u64)' {aka 'void(struct kvm_shadow_walk_iterator *, struct kvm_vcpu *, long long unsigned int)'}
+     101 | void shadow_walk_init(struct kvm_shadow_walk_iterator *iterator,
+         |      ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1779:13: error: conflicting types for 'shadow_walk_okay'; have 'bool(struct kvm_shadow_walk_iterator *)' {aka '_Bool(struct kvm_shadow_walk_iterator *)'}
+    1779 | static bool shadow_walk_okay(struct kvm_shadow_walk_iterator *iterator)
+         |             ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:103:6: note: previous declaration of 'shadow_walk_okay' with type 'bool(struct kvm_shadow_walk_iterator *)' {aka '_Bool(struct kvm_shadow_walk_iterator *)'}
+     103 | bool shadow_walk_okay(struct kvm_shadow_walk_iterator *iterator);
+         |      ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1801:13: error: conflicting types for 'shadow_walk_next'; have 'void(struct kvm_shadow_walk_iterator *)'
+    1801 | static void shadow_walk_next(struct kvm_shadow_walk_iterator *iterator)
+         |             ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:104:6: note: previous declaration of 'shadow_walk_next' with type 'void(struct kvm_shadow_walk_iterator *)'
+     104 | void shadow_walk_next(struct kvm_shadow_walk_iterator *iterator);
+         |      ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/shadow_mmu.c:1841:13: error: static declaration of 'link_shadow_page' follows non-static declaration
+    1841 | static void link_shadow_page(struct kvm_vcpu *vcpu, u64 *sptep,
+         |             ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/mmu/shadow_mmu.c:18:
+   arch/x86/kvm/mmu/shadow_mmu.h:106:6: note: previous declaration of 'link_shadow_page' with type 'void(struct kvm_vcpu *, u64 *, struct kvm_mmu_page *)' {aka 'void(struct kvm_vcpu *, long long unsigned int *, struct kvm_mmu_page *)'}
 
 
-vim +/of_bd65b60_leds_match +266 drivers/leds/leds-bd65b60.c
+vim +806 arch/x86/kvm/mmu/mmu.c
 
-   265	
- > 266	static const struct of_device_id of_bd65b60_leds_match[] = {
-   267		{ .compatible = "rohm,bd65b60" },
-   268		{},
-   269	};
-   270	MODULE_DEVICE_TABLE(of, of_bd65b60_leds_match);
-   271	
+   805	
+ > 806	<<<<<<< HEAD
+   807	
+   808	=======
+   809	>>>>>>> c69490fd540c (KVM: x86/MMU: Move the Shadow MMU implementation to shadow_mmu.c)
+   810	static void kvm_send_hwpoison_signal(struct kvm_memory_slot *slot, gfn_t gfn)
+   811	{
+   812		unsigned long hva = gfn_to_hva_memslot(slot, gfn);
+   813	
+   814		send_sig_mceerr(BUS_MCEERR_AR, (void __user *)hva, PAGE_SHIFT, current);
+   815	}
+   816	
+   817	static int kvm_handle_error_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+   818	{
+   819		if (is_sigpending_pfn(fault->pfn)) {
+   820			kvm_handle_signal_exit(vcpu);
+   821			return -EINTR;
+   822		}
+   823	
+   824		/*
+   825		 * Do not cache the mmio info caused by writing the readonly gfn
+   826		 * into the spte otherwise read access on readonly gfn also can
+   827		 * caused mmio page fault and treat it as mmio access.
+   828		 */
+   829		if (fault->pfn == KVM_PFN_ERR_RO_FAULT)
+   830			return RET_PF_EMULATE;
+   831	
+   832		if (fault->pfn == KVM_PFN_ERR_HWPOISON) {
+ > 833			kvm_send_hwpoison_signal(fault->slot, fault->gfn);
+   834			return RET_PF_RETRY;
+   835		}
+   836	
+   837		return -EFAULT;
+   838	}
+   839	
 
 -- 
 0-DAY CI Kernel Test Service
