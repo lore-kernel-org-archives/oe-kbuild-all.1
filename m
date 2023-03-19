@@ -1,43 +1,46 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118EE10EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 08:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A981111B;
+	Sun, 19 Mar 2023 10:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679215746; x=1710751746;
+  t=1679222529; x=1710758529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vh88PXdqvih6fMe7fbxmucXaDUuShbC6D4kXYBQH6X8=;
-  b=RfS9u7UtdHs4Pl0yCwlCmpIAPAem7EzzFJQz8uWsmLAFgWtwxNMvzoyM
-   DEpNHx8dXF6su0y8Pohn3UWJZfqepctMY2Jjy77sp2cGTONKm1DGP1dR4
-   GICqKcuQGkuCW/8fnSa4hjbDstb3FUiHdh5s3rvpe8aeJmjlyLdJZPNr9
-   WYMKnVCkK5VFnmdJ32G7O0IKf9MCO1qDBFeeHcsqXSSHgzyqTFXOzyJmj
-   uqmpOzuq/3/lZSBdb3PrNuIr3/HB6pKhelH1Qd9nR5MJDYczmD+Y+c0Dq
-   Pc1so/xIgdCQuY7YFbrtxOzKlVXnOYnMPWRaK14RWEUmaSb94zf1trGKS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="322336736"
+  bh=vroytviTcMsDgJWV0chpXYs2+nVSafQMYYHo7SoKyhA=;
+  b=dBWOIHS64prObzC13vnQCrvV2MBQgPDssnPQvr1CLKf2bWdAFwicQwAO
+   FFDiBYCVKvFvsxv+jYVnOCS5evE6jUEr/7CvA4SQZkWwmaoQcvBaVcdCX
+   MO7T5SnRWqmN5YKbAramYxirCcmkLYRpeBHaYENoGz2oRJ5+JKNlLzO+i
+   NPjF549CDEd2fVkuhPxgbUtN0fouOUsT9MySGogx1g4ce0YwMACU4d/hq
+   1peak9GzgGF4QzPzIYNveLwOPxOxeq3CXeVR5wDILXlac79Ihcm1pJlm7
+   NY/jSqZ3BVFuc3/rHt7py8se6aSFrYpUrKnDJmuHpFOWnUqfIxRAENpZc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="337210148"
 X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
-   d="scan'208";a="322336736"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 01:49:05 -0700
+   d="scan'208";a="337210148"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 03:42:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="658036935"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="1010176018"
 X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
-   d="scan'208";a="658036935"
+   d="scan'208";a="1010176018"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Mar 2023 01:49:04 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Mar 2023 03:42:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdoit-000ATW-2s;
-	Sun, 19 Mar 2023 08:49:03 +0000
-Date: Sun, 19 Mar 2023 16:48:23 +0800
+	id 1pdqUG-000AUw-3A;
+	Sun, 19 Mar 2023 10:42:04 +0000
+Date: Sun, 19 Mar 2023 18:41:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:feature_interrupters 4/4]
- drivers/usb/host/xhci-sideband.h:16:46: error: 'EP_CTX_PER_DEV' undeclared
- here (not in a function)
-Message-ID: <202303191628.s2PtwCi4-lkp@intel.com>
+To: ChiYuan Huang <cy_huang@richtek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>,
+	Alice Chen <alice_chen@richtek.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>
+Subject: [lee-leds:for-leds-next 13/15]
+ drivers/leds/rgb/leds-mt6370-rgb.c:889:8: error: call to undeclared function
+ 'FIELD_GET'; ISO C99 and later do not support implicit function declarations
+Message-ID: <202303191803.6bgnovZl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +50,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git feature_interrupters
-head:   93b93462a62a86505a34344c2342741388b36d1a
-commit: 93b93462a62a86505a34344c2342741388b36d1a [4/4] xhci: sideband: add initial api to register a sideband entity
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20230319/202303191628.s2PtwCi4-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
+commit: 55a8a5c16eb37e7723244337af04388557f4fa2f [13/15] leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support
+config: riscv-randconfig-r042-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191803.6bgnovZl-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?id=93b93462a62a86505a34344c2342741388b36d1a
-        git remote add mnyman-xhci https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git
-        git fetch --no-tags mnyman-xhci feature_interrupters
-        git checkout 93b93462a62a86505a34344c2342741388b36d1a
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?id=55a8a5c16eb37e7723244337af04388557f4fa2f
+        git remote add lee-leds https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git
+        git fetch --no-tags lee-leds for-leds-next
+        git checkout 55a8a5c16eb37e7723244337af04388557f4fa2f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/rtc/ drivers/usb/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/leds/rgb/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303191628.s2PtwCi4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303191803.6bgnovZl-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/usb/host/xhci-sideband.c:11:
->> drivers/usb/host/xhci-sideband.h:16:46: error: 'EP_CTX_PER_DEV' undeclared here (not in a function)
-      16 |         struct xhci_virt_ep             *eps[EP_CTX_PER_DEV];
-         |                                              ^~~~~~~~~~~~~~
->> drivers/usb/host/xhci-sideband.h:21:31: warning: 'struct usb_device' declared inside parameter list will not be visible outside of this definition or declaration
-      21 | xhci_sideband_register(struct usb_device *udev);
-         |                               ^~~~~~~~~~
->> drivers/usb/host/xhci-sideband.h:26:35: warning: 'struct usb_host_endpoint' declared inside parameter list will not be visible outside of this definition or declaration
-      26 |                            struct usb_host_endpoint *host_ep);
-         |                                   ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-sideband.h:29:38: warning: 'struct usb_host_endpoint' declared inside parameter list will not be visible outside of this definition or declaration
-      29 |                               struct usb_host_endpoint *host_ep);
-         |                                      ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-sideband.h:32:36: warning: 'struct usb_host_endpoint' declared inside parameter list will not be visible outside of this definition or declaration
-      32 |                             struct usb_host_endpoint *host_ep);
-         |                                    ^~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-sideband.c:16:22: error: unknown type name 'xhci_ring'
-      16 | xhci_ring_to_sgtable(xhci_ring *ring, struct device *dev)
-         |                      ^~~~~~~~~
+>> drivers/leds/rgb/leds-mt6370-rgb.c:889:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
+                 ^
+   1 error generated.
 
 
-vim +/EP_CTX_PER_DEV +16 drivers/usb/host/xhci-sideband.h
+vim +/FIELD_GET +889 drivers/leds/rgb/leds-mt6370-rgb.c
 
-    12	
-    13	struct xhci_sideband {
-    14		struct xhci_hcd                 *xhci;
-    15		struct xhci_virt_device         *vdev;
-  > 16		struct xhci_virt_ep             *eps[EP_CTX_PER_DEV];
-    17		struct xhci_interrupter         *ir;
-    18	};
-    19	
-    20	struct xhci_sideband *
-  > 21	xhci_sideband_register(struct usb_device *udev);
-    22	void
-    23	xhci_sideband_unregister(struct xhci_sideband *sb);
-    24	int
-    25	xhci_sideband_add_endpoint(struct xhci_sideband *sb,
-  > 26				   struct usb_host_endpoint *host_ep);
-    27	int
-    28	xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
-    29				      struct usb_host_endpoint *host_ep);
-    30	int
-    31	xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
-    32				    struct usb_host_endpoint *host_ep);
-    33	
+   879	
+   880	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+   881	{
+   882		unsigned int devinfo, vid;
+   883		int ret;
+   884	
+   885		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
+   886		if (ret)
+   887			return ret;
+   888	
+ > 889		vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
+   890		if (vid == MT6372_VENDOR_ID || vid == MT6372C_VENDOR_ID) {
+   891			priv->reg_fields = mt6372_reg_fields;
+   892			priv->ranges = mt6372_led_ranges;
+   893			priv->pdata = &mt6372_pdata;
+   894		} else {
+   895			/* Common for MT6370/71 */
+   896			priv->reg_fields = common_reg_fields;
+   897			priv->ranges = common_led_ranges;
+   898			priv->pdata = &common_pdata;
+   899		}
+   900	
+   901		return 0;
+   902	}
+   903	
 
 -- 
 0-DAY CI Kernel Test Service
