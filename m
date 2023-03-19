@@ -1,43 +1,43 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC383EA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 06:05:58 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id l12so7634331wrm.10
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 23:05:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2633EA9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 06:10:31 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id p16so5565112wmq.5
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 23:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679205957;
+        d=gmail.com; s=20210112; t=1679206230;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L5o68Y8GxB7MxRzoWxahZl5WtNvv6X9nSD+g9jbql38=;
-        b=Le7DYoOL7Bf4hL3Wv77hhmKQmt3mp9QMEGnS2cejl83vA+gQs3Zt0efk+/VsSiHbXR
-         MIjLqginf428dvCLxTIKPF3mnB3uWPSRuqJiMBkZopl2GXlLQoKXljWSctOiiF4574oZ
-         kKf1mFlZutMKc5karnkdUfJzwvBejCegZUpZ+bfiMwJqd+z6OeOoOAnGwMuHfBpYBKol
-         c/JzPz6QEXXTYRgG6JGabibK1A6GzyFf0UspPlESgKNe4bnHExMLcKOaWV5z0GQOcTjJ
-         ZaeVlu+HWocBTeKIKptCqRnnPl3gLCS3lIp2joShP2UMzcudCNNQ0jLJ1vQud6O/vto2
-         Fp7g==
+        bh=XCXZgQdVe5c6oKDsDnZCo553EMFw0K45SrmlR+yfeIU=;
+        b=NxRWv5qjJAzjZ5SlbFTN6BJ9ZgRHA/HTNbhPil7P5aLbF6voyVHlpsIivhn5gzZprA
+         hqeNpxQGSwV8AVDMEVe7VcIQxj3F41Ow/826tIX8xr+WQ3HNvRGsAdtg4gZLR56zPsl5
+         FeJ25XnSPR9Pgiv70Vgc0rOzKFsAd9+64PxhuALfbSsys1I2uz8PHCXl5JdgZAFnPSYR
+         msxfs3x0Irb0Gwz2wm4hVBY2JUyq21+HBcb9kufRs4x51hFTIA2tHwzJiXlBLD812EWg
+         UIGgB1AJN1xrQQYSyVFrqz6kzcfzZcAoB9ucObSTOOpRt45+Nu6jpypAvS6BIyp3MIFU
+         Izng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679205957;
+        d=1e100.net; s=20210112; t=1679206230;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L5o68Y8GxB7MxRzoWxahZl5WtNvv6X9nSD+g9jbql38=;
-        b=dwGFz9mu4HOAt4PvKYaIWKUFEOJjmjjHR/yaONrcUJHkgRDXztnfZkMZLA0cKbd7i7
-         yskvCfrXuI5jG5E00LmuECW6ccEmt+XLajcdbZ4oTyTigIYq5oPOD1zh9YOoENrYbP1e
-         10jDoBGAJzeKzxbLDanYDSkHa38ow5xlcH83WpTMe49X4oRdyl9DkZEq2ZJp36wVju/9
-         BAegVYzxpUf+Yv7YBHt2RNMCT2WzlBaKWREPgJ/exRsUcAgkv9Rsbz+HmT5Gjf7fJrcF
-         z7GG6SmLByGFDnbrSY2+NW61d5pjjfv3cwB4PqogRMQjQvI5FpIjJUijKGBUAGGhqHiG
-         JvCw==
-X-Gm-Message-State: AO0yUKUJgvvD+s3yAQDBDE/g7ZXct859Ln93AEP0wMHp5qwC5/UlTbig
-	14cm2syP/cV3zOZASBYDCeY=
-X-Google-Smtp-Source: AK7set/518R9yursdpHA1wGwkdPSPJfwg60pyTGSqBIuce0FsEV/Czwz1hRsgEVvtD1i08fwY26OLA==
-X-Received: by 2002:adf:f1d1:0:b0:2cf:e8b2:4f76 with SMTP id z17-20020adff1d1000000b002cfe8b24f76mr10630878wro.66.1679205956681;
-        Sat, 18 Mar 2023 23:05:56 -0700 (PDT)
+        bh=XCXZgQdVe5c6oKDsDnZCo553EMFw0K45SrmlR+yfeIU=;
+        b=lhKQHP0CKvg5oUUetV+gISvuztYYeOIlIKvA9RyHj14K/RxM1pPICf74ysE2F7CsMF
+         iNzowLN/jEPGqTQS9Y/GAWKUtYUGDdcidDSdri8xBt1riVhjP7S627UmF2pE88VdaPXz
+         lArGwNOmEOszqH5ne91+OxD9A3gyLzrGwIdiPXB8DFOkUgaxI0+6rjwi9PBICpVETRfR
+         r3BZsBGNXWH00DQO/UxPNMht023T1mrzq4MISi1auIJnr2RafzOuOODZcaP7tXrAvkMk
+         xjRR8bQBzqObOseBN8qswHSscETXONoCvpvppz40i08vTnytHAWHTyCuJacJy1HiAoII
+         oI7g==
+X-Gm-Message-State: AO0yUKWxUglRFnUT43x6ZONtwVKJfZtkcHycc1He6VOfERlp4RzyDBpm
+	ljYr1SI4zHz6mpMbJ+gWLFY=
+X-Google-Smtp-Source: AK7set81KcqLr/9F7KV2ou0bzzrWwqjKJLzBGcKiKCCc0V8fHOTrPF5/BaEdIi/GxxEdhSCAqsTVfA==
+X-Received: by 2002:a1c:ed16:0:b0:3ed:a45d:aee9 with SMTP id l22-20020a1ced16000000b003eda45daee9mr3529255wmh.39.1679206229971;
+        Sat, 18 Mar 2023 23:10:29 -0700 (PDT)
 Received: from localhost (host86-146-209-214.range86-146.btcentralplus.com. [86.146.209.214])
-        by smtp.gmail.com with ESMTPSA id m23-20020a056000181700b002c5694aef92sm5815133wrh.21.2023.03.18.23.05.55
+        by smtp.gmail.com with ESMTPSA id p9-20020a05600c468900b003ed5909aab2sm9308183wmo.25.2023.03.18.23.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Mar 2023 23:05:56 -0700 (PDT)
-Date: Sun, 19 Mar 2023 06:03:45 +0000
+        Sat, 18 Mar 2023 23:10:29 -0700 (PDT)
+Date: Sun, 19 Mar 2023 06:08:19 +0000
 From: Lorenzo Stoakes <lstoakes@gmail.com>
 To: kernel test robot <lkp@intel.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
@@ -49,9 +49,9 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 	David Hildenbrand <david@redhat.com>,
 	Liu Shixin <liushixin2@huawei.com>, Jiri Olsa <jolsa@kernel.org>
 Subject: Re: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
-Message-ID: <ba07db21-04a3-462d-b5e1-e098799b89e0@lucifer.local>
+Message-ID: <b4571b7e-efb3-45ac-b442-864ed7f48edb@lucifer.local>
 References: <119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes@gmail.com>
- <202303191017.vsaaDpyw-lkp@intel.com>
+ <202303190922.Wk376onx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,9 +60,9 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303191017.vsaaDpyw-lkp@intel.com>
+In-Reply-To: <202303190922.Wk376onx-lkp@intel.com>
 
-On Sun, Mar 19, 2023 at 10:16:59AM +0800, kernel test robot wrote:
+On Sun, Mar 19, 2023 at 09:46:03AM +0800, kernel test robot wrote:
 > Hi Lorenzo,
 >
 > Thank you for the patch! Perhaps something to improve:
@@ -77,8 +77,8 @@ On Sun, Mar 19, 2023 at 10:16:59AM +0800, kernel test robot wrote:
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 > patch link:    https://lore.kernel.org/r/119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes%40gmail.com
 > patch subject: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
-> config: sh-randconfig-r013-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191017.vsaaDpyw-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 12.1.0
+> config: sparc64-randconfig-r015-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190922.Wk376onx-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 12.1.0
 > reproduce (this is a W=1 build):
 >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
 >         chmod +x ~/bin/make.cross
@@ -88,36 +88,52 @@ On Sun, Mar 19, 2023 at 10:16:59AM +0800, kernel test robot wrote:
 >         git checkout a28f374d35bd294a529fcba0b69c8b0e2b66fa6c
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash arch/sparc/vdso/
 >
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303191017.vsaaDpyw-lkp@intel.com/
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303190922.Wk376onx-lkp@intel.com/
 >
 > All warnings (new ones prefixed by >>):
 >
-> >> mm/nommu.c:201:6: warning: no previous prototype for 'vread' [-Wmissing-prototypes]
->      201 | long vread(char *buf, char *addr, unsigned long count)
->          |      ^~~~~
+>    In file included from include/linux/wait.h:11,
+>                     from include/linux/swait.h:8,
+>                     from include/linux/completion.h:12,
+>                     from include/linux/mm_types.h:14,
+>                     from include/linux/uio.h:10,
+>                     from include/linux/vmalloc.h:12,
+>                     from include/asm-generic/io.h:994,
+>                     from arch/sparc/include/asm/io.h:22,
+>                     from arch/sparc/vdso/vclock_gettime.c:18:
+> >> arch/sparc/include/asm/current.h:18:30: warning: call-clobbered register used for global register variable
+>       18 | register struct task_struct *current asm("g4");
+>          |                              ^~~~~~~
+>    arch/sparc/vdso/vclock_gettime.c:254:1: warning: no previous prototype for '__vdso_clock_gettime' [-Wmissing-prototypes]
+>      254 | __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+>          | ^~~~~~~~~~~~~~~~~~~~
+>    arch/sparc/vdso/vclock_gettime.c:282:1: warning: no previous prototype for '__vdso_clock_gettime_stick' [-Wmissing-prototypes]
+>      282 | __vdso_clock_gettime_stick(clockid_t clock, struct __kernel_old_timespec *ts)
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/sparc/vdso/vclock_gettime.c:307:1: warning: no previous prototype for '__vdso_gettimeofday' [-Wmissing-prototypes]
+>      307 | __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>          | ^~~~~~~~~~~~~~~~~~~
+>    arch/sparc/vdso/vclock_gettime.c:343:1: warning: no previous prototype for '__vdso_gettimeofday_stick' [-Wmissing-prototypes]
+>      343 | __vdso_gettimeofday_stick(struct __kernel_old_timeval *tv, struct timezone *tz)
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
 >
-
-Ah sorry, I forgot to update the nommu stub, will respin with a fix.
 >
-> vim +/vread +201 mm/nommu.c
+> vim +18 arch/sparc/include/asm/current.h
 >
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  200
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16 @201  long vread(char *buf, char *addr, unsigned long count)
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  202  {
-> 9bde916bc73255 Chen Gang      2013-07-03  203  	/* Don't allow overflow */
-> 9bde916bc73255 Chen Gang      2013-07-03  204  	if ((unsigned long) buf + count < count)
-> 9bde916bc73255 Chen Gang      2013-07-03  205  		count = -(unsigned long) buf;
-> 9bde916bc73255 Chen Gang      2013-07-03  206
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  207  	memcpy(buf, addr, count);
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  208  	return count;
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  209  }
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  210
+> ^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  16
+> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  17  #ifdef CONFIG_SPARC64
+> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16 @18  register struct task_struct *current asm("g4");
+> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  19  #endif
+> ^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  20
 >
 > --
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests
+
+This doesn't seem even vaguely related to this patchset, possibly my not
+specifying that I am basing on mm-unstable may be a factor here.
