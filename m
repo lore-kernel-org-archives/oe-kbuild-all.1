@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9C633FF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 23:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48AC33FF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 23:58:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679269646; x=1710805646;
+  t=1679270306; x=1710806306;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A2F9KH1lsgGYqVdhd6lttOHYqyoJpmmQKOkDRpMAvjU=;
-  b=ZUJDXTqyccCpes8SvNr7f1Ax9Ksmogadt3DGGQugiYEq5K3Fuca6WV3a
-   aEd36p1QZmRjwojoGlk/9DOoyN2TeQjNtg/nQr+RmX7d1yQ1+nxYtyV9x
-   Erpx+lg9xreys8Skg5xWErZe00sB8yLKh9IhLZt+tsDnoyzwUri0XvJOM
-   jYKsRR+vxnv54O2LgXVr/pdmBXJaL6MYzk68Wm3IavLh8Cy3H7EngHK6/
-   c66G5QXclkkJLLjc8aiEtfVbzsWe2PSR0VnQ/iMKmxTYVXegYTjiHkmZd
-   CJayXtfn9CgrDx66jlKGXQSc50fM8+zB0nY/cFdpFpxIpDDKlj0R1K1aZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="318945835"
+  bh=hVq1bdtrSpVCdQm/ANXr+v9kRYgwopsbFGGr0mtzpqc=;
+  b=HprnI0lQDAymNGtuMcOHqPgeSK0kJz5lfCG3Pv3DIvv8xUZ8OmkDWvrE
+   0jAK8uDNQJaKsFeM0ghy8P8L2RTwWCzFXj+x0dpcvN8ojr522xa/3plEc
+   Vx7dhCxn5EKJOhGpXWKeMi8aktjnXgpx5hojpNjeQ0PBfuIGRHuD3v9Wn
+   y1AkkDf8ro3/MEmCFLmXMVBNh7EVSl00T453SbCGsE1pbGXsFBDvz+FZf
+   g2D0itWnd5IJEx/BjyG2vzv5y7MFu4BajAzHwEYD+SFfW4dw7E6/D/zsS
+   uKLEXQHjUK9HjrT8id0rQsW5fHPEqrMfApZEusROG5UIzLVYHWJ7abMM5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326917286"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="318945835"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 16:47:25 -0700
+   d="scan'208";a="326917286"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 16:58:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="749882239"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="926783768"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="749882239"
+   d="scan'208";a="926783768"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Mar 2023 16:47:24 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Mar 2023 16:58:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pe2kF-000Ai6-2b;
-	Sun, 19 Mar 2023 23:47:23 +0000
-Date: Mon, 20 Mar 2023 07:47:18 +0800
+	id 1pe2uu-000AiA-07;
+	Sun, 19 Mar 2023 23:58:24 +0000
+Date: Mon, 20 Mar 2023 07:57:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Cong Wang <cong.wang@bytedance.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [congwang:sk_data_ready 3/5] fs/dlm/lowcomms.c:1816:33: error:
  assignment to 'int (*)(struct sock *)' from incompatible pointer type 'void
  (*)(struct sock *)'
-Message-ID: <202303200758.R0hOPRvn-lkp@intel.com>
+Message-ID: <202303200711.k2LgkRp3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,7 +50,7 @@ Content-Disposition: inline
 tree:   https://github.com/congwang/linux.git sk_data_ready
 head:   e93cfc7768b977702ee0f268969137059fa953aa
 commit: 07dd10dd3d03f34e88f3c5ecf0347009ad04eb85 [3/5] net: make sk->sk_data_ready() return int
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230320/202303200758.R0hOPRvn-lkp@intel.com/config)
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230320/202303200711.k2LgkRp3-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/congwang/linux/commit/07dd10dd3d03f34e88f3c5ecf0347009ad04eb85
@@ -64,7 +64,7 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303200758.R0hOPRvn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303200711.k2LgkRp3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
