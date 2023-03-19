@@ -1,43 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C151E7EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 04:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B51A48
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 04:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679200865; x=1710736865;
+  t=1679201464; x=1710737464;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KEq0f/dE5UjDupld5VHJ7yd0DUY3jfeXEkBgOcJpdaA=;
-  b=EKYEusdo8HxRaL1H7Qwt8NwaA4epiBK950ZWy/KUAYjIzpFc3QD9/nVq
-   sWBgyJMpjKlpUg/0WjAofXh5VipC/Kj9kIm5bTY7QQtyggRVk1PCNMtB4
-   IlsXlISEbBYU5Ywn/SsgF8t4V/Hjdac266hvK2q42gLgGGdAjw0QXtYfb
-   mzH3A+3KCyNZekn4kcZgobOFA1qaqot90CJ0VbbxedXKGfpw6DaIX5Qnb
-   T/Wxx05L17NzGQEBvsex3ohvjcRbICKTgZTFy4xCM5pnkYA31EsQencS7
-   AHkPB1WZX4BeQh/t89yxwDY/ZKToOUCqYNYm1MdW3BRtwZ/TJCFMKO70O
+  bh=AztZtCPUy+yp3fx9qFcyEf6ymo4tR3urJ+pX2tb/2tk=;
+  b=Vq54BD+1uZ9frNdR50TD0Uz4SPkKVgpcXoFFl61vKPpIOKAjUDJgNLvh
+   R1dIDjgY69x7eh3P1eBVhum5jyy/Gr4RMiPmBtZ4GSV99fXEYhz+6L/fA
+   Vgi4hya34g0lhC0rBhv6PeP8hFw5nxPr/HExSXpcAR9Whqg+XGAhzy5Gq
+   wKEQ7OhvrYYSXw8VXR+5mZjrOfOAz1ufTQN81MozFPnRR/sEo7eqbi+NU
+   dt7qR0qImJoUWnl148yLB9yjYEwhdycCjdZedZH3YI/aosJHqCeS5u7vK
+   arSrFA3txWwZMDInTuPE1+t3T9notNxXSBy2Xwdxe2HM6e0ht6sOf6EKQ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="401056486"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="340839421"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="401056486"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 21:41:03 -0700
+   d="scan'208";a="340839421"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 21:51:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="744972930"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="926587152"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="744972930"
+   d="scan'208";a="926587152"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Mar 2023 21:41:01 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Mar 2023 21:51:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdkqq-000AOd-38;
-	Sun, 19 Mar 2023 04:41:00 +0000
-Date: Sun, 19 Mar 2023 12:40:21 +0800
+	id 1pdl0X-000AP2-0R;
+	Sun, 19 Mar 2023 04:51:01 +0000
+Date: Sun, 19 Mar 2023 12:50:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Gow <davidgow@google.com>
-Subject: lib/fortify_kunit.c:28:9: sparse: sparse: incompatible types for
- operation (==):
-Message-ID: <202303191230.4hAT1iek-lkp@intel.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [bluetooth-next:master 57/57] drivers/bluetooth/btnxpuart.c:844:36:
+ sparse: sparse: incorrect type in argument 3 (different base types)
+Message-ID: <202303191207.FqEn5Fdd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +48,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a3671bd86a9770e34969522d29bb30a1b66fd88a
-commit: 875bfd5276f31d09e811d31fca638b9f4d1205e8 fortify: Add KUnit test for FORTIFY_SOURCE internals
-date:   6 months ago
-config: s390-randconfig-s032-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191230.4hAT1iek-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   3e662aa4453a38568731c6319319a3a85e2f2f96
+commit: 3e662aa4453a38568731c6319319a3a85e2f2f96 [57/57] Bluetooth: NXP: Add protocol support for NXP Bluetooth chipsets
+config: arm64-randconfig-s052-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191207.FqEn5Fdd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=875bfd5276f31d09e811d31fca638b9f4d1205e8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 875bfd5276f31d09e811d31fca638b9f4d1205e8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git/commit/?id=3e662aa4453a38568731c6319319a3a85e2f2f96
+        git remote add bluetooth-next https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git
+        git fetch --no-tags bluetooth-next master
+        git checkout 3e662aa4453a38568731c6319319a3a85e2f2f96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303191230.4hAT1iek-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303191207.FqEn5Fdd-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   lib/fortify_kunit.c:28:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:28:9: sparse: sparse: undefined identifier '__compiletime_strlen'
->> lib/fortify_kunit.c:28:9: sparse: sparse: incompatible types for operation (==):
->> lib/fortify_kunit.c:28:9: sparse:    bad type const __left
->> lib/fortify_kunit.c:28:9: sparse:    int const __right
-   lib/fortify_kunit.c:29:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:29:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:29:9: sparse: sparse: incompatible types for operation (==):
-   lib/fortify_kunit.c:29:9: sparse:    bad type const __left
-   lib/fortify_kunit.c:29:9: sparse:    int const __right
-   lib/fortify_kunit.c:30:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:30:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:30:9: sparse: sparse: incompatible types for operation (==):
-   lib/fortify_kunit.c:30:9: sparse:    bad type const __left
-   lib/fortify_kunit.c:30:9: sparse:    int const __right
-   lib/fortify_kunit.c:32:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:32:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:32:9: sparse: sparse: incompatible types for operation (==):
-   lib/fortify_kunit.c:32:9: sparse:    bad type const __left
->> lib/fortify_kunit.c:32:9: sparse:    unsigned long const __right
-   lib/fortify_kunit.c:34:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:34:9: sparse: sparse: undefined identifier '__compiletime_strlen'
-   lib/fortify_kunit.c:34:9: sparse: sparse: incompatible types for operation (==):
-   lib/fortify_kunit.c:34:9: sparse:    bad type const __left
-   lib/fortify_kunit.c:34:9: sparse:    unsigned long const __right
-   lib/fortify_kunit.c:56:16: sparse: sparse: undefined identifier '__compiletime_strlen'
+   drivers/bluetooth/btnxpuart.c:681:23: sparse: sparse: restricted __le16 degrades to integer
+   drivers/bluetooth/btnxpuart.c:690:82: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:690:82: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:690:82: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:694:84: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:694:84: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:694:84: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:708:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] requested_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:708:23: sparse:     expected unsigned int [usertype] requested_len
+   drivers/bluetooth/btnxpuart.c:708:23: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:787:78: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] chipid @@     got restricted __le16 [usertype] chip_id @@
+   drivers/bluetooth/btnxpuart.c:787:78: sparse:     expected unsigned short [usertype] chipid
+   drivers/bluetooth/btnxpuart.c:787:78: sparse:     got restricted __le16 [usertype] chip_id
+   drivers/bluetooth/btnxpuart.c:810:74: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:810:74: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:810:74: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:815:76: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:815:76: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:815:76: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:834:16: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bluetooth/btnxpuart.c:843:55: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/bluetooth/btnxpuart.c:844:36: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:844:36: sparse:     expected unsigned long [usertype]
+   drivers/bluetooth/btnxpuart.c:844:36: sparse:     got restricted __le16 [usertype] len
 
-vim +28 lib/fortify_kunit.c
+vim +844 drivers/bluetooth/btnxpuart.c
 
-    25	
-    26	static void known_sizes_test(struct kunit *test)
-    27	{
-  > 28		KUNIT_EXPECT_EQ(test, __compiletime_strlen("88888888"), 8);
-    29		KUNIT_EXPECT_EQ(test, __compiletime_strlen(array_of_10), 10);
-  > 30		KUNIT_EXPECT_EQ(test, __compiletime_strlen(ptr_of_11), 11);
-    31	
-  > 32		KUNIT_EXPECT_EQ(test, __compiletime_strlen(array_unknown), SIZE_MAX);
-    33		/* Externally defined and dynamically sized string pointer: */
-    34		KUNIT_EXPECT_EQ(test, __compiletime_strlen(saved_command_line), SIZE_MAX);
-    35	}
-    36	
+   794	
+   795	static int nxp_recv_fw_req_v3(struct hci_dev *hdev, struct sk_buff *skb)
+   796	{
+   797		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   798		struct v3_data_req *req;
+   799	
+   800		if (!process_boot_signature(nxpdev))
+   801			goto free_skb;
+   802	
+   803		req = (struct v3_data_req *)skb_pull_data(skb, sizeof(struct v3_data_req));
+   804		if (!req || !nxpdev->fw)
+   805			goto free_skb;
+   806	
+   807		nxp_send_ack(NXP_ACK_V3, hdev);
+   808	
+   809		if (!nxpdev->timeout_changed) {
+   810			nxpdev->timeout_changed = nxp_fw_change_timeout(hdev, req->len);
+   811			goto free_skb;
+   812		}
+   813	
+   814		if (!nxpdev->baudrate_changed) {
+   815			nxpdev->baudrate_changed = nxp_fw_change_baudrate(hdev, req->len);
+   816			if (nxpdev->baudrate_changed) {
+   817				serdev_device_set_baudrate(nxpdev->serdev,
+   818							   HCI_NXP_SEC_BAUDRATE);
+   819				serdev_device_set_flow_control(nxpdev->serdev, 1);
+   820				nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
+   821			}
+   822			goto free_skb;
+   823		}
+   824	
+   825		if (req->len == 0) {
+   826			bt_dev_dbg(hdev, "FW Downloaded Successfully: %zu bytes", nxpdev->fw->size);
+   827			clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+   828			wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
+   829			goto free_skb;
+   830		}
+   831		if (req->error)
+   832			bt_dev_dbg(hdev, "FW Download received err 0x%02x from chip", req->error);
+   833	
+   834		if (req->offset < nxpdev->fw_v3_offset_correction) {
+   835			/* This scenario should ideally never occur. But if it ever does,
+   836			 * FW is out of sync and needs a power cycle.
+   837			 */
+   838			bt_dev_err(hdev, "Something went wrong during FW download. Please power cycle and try again");
+   839			goto free_skb;
+   840		}
+   841	
+   842		serdev_device_write_buf(nxpdev->serdev,
+   843					nxpdev->fw->data + req->offset - nxpdev->fw_v3_offset_correction,
+ > 844					req->len);
+   845	
+   846	free_skb:
+   847		kfree_skb(skb);
+   848		return 0;
+   849	}
+   850	
 
 -- 
 0-DAY CI Kernel Test Service
