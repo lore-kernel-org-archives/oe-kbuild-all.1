@@ -1,57 +1,43 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2633EA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 06:10:31 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id p16so5565112wmq.5
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Mar 2023 23:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679206230;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XCXZgQdVe5c6oKDsDnZCo553EMFw0K45SrmlR+yfeIU=;
-        b=NxRWv5qjJAzjZ5SlbFTN6BJ9ZgRHA/HTNbhPil7P5aLbF6voyVHlpsIivhn5gzZprA
-         hqeNpxQGSwV8AVDMEVe7VcIQxj3F41Ow/826tIX8xr+WQ3HNvRGsAdtg4gZLR56zPsl5
-         FeJ25XnSPR9Pgiv70Vgc0rOzKFsAd9+64PxhuALfbSsys1I2uz8PHCXl5JdgZAFnPSYR
-         msxfs3x0Irb0Gwz2wm4hVBY2JUyq21+HBcb9kufRs4x51hFTIA2tHwzJiXlBLD812EWg
-         UIGgB1AJN1xrQQYSyVFrqz6kzcfzZcAoB9ucObSTOOpRt45+Nu6jpypAvS6BIyp3MIFU
-         Izng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679206230;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XCXZgQdVe5c6oKDsDnZCo553EMFw0K45SrmlR+yfeIU=;
-        b=lhKQHP0CKvg5oUUetV+gISvuztYYeOIlIKvA9RyHj14K/RxM1pPICf74ysE2F7CsMF
-         iNzowLN/jEPGqTQS9Y/GAWKUtYUGDdcidDSdri8xBt1riVhjP7S627UmF2pE88VdaPXz
-         lArGwNOmEOszqH5ne91+OxD9A3gyLzrGwIdiPXB8DFOkUgaxI0+6rjwi9PBICpVETRfR
-         r3BZsBGNXWH00DQO/UxPNMht023T1mrzq4MISi1auIJnr2RafzOuOODZcaP7tXrAvkMk
-         xjRR8bQBzqObOseBN8qswHSscETXONoCvpvppz40i08vTnytHAWHTyCuJacJy1HiAoII
-         oI7g==
-X-Gm-Message-State: AO0yUKWxUglRFnUT43x6ZONtwVKJfZtkcHycc1He6VOfERlp4RzyDBpm
-	ljYr1SI4zHz6mpMbJ+gWLFY=
-X-Google-Smtp-Source: AK7set81KcqLr/9F7KV2ou0bzzrWwqjKJLzBGcKiKCCc0V8fHOTrPF5/BaEdIi/GxxEdhSCAqsTVfA==
-X-Received: by 2002:a1c:ed16:0:b0:3ed:a45d:aee9 with SMTP id l22-20020a1ced16000000b003eda45daee9mr3529255wmh.39.1679206229971;
-        Sat, 18 Mar 2023 23:10:29 -0700 (PDT)
-Received: from localhost (host86-146-209-214.range86-146.btcentralplus.com. [86.146.209.214])
-        by smtp.gmail.com with ESMTPSA id p9-20020a05600c468900b003ed5909aab2sm9308183wmo.25.2023.03.18.23.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Mar 2023 23:10:29 -0700 (PDT)
-Date: Sun, 19 Mar 2023 06:08:19 +0000
-From: Lorenzo Stoakes <lstoakes@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	oe-kbuild-all@lists.linux.dev, Baoquan He <bhe@redhat.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Liu Shixin <liushixin2@huawei.com>, Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
-Message-ID: <b4571b7e-efb3-45ac-b442-864ed7f48edb@lucifer.local>
-References: <119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes@gmail.com>
- <202303190922.Wk376onx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E86EA9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 06:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679206444; x=1710742444;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B/ob7e5Nnb4BdYgpSI5rjX7uveYGfLHi6tkRh/tN1Q0=;
+  b=WHApsNrpS/pgPp9HV4771RniMGXM/Fy4TNaLXMQxBWaCVVTuTGDankm9
+   4SQKoYjnIf8TCp1FyzmkQ9kaSm+bLb7QLjGOAgSUJwj6j1qABqgnwef6T
+   PfKNWQ+Pu6U+36Rfv8nNJgsrEVxT+fSyEOe2xjGo/Z/9cIRGDzDs03FSZ
+   7jhE0MmtYMTHV26sf13dOLZTw0MdYiKN9p9PDEkAKPDrww/lVjTGtHLNz
+   X7dEulhympCWMVVAhWzHAtVwu0/8tT8qCI1kqTCgOUNgisBjaUtpZGydT
+   NIdeN/2j5lmmP/hYq2BzmgY2I2mgqCgGNGiI8qNQkY8uvEbvBEdchU4j1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="366193755"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
+   d="scan'208";a="366193755"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 23:14:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="769828056"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
+   d="scan'208";a="769828056"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Mar 2023 23:14:02 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pdmIr-000AQY-3C;
+	Sun, 19 Mar 2023 06:14:01 +0000
+Date: Sun, 19 Mar 2023 14:13:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-drm-fix-next 15/19] lib/test_map_h.c:21:1: error: call to
+ undeclared function 'iMAP_LIST'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202303191432.Gi05B8tt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,80 +46,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303190922.Wk376onx-lkp@intel.com>
 
-On Sun, Mar 19, 2023 at 09:46:03AM +0800, kernel test robot wrote:
-> Hi Lorenzo,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on akpm-mm/mm-everything]
-> [also build test WARNING on linus/master v6.3-rc2 next-20230317]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/fs-proc-kcore-Avoid-bounce-buffer-for-ktext-data/20230319-082147
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes%40gmail.com
-> patch subject: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
-> config: sparc64-randconfig-r015-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190922.Wk376onx-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/a28f374d35bd294a529fcba0b69c8b0e2b66fa6c
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Lorenzo-Stoakes/fs-proc-kcore-Avoid-bounce-buffer-for-ktext-data/20230319-082147
->         git checkout a28f374d35bd294a529fcba0b69c8b0e2b66fa6c
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash arch/sparc/vdso/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303190922.Wk376onx-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from include/linux/wait.h:11,
->                     from include/linux/swait.h:8,
->                     from include/linux/completion.h:12,
->                     from include/linux/mm_types.h:14,
->                     from include/linux/uio.h:10,
->                     from include/linux/vmalloc.h:12,
->                     from include/asm-generic/io.h:994,
->                     from arch/sparc/include/asm/io.h:22,
->                     from arch/sparc/vdso/vclock_gettime.c:18:
-> >> arch/sparc/include/asm/current.h:18:30: warning: call-clobbered register used for global register variable
->       18 | register struct task_struct *current asm("g4");
->          |                              ^~~~~~~
->    arch/sparc/vdso/vclock_gettime.c:254:1: warning: no previous prototype for '__vdso_clock_gettime' [-Wmissing-prototypes]
->      254 | __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
->          | ^~~~~~~~~~~~~~~~~~~~
->    arch/sparc/vdso/vclock_gettime.c:282:1: warning: no previous prototype for '__vdso_clock_gettime_stick' [-Wmissing-prototypes]
->      282 | __vdso_clock_gettime_stick(clockid_t clock, struct __kernel_old_timespec *ts)
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    arch/sparc/vdso/vclock_gettime.c:307:1: warning: no previous prototype for '__vdso_gettimeofday' [-Wmissing-prototypes]
->      307 | __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
->          | ^~~~~~~~~~~~~~~~~~~
->    arch/sparc/vdso/vclock_gettime.c:343:1: warning: no previous prototype for '__vdso_gettimeofday_stick' [-Wmissing-prototypes]
->      343 | __vdso_gettimeofday_stick(struct __kernel_old_timeval *tv, struct timezone *tz)
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +18 arch/sparc/include/asm/current.h
->
-> ^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  16
-> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  17  #ifdef CONFIG_SPARC64
-> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16 @18  register struct task_struct *current asm("g4");
-> ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  19  #endif
-> ^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  20
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+tree:   https://github.com/jimc/linux.git dd-drm-fix-next
+head:   e54619e733db4822727bc8cdec83db05a7249d5d
+commit: cda0e3ffa090194c6cae2071c4c2044477aad9a3 [15/19] dyndbg: add map.h, test_map_h.c (RFC)
+config: hexagon-buildonly-randconfig-r001-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191432.Gi05B8tt-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jimc/linux/commit/cda0e3ffa090194c6cae2071c4c2044477aad9a3
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-drm-fix-next
+        git checkout cda0e3ffa090194c6cae2071c4c2044477aad9a3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash lib/
 
-This doesn't seem even vaguely related to this patchset, possibly my not
-specifying that I am basing on mm-unstable may be a factor here.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303191432.Gi05B8tt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/test_map_h.c:21:1: error: call to undeclared function 'iMAP_LIST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   DEFINE_SLIST_FROM_ENUM_VALS( debug_cats, DRMx_CORE, DRMx_DRIVER, DRMx_KMS );
+   ^
+   lib/test_map_h.c:19:3: note: expanded from macro 'DEFINE_SLIST_FROM_ENUM_VALS'
+                   iMAP_LIST(__stringify, __VA_ARGS__) };
+                   ^
+>> lib/test_map_h.c:21:1: error: use of undeclared identifier '__stringify'
+   lib/test_map_h.c:19:13: note: expanded from macro 'DEFINE_SLIST_FROM_ENUM_VALS'
+                   iMAP_LIST(__stringify, __VA_ARGS__) };
+                             ^
+   2 errors generated.
+
+
+vim +/iMAP_LIST +21 lib/test_map_h.c
+
+    15	
+    16	/* test iMAP_LIST, with __stringify. others equivalent */
+    17	#define DEFINE_SLIST_FROM_ENUM_VALS(_var, ...)				\
+    18		const char *_var##_slist[] = {					\
+    19			iMAP_LIST(__stringify, __VA_ARGS__) };
+    20	
+  > 21	DEFINE_SLIST_FROM_ENUM_VALS( debug_cats, DRMx_CORE, DRMx_DRIVER, DRMx_KMS );
+    22	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
