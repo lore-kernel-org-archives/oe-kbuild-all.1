@@ -1,45 +1,51 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793F67C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 01:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4363F7C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 01:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679188560; x=1710724560;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IbvM9Er9tkWwchvy5FbS4aQrulJQtQdhzo+eGOwWUGs=;
-  b=TnDQB3X7OGr7Yp19tfOzxx0+ZBmG4k0eWtGST3b5eX118Es/sPLNBaPq
-   uBCwAqdBvDkGUyP0SnMXE/HBQ7FdTnePjoH1fEWpeFGKubUg7zsbc24Qy
-   NuggXB+939pqCYS5tJZvEmnqX27qb9kwMLbv5gb0WHS1Zc4bhznD+a3xV
-   7rnbJ341B2he5PZgL4GjpG4jTAkI1mKqSnGysOrIcq9KAMXwbwket0DkH
-   oso09RNQVbzJEtr0ifU1NZo8pH4X1kwWQz0GOFTdc0dJmIANfKD5BhBFI
-   o7DQASb7FZyuRbiXbbRzV5s5bb/+QlZpIL/KApARSEOAShx/nvoJGJxVR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="340009082"
+  t=1679190422; x=1710726422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eOsxwQrAAk4DobA/boytcGZ7cOIXNcghw+rywK7hwm8=;
+  b=fcOuUca8KvphVyWTPXsxEY1OwbCvKa9QRZ3gp7dwX3m8fW5Xj/yxf2uK
+   sKDV2tajZm372l2oihwzeLNSQqRmLKWZYJsuP+saq8E6yojkTCtNWctXb
+   Bmx2a3vbHuV7t2JfR19RmTpUm06PHyQ/rEP4oSmdNzkFcUWOVpyuxWeaR
+   lo9TTERnpkb+/U/xPaoKbpjpHWpWTyq0tm6W6wgCrCGndm/czPgj1UCIP
+   AKjBBjpKfU+VKo6iO1FyZRiALvYsL2/WUd7XjJp20qT+KCrKgV1a27gCD
+   DIQKuxTaTQ0F1cHlOtz4dQEtBcaBKnmvfKbNInGBpVzEl7GGmsf2v6YvN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="401049009"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="340009082"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 18:15:59 -0700
+   d="scan'208";a="401049009"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 18:47:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="824068723"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="744950653"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="824068723"
+   d="scan'208";a="744950653"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2023 18:15:58 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Mar 2023 18:46:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdheP-000AK6-0f;
-	Sun, 19 Mar 2023 01:15:57 +0000
-Date: Sun, 19 Mar 2023 09:15:33 +0800
+	id 1pdi8P-000AKg-2R;
+	Sun, 19 Mar 2023 01:46:57 +0000
+Date: Sun, 19 Mar 2023 09:46:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
+To: Lorenzo Stoakes <lstoakes@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_dmem.c:205:13: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202303190929.sOBSJIb5-lkp@intel.com>
+	Baoquan He <bhe@redhat.com>, Uladzislau Rezki <urezki@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	David Hildenbrand <david@redhat.com>,
+	Liu Shixin <liushixin2@huawei.com>, Jiri Olsa <jolsa@kernel.org>,
+	Lorenzo Stoakes <lstoakes@gmail.com>
+Subject: Re: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
+Message-ID: <202303190922.Wk376onx-lkp@intel.com>
+References: <119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,132 +54,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a3671bd86a9770e34969522d29bb30a1b66fd88a
-commit: d9b719394a1147614351961ac454589111c76e76 nouveau/dmem: refactor nouveau_dmem_fault_copy_one()
-date:   5 months ago
-config: arm64-randconfig-s052-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190929.sOBSJIb5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Lorenzo,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.3-rc2 next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/fs-proc-kcore-Avoid-bounce-buffer-for-ktext-data/20230319-082147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/119871ea9507eac7be5d91db38acdb03981e049e.1679183626.git.lstoakes%40gmail.com
+patch subject: [PATCH 4/4] mm: vmalloc: convert vread() to vread_iter()
+config: sparc64-randconfig-r015-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190922.Wk376onx-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9b719394a1147614351961ac454589111c76e76
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d9b719394a1147614351961ac454589111c76e76
+        # https://github.com/intel-lab-lkp/linux/commit/a28f374d35bd294a529fcba0b69c8b0e2b66fa6c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lorenzo-Stoakes/fs-proc-kcore-Avoid-bounce-buffer-for-ktext-data/20230319-082147
+        git checkout a28f374d35bd294a529fcba0b69c8b0e2b66fa6c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/bluetooth/ drivers/gpu/drm/ drivers/remoteproc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash arch/sparc/vdso/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303190929.sOBSJIb5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190922.Wk376onx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nouveau_dmem.c:205:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] ret @@     got int @@
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:205:13: sparse:     expected restricted vm_fault_t [usertype] ret
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:205:13: sparse:     got int
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:409:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:409:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:413:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:413:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:426:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:426:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:430:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:430:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:440:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:454:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:454:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:481:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:481:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:485:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:485:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:494:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:494:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:494:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:494:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:503:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:503:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:503:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:508:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:508:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:510:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:510:9: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +205 drivers/gpu/drm/nouveau/nouveau_dmem.c
+   In file included from include/linux/wait.h:11,
+                    from include/linux/swait.h:8,
+                    from include/linux/completion.h:12,
+                    from include/linux/mm_types.h:14,
+                    from include/linux/uio.h:10,
+                    from include/linux/vmalloc.h:12,
+                    from include/asm-generic/io.h:994,
+                    from arch/sparc/include/asm/io.h:22,
+                    from arch/sparc/vdso/vclock_gettime.c:18:
+>> arch/sparc/include/asm/current.h:18:30: warning: call-clobbered register used for global register variable
+      18 | register struct task_struct *current asm("g4");
+         |                              ^~~~~~~
+   arch/sparc/vdso/vclock_gettime.c:254:1: warning: no previous prototype for '__vdso_clock_gettime' [-Wmissing-prototypes]
+     254 | __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+         | ^~~~~~~~~~~~~~~~~~~~
+   arch/sparc/vdso/vclock_gettime.c:282:1: warning: no previous prototype for '__vdso_clock_gettime_stick' [-Wmissing-prototypes]
+     282 | __vdso_clock_gettime_stick(clockid_t clock, struct __kernel_old_timespec *ts)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/vdso/vclock_gettime.c:307:1: warning: no previous prototype for '__vdso_gettimeofday' [-Wmissing-prototypes]
+     307 | __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+         | ^~~~~~~~~~~~~~~~~~~
+   arch/sparc/vdso/vclock_gettime.c:343:1: warning: no previous prototype for '__vdso_gettimeofday_stick' [-Wmissing-prototypes]
+     343 | __vdso_gettimeofday_stick(struct __kernel_old_timeval *tv, struct timezone *tz)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-   161	
-   162	static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
-   163	{
-   164		struct nouveau_drm *drm = page_to_drm(vmf->page);
-   165		struct nouveau_dmem *dmem = drm->dmem;
-   166		struct nouveau_fence *fence;
-   167		struct nouveau_svmm *svmm;
-   168		struct page *spage, *dpage;
-   169		unsigned long src = 0, dst = 0;
-   170		dma_addr_t dma_addr = 0;
-   171		vm_fault_t ret = 0;
-   172		struct migrate_vma args = {
-   173			.vma		= vmf->vma,
-   174			.start		= vmf->address,
-   175			.end		= vmf->address + PAGE_SIZE,
-   176			.src		= &src,
-   177			.dst		= &dst,
-   178			.pgmap_owner	= drm->dev,
-   179			.flags		= MIGRATE_VMA_SELECT_DEVICE_PRIVATE,
-   180		};
-   181	
-   182		/*
-   183		 * FIXME what we really want is to find some heuristic to migrate more
-   184		 * than just one page on CPU fault. When such fault happens it is very
-   185		 * likely that more surrounding page will CPU fault too.
-   186		 */
-   187		if (migrate_vma_setup(&args) < 0)
-   188			return VM_FAULT_SIGBUS;
-   189		if (!args.cpages)
-   190			return 0;
-   191	
-   192		spage = migrate_pfn_to_page(src);
-   193		if (!spage || !(src & MIGRATE_PFN_MIGRATE))
-   194			goto done;
-   195	
-   196		dpage = alloc_page_vma(GFP_HIGHUSER, vmf->vma, vmf->address);
-   197		if (!dpage)
-   198			goto done;
-   199	
-   200		dst = migrate_pfn(page_to_pfn(dpage));
-   201	
-   202		svmm = spage->zone_device_data;
-   203		mutex_lock(&svmm->mutex);
-   204		nouveau_svmm_invalidate(svmm, args.start, args.end);
- > 205		ret = nouveau_dmem_copy_one(drm, spage, dpage, &dma_addr);
-   206		mutex_unlock(&svmm->mutex);
-   207		if (ret) {
-   208			ret = VM_FAULT_SIGBUS;
-   209			goto done;
-   210		}
-   211	
-   212		nouveau_fence_new(dmem->migrate.chan, false, &fence);
-   213		migrate_vma_pages(&args);
-   214		nouveau_dmem_fence_done(&fence);
-   215		dma_unmap_page(drm->dev->dev, dma_addr, PAGE_SIZE, DMA_BIDIRECTIONAL);
-   216	done:
-   217		migrate_vma_finalize(&args);
-   218		return ret;
-   219	}
-   220	
+
+vim +18 arch/sparc/include/asm/current.h
+
+^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  16  
+ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  17  #ifdef CONFIG_SPARC64
+ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16 @18  register struct task_struct *current asm("g4");
+ba89f59ab825d4 include/asm-sparc/current.h David S. Miller 2007-11-16  19  #endif
+^1da177e4c3f41 include/asm-sparc/current.h Linus Torvalds  2005-04-16  20  
 
 -- 
 0-DAY CI Kernel Test Service
