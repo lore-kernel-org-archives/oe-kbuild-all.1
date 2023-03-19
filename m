@@ -1,48 +1,48 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD907C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 20:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF0A7C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Mar 2023 21:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679259264; x=1710795264;
+  t=1679261124; x=1710797124;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y5cIElhvg8EPw65qGruKREHutSyGtcC3oL5nutI/Bj0=;
-  b=H4zylHif4+Zu8aajj30t2K5GZMqO8JbOvXp791r53v0aq2IglIIxlbeE
-   jRsmDJTbp1ONCcvbLkFVATO/CE+NKtJeHMnMt2iQWbKi276Bi2JW6hnBr
-   To/s9LkAMswx2oOda+OwhMwVjT4e67yGJA1eCNxEoipSAEM+Wq5WvHRjA
-   VICFBHgXsUhR+JWjnDhY93T8xHfTue7Lou3guD+zu/dXN5JAKQVHoiE3k
-   akmaycDhb2XhUz4FI+gSXkMtz0wFU1CoSQe1mjI3NMnWMJ6mSME9hNUP0
-   GpSlrSV9NWmR2hnrKZwEKbEeQJf37Sn2TctB5tZCULfI7+43fkSIIDoaR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="424813944"
+  bh=L03xG3XmXz3MyMO1JoMvMx28hZVkFt9QVmLsPGLzWIM=;
+  b=Z2oVCbQXY1J8frpv+epo+EFSdu4p7euzLj88cPHjMrrtpyqCUkiMbBfX
+   BOoIHz0kV9ydMf2gR4fXG/dNXyWk1aENSx4+cjwQjihy0rFNheAVN76sC
+   k7ny1osdYEOkZf0Sqhhd7U49zHfztMYRHMZwJbLtljcKk8MUo8euzM4Fr
+   kzA9kSF19EREYUGahgpMXQu0psIO2cg0KAviCbu9R3lGshe4rsYU3TjOn
+   mSJJ3QjXBkOnQKByI5z3ABuNiIkwChrcgY3ubtqKfx1NBoSkaSqVbrfh7
+   LGSrW9J5ujr2V0PbMjT219nPpzJE1+Kv/XUxI7+cBvrlGgMwIjTy7m5fK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="340080956"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="424813944"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 13:54:24 -0700
+   d="scan'208";a="340080956"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 14:25:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="680858554"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="749866876"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="680858554"
+   d="scan'208";a="749866876"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Mar 2023 13:54:21 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 19 Mar 2023 14:25:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pe02m-000AeU-1S;
-	Sun, 19 Mar 2023 20:54:20 +0000
-Date: Mon, 20 Mar 2023 04:54:02 +0800
+	id 1pe0Wn-000Af4-0D;
+	Sun, 19 Mar 2023 21:25:21 +0000
+Date: Mon, 20 Mar 2023 05:24:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>, Tero Kristo <kristo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] EDAC: Use of_address_to_resource()
-Message-ID: <202303200438.ZFr6mEnr-lkp@intel.com>
-References: <20230319163224.226479-1-robh@kernel.org>
+To: Andrew Hepp <andrew.hepp@ahepp.dev>, devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Hepp <andrew.hepp@ahepp.dev>
+Subject: Re: [PATCH 2/2] iio: temperature: Add MCP9600 thermocouple EMF
+ converter
+Message-ID: <202303200531.buTbR2TA-lkp@intel.com>
+References: <20230319184728.49232-3-andrew.hepp@ahepp.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,90 +51,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230319163224.226479-1-robh@kernel.org>
+In-Reply-To: <20230319184728.49232-3-andrew.hepp@ahepp.dev>
 
-Hi Rob,
+Hi Andrew,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on ras/edac-for-next]
-[cannot apply to bp/for-next]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.3-rc2 next-20230317]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/EDAC-Use-of_address_to_resource/20230320-003703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20230319163224.226479-1-robh%40kernel.org
-patch subject: [PATCH] EDAC: Use of_address_to_resource()
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303200438.ZFr6mEnr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Hepp/dt-bindings-iio-Add-MCP9600-thermocouple-EMF-converter/20230320-024950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230319184728.49232-3-andrew.hepp%40ahepp.dev
+patch subject: [PATCH 2/2] iio: temperature: Add MCP9600 thermocouple EMF converter
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303200531.buTbR2TA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a128482ade3b4c37d55aa60604caf14e4570fbe5
+        # https://github.com/intel-lab-lkp/linux/commit/dc26dd0d9cb47654a6910bf35d8531b90ae88ece
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Herring/EDAC-Use-of_address_to_resource/20230320-003703
-        git checkout a128482ade3b4c37d55aa60604caf14e4570fbe5
+        git fetch --no-tags linux-review Andrew-Hepp/dt-bindings-iio-Add-MCP9600-thermocouple-EMF-converter/20230320-024950
+        git checkout dc26dd0d9cb47654a6910bf35d8531b90ae88ece
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iio/temperature/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303200438.ZFr6mEnr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303200531.buTbR2TA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/edac/altera_edac.c: In function 'altr_s10_sdram_check_ecc_deps':
->> drivers/edac/altera_edac.c:1108:25: error: invalid type argument of '->' (have 'struct resource')
-    1108 |         sdram_addr = res->start;
-         |                         ^~
+   drivers/iio/temperature/mcp9600.c: In function 'mcp9600_read':
+>> drivers/iio/temperature/mcp9600.c:51:16: warning: unused variable 'buf' [-Wunused-variable]
+      51 |         __be16 buf;
+         |                ^~~
 
 
-vim +1108 drivers/edac/altera_edac.c
+vim +/buf +51 drivers/iio/temperature/mcp9600.c
 
-  1085	
-  1086	/*
-  1087	 * A legacy U-Boot bug only enabled memory mapped access to the ECC Enable
-  1088	 * register if ECC is enabled. Linux checks the ECC Enable register to
-  1089	 * determine ECC status.
-  1090	 * Use an SMC call (which always works) to determine ECC enablement.
-  1091	 */
-  1092	static int altr_s10_sdram_check_ecc_deps(struct altr_edac_device_dev *device)
-  1093	{
-  1094		const struct edac_device_prv_data *prv = device->data;
-  1095		unsigned long sdram_ecc_addr;
-  1096		struct arm_smccc_res result;
-  1097		struct device_node *np;
-  1098		phys_addr_t sdram_addr;
-  1099		struct resource res;
-  1100		u32 read_reg;
-  1101		int ret;
-  1102	
-  1103		np = of_find_compatible_node(NULL, NULL, "altr,sdr-ctl");
-  1104		if (!np)
-  1105			goto sdram_err;
-  1106	
-  1107		of_address_to_resource(np, 0, &res);
-> 1108		sdram_addr = res->start;
-  1109		of_node_put(np);
-  1110		sdram_ecc_addr = (unsigned long)sdram_addr + prv->ecc_en_ofst;
-  1111		arm_smccc_smc(INTEL_SIP_SMC_REG_READ, sdram_ecc_addr,
-  1112			      0, 0, 0, 0, 0, 0, &result);
-  1113		read_reg = (unsigned int)result.a1;
-  1114		ret = (int)result.a0;
-  1115		if (!ret && (read_reg & prv->ecc_enable_mask))
-  1116			return 0;
-  1117	
-  1118	sdram_err:
-  1119		edac_printk(KERN_ERR, EDAC_DEVICE,
-  1120			    "%s: No ECC present or ECC disabled.\n",
-  1121			    device->edac_dev_name);
-  1122		return -ENODEV;
-  1123	}
-  1124	
+    47	
+    48	static int mcp9600_read(struct mcp9600_data *data,
+    49				struct iio_chan_spec const *chan, int *val)
+    50	{
+  > 51		__be16 buf;
+    52		int ret;
+    53	
+    54		mutex_lock(&data->read_lock);
+    55		ret = i2c_smbus_read_word_swapped(data->client, chan->address);
+    56		mutex_unlock(&data->read_lock);
+    57	
+    58		if (ret < 0)
+    59			return ret;
+    60		*val = ret;
+    61	
+    62		return 0;
+    63	}
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
