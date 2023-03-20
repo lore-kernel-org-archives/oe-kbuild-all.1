@@ -1,49 +1,31 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C439C7B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 00:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679271507; x=1710807507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e3HufBj/e2539/UBn9UWFanSavsSHKjv1uia5sCwpns=;
-  b=QJ72GKzoq3lzCRSbB0MQy4YRbUHnaFKakFEldexuWJplKbC2XNHORgBt
-   J89pyBmq5EMSQkvUASpZrkqcXlmNw2UfaWn7pp65XsAy0t+hFUjMGv/AT
-   NPfov6S174ohp0fKkOloxMORK47RY1hIrod1eg8zhaiirq0Yc1yNqhiKt
-   kyqIU6kXblQzORKWmuFUmQUpWIMw0z/c9+brlj7ikR36oKKSPw+5rVRGv
-   bEfJZZNTzTsuvHpFIjPaAKNNqv5pqT7+8sR/47EWeFzD0f11ncTsVfvqw
-   6EGaJeDLS4j/ZpU8ja2cROUf4UbfqEI66eDj0f8HrZaBs4df8iSule9bT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="340909771"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="340909771"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 17:18:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="745173878"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="745173878"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Mar 2023 17:18:24 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pe3EG-000AiQ-0m;
-	Mon, 20 Mar 2023 00:18:24 +0000
-Date: Mon, 20 Mar 2023 08:18:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: William Breathitt Gray <william.gray@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	William Breathitt Gray <william.gray@linaro.org>
-Subject: Re: [PATCH v2 1/2] gpio: 104-dio-48e: Implement struct dio48e_gpio
-Message-ID: <202303200807.f6XwZEfR-lkp@intel.com>
-References: <296c8d808a4a9753ae3aa66d04b746c52df6b8ae.1679259085.git.william.gray@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F8FA2D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 00:33:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E97BC433EF;
+	Mon, 20 Mar 2023 00:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679272439;
+	bh=OfBojTIToxTPZ/STigpxfZ48b4RfgVXqNe33YfVBrjo=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=g/wobLgQwMEdnR3xNknsE38K7yprr8p8Fm76l7xHkknxauIRkfnVTuD6sOWVgsbz2
+	 m//pIsoHjngsBvW244CDtkpHLHi8GkVmWceqKYk7qw3txZ9AW7llT+Q8u/T5nZgIo7
+	 xYd/ylHGPLp7ZCHX//A74hNhlqzGBxkBbSjGfP/ypb5u4K7WJeaAPl36MPrJ68BJds
+	 a/u9mZFCcto+2TubUtRSbKvqS+iWmvWrU5n1WOOZPS+3xh9hQnM0XUO21DzJmJaLf9
+	 Qn+oiSPpaD339k8k0gIyzATBSE1q8mBPlJ/DP6vgRVNH22MgzZGZLVj/ak82nJvEhZ
+	 bR36DKP6ZfOgw==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id F3E9F1540381; Sun, 19 Mar 2023 17:33:58 -0700 (PDT)
+Date: Sun, 19 Mar 2023 17:33:58 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2023.03.17a 33/38] kernel/rcu/tasks.h:140:20:
+ warning: 'tasks_rcu_exit_srcu' defined but not used
+Message-ID: <be0bf772-bac1-4a18-a46a-922a93093314@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202303191536.XzMSyzTl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,82 +34,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <296c8d808a4a9753ae3aa66d04b746c52df6b8ae.1679259085.git.william.gray@linaro.org>
+In-Reply-To: <202303191536.XzMSyzTl-lkp@intel.com>
 
-Hi William,
+On Sun, Mar 19, 2023 at 03:05:43PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.17a
+> head:   19d218a4b125a4dce12eb88097a9c55f7126ce8c
+> commit: 61eea4556e8cf92d4c9b483110a679d2652aa451 [33/38] srcu: Move work-scheduling fields from srcu_struct to srcu_usage
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230319/202303191536.XzMSyzTl-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=61eea4556e8cf92d4c9b483110a679d2652aa451
+>         git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+>         git fetch --no-tags paulmck-rcu dev.2023.03.17a
+>         git checkout 61eea4556e8cf92d4c9b483110a679d2652aa451
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/srcu.h:49,
+>                     from include/linux/notifier.h:16,
+>                     from arch/x86/include/asm/uprobes.h:13,
+>                     from include/linux/uprobes.h:49,
+>                     from include/linux/mm_types.h:16,
+>                     from include/linux/sched/signal.h:13,
+>                     from kernel/rcu/update.c:26:
+> >> kernel/rcu/tasks.h:140:20: warning: 'tasks_rcu_exit_srcu' defined but not used [-Wunused-variable]
+>      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+>          |                    ^~~~~~~~~~~~~~~~~~~
+>    include/linux/srcutree.h:184:38: note: in definition of macro '__DEFINE_SRCU'
+>      184 |         is_static struct srcu_struct name =                                                     \
+>          |                                      ^~~~
+>    kernel/rcu/tasks.h:140:1: note: in expansion of macro 'DEFINE_STATIC_SRCU'
+>      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+>          | ^~~~~~~~~~~~~~~~~~
 
-I love your patch! Yet something to improve:
+Good catch, thank you!
 
-[auto build test ERROR on 03810031c91dfe448cd116ee987d5dc4139006f4]
+Does the patch shown below fix this?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Breathitt-Gray/gpio-104-dio-48e-Implement-struct-dio48e_gpio/20230320-050433
-base:   03810031c91dfe448cd116ee987d5dc4139006f4
-patch link:    https://lore.kernel.org/r/296c8d808a4a9753ae3aa66d04b746c52df6b8ae.1679259085.git.william.gray%40linaro.org
-patch subject: [PATCH v2 1/2] gpio: 104-dio-48e: Implement struct dio48e_gpio
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303200807.f6XwZEfR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/844453d513d06fbc8fbfe14ecff74b3bc3a92bbb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review William-Breathitt-Gray/gpio-104-dio-48e-Implement-struct-dio48e_gpio/20230320-050433
-        git checkout 844453d513d06fbc8fbfe14ecff74b3bc3a92bbb
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+							Thanx, Paul
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303200807.f6XwZEfR-lkp@intel.com/
+------------------------------------------------------------------------
 
-All errors (new ones prefixed by >>):
+commit a9b8406e51603238941dbc6fa1437f8915254ebb
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Sun Mar 19 17:29:20 2023 -0700
 
-   drivers/gpio/gpio-104-dio-48e.c: In function 'dio48e_handle_mask_sync':
->> drivers/gpio/gpio-104-dio-48e.c:120:30: error: 'map' redeclared as different kind of symbol
-     120 |         struct regmap *const map = dio48egpio->map;
-         |                              ^~~
-   drivers/gpio/gpio-104-dio-48e.c:112:57: note: previous definition of 'map' with type 'struct regmap * const'
-     112 | static int dio48e_handle_mask_sync(struct regmap *const map, const int index,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~^~~
+    rcu-tasks: Fix warning for unused tasks_rcu_exit_srcu
+    
+    The tasks_rcu_exit_srcu variable is used only by kernels built
+    with CONFIG_TASKS_RCU=y, but is defined for all kernesl with
+    CONFIG_TASKS_RCU_GENERIC=y.  Therefore, in kernels built with
+    CONFIG_TASKS_RCU_GENERIC=y but CONFIG_TASKS_RCU=n, this gives
+    a "defined but not used" warning.
+    
+    This commit therefore moves this variable under CONFIG_TASKS_RCU
+    
+    Link: https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
+    Reported-by: kernel test robot <lkp@intel.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-
-vim +/map +120 drivers/gpio/gpio-104-dio-48e.c
-
-   111	
-   112	static int dio48e_handle_mask_sync(struct regmap *const map, const int index,
-   113					   const unsigned int mask_buf_def,
-   114					   const unsigned int mask_buf,
-   115					   void *const irq_drv_data)
-   116	{
-   117		struct dio48e_gpio *const dio48egpio = irq_drv_data;
-   118		const unsigned int prev_mask = dio48egpio->irq_mask;
-   119		int err;
- > 120		struct regmap *const map = dio48egpio->map;
-   121		unsigned int val;
-   122	
-   123		/* exit early if no change since the previous mask */
-   124		if (mask_buf == prev_mask)
-   125			return 0;
-   126	
-   127		/* remember the current mask for the next mask sync */
-   128		dio48egpio->irq_mask = mask_buf;
-   129	
-   130		/* if all previously masked, enable interrupts when unmasking */
-   131		if (prev_mask == mask_buf_def) {
-   132			err = regmap_write(map, DIO48E_CLEAR_INTERRUPT, 0x00);
-   133			if (err)
-   134				return err;
-   135			return regmap_write(map, DIO48E_ENABLE_INTERRUPT, 0x00);
-   136		}
-   137	
-   138		/* if all are currently masked, disable interrupts */
-   139		if (mask_buf == mask_buf_def)
-   140			return regmap_read(map, DIO48E_DISABLE_INTERRUPT, &val);
-   141	
-   142		return 0;
-   143	}
-   144	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
+index baf7ec178155..85a874d4166b 100644
+--- a/kernel/rcu/tasks.h
++++ b/kernel/rcu/tasks.h
+@@ -136,10 +136,10 @@ static struct rcu_tasks rt_name =							\
+ 	.kname = #rt_name,								\
+ }
+ 
++#ifdef CONFIG_TASKS_RCU
+ /* Track exiting tasks in order to allow them to be waited for. */
+ DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+ 
+-#ifdef CONFIG_TASKS_RCU
+ /* Report delay in synchronize_srcu() completion in rcu_tasks_postscan(). */
+ static void tasks_rcu_exit_srcu_stall(struct timer_list *unused);
+ static DEFINE_TIMER(tasks_rcu_exit_srcu_stall_timer, tasks_rcu_exit_srcu_stall);
