@@ -1,44 +1,50 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FBC7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 17:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BBD7C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 18:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679334053; x=1710870053;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ydwEXOnIXCURqQ2iDWD9YjDZAjy2bpF0xx+p0gG7jmI=;
-  b=AfRqr1KN85YmOijYSi/1SB/OX8IRnATSqfiyiZ/icn1o6imY8BZMnsfs
-   bdGK+5/mtMh/Y6UR8ydgLeA0NK9pM+ruEkEsdxB0VYgAKNUw2X7LLkyDk
-   uL/s2Hk2l8QmfN0tEwZW5MZ9h8//cIjsJQlDzRxe+Kt9TfIp9DgNQln3I
-   OLQAebVGD64q0rSEKy61x3K9eSR4pqVyZHPtpYSWSkan9F0uTsHNFw1PS
-   e6zMbnipIJjK8BW8SJADBa1f9VXG6GIgOLSjbjP4bJJXYYVNpkXJx3ARi
-   KocT3CXUyYS21uiMHO/Inu/EWVR/V7OupRvrRaWu1UwEva3zUpEXgzBqS
+  t=1679335867; x=1710871867;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KGgMVkVYkzc5hGwH7fgh8riyDfxHum9YPyo5UnckO5Q=;
+  b=FkTaA4vTMNNZ0vksnDfuOwHqoO2HaadSePmutyNlVb0eiLeUGL2chVDw
+   xAxx7LCOPjntBIdRn3yUJp+RCFFYpd0h31e83IUgYz8alBpqVnS65dKD7
+   /409JVzXqPPK3RNA5DuJfKgoxE8++hAnNeLbcyY0gpAyZzmji07lzK3Js
+   MNjBr7Se51737qRZvD+8AhlvUxvD+q7QTkm1I4Oml4Mh4OJVPjE+aE8o5
+   SkEoiGx0W2B31A+NiIiOlQexp2s/BcdV0PcJ32hDnod2hrw7VSQgiWVkl
+   R6A7Ckmxw5dCsOorACkmGPymIGRXN2/XqZOsS650MmquOYNKcqHXmT+wo
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="366452980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338764981"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="366452980"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 10:40:53 -0700
+   d="scan'208";a="338764981"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 11:10:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="770279734"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="927063951"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="770279734"
+   d="scan'208";a="927063951"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2023 10:40:51 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2023 11:10:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peJV5-000BCE-0w;
-	Mon, 20 Mar 2023 17:40:51 +0000
-Date: Tue, 21 Mar 2023 01:40:07 +0800
+	id 1peJy8-000BDZ-1J;
+	Mon, 20 Mar 2023 18:10:52 +0000
+Date: Tue, 21 Mar 2023 02:10:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [linux-next:master 2823/4847] cc_driver.c:undefined reference to
- `devm_platform_get_and_ioremap_resource'
-Message-ID: <202303210131.GnKf48ma-lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+	airlied@gmail.com, daniel@ffwll.ch,
+	jacek.lawrynowicz@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	dafna@fastmail.com, linux-doc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+	quic_carlv@quicinc.com
+Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+Message-ID: <202303210148.859DLhtz-lkp@intel.com>
+References: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +53,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
-commit: e70a329832df84e25ed47cbdc5c96276331356b3 [2823/4847] crypto: ccree - Use devm_platform_get_and_ioremap_resource()
-config: s390-randconfig-r024-20230320 (https://download.01.org/0day-ci/archive/20230321/202303210131.GnKf48ma-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e70a329832df84e25ed47cbdc5c96276331356b3
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout e70a329832df84e25ed47cbdc5c96276331356b3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+Hi Jeffrey,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on lwn/docs-next linus/master v6.3-rc3 next-20230320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/1679325074-5494-7-git-send-email-quic_jhugo%40quicinc.com
+patch subject: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210131.GnKf48ma-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210148.859DLhtz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   s390-linux-ld: kernel/dma/coherent.o: in function `dma_init_coherent_memory':
-   coherent.c:(.text+0x6e): undefined reference to `memremap'
-   s390-linux-ld: coherent.c:(.text+0x10e): undefined reference to `memunmap'
-   s390-linux-ld: kernel/dma/coherent.o: in function `dma_declare_coherent_memory':
-   coherent.c:(.text+0x43a): undefined reference to `memunmap'
-   s390-linux-ld: kernel/dma/coherent.o: in function `dma_release_coherent_memory':
-   coherent.c:(.text+0x494): undefined reference to `memunmap'
-   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
-   cistpl.c:(.text+0x222): undefined reference to `iounmap'
-   s390-linux-ld: cistpl.c:(.text+0x234): undefined reference to `ioremap'
-   s390-linux-ld: cistpl.c:(.text+0x286): undefined reference to `ioremap'
-   s390-linux-ld: cistpl.c:(.text+0x29c): undefined reference to `iounmap'
-   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
-   cistpl.c:(.text+0xda2): undefined reference to `iounmap'
-   s390-linux-ld: drivers/crypto/ccree/cc_driver.o: in function `init_cc_resources':
->> cc_driver.c:(.text+0x552): undefined reference to `devm_platform_get_and_ioremap_resource'
-   s390-linux-ld: drivers/crypto/ccree/cc_debugfs.o: in function `cc_debugfs_init':
-   cc_debugfs.c:(.text+0xbe): undefined reference to `debugfs_create_regset32'
-   s390-linux-ld: cc_debugfs.c:(.text+0x13a): undefined reference to `debugfs_create_regset32'
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/accel/qaic/mhi_qaic_ctrl.c: 9 linux/version.h not needed.
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
