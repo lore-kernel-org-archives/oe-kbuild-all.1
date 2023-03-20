@@ -1,42 +1,58 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278206FA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 20:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569846FA6;
+	Mon, 20 Mar 2023 20:25:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679343898; x=1710879898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0wWb/ttSnVnJrRVv3LksTgMtdcJCFX+sb8TNJiqig/k=;
-  b=PWWfOeQPGPJOeM2Vln4y5sezuThtjoCJio1jlrZ16PVeW4j0G+HHEaPI
-   PFIV4/6RNp8tEqUoTJNF+R8SXiyjReMbkBT/uOFJX9o7YvrKooIfrCPdF
-   Qu0ws5kTGDcJK7VSDhgfl1aYzQ1eN/YUTqkZi8EWm8CVAAA+AtPM0vMsG
-   qnyA42DXtI8q+8QHqSIORjjn0Ha77Pk0SsdSPK/t3Y8qDuHM1Y5jZx+Tu
-   22m+BV7uhxolzCXjIJ5RZQOc3HfnZgnZUT+Ey4qL6pO+pWpdU1KjP8K8k
-   vg2dZU3aBHLuG2PK++LF/4pfjVU/G+KBlmKqq/hSNHJuCAerWPl79LkI9
+  t=1679343902; x=1710879902;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KIVDdjsYnIsbLZQqcW5ppQQ9NCMVMlN1ylEKQ8oyZGY=;
+  b=bEos6USIPfLZey4HmrhykyJR/CT9apRb/9eOx8BbgbFqk5bkwAL6h51b
+   nSGdvp0lqjlzqyqz6+9vnzrcTWALfk0iWr11wVDMCHP8r+YnY760nb5H4
+   sBV8s/YxWCQ3abC45CFdaGaGyBoX2HchPjFjP94xAV6bGAzIbDGwN7fWK
+   uvmSRe05EsF0CNe8S0Mka91OZ76jl+RLCrwXHyk43RmjZ/gBoYkdA6BCi
+   dyRP832eB+4IN+L2qUm5D8YHL1VbaSrUvU2m3BEs5tE9xbt47oFi5+MJr
+   BU0JfKpLGlH1qvrI8R2iTLiW8vnUzyBgac08GDp2NkTN75u49VqqLnicX
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="425044672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="319170104"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="425044672"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:24:57 -0700
+   d="scan'208";a="319170104"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:25:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="683568976"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674546518"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="683568976"
+   d="scan'208";a="674546518"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Mar 2023 13:24:56 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Mar 2023 13:24:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peM3r-000BI8-2v;
+	id 1peM3r-000BI6-2k;
 	Mon, 20 Mar 2023 20:24:55 +0000
-Date: Tue, 21 Mar 2023 04:24:11 +0800
+Date: Tue, 21 Mar 2023 04:24:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [jarkko-tpmdd:master 3/3] drivers/char/tpm/tpm-chip.c:531:15: error:
- too many arguments to function 'tpm_request_locality'
-Message-ID: <202303210426.4zyU7h6B-lkp@intel.com>
+To: Nuno =?iso-8859-1?Q?Gon=E7alves?= <nunog@fr24.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Nuno =?iso-8859-1?Q?Gon=E7alves?= <nunog@fr24.com>,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] xsk: allow remap of fill and/or completion rings
+Message-ID: <202303210417.mv8mDIaV-lkp@intel.com>
+References: <20230320105323.187307-1-nunog@fr24.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,97 +61,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230320105323.187307-1-nunog@fr24.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git master
-head:   923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
-commit: 923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc [3/3] tpm: fix build break in tpm-chip.c caused by AMD fTPM quirk
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230321/202303210426.4zyU7h6B-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Nuno,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Gon-alves/xsk-allow-remap-of-fill-and-or-completion-rings/20230320-190022
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230320105323.187307-1-nunog%40fr24.com
+patch subject: [PATCH bpf-next] xsk: allow remap of fill and/or completion rings
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230321/202303210417.mv8mDIaV-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
-        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
-        git fetch --no-tags jarkko-tpmdd master
-        git checkout 923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/56f6a0c68dd5f4419fd7685cc83ceee2c70f3f2e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nuno-Gon-alves/xsk-allow-remap-of-fill-and-or-completion-rings/20230320-190022
+        git checkout 56f6a0c68dd5f4419fd7685cc83ceee2c70f3f2e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210426.4zyU7h6B-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210417.mv8mDIaV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/char/tpm/tpm-chip.c: In function 'tpm_amd_is_rng_defective':
->> drivers/char/tpm/tpm-chip.c:531:15: error: too many arguments to function 'tpm_request_locality'
-     531 |         ret = tpm_request_locality(chip, 0);
-         |               ^~~~~~~~~~~~~~~~~~~~
-   drivers/char/tpm/tpm-chip.c:35:12: note: declared here
-      35 | static int tpm_request_locality(struct tpm_chip *chip)
-         |            ^~~~~~~~~~~~~~~~~~~~
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+           int state = READ_ONCE(xs->state);
+                                 ^
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:6: error: initializing 'int' with an expression of incompatible type 'void'
+           int state = READ_ONCE(xs->state);
+               ^       ~~~~~~~~~~~~~~~~~~~~
+>> net/xdp/xsk.c:1318:8: error: cannot take the address of an rvalue of type 'struct xsk_queue *'
+                           q = READ_ONCE(state == XSK_READY ? xs->fq_tmp :
+                               ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^           ~
+   include/asm-generic/rwonce.h:44:70: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                         ^ ~
+   net/xdp/xsk.c:1321:8: error: cannot take the address of an rvalue of type 'struct xsk_queue *'
+                           q = READ_ONCE(state == XSK_READY ? xs->cq_tmp :
+                               ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^           ~
+   include/asm-generic/rwonce.h:44:70: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                         ^ ~
+   10 errors generated.
 
 
-vim +/tpm_request_locality +531 drivers/char/tpm/tpm-chip.c
+vim +/xs +1303 net/xdp/xsk.c
 
-   513	
-   514	/*
-   515	 * Some AMD fTPM versions may cause stutter
-   516	 * https://www.amd.com/en/support/kb/faq/pa-410
-   517	 *
-   518	 * Fixes are available in two series of fTPM firmware:
-   519	 * 6.x.y.z series: 6.0.18.6 +
-   520	 * 3.x.y.z series: 3.57.y.5 +
-   521	 */
-   522	static bool tpm_amd_is_rng_defective(struct tpm_chip *chip)
-   523	{
-   524		u32 val1, val2;
-   525		u64 version;
-   526		int ret;
-   527	
-   528		if (!(chip->flags & TPM_CHIP_FLAG_TPM2))
-   529			return false;
-   530	
- > 531		ret = tpm_request_locality(chip, 0);
-   532		if (ret)
-   533			return false;
-   534	
-   535		ret = tpm2_get_tpm_pt(chip, TPM2_PT_MANUFACTURER, &val1, NULL);
-   536		if (ret)
-   537			goto release;
-   538		if (val1 != 0x414D4400U /* AMD */) {
-   539			ret = -ENODEV;
-   540			goto release;
-   541		}
-   542		ret = tpm2_get_tpm_pt(chip, TPM2_PT_FIRMWARE_VERSION_1, &val1, NULL);
-   543		if (ret)
-   544			goto release;
-   545		ret = tpm2_get_tpm_pt(chip, TPM2_PT_FIRMWARE_VERSION_2, &val2, NULL);
-   546	
-   547	release:
-   548		tpm_relinquish_locality(chip);
-   549	
-   550		if (ret)
-   551			return false;
-   552	
-   553		version = ((u64)val1 << 32) | val2;
-   554		if ((version >> 48) == 6) {
-   555			if (version >= 0x0006000000180006ULL)
-   556				return false;
-   557		} else if ((version >> 48) == 3) {
-   558			if (version >= 0x0003005700000005ULL)
-   559				return false;
-   560		} else {
-   561			return false;
-   562		}
-   563	
-   564		dev_warn(&chip->dev,
-   565			 "AMD fTPM version 0x%llx causes system stutter; hwrng disabled\n",
-   566			 version);
-   567	
-   568		return true;
-   569	}
-   570	
+  1297	
+  1298	static int xsk_mmap(struct file *file, struct socket *sock,
+  1299			    struct vm_area_struct *vma)
+  1300	{
+  1301		loff_t offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
+  1302		unsigned long size = vma->vm_end - vma->vm_start;
+> 1303		int state = READ_ONCE(xs->state);
+  1304		struct xdp_sock *xs = xdp_sk(sock->sk);
+  1305		struct xsk_queue *q = NULL;
+  1306	
+  1307		if (!(state == XSK_READY || state == XSK_BOUND))
+  1308			return -EBUSY;
+  1309	
+  1310		if (offset == XDP_PGOFF_RX_RING) {
+  1311			q = READ_ONCE(xs->rx);
+  1312		} else if (offset == XDP_PGOFF_TX_RING) {
+  1313			q = READ_ONCE(xs->tx);
+  1314		} else {
+  1315			/* Matches the smp_wmb() in XDP_UMEM_REG */
+  1316			smp_rmb();
+  1317			if (offset == XDP_UMEM_PGOFF_FILL_RING)
+> 1318				q = READ_ONCE(state == XSK_READY ? xs->fq_tmp :
+  1319								   xs->pool->fq);
+  1320			else if (offset == XDP_UMEM_PGOFF_COMPLETION_RING)
+  1321				q = READ_ONCE(state == XSK_READY ? xs->cq_tmp :
+  1322								   xs->pool->cq);
+  1323		}
+  1324	
+  1325		if (!q)
+  1326			return -EINVAL;
+  1327	
+  1328		/* Matches the smp_wmb() in xsk_init_queue */
+  1329		smp_rmb();
+  1330		if (size > q->ring_vmalloc_size)
+  1331			return -EINVAL;
+  1332	
+  1333		return remap_vmalloc_range(vma, q->ring, 0);
+  1334	}
+  1335	
 
 -- 
 0-DAY CI Kernel Test Service
