@@ -1,44 +1,49 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35E36D1B;
-	Mon, 20 Mar 2023 19:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A2C6D1B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 19:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679340176; x=1710876176;
+  t=1679341439; x=1710877439;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U3FRldIghgkxNGkr6s5MStl/8Sqbf7uSl9+GhzoH6b4=;
-  b=b0v8B8C2yOB2oFKaZANi6ZIl9S4iTOjGPHHi7J+EFIyOrXwFS1AMu6tb
-   4D9CRGkQOrONLoNy3fzf/gvx6xrCKNDbSe/xAQ5iY7Y1jxf+TMDTO0E+G
-   dhfmLmJjmkqkwj7NE3MJHgUAVPBdgTkSN3d1ceXW+9rWq1P91NnhwiM0V
-   sngQD648xLv/SSmJSLgDOiDbjcG65JO6dqXQI3ODr2GUTY8zfQCTZbvyA
-   XGn9o+0OBC3oQyoiDM6Tz4fqvCz8NMPsTwjjBFSt7QUUOem9/0EpqsvCG
-   vpiMV8xaYMamVm8RLaooJ9PWyYC+FjLTpJTJLi7Nv0QeLzRJ8lhFYfJS4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="340304591"
+  bh=Dip+6PljFbundS7RPhSnG8yoBMGZR6fzHvXGxG0Cl2U=;
+  b=AGzl7P4LDBbX5prZxsvPlmn7IG56eTSbe43RG+VXt2yt7qw9LmypXbRh
+   QI9+gsIQededz4nJgrk0VxSbVcEnWjSv4RQaWr0a5nK2xwdlWZqYX2gfK
+   Z61fwhDD1MqqVekyF+oI7JJk+jpgsdBBuvx4TDW5NcBlbmjmm1Gncy5RG
+   4/AMceA0N76movCnull+LWw9g534GE+EjbB+UlFSOshO5St9pR1iCaSgx
+   h11zwsKiacKw/vo5yun2Ki//7hwRdr0ULE9GgajFpf9FEkKi5ERfEUJ0c
+   hXMXUd21+CVAPSAedneNMfsckLurl8nDoAkkK/PqU6AhNTYBu0ATUZBj3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341123467"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="340304591"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 12:22:56 -0700
+   d="scan'208";a="341123467"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 12:43:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674521751"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="770317731"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="674521751"
+   d="scan'208";a="770317731"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Mar 2023 12:22:55 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2023 12:43:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peL5q-000BG2-1Z;
-	Mon, 20 Mar 2023 19:22:54 +0000
-Date: Tue, 21 Mar 2023 03:22:08 +0800
+	id 1peLQB-000BGs-0J;
+	Mon, 20 Mar 2023 19:43:55 +0000
+Date: Tue, 21 Mar 2023 03:42:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/5] PM: domains: Allow power off queuing from
- providers
-Message-ID: <202303210319.sOmW6Lr7-lkp@intel.com>
-References: <20230320134217.1685781-2-abel.vesa@linaro.org>
+To: Lakshmi Yadlapati <lakshmiy@us.ibm.com>, robh+dt@kernel.org,
+	linux@roeck-us.net, jdelvare@suse.com,
+	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
+	eajames@linux.ibm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	Lakshmi Yadlapati <lakshmiy@us.ibm.com>
+Subject: Re: [PATCH v2 3/5] hwmon: (pmbus/acbel-crps) Add Acbel CRPS power
+ supply driver
+Message-ID: <202303210322.ZZ2VlGIE-lkp@intel.com>
+References: <20230320154019.1943770-4-lakshmiy@us.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,171 +52,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320134217.1685781-2-abel.vesa@linaro.org>
+In-Reply-To: <20230320154019.1943770-4-lakshmiy@us.ibm.com>
 
-Hi Abel,
+Hi Lakshmi,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on rafael-pm/linux-next linus/master v6.3-rc3 next-20230320]
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.3-rc3 next-20230320]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/PM-domains-Allow-power-off-queuing-from-providers/20230320-214327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230320134217.1685781-2-abel.vesa%40linaro.org
-patch subject: [RFC PATCH v2 1/5] PM: domains: Allow power off queuing from providers
-config: arm-randconfig-r036-20230319 (https://download.01.org/0day-ci/archive/20230321/202303210319.sOmW6Lr7-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshmi-Yadlapati/dt-bindings-vendor-prefixes-Add-prefix-for-acbel/20230320-235222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230320154019.1943770-4-lakshmiy%40us.ibm.com
+patch subject: [PATCH v2 3/5] hwmon: (pmbus/acbel-crps) Add Acbel CRPS power supply driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230321/202303210322.ZZ2VlGIE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/fef66120c9d99388e95560573d2e0c92c7a547c8
+        # https://github.com/intel-lab-lkp/linux/commit/d873cbdc9f171b066c3f6f6c2a39736e168ad19f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Abel-Vesa/PM-domains-Allow-power-off-queuing-from-providers/20230320-214327
-        git checkout fef66120c9d99388e95560573d2e0c92c7a547c8
+        git fetch --no-tags linux-review Lakshmi-Yadlapati/dt-bindings-vendor-prefixes-Add-prefix-for-acbel/20230320-235222
+        git checkout d873cbdc9f171b066c3f6f6c2a39736e168ad19f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/char/tpm/ drivers/opp/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hwmon/pmbus/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210319.sOmW6Lr7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210322.ZZ2VlGIE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/opp/core.c:18:
-   include/linux/pm_domain.h:284:2: error: void function 'genpd_queue_power_off_work' should not return a value [-Wreturn-type]
-           return -EOPNOTSUPP;
-           ^      ~~~~~~~~~~~
->> include/linux/pm_domain.h:282:6: warning: no previous prototype for function 'genpd_queue_power_off_work' [-Wmissing-prototypes]
-   void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-        ^
-   include/linux/pm_domain.h:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-   ^
-   static 
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from drivers/opp/core.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
---
-   In file included from drivers/opp/of.c:17:
-   include/linux/pm_domain.h:284:2: error: void function 'genpd_queue_power_off_work' should not return a value [-Wreturn-type]
-           return -EOPNOTSUPP;
-           ^      ~~~~~~~~~~~
->> include/linux/pm_domain.h:282:6: warning: no previous prototype for function 'genpd_queue_power_off_work' [-Wmissing-prototypes]
-   void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-        ^
-   include/linux/pm_domain.h:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-   ^
-   static 
-   1 warning and 1 error generated.
+>> drivers/hwmon/pmbus/acbel-crps.c:24:37: warning: 'acbel_crps_fops' defined but not used [-Wunused-const-variable=]
+      24 | static const struct file_operations acbel_crps_fops = {
+         |                                     ^~~~~~~~~~~~~~~
 
 
-vim +/genpd_queue_power_off_work +282 include/linux/pm_domain.h
+vim +/acbel_crps_fops +24 drivers/hwmon/pmbus/acbel-crps.c
 
-   281	
- > 282	void genpd_queue_power_off_work(struct generic_pm_domain *genpd)
-   283	{
-   284		return -EOPNOTSUPP;
-   285	}
-   286	
+    23	
+  > 24	static const struct file_operations acbel_crps_fops = {
+    25		.llseek = noop_llseek,
+    26		.open = simple_open,
+    27	};
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
