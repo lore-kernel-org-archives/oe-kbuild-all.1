@@ -1,44 +1,52 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778941861;
-	Mon, 20 Mar 2023 12:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679316825; x=1710852825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=60725+ynTPRQqtgyyn0xaxRRSwmxpt65izZazGSpuvU=;
-  b=Aka34oBq/bPk/tLH8Zb39dFPlY4yT5ccUwAlA1Nn4rYGm+n75lNTHbGr
-   joNkcT1w6/o74fyNnB4B0baPlpGHq9rszzVzjx9AUG0SJ3bVTNTzURu/E
-   tiAxFJaHMolgi6W4GYENCyGvkm35d8LOR+jIF7K+8mFIMsDqAOKxohRjh
-   eTIlG9c95PAlYhj3U7Nk7PaS/7PSZ0n1d8bgGltEPqRgwAppAemPxKdGv
-   JWu+AtFJoHeOx+NWVto0mqPD1h0tphcV7+NlzqjMWAtj0fEX30ql2cvz2
-   qP3K3EwHaDqkdXgRwb/IIAuuhbVjYOfaTuUZ5TDDiDPkqhmThBlASNLeT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="366368986"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="366368986"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 05:53:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="713547748"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="713547748"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 20 Mar 2023 05:53:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peF1C-000B2k-1Z;
-	Mon, 20 Mar 2023 12:53:42 +0000
-Date: Mon, 20 Mar 2023 20:53:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:tdx-mig-wip 104/627]
- drivers/firmware/efi/libstub/x86-stub.c:790:14: warning: implicit
- declaration of function 'efi_is_64bit' is invalid in C99
-Message-ID: <202303202058.Uqjp8Lvx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B64E4F1;
+	Mon, 20 Mar 2023 12:57:12 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso7433320wmq.5;
+        Mon, 20 Mar 2023 05:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679317031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
+        b=b/Sj5ljK6PeZaqOEElQ967UiYgmJ2F8dRTNzsgaFau/bb4dJLCWd4N2pqlyHmOHyaw
+         9YwWksQXtuE3LlemF7rOPPkXwJsePmE0kGv6OyOirVM9tRQ2S4yzBc5ZBNnqAulScmf4
+         tBV46Ds0D0UfVkfmfzeS1QtwW8yOS9sUW7//w7jOAtLo7skkE5Of6vGjcI01vIxZXPuX
+         Y5RXtH9ubPHjIF4gzuXb66y+UBe5lo3YAc+tf7atqpig8KTU52/+UI2RIuP12ZOH0wlx
+         wDD8X02BXWPfGuDW9OUHMCqBieJ1gDgdefjNfijgqhPnblQUEkZ9BJyWc9AdwbxyV1i9
+         EnjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679317031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
+        b=Ytcc04lFjMNHytmIFWbGJRnpZepyQa3KFoT+TMJEo3spxIirLWRJ1a6HSvzUEo/FbG
+         1QoARZv5B1+ifq0dMKmvGNBt9qUPu3+j4rGFh0X3L0zCIZy+PVeXUTBV52gXadB1qIj9
+         f4mu+VwxeFlNzgL+r9flDx/u+JX9XorWSMD8ETei/Sr3GgzVBdPczLEmVOiya7g9WacM
+         6fC5eTA2tmkPxTrnhYbypmbgIWfJzuDSRPvSnP1Mv5tyE/G5lfB02npV5QTLu7Tvf8cA
+         bREcBW+V3Dk6IetHnogZ+LQmPn+9ZtfFNrSmAFB6yN9kO1wovklpefj9FoWHsAe2Xxhs
+         A+sQ==
+X-Gm-Message-State: AO0yUKURhFLQclAHfGv949U8yq4VDUvk/Ev/5CUwdSmZ8Soe2dhLShzM
+	HnoN73ShSKGgVSnLLR78h67BNifZCCA=
+X-Google-Smtp-Source: AK7set8KpoqgiJp9ENsmyYOoWci7QkyWDOKsRPDdrTJJK/aIAJnQ05T2f2QvRg8e+aD6u/mjk9C9Vw==
+X-Received: by 2002:a05:600c:474c:b0:3ed:355c:4610 with SMTP id w12-20020a05600c474c00b003ed355c4610mr16014104wmo.35.1679317030794;
+        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b003e1202744f2sm16773764wmo.31.2023.03.20.05.57.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
+Date: Mon, 20 Mar 2023 15:57:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add()
+ warn: returning -1 instead of -ENOMEM is sloppy
+Message-ID: <97d00233-15d8-46b6-b9e7-36c3c73b3a0f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,80 +56,230 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kirill,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/tdx.git tdx-mig-wip
-head:   61038376124dad7d5d6f0e23bb56643c4e9bd64a
-commit: f9d9defcf521899d36fdc2577bb89a1bac32493d [104/627] x86/tdx: Add unaccepted memory support
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230320/202303202058.Uqjp8Lvx-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/f9d9defcf521899d36fdc2577bb89a1bac32493d
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx tdx-mig-wip
-        git checkout f9d9defcf521899d36fdc2577bb89a1bac32493d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/ drivers/firmware/efi/libstub/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e8d018dd0257f744ca50a729e3d042cf2ec9da65
+commit: e22bae30667a7e74ed057e00fb6e8c79e0738de3 scsi: mpi3mr: Add expander devices to STL
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303202027.ZeDQE5Ug-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303202058.Uqjp8Lvx-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303202027.ZeDQE5Ug-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
->> drivers/firmware/efi/libstub/x86-stub.c:790:14: warning: implicit declaration of function 'efi_is_64bit' is invalid in C99 [-Wimplicit-function-declaration]
-           signature = efi_is_64bit() ? EFI64_LOADER_SIGNATURE
-                       ^
-   1 warning generated.
+vim +1449 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for EFI_STUB
-   Depends on [n]: EFI [=n]
-   Selected by [y]:
-   - INTEL_TDX_GUEST [=y] && HYPERVISOR_GUEST [=y] && X86_64 [=y] && CPU_SUP_INTEL [=y] && X86_X2APIC [=y]
-   WARNING: unmet direct dependencies detected for UNACCEPTED_MEMORY
-   Depends on [n]: EFI [=n] && EFI_STUB [=y]
-   Selected by [y]:
-   - INTEL_TDX_GUEST [=y] && HYPERVISOR_GUEST [=y] && X86_64 [=y] && CPU_SUP_INTEL [=y] && X86_X2APIC [=y]
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1337  int mpi3mr_expander_add(struct mpi3mr_ioc *mrioc, u16 handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1338  {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1339  	struct mpi3mr_sas_node *sas_expander;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1340  	struct mpi3mr_enclosure_node *enclosure_dev;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1341  	struct mpi3_sas_expander_page0 expander_pg0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1342  	struct mpi3_sas_expander_page1 expander_pg1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1343  	u16 ioc_status, parent_handle, temp_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1344  	u64 sas_address, sas_address_parent = 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1345  	int i;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1346  	unsigned long flags;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1347  	u8 port_id, link_rate;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1348  	struct mpi3mr_sas_port *mr_sas_port = NULL;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1349  	struct mpi3mr_hba_port *hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1350  	u32 phynum_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1351  	int rc = 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1352  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1353  	if (!handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1354  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1355  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1356  	if (mrioc->reset_in_progress)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1357  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1358  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1359  	if ((mpi3mr_cfg_get_sas_exp_pg0(mrioc, &ioc_status, &expander_pg0,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1360  	    sizeof(expander_pg0), MPI3_SAS_EXPAND_PGAD_FORM_HANDLE, handle))) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1361  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1362  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1363  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1364  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1365  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1366  	if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1367  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1368  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1369  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1370  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1371  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1372  	parent_handle = le16_to_cpu(expander_pg0.parent_dev_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1373  	if (mpi3mr_get_sas_address(mrioc, parent_handle, &sas_address_parent)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1374  	    != 0) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1375  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1376  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1377  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1378  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1379  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1380  	port_id = expander_pg0.io_unit_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1381  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1382  	if (!hba_port) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1383  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1384  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1385  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1386  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1387  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1388  	if (sas_address_parent != mrioc->sas_hba.sas_address) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1389  		spin_lock_irqsave(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1390  		sas_expander =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1391  		   mpi3mr_expander_find_by_sas_address(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1392  		    sas_address_parent, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1393  		spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1394  		if (!sas_expander) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1395  			rc = mpi3mr_expander_add(mrioc, parent_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1396  			if (rc != 0)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1397  				return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1398  		} else {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1399  			/*
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1400  			 * When there is a parent expander present, update it's
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1401  			 * phys where child expander is connected with the link
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1402  			 * speed, attached dev handle and sas address.
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1403  			 */
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1404  			for (i = 0 ; i < sas_expander->num_phys ; i++) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1405  				phynum_handle =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1406  				    (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1407  				    parent_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1408  				if (mpi3mr_cfg_get_sas_exp_pg1(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1409  				    &ioc_status, &expander_pg1,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1410  				    sizeof(expander_pg1),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1411  				    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1412  				    phynum_handle)) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1413  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1414  					    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1415  					rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1416  					return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1417  				}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1418  				if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1419  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1420  					    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1421  					rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1422  					return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1423  				}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1424  				temp_handle = le16_to_cpu(
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1425  				    expander_pg1.attached_dev_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1426  				if (temp_handle != handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1427  					continue;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1428  				link_rate = (expander_pg1.negotiated_link_rate &
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1429  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_MASK) >>
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1430  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_SHIFT;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1431  				mpi3mr_update_links(mrioc, sas_address_parent,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1432  				    handle, i, link_rate, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1433  			}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1434  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1435  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1436  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1437  	spin_lock_irqsave(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1438  	sas_address = le64_to_cpu(expander_pg0.sas_address);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1439  	sas_expander = mpi3mr_expander_find_by_sas_address(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1440  	    sas_address, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1441  	spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1442  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1443  	if (sas_expander)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1444  		return 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1445  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1446  	sas_expander = kzalloc(sizeof(struct mpi3mr_sas_node),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1447  	    GFP_KERNEL);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1448  	if (!sas_expander)
+e22bae30667a7e Sreekanth Reddy 2022-08-04 @1449  		return -1;
 
+return -ENOMEM;
 
-vim +/efi_is_64bit +790 drivers/firmware/efi/libstub/x86-stub.c
-
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  783  
-cd33a5c1d53e43 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2019-12-24  784  static efi_status_t exit_boot_func(struct efi_boot_memmap *map,
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  785  				   void *priv)
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  786  {
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  787  	const char *signature;
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  788  	struct exit_boot_struct *p = priv;
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  789  
-aab9593c0cb445 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2018-07-20 @790  	signature = efi_is_64bit() ? EFI64_LOADER_SIGNATURE
-aab9593c0cb445 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2018-07-20  791  				   : EFI32_LOADER_SIGNATURE;
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  792  	memcpy(&p->efi->efi_loader_signature, signature, sizeof(__u32));
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  793  
-eed4e0193ee7b0 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-30  794  	efi_set_u64_split((unsigned long)efi_system_table,
-eed4e0193ee7b0 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-30  795  			  &p->efi->efi_systab, &p->efi->efi_systab_hi);
-eab3126571ed1e drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-06-03  796  	p->efi->efi_memdesc_size	= map->desc_size;
-eab3126571ed1e drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-06-03  797  	p->efi->efi_memdesc_version	= map->desc_ver;
-eab3126571ed1e drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-06-03  798  	efi_set_u64_split((unsigned long)map->map,
-eed4e0193ee7b0 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-30  799  			  &p->efi->efi_memmap, &p->efi->efi_memmap_hi);
-eab3126571ed1e drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-06-03  800  	p->efi->efi_memmap_size		= map->map_size;
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  801  
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  802  	return EFI_SUCCESS;
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  803  }
-d64934019f6cc3 arch/x86/boot/compressed/eboot.c        Jeffrey Hugo   2016-08-29  804  
-
-:::::: The code at line 790 was first introduced by commit
-:::::: aab9593c0cb4454f9d261a8c87a3361f3186c4ec efi/x86: Replace references to efi_early->is64 with efi_is_64bit()
-
-:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1450  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1451  	sas_expander->handle = handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1452  	sas_expander->num_phys = expander_pg0.num_phys;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1453  	sas_expander->sas_address_parent = sas_address_parent;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1454  	sas_expander->sas_address = sas_address;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1455  	sas_expander->hba_port = hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1456  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1457  	ioc_info(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1458  	    "expander_add: handle(0x%04x), parent(0x%04x), sas_addr(0x%016llx), phys(%d)\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1459  	    handle, parent_handle, (unsigned long long)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1460  	    sas_expander->sas_address, sas_expander->num_phys);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1461  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1462  	if (!sas_expander->num_phys) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1463  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1464  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1465  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1466  	sas_expander->phy = kcalloc(sas_expander->num_phys,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1467  	    sizeof(struct mpi3mr_sas_phy), GFP_KERNEL);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1468  	if (!sas_expander->phy) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1469  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1470  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1471  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1472  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1473  	INIT_LIST_HEAD(&sas_expander->sas_port_list);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1474  	mr_sas_port = mpi3mr_sas_port_add(mrioc, handle, sas_address_parent,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1475  	    sas_expander->hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1476  	if (!mr_sas_port) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1477  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1478  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1479  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1480  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1481  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1482  	sas_expander->parent_dev = &mr_sas_port->rphy->dev;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1483  	sas_expander->rphy = mr_sas_port->rphy;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1484  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1485  	for (i = 0 ; i < sas_expander->num_phys ; i++) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1486  		phynum_handle = (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1487  		    handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1488  		if (mpi3mr_cfg_get_sas_exp_pg1(mrioc, &ioc_status,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1489  		    &expander_pg1, sizeof(expander_pg1),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1490  		    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1491  		    phynum_handle)) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1492  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1493  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1494  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1495  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1496  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1497  		if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1498  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1499  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1500  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1501  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1502  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1503  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1504  		sas_expander->phy[i].handle = handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1505  		sas_expander->phy[i].phy_id = i;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1506  		sas_expander->phy[i].hba_port = hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1507  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1508  		if ((mpi3mr_add_expander_phy(mrioc, &sas_expander->phy[i],
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1509  		    expander_pg1, sas_expander->parent_dev))) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1510  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1511  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1512  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1513  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1514  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1515  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1516  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1517  	if (sas_expander->enclosure_handle) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1518  		enclosure_dev =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1519  			mpi3mr_enclosure_find_by_handle(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1520  						sas_expander->enclosure_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1521  		if (enclosure_dev)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1522  			sas_expander->enclosure_logical_id = le64_to_cpu(
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1523  			    enclosure_dev->pg0.enclosure_logical_id);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1524  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1525  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1526  	mpi3mr_expander_node_add(mrioc, sas_expander);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1527  	return 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1528  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1529  out_fail:
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1530  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1531  	if (mr_sas_port)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1532  		mpi3mr_sas_port_remove(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1533  		    sas_expander->sas_address,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1534  		    sas_address_parent, sas_expander->hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1535  	kfree(sas_expander->phy);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1536  	kfree(sas_expander);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1537  	return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1538  }
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1539  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
