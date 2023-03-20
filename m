@@ -1,136 +1,101 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39E3A2D;
-	Mon, 20 Mar 2023 00:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679273971; x=1710809971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=smOBfRVqrOhWu8XvcIR133OdyNbI2Ln/Zggu1BX7YS8=;
-  b=KobnnPzENf9oKRQHU0yNOJRZg5bXViY0V9BI9d2XoyNvQu3Amw57iJuZ
-   LhZ0o20ouvc7FILHmdmC8V7hfbF8qJkLQtxm79PACghKHo2hTmTh9yN8w
-   v6LxpBV8K9AbstCnWy2tkpP3sLgX4r5ukR9mdaMU5bPRoVsmmqoBgLm1P
-   Xe+sb98V3DDzkQidd0KJPRgmxWKFNnhoOZk7Ael7t/TRpa/8R2rHt4ElD
-   NuT6iMsMkVDf7StHLXYZDiZSeGIiOaayGiJYaUsBiaxH5NVffIpgrFSj1
-   BdTgsn1RYTgEhkaSnNWQQgu9xMsR7pJydc6lBh0RvB/uyuf1hCJ3vi79Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326921317"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="326921317"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 17:59:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="630939113"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="630939113"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 19 Mar 2023 17:59:26 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pe3rw-000AjO-3C;
-	Mon, 20 Mar 2023 00:59:24 +0000
-Date: Mon, 20 Mar 2023 08:58:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kal Conley <kal.conley@dectris.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Kal Conley <kal.conley@dectris.com>,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-Message-ID: <202303200837.DNorzOFV-lkp@intel.com>
-References: <20230319195656.326701-2-kal.conley@dectris.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8C00EC2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 02:54:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D21FCFEC;
+	Sun, 19 Mar 2023 19:55:07 -0700 (PDT)
+Received: from [10.162.41.7] (a077893.blr.arm.com [10.162.41.7])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C41163F67D;
+	Sun, 19 Mar 2023 19:54:17 -0700 (PDT)
+Message-ID: <f4f20cb2-de05-fbde-172e-03fa3ed7b390@arm.com>
+Date: Mon, 20 Mar 2023 08:24:14 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230319195656.326701-2-kal.conley@dectris.com>
-
-Hi Kal,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on bpf/master]
-[also build test ERROR on next-20230317]
-[cannot apply to bpf-next/master linus/master v6.3-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kal-Conley/xsk-Support-UMEM-chunk_size-PAGE_SIZE/20230320-035849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20230319195656.326701-2-kal.conley%40dectris.com
-patch subject: [PATCH bpf-next 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20230320/202303200837.DNorzOFV-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/bbcc35c4ff807754bf61ef2c1f11195533e53de0
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kal-Conley/xsk-Support-UMEM-chunk_size-PAGE_SIZE/20230320-035849
-        git checkout bbcc35c4ff807754bf61ef2c1f11195533e53de0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash net/core/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303200837.DNorzOFV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from net/core/xdp.c:22:
-   In file included from include/net/xdp_sock_drv.h:10:
->> include/net/xsk_buff_pool.h:179:43: error: use of undeclared identifier 'HPAGE_SIZE'
-           bool cross_pg = pool->hugetlb ? (addr & (HPAGE_SIZE - 1)) + len > HPAGE_SIZE :
-                                                    ^
-   include/net/xsk_buff_pool.h:179:68: error: use of undeclared identifier 'HPAGE_SIZE'
-           bool cross_pg = pool->hugetlb ? (addr & (HPAGE_SIZE - 1)) + len > HPAGE_SIZE :
-                                                                             ^
-   2 errors generated.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 3/7] coresight: etm4x: Drop pid argument from etm4_probe()
+To: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
+ coresight@lists.linaro.org, suzuki.poulose@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, scclevenger@os.amperecomputing.com,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
+ devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230317030501.1811905-4-anshuman.khandual@arm.com>
+ <202303181632.wBUDE5wa-lkp@intel.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <202303181632.wBUDE5wa-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/HPAGE_SIZE +179 include/net/xsk_buff_pool.h
 
-   175	
-   176	static inline bool xp_desc_crosses_non_contig_pg(struct xsk_buff_pool *pool,
-   177							 u64 addr, u32 len)
-   178	{
- > 179		bool cross_pg = pool->hugetlb ? (addr & (HPAGE_SIZE - 1)) + len > HPAGE_SIZE :
-   180						(addr & (PAGE_SIZE - 1)) + len > PAGE_SIZE;
-   181	
-   182		if (likely(!cross_pg))
-   183			return false;
-   184	
-   185		if (pool->dma_pages_cnt) {
-   186			return !(pool->dma_pages[addr >> PAGE_SHIFT] &
-   187				 XSK_NEXT_PG_CONTIG_MASK);
-   188		}
-   189	
-   190		/* skb path */
-   191		return addr + len > pool->addrs_cnt;
-   192	}
-   193	
+On 3/18/23 13:51, kernel test robot wrote:
+> Hi Anshuman,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on robh/for-next]
+> [also build test WARNING on soc/for-next rafael-pm/linux-next linus/master v6.3-rc2 next-20230317]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-etm4x-Allocate-and-device-assign-struct-etmv4_drvdata-earlier/20230317-110755
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20230317030501.1811905-4-anshuman.khandual%40arm.com
+> patch subject: [PATCH 3/7] coresight: etm4x: Drop pid argument from etm4_probe()
+> config: arm64-randconfig-r021-20230312 (https://download.01.org/0day-ci/archive/20230318/202303181632.wBUDE5wa-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/39e224e4248f0f7b2c59b97c12a12f8343ab900e
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Anshuman-Khandual/coresight-etm4x-Allocate-and-device-assign-struct-etmv4_drvdata-earlier/20230317-110755
+>         git checkout 39e224e4248f0f7b2c59b97c12a12f8343ab900e
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/hwtracing/coresight/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303181632.wBUDE5wa-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_init_arch_data':
+>>> drivers/hwtracing/coresight/coresight-etm4x-core.c:1169:43: warning: passing argument 2 of 'etm4_check_arch_features' makes integer from pointer without a cast [-Wint-conversion]
+>     1169 |         etm4_check_arch_features(drvdata, csa);
+>          |                                           ^~~
+>          |                                           |
+>          |                                           struct csdev_access *
+>    drivers/hwtracing/coresight/coresight-etm4x-core.c:389:51: note: expected 'unsigned int' but argument is of type 'struct csdev_access *'
+>      389 |                                      unsigned int id)
+>          |                                      ~~~~~~~~~~~~~^~
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Fallback stub's signature also needs an update. I will fold this change in next series.
+
+--- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+@@ -388,7 +388,7 @@ static void etm4_disable_arch_specific(struct etmv4_drvdata *drvdata)
+ }
+ 
+ static void etm4_check_arch_features(struct etmv4_drvdata *drvdata,
+-                                    unsigned int id)
++                                    struct csdev_access *csa)
+ {
+ }
+ #endif /* CONFIG_ETM4X_IMPDEF_FEATURE */
