@@ -1,52 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6096FA6;
-	Mon, 20 Mar 2023 20:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278206FA6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 20:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679343259; x=1710879259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u+jOUwoE6OkKQ7xRHEiSIZbHt9zZyJpg1s70VOyfcyE=;
-  b=ly1fiZyirt1/F/bCEYL2jBCYuHdceoZ0CCJFO1Qtmxstrx8FR9PSXEYH
-   NeNle56d9JWZa7wGlVvJnamAZ4R2sTEDiVYrZ8KDPuokE4WdXnxum2Yp6
-   d26h4VaWHZs1wG+Bu51ZXY6M9uDFsv7AITS9QxI/PupXE3kb724u/9+fs
-   P1v56NpYNioEbvWXuAAje4+s2L885QrR7x0tqKzVEo2lfocVKhpTd1k6d
-   qmHRc0h3JllOZlB03UG4E95erqolg/fApSCTWx6BB9tF1Gg5r0IJ0Q0La
-   P7/n7iegtOivUsnFZSndy9ZQ3olHG7JJyERhcHqO7dTXfvZ9ANrE2YqPg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="319168740"
+  t=1679343898; x=1710879898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0wWb/ttSnVnJrRVv3LksTgMtdcJCFX+sb8TNJiqig/k=;
+  b=PWWfOeQPGPJOeM2Vln4y5sezuThtjoCJio1jlrZ16PVeW4j0G+HHEaPI
+   PFIV4/6RNp8tEqUoTJNF+R8SXiyjReMbkBT/uOFJX9o7YvrKooIfrCPdF
+   Qu0ws5kTGDcJK7VSDhgfl1aYzQ1eN/YUTqkZi8EWm8CVAAA+AtPM0vMsG
+   qnyA42DXtI8q+8QHqSIORjjn0Ha77Pk0SsdSPK/t3Y8qDuHM1Y5jZx+Tu
+   22m+BV7uhxolzCXjIJ5RZQOc3HfnZgnZUT+Ey4qL6pO+pWpdU1KjP8K8k
+   vg2dZU3aBHLuG2PK++LF/4pfjVU/G+KBlmKqq/hSNHJuCAerWPl79LkI9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="425044672"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="319168740"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:13:59 -0700
+   d="scan'208";a="425044672"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:24:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010629523"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="683568976"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="1010629523"
+   d="scan'208";a="683568976"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2023 13:13:56 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Mar 2023 13:24:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peLtD-000BHc-1j;
-	Mon, 20 Mar 2023 20:13:55 +0000
-Date: Tue, 21 Mar 2023 04:13:37 +0800
+	id 1peM3r-000BI8-2v;
+	Mon, 20 Mar 2023 20:24:55 +0000
+Date: Tue, 21 Mar 2023 04:24:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 18/23] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <202303210444.Qtybv08z-lkp@intel.com>
-References: <20230320144356.803762-19-robdclark@gmail.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [jarkko-tpmdd:master 3/3] drivers/char/tpm/tpm-chip.c:531:15: error:
+ too many arguments to function 'tpm_request_locality'
+Message-ID: <202303210426.4zyU7h6B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,119 +45,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320144356.803762-19-robdclark@gmail.com>
 
-Hi Rob,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on rafael-pm/linux-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc3 next-20230320]
-[cannot apply to chanwoo/devfreq-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230320144356.803762-19-robdclark%40gmail.com
-patch subject: [PATCH v2 18/23] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: arm-randconfig-r005-20230319 (https://download.01.org/0day-ci/archive/20230321/202303210444.Qtybv08z-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git master
+head:   923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
+commit: 923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc [3/3] tpm: fix build break in tpm-chip.c caused by AMD fTPM quirk
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230321/202303210426.4zyU7h6B-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/2d7e4629d7265d7e77fc72d01e84d27d805b7485
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
-        git checkout 2d7e4629d7265d7e77fc72d01e84d27d805b7485
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
+        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
+        git fetch --no-tags jarkko-tpmdd master
+        git checkout 923c8dfa9a3640d4dcedd7df12b53254f7e6e4fc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/base/power/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210444.Qtybv08z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210426.4zyU7h6B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/power/qos.c:947:8: warning: variable 'req' is uninitialized when used here [-Wuninitialized]
-                   if (!req) {
-                        ^~~
-   drivers/base/power/qos.c:938:33: note: initialize the variable 'req' to silence this warning
-                   struct dev_pm_qos_request *req;
-                                                 ^
-                                                  = NULL
-   1 warning generated.
+   drivers/char/tpm/tpm-chip.c: In function 'tpm_amd_is_rng_defective':
+>> drivers/char/tpm/tpm-chip.c:531:15: error: too many arguments to function 'tpm_request_locality'
+     531 |         ret = tpm_request_locality(chip, 0);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm-chip.c:35:12: note: declared here
+      35 | static int tpm_request_locality(struct tpm_chip *chip)
+         |            ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/req +947 drivers/base/power/qos.c
+vim +/tpm_request_locality +531 drivers/char/tpm/tpm-chip.c
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  917  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  918  /**
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  919   * dev_pm_qos_update_user_latency_tolerance - Update user space latency tolerance.
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  920   * @dev: Device to update the user space latency tolerance for.
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  921   * @val: New user space latency tolerance for @dev (negative values disable).
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  922   */
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-2d7e4629d7265d Rob Clark         2023-03-20  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-00dd582e52a535 Rob Clark         2023-03-20  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-00dd582e52a535 Rob Clark         2023-03-20  929  	if (ret)
-00dd582e52a535 Rob Clark         2023-03-20  930  		return ret;
-00dd582e52a535 Rob Clark         2023-03-20  931  
-2d7e4629d7265d Rob Clark         2023-03-20  932  	if (!dev->power.qos->latency_tolerance_req)
-2d7e4629d7265d Rob Clark         2023-03-20  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-2d7e4629d7265d Rob Clark         2023-03-20  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-00dd582e52a535 Rob Clark         2023-03-20  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		struct dev_pm_qos_request *req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  939  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  940  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  942  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  943  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @947  		if (!req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  956  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  957  	} else {
-2d7e4629d7265d Rob Clark         2023-03-20  958  		/*
-2d7e4629d7265d Rob Clark         2023-03-20  959  		 * If we raced with another thread to allocate the request,
-2d7e4629d7265d Rob Clark         2023-03-20  960  		 * simply free the redundant allocation and move on.
-2d7e4629d7265d Rob Clark         2023-03-20  961  		 */
-2d7e4629d7265d Rob Clark         2023-03-20  962  		if (req)
-2d7e4629d7265d Rob Clark         2023-03-20  963  			kfree(req);
-2d7e4629d7265d Rob Clark         2023-03-20  964  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  973   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  975  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  976  }
-034e7906211c18 Andrew Lutomirski 2016-11-29  977  EXPORT_SYMBOL_GPL(dev_pm_qos_update_user_latency_tolerance);
-13b2c4a0c3b1cd Mika Westerberg   2015-07-27  978  
+   513	
+   514	/*
+   515	 * Some AMD fTPM versions may cause stutter
+   516	 * https://www.amd.com/en/support/kb/faq/pa-410
+   517	 *
+   518	 * Fixes are available in two series of fTPM firmware:
+   519	 * 6.x.y.z series: 6.0.18.6 +
+   520	 * 3.x.y.z series: 3.57.y.5 +
+   521	 */
+   522	static bool tpm_amd_is_rng_defective(struct tpm_chip *chip)
+   523	{
+   524		u32 val1, val2;
+   525		u64 version;
+   526		int ret;
+   527	
+   528		if (!(chip->flags & TPM_CHIP_FLAG_TPM2))
+   529			return false;
+   530	
+ > 531		ret = tpm_request_locality(chip, 0);
+   532		if (ret)
+   533			return false;
+   534	
+   535		ret = tpm2_get_tpm_pt(chip, TPM2_PT_MANUFACTURER, &val1, NULL);
+   536		if (ret)
+   537			goto release;
+   538		if (val1 != 0x414D4400U /* AMD */) {
+   539			ret = -ENODEV;
+   540			goto release;
+   541		}
+   542		ret = tpm2_get_tpm_pt(chip, TPM2_PT_FIRMWARE_VERSION_1, &val1, NULL);
+   543		if (ret)
+   544			goto release;
+   545		ret = tpm2_get_tpm_pt(chip, TPM2_PT_FIRMWARE_VERSION_2, &val2, NULL);
+   546	
+   547	release:
+   548		tpm_relinquish_locality(chip);
+   549	
+   550		if (ret)
+   551			return false;
+   552	
+   553		version = ((u64)val1 << 32) | val2;
+   554		if ((version >> 48) == 6) {
+   555			if (version >= 0x0006000000180006ULL)
+   556				return false;
+   557		} else if ((version >> 48) == 3) {
+   558			if (version >= 0x0003005700000005ULL)
+   559				return false;
+   560		} else {
+   561			return false;
+   562		}
+   563	
+   564		dev_warn(&chip->dev,
+   565			 "AMD fTPM version 0x%llx causes system stutter; hwrng disabled\n",
+   566			 version);
+   567	
+   568		return true;
+   569	}
+   570	
 
 -- 
 0-DAY CI Kernel Test Service
