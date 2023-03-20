@@ -1,51 +1,44 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF51E10E5;
-	Mon, 20 Mar 2023 05:44:53 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j24so262667wrd.0;
-        Sun, 19 Mar 2023 22:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679291092;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tRuUVGSib6JEyEmuvmz5jbeu7IJd8ilenJrI8qajkpk=;
-        b=KMEDfqzXbj4j85AgI9jbSWqxqcmuw6A49DM47WxQ+I/3irsTDK05u3z3N+T0GkUh5Q
-         WItfluFm5yB/xlzhqaagz+1W8j6OOABczFlEdm9S78BXigJY5kh5PlnVT5a44HKyfHRM
-         Oumfx0mpQoDz/5i+cFFiMHDt/Ea/aYBzfqi+c8JBN+ounm7djVtexP/Km/ixGWSTtp3w
-         ncUvf3T0WRSkUm/d6bjyk2fvCy0Qhr4REjnRuvcGTMi9HGvcAHj1V3kExYhokLC3ipLF
-         UZWiCN4i814Qt1lesrVA8GBdJRCHtoqPYd78wAb/1RkRc5kOVqHbB88PwjmeeYiFeJFm
-         TfkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679291092;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tRuUVGSib6JEyEmuvmz5jbeu7IJd8ilenJrI8qajkpk=;
-        b=CoSKxaTxx7Ala+JBqOhUWMKhmK+WuOqdDlvmEcZr3wceb3uHU0AUWM+N3+saL0GfMA
-         gYJ//WNu494vFBAdhW3XzhkQvPkbQROKaFyoraToJ9b5og2ZLziDdGUxl4RQ5u5zNx/k
-         pkkXUc70c8WS5nta7AxNA+r716WJqRnfrFHAFIkKkpK0pwK3hMIckNsJaHt3+7ujeM/1
-         lyC4ZutXMd9a9e5kqHHJARSHLcY6Bqhw/MAE9UTcgvnEfbZYwssEhP8ec0HqGMsaislM
-         eh8mxHQen+7u+H/OfWtAjqRtWZIfp3lwIZ7G/U5EDXFE6MHy9960I3mJ7uP2yvAx6IyU
-         1yBg==
-X-Gm-Message-State: AO0yUKVhcmJQaQBnOcQrjgmPAPbpMOsQb9Vra50j7qwkxV/9CiEpw7Bn
-	Q0BOpQVg3mwC5wtPmhOQ6cph6jy7oQw=
-X-Google-Smtp-Source: AK7set++jZ9k6qrn3I/QaHRxiafuTR9DdvqnuPbYHZzt6IwW7cRcbAR4ZjNU4pFTjcz1c4KBUgRJTA==
-X-Received: by 2002:a5d:4ecc:0:b0:2d0:c73d:ef2a with SMTP id s12-20020a5d4ecc000000b002d0c73def2amr11554417wrv.24.1679291091639;
-        Sun, 19 Mar 2023 22:44:51 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k6-20020a5d6d46000000b002c5598c14acsm8096854wri.6.2023.03.19.22.44.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 22:44:51 -0700 (PDT)
-Date: Mon, 20 Mar 2023 08:44:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: fs/zonefs/file.c:441 zonefs_file_dio_append() error: uninitialized
- symbol 'size'.
-Message-ID: <30200c4e-21e8-4454-a947-01d228f154a1@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D7410E5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 05:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679291673; x=1710827673;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ji0yvhuI99EfOmsxCeacozfS832Q/TIq22e2K4LWzB4=;
+  b=kxg+aZuW4kZLkGfSvGwKkKHnSSp9sbE03W+dcZx1ZNsIxe6qsHsGtaet
+   V9APqpXTE7gzVn8Qo05raq87eJgdGc+qarX30TJbD+bl+6E4203w0ky5k
+   F3BlhGxinGtaFh4zEaM8AJN8YfVPav8yGDEiWtzT23fW4HeijzH+Qe8m5
+   A5+fFhZTveyiL3le0iusqcakaxnCOfI25XyJEcoIAqoyxop5Qr7C4l975
+   gjjmvzeMk3z3VJiPZKbIlr/oFMg8kjNIqdn3aLs7vC00+IPcYcvHp56x1
+   Vgrn0dUdAiHbk3Q5jpNCV/ygWgoAWe40sGZFc/IQ18exVmikgJWQXMVZb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326951043"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="326951043"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 22:54:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="674220480"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="674220480"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 19 Mar 2023 22:54:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pe8TX-000Aqs-0M;
+	Mon, 20 Mar 2023 05:54:31 +0000
+Date: Mon, 20 Mar 2023 13:54:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-drm-fix-next 15/19] lib/test_map_h.c:28:2: error: call to
+ __compiletime_assert_175 declared with 'error' attribute: BUILD_BUG_ON
+ failed: __builtin_memcmp(debug_cats_slist[0], "DRMx_CORE",
+ sizeof("DRMx_CORE"))
+Message-ID: <202303201327.GQlhkpWx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,100 +48,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a3671bd86a9770e34969522d29bb30a1b66fd88a
-commit: 4008e2a0b01aba982356fd15b128a47bf11bd9c7 zonefs: Reorganize code
-config: nios2-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191227.GL8Dprbi-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jimc/linux.git dd-drm-fix-next
+head:   4d2f9ddebc723de3007edf449ba96bdfa5336145
+commit: a52557c30cdf6d51a4aabfc1067aec115a48aff6 [15/19] include/linux/map.h: add new header, test it with test_map_h.c (RFC)
+config: i386-randconfig-a004-20230320 (https://download.01.org/0day-ci/archive/20230320/202303201327.GQlhkpWx-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jimc/linux/commit/a52557c30cdf6d51a4aabfc1067aec115a48aff6
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-drm-fix-next
+        git checkout a52557c30cdf6d51a4aabfc1067aec115a48aff6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303191227.GL8Dprbi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303201327.GQlhkpWx-lkp@intel.com/
 
-New smatch warnings:
-fs/zonefs/file.c:441 zonefs_file_dio_append() error: uninitialized symbol 'size'.
+All errors (new ones prefixed by >>):
 
-vim +/size +441 fs/zonefs/file.c
+>> lib/test_map_h.c:28:2: error: call to __compiletime_assert_175 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[0], "DRMx_CORE", sizeof("DRMx_CORE"))
+           BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
+           ^
+   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:188:1: note: expanded from here
+   __compiletime_assert_175
+   ^
+>> lib/test_map_h.c:29:2: error: call to __compiletime_assert_176 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[1], "DRMx_DRIVER", sizeof("DRMx_DRIVER"))
+           BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
+           ^
+   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:193:1: note: expanded from here
+   __compiletime_assert_176
+   ^
+>> lib/test_map_h.c:30:2: error: call to __compiletime_assert_177 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[2], "DRMx_KMS", sizeof("DRMx_KMS"))
+           BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
+           ^
+   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:198:1: note: expanded from here
+   __compiletime_assert_177
+   ^
+   3 errors generated.
 
-4008e2a0b01aba Damien Le Moal 2022-11-25  378  static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
-4008e2a0b01aba Damien Le Moal 2022-11-25  379  {
-4008e2a0b01aba Damien Le Moal 2022-11-25  380  	struct inode *inode = file_inode(iocb->ki_filp);
-4008e2a0b01aba Damien Le Moal 2022-11-25  381  	struct zonefs_inode_info *zi = ZONEFS_I(inode);
-4008e2a0b01aba Damien Le Moal 2022-11-25  382  	struct block_device *bdev = inode->i_sb->s_bdev;
-4008e2a0b01aba Damien Le Moal 2022-11-25  383  	unsigned int max = bdev_max_zone_append_sectors(bdev);
-4008e2a0b01aba Damien Le Moal 2022-11-25  384  	struct bio *bio;
-4008e2a0b01aba Damien Le Moal 2022-11-25  385  	ssize_t size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  386  	int nr_pages;
-4008e2a0b01aba Damien Le Moal 2022-11-25  387  	ssize_t ret;
-4008e2a0b01aba Damien Le Moal 2022-11-25  388  
-4008e2a0b01aba Damien Le Moal 2022-11-25  389  	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
-4008e2a0b01aba Damien Le Moal 2022-11-25  390  	iov_iter_truncate(from, max);
-4008e2a0b01aba Damien Le Moal 2022-11-25  391  
-4008e2a0b01aba Damien Le Moal 2022-11-25  392  	nr_pages = iov_iter_npages(from, BIO_MAX_VECS);
-4008e2a0b01aba Damien Le Moal 2022-11-25  393  	if (!nr_pages)
-4008e2a0b01aba Damien Le Moal 2022-11-25  394  		return 0;
-4008e2a0b01aba Damien Le Moal 2022-11-25  395  
-4008e2a0b01aba Damien Le Moal 2022-11-25  396  	bio = bio_alloc(bdev, nr_pages,
-4008e2a0b01aba Damien Le Moal 2022-11-25  397  			REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE, GFP_NOFS);
-4008e2a0b01aba Damien Le Moal 2022-11-25  398  	bio->bi_iter.bi_sector = zi->i_zsector;
-4008e2a0b01aba Damien Le Moal 2022-11-25  399  	bio->bi_ioprio = iocb->ki_ioprio;
-4008e2a0b01aba Damien Le Moal 2022-11-25  400  	if (iocb_is_dsync(iocb))
-4008e2a0b01aba Damien Le Moal 2022-11-25  401  		bio->bi_opf |= REQ_FUA;
-4008e2a0b01aba Damien Le Moal 2022-11-25  402  
-4008e2a0b01aba Damien Le Moal 2022-11-25  403  	ret = bio_iov_iter_get_pages(bio, from);
-4008e2a0b01aba Damien Le Moal 2022-11-25  404  	if (unlikely(ret))
-4008e2a0b01aba Damien Le Moal 2022-11-25  405  		goto out_release;
 
-This is a false positive because bio_iov_iter_get_pages() is returning
-negatives on this error path.  Building the cross function database
-would silence this warning.  Still it's not just Smatch which is going
-to complain and GCC extensions are most likely going to initialize size
-to zero anyway.
+vim +28 lib/test_map_h.c
 
-4008e2a0b01aba Damien Le Moal 2022-11-25  406  
-4008e2a0b01aba Damien Le Moal 2022-11-25  407  	size = bio->bi_iter.bi_size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  408  	task_io_account_write(size);
-4008e2a0b01aba Damien Le Moal 2022-11-25  409  
-4008e2a0b01aba Damien Le Moal 2022-11-25  410  	if (iocb->ki_flags & IOCB_HIPRI)
-4008e2a0b01aba Damien Le Moal 2022-11-25  411  		bio_set_polled(bio, iocb);
-4008e2a0b01aba Damien Le Moal 2022-11-25  412  
-4008e2a0b01aba Damien Le Moal 2022-11-25  413  	ret = submit_bio_wait(bio);
-4008e2a0b01aba Damien Le Moal 2022-11-25  414  
-4008e2a0b01aba Damien Le Moal 2022-11-25  415  	/*
-4008e2a0b01aba Damien Le Moal 2022-11-25  416  	 * If the file zone was written underneath the file system, the zone
-4008e2a0b01aba Damien Le Moal 2022-11-25  417  	 * write pointer may not be where we expect it to be, but the zone
-4008e2a0b01aba Damien Le Moal 2022-11-25  418  	 * append write can still succeed. So check manually that we wrote where
-4008e2a0b01aba Damien Le Moal 2022-11-25  419  	 * we intended to, that is, at zi->i_wpoffset.
-4008e2a0b01aba Damien Le Moal 2022-11-25  420  	 */
-4008e2a0b01aba Damien Le Moal 2022-11-25  421  	if (!ret) {
-4008e2a0b01aba Damien Le Moal 2022-11-25  422  		sector_t wpsector =
-4008e2a0b01aba Damien Le Moal 2022-11-25  423  			zi->i_zsector + (zi->i_wpoffset >> SECTOR_SHIFT);
-4008e2a0b01aba Damien Le Moal 2022-11-25  424  
-4008e2a0b01aba Damien Le Moal 2022-11-25  425  		if (bio->bi_iter.bi_sector != wpsector) {
-4008e2a0b01aba Damien Le Moal 2022-11-25  426  			zonefs_warn(inode->i_sb,
-4008e2a0b01aba Damien Le Moal 2022-11-25  427  				"Corrupted write pointer %llu for zone at %llu\n",
-4008e2a0b01aba Damien Le Moal 2022-11-25  428  				wpsector, zi->i_zsector);
-4008e2a0b01aba Damien Le Moal 2022-11-25  429  			ret = -EIO;
-4008e2a0b01aba Damien Le Moal 2022-11-25  430  		}
-4008e2a0b01aba Damien Le Moal 2022-11-25  431  	}
-4008e2a0b01aba Damien Le Moal 2022-11-25  432  
-4008e2a0b01aba Damien Le Moal 2022-11-25  433  	zonefs_file_write_dio_end_io(iocb, size, ret, 0);
-4008e2a0b01aba Damien Le Moal 2022-11-25  434  	trace_zonefs_file_dio_append(inode, size, ret);
-4008e2a0b01aba Damien Le Moal 2022-11-25  435  
-4008e2a0b01aba Damien Le Moal 2022-11-25  436  out_release:
-4008e2a0b01aba Damien Le Moal 2022-11-25  437  	bio_release_pages(bio, false);
-4008e2a0b01aba Damien Le Moal 2022-11-25  438  	bio_put(bio);
-4008e2a0b01aba Damien Le Moal 2022-11-25  439  
-4008e2a0b01aba Damien Le Moal 2022-11-25  440  	if (ret >= 0) {
-4008e2a0b01aba Damien Le Moal 2022-11-25 @441  		iocb->ki_pos += size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  442  		return size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  443  	}
-4008e2a0b01aba Damien Le Moal 2022-11-25  444  
-4008e2a0b01aba Damien Le Moal 2022-11-25  445  	return ret;
-4008e2a0b01aba Damien Le Moal 2022-11-25  446  }
+    22	
+    23	#define BUILD_BUG_STREQ(_var, idx, ref) \
+    24		BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref)))
+    25	
+    26	static void __used MAPH_BUILD_BUG(void)
+    27	{
+  > 28		BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
+  > 29		BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
+  > 30		BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
+    31	#if 0
+    32		/* properly breaks compile */
+    33		BUILD_BUG_STREQ(debug_cats, 1, "'not-in-map'");
+    34	#endif
+    35	}
+    36	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
