@@ -1,50 +1,51 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31971E4E1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 11:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629C91850
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 11:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679313165; x=1710849165;
+  t=1679313167; x=1710849167;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pY6RMccNGsHhbZXGtq3IwKsxdzht/Pg3LGEYE2HXpX8=;
-  b=Nz4RjxgGKfbWmbsTDaYonYTuskoU9j9jrBqILEaBSFzyw49wKwehwaGr
-   zn3oJSlEBgjwrrw2Bk6Hjb/L76NQpTQY1e2O0gXy19OLludTL6XW4SQaJ
-   dKGIb4aF3+R40Nq07kBPNOn+WRGs1seMLkIhU42BW+CMyiB2/iqtUslWL
-   +9P6smfTcyMK4Dtmtti7QDhl0F6SJ1U73szV8EKmUjrSWJnziBkoOcAVH
-   fKMlOBnxBPcsGf8Tx87MeDn5sp9SRDnJ3JpivN98iUUdh9xrRb3QWmi8h
-   A4VqNBC8D71jE99ID7dmInTiFjrVYeij5E+KzLY2howrjpGp/7w7Ltjbl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="338665528"
+  bh=qaX/W4NW8LL69k/iCe59nSe6R3T+aQljmr/TjYHn54c=;
+  b=UnfgcegOda+EfPRQmwtg4l8On0WJymWGxQObON3G/lbte4X57hA/gwr6
+   RlzjFoE1mOZc4Ce8c2vrd+3XHYDXFXz50iU2SOt1+ZePqgfOL4Z/pFpoU
+   G/YQMEJrnpwDWaj6W3eOUipwlXJvQTNhiw771RezCW/uUuVMl8QFOSGzG
+   /KHm6IzVqhwYNZisnbPt2SZkzaBmjoSdmHYKk9120+GWLPTnlwvQna+Q1
+   SVHDGRCufFOO54oL4Wo8tqPracNp6kK88qZS6RLHc1eASG/2syu3Ryqj5
+   qaWhg7qxht3vMHfJ4MpK2rGezA7Ckb7g66A4z+IC3mhNcid6a0pJ4/+No
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="319040810"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="338665528"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 04:52:44 -0700
+   d="scan'208";a="319040810"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 04:52:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="770170296"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="631096984"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="770170296"
+   d="scan'208";a="631096984"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2023 04:52:42 -0700
+  by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 04:52:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peE49-000B1N-1L;
+	id 1peE49-000B1J-0x;
 	Mon, 20 Mar 2023 11:52:41 +0000
 Date: Mon, 20 Mar 2023 19:51:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: [PATCH] wifi: brcmfmac: Fix SDIO suspend/resume regression
-Message-ID: <202303201958.knUoo50R-lkp@intel.com>
-References: <20230320101345.105714-1-hdegoede@redhat.com>
+To: Yu Zhe <yuzhe@nfschina.com>, andersson@kernel.org,
+	mathieu.poirier@linaro.org, angelogioacchino.delregno@collabora.com,
+	agross@kernel.org, konrad.dybcio@linaro.org,
+	patrice.chotard@foss.st.com, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, liqiong@nfschina.com,
+	Yu Zhe <yuzhe@nfschina.com>
+Subject: Re: [PATCH v2] remoteproc: remove unnecessary (void*) conversions
+Message-ID: <202303201947.sffcGruP-lkp@intel.com>
+References: <20230320061157.29660-1-yuzhe@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,122 +54,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320101345.105714-1-hdegoede@redhat.com>
+In-Reply-To: <20230320061157.29660-1-yuzhe@nfschina.com>
 
-Hi Hans,
+Hi Yu,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.3-rc3 next-20230320]
+[auto build test WARNING on v6.3-rc3]
+[also build test WARNING on linus/master]
+[cannot apply to remoteproc/rproc-next next-20230320]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/wifi-brcmfmac-Fix-SDIO-suspend-resume-regression/20230320-181456
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230320101345.105714-1-hdegoede%40redhat.com
-patch subject: [PATCH] wifi: brcmfmac: Fix SDIO suspend/resume regression
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303201958.knUoo50R-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Zhe/remoteproc-remove-unnecessary-void-conversions/20230320-141403
+patch link:    https://lore.kernel.org/r/20230320061157.29660-1-yuzhe%40nfschina.com
+patch subject: [PATCH v2] remoteproc: remove unnecessary (void*) conversions
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230320/202303201947.sffcGruP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cc08330c25aed804a422164413a39e67bfc1c277
+        # https://github.com/intel-lab-lkp/linux/commit/38335303eda6c4de037cd00e20c9065a76f82291
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hans-de-Goede/wifi-brcmfmac-Fix-SDIO-suspend-resume-regression/20230320-181456
-        git checkout cc08330c25aed804a422164413a39e67bfc1c277
+        git fetch --no-tags linux-review Yu-Zhe/remoteproc-remove-unnecessary-void-conversions/20230320-141403
+        git checkout 38335303eda6c4de037cd00e20c9065a76f82291
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/wireless/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303201958.knUoo50R-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303201947.sffcGruP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c: In function 'brcmf_ops_sdio_probe':
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c:1034:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-    1034 |         struct device *dev;
-         |                        ^~~
+   drivers/remoteproc/st_remoteproc.c: In function 'st_rproc_probe':
+>> drivers/remoteproc/st_remoteproc.c:361:23: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     361 |         ddata->config = match->data;
+         |                       ^
 
 
-vim +/dev +1034 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
+vim +/const +361 drivers/remoteproc/st_remoteproc.c
 
-00e27eeb75bb91 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2015-05-27  1027  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1028  static int brcmf_ops_sdio_probe(struct sdio_func *func,
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1029  				const struct sdio_device_id *id)
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1030  {
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1031  	int err;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1032  	struct brcmf_sdio_dev *sdiodev;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1033  	struct brcmf_bus *bus_if;
-f0992ace680c7a drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Fu, Zhonghui     2015-05-11 @1034  	struct device *dev;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1035  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1036  	brcmf_dbg(SDIO, "Enter\n");
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1037  	brcmf_dbg(SDIO, "Class=%x\n", func->class);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1038  	brcmf_dbg(SDIO, "sdio vendor ID: 0x%04x\n", func->vendor);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1039  	brcmf_dbg(SDIO, "sdio device ID: 0x%04x\n", func->device);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1040  	brcmf_dbg(SDIO, "Function#: %d\n", func->num);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1041  
-f0992ace680c7a drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Fu, Zhonghui     2015-05-11  1042  	dev = &func->dev;
-508422f3695bf6 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Ian Molton       2017-12-19  1043  
-508422f3695bf6 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Ian Molton       2017-12-19  1044  	/* Set MMC_QUIRK_LENIENT_FN0 for this card */
-508422f3695bf6 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Ian Molton       2017-12-19  1045  	func->card->quirks |= MMC_QUIRK_LENIENT_FN0;
-508422f3695bf6 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Ian Molton       2017-12-19  1046  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1047  	/* Consume func num 1 but dont do anything with it. */
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1048  	if (func->num == 1)
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1049  		return 0;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1050  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1051  	/* Ignore anything but func 2 */
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1052  	if (func->num != 2)
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1053  		return -ENODEV;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1054  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1055  	bus_if = kzalloc(sizeof(struct brcmf_bus), GFP_KERNEL);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1056  	if (!bus_if)
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1057  		return -ENOMEM;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1058  	sdiodev = kzalloc(sizeof(struct brcmf_sdio_dev), GFP_KERNEL);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1059  	if (!sdiodev) {
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1060  		kfree(bus_if);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1061  		return -ENOMEM;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1062  	}
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1063  
-36c4e7e4aa0605 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1064  	/* store refs to functions used. mmc_card does
-36c4e7e4aa0605 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1065  	 * not hold the F0 function pointer.
-36c4e7e4aa0605 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1066  	 */
-c9aa7a91de740c drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend Van Spriel 2018-01-09  1067  	sdiodev->func1 = func->card->sdio_func[0];
-c9aa7a91de740c drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend Van Spriel 2018-01-09  1068  	sdiodev->func2 = func;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1069  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1070  	sdiodev->bus_if = bus_if;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1071  	bus_if->bus_priv.sdio = sdiodev;
-943258b6a3b1fe drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Hante Meuleman   2013-12-12  1072  	bus_if->proto_type = BRCMF_PROTO_BCDC;
-da6d9c8ecd00e2 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend van Spriel 2022-11-29  1073  	bus_if->fwvid = id->driver_data;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1074  	dev_set_drvdata(&func->dev, bus_if);
-c9aa7a91de740c drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend Van Spriel 2018-01-09  1075  	dev_set_drvdata(&sdiodev->func1->dev, bus_if);
-c9aa7a91de740c drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend Van Spriel 2018-01-09  1076  	sdiodev->dev = &sdiodev->func1->dev;
-330b4e4be937bf drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Hante Meuleman   2014-10-28  1077  
-cc08330c25aed8 drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Hans de Goede    2023-03-20  1078  	brcmf_sdiod_acpi_save_power_manageable(sdiodev);
-a1ce7a0d6a4f1e drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2015-02-06  1079  	brcmf_sdiod_change_state(sdiodev, BRCMF_SDIOD_DOWN);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1080  
-a39be27b49e309 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1081  	brcmf_dbg(SDIO, "F2 found, calling brcmf_sdiod_probe...\n");
-a39be27b49e309 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1082  	err = brcmf_sdiod_probe(sdiodev);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1083  	if (err) {
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1084  		brcmf_err("F2 error, probe failed %d...\n", err);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1085  		goto fail;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1086  	}
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1087  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1088  	brcmf_dbg(SDIO, "F2 init completed...\n");
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1089  	return 0;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1090  
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1091  fail:
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1092  	dev_set_drvdata(&func->dev, NULL);
-c9aa7a91de740c drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c Arend Van Spriel 2018-01-09  1093  	dev_set_drvdata(&sdiodev->func1->dev, NULL);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1094  	kfree(sdiodev);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1095  	kfree(bus_if);
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1096  	return err;
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1097  }
-e2dc9eea531ec9 drivers/net/wireless/brcm80211/brcmfmac/bcmsdh.c          Arend van Spriel 2013-12-12  1098  
+   337	
+   338	static int st_rproc_probe(struct platform_device *pdev)
+   339	{
+   340		struct device *dev = &pdev->dev;
+   341		const struct of_device_id *match;
+   342		struct st_rproc *ddata;
+   343		struct device_node *np = dev->of_node;
+   344		struct rproc *rproc;
+   345		struct mbox_chan *chan;
+   346		int enabled;
+   347		int ret, i;
+   348	
+   349		match = of_match_device(st_rproc_match, dev);
+   350		if (!match || !match->data) {
+   351			dev_err(dev, "No device match found\n");
+   352			return -ENODEV;
+   353		}
+   354	
+   355		rproc = rproc_alloc(dev, np->name, &st_rproc_ops, NULL, sizeof(*ddata));
+   356		if (!rproc)
+   357			return -ENOMEM;
+   358	
+   359		rproc->has_iommu = false;
+   360		ddata = rproc->priv;
+ > 361		ddata->config = match->data;
+   362	
+   363		platform_set_drvdata(pdev, rproc);
+   364	
+   365		ret = st_rproc_parse_dt(pdev);
+   366		if (ret)
+   367			goto free_rproc;
+   368	
+   369		enabled = st_rproc_state(pdev);
+   370		if (enabled < 0) {
+   371			ret = enabled;
+   372			goto free_clk;
+   373		}
+   374	
+   375		if (enabled) {
+   376			atomic_inc(&rproc->power);
+   377			rproc->state = RPROC_RUNNING;
+   378		} else {
+   379			clk_set_rate(ddata->clk, ddata->clk_rate);
+   380		}
+   381	
+   382		if (of_get_property(np, "mbox-names", NULL)) {
+   383			ddata->mbox_client_vq0.dev		= dev;
+   384			ddata->mbox_client_vq0.tx_done		= NULL;
+   385			ddata->mbox_client_vq0.tx_block	= false;
+   386			ddata->mbox_client_vq0.knows_txdone	= false;
+   387			ddata->mbox_client_vq0.rx_callback	= st_rproc_mbox_callback_vq0;
+   388	
+   389			ddata->mbox_client_vq1.dev		= dev;
+   390			ddata->mbox_client_vq1.tx_done		= NULL;
+   391			ddata->mbox_client_vq1.tx_block	= false;
+   392			ddata->mbox_client_vq1.knows_txdone	= false;
+   393			ddata->mbox_client_vq1.rx_callback	= st_rproc_mbox_callback_vq1;
+   394	
+   395			/*
+   396			 * To control a co-processor without IPC mechanism.
+   397			 * This driver can be used without mbox and rpmsg.
+   398			 */
+   399			chan = mbox_request_channel_byname(&ddata->mbox_client_vq0, "vq0_rx");
+   400			if (IS_ERR(chan)) {
+   401				dev_err(&rproc->dev, "failed to request mbox chan 0\n");
+   402				ret = PTR_ERR(chan);
+   403				goto free_clk;
+   404			}
+   405			ddata->mbox_chan[ST_RPROC_VQ0 * MBOX_MAX + MBOX_RX] = chan;
+   406	
+   407			chan = mbox_request_channel_byname(&ddata->mbox_client_vq0, "vq0_tx");
+   408			if (IS_ERR(chan)) {
+   409				dev_err(&rproc->dev, "failed to request mbox chan 0\n");
+   410				ret = PTR_ERR(chan);
+   411				goto free_mbox;
+   412			}
+   413			ddata->mbox_chan[ST_RPROC_VQ0 * MBOX_MAX + MBOX_TX] = chan;
+   414	
+   415			chan = mbox_request_channel_byname(&ddata->mbox_client_vq1, "vq1_rx");
+   416			if (IS_ERR(chan)) {
+   417				dev_err(&rproc->dev, "failed to request mbox chan 1\n");
+   418				ret = PTR_ERR(chan);
+   419				goto free_mbox;
+   420			}
+   421			ddata->mbox_chan[ST_RPROC_VQ1 * MBOX_MAX + MBOX_RX] = chan;
+   422	
+   423			chan = mbox_request_channel_byname(&ddata->mbox_client_vq1, "vq1_tx");
+   424			if (IS_ERR(chan)) {
+   425				dev_err(&rproc->dev, "failed to request mbox chan 1\n");
+   426				ret = PTR_ERR(chan);
+   427				goto free_mbox;
+   428			}
+   429			ddata->mbox_chan[ST_RPROC_VQ1 * MBOX_MAX + MBOX_TX] = chan;
+   430		}
+   431	
+   432		ret = rproc_add(rproc);
+   433		if (ret)
+   434			goto free_mbox;
+   435	
+   436		return 0;
+   437	
+   438	free_mbox:
+   439		for (i = 0; i < ST_RPROC_MAX_VRING * MBOX_MAX; i++)
+   440			mbox_free_channel(ddata->mbox_chan[i]);
+   441	free_clk:
+   442		clk_unprepare(ddata->clk);
+   443	free_rproc:
+   444		rproc_free(rproc);
+   445		return ret;
+   446	}
+   447	
 
 -- 
 0-DAY CI Kernel Test Service
