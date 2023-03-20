@@ -1,44 +1,58 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C216FBE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 20:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748D26FBE;
+	Mon, 20 Mar 2023 20:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679344564; x=1710880564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l4wHhnKc2pnm06IKf1te1HmcSe0dYpq8ge5bKAmojoY=;
-  b=g8GategtHoErKymiCPNqoZO040lBApxkRbx4wZTFqtzglaPnN5enClgg
-   Cll+llQ4cwbmnVdnUYB9+E7YefxCtx6Ea0b3OTZoIdr7tl7socxFPxbZc
-   31P9Z+DiOmcdn1AgQbSnFtxW5QuhYgWW3LY9xI3Bx0NttfjJ/Tej/zpOn
-   ZC4Q//cyQAx7Lk8U5ExLdd7MlQN5tGBB3AHwGucs1UInr8Lvsow/4u+B+
-   1yr25cIdkYIsLrFTcZxpk0Ho3/4neryQCvf7w08mYQ05idYPLgUGPq69x
-   NxFiHrd5ahiGBLr02+vYFFJJJPe3NBXoOePPA+s0iZI5keZ8I0BJZSI72
+  t=1679344566; x=1710880566;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UsoZniJEJWP45lJ5ecD6XZcUsmbUa2BKs5hpD4ZsmmI=;
+  b=S4bv9s5vtp72P/pp+XFZdqWgGeiydVVHXGC3/vEIysCMZVltQPxMiIq4
+   3jngxuo/Tx9b7V+kqVofE5yj2Nly2vMVZv0MHBLNewnoE4GrN24l4IDBA
+   H5YTW8crKdnGjHLsgSxTH1AjCbARaY70MjQUJa3M+aQ7iCc839g1X0VMq
+   ZQjfYPbtkf7PAovSzbvul+tb+bmwJ8ncbiAPnnm0zf4AUsgJcH0lBtLj7
+   5iCh4tcL+ruhHVF7t+p2eGH+/+WAyswiL4YZHwdU2iJUysIgehN/zkq4b
+   nGITdGE/p72b+e/qmSH7rnKP5LGi2RM+FAaIGpxe04CmsDvVF4qvdiQyk
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338800526"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318424176"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="338800526"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:36:03 -0700
+   d="scan'208";a="318424176"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 13:36:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631263094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="681223530"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="631263094"
+   d="scan'208";a="681223530"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 13:36:01 -0700
+  by orsmga002.jf.intel.com with ESMTP; 20 Mar 2023 13:36:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peMEW-000BIS-0O;
+	id 1peMEW-000BIY-0e;
 	Mon, 20 Mar 2023 20:35:56 +0000
-Date: Tue, 21 Mar 2023 04:34:59 +0800
+Date: Tue, 21 Mar 2023 04:34:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 1/1] lib/test_map_h.c:28:2: error: call to
- __compiletime_assert_174 declared with 'error' attribute: BUILD_BUG_ON
- failed: __builtin_memcmp(debug_cats_slist[0], "DRMx_CORE",
- sizeof("DRMx_CORE") - 1)
-Message-ID: <202303210403.BRMYWSmz-lkp@intel.com>
+To: Nuno =?iso-8859-1?Q?Gon=E7alves?= <nunog@fr24.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Nuno =?iso-8859-1?Q?Gon=E7alves?= <nunog@fr24.com>,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] xsk: allow remap of fill and/or completion rings
+Message-ID: <202303210446.mO2yxOwo-lkp@intel.com>
+References: <20230320105323.187307-1-nunog@fr24.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,116 +61,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230320105323.187307-1-nunog@fr24.com>
 
-tree:   https://github.com/jimc/linux.git maph
-head:   4ca8648cb8696436472c03ed39c97dee528596fc
-commit: 4ca8648cb8696436472c03ed39c97dee528596fc [1/1] include/linux/map.h: add new header, test it with test_map_h.c (RFC)
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20230321/202303210403.BRMYWSmz-lkp@intel.com/config)
+Hi Nuno,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Gon-alves/xsk-allow-remap-of-fill-and-or-completion-rings/20230320-190022
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230320105323.187307-1-nunog%40fr24.com
+patch subject: [PATCH bpf-next] xsk: allow remap of fill and/or completion rings
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230321/202303210446.mO2yxOwo-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/4ca8648cb8696436472c03ed39c97dee528596fc
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout 4ca8648cb8696436472c03ed39c97dee528596fc
+        # https://github.com/intel-lab-lkp/linux/commit/56f6a0c68dd5f4419fd7685cc83ceee2c70f3f2e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nuno-Gon-alves/xsk-allow-remap-of-fill-and-or-completion-rings/20230320-190022
+        git checkout 56f6a0c68dd5f4419fd7685cc83ceee2c70f3f2e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/xdp/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210403.BRMYWSmz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210446.mO2yxOwo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/test_map_h.c:28:2: error: call to __compiletime_assert_174 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[0], "DRMx_CORE", sizeof("DRMx_CORE") - 1)
-           BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-           ^
-   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref) - 1))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:15:1: note: expanded from here
-   __compiletime_assert_174
-   ^
->> lib/test_map_h.c:29:2: error: call to __compiletime_assert_175 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[1], "DRMx_DRIVER", sizeof("DRMx_DRIVER") - 1)
-           BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
-           ^
-   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref) - 1))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:20:1: note: expanded from here
-   __compiletime_assert_175
-   ^
->> lib/test_map_h.c:30:2: error: call to __compiletime_assert_176 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_slist[2], "DRMx_KMS", sizeof("DRMx_KMS") - 1)
-           BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
-           ^
-   lib/test_map_h.c:24:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref) - 1))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:25:1: note: expanded from here
-   __compiletime_assert_176
-   ^
-   3 errors generated.
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+           int state = READ_ONCE(xs->state);
+                                 ^
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:24: error: use of undeclared identifier 'xs'
+>> net/xdp/xsk.c:1303:6: error: initializing 'int' with an expression of incompatible type 'void'
+           int state = READ_ONCE(xs->state);
+               ^       ~~~~~~~~~~~~~~~~~~~~
+>> net/xdp/xsk.c:1318:8: error: cannot take the address of an rvalue of type 'struct xsk_queue *'
+                           q = READ_ONCE(state == XSK_READY ? xs->fq_tmp :
+                               ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^           ~
+   include/asm-generic/rwonce.h:44:70: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                         ^ ~
+   net/xdp/xsk.c:1321:8: error: cannot take the address of an rvalue of type 'struct xsk_queue *'
+                           q = READ_ONCE(state == XSK_READY ? xs->cq_tmp :
+                               ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^           ~
+   include/asm-generic/rwonce.h:44:70: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                         ^ ~
+   10 errors generated.
 
 
-vim +28 lib/test_map_h.c
+vim +/xs +1303 net/xdp/xsk.c
 
-    22	
-    23	#define BUILD_BUG_STREQ(_var, idx, ref) \
-    24		BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref) - 1))
-    25	
-    26	static void __used MAPH_BUILD_BUG(void)
-    27	{
-  > 28		BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-  > 29		BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
-  > 30		BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
-    31	#if 0
-    32		/* properly breaks compile */
-    33		BUILD_BUG_STREQ(debug_cats, 1, "'not-in-map'");
-    34	#endif
-    35	}
-    36	
+  1297	
+  1298	static int xsk_mmap(struct file *file, struct socket *sock,
+  1299			    struct vm_area_struct *vma)
+  1300	{
+  1301		loff_t offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
+  1302		unsigned long size = vma->vm_end - vma->vm_start;
+> 1303		int state = READ_ONCE(xs->state);
+  1304		struct xdp_sock *xs = xdp_sk(sock->sk);
+  1305		struct xsk_queue *q = NULL;
+  1306	
+  1307		if (!(state == XSK_READY || state == XSK_BOUND))
+  1308			return -EBUSY;
+  1309	
+  1310		if (offset == XDP_PGOFF_RX_RING) {
+  1311			q = READ_ONCE(xs->rx);
+  1312		} else if (offset == XDP_PGOFF_TX_RING) {
+  1313			q = READ_ONCE(xs->tx);
+  1314		} else {
+  1315			/* Matches the smp_wmb() in XDP_UMEM_REG */
+  1316			smp_rmb();
+  1317			if (offset == XDP_UMEM_PGOFF_FILL_RING)
+> 1318				q = READ_ONCE(state == XSK_READY ? xs->fq_tmp :
+  1319								   xs->pool->fq);
+  1320			else if (offset == XDP_UMEM_PGOFF_COMPLETION_RING)
+  1321				q = READ_ONCE(state == XSK_READY ? xs->cq_tmp :
+  1322								   xs->pool->cq);
+  1323		}
+  1324	
+  1325		if (!q)
+  1326			return -EINVAL;
+  1327	
+  1328		/* Matches the smp_wmb() in xsk_init_queue */
+  1329		smp_rmb();
+  1330		if (size > q->ring_vmalloc_size)
+  1331			return -EINVAL;
+  1332	
+  1333		return remap_vmalloc_range(vma, q->ring, 0);
+  1334	}
+  1335	
 
 -- 
 0-DAY CI Kernel Test Service
