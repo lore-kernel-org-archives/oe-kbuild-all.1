@@ -1,50 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BBD7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 18:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE56C4C7D;
+	Mon, 20 Mar 2023 19:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679335867; x=1710871867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KGgMVkVYkzc5hGwH7fgh8riyDfxHum9YPyo5UnckO5Q=;
-  b=FkTaA4vTMNNZ0vksnDfuOwHqoO2HaadSePmutyNlVb0eiLeUGL2chVDw
-   xAxx7LCOPjntBIdRn3yUJp+RCFFYpd0h31e83IUgYz8alBpqVnS65dKD7
-   /409JVzXqPPK3RNA5DuJfKgoxE8++hAnNeLbcyY0gpAyZzmji07lzK3Js
-   MNjBr7Se51737qRZvD+8AhlvUxvD+q7QTkm1I4Oml4Mh4OJVPjE+aE8o5
-   SkEoiGx0W2B31A+NiIiOlQexp2s/BcdV0PcJ32hDnod2hrw7VSQgiWVkl
-   R6A7Ckmxw5dCsOorACkmGPymIGRXN2/XqZOsS650MmquOYNKcqHXmT+wo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338764981"
+  t=1679339518; x=1710875518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mp86ARg4Ea6mWal56HwOWNypatWBtIqfnGG178l/JAs=;
+  b=TUvNtYmcJzlQePV2xFxiRiNhY3Kw6KhBzGNZUW427OsbUV8C0vPvPeP0
+   pMU3a7m8MrEmKGtz6qa+tXX1CepenWXY4DP9A+C+4VL1/tnrAgcZTIEtN
+   OlyxcP6Pv3mSvmD2RX4O6PP4ZA5GacoZm6pN7qf2Z697sXJ935qA4yKnz
+   f/arYZMfTDr3U8K439skFKnG5Nkhd/cd1b2GiiXScwXYYOaXNPHt/Mrvc
+   V6GojV5FrtHOmQcMKH8n3cKRr8RuLLN6w3QGaJG7QWxcsIi0kj8w6/nJz
+   DqO5Z2ZZ5jSh5msLNIauaJNFYJlwYUvegymVgRf9X2ACpX0iAy6oombQ9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="336259207"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="338764981"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 11:10:57 -0700
+   d="scan'208";a="336259207"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 12:11:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="927063951"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="750228316"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="927063951"
+   d="scan'208";a="750228316"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2023 11:10:53 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 20 Mar 2023 12:11:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peJy8-000BDZ-1J;
-	Mon, 20 Mar 2023 18:10:52 +0000
-Date: Tue, 21 Mar 2023 02:10:39 +0800
+	id 1peKvB-000BFC-2t;
+	Mon, 20 Mar 2023 19:11:53 +0000
+Date: Tue, 21 Mar 2023 03:11:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-	airlied@gmail.com, daniel@ffwll.ch,
-	jacek.lawrynowicz@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	dafna@fastmail.com, linux-doc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-	quic_carlv@quicinc.com
-Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
-Message-ID: <202303210148.859DLhtz-lkp@intel.com>
-References: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [rt-devel:linux-6.3.y-rt-rebase 35/68]
+ kernel/printk/printk.c:3365:6: warning: no previous prototype for function
+ 'console_bkl_kthread_create'
+Message-ID: <202303210343.V4vEbtmt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,58 +47,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 
-Hi Jeffrey,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on lwn/docs-next linus/master v6.3-rc3 next-20230320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1679325074-5494-7-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
-reproduce:
-        make versioncheck
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.3.y-rt-rebase
+head:   65d172fdb862a825eace9b418119a5aa2461a3ff
+commit: 2e100b3dc2cb1a8a4b64b0dc84dd6e4b9768a3b8 [35/68] printk: Add threaded printing support for BKL consoles.
+config: hexagon-randconfig-r045-20230320 (https://download.01.org/0day-ci/archive/20230321/202303210343.V4vEbtmt-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=2e100b3dc2cb1a8a4b64b0dc84dd6e4b9768a3b8
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-6.3.y-rt-rebase
+        git checkout 2e100b3dc2cb1a8a4b64b0dc84dd6e4b9768a3b8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/printk/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210148.859DLhtz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210343.V4vEbtmt-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/accel/qaic/mhi_qaic_ctrl.c: 9 linux/version.h not needed.
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> kernel/printk/printk.c:3365:6: warning: no previous prototype for function 'console_bkl_kthread_create' [-Wmissing-prototypes]
+   void console_bkl_kthread_create(void)
+        ^
+   kernel/printk/printk.c:3365:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void console_bkl_kthread_create(void)
+   ^
+   static 
+   7 warnings generated.
+
+
+vim +/console_bkl_kthread_create +3365 kernel/printk/printk.c
+
+  3364	
+> 3365	void console_bkl_kthread_create(void)
+  3366	{
+  3367		struct task_struct *kt;
+  3368		struct console *c;
+  3369	
+  3370		lockdep_assert_held(&console_mutex);
+  3371	
+  3372		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+  3373			return;
+  3374	
+  3375		if (!printk_threads_enabled || console_bkl_kthread)
+  3376			return;
+  3377	
+  3378		for_each_console(c) {
+  3379			if (c->flags & CON_BOOT)
+  3380				return;
+  3381		}
+  3382	
+  3383		kt = kthread_run(console_bkl_kthread_func, NULL, "pr/bkl");
+  3384		if (IS_ERR(kt)) {
+  3385			pr_err("unable to start BKL printing thread\n");
+  3386			return;
+  3387		}
+  3388	
+  3389		console_bkl_kthread = kt;
+  3390	
+  3391		/*
+  3392		 * It is important that console printing threads are scheduled
+  3393		 * shortly after a printk call and with generous runtime budgets.
+  3394		 */
+  3395		sched_set_normal(console_bkl_kthread, -20);
+  3396	}
+  3397	
 
 -- 
 0-DAY CI Kernel Test Service
