@@ -1,43 +1,44 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B511861
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 13:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8DA1861
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 13:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679317510; x=1710853510;
+  t=1679318087; x=1710854087;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q3QPUUkGvy4I02ZnqncjmhVs5TLqBKNyyltpb0wA9Qw=;
-  b=Y13Pr+5mxc/Ftg7rnojbOTlxTKhIkDl1pOoK7woNfdpxqmppYyUZBEwV
-   kgyluj7+EdZUdC7b5Bb3phaswEvzqnLL6O2wmwi4IrypTXN8SiRSqBxO5
-   3haFQokntrGO79veD5JZJ6W1QZN+sFtRLNT4ZjoLWgYTEDmA2Cb6aZuKI
-   zgzxorIzzzm9VGwbdfF23bxOXimfCIjeLXpWOVKvERRomTIkGaIpLntx8
-   IJL1ilxJFs+Inajb9Py2LUczx5s7EsUaot7eaWzYMVUeU57Ysb5rm60ti
-   064QF1w18haBemunv0QBefq6GRA718i/kUEd+Wh96jKD5+BIi1uymxBV4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="322494898"
+  bh=KrhrKa5vsAfTp1XKV/Jg584vYmw1ySNY4eD9B4BH/fo=;
+  b=SsTEdBJQAhOfV5WKIQXyNStaB5p38fvE15FTpVdSowPZYfCJunKVSq6L
+   oJR2hARzeZ/S/liBDnQkZwQMeEPJb6wIJBbjOwnnD6Egbo9L06gqHMD8V
+   uNKjPlzVGSamsIMtAqER1a+va65WxEQPmSZoktsrHoZ8BbA6WA49my0nZ
+   KXW92XquI7TVNF2+HMuP+DhEkVsriFa+r50mLrVm8LcplnnyFzi/kkd3g
+   QtjPidIPylW7mGLlO0Jp3h7agvR9d3Fv6mkJhdicAqbqWo+uJrwjlVmzF
+   ObBf0Sj242Y6Stq37PWNngVJR6tGsmic/yb9964AR33ifPCeEBRwtvb9J
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="322497724"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="322494898"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 06:04:44 -0700
+   d="scan'208";a="322497724"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 06:14:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="791604671"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="711350879"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="791604671"
+   d="scan'208";a="711350879"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2023 06:04:43 -0700
+  by orsmga008.jf.intel.com with ESMTP; 20 Mar 2023 06:14:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peFBq-000B2s-1r;
-	Mon, 20 Mar 2023 13:04:42 +0000
-Date: Mon, 20 Mar 2023 21:04:00 +0800
+	id 1peFLW-000B34-29;
+	Mon, 20 Mar 2023 13:14:42 +0000
+Date: Mon, 20 Mar 2023 21:14:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:core/urgent 1/1] include/linux/context_tracking.h:99:19: error:
- redefinition of '__ct_state'
-Message-ID: <202303202052.lv1EF1t6-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: [linux-next:master 2621/4847] loongarch64-linux-ld:
+ clk-mt8173-apmixedsys.c:undefined reference to `mtk_clk_register_pllfhs'
+Message-ID: <202303202113.O9pAgJGQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,75 +48,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/urgent
-head:   3e2619c4ebba2cab8414c55b131b7a28f628de3b
-commit: 3e2619c4ebba2cab8414c55b131b7a28f628de3b [1/1] entry: Fix noinstr warning in __enter_from_user_mode()
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303202052.lv1EF1t6-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
+commit: a451da86cf6d10e94372d20622ec41aac9ec00b5 [2621/4847] clk: mediatek: Add MODULE_LICENSE() where missing
+config: loongarch-randconfig-r021-20230320 (https://download.01.org/0day-ci/archive/20230320/202303202113.O9pAgJGQ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=3e2619c4ebba2cab8414c55b131b7a28f628de3b
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip core/urgent
-        git checkout 3e2619c4ebba2cab8414c55b131b7a28f628de3b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=a451da86cf6d10e94372d20622ec41aac9ec00b5
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout a451da86cf6d10e94372d20622ec41aac9ec00b5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303202052.lv1EF1t6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303202113.O9pAgJGQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/kvm_host.h:26,
-                    from arch/powerpc/include/asm/kvm_ppc.h:19,
-                    from arch/powerpc/include/asm/dbell.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:36:
->> include/linux/context_tracking.h:99:19: error: redefinition of '__ct_state'
-      99 | static inline int __ct_state(void) { return -1; }
-         |                   ^~~~~~~~~~
-   In file included from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/powerpc/kernel/asm-offsets.c:21:
-   include/linux/context_tracking_state.h:50:28: note: previous definition of '__ct_state' with type 'int(void)'
-      50 | static __always_inline int __ct_state(void)
-         |                            ^~~~~~~~~~
-   make[2]: *** [scripts/Makefile.build:114: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/__ct_state +99 include/linux/context_tracking.h
-
-    90	
-    91	#else
-    92	static inline void user_enter(void) { }
-    93	static inline void user_exit(void) { }
-    94	static inline void user_enter_irqoff(void) { }
-    95	static inline void user_exit_irqoff(void) { }
-    96	static inline int exception_enter(void) { return 0; }
-    97	static inline void exception_exit(enum ctx_state prev_ctx) { }
-    98	static inline int ct_state(void) { return -1; }
-  > 99	static inline int __ct_state(void) { return -1; }
-   100	static __always_inline bool context_tracking_guest_enter(void) { return false; }
-   101	static inline void context_tracking_guest_exit(void) { }
-   102	#define CT_WARN_ON(cond) do { } while (0)
-   103	#endif /* !CONFIG_CONTEXT_TRACKING_USER */
-   104	
+   loongarch64-linux-ld: loongarch64-linux-ld: DWARF error: could not find abbrev number 13498
+   drivers/clk/mediatek/clk-mt8173-apmixedsys.o: in function `clk_mt8173_apmixed_remove':
+   clk-mt8173-apmixedsys.c:(.text+0x3c): undefined reference to `mtk_clk_unregister_pllfhs'
+   loongarch64-linux-ld: drivers/clk/mediatek/clk-mt8173-apmixedsys.o: in function `.LBB29':
+   clk-mt8173-apmixedsys.c:(.text+0xe0): undefined reference to `fhctl_parse_dt'
+>> loongarch64-linux-ld: clk-mt8173-apmixedsys.c:(.text+0x104): undefined reference to `mtk_clk_register_pllfhs'
+   loongarch64-linux-ld: drivers/clk/mediatek/clk-mt8173-apmixedsys.o: in function `.L9':
+   clk-mt8173-apmixedsys.c:(.text+0x1c8): undefined reference to `mtk_clk_unregister_pllfhs'
+   loongarch64-linux-ld: loongarch64-linux-ld: DWARF error: could not find abbrev number 39877427
+   drivers/clk/mediatek/clk-mt8192.o: in function `clk_mt8192_apmixed_probe':
+   clk-mt8192.c:(.text+0x10c): undefined reference to `fhctl_parse_dt'
+   loongarch64-linux-ld: clk-mt8192.c:(.text+0x130): undefined reference to `mtk_clk_register_pllfhs'
+   loongarch64-linux-ld: clk-mt8192.c:(.text+0x1ac): undefined reference to `mtk_clk_unregister_pllfhs'
 
 -- 
 0-DAY CI Kernel Test Service
