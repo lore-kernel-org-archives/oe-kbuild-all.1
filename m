@@ -1,42 +1,42 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73479440
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 12:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AF59440
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 12:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679401416; x=1710937416;
+  t=1679401419; x=1710937419;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rIZtjHaw5hRigleGcBnLjv0NGQu3n0Rfjoi9eQIWZr4=;
-  b=SCozeZ1Qjbzzvo7KDZZ2y2rN3aw4W8uMhdHgedoFPJDA0mvSkdPhco/r
-   MT6jC5Pha5HLE1pBrB0eZ5+8/3KUtcuUtkZC1j/Zq++yXCzkn+qTOMHhg
-   9q5/x4V7keKTnsKDRYgmwvibsgN9P0nFzlYPF1Gq+EyyCKfKf+fVZETDm
-   JfNdTqWo+q5+k3HJOCFw+/YZKKrpHeEeWcLbohE9BcqrM8ZMIWe0/W9Ie
-   fTaq19pHjloGCqZdaI4aqjoadBxWuxeYvK89zdTPbC0lGEXxwXUt/wt6U
-   DNp4hM9NlBp6U88C5h0N4sscR/aUkGjl99gykac005phYHoOgNGuFgrvx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318578498"
+  bh=MY4ooFHwmIVSjjXzuIlpRJal62ra8e+as3lN/C+3MQE=;
+  b=PqOHpJJw5g1jC1ohjj3npomtAJNIBwcvYv64UmtsM1lzOUtTjcfqxZNz
+   tEj0Fm+HiFK2YmsAQ0u88XxUa8QZoXIiw+qsjJW+7oZbGhc+Osbe3zdMV
+   T/QSZsqUoyejXok8e7D61UjahozK69FunG8p69TJu0uIWOvKrSKIpjZ21
+   DIt5sDR7dbfaZJGjN+U/JWaH+VJbfbawULFwBY46MbLxLvasMTHzywSDB
+   9ePPix1vSI1NwZzlCECTcJC5xLomXtIHvLNwA8rC5xMiCITRBZu96yl5N
+   IEWushxgrKb5+NsIemyu9MdksSIbahGLPzXunylFUv5OoABHjadpsSIIo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318578501"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="318578498"
+   d="scan'208";a="318578501"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 05:23:35 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 05:23:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674818953"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674818955"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="674818953"
+   d="scan'208";a="674818955"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 21 Mar 2023 05:23:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peb1S-000BtW-2y;
+	id 1peb1S-000BtY-34;
 	Tue, 21 Mar 2023 12:23:26 +0000
 Date: Tue, 21 Mar 2023 20:23:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Faycal Benmlih <faycal.benmlih@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/platform/x86/socperf/socperfdrv.c:1307:6: warning: no
- previous prototype for 'socperf_Device_Control_Compat'
-Message-ID: <202303212026.A2pEDRu5-lkp@intel.com>
+Subject: drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no
+ previous prototype for 'SOCPERF_Read_Data3'
+Message-ID: <202303212055.CU0ANNT7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,7 +54,7 @@ tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
 head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
 commit: e65547c5a9bb37e907edecece4da7cb12dadea96 platform/x86: Use $(srctree) instead of $(src) to adapt to kbuild regression
 date:   2 years, 6 months ago
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230321/202303212026.A2pEDRu5-lkp@intel.com/config)
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230321/202303212055.CU0ANNT7-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/mchinth/linux/commit/e65547c5a9bb37e907edecece4da7cb12dadea96
@@ -64,27 +64,27 @@ reproduce (this is a W=1 build):
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303212026.A2pEDRu5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303212055.CU0ANNT7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no previous prototype for 'SOCPERF_Read_Data3' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no previous prototype for 'SOCPERF_Read_Data3' [-Wmissing-prototypes]
      203 | extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
          |             ^~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:885:1: warning: no previous prototype for 'SOCPERF_Switch_Group3' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:885:1: warning: no previous prototype for 'SOCPERF_Switch_Group3' [-Wmissing-prototypes]
      885 | SOCPERF_Switch_Group3(VOID)
          | ^~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1070:6: warning: no previous prototype for 'lwpmudrv_Stop_Mem' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:1070:6: warning: no previous prototype for 'lwpmudrv_Stop_Mem' [-Wmissing-prototypes]
     1070 | VOID lwpmudrv_Stop_Mem(VOID)
          |      ^~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1155:15: warning: no previous prototype for 'socperf_Service_IOCTL' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:1155:15: warning: no previous prototype for 'socperf_Service_IOCTL' [-Wmissing-prototypes]
     1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
          |               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1274:6: warning: no previous prototype for 'socperf_Device_Control' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:1274:6: warning: no previous prototype for 'socperf_Device_Control' [-Wmissing-prototypes]
     1274 | long socperf_Device_Control(IOCTL_USE_INODE struct file *filp,
          |      ^~~~~~~~~~~~~~~~~~~~~~
    In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
@@ -102,66 +102,7 @@ All warnings (new ones prefixed by >>):
     1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
          |               ^~~~~~~~~~~~~~~~~~~~~
    drivers/platform/x86/socperf/socperfdrv.c: At top level:
->> drivers/platform/x86/socperf/socperfdrv.c:1307:6: warning: no previous prototype for 'socperf_Device_Control_Compat' [-Wmissing-prototypes]
-    1307 | long socperf_Device_Control_Compat(struct file *filp, unsigned int cmd,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c: In function 'socperf_Device_Control_Compat':
-   drivers/platform/x86/socperf/socperfdrv.c:1336:40: error: passing argument 1 of 'socperf_Service_IOCTL' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
-         |                                        ^~~~
-         |                                        |
-         |                                        struct file *
-   In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
-   drivers/platform/x86/socperf/inc/control.h:85:39: note: expected 'struct inode *' but argument is of type 'struct file *'
-      85 | #define IOCTL_USE_INODE struct inode *inode,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1155:37: note: in expansion of macro 'IOCTL_USE_INODE'
-    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
-         |                                     ^~~~~~~~~~~~~~~
-   In file included from include/asm-generic/ioctl.h:5,
-                    from ./arch/x86/include/generated/uapi/asm/ioctl.h:1,
-                    from include/uapi/linux/ioctl.h:5,
-                    from include/uapi/linux/apm_bios.h:133,
-                    from include/linux/apm_bios.h:9,
-                    from arch/x86/include/uapi/asm/bootparam.h:44,
-                    from arch/x86/include/asm/mem_encrypt.h:17,
-                    from include/linux/mem_encrypt.h:17,
-                    from arch/x86/include/asm/processor-flags.h:6,
-                    from arch/x86/include/asm/processor.h:5,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:65,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:73,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/platform/x86/socperf/socperfdrv.c:55:
-   include/uapi/asm-generic/ioctl.h:96:57: warning: passing argument 2 of 'socperf_Service_IOCTL' makes pointer from integer without a cast [-Wint-conversion]
-      96 | #define _IOC_NR(nr)             (((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         unsigned int
-   drivers/platform/x86/socperf/socperfdrv.c:1336:46: note: in expansion of macro '_IOC_NR'
-    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
-         |                                              ^~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1155:66: note: expected 'struct file *' but argument is of type 'unsigned int'
-    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
-         |                                                     ~~~~~~~~~~~~~^~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1336:60: error: incompatible type for argument 3 of 'socperf_Service_IOCTL'
-    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
-         |                                                            ^~~~~~~~~~
-         |                                                            |
-         |                                                            IOCTL_ARGS_NODE {aka struct IOCTL_ARGS_NODE_S}
-   drivers/platform/x86/socperf/socperfdrv.c:1156:57: note: expected 'unsigned int' but argument is of type 'IOCTL_ARGS_NODE' {aka 'struct IOCTL_ARGS_NODE_S'}
-    1156 |                                            unsigned int cmd,
-         |                                            ~~~~~~~~~~~~~^~~
-   drivers/platform/x86/socperf/socperfdrv.c:1336:18: error: too few arguments to function 'socperf_Service_IOCTL'
-    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c:1155:15: note: declared here
-    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
-         |               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/socperf/socperfdrv.c: At top level:
-   drivers/platform/x86/socperf/socperfdrv.c:1358:5: warning: no previous prototype for 'SOCPERF_Abnormal_Terminate' [-Wmissing-prototypes]
+>> drivers/platform/x86/socperf/socperfdrv.c:1358:5: warning: no previous prototype for 'SOCPERF_Abnormal_Terminate' [-Wmissing-prototypes]
     1358 | int SOCPERF_Abnormal_Terminate(void)
          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
@@ -196,50 +137,256 @@ All warnings (new ones prefixed by >>):
     1397 |         .llseek = NULL,
          |                   ^~~~
    cc1: some warnings being treated as errors
+--
+   drivers/platform/x86/socwatch/sw_driver.c: In function 'sw_collection_stop_i':
+>> drivers/platform/x86/socwatch/sw_driver.c:548:101: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     548 |                         "Warning: some trace_notifier probe functions could NOT be unregistered!\n");
+         |                                                                                                     ^
+   drivers/platform/x86/socwatch/sw_driver.c: In function 'sw_collection_poll_i':
+   drivers/platform/x86/socwatch/sw_driver.c:617:56: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     617 |                 pw_pr_debug("DEBUG: EMPTY POLL LIST\n");
+         |                                                        ^
+   drivers/platform/x86/socwatch/sw_driver.c: In function 'sw_load_driver_i':
+>> drivers/platform/x86/socwatch/sw_driver.c:1497:62: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+    1497 |                         pw_pr_debug("OK, resetting worked\n");
+         |                                                              ^
+   drivers/platform/x86/socwatch/sw_driver.c: In function 'sw_unload_driver_i':
+   drivers/platform/x86/socwatch/sw_driver.c:1514:62: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+    1514 |                         pw_pr_debug("OK, resetting worked\n");
+         |                                                              ^
+--
+   drivers/platform/x86/socwatch/sw_output_buffer.c: In function 'enqueue_data':
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:288:49: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     288 |                 pw_pr_debug("DEBUG: wrapped!\n");
+         |                                                 ^
+   drivers/platform/x86/socwatch/sw_output_buffer.c: In function 'consume_buffer':
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:301:14: warning: variable 'wrapped' set but not used [-Wunused-but-set-variable]
+     301 |         bool wrapped = false;
+         |              ^~~~~~~
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:299:32: warning: variable 'write_index' set but not used [-Wunused-but-set-variable]
+     299 |         size_t read_index = 0, write_index = 0, dst_index = 0;
+         |                                ^~~~~~~~~~~
+   drivers/platform/x86/socwatch/sw_output_buffer.c: At top level:
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:398:6: warning: no previous prototype for 'reset_output_buffers' [-Wmissing-prototypes]
+     398 | void reset_output_buffers(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/platform/x86/socwatch/sw_collector.c:68:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+      68 | const static struct sw_hw_ops *s_hw_ops;
+         | ^~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:86:1: warning: no previous prototype for 'sw_copy_driver_interface_info_i' [-Wmissing-prototypes]
+      86 | sw_copy_driver_interface_info_i(const struct sw_driver_interface_info *info)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:116:5: warning: no previous prototype for 'sw_init_driver_interface_info_i' [-Wmissing-prototypes]
+     116 | int sw_init_driver_interface_info_i(struct sw_driver_interface_info *info)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:138:5: warning: no previous prototype for 'sw_init_ops_i' [-Wmissing-prototypes]
+     138 | int sw_init_ops_i(const struct sw_hw_ops **ops,
+         |     ^~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:157:8: warning: no previous prototype for 'sw_get_payload_size_i' [-Wmissing-prototypes]
+     157 | size_t sw_get_payload_size_i(const struct sw_driver_interface_info *info)
+         |        ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:175:1: warning: no previous prototype for 'sw_alloc_collector_msg_i' [-Wmissing-prototypes]
+     175 | sw_alloc_collector_msg_i(const struct sw_driver_interface_info *info,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:211:26: warning: no previous prototype for 'sw_alloc_ops_i' [-Wmissing-prototypes]
+     211 | const struct sw_hw_ops **sw_alloc_ops_i(pw_u16_t num_io_descriptors)
+         |                          ^~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:323:6: warning: no previous prototype for 'sw_free_driver_interface_info_i' [-Wmissing-prototypes]
+     323 | void sw_free_driver_interface_info_i(struct sw_driver_interface_info *info)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:329:6: warning: no previous prototype for 'sw_free_ops_i' [-Wmissing-prototypes]
+     329 | void sw_free_ops_i(const struct sw_hw_ops **ops)
+         |      ^~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:335:5: warning: no previous prototype for 'sw_reset_driver_interface_info_i' [-Wmissing-prototypes]
+     335 | int sw_reset_driver_interface_info_i(struct sw_driver_interface_info *info)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:453:6: warning: no previous prototype for 'sw_free_collector_msg_i' [-Wmissing-prototypes]
+     453 | void sw_free_collector_msg_i(sw_driver_msg_t *msg)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/socwatch/sw_collector.c:459:6: warning: no previous prototype for 'sw_handle_per_cpu_msg_i' [-Wmissing-prototypes]
+     459 | void sw_handle_per_cpu_msg_i(void *info, enum sw_wakeup_action action)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socwatch/sw_collector.c: In function 'sw_handle_per_cpu_msg_i':
+>> drivers/platform/x86/socwatch/sw_collector.c:506:76: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     506 |                         pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                            ^
+--
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'setup_punit_mbox':
+   drivers/platform/x86/socwatch/sw_telem.c:239:39: error: implicit declaration of function 'ioremap_nocache'; did you mean 'ioremap_cache'? [-Werror=implicit-function-declaration]
+     239 |         s_punitInterfaceAddr = (u64 *)ioremap_nocache(
+         |                                       ^~~~~~~~~~~~~~~
+         |                                       ioremap_cache
+   drivers/platform/x86/socwatch/sw_telem.c:239:32: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     239 |         s_punitInterfaceAddr = (u64 *)ioremap_nocache(
+         |                                ^
+   drivers/platform/x86/socwatch/sw_telem.c:242:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     242 |         s_punitDataAddr = (u64 *)ioremap_nocache(
+         |                           ^
+   drivers/platform/x86/socwatch/sw_telem.c:245:57: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     245 |         s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr = (u64 *)ioremap_nocache(
+         |                                                         ^
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'setup_pmc_mbox':
+   drivers/platform/x86/socwatch/sw_telem.c:280:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     280 |         s_pmcIPCCmdAddr = (u64 *)ioremap_nocache(
+         |                           ^
+   drivers/platform/x86/socwatch/sw_telem.c:283:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     283 |         s_pmcIPCStsAddr = (u64 *)ioremap_nocache(
+         |                           ^
+   drivers/platform/x86/socwatch/sw_telem.c:286:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     286 |         s_pmcIPCWBufAddr = (u64 *)ioremap_nocache(
+         |                            ^
+   drivers/platform/x86/socwatch/sw_telem.c:289:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     289 |         s_pmcIPCRBufAddr = (u64 *)ioremap_nocache(
+         |                            ^
+   drivers/platform/x86/socwatch/sw_telem.c:292:55: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     292 |         s_telemEventInfo[TELEM_PMC].ssram_virt_addr = (u64 *)ioremap_nocache(
+         |                                                       ^
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'punit_start_telem':
+>> drivers/platform/x86/socwatch/sw_telem.c:471:88: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     471 |                 pw_pr_warn("Could not execute P-unit IPC command to read telem info\n");
+         |                                                                                        ^
+   drivers/platform/x86/socwatch/sw_telem.c:493:98: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     493 |                 pw_pr_warn("Could not execute P-unit IPC command to read telem ctrl structure\n");
+         |                                                                                                  ^
+   drivers/platform/x86/socwatch/sw_telem.c:499:99: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     499 |                 pw_pr_warn("Could not execute P-unit IPC command to write telem ctrl structure\n");
+         |                                                                                                   ^
+   drivers/platform/x86/socwatch/sw_telem.c:511:98: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     511 |                         pw_pr_warn("Could not execute P-unit IPC command to write telem event\n");
+         |                                                                                                  ^
+   drivers/platform/x86/socwatch/sw_telem.c:523:99: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     523 |                 pw_pr_warn("Could not execute P-unit IPC command to write telem ctrl structure\n");
+         |                                                                                                   ^
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'punit_stop_telem':
+   drivers/platform/x86/socwatch/sw_telem.c:535:98: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     535 |                 pw_pr_warn("Could not execute P-unit IPC command to read telem ctrl structure\n");
+         |                                                                                                  ^
+   drivers/platform/x86/socwatch/sw_telem.c:542:99: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     542 |                 pw_pr_warn("Could not execute P-unit IPC command to write telem ctrl structure\n");
+         |                                                                                                   ^
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'pmc_start_telem':
+   drivers/platform/x86/socwatch/sw_telem.c:557:89: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     557 |                 pw_pr_warn("Could not execute PMC IPC command to read telemetry info\n");
+         |                                                                                         ^
+   drivers/platform/x86/socwatch/sw_telem.c:576:93: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     576 |                 pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                             ^
+   drivers/platform/x86/socwatch/sw_telem.c:583:93: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     583 |                 pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                             ^
+   drivers/platform/x86/socwatch/sw_telem.c:599:101: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     599 |                         pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                                     ^
+   drivers/platform/x86/socwatch/sw_telem.c:611:93: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     611 |                 pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                             ^
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'pmc_stop_telem':
+   drivers/platform/x86/socwatch/sw_telem.c:624:93: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     624 |                 pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                             ^
+   drivers/platform/x86/socwatch/sw_telem.c:631:93: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     631 |                 pw_pr_warn("Could not execute PMC IPC command to read telem control info\n");
+         |                                                                                             ^
+   drivers/platform/x86/socwatch/sw_telem.c: At top level:
+>> drivers/platform/x86/socwatch/sw_telem.c:671:5: warning: no previous prototype for 'read_telem' [-Wmissing-prototypes]
+     671 | int read_telem(u64 *dst, enum telemetry_unit unit, bool should_retry)
+         |     ^~~~~~~~~~
+   drivers/platform/x86/socwatch/sw_telem.c: In function 'sw_read_telem_info':
+>> drivers/platform/x86/socwatch/sw_telem.c:823:68: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     823 |                 pw_pr_debug("DEBUG: unit %d NOT refreshed\n", unit);
+         |                                                                    ^
+   cc1: some warnings being treated as errors
+--
+   drivers/platform/x86/socwatch/sw_ops_provider.c: In function 'sw_ipc_mmio_descriptor_init_func_i':
+   drivers/platform/x86/socwatch/sw_ops_provider.c:329:42: error: implicit declaration of function 'ioremap_nocache'; did you mean 'ioremap_cache'? [-Werror=implicit-function-declaration]
+     329 |                 (pw_u64_t)(unsigned long)ioremap_nocache(
+         |                                          ^~~~~~~~~~~~~~~
+         |                                          ioremap_cache
+   drivers/platform/x86/socwatch/sw_ops_provider.c:345:46: warning: assignment to 'volatile void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     345 |                 s_gbe_semaphore.hw_semaphore =
+         |                                              ^
+   drivers/platform/x86/socwatch/sw_ops_provider.c:349:46: warning: assignment to 'volatile void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     349 |                 s_gbe_semaphore.fw_semaphore =
+         |                                              ^
+   drivers/platform/x86/socwatch/sw_ops_provider.c: In function 'sw_socperf_available_i':
+>> drivers/platform/x86/socwatch/sw_ops_provider.c:817:63: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     817 |                 pw_pr_debug("INFO: SoCPerf support is OFF!\n");
+         |                                                               ^
+   drivers/platform/x86/socwatch/sw_ops_provider.c: In function 'sw_write_pci_info_i':
+   drivers/platform/x86/socwatch/sw_ops_provider.c:987:55: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     987 |                         bus, device, function, offset);
+         |                                                       ^
+   cc1: some warnings being treated as errors
+--
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_timestamp':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:710:25: error: storage size of 'ts' isn't known
+     710 |         struct timespec ts;
+         |                         ^~
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:712:9: error: implicit declaration of function 'getnstimeofday' [-Werror=implicit-function-declaration]
+     712 |         getnstimeofday(&ts);
+         |         ^~~~~~~~~~~~~~
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:710:25: warning: unused variable 'ts' [-Wunused-variable]
+     710 |         struct timespec ts;
+         |                         ^~
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_handle_timer_wakeup_i':
+>> drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:841:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     841 |                 pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                    ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_handle_sched_wakeup_i':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:891:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     891 |                 pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                    ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_handle_apic_timer_wakeup_i':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:913:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     913 |                 pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                    ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_handle_irq_wakeup_i':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:1146:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+    1146 |                 pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                    ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_process_fork_exit_helper_i':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:1282:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+    1282 |                 pw_pr_warn("WARNING: could NOT produce message!\n");
+         |                                                                    ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_extract_trace_notifier_providers':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:2249:95: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+    2249 |                        "WARNING : Could NOT find tracepoint structs for some tracepoints !\n");
+         |                                                                                               ^
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c: In function 'sw_timestamp':
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:714:1: warning: control reaches end of non-void function [-Wreturn-type]
+     714 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/socperf_Device_Control_Compat +1307 drivers/platform/x86/socperf/socperfdrv.c
+vim +/SOCPERF_Read_Data3 +203 drivers/platform/x86/socperf/socperfdrv.c
 
-f57492d07625dd Manisha Chinthapally 2019-05-01  1305  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1306  #if defined(CONFIG_COMPAT) && defined(DRV_EM64T)
-f57492d07625dd Manisha Chinthapally 2019-05-01 @1307  long socperf_Device_Control_Compat(struct file *filp, unsigned int cmd,
-f57492d07625dd Manisha Chinthapally 2019-05-01  1308  					  unsigned long arg)
-f57492d07625dd Manisha Chinthapally 2019-05-01  1309  {
-f57492d07625dd Manisha Chinthapally 2019-05-01  1310  	int status = OS_SUCCESS;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1311  	IOCTL_COMPAT_ARGS_NODE local_args_compat;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1312  	IOCTL_ARGS_NODE local_args;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1313  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1314  	memset(&local_args_compat, 0, sizeof(IOCTL_COMPAT_ARGS_NODE));
-f57492d07625dd Manisha Chinthapally 2019-05-01  1315  	SOCPERF_PRINT_DEBUG("Compat: type: %d, subcommand: %d\n",
-f57492d07625dd Manisha Chinthapally 2019-05-01  1316  			    _IOC_TYPE(cmd), _IOC_NR(cmd));
-f57492d07625dd Manisha Chinthapally 2019-05-01  1317  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1318  	if (_IOC_TYPE(cmd) != LWPMU_IOC_MAGIC) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  1319  		SOCPERF_PRINT_ERROR("Unknown IOCTL magic:%d\n", _IOC_TYPE(cmd));
-f57492d07625dd Manisha Chinthapally 2019-05-01  1320  		return OS_ILLEGAL_IOCTL;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1321  	}
-f57492d07625dd Manisha Chinthapally 2019-05-01  1322  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1323  	MUTEX_LOCK(ioctl_lock);
-f57492d07625dd Manisha Chinthapally 2019-05-01  1324  	if (arg) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  1325  		status = copy_from_user(&local_args_compat,
-f57492d07625dd Manisha Chinthapally 2019-05-01  1326  					(void __user *)arg,
-f57492d07625dd Manisha Chinthapally 2019-05-01  1327  					sizeof(IOCTL_COMPAT_ARGS_NODE));
-f57492d07625dd Manisha Chinthapally 2019-05-01  1328  	}
-f57492d07625dd Manisha Chinthapally 2019-05-01  1329  	local_args.len_drv_to_usr = local_args_compat.len_drv_to_usr;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1330  	local_args.len_usr_to_drv = local_args_compat.len_usr_to_drv;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1331  	local_args.buf_drv_to_usr =
-f57492d07625dd Manisha Chinthapally 2019-05-01  1332  		(char *)compat_ptr(local_args_compat.buf_drv_to_usr);
-f57492d07625dd Manisha Chinthapally 2019-05-01  1333  	local_args.buf_usr_to_drv =
-f57492d07625dd Manisha Chinthapally 2019-05-01  1334  		(char *)compat_ptr(local_args_compat.buf_usr_to_drv);
-f57492d07625dd Manisha Chinthapally 2019-05-01  1335  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1336  	status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
-f57492d07625dd Manisha Chinthapally 2019-05-01  1337  	MUTEX_UNLOCK(ioctl_lock);
-f57492d07625dd Manisha Chinthapally 2019-05-01  1338  
-f57492d07625dd Manisha Chinthapally 2019-05-01  1339  	return status;
-f57492d07625dd Manisha Chinthapally 2019-05-01  1340  }
-f57492d07625dd Manisha Chinthapally 2019-05-01  1341  #endif
-f57492d07625dd Manisha Chinthapally 2019-05-01  1342  
+f57492d07625dd Manisha Chinthapally 2019-05-01  189  
+f57492d07625dd Manisha Chinthapally 2019-05-01  190  /* ------------------------------------------------------------------------- */
+f57492d07625dd Manisha Chinthapally 2019-05-01  191  /*!
+f57492d07625dd Manisha Chinthapally 2019-05-01  192   * @fn       VOID SOCPERF_Read_Data
+f57492d07625dd Manisha Chinthapally 2019-05-01  193   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  194   * @brief    Reads counter data
+f57492d07625dd Manisha Chinthapally 2019-05-01  195   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  196   * @param    param   data_buffer - buffer for reading counter data.
+f57492d07625dd Manisha Chinthapally 2019-05-01  197   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  198   * @return  None
+f57492d07625dd Manisha Chinthapally 2019-05-01  199   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  200   * <I>Special Notes:</I>
+f57492d07625dd Manisha Chinthapally 2019-05-01  201   *              <NONE>
+f57492d07625dd Manisha Chinthapally 2019-05-01  202   */
+f57492d07625dd Manisha Chinthapally 2019-05-01 @203  extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+f57492d07625dd Manisha Chinthapally 2019-05-01  204  {
+f57492d07625dd Manisha Chinthapally 2019-05-01  205  	if (dispatch_uncore && dispatch_uncore->read_current_data) {
+f57492d07625dd Manisha Chinthapally 2019-05-01  206  		dispatch_uncore->read_current_data(data_buffer);
+f57492d07625dd Manisha Chinthapally 2019-05-01  207  	}
+f57492d07625dd Manisha Chinthapally 2019-05-01  208  	SOCPERF_PRINT_DEBUG("%s called\n", __func__);
+f57492d07625dd Manisha Chinthapally 2019-05-01  209  }
+f57492d07625dd Manisha Chinthapally 2019-05-01  210  EXPORT_SYMBOL(SOCPERF_Read_Data3);
+f57492d07625dd Manisha Chinthapally 2019-05-01  211  
 
-:::::: The code at line 1307 was first introduced by commit
+:::::: The code at line 203 was first introduced by commit
 :::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
 
 :::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
