@@ -1,42 +1,57 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54802D516
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 19:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F8DD530;
+	Tue, 21 Mar 2023 20:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679428013; x=1710964013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bc2r8mDOthYqP4YNMFl7fsqImkcW+tCJwuQtDcgCbRM=;
-  b=Tce0lqxv1/xRtskdu05qistXSeV5fms/NARHTDcvvrxublZ25R6QNTLP
-   Hd7oBi6dLoQHbECaXen9y31Sbkx6xbUXTwEjsx1X+7xLk2aYrvEcUA9Bu
-   rs2NqD03OxwqmYMTHKmSG7oQZyROKe9e7I8dVG1nEmUK9HWCzOUITrUAB
-   LQSkDw0p1UAzxsA3m+Ei1IKj5YNeF78VkxZ23KsaZeohnldCKmWwe1kHz
-   yMWwDmuntUMpOg7VYpeN9h9P+lzS/89RMsnwe5q/YgtGFfSD7iOmKLUkB
-   Bn9g5A6YG0lc00j5sjwlfHTreQYCJ0h/myPVVll4sZNtSlLM2zZCVYSTK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="425337776"
+  t=1679429221; x=1710965221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uC522O9FjPHxQ+tXnnlO/+TRKCyn/oGdK6IwgAN1Jjc=;
+  b=jZiKHtz8E4g2hHVqrM2O9BLbNkEnmaJdkFyNb+9Jiw7h093jIJZFL+BC
+   VDje1arecus8AuarUH6UoutByZa8EMKaTBfn5JVYzI4CKzb/m7kyqtoJ9
+   C0cu1zv+dm/ww7sN5/vTQ7bTyx2Ry/LnDimK6IoFYG4S6tBKwtscjDGkz
+   fc2FxvfZlQK15JygwyBRGR9aYip/m81riDnOBLVCNJjVzNJRp+EcyIh0v
+   +xWs4LxCvhEA13kIh0e7oXKfNlNlkXlLiYVFfpqBvmwf1xZKFNvCEFDkG
+   G3olkIBLCTG1vuXjQ1F/M36t1gJYplMBwCwjYBP5RWLgJCkY4O1eviaLL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339088140"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="425337776"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 12:46:52 -0700
+   d="scan'208";a="339088140"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 13:07:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792225889"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714123916"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="792225889"
+   d="scan'208";a="714123916"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2023 12:46:51 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2023 13:06:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pehwZ-000CLq-0X;
-	Tue, 21 Mar 2023 19:46:51 +0000
-Date: Wed, 22 Mar 2023 03:45:54 +0800
+	id 1peiFv-000CMs-2J;
+	Tue, 21 Mar 2023 20:06:51 +0000
+Date: Wed, 22 Mar 2023 04:06:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: alikernel-developer@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alibaba-cloud:linux-next 6023/9999] mm/page_idle.c:95:6: warning:
- no previous prototype for 'page_idle_clear_pte_refs'
-Message-ID: <202303220306.DsNZkbaC-lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, tfiga@chromium.org,
+	m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+	shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+	konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, daniel.almeida@collabora.com,
+	hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+	jernel@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 5/8] media: v4l2: Add DELETE_BUF ioctl
+Message-ID: <202303220359.f1UOGBNV-lkp@intel.com>
+References: <20230321102855.346732-6-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,62 +60,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230321102855.346732-6-benjamin.gaignard@collabora.com>
 
-tree:   https://github.com/alibaba/cloud-kernel.git linux-next
-head:   d121e0c25d1a19485d7f293b67901462bb1a6552
-commit: a29243e2e89010e5c6e34454d1284cf9c035b39a [6023/9999] alinux: mm: Support kidled
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230322/202303220306.DsNZkbaC-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Benjamin,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.3-rc3 next-20230321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230321102855.346732-6-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v2 5/8] media: v4l2: Add DELETE_BUF ioctl
+config: x86_64-randconfig-a002-20230320 (https://download.01.org/0day-ci/archive/20230322/202303220359.f1UOGBNV-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/alibaba/cloud-kernel/commit/a29243e2e89010e5c6e34454d1284cf9c035b39a
-        git remote add alibaba-cloud https://github.com/alibaba/cloud-kernel.git
-        git fetch --no-tags alibaba-cloud linux-next
-        git checkout a29243e2e89010e5c6e34454d1284cf9c035b39a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c33ab7329647eb04482423ac9945dee579038e84
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+        git checkout c33ab7329647eb04482423ac9945dee579038e84
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220306.DsNZkbaC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220359.f1UOGBNV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> mm/page_idle.c:95:6: warning: no previous prototype for 'page_idle_clear_pte_refs' [-Wmissing-prototypes]
-      95 | void page_idle_clear_pte_refs(struct page *page)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/page_idle_clear_pte_refs +95 mm/page_idle.c
-
-    94	
-  > 95	void page_idle_clear_pte_refs(struct page *page)
-    96	{
-    97		/*
-    98		 * Since rwc.arg is unused, rwc is effectively immutable, so we
-    99		 * can make it static const to save some cycles and stack.
-   100		 */
-   101		static const struct rmap_walk_control rwc = {
-   102			.rmap_one = page_idle_clear_pte_refs_one,
-   103			.anon_lock = page_lock_anon_vma_read,
-   104		};
-   105		bool need_lock;
-   106	
-   107		if (!page_mapped(page) ||
-   108		    !page_rmapping(page))
-   109			return;
-   110	
-   111		need_lock = !PageAnon(page) || PageKsm(page);
-   112		if (need_lock && !trylock_page(page))
-   113			return;
-   114	
-   115		rmap_walk(page, (struct rmap_walk_control *)&rwc);
-   116	
-   117		if (need_lock)
-   118			unlock_page(page);
-   119	}
-   120	
+>> ERROR: modpost: "vb2_core_delete_buf" [drivers/media/common/videobuf2/videobuf2-v4l2.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
