@@ -1,57 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F531D2ED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 17:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9DED2ED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 17:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679418141; x=1710954141;
+  t=1679419316; x=1710955316;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=d+hlpp3Zd9LOfPprBhu8Y574GqlBNBa7l4yvc+7zCA4=;
-  b=hD3Ex+xYorAllQOAgJ9bbT4hj5zXH1GtpGdG9AIBqoygx85HT0BvcgjQ
-   v391fXzc7e0iKKrF0U/QE8uJvJ7wJRiXC+efXb2/jtwqTQA8LS+6e8mVJ
-   IVQPs3MW0/nZuGSyl7DPediWkb00bJpJzmF5hxxaRzfqF781T7iSdkrAp
-   x2/DKFQuLeN0I9jNoa7ikdHl4wOEN05r2cJBQSk8aWMs0CNHK53bUUEdF
-   udOmjk91K2mg9ayN11fuxUCiLWMi0vyp9URlWh67uVaLgTwu+xUXdYm2Y
-   1FiCde0ni4jZBLO7kYExCKlxdiRAkkcOhNkZVWdoCzxs+4ebgaxHPucjV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322846095"
+  bh=CeumtqwMHI9L5A38y41dlVRO0aDPkgHahrBh+sfBNbU=;
+  b=CkqfzojIW4+xPPv9XBH2uUUNktigrsRr8g+5IqSmZGTmiDfF0WbHIanp
+   VJIicjKBrm1A5GkKyqEqjiq13XzbBQRg+Q02Tj1lP9GLOao6x5ruhhaVF
+   u+t9n1hmZzUwpkmTea4fHPB7auTyHVuxyb6PPvCfGfJhdGo8FJXxPxSre
+   /K/lqGiczq64pt27B5B9jeLzHVAlPVLj8t67NWct14zgr8Pg7KlB22D9E
+   8+rG336cMHX5BaI3dTLxbztkMYHKm3y9YaN83ZP1ai3qlLAn8onRJmgAC
+   KBUYXBbDjkPlDOltWsT/aayrWhauPCtm8ULvajPtcqZO61csntasDlflo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="319401490"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="322846095"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:01:50 -0700
+   d="scan'208";a="319401490"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:21:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631664574"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="825037280"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="631664574"
+   d="scan'208";a="825037280"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 21 Mar 2023 10:01:41 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2023 10:21:41 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pefMi-000CBa-0v;
-	Tue, 21 Mar 2023 17:01:40 +0000
-Date: Wed, 22 Mar 2023 01:01:05 +0800
+	id 1pefg4-000CCE-2Q;
+	Tue, 21 Mar 2023 17:21:40 +0000
+Date: Wed, 22 Mar 2023 01:21:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, tfiga@chromium.org,
-	m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-	shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-	yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-	quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-	hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-	jernel@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
- queue buffer storage
-Message-ID: <202303220057.J83sWVI1-lkp@intel.com>
-References: <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [RFC][PATCH v2 1/3] drm: Introduce plane SIZE_HINTS
+ property
+Message-ID: <202303220125.amZYGvSj-lkp@intel.com>
+References: <20230321143643.26676-2-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,117 +47,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230321143643.26676-2-ville.syrjala@linux.intel.com>
 
-Hi Benjamin,
+Hi Ville,
 
-I love your patch! Yet something to improve:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on drm-tip/drm-tip]
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230321102855.346732-4-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2 queue buffer storage
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230322/202303220057.J83sWVI1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-Introduce-plane-SIZE_HINTS-property/20230321-223915
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230321143643.26676-2-ville.syrjala%40linux.intel.com
+patch subject: [Intel-gfx] [RFC][PATCH v2 1/3] drm: Introduce plane SIZE_HINTS property
+config: arm-randconfig-r025-20230319 (https://download.01.org/0day-ci/archive/20230322/202303220125.amZYGvSj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/aab64e29070dfec3a043b5020399f79554d6cae4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/dd0b889c4dae763a60ddd19c018a825beb3b1d6a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-        git checkout aab64e29070dfec3a043b5020399f79554d6cae4
+        git fetch --no-tags linux-review Ville-Syrjala/drm-Introduce-plane-SIZE_HINTS-property/20230321-223915
+        git checkout dd0b889c4dae763a60ddd19c018a825beb3b1d6a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220057.J83sWVI1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220125.amZYGvSj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/module.h:22,
-                    from drivers/media/common/videobuf2/videobuf2-core.c:21:
-   drivers/media/common/videobuf2/videobuf2-core.c: In function '__check_max_vb_buffer_per_queue':
->> include/linux/moduleparam.h:150:34: error: returning 'size_t *' {aka 'unsigned int *'} from a function with incompatible return type 'long unsigned int *' [-Werror=incompatible-pointer-types]
-     150 |         param_check_##type(name, &(value));                                \
-         |                                  ^
-   include/linux/moduleparam.h:409:75: note: in definition of macro '__param_check'
-     409 |         static inline type __always_unused *__check_##name(void) { return(p); }
-         |                                                                           ^
-   include/linux/moduleparam.h:150:9: note: in expansion of macro 'param_check_ulong'
-     150 |         param_check_##type(name, &(value));                                \
-         |         ^~~~~~~~~~~~
-   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
-     127 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/common/videobuf2/videobuf2-core.c:37:1: note: in expansion of macro 'module_param'
-      37 | module_param(max_vb_buffer_per_queue, ulong, 0644);
-         | ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/drm_plane.c:1637: warning: Function parameter or member 'size_ok' not described in 'drm_plane_add_size_hints_property'
+>> drivers/gpu/drm/drm_plane.c:1637: warning: expecting prototype for drm_plane_add_size_hint_property(). Prototype was for drm_plane_add_size_hints_property() instead
 
 
-vim +150 include/linux/moduleparam.h
+vim +1637 drivers/gpu/drm/drm_plane.c
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16  100  
-546970bc6afc7fb Rusty Russell   2010-08-11  101  /**
-546970bc6afc7fb Rusty Russell   2010-08-11  102   * module_param - typesafe helper for a module/cmdline parameter
-e2854a1054ab171 Zhenzhong Duan  2019-11-04  103   * @name: the variable to alter, and exposed parameter name.
-546970bc6afc7fb Rusty Russell   2010-08-11  104   * @type: the type of the parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  105   * @perm: visibility in sysfs.
-546970bc6afc7fb Rusty Russell   2010-08-11  106   *
-e2854a1054ab171 Zhenzhong Duan  2019-11-04  107   * @name becomes the module parameter, or (prefixed by KBUILD_MODNAME and a
-546970bc6afc7fb Rusty Russell   2010-08-11  108   * ".") the kernel commandline parameter.  Note that - is changed to _, so
-546970bc6afc7fb Rusty Russell   2010-08-11  109   * the user can use "foo-bar=1" even for variable "foo_bar".
-546970bc6afc7fb Rusty Russell   2010-08-11  110   *
-c6a8b84da4c28bd Randy Dunlap    2020-07-17  111   * @perm is 0 if the variable is not to appear in sysfs, or 0444
-546970bc6afc7fb Rusty Russell   2010-08-11  112   * for world-readable, 0644 for root-writable, etc.  Note that if it
-b51d23e4e9fea6f Dan Streetman   2015-06-17  113   * is writable, you may need to use kernel_param_lock() around
-546970bc6afc7fb Rusty Russell   2010-08-11  114   * accesses (esp. charp, which can be kfreed when it changes).
-546970bc6afc7fb Rusty Russell   2010-08-11  115   *
-546970bc6afc7fb Rusty Russell   2010-08-11  116   * The @type is simply pasted to refer to a param_ops_##type and a
-546970bc6afc7fb Rusty Russell   2010-08-11  117   * param_check_##type: for convenience many standard types are provided but
-546970bc6afc7fb Rusty Russell   2010-08-11  118   * you can create your own by defining those variables.
-546970bc6afc7fb Rusty Russell   2010-08-11  119   *
-546970bc6afc7fb Rusty Russell   2010-08-11  120   * Standard types are:
-7d8365771ffb0ed Paul Menzel     2020-07-03  121   *	byte, hexint, short, ushort, int, uint, long, ulong
-546970bc6afc7fb Rusty Russell   2010-08-11  122   *	charp: a character pointer
-546970bc6afc7fb Rusty Russell   2010-08-11  123   *	bool: a bool, values 0/1, y/n, Y/N.
-546970bc6afc7fb Rusty Russell   2010-08-11  124   *	invbool: the above, only sense-reversed (N = true).
-546970bc6afc7fb Rusty Russell   2010-08-11  125   */
-546970bc6afc7fb Rusty Russell   2010-08-11  126  #define module_param(name, type, perm)				\
-546970bc6afc7fb Rusty Russell   2010-08-11  127  	module_param_named(name, name, type, perm)
-546970bc6afc7fb Rusty Russell   2010-08-11  128  
-3baee201b06cfaf Jani Nikula     2014-08-27  129  /**
-3baee201b06cfaf Jani Nikula     2014-08-27  130   * module_param_unsafe - same as module_param but taints kernel
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  131   * @name: the variable to alter, and exposed parameter name.
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  132   * @type: the type of the parameter
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  133   * @perm: visibility in sysfs.
-3baee201b06cfaf Jani Nikula     2014-08-27  134   */
-3baee201b06cfaf Jani Nikula     2014-08-27  135  #define module_param_unsafe(name, type, perm)			\
-3baee201b06cfaf Jani Nikula     2014-08-27  136  	module_param_named_unsafe(name, name, type, perm)
-3baee201b06cfaf Jani Nikula     2014-08-27  137  
-546970bc6afc7fb Rusty Russell   2010-08-11  138  /**
-546970bc6afc7fb Rusty Russell   2010-08-11  139   * module_param_named - typesafe helper for a renamed module/cmdline parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  140   * @name: a valid C identifier which is the parameter name.
-546970bc6afc7fb Rusty Russell   2010-08-11  141   * @value: the actual lvalue to alter.
-546970bc6afc7fb Rusty Russell   2010-08-11  142   * @type: the type of the parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  143   * @perm: visibility in sysfs.
-546970bc6afc7fb Rusty Russell   2010-08-11  144   *
-546970bc6afc7fb Rusty Russell   2010-08-11  145   * Usually it's a good idea to have variable names and user-exposed names the
-546970bc6afc7fb Rusty Russell   2010-08-11  146   * same, but that's harder if the variable must be non-static or is inside a
-546970bc6afc7fb Rusty Russell   2010-08-11  147   * structure.  This allows exposure under a different name.
-546970bc6afc7fb Rusty Russell   2010-08-11  148   */
-546970bc6afc7fb Rusty Russell   2010-08-11  149  #define module_param_named(name, value, type, perm)			   \
-546970bc6afc7fb Rusty Russell   2010-08-11 @150  	param_check_##type(name, &(value));				   \
-546970bc6afc7fb Rusty Russell   2010-08-11  151  	module_param_cb(name, &param_ops_##type, &value, perm);		   \
-546970bc6afc7fb Rusty Russell   2010-08-11  152  	__MODULE_PARM_TYPE(name, #type)
-546970bc6afc7fb Rusty Russell   2010-08-11  153  
+  1616	
+  1617	/**
+  1618	 * drm_plane_add_size_hint_property - create a size hint property
+  1619	 *
+  1620	 * @plane: drm plane
+  1621	 * @min_width: minimum width
+  1622	 * @min_height: minimum height
+  1623	 * @max_width: maximum width
+  1624	 * @max_height: maximum height
+  1625	 * @cursor_size_ok: function to check if specified size is ok
+  1626	 *
+  1627	 * Create a size hints property for the plane.
+  1628	 *
+  1629	 * RETURNS:
+  1630	 * Zero for success or -errno
+  1631	 */
+  1632	int drm_plane_add_size_hints_property(struct drm_plane *plane,
+  1633					      int min_width, int min_height,
+  1634					      int max_width, int max_height,
+  1635					      bool (*size_ok)(struct drm_plane *plane,
+  1636							      int width, int height))
+> 1637	{
 
 -- 
 0-DAY CI Kernel Test Service
