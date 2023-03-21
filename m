@@ -1,58 +1,44 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D3C185D;
-	Tue, 21 Mar 2023 04:53:39 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id az3-20020a05600c600300b003ed2920d585so10366266wmb.2;
-        Mon, 20 Mar 2023 21:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679374417;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GX92zv5VKe7ckWl7sGbnyvzQGMyhv0ppTgbomfq1PHk=;
-        b=qF3P8D4CRjzvhUxLVQgRiz6W+/M1ImZhcGKi9Pa0nX1Ff6WYPi63iF4XyriDoUaYvb
-         QnB3UVfLFdHHSS6XYstKNll0YwK6hb3vEAh13/HkjvahLtPX+piikYURGlt/NGF6rytO
-         nq7Bbt4QUIr2WNIQC/V5JWShA/iygKlM8vouw3PhLJeDPHu9S3vLcc3iux3BvtyjfrVT
-         6nt0zQBJhnkTcuy9lSpW/1Rv2qCgBBvXsUSsdrMqvy2WTIZQsOxMqnAvhhENYjQqTMcP
-         M25KrjljExnmI1mbMoAG1TkTQwaBwXvm5mevcQ7qY3Q3+EgAnZOyzxDdlQKsvgYOZFcT
-         /PSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679374417;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GX92zv5VKe7ckWl7sGbnyvzQGMyhv0ppTgbomfq1PHk=;
-        b=xN/CFh/c/FtwprilvRPS7zHIFrlQ038jRBcvw9fImQ2k9RjnfRfPnbLFk/Hmrk6nW4
-         Kiaosqdpsbza0Tgl0cDBxG1aE8HLmIx7N9A6gOyWsjPJzOTu7DuRccL+2Y87HGRiAabG
-         OT1Ll61KIMs9IhSNg0VuhmGspjBbNEtyumMUDNWXymzKX7f4eWjWopOlYfVZxMIhNzuc
-         Rz48ztv0iLpG8Gcabp7DhX1kyRRxsCQ8mbCFfPd73quP7g5wZxjoSjbKUgVXuBxRN404
-         dRjaVY4Ich+7CFN7biM7kGgbZWLrtNGGj41IouBKU8bkcBghNKk138UXZjK+uwTd23wB
-         GV+A==
-X-Gm-Message-State: AO0yUKUMdrW0DnP0y2bpUpIByNck51+/nPpcms/NnGAgjtZyzAOiledX
-	VLMEwSUzJUvw2GZLw0Jv782b79QGL/D2kA==
-X-Google-Smtp-Source: AK7set87NeoiO5ioLPK68M5XrIbeQVoFDpjKadoZoPnR87tYfA6zznLp86hd1TMPB583S2T+TthuaA==
-X-Received: by 2002:a05:600c:21c7:b0:3dc:4042:5c21 with SMTP id x7-20020a05600c21c700b003dc40425c21mr1263182wmj.6.1679374417390;
-        Mon, 20 Mar 2023 21:53:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h20-20020a1ccc14000000b003dc522dd25esm12244259wmb.30.2023.03.20.21.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 21:53:36 -0700 (PDT)
-Date: Tue, 21 Mar 2023 07:53:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 18/23] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <155085b0-d2e4-4503-b75b-1a71193c2587@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2962AE4FA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 05:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679374876; x=1710910876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iQmqupMtpBq3ZgiaQNPrWaRFEGytHt3f/SsXPYUgQGc=;
+  b=kwVk5YKB26UJnVpqXaZ98eEs1M8AMR3wtYHOLgJOViTlsOnFUuQOh2IY
+   88cheOUP9UszAAR69JLIsdaIQ8hh3Vl5FKvHlUNynaSnwR6FsGN9tS+EK
+   bbKk9gjV1hogsNpVgXspM2vh+K5YkcLM8Ya3ka6fG4ntOeItIaBcUbfEJ
+   yKvhd4QnfJwbxeiTMjhjtWT00kc45ny1Ypc1N+eddvnJvvNofEnK173hZ
+   XH/G68V5v3To6Ffq7UTR8IS25fmS+meOb/tPeksI0IgkE7+jtzm1HuG8s
+   GG2JZmxOElCcvBCuZzvNes/W393kpv7AFi/XVuozwm+0HRtnQ/6+Z/7It
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322689564"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="322689564"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 22:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010783181"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="1010783181"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2023 22:01:13 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peU7V-000Bbm-0G;
+	Tue, 21 Mar 2023 05:01:13 +0000
+Date: Tue, 21 Mar 2023 13:01:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ranjan Kumar <ranjan.kumar@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:2365
+ mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
+Message-ID: <202303211202.uf1kNr2C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,92 +47,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320144356.803762-19-robdclark@gmail.com>
 
-Hi Rob,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230320144356.803762-19-robdclark%40gmail.com
-patch subject: [PATCH v2 18/23] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211207.mUCSt3CK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   17214b70a159c6547df9ae204a6275d983146f6b
+commit: 8e45183978d64699df639e795235433a60f35047 scsi: mpi3mr: Bad drive in topology results kernel crash
+date:   2 weeks ago
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211202.uf1kNr2C-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303211207.mUCSt3CK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211202.uf1kNr2C-lkp@intel.com/
 
-smatch warnings:
-drivers/base/power/qos.c:947 dev_pm_qos_update_user_latency_tolerance() error: uninitialized symbol 'req'.
-drivers/base/power/qos.c:975 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2365 mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
 
-vim +/req +947 drivers/base/power/qos.c
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2064 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-2d7e4629d7265d Rob Clark         2023-03-20  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-00dd582e52a535 Rob Clark         2023-03-20  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-00dd582e52a535 Rob Clark         2023-03-20  929  	if (ret)
-00dd582e52a535 Rob Clark         2023-03-20  930  		return ret;
-00dd582e52a535 Rob Clark         2023-03-20  931  
-2d7e4629d7265d Rob Clark         2023-03-20  932  	if (!dev->power.qos->latency_tolerance_req)
-2d7e4629d7265d Rob Clark         2023-03-20  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-2d7e4629d7265d Rob Clark         2023-03-20  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-00dd582e52a535 Rob Clark         2023-03-20  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		struct dev_pm_qos_request *req;
+vim +2365 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-This "req" shadows the ealier req.
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2304  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2305  /**
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2306   * mpi3mr_report_tgtdev_to_sas_transport - expose dev to SAS TL
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2307   * @mrioc: Adapter instance reference
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2308   * @tgtdev: Target device
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2309   *
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2310   * This function exposes the target device after
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2311   * preparing host_phy, setting up link rate etc.
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2312   *
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2313   * Return: 0 on success, non-zero for failure.
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2314   */
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2315  int mpi3mr_report_tgtdev_to_sas_transport(struct mpi3mr_ioc *mrioc,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2316  	struct mpi3mr_tgt_dev *tgtdev)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2317  {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2318  	int retval = 0;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2319  	u8 link_rate, parent_phy_number;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2320  	u64 sas_address_parent, sas_address;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2321  	struct mpi3mr_hba_port *hba_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2322  	u8 port_id;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2323  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2324  	if ((tgtdev->dev_type != MPI3_DEVICE_DEVFORM_SAS_SATA) ||
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2325  	    !mrioc->sas_transport_enabled)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2326  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2327  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2328  	sas_address = tgtdev->dev_spec.sas_sata_inf.sas_address;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2329  	if (!mrioc->sas_hba.num_phys)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2330  		mpi3mr_sas_host_add(mrioc);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2331  	else
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2332  		mpi3mr_sas_host_refresh(mrioc);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2333  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2334  	if (mpi3mr_get_sas_address(mrioc, tgtdev->parent_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2335  	    &sas_address_parent) != 0) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2336  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2337  		    __FILE__, __LINE__, __func__);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2338  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2339  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2340  	tgtdev->dev_spec.sas_sata_inf.sas_address_parent = sas_address_parent;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2341  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2342  	parent_phy_number = tgtdev->dev_spec.sas_sata_inf.phy_id;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2343  	port_id = tgtdev->io_unit_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2344  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2345  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2346  	if (!hba_port) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2347  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2348  		    __FILE__, __LINE__, __func__);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2349  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2350  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2351  	tgtdev->dev_spec.sas_sata_inf.hba_port = hba_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2352  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2353  	link_rate = mpi3mr_get_sas_negotiated_logical_linkrate(mrioc, tgtdev);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2354  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2355  	mpi3mr_update_links(mrioc, sas_address_parent, tgtdev->dev_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2356  	    parent_phy_number, link_rate, hba_port);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2357  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2358  	tgtdev->host_exposed = 1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2359  	if (!mpi3mr_sas_port_add(mrioc, tgtdev->dev_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2360  	    sas_address_parent, hba_port)) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2361  		retval = -1;
+8e45183978d646 Ranjan Kumar    2023-02-28  2362  		} else if ((!tgtdev->starget) && (!mrioc->is_driver_loading)) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2363  			mpi3mr_sas_port_remove(mrioc, sas_address,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2364  			    sas_address_parent, hba_port);
+7f56c791969e0c Sreekanth Reddy 2022-08-04 @2365  		retval = -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2366  	}
+8e45183978d646 Ranjan Kumar    2023-02-28  2367  	if (retval) {
+8e45183978d646 Ranjan Kumar    2023-02-28  2368  		tgtdev->dev_spec.sas_sata_inf.hba_port = NULL;
+8e45183978d646 Ranjan Kumar    2023-02-28  2369  		tgtdev->host_exposed = 0;
+8e45183978d646 Ranjan Kumar    2023-02-28  2370  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2371  	return retval;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2372  }
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2373  
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  939  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  940  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  942  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  943  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @947  		if (!req) {
+:::::: The code at line 2365 was first introduced by commit
+:::::: 7f56c791969e0c19b8b5ee12058b636bf173eb90 scsi: mpi3mr: Add SAS SATA end devices to STL
 
-So it leads to an unintialized variable and a leak.
-
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  956  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  957  	} else {
-2d7e4629d7265d Rob Clark         2023-03-20  958  		/*
-2d7e4629d7265d Rob Clark         2023-03-20  959  		 * If we raced with another thread to allocate the request,
-2d7e4629d7265d Rob Clark         2023-03-20  960  		 * simply free the redundant allocation and move on.
-2d7e4629d7265d Rob Clark         2023-03-20  961  		 */
-2d7e4629d7265d Rob Clark         2023-03-20  962  		if (req)
-2d7e4629d7265d Rob Clark         2023-03-20  963  			kfree(req);
-2d7e4629d7265d Rob Clark         2023-03-20  964  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  973   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @975  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  976  }
+:::::: TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
