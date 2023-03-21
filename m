@@ -1,169 +1,250 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2071.outbound.protection.outlook.com [40.107.237.71])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B949440
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 11:50:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I5zZRHjNUjfMsh8vT3j8x7sRsQvcP1OEdYVUCMFoRNrffQFIOzDD2uIT+e15smlS62+tnfREHhl/iYscCFo60SMITVaXNW3e8jWAb57Du0IeAdNeSXejoLE7i/nqBS8pFLii5j7r3FkXnUOwldw5x4pl2X4oFbd3oHi5tvW6XvAGeZMhD872SYOngZ3ZJ54Ls8Esy+QoblnHM8qnizq1c1efYcuqQWJfb+93rS2crLa10sDylP4nF1frjOG2PdZgrypRddUjWgTfXkXK7Sg3NreAc2NR7KMPAK1cmOd5rYeUKcNcv5LUcS7CBdOhhlZ5EuhwYVEF98ejH/2QBJJC6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=55vXSENPPS0zRrFzNLPdkwGQNwqYQQ3mo1+0gTSxpf4=;
- b=ndLQbV3ISi1E/I+OX3oWoD3s0iUfx79Ajrjp+Y2Pd0GPOPj+R75wpx9mY6uWQgCGE5gb6VvlFBDQBxnuRp7UOvc4F6byq2yTrqJqRKxx9/+JQqYSx+AqVVmobn2VxSqCcIsGt7BEWNfUbFn1k7g4Oa6z3Q25vKWnHTx50r1WR6YW+9t66ZYz4wuJk6/dzLDHh+Zf3y+6VDB1wSi6lrxp+/yeCNEKG1fYn26iZitlBhYQkz0ra37M5TCh3CLR0V3WVI2JKpTGF02P57AOok+ZiNC+DxKPh2xmFlgpDF8uSR1ihB9h6a6SCVxtje03O8uxAhrkORfhGAvgnJb3KBpcsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=55vXSENPPS0zRrFzNLPdkwGQNwqYQQ3mo1+0gTSxpf4=;
- b=X9rAjNIegJdZAWPkDgDyfxfBpNAK31USDgZ37XhLQA+4tj7/xbz4J2BkT+0P/jfOfH0oUqYEz1R7SrhgKGWLydoryKG8KvhIIJuclzeSPESTpVLkSg8PZRNksqowRkTsqhj9lZvueufqeXJeqHxkuR7TvsyIL8YsWNvE8cAQ6hNQNhSTKB84Nk62695NqtktCtzMP726OfzjnLLewN7dAuqRiGzCKyrASCGV3tcMoe/+sbkB1tFVTKmVnOLYkvZVrS3L6vUwNzE0QwkQoBgtE4Lm8WJNvLFmwMrP9enfiBcqmBg0uBgbNvng9mhmSW/cfxMbNxHI/f98uj1YKqAYIg==
-Received: from MW4PR04CA0145.namprd04.prod.outlook.com (2603:10b6:303:84::30)
- by MN2PR12MB4160.namprd12.prod.outlook.com (2603:10b6:208:19a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
- 2023 11:50:08 +0000
-Received: from CO1NAM11FT077.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:84:cafe::71) by MW4PR04CA0145.outlook.office365.com
- (2603:10b6:303:84::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
- Transport; Tue, 21 Mar 2023 11:50:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CO1NAM11FT077.mail.protection.outlook.com (10.13.175.55) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6222.16 via Frontend Transport; Tue, 21 Mar 2023 11:50:07 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 21 Mar 2023
- 04:49:59 -0700
-Received: from [10.41.21.79] (10.126.231.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Tue, 21 Mar
- 2023 04:49:53 -0700
-Message-ID: <dcf8b1a9-d0e3-510f-8dc3-5ef9eebb0696@nvidia.com>
-Date: Tue, 21 Mar 2023 17:19:49 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73479440
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 12:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679401416; x=1710937416;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rIZtjHaw5hRigleGcBnLjv0NGQu3n0Rfjoi9eQIWZr4=;
+  b=SCozeZ1Qjbzzvo7KDZZ2y2rN3aw4W8uMhdHgedoFPJDA0mvSkdPhco/r
+   MT6jC5Pha5HLE1pBrB0eZ5+8/3KUtcuUtkZC1j/Zq++yXCzkn+qTOMHhg
+   9q5/x4V7keKTnsKDRYgmwvibsgN9P0nFzlYPF1Gq+EyyCKfKf+fVZETDm
+   JfNdTqWo+q5+k3HJOCFw+/YZKKrpHeEeWcLbohE9BcqrM8ZMIWe0/W9Ie
+   fTaq19pHjloGCqZdaI4aqjoadBxWuxeYvK89zdTPbC0lGEXxwXUt/wt6U
+   DNp4hM9NlBp6U88C5h0N4sscR/aUkGjl99gykac005phYHoOgNGuFgrvx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318578498"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="318578498"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 05:23:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674818953"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="674818953"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 21 Mar 2023 05:23:27 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peb1S-000BtW-2y;
+	Tue, 21 Mar 2023 12:23:26 +0000
+Date: Tue, 21 Mar 2023 20:23:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/platform/x86/socperf/socperfdrv.c:1307:6: warning: no
+ previous prototype for 'socperf_Device_Control_Compat'
+Message-ID: <202303212026.A2pEDRu5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set
- bandwidth
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, <treding@nvidia.com>,
-	<krzysztof.kozlowski@linaro.org>, <dmitry.osipenko@collabora.com>,
-	<viresh.kumar@linaro.org>, <rafael@kernel.org>, <jonathanh@nvidia.com>,
-	<robh+dt@kernel.org>, <lpieralisi@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<mmaddireddy@nvidia.com>, <kw@linux.com>, <bhelgaas@google.com>,
-	<vidyas@nvidia.com>, <sanjayc@nvidia.com>, <ksitaraman@nvidia.com>,
-	<ishah@nvidia.com>, <bbasu@nvidia.com>, Sumit Gupta <sumitg@nvidia.com>
-References: <20230320182441.11904-8-sumitg@nvidia.com>
- <202303211551.eBLRqnv0-lkp@intel.com>
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <202303211551.eBLRqnv0-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.37]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT077:EE_|MN2PR12MB4160:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78e70ece-dd8b-4060-b32b-08db2a026b1c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	XT6G8TH/n9iX+XeNWNEh+uH+w7zRZF7OfqA/4sxnV6EWDiGaeVBwwZcO+nzjvze/yqQKzgONMnK1LER+B6+xmWtfQGIIrTRYy+SZtRD9vxRabSqN6a0WJXplRsAQcmcYxy4zs3YCvLjJTDVpKGWfeU/RJ+zDMWxjeuoWy6AUXQhsJazh+G/PRPw1a5AXFlrqe231OGEQ3QaFApEf2lqncyKlp4GI3KaFXH0t2BJpsXbEiJsoqlqJfaJqSgMqNASL21TT+3dNEpjLzQcnLTsqlmOBxZraPAfA20F7Q9vJLoxdAeplJoegBKX750unNg0aDG56VZRxO1+V3Mqplt0vQNvpkZ1yrIAx/1FYG6qiJeYl5Re6dKDRb9myEQSc/YAvFXW1oVSSnELyaTcPgZFfid4BI8EAf7M4cccutvshP05JL/ZtCXaJF7QNHCAC5YH32lfPEyKCwsXOQcGBrKYttpA4FTU3vZYDYTN1nrLKYDScPEiDHLegM5a5HUcLOVgI4SLD7fSgvTr+2q6g1tWT33aJ7qqWfROLwytpWmnF9JigxyVrM9QSTZ7gFAjMw9+EPjKDHyLi6NzkwHr8DUD5j7lFgz4MgUdY78m2fJeQZftPHTliIJ6chOF5qQVJWMUYrMX3T7cYbhDtDD6G27rlN24oJx5X4oFdaHadbECH+sDYD6EOiB3uHNGLuBl/NAVb8zz1T777zEAYEd8djEYDS0RXQSg/rPDNBNI3Am53dO0GDWqB9051P2MM98d99SuAnU4kwusFUDZcAV5NRxx+QtFKfbYK0KHSLnVVydo9TngGjI6aSw7YooaUgsUGoGYUOOQvEJdB/E3IQAzouM2smELJDtsoV8vuHTP8ymyjNyk=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(346002)(39860400002)(396003)(451199018)(40470700004)(46966006)(36840700001)(82740400003)(7636003)(82310400005)(86362001)(40460700003)(31696002)(40480700001)(36756003)(356005)(70586007)(70206006)(8936002)(16526019)(107886003)(8676002)(4326008)(41300700001)(6666004)(53546011)(26005)(966005)(186003)(478600001)(31686004)(16576012)(110136005)(316002)(54906003)(83380400001)(2616005)(2906002)(7416002)(5660300002)(47076005)(426003)(36860700001)(336012)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 11:50:07.7307
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78e70ece-dd8b-4060-b32b-08db2a026b1c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1NAM11FT077.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4160
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Faycal,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: e65547c5a9bb37e907edecece4da7cb12dadea96 platform/x86: Use $(srctree) instead of $(src) to adapt to kbuild regression
+date:   2 years, 6 months ago
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230321/202303212026.A2pEDRu5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/mchinth/linux/commit/e65547c5a9bb37e907edecece4da7cb12dadea96
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout e65547c5a9bb37e907edecece4da7cb12dadea96
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303212026.A2pEDRu5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no previous prototype for 'SOCPERF_Read_Data3' [-Wmissing-prototypes]
+     203 | extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:885:1: warning: no previous prototype for 'SOCPERF_Switch_Group3' [-Wmissing-prototypes]
+     885 | SOCPERF_Switch_Group3(VOID)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1070:6: warning: no previous prototype for 'lwpmudrv_Stop_Mem' [-Wmissing-prototypes]
+    1070 | VOID lwpmudrv_Stop_Mem(VOID)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1155:15: warning: no previous prototype for 'socperf_Service_IOCTL' [-Wmissing-prototypes]
+    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1274:6: warning: no previous prototype for 'socperf_Device_Control' [-Wmissing-prototypes]
+    1274 | long socperf_Device_Control(IOCTL_USE_INODE struct file *filp,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
+   drivers/platform/x86/socperf/socperfdrv.c: In function 'socperf_Device_Control':
+   drivers/platform/x86/socperf/inc/control.h:85:25: error: expected expression before 'struct'
+      85 | #define IOCTL_USE_INODE struct inode *inode,
+         |                         ^~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1299:40: note: in expansion of macro 'IOCTL_USE_INODE'
+    1299 |         status = socperf_Service_IOCTL(IOCTL_USE_INODE filp, _IOC_NR(cmd),
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1299:18: error: too few arguments to function 'socperf_Service_IOCTL'
+    1299 |         status = socperf_Service_IOCTL(IOCTL_USE_INODE filp, _IOC_NR(cmd),
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1155:15: note: declared here
+    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c: At top level:
+>> drivers/platform/x86/socperf/socperfdrv.c:1307:6: warning: no previous prototype for 'socperf_Device_Control_Compat' [-Wmissing-prototypes]
+    1307 | long socperf_Device_Control_Compat(struct file *filp, unsigned int cmd,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c: In function 'socperf_Device_Control_Compat':
+   drivers/platform/x86/socperf/socperfdrv.c:1336:40: error: passing argument 1 of 'socperf_Service_IOCTL' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
+         |                                        ^~~~
+         |                                        |
+         |                                        struct file *
+   In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
+   drivers/platform/x86/socperf/inc/control.h:85:39: note: expected 'struct inode *' but argument is of type 'struct file *'
+      85 | #define IOCTL_USE_INODE struct inode *inode,
+         |                         ~~~~~~~~~~~~~~^~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1155:37: note: in expansion of macro 'IOCTL_USE_INODE'
+    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+         |                                     ^~~~~~~~~~~~~~~
+   In file included from include/asm-generic/ioctl.h:5,
+                    from ./arch/x86/include/generated/uapi/asm/ioctl.h:1,
+                    from include/uapi/linux/ioctl.h:5,
+                    from include/uapi/linux/apm_bios.h:133,
+                    from include/linux/apm_bios.h:9,
+                    from arch/x86/include/uapi/asm/bootparam.h:44,
+                    from arch/x86/include/asm/mem_encrypt.h:17,
+                    from include/linux/mem_encrypt.h:17,
+                    from arch/x86/include/asm/processor-flags.h:6,
+                    from arch/x86/include/asm/processor.h:5,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:65,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:73,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/platform/x86/socperf/socperfdrv.c:55:
+   include/uapi/asm-generic/ioctl.h:96:57: warning: passing argument 2 of 'socperf_Service_IOCTL' makes pointer from integer without a cast [-Wint-conversion]
+      96 | #define _IOC_NR(nr)             (((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         unsigned int
+   drivers/platform/x86/socperf/socperfdrv.c:1336:46: note: in expansion of macro '_IOC_NR'
+    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
+         |                                              ^~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1155:66: note: expected 'struct file *' but argument is of type 'unsigned int'
+    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+         |                                                     ~~~~~~~~~~~~~^~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1336:60: error: incompatible type for argument 3 of 'socperf_Service_IOCTL'
+    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
+         |                                                            ^~~~~~~~~~
+         |                                                            |
+         |                                                            IOCTL_ARGS_NODE {aka struct IOCTL_ARGS_NODE_S}
+   drivers/platform/x86/socperf/socperfdrv.c:1156:57: note: expected 'unsigned int' but argument is of type 'IOCTL_ARGS_NODE' {aka 'struct IOCTL_ARGS_NODE_S'}
+    1156 |                                            unsigned int cmd,
+         |                                            ~~~~~~~~~~~~~^~~
+   drivers/platform/x86/socperf/socperfdrv.c:1336:18: error: too few arguments to function 'socperf_Service_IOCTL'
+    1336 |         status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1155:15: note: declared here
+    1155 | IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c: At top level:
+   drivers/platform/x86/socperf/socperfdrv.c:1358:5: warning: no previous prototype for 'SOCPERF_Abnormal_Terminate' [-Wmissing-prototypes]
+    1358 | int SOCPERF_Abnormal_Terminate(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/platform/x86/socperf/socperfdrv.c:80:
+   drivers/platform/x86/socperf/inc/control.h:83:19: error: 'struct file_operations' has no member named 'ioctl'
+      83 | #define IOCTL_OP .ioctl
+         |                   ^~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1389:9: note: in expansion of macro 'IOCTL_OP'
+    1389 |         IOCTL_OP = socperf_Device_Control,
+         |         ^~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1389:20: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+    1389 |         IOCTL_OP = socperf_Device_Control,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/socperf/socperfdrv.c:1389:20: note: (near initialization for 'socperf_Fops')
+   drivers/platform/x86/socperf/socperfdrv.c:1389:20: error: initialization of 'loff_t (*)(struct file *, loff_t,  int)' {aka 'long long int (*)(struct file *, long long int,  int)'} from incompatible pointer type 'long int (*)(struct inode *, struct file *, unsigned int,  long unsigned int)' [-Werror=incompatible-pointer-types]
+   drivers/platform/x86/socperf/socperfdrv.c:1389:20: note: (near initialization for 'socperf_Fops.llseek')
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/platform/x86/socperf/socperfdrv.c:55:
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/platform/x86/socperf/socperfdrv.c:1397:19: note: in expansion of macro 'NULL'
+    1397 |         .llseek = NULL,
+         |                   ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'socperf_Fops.llseek')
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/platform/x86/socperf/socperfdrv.c:1397:19: note: in expansion of macro 'NULL'
+    1397 |         .llseek = NULL,
+         |                   ^~~~
+   cc1: some warnings being treated as errors
 
 
+vim +/socperf_Device_Control_Compat +1307 drivers/platform/x86/socperf/socperfdrv.c
 
-On 21/03/23 13:06, kernel test robot wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> Hi Sumit,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on robh/for-next]
-> [also build test WARNING on krzk-mem-ctrl/for-next pci/next pci/for-linus]
-> [cannot apply to tegra/for-next rafael-pm/linux-next linus/master v6.3-rc3 next-20230321]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20230320182441.11904-8-sumitg%40nvidia.com
-> patch subject: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set bandwidth
-> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230321/202303211551.eBLRqnv0-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/fa31f117302fc7c15b5d9deeefb8c650554f503d
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
->          git checkout fa31f117302fc7c15b5d9deeefb8c650554f503d
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/cpufreq/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303211551.eBLRqnv0-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/cpufreq/tegra194-cpufreq.c:397:5: warning: no previous prototype for 'tegra_cpufreq_init_cpufreq_table' [-Wmissing-prototypes]
->       397 | int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy *policy,
->           |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
+f57492d07625dd Manisha Chinthapally 2019-05-01  1305  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1306  #if defined(CONFIG_COMPAT) && defined(DRV_EM64T)
+f57492d07625dd Manisha Chinthapally 2019-05-01 @1307  long socperf_Device_Control_Compat(struct file *filp, unsigned int cmd,
+f57492d07625dd Manisha Chinthapally 2019-05-01  1308  					  unsigned long arg)
+f57492d07625dd Manisha Chinthapally 2019-05-01  1309  {
+f57492d07625dd Manisha Chinthapally 2019-05-01  1310  	int status = OS_SUCCESS;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1311  	IOCTL_COMPAT_ARGS_NODE local_args_compat;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1312  	IOCTL_ARGS_NODE local_args;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1313  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1314  	memset(&local_args_compat, 0, sizeof(IOCTL_COMPAT_ARGS_NODE));
+f57492d07625dd Manisha Chinthapally 2019-05-01  1315  	SOCPERF_PRINT_DEBUG("Compat: type: %d, subcommand: %d\n",
+f57492d07625dd Manisha Chinthapally 2019-05-01  1316  			    _IOC_TYPE(cmd), _IOC_NR(cmd));
+f57492d07625dd Manisha Chinthapally 2019-05-01  1317  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1318  	if (_IOC_TYPE(cmd) != LWPMU_IOC_MAGIC) {
+f57492d07625dd Manisha Chinthapally 2019-05-01  1319  		SOCPERF_PRINT_ERROR("Unknown IOCTL magic:%d\n", _IOC_TYPE(cmd));
+f57492d07625dd Manisha Chinthapally 2019-05-01  1320  		return OS_ILLEGAL_IOCTL;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1321  	}
+f57492d07625dd Manisha Chinthapally 2019-05-01  1322  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1323  	MUTEX_LOCK(ioctl_lock);
+f57492d07625dd Manisha Chinthapally 2019-05-01  1324  	if (arg) {
+f57492d07625dd Manisha Chinthapally 2019-05-01  1325  		status = copy_from_user(&local_args_compat,
+f57492d07625dd Manisha Chinthapally 2019-05-01  1326  					(void __user *)arg,
+f57492d07625dd Manisha Chinthapally 2019-05-01  1327  					sizeof(IOCTL_COMPAT_ARGS_NODE));
+f57492d07625dd Manisha Chinthapally 2019-05-01  1328  	}
+f57492d07625dd Manisha Chinthapally 2019-05-01  1329  	local_args.len_drv_to_usr = local_args_compat.len_drv_to_usr;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1330  	local_args.len_usr_to_drv = local_args_compat.len_usr_to_drv;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1331  	local_args.buf_drv_to_usr =
+f57492d07625dd Manisha Chinthapally 2019-05-01  1332  		(char *)compat_ptr(local_args_compat.buf_drv_to_usr);
+f57492d07625dd Manisha Chinthapally 2019-05-01  1333  	local_args.buf_usr_to_drv =
+f57492d07625dd Manisha Chinthapally 2019-05-01  1334  		(char *)compat_ptr(local_args_compat.buf_usr_to_drv);
+f57492d07625dd Manisha Chinthapally 2019-05-01  1335  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1336  	status = socperf_Service_IOCTL(filp, _IOC_NR(cmd), local_args);
+f57492d07625dd Manisha Chinthapally 2019-05-01  1337  	MUTEX_UNLOCK(ioctl_lock);
+f57492d07625dd Manisha Chinthapally 2019-05-01  1338  
+f57492d07625dd Manisha Chinthapally 2019-05-01  1339  	return status;
+f57492d07625dd Manisha Chinthapally 2019-05-01  1340  }
+f57492d07625dd Manisha Chinthapally 2019-05-01  1341  #endif
+f57492d07625dd Manisha Chinthapally 2019-05-01  1342  
 
-Thank you for the report.
+:::::: The code at line 1307 was first introduced by commit
+:::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
 
-Adding static to the function prototype fixes the warning.
-Can we please squash the below change (or) please let me know if i need 
-to re-send the patch.
+:::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
+:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
 
-  +++ b/drivers/cpufreq/tegra194-cpufreq.c
-  @@ -394,7 +394,7 @@ static unsigned int tegra194_get_speed(u32 cpu)
-          return rate;
-   }
-
-  -int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy *policy,
-  +static int tegra_cpufreq_init_cpufreq_table(
-                             struct cpufreq_policy *policy,
-                             struct cpufreq_frequency_table *bpmp_lut,
-                             struct cpufreq_frequency_table **opp_table)
-
-Thank you,
-Sumit Gupta
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
