@@ -1,142 +1,183 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF39C952
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 15:49:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679413781; x=1710949781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YddQF/plqF+fYZY0R69SFY7iAwoIaqWSnvuJvcZK3WM=;
-  b=VWGsbw27hDQbHQihJwHfuJvTDeUhWuMvcSmNrqv316ZJvqH4YaZTt/ge
-   oe/ofQlWYeq5KaLf85GNS4cemMqCJmXvmSGG4sN2D8DjBkPRc128CrxCD
-   r/2n3cLITEgJomhGy52TqQcOwE7lHVFIoIywUKlN+1G/JQ89ji+mStpuz
-   Ys+7UUiu5Lk0zsNRCUODR2Khb4xNQsnvVW9AEdBMfm2oSQlU18keyA6tw
-   Y+ZVzVq7QdZmxQgvZ9Rfz4mNEo7LZIdCNdrncmGLE7HaGG2/V0XXYec8O
-   wmIBeDdo60aKPEeYjdjJNq/iFxHgCWTmFojZdw3USaBwRV0IG4SBYMpfV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337700246"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="337700246"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 08:49:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="745894771"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="745894771"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Mar 2023 08:49:37 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peeEy-000C62-38;
-	Tue, 21 Mar 2023 15:49:36 +0000
-Date: Tue, 21 Mar 2023 23:48:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Piotr Raczynski <piotr.raczynski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	michal.swiatkowski@intel.com, shiraz.saleem@intel.com,
-	jacob.e.keller@intel.com, sridhar.samudrala@intel.com,
-	jesse.brandeburg@intel.com, aleksander.lobakin@intel.com,
-	lukasz.czapnik@intel.com,
-	Piotr Raczynski <piotr.raczynski@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-Subject: Re: [PATCH net-next v1 6/8] ice: add individual interrupt allocation
-Message-ID: <202303212327.g08d8Z7h-lkp@intel.com>
-References: <20230321122138.3151670-7-piotr.raczynski@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AF8C952
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 15:52:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 095ADC433D2;
+	Tue, 21 Mar 2023 15:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679413952;
+	bh=b4WRK4pizy5CLjtQO+7ym0LvEmB3fKGHGSY0Zeq50qw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=mygoKmMkzZ3m89pWPs1ii93kes15sAzdsiJiea5cZUxoKpo/0kxEWDdu6HCJBCQqh
+	 6whPFkjXjOIXJ9DsuGgqp65pqIkdiNWdn3UUCBT0GEb+vC7g76eG7xvVY0vs/rfNYq
+	 uycjiVCOKhAzFXY5iAV1Y5sbPIsXwntQtdRJC1Ldxs1FQZ6XteefxS5Exoy5gRzssc
+	 a2dIGBKgV/ws2cit/zwQdBh+Gz2J6rBU8kOBXdsUdsaHIzuGc/I6zWWl6bwil5nVyZ
+	 113bErBxlXTS5TWpmLM4h0YXaPf/BJUGVYNXiCdCIB5rD55vk4YBHHv4cGtyBi0M6K
+	 8OVJblfpcHwuA==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 41CE2154033A; Tue, 21 Mar 2023 08:52:31 -0700 (PDT)
+Date: Tue, 21 Mar 2023 08:52:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: "Liu, Yujie" <yujie.liu@intel.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	lkp <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [paulmck-rcu:dev.2023.03.17a 33/38] kernel/rcu/tasks.h:140:20:
+ warning: 'tasks_rcu_exit_srcu' defined but not used
+Message-ID: <75ca890c-8f97-4879-a094-ab8dfb6f483a@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202303191536.XzMSyzTl-lkp@intel.com>
+ <be0bf772-bac1-4a18-a46a-922a93093314@paulmck-laptop>
+ <9c716b77dd0743089a40f933ccdcbd57222e21f4.camel@intel.com>
+ <5b73fe0e-bacc-4aee-a632-3160e38e42db@paulmck-laptop>
+ <3c163348df52f9501c5759b60642939d47088816.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230321122138.3151670-7-piotr.raczynski@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3c163348df52f9501c5759b60642939d47088816.camel@intel.com>
 
-Hi Piotr,
+On Tue, Mar 21, 2023 at 06:16:04AM +0000, Liu, Yujie wrote:
+> On Mon, 2023-03-20 at 21:18 -0700, Paul E. McKenney wrote:
+> > On Tue, Mar 21, 2023 at 02:49:08AM +0000, Liu, Yujie wrote:
+> > > Hi Paul,
+> > > 
+> > > On Sun, 2023-03-19 at 17:33 -0700, Paul E. McKenney wrote:
+> > > > On Sun, Mar 19, 2023 at 03:05:43PM +0800, kernel test robot
+> > > > wrote:
+> > > > > tree:  
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+> > > > >  dev.2023.03.17a
+> > > > > head:   19d218a4b125a4dce12eb88097a9c55f7126ce8c
+> > > > > commit: 61eea4556e8cf92d4c9b483110a679d2652aa451 [33/38] srcu:
+> > > > > Move work-scheduling fields from srcu_struct to srcu_usage
+> > > > > config: x86_64-kexec
+> > > > > (https://download.01.org/0day-ci/archive/20230319/202303191536
+> > > > > .XzMSyzTl-lkp@intel.com/config)
+> > > > > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> > > > > reproduce (this is a W=1 build):
+> > > > >         #
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=61eea4556e8cf92d4c9b483110a679d2652aa451
+> > > > >         git remote add paulmck-rcu
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+> > > > >         git fetch --no-tags paulmck-rcu dev.2023.03.17a
+> > > > >         git checkout 61eea4556e8cf92d4c9b483110a679d2652aa451
+> > > > >         # save the config file
+> > > > >         mkdir build_dir && cp config build_dir/.config
+> > > > >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
+> > > > >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> > > > > kernel/
+> > > > > 
+> > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > Link:
+> > > > > > https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
+> > > > > 
+> > > > > All warnings (new ones prefixed by >>):
+> > > > > 
+> > > > >    In file included from include/linux/srcu.h:49,
+> > > > >                     from include/linux/notifier.h:16,
+> > > > >                     from arch/x86/include/asm/uprobes.h:13,
+> > > > >                     from include/linux/uprobes.h:49,
+> > > > >                     from include/linux/mm_types.h:16,
+> > > > >                     from include/linux/sched/signal.h:13,
+> > > > >                     from kernel/rcu/update.c:26:
+> > > > > > > kernel/rcu/tasks.h:140:20: warning: 'tasks_rcu_exit_srcu'
+> > > > > > > defined but not used [-Wunused-variable]
+> > > > >      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+> > > > >          |                    ^~~~~~~~~~~~~~~~~~~
+> > > > >    include/linux/srcutree.h:184:38: note: in definition of
+> > > > > macro '__DEFINE_SRCU'
+> > > > >      184 |         is_static struct srcu_struct name
+> > > > > =                                                     \
+> > > > >          |                                      ^~~~
+> > > > >    kernel/rcu/tasks.h:140:1: note: in expansion of macro
+> > > > > 'DEFINE_STATIC_SRCU'
+> > > > >      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+> > > > >          | ^~~~~~~~~~~~~~~~~~
+> > > > 
+> > > > Good catch, thank you!
+> > > > 
+> > > > Does the patch shown below fix this?
+> > > 
+> > > We've tested the patch and the build warning is fixed by it.
+> > > Thanks.
+> > 
+> > Thank you!  May I apply your Tested-by?
+> 
+> Sure, with pleasure.
+> 
+> Tested-by: Yujie Liu <yujie.liu@intel.com>
 
-Thank you for the patch! Yet something to improve:
+Thank you, and I will apply on my next rebase.
 
-[auto build test ERROR on net-next/main]
+							Thanx, Paul
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Piotr-Raczynski/ice-move-interrupt-related-code-to-separate-file/20230321-202438
-patch link:    https://lore.kernel.org/r/20230321122138.3151670-7-piotr.raczynski%40intel.com
-patch subject: [PATCH net-next v1 6/8] ice: add individual interrupt allocation
-config: i386-randconfig-a011-20230320 (https://download.01.org/0day-ci/archive/20230321/202303212327.g08d8Z7h-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6dc6aed8cfd670558d6c07ac957f342d1643f115
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Piotr-Raczynski/ice-move-interrupt-related-code-to-separate-file/20230321-202438
-        git checkout 6dc6aed8cfd670558d6c07ac957f342d1643f115
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303212327.g08d8Z7h-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/net/ethernet/intel/ice/ice_base.o: in function `ice_free_q_vector':
->> drivers/net/ethernet/intel/ice/ice_base.c:199: undefined reference to `ice_get_vf_ctrl_vsi'
-   ld: drivers/net/ethernet/intel/ice/ice_base.o: in function `ice_vsi_alloc_q_vector':
-   drivers/net/ethernet/intel/ice/ice_base.c:127: undefined reference to `ice_get_vf_ctrl_vsi'
-
-
-vim +199 drivers/net/ethernet/intel/ice/ice_base.c
-
-   163	
-   164	/**
-   165	 * ice_free_q_vector - Free memory allocated for a specific interrupt vector
-   166	 * @vsi: VSI having the memory freed
-   167	 * @v_idx: index of the vector to be freed
-   168	 */
-   169	static void ice_free_q_vector(struct ice_vsi *vsi, int v_idx)
-   170	{
-   171		struct ice_q_vector *q_vector;
-   172		struct ice_pf *pf = vsi->back;
-   173		struct ice_tx_ring *tx_ring;
-   174		struct ice_rx_ring *rx_ring;
-   175		struct device *dev;
-   176	
-   177		dev = ice_pf_to_dev(pf);
-   178		if (!vsi->q_vectors[v_idx]) {
-   179			dev_dbg(dev, "Queue vector at index %d not found\n", v_idx);
-   180			return;
-   181		}
-   182		q_vector = vsi->q_vectors[v_idx];
-   183	
-   184		ice_for_each_tx_ring(tx_ring, q_vector->tx)
-   185			tx_ring->q_vector = NULL;
-   186		ice_for_each_rx_ring(rx_ring, q_vector->rx)
-   187			rx_ring->q_vector = NULL;
-   188	
-   189		/* only VSI with an associated netdev is set up with NAPI */
-   190		if (vsi->netdev)
-   191			netif_napi_del(&q_vector->napi);
-   192	
-   193		/* release MSIX interrupt if q_vector had interrupt allocated */
-   194		if (q_vector->irq.index < 0)
-   195			goto free_q_vector;
-   196	
-   197		/* only free last VF ctrl vsi interrupt */
-   198		if (vsi->type == ICE_VSI_CTRL && vsi->vf &&
- > 199		    ice_get_vf_ctrl_vsi(pf, vsi))
-   200			goto free_q_vector;
-   201	
-   202		ice_free_irq(pf, q_vector->irq);
-   203	
-   204	free_q_vector:
-   205		devm_kfree(dev, q_vector);
-   206		vsi->q_vectors[v_idx] = NULL;
-   207	}
-   208	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> Thanks.
+> 
+> >                                                         Thanx, Paul
+> > 
+> > > --
+> > > Best Regards,
+> > > Yujie
+> > > 
+> > > >                                                         Thanx,
+> > > > Paul
+> > > > 
+> > > > -----------------------------------------------------------------
+> > > > -------
+> > > > 
+> > > > commit a9b8406e51603238941dbc6fa1437f8915254ebb
+> > > > Author: Paul E. McKenney <paulmck@kernel.org>
+> > > > Date:   Sun Mar 19 17:29:20 2023 -0700
+> > > > 
+> > > >     rcu-tasks: Fix warning for unused tasks_rcu_exit_srcu
+> > > >     
+> > > >     The tasks_rcu_exit_srcu variable is used only by kernels
+> > > > built
+> > > >     with CONFIG_TASKS_RCU=y, but is defined for all kernesl with
+> > > >     CONFIG_TASKS_RCU_GENERIC=y.  Therefore, in kernels built with
+> > > >     CONFIG_TASKS_RCU_GENERIC=y but CONFIG_TASKS_RCU=n, this gives
+> > > >     a "defined but not used" warning.
+> > > >     
+> > > >     This commit therefore moves this variable under
+> > > > CONFIG_TASKS_RCU
+> > > >     
+> > > >     Link:
+> > > > https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
+> > > >     Reported-by: kernel test robot <lkp@intel.com>
+> > > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > > > 
+> > > > diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
+> > > > index baf7ec178155..85a874d4166b 100644
+> > > > --- a/kernel/rcu/tasks.h
+> > > > +++ b/kernel/rcu/tasks.h
+> > > > @@ -136,10 +136,10 @@ static struct rcu_tasks rt_name
+> > > > =                                                 \
+> > > >         .kname =
+> > > > #rt_name,                                                        
+> > > >       \
+> > > >  }
+> > > >  
+> > > > +#ifdef CONFIG_TASKS_RCU
+> > > >  /* Track exiting tasks in order to allow them to be waited for.
+> > > > */
+> > > >  DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
+> > > >  
+> > > > -#ifdef CONFIG_TASKS_RCU
+> > > >  /* Report delay in synchronize_srcu() completion in
+> > > > rcu_tasks_postscan(). */
+> > > >  static void tasks_rcu_exit_srcu_stall(struct timer_list
+> > > > *unused);
+> > > >  static DEFINE_TIMER(tasks_rcu_exit_srcu_stall_timer,
+> > > > tasks_rcu_exit_srcu_stall);
+> > > > 
+> > > 
+> > 
+> 
