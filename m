@@ -1,140 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF19B7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 04:18:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C9CBC433EF;
-	Tue, 21 Mar 2023 04:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679372324;
-	bh=pbEGl7dD5fxCPHdZv4f//Rwhjn5M+g6SoFos47Cd0PM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=YDlsKc03X/Okd7034UDCAimU41OiaqHgzXFtbEC2J7teIkl2SL9sTEiUbyMRABHUH
-	 rG94XYV33FmS4/9WD1/HQ7V63mTi4W1J07MOiPkba05gq2kfFFgCHD9xg9vxCdCfUz
-	 HvOuBjKASFNOjA1n6WhFsB1ReiuyI29/cytPOqGjKb8KqOFliGjoJq/Twg7jyBzdh/
-	 cBHgTnLQkOSEZrWfM3pIB6cI/K9yvYdsgh9upXdzR7mGbfiA+7dSUaphwRE3lejO4r
-	 SlSWYCf3oQ5szAYxLXNXFWW4SeKsL0oMRQgrN78vQz237pOgoAH0Z69pg4uVRL76oL
-	 nARJ7JSN1awHw==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 4565A1540395; Mon, 20 Mar 2023 21:18:44 -0700 (PDT)
-Date: Mon, 20 Mar 2023 21:18:44 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: "Liu, Yujie" <yujie.liu@intel.com>
-Cc: lkp <lkp@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [paulmck-rcu:dev.2023.03.17a 33/38] kernel/rcu/tasks.h:140:20:
- warning: 'tasks_rcu_exit_srcu' defined but not used
-Message-ID: <5b73fe0e-bacc-4aee-a632-3160e38e42db@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202303191536.XzMSyzTl-lkp@intel.com>
- <be0bf772-bac1-4a18-a46a-922a93093314@paulmck-laptop>
- <9c716b77dd0743089a40f933ccdcbd57222e21f4.camel@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0D87C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 04:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679372412; x=1710908412;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HsMZA4ltV2jKvsoi9yihPsBK05mU94uEm07Lzztr/1U=;
+  b=mcVHNy213p75L3Fw1y9d/XrGWnDAv3iN7ZJfMjRbdt0Cnlb9DUxARz6H
+   dlTEjy9v/2ra1Hr885/ZSUC4jbtiFxp+CZa0702oewIa3lAkElkL24zax
+   9aOJo1kfepbIZ5USZJWCKAdebXB6EdfUGh1h3BKOnXbYWn+QamXFPgFPO
+   sMxTWc1WfCtgesQV6JfLwhd3wDgnYZ08gR+soW57Z8NsTi2ceqM+WvUdk
+   jT8UrDzRseB0P6elEyLE2t8oRg3hjfiWplsO8ImhiZLwJWjkVYi5mcprb
+   PsxIZFtuHLjVpPXU/uo32Flu4ij5YX6FNGWHHYwVc7WNNc3jNG3lS5HG1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338878906"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="338878906"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 21:20:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631397889"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="631397889"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 21:20:10 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peTTl-000Ba6-39;
+	Tue, 21 Mar 2023 04:20:09 +0000
+Date: Tue, 21 Mar 2023 12:20:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-mailbox 7/10] drivers/soc/apple/rtkit.c:626:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202303211235.0n6WNggF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9c716b77dd0743089a40f933ccdcbd57222e21f4.camel@intel.com>
 
-On Tue, Mar 21, 2023 at 02:49:08AM +0000, Liu, Yujie wrote:
-> Hi Paul,
-> 
-> On Sun, 2023-03-19 at 17:33 -0700, Paul E. McKenney wrote:
-> > On Sun, Mar 19, 2023 at 03:05:43PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.17a
-> > > head:   19d218a4b125a4dce12eb88097a9c55f7126ce8c
-> > > commit: 61eea4556e8cf92d4c9b483110a679d2652aa451 [33/38] srcu: Move work-scheduling fields from srcu_struct to srcu_usage
-> > > config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230319/202303191536.XzMSyzTl-lkp@intel.com/config)
-> > > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> > > reproduce (this is a W=1 build):
-> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=61eea4556e8cf92d4c9b483110a679d2652aa451
-> > >         git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-> > >         git fetch --no-tags paulmck-rcu dev.2023.03.17a
-> > >         git checkout 61eea4556e8cf92d4c9b483110a679d2652aa451
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-> > >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Link: https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >    In file included from include/linux/srcu.h:49,
-> > >                     from include/linux/notifier.h:16,
-> > >                     from arch/x86/include/asm/uprobes.h:13,
-> > >                     from include/linux/uprobes.h:49,
-> > >                     from include/linux/mm_types.h:16,
-> > >                     from include/linux/sched/signal.h:13,
-> > >                     from kernel/rcu/update.c:26:
-> > > > > kernel/rcu/tasks.h:140:20: warning: 'tasks_rcu_exit_srcu' defined but not used [-Wunused-variable]
-> > >      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-> > >          |                    ^~~~~~~~~~~~~~~~~~~
-> > >    include/linux/srcutree.h:184:38: note: in definition of macro '__DEFINE_SRCU'
-> > >      184 |         is_static struct srcu_struct name =                                                     \
-> > >          |                                      ^~~~
-> > >    kernel/rcu/tasks.h:140:1: note: in expansion of macro 'DEFINE_STATIC_SRCU'
-> > >      140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-> > >          | ^~~~~~~~~~~~~~~~~~
-> > 
-> > Good catch, thank you!
-> > 
-> > Does the patch shown below fix this?
-> 
-> We've tested the patch and the build warning is fixed by it. Thanks.
+tree:   https://github.com/AsahiLinux/linux bits/010-mailbox
+head:   29506b44eb09be69c248d69061154f3cc0304ac0
+commit: 62f3af80169e0b672435004586f085751defc26d [7/10] soc: apple: rtkit: Port to the internal mailbox driver
+config: arm64-randconfig-c023-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211235.0n6WNggF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/62f3af80169e0b672435004586f085751defc26d
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/010-mailbox
+        git checkout 62f3af80169e0b672435004586f085751defc26d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/soc/apple/
 
-Thank you!  May I apply your Tested-by?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211235.0n6WNggF-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
 
-> --
-> Best Regards,
-> Yujie
-> 
-> >                                                         Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit a9b8406e51603238941dbc6fa1437f8915254ebb
-> > Author: Paul E. McKenney <paulmck@kernel.org>
-> > Date:   Sun Mar 19 17:29:20 2023 -0700
-> > 
-> >     rcu-tasks: Fix warning for unused tasks_rcu_exit_srcu
-> >     
-> >     The tasks_rcu_exit_srcu variable is used only by kernels built
-> >     with CONFIG_TASKS_RCU=y, but is defined for all kernesl with
-> >     CONFIG_TASKS_RCU_GENERIC=y.  Therefore, in kernels built with
-> >     CONFIG_TASKS_RCU_GENERIC=y but CONFIG_TASKS_RCU=n, this gives
-> >     a "defined but not used" warning.
-> >     
-> >     This commit therefore moves this variable under CONFIG_TASKS_RCU
-> >     
-> >     Link: https://lore.kernel.org/oe-kbuild-all/202303191536.XzMSyzTl-lkp@intel.com/
-> >     Reported-by: kernel test robot <lkp@intel.com>
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > 
-> > diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
-> > index baf7ec178155..85a874d4166b 100644
-> > --- a/kernel/rcu/tasks.h
-> > +++ b/kernel/rcu/tasks.h
-> > @@ -136,10 +136,10 @@ static struct rcu_tasks rt_name =                                                 \
-> >         .kname = #rt_name,                                                              \
-> >  }
-> >  
-> > +#ifdef CONFIG_TASKS_RCU
-> >  /* Track exiting tasks in order to allow them to be waited for. */
-> >  DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-> >  
-> > -#ifdef CONFIG_TASKS_RCU
-> >  /* Report delay in synchronize_srcu() completion in rcu_tasks_postscan(). */
-> >  static void tasks_rcu_exit_srcu_stall(struct timer_list *unused);
-> >  static DEFINE_TIMER(tasks_rcu_exit_srcu_stall_timer, tasks_rcu_exit_srcu_stall);
-> > 
-> 
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:626:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     626 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
+   drivers/soc/apple/rtkit.c: At top level:
+   drivers/soc/apple/rtkit.c:670:21: warning: no previous prototype for 'apple_rtkit_init' [-Wmissing-prototypes]
+     670 | struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+         |                     ^~~~~~~~~~~~~~~~
+
+
+vim +626 drivers/soc/apple/rtkit.c
+
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  613  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  614  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  615  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  616  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  617  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  618  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  619  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  620  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  621  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  622  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  623  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  624  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  625  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @626  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  627  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  639  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  
+
+:::::: The code at line 626 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
