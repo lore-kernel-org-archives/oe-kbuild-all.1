@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE56D2ED;
-	Tue, 21 Mar 2023 17:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6AD2ED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 17:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679419963; x=1710955963;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7EPdgQ7ngZjfuwDZlcEvq2OY4rjaUfJghmwjPI7ptak=;
-  b=Roj/VXX66zfsyo2QiUyOEEus/CGOdCi+xF0JnclJtelF9DEj2ErZgWdB
-   dOF0+KYnlRqHp9FWas8pHv5Ct65nSSG0YHm4dXA+TPSZ4fXQBZpBPCWgv
-   dPFEgidg6AD0NkEW1bILPBGPUwReMNALneUSj/lI6RA7pkOi6SvFz3w9v
-   whaH5gIoeYli/Ge0RKxKzezQznG2BzoK+kDeJj6m92B609nO09OmxtACz
-   R1SfcIiPyqTtqhXJIVx8i58j+AlkoGVEia7Dm7GgYrZkHnus9i6s6tiGp
-   WWo+WUBUG7/W5AHuucr8qOj6WSZXYAHd4c1402SPjE6x+ijJK2Wc8jw0E
+  t=1679420579; x=1710956579;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iGHEeYjJxghDx/sm7aLgQ4PBiEMIs5tOQyNOQsacX2I=;
+  b=Up+WUU9iD2cA8V7d9BJQ1czK7COgeD/QakPChKZw8B9tLSFrBq9xNv/6
+   MhbPIDGa1S+wY25UtjDhVbHyViaXuOrH8YS3PzhfYjxr96/M+M9o9E5e5
+   7I/cLtxNOsl1Grp2NKIaVT/yJ9h55eVSyf6U3EQBJ+V9bBfpYRXtKWpZc
+   XTXQf5Deo9TT7XWU3/hkpApNcHmiL81+jU9XQAOqP71Ct/cnxCDTK+jru
+   +4q64k5NQxPqfFA8P9XHiSLG9v4S/38U3k5wvMj85OKB2N3BBIl68Qau3
+   o0dbexSeNgJpM0JJ8BOejcvQiT3pJpflZtUcS+cIfp66Ns5qvNClkiSjA
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366746811"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="340553581"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="366746811"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:32:43 -0700
+   d="scan'208";a="340553581"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:42:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="711902736"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805503024"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="711902736"
+   d="scan'208";a="805503024"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 10:32:41 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2023 10:42:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pefqj-000CCw-0G;
-	Tue, 21 Mar 2023 17:32:41 +0000
-Date: Wed, 22 Mar 2023 01:31:58 +0800
+	id 1peg0Q-000CDX-1r;
+	Tue, 21 Mar 2023 17:42:42 +0000
+Date: Wed, 22 Mar 2023 01:42:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [net-next PATCH v5 05/15] net: phy: Add a binding for PHY LEDs
-Message-ID: <202303220140.di39rmRa-lkp@intel.com>
-References: <20230319191814.22067-6-ansuelsmth@gmail.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:tls-netlink.v7 10/20]
+ arch/m68k/include/asm/string.h:48:25: warning: 'memset' used with length
+ equal to number of elements without multiplication by element size
+Message-ID: <202303220114.LshhKV5V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,40 +46,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230319191814.22067-6-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-dsa-qca8k-move-qca8k_port_to_phy-to-header/20230320-032239
-patch link:    https://lore.kernel.org/r/20230319191814.22067-6-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v5 05/15] net: phy: Add a binding for PHY LEDs
-config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230322/202303220140.di39rmRa-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git tls-netlink.v7
+head:   5c13b43fa2c503188a6d668b0dec6a22078329a2
+commit: 31b3d10dcf4a28f931001df8b4e539716bcbd5d3 [10/20] nvme-tcp: enable TLS handshake upcall
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303220114.LshhKV5V-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7c3d7e2a0c0c8a14fb18635507f95077bdbc5e46
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-Marangi/net-dsa-qca8k-move-qca8k_port_to_phy-to-header/20230320-032239
-        git checkout 7c3d7e2a0c0c8a14fb18635507f95077bdbc5e46
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git/commit/?id=31b3d10dcf4a28f931001df8b4e539716bcbd5d3
+        git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git
+        git fetch --no-tags hare-scsi-devel tls-netlink.v7
+        git checkout 31b3d10dcf4a28f931001df8b4e539716bcbd5d3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220140.di39rmRa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220114.LshhKV5V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: devm_led_classdev_register_ext
-   >>> referenced by phy_device.c:3025 (drivers/net/phy/phy_device.c:3025)
-   >>>               drivers/net/phy/phy_device.o:(phy_probe) in archive vmlinux.a
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/nvme/host/tcp.c:7:
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_alloc_admin_queue':
+>> arch/m68k/include/asm/string.h:48:25: warning: 'memset' used with length equal to number of elements without multiplication by element size [-Wmemset-elt-size]
+      48 | #define memset(d, c, n) __builtin_memset(d, c, n)
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1897:9: note: in expansion of macro 'memset'
+    1897 |         memset(keylist, 0, sizeof(key_serial_t));
+         |         ^~~~~~
+   drivers/nvme/host/tcp.c: In function '__nvme_tcp_alloc_io_queues':
+>> arch/m68k/include/asm/string.h:48:25: warning: 'memset' used with length equal to number of elements without multiplication by element size [-Wmemset-elt-size]
+      48 | #define memset(d, c, n) __builtin_memset(d, c, n)
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1927:9: note: in expansion of macro 'memset'
+    1927 |         memset(keylist, 0, sizeof(key_serial_t));
+         |         ^~~~~~
+   In file included from <command-line>:
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_init_module':
+   include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_726' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct nvme_tcp_term_pdu) != 24
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:2860:9: note: in expansion of macro 'BUILD_BUG_ON'
+    2860 |         BUILD_BUG_ON(sizeof(struct nvme_tcp_term_pdu) != 24);
+         |         ^~~~~~~~~~~~
+
+
+vim +/memset +48 arch/m68k/include/asm/string.h
+
+ea61bc461d09e8d Greg Ungerer 2010-09-07  45  
+ea61bc461d09e8d Greg Ungerer 2010-09-07  46  #define __HAVE_ARCH_MEMSET
+ea61bc461d09e8d Greg Ungerer 2010-09-07  47  extern void *memset(void *, int, __kernel_size_t);
+ea61bc461d09e8d Greg Ungerer 2010-09-07 @48  #define memset(d, c, n) __builtin_memset(d, c, n)
+ea61bc461d09e8d Greg Ungerer 2010-09-07  49  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: ea61bc461d09e8d331a307916530aaae808c72a2 m68k/m68knommu: merge MMU and non-MMU string.h
+
+:::::: TO: Greg Ungerer <gerg@snapgear.com>
+:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
 
 -- 
 0-DAY CI Kernel Test Service
