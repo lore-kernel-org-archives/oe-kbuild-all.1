@@ -1,159 +1,94 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078748BE1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 09:58:59 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id w9so57375884edc.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 02:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679392738;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pKBF0p6guvCmwnToXhd4OYDdRDdzh6OgcvQvxbvE+pE=;
-        b=EssSDkVxCEAiGv5UGOgq2FXRX5mORJvDvjbLhRZKixCrMrk+E4Ayn4rTBUKNzBpds6
-         UP/+qjiov4zDNOqvq6FhN/UrcGLbG52TiL3y4Xv1ug3Lpa3snA+Dkylv+/3EW0VeLx/B
-         TyE9uOV1JFkvUFw5ezhn9FGTTFbeHtQELvat1jocal2E1inCkZixH9AcqIahVYwWmy4e
-         Uv86EIAAoBTP1/BXPmXJX4rr1NSJE6nXCsFPt8qKCxXVtHnn7s8y6c5Xia+OdMXn59zD
-         3KTCZdjVF/EbbcjzwXQPYI+ZPOEJmAh1fBDU1ryOoWQxT/2p8FaRdeBlrHhGlKH7cSut
-         YvEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679392738;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pKBF0p6guvCmwnToXhd4OYDdRDdzh6OgcvQvxbvE+pE=;
-        b=mJKexKzAjBoWDAmivAUomT8iZ4pQU5F3GdrgUc8R+d1NpIgvxJKism5en+XkemSFLl
-         PJb47D9HPz5xG8qhLrLFrDU9Ys3G7JKFv7vPTjzracQIhrwb03WaCQ2BCxJm1moMh+q7
-         N129pyQDiknkzUERxYH+Va3Cr6DyvEBB5eVekOD+eJLaYTSpDqXEqKlBml9VuuC3p/qO
-         4dUatLQfoh8fsAN08y+KSFp1s/fiqdDYBRNOEIg1E6ODQCidO4xvzgnhmTG9oobbR506
-         7pf9Ptkw4UR9K8sTxZJYmw2xcmt5Td4Nd9zCV1PhSDHcd2t2woM4aXS69fnszkPVvzsD
-         bcRQ==
-X-Gm-Message-State: AO0yUKXmB4F95iZ0xxOqlz5wIO7bHa2CsywgqZPwMr+OMZT9Mk34sstS
-	OqD03Bnisxj7ra+bjjlK+MJUkLA3udel+JgRfJI=
-X-Google-Smtp-Source: AK7set/ippFy/83YmzP2FZ+nw7dlI8lmyDdzjHCrK+ylNGhjJy9ZAoXOAtWE6qFbpMzYDH165NAhAsuL17AR0Xc5BlU=
-X-Received: by 2002:a17:907:207b:b0:939:a51a:dc30 with SMTP id
- qp27-20020a170907207b00b00939a51adc30mr981955ejb.2.1679392738083; Tue, 21 Mar
- 2023 02:58:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587F08BE1;
+	Tue, 21 Mar 2023 10:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679392826; x=1710928826;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=OEkW5gAIAMTed3A5d8loNJKGSTnMu2hA5ZE3EsSbtwE=;
+  b=faAi+JUMgnmrZ2wwha7SD7YxmFZgz/3EmKhDHodhyVk0sK2hR7Z3uYYW
+   Yeff13Zjml0WEje4dGIZ2uwJtWKGdLkxKc15p2duBYutZuDDipausYvUj
+   OxXL/oWoRhNCGx8VmvF/L9NQik0v/9XL2Pao6FoqH1/TK64wiFPIM52hR
+   BAUhh0nayF6vbOx8ilaVlDTfimcbaABYBXx0zVbcSOfEj09rCtbD/LPe8
+   Uub1hkMu+86QsOY14iVP8hXqZehZgcJYJfbL8VFINhiQ1diUG8o5G7yMo
+   QylvgCczX3u8bNeneOusyaD90c3JUIi7AMtaUt4oF6z8HJxoWLhJgURBH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341257099"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="341257099"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 03:00:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="805288730"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="805288730"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2023 03:00:24 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peYn1-000Bo2-0h;
+	Tue, 21 Mar 2023 10:00:23 +0000
+Date: Tue, 21 Mar 2023 17:59:58 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: error: unknown target CPU '8540'
+Message-ID: <202303211707.ogAtY5qJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202303211100.ExmaGnB0-lkp@intel.com>
-In-Reply-To: <202303211100.ExmaGnB0-lkp@intel.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Tue, 21 Mar 2023 10:58:46 +0100
-Message-ID: <CAOi1vP8GEOaSkcB5LhMo6i4k245T5=eyPweBgP3G=-Us_sjdGw@mail.gmail.com>
-Subject: Re: [ceph-client:testing 19/80] fs/ceph/super.c:1122:15: error:
- implicit declaration of function 'fscrypt_add_test_dummy_key'
-To: kernel test robot <lkp@intel.com>
-Cc: Jeff Layton <jlayton@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	ceph-devel@vger.kernel.org, Xiubo Li <xiubli@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Mar 21, 2023 at 5:00=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://github.com/ceph/ceph-client.git testing
-> head:   bc74c6176640bed8ff55211d4211658413f5c19c
-> commit: 72326544b6f873e44659da920b51572bdf76b143 [19/80] ceph: implement =
--o test_dummy_encryption mount option
-> config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20230=
-321/202303211100.ExmaGnB0-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/ceph/ceph-client/commit/72326544b6f873e44659=
-da920b51572bdf76b143
->         git remote add ceph-client https://github.com/ceph/ceph-client.gi=
-t
->         git fetch --no-tags ceph-client testing
->         git checkout 72326544b6f873e44659da920b51572bdf76b143
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dnios2 olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dnios2 SHELL=3D/bin/bash fs/ceph/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303211100.ExmaGnB0-lkp@i=
-ntel.com/
->
-> All errors (new ones prefixed by >>):
->
->    fs/ceph/super.c: In function 'ceph_apply_test_dummy_encryption':
-> >> fs/ceph/super.c:1122:15: error: implicit declaration of function 'fscr=
-ypt_add_test_dummy_key' [-Werror=3Dimplicit-function-declaration]
->     1122 |         err =3D fscrypt_add_test_dummy_key(sb, &fsc->fsc_dummy=
-_enc_policy);
->          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
->
->
-> vim +/fscrypt_add_test_dummy_key +1122 fs/ceph/super.c
->
->   1088
->   1089  #ifdef CONFIG_FS_ENCRYPTION
->   1090  static int ceph_apply_test_dummy_encryption(struct super_block *s=
-b,
->   1091                                              struct fs_context *fc=
-,
->   1092                                              struct ceph_mount_opt=
-ions *fsopt)
->   1093  {
->   1094          struct ceph_fs_client *fsc =3D sb->s_fs_info;
->   1095          int err;
->   1096
->   1097          if (!fscrypt_is_dummy_policy_set(&fsopt->dummy_enc_policy=
-))
->   1098                  return 0;
->   1099
->   1100          /* No changing encryption context on remount. */
->   1101          if (fc->purpose =3D=3D FS_CONTEXT_FOR_RECONFIGURE &&
->   1102              !fscrypt_is_dummy_policy_set(&fsc->fsc_dummy_enc_poli=
-cy)) {
->   1103                  if (fscrypt_dummy_policies_equal(&fsopt->dummy_en=
-c_policy,
->   1104                                                   &fsc->fsc_dummy_=
-enc_policy))
->   1105                          return 0;
->   1106                  errorfc(fc, "Can't set test_dummy_encryption on r=
-emount");
->   1107                  return -EINVAL;
->   1108          }
->   1109
->   1110          /* Also make sure fsopt doesn't contain a conflicting val=
-ue. */
->   1111          if (fscrypt_is_dummy_policy_set(&fsc->fsc_dummy_enc_polic=
-y)) {
->   1112                  if (fscrypt_dummy_policies_equal(&fsopt->dummy_en=
-c_policy,
->   1113                                                   &fsc->fsc_dummy_=
-enc_policy))
->   1114                          return 0;
->   1115                  errorfc(fc, "Conflicting test_dummy_encryption op=
-tions");
->   1116                  return -EINVAL;
->   1117          }
->   1118
->   1119          fsc->fsc_dummy_enc_policy =3D fsopt->dummy_enc_policy;
->   1120          memset(&fsopt->dummy_enc_policy, 0, sizeof(fsopt->dummy_e=
-nc_policy));
->   1121
-> > 1122          err =3D fscrypt_add_test_dummy_key(sb, &fsc->fsc_dummy_en=
-c_policy);
+CC: linux-kernel@vger.kernel.org
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
-Sorry, I missed that commit 097d7c1fcb8d ("fscrypt: clean up
-fscrypt_add_test_dummy_key()") unexported this function when rebasing
-because CONFIG_FS_ENCRYPTION wasn't on in that directory.
+Hi Christophe,
 
-Thanks,
+FYI, the error/warning still remains.
 
-                Ilya
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   17214b70a159c6547df9ae204a6275d983146f6b
+commit: 45f7091aac3546ef8112bf62836650ca0bbf0b79 powerpc/64: Set default CPU in Kconfig
+date:   7 weeks ago
+config: powerpc-tqm8560_defconfig (https://download.01.org/0day-ci/archive/20230321/202303211707.ogAtY5qJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=45f7091aac3546ef8112bf62836650ca0bbf0b79
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 45f7091aac3546ef8112bf62836650ca0bbf0b79
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc prepare
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211707.ogAtY5qJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   clang: error: unsupported argument '-me500' to option '-Wa,'
+   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
+>> error: unknown target CPU '8540'
+   note: valid target CPU values are: generic, 440, 450, 601, 602, 603, 603e, 603ev, 604, 604e, 620, 630, g3, 7400, g4, 7450, g4+, 750, 8548, 970, g5, a2, e500, e500mc, e5500, power3, pwr3, power4, pwr4, power5, pwr5, power5x, pwr5x, power6, pwr6, power6x, pwr6x, power7, pwr7, power8, pwr8, power9, pwr9, power10, pwr10, powerpc, ppc, ppc32, powerpc64, ppc64, powerpc64le, ppc64le, future
+   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1285: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:242: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
