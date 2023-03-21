@@ -1,42 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4DD1FCA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 07:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D196C1FD2;
+	Tue, 21 Mar 2023 07:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1679383524; x=1710919524;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zvA07OdicsNACTbtOlYllIV1MOZxrdiOl+j45QGLIaU=;
-  b=XWi2naDjoNNrs4bR1Sddo+nIU2Xq+qVkNUuwRaHv7InpSmEfVli2Ix/w
-   H9TuxYtmX85pW/5Km+SXooU+nVOfoKw88q2OFS3HjOKQa0i9zWfnYHRgS
-   yL+3GQpUPtxmhWGQ6GCS01CvEGpaG4STA3+J/dY9s4PLcnDspbEP61sjH
-   qzzMPXuojUG7c0yaUES4TzQJ921F8SOBtjhlZ6JOegUpFLq295B3H27v4
-   sNhC/cBYPGzoFkVFHDPhXkFSda/I/1EspxzY9Q8oXzzA1lOnOou258yPO
-   e/HWV0V5UrOcrAvT9TpgMAwANgVcsflPDRrAaVhl6uNcYAwCf9DKAoYHK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341227738"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tiqBbCtdZWSDGBrFauYtNNRFuabN5SnCzI7+Y8VNfec=;
+  b=FcS7xPbHzyf0SbkUAXIVfiIYMiHzr2JapwYdN7Q/xkPAqcz6IHw1v16m
+   tP0njC8oVWAG4/ft8ftwOh39XGCax3EBLk+VK5APj+JLzfj6YUOhoKBnv
+   FkKssU8KUEMN0QwaHctVAy+7123mR8gv5pOnwaOqi4FsOKaI2if3kr8fi
+   iW0GiyK3eEkCMh/RqOXgPJfcunBR4Mgic6PWy/cT0qu0P0PEHXQ0yMMh5
+   +Z2Qa+8mN8P5/bTMYx5fDhLr2JnmL2TL1jXSY3ZMJLNcwmcTrofO+KyfE
+   J4DRyBTxz90YwH1WFr7nKMfQL8rHUXF3ki7VHLo7RdjfkZ/ZAzGhatjn3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322711887"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="341227738"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:25:19 -0700
+   d="scan'208";a="322711887"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:25:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010827578"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="683748123"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="1010827578"
+   d="scan'208";a="683748123"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Mar 2023 00:25:18 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Mar 2023 00:25:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peWMv-000BiU-30;
+	id 1peWMv-000BiW-34;
 	Tue, 21 Mar 2023 07:25:17 +0000
-Date: Tue, 21 Mar 2023 15:24:42 +0800
+Date: Tue, 21 Mar 2023 15:24:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 1/1] lib/test_map_h.c:25:39: error: expected ',' or ')',
- found "("
-Message-ID: <202303211534.FXXTYfTR-lkp@intel.com>
+To: Eric Dumazet <eric.dumazet@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev <netdev@vger.kernel.org>, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next] net: introduce a config option to tweak
+ MAX_SKB_FRAGS
+Message-ID: <202303211550.hxkdeVey-lkp@intel.com>
+References: <20230321033704.936685-1-eric.dumazet@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,71 +50,225 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230321033704.936685-1-eric.dumazet@gmail.com>
 
-tree:   https://github.com/jimc/linux.git maph
-head:   d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
-commit: d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593 [1/1] include/linux/map.h: add new header, test it with test_map_h.c (RFC)
-config: alpha-randconfig-r011-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211534.FXXTYfTR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+Hi Eric,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230321-113826
+patch link:    https://lore.kernel.org/r/20230321033704.936685-1-eric.dumazet%40gmail.com
+patch subject: [PATCH net-next] net: introduce a config option to tweak MAX_SKB_FRAGS
+config: riscv-randconfig-r016-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211550.hxkdeVey-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/d0eaa3eabce1c80d067a739749e4253546417722
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230321-113826
+        git checkout d0eaa3eabce1c80d067a739749e4253546417722
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/bus/mhi/host/ kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211534.FXXTYfTR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211550.hxkdeVey-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/test_map_h.c:25:39: error: expected ',' or ')', found "("
-      25 |   #define BUILD_BUG_STREQ(BUILD_BUG_ON(0))
-         |                                       ^
-   lib/test_map_h.c: In function 'MAPH_BUILD_BUG':
->> lib/test_map_h.c:37:9: error: implicit declaration of function 'BUILD_BUG_STREQ'; did you mean 'BUILD_BUG_ON'? [-Werror=implicit-function-declaration]
-      37 |         BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-         |         ^~~~~~~~~~~~~~~
-         |         BUILD_BUG_ON
->> lib/test_map_h.c:37:25: error: 'debug_cats' undeclared (first use in this function)
-      37 |         BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-         |                         ^~~~~~~~~~
-   lib/test_map_h.c:37:25: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   In file included from drivers/bus/mhi/host/init.c:15:
+   In file included from include/linux/mhi.h:12:
+>> include/linux/skbuff.h:593:19: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           skb_frag_t      frags[MAX_SKB_FRAGS];
+                                 ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   1 error generated.
+--
+   In file included from drivers/bus/mhi/host/main.c:13:
+   In file included from include/linux/mhi.h:12:
+>> include/linux/skbuff.h:593:19: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           skb_frag_t      frags[MAX_SKB_FRAGS];
+                                 ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   drivers/bus/mhi/host/main.c:803:13: warning: parameter 'event_quota' set but not used [-Wunused-but-set-parameter]
+                                u32 event_quota)
+                                    ^
+   1 warning and 1 error generated.
+--
+   In file included from kernel/bpf/core.c:21:
+   In file included from include/linux/filter.h:12:
+>> include/linux/skbuff.h:593:19: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           skb_frag_t      frags[MAX_SKB_FRAGS];
+                                 ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   kernel/bpf/core.c:1632:12: warning: no previous prototype for function 'bpf_probe_read_kernel' [-Wmissing-prototypes]
+   u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
+              ^
+   kernel/bpf/core.c:1632:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
+   ^
+   static 
+   1 warning and 1 error generated.
+--
+   In file included from kernel/bpf/btf.c:19:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+>> include/linux/skbuff.h:593:19: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           skb_frag_t      frags[MAX_SKB_FRAGS];
+                                 ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+>> include/linux/skmsg.h:32:23: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           DECLARE_BITMAP(copy, MAX_MSG_FRAGS + 2);
+                                ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:39:27: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           struct scatterlist              data[MAX_MSG_FRAGS + 2];
+                                                ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:151:45: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           return end >= start ? end - start : end + (NR_MSG_FRAG_IDS - start);
+                                                      ^
+   include/linux/skmsg.h:17:28: note: expanded from macro 'NR_MSG_FRAG_IDS'
+   #define NR_MSG_FRAG_IDS                 (MAX_MSG_FRAGS + 1)
+                                            ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:177:47: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           BUILD_BUG_ON(ARRAY_SIZE(msg->sg.data) - 1 != NR_MSG_FRAG_IDS);
+                                                        ^
+   include/linux/skmsg.h:17:28: note: expanded from macro 'NR_MSG_FRAG_IDS'
+   #define NR_MSG_FRAG_IDS                 (MAX_MSG_FRAGS + 1)
+                                            ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:179:31: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           sg_init_marker(msg->sg.data, NR_MSG_FRAG_IDS);
+                                        ^
+   include/linux/skmsg.h:17:28: note: expanded from macro 'NR_MSG_FRAG_IDS'
+   #define NR_MSG_FRAG_IDS                 (MAX_MSG_FRAGS + 1)
+                                            ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:201:57: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           return sk_msg_iter_dist(msg->sg.start, msg->sg.end) == MAX_MSG_FRAGS;
+                                                                  ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:254:2: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+           sk_msg_iter_next(msg, end);
+           ^
+   include/linux/skmsg.h:173:2: note: expanded from macro 'sk_msg_iter_next'
+           sk_msg_iter_var_next(msg->sg.which)
+           ^
+   include/linux/skmsg.h:165:14: note: expanded from macro 'sk_msg_iter_var_next'
+                   if (var == NR_MSG_FRAG_IDS)             \
+                              ^
+   include/linux/skmsg.h:17:28: note: expanded from macro 'NR_MSG_FRAG_IDS'
+   #define NR_MSG_FRAG_IDS                 (MAX_MSG_FRAGS + 1)
+                                            ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
+   #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
+                         ^
+   In file included from kernel/bpf/btf.c:23:
+   include/linux/skmsg.h:264:3: error: use of undeclared identifier 'CONFIG_MAX_SKB_FRAGS'
+                   sk_msg_iter_var_next(i);
+                   ^
+   include/linux/skmsg.h:165:14: note: expanded from macro 'sk_msg_iter_var_next'
+                   if (var == NR_MSG_FRAG_IDS)             \
+                              ^
+   include/linux/skmsg.h:17:28: note: expanded from macro 'NR_MSG_FRAG_IDS'
+   #define NR_MSG_FRAG_IDS                 (MAX_MSG_FRAGS + 1)
+                                            ^
+   include/linux/skmsg.h:16:25: note: expanded from macro 'MAX_MSG_FRAGS'
+   #define MAX_MSG_FRAGS                   MAX_SKB_FRAGS
+                                           ^
+   include/linux/skbuff.h:348:23: note: expanded from macro 'MAX_SKB_FRAGS'
 
 
-vim +25 lib/test_map_h.c
+vim +/CONFIG_MAX_SKB_FRAGS +593 include/linux/skbuff.h
 
-    22	
-    23	/* ARCH=i386 has compile-time errs from this otherwize */
-    24	#if !defined(__i386__)
-  > 25	  #define BUILD_BUG_STREQ(BUILD_BUG_ON(0))
-    26	#else
-    27	/* test 2 ways, for now */
-    28	#define BUILD_BUG_STREQ(_var, idx, ref) do {				\
-    29			BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref))); \
-    30			BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, __builtin_strlen(ref))); \
-    31		} while (0)
-    32	#endif
-    33	
-    34	/* force compile, though its not called */
-    35	static void __used MAPH_BUILD_BUG(void)
-    36	{
-  > 37		BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-    38		BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
-    39		BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
-    40	#ifdef FORCE_FAIL
-    41		/* properly breaks compile */
-    42		BUILD_BUG_STREQ(debug_cats, 1, "'not-in-map'");
-    43	#endif
-    44	}
-    45	
+6f89dbce8e11344 Sowmini Varadhan 2018-02-15  565  
+^1da177e4c3f415 Linus Torvalds   2005-04-16  566  /* This data is invariant across clones and lives at
+^1da177e4c3f415 Linus Torvalds   2005-04-16  567   * the end of the header data, ie. at skb->end.
+^1da177e4c3f415 Linus Torvalds   2005-04-16  568   */
+^1da177e4c3f415 Linus Torvalds   2005-04-16  569  struct skb_shared_info {
+06b4feb37e64e54 Jonathan Lemon   2021-01-06  570  	__u8		flags;
+de8f3a83b0a0fdd Daniel Borkmann  2017-09-25  571  	__u8		meta_len;
+de8f3a83b0a0fdd Daniel Borkmann  2017-09-25  572  	__u8		nr_frags;
+9f42f126154786e Ian Campbell     2012-01-05  573  	__u8		tx_flags;
+7967168cefdbc63 Herbert Xu       2006-06-22  574  	unsigned short	gso_size;
+7967168cefdbc63 Herbert Xu       2006-06-22  575  	/* Warning: this field is not always filled in (UFO)! */
+7967168cefdbc63 Herbert Xu       2006-06-22  576  	unsigned short	gso_segs;
+^1da177e4c3f415 Linus Torvalds   2005-04-16  577  	struct sk_buff	*frag_list;
+ac45f602ee3d1b6 Patrick Ohly     2009-02-12  578  	struct skb_shared_hwtstamps hwtstamps;
+7f564528a480084 Steffen Klassert 2017-04-08  579  	unsigned int	gso_type;
+09c2d251b707236 Willem de Bruijn 2014-08-04  580  	u32		tskey;
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  581  
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  582  	/*
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  583  	 * Warning : all fields before dataref are cleared in __alloc_skb()
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  584  	 */
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  585  	atomic_t	dataref;
+d16697cb6261d4c Lorenzo Bianconi 2022-01-21  586  	unsigned int	xdp_frags_size;
+ec7d2f2cf3a1b76 Eric Dumazet     2010-05-05  587  
+69e3c75f4d541a6 Johann Baudy     2009-05-18  588  	/* Intermediate layers must ensure that destructor_arg
+69e3c75f4d541a6 Johann Baudy     2009-05-18  589  	 * remains valid until skb destructor */
+69e3c75f4d541a6 Johann Baudy     2009-05-18  590  	void *		destructor_arg;
+a6686f2f382b13f Shirley Ma       2011-07-06  591  
+fed66381d65a351 Eric Dumazet     2010-07-22  592  	/* must be last field, see pskb_expand_head() */
+fed66381d65a351 Eric Dumazet     2010-07-22 @593  	skb_frag_t	frags[MAX_SKB_FRAGS];
+^1da177e4c3f415 Linus Torvalds   2005-04-16  594  };
+^1da177e4c3f415 Linus Torvalds   2005-04-16  595  
 
 -- 
 0-DAY CI Kernel Test Service
