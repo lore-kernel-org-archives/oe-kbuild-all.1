@@ -1,42 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188A1882D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 23:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DAC173
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 00:01:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679355084; x=1710891084;
+  t=1679356869; x=1710892869;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OqD7WwgMejhgiKwyPeH150XA2eQT7Ip9WmXL+xfaiBo=;
-  b=UCsSrRfHOdHPso4P2jW3FgeX/qv0SJYXJ7LTHFMkzhz1q+dVGBVpfigh
-   qB44k3/NcsrY1zct++uEM2Fno9PP4MIOij8AAYwvTf91e0eZoqu3zQ6EB
-   arIw6PWHfyfaKPu3jfiSAJuAJUtAH4K8FWSb4IA5G3dOdSjP5bXYOLM1K
-   iFYbA1Bf04M9/N6bvqhfG6wcNXmE4oElBHkvhhoQm9T6pkR0KDc7oO+TG
-   EwbdKZf8+hIz5vQu8vbC4a3YdLOItKvMcviSQJ9s/YGfR+jGx/tub3zJd
-   +FBFk35iQS0UWozHW5P0p8pCYCeDCDeCWNLirof3yimR7NnHKHCamPWeG
+  bh=2eWlwvhO9plCeyGPyu9VLJzDkUBKUo2VSuRYtqtRQzM=;
+  b=VNkZkFwSSM/dif4DjbIAqKY/dB9O6WO4K37wEvkx91t8aacVrxa2AcHD
+   tpd50ekiBeL+/TwgVp6PFEBbN4Rzh/kOQr1ncJZNQniHyo4QO84nGD/iW
+   seg888VuofKfIzr8eDHxQJOotmEiGc4Pnhn/jeLW/gvKQr43L2zVs86Ow
+   TZ5wNbP8SUVhLE/OhlSXobaLNtoVX8Jn4omk+ZaMTAt83z/YhF5gEqUwe
+   uIpjHI+jJcZzzU8zYPPAIRJAkYDIkaHJ1aiGPizyO3k/dJee7JCEIoD3N
+   aVF5KHQ2wehiW7EOpRpCJZB41tlhNW8U5aRfmIOU3kfNAGZXtZ0YIV0ML
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="337518230"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="403682002"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="337518230"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 16:31:02 -0700
+   d="scan'208";a="403682002"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 17:01:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="824683447"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674612515"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="824683447"
+   d="scan'208";a="674612515"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2023 16:31:01 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Mar 2023 17:01:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peOxw-000BPD-38;
-	Mon, 20 Mar 2023 23:31:00 +0000
-Date: Tue, 21 Mar 2023 07:30:13 +0800
+	id 1pePQz-000BPm-0r;
+	Tue, 21 Mar 2023 00:01:01 +0000
+Date: Tue, 21 Mar 2023 08:00:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>
-Subject: [steev:lenovo-x13s-v6.3-rc3 74/148] ERROR: modpost:
- "gdsc_sync_state" [drivers/clk/qcom/dispcc-sc8280xp.ko] undefined!
-Message-ID: <202303210712.xTRTbmNV-lkp@intel.com>
+To: Roger Pau Monne <roger.pau@citrix.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Juergen Gross <jgross@suse.com>
+Subject: [rafael-pm:bleeding-edge 44/49] drivers/acpi/processor_pdc.c:59:24:
+ error: implicit declaration of function 'xen_processor_present'
+Message-ID: <202303210729.DvRvIUla-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,32 +49,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.3-rc3
-head:   8c3f4a6584c6471c1c961af61e765702189faf11
-commit: 348e04f8a197ea0fc58c6086e0557f15e9982eb4 [74/148] clk: qcom: Add sync state callback to all SC8280XP providers
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303210712.xTRTbmNV-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   2a191fe33656f0fdff33b061fb03b1ffeb75b3f6
+commit: 8509b1a86a966321a7ee9163620285f60da40468 [44/49] ACPI: processor: Fix evaluating _PDC method when running as Xen dom0
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230321/202303210729.DvRvIUla-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/steev/linux/commit/348e04f8a197ea0fc58c6086e0557f15e9982eb4
-        git remote add steev https://github.com/steev/linux
-        git fetch --no-tags steev lenovo-x13s-v6.3-rc3
-        git checkout 348e04f8a197ea0fc58c6086e0557f15e9982eb4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=8509b1a86a966321a7ee9163620285f60da40468
+        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+        git fetch --no-tags rafael-pm bleeding-edge
+        git checkout 8509b1a86a966321a7ee9163620285f60da40468
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210712.xTRTbmNV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210729.DvRvIUla-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "gdsc_sync_state" [drivers/clk/qcom/dispcc-sc8280xp.ko] undefined!
->> ERROR: modpost: "gdsc_sync_state" [drivers/clk/qcom/gcc-sc8280xp.ko] undefined!
->> ERROR: modpost: "gdsc_sync_state" [drivers/clk/qcom/gpucc-sc8280xp.ko] undefined!
+   drivers/acpi/processor_pdc.c: In function 'processor_physically_present':
+>> drivers/acpi/processor_pdc.c:59:24: error: implicit declaration of function 'xen_processor_present' [-Werror=implicit-function-declaration]
+      59 |                 return xen_processor_present(acpi_id);
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/xen_processor_present +59 drivers/acpi/processor_pdc.c
+
+    20	
+    21	static bool __init processor_physically_present(acpi_handle handle)
+    22	{
+    23		int cpuid, type;
+    24		u32 acpi_id;
+    25		acpi_status status;
+    26		acpi_object_type acpi_type;
+    27		unsigned long long tmp;
+    28		union acpi_object object = { 0 };
+    29		struct acpi_buffer buffer = { sizeof(union acpi_object), &object };
+    30	
+    31		status = acpi_get_type(handle, &acpi_type);
+    32		if (ACPI_FAILURE(status))
+    33			return false;
+    34	
+    35		switch (acpi_type) {
+    36		case ACPI_TYPE_PROCESSOR:
+    37			status = acpi_evaluate_object(handle, NULL, NULL, &buffer);
+    38			if (ACPI_FAILURE(status))
+    39				return false;
+    40			acpi_id = object.processor.proc_id;
+    41			break;
+    42		case ACPI_TYPE_DEVICE:
+    43			status = acpi_evaluate_integer(handle, "_UID", NULL, &tmp);
+    44			if (ACPI_FAILURE(status))
+    45				return false;
+    46			acpi_id = tmp;
+    47			break;
+    48		default:
+    49			return false;
+    50		}
+    51	
+    52		if (xen_initial_domain())
+    53			/*
+    54			 * When running as a Xen dom0 the number of processors Linux
+    55			 * sees can be different from the real number of processors on
+    56			 * the system, and we still need to execute _PDC for all of
+    57			 * them.
+    58			 */
+  > 59			return xen_processor_present(acpi_id);
+    60	
+    61		type = (acpi_type == ACPI_TYPE_DEVICE) ? 1 : 0;
+    62		cpuid = acpi_get_cpuid(handle, type, acpi_id);
+    63	
+    64		return !invalid_logical_cpuid(cpuid);
+    65	}
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
