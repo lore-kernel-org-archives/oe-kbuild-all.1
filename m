@@ -1,104 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DA07C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 02:59:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B89C433D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 02:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679367590;
-	bh=IgyActK3dl0E6Ymzj8R7DNWaTNgGQTMkSEIkKQe437k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sCQIvEDg+m/p5buszRcknQeYLKttEcEkSx79YiOGF0cbS5SmfSi+2i1Q9iiXqwHv8
-	 GjWYvDRpGXnpJZaBYL8mQaWp0Cldjb6ZXgPGhhfLSx25xDCYebmpCIBp4rh25Wl7eF
-	 0P/R1ki1gXj5KdAvyK+jv9N6cO24sC0Ox1Z0bSsmEROTWc8Naf9fpctIF8BRMgImMa
-	 shSLVzT2v6XtdMW8vuXdMdP1dl90G08xtGJpcuQErtALBNStskR5lj9bEFmBDSHqDJ
-	 8vM+YxcASBvHNKm3EpKGdysA50OuDk2Es+A9nIF8UrNWTULdLAjTzH1XF8CQ55G6GW
-	 EVsNbelzAx6LQ==
-Received: by mail-ed1-f49.google.com with SMTP id eg48so54320068edb.13
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Mar 2023 19:59:50 -0700 (PDT)
-X-Gm-Message-State: AO0yUKUBKAjISBsP+2xgR2Xo41Xb2G72kaPQvewe+HzB4ExtSuh4fnxq
-	WqVmhqXGrR4QdSgMGeyXeDp0eGQ0usfu885UFY4=
-X-Google-Smtp-Source: AK7set9EIETaTY3kIh5/3SMKpIkDdoNJVwsdHvl7RIcwjgXZvwdTI54si9iqZa1Dij+z8lS/caKmO/8zIt2/0anca1s=
-X-Received: by 2002:a17:906:2451:b0:931:2bcd:edf9 with SMTP id
- a17-20020a170906245100b009312bcdedf9mr563679ejb.10.1679367588760; Mon, 20 Mar
- 2023 19:59:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B4A7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 04:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679371212; x=1710907212;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q0hX40nV6rdmJ9OmxZGVRXPnorg6ovt3A3Dt8fmXZtA=;
+  b=V6Bc2Dcxf8ORkVjhyg8jiEgVV9tpjBpKuei/YFSTZ61HA/P5bCR3kVyR
+   of25qYut/qNWqym4VEUaibrnHncolyIXh8fF3RSoA4esy4f3Imw/pEVdg
+   XdOf6hlW/FPjANBYDKqPyrkr919ocfpDrGQQWiegDP7EE3J0Hxad+xQPM
+   JT0d14hUhcfnw3CaaSwydVuQX8pOnmue92ODVej9zY3MlCP64VRrSPDTM
+   E6HgSBsiQyCIIcqpqTvXKTUjNsJ33+qtxdTopE/Kvkldg1dOT8tkdymg3
+   F4q0uOIT9aMq7TF2aGOXMnNyl1vvLhoLcCz6teMgzLg8DdgiYUEGs7e64
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318492880"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="318492880"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 21:00:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="791901980"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
+   d="scan'208";a="791901980"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2023 21:00:10 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peTAP-000BZd-25;
+	Tue, 21 Mar 2023 04:00:09 +0000
+Date: Tue, 21 Mar 2023 11:59:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+	Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>
+Subject: [ceph-client:testing 19/80] fs/ceph/super.c:1122:15: error: implicit
+ declaration of function 'fscrypt_add_test_dummy_key'
+Message-ID: <202303211100.ExmaGnB0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202303201615.Qfu18nWV-lkp@intel.com> <20230320155626.hirui3frcaunnajj@box.shutemov.name>
-In-Reply-To: <20230320155626.hirui3frcaunnajj@box.shutemov.name>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 21 Mar 2023 10:59:36 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
-Message-ID: <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
-Subject: Re: [linux-next:master 3778/4413] include/linux/mmzone.h:1749:2:
- error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc: kernel test robot <lkp@intel.com>, WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.xn--dev-s01a, 
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi, all,
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   bc74c6176640bed8ff55211d4211658413f5c19c
+commit: 72326544b6f873e44659da920b51572bdf76b143 [19/80] ceph: implement -o test_dummy_encryption mount option
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303211100.ExmaGnB0-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ceph/ceph-client/commit/72326544b6f873e44659da920b51572bdf76b143
+        git remote add ceph-client https://github.com/ceph/ceph-client.git
+        git fetch --no-tags ceph-client testing
+        git checkout 72326544b6f873e44659da920b51572bdf76b143
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash fs/ceph/
 
-On Mon, Mar 20, 2023 at 11:56=E2=80=AFPM Kirill A. Shutemov
-<kirill@shutemov.name> wrote:
->
-> On Mon, Mar 20, 2023 at 04:06:33PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
-> > commit: af8daebdbc0833b8095767ccef7ddce55e9fdf32 [3778/4413] mm, treewi=
-de: redefine MAX_ORDER sanely
-> > config: loongarch-buildonly-randconfig-r003-20230320 (https://download.=
-01.org/0day-ci/archive/20230320/202303201615.Qfu18nWV-lkp@intel.com/config)
-> > compiler: loongarch64-linux-gcc (GCC) 12.1.0
-> > reproduce (this is a W=3D1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
-xt.git/commit/?id=3Daf8daebdbc0833b8095767ccef7ddce55e9fdf32
-> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/=
-kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout af8daebdbc0833b8095767ccef7ddce55e9fdf32
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dloongarch olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dloongarch prepare
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202303201615.Qfu18nWV-lkp=
-@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from include/linux/gfp.h:7,
-> >                     from include/linux/mm.h:7,
-> >                     from arch/loongarch/kernel/asm-offsets.c:9:
-> > >> include/linux/mmzone.h:1749:2: error: #error Allocator MAX_ORDER exc=
-eeds SECTION_SIZE
-> >     1749 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-> >          |  ^~~~~
->
-> +Loongarch folks.
-LoongArch defines SECTION_SIZE_BITS as 29, so I think the upper limit
-of ARCH_FORCE_MAX_ORDER should not be 63, MIPS is similar.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211100.ExmaGnB0-lkp@intel.com/
 
-Huacai
->
-> The same situation as with mips:
->
-> https://lore.kernel.org/all/20230315152636.smn34f3c6a5jzpn3@box
->
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
+All errors (new ones prefixed by >>):
+
+   fs/ceph/super.c: In function 'ceph_apply_test_dummy_encryption':
+>> fs/ceph/super.c:1122:15: error: implicit declaration of function 'fscrypt_add_test_dummy_key' [-Werror=implicit-function-declaration]
+    1122 |         err = fscrypt_add_test_dummy_key(sb, &fsc->fsc_dummy_enc_policy);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/fscrypt_add_test_dummy_key +1122 fs/ceph/super.c
+
+  1088	
+  1089	#ifdef CONFIG_FS_ENCRYPTION
+  1090	static int ceph_apply_test_dummy_encryption(struct super_block *sb,
+  1091						    struct fs_context *fc,
+  1092						    struct ceph_mount_options *fsopt)
+  1093	{
+  1094		struct ceph_fs_client *fsc = sb->s_fs_info;
+  1095		int err;
+  1096	
+  1097		if (!fscrypt_is_dummy_policy_set(&fsopt->dummy_enc_policy))
+  1098			return 0;
+  1099	
+  1100		/* No changing encryption context on remount. */
+  1101		if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE &&
+  1102		    !fscrypt_is_dummy_policy_set(&fsc->fsc_dummy_enc_policy)) {
+  1103			if (fscrypt_dummy_policies_equal(&fsopt->dummy_enc_policy,
+  1104							 &fsc->fsc_dummy_enc_policy))
+  1105				return 0;
+  1106			errorfc(fc, "Can't set test_dummy_encryption on remount");
+  1107			return -EINVAL;
+  1108		}
+  1109	
+  1110		/* Also make sure fsopt doesn't contain a conflicting value. */
+  1111		if (fscrypt_is_dummy_policy_set(&fsc->fsc_dummy_enc_policy)) {
+  1112			if (fscrypt_dummy_policies_equal(&fsopt->dummy_enc_policy,
+  1113							 &fsc->fsc_dummy_enc_policy))
+  1114				return 0;
+  1115			errorfc(fc, "Conflicting test_dummy_encryption options");
+  1116			return -EINVAL;
+  1117		}
+  1118	
+  1119		fsc->fsc_dummy_enc_policy = fsopt->dummy_enc_policy;
+  1120		memset(&fsopt->dummy_enc_policy, 0, sizeof(fsopt->dummy_enc_policy));
+  1121	
+> 1122		err = fscrypt_add_test_dummy_key(sb, &fsc->fsc_dummy_enc_policy);
+  1123		if (err) {
+  1124			errorfc(fc, "Error adding test dummy encryption key, %d", err);
+  1125			return err;
+  1126		}
+  1127	
+  1128		warnfc(fc, "test_dummy_encryption mode enabled");
+  1129		return 0;
+  1130	}
+  1131	#else
+  1132	static int ceph_apply_test_dummy_encryption(struct super_block *sb,
+  1133						    struct fs_context *fc,
+  1134						    struct ceph_mount_options *fsopt)
+  1135	{
+  1136		return 0;
+  1137	}
+  1138	#endif
+  1139	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
