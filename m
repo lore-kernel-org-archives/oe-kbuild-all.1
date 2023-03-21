@@ -1,57 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636A5D306
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 17:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51951D306
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 18:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679420581; x=1710956581;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+pjwBEmDe+T56Sgwt4qimQ2CIBOYEqSjWw1uHZNKv6U=;
-  b=i6AFaOoN5+fIUaLSrvnXyodqWbWNNM9n6wBcIwMf3VSZVLrvkEhvJIW8
-   KcxWr0DPFyX5jVlMveArrocm9HgehlSWA78OElm5D5cRPD8Qm/kRA/36n
-   /yfxR4YKQMPs3hmwJa25L3lwIdZMPfeNuVOKqoVkOUIQ87phtxlaxwGgh
-   IrcZg4gSmIy6ncyWmMUUnOe681RzjCsNHrheOQ7NcNeLNRKHQWcEDQ4fv
-   jfsQ5K2Oohlm4xI1iUMp6OEavl1Q4sXTN+mJDohCgW/M+VMqK1gJLbQZI
-   IQLqWoOKTJiwKutQp3wrEqO2OlLZ8e6ntothFgBMbZ3VhtGhwQQNV6iAi
+  t=1679421853; x=1710957853;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dV91F8PB8gBjebk1HHBCNq3X2X1VcC8xGlGVPyu4SQ8=;
+  b=N9UveX4WzPACQY3q+FN5ahsh6jr+sBJbsS//m+kn07ar/UOeZLO5CY6t
+   De1khoZq/Ij8xKP1iNsyqC+MqletPGGcPuuxWLIe4nR6smpOZLDaflX1t
+   Rg1RXRm9RHJqNJdfbWRnk6fUN4UGgiKvVIInC71bfeKYPJRUKRKRusw5P
+   g/xoNvTJNUouS0fMiGQQSQ7NNeCXs+8fMgujsQNliPVjIE1ds7raKkx79
+   hCpWojpNd2SFlYkp/vyVr28kAtq2q1cmoc8aCsL4y1sHbPk1S4XcPX9lB
+   4XaWi6F/XVjUCwh+zaEruXsCH3wyY5ACq0fYMNhyXn32bO9ZwFDChbZiM
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="340553604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="401591101"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="340553604"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:42:49 -0700
+   d="scan'208";a="401591101"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 11:03:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805503023"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792197648"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="805503023"
+   d="scan'208";a="792197648"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2023 10:42:43 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2023 11:03:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peg0Q-000CDT-1d;
-	Tue, 21 Mar 2023 17:42:42 +0000
-Date: Wed, 22 Mar 2023 01:42:34 +0800
+	id 1pegKm-000CEs-01;
+	Tue, 21 Mar 2023 18:03:44 +0000
+Date: Wed, 22 Mar 2023 02:03:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, tfiga@chromium.org,
-	m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-	shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-	yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-	quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-	hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-	jernel@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 1/8] media: videobuf2: Access vb2_queue bufs array
- through helper functions
-Message-ID: <202303220154.ioaH1XLM-lkp@intel.com>
-References: <20230321102855.346732-2-benjamin.gaignard@collabora.com>
+To: alikernel-developer@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alibaba-cloud:linux-next 8423/9999]
+ drivers/infiniband/core/addr.c:473:13: warning: variable 'ret' set but not
+ used
+Message-ID: <202303220105.k4IYt222-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,97 +46,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-2-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230321102855.346732-2-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v2 1/8] media: videobuf2: Access vb2_queue bufs array through helper functions
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303220154.ioaH1XLM-lkp@intel.com/config)
+tree:   https://github.com/alibaba/cloud-kernel.git linux-next
+head:   d121e0c25d1a19485d7f293b67901462bb1a6552
+commit: d6d722c84c60b998067871f2d96e9dc4e5da706f [8423/9999] RDMA/core: Protect against changing dst->dev during destination resolve
+config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230322/202303220105.k4IYt222-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/625d46c1c1fe8e3229a780134d21bcd4a017cfdd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-        git checkout 625d46c1c1fe8e3229a780134d21bcd4a017cfdd
+        # https://github.com/alibaba/cloud-kernel/commit/d6d722c84c60b998067871f2d96e9dc4e5da706f
+        git remote add alibaba-cloud https://github.com/alibaba/cloud-kernel.git
+        git fetch --no-tags alibaba-cloud linux-next
+        git checkout d6d722c84c60b998067871f2d96e9dc4e5da706f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/infiniband/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220154.ioaH1XLM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220105.k4IYt222-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function 'atomisp_dqbuf_wrapper':
->> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1098:33: error: incompatible type for argument 1 of 'vb2_get_buffer'
-    1098 |         vb = vb2_get_buffer(pipe->vb_queue, buf->index);
-         |                             ~~~~^~~~~~~~~~
-         |                                 |
-         |                                 struct vb2_queue
-   In file included from include/media/videobuf2-v4l2.h:16,
-                    from drivers/staging/media/atomisp//pci/ia_css_frame_public.h:23,
-                    from drivers/staging/media/atomisp/pci/sh_css_legacy.h:22,
-                    from drivers/staging/media/atomisp/pci/atomisp_internal.h:34,
-                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:30,
-                    from drivers/staging/media/atomisp/pci/atomisp_ioctl.c:27:
-   include/media/videobuf2-core.h:1239:67: note: expected 'struct vb2_queue *' but argument is of type 'struct vb2_queue'
-    1239 | static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
-         |                                                 ~~~~~~~~~~~~~~~~~~^
+   drivers/infiniband/core/addr.c: In function 'copy_src_l2_addr':
+>> drivers/infiniband/core/addr.c:473:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     473 |         int ret = 0;
+         |             ^~~
 
 
-vim +/vb2_get_buffer +1098 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+vim +/ret +473 drivers/infiniband/core/addr.c
 
-  1083	
-  1084	static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
-  1085	{
-  1086		struct video_device *vdev = video_devdata(file);
-  1087		struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
-  1088		struct atomisp_sub_device *asd = pipe->asd;
-  1089		struct atomisp_device *isp = video_get_drvdata(vdev);
-  1090		struct ia_css_frame *frame;
-  1091		struct vb2_buffer *vb;
-  1092		int ret;
-  1093	
-  1094		ret = vb2_ioctl_dqbuf(file, fh, buf);
-  1095		if (ret)
-  1096			return ret;
-  1097	
-> 1098		vb = vb2_get_buffer(pipe->vb_queue, buf->index);
-  1099		frame = vb_to_frame(vb);
-  1100	
-  1101		buf->reserved = asd->frame_status[buf->index];
-  1102	
-  1103		/*
-  1104		 * Hack:
-  1105		 * Currently frame_status in the enum type which takes no more lower
-  1106		 * 8 bit.
-  1107		 * use bit[31:16] for exp_id as it is only in the range of 1~255
-  1108		 */
-  1109		buf->reserved &= 0x0000ffff;
-  1110		if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
-  1111			buf->reserved |= frame->exp_id;
-  1112		buf->reserved2 = pipe->frame_config_id[buf->index];
-  1113	
-  1114		dev_dbg(isp->dev,
-  1115			"dqbuf buffer %d (%s) for asd%d with exp_id %d, isp_config_id %d\n",
-  1116			buf->index, vdev->name, asd->index, buf->reserved >> 16,
-  1117			buf->reserved2);
-  1118		return 0;
-  1119	}
-  1120	
+200298326b276d Matan Barak  2015-12-23  467  
+d6d722c84c60b9 Parav Pandit 2018-09-05  468  static void copy_src_l2_addr(struct rdma_dev_addr *dev_addr,
+23084924636ed4 Parav Pandit 2018-09-05  469  			     const struct sockaddr *dst_in,
+d6d722c84c60b9 Parav Pandit 2018-09-05  470  			     const struct dst_entry *dst,
+d6d722c84c60b9 Parav Pandit 2018-09-05  471  			     const struct net_device *ndev)
+23084924636ed4 Parav Pandit 2018-09-05  472  {
+23084924636ed4 Parav Pandit 2018-09-05 @473  	int ret = 0;
+23084924636ed4 Parav Pandit 2018-09-05  474  
+23084924636ed4 Parav Pandit 2018-09-05  475  	if (dst->dev->flags & IFF_LOOPBACK)
+23084924636ed4 Parav Pandit 2018-09-05  476  		ret = rdma_translate_ip(dst_in, dev_addr);
+23084924636ed4 Parav Pandit 2018-09-05  477  	else
+0652a52eb6eec4 Parav Pandit 2018-09-05  478  		rdma_copy_src_l2_addr(dev_addr, dst->dev);
+32fb22f5355899 Parav Pandit 2018-09-05  479  
+32fb22f5355899 Parav Pandit 2018-09-05  480  	/*
+32fb22f5355899 Parav Pandit 2018-09-05  481  	 * If there's a gateway and type of device not ARPHRD_INFINIBAND,
+32fb22f5355899 Parav Pandit 2018-09-05  482  	 * we're definitely in RoCE v2 (as RoCE v1 isn't routable) set the
+32fb22f5355899 Parav Pandit 2018-09-05  483  	 * network type accordingly.
+32fb22f5355899 Parav Pandit 2018-09-05  484  	 */
+32fb22f5355899 Parav Pandit 2018-09-05  485  	if (has_gateway(dst, dst_in->sa_family) &&
+d6d722c84c60b9 Parav Pandit 2018-09-05  486  	    ndev->type != ARPHRD_INFINIBAND)
+32fb22f5355899 Parav Pandit 2018-09-05  487  		dev_addr->network = dst_in->sa_family == AF_INET ?
+32fb22f5355899 Parav Pandit 2018-09-05  488  						RDMA_NETWORK_IPV4 :
+32fb22f5355899 Parav Pandit 2018-09-05  489  						RDMA_NETWORK_IPV6;
+32fb22f5355899 Parav Pandit 2018-09-05  490  	else
+32fb22f5355899 Parav Pandit 2018-09-05  491  		dev_addr->network = RDMA_NETWORK_IB;
+d6d722c84c60b9 Parav Pandit 2018-09-05  492  }
+32fb22f5355899 Parav Pandit 2018-09-05  493  
+
+:::::: The code at line 473 was first introduced by commit
+:::::: 23084924636ed44eaea811f8d28c5f80dbb76461 RDMA/core: Introduce and use rdma_set_src_addr() between IPv4 and IPv6
+
+:::::: TO: Parav Pandit <parav@mellanox.com>
+:::::: CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
