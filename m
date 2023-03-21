@@ -1,44 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A0010E9;
-	Tue, 21 Mar 2023 13:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5EF10E9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 13:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679405131; x=1710941131;
+  t=1679405765; x=1710941765;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x1gKUAodHoBXE3anFRjYwPhsp+RW57yCcDh/2IID72o=;
-  b=ELVo7p5RQKZvBj//FilcjdIINPsVBQH6bysfG1wcYnsesady0kDf6XC/
-   ViU+pySSOywrF1ms0u13HqEdzhf1UzHeCjd4nIPk6i4g42rxOG0ksT3B0
-   ZQRrH3UvtRc1wGywJWySBmx/fmuZP+pdACBgMwFEFTW5pzxvUesFS0CY9
-   fXXsLxhui8fZfv0gLvmc5/pHvI+Wy1F5TLnTRET4OdmddxiW4UI5CgG/r
-   Bdy5gMHZMJGj2tbiI5nU/mdD/Pe/c/X/wPAxaIURmqxtkblIhCkQq1Q41
-   GjLb9smBIjot9r+/Xl2K4olSIIXtBZRdYLvismzeC+L7lBiGveEl+YQ16
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="336442855"
+  bh=9J9UtxP2aslAkTY+OewqkYwZeQ/l/jXIXqxk9SlktQA=;
+  b=jZjF40udt5GNazMw/V6CiUxKrjVwFm/BsOqWhIXiGJrxkb/KOPG9RHa+
+   AYcSu9e7H1WRuPLY+UKbdULrHGNV1ndJSWG9N6o23L8Pymqvo33HyWZiN
+   KKW46FezE4zUFSbQwlaRtU3UVob9bHTaBsPUet12BZxd3/q5yV6MOPSco
+   yhM4x6jXkT3rIC6kZOd2wV3nVOeijTeyQB+ER1z4JCx5NKccWKE53rfk6
+   XT7alZZYltrCue9GKhKNvro09s4hajTFk9YY3sEOGIhpBr4H6I4xo5Oxi
+   oMw+n8GDpfuon/oFHlIVeyQha3aNnKUjrTqVA3egc59cEVIZYkyI8dRGG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="338975688"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="336442855"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 06:25:30 -0700
+   d="scan'208";a="338975688"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 06:35:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="683878123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="1010935737"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="683878123"
+   d="scan'208";a="1010935737"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Mar 2023 06:25:29 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 21 Mar 2023 06:35:29 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pebzU-000BwU-2V;
-	Tue, 21 Mar 2023 13:25:28 +0000
-Date: Tue, 21 Mar 2023 21:24:54 +0800
+	id 1pec9A-000Bwk-36;
+	Tue, 21 Mar 2023 13:35:28 +0000
+Date: Tue, 21 Mar 2023 21:35:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:file8krnAQ 7/7] drivers/regulator/s5m8767.c:492:10:
- error: call to undeclared function 'of_get_named_gpio'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202303212139.VjsFByow-lkp@intel.com>
+To: alikernel-developer@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alibaba-cloud:linux-next 6511/9999] versioncheck:
+ ./drivers/pci/iohub-sriov/iohub-sriov.c: 16 linux/version.h not needed.
+Message-ID: <202303212100.pVBBZ0Pj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,69 +46,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git file8krnAQ
-head:   d962f3f8e4da347cc9fcda7b887ff7a8f23aad2f
-commit: d962f3f8e4da347cc9fcda7b887ff7a8f23aad2f [7/7] regulator: s5m8767: Replace of_gpio.h with what indeed is used
-config: riscv-randconfig-c006-20230319 (https://download.01.org/0day-ci/archive/20230321/202303212139.VjsFByow-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=d962f3f8e4da347cc9fcda7b887ff7a8f23aad2f
-        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
-        git fetch --no-tags broonie-ci file8krnAQ
-        git checkout d962f3f8e4da347cc9fcda7b887ff7a8f23aad2f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/regulator/
+tree:   https://github.com/alibaba/cloud-kernel.git linux-next
+head:   d121e0c25d1a19485d7f293b67901462bb1a6552
+commit: 4a5d2b59c6eb47dcc6adb656a676c8c9aac4d506 [6511/9999] alinux: pci/iohub-sriov: Support for Alibaba PCIe IOHub SRIOV
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303212139.VjsFByow-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303212100.pVBBZ0Pj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/regulator/s5m8767.c:492:10: error: call to undeclared function 'of_get_named_gpio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   gpio = of_get_named_gpio(pmic_np,
-                          ^
-   drivers/regulator/s5m8767.c:510:10: error: call to undeclared function 'of_get_named_gpio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   gpio = of_get_named_gpio(pmic_np,
-                          ^
-   2 errors generated.
-
-
-vim +/of_get_named_gpio +492 drivers/regulator/s5m8767.c
-
-ee1e0994ab1bd30 Krzysztof Kozlowski 2014-01-24  482  
-ee1e0994ab1bd30 Krzysztof Kozlowski 2014-01-24  483  
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  484  #ifdef CONFIG_OF
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  485  static int s5m8767_pmic_dt_parse_dvs_gpio(struct sec_pmic_dev *iodev,
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  486  			struct sec_platform_data *pdata,
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  487  			struct device_node *pmic_np)
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  488  {
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  489  	int i, gpio;
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  490  
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  491  	for (i = 0; i < 3; i++) {
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03 @492  		gpio = of_get_named_gpio(pmic_np,
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  493  					"s5m8767,pmic-buck-dvs-gpios", i);
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  494  		if (!gpio_is_valid(gpio)) {
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  495  			dev_err(iodev->dev, "invalid gpio[%d]: %d\n", i, gpio);
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  496  			return -EINVAL;
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  497  		}
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  498  		pdata->buck_gpios[i] = gpio;
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  499  	}
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  500  	return 0;
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  501  }
-26aec009f6b61c0 Amit Daniel Kachhap 2013-02-03  502  
-
-:::::: The code at line 492 was first introduced by commit
-:::::: 26aec009f6b61c077c6de1a96cca7a5132851dbe regulator: add device tree support for s5m8767
-
-:::::: TO: Amit Daniel Kachhap <amit.daniel@samsung.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+>> ./drivers/pci/iohub-sriov/iohub-sriov.c: 16 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
