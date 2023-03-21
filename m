@@ -1,44 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2962AE4FA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 05:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7298185D;
+	Tue, 21 Mar 2023 05:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679374876; x=1710910876;
+  t=1679374935; x=1710910935;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iQmqupMtpBq3ZgiaQNPrWaRFEGytHt3f/SsXPYUgQGc=;
-  b=kwVk5YKB26UJnVpqXaZ98eEs1M8AMR3wtYHOLgJOViTlsOnFUuQOh2IY
-   88cheOUP9UszAAR69JLIsdaIQ8hh3Vl5FKvHlUNynaSnwR6FsGN9tS+EK
-   bbKk9gjV1hogsNpVgXspM2vh+K5YkcLM8Ya3ka6fG4ntOeItIaBcUbfEJ
-   yKvhd4QnfJwbxeiTMjhjtWT00kc45ny1Ypc1N+eddvnJvvNofEnK173hZ
-   XH/G68V5v3To6Ffq7UTR8IS25fmS+meOb/tPeksI0IgkE7+jtzm1HuG8s
-   GG2JZmxOElCcvBCuZzvNes/W393kpv7AFi/XVuozwm+0HRtnQ/6+Z/7It
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322689564"
+  bh=dBTEHr2br1NsN/mpLF/etp6E9v3+0L2IE3M2htQN4RQ=;
+  b=i1sgxgHG/biGL9ZObPLSoLOS6uuU/T6oP+03KcP0BXIerVw9mmhlv8K0
+   5+ISy8deVrOGUy+PCjvntPsz4OdBIYbYdNZq1VgrfU7nss029zyM66qF4
+   3AbYKcSBex9F6iBVEhlBCUwlkPlOzE2CMD6F8NiINwqVG24VjrgmeQMAU
+   ckEXqGnKkaQQpFmfQhkaRxE+R51zCfWlrpMrnwzrc8p/vR9Nr9cANwZJ4
+   WfoIrP2zdGi1doiCAN5Tw5EW/7zyNduEuPO/BLKCZxmSjgHzEiKV69Oel
+   6oIJPGJaBZakJSFlxP+0gAQX2gekNmu6h4/C+Jc/6qHPtiiefqZnppUCL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="340392911"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="322689564"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 22:01:15 -0700
+   d="scan'208";a="340392911"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 22:02:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010783181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="711652509"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="1010783181"
+   d="scan'208";a="711652509"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2023 22:01:13 -0700
+  by orsmga008.jf.intel.com with ESMTP; 20 Mar 2023 22:02:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peU7V-000Bbm-0G;
-	Tue, 21 Mar 2023 05:01:13 +0000
-Date: Tue, 21 Mar 2023 13:01:11 +0800
+	id 1peU8T-000Bbq-0M;
+	Tue, 21 Mar 2023 05:02:13 +0000
+Date: Tue, 21 Mar 2023 13:01:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjan Kumar <ranjan.kumar@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:2365
- mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
-Message-ID: <202303211202.uf1kNr2C-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream 3/157]
+ arch/powerpc/include/asm/kvm_ppc.h:276:50: error: declaration of 'struct
+ kvm_gfn_range' will not be visible outside of this function
+Message-ID: <202303211322.FGoa5HHk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,101 +48,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   17214b70a159c6547df9ae204a6275d983146f6b
-commit: 8e45183978d64699df639e795235433a60f35047 scsi: mpi3mr: Bad drive in topology results kernel crash
-date:   2 weeks ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211202.uf1kNr2C-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/tdx.git kvm-upstream
+head:   af455bd9233d89034be3007550c0209df72914f1
+commit: 038af168a729cce9166d0ade63012213d87344a0 [3/157] KVM: Convert KVM_ARCH_WANT_MMU_NOTIFIER to CONFIG_KVM_GENERIC_MMU_NOTIFIER
+config: powerpc-randconfig-r013-20230321 (https://download.01.org/0day-ci/archive/20230321/202303211322.FGoa5HHk-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/intel/tdx/commit/038af168a729cce9166d0ade63012213d87344a0
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream
+        git checkout 038af168a729cce9166d0ade63012213d87344a0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211202.uf1kNr2C-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211322.FGoa5HHk-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_transport.c:2365 mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_transport.c:2064 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
+   In file included from arch/powerpc/kernel/smp.c:44:
+>> arch/powerpc/include/asm/kvm_ppc.h:276:50: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
+           bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
+                                                           ^
+   arch/powerpc/include/asm/kvm_ppc.h:277:42: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
+           bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+                                                   ^
+   arch/powerpc/include/asm/kvm_ppc.h:278:47: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
+           bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+                                                        ^
+   arch/powerpc/include/asm/kvm_ppc.h:279:47: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
+           bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+                                                        ^
+   4 errors generated.
 
-vim +2365 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2304  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2305  /**
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2306   * mpi3mr_report_tgtdev_to_sas_transport - expose dev to SAS TL
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2307   * @mrioc: Adapter instance reference
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2308   * @tgtdev: Target device
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2309   *
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2310   * This function exposes the target device after
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2311   * preparing host_phy, setting up link rate etc.
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2312   *
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2313   * Return: 0 on success, non-zero for failure.
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2314   */
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2315  int mpi3mr_report_tgtdev_to_sas_transport(struct mpi3mr_ioc *mrioc,
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2316  	struct mpi3mr_tgt_dev *tgtdev)
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2317  {
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2318  	int retval = 0;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2319  	u8 link_rate, parent_phy_number;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2320  	u64 sas_address_parent, sas_address;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2321  	struct mpi3mr_hba_port *hba_port;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2322  	u8 port_id;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2323  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2324  	if ((tgtdev->dev_type != MPI3_DEVICE_DEVFORM_SAS_SATA) ||
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2325  	    !mrioc->sas_transport_enabled)
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2326  		return -1;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2327  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2328  	sas_address = tgtdev->dev_spec.sas_sata_inf.sas_address;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2329  	if (!mrioc->sas_hba.num_phys)
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2330  		mpi3mr_sas_host_add(mrioc);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2331  	else
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2332  		mpi3mr_sas_host_refresh(mrioc);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2333  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2334  	if (mpi3mr_get_sas_address(mrioc, tgtdev->parent_handle,
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2335  	    &sas_address_parent) != 0) {
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2336  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2337  		    __FILE__, __LINE__, __func__);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2338  		return -1;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2339  	}
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2340  	tgtdev->dev_spec.sas_sata_inf.sas_address_parent = sas_address_parent;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2341  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2342  	parent_phy_number = tgtdev->dev_spec.sas_sata_inf.phy_id;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2343  	port_id = tgtdev->io_unit_port;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2344  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2345  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2346  	if (!hba_port) {
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2347  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2348  		    __FILE__, __LINE__, __func__);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2349  		return -1;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2350  	}
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2351  	tgtdev->dev_spec.sas_sata_inf.hba_port = hba_port;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2352  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2353  	link_rate = mpi3mr_get_sas_negotiated_logical_linkrate(mrioc, tgtdev);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2354  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2355  	mpi3mr_update_links(mrioc, sas_address_parent, tgtdev->dev_handle,
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2356  	    parent_phy_number, link_rate, hba_port);
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2357  
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2358  	tgtdev->host_exposed = 1;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2359  	if (!mpi3mr_sas_port_add(mrioc, tgtdev->dev_handle,
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2360  	    sas_address_parent, hba_port)) {
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2361  		retval = -1;
-8e45183978d646 Ranjan Kumar    2023-02-28  2362  		} else if ((!tgtdev->starget) && (!mrioc->is_driver_loading)) {
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2363  			mpi3mr_sas_port_remove(mrioc, sas_address,
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2364  			    sas_address_parent, hba_port);
-7f56c791969e0c Sreekanth Reddy 2022-08-04 @2365  		retval = -1;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2366  	}
-8e45183978d646 Ranjan Kumar    2023-02-28  2367  	if (retval) {
-8e45183978d646 Ranjan Kumar    2023-02-28  2368  		tgtdev->dev_spec.sas_sata_inf.hba_port = NULL;
-8e45183978d646 Ranjan Kumar    2023-02-28  2369  		tgtdev->host_exposed = 0;
-8e45183978d646 Ranjan Kumar    2023-02-28  2370  	}
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2371  	return retval;
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2372  }
-7f56c791969e0c Sreekanth Reddy 2022-08-04  2373  
+vim +276 arch/powerpc/include/asm/kvm_ppc.h
 
-:::::: The code at line 2365 was first introduced by commit
-:::::: 7f56c791969e0c19b8b5ee12058b636bf173eb90 scsi: mpi3mr: Add SAS SATA end devices to STL
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  249  
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  250  struct kvmppc_ops {
+cbbc58d4fdfab1 Aneesh Kumar K.V     2013-10-07  251  	struct module *owner;
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  252  	int (*get_sregs)(struct kvm_vcpu *vcpu, struct kvm_sregs *sregs);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  253  	int (*set_sregs)(struct kvm_vcpu *vcpu, struct kvm_sregs *sregs);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  254  	int (*get_one_reg)(struct kvm_vcpu *vcpu, u64 id,
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  255  			   union kvmppc_one_reg *val);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  256  	int (*set_one_reg)(struct kvm_vcpu *vcpu, u64 id,
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  257  			   union kvmppc_one_reg *val);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  258  	void (*vcpu_load)(struct kvm_vcpu *vcpu, int cpu);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  259  	void (*vcpu_put)(struct kvm_vcpu *vcpu);
+87a45e07a5abfe Nicholas Piggin      2019-10-02  260  	void (*inject_interrupt)(struct kvm_vcpu *vcpu, int vec, u64 srr1_flags);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  261  	void (*set_msr)(struct kvm_vcpu *vcpu, u64 msr);
+8c99d34578628b Tianjia Zhang        2020-04-27  262  	int (*vcpu_run)(struct kvm_vcpu *vcpu);
+ff030fdf557322 Sean Christopherson  2019-12-18  263  	int (*vcpu_create)(struct kvm_vcpu *vcpu);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  264  	void (*vcpu_free)(struct kvm_vcpu *vcpu);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  265  	int (*check_requests)(struct kvm_vcpu *vcpu);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  266  	int (*get_dirty_log)(struct kvm *kvm, struct kvm_dirty_log *log);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  267  	void (*flush_memslot)(struct kvm *kvm, struct kvm_memory_slot *memslot);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  268  	int (*prepare_memory_region)(struct kvm *kvm,
+537a17b3149300 Sean Christopherson  2021-12-06  269  				     const struct kvm_memory_slot *old,
+537a17b3149300 Sean Christopherson  2021-12-06  270  				     struct kvm_memory_slot *new,
+82307e676f9d88 Sean Christopherson  2020-02-18  271  				     enum kvm_mr_change change);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  272  	void (*commit_memory_region)(struct kvm *kvm,
+537a17b3149300 Sean Christopherson  2021-12-06  273  				     struct kvm_memory_slot *old,
+f032b73459eed4 Bharata B Rao        2018-12-12  274  				     const struct kvm_memory_slot *new,
+f032b73459eed4 Bharata B Rao        2018-12-12  275  				     enum kvm_mr_change change);
+b1c5356e873cc4 Sean Christopherson  2021-04-01 @276  	bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
+b1c5356e873cc4 Sean Christopherson  2021-04-01  277  	bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+b1c5356e873cc4 Sean Christopherson  2021-04-01  278  	bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+b1c5356e873cc4 Sean Christopherson  2021-04-01  279  	bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+e96c81ee89d80e Sean Christopherson  2020-02-18  280  	void (*free_memslot)(struct kvm_memory_slot *slot);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  281  	int (*init_vm)(struct kvm *kvm);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  282  	void (*destroy_vm)(struct kvm *kvm);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  283  	int (*get_smmu_info)(struct kvm *kvm, struct kvm_ppc_smmu_info *info);
+8c99d34578628b Tianjia Zhang        2020-04-27  284  	int (*emulate_op)(struct kvm_vcpu *vcpu,
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  285  			  unsigned int inst, int *advance);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  286  	int (*emulate_mtspr)(struct kvm_vcpu *vcpu, int sprn, ulong spr_val);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  287  	int (*emulate_mfspr)(struct kvm_vcpu *vcpu, int sprn, ulong *spr_val);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  288  	void (*fast_vcpu_kick)(struct kvm_vcpu *vcpu);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  289  	long (*arch_vm_ioctl)(struct file *filp, unsigned int ioctl,
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  290  			      unsigned long arg);
+ae2113a4f1a6cd Paul Mackerras       2014-06-02  291  	int (*hcall_implemented)(unsigned long hcall);
+9576730d0e6e30 Suresh Warrier       2016-08-19  292  	int (*irq_bypass_add_producer)(struct irq_bypass_consumer *,
+9576730d0e6e30 Suresh Warrier       2016-08-19  293  				       struct irq_bypass_producer *);
+9576730d0e6e30 Suresh Warrier       2016-08-19  294  	void (*irq_bypass_del_producer)(struct irq_bypass_consumer *,
+9576730d0e6e30 Suresh Warrier       2016-08-19  295  					struct irq_bypass_producer *);
+c9270132271168 Paul Mackerras       2017-01-30  296  	int (*configure_mmu)(struct kvm *kvm, struct kvm_ppc_mmuv3_cfg *cfg);
+c9270132271168 Paul Mackerras       2017-01-30  297  	int (*get_rmmu_info)(struct kvm *kvm, struct kvm_ppc_rmmu_info *info);
+3c313524605a6a Paul Mackerras       2017-02-06  298  	int (*set_smt_mode)(struct kvm *kvm, unsigned long mode,
+3c313524605a6a Paul Mackerras       2017-02-06  299  			    unsigned long flags);
+2e6baa46b4ae78 Simon Guo            2018-05-21  300  	void (*giveup_ext)(struct kvm_vcpu *vcpu, ulong msr);
+aa069a996951f3 Paul Mackerras       2018-09-21  301  	int (*enable_nested)(struct kvm *kvm);
+dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  302  	int (*load_from_eaddr)(struct kvm_vcpu *vcpu, ulong *eaddr, void *ptr,
+dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  303  			       int size);
+dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  304  	int (*store_to_eaddr)(struct kvm_vcpu *vcpu, ulong *eaddr, void *ptr,
+dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  305  			      int size);
+9a5788c615f52f Paul Mackerras       2020-03-19  306  	int (*enable_svm)(struct kvm *kvm);
+22945688acd4d0 Bharata B Rao        2019-11-25  307  	int (*svm_off)(struct kvm *kvm);
+d9a47edabc4f94 Ravi Bangoria        2020-12-16  308  	int (*enable_dawr1)(struct kvm *kvm);
+a722076e947023 Fabiano Rosas        2021-02-05  309  	bool (*hash_v3_possible)(void);
+faf01aef057075 Alexey Kardashevskiy 2022-01-11  310  	int (*create_vm_debugfs)(struct kvm *kvm);
+faf01aef057075 Alexey Kardashevskiy 2022-01-11  311  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  312  };
+3a167beac07cba Aneesh Kumar K.V     2013-10-07  313  
 
-:::::: TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: The code at line 276 was first introduced by commit
+:::::: b1c5356e873cc4fcbb8f58965e0cd910f3ee37a9 KVM: PPC: Convert to the gfn-based MMU notifier callbacks
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
