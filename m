@@ -1,50 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61291118
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 02:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3617C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 02:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679365691; x=1710901691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RgVBx0IQ1NmjcIvWGy7+21SNw7xhhYNDNR5oOZ1yjIc=;
-  b=VUyUIrEANtEw2g/EFrsn9D+ccEen2qyUbbZeZxFKghDyVOeIPiIaS6qt
-   rotL3Xs79MoVB1bCEigwsb4NvRzKcRIaTCdhCfB7RHJJOXHHifQrAvQ5X
-   Uas/5MZax1SkW2NHXTwo7qgnkqyM1amKtjol7AWLKU1jp+kKXNM0FHEiF
-   4zEOBUuMiCbAm/FjPvqujfxSXNEZMbBU6JN6LEYdWS+a2T/mLV2S/mX3g
-   TokfIUEhYIPJe/+z/3ALuubL2fSNpaX4GNpsRdwR9rwx/o7ollEppNKeC
-   T7jS6ExF5u/Z+54vxJ/sT4ndX+g2QlvMdhYvKycgU0pL4eJPMIb3EJBPg
+  t=1679366951; x=1710902951;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5pK+5dShW+n3tErteR8QnvKKMyxmY1LcSzkeV1UXM5U=;
+  b=ErQJTM7NkFWaOUoeUJtiAYDXlrFFjokqZIIyFdAOsYuQdATtMgZ6rFGR
+   lSC1YT1twzzfCUs7JR8D6utDSlMXhdcdRyEOPjhosoNSEGQSlsY99AluE
+   7MS1vwko0euk7e0LJeLdzgg2Ar4ME22BPgi0lmxhnPnFiyizvpqz6xPmx
+   DvK1elPvgaxIbymn0+RLyztI80b0mPyqyhz4EbD6GcIAZY688XZ7Et7Mk
+   x/3xkrIGrDfp5O1tiSG9sHLrC9XoGjWBBBSug1gwohDdCETaGEiL8u57d
+   snHlvP17l+k9DgqGFySdR3eWAp0kL8dVBR2/oxFGHuXTOPhO9FuD1xReY
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="401404356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="366559397"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="401404356"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 19:28:11 -0700
+   d="scan'208";a="366559397"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 19:49:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631377103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="683684140"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="631377103"
+   d="scan'208";a="683684140"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 19:28:08 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Mar 2023 19:49:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peRjL-000BVZ-12;
-	Tue, 21 Mar 2023 02:28:07 +0000
-Date: Tue, 21 Mar 2023 10:27:40 +0800
+	id 1peS3g-000BWc-02;
+	Tue, 21 Mar 2023 02:49:08 +0000
+Date: Tue, 21 Mar 2023 10:48:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-	airlied@gmail.com, daniel@ffwll.ch,
-	jacek.lawrynowicz@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	dafna@fastmail.com, linux-doc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-	quic_carlv@quicinc.com
-Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-Message-ID: <202303211031.l0DpLTGp-lkp@intel.com>
-References: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:static-call-null-4 5/10] ERROR: modpost:
+ "__static_call_update" [security/keys/trusted-keys/trusted.ko] undefined!
+Message-ID: <202303211037.xiypoWgP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,44 +45,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
 
-Hi Jeffrey,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on lwn/docs-next]
-[cannot apply to linus/master v6.3-rc3 next-20230320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1679325074-5494-8-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303211031.l0DpLTGp-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bffc487514275054bebfe9e732bf2d36da14a31f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-        git checkout bffc487514275054bebfe9e732bf2d36da14a31f
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-4
+head:   fb748cd6c87665bb30d314dda05d536fd455dfef
+commit: bd36c3a0b45ee0fb80d57718f00ea4292a071906 [5/10] static_call: Remove static_call.h dependency on cpu.h
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230321/202303211037.xiypoWgP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=bd36c3a0b45ee0fb80d57718f00ea4292a071906
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe static-call-null-4
+        git checkout bd36c3a0b45ee0fb80d57718f00ea4292a071906
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211031.l0DpLTGp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211037.xiypoWgP-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "__udivdi3" [drivers/accel/qaic/qaic.ko] undefined!
+>> ERROR: modpost: "__static_call_update" [security/keys/trusted-keys/trusted.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
