@@ -1,57 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7D88C04
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 11:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9228C04;
+	Tue, 21 Mar 2023 11:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679397151; x=1710933151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=czLPU8sCEuIwyErf7tpZWfu3yAeyn2lLgfqT8z7968Y=;
-  b=HZm9lkWt5RW5vcXDZoiSgg60xi/PYOKZmG3FC3W9fCj+3yCOdSxqTTei
-   dLEqOpyZBuPYpAIthBYjW9JX2DDtCshetVtBkEGaueHc3uyrXJtk2J9X5
-   LZuaWfS2Vs4xCNZHqLuYIerv0pEfje2dcn4RyL0l71hbdN98oKKQ+QmEj
-   qUd+e3SDe0bJBTjGcBlo+qpM2jRHo7XSIZYoIbD9U8nat7RuHEdxMmg0Q
-   BAhNgwA9umEQj4sC4xwoqOtuvjGMRQpbklDyDlXq/4CspGBLlW/IwP2TD
-   4VfjkBqpfO95t097mxTpmN3TDE4A2OookBdWVOqUSAOy52pv3T+2tbei9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="425184259"
+  t=1679397747; x=1710933747;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sfORhRiVHQmtzdjGHhmxgrB1wKT3hy5Lc7QGL+RMo0A=;
+  b=CWeXih7+tBkZykOgwQXYXCnfm25UMzhtJvGEv2OA0XpPEFPRkyXzzjEB
+   yqbnYYC6t5Qx5oTOBZZh3YaTmoZz8cWisgY3TuccpZYYj1/+INXU81zrR
+   U3n8Xf36S0nHNO8GqhkTukUyKpdiJtC/22fG/sYYknTXoXPsUb3FSoOxF
+   q1dtA0dbeghmL7w8xJEPnp+CcGDXq4zjEdsEquVmmAbdX0Fpju9Q2SnHu
+   xIT0oX/2aJYHFgSF4YxvmG7NKde3/jn4QgKQ6oz51S0f1QMN3DryZpV12
+   +i+w2qXwQfEvSJF+pGz/2ZV3mTZBAGHT2KJCitxMTX7VGPQTPLDJf2CCO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="403786538"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="425184259"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 04:12:30 -0700
+   d="scan'208";a="403786538"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 04:22:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="745805867"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="824896475"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="745805867"
+   d="scan'208";a="824896475"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Mar 2023 04:12:25 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2023 04:22:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peZui-000BqI-2X;
-	Tue, 21 Mar 2023 11:12:24 +0000
-Date: Tue, 21 Mar 2023 19:11:38 +0800
+	id 1pea4P-000BqY-03;
+	Tue, 21 Mar 2023 11:22:25 +0000
+Date: Tue, 21 Mar 2023 19:22:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
-	Joel Fernandes <joelaf@google.com>,
-	Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Zimuzo Ezeozue <zezeozue@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH v2 07/12] sched: Replace rq->curr access w/ rq_curr(rq)
-Message-ID: <202303211827.IXnKJ5rO-lkp@intel.com>
-References: <20230320233720.3488453-8-jstultz@google.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: <instantiation>:26:8: error: symbol '__pecoff_text_end' can not be
+ undefined in a subtraction expression
+Message-ID: <202303211908.171VMZlz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,407 +46,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320233720.3488453-8-jstultz@google.com>
 
-Hi John,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/locking/core tip/master tip/auto-latest linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/locking-ww_mutex-Remove-wakeups-from-under-mutex-wait_lock/20230321-074149
-patch link:    https://lore.kernel.org/r/20230320233720.3488453-8-jstultz%40google.com
-patch subject: [PATCH v2 07/12] sched: Replace rq->curr access w/ rq_curr(rq)
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230321/202303211827.IXnKJ5rO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git for-next
+head:   0af44711e93ad0fcacc5c36723478acda54a2f68
+commit: 88713f77905e621a997fb7aabb2e5377f0fa6580 riscv: Introduce CONFIG_RELOCATABLE
+date:   10 hours ago
+config: riscv-randconfig-r042-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211908.171VMZlz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/77507c3a77e09cdc627a73364246f252d918de41
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review John-Stultz/locking-ww_mutex-Remove-wakeups-from-under-mutex-wait_lock/20230321-074149
-        git checkout 77507c3a77e09cdc627a73364246f252d918de41
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/commit/?id=88713f77905e621a997fb7aabb2e5377f0fa6580
+        git remote add palmer https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git
+        git fetch --no-tags palmer for-next
+        git checkout 88713f77905e621a997fb7aabb2e5377f0fa6580
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211827.IXnKJ5rO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211908.171VMZlz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/build_policy.c:17:
-   kernel/sched/cputime.c: In function 'kcpustat_field':
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/rcupdate.h:453:17: note: in definition of macro '__rcu_dereference_check'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                 ^
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/rcupdate.h:453:38: note: in definition of macro '__rcu_dereference_check'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                      ^
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   In file included from <command-line>:
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:328:27: note: in definition of macro '__unqual_scalar_typeof'
-     328 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:247,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/smp.h:12,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/build_policy.c:16:
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/build_policy.c:17:
->> kernel/sched/cputime.c:997:42: error: 'struct rq' has no member named 'curr'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/rcupdate.h:456:19: note: in definition of macro '__rcu_dereference_check'
-     456 |         ((typeof(*p) __force __kernel *)(local)); \
-         |                   ^
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:997:24: note: in expansion of macro 'rcu_dereference'
-     997 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   kernel/sched/cputime.c: In function 'kcpustat_cpu_fetch':
-   kernel/sched/cputime.c:1084:42: error: 'struct rq' has no member named 'curr'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/rcupdate.h:453:17: note: in definition of macro '__rcu_dereference_check'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                 ^
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:24: note: in expansion of macro 'rcu_dereference'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:42: error: 'struct rq' has no member named 'curr'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/rcupdate.h:453:38: note: in definition of macro '__rcu_dereference_check'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                      ^
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:24: note: in expansion of macro 'rcu_dereference'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   kernel/sched/cputime.c:1084:42: error: 'struct rq' has no member named 'curr'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:24: note: in expansion of macro 'rcu_dereference'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:42: error: 'struct rq' has no member named 'curr'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-   include/linux/compiler_types.h:352:23: note: in definition of macro '__compiletime_assert'
-     352 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:372:9: note: in expansion of macro '_compiletime_assert'
-     372 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:453:50: note: in expansion of macro 'READ_ONCE'
-     453 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:601:9: note: in expansion of macro '__rcu_dereference_check'
-     601 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:673:28: note: in expansion of macro 'rcu_dereference_check'
-     673 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:24: note: in expansion of macro 'rcu_dereference'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                        ^~~~~~~~~~~~~~~
-   kernel/sched/cputime.c:1084:42: error: 'struct rq' has no member named 'curr'
-    1084 |                 curr = rcu_dereference(rq->curr);
-         |                                          ^~
-
-
-vim +997 kernel/sched/cputime.c
-
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   979  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   980  u64 kcpustat_field(struct kernel_cpustat *kcpustat,
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   981  		   enum cpu_usage_stat usage, int cpu)
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   982  {
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   983  	u64 *cpustat = kcpustat->cpustat;
-e0d648f9d883ec Borislav Petkov     2020-03-27   984  	u64 val = cpustat[usage];
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   985  	struct rq *rq;
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   986  	int err;
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   987  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   988  	if (!vtime_accounting_enabled_cpu(cpu))
-e0d648f9d883ec Borislav Petkov     2020-03-27   989  		return val;
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   990  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   991  	rq = cpu_rq(cpu);
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   992  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   993  	for (;;) {
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   994  		struct task_struct *curr;
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   995  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   996  		rcu_read_lock();
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  @997  		curr = rcu_dereference(rq->curr);
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   998  		if (WARN_ON_ONCE(!curr)) {
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25   999  			rcu_read_unlock();
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1000  			return cpustat[usage];
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1001  		}
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1002  
-5a1c95580f1d89 Frederic Weisbecker 2019-11-21  1003  		err = kcpustat_field_vtime(cpustat, curr, usage, cpu, &val);
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1004  		rcu_read_unlock();
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1005  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1006  		if (!err)
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1007  			return val;
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1008  
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1009  		cpu_relax();
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1010  	}
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1011  }
-64eea63c19a2c3 Frederic Weisbecker 2019-10-25  1012  EXPORT_SYMBOL_GPL(kcpustat_field);
-74722bb223d0f2 Frederic Weisbecker 2019-11-21  1013  
+   arch/riscv/kernel/head.S:329:5: warning: 'CONFIG_RISCV_BOOT_SPINWAIT' is not defined, evaluates to 0 [-Wundef]
+   #if CONFIG_RISCV_BOOT_SPINWAIT
+       ^
+   1 warning generated.
+>> <instantiation>:26:8: error: symbol '__pecoff_text_end' can not be undefined in a subtraction expression
+    .long __pecoff_data_virt_end - __pecoff_text_end
+          ^
+   <instantiation>:84:8: error: symbol '__pecoff_text_end' can not be undefined in a subtraction expression
+    .long __pecoff_data_virt_end - __pecoff_text_end
+          ^
+   <instantiation>:86:8: error: symbol '__pecoff_text_end' can not be undefined in a subtraction expression
+    .long __pecoff_data_raw_end - __pecoff_text_end
+          ^
 
 -- 
 0-DAY CI Kernel Test Service
