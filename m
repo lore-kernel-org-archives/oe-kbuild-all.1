@@ -1,45 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F149D530
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 20:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2418B10780
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 21:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679429880; x=1710965880;
+  t=1679434136; x=1710970136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HjODDlc6QV5JvzadG8RMnb0NNVEv1mmgEwwUjjJ+V/s=;
-  b=TemJPgCJSZUhKQWlbx7IWBlarhX/ANkf7T6CbPsuoGbbrFgXz3XvBiV/
-   /asWxGPYNdOVJO0Dh7WiJYQ/kgnFacIwDvSc7OJCOjY2Rc7I9uwxfZV8P
-   szCO2cqtkZaVKpkbs08TpO5zWVcTsxV8AI5mF8c7qcMYZqeGB7FMe05qm
-   iHQKs7rkdEWRu/q8CFpMPzeMNM2FrOHKitaPRL3nxHLh8H4+3JSVk3Clo
-   oBkevI81BbMHMTrmXw7dOOcCqDvJdee1JDqBUky3HBNGk4DLrKFfHWiDG
-   JHu1nNc//cJnONT0WiquqRCn14cesAjUNWLY5syIqaIBL0bXecXV0J6kf
+  bh=OlMKGsReP3yBAxNCOgTXpoVcRq5z9syfFoXP9dOwEgM=;
+  b=AykRE29t5rydarr+eUfMqrOLszOwOX9qt9IMXF88U7WUCa4EVdN9fCpM
+   wJHCWRueCzRuEgui3HfIBw5OodnRP9z4gE3WWay2WCFseDdVLHUWUK7B2
+   AlPMNk7oqExMQsFp0/hQx6LFSBg4zlIvZwM2ZlCR/2LXvBrQg1ht6dZWR
+   sYN/PgK0qzj1w9Bp2oojeDXUBpn4AuOwVb9zZXIGAJHhhtghqa3EYoixL
+   tgZpHd0Snya8WZ9lytjUpwXiVOkeqvw+pCHwSmkWTZ0+r3g9Vz+1hw9W3
+   nhpwyVB+JvrHUSJ7UivzpDISidVZJNF3aNLn9LDHWTTUSiUKUW5JRNviP
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339090453"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="340600048"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="339090453"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 13:17:59 -0700
+   d="scan'208";a="340600048"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 14:28:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805551711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="711981303"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="805551711"
+   d="scan'208";a="711981303"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2023 13:17:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 14:28:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peiQZ-000CNI-2s;
-	Tue, 21 Mar 2023 20:17:51 +0000
-Date: Wed, 22 Mar 2023 04:17:13 +0800
+	id 1pejXK-000CRA-0c;
+	Tue, 21 Mar 2023 21:28:54 +0000
+Date: Wed, 22 Mar 2023 05:28:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaoming Ni <nixiaoming@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: kernel/stackleak.c:33:50: sparse: sparse: incorrect type in argument
- 3 (different address spaces)
-Message-ID: <202303220449.l6Q32ILq-lkp@intel.com>
+To: Chen Yu <yu.c.chen@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yu-chen-surf:mpwr 2/3] drivers/acpi/pfmpwr.c:34:5: warning: no
+ previous prototype for 'acpi_start_mpwr'
+Message-ID: <202303220508.LTe2mlyA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,84 +46,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2faac9a98f010cf5b342fa89ac489c4586364e6e
-commit: 0df8bdd5e3b3e557ce2c2575fce0c64c5dd1045a stackleak: move stack_erasing sysctl to stackleak.c
-date:   1 year, 2 months ago
-config: arm64-randconfig-s032-20230321 (https://download.01.org/0day-ci/archive/20230322/202303220449.l6Q32ILq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0df8bdd5e3b3e557ce2c2575fce0c64c5dd1045a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0df8bdd5e3b3e557ce2c2575fce0c64c5dd1045a
+tree:   https://github.com/yu-chen-surf/linux.git mpwr
+head:   80aa49b502f08ecb466234e78efef54cedd7d5f3
+commit: 7059eafc78bc7a62f8242255e88ff7026cc96560 [2/3] ACPI: Introduce Platform Firmware Memory Preserve Warm Reset driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303220508.LTe2mlyA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/yu-chen-surf/linux/commit/7059eafc78bc7a62f8242255e88ff7026cc96560
+        git remote add yu-chen-surf https://github.com/yu-chen-surf/linux.git
+        git fetch --no-tags yu-chen-surf mpwr
+        git checkout 7059eafc78bc7a62f8242255e88ff7026cc96560
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220449.l6Q32ILq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220508.LTe2mlyA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/stackleak.c:33:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/stackleak.c:33:50: sparse:     expected void *
-   kernel/stackleak.c:33:50: sparse:     got void [noderef] __user *buffer
->> kernel/stackleak.c:53:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/stackleak.c:53:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/stackleak.c:53:35: sparse:     got int ( * )( ... )
+All warnings (new ones prefixed by >>):
 
-vim +33 kernel/stackleak.c
+>> drivers/acpi/pfmpwr.c:34:5: warning: no previous prototype for 'acpi_start_mpwr' [-Wmissing-prototypes]
+      34 | int acpi_start_mpwr(void)
+         |     ^~~~~~~~~~~~~~~
+>> drivers/acpi/pfmpwr.c:43:5: warning: no previous prototype for 'acpi_mpwr_suspend' [-Wmissing-prototypes]
+      43 | int acpi_mpwr_suspend(void *data)
+         |     ^~~~~~~~~~~~~~~~~
 
-964c9dff0091893 Alexander Popov 2018-08-17  22  
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  23  #ifdef CONFIG_SYSCTL
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  24  static int stack_erasing_sysctl(struct ctl_table *table, int write,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  25  			void __user *buffer, size_t *lenp, loff_t *ppos)
-964c9dff0091893 Alexander Popov 2018-08-17  26  {
-964c9dff0091893 Alexander Popov 2018-08-17  27  	int ret = 0;
-964c9dff0091893 Alexander Popov 2018-08-17  28  	int state = !static_branch_unlikely(&stack_erasing_bypass);
-964c9dff0091893 Alexander Popov 2018-08-17  29  	int prev_state = state;
-964c9dff0091893 Alexander Popov 2018-08-17  30  
-964c9dff0091893 Alexander Popov 2018-08-17  31  	table->data = &state;
-964c9dff0091893 Alexander Popov 2018-08-17  32  	table->maxlen = sizeof(int);
-964c9dff0091893 Alexander Popov 2018-08-17 @33  	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-964c9dff0091893 Alexander Popov 2018-08-17  34  	state = !!state;
-964c9dff0091893 Alexander Popov 2018-08-17  35  	if (ret || !write || state == prev_state)
-964c9dff0091893 Alexander Popov 2018-08-17  36  		return ret;
-964c9dff0091893 Alexander Popov 2018-08-17  37  
-964c9dff0091893 Alexander Popov 2018-08-17  38  	if (state)
-964c9dff0091893 Alexander Popov 2018-08-17  39  		static_branch_disable(&stack_erasing_bypass);
-964c9dff0091893 Alexander Popov 2018-08-17  40  	else
-964c9dff0091893 Alexander Popov 2018-08-17  41  		static_branch_enable(&stack_erasing_bypass);
-964c9dff0091893 Alexander Popov 2018-08-17  42  
-964c9dff0091893 Alexander Popov 2018-08-17  43  	pr_warn("stackleak: kernel stack erasing is %s\n",
-964c9dff0091893 Alexander Popov 2018-08-17  44  					state ? "enabled" : "disabled");
-964c9dff0091893 Alexander Popov 2018-08-17  45  	return ret;
-964c9dff0091893 Alexander Popov 2018-08-17  46  }
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  47  static struct ctl_table stackleak_sysctls[] = {
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  48  	{
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  49  		.procname	= "stack_erasing",
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  50  		.data		= NULL,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  51  		.maxlen		= sizeof(int),
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  52  		.mode		= 0600,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21 @53  		.proc_handler	= stack_erasing_sysctl,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  54  		.extra1		= SYSCTL_ZERO,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  55  		.extra2		= SYSCTL_ONE,
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  56  	},
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  57  	{}
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  58  };
-0df8bdd5e3b3e55 Xiaoming Ni     2022-01-21  59  
 
-:::::: The code at line 33 was first introduced by commit
-:::::: 964c9dff0091893a9a74a88edf984c6da0b779f7 stackleak: Allow runtime disabling of kernel stack erasing
+vim +/acpi_start_mpwr +34 drivers/acpi/pfmpwr.c
 
-:::::: TO: Alexander Popov <alex.popov@linux.com>
-:::::: CC: Kees Cook <keescook@chromium.org>
+    33	
+  > 34	int acpi_start_mpwr(void)
+    35	{
+    36		efi.reset_system(EFI_RESET_PLATFORM_SPECIFIC, EFI_SUCCESS,
+    37				sizeof(mpwr_data) + 1 + sizeof(guid_t),
+    38				(efi_char16_t *)&mpwr_data);
+    39	
+    40		return 0;
+    41	}
+    42	
+  > 43	int acpi_mpwr_suspend(void *data)
+    44	{
+    45		return acpi_suspend_lowlevel();
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
