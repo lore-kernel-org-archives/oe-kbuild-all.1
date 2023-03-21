@@ -1,42 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9C01FB8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 07:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DC11FB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 07:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679384848; x=1710920848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CXyfdNA+PkhbsnrvWMPaHUoDCZ6edDzbo86AaldR8Yk=;
-  b=bGuYF7rtZ53fABRMFLXyQ8J4Nyby+0O+YrvAlacp3Fx8T9xPipzmQGzZ
-   s83l7bl1T3RRqTubSHvTZvybUXrOsp5qC5oLrr7kbSrqBf1j8+leNmugX
-   iEAMX1a8IkqOCDvn9glvcIUir53P1VppYYzbG7MsYFMj6zgNxxgoMH1DE
-   JkKyBdM0PhJX0l1lGzKpR0xP5C3NQMrvaW7KpQfcr0Wc8Vy5S6QjHx2yk
-   Pj7zzE8UZiViYGCCWLpAU5dsMuOccvsupTNl6mf3X4by8FlxUnbwSpj1E
-   LIcjI8mRu3J36mI2Czt0tiOlhOOnG8LteFXqFYy3NDVcSamY3fg7cCrVA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322716191"
+  t=1679385442; x=1710921442;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=htRAKg+LgfL1+rxC4mwyqVdyYmH9IsqOpJGjQiKc9bc=;
+  b=UEST25ptvha7ZOvN/e7JxHvL1BZeW8NAGxHxDZTmA0xsefeXi5sM89gJ
+   lj0iGzLuE5sMlaqyMKjz556/8iCv6o0wApo2f+U41JlRsOol0n8CUU1oY
+   LckFJuHvgAAjAUUXW6jgyeTiOPffLwaiWa39TyCqv4apDFOuYFFBIJAK9
+   RYeBb5TgEI6MFGQrz972JqNNP5wLuwXHFvujcvlzDklisTxvXY+pwV1X/
+   +T6vFEF9jCODe2wwXJZo+tvUh1kyESjGkNAd2d6BXVkDFZYq22xTqoDqJ
+   WZpS9fGEWg7BMQKTjdlslFtqNTJnGb5YONJHm7mf2ZpkWJrZotni4j2eR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="337595460"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="322716191"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:47:20 -0700
+   d="scan'208";a="337595460"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:57:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="711703249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="855595747"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="711703249"
+   d="scan'208";a="855595747"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 00:47:19 -0700
+  by orsmga005.jf.intel.com with ESMTP; 21 Mar 2023 00:57:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peWiE-000BjS-1r;
-	Tue, 21 Mar 2023 07:47:18 +0000
-Date: Tue, 21 Mar 2023 15:46:36 +0800
+	id 1peWru-000Bk2-2w;
+	Tue, 21 Mar 2023 07:57:18 +0000
+Date: Tue, 21 Mar 2023 15:56:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 1/1] lib/test_map_h.c:25:39: error: expected comma in
- macro parameter list
-Message-ID: <202303211501.W16lTKYA-lkp@intel.com>
+To: David Yang <mmyangfl@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
+	Weili Qian <qianweili@huawei.com>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH] crypto: hisilicon/trng - add support for HiSTB TRNG
+Message-ID: <202303211525.rEpA0PJl-lkp@intel.com>
+References: <20230321055822.1611239-1-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,86 +50,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230321055822.1611239-1-mmyangfl@gmail.com>
 
-tree:   https://github.com/jimc/linux.git maph
-head:   d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
-commit: d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593 [1/1] include/linux/map.h: add new header, test it with test_map_h.c (RFC)
-config: hexagon-buildonly-randconfig-r001-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211501.W16lTKYA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi David,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.3-rc3 next-20230321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/crypto-hisilicon-trng-add-support-for-HiSTB-TRNG/20230321-135849
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20230321055822.1611239-1-mmyangfl%40gmail.com
+patch subject: [PATCH] crypto: hisilicon/trng - add support for HiSTB TRNG
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230321/202303211525.rEpA0PJl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout d23ecc1b5bd07a90e9bea919ecf2c1b8e5182593
+        # https://github.com/intel-lab-lkp/linux/commit/3569027744dde6e5dc130267a7c64839b883ec0f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Yang/crypto-hisilicon-trng-add-support-for-HiSTB-TRNG/20230321-135849
+        git checkout 3569027744dde6e5dc130267a7c64839b883ec0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/crypto/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211501.W16lTKYA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211525.rEpA0PJl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/test_map_h.c:25:39: error: expected comma in macro parameter list
-     #define BUILD_BUG_STREQ(BUILD_BUG_ON(0))
-                                         ^
->> lib/test_map_h.c:37:2: error: call to undeclared function 'BUILD_BUG_STREQ'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-           ^
->> lib/test_map_h.c:37:18: error: use of undeclared identifier 'debug_cats'; did you mean 'debug_locks'?
-           BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-                           ^~~~~~~~~~
-                           debug_locks
-   include/linux/debug_locks.h:10:12: note: 'debug_locks' declared here
-   extern int debug_locks __read_mostly;
-              ^
-   lib/test_map_h.c:38:18: error: use of undeclared identifier 'debug_cats'; did you mean 'debug_locks'?
-           BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
-                           ^~~~~~~~~~
-                           debug_locks
-   include/linux/debug_locks.h:10:12: note: 'debug_locks' declared here
-   extern int debug_locks __read_mostly;
-              ^
-   lib/test_map_h.c:39:18: error: use of undeclared identifier 'debug_cats'; did you mean 'debug_locks'?
-           BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
-                           ^~~~~~~~~~
-                           debug_locks
-   include/linux/debug_locks.h:10:12: note: 'debug_locks' declared here
-   extern int debug_locks __read_mostly;
-              ^
-   5 errors generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/crypto/hisilicon/trng/trng-stb.c:8:
+   drivers/crypto/hisilicon/trng/trng-stb.c: In function 'histb_trng_read':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/crypto/hisilicon/trng/trng-stb.c:69:25: note: in expansion of macro 'pr_err'
+      69 |                         pr_err("failed to generate random number, generated %d\n", i);
+         |                         ^~~~~~
 
 
-vim +25 lib/test_map_h.c
+vim +5 include/linux/kern_levels.h
 
-    22	
-    23	/* ARCH=i386 has compile-time errs from this otherwize */
-    24	#if !defined(__i386__)
-  > 25	  #define BUILD_BUG_STREQ(BUILD_BUG_ON(0))
-    26	#else
-    27	/* test 2 ways, for now */
-    28	#define BUILD_BUG_STREQ(_var, idx, ref) do {				\
-    29			BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, sizeof(ref))); \
-    30			BUILD_BUG_ON(__builtin_memcmp(_var##_slist[idx], ref, __builtin_strlen(ref))); \
-    31		} while (0)
-    32	#endif
-    33	
-    34	/* force compile, though its not called */
-    35	static void __used MAPH_BUILD_BUG(void)
-    36	{
-  > 37		BUILD_BUG_STREQ(debug_cats, 0, "DRMx_CORE");
-    38		BUILD_BUG_STREQ(debug_cats, 1, "DRMx_DRIVER");
-    39		BUILD_BUG_STREQ(debug_cats, 2, "DRMx_KMS");
-    40	#ifdef FORCE_FAIL
-    41		/* properly breaks compile */
-    42		BUILD_BUG_STREQ(debug_cats, 1, "'not-in-map'");
-    43	#endif
-    44	}
-    45	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
