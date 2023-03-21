@@ -1,47 +1,52 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79F11FCA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 07:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8861FB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 07:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679383526; x=1710919526;
+  t=1679384184; x=1710920184;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=p2vet62qBEFJp4Ns9Xa/OZTKVx5oyjfTIc88PsddBlg=;
-  b=Qn6nx8ZFj9BGxnu14zNBq8MW9jULgMMtGTK8LyXnKAbeo/VJPUhbixGn
-   bDV99As2mgZglXxipSgRi2UD5ZIoi23Zrmt9r1SODR7E6z4UQyelTdanc
-   8hwEVGli094/sbO/DFm06v1vcQWtz1HhetTTciZ2fDtDNHRIBHfh+QGtt
-   Mhw4vzTp18RIUmHJNRmY9dNmGRQS9a+9TjPITKhJD5jnSTc9YwJlsqwgh
-   fD7mK/3EIJyY/uKr+IyWXFIPclbhcctXAmMaX8O6YVu2r0S+aN1tPODNz
-   d/xOJrkruxo1L4Pw9X4bJV1kDKAZUpz+QKcsmwYMspPKsIdRfFKklHlIW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341227744"
+  bh=w1ZF+W0g9hbiFuEgTu+ASaGNsyVN6bbhz9c5OcOHljI=;
+  b=XsXsTvG0pMVomsWLPz5MioI14A/+9bLzYHx+OIwxtIatccnkzHEoYFuE
+   Gk02B3r6q8YdDER7AdtTl15iYnszDZLZWsTNwvdkGV3N/ItG+01voxglU
+   v8ARTm0Xy22ri7wQzcmVfxE4T3hXeZm8nw+1ZKy1C/m5N9XuTk3V7Mgk8
+   rFDtxf/Uxh9tgkUopj5zTOrC7urfX6gqTsg34CmmvQqxFbynjYPnO4dHP
+   UdJKkPLd4sV7hfKI6x8uULxAmHz2zhXAvFS+veNhEa1ZvlRHG2ItJCIjC
+   9zVjw14fxfEkwMqTOhW/Te1pQsEPzC6kTRXb2JVNtqS/QWnU27e3VdUVJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322714460"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="341227744"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:25:20 -0700
+   d="scan'208";a="322714460"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 00:36:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010827579"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="711700213"
 X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="1010827579"
+   d="scan'208";a="711700213"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Mar 2023 00:25:18 -0700
+  by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 00:36:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peWMv-000BiZ-39;
-	Tue, 21 Mar 2023 07:25:17 +0000
-Date: Tue, 21 Mar 2023 15:24:42 +0800
+	id 1peWXa-000Bj8-17;
+	Tue, 21 Mar 2023 07:36:18 +0000
+Date: Tue, 21 Mar 2023 15:36:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <eric.dumazet@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev <netdev@vger.kernel.org>,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next] net: introduce a config option to tweak
- MAX_SKB_FRAGS
-Message-ID: <202303211526.aQcBIvfK-lkp@intel.com>
-References: <20230321033704.936685-1-eric.dumazet@gmail.com>
+To: Sumit Gupta <sumitg@nvidia.com>, treding@nvidia.com,
+	krzysztof.kozlowski@linaro.org, dmitry.osipenko@collabora.com,
+	viresh.kumar@linaro.org, rafael@kernel.org, jonathanh@nvidia.com,
+	robh+dt@kernel.org, lpieralisi@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+	mmaddireddy@nvidia.com, kw@linux.com, bhelgaas@google.com,
+	vidyas@nvidia.com, sanjayc@nvidia.com, ksitaraman@nvidia.com,
+	ishah@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+Subject: Re: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set
+ bandwidth
+Message-ID: <202303211551.eBLRqnv0-lkp@intel.com>
+References: <20230320182441.11904-8-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,226 +55,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321033704.936685-1-eric.dumazet@gmail.com>
+In-Reply-To: <20230320182441.11904-8-sumitg@nvidia.com>
 
-Hi Eric,
+Hi Sumit,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-mem-ctrl/for-next pci/next pci/for-linus]
+[cannot apply to tegra/for-next rafael-pm/linux-next linus/master v6.3-rc3 next-20230321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230321-113826
-patch link:    https://lore.kernel.org/r/20230321033704.936685-1-eric.dumazet%40gmail.com
-patch subject: [PATCH net-next] net: introduce a config option to tweak MAX_SKB_FRAGS
-config: alpha-randconfig-r011-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211526.aQcBIvfK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230320182441.11904-8-sumitg%40nvidia.com
+patch subject: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set bandwidth
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230321/202303211551.eBLRqnv0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d0eaa3eabce1c80d067a739749e4253546417722
+        # https://github.com/intel-lab-lkp/linux/commit/fa31f117302fc7c15b5d9deeefb8c650554f503d
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230321-113826
-        git checkout d0eaa3eabce1c80d067a739749e4253546417722
+        git fetch --no-tags linux-review Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
+        git checkout fa31f117302fc7c15b5d9deeefb8c650554f503d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash init/ kernel/bpf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/cpufreq/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211526.aQcBIvfK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211551.eBLRqnv0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/net/net_namespace.h:43,
-                    from init/main.c:104:
-   include/linux/skbuff.h:348:23: error: 'CONFIG_MAX_SKB_FRAGS' undeclared here (not in a function); did you mean 'MAX_SKB_FRAGS'?
-     348 | #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:593:31: note: in expansion of macro 'MAX_SKB_FRAGS'
-     593 |         skb_frag_t      frags[MAX_SKB_FRAGS];
-         |                               ^~~~~~~~~~~~~
-   include/linux/skbuff.h: In function '__skb_fill_page_desc_noacc':
->> include/linux/skbuff.h:2392:51: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
-    2392 |                                               int i, struct page *page,
-         |                                               ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_ref':
->> include/linux/skbuff.h:3380:58: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3380 | static inline void skb_frag_ref(struct sk_buff *skb, int f)
-         |                                                      ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_unref':
-   include/linux/skbuff.h:3411:60: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3411 | static inline void skb_frag_unref(struct sk_buff *skb, int f)
-         |                                                        ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_set_page':
-   include/linux/skbuff.h:3478:63: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3478 | static inline void skb_frag_set_page(struct sk_buff *skb, int f,
-         |                                                           ~~~~^
-   init/main.c: At top level:
-   init/main.c:775:20: warning: no previous prototype for 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
-     775 | void __init __weak arch_post_acpi_subsys_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   init/main.c:787:20: warning: no previous prototype for 'mem_encrypt_init' [-Wmissing-prototypes]
-     787 | void __init __weak mem_encrypt_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~
-   init/main.c:789:20: warning: no previous prototype for 'poking_init' [-Wmissing-prototypes]
-     789 | void __init __weak poking_init(void) { }
-         |                    ^~~~~~~~~~~
---
-   In file included from include/net/net_namespace.h:43,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/auth.h:14,
-                    from include/linux/nfs_fs.h:31,
-                    from init/do_mounts.c:22:
-   include/linux/skbuff.h:348:23: error: 'CONFIG_MAX_SKB_FRAGS' undeclared here (not in a function); did you mean 'MAX_SKB_FRAGS'?
-     348 | #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:593:31: note: in expansion of macro 'MAX_SKB_FRAGS'
-     593 |         skb_frag_t      frags[MAX_SKB_FRAGS];
-         |                               ^~~~~~~~~~~~~
-   include/linux/skbuff.h: In function '__skb_fill_page_desc_noacc':
->> include/linux/skbuff.h:2392:51: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
-    2392 |                                               int i, struct page *page,
-         |                                               ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_ref':
->> include/linux/skbuff.h:3380:58: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3380 | static inline void skb_frag_ref(struct sk_buff *skb, int f)
-         |                                                      ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_unref':
-   include/linux/skbuff.h:3411:60: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3411 | static inline void skb_frag_unref(struct sk_buff *skb, int f)
-         |                                                        ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_set_page':
-   include/linux/skbuff.h:3478:63: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3478 | static inline void skb_frag_set_page(struct sk_buff *skb, int f,
-         |                                                           ~~~~^
---
-   In file included from include/linux/filter.h:12,
-                    from kernel/bpf/core.c:21:
-   include/linux/skbuff.h:348:23: error: 'CONFIG_MAX_SKB_FRAGS' undeclared here (not in a function); did you mean 'MAX_SKB_FRAGS'?
-     348 | #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:593:31: note: in expansion of macro 'MAX_SKB_FRAGS'
-     593 |         skb_frag_t      frags[MAX_SKB_FRAGS];
-         |                               ^~~~~~~~~~~~~
-   include/linux/skbuff.h: In function '__skb_fill_page_desc_noacc':
->> include/linux/skbuff.h:2392:51: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
-    2392 |                                               int i, struct page *page,
-         |                                               ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_ref':
->> include/linux/skbuff.h:3380:58: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3380 | static inline void skb_frag_ref(struct sk_buff *skb, int f)
-         |                                                      ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_unref':
-   include/linux/skbuff.h:3411:60: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3411 | static inline void skb_frag_unref(struct sk_buff *skb, int f)
-         |                                                        ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_set_page':
-   include/linux/skbuff.h:3478:63: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3478 | static inline void skb_frag_set_page(struct sk_buff *skb, int f,
-         |                                                           ~~~~^
-   kernel/bpf/core.c: At top level:
-   kernel/bpf/core.c:1632:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1632 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:12,
-                    from include/linux/bpf_verifier.h:9,
-                    from kernel/bpf/btf.c:19:
-   include/linux/skbuff.h:348:23: error: 'CONFIG_MAX_SKB_FRAGS' undeclared here (not in a function); did you mean 'MAX_SKB_FRAGS'?
-     348 | #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:593:31: note: in expansion of macro 'MAX_SKB_FRAGS'
-     593 |         skb_frag_t      frags[MAX_SKB_FRAGS];
-         |                               ^~~~~~~~~~~~~
-   include/linux/skbuff.h: In function '__skb_fill_page_desc_noacc':
->> include/linux/skbuff.h:2392:51: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
-    2392 |                                               int i, struct page *page,
-         |                                               ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_ref':
->> include/linux/skbuff.h:3380:58: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3380 | static inline void skb_frag_ref(struct sk_buff *skb, int f)
-         |                                                      ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_unref':
-   include/linux/skbuff.h:3411:60: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3411 | static inline void skb_frag_unref(struct sk_buff *skb, int f)
-         |                                                        ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_set_page':
-   include/linux/skbuff.h:3478:63: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3478 | static inline void skb_frag_set_page(struct sk_buff *skb, int f,
-         |                                                           ~~~~^
-   In file included from <command-line>:
-   include/linux/skmsg.h: In function 'sk_msg_init':
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/skmsg.h:177:9: note: in expansion of macro 'BUILD_BUG_ON'
-     177 |         BUILD_BUG_ON(ARRAY_SIZE(msg->sg.data) - 1 != NR_MSG_FRAG_IDS);
-         |         ^~~~~~~~~~~~
-   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:55:59: note: in expansion of macro '__must_be_array'
-      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/skmsg.h:177:22: note: in expansion of macro 'ARRAY_SIZE'
-     177 |         BUILD_BUG_ON(ARRAY_SIZE(msg->sg.data) - 1 != NR_MSG_FRAG_IDS);
-         |                      ^~~~~~~~~~
-   In file included from kernel/bpf/btf.c:23:
-   include/linux/skmsg.h: In function 'sk_msg_xfer':
->> include/linux/skmsg.h:183:36: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     183 |                                int which, u32 size)
-         |                                ~~~~^~~~~
-   include/linux/skmsg.h: In function 'sk_msg_elem':
-   include/linux/skmsg.h:209:71: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     209 | static inline struct scatterlist *sk_msg_elem(struct sk_msg *msg, int which)
-         |                                                                   ~~~~^~~~~
-   include/linux/skmsg.h: In function 'sk_msg_elem_cpy':
-   include/linux/skmsg.h:214:74: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     214 | static inline struct scatterlist sk_msg_elem_cpy(struct sk_msg *msg, int which)
-         |                                                                      ~~~~^~~~~
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:7101:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7101 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7138:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7138 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
+>> drivers/cpufreq/tegra194-cpufreq.c:397:5: warning: no previous prototype for 'tegra_cpufreq_init_cpufreq_table' [-Wmissing-prototypes]
+     397 | int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy *policy,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/i +2392 include/linux/skbuff.h
+vim +/tegra_cpufreq_init_cpufreq_table +397 drivers/cpufreq/tegra194-cpufreq.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2390  
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2391  static inline void __skb_fill_page_desc_noacc(struct skb_shared_info *shinfo,
-84ce071e38a6e2 Pavel Begunkov 2022-07-12 @2392  					      int i, struct page *page,
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2393  					      int off, int size)
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2394  {
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2395  	skb_frag_t *frag = &shinfo->frags[i];
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2396  
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2397  	/*
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2398  	 * Propagate page pfmemalloc to the skb if we can. The problem is
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2399  	 * that not all callers have unique ownership of the page but rely
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2400  	 * on page_is_pfmemalloc doing the right thing(tm).
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2401  	 */
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2402  	frag->bv_page		  = page;
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2403  	frag->bv_offset		  = off;
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2404  	skb_frag_size_set(frag, size);
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2405  }
-84ce071e38a6e2 Pavel Begunkov 2022-07-12  2406  
+   396	
+ > 397	int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy *policy,
+   398					     struct cpufreq_frequency_table *bpmp_lut,
+   399					     struct cpufreq_frequency_table **opp_table)
+   400	{
+   401		struct tegra194_cpufreq_data *data = cpufreq_get_driver_data();
+   402		struct cpufreq_frequency_table *freq_table = NULL;
+   403		struct cpufreq_frequency_table *pos;
+   404		struct device *cpu_dev;
+   405		struct dev_pm_opp *opp;
+   406		unsigned long rate;
+   407		int ret, max_opps;
+   408		int j = 0;
+   409	
+   410		cpu_dev = get_cpu_device(policy->cpu);
+   411		if (!cpu_dev) {
+   412			pr_err("%s: failed to get cpu%d device\n", __func__, policy->cpu);
+   413			return -ENODEV;
+   414		}
+   415	
+   416		/* Initialize OPP table mentioned in operating-points-v2 property in DT */
+   417		ret = dev_pm_opp_of_add_table_indexed(cpu_dev, 0);
+   418		if (!ret) {
+   419			max_opps = dev_pm_opp_get_opp_count(cpu_dev);
+   420			if (max_opps <= 0) {
+   421				dev_err(cpu_dev, "Failed to add OPPs\n");
+   422				return max_opps;
+   423			}
+   424	
+   425			/* Disable all opps and cross-validate against LUT later */
+   426			for (rate = 0; ; rate++) {
+   427				opp = dev_pm_opp_find_freq_ceil(cpu_dev, &rate);
+   428				if (IS_ERR(opp))
+   429					break;
+   430	
+   431				dev_pm_opp_put(opp);
+   432				dev_pm_opp_disable(cpu_dev, rate);
+   433			}
+   434		} else {
+   435			dev_err(cpu_dev, "Invalid or empty opp table in device tree\n");
+   436			data->icc_dram_bw_scaling = false;
+   437			return ret;
+   438		}
+   439	
+   440		freq_table = kcalloc((max_opps + 1), sizeof(*freq_table), GFP_KERNEL);
+   441		if (!freq_table)
+   442			return -ENOMEM;
+   443	
+   444		/*
+   445		 * Cross check the frequencies from BPMP-FW LUT against the OPP's present in DT.
+   446		 * Enable only those DT OPP's which are present in LUT also.
+   447		 */
+   448		cpufreq_for_each_valid_entry(pos, bpmp_lut) {
+   449			opp = dev_pm_opp_find_freq_exact(cpu_dev, pos->frequency * KHZ, false);
+   450			if (IS_ERR(opp))
+   451				continue;
+   452	
+   453			ret = dev_pm_opp_enable(cpu_dev, pos->frequency * KHZ);
+   454			if (ret < 0)
+   455				return ret;
+   456	
+   457			freq_table[j].driver_data = pos->driver_data;
+   458			freq_table[j].frequency = pos->frequency;
+   459			j++;
+   460		}
+   461	
+   462		freq_table[j].driver_data = pos->driver_data;
+   463		freq_table[j].frequency = CPUFREQ_TABLE_END;
+   464	
+   465		*opp_table = &freq_table[0];
+   466	
+   467		dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
+   468	
+   469		return ret;
+   470	}
+   471	
 
 -- 
 0-DAY CI Kernel Test Service
