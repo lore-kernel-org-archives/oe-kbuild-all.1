@@ -1,42 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3C710789
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 22:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6E410788;
+	Tue, 21 Mar 2023 22:19:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679436540; x=1710972540;
+  t=1679437199; x=1710973199;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g5qb5OG/wKcm01DkGWptKvrfwqjjN64c9rxw+k3TZbk=;
-  b=G4t/7pd9tNVPkdGY6d9PLrYmFimGUKiox89k/DJT1wmEhs0fxDdExH1C
-   bH3HSOuQNvHcSDw8EmHKqpg6alZZLAfc7Tz0Q08oyOMEPGAkNkty9MK0C
-   eC0zkw+nQtkm3ySaprWICPHCe7lrGB8yQBdGY89H+UtZvp7QKjoljgpX2
-   6xPyyK6wDP65d9AqafCohKPNNK20l4HzWiiQzPtL0edKqPEbhqqXC8bRf
-   wFYDXg82Tw23Kcis/OXc341Vbr1nbUWl9BXRC86iF8x7rpsLWHbvwOz+d
-   /XM42+mVaSq3v/rGNAOLyUYqJMdfH2D3bAetb7Sas48JUJOyQ3AnYoSsc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="336575529"
+  bh=KkKXJs01d6aNUn4ec8jm1yRJxeI+Isjz4/G3GmiRxUM=;
+  b=kZtJcxdm18TXS6rmU4n/5GWIdzjfzmK/KoYgiwpIhbYsYYuCnjIOIm1t
+   0BCo94dJ5Acl4+sm60LBQ0ED34jBxWI98irmjUiH9sGRPy3xQmfBejYrv
+   nw16vf9CUjve6r5jEDkuTfnW8FhNuU4nCIGoMLLYBsOTgdo/ZjZwbjXsu
+   FobYpIJs7bl0681taqWIDJh5KCauJCybEPxpliUzJaWEoXFT1n4avhmMq
+   +Fm0SY9yTSW+8GDydEZh768VOg3Uf1TjMRNqlhzWXqukaDUuTn5KT2GsO
+   n9xBuYdIeZ659ILFVSyUKU4U0Sy3O8mDQsWQaZqmSCZS4u5jh9P5LcDVG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="327449635"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="336575529"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 15:08:57 -0700
+   d="scan'208";a="327449635"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 15:19:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="675027434"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714166500"
 X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="675027434"
+   d="scan'208";a="714166500"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Mar 2023 15:08:56 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2023 15:19:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pekA3-000CTC-25;
-	Tue, 21 Mar 2023 22:08:55 +0000
-Date: Wed, 22 Mar 2023 06:08:47 +0800
+	id 1pekKh-000CTa-2u;
+	Tue, 21 Mar 2023 22:19:56 +0000
+Date: Wed, 22 Mar 2023 06:19:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-scsi-devel:tls-netlink.v7 17/20]
- drivers/nvme/target/tcp.c:1729: undefined reference to `nvme_keyring_id'
-Message-ID: <202303220637.fkIobSiO-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>
+Subject: [rafael-pm:bleeding-edge 43/45]
+ drivers/thermal/thermal_sysfs.c:717:6: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202303220652.Yhopf8F0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,67 +49,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git tls-netlink.v7
-head:   5c13b43fa2c503188a6d668b0dec6a22078329a2
-commit: 7754017009ada8fe29201a4add622e6406ea16b0 [17/20] nvmet-tcp: enable TLS handshake upcall
-config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230322/202303220637.fkIobSiO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   98fe6903f79cffbb0f271369f62f4e5fea0e978c
+commit: 9b3fc1c6ba14f12e819e9d44c72013a1da58c0d9 [43/45] thermal: core: Introduce thermal_cooling_device_update()
+config: i386-randconfig-a001-20230320 (https://download.01.org/0day-ci/archive/20230322/202303220652.Yhopf8F0-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git/commit/?id=7754017009ada8fe29201a4add622e6406ea16b0
-        git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git
-        git fetch --no-tags hare-scsi-devel tls-netlink.v7
-        git checkout 7754017009ada8fe29201a4add622e6406ea16b0
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=9b3fc1c6ba14f12e819e9d44c72013a1da58c0d9
+        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+        git fetch --no-tags rafael-pm bleeding-edge
+        git checkout 9b3fc1c6ba14f12e819e9d44c72013a1da58c0d9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/thermal/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220637.fkIobSiO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220652.Yhopf8F0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `nvmet_tcp_tls_handshake':
->> drivers/nvme/target/tcp.c:1729: undefined reference to `nvme_keyring_id'
-   ld: vmlinux.o: in function `nvme_core_init':
-   drivers/nvme/host/core.c:5419: undefined reference to `nvme_keyring_init'
-   ld: vmlinux.o: in function `nvme_core_exit':
-   drivers/nvme/host/core.c:5453: undefined reference to `nvme_keyring_exit'
+>> drivers/thermal/thermal_sysfs.c:717:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!stats)
+               ^~~~~~
+   drivers/thermal/thermal_sysfs.c:727:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/thermal/thermal_sysfs.c:717:2: note: remove the 'if' if its condition is always false
+           if (!stats)
+           ^~~~~~~~~~~
+   drivers/thermal/thermal_sysfs.c:712:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
 
-vim +1729 drivers/nvme/target/tcp.c
+vim +717 drivers/thermal/thermal_sysfs.c
 
-  1714	
-  1715	static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-  1716	{
-  1717		int ret = -EOPNOTSUPP;
-  1718		struct tls_handshake_args args;
-  1719	
-  1720		if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-  1721			pr_warn("cannot start TLS in state %d\n", queue->state);
-  1722			return -EINVAL;
-  1723		}
-  1724	
-  1725		pr_debug("queue %d: TLS ServerHello\n", queue->idx);
-  1726		args.ta_sock = queue->sock;
-  1727		args.ta_done = nvmet_tcp_tls_handshake_done;
-  1728		args.ta_data = queue;
-> 1729		args.ta_keyring = nvme_keyring_id();
-  1730		args.ta_timeout_ms = tls_handshake_timeout * 2 * 1024;
-  1731	
-  1732		ret = tls_server_hello_psk(&args, GFP_KERNEL);
-  1733		if (ret) {
-  1734			pr_err("failed to start TLS, err=%d\n", ret);
-  1735		} else {
-  1736			pr_debug("queue %d wakeup userspace\n", queue->idx);
-  1737			nvmet_tcp_tls_data_ready(queue->sock->sk);
-  1738			queue_delayed_work(nvmet_wq, &queue->tls_handshake_work,
-  1739					   tls_handshake_timeout * HZ);
-  1740		}
-  1741		return ret;
-  1742	}
-  1743	
+   706	
+   707	static ssize_t total_trans_show(struct device *dev,
+   708					struct device_attribute *attr, char *buf)
+   709	{
+   710		struct thermal_cooling_device *cdev = to_cooling_device(dev);
+   711		struct cooling_dev_stats *stats;
+   712		int ret;
+   713	
+   714		mutex_lock(&cdev->lock);
+   715	
+   716		stats = cdev->stats;
+ > 717		if (!stats)
+   718			goto unlock;
+   719	
+   720		spin_lock(&stats->lock);
+   721		ret = sprintf(buf, "%u\n", stats->total_trans);
+   722		spin_unlock(&stats->lock);
+   723	
+   724	unlock:
+   725		mutex_unlock(&cdev->lock);
+   726	
+   727		return ret;
+   728	}
+   729	
 
 -- 
 0-DAY CI Kernel Test Service
