@@ -1,42 +1,50 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0D87C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 04:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679372412; x=1710908412;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HsMZA4ltV2jKvsoi9yihPsBK05mU94uEm07Lzztr/1U=;
-  b=mcVHNy213p75L3Fw1y9d/XrGWnDAv3iN7ZJfMjRbdt0Cnlb9DUxARz6H
-   dlTEjy9v/2ra1Hr885/ZSUC4jbtiFxp+CZa0702oewIa3lAkElkL24zax
-   9aOJo1kfepbIZ5USZJWCKAdebXB6EdfUGh1h3BKOnXbYWn+QamXFPgFPO
-   sMxTWc1WfCtgesQV6JfLwhd3wDgnYZ08gR+soW57Z8NsTi2ceqM+WvUdk
-   jT8UrDzRseB0P6elEyLE2t8oRg3hjfiWplsO8ImhiZLwJWjkVYi5mcprb
-   PsxIZFtuHLjVpPXU/uo32Flu4ij5YX6FNGWHHYwVc7WNNc3jNG3lS5HG1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338878906"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="338878906"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 21:20:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631397889"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="631397889"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 21:20:10 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peTTl-000Ba6-39;
-	Tue, 21 Mar 2023 04:20:09 +0000
-Date: Tue, 21 Mar 2023 12:20:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/010-mailbox 7/10] drivers/soc/apple/rtkit.c:626:37:
- error: 'struct apple_rtkit' has no member named 'mbox_chan'
-Message-ID: <202303211235.0n6WNggF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9ED7C;
+	Tue, 21 Mar 2023 04:28:16 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id l12so12347491wrm.10;
+        Mon, 20 Mar 2023 21:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679372895;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sToM1jB8CHkGYs4Sbd9Gz4DhbErAxDcSGYRiBMmdYJo=;
+        b=HTogfaIeWYUjE+kVmP5jfchryq3dgoR1u573YLIAL/1N5+2JyrRhe/4LWJZLjvYqtA
+         EkojXvXAxSC7Pi+vINMkcMMUXGSu27GvKEddrr0Th/26a+LErT4gdw94YOdaRezTRbmX
+         NqdjvXQPlG0ZAN/2vWs5jCChsWFEFSQ/LdGstsMpGzmpAgDyznDjjNo68uG6bjpO2VCs
+         WVLKmQjNjWtn/DatBwKLEycURExmd+sq+n141V+8xte8RgK3VzfdGI5peeedHq5c2kd2
+         ZbzoJG99QDCHWKHkYzyuXbZsdb2iqkFpGVWrDFGByBH/ARNLA/4R1NSAvU7DwBJgR7LR
+         8sNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679372895;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sToM1jB8CHkGYs4Sbd9Gz4DhbErAxDcSGYRiBMmdYJo=;
+        b=fYrVMJGy80YwqYDxxoiNsXbXQu6QLG/aELAZYrJj81CISLp5RMftNCRaKfgqjQn9k8
+         M2bZu7/aobWUwokwatRRdq38Nk8wTbV+IoDCB5ZCW5f72jTZVFAFoD3IRjVVtsmdfbcI
+         IqoHDBpbuJLgp2Ba6imrBj22hN3SKanbmDhoyfJv0CA8S1Ts7NPZ7lUscls26zFpyoIM
+         +cuuACUL0aqSH2Zuy95s5kWeIcSLizdu4Vgak/cf/jujeYaLOqAt3yvB3f9CyeK30anu
+         1FSsKxNmF6IoftZEq4Ur8L5Y0dfyJ510D+S/qPGdSxcsSgG5jY59XohvdCaL9YH1Gu2D
+         9JSA==
+X-Gm-Message-State: AO0yUKWZJGRz18rz3Jkws4a05T7nBm/9WwrSGDY6PQ43vuOI4H05l/1U
+	I6BMqQ26B1m+aLFe/oSTadl2907ekkM=
+X-Google-Smtp-Source: AK7set/dnBOSjQ4cyGbtLpEdG1EpMqIYEjB2vM62REuhEEKDaOP/eLFMqHnotbjBZknUFyTQLt0kIw==
+X-Received: by 2002:a5d:660e:0:b0:2d7:82ee:c9ce with SMTP id n14-20020a5d660e000000b002d782eec9cemr1219740wru.20.1679372894627;
+        Mon, 20 Mar 2023 21:28:14 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e7-20020a5d5307000000b002c5a1bd5280sm10243809wrv.95.2023.03.20.21.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 21:28:13 -0700 (PDT)
+Date: Tue, 21 Mar 2023 07:28:09 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Atish Patra <atishp@rivosinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: arch/riscv/kvm/vcpu_pmu.c:40 kvm_riscv_vcpu_pmu_ctr_info() error:
+ buffer overflow 'kvpmu->pmc' 64 <= 64
+Message-ID: <85162d82-9ca6-4912-99d3-01583f843fa9@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,81 +54,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/010-mailbox
-head:   29506b44eb09be69c248d69061154f3cc0304ac0
-commit: 62f3af80169e0b672435004586f085751defc26d [7/10] soc: apple: rtkit: Port to the internal mailbox driver
-config: arm64-randconfig-c023-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211235.0n6WNggF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/62f3af80169e0b672435004586f085751defc26d
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/010-mailbox
-        git checkout 62f3af80169e0b672435004586f085751defc26d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/soc/apple/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   17214b70a159c6547df9ae204a6275d983146f6b
+commit: 8f0153ecd3bf184bc06afca25b737c707fa4d765 RISC-V: KVM: Add skeleton support for perf
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303210940.XYeKyGru-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303211235.0n6WNggF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303210940.XYeKyGru-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+arch/riscv/kvm/vcpu_pmu.c:40 kvm_riscv_vcpu_pmu_ctr_info() error: buffer overflow 'kvpmu->pmc' 64 <= 64
 
-   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
->> drivers/soc/apple/rtkit.c:626:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
-     626 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
-         |                                     ^~
-   drivers/soc/apple/rtkit.c: At top level:
-   drivers/soc/apple/rtkit.c:670:21: warning: no previous prototype for 'apple_rtkit_init' [-Wmissing-prototypes]
-     670 | struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
-         |                     ^~~~~~~~~~~~~~~~
+vim +40 arch/riscv/kvm/vcpu_pmu.c
 
+8f0153ecd3bf184 Atish Patra 2023-02-07  30  int kvm_riscv_vcpu_pmu_ctr_info(struct kvm_vcpu *vcpu, unsigned long cidx,
+8f0153ecd3bf184 Atish Patra 2023-02-07  31  				struct kvm_vcpu_sbi_return *retdata)
+8f0153ecd3bf184 Atish Patra 2023-02-07  32  {
+8f0153ecd3bf184 Atish Patra 2023-02-07  33  	struct kvm_pmu *kvpmu = vcpu_to_pmu(vcpu);
+8f0153ecd3bf184 Atish Patra 2023-02-07  34  
+8f0153ecd3bf184 Atish Patra 2023-02-07  35  	if (cidx > RISCV_KVM_MAX_COUNTERS || cidx == 1) {
 
-vim +626 drivers/soc/apple/rtkit.c
+Probably change > to >= RISCV_KVM_MAX_COUNTERS.  It's strange that 1 is
+invalid.  I would have expected 0 to be invalid.  (I have not looked at
+the context outside this email).
 
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  613  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  614  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  615  				  unsigned long timeout, bool atomic)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  616  {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  617  	DECLARE_COMPLETION_ONSTACK(completion);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  618  	int ret;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  619  	long t;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  620  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  621  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  622  	if (ret < 0)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  623  		return ret;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  624  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  625  	if (atomic) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01 @626  		ret = mbox_flush(rtk->mbox_chan, timeout);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  627  		if (ret < 0)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  			return ret;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  		if (try_wait_for_completion(&completion))
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  			return 0;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  		return -ETIME;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  	} else {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  		t = wait_for_completion_interruptible_timeout(
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  			&completion, msecs_to_jiffies(timeout));
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  		if (t < 0)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  			return t;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  639  		else if (t == 0)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  			return -ETIME;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  		return 0;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  }
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  
+8f0153ecd3bf184 Atish Patra 2023-02-07  36  		retdata->err_val = SBI_ERR_INVALID_PARAM;
+8f0153ecd3bf184 Atish Patra 2023-02-07  37  		return 0;
+8f0153ecd3bf184 Atish Patra 2023-02-07  38  	}
+8f0153ecd3bf184 Atish Patra 2023-02-07  39  
+8f0153ecd3bf184 Atish Patra 2023-02-07 @40  	retdata->out_val = kvpmu->pmc[cidx].cinfo.value;
+                                                                   ^^^^^^^^^^^^^^^^^
 
-:::::: The code at line 626 was first introduced by commit
-:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
-
-:::::: TO: Sven Peter <sven@svenpeter.dev>
-:::::: CC: Sven Peter <sven@svenpeter.dev>
+8f0153ecd3bf184 Atish Patra 2023-02-07  41  
+8f0153ecd3bf184 Atish Patra 2023-02-07  42  	return 0;
+8f0153ecd3bf184 Atish Patra 2023-02-07  43  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
