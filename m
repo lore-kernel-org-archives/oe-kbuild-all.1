@@ -1,43 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B55B1101
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 00:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BC810E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Mar 2023 01:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679360111; x=1710896111;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hUpUwerS1gNCRj4vX2R1CNi66/y8RkCvXDqrJ164bV4=;
-  b=ffCpD/deMjP85vn5btSw19km2FS2mJd92fO/PEJb5xDysQLinAyXGMyP
-   qz1fMuJvXK87P5G7CKK9kVvdW3ACy2RNHfDSBtWG60LolJs9Ri54OpBHw
-   OClXaFWRlvmYVC8JVAFzKujx+Pbx5WbSPdQKlF6H92AEfGv+GWvG3ltiY
-   Bvhf3Wq2ABiu6d2vPQhws7BtEDyM5AxuRzTpRvAaYEAorQKISmLvh3woT
-   GrEH6LESJQdA/z4Sk9HYKLbadn8B5N2CN5v+64hcO8HvTxTRKo8/rjrde
-   T+WT19yhcu7bqijTdKPOeUloP3ENjBRIXkqSBngKfvF29+X6kd3s+UMxG
+  t=1679361046; x=1710897046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=neqS0div3l2OFqQ/6+ZJIu3ELpcYXAtz90xTmt6fo7Y=;
+  b=DQGfYIP74OetozkCpQhzHgxaAI4YPxKTjqvxhl/VlVbvzOFkZUeelPd3
+   75/OFl/fOI/hHRgSR95l+ZBHDR9ib0vfAqPa1udKUyqFvYp3h0MmqjqNM
+   +eZSecBv17cBu5RK7yv2OIfbv1tz4dNpDGkHdVblpTBMYfRTzz6LCqhd9
+   HLlu3RTCi70tbHVT4y974cdUdebXHd6NjM7YMGw4DTZXfD17a9IjQjCS9
+   iNovhXbuO9AnGXAz3JCoEv7/VOMwV9RGL2kMzUDrSsJt2IFxlOY9K/QUR
+   qPy9iFFTv3WbtnL8DJnijJ0yxjx0lUEzuqwvINk9BZwAoePPOkF0wgrDf
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322655866"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="337535815"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="322655866"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 17:55:11 -0700
+   d="scan'208";a="337535815"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 18:06:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="683641910"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674630692"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="683641910"
+   d="scan'208";a="674630692"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Mar 2023 17:55:10 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Mar 2023 18:06:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peQHI-000BRs-1e;
-	Tue, 21 Mar 2023 00:55:04 +0000
-Date: Tue, 21 Mar 2023 08:54:45 +0800
+	id 1peQRw-000BSQ-2r;
+	Tue, 21 Mar 2023 01:06:04 +0000
+Date: Tue, 21 Mar 2023 09:05:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <sean.j.christopherson@intel.com>
-Subject: [intel-tdx:kvm-upstream 55/157] include/uapi/linux/const.h:28:33:
- error: left shift count >= width of type
-Message-ID: <202303210849.dW4siXcm-lkp@intel.com>
+To: Mehdi Djait <mehdi.djait.k@gmail.com>, jic23@kernel.org,
+	mazziesaccount@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+	andriy.shevchenko@linux.intel.com, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Mehdi Djait <mehdi.djait.k@gmail.com>
+Subject: Re: [PATCH 2/3] iio: accel: kionix-kx022a: Add chip_info structure
+Message-ID: <202303210809.RAQ7nfl7-lkp@intel.com>
+References: <3ddca10a4c03c3a64afb831cc9dd1e01fe89d305.1679009443.git.mehdi.djait.k@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +50,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3ddca10a4c03c3a64afb831cc9dd1e01fe89d305.1679009443.git.mehdi.djait.k@gmail.com>
 
-Hi Isaku,
+Hi Mehdi,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://github.com/intel/tdx.git kvm-upstream
-head:   af455bd9233d89034be3007550c0209df72914f1
-commit: 3c2c142e14a04a833b47f77faecaa91899b472cd [55/157] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230321/202303210849.dW4siXcm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/3c2c142e14a04a833b47f77faecaa91899b472cd
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream
-        git checkout 3c2c142e14a04a833b47f77faecaa91899b472cd
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on next-20230320]
+[cannot apply to linus/master v6.3-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-iio-Add-KX132-accelerometer/20230317-075056
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/3ddca10a4c03c3a64afb831cc9dd1e01fe89d305.1679009443.git.mehdi.djait.k%40gmail.com
+patch subject: [PATCH 2/3] iio: accel: kionix-kx022a: Add chip_info structure
+config: loongarch-randconfig-s032-20230319 (https://download.01.org/0day-ci/archive/20230321/202303210809.RAQ7nfl7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/40c75341c42d0e5bea5d73961202978a4be41cd2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mehdi-Djait/dt-bindings-iio-Add-KX132-accelerometer/20230317-075056
+        git checkout 40c75341c42d0e5bea5d73961202978a4be41cd2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/iio/accel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210849.dW4siXcm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210809.RAQ7nfl7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/accel/kionix-kx022a-spi.c:27:19: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct kx022a_chip_info *chip_info @@     got void const * @@
+   drivers/iio/accel/kionix-kx022a-spi.c:27:19: sparse:     expected struct kx022a_chip_info *chip_info
+   drivers/iio/accel/kionix-kx022a-spi.c:27:19: sparse:     got void const *
+>> drivers/iio/accel/kionix-kx022a-spi.c:29:27: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct kx022a_chip_info *chip_info @@     got struct kx022a_chip_info const * @@
+   drivers/iio/accel/kionix-kx022a-spi.c:29:27: sparse:     expected struct kx022a_chip_info *chip_info
+   drivers/iio/accel/kionix-kx022a-spi.c:29:27: sparse:     got struct kx022a_chip_info const *
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/bits.h:5,
-                    from include/linux/string_helpers.h:5,
-                    from drivers/gpu/drm/i915/display/intel_display_trace.h:12,
-                    from <command-line>:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
-      19 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
-      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
-      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +27 drivers/iio/accel/kionix-kx022a-spi.c
 
-
-vim +28 include/uapi/linux/const.h
-
-2dd8a62c6476911 Masahiro Yamada 2018-04-10  27  
-21e7bc600e3b662 Masahiro Yamada 2018-04-10 @28  #define _BITUL(x)	(_UL(1) << (x))
-21e7bc600e3b662 Masahiro Yamada 2018-04-10  29  #define _BITULL(x)	(_ULL(1) << (x))
-2fc016c5bd8aad2 H. Peter Anvin  2013-04-27  30  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 21e7bc600e3b662020c05fd0749bcf85f16336f7 linux/const.h: refactor _BITUL and _BITULL a bit
-
-:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    14	
+    15	static int kx022a_spi_probe(struct spi_device *spi)
+    16	{
+    17		struct device *dev = &spi->dev;
+    18		struct kx022a_chip_info *chip_info;
+    19		struct regmap *regmap;
+    20		const struct spi_device_id *id = spi_get_device_id(spi);
+    21	
+    22		if (!spi->irq) {
+    23			dev_err(dev, "No IRQ configured\n");
+    24			return -EINVAL;
+    25		}
+    26	
+  > 27		chip_info = device_get_match_data(&spi->dev);
+    28		if (!chip_info)
+  > 29			chip_info = (const struct kx022a_chip_info *) id->driver_data;
+    30	
+    31		regmap = devm_regmap_init_spi(spi, chip_info->regmap_config);
+    32		if (IS_ERR(regmap))
+    33			return dev_err_probe(dev, PTR_ERR(regmap),
+    34					     "Failed to initialize Regmap\n");
+    35	
+    36		return kx022a_probe_internal(dev, chip_info);
+    37	}
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
