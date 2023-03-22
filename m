@@ -1,48 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEEF8C01
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 15:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28018C01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 15:54:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679499829; x=1711035829;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3y52vmnpU1zrtrzsFH1G+PtYutUm6m2sFkJR0sAJnPQ=;
-  b=RrOlyLjhVS739Zo5g3i0mZuBtMXDXDoyvVIP1jw9AEdSCLZyAY8w7mL4
-   YrdoNQLdrmB+HbcotPZiahVTftheLdgZcVS8B3AVf4MfNomHbCsGaF6Jg
-   dxNiUkpckV1RKe/LswEF54qUwOcJJW1rQAiNKqcf5HUcwRjstGE8Qjgl7
-   1HVwmgdErH/c8g+8cPc2eV/+eQheOmIfBhvfC4PML07RI/HwfP/pUoxqI
-   f1peLN+h/6Aygn609VHCiae8AMdpnmmu26e9h/FkYvj4Psk2/HHQQjf6R
-   xfQ7ZQ8Ao4cZNYLanjG1hGS6wa9W1js082Z/bcnvVMB9FrEMOqjjS81js
+  t=1679500485; x=1711036485;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lXvDRrWUWDucXe3myIp0G26sAIU5APXjsiQfH5OJuXE=;
+  b=eO6+tuUw1fQsT4f/3yfjIs/OG59rs0ddy7Gow2YPUq1JpVcH4/eDXi8C
+   cQuswHsc/zay5BiOpWUe8D1tWOJugcu+k1U99rC9qsKJobKR0Xp9pJ0Y+
+   htMp8QE6Wn0EdAm754QSN+qoRK8LekPElCDUxZ+beYKQTRs0y5OHBRcCI
+   7LOnJezGtfEmHKY9KKBXPJydrXGxZSnEt20BLWu3zhTPyVtmvIKVLicoL
+   yCm7prnA8p3njBtqh42snUBDw6I6fv3zj3jfTGBqvWRPohPTSsQNMrP0T
+   ZMa6whiNsaV5dnhSlPwoFoVUZMqZ8l9/EaU+M4d2hauh2ERTCb1p8DcW5
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339286251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="404138360"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="339286251"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 08:43:48 -0700
+   d="scan'208";a="404138360"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 08:54:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659216178"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="681946995"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="659216178"
+   d="scan'208";a="681946995"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 22 Mar 2023 08:43:44 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 08:54:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf0co-000DRM-2u;
-	Wed, 22 Mar 2023 15:43:42 +0000
-Date: Wed, 22 Mar 2023 23:43:13 +0800
+	id 1pf0nT-000DRg-0O;
+	Wed, 22 Mar 2023 15:54:43 +0000
+Date: Wed, 22 Mar 2023 23:53:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>,
-	Lee Jones <lee@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 1/2] iio: max597x: Add support for max597x
-Message-ID: <202303222333.PPnq1J4t-lkp@intel.com>
-References: <20230322124316.2147143-1-Naresh.Solanki@9elements.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous
+ prototype for '__vdso_getcpu'
+Message-ID: <202303222323.cnjgJ1fj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,54 +46,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322124316.2147143-1-Naresh.Solanki@9elements.com>
 
-Hi Naresh,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on 368eb79f738a21e16c2bdbcac2444dfa96b01aaa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/leds-max597x-Add-support-for-max597x/20230322-204408
-base:   368eb79f738a21e16c2bdbcac2444dfa96b01aaa
-patch link:    https://lore.kernel.org/r/20230322124316.2147143-1-Naresh.Solanki%409elements.com
-patch subject: [PATCH 1/2] iio: max597x: Add support for max597x
-reproduce:
-        make versioncheck
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a1effab7a3a35a837dd9d2b974a1bc4939df1ad5
+commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 x86/vdso: Provide getcpu for x86-32.
+date:   6 weeks ago
+config: x86_64-sof-customedconfig-soundwire-defconfig (https://download.01.org/0day-ci/archive/20230322/202303222323.cnjgJ1fj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303222333.PPnq1J4t-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303222323.cnjgJ1fj-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/iio/adc/max597x-iio.c: 20 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
+>> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous prototype for '__vdso_getcpu' [-Werror=missing-prototypes]
+      13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+         | ^~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/__vdso_getcpu +13 arch/x86/entry/vdso/vdso32/../vgetcpu.c
+
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  11  
+23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12  12  notrace long
+23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12 @13  __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  14  {
+22245bdf0ad805 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  15  	vdso_read_cpunode(cpu, node);
+ec3a94188df7d2 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  16  
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  17  	return 0;
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  18  }
+2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  19  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 23adec554a7648f99c8acc0caf49c66320cd2b84 x86: add notrace annotations to vsyscall.
+
+:::::: TO: Steven Rostedt <srostedt@redhat.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
