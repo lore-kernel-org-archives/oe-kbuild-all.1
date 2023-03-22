@@ -1,43 +1,46 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435E62584
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 21:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1096BA44;
+	Wed, 22 Mar 2023 21:52:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679519522; x=1711055522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eSiPEhiD3eyWx6BdNjKRIt3tdE6FmjeGhOTRrf8+4/4=;
-  b=RtXKyA6r1TKxvH5VqL1LXC+cT9cYPlBz0nM/eI/7atOyiHhXt0VgTOHL
-   yXzclQN2McpCNvGzk7hcj17gSj+tGpq4HfRe+zMCW2V00AUiumbv5hQUV
-   smacTf8hVJk7TI07VFLrNHRQV1+OnRlWFcHOb0vsoxhYttksCcrZJua3T
-   VF93RO6cFPAG+oZ4s6UzqbtxvbciJUX8O3j4Zyx5nNagAN871V2c0sjx/
-   RF9sqP3xoI/duR5kBZryD5bTwCDpdyCHjgUh9wFOW4Wy4Rn4IPhChyqDZ
-   +E+7eItH7IxzMyHyC49WOX/19QwIalZQQBuBOe+ak52tkA1lcIlpqt5S2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336840847"
+  t=1679521927; x=1711057927;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AMEtLMT6hBX2lxRTrrgsFN4px87BZunEca3shlKUTpE=;
+  b=iRNC/ePAwar+cYTc3KNQJAqW5/8PAwHW3mkfTqNMFj1eFFWttdicZg/h
+   98FM0OJJctrEfRl6G1+bzY6u6lASpuwroePB3jupOMU98BepqCS6SPJwo
+   NGBD2NVgaspNPQstkDwtoOKRLW9+tmJakJXMKFFQTv+DmY2e9je2rR0oF
+   uvUfJWEG10BZxkuzgOh7J5qRr4bp6cf+9vjpKSBO2a86k1CkCVJLo3l1B
+   3ZVJhXCmzjeX/FJu6uUBX+RraZsTKos+Z3jBzsYIqfN3ccW+XcMyG65h4
+   CjNRw0YkSZWFBElIGLUffZcYM0aDAl1PL7wxwJAO8YazJi47a085I493/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338061652"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="336840847"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 14:12:01 -0700
+   d="scan'208";a="338061652"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 14:51:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632120583"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="751232113"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="632120583"
+   d="scan'208";a="751232113"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 14:12:00 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2023 14:51:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf5kQ-000Df0-1X;
-	Wed, 22 Mar 2023 21:11:54 +0000
-Date: Thu, 23 Mar 2023 05:11:13 +0800
+	id 1pf6N9-000Dh2-30;
+	Wed, 22 Mar 2023 21:51:55 +0000
+Date: Thu, 23 Mar 2023 05:51:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
-Subject: [lunn:v6.3-rc2-net-next-phy-leds 5/15]
- drivers/net/phy/phy_device.c:3025: undefined reference to
- `devm_led_classdev_register_ext'
-Message-ID: <202303230542.PH58J4P2-lkp@intel.com>
+To: ye.xingchen@zte.com.cn, laurent.pinchart@ideasonboard.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	hyun.kwon@xilinx.com, airlied@gmail.com, daniel@ffwll.ch,
+	michal.simek@xilinx.com, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
+Message-ID: <202303230551.UxtIjawK-lkp@intel.com>
+References: <202303221625255005719@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +49,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202303221625255005719@zte.com.cn>
 
-tree:   https://github.com/lunn/linux.git v6.3-rc2-net-next-phy-leds
-head:   31990696068654b2fc49ca6be815e8a07f5eb30c
-commit: 152381bd1930ab5201b26cceccad9ee422f287e7 [5/15] net: phy: Add a binding for PHY LEDs
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230323/202303230542.PH58J4P2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/202303221625255005719%40zte.com.cn
+patch subject: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
+config: arm-randconfig-r014-20230322 (https://download.01.org/0day-ci/archive/20230323/202303230551.UxtIjawK-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://github.com/lunn/linux/commit/152381bd1930ab5201b26cceccad9ee422f287e7
-        git remote add lunn https://github.com/lunn/linux.git
-        git fetch --no-tags lunn v6.3-rc2-net-next-phy-leds
-        git checkout 152381bd1930ab5201b26cceccad9ee422f287e7
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/68f0f0c914304e81941645b5b2e06ca1424527f9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
+        git checkout 68f0f0c914304e81941645b5b2e06ca1424527f9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/xlnx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230542.PH58J4P2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230551.UxtIjawK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/net/phy/phy_device.o: in function `of_phy_led':
->> drivers/net/phy/phy_device.c:3025: undefined reference to `devm_led_classdev_register_ext'
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:1704:33: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+                                       "failed to get reset: %ld\n");
+                                                             ~~^
+   1 warning generated.
 
 
-vim +3025 drivers/net/phy/phy_device.c
+vim +1704 drivers/gpu/drm/xlnx/zynqmp_dp.c
 
-  3000	
-  3001	static int of_phy_led(struct phy_device *phydev,
-  3002			      struct device_node *led)
-  3003	{
-  3004		struct device *dev = &phydev->mdio.dev;
-  3005		struct led_init_data init_data = {};
-  3006		struct led_classdev *cdev;
-  3007		struct phy_led *phyled;
-  3008		int err;
-  3009	
-  3010		phyled = devm_kzalloc(dev, sizeof(*phyled), GFP_KERNEL);
-  3011		if (!phyled)
-  3012			return -ENOMEM;
-  3013	
-  3014		cdev = &phyled->led_cdev;
-  3015	
-  3016		err = of_property_read_u32(led, "reg", &phyled->index);
-  3017		if (err)
-  3018			return err;
-  3019	
-  3020		cdev->brightness_set_blocking = phy_led_set_brightness;
-  3021		cdev->max_brightness = 1;
-  3022		init_data.devicename = dev_name(&phydev->mdio.dev);
-  3023		init_data.fwnode = of_fwnode_handle(led);
-  3024	
-> 3025		err = devm_led_classdev_register_ext(dev, cdev, &init_data);
-  3026		if (err)
-  3027			return err;
-  3028	
-  3029		list_add(&phyled->list, &phydev->leds);
-  3030	
-  3031		return 0;
-  3032	}
-  3033	
+  1664	
+  1665	/* -----------------------------------------------------------------------------
+  1666	 * Initialization & Cleanup
+  1667	 */
+  1668	
+  1669	int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+  1670	{
+  1671		struct platform_device *pdev = to_platform_device(dpsub->dev);
+  1672		struct drm_bridge *bridge;
+  1673		struct zynqmp_dp *dp;
+  1674		struct resource *res;
+  1675		int ret;
+  1676	
+  1677		dp = kzalloc(sizeof(*dp), GFP_KERNEL);
+  1678		if (!dp)
+  1679			return -ENOMEM;
+  1680	
+  1681		dp->dev = &pdev->dev;
+  1682		dp->dpsub = dpsub;
+  1683		dp->status = connector_status_disconnected;
+  1684	
+  1685		INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+  1686	
+  1687		/* Acquire all resources (IOMEM, IRQ and PHYs). */
+  1688		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+  1689		dp->iomem = devm_ioremap_resource(dp->dev, res);
+  1690		if (IS_ERR(dp->iomem)) {
+  1691			ret = PTR_ERR(dp->iomem);
+  1692			goto err_free;
+  1693		}
+  1694	
+  1695		dp->irq = platform_get_irq(pdev, 0);
+  1696		if (dp->irq < 0) {
+  1697			ret = dp->irq;
+  1698			goto err_free;
+  1699		}
+  1700	
+  1701		dp->reset = devm_reset_control_get(dp->dev, NULL);
+  1702		if (IS_ERR(dp->reset)) {
+  1703			ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
+> 1704					    "failed to get reset: %ld\n");
+  1705			goto err_free;
+  1706		}
+  1707	
+  1708		ret = zynqmp_dp_reset(dp, false);
+  1709		if (ret < 0)
+  1710			goto err_free;
+  1711	
+  1712		ret = zynqmp_dp_phy_probe(dp);
+  1713		if (ret)
+  1714			goto err_reset;
+  1715	
+  1716		/* Initialize the bridge. */
+  1717		bridge = &dp->bridge;
+  1718		bridge->funcs = &zynqmp_dp_bridge_funcs;
+  1719		bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+  1720			    | DRM_BRIDGE_OP_HPD;
+  1721		bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+  1722		dpsub->bridge = bridge;
+  1723	
+  1724		/*
+  1725		 * Acquire the next bridge in the chain. Ignore errors caused by port@5
+  1726		 * not being connected for backward-compatibility with older DTs.
+  1727		 */
+  1728		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 5, 0, NULL,
+  1729						  &dp->next_bridge);
+  1730		if (ret < 0 && ret != -ENODEV)
+  1731			goto err_reset;
+  1732	
+  1733		/* Initialize the hardware. */
+  1734		dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
+  1735		zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
+  1736	
+  1737		zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+  1738				ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
+  1739		zynqmp_dp_set(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
+  1740		zynqmp_dp_write(dp, ZYNQMP_DP_FORCE_SCRAMBLER_RESET, 1);
+  1741		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
+  1742		zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
+  1743	
+  1744		ret = zynqmp_dp_phy_init(dp);
+  1745		if (ret)
+  1746			goto err_reset;
+  1747	
+  1748		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
+  1749	
+  1750		/*
+  1751		 * Now that the hardware is initialized and won't generate spurious
+  1752		 * interrupts, request the IRQ.
+  1753		 */
+  1754		ret = devm_request_threaded_irq(dp->dev, dp->irq, NULL,
+  1755						zynqmp_dp_irq_handler, IRQF_ONESHOT,
+  1756						dev_name(dp->dev), dp);
+  1757		if (ret < 0)
+  1758			goto err_phy_exit;
+  1759	
+  1760		dpsub->dp = dp;
+  1761	
+  1762		dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
+  1763			dp->num_lanes);
+  1764	
+  1765		return 0;
+  1766	
+  1767	err_phy_exit:
+  1768		zynqmp_dp_phy_exit(dp);
+  1769	err_reset:
+  1770		zynqmp_dp_reset(dp, true);
+  1771	err_free:
+  1772		kfree(dp);
+  1773		return ret;
+  1774	}
+  1775	
 
 -- 
 0-DAY CI Kernel Test Service
