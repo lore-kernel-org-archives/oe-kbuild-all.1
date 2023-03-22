@@ -1,43 +1,54 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6987E2F21
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 13:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CC42F21
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 13:41:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679492502; x=1711028502;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LagsM0LbwYdEUlprf/2aPzY49I8FBqS5cEQGg5D5i2A=;
-  b=eGv9+yCRDaw1X7S5l0q8flpx04hsGzIFtxms8tbmnL1CA8XtmAIwqb6A
-   Vli5r+uVn/YJ3SA9CWRs1Df5s5HiOnGyWymA6I2TKddm28aBY6KtIPgiQ
-   wYrB24zoMetVpwCnGVhA62B2t9bFWewNz1C/lr1ik5884Xem2MAk+ZjXr
-   PZxqM27bgQqltJQ6JdVHCOOblm+LtIFATE8hNDVobbEe2jAEYFckcnPtj
-   W+wB7KhFJSR3g/mCJASB3f2T0/4HZ9WgLLX0jZV4v411tS9NuOEug086c
-   EpnQu2rVlYur3GSacPIoG5mh9U18YylxTIuBJKk2tctgzYqzdM4W36Ah0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336717214"
+  t=1679492508; x=1711028508;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D22wytD9rbU2KaRKdwdHM/avd+nOb5IHbZpOTnO3+xQ=;
+  b=H3WOBlIz36TXX2RwJq6w/sWofKQPkUdeGJtLHjaNvanBbGlq8Rmy0ExI
+   CDMrgznn8myzWBEhYMAny/+J5mcwQ6Q5LIsTYan2wsLt9Thywr0OkVqg6
+   tqwL/ekTkj7U3YQvHKdrFQx02Z0+4+tymFWY0IqbQmbhadFsgPet917p4
+   jVO8/JRHBjCLE49ZfI/JnobYFsu+35OPpbeGkZfclzk1xepWS1u4V+DCq
+   cRD1CDeKNZ0aAmA3cS4D5XmTmc3RcNx4BsLibvSHrj6RgNad6JpaDcsyI
+   4w3AjQV2yoBTFE2kKjElo7ByXSoanbzVkV2tZYaOzGeuzIwBQGTcCvAJ3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336717242"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="336717214"
+   d="scan'208";a="336717242"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 06:41:41 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 06:41:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="675269841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="675269882"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="675269841"
+   d="scan'208";a="675269882"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 22 Mar 2023 06:41:39 -0700
+  by orsmga007.jf.intel.com with ESMTP; 22 Mar 2023 06:41:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peyig-000DLs-3B;
-	Wed, 22 Mar 2023 13:41:38 +0000
-Date: Wed, 22 Mar 2023 21:41:02 +0800
+	id 1peyih-000DLu-01;
+	Wed, 22 Mar 2023 13:41:39 +0000
+Date: Wed, 22 Mar 2023 21:41:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
-	Anup Patel <anup@brainfault.org>, Guo Ren <guoren@kernel.org>
-Subject: [palmer:fixes 7/7] arch/riscv/mm/context.c:320:45: error:
- 'mm_context_t' has no member named 'id'
-Message-ID: <202303222154.W5q82pOI-lkp@intel.com>
+To: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+	davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/3] scm: add SO_PASSPIDFD and SCM_PIDFD
+Message-ID: <202303222101.avwNiFWQ-lkp@intel.com>
+References: <20230321183342.617114-2-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,53 +57,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230321183342.617114-2-aleksandr.mikhalitsyn@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git fixes
-head:   ef2bf1beb0040f40690671b2a0f6ce0071f101d3
-commit: ef2bf1beb0040f40690671b2a0f6ce0071f101d3 [7/7] riscv: Ensure only ASIDLEN is used for sfence.vma
-config: riscv-randconfig-r022-20230322 (https://download.01.org/0day-ci/archive/20230322/202303222154.W5q82pOI-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Alexander,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/scm-add-SO_PASSPIDFD-and-SCM_PIDFD/20230322-024808
+patch link:    https://lore.kernel.org/r/20230321183342.617114-2-aleksandr.mikhalitsyn%40canonical.com
+patch subject: [PATCH net-next v2 1/3] scm: add SO_PASSPIDFD and SCM_PIDFD
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230322/202303222101.avwNiFWQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/commit/?id=ef2bf1beb0040f40690671b2a0f6ce0071f101d3
-        git remote add palmer https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git
-        git fetch --no-tags palmer fixes
-        git checkout ef2bf1beb0040f40690671b2a0f6ce0071f101d3
+        # https://github.com/intel-lab-lkp/linux/commit/491b69039f4479e1e0fb3af635c96989cdd23734
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alexander-Mikhalitsyn/scm-add-SO_PASSPIDFD-and-SCM_PIDFD/20230322-024808
+        git checkout 491b69039f4479e1e0fb3af635c96989cdd23734
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303222154.W5q82pOI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303222101.avwNiFWQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   arch/riscv/mm/context.c: In function 'get_mm_asid':
->> arch/riscv/mm/context.c:320:45: error: 'mm_context_t' has no member named 'id'
-     320 |         return atomic_long_read(&mm->context.id) & asid_mask;
-         |                                             ^
->> arch/riscv/mm/context.c:320:52: error: 'asid_mask' undeclared (first use in this function); did you mean 'pid_task'?
-     320 |         return atomic_long_read(&mm->context.id) & asid_mask;
-         |                                                    ^~~~~~~~~
-         |                                                    pid_task
-   arch/riscv/mm/context.c:320:52: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/mm/context.c:321:1: error: control reaches end of non-void function [-Werror=return-type]
-     321 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +320 arch/riscv/mm/context.c
-
-   317	
-   318	unsigned long get_mm_asid(struct mm_struct *mm)
-   319	{
- > 320		return atomic_long_read(&mm->context.id) & asid_mask;
-   321	}
-   322	
+>> ERROR: modpost: "pidfd_create" [net/unix/unix.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
