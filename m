@@ -1,46 +1,52 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623D22566;
-	Wed, 22 Mar 2023 11:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679483917; x=1711019917;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NOS3qjKWkRPBeWnoeomAnjKX3B7ayL8JnTZy2osIB6s=;
-  b=MFEZi2pQN4oG0qMcXhHLjETcrvGLdVLOrbpQs2Mq8I+kDBgQrHXPdRmh
-   HIZgHXx7BI6mrGI2eAyQEadXpYpM+WfZ3yWdva60wCd+Wv1K8PjIG+IcZ
-   IdT+fikZi76FGozwDOo6NbPXL20Sk/O+sDo4SPcE/Roa/As7xO1lZfBQK
-   vH6oukSglfm1Eu22JEqPZ8zvaJuejXchrEL/6pJNO1BxUzhgcLWIBM25P
-   vGf2W7zVMXO2fOV/nrbmwNQnNZMnPwonkVsZY8wWl+agE62cpf7aRBF2K
-   KpipnVIdtBGYlsxsCDzOHBJ5LD/sKR1ENAvMmGUJpBPs3zLdcf1GSdYjF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="327566794"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="327566794"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:18:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="681860415"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="681860415"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 04:18:34 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pewUE-000DDy-0g;
-	Wed, 22 Mar 2023 11:18:34 +0000
-Date: Wed, 22 Mar 2023 19:17:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qin Jian <qinjian@cqplus1.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Stephen Boyd <sboyd@kernel.org>
-Subject: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning:
- result of comparison of constant 18446744073709551615 with expression of
- type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char:
- (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
-Message-ID: <202303221947.pXP2v4xJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCA82566;
+	Wed, 22 Mar 2023 11:52:53 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id eh3so71707258edb.11;
+        Wed, 22 Mar 2023 04:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679485971;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ho4jVBmPA9BFJ1NRBlIYYugOjZKS7BAlkcBVP60WOFY=;
+        b=E3Oh+auU0oU56o4Ag9yCvnQ/NujkTP0f/ZvGt/y7CLtux5D3nolsuSjsF/3blUbsfJ
+         eV8kejmE8d95Y+1LNWWto+mgd7RcuFW/gnnl2oipW2ky6GwDEwTAITvLoQwIRCVr1XuF
+         TrpxFzJ2iuDLJPEaATm4qvd+ofG2nx3KYegE/6EmnVs7SxIQfhSr9y3C6/uOqZnWhMhX
+         zuY2iDo1tXjCg3gilbwxs6aj5nBIuOAqJjZx5sgfi0aP0HhadSDasNAGTyOLjgAGY7+J
+         0bl338AYEXDfQgAsGdE0oJ0mikj3pCgQEMIfVKT3kQSNSKFQ1RGdrCXR6Ac1hTNiqRHu
+         ulzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679485971;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ho4jVBmPA9BFJ1NRBlIYYugOjZKS7BAlkcBVP60WOFY=;
+        b=09emRSaAdwO0VLPPcL8cbT7LbB9mF/SryG86tRgvnMXObo0RvTtMfvdPldQAQVdJrX
+         kA6rBlmKfj3ID4ug28VHk6LxhN3iAqF4D9EtSMLiEMl/u9H2kD4W8S0lmfVaEiqjdtl2
+         yz69NXEuAHDg5G80XUywaSB46hx7KFgUH+eIUTKh3Q9vCzOul7aNH3hHKwyhhn64mdJU
+         36Bk1aRcMwwuY3FTz4GSQzD4QnNxD8Xpe6jOMRpTaehNacDrT3SzjmgWX+wNwwTyQtuk
+         yT0ea4zKfQNHIIKpyW7QLx/rx9ezTyE2Y6iC/CZG43441MVLw+E2Opb+vh1AJ3MeuSmu
+         Vf4A==
+X-Gm-Message-State: AO0yUKW75eIOkUTsYYfrHB8NBGw1aRhWUWkgE4v/91UujQEbevpbwpmx
+	vDPW9vQtNR363NUbQUiBidRHkcZKHD/DpA==
+X-Google-Smtp-Source: AK7set8jk6V8+fNpBSGtiZGLG7GpUDRiZlz/urB9685AOQ4i8HnPZa4QlvotQ+Sk+/vEAa04Pr3snQ==
+X-Received: by 2002:a17:906:eb8b:b0:884:930:b017 with SMTP id mh11-20020a170906eb8b00b008840930b017mr7424514ejb.60.1679485971523;
+        Wed, 22 Mar 2023 04:52:51 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d8-20020a170906c20800b0093a2160168esm1984974ejz.35.2023.03.22.04.52.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 04:52:51 -0700 (PDT)
+Date: Wed, 22 Mar 2023 14:52:45 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Tanmay Shah <tanmay.shah@amd.com>,
+	andersson@kernel.org, mathieu.poirier@linaro.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tanmay Shah <tanmay.shah@amd.com>,
+	Tarak Reddy <tarak.reddy@amd.com>
+Subject: Re: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
+Message-ID: <82ff071d-cd00-47f8-bc72-4d78bfed731d@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,164 +55,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230322040933.924813-3-tanmay.shah@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sunplus
-head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunplus SP7021 clock driver
-config: mips-randconfig-r012-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-        git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
-        git fetch --no-tags clk clk-sunplus
-        git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/clk/
+Hi Tanmay,
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/remoteproc-Make-rproc_get_by_phandle-work-for-clusters/20230322-121102
+base:   e19967994d342a5986d950a1bfddf19d7e1191b7
+patch link:    https://lore.kernel.org/r/20230322040933.924813-3-tanmay.shah%40amd.com
+patch subject: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
+config: powerpc-randconfig-m041-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221916.LgKkr8Gk-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303221916.LgKkr8Gk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/remoteproc/remoteproc_core.c:2565 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent' (see line 2562)
+drivers/remoteproc/remoteproc_core.c:2566 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent->driver' (see line 2562)
 
->> drivers/clk/clk-sp7021.c:316:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (_m)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           r0 |= HWM_FIELD_PREP(MASK_SEL_FRA, clk->p[SEL_FRA]);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-sp7021.c:45:15: note: expanded from macro 'HWM_FIELD_PREP'
-           (_m << 16) | FIELD_PREP(_m, value);     \
-                        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   drivers/clk/clk-sp7021.c:317:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (_m)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           r0 |= HWM_FIELD_PREP(MASK_SDM_MOD, clk->p[SDM_MOD]);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-sp7021.c:45:15: note: expanded from macro 'HWM_FIELD_PREP'
-           (_m << 16) | FIELD_PREP(_m, value);     \
-                        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   drivers/clk/clk-sp7021.c:318:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (_m)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           r0 |= HWM_FIELD_PREP(MASK_PH_SEL, clk->p[PH_SEL]);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-sp7021.c:45:15: note: expanded from macro 'HWM_FIELD_PREP'
-           (_m << 16) | FIELD_PREP(_m, value);     \
-                        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   drivers/clk/clk-sp7021.c:319:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (_m)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           r0 |= HWM_FIELD_PREP(MASK_NFRA, clk->p[NFRA]);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-sp7021.c:45:15: note: expanded from macro 'HWM_FIELD_PREP'
-           (_m << 16) | FIELD_PREP(_m, value);     \
-                        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   drivers/clk/clk-sp7021.c:321:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (_m)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           r1  = HWM_FIELD_PREP(MASK_DIVR, clk->p[DIVR]);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-sp7021.c:45:15: note: expanded from macro 'HWM_FIELD_PREP'
-           (_m << 16) | FIELD_PREP(_m, value);     \
-                        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+vim +2565 drivers/remoteproc/remoteproc_core.c
 
+160e7c840fe858 Ohad Ben-Cohen  2012-07-04  2560  void rproc_put(struct rproc *rproc)
+400e64df6b237e Ohad Ben-Cohen  2011-10-20  2561  {
+fbb6aacb078285 Bjorn Andersson 2016-10-02 @2562  	module_put(rproc->dev.parent->driver->owner);
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereferences.
 
-vim +316 drivers/clk/clk-sp7021.c
+573d22d13a6970 Tanmay Shah     2023-03-21  2563  	struct platform_device *cluster_pdev;
+573d22d13a6970 Tanmay Shah     2023-03-21  2564  
+573d22d13a6970 Tanmay Shah     2023-03-21 @2565  	if (rproc->dev.parent) {
+                                                            ^^^^^^^^^^^^^^^^^
+Checked too late.
 
-   309	
-   310	static int plltv_set_rate(struct sp_pll *clk)
-   311	{
-   312		unsigned long flags;
-   313		u32 r0, r1, r2;
-   314	
-   315		r0  = BIT(clk->bp_bit + 16);
- > 316		r0 |= HWM_FIELD_PREP(MASK_SEL_FRA, clk->p[SEL_FRA]);
-   317		r0 |= HWM_FIELD_PREP(MASK_SDM_MOD, clk->p[SDM_MOD]);
-   318		r0 |= HWM_FIELD_PREP(MASK_PH_SEL, clk->p[PH_SEL]);
-   319		r0 |= HWM_FIELD_PREP(MASK_NFRA, clk->p[NFRA]);
-   320	
-   321		r1  = HWM_FIELD_PREP(MASK_DIVR, clk->p[DIVR]);
-   322	
-   323		r2  = HWM_FIELD_PREP(MASK_DIVN, clk->p[DIVN] - 1);
-   324		r2 |= HWM_FIELD_PREP(MASK_DIVM, clk->p[DIVM] - 1);
-   325	
-   326		spin_lock_irqsave(&clk->lock, flags);
-   327		writel(r0, clk->reg);
-   328		writel(r1, clk->reg + 4);
-   329		writel(r2, clk->reg + 8);
-   330		spin_unlock_irqrestore(&clk->lock, flags);
-   331	
-   332		return 0;
-   333	}
-   334	
+573d22d13a6970 Tanmay Shah     2023-03-21 @2566  		if (rproc->dev.parent->driver) {
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+573d22d13a6970 Tanmay Shah     2023-03-21  2567  			module_put(rproc->dev.parent->driver->owner);
+573d22d13a6970 Tanmay Shah     2023-03-21  2568  		} else {
+573d22d13a6970 Tanmay Shah     2023-03-21  2569  			cluster_pdev = of_find_device_by_node(rproc->dev.parent->of_node->parent);
+573d22d13a6970 Tanmay Shah     2023-03-21  2570  			if (cluster_pdev) {
+573d22d13a6970 Tanmay Shah     2023-03-21  2571  				module_put(cluster_pdev->dev.driver->owner);
+573d22d13a6970 Tanmay Shah     2023-03-21  2572  				put_device(&cluster_pdev->dev);
+573d22d13a6970 Tanmay Shah     2023-03-21  2573  			}
+573d22d13a6970 Tanmay Shah     2023-03-21  2574  		}
+573d22d13a6970 Tanmay Shah     2023-03-21  2575  	}
+b5ab5e24e960b9 Ohad Ben-Cohen  2012-05-30  2576  	put_device(&rproc->dev);
+400e64df6b237e Ohad Ben-Cohen  2011-10-20  2577  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
