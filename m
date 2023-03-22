@@ -1,114 +1,138 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6850D1FB1;
-	Wed, 22 Mar 2023 08:08:43 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id cy23so69232716edb.12;
-        Wed, 22 Mar 2023 01:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679472521;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KOS/AQ9Mxky4fQ6rjcr9RElvh14G5SX1SO150d01EVk=;
-        b=k1NSpqSY2Ai+jnahWTFmKmP0dJYXCS29JrRHwmQtyJ+pUPr2a481l1UM+wijV2Mfg3
-         x8pctI8fqa0K7NmHzxIpB9uRuH+tsev4TknN5cc0xh0mEBdn55Dyu+y5/cB+cwps/qgw
-         mOa06INvmc5XgU8XLkdwISoF1jYcnix0X9wkXZkDCqahkOCU9PrprT3y8ijqIZtUuz6P
-         Fo/OcN1Auz4IVkHINGtEymYfOq6QXugwDLdRLZP4fYOJ0tQjoyXTQEE86BaUiTcLmcDc
-         pKhLHw61mxSthSeEurPA8tLQHi5NwFjDv9E4GSubehHe44Fcq3UYbGDa4g7tFcvk32cF
-         00uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679472521;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KOS/AQ9Mxky4fQ6rjcr9RElvh14G5SX1SO150d01EVk=;
-        b=T2QjoPTILZk0Vp4dD4BljA8lGx6FeUm93turTk0rx9RkKpzu6ITAzshuTfGR0wG9NA
-         HyzSoedA4Jdcu7PJgX7Y5W4JynjfkuzqbrShrj7R1mIMKwqlTBjpHmq8smGdoDKP37nD
-         ub5KQQhVyB3z3yn2s+/Pu8PBnl13L2JXbxk7adNPnpcjCiUzQAMl5JjPNl8NQa52Y3Hl
-         Dgn2cWF+4O1TcXPqkieJlzPhmTPpuVUOcNs87MaCfp5xCXau24CO3gTeC/38zkXyywT+
-         c2adAnvPD5v0XM6DGMJGMxGhiKU92iPGh1Gy3buyWSj+u9CWsvTX+h6RLrdGGwae64E5
-         itQA==
-X-Gm-Message-State: AO0yUKXDls3FjARY2/RKIg5xMdLGbOQaVotZMN2zvtnBLXJQ4EwIndrf
-	36rVTtkDOyGiHrtMuw7gVOl47JJ13rC3yA==
-X-Google-Smtp-Source: AK7set+JBeg3sdmWOIbqfYUGokDkx//K3duJycIWzBJMP2SHTMm6PvPV/HFnnoPEtzSLX78EEb8/JQ==
-X-Received: by 2002:a17:906:9b8f:b0:8af:22b4:99d2 with SMTP id dd15-20020a1709069b8f00b008af22b499d2mr1592331ejc.5.1679472521466;
-        Wed, 22 Mar 2023 01:08:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id ot9-20020a170906ccc900b009331450d04esm5683871ejb.178.2023.03.22.01.08.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 01:08:41 -0700 (PDT)
-Date: Wed, 22 Mar 2023 11:08:37 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	richardcochran@gmail.com,
-	Horatiu Vultur <horatiu.vultur@microchip.com>
-Subject: Re: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS
- for lan8841
-Message-ID: <1e989615-79f9-483c-9229-6f1e22c0fd8c@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF39A1FB1;
+	Wed, 22 Mar 2023 08:12:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875B9C433EF;
+	Wed, 22 Mar 2023 08:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679472721;
+	bh=okeZvv3D7XhTVm0LuvGt5O//tbGWRywQFIgBec991Jw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=naF45VCkHA8xy/3VLS2SLVNpm/ev7Orqzb07ReeGUhypl7zTu2Ds17gNbBw3DxE91
+	 o0BJcYzy8CbXztB2fw/j6vvO+GjImciqXUa4wKmcQiYtRwPuloODSwDGafr4zvoxQk
+	 2FljODbcWho05XlvQ/AewlDn1/v3TkKnLpPEXBtzqfLkWyVkdI+aWZgaHt7948BJlX
+	 nlnuWnggVwJfjip/n/yMz7pOH4e9M9VPlWVNVAqzK2spvrQ6v8fKYo6/32jmXYP+gK
+	 9rVfknSDoSfjM6h+a3OmLUBoSaVbdi+bhGdnfPMYB1H89cSEtBLvpuZzaj+CnQn12j
+	 tX18lweqhFNsA==
+Date: Wed, 22 Mar 2023 10:11:47 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: WANG Xuerui <kernel@xen0n.name>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	"Kirill A. Shutemov" <kirill@shutemov.name>,
+	kernel test robot <lkp@intel.com>, loongarch@lists.linux.dev,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 3778/4413] include/linux/mmzone.h:1749:2:
+ error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+Message-ID: <ZBq4Q25tqTQQbj2h@kernel.org>
+References: <202303201615.Qfu18nWV-lkp@intel.com>
+ <20230320155626.hirui3frcaunnajj@box.shutemov.name>
+ <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
+ <ZBqxTw5ooh7D80IT@kernel.org>
+ <723b2eb6-2f4c-8947-0041-a0ced7657885@xen0n.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230321115541.4187912-1-horatiu.vultur@microchip.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <723b2eb6-2f4c-8947-0041-a0ced7657885@xen0n.name>
 
-Hi Horatiu,
+On Wed, Mar 22, 2023 at 03:54:09PM +0800, WANG Xuerui wrote:
+> On 2023/3/22 15:42, Mike Rapoport wrote:
+> > On Tue, Mar 21, 2023 at 10:59:36AM +0800, Huacai Chen wrote:
+> > > Hi, all,
+> > > 
+> > > On Mon, Mar 20, 2023 at 11:56 PM Kirill A. Shutemov
+> > > <kirill@shutemov.name> wrote:
+> > > > 
+> > > > On Mon, Mar 20, 2023 at 04:06:33PM +0800, kernel test robot wrote:
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > > head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
+> > > > > commit: af8daebdbc0833b8095767ccef7ddce55e9fdf32 [3778/4413] mm, treewide: redefine MAX_ORDER sanely
+> > > > > config: loongarch-buildonly-randconfig-r003-20230320 (https://download.01.org/0day-ci/archive/20230320/202303201615.Qfu18nWV-lkp@intel.com/config)
+> > > > > compiler: loongarch64-linux-gcc (GCC) 12.1.0
+> > > > > reproduce (this is a W=1 build):
+> > > > >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > > > >          chmod +x ~/bin/make.cross
+> > > > >          # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=af8daebdbc0833b8095767ccef7ddce55e9fdf32
+> > > > >          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > > > >          git fetch --no-tags linux-next master
+> > > > >          git checkout af8daebdbc0833b8095767ccef7ddce55e9fdf32
+> > > > >          # save the config file
+> > > > >          mkdir build_dir && cp config build_dir/.config
+> > > > >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+> > > > >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
+> > > > > 
+> > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Link: https://lore.kernel.org/oe-kbuild-all/202303201615.Qfu18nWV-lkp@intel.com/
+> > > > > 
+> > > > > All errors (new ones prefixed by >>):
+> > > > > 
+> > > > >     In file included from include/linux/gfp.h:7,
+> > > > >                      from include/linux/mm.h:7,
+> > > > >                      from arch/loongarch/kernel/asm-offsets.c:9:
+> > > > > > > include/linux/mmzone.h:1749:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+> > > > >      1749 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
+> > > > >           |  ^~~~~
+> > > > 
+> > > > +Loongarch folks.
+> > > LoongArch defines SECTION_SIZE_BITS as 29, so I think the upper limit
+> > > of ARCH_FORCE_MAX_ORDER should not be 63, MIPS is similar.
+> > The ranges MIPS add LoongArch define for ARCH_FORCE_MAX_ORDER are insane.
+> > I'm going to drop them and leave ARCH_FORCE_MAX_ORDER an int with sane
+> > defaults.
+> > 
+> > As for this splat, in the .config above ARCH_FORCE_MAX_ORDER=14 and
+> > PAGE_SIZE=64k, so we end up with MAX_ORDER + PAGE_SHIFT being 30, that's
+> > larger than SECTION_SIZE.
+> > 
+> > AFAIK randconfig does not randomize integers, so it's unclear to me how
+> > ARCH_FORCE_MAX_ORDER got to 14.
+> > 
+> 
+> As far as I can see, arch/loongarch/Kconfig has the following lines:
+> 
+> > config ARCH_FORCE_MAX_ORDER
+> >         int "Maximum zone order"
+> >         range 14 64 if PAGE_SIZE_64KB
+> >         default "14" if PAGE_SIZE_64KB
+> >         range 12 64 if PAGE_SIZE_16KB
+> >         default "12" if PAGE_SIZE_16KB
+> >         range 11 64
+> >         default "11"
+> 
+> So the value 14 is because PAGE_SIZE_64KB is being set, which I confirmed to
+> be the case with this particular run. And I believe the stanza is inherited
+> from arch/mips.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Horatiu-Vultur/net-phy-micrel-Add-support-for-PTP_PF_EXTTS-for-lan8841/20230321-195743
-patch link:    https://lore.kernel.org/r/20230321115541.4187912-1-horatiu.vultur%40microchip.com
-patch subject: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS for lan8841
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230322/202303221128.KLPNcDLt-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+With Kirill's patch the range became '13 63', so I don't see why randconfig
+would set ARCH_FORCE_MAX_ORDER to 14.
+ 
+> Looking at other arches it seems a much smaller upper limit would be
+> desirable. Even the lower limit of 14 could be lowered, e.g. arch/powerpc
+> has "range 8 9 if PPC64 && PPC_64K_PAGES". Is that okay?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303221128.KLPNcDLt-lkp@intel.com/
+I don't think architectures should mess with MAX_ORDER unless strictly
+necessary. Having an integer config symbol with sensible defaults is enough
+to ensure that MAX_ORDER can fit a PMD page.
 
-New smatch warnings:
-drivers/net/phy/micrel.c:3480 lan8841_gpio_process_cap() warn: impossible condition '(tmp < 0) => (0-u16max < 0)'
-
-Old smatch warnings:
-drivers/net/phy/micrel.c:1683 ksz9x31_cable_test_get_status() error: uninitialized symbol 'ret'.
-
-vim +3480 drivers/net/phy/micrel.c
-
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3467  static void lan8841_gpio_process_cap(struct kszphy_ptp_priv *ptp_priv)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3468  {
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3469  	struct phy_device *phydev = ptp_priv->phydev;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3470  	struct ptp_clock_event ptp_event = {0};
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3471  	s32 sec, nsec;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3472  	int pin, ret;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3473  	u16 tmp;
-                                                        ^^^^^^^
-
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3474  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3475  	pin = ptp_find_pin_unlocked(ptp_priv->ptp_clock, PTP_PF_EXTTS, 0);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3476  	if (pin == -1)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3477  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3478  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3479  	tmp = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_CAP_STS);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21 @3480  	if (tmp < 0)
-                                                            ^^^^^^^
-u16 can't be negative.
-
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3481  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3482  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3483  	ret = phy_write_mmd(phydev, 2, LAN8841_PTP_GPIO_SEL,
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3484  			    LAN8841_PTP_GPIO_SEL_GPIO_SEL(pin));
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3485  	if (ret)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3486  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3487  
+I really doubt anyone should ever override that default in their kernel
+builds.
+ 
+> -- 
+> WANG "xen0n" Xuerui
+> 
+> Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Sincerely yours,
+Mike.
