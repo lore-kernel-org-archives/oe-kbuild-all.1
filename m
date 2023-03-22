@@ -1,47 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A3F7C;
-	Wed, 22 Mar 2023 06:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9517E1FB1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 07:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679466085; x=1711002085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sV9yrowQ+RnaJFvNng0mNFOKmQMIaJRRqKuH1yOHxSk=;
-  b=JabRBkoxTUoPkGmhfqbRlA3OSegdz/lXRUwE80rgojBwPyozXbSfmTRP
-   8qlUN5Fnt7lLMbOUYCRpsHp0f7b0H2hI5dIlNQt65AvzF8NbjJMj7jiwf
-   bindiJMbeDlqI9AkmBsFHPRZbYF+ZcrI95aLURDlh0k3OOMLmBpg5pSgL
-   dt+hBK6MOcLO9P2pPlH2M892rbq/X8a2Vzm7CSMSn/kdVJrEsrQ4spH75
-   9GRnjrzMeYNb8WRAS3/wmfV/SYv5INyIxlEm7xFYykKzLP8NYSdcVFYG6
-   6jDTQrie49z0Ogt06TXbilbAK6a44oata+xX89hsj0NMl3X91Wq1cHlh4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339177970"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="339177970"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 23:21:24 -0700
+  t=1679468486; x=1711004486;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N1DunZywchoFWtPgCqs7Q10VO05FVOkrnt5/UP5DoFw=;
+  b=amEDrdxf7SPcJDbypXjXFneOPeZ8qvzciW+RqXCIXHrvDspxURV8N2kT
+   vQYTA9FayYrXGwsc2uAOToaboAHl5hM7LABoKpCuYnf6uQebd5AIRbRd5
+   G5NAUrq4DDRtwzEF3LJPnDkOD8cHEx1bwbd6EnK/VDKetslY8nH2upcMc
+   8vn+P1cAkhgneZQEiZHXxVs/9rndJbaUG1JtgRjj4my7jce0+iKV/pcE2
+   nkpggNB9qII/ZrzL7r44TCUGzEuklGYVQjro8lf5H5vWc7KjuyXW/eLNm
+   R/qhyYoyhBiq4BG0WHovWnP5lEXqyNeyIcaex61ptfFN8UPqQroIYgXFp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337868565"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="337868565"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 00:01:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="770936644"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="770936644"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792423688"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="792423688"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2023 23:21:22 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 22 Mar 2023 00:01:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1perqc-000CyQ-13;
-	Wed, 22 Mar 2023 06:21:22 +0000
-Date: Wed, 22 Mar 2023 14:20:27 +0800
+	id 1pesTM-000D0s-0S;
+	Wed, 22 Mar 2023 07:01:24 +0000
+Date: Wed, 22 Mar 2023 15:01:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tanmay Shah <tanmay.shah@amd.com>, andersson@kernel.org,
-	mathieu.poirier@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tanmay Shah <tanmay.shah@amd.com>,
-	Tarak Reddy <tarak.reddy@amd.com>
-Subject: Re: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-Message-ID: <202303221441.cuBnpvye-lkp@intel.com>
-References: <20230322040933.924813-3-tanmay.shah@amd.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:static-call-null-4 11/11] arch/x86/kvm/x86.c:9324:40:
+ error: implicit declaration of function '__KVM_X86_OP'; did you mean
+ 'KVM_X86_OP'?
+Message-ID: <202303221418.V17gjoGr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,78 +46,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322040933.924813-3-tanmay.shah@amd.com>
 
-Hi Tanmay,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on e19967994d342a5986d950a1bfddf19d7e1191b7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/remoteproc-Make-rproc_get_by_phandle-work-for-clusters/20230322-121102
-base:   e19967994d342a5986d950a1bfddf19d7e1191b7
-patch link:    https://lore.kernel.org/r/20230322040933.924813-3-tanmay.shah%40amd.com
-patch subject: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-config: arm-randconfig-r013-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221441.cuBnpvye-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-4
+head:   67517470624490a1d82c0b3a5e744a72d325b4af
+commit: 99a484ab8cf69008f50c0cc79d3ebec8d67ebc2d [11/11] static_call: Remove DEFINE_STATIC_CALL_RET0()
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230322/202303221418.V17gjoGr-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/573d22d13a697097d02d6c29a75fb0fb1ac6d8fe
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tanmay-Shah/remoteproc-Make-rproc_get_by_phandle-work-for-clusters/20230322-121102
-        git checkout 573d22d13a697097d02d6c29a75fb0fb1ac6d8fe
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=99a484ab8cf69008f50c0cc79d3ebec8d67ebc2d
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe static-call-null-4
+        git checkout 99a484ab8cf69008f50c0cc79d3ebec8d67ebc2d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/remoteproc/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221441.cuBnpvye-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221418.V17gjoGr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/remoteproc/remoteproc_core.c:2563:26: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-           struct platform_device *cluster_pdev;
-                                   ^
-   1 warning generated.
+   arch/x86/include/asm/kvm-x86-ops.h: In function 'kvm_ops_update':
+>> arch/x86/kvm/x86.c:9324:40: error: implicit declaration of function '__KVM_X86_OP'; did you mean 'KVM_X86_OP'? [-Werror=implicit-function-declaration]
+    9324 | #define KVM_X86_OP_OPTIONAL_RET0(func) __KVM_X86_OP
+         |                                        ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:23:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL_RET0'
+      23 | KVM_X86_OP_OPTIONAL_RET0(vcpu_precreate)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/x86.c:20:
+>> include/asm-generic/bug.h:121:29: error: expected expression before '{' token
+     121 | #define WARN_ON(condition) ({                                           \
+         |                             ^
+   arch/x86/kvm/x86.c:9322:9: note: in expansion of macro 'WARN_ON'
+    9322 |         WARN_ON(!kvm_x86_ops.func); __KVM_X86_OP(func)
+         |         ^~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:24:1: note: in expansion of macro 'KVM_X86_OP'
+      24 | KVM_X86_OP(vcpu_create)
+         | ^~~~~~~~~~
+   In file included from include/linux/kernel.h:31,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/percpu.h:6,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/x86.c:20:
+>> include/linux/static_call.h:191:2: error: expected expression before '{' token
+     191 | ({                                                                      \
+         |  ^
+   arch/x86/kvm/x86.c:9320:9: note: in expansion of macro 'static_call_update'
+    9320 |         static_call_update(kvm_x86_##func, kvm_x86_ops.func);
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:9323:29: note: in expansion of macro '__KVM_X86_OP'
+    9323 | #define KVM_X86_OP_OPTIONAL __KVM_X86_OP
+         |                             ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:82:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL'
+      82 | KVM_X86_OP_OPTIONAL(load_eoi_exitmap)
+         | ^~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:9324:40: warning: statement with no effect [-Wunused-value]
+    9324 | #define KVM_X86_OP_OPTIONAL_RET0(func) __KVM_X86_OP
+         |                                        ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:87:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL_RET0'
+      87 | KVM_X86_OP_OPTIONAL_RET0(set_tss_addr)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:9324:40: error: expected ';' before '__KVM_X86_OP'
+    9324 | #define KVM_X86_OP_OPTIONAL_RET0(func) __KVM_X86_OP
+         |                                        ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:88:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL_RET0'
+      88 | KVM_X86_OP_OPTIONAL_RET0(set_identity_map_addr)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:31,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/percpu.h:6,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/x86.c:20:
+>> include/linux/static_call.h:191:2: error: expected expression before '{' token
+     191 | ({                                                                      \
+         |  ^
+   arch/x86/kvm/x86.c:9320:9: note: in expansion of macro 'static_call_update'
+    9320 |         static_call_update(kvm_x86_##func, kvm_x86_ops.func);
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:9323:29: note: in expansion of macro '__KVM_X86_OP'
+    9323 | #define KVM_X86_OP_OPTIONAL __KVM_X86_OP
+         |                             ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:108:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL'
+     108 | KVM_X86_OP_OPTIONAL(set_hv_timer)
+         | ^~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:9324:40: warning: statement with no effect [-Wunused-value]
+    9324 | #define KVM_X86_OP_OPTIONAL_RET0(func) __KVM_X86_OP
+         |                                        ^~~~~~~~~~~~
+   arch/x86/include/asm/kvm-x86-ops.h:131:1: note: in expansion of macro 'KVM_X86_OP_OPTIONAL_RET0'
+     131 | KVM_X86_OP_OPTIONAL_RET0(vcpu_get_apicv_inhibit_reasons);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2563 drivers/remoteproc/remoteproc_core.c
+vim +9324 arch/x86/kvm/x86.c
 
-  2550	
-  2551	/**
-  2552	 * rproc_put() - release rproc reference
-  2553	 * @rproc: the remote processor handle
-  2554	 *
-  2555	 * This function decrements the rproc dev refcount.
-  2556	 *
-  2557	 * If no one holds any reference to rproc anymore, then its refcount would
-  2558	 * now drop to zero, and it would be freed.
-  2559	 */
-  2560	void rproc_put(struct rproc *rproc)
-  2561	{
-  2562		module_put(rproc->dev.parent->driver->owner);
-> 2563		struct platform_device *cluster_pdev;
-  2564	
-  2565		if (rproc->dev.parent) {
-  2566			if (rproc->dev.parent->driver) {
-  2567				module_put(rproc->dev.parent->driver->owner);
-  2568			} else {
-  2569				cluster_pdev = of_find_device_by_node(rproc->dev.parent->of_node->parent);
-  2570				if (cluster_pdev) {
-  2571					module_put(cluster_pdev->dev.driver->owner);
-  2572					put_device(&cluster_pdev->dev);
-  2573				}
-  2574			}
-  2575		}
-  2576		put_device(&rproc->dev);
-  2577	}
-  2578	EXPORT_SYMBOL(rproc_put);
-  2579	
+  9314	
+  9315	static inline void kvm_ops_update(struct kvm_x86_init_ops *ops)
+  9316	{
+  9317		memcpy(&kvm_x86_ops, ops->runtime_ops, sizeof(kvm_x86_ops));
+  9318	
+  9319	#define __KVM_X86_OP(func) \
+  9320		static_call_update(kvm_x86_##func, kvm_x86_ops.func);
+  9321	#define KVM_X86_OP(func) \
+  9322		WARN_ON(!kvm_x86_ops.func); __KVM_X86_OP(func)
+  9323	#define KVM_X86_OP_OPTIONAL __KVM_X86_OP
+> 9324	#define KVM_X86_OP_OPTIONAL_RET0(func) __KVM_X86_OP
+  9325	#include <asm/kvm-x86-ops.h>
+  9326	#undef __KVM_X86_OP
+  9327	
+  9328		kvm_pmu_ops_update(ops->pmu_ops);
+  9329	}
+  9330	
 
 -- 
 0-DAY CI Kernel Test Service
