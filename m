@@ -1,138 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF39A1FB1;
-	Wed, 22 Mar 2023 08:12:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875B9C433EF;
-	Wed, 22 Mar 2023 08:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679472721;
-	bh=okeZvv3D7XhTVm0LuvGt5O//tbGWRywQFIgBec991Jw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=naF45VCkHA8xy/3VLS2SLVNpm/ev7Orqzb07ReeGUhypl7zTu2Ds17gNbBw3DxE91
-	 o0BJcYzy8CbXztB2fw/j6vvO+GjImciqXUa4wKmcQiYtRwPuloODSwDGafr4zvoxQk
-	 2FljODbcWho05XlvQ/AewlDn1/v3TkKnLpPEXBtzqfLkWyVkdI+aWZgaHt7948BJlX
-	 nlnuWnggVwJfjip/n/yMz7pOH4e9M9VPlWVNVAqzK2spvrQ6v8fKYo6/32jmXYP+gK
-	 9rVfknSDoSfjM6h+a3OmLUBoSaVbdi+bhGdnfPMYB1H89cSEtBLvpuZzaj+CnQn12j
-	 tX18lweqhFNsA==
-Date: Wed, 22 Mar 2023 10:11:47 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: WANG Xuerui <kernel@xen0n.name>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	"Kirill A. Shutemov" <kirill@shutemov.name>,
-	kernel test robot <lkp@intel.com>, loongarch@lists.linux.dev,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 3778/4413] include/linux/mmzone.h:1749:2:
- error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <ZBq4Q25tqTQQbj2h@kernel.org>
-References: <202303201615.Qfu18nWV-lkp@intel.com>
- <20230320155626.hirui3frcaunnajj@box.shutemov.name>
- <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
- <ZBqxTw5ooh7D80IT@kernel.org>
- <723b2eb6-2f4c-8947-0041-a0ced7657885@xen0n.name>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1E815A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 08:44:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679474671; x=1711010671;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KKkhQ49+diOSBtlstbsRr80g7Z3kKA5yDXfOzckinm8=;
+  b=GevLiLoTTa94Y3nk3rvhURiIK9iYa9AJAxeSkuf7wWSWqOwQdYk6h7wB
+   RShiW3rO4Qc5RvAkt9QJrXEkl/ANXxqSfcP4bzGzxpj1ONzAg55bMV33n
+   aytpxBqEKbAjoxWp3krZ4Seea76jxGrcrIADe6aTGtZd6BNLIPJ4HN1H7
+   irX7f3ppQn9E5ABrKn1fWr6AlzdFzd+UPdanfAYNqfYpE1/ImeR7YLsrc
+   x8WBDNGSuHkbIsZDRHZNOD8lHMxQgxDtjnSSZN3PBh5SqtQi6cXEK4rCx
+   cbSeg0elDWnuD5natL++CyC0gZAGYGgOLz2ZHQyZzJsqbEmVQV7BgMVJV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="336664373"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="336664373"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:44:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="856032953"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="856032953"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 22 Mar 2023 01:44:29 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peu56-000D6C-1B;
+	Wed, 22 Mar 2023 08:44:28 +0000
+Date: Wed, 22 Mar 2023 16:44:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:static-call-null-4 11/11]
+ arch/x86/kernel/alternative.c:613:23: warning: variable 'dest' set but not
+ used
+Message-ID: <202303221651.Q540blBW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <723b2eb6-2f4c-8947-0041-a0ced7657885@xen0n.name>
 
-On Wed, Mar 22, 2023 at 03:54:09PM +0800, WANG Xuerui wrote:
-> On 2023/3/22 15:42, Mike Rapoport wrote:
-> > On Tue, Mar 21, 2023 at 10:59:36AM +0800, Huacai Chen wrote:
-> > > Hi, all,
-> > > 
-> > > On Mon, Mar 20, 2023 at 11:56 PM Kirill A. Shutemov
-> > > <kirill@shutemov.name> wrote:
-> > > > 
-> > > > On Mon, Mar 20, 2023 at 04:06:33PM +0800, kernel test robot wrote:
-> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > > head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
-> > > > > commit: af8daebdbc0833b8095767ccef7ddce55e9fdf32 [3778/4413] mm, treewide: redefine MAX_ORDER sanely
-> > > > > config: loongarch-buildonly-randconfig-r003-20230320 (https://download.01.org/0day-ci/archive/20230320/202303201615.Qfu18nWV-lkp@intel.com/config)
-> > > > > compiler: loongarch64-linux-gcc (GCC) 12.1.0
-> > > > > reproduce (this is a W=1 build):
-> > > > >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > > > >          chmod +x ~/bin/make.cross
-> > > > >          # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=af8daebdbc0833b8095767ccef7ddce55e9fdf32
-> > > > >          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > > > >          git fetch --no-tags linux-next master
-> > > > >          git checkout af8daebdbc0833b8095767ccef7ddce55e9fdf32
-> > > > >          # save the config file
-> > > > >          mkdir build_dir && cp config build_dir/.config
-> > > > >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-> > > > >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
-> > > > > 
-> > > > > If you fix the issue, kindly add following tag where applicable
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Link: https://lore.kernel.org/oe-kbuild-all/202303201615.Qfu18nWV-lkp@intel.com/
-> > > > > 
-> > > > > All errors (new ones prefixed by >>):
-> > > > > 
-> > > > >     In file included from include/linux/gfp.h:7,
-> > > > >                      from include/linux/mm.h:7,
-> > > > >                      from arch/loongarch/kernel/asm-offsets.c:9:
-> > > > > > > include/linux/mmzone.h:1749:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-> > > > >      1749 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-> > > > >           |  ^~~~~
-> > > > 
-> > > > +Loongarch folks.
-> > > LoongArch defines SECTION_SIZE_BITS as 29, so I think the upper limit
-> > > of ARCH_FORCE_MAX_ORDER should not be 63, MIPS is similar.
-> > The ranges MIPS add LoongArch define for ARCH_FORCE_MAX_ORDER are insane.
-> > I'm going to drop them and leave ARCH_FORCE_MAX_ORDER an int with sane
-> > defaults.
-> > 
-> > As for this splat, in the .config above ARCH_FORCE_MAX_ORDER=14 and
-> > PAGE_SIZE=64k, so we end up with MAX_ORDER + PAGE_SHIFT being 30, that's
-> > larger than SECTION_SIZE.
-> > 
-> > AFAIK randconfig does not randomize integers, so it's unclear to me how
-> > ARCH_FORCE_MAX_ORDER got to 14.
-> > 
-> 
-> As far as I can see, arch/loongarch/Kconfig has the following lines:
-> 
-> > config ARCH_FORCE_MAX_ORDER
-> >         int "Maximum zone order"
-> >         range 14 64 if PAGE_SIZE_64KB
-> >         default "14" if PAGE_SIZE_64KB
-> >         range 12 64 if PAGE_SIZE_16KB
-> >         default "12" if PAGE_SIZE_16KB
-> >         range 11 64
-> >         default "11"
-> 
-> So the value 14 is because PAGE_SIZE_64KB is being set, which I confirmed to
-> be the case with this particular run. And I believe the stanza is inherited
-> from arch/mips.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-call-null-4
+head:   67517470624490a1d82c0b3a5e744a72d325b4af
+commit: 67517470624490a1d82c0b3a5e744a72d325b4af [11/11] static_call: Remove DEFINE_STATIC_CALL_RET0()
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230322/202303221651.Q540blBW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=67517470624490a1d82c0b3a5e744a72d325b4af
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe static-call-null-4
+        git checkout 67517470624490a1d82c0b3a5e744a72d325b4af
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
 
-With Kirill's patch the range became '13 63', so I don't see why randconfig
-would set ARCH_FORCE_MAX_ORDER to 14.
- 
-> Looking at other arches it seems a much smaller upper limit would be
-> desirable. Even the lower limit of 14 could be lowered, e.g. arch/powerpc
-> has "range 8 9 if PPC64 && PPC_64K_PAGES". Is that okay?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221651.Q540blBW-lkp@intel.com/
 
-I don't think architectures should mess with MAX_ORDER unless strictly
-necessary. Having an integer config symbol with sensible defaults is enough
-to ensure that MAX_ORDER can fit a PMD page.
+All warnings (new ones prefixed by >>):
 
-I really doubt anyone should ever override that default in their kernel
-builds.
- 
-> -- 
-> WANG "xen0n" Xuerui
-> 
-> Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
-> 
+   arch/x86/kernel/alternative.c: In function 'apply_returns':
+>> arch/x86/kernel/alternative.c:613:23: warning: variable 'dest' set but not used [-Wunused-but-set-variable]
+     613 |                 void *dest = NULL, *addr = (void *)s + *s;
+         |                       ^~~~
+
+
+vim +/dest +613 arch/x86/kernel/alternative.c
+
+15e67227c49a57 Peter Zijlstra 2022-06-14  607  
+15e67227c49a57 Peter Zijlstra 2022-06-14  608  void __init_or_module noinline apply_returns(s32 *start, s32 *end)
+15e67227c49a57 Peter Zijlstra 2022-06-14  609  {
+15e67227c49a57 Peter Zijlstra 2022-06-14  610  	s32 *s;
+15e67227c49a57 Peter Zijlstra 2022-06-14  611  
+15e67227c49a57 Peter Zijlstra 2022-06-14  612  	for (s = start; s < end; s++) {
+ee88d363d15617 Peter Zijlstra 2022-06-14 @613  		void *dest = NULL, *addr = (void *)s + *s;
+15e67227c49a57 Peter Zijlstra 2022-06-14  614  		struct insn insn;
+15e67227c49a57 Peter Zijlstra 2022-06-14  615  		int len, ret;
+15e67227c49a57 Peter Zijlstra 2022-06-14  616  		u8 bytes[16];
+ee88d363d15617 Peter Zijlstra 2022-06-14  617  		u8 op;
+15e67227c49a57 Peter Zijlstra 2022-06-14  618  
+15e67227c49a57 Peter Zijlstra 2022-06-14  619  		ret = insn_decode_kernel(&insn, addr);
+15e67227c49a57 Peter Zijlstra 2022-06-14  620  		if (WARN_ON_ONCE(ret < 0))
+15e67227c49a57 Peter Zijlstra 2022-06-14  621  			continue;
+15e67227c49a57 Peter Zijlstra 2022-06-14  622  
+ee88d363d15617 Peter Zijlstra 2022-06-14  623  		op = insn.opcode.bytes[0];
+ee88d363d15617 Peter Zijlstra 2022-06-14  624  		if (op == JMP32_INSN_OPCODE)
+ee88d363d15617 Peter Zijlstra 2022-06-14  625  			dest = addr + insn.length + insn.immediate.value;
+ee88d363d15617 Peter Zijlstra 2022-06-14  626  
+15e67227c49a57 Peter Zijlstra 2022-06-14  627  		DPRINTK("return thunk at: %pS (%px) len: %d to: %pS",
+15e67227c49a57 Peter Zijlstra 2022-06-14  628  			addr, addr, insn.length,
+15e67227c49a57 Peter Zijlstra 2022-06-14  629  			addr + insn.length + insn.immediate.value);
+15e67227c49a57 Peter Zijlstra 2022-06-14  630  
+15e67227c49a57 Peter Zijlstra 2022-06-14  631  		len = patch_return(addr, &insn, bytes);
+15e67227c49a57 Peter Zijlstra 2022-06-14  632  		if (len == insn.length) {
+15e67227c49a57 Peter Zijlstra 2022-06-14  633  			DUMP_BYTES(((u8*)addr),  len, "%px: orig: ", addr);
+15e67227c49a57 Peter Zijlstra 2022-06-14  634  			DUMP_BYTES(((u8*)bytes), len, "%px: repl: ", addr);
+15e67227c49a57 Peter Zijlstra 2022-06-14  635  			text_poke_early(addr, bytes, len);
+15e67227c49a57 Peter Zijlstra 2022-06-14  636  		}
+15e67227c49a57 Peter Zijlstra 2022-06-14  637  	}
+15e67227c49a57 Peter Zijlstra 2022-06-14  638  }
+f43b9876e857c7 Peter Zijlstra 2022-06-27  639  #else
+f43b9876e857c7 Peter Zijlstra 2022-06-27  640  void __init_or_module noinline apply_returns(s32 *start, s32 *end) { }
+f43b9876e857c7 Peter Zijlstra 2022-06-27  641  #endif /* CONFIG_RETHUNK */
+f43b9876e857c7 Peter Zijlstra 2022-06-27  642  
+
+:::::: The code at line 613 was first introduced by commit
+:::::: ee88d363d15617ff50ac24fab0ffec11113b2aeb x86,static_call: Use alternative RET encoding
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
-Sincerely yours,
-Mike.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
