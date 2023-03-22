@@ -1,44 +1,48 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A181B9476
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 18:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0601F2F37
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 19:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679509792; x=1711045792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ce0khf7YWLAu0vTq/lEDn2YBHj4dNV12sOoqLm0mBas=;
-  b=EffaYd1iTqRzUt/yQHl7dI+wNFykZ0sDTn3RDQ6XOEktMtYgVYIKx9Dn
-   n1wjw99uSWRpNIVz/28WrdB0l+ErtmH3AoGn5b7BPk3xS/Rn1IIsnOW0c
-   2CiHrhX6FqqC075LpyKoDvIJhShRDYoej/nZmHsog12z6tuYL0YWIE5fV
-   JMKpI34Isz2057RZG0RQckHpTexm0Pq5gCre6BEzZw4+1cwfuFJiWYwvs
-   jTHACb/pS0+QMHLHcPWOFUvrIHr1USurw0rDezo5fQwJIxF0zEA6lqRha
-   a61bz7iqaYgr8yMhCA9zcNIEksI8IVRDzjkhpvKCGxu3LaDWCDUwiddHT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341658724"
+  t=1679512796; x=1711048796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pg5NNlS4ad+LRq/5c7S6MbLvj8O8FQnKakg+GtVdxl4=;
+  b=OIYjzE5SnJTb9Y0zsPkNT1t4cVzfnf3xH0yZce401Fp85V1+QuOP78O/
+   rN6GiQSDnDECzDDG+YM2nDWG+4Xk8YPRXuB+HqZhimmdR6EMVI304uJss
+   Z4FURq4WkDH8Bi5NTnDT0yQ6DcPmXNcLpA0qh5N3lXza/D2rJraITeEyX
+   UQ1E4YUCZ9vW6bzeIsnKLb/66l+3xzJ9tJ0TS7XM3XuKCIQp1AAVY9WpY
+   WBEdt4uMYCbdiuiYINEH30SwLPZMg/m6QH9q4mInlNAMqmrakPkib9Ch2
+   inoR/wVDoO891gx882hqTz3sDeEkKqVACxvoyfux3W2BAMUAIuNKnGSWK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336822226"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="341658724"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 11:29:52 -0700
+   d="scan'208";a="336822226"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 12:19:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="712357397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="805969540"
 X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="712357397"
+   d="scan'208";a="805969540"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 22 Mar 2023 11:29:50 -0700
+  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 12:19:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf3DZ-000DZR-30;
-	Wed, 22 Mar 2023 18:29:49 +0000
-Date: Thu, 23 Mar 2023 02:28:56 +0800
+	id 1pf3zz-000Dc0-1l;
+	Wed, 22 Mar 2023 19:19:51 +0000
+Date: Thu, 23 Mar 2023 03:19:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lstoakes@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 288/290] mm/vmalloc.c:3448:8: warning: no
- previous prototype for 'zero_iter'
-Message-ID: <202303230226.NucKb3B7-lkp@intel.com>
+To: Hsia-Jun Li <randy.li@synaptics.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, tzimmermann@suse.de, ayaka@soulik.info,
+	linux-kernel@vger.kernel.org, tfiga@chromium.org,
+	Hsia-Jun Li <randy.li@synaptics.com>,
+	laurent.pinchart@ideasonboard.com, ribalda@chromium.org,
+	nicolas@ndufresne.ca
+Subject: Re: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats
+ documentation
+Message-ID: <202303230311.mRoFe6oK-lkp@intel.com>
+References: <20230322082910.115371-3-randy.li@synaptics.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,59 +51,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230322082910.115371-3-randy.li@synaptics.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   39aca4f17e02ee4076b6ab327577c9b1be23775d
-commit: d9cab54f77377439e766e1c5916f79ec2ee27a6c [288/290] mm: vmalloc: convert vread() to vread_iter()
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230323/202303230226.NucKb3B7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=d9cab54f77377439e766e1c5916f79ec2ee27a6c
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-unstable
-        git checkout d9cab54f77377439e766e1c5916f79ec2ee27a6c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Hi Hsia-Jun,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230322082910.115371-3-randy.li%40synaptics.com
+patch subject: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats documentation
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/51642395567738204b07b9c48e27d4a5298f1ca9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
+        git checkout 51642395567738204b07b9c48e27d4a5298f1ca9
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230226.NucKb3B7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230311.mRoFe6oK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/vmalloc.c:3448:8: warning: no previous prototype for 'zero_iter' [-Wmissing-prototypes]
-    3448 | size_t zero_iter(struct iov_iter *iter, size_t count)
-         |        ^~~~~~~~~
+>> Documentation/gpu/synaptics.rst:47: WARNING: Bullet list ends without a blank line; unexpected unindent.
+>> Documentation/gpu/synaptics.rst:60: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/gpu/synaptics.rst:38: WARNING: Error parsing content block for the "flat-table" directive: exactly one bullet list expected.
 
+vim +47 Documentation/gpu/synaptics.rst
 
-vim +/zero_iter +3448 mm/vmalloc.c
-
-  3442	
-  3443	/*
-  3444	 * Atomically zero bytes in the iterator.
-  3445	 *
-  3446	 * Returns the number of zeroed bytes.
-  3447	 */
-> 3448	size_t zero_iter(struct iov_iter *iter, size_t count)
-  3449	{
-  3450		size_t remains = count;
-  3451	
-  3452		while (remains > 0) {
-  3453			size_t num, copied;
-  3454	
-  3455			num = remains < PAGE_SIZE ? remains : PAGE_SIZE;
-  3456			copied = copy_page_to_iter_atomic(ZERO_PAGE(0), 0, num, iter);
-  3457			remains -= copied;
-  3458	
-  3459			if (copied < num)
-  3460				break;
-  3461		}
-  3462	
-  3463		return count - remains;
-  3464	}
-  3465	
+    37	
+  > 38	.. flat-table:: Synpatics Image Format Modifiers
+    39	
+    40		* - Identifier
+    41		  - Fourcc
+    42		  - Details
+    43	
+    44		* - DRM_FORMAT_MOD_SYNA_V4H1
+    45		  - DRM_FORMAT_NV12
+    46		  - The plain uncompressed 8 bits tile format. It sounds similar to
+  > 47		Intel's Y-tile. but it won't take any pixel from the next X direction
+    48		in a tile group. The line stride and image height must be aligned to
+    49		a multiple of 16. The height of chrominance plane would plus 8.
+    50	
+    51		* - DRM_FORMAT_MOD_SYNA_V4H3P8
+    52		  - DRM_FORMAT_NV15
+    53		  - The plain uncompressed 10 bits tile format. It stores pixel in 2D
+    54		3x4 tiles with a 8bits padding to each of tile. Then a tile is in a
+    55		128 bits cache line.
+    56	
+    57		* - DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED
+    58		  - DRM_FORMAT_NV12
+    59		  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
+  > 60	    A group of tiles would contain 64x4 pixels, where a tile has 1x4
 
 -- 
 0-DAY CI Kernel Test Service
