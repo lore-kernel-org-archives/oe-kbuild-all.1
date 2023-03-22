@@ -1,42 +1,53 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9F415BA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 03:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D599915BA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 03:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679454383; x=1710990383;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/F2jOciUTzFdl6jEbnDAnB+blDajS+hjZWW525dKv/0=;
-  b=kITnqpfwZQbL06Zz3B1jELUdiH9FsAs4jg45xknNgmz4/hUERZKfyAes
-   ZvXnlpVq8XXwiY3v90rTj7uuPg9gMHbBhKRR95gp+N7Oz4CcwoAyOkEBe
-   LKfYhMOcsYoH071qm3AzPOuywrLNTUxpp0F1+j3ycGe0F/FUvgKYbh+qf
-   MBd4FoUBNcvImFMfCCmirR1SYw7W1ejUrACAI+yrMuuIrlFN8GkSiBrTr
-   uregmAMPOH8WcUz2h0egIqZAkO2wm1xNH7BHYn1kYiryGdhYTOfliuzDR
-   PYOsJpoTrZmY7LWj58jp8j0IXTvVSADbMzWAJeFF975L1lNDvvHiBNXMq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339155647"
+  t=1679455589; x=1710991589;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GIuqNFCvf6OV7Zdqv9SWVd0zQHhkyEtwtFyRkc+dPZM=;
+  b=EG1c60SqB/+pD+2ISCUh4ggYyAlNP8TW+61w9iFrg/0dsbLJ/el+3153
+   FxsTI9/2y9DNxTwtmhF1fS+k6F9CKFjrPX/ntpxngOKobXC7XatQHBKOu
+   1iJE3a4v/EXQLYibiMfJYmSX0Ebj92Au41idOjZ5+MsWC9pqqD6dfJlHZ
+   MlJFcxvdnL/wXtwlP2tsjgRATAxfTkhJS47WvJXM6mlJWW/UTIs7yez/Q
+   rlvB8cv5vBUuWzWFyOKgUHX65GZymOkyDPn7yiWSo9AvD4S9soS1wVZom
+   tbVUYsvGMNDm6btNTYt43jflTm4s3hq9vRkvGdehqTq6QtOVCpbm48OHU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="404001587"
 X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="339155647"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 20:06:17 -0700
+   d="scan'208";a="404001587"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 20:26:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="712069548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792374618"
 X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="712069548"
+   d="scan'208";a="792374618"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 20:06:16 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2023 20:26:12 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peoni-000CmA-38;
-	Wed, 22 Mar 2023 03:06:10 +0000
-Date: Wed, 22 Mar 2023 11:05:21 +0800
+	id 1pep75-000CnS-2e;
+	Wed, 22 Mar 2023 03:26:11 +0000
+Date: Wed, 22 Mar 2023 11:26:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: alikernel-developer@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alibaba-cloud:linux-next 6581/9999] mm/unevictable.c:489:1:
- warning: 'static' is not at beginning of declaration
-Message-ID: <202303221130.kaGvqYG7-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Mark Hasemeyer <markhas@chromium.org>,
+	Grzegorz Bernacki <gjb@semihalf.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>
+Cc: oe-kbuild-all@lists.linux.dev, Held Felix <Felix.Held@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] i2c: designware: Use PCI PSP driver for
+ communication
+Message-ID: <202303221157.58L3rUhr-lkp@intel.com>
+References: <20230321212822.5714-3-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,45 +56,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230321212822.5714-3-mario.limonciello@amd.com>
 
-tree:   https://github.com/alibaba/cloud-kernel.git linux-next
-head:   d121e0c25d1a19485d7f293b67901462bb1a6552
-commit: 7d6cb94f148e9e9cce24d3ce5ccb65b49974b547 [6581/9999] alinux: mm: Pin code section of process in memory
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230322/202303221130.kaGvqYG7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Mario,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on e6af5c0c4d32a27e04a56f29aad587e03ff427f1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/crypto-ccp-Bump-up-doorbell-debug-messages-to-error/20230322-053048
+base:   e6af5c0c4d32a27e04a56f29aad587e03ff427f1
+patch link:    https://lore.kernel.org/r/20230321212822.5714-3-mario.limonciello%40amd.com
+patch subject: [PATCH v5 2/3] i2c: designware: Use PCI PSP driver for communication
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230322/202303221157.58L3rUhr-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/alibaba/cloud-kernel/commit/7d6cb94f148e9e9cce24d3ce5ccb65b49974b547
-        git remote add alibaba-cloud https://github.com/alibaba/cloud-kernel.git
-        git fetch --no-tags alibaba-cloud linux-next
-        git checkout 7d6cb94f148e9e9cce24d3ce5ccb65b49974b547
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0ddf14b7f34bfe410e49c800d855f4e0c59d6bef
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mario-Limonciello/crypto-ccp-Bump-up-doorbell-debug-messages-to-error/20230322-053048
+        git checkout 0ddf14b7f34bfe410e49c800d855f4e0c59d6bef
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/i2c/busses/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221130.kaGvqYG7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221157.58L3rUhr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/unevictable.c:489:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     489 | const static struct file_operations add_proc_fops = {
-         | ^~~~~
-   mm/unevictable.c:495:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     495 | const static struct file_operations del_proc_fops = {
-         | ^~~~~
+>> drivers/i2c/busses/i2c-designware-amdpsp.c:8:10: fatal error: asm/msr.h: No such file or directory
+       8 | #include <asm/msr.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/static +489 mm/unevictable.c
+vim +8 drivers/i2c/busses/i2c-designware-amdpsp.c
 
-   488	
- > 489	const static struct file_operations add_proc_fops = {
-   490		.read  = proc_read_add_pid,
-   491		.write = proc_write_add_pid,
-   492		.owner = THIS_MODULE,
-   493	};
-   494	
+78d5e9e299e31b Jan Dabros 2022-02-08  7  
+78d5e9e299e31b Jan Dabros 2022-02-08 @8  #include <asm/msr.h>
+78d5e9e299e31b Jan Dabros 2022-02-08  9  
 
 -- 
 0-DAY CI Kernel Test Service
