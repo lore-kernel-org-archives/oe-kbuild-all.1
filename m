@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DDE23AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 09:46:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0743323AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 09:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679478396; x=1711014396;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZWF3DjzUPo/MB59YPsmLe8ple7DF+EU7IWV2Nm6bQxw=;
-  b=MSi38CIcuIA9pAgl58CVlPBsDQ+ctdLJxBuLdLbK3YZ670WEDSmShQqJ
-   ZftrZxDW9tez7k44B7hTfvBh5KGmgk4udSK/q4CGaoWYjnn+zwpSjtNAz
-   wvAFOvDbQ6TNJWyZKIodHYGmUVOJn6bwoyVqZvutfCGu+Y0j8dSCEHFEU
-   YFIV1qXQ4oGWYiiGNZW3KRCPfa0zlQIx9hGkcOfRsGhJcTx0bHcPLK+2R
-   EcHppKgtOrT89B/zIl6P9xVYqAkcscRZOarSL/5v4y8nmodmSkIoDPKhy
-   qXDD5dRL5WfBPRbBuP02YDXhrf3zKhVKxDT1nphUIu3hqOALLYUUIPOnz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="341530669"
+  t=1679478994; x=1711014994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MC1++v8uzzVxX0kLC0/6+7JlVE+jvB53eztCktsGFv0=;
+  b=CSnVLwcFUQoe9HYHcuMZPwOliVhD0Iji89af6q6rpHUgIp63eD/2oEcN
+   x94qbseO27KYsQLdX0yVJDOVfLga4gc38YT9ssyHobDPJXg8rUV3V4/nx
+   MGDK9lwm/KDPmEWhVx5CmZBTZJa0RMbiVSzDvp7/1XtMge7Q+k/keOjTO
+   jXcO8/oFjEHLGy4C6IKS/GD7haliD/BsqpQEY3cEpXPM3mrGB64kNDh44
+   zbx+oIPW5RGRNr1XixuwlO14ssBgZRWt+Af/eKZEud5+rINMGg+ctre04
+   Sg6S4YaF2NoAKvyq5ACdVnvcfO1WXgrG/gNFBK9ktc+l/if+8VdOA0DLG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337897228"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="341530669"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:46:33 -0700
+   d="scan'208";a="337897228"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:56:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="927770872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="684239505"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="927770872"
+   d="scan'208";a="684239505"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Mar 2023 02:46:32 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2023 02:56:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pev39-000D8e-0O;
-	Wed, 22 Mar 2023 09:46:31 +0000
-Date: Wed, 22 Mar 2023 17:45:41 +0800
+	id 1pevCp-000D9E-1Y;
+	Wed, 22 Mar 2023 09:56:31 +0000
+Date: Wed, 22 Mar 2023 17:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Kumar Singh <quic_deesin@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202303221736.3hgnHi8l-lkp@intel.com>
+To: alison.schofield@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v10 2/6] cxl/trace: Add TRACE support for CXL media-error
+ records
+Message-ID: <202303221753.P718s5Is-lkp@intel.com>
+References: <be0b6edfb0a9fdafe783c68f37972f6bc6d805c4.1679448904.git.alison.schofield@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,203 +47,199 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <be0b6edfb0a9fdafe783c68f37972f6bc6d805c4.1679448904.git.alison.schofield@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a1effab7a3a35a837dd9d2b974a1bc4939df1ad5
-commit: 20bb6c9de1b7e13f11d2ffe73686f4449c426807 soc: qcom: smem: map only partitions used by local HOST
-date:   11 months ago
-config: sh-randconfig-s032-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221736.3hgnHi8l-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on e686c32590f40bffc45f105c04c836ffad3e531a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alison-schofield-intel-com/cxl-mbox-Add-GET_POISON_LIST-mailbox-command/20230322-101449
+base:   e686c32590f40bffc45f105c04c836ffad3e531a
+patch link:    https://lore.kernel.org/r/be0b6edfb0a9fdafe783c68f37972f6bc6d805c4.1679448904.git.alison.schofield%40intel.com
+patch subject: [PATCH v10 2/6] cxl/trace: Add TRACE support for CXL media-error records
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303221753.P718s5Is-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=20bb6c9de1b7e13f11d2ffe73686f4449c426807
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 20bb6c9de1b7e13f11d2ffe73686f4449c426807
+        # https://github.com/intel-lab-lkp/linux/commit/a687c2458d48c06353e02426ded6982be06b3a66
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review alison-schofield-intel-com/cxl-mbox-Add-GET_POISON_LIST-mailbox-command/20230322-101449
+        git checkout a687c2458d48c06353e02426ded6982be06b3a66
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash drivers/soc/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/cxl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221736.3hgnHi8l-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221753.P718s5Is-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/soc/qcom/smem.c:422:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:422:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:422:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:507:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:507:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:507:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:520:50: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:520:50: sparse:     expected void *
-   drivers/soc/qcom/smem.c:520:50: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:648:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:648:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:648:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:653:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:653:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:653:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:657:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:657:24: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:657:24: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:667:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/soc/qcom/smem.c:667:30: sparse:    void *
-   drivers/soc/qcom/smem.c:667:30: sparse:    void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:688:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:697:28: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:706:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:721:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:721:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:721:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:754:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/soc/qcom/smem.c:775:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *header @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:775:16: sparse:     expected struct smem_partition_header *header
-   drivers/soc/qcom/smem.c:775:16: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:926:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_ptable *ptable @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:926:22: sparse:     expected struct smem_ptable *ptable
-   drivers/soc/qcom/smem.c:926:22: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:1035:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:1035:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:1035:16: sparse:     got void [noderef] __iomem *virt_base
->> drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:16: sparse:     got restricted __le32 *
-   drivers/soc/qcom/smem.c:1056:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:52: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:52: sparse:     got restricted __le32 *
+All warnings (new ones prefixed by >>):
 
-vim +1056 drivers/soc/qcom/smem.c
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/cxl/core/trace.h:700,
+                    from drivers/cxl/core/trace.c:5:
+   drivers/cxl/core/./trace.h: In function 'trace_raw_output_cxl_poison':
+>> drivers/cxl/core/./trace.h:680:19: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 10 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/cxl/core/./trace.h:639:1: note: in expansion of macro 'TRACE_EVENT'
+     639 | TRACE_EVENT(cxl_poison,
+         | ^~~~~~~~~~~
+   drivers/cxl/core/./trace.h:680:9: note: in expansion of macro 'TP_printk'
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |         ^~~~~~~~~
+>> drivers/cxl/core/./trace.h:680:19: warning: format '%x' expects argument of type 'unsigned int', but argument 11 has type 'const char *' [-Wformat=]
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/cxl/core/./trace.h:639:1: note: in expansion of macro 'TRACE_EVENT'
+     639 | TRACE_EVENT(cxl_poison,
+         | ^~~~~~~~~~~
+   drivers/cxl/core/./trace.h:680:9: note: in expansion of macro 'TP_printk'
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |         ^~~~~~~~~
+>> drivers/cxl/core/./trace.h:680:19: warning: format '%s' expects argument of type 'char *', but argument 13 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/cxl/core/./trace.h:639:1: note: in expansion of macro 'TRACE_EVENT'
+     639 | TRACE_EVENT(cxl_poison,
+         | ^~~~~~~~~~~
+   drivers/cxl/core/./trace.h:680:9: note: in expansion of macro 'TP_printk'
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |         ^~~~~~~~~
+>> drivers/cxl/core/./trace.h:680:19: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/cxl/core/./trace.h:639:1: note: in expansion of macro 'TRACE_EVENT'
+     639 | TRACE_EVENT(cxl_poison,
+         | ^~~~~~~~~~~
+   drivers/cxl/core/./trace.h:680:9: note: in expansion of macro 'TP_printk'
+     680 |         TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "    \
+         |         ^~~~~~~~~
 
-   973	
-   974	static int qcom_smem_probe(struct platform_device *pdev)
-   975	{
-   976		struct smem_header *header;
-   977		struct reserved_mem *rmem;
-   978		struct qcom_smem *smem;
-   979		unsigned long flags;
-   980		size_t array_size;
-   981		int num_regions;
-   982		int hwlock_id;
-   983		u32 version;
-   984		u32 size;
-   985		int ret;
-   986		int i;
-   987	
-   988		num_regions = 1;
-   989		if (of_find_property(pdev->dev.of_node, "qcom,rpm-msg-ram", NULL))
-   990			num_regions++;
-   991	
-   992		array_size = num_regions * sizeof(struct smem_region);
-   993		smem = devm_kzalloc(&pdev->dev, sizeof(*smem) + array_size, GFP_KERNEL);
-   994		if (!smem)
-   995			return -ENOMEM;
-   996	
-   997		smem->dev = &pdev->dev;
-   998		smem->num_regions = num_regions;
-   999	
-  1000		rmem = of_reserved_mem_lookup(pdev->dev.of_node);
-  1001		if (rmem) {
-  1002			smem->regions[0].aux_base = rmem->base;
-  1003			smem->regions[0].size = rmem->size;
-  1004		} else {
-  1005			/*
-  1006			 * Fall back to the memory-region reference, if we're not a
-  1007			 * reserved-memory node.
-  1008			 */
-  1009			ret = qcom_smem_resolve_mem(smem, "memory-region", &smem->regions[0]);
-  1010			if (ret)
-  1011				return ret;
-  1012		}
-  1013	
-  1014		if (num_regions > 1) {
-  1015			ret = qcom_smem_resolve_mem(smem, "qcom,rpm-msg-ram", &smem->regions[1]);
-  1016			if (ret)
-  1017				return ret;
-  1018		}
-  1019	
-  1020	
-  1021		ret = qcom_smem_map_toc(smem, &smem->regions[0]);
-  1022		if (ret)
-  1023			return ret;
-  1024	
-  1025		for (i = 1; i < num_regions; i++) {
-  1026			smem->regions[i].virt_base = devm_ioremap_wc(&pdev->dev,
-  1027								     smem->regions[i].aux_base,
-  1028								     smem->regions[i].size);
-  1029			if (!smem->regions[i].virt_base) {
-  1030				dev_err(&pdev->dev, "failed to remap %pa\n", &smem->regions[i].aux_base);
-  1031				return -ENOMEM;
-  1032			}
-  1033		}
-  1034	
-  1035		header = smem->regions[0].virt_base;
-  1036		if (le32_to_cpu(header->initialized) != 1 ||
-  1037		    le32_to_cpu(header->reserved)) {
-  1038			dev_err(&pdev->dev, "SMEM is not initialized by SBL\n");
-  1039			return -EINVAL;
-  1040		}
-  1041	
-  1042		hwlock_id = of_hwspin_lock_get_id(pdev->dev.of_node, 0);
-  1043		if (hwlock_id < 0) {
-  1044			if (hwlock_id != -EPROBE_DEFER)
-  1045				dev_err(&pdev->dev, "failed to retrieve hwlock\n");
-  1046			return hwlock_id;
-  1047		}
-  1048	
-  1049		smem->hwlock = hwspin_lock_request_specific(hwlock_id);
-  1050		if (!smem->hwlock)
-  1051			return -ENXIO;
-  1052	
-  1053		ret = hwspin_lock_timeout_irqsave(smem->hwlock, HWSPINLOCK_TIMEOUT, &flags);
-  1054		if (ret)
-  1055			return ret;
-> 1056		size = readl_relaxed(&header->available) + readl_relaxed(&header->free_offset);
-  1057		hwspin_unlock_irqrestore(smem->hwlock, &flags);
-  1058	
-  1059		version = qcom_smem_get_sbl_version(smem);
-  1060		/*
-  1061		 * smem header mapping is required only in heap version scheme, so unmap
-  1062		 * it here. It will be remapped in qcom_smem_map_global() when whole
-  1063		 * partition is mapped again.
-  1064		 */
-  1065		devm_iounmap(smem->dev, smem->regions[0].virt_base);
-  1066		switch (version >> 16) {
-  1067		case SMEM_GLOBAL_PART_VERSION:
-  1068			ret = qcom_smem_set_global_partition(smem);
-  1069			if (ret < 0)
-  1070				return ret;
-  1071			smem->item_count = qcom_smem_get_item_count(smem);
-  1072			break;
-  1073		case SMEM_GLOBAL_HEAP_VERSION:
-  1074			qcom_smem_map_global(smem, size);
-  1075			smem->item_count = SMEM_ITEM_COUNT;
-  1076			break;
-  1077		default:
-  1078			dev_err(&pdev->dev, "Unsupported SMEM version 0x%x\n", version);
-  1079			return -EINVAL;
-  1080		}
-  1081	
-  1082		BUILD_BUG_ON(SMEM_HOST_APPS >= SMEM_HOST_COUNT);
-  1083		ret = qcom_smem_enumerate_partitions(smem, SMEM_HOST_APPS);
-  1084		if (ret < 0 && ret != -ENOENT)
-  1085			return ret;
-  1086	
-  1087		__smem = smem;
-  1088	
-  1089		smem->socinfo = platform_device_register_data(&pdev->dev, "qcom-socinfo",
-  1090							      PLATFORM_DEVID_NONE, NULL,
-  1091							      0);
-  1092		if (IS_ERR(smem->socinfo))
-  1093			dev_dbg(&pdev->dev, "failed to register socinfo device\n");
-  1094	
-  1095		return 0;
-  1096	}
-  1097	
+
+vim +680 drivers/cxl/core/./trace.h
+
+   604	
+   605	#define show_poison_trace_type(type)		   \
+   606		__print_symbolic(type,			   \
+   607		{ CXL_POISON_TRACE_LIST,	"LIST"	})
+   608	
+   609	#define __show_poison_source(source)                          \
+   610		__print_symbolic(source,                              \
+   611			{ CXL_POISON_SOURCE_UNKNOWN,   "Unknown"  },  \
+   612			{ CXL_POISON_SOURCE_EXTERNAL,  "External" },  \
+   613			{ CXL_POISON_SOURCE_INTERNAL,  "Internal" },  \
+   614			{ CXL_POISON_SOURCE_INJECTED,  "Injected" },  \
+   615			{ CXL_POISON_SOURCE_VENDOR,    "Vendor"   })
+   616	
+   617	#define show_poison_source(source)			     \
+   618		(((source > CXL_POISON_SOURCE_INJECTED) &&	     \
+   619		 (source != CXL_POISON_SOURCE_VENDOR)) ? "Reserved"  \
+   620		 : __show_poison_source(source))
+   621	
+   622	#define show_poison_flags(flags)                             \
+   623		__print_flags(flags, "|",                            \
+   624			{ CXL_POISON_FLAG_MORE,      "More"     },   \
+   625			{ CXL_POISON_FLAG_OVERFLOW,  "Overflow"  },  \
+   626			{ CXL_POISON_FLAG_SCANNING,  "Scanning"  })
+   627	
+   628	#define __cxl_poison_addr(record)					\
+   629		(le64_to_cpu(record->address))
+   630	#define cxl_poison_record_dpa(record)					\
+   631		(__cxl_poison_addr(record) & CXL_POISON_START_MASK)
+   632	#define cxl_poison_record_source(record)				\
+   633		(__cxl_poison_addr(record)  & CXL_POISON_SOURCE_MASK)
+   634	#define cxl_poison_record_dpa_length(record)				\
+   635		(le32_to_cpu(record->length) * CXL_POISON_LEN_MULT)
+   636	#define cxl_poison_overflow(flags, time)				\
+   637		(flags & CXL_POISON_FLAG_OVERFLOW ? le64_to_cpu(time) : 0)
+   638	
+ > 639	TRACE_EVENT(cxl_poison,
+   640	
+   641		TP_PROTO(struct cxl_memdev *cxlmd, struct cxl_region *region,
+   642			 const struct cxl_poison_record *record, u8 flags,
+   643			 __le64 overflow_t, enum cxl_poison_trace_type type),
+   644	
+   645		TP_ARGS(cxlmd, region, record, flags, overflow_t, type),
+   646	
+   647		TP_STRUCT__entry(
+   648			__string(memdev, dev_name(&cxlmd->dev))
+   649			__string(host, dev_name(cxlmd->dev.parent))
+   650			__field(u64, serial)
+   651			__field(u8, type)
+   652			__string(region, region)
+   653			__field(u64, overflow_t)
+   654			__field(u64, dpa)
+   655			__field(u32, dpa_length)
+   656			__array(char, uuid, 16)
+   657			__field(u8, source)
+   658			__field(u8, flags)
+   659		    ),
+   660	
+   661		TP_fast_assign(
+   662			__assign_str(memdev, dev_name(&cxlmd->dev));
+   663			__assign_str(host, dev_name(cxlmd->dev.parent));
+   664			__entry->serial = cxlmd->cxlds->serial;
+   665			__entry->overflow_t = cxl_poison_overflow(flags, overflow_t);
+   666			__entry->dpa = cxl_poison_record_dpa(record);
+   667			__entry->dpa_length = cxl_poison_record_dpa_length(record);
+   668			__entry->source = cxl_poison_record_source(record);
+   669			__entry->type = type;
+   670			__entry->flags = flags;
+   671			if (region) {
+   672				__assign_str(region, dev_name(&region->dev));
+   673				memcpy(__entry->uuid, &region->params.uuid, 16);
+   674			} else {
+   675				__assign_str(region, "");
+   676				memset(__entry->uuid, 0, 16);
+   677			}
+   678		    ),
+   679	
+ > 680		TP_printk("memdev=%s host=%s serial=%lld type=%s region=%s "	\
+   681			"region_uuid=%pU hpa=0x%llx dpa=0x%llx dpa_length=0x%x "\
+   682			"source=%s flags=%s overflow_time=%llu",
+   683			__get_str(memdev),
+   684			__get_str(host),
+   685			__entry->serial,
+   686			show_poison_trace_type(__entry->type),
+   687			__get_str(region),
+   688			__entry->uuid,
+   689			__entry->dpa,
+   690			__entry->dpa_length,
+   691			show_poison_source(__entry->source),
+   692			show_poison_flags(__entry->flags),
+   693			__entry->overflow_t
+   694		)
+   695	);
+   696	
 
 -- 
 0-DAY CI Kernel Test Service
