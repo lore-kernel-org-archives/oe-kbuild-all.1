@@ -1,105 +1,109 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACC41FB1;
-	Wed, 22 Mar 2023 07:33:10 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id ew6so6075152edb.7;
-        Wed, 22 Mar 2023 00:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679470388;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xqNzgWiBUA36Qen24Z9C+QGoIdehi0yPWXL+YEro/V4=;
-        b=XcvBZi8vPQ5vdPiAzQfWNqMrwC1jF7MTx6JvUwIbPMBllInDJHxR/IO82RlWL7fT1d
-         Ivq0/tfjvK1TQcCb/WVcTcMbTA/XOPUQwvu71IpeKcGFaJQYOp94Fy30CX6tPETHEBIc
-         19isc/PrruIXLCQ2x7/YrnGxOzhQLsTi9/pKKgMQwCuWfaDwhvKlAxbGtQZ9azwJJI0z
-         y0gQV2TcOsxqi6ZK/bSSi1N9e7jdpb0+LCEbWbqbYsvGkaT2wY3/wLTxZ6o3JriaJdTT
-         DgHs69tx/hdc2M1qgNquv2giS5W7339XmPHiVs6Fqq70v0umslSjH1XIe9UxTuPiBYn4
-         lQ+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679470388;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqNzgWiBUA36Qen24Z9C+QGoIdehi0yPWXL+YEro/V4=;
-        b=hR648PGsKQhQ/utu/SRgN+YYhr9y+hRGaZELg78xf5w7Uc6Q3trqr81ICdjxj5vzem
-         oNuxdJuYV7Bmqtl1WXP0HxriNfKL88cQ6lR5cVK4C6joGfhRYw0dz5opWokb/dLNUyCD
-         LYRXBh74v8od8Wt0WMv050JuBRZY8eT7nUU5fpAla5NSh1ii472R4PtOf20PmtDxri9o
-         KfqrYVWneb9EWcoVBOQMRnmYL2w1OATvnwXS2lwbCKw05d/KZ0svY101YBoP0pesYC5x
-         BA8bwqr8gGdl/+vJSKIZhYLt83CevujoEaH5eq2dC039lJ0VGM2/BjWzJq+JiPMbPeE5
-         RdIw==
-X-Gm-Message-State: AO0yUKX/tTHQVhhCJhmxq35jP1QOFpYgGYPM8HbCjr8LWVTSn/6v2wnY
-	l6xI26JUIot91HWnoW+5AWEr84C32mQ=
-X-Google-Smtp-Source: AK7set9adudA8KhKVn8L7TAZacyRexVyYlPqsW5vYeBps6Hpo0C++3qZNMAzCmdGTXRphkkAtojNPg==
-X-Received: by 2002:a17:907:20e7:b0:932:8dc:5afe with SMTP id rh7-20020a17090720e700b0093208dc5afemr6001272ejb.67.1679470388363;
-        Wed, 22 Mar 2023 00:33:08 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id rh26-20020a17090720fa00b00930ba362216sm6859135ejb.176.2023.03.22.00.33.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 00:33:07 -0700 (PDT)
-Date: Wed, 22 Mar 2023 10:33:02 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2/11] kernel/trace/ring_buffer.c:2141
- ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see
- line 2136)
-Message-ID: <c2694580-410a-4860-9c51-2f132751ff0f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705EB1FB1;
+	Wed, 22 Mar 2023 07:42:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98338C433D2;
+	Wed, 22 Mar 2023 07:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679470940;
+	bh=fI8I7kUW9jl8JDKoUwnDcZT5y9SyGOf9EGeftjRodGU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uU2sJ3HuM4EZ/d8q4LldNgAathUVoQ2FnXXL9nWNAVQ30N+HhnFGHqHQUW9PbccAs
+	 oJaz5Y1anXW59lKM0/AVzHD/twBCDS0zQgXiXdMjx7w5bRhGfklbSs1Zvwl2AHMdAp
+	 PXL2GvMqKlfuDSCcfd9Mw4Had/XPV9MUGimXG07hHi0Ry55msuX61kYvBa2L9VDHUK
+	 9p8tVnGhFPl26xELhc0InHOqRIPLC6SGkrZOHXzkMU2CguCr+HX/XclX9K64nZ6tk7
+	 6r+BtMAG+vcoJabPrraUPT8QUtuiRy/Z+I5AGlNPSFsDs+49W16hfq9qU1allRdtPV
+	 EG+YRQxwAfNzA==
+Date: Wed, 22 Mar 2023 09:42:07 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
+	kernel test robot <lkp@intel.com>, WANG Xuerui <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 3778/4413] include/linux/mmzone.h:1749:2:
+ error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+Message-ID: <ZBqxTw5ooh7D80IT@kernel.org>
+References: <202303201615.Qfu18nWV-lkp@intel.com>
+ <20230320155626.hirui3frcaunnajj@box.shutemov.name>
+ <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAhV-H4P-HUBvd=UnZxEyrqNZeOCzHabYCBEF=C+vfW+oQvqCA@mail.gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   01e5d4c8d9b1dc42d6b576c3574398c465ea56a4
-commit: 13188635cc6b5d06a3c78b1200d28511b7221385 [2/11] ANDROID: ring-buffer: Introducing external writer support
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230322/202303220748.j1ALZI9J-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+On Tue, Mar 21, 2023 at 10:59:36AM +0800, Huacai Chen wrote:
+> Hi, all,
+> 
+> On Mon, Mar 20, 2023 at 11:56 PM Kirill A. Shutemov
+> <kirill@shutemov.name> wrote:
+> >
+> > On Mon, Mar 20, 2023 at 04:06:33PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > head:   73f2c2a7e1d2b31fdd5faa6dfa151c437a6c0a5a
+> > > commit: af8daebdbc0833b8095767ccef7ddce55e9fdf32 [3778/4413] mm, treewide: redefine MAX_ORDER sanely
+> > > config: loongarch-buildonly-randconfig-r003-20230320 (https://download.01.org/0day-ci/archive/20230320/202303201615.Qfu18nWV-lkp@intel.com/config)
+> > > compiler: loongarch64-linux-gcc (GCC) 12.1.0
+> > > reproduce (this is a W=1 build):
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=af8daebdbc0833b8095767ccef7ddce55e9fdf32
+> > >         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > >         git fetch --no-tags linux-next master
+> > >         git checkout af8daebdbc0833b8095767ccef7ddce55e9fdf32
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
+> > >
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Link: https://lore.kernel.org/oe-kbuild-all/202303201615.Qfu18nWV-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >    In file included from include/linux/gfp.h:7,
+> > >                     from include/linux/mm.h:7,
+> > >                     from arch/loongarch/kernel/asm-offsets.c:9:
+> > > >> include/linux/mmzone.h:1749:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+> > >     1749 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
+> > >          |  ^~~~~
+> >
+> > +Loongarch folks.
+> LoongArch defines SECTION_SIZE_BITS as 29, so I think the upper limit
+> of ARCH_FORCE_MAX_ORDER should not be 63, MIPS is similar.
+ 
+The ranges MIPS add LoongArch define for ARCH_FORCE_MAX_ORDER are insane.
+I'm going to drop them and leave ARCH_FORCE_MAX_ORDER an int with sane
+defaults.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303220748.j1ALZI9J-lkp@intel.com/
+As for this splat, in the .config above ARCH_FORCE_MAX_ORDER=14 and
+PAGE_SIZE=64k, so we end up with MAX_ORDER + PAGE_SHIFT being 30, that's
+larger than SECTION_SIZE.
 
-smatch warnings:
-kernel/trace/ring_buffer.c:2141 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2136)
+AFAIK randconfig does not randomize integers, so it's unclear to me how
+ARCH_FORCE_MAX_ORDER got to 14.
 
-vim +/buffer +2141 kernel/trace/ring_buffer.c
-
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2129) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2130  			int cpu_id)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2131  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2132  	struct ring_buffer_per_cpu *cpu_buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2133) 	unsigned long nr_pages;
-0a1754b2a97efa Qiujun Huang              2020-10-19  2134  	int cpu, err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2135  
-13188635cc6b5d Vincent Donnefort         2022-08-24 @2136  	if (unlikely(has_ext_writer(buffer)))
-                                                                                            ^^^^^^
-Dereferenced inside function.
-
-13188635cc6b5d Vincent Donnefort         2022-08-24  2137  		return -EINVAL;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2138  	/*
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2139  	 * Always succeed at resizing a non-existent buffer:
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2140  	 */
-ee51a1de7e3837 Ingo Molnar               2008-11-13 @2141  	if (!buffer)
-                                                                     ^^^^^^
-Checked too late.
-
-0a1754b2a97efa Qiujun Huang              2020-10-19  2142  		return 0;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2143  
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2144  	/* Make sure the requested buffer exists */
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2145  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2146  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
-0a1754b2a97efa Qiujun Huang              2020-10-19  2147  		return 0;
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2148  
-59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2149) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2150  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2151  	/* we need a minimum of two pages */
+> Huacai
+> >
+> > The same situation as with mips:
+> >
+> > https://lore.kernel.org/all/20230315152636.smn34f3c6a5jzpn3@box
+> >
+> > --
+> >   Kiryl Shutsemau / Kirill A. Shutemov
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Sincerely yours,
+Mike.
