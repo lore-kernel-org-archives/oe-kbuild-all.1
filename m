@@ -1,46 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A123123D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 10:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B9E23D4;
+	Wed, 22 Mar 2023 11:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679481458; x=1711017458;
+  t=1679483258; x=1711019258;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XkGOVyRSy98gXhWpcna0uMh4W2jt4i6i1uaI3PcxGiU=;
-  b=dyZu9M9mYup4BiIaG0YaBvCA/Gxu2UMZWGiGSqg1HyDcSk1CXl8kMsVy
-   PZpl36HfsS7VIZjMGY2eEcEiOIqFRuu5mpRGYHlV5GPkvWtgjfUdJfd21
-   689enynSZ4fF6ymrRxR1j7aj8/tJnik0xTMYwsC/9hw3B/m6LBhMqPosT
-   vy57HuXIKnFsTaCvY9fMVp0IwOUce8fqIv5a2fXd8eVhmOyoTEaxMX+5M
-   gA5sEzxBmc/hVwCEJ8He+omDYYbJAFimuBc6F6z/kMunGqH8VztYDxDTW
-   uea7UEUYrJEkzAPs5FZwAY3yVKiK9KAmWPvCqEQ2gfEDGDij2ZhuR+yVk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="318824512"
+  bh=P2mPW/WRUDwJB8jKQQeQja24bidu3yN8jymHDJ02YSM=;
+  b=FHJhVgk2eVR3fISKQPAWByNzdnTtoimck1gO4UOVbpiLPKUBqnlQvG+E
+   pF0nRQcfaSk1k/olqdnE0NPVOChkJS8ZG6XJLZyGAXa7uDhPymbSY696/
+   R+zwfgr/k6dihFnoCQ/0lLYNeuRVvL/LVBhjWgtmeAi23oHPZZTkVuJlE
+   ghwV7PfnlY993znoWtLy8iqhcJpqLcvcOJfx7O/BDBYoEg214Z2pSDXCw
+   H+d17knQPIUw+Byw7yqNNhtNFDUMum9BOFlFjy3S4CceVffU9nT0mUV/b
+   NhcpWlBleU/dUgemzSwoqK1XQWJI7cwxvfa9dLmZc3nx7P4RK2tgljFNt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339224442"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="318824512"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 03:37:35 -0700
+   d="scan'208";a="339224442"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:07:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631951833"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="750992316"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="631951833"
+   d="scan'208";a="750992316"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 03:37:33 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2023 04:07:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pevqW-000DBJ-1n;
-	Wed, 22 Mar 2023 10:37:32 +0000
-Date: Wed, 22 Mar 2023 18:36:49 +0800
+	id 1pewJZ-000DDQ-27;
+	Wed, 22 Mar 2023 11:07:33 +0000
+Date: Wed, 22 Mar 2023 19:07:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: ye.xingchen@zte.com.cn, laurent.pinchart@ideasonboard.com
-Cc: oe-kbuild-all@lists.linux.dev, hyun.kwon@xilinx.com, airlied@gmail.com,
-	daniel@ffwll.ch, michal.simek@xilinx.com,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
-Message-ID: <202303221848.iqaTMWyX-lkp@intel.com>
-References: <202303221625255005719@zte.com.cn>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	viro@zeniv.linux.org.uk
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] fs/buffer: Remove redundant assignment to err
+Message-ID: <202303221812.QiRW1CXX-lkp@intel.com>
+References: <20230322065949.29223-1-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,164 +50,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303221625255005719@zte.com.cn>
+In-Reply-To: <20230322065949.29223-1-jiapeng.chong@linux.alibaba.com>
 
-Hi,
+Hi Jiapeng,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
+[auto build test WARNING on vfs-idmapping/for-next]
 [also build test WARNING on linus/master v6.3-rc3 next-20230322]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/202303221625255005719%40zte.com.cn
-patch subject: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303221848.iqaTMWyX-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/fs-buffer-Remove-redundant-assignment-to-err/20230322-150022
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/20230322065949.29223-1-jiapeng.chong%40linux.alibaba.com
+patch subject: [PATCH] fs/buffer: Remove redundant assignment to err
+config: hexagon-randconfig-r036-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221812.QiRW1CXX-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/68f0f0c914304e81941645b5b2e06ca1424527f9
+        # https://github.com/intel-lab-lkp/linux/commit/3e00c2b4797c228b1939a15506c9ab807d0fa809
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
-        git checkout 68f0f0c914304e81941645b5b2e06ca1424527f9
+        git fetch --no-tags linux-review Jiapeng-Chong/fs-buffer-Remove-redundant-assignment-to-err/20230322-150022
+        git checkout 3e00c2b4797c228b1939a15506c9ab807d0fa809
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221848.iqaTMWyX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221812.QiRW1CXX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_probe':
->> drivers/gpu/drm/xlnx/zynqmp_dp.c:1704:61: warning: format '%ld' expects a matching 'long int' argument [-Wformat=]
-    1704 |                                     "failed to get reset: %ld\n");
-         |                                                           ~~^
-         |                                                             |
-         |                                                             long int
+   In file included from fs/buffer.c:24:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from fs/buffer.c:24:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from fs/buffer.c:24:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> fs/buffer.c:2639:1: warning: unused label 'out' [-Wunused-label]
+   out:
+   ^~~~
+   fs/buffer.c:2282:5: warning: stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
+   int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+       ^
+   79/2144 (3.68%) spills, 2065/2144 (96.32%) variables
+   8 warnings generated.
 
 
-vim +1704 drivers/gpu/drm/xlnx/zynqmp_dp.c
+vim +/out +2639 fs/buffer.c
 
-  1664	
-  1665	/* -----------------------------------------------------------------------------
-  1666	 * Initialization & Cleanup
-  1667	 */
-  1668	
-  1669	int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
-  1670	{
-  1671		struct platform_device *pdev = to_platform_device(dpsub->dev);
-  1672		struct drm_bridge *bridge;
-  1673		struct zynqmp_dp *dp;
-  1674		struct resource *res;
-  1675		int ret;
-  1676	
-  1677		dp = kzalloc(sizeof(*dp), GFP_KERNEL);
-  1678		if (!dp)
-  1679			return -ENOMEM;
-  1680	
-  1681		dp->dev = &pdev->dev;
-  1682		dp->dpsub = dpsub;
-  1683		dp->status = connector_status_disconnected;
-  1684	
-  1685		INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
-  1686	
-  1687		/* Acquire all resources (IOMEM, IRQ and PHYs). */
-  1688		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
-  1689		dp->iomem = devm_ioremap_resource(dp->dev, res);
-  1690		if (IS_ERR(dp->iomem)) {
-  1691			ret = PTR_ERR(dp->iomem);
-  1692			goto err_free;
-  1693		}
-  1694	
-  1695		dp->irq = platform_get_irq(pdev, 0);
-  1696		if (dp->irq < 0) {
-  1697			ret = dp->irq;
-  1698			goto err_free;
-  1699		}
-  1700	
-  1701		dp->reset = devm_reset_control_get(dp->dev, NULL);
-  1702		if (IS_ERR(dp->reset)) {
-  1703			ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
-> 1704					    "failed to get reset: %ld\n");
-  1705			goto err_free;
-  1706		}
-  1707	
-  1708		ret = zynqmp_dp_reset(dp, false);
-  1709		if (ret < 0)
-  1710			goto err_free;
-  1711	
-  1712		ret = zynqmp_dp_phy_probe(dp);
-  1713		if (ret)
-  1714			goto err_reset;
-  1715	
-  1716		/* Initialize the bridge. */
-  1717		bridge = &dp->bridge;
-  1718		bridge->funcs = &zynqmp_dp_bridge_funcs;
-  1719		bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
-  1720			    | DRM_BRIDGE_OP_HPD;
-  1721		bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-  1722		dpsub->bridge = bridge;
-  1723	
-  1724		/*
-  1725		 * Acquire the next bridge in the chain. Ignore errors caused by port@5
-  1726		 * not being connected for backward-compatibility with older DTs.
-  1727		 */
-  1728		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 5, 0, NULL,
-  1729						  &dp->next_bridge);
-  1730		if (ret < 0 && ret != -ENODEV)
-  1731			goto err_reset;
-  1732	
-  1733		/* Initialize the hardware. */
-  1734		dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
-  1735		zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
-  1736	
-  1737		zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
-  1738				ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
-  1739		zynqmp_dp_set(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
-  1740		zynqmp_dp_write(dp, ZYNQMP_DP_FORCE_SCRAMBLER_RESET, 1);
-  1741		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
-  1742		zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
-  1743	
-  1744		ret = zynqmp_dp_phy_init(dp);
-  1745		if (ret)
-  1746			goto err_reset;
-  1747	
-  1748		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
-  1749	
-  1750		/*
-  1751		 * Now that the hardware is initialized and won't generate spurious
-  1752		 * interrupts, request the IRQ.
-  1753		 */
-  1754		ret = devm_request_threaded_irq(dp->dev, dp->irq, NULL,
-  1755						zynqmp_dp_irq_handler, IRQF_ONESHOT,
-  1756						dev_name(dp->dev), dp);
-  1757		if (ret < 0)
-  1758			goto err_phy_exit;
-  1759	
-  1760		dpsub->dp = dp;
-  1761	
-  1762		dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
-  1763			dp->num_lanes);
-  1764	
-  1765		return 0;
-  1766	
-  1767	err_phy_exit:
-  1768		zynqmp_dp_phy_exit(dp);
-  1769	err_reset:
-  1770		zynqmp_dp_reset(dp, true);
-  1771	err_free:
-  1772		kfree(dp);
-  1773		return ret;
-  1774	}
-  1775	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2572  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2573  int block_truncate_page(struct address_space *mapping,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2574  			loff_t from, get_block_t *get_block)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2575  {
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2576  	pgoff_t index = from >> PAGE_SHIFT;
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2577  	unsigned offset = from & (PAGE_SIZE-1);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2578  	unsigned blocksize;
+54b21a7992a31d Andrew Morton      2006-01-08  2579  	sector_t iblock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2580  	unsigned length, pos;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2581  	struct inode *inode = mapping->host;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2582  	struct page *page;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2583  	struct buffer_head *bh;
+3e00c2b4797c22 Jiapeng Chong      2023-03-22  2584  	int err = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2585  
+93407472a21b82 Fabian Frederick   2017-02-27  2586  	blocksize = i_blocksize(inode);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2587  	length = offset & (blocksize - 1);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2588  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2589  	/* Block boundary? Nothing to do */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2590  	if (!length)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2591  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2592  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2593  	length = blocksize - length;
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2594  	iblock = (sector_t)index << (PAGE_SHIFT - inode->i_blkbits);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2595  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2596  	page = grab_cache_page(mapping, index);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2597  	if (!page)
+3e00c2b4797c22 Jiapeng Chong      2023-03-22  2598  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2599  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2600  	if (!page_has_buffers(page))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2601  		create_empty_buffers(page, blocksize, 0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2602  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2603  	/* Find the buffer that contains "offset" */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2604  	bh = page_buffers(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2605  	pos = blocksize;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2606  	while (offset >= pos) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2607  		bh = bh->b_this_page;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2608  		iblock++;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2609  		pos += blocksize;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2610  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2611  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2612  	if (!buffer_mapped(bh)) {
+b0cf2321c65991 Badari Pulavarty   2006-03-26  2613  		WARN_ON(bh->b_size != blocksize);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2614  		err = get_block(inode, iblock, bh, 0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2615  		if (err)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2616  			goto unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2617  		/* unmapped? It's a hole - nothing to do */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2618  		if (!buffer_mapped(bh))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2619  			goto unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2620  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2621  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2622  	/* Ok, it's mapped. Make sure it's up-to-date */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2623  	if (PageUptodate(page))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2624  		set_buffer_uptodate(bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2625  
+33a266dda9fbbe David Chinner      2007-02-12  2626  	if (!buffer_uptodate(bh) && !buffer_delay(bh) && !buffer_unwritten(bh)) {
+e7ea1129afab0e Zhang Yi           2022-09-01  2627  		err = bh_read(bh, 0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2628  		/* Uhhuh. Read error. Complain and punt. */
+e7ea1129afab0e Zhang Yi           2022-09-01  2629  		if (err < 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2630  			goto unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2631  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2632  
+eebd2aa355692a Christoph Lameter  2008-02-04  2633  	zero_user(page, offset, length);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2634  	mark_buffer_dirty(bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2635  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2636  unlock:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2637  	unlock_page(page);
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2638  	put_page(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @2639  out:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2640  	return err;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2641  }
+1fe72eaa0f46a0 H Hartley Sweeten  2009-09-22  2642  EXPORT_SYMBOL(block_truncate_page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2643  
 
 -- 
 0-DAY CI Kernel Test Service
