@@ -1,45 +1,53 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486B523B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 09:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E4223AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 09:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679477134; x=1711013134;
+  t=1679478356; x=1711014356;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gfhrp8iPSQmV2bVU3KHGZ0M/NIJCkOCiaD6roS2eIAk=;
-  b=BBMwYqwEvR4vw7F/g/PSr+9j8KfiObRdQtfD7r2XpKhAGnC3M6Cn9mcH
-   saVpqRvHLK/2LOjH/WXd7HaI5JC2GHuurjPmm0LS2DSvm3MLAChNQmZjl
-   q28qpNssWiLznaBltsz0tKgzPXM/Qtq2XasADRO7RXEJz5BV/oPIpBYp4
-   W7CiADYjMwI9tivFFeyJP7BrvQlm08zKnphvQ6WwTU8GkfP1UubsppgiT
-   nSRMQC+tx0lKAhECoJRReMASN3qqsQLnMep9XqsfDmY7f33jqm7KMVr6O
-   bXIkzifXGz0I1GZnviUAg7t2i7/ThtSPWccLFVj0HIJ3s4NEWhj4uKaWf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="319560124"
+  bh=Kyard2vaQRrYqKa/ASB/OedgrPwiFfj0R8RF86tv7Vg=;
+  b=n/eE3Zz1ze8+aMyQElfB6UWEVyoRYmSIaUVYETqKbY9CslxZU3/fvr0L
+   Nrn2HdpXdjNXqk3xo5/Nu5uuwyV4EKwjzyTRnithmWe0sjDB1pE5Ol09M
+   cFzoj8+1pyumGwgYifNXSpVp1KtgB4Ppgru7CGiA/W1ESjzqPuNkOYKKL
+   OzVU2MZVeCjs/xuKijjARzTQsQz/j8ukeCv9dwzQ2S4btrCJCfvQctkyr
+   64F4mGSZdomFIXOo39tiAnKfzk6TP2PsbaUvL92TFWKTOc5fKMAyawCZR
+   cPHXfUmwL+EX3IrwL+Q+H3ccpZJh2pJryJEKf5JEwf5cOINSeZBjhWQ5u
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="404055907"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="319560124"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:25:33 -0700
+   d="scan'208";a="404055907"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:45:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="684235029"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="746235048"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="684235029"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2023 02:25:31 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peuio-000D83-29;
-	Wed, 22 Mar 2023 09:25:30 +0000
-Date: Wed, 22 Mar 2023 17:25:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	axboe@kernel.dk, linux-nvme@lists.infradead.org, hch@lst.de,
-	sagi@grimberg.me
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/3] nvme-fabrics: add queue setup helpers
-Message-ID: <202303221736.jlRVazVR-lkp@intel.com>
-References: <20230322002350.4038048-2-kbusch@meta.com>
+   d="scan'208";a="746235048"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 22 Mar 2023 02:45:52 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1pev2U-0075JG-2P;
+	Wed, 22 Mar 2023 11:45:50 +0200
+Date: Wed, 22 Mar 2023 11:45:50 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Mark Hasemeyer <markhas@chromium.org>,
+	Grzegorz Bernacki <gjb@semihalf.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>, oe-kbuild-all@lists.linux.dev,
+	Held Felix <Felix.Held@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] i2c: designware: Use PCI PSP driver for
+ communication
+Message-ID: <ZBrOTu1DqKr608UD@smile.fi.intel.com>
+References: <20230321212822.5714-3-mario.limonciello@amd.com>
+ <202303221157.58L3rUhr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,42 +56,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322002350.4038048-2-kbusch@meta.com>
+In-Reply-To: <202303221157.58L3rUhr-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Keith,
+On Wed, Mar 22, 2023 at 11:26:01AM +0800, kernel test robot wrote:
 
-I love your patch! Yet something to improve:
+...
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/i2c/busses/i2c-designware-amdpsp.c:8:10: fatal error: asm/msr.h: No such file or directory
+>        8 | #include <asm/msr.h>
+>          |          ^~~~~~~~~~~
+>    compilation terminated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230322002350.4038048-2-kbusch%40meta.com
-patch subject: [PATCH 1/3] nvme-fabrics: add queue setup helpers
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230322/202303221736.jlRVazVR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/0acb3964621b925db18ebec1a6c57bc3c3446859
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
-        git checkout 0acb3964621b925db18ebec1a6c57bc3c3446859
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221736.jlRVazVR-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "blk_mq_rdma_map_queues" [drivers/nvme/host/nvme-fabrics.ko] undefined!
+Should be under "#ifdef CONFIG_X86" (IIRC).
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With Best Regards,
+Andy Shevchenko
+
+
