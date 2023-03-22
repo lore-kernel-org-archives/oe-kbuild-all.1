@@ -1,48 +1,33 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0601F2F37
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 19:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679512796; x=1711048796;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pg5NNlS4ad+LRq/5c7S6MbLvj8O8FQnKakg+GtVdxl4=;
-  b=OIYjzE5SnJTb9Y0zsPkNT1t4cVzfnf3xH0yZce401Fp85V1+QuOP78O/
-   rN6GiQSDnDECzDDG+YM2nDWG+4Xk8YPRXuB+HqZhimmdR6EMVI304uJss
-   Z4FURq4WkDH8Bi5NTnDT0yQ6DcPmXNcLpA0qh5N3lXza/D2rJraITeEyX
-   UQ1E4YUCZ9vW6bzeIsnKLb/66l+3xzJ9tJ0TS7XM3XuKCIQp1AAVY9WpY
-   WBEdt4uMYCbdiuiYINEH30SwLPZMg/m6QH9q4mInlNAMqmrakPkib9Ch2
-   inoR/wVDoO891gx882hqTz3sDeEkKqVACxvoyfux3W2BAMUAIuNKnGSWK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336822226"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="336822226"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 12:19:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="805969540"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="805969540"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 12:19:52 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pf3zz-000Dc0-1l;
-	Wed, 22 Mar 2023 19:19:51 +0000
-Date: Thu, 23 Mar 2023 03:19:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hsia-Jun Li <randy.li@synaptics.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, tzimmermann@suse.de, ayaka@soulik.info,
-	linux-kernel@vger.kernel.org, tfiga@chromium.org,
-	Hsia-Jun Li <randy.li@synaptics.com>,
-	laurent.pinchart@ideasonboard.com, ribalda@chromium.org,
-	nicolas@ndufresne.ca
-Subject: Re: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats
- documentation
-Message-ID: <202303230311.mRoFe6oK-lkp@intel.com>
-References: <20230322082910.115371-3-randy.li@synaptics.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBE22F37;
+	Wed, 22 Mar 2023 19:59:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C942C433A1;
+	Wed, 22 Mar 2023 19:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679515176;
+	bh=Pimu7YMlgMvD9aPxdSzZGlfStbfAP+xpCj244fNbLuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QWZRqinq+D4RQIIIqJ/TFE2fD9b0RBdasDxZeH+x2+R52LrJ7DcwHsG4USO734qqS
+	 +GQ//TAE+3ERRJmp9oC0PVFXjNrqtqmwcs9TduwchmnHwGPZjKNDEYtKNMhJYDzShO
+	 w8ps28gwAa6zWD9tj6svba5YQuekBkcC3+mGLwynxDmClE6HZN7mAIVzS90tx/+ga+
+	 v3UkmpDmt1s2Js+RgPZHXnjAoaxegnrZVr8cXPj99HzJN4ehwub4rOPv0qN+IzP/gu
+	 va6F0B8LLRdqpY1I1DEXuyP7TOV9oTt+VfF4TA9dUqiGUpRB59vOVd0hukyy3gTZcO
+	 HCO0oWQjqUFUA==
+Date: Wed, 22 Mar 2023 12:59:33 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Qin Jian <qinjian@cqplus1.com>, kernel test robot <lkp@intel.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning:
+ result of comparison of constant 18446744073709551615 with expression of
+ type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char:
+ (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
+Message-ID: <20230322195933.GA2828949@dev-arch.thelio-3990X>
+References: <202303221947.pXP2v4xJ-lkp@intel.com>
+ <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +36,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322082910.115371-3-randy.li@synaptics.com>
+In-Reply-To: <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org>
 
-Hi Hsia-Jun,
+On Wed, Mar 22, 2023 at 10:39:06AM -0700, Stephen Boyd wrote:
+> Quoting kernel test robot (2023-03-22 04:17:48)
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sunplus
+> > head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> > commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunplus SP7021 clock driver
+> > config: mips-randconfig-r012-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install mips cross compiling tool for clang build
+> >         # apt-get install binutils-mipsel-linux-gnu
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> >         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
+> >         git fetch --no-tags clk clk-sunplus
+> >         git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/clk/
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-lkp@intel.com/
+> > 
+> 
+> Does this fix it?
+> 
+> ---8<---
+> diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
+> index 8fec14120105..caabbf5e2197 100644
+> --- a/drivers/clk/clk-sp7021.c
+> +++ b/drivers/clk/clk-sp7021.c
+> @@ -30,9 +30,9 @@ enum {
+>  	P_MAX
+>  };
+>  
+> -#define MASK_SEL_FRA	GENMASK(1, 1)
+> -#define MASK_SDM_MOD	GENMASK(2, 2)
+> -#define MASK_PH_SEL	GENMASK(4, 4)
+> +#define MASK_SEL_FRA	BITMASK(1)
+> +#define MASK_SDM_MOD	BITMASK(2)
+> +#define MASK_PH_SEL	BITMASK(4)
+>  #define MASK_NFRA	GENMASK(12, 6)
+>  #define MASK_DIVR	GENMASK(8, 7)
+>  #define MASK_DIVN	GENMASK(7, 0)
+> 
 
-Thank you for the patch! Perhaps something to improve:
+No (BITMASK did not exist but BIT_MASK does). It looks like clang is
+complaining that mask is an unsigned int and it is being compared
+against ~0ull, which will always be false. This makes the warning go
+away for me, which is similar to commit cfd6fb45cfaf ("crypto: ccree -
+avoid out-of-range warnings from clang"), but I am not sure if that is
+correct or not.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
+index 8fec14120105..11d22043ddd7 100644
+--- a/drivers/clk/clk-sp7021.c
++++ b/drivers/clk/clk-sp7021.c
+@@ -41,7 +41,7 @@ enum {
+ /* HIWORD_MASK FIELD_PREP */
+ #define HWM_FIELD_PREP(mask, value)		\
+ ({						\
+-	u32 _m = mask;				\
++	u64 _m = mask;				\
+ 	(_m << 16) | FIELD_PREP(_m, value);	\
+ })
+ 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230322082910.115371-3-randy.li%40synaptics.com
-patch subject: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats documentation
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/51642395567738204b07b9c48e27d4a5298f1ca9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
-        git checkout 51642395567738204b07b9c48e27d4a5298f1ca9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+For the record, this only happens under W=1 but I think we would like to
+eventually enable this warning so it would be good to avoid introducing
+new instances.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230311.mRoFe6oK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/gpu/synaptics.rst:47: WARNING: Bullet list ends without a blank line; unexpected unindent.
->> Documentation/gpu/synaptics.rst:60: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/gpu/synaptics.rst:38: WARNING: Error parsing content block for the "flat-table" directive: exactly one bullet list expected.
-
-vim +47 Documentation/gpu/synaptics.rst
-
-    37	
-  > 38	.. flat-table:: Synpatics Image Format Modifiers
-    39	
-    40		* - Identifier
-    41		  - Fourcc
-    42		  - Details
-    43	
-    44		* - DRM_FORMAT_MOD_SYNA_V4H1
-    45		  - DRM_FORMAT_NV12
-    46		  - The plain uncompressed 8 bits tile format. It sounds similar to
-  > 47		Intel's Y-tile. but it won't take any pixel from the next X direction
-    48		in a tile group. The line stride and image height must be aligned to
-    49		a multiple of 16. The height of chrominance plane would plus 8.
-    50	
-    51		* - DRM_FORMAT_MOD_SYNA_V4H3P8
-    52		  - DRM_FORMAT_NV15
-    53		  - The plain uncompressed 10 bits tile format. It stores pixel in 2D
-    54		3x4 tiles with a 8bits padding to each of tile. Then a tile is in a
-    55		128 bits cache line.
-    56	
-    57		* - DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED
-    58		  - DRM_FORMAT_NV12
-    59		  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
-  > 60	    A group of tiles would contain 64x4 pixels, where a tile has 1x4
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Cheers,
+Nathan
