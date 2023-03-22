@@ -1,131 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B671ABA53;
-	Wed, 22 Mar 2023 23:48:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E1EEC433D2;
-	Wed, 22 Mar 2023 23:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679528925;
-	bh=wWdLNiCNfnRGyGZ00699DT+v9vg5lBigHWNeZvkgUrw=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=i9V+BBFcNtBZruyQRBAA4M+mpqfzubCFLDCmMm7KReRuxW+R3YTZt7uUqCzDUu/4s
-	 7QNCmWga6UjU7PO8YovoKse2Xlg39DYXAb0yWjfypCUrka7go2ravpJ0aR73J1lQhs
-	 PnpNc3sCC7qVWvhBHD+muC0KINu3a+sHecHrzss/Ety6btbusud9twK8AUSJvQWTYS
-	 AtenEzJN3YUppXMUwdkXPbr3tLBZ2I/ezzLNBZQCOLujgn88KOs+jMX5FtogxX7qb/
-	 yTNh6gJvMu3zrdgv2oYxHayFGYRDq93imbanJP+6e2K/c9GYl/9G/0HEuLmK/WMmJ0
-	 I0OmqXV1j2BNw==
-Message-ID: <00c24196e5ceb60b7d69967b73910264.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC332BA53
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 23:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679529243; x=1711065243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xoAgyqqu49oMWpZueFWuEj/HoO1dMC7XQtg6BYrQs0M=;
+  b=I+tOxSNtOaw9lHUwRs7KUTxfFoEohMf59dfmBiv6oVPFR5nwJUpV6FD/
+   sMpNvQ1qySp7OMc0t+38h/80tBDlO599HqzB3c+1Xm6ocElhxhkdq9bvy
+   0kuBBTWUNAxnMrv+JXWsSrxP7WCw0b/VvMDqW8WxiSlI3/UmMDn+XcIM7
+   99HzkCvS/6tjLj6TLxZAUoqk0jS2+KM6NmVXjWRzxyRNTyd7VGEioNWBS
+   XaTfqCcFJGcSbi1+OrZDfGeXnUFQfMT7sU+ETAIFjqRePrnL/0Gz8VgE3
+   nw3ULqtGNDXra+pL8UVwyY7LyvPOvdEDSsdIUoUUEE3uVVkJxQXNaEYhW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341719307"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="341719307"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 16:54:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682111188"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="682111188"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 16:54:01 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pf8HI-000DlE-2K;
+	Wed, 22 Mar 2023 23:54:00 +0000
+Date: Thu, 23 Mar 2023 07:53:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shannon Nelson <shannon.nelson@amd.com>, brett.creeley@amd.com,
+	davem@davemloft.net, netdev@vger.kernel.org, kuba@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, drivers@pensando.io, leon@kernel.org,
+	jiri@resnulli.us
+Subject: Re: [PATCH v5 net-next 02/14] pds_core: add devcmd device interfaces
+Message-ID: <202303230742.pX3ply0t-lkp@intel.com>
+References: <20230322185626.38758-3-shannon.nelson@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230322195933.GA2828949@dev-arch.thelio-3990X>
-References: <202303221947.pXP2v4xJ-lkp@intel.com> <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org> <20230322195933.GA2828949@dev-arch.thelio-3990X>
-Subject: Re: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Qin Jian <qinjian@cqplus1.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-To: Nathan Chancellor <nathan@kernel.org>
-Date: Wed, 22 Mar 2023 16:48:43 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322185626.38758-3-shannon.nelson@amd.com>
 
-Quoting Nathan Chancellor (2023-03-22 12:59:33)
-> On Wed, Mar 22, 2023 at 10:39:06AM -0700, Stephen Boyd wrote:
-> > Quoting kernel test robot (2023-03-22 04:17:48)
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git=
- clk-sunplus
-> > > head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > > commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunpl=
-us SP7021 clock driver
-> > > config: mips-randconfig-r012-20230322 (https://download.01.org/0day-c=
-i/archive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
-> > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project =
-67409911353323ca5edf2049ef0df54132fa1ca7)
-> > > reproduce (this is a W=3D1 build):
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master=
-/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # install mips cross compiling tool for clang build
-> > >         # apt-get install binutils-mipsel-linux-gnu
-> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.g=
-it/commit/?id=3Dd54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > >         git remote add clk https://git.kernel.org/pub/scm/linux/kerne=
-l/git/clk/linux.git
-> > >         git fetch --no-tags clk clk-sunplus
-> > >         git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cros=
-s W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
-> > >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cros=
-s W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash drivers/clk/
-> > >=20
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-l=
-kp@intel.com/
-> > >=20
-> >=20
-> > Does this fix it?
-> >=20
-> > ---8<---
-> > diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-> > index 8fec14120105..caabbf5e2197 100644
-> > --- a/drivers/clk/clk-sp7021.c
-> > +++ b/drivers/clk/clk-sp7021.c
-> > @@ -30,9 +30,9 @@ enum {
-> >       P_MAX
-> >  };
-> > =20
-> > -#define MASK_SEL_FRA GENMASK(1, 1)
-> > -#define MASK_SDM_MOD GENMASK(2, 2)
-> > -#define MASK_PH_SEL  GENMASK(4, 4)
-> > +#define MASK_SEL_FRA BITMASK(1)
-> > +#define MASK_SDM_MOD BITMASK(2)
-> > +#define MASK_PH_SEL  BITMASK(4)
-> >  #define MASK_NFRA    GENMASK(12, 6)
-> >  #define MASK_DIVR    GENMASK(8, 7)
-> >  #define MASK_DIVN    GENMASK(7, 0)
-> >=20
->=20
-> No (BITMASK did not exist but BIT_MASK does).
+Hi Shannon,
 
-Heh ok.
+I love your patch! Perhaps something to improve:
 
-> It looks like clang is
-> complaining that mask is an unsigned int and it is being compared
-> against ~0ull, which will always be false. This makes the warning go
-> away for me, which is similar to commit cfd6fb45cfaf ("crypto: ccree -
-> avoid out-of-range warnings from clang"), but I am not sure if that is
-> correct or not.
+[auto build test WARNING on net-next/main]
 
-Cool thanks. Can you send it as a proper patch?
+url:    https://github.com/intel-lab-lkp/linux/commits/Shannon-Nelson/pds_core-initial-framework-for-pds_core-PF-driver/20230323-030131
+patch link:    https://lore.kernel.org/r/20230322185626.38758-3-shannon.nelson%40amd.com
+patch subject: [PATCH v5 net-next 02/14] pds_core: add devcmd device interfaces
+reproduce:
+        make versioncheck
 
->=20
-> diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-> index 8fec14120105..11d22043ddd7 100644
-> --- a/drivers/clk/clk-sp7021.c
-> +++ b/drivers/clk/clk-sp7021.c
-> @@ -41,7 +41,7 @@ enum {
->  /* HIWORD_MASK FIELD_PREP */
->  #define HWM_FIELD_PREP(mask, value)            \
->  ({                                             \
-> -       u32 _m =3D mask;                          \
-> +       u64 _m =3D mask;                          \
->         (_m << 16) | FIELD_PREP(_m, value);     \
->  })
-> =20
->=20
-> For the record, this only happens under W=3D1 but I think we would like to
-> eventually enable this warning so it would be good to avoid introducing
-> new instances.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230742.pX3ply0t-lkp@intel.com/
 
-It makes sense to me because FIELD_PREP typically takes a GENMASK input,
-which is an unsigned long long shifted around.=20
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/net/ethernet/amd/pds_core/dev.c: 4 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-I think I'm building with W=3D1, but I'm not building with clang. I'll
-have to go fetch another compiler and put it into circulation.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
