@@ -1,47 +1,46 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0769A1365
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 10:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A123123D5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 10:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679481456; x=1711017456;
+  t=1679481458; x=1711017458;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cwld4tUfzCXVS+ZhLuw6JZwRrQeuSkHkSbXxsbtzY2k=;
-  b=WpPRkJ7Tp8LrrKVi5zF2Zq5OueACUjZlvFtx3yx7R9Ic/sEL0PD3lTRi
-   t1KgfxUfnkon/cZACOf9FnPy3f7ULIabAAsvC0YuLElDNdyzpxBq1yQzb
-   0+lmgsu7vXNs6UCryhS5aJu3RFqqfkGDMMpNpv6bPbcRyey+lIW483BHB
-   T415wsFp5bwwqsAOAxccp0ekz3YchEp7oPAlC1ORvM2f87Q97zB4Ibdf3
-   eS38VWwFsFxrnnv0SiSFvKtX/LxQEwrl/sbv0wFkjM/rmF/GkhOBm+2x1
-   Ko5NQm4+mqPUSDuwgCtPw69oIHoYydkoZuynJzV0LzesqigkGMYcox7oZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="318824508"
+  bh=XkGOVyRSy98gXhWpcna0uMh4W2jt4i6i1uaI3PcxGiU=;
+  b=dyZu9M9mYup4BiIaG0YaBvCA/Gxu2UMZWGiGSqg1HyDcSk1CXl8kMsVy
+   PZpl36HfsS7VIZjMGY2eEcEiOIqFRuu5mpRGYHlV5GPkvWtgjfUdJfd21
+   689enynSZ4fF6ymrRxR1j7aj8/tJnik0xTMYwsC/9hw3B/m6LBhMqPosT
+   vy57HuXIKnFsTaCvY9fMVp0IwOUce8fqIv5a2fXd8eVhmOyoTEaxMX+5M
+   gA5sEzxBmc/hVwCEJ8He+omDYYbJAFimuBc6F6z/kMunGqH8VztYDxDTW
+   uea7UEUYrJEkzAPs5FZwAY3yVKiK9KAmWPvCqEQ2gfEDGDij2ZhuR+yVk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="318824512"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="318824508"
+   d="scan'208";a="318824512"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 03:37:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631951832"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631951833"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="631951832"
+   d="scan'208";a="631951833"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 03:37:33 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pevqW-000DBE-1b;
+	id 1pevqW-000DBJ-1n;
 	Wed, 22 Mar 2023 10:37:32 +0000
 Date: Wed, 22 Mar 2023 18:36:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <eric.dumazet@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev <netdev@vger.kernel.org>,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH v2 net-next] net: introduce a config option to tweak
- MAX_SKB_FRAGS
-Message-ID: <202303221833.CjbkODlQ-lkp@intel.com>
-References: <20230321163550.1574254-1-eric.dumazet@gmail.com>
+To: ye.xingchen@zte.com.cn, laurent.pinchart@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, hyun.kwon@xilinx.com, airlied@gmail.com,
+	daniel@ffwll.ch, michal.simek@xilinx.com,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
+Message-ID: <202303221848.iqaTMWyX-lkp@intel.com>
+References: <202303221625255005719@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,129 +49,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321163550.1574254-1-eric.dumazet@gmail.com>
+In-Reply-To: <202303221625255005719@zte.com.cn>
 
-Hi Eric,
+Hi,
 
-I love your patch! Yet something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230322-003641
-patch link:    https://lore.kernel.org/r/20230321163550.1574254-1-eric.dumazet%40gmail.com
-patch subject: [PATCH v2 net-next] net: introduce a config option to tweak MAX_SKB_FRAGS
-config: ia64-randconfig-r005-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221833.CjbkODlQ-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/202303221625255005719%40zte.com.cn
+patch subject: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303221848.iqaTMWyX-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/69776fdcf56a3d545d8b37c25829fcadec2d9144
+        # https://github.com/intel-lab-lkp/linux/commit/68f0f0c914304e81941645b5b2e06ca1424527f9
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Eric-Dumazet/net-introduce-a-config-option-to-tweak-MAX_SKB_FRAGS/20230322-003641
-        git checkout 69776fdcf56a3d545d8b37c25829fcadec2d9144
+        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
+        git checkout 68f0f0c914304e81941645b5b2e06ca1424527f9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221833.CjbkODlQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221848.iqaTMWyX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/filter.h:12,
-                    from include/linux/bpf_verifier.h:9,
-                    from kernel/bpf/btf.c:19:
-   include/linux/skbuff.h:348:23: error: 'CONFIG_MAX_SKB_FRAGS' undeclared here (not in a function); did you mean 'MAX_SKB_FRAGS'?
-     348 | #define MAX_SKB_FRAGS CONFIG_MAX_SKB_FRAGS
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:593:31: note: in expansion of macro 'MAX_SKB_FRAGS'
-     593 |         skb_frag_t      frags[MAX_SKB_FRAGS];
-         |                               ^~~~~~~~~~~~~
-   include/linux/skbuff.h: In function '__skb_fill_page_desc_noacc':
-   include/linux/skbuff.h:2392:51: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
-    2392 |                                               int i, struct page *page,
-         |                                               ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_ref':
-   include/linux/skbuff.h:3380:58: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3380 | static inline void skb_frag_ref(struct sk_buff *skb, int f)
-         |                                                      ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_unref':
-   include/linux/skbuff.h:3411:60: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3411 | static inline void skb_frag_unref(struct sk_buff *skb, int f)
-         |                                                        ~~~~^
-   include/linux/skbuff.h: In function 'skb_frag_set_page':
-   include/linux/skbuff.h:3478:63: warning: parameter 'f' set but not used [-Wunused-but-set-parameter]
-    3478 | static inline void skb_frag_set_page(struct sk_buff *skb, int f,
-         |                                                           ~~~~^
-   In file included from <command-line>:
-   include/linux/skmsg.h: In function 'sk_msg_init':
->> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/skmsg.h:177:9: note: in expansion of macro 'BUILD_BUG_ON'
-     177 |         BUILD_BUG_ON(ARRAY_SIZE(msg->sg.data) - 1 != NR_MSG_FRAG_IDS);
-         |         ^~~~~~~~~~~~
-   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:55:59: note: in expansion of macro '__must_be_array'
-      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/skmsg.h:177:22: note: in expansion of macro 'ARRAY_SIZE'
-     177 |         BUILD_BUG_ON(ARRAY_SIZE(msg->sg.data) - 1 != NR_MSG_FRAG_IDS);
-         |                      ^~~~~~~~~~
-   In file included from kernel/bpf/btf.c:23:
-   include/linux/skmsg.h: In function 'sk_msg_xfer':
-   include/linux/skmsg.h:183:36: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     183 |                                int which, u32 size)
-         |                                ~~~~^~~~~
-   include/linux/skmsg.h: In function 'sk_msg_elem':
-   include/linux/skmsg.h:209:71: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     209 | static inline struct scatterlist *sk_msg_elem(struct sk_msg *msg, int which)
-         |                                                                   ~~~~^~~~~
-   include/linux/skmsg.h: In function 'sk_msg_elem_cpy':
-   include/linux/skmsg.h:214:74: warning: parameter 'which' set but not used [-Wunused-but-set-parameter]
-     214 | static inline struct scatterlist sk_msg_elem_cpy(struct sk_msg *msg, int which)
-         |                                                                      ~~~~^~~~~
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:7101:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7101 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7138:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7138 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_probe':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:1704:61: warning: format '%ld' expects a matching 'long int' argument [-Wformat=]
+    1704 |                                     "failed to get reset: %ld\n");
+         |                                                           ~~^
+         |                                                             |
+         |                                                             long int
 
 
-vim +16 include/linux/build_bug.h
+vim +1704 drivers/gpu/drm/xlnx/zynqmp_dp.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10   6  
-bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
-bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
-bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
-bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
-bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
-8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
-bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
-bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
-bc6245e5efd70c Ian Abbott       2017-07-10  15   */
-8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
-527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+  1664	
+  1665	/* -----------------------------------------------------------------------------
+  1666	 * Initialization & Cleanup
+  1667	 */
+  1668	
+  1669	int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+  1670	{
+  1671		struct platform_device *pdev = to_platform_device(dpsub->dev);
+  1672		struct drm_bridge *bridge;
+  1673		struct zynqmp_dp *dp;
+  1674		struct resource *res;
+  1675		int ret;
+  1676	
+  1677		dp = kzalloc(sizeof(*dp), GFP_KERNEL);
+  1678		if (!dp)
+  1679			return -ENOMEM;
+  1680	
+  1681		dp->dev = &pdev->dev;
+  1682		dp->dpsub = dpsub;
+  1683		dp->status = connector_status_disconnected;
+  1684	
+  1685		INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+  1686	
+  1687		/* Acquire all resources (IOMEM, IRQ and PHYs). */
+  1688		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+  1689		dp->iomem = devm_ioremap_resource(dp->dev, res);
+  1690		if (IS_ERR(dp->iomem)) {
+  1691			ret = PTR_ERR(dp->iomem);
+  1692			goto err_free;
+  1693		}
+  1694	
+  1695		dp->irq = platform_get_irq(pdev, 0);
+  1696		if (dp->irq < 0) {
+  1697			ret = dp->irq;
+  1698			goto err_free;
+  1699		}
+  1700	
+  1701		dp->reset = devm_reset_control_get(dp->dev, NULL);
+  1702		if (IS_ERR(dp->reset)) {
+  1703			ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
+> 1704					    "failed to get reset: %ld\n");
+  1705			goto err_free;
+  1706		}
+  1707	
+  1708		ret = zynqmp_dp_reset(dp, false);
+  1709		if (ret < 0)
+  1710			goto err_free;
+  1711	
+  1712		ret = zynqmp_dp_phy_probe(dp);
+  1713		if (ret)
+  1714			goto err_reset;
+  1715	
+  1716		/* Initialize the bridge. */
+  1717		bridge = &dp->bridge;
+  1718		bridge->funcs = &zynqmp_dp_bridge_funcs;
+  1719		bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+  1720			    | DRM_BRIDGE_OP_HPD;
+  1721		bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+  1722		dpsub->bridge = bridge;
+  1723	
+  1724		/*
+  1725		 * Acquire the next bridge in the chain. Ignore errors caused by port@5
+  1726		 * not being connected for backward-compatibility with older DTs.
+  1727		 */
+  1728		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 5, 0, NULL,
+  1729						  &dp->next_bridge);
+  1730		if (ret < 0 && ret != -ENODEV)
+  1731			goto err_reset;
+  1732	
+  1733		/* Initialize the hardware. */
+  1734		dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
+  1735		zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
+  1736	
+  1737		zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+  1738				ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
+  1739		zynqmp_dp_set(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
+  1740		zynqmp_dp_write(dp, ZYNQMP_DP_FORCE_SCRAMBLER_RESET, 1);
+  1741		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
+  1742		zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
+  1743	
+  1744		ret = zynqmp_dp_phy_init(dp);
+  1745		if (ret)
+  1746			goto err_reset;
+  1747	
+  1748		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
+  1749	
+  1750		/*
+  1751		 * Now that the hardware is initialized and won't generate spurious
+  1752		 * interrupts, request the IRQ.
+  1753		 */
+  1754		ret = devm_request_threaded_irq(dp->dev, dp->irq, NULL,
+  1755						zynqmp_dp_irq_handler, IRQF_ONESHOT,
+  1756						dev_name(dp->dev), dp);
+  1757		if (ret < 0)
+  1758			goto err_phy_exit;
+  1759	
+  1760		dpsub->dp = dp;
+  1761	
+  1762		dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
+  1763			dp->num_lanes);
+  1764	
+  1765		return 0;
+  1766	
+  1767	err_phy_exit:
+  1768		zynqmp_dp_phy_exit(dp);
+  1769	err_reset:
+  1770		zynqmp_dp_reset(dp, true);
+  1771	err_free:
+  1772		kfree(dp);
+  1773		return ret;
+  1774	}
+  1775	
 
 -- 
 0-DAY CI Kernel Test Service
