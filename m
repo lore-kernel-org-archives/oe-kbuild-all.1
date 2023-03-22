@@ -1,51 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528AB15BA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 03:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACDF15BA;
+	Wed, 22 Mar 2023 03:47:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679455636; x=1710991636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q0WrwoWlpiXHEXP/PcXkjqE6BTl9wSWIbnMlf2EXPKI=;
-  b=MIxSVACGghT1hIuVeW8ArPUnBBenCJKRyUf9pAuBMUznlVbd0JLSFCCr
-   +MmcXGlO1dZFrfUdMuzy6ydOLrJmKjoKuJC7feKb2GW6kIeENkWRaoKu2
-   eeWlDsWSF9ufdCRQ/R8b+RE+mxEzr1ul6OlLG0J79eDtD0tyrXs8td15O
-   3g/q2wBDH9zIvA9BWCXkZJ8NWy8NHqottUgofbAunVM6/K0LirKk71sej
-   mFlAp0a6bNAbzove/SngpNDRfh2wCx3zEE1W+OV2O9IRevi6bGdvewK7s
-   xOd1tI2VB2c+K24hecH0oxFsVLuL42aqD64RaCLLzMI6ZaeABYONdhN8j
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="401686442"
+  t=1679456837; x=1710992837;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3UciH8f2ztK+7hHzLzitUoJra5kc85eg76eb68iXtcw=;
+  b=UWeoZkAz8di+kLs6bnNtUUqSzbW5QIPEKzvp4vF+a15IhMENlcul2qAJ
+   KfgmEFPQU3UkcqXLkA9Yu0a3m7C3K2rI1OTkbHecn9OL9r1bbAWypnJBn
+   DhAKD29Q3YSHtf8DJk70CjsAMHbhUD40sfb1QZwNcpgEI0Op3IROA8Fwn
+   aUVgIzJrkcWkC1qI/Q0ibZ/ayZUcQ5oOhO+EUKHS7U1yx99pMXF796Qz0
+   0Aa0xlSGH3VTkpRP3zHd6aUDoNdNSGN/xfDGtmljQMOg6iX/mCFLpJv+w
+   T8H5xCQRlgt6cdQcTyWhVxsa9sZQ8m3yp2KILZa8DcMNN+apuH3rTu9GV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="340655834"
 X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="401686442"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 20:27:15 -0700
+   d="scan'208";a="340655834"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 20:47:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="681753567"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="825227593"
 X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="681753567"
+   d="scan'208";a="825227593"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 21 Mar 2023 20:27:13 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2023 20:47:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pep84-000Cnh-0o;
-	Wed, 22 Mar 2023 03:27:12 +0000
-Date: Wed, 22 Mar 2023 11:26:19 +0800
+	id 1pepRS-000Cpp-23;
+	Wed, 22 Mar 2023 03:47:14 +0000
+Date: Wed, 22 Mar 2023 11:47:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@redhat.com>,
-	Ross Zwisler <zwisler@google.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Miroslav Benes <mbenes@suse.cz>
-Subject: Re: [PATCH] tracing: Trace instrumentation begin and end
-Message-ID: <202303221148.o4nkqckQ-lkp@intel.com>
-References: <20230321215121.71b339c5@gandalf.local.home>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	fweisbec <fweisbec@localhost.localdomain>
+Subject: [frederic-dynticks:rcu/dev 1/4] kernel/rcu/tree_nocb.h:1355:7:
+ warning: variable '_count' is uninitialized when used here
+Message-ID: <202303221149.HHwYkAFu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,101 +46,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321215121.71b339c5@gandalf.local.home>
 
-Hi Steven,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Trace-instrumentation-begin-and-end/20230322-095354
-patch link:    https://lore.kernel.org/r/20230321215121.71b339c5%40gandalf.local.home
-patch subject: [PATCH] tracing: Trace instrumentation begin and end
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303221148.o4nkqckQ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git rcu/dev
+head:   7f7c396422722db9db601852664a30597a4fc7df
+commit: 9c1b4fd66a0ce529b431385e86693cd81f194e85 [1/4] rcu/nocb: Protect lazy shrinker against concurrent (de-)offloading
+config: riscv-randconfig-r016-20230319 (https://download.01.org/0day-ci/archive/20230322/202303221149.HHwYkAFu-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1f40755bb9b4817135459d6cf76fcbd17ffb53dd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Steven-Rostedt/tracing-Trace-instrumentation-begin-and-end/20230322-095354
-        git checkout 1f40755bb9b4817135459d6cf76fcbd17ffb53dd
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git/commit/?id=9c1b4fd66a0ce529b431385e86693cd81f194e85
+        git remote add frederic-dynticks https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git
+        git fetch --no-tags frederic-dynticks rcu/dev
+        git checkout 9c1b4fd66a0ce529b431385e86693cd81f194e85
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221148.o4nkqckQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221149.HHwYkAFu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from arch/powerpc/include/asm/page.h:247,
-                    from arch/powerpc/include/asm/thread_info.h:13,
-                    from include/linux/thread_info.h:60,
-                    from arch/powerpc/include/asm/ptrace.h:342,
-                    from arch/powerpc/include/asm/hw_irq.h:12,
-                    from arch/powerpc/include/asm/irqflags.h:12,
-                    from include/linux/irqflags.h:16,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/powerpc/include/asm/cmpxchg.h:755,
-                    from arch/powerpc/include/asm/atomic.h:11,
-                    from include/linux/atomic.h:7,
-                    from include/linux/tracepoint-defs.h:11,
-                    from include/linux/instrumentation.h:7,
-                    from include/asm-generic/bug.h:6,
-                    from arch/powerpc/include/asm/bug.h:159,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:254,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:13,
-                    from scripts/mod/devicetable-offsets.c:3:
-   arch/powerpc/include/asm/page_32.h: In function 'clear_page':
->> arch/powerpc/include/asm/page_32.h:48:9: error: implicit declaration of function 'WARN_ON' [-Werror=implicit-function-declaration]
-      48 |         WARN_ON((unsigned long)addr & (L1_CACHE_BYTES - 1));
-         |         ^~~~~~~
-   include/linux/thread_info.h: In function 'check_copy_size':
->> include/linux/thread_info.h:249:13: error: implicit declaration of function 'WARN_ON_ONCE' [-Werror=implicit-function-declaration]
-     249 |         if (WARN_ON_ONCE(bytes > INT_MAX))
-         |             ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1285: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from kernel/rcu/tree.c:4956:
+>> kernel/rcu/tree_nocb.h:1355:7: warning: variable '_count' is uninitialized when used here [-Wuninitialized]
+                   if (_count == 0)
+                       ^~~~~~
+   kernel/rcu/tree_nocb.h:1348:13: note: initialize the variable '_count' to silence this warning
+                   int _count;
+                             ^
+                              = 0
+   1 warning generated.
 
 
-vim +/WARN_ON +48 arch/powerpc/include/asm/page_32.h
+vim +/_count +1355 kernel/rcu/tree_nocb.h
 
-7ab0b7cb8951d4 arch/powerpc/include/asm/page_32.h Christophe Leroy 2019-08-16  38  
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  39  /*
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  40   * Clear page using the dcbz instruction, which doesn't cause any
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  41   * memory traffic (except to write out any cache lines which get
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  42   * displaced).  This only works on cacheable memory.
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  43   */
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  44  static inline void clear_page(void *addr)
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  45  {
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  46  	unsigned int i;
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  47  
-7ab0b7cb8951d4 arch/powerpc/include/asm/page_32.h Christophe Leroy 2019-08-16 @48  	WARN_ON((unsigned long)addr & (L1_CACHE_BYTES - 1));
-7ab0b7cb8951d4 arch/powerpc/include/asm/page_32.h Christophe Leroy 2019-08-16  49  
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  50  	for (i = 0; i < PAGE_SIZE / L1_CACHE_BYTES; i++, addr += L1_CACHE_BYTES)
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  51  		dcbz(addr);
-5736f96d12dd42 arch/powerpc/include/asm/page_32.h Christophe Leroy 2016-02-09  52  }
-5cd16ee934eafc include/asm-powerpc/page_32.h      Michael Ellerman 2005-11-11  53  extern void copy_page(void *to, void *from);
-5cd16ee934eafc include/asm-powerpc/page_32.h      Michael Ellerman 2005-11-11  54  
+c945b4da7a448a Vineeth Pillai      2022-10-16  1331  
+c945b4da7a448a Vineeth Pillai      2022-10-16  1332  static unsigned long
+c945b4da7a448a Vineeth Pillai      2022-10-16  1333  lazy_rcu_shrink_scan(struct shrinker *shrink, struct shrink_control *sc)
+c945b4da7a448a Vineeth Pillai      2022-10-16  1334  {
+c945b4da7a448a Vineeth Pillai      2022-10-16  1335  	int cpu;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1336  	unsigned long flags;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1337  	unsigned long count = 0;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1338  
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1339  	/*
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1340  	 * Protect against concurrent (de-)offloading. Otherwise nocb locking
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1341  	 * may be ignored or imbalanced.
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1342  	 */
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1343  	mutex_lock(&rcu_state.barrier_mutex);
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1344  
+c945b4da7a448a Vineeth Pillai      2022-10-16  1345  	/* Snapshot count of all CPUs */
+c945b4da7a448a Vineeth Pillai      2022-10-16  1346  	for_each_possible_cpu(cpu) {
+c945b4da7a448a Vineeth Pillai      2022-10-16  1347  		struct rcu_data *rdp = per_cpu_ptr(&rcu_data, cpu);
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1348  		int _count;
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1349  
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1350  		if (!rcu_rdp_is_offloaded(rdp))
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1351  			continue;
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1352  
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1353  		count = READ_ONCE(rdp->lazy_len);
+c945b4da7a448a Vineeth Pillai      2022-10-16  1354  
+c945b4da7a448a Vineeth Pillai      2022-10-16 @1355  		if (_count == 0)
+c945b4da7a448a Vineeth Pillai      2022-10-16  1356  			continue;
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1357  
+c945b4da7a448a Vineeth Pillai      2022-10-16  1358  		rcu_nocb_lock_irqsave(rdp, flags);
+c945b4da7a448a Vineeth Pillai      2022-10-16  1359  		WRITE_ONCE(rdp->lazy_len, 0);
+c945b4da7a448a Vineeth Pillai      2022-10-16  1360  		rcu_nocb_unlock_irqrestore(rdp, flags);
+c945b4da7a448a Vineeth Pillai      2022-10-16  1361  		wake_nocb_gp(rdp, false);
+c945b4da7a448a Vineeth Pillai      2022-10-16  1362  		sc->nr_to_scan -= _count;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1363  		count += _count;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1364  		if (sc->nr_to_scan <= 0)
+c945b4da7a448a Vineeth Pillai      2022-10-16  1365  			break;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1366  	}
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1367  
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1368  	mutex_unlock(&rcu_state.barrier_mutex);
+9c1b4fd66a0ce5 Frederic Weisbecker 2023-03-17  1369  
+c945b4da7a448a Vineeth Pillai      2022-10-16  1370  	return count ? count : SHRINK_STOP;
+c945b4da7a448a Vineeth Pillai      2022-10-16  1371  }
+c945b4da7a448a Vineeth Pillai      2022-10-16  1372  
+
+:::::: The code at line 1355 was first introduced by commit
+:::::: c945b4da7a448a9a56becc5a8745d942b2b83d3c rcu: Shrinker for lazy rcu
+
+:::::: TO: Vineeth Pillai <vineeth@bitbyteword.org>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
