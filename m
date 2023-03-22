@@ -1,99 +1,141 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2077.outbound.protection.outlook.com [40.107.101.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28018C01
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 15:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679500485; x=1711036485;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lXvDRrWUWDucXe3myIp0G26sAIU5APXjsiQfH5OJuXE=;
-  b=eO6+tuUw1fQsT4f/3yfjIs/OG59rs0ddy7Gow2YPUq1JpVcH4/eDXi8C
-   cQuswHsc/zay5BiOpWUe8D1tWOJugcu+k1U99rC9qsKJobKR0Xp9pJ0Y+
-   htMp8QE6Wn0EdAm754QSN+qoRK8LekPElCDUxZ+beYKQTRs0y5OHBRcCI
-   7LOnJezGtfEmHKY9KKBXPJydrXGxZSnEt20BLWu3zhTPyVtmvIKVLicoL
-   yCm7prnA8p3njBtqh42snUBDw6I6fv3zj3jfTGBqvWRPohPTSsQNMrP0T
-   ZMa6whiNsaV5dnhSlPwoFoVUZMqZ8l9/EaU+M4d2hauh2ERTCb1p8DcW5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="404138360"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="404138360"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 08:54:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="681946995"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="681946995"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 08:54:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pf0nT-000DRg-0O;
-	Wed, 22 Mar 2023 15:54:43 +0000
-Date: Wed, 22 Mar 2023 23:53:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous
- prototype for '__vdso_getcpu'
-Message-ID: <202303222323.cnjgJ1fj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EEE8C01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 15:56:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aoidxicFx8jFLVFwL+G8RooLIs6L2v/7w5lpK4ZdQTFs7cB/1y+P6re6oT3+XtZIe6xFVpLhzraOwp0mC9G4G+8w/1/5vz7wMovudP4lHo7EkWIdWvSv5TGDbEJpmuxm7uRGeiVT3T5bhT9/J/voma5efjvOO5FFJLRzIGeNG+t23gMkyOsCptjAHJDzBmuLyQvauGCYOAVxHSXID4VBNABqfBZBuBFBHwWXCAet05bXpYOiKWD59DobnLZ9JQe8ISImtIVOurce/v5YwLzAwlwkuufhcnfeAqeGOLg/tr9tvQrFWdYWpzsGZLS6gihEQdFt7IQmlGR0fAPtgiJZyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YLBRd6O5VgsV8D900ubWe16YtRKepJQguIrr2EoKTkA=;
+ b=I7PFgFDrEDGItj3A9iK1gryb4ptDSMS1KaOqNYbePigIFkhYmEWYe+TKU7Iw+d+prWt8zCVevs5QForGvWDFaihmiwXQ66uuf1jkTwoHLx4gx11v/BeEno1iMVUWUKQyYSkaimyjWdCdK4LGbMNEsstuInBiiFrUiBoEE0TTz2TW4XmwPZTCXVXbACwdcNsf9XVWva9ZwHqqvuzvsUzmzo/CIndIVtnIAguYx/PQmWsZ+A5OaEaNWUgQ8+2ZQEznDqEQ5PLkCTISBcy6jxQXfhlmbs1OI8c9cSBM6mtLWEcO3vFqZxUWM5YijL8srPjFGtcGjPqPQFkP3vDS6VsYEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YLBRd6O5VgsV8D900ubWe16YtRKepJQguIrr2EoKTkA=;
+ b=RVGpQ5tP3HH4511afJPekJEf/MxV0wScCbdw15Adqb0AD+loQ76hzsiM+lNFk+6Qd+yBEl7MnMcm08T01TaOGSGGDUiWMM9pna4SjpjPflPMtkdbrX29wfEowA0gZM2dXE1EjQpHVOHcSJooOwWsIraCJeN4kPoQmgnOFbE9eHY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SJ0PR12MB5487.namprd12.prod.outlook.com (2603:10b6:a03:301::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
+ 2023 15:56:17 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::a4e:62dd:d463:5614]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::a4e:62dd:d463:5614%9]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 15:56:17 +0000
+Message-ID: <42613e89-569e-5ad3-fb8f-0b3a8bcaf04c@amd.com>
+Date: Wed, 22 Mar 2023 10:56:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 2/3] i2c: designware: Use PCI PSP driver for
+ communication
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ kernel test robot <lkp@intel.com>
+Cc: Mark Hasemeyer <markhas@chromium.org>,
+ Grzegorz Bernacki <gjb@semihalf.com>,
+ Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Jan Dabros <jsd@semihalf.com>, oe-kbuild-all@lists.linux.dev,
+ Held Felix <Felix.Held@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230321212822.5714-3-mario.limonciello@amd.com>
+ <202303221157.58L3rUhr-lkp@intel.com> <ZBrOTu1DqKr608UD@smile.fi.intel.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <ZBrOTu1DqKr608UD@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR02CA0055.namprd02.prod.outlook.com
+ (2603:10b6:408:e5::30) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SJ0PR12MB5487:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cc99d62-1cb6-4de6-8936-08db2aedf8ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	fJYoHP7koxMcHiFeg9hRU4o18dgwV4gKONBoVDCrTfATdm9XlB1RR6BqEW1M+Nut3MIvUknFe3CiO0q0fH+pJ5AatJ4l3CtjgFrW1J4++w4Hao5tY1gLe1UGASNMeV1C4iiBoYJxDg+Tf5Cr9oKliW7MDLLM3Q8STCkhqBR2Y0tVToRHXwuKPoUdgRcNzz9+Bcn5ETLSopa+AbZA32HD2hN4fjSBst2Kzkn10DJcW8bKVh+eXjcNCYPTCgmjJMV8WsKAlXPQuNmMTutxEIZ/wpaQFz+sSbo2FdHcwZtHfC/xVU7kvBZdUcDBUGsUJnYXX6MqXIqcyjY3zM4FqYlNSctUI5GCo66ducWbJ3QNF2TvqOvC5oYUfSYVWQvVGBy5/xsixI+QLe53CHoI/gTN8XgPDFfNOFvIm1XqHyfO9Ly6Dx3Bfco7O4MMfi72hVb/RJ13PZa0loRCJNlkzz03DWGiesmiwA7pDRCgoO5WrwxqXt5umbuXDvT5gZkKgBlp47tnI9nKdweMTodh8Z+qBJXQlvg1v+lmABGnkWgRT+u4kxXFr7rAnCOpkDnHwuuE72gTHxpW9f+yKFPaEoPtjTg5mGI7NUH1Tt05+2feBMqG3XnCHmREnDbEwGYaU5NflkpigWX0wYmpUM8PDObJSVCOATcjHeKico82FJgmYER/faZcTwSN1r/QPeHWnZUuJUa3pypOVHW6sl2NaxtrZIyZZJHBKOidmx1PcoBn2Io=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(376002)(136003)(346002)(39860400002)(396003)(451199018)(186003)(2616005)(38100700002)(2906002)(44832011)(6506007)(53546011)(6512007)(31686004)(5660300002)(6666004)(7416002)(4744005)(8936002)(36756003)(86362001)(6486002)(41300700001)(66946007)(31696002)(66476007)(478600001)(4326008)(8676002)(66556008)(54906003)(110136005)(316002)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TUszWDdOU0VBUG9PVWVhcHZFek5DOWs2YXdqZnNwQ1g5OGVmTituN2Y4VCt6?=
+ =?utf-8?B?Vy9UTytxdTg1cTRwN2J5ZkNGNTdzekhiWVEvL0tPVDdQR01yaFJjUG4rNkha?=
+ =?utf-8?B?QVBVcTBxa29KU0tYMXJOb3JOOE16K2tqWS9HQUFpdThsK25ySWFGNEtsbklS?=
+ =?utf-8?B?c3J2QjlaM2hxUER1WHlDdEVod2V2NG5haDZSejIwM2NhZTRqc3NwODAwTzVp?=
+ =?utf-8?B?NDhxTnBWdGl0KzRrMEtvc3lEMkxuV2R3aXEwaFBuZ1ErdXJHd0JzZElON01x?=
+ =?utf-8?B?TDRLWDhrRW1xaW8vR2FCdUVBRlFRSXJkZ2dHR0dHaFA1MDRhME4yanRBQUNz?=
+ =?utf-8?B?cXJ2YW9LZllKdFRzcjFxRjlQY1c1cWVxQ2VHZTNpQzlDV0dWUUROMERPWDlD?=
+ =?utf-8?B?SkRCZWljS21WRllDNWNjaEgweEpBVHUzcUR3N0w0K2ZjNnQwbW9Ic04xNXlo?=
+ =?utf-8?B?YWMyTjJsUDQxYklSUTB3L3BzWVlpVncyc0dlWjc3OC92MFBad0NwNzZIcTFX?=
+ =?utf-8?B?S3cvN1Vqcm9kbTR3NTNtRGVqVkVFb083dHppY3B1d1N4d2FFclBFUWN5bSsz?=
+ =?utf-8?B?VGpUSjYvb2lCYU1LRmhxTHBST09Xd2VYZ1J4SHlHMVByczhKRjA4U1puanZk?=
+ =?utf-8?B?WFRhT09nWCtQaHdCRlZlWE82b0taT0l2eWNmT1lWc0RKd2ZiZC9jOEtYNFV1?=
+ =?utf-8?B?ak1jMlZ4MGcxSlRLRS9Ca25UblJxZzl1djkxMEw0dERKTVZUYVVtcXRaemhC?=
+ =?utf-8?B?dytpVUdVUWxwd21OYjdNdjd3azN5aXNLMkMyZnd6UEFsQWpHVXdXL1lYRHRN?=
+ =?utf-8?B?eGJ4eFVMYTNRTDZzQ0gydnFxNUdXT3RNL2FCSVYyV3JlTkxxeGxrZnAwbXlr?=
+ =?utf-8?B?bkNiRkFUQTdwSk8rMTV3QVFWUExicEUvTE1DdXpqb29nZVE2OGpRdTdRK1JV?=
+ =?utf-8?B?ejVFckZjYitLNTRyVjYyQ0U2VVk4WmtPSjdzSWo5Mk5JcFBZNDAzUlRFSkpq?=
+ =?utf-8?B?Y201K3k3V3phRDAvMzVyb0VFd01aNFdBOXR6eHpMcVlrbGNpSFVtekNKMzVy?=
+ =?utf-8?B?b0I1RFRDY3Z3b3JZZ1VhU2hLbzRaaXFKS0M5Z2U3TE5ONVF5c0JTK3VITmgz?=
+ =?utf-8?B?OHlHaE1zOWtPMUlWTllNUWJHaVFGdTNIUWJJeXJiSWViTElTZUwvem9QUDdD?=
+ =?utf-8?B?d3BkTTlEQ0pIcTdmL0RiTFY2WTQ2bmx4UENNNEJZVWNwTXNoUS81aGJINktG?=
+ =?utf-8?B?U1owQVh5ODZkRzR1c1JRMnUwTXlLeDM4ZTFJSitLQk1RaWFybXQvTVYrVlRq?=
+ =?utf-8?B?QnhhWm52Vk9YeHJEUDhvUmM1U0g1TGdLeFRWMkMxZ1pkN0t3NGhENHc2Wmww?=
+ =?utf-8?B?QUgrL3J4TkFscFZvSXFFOWVGd1FsSzRuMlRtcnBJeUdQb2pKcDFkS2hLbUFY?=
+ =?utf-8?B?R2lQVmJWd1Bobms1L1ZpNVRIRmkzbExkUkZvT3JHKzM5eVRMVitMUXYydWdy?=
+ =?utf-8?B?cUEwOEZTQmt2S1dhN3NqMCtMQUZaVGFUZmhxem1uMnBlSnNHUkZnME9WaFl5?=
+ =?utf-8?B?Y3BDbHU4WnEyUFNaU3JaRHBiczYrUzRpaWs3NTBUdnRVRVJmbXBCemVtN0Zx?=
+ =?utf-8?B?SXJ4Q2NVQUUwNzVvOXdFZW8rUDQ4TG9JZEVTUnlscjlJNXErMTBWVytDNXZW?=
+ =?utf-8?B?QWhlU294VHNvRWR4dU5EV2lzUHdaVmMwaVJYejNEZU1GbmpUekZRV0Y3R3hO?=
+ =?utf-8?B?OUJjV2dqcUZBYTBPS1dycHh0NEpQRld2ZHViVGlKVnlFcGplQkJycy9mOW11?=
+ =?utf-8?B?dFFFenZIWmEyZzJSNFlsSldLZmZDMFh5cVB3RnBFTGJadTR6akhaWkEvVDdo?=
+ =?utf-8?B?QUpTU2RWek1uZHNLemRUa3VYcFZtdE1za25GSkltUElQWG1pWmZ0VmJ2cTNo?=
+ =?utf-8?B?Uis3blpSTFdDZlVXeXhOZTQwZno1TnR6VWVrSS8xQXd5WmZiV2hsZk9oUERM?=
+ =?utf-8?B?cHFwcy9mRjYxT2h2NkNJRlhoUVlKUUVCeXE3WlpVZk55UXMxS3loai9SVzJU?=
+ =?utf-8?B?eHRDZXYyKyttcUlnVlp3MldlcTBtNE5JcXEwM0hsQno4U0M3UHlPc3dSVTFT?=
+ =?utf-8?B?N2loc1J0czNDTXJhNC9MNWJORjE5VTRKRFhtZzNJSDBtckptc0srWlJycmFY?=
+ =?utf-8?Q?QQ+r6DYzMjNVtb+u9ipGAbEUvMaZOOOyAXLe4CFYz979?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cc99d62-1cb6-4de6-8936-08db2aedf8ab
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 15:56:17.2674
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lht+mndoWWikOddImYP2mGoVKaPHnic7OolUfULzXDPZ2NkFh125OJ2LWN+s4xX5zTLgpGiW4eKyfNPpq1YZgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5487
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a1effab7a3a35a837dd9d2b974a1bc4939df1ad5
-commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 x86/vdso: Provide getcpu for x86-32.
-date:   6 weeks ago
-config: x86_64-sof-customedconfig-soundwire-defconfig (https://download.01.org/0day-ci/archive/20230322/202303222323.cnjgJ1fj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303222323.cnjgJ1fj-lkp@intel.com/
+On 3/22/23 04:45, Andy Shevchenko wrote:
+> On Wed, Mar 22, 2023 at 11:26:01AM +0800, kernel test robot wrote:
+>
+> ...
+>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> drivers/i2c/busses/i2c-designware-amdpsp.c:8:10: fatal error: asm/msr.h: No such file or directory
+>>         8 | #include <asm/msr.h>
+>>           |          ^~~~~~~~~~~
+>>     compilation terminated.
+> Should be under "#ifdef CONFIG_X86" (IIRC).
+>
+Actually the header isn't needed anymore with these changes.
 
-All errors (new ones prefixed by >>):
+I'll drop it in the next version of the series once I have some updated 
+results from Grzegorz and Jan.
 
-   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
->> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous prototype for '__vdso_getcpu' [-Werror=missing-prototypes]
-      13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-         | ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/__vdso_getcpu +13 arch/x86/entry/vdso/vdso32/../vgetcpu.c
-
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  11  
-23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12  12  notrace long
-23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12 @13  __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  14  {
-22245bdf0ad805 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  15  	vdso_read_cpunode(cpu, node);
-ec3a94188df7d2 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  16  
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  17  	return 0;
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  18  }
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  19  
-
-:::::: The code at line 13 was first introduced by commit
-:::::: 23adec554a7648f99c8acc0caf49c66320cd2b84 x86: add notrace annotations to vsyscall.
-
-:::::: TO: Steven Rostedt <srostedt@redhat.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
