@@ -1,90 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99668F58;
-	Wed, 22 Mar 2023 17:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6612CC433EF;
-	Wed, 22 Mar 2023 17:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679506748;
-	bh=+cY6SLgySfXog0odOKNsMVvo+BxosOx02DWC6mWb+AM=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=YFPKcbYn8Z2xt7vnrjKuYmz6OrhyZroympdIeE9pzmKAApiFhtFyeF0PzV9B6nc4P
-	 Y2woVg6qZ8z7+QQ5aHnWvEEy/3s6MOBxbfR2GAjnOEeJilNc2Tnh866NTDmviv69NH
-	 BEVzJTgV6hX/RR6IL/PDnko7XvUw8KAbVGSVbYX6CjOywxLddAk0Qkv96Um3tCpFw3
-	 EONvs/aRO8J/JiWzXcvtFz3G4sBQFUyaRLr0Qj2yxq8ET2gAPZ31pAccCo2f/Z5W/a
-	 5sucLQHqOpWheqjNmLH/VUl8wekscwKpLO0CyQmCqlwWGy1AxwIzO8BGep5mu7BVMj
-	 WF717iIhsi1+g==
-Message-ID: <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938868F58
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 17:51:52 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id i5so29370360eda.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 10:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679507511;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6WaOFED816blZdtFTuLdOx5OA9/TefZvQoaFn0cJ/KA=;
+        b=jOHVbMy/M29aXEQjfdczg4AdcZHm5jv7Ld4of6tCjFd0MHhBs/h3AfG3Qs2DtzBWOV
+         yNo7k5Br2YAWPuVQDHoGWgMMo+RO4olJc4dC3HOnVt8ZzxObOR+pKYwb/i5dOTxlBRKl
+         DvBVVBDr5H0DSLfBJABIkC9URe3/NGoWnT8zMPJGVJ/ZTOmGds1dEslEj4SDjzKm2Kfv
+         1t662CUWvvhnemKexrvYIXHN17rH/we4HmF749WVcoema9WgT5RYQQATEXy1YR52J9l8
+         9soyepfPuMS8HfCm6zUF+AIU5vJxCvRXyBQKyEvatFgQ3N6Byd7A2HI25jf/h6J+Dezl
+         uPbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679507511;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6WaOFED816blZdtFTuLdOx5OA9/TefZvQoaFn0cJ/KA=;
+        b=FEIPZYVMfZMFebixwgbZAhi0Ri2EhJTWeBl6a7UMihN7rG2/NoFnWKgziT1Cbkh/Of
+         70e4xmxUZHim6BqMVTSO/nQQi1O4lCNXtUK+aDRXzYBbd5mAOqPWzcas8e3TyMmvSQAQ
+         yZ9cqVQOhKMGe660hDjdkEIaU/qW3I3RAgu5c9TWLWBtmIUwcekjqACivJ6QxKAqUYYm
+         zTYd+e38R9X77jbQpPYU4RHzd7r3j+8wfdP0IRW6DDofnrjyv7C7WmJ8oWprqT//nSfH
+         2FHYUjD76cdyRAF6qOlDMLIiPTwac9H5AKckB+lanLPboSp7H4Uv5XzKAS4J9YXaZsYn
+         4smA==
+X-Gm-Message-State: AO0yUKU3Z+EmXOlOqxG5NweL5fTjeBIGtcZ3/x1e6iN19LL0+6SLQuZV
+	drWKwUdW2UvpmUV8VBeKMUhlFg==
+X-Google-Smtp-Source: AK7set/N7Q+7f4YI9bhuXQvptgkRYPsxozTlHniZA5aQlpvAWkWgraP0KrP2K9r3QFpP9oXvTSDSmA==
+X-Received: by 2002:a17:906:28d5:b0:92c:6fbf:4d with SMTP id p21-20020a17090628d500b0092c6fbf004dmr6617678ejd.40.1679507510764;
+        Wed, 22 Mar 2023 10:51:50 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:5050:151b:e755:1c6? ([2a02:810d:15c0:828:5050:151b:e755:1c6])
+        by smtp.gmail.com with ESMTPSA id gy15-20020a170906f24f00b00932bfab0fcesm6555595ejb.55.2023.03.22.10.51.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 10:51:50 -0700 (PDT)
+Message-ID: <5e0bb728-1cdd-6c16-b096-eb0934effe94@linaro.org>
+Date: Wed, 22 Mar 2023 18:51:48 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202303221947.pXP2v4xJ-lkp@intel.com>
-References: <202303221947.pXP2v4xJ-lkp@intel.com>
-Subject: Re: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-To: Qin Jian <qinjian@cqplus1.com>, kernel test robot <lkp@intel.com>
-Date: Wed, 22 Mar 2023 10:39:06 -0700
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set
+ bandwidth
+Content-Language: en-US
+To: Sumit Gupta <sumitg@nvidia.com>, kernel test robot <lkp@intel.com>,
+ treding@nvidia.com, dmitry.osipenko@collabora.com, viresh.kumar@linaro.org,
+ rafael@kernel.org, jonathanh@nvidia.com, robh+dt@kernel.org,
+ lpieralisi@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+ mmaddireddy@nvidia.com, kw@linux.com, bhelgaas@google.com,
+ vidyas@nvidia.com, sanjayc@nvidia.com, ksitaraman@nvidia.com,
+ ishah@nvidia.com, bbasu@nvidia.com
+References: <20230320182441.11904-8-sumitg@nvidia.com>
+ <202303211551.eBLRqnv0-lkp@intel.com>
+ <dcf8b1a9-d0e3-510f-8dc3-5ef9eebb0696@nvidia.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <dcf8b1a9-d0e3-510f-8dc3-5ef9eebb0696@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Quoting kernel test robot (2023-03-22 04:17:48)
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk=
--sunplus
-> head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunplus S=
-P7021 clock driver
-> config: mips-randconfig-r012-20230322 (https://download.01.org/0day-ci/ar=
-chive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 6740=
-9911353323ca5edf2049ef0df54132fa1ca7)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install mips cross compiling tool for clang build
->         # apt-get install binutils-mipsel-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/c=
-ommit/?id=3Dd54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
->         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/clk/linux.git
->         git fetch --no-tags clk clk-sunplus
->         git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash drivers/clk/
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-lkp@i=
-ntel.com/
->=20
+On 21/03/2023 12:49, Sumit Gupta wrote:
+> 
+> 
+> On 21/03/23 13:06, kernel test robot wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> Hi Sumit,
+>>
+>> Thank you for the patch! Perhaps something to improve:
+>>
+>> [auto build test WARNING on robh/for-next]
+>> [also build test WARNING on krzk-mem-ctrl/for-next pci/next pci/for-linus]
+>> [cannot apply to tegra/for-next rafael-pm/linux-next linus/master v6.3-rc3 next-20230321]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+>> patch link:    https://lore.kernel.org/r/20230320182441.11904-8-sumitg%40nvidia.com
+>> patch subject: [Patch v3 07/11] cpufreq: tegra194: add OPP support and set bandwidth
+>> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230321/202303211551.eBLRqnv0-lkp@intel.com/config)
+>> compiler: aarch64-linux-gcc (GCC) 12.1.0
+>> reproduce (this is a W=1 build):
+>>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # https://github.com/intel-lab-lkp/linux/commit/fa31f117302fc7c15b5d9deeefb8c650554f503d
+>>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>          git fetch --no-tags linux-review Sumit-Gupta/firmware-tegra-add-function-to-get-BPMP-data/20230321-024112
+>>          git checkout fa31f117302fc7c15b5d9deeefb8c650554f503d
+>>          # save the config file
+>>          mkdir build_dir && cp config build_dir/.config
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/cpufreq/
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Link: https://lore.kernel.org/oe-kbuild-all/202303211551.eBLRqnv0-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> drivers/cpufreq/tegra194-cpufreq.c:397:5: warning: no previous prototype for 'tegra_cpufreq_init_cpufreq_table' [-Wmissing-prototypes]
+>>       397 | int tegra_cpufreq_init_cpufreq_table(struct cpufreq_policy *policy,
+>>           |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>
+> 
+> Thank you for the report.
+> 
+> Adding static to the function prototype fixes the warning.
+> Can we please squash the below change (or) please let me know if i need 
+> to re-send the patch.
 
-Does this fix it?
+You must send new version which does not have warnings. The best if you
+also build test your code before sending (it's kind of obvious except
+that it is not).
 
----8<---
-diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-index 8fec14120105..caabbf5e2197 100644
---- a/drivers/clk/clk-sp7021.c
-+++ b/drivers/clk/clk-sp7021.c
-@@ -30,9 +30,9 @@ enum {
- 	P_MAX
- };
-=20
--#define MASK_SEL_FRA	GENMASK(1, 1)
--#define MASK_SDM_MOD	GENMASK(2, 2)
--#define MASK_PH_SEL	GENMASK(4, 4)
-+#define MASK_SEL_FRA	BITMASK(1)
-+#define MASK_SDM_MOD	BITMASK(2)
-+#define MASK_PH_SEL	BITMASK(4)
- #define MASK_NFRA	GENMASK(12, 6)
- #define MASK_DIVR	GENMASK(8, 7)
- #define MASK_DIVN	GENMASK(7, 0)
+Best regards,
+Krzysztof
+
