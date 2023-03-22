@@ -1,46 +1,52 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044B81FD6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 08:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679472271; x=1711008271;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ScpeIu0gj7yHHzZONaqbIAQWxM/t/3WXyGLP0R4bvJ0=;
-  b=cIhstbfNFOuWBEM+gVkcegC4L8fxeHm2g7/c1Be21zF5lSDIxK1W1AaX
-   RRD9BpNGA8ne7qth+IS6gf+TttSv6fPxiHL8N6PTxi9aiqagh4+WEIMn6
-   a2WtcS/xoKqaRk4QjQLoNHnJ+X11J+IgiCP/HSiz45LS5ETO2LhqTP8an
-   vRvWPhna2wGqA0Jz5Ylg+KkcfVAw8ZCN4IGg596oQmt9gKjpURspQJ8BZ
-   JyfLdGJb/brIIIomI6v8lYn9ODcbXJSEfiVMHbA1ELJe79TglnzxBGipQ
-   74jESxTB+hVvPcVEDkZyPsBS0K659kQ0xkJGkSzcBVWs0E2GYyxU87s9u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322993074"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="322993074"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:04:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714328661"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="714328661"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 22 Mar 2023 01:04:27 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1petSN-000D4t-09;
-	Wed, 22 Mar 2023 08:04:27 +0000
-Date: Wed, 22 Mar 2023 16:03:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Yang <mmyangfl@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B6C1FB1;
+	Wed, 22 Mar 2023 08:07:17 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id b20so36387557edd.1;
+        Wed, 22 Mar 2023 01:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679472436;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uDLy6gXwopARuTlfqgOxRX3tSQF+2gi6u0FbFURqkMs=;
+        b=TbpxK+Kj5hBU/t7V/bNNwtnWIt+6XtX+jmwCZf0otN1AJnWtQEXtFOX9ps1Wy3aOlm
+         99StdSC7NqHD/I1Sa6B9RYrPNVRo4V8PPi2h7MEE5e47svEcr0FC8Tg+9sRaX14+Q/uJ
+         OtJhGLVuz1s5hYuKl+J8vCv2aPf0S+dD9UBdIkI5rSI24Ins5+XhwRqmee3eXH6grZUI
+         CyawVtJzbUECUIwo3rksYgvl0wiISbYa5rq51K5NM8ByInkrCOB+e1YYRxqa5PxqujNH
+         Cnj/A5uVMN1DigvxGgw7th2QCew5OH0Agwvqn6IvKZXySHugzmHbBq5hNwwFyF/UVLnO
+         AdRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679472436;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uDLy6gXwopARuTlfqgOxRX3tSQF+2gi6u0FbFURqkMs=;
+        b=mBhrHcpo8mXBXiwRm0/7/jTy6pBrKlc7WaV4uTUpzHr3InxvofTCg3R90BZmi9+FIZ
+         ZGiTGzHE5wzOJPG8asqGkDU/7RDKFheiBaCN37IO1RYNA+q99w5bIO3nKSMaMcaEfTJT
+         Ef1D58vjulNarEoDdxbq69eWPrZkhD3xAc/QkrSez0gW9niyyyNTsoE1U4wKxSro1YTw
+         PSsBk1QVThX1hBrw/oaqDvTg4RxwPbcZvKrFiH7a1Czuo7swpsSTXQfEmijn1qzbaw4A
+         mLJN89gJ5E8b69jWMgw/nrAB+4gVmWkwhPS6xYAOayDtLi5Lks3NB0qdCq2cMKt6j4QC
+         Ga0Q==
+X-Gm-Message-State: AO0yUKWvr4zvzCpy9Rs617f0X7/sPdWuAAQm0+e8zYAFEEaYejBV4rjL
+	yxNjlJyaEXW0in5hr2m5uwDBVkrX8AA=
+X-Google-Smtp-Source: AK7set91PeT1rns8zGWrRzVqfZS5PLsJGVSf/j1OePGS0f7y1hnEHyGgIpr/NupFZ+AmDUGtUMiU1A==
+X-Received: by 2002:aa7:c84e:0:b0:4fa:b302:84d9 with SMTP id g14-20020aa7c84e000000b004fab30284d9mr5948545edt.14.1679472435784;
+        Wed, 22 Mar 2023 01:07:15 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u3-20020a50d503000000b004fcd78d1215sm7371005edi.36.2023.03.22.01.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 01:07:14 -0700 (PDT)
+Date: Wed, 22 Mar 2023 11:07:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Zhang Rui <rui.zhang@intel.com>,
+	linux-pm@vger.kernel.org, rafael.j.wysocki@intel.com,
+	daniel.lezcano@linaro.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 3/6] clk: hisilicon: Migrate devm APIs
-Message-ID: <202303221528.x7zxcADU-lkp@intel.com>
-References: <20230321200031.1812026-4-mmyangfl@gmail.com>
+Subject: Re: [PATCH] thermal/core: update cooling device during thermal zone
+ unregistration
+Message-ID: <a6d760f9-18a0-4bcd-a3ce-ab2b9db53c7c@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,140 +55,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321200031.1812026-4-mmyangfl@gmail.com>
+In-Reply-To: <20230321154627.17787-1-rui.zhang@intel.com>
 
-Hi David,
+Hi Zhang,
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230322-040342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230321200031.1812026-4-mmyangfl%40gmail.com
-patch subject: [PATCH v6 3/6] clk: hisilicon: Migrate devm APIs
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230322/202303221528.x7zxcADU-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a8c57104085ee7863dc5262bdd14e3fbcaa055b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230322-040342
-        git checkout a8c57104085ee7863dc5262bdd14e3fbcaa055b7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/hisilicon/
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Rui/thermal-core-update-cooling-device-during-thermal-zone-unregistration/20230321-234754
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20230321154627.17787-1-rui.zhang%40intel.com
+patch subject: [PATCH] thermal/core: update cooling device during thermal zone unregistration
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230322/202303221159.6cdRxcUo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303221528.x7zxcADU-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303221159.6cdRxcUo-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/thermal/thermal_core.c:1436 thermal_zone_device_unregister() warn: iterator used outside loop: 'ti'
 
-   drivers/clk/hisilicon/clk-hix5hd2.c: In function 'hix5hd2_clk_register_complex':
->> drivers/clk/hisilicon/clk-hix5hd2.c:266:25: error: implicit declaration of function 'devm_kzalloc' [-Werror=implicit-function-declaration]
-     266 |                 p_clk = devm_kzalloc(dev, sizeof(*p_clk), GFP_KERNEL);
-         |                         ^~~~~~~~~~~~
->> drivers/clk/hisilicon/clk-hix5hd2.c:266:23: warning: assignment to 'struct hix5hd2_clk_complex *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     266 |                 p_clk = devm_kzalloc(dev, sizeof(*p_clk), GFP_KERNEL);
-         |                       ^
-   drivers/clk/hisilicon/clk-hix5hd2.c:263:32: warning: unused variable 'clk' [-Wunused-variable]
-     263 |                 struct clk_hw *clk;
-         |                                ^~~
-   drivers/clk/hisilicon/clk-hix5hd2.c: In function 'hix5hd2_clk_init':
->> drivers/clk/hisilicon/clk-hix5hd2.c:304:40: error: implicit declaration of function 'of_find_device_by_node'; did you mean 'of_find_node_by_name'? [-Werror=implicit-function-declaration]
-     304 |         struct platform_device *pdev = of_find_device_by_node(np);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                        of_find_node_by_name
->> drivers/clk/hisilicon/clk-hix5hd2.c:304:40: warning: initialization of 'struct platform_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->> drivers/clk/hisilicon/clk-hix5hd2.c:305:35: error: invalid use of undefined type 'struct platform_device'
-     305 |         struct device *dev = &pdev->dev;
-         |                                   ^~
-   cc1: some warnings being treated as errors
+vim +/ti +1436 drivers/thermal/thermal_core.c
 
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1402  void thermal_zone_device_unregister(struct thermal_zone_device *tz)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1403  {
+a5f785ce608caf drivers/thermal/thermal_core.c Dmitry Osipenko  2020-08-18  1404  	int i, tz_id;
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1405  	const struct thermal_zone_params *tzp;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1406  	struct thermal_cooling_device *cdev;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1407  	struct thermal_zone_device *pos = NULL;
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1408  	struct thermal_instance *ti;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1409  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1410  	if (!tz)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1411  		return;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1412  
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1413  	tzp = tz->tzp;
+a5f785ce608caf drivers/thermal/thermal_core.c Dmitry Osipenko  2020-08-18  1414  	tz_id = tz->id;
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1415  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1416  	mutex_lock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1417  	list_for_each_entry(pos, &thermal_tz_list, node)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1418  		if (pos == tz)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1419  			break;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1420  	if (pos != tz) {
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1421  		/* thermal zone device not found */
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1422  		mutex_unlock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1423  		return;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1424  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1425  	list_del(&tz->node);
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1426  
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1427  	/* Unbind all cdevs associated with 'this' thermal zone */
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1428  	list_for_each_entry(cdev, &thermal_cdev_list, node) {
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1429  		mutex_lock(&tz->lock);
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1430  		list_for_each_entry(ti, &tz->thermal_instances, tz_node) {
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1431  			if (ti->cdev == cdev)
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1432  				break;
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1433  		}
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1434  
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1435  		/* The cooling device is not used by current thermal zone */
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21 @1436  		if (ti->cdev != cdev) {
 
-vim +/devm_kzalloc +266 drivers/clk/hisilicon/clk-hix5hd2.c
+Here we are testing to see if the loop exited by hitting the break.  If
+the condition is != then "ti" is not a valid pointer and it's kind of an
+out of bounds access.  I used to fix these with:
 
-   251	
-   252	static int __init
-   253	hix5hd2_clk_register_complex(struct device *dev,
-   254				     struct hix5hd2_complex_clock *clks, int nums,
-   255				     struct hisi_clock_data *data)
-   256	{
-   257		void __iomem *base = data->base;
-   258		int i;
-   259		int ret;
-   260	
-   261		for (i = 0; i < nums; i++) {
-   262			struct hix5hd2_clk_complex *p_clk;
-   263			struct clk_hw *clk;
-   264			struct clk_init_data init;
-   265	
- > 266			p_clk = devm_kzalloc(dev, sizeof(*p_clk), GFP_KERNEL);
-   267			if (!p_clk)
-   268				return 0;
-   269	
-   270			init.name = clks[i].name;
-   271			if (clks[i].type == TYPE_ETHER)
-   272				init.ops = &clk_ether_ops;
-   273			else
-   274				init.ops = &clk_complex_ops;
-   275	
-   276			init.flags = 0;
-   277			init.parent_names =
-   278				(clks[i].parent_name ? &clks[i].parent_name : NULL);
-   279			init.num_parents = (clks[i].parent_name ? 1 : 0);
-   280	
-   281			p_clk->ctrl_reg = base + clks[i].ctrl_reg;
-   282			p_clk->ctrl_clk_mask = clks[i].ctrl_clk_mask;
-   283			p_clk->ctrl_rst_mask = clks[i].ctrl_rst_mask;
-   284			p_clk->phy_reg = base + clks[i].phy_reg;
-   285			p_clk->phy_clk_mask = clks[i].phy_clk_mask;
-   286			p_clk->phy_rst_mask = clks[i].phy_rst_mask;
-   287			p_clk->hw.init = &init;
-   288	
-   289			ret = devm_clk_hw_register(dev, &p_clk->hw);
-   290			if (ret) {
-   291				pr_err("%s: failed to register clock %s\n",
-   292				       __func__, clks[i].name);
-   293				return ret;
-   294			}
-   295	
-   296			data->clk_data->hws[clks[i].id] = &p_clk->hw;
-   297		}
-   298	
-   299		return 0;
-   300	}
-   301	
-   302	static void __init hix5hd2_clk_init(struct device_node *np)
-   303	{
- > 304		struct platform_device *pdev = of_find_device_by_node(np);
- > 305		struct device *dev = &pdev->dev;
-   306		struct hisi_clock_data *clk_data;
-   307	
-   308		clk_data = hisi_clk_init(np, HIX5HD2_NR_CLKS);
-   309		if (!clk_data)
-   310			return;
-   311	
-   312		hisi_clk_register_fixed_rate(dev, hix5hd2_fixed_rate_clks,
-   313					     ARRAY_SIZE(hix5hd2_fixed_rate_clks),
-   314					     clk_data);
-   315		hisi_clk_register_mux(dev, hix5hd2_mux_clks, ARRAY_SIZE(hix5hd2_mux_clks),
-   316						clk_data);
-   317		hisi_clk_register_gate(dev, hix5hd2_gate_clks,
-   318				ARRAY_SIZE(hix5hd2_gate_clks), clk_data);
-   319		hix5hd2_clk_register_complex(dev, hix5hd2_complex_clks,
-   320					     ARRAY_SIZE(hix5hd2_complex_clks),
-   321					     clk_data);
-   322	}
-   323	
+-	if (ti->cdev != cdev) {
++	if (list_entry_is_head(ti, &tz->thermal_instances, tz_node)) {
+
+But these days we just prefer using a found variable:
+
+	found = false;
+	list_for_each_entry(ti, &tz->thermal_instances, tz_node) {
+		if (ti->cdev == cdev) {
+			found = true;
+			break;
+		}
+	}
+	if (!found) {
+
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1437  			mutex_unlock(&tz->lock);
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1438  			continue;
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1439  		}
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1440  		mutex_unlock(&tz->lock);
+55a1117eebc62b drivers/thermal/thermal_core.c Zhang Rui        2023-03-21  1441  
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R      2012-09-18  1442  		if (tz->ops->unbind) {
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui        2008-01-17  1443  			tz->ops->unbind(tz, cdev);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
