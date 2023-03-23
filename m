@@ -1,45 +1,45 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDB120E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 06:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84D7179
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 06:45:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679552114; x=1711088114;
+  t=1679553925; x=1711089925;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K+tsOStEKSUmWTrSxW8kyIQZ2eMLpgKoXdX9PkiVDnE=;
-  b=ZbhziqFz1iSJRdaku+aTpwrgzMhm0Isyw+eoj9iD4MH84yMM4SnoTpHf
-   vvtQUcZbjzMEJaH42ede2tvS4yjP5pPyqncTsqIqcxh8J22DIoygao6Iq
-   bI/kbvAOvCtq7ZvdaOh2lugAQCjTROl159Hn/GB9OWB/hmMdWMFh40Axp
-   aOoSlnT6jCQtk5xzLODZOuLiwI8LkMi8dxkgAidm06xbQx8THidhaI8wS
-   ahmDclgVfdXwqT3go2/GbtKusU0fZujza6H3MK0WvUtldlzIhfvbz+/Aa
-   C/GO6jTLWe+zPNBC6kdm9IYVyoVDCdD5sWtDimIQIg5l7reFP9pj7uO4J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="327785197"
+  bh=A6mO3eZa9srZD0TwB6Z9CiOjfI3r19eFRufP6HLE7HM=;
+  b=c3rw1uaAYeHmI5yRCRXNcTw1Ksg+T7YHHRt9v+6KyLZhDp0E9wftaim+
+   f2qx86niJKDHxabxEST+p2ki2bph2gNzMATptgIqXGUqx2nLsnfMcA3yM
+   j4XWBCdcorZ20ysXu8WJTwKc9enMLrk+IoXKHsgLsoQciX46RhS3PwlbU
+   3cUX/mqaGmEKX7Fxwi7XL2r1XqlpHLGlYlPq/IhtT4uEvRRBhaJYxWh/O
+   e+dPRs0B3/OSu66lOxWby5uIvHHZNBtZxfmOezKH+lAyI97bXxe/30v2C
+   R61+tlAnEYuOiPWjQMV/XZbiWpR5Dh4GEp5ucqQMKn260Np1ERLOKYNc2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319800781"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="327785197"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 23:15:14 -0700
+   d="scan'208";a="319800781"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 23:45:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="746598086"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632275854"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="746598086"
+   d="scan'208";a="632275854"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Mar 2023 23:15:12 -0700
+  by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 23:45:14 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfEEC-000E2S-0C;
-	Thu, 23 Mar 2023 06:15:12 +0000
-Date: Thu, 23 Mar 2023 14:14:19 +0800
+	id 1pfEhF-000E5A-19;
+	Thu, 23 Mar 2023 06:45:13 +0000
+Date: Thu, 23 Mar 2023 14:44:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Yang <mmyangfl@gmail.com>, linux-clk@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 6/9] clk: hisilicon: Convert to platform_driver
-Message-ID: <202303231426.GOJVQoEn-lkp@intel.com>
-References: <20230322164201.2454771-7-mmyangfl@gmail.com>
+Subject: Re: [PATCH v7 7/9] clk: hisilicon: Migrate devm APIs
+Message-ID: <202303231400.ccfrqXUI-lkp@intel.com>
+References: <20230322164201.2454771-8-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,27 +48,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322164201.2454771-7-mmyangfl@gmail.com>
+In-Reply-To: <20230322164201.2454771-8-mmyangfl@gmail.com>
 
 Hi David,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on 6015b1aca1a233379625385feb01dd014aca60b5]
+[auto build test ERROR on 6015b1aca1a233379625385feb01dd014aca60b5]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230323-004453
 base:   6015b1aca1a233379625385feb01dd014aca60b5
-patch link:    https://lore.kernel.org/r/20230322164201.2454771-7-mmyangfl%40gmail.com
-patch subject: [PATCH v7 6/9] clk: hisilicon: Convert to platform_driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303231426.GOJVQoEn-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20230322164201.2454771-8-mmyangfl%40gmail.com
+patch subject: [PATCH v7 7/9] clk: hisilicon: Migrate devm APIs
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303231400.ccfrqXUI-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f551034776d2c5eb0495634bd2f8bde5c4743f92
+        # https://github.com/intel-lab-lkp/linux/commit/8d88e46ef325130e4dd516ce36e3e0484bc52230
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230323-004453
-        git checkout f551034776d2c5eb0495634bd2f8bde5c4743f92
+        git checkout 8d88e46ef325130e4dd516ce36e3e0484bc52230
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
@@ -76,69 +76,99 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231426.GOJVQoEn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303231400.ccfrqXUI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
+   In file included from include/linux/device.h:15,
+                    from drivers/clk/hisilicon/clk-hi3620.c:14:
+   drivers/clk/hisilicon/clk-hi3620.c: In function 'clk_register_hisi_mmc':
+>> drivers/clk/hisilicon/clk-hi3620.c:435:35: error: 'clks' undeclared (first use in this function); did you mean 'clk'?
+     435 |                         __func__, clks[i].name);
+         |                                   ^~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
+     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
+         |                 ^~~~~~~
+   drivers/clk/hisilicon/clk-hi3620.c:435:35: note: each undeclared identifier is reported only once for each function it appears in
+     435 |                         __func__, clks[i].name);
+         |                                   ^~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
+     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
+         |                 ^~~~~~~
+>> drivers/clk/hisilicon/clk-hi3620.c:435:40: error: 'i' undeclared (first use in this function)
+     435 |                         __func__, clks[i].name);
+         |                                        ^
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
+     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
+         |                 ^~~~~~~
+>> drivers/clk/hisilicon/clk-hi3620.c:436:24: warning: returning 'int' from a function with return type 'struct clk_hw *' makes pointer from integer without a cast [-Wint-conversion]
+     436 |                 return ret;
+         |                        ^~~
+--
    drivers/clk/hisilicon/clk-hix5hd2.c: In function 'hix5hd2_clk_register_complex':
->> drivers/clk/hisilicon/clk-hix5hd2.c:260:46: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   drivers/clk/hisilicon/clk-hix5hd2.c:260:46: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
      260 |         struct hix5hd2_complex_clock *clks = clocks;
          |                                              ^~~~~~
+>> drivers/clk/hisilicon/clk-hix5hd2.c:300:31: error: 'data->clk_data' is a pointer; did you mean to use '->'?
+     300 |                 data->clk_data.clks[clks[i].id] = clk;
+         |                               ^
+         |                               ->
 
 
-vim +/const +260 drivers/clk/hisilicon/clk-hix5hd2.c
+vim +435 drivers/clk/hisilicon/clk-hi3620.c
 
-   255	
-   256	static int
-   257	hix5hd2_clk_register_complex(struct device *dev, const void *clocks, int nums,
-   258				     struct hisi_clock_data *data)
-   259	{
- > 260		struct hix5hd2_complex_clock *clks = clocks;
-   261		void __iomem *base = data->base;
-   262		int i;
-   263	
-   264		for (i = 0; i < nums; i++) {
-   265			struct hix5hd2_clk_complex *p_clk;
-   266			struct clk *clk;
-   267			struct clk_init_data init;
-   268	
-   269			p_clk = kzalloc(sizeof(*p_clk), GFP_KERNEL);
-   270			if (!p_clk)
-   271				return -ENOMEM;
-   272	
-   273			init.name = clks[i].name;
-   274			if (clks[i].type == TYPE_ETHER)
-   275				init.ops = &clk_ether_ops;
-   276			else
-   277				init.ops = &clk_complex_ops;
-   278	
-   279			init.flags = 0;
-   280			init.parent_names =
-   281				(clks[i].parent_name ? &clks[i].parent_name : NULL);
-   282			init.num_parents = (clks[i].parent_name ? 1 : 0);
-   283	
-   284			p_clk->ctrl_reg = base + clks[i].ctrl_reg;
-   285			p_clk->ctrl_clk_mask = clks[i].ctrl_clk_mask;
-   286			p_clk->ctrl_rst_mask = clks[i].ctrl_rst_mask;
-   287			p_clk->phy_reg = base + clks[i].phy_reg;
-   288			p_clk->phy_clk_mask = clks[i].phy_clk_mask;
-   289			p_clk->phy_rst_mask = clks[i].phy_rst_mask;
-   290			p_clk->hw.init = &init;
-   291	
-   292			clk = clk_register(NULL, &p_clk->hw);
-   293			if (IS_ERR(clk)) {
-   294				kfree(p_clk);
-   295				pr_err("%s: failed to register clock %s\n",
-   296				       __func__, clks[i].name);
-   297				return PTR_ERR(p_clk);
-   298			}
-   299	
-   300			data->clk_data.clks[clks[i].id] = clk;
-   301		}
-   302	
-   303		return 0;
-   304	}
-   305	
+   399	
+   400	static struct clk_hw *
+   401	clk_register_hisi_mmc(struct device *dev, const struct hisi_mmc_clock *mmc_clk,
+   402			      void __iomem *base)
+   403	{
+   404		struct clk_mmc *mclk;
+   405		struct clk_init_data init;
+   406		int ret;
+   407	
+   408		mclk = devm_kzalloc(dev, sizeof(*mclk), GFP_KERNEL);
+   409		if (!mclk)
+   410			return ERR_PTR(-ENOMEM);
+   411	
+   412		init.name = mmc_clk->name;
+   413		init.ops = &clk_mmc_ops;
+   414		init.flags = mmc_clk->flags;
+   415		init.parent_names = (mmc_clk->parent_name ? &mmc_clk->parent_name : NULL);
+   416		init.num_parents = (mmc_clk->parent_name ? 1 : 0);
+   417		mclk->hw.init = &init;
+   418	
+   419		mclk->id = mmc_clk->id;
+   420		mclk->clken_reg = base + mmc_clk->clken_reg;
+   421		mclk->clken_bit = mmc_clk->clken_bit;
+   422		mclk->div_reg = base + mmc_clk->div_reg;
+   423		mclk->div_off = mmc_clk->div_off;
+   424		mclk->div_bits = mmc_clk->div_bits;
+   425		mclk->drv_reg = base + mmc_clk->drv_reg;
+   426		mclk->drv_off = mmc_clk->drv_off;
+   427		mclk->drv_bits = mmc_clk->drv_bits;
+   428		mclk->sam_reg = base + mmc_clk->sam_reg;
+   429		mclk->sam_off = mmc_clk->sam_off;
+   430		mclk->sam_bits = mmc_clk->sam_bits;
+   431	
+   432		ret = devm_clk_hw_register(dev, &mclk->hw);
+   433		if (ret) {
+   434			dev_err(dev, "%s: failed to register clock %s\n",
+ > 435				__func__, clks[i].name);
+ > 436			return ret;
+   437		}
+   438	
+   439		return &mclk->hw;
+   440	}
+   441	
 
 -- 
 0-DAY CI Kernel Test Service
