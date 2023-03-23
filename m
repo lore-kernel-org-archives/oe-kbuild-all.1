@@ -1,45 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ABA17CE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 04:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8994517CE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 04:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679544671; x=1711080671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FY2v0PUyZSgKwHx2+YcVvWaPld1/QwjpJZBtPe6ujAI=;
-  b=iljKyBeklibO+P+5WHI5zzEO37fN0N7icmD1bO2GA7mm92RsOL5hF7+k
-   X02m8wLW5gsfgveU+OXXN5MiOvs2kEGTH/C/LZoBBE7BevlLeuJ1d+UjM
-   5fo2SoTuepHubqlM7MxT/TX5RPMFGAlPb1maeB9nLMpNIratHmwzeBtPx
-   9Pj/mSOxstiZxa2O3087tey1Vea2rjHClph03kV1rZvHlcxjnnKFSqaC2
-   dUIoaqjJ0So907mRMmkuTNYdNkqDeNdHHV7etYha7EwZYpEM+GHRKtDVL
-   dKS9TrvnA3OuC4YjEh4I8DZVq/JEiiQly1/v2VNNmQKAh7BACo64gSPxY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339427766"
+  t=1679545270; x=1711081270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZV9NnnYZTgLVq1bGedCD3RXOPkA6f/W1MpRoZf3cvYg=;
+  b=aSPlUZsuriujKkqz8o6BJzkZQ3qyMGNDf10Kld35ZXtaX3XoIhCqQkco
+   GlPancxelaC4jmg8ZZRisghxLcunI0zJamh/zhEYKZ3gmQjJxdRnBy/Fw
+   uyBI+axwVvPx4MGqbXBdiA3EaM/aj/KdnLQ8V5RET5v7peJl9s2CcPF4E
+   B2W11NveVAUpJgjqo/SEDyfUmo5lo1a2VfB5hxWuv1rMEdvqN3xOaQzVW
+   vp28U2FVS3mim3XWJTzRjUyj2/udf8RDevn1dcUz2m9K5SL9AIyGwZRzf
+   K3upb9gpuM7Wfv2+82rzRp0FDLLQW1nkX7lMeEmhWzijt9ooy5UuZUEV1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="340930839"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="339427766"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 21:11:10 -0700
+   d="scan'208";a="340930839"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 21:21:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632228911"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682166142"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="632228911"
+   d="scan'208";a="682166142"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 21:11:08 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 21:21:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfCI7-000DwU-2T;
-	Thu, 23 Mar 2023 04:11:07 +0000
-Date: Thu, 23 Mar 2023 12:10:12 +0800
+	id 1pfCRn-000Dwm-2r;
+	Thu, 23 Mar 2023 04:21:07 +0000
+Date: Thu, 23 Mar 2023 12:20:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: eric_sage@apple.com, netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, fw@strlen.de, kadlec@netfilter.org,
-	pablo@netfilter.org, Eric Sage <eric_sage@apple.com>
-Subject: Re: [PATCH] netfilter: nfnetlink_queue: enable classid socket info
- retrieval
-Message-ID: <202303231155.PNtozlaS-lkp@intel.com>
-References: <20230322223329.48949-1-eric_sage@apple.com>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Subject: [sverdlin:ep93xx-snd-wip 15/48] drivers/clk/clk-ep93xx.c:152:9:
+ error: implicit declaration of function 'ep93xx_syscon_swlocked_write'
+Message-ID: <202303231215.pmA71zkc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,141 +46,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322223329.48949-1-eric_sage@apple.com>
 
-Hi,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on horms-ipvs/master]
-[also build test ERROR on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/eric_sage-apple-com/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230323-073405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20230322223329.48949-1-eric_sage%40apple.com
-patch subject: [PATCH] netfilter: nfnetlink_queue: enable classid socket info retrieval
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230323/202303231155.PNtozlaS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/sverdlin/linux ep93xx-snd-wip
+head:   ba6048c19f4e119e9d76024c66e205a7f6750063
+commit: 2fc38e2eeec106344c52265d8102c44aad273379 [15/48] clk: ep93xx: add DT support for Cirrus EP93xx
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303231215.pmA71zkc-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/c28410a18b276a059551ce4ffad5d3721ea8cbf5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review eric_sage-apple-com/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230323-073405
-        git checkout c28410a18b276a059551ce4ffad5d3721ea8cbf5
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/sverdlin/linux/commit/2fc38e2eeec106344c52265d8102c44aad273379
+        git remote add sverdlin https://github.com/sverdlin/linux
+        git fetch --no-tags sverdlin ep93xx-snd-wip
+        git checkout 2fc38e2eeec106344c52265d8102c44aad273379
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/netfilter/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/clk/ drivers/power/reset/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231155.PNtozlaS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303231215.pmA71zkc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/spinlock.h:304,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
-   net/netfilter/nfnetlink_queue.c: In function 'nfqnl_put_sk_classid':
->> net/netfilter/nfnetlink_queue.c:311:24: error: incompatible type for argument 1 of '_raw_read_lock_bh'
-     311 |         read_lock_bh(sk->sk_callback_lock);
-         |                      ~~^~~~~~~~~~~~~~~~~~
-         |                        |
-         |                        rwlock_t
-   include/linux/rwlock.h:93:59: note: in definition of macro 'read_lock_bh'
-      93 | #define read_lock_bh(lock)              _raw_read_lock_bh(lock)
-         |                                                           ^~~~
-   In file included from include/linux/spinlock_api_smp.h:183,
-                    from include/linux/spinlock.h:311,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
-   include/linux/rwlock_api_smp.h:21:45: note: expected 'rwlock_t *' but argument is of type 'rwlock_t'
-      21 | void __lockfunc _raw_read_lock_bh(rwlock_t *lock)       __acquires(lock);
-         |                                   ~~~~~~~~~~^~~~
->> net/netfilter/nfnetlink_queue.c:312:30: error: 'entskb' undeclared (first use in this function)
-     312 |         sock_cgroup_classid(&entskb->sk->sk_cgrp_data);
-         |                              ^~~~~~
-   net/netfilter/nfnetlink_queue.c:312:30: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/spinlock.h:304,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
->> net/netfilter/nfnetlink_queue.c:315:26: error: incompatible type for argument 1 of '_raw_read_unlock_bh'
-     315 |         read_unlock_bh(sk->sk_callback_lock);
-         |                        ~~^~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          rwlock_t
-   include/linux/rwlock.h:106:61: note: in definition of macro 'read_unlock_bh'
-     106 | #define read_unlock_bh(lock)            _raw_read_unlock_bh(lock)
-         |                                                             ^~~~
-   In file included from include/linux/spinlock_api_smp.h:183,
-                    from include/linux/spinlock.h:311,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
-   include/linux/rwlock_api_smp.h:33:47: note: expected 'rwlock_t *' but argument is of type 'rwlock_t'
-      33 | void __lockfunc _raw_read_unlock_bh(rwlock_t *lock)     __releases(lock);
-         |                                     ~~~~~~~~~~^~~~
-   In file included from include/linux/spinlock.h:304,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
-   net/netfilter/nfnetlink_queue.c:319:26: error: incompatible type for argument 1 of '_raw_read_unlock_bh'
-     319 |         read_unlock_bh(sk->sk_callback_lock);
-         |                        ~~^~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          rwlock_t
-   include/linux/rwlock.h:106:61: note: in definition of macro 'read_unlock_bh'
-     106 | #define read_unlock_bh(lock)            _raw_read_unlock_bh(lock)
-         |                                                             ^~~~
-   In file included from include/linux/spinlock_api_smp.h:183,
-                    from include/linux/spinlock.h:311,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/netfilter/nfnetlink_queue.c:16:
-   include/linux/rwlock_api_smp.h:33:47: note: expected 'rwlock_t *' but argument is of type 'rwlock_t'
-      33 | void __lockfunc _raw_read_unlock_bh(rwlock_t *lock)     __releases(lock);
-         |                                     ~~~~~~~~~~^~~~
+   drivers/clk/clk-ep93xx.c: In function 'ep93xx_clk_enable':
+>> drivers/clk/clk-ep93xx.c:152:9: error: implicit declaration of function 'ep93xx_syscon_swlocked_write' [-Werror=implicit-function-declaration]
+     152 |         ep93xx_syscon_swlocked_write(val, psc->reg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-ep93xx.c: In function 'ep93xx_ddiv_set_rate':
+   drivers/clk/clk-ep93xx.c:340:23: warning: variable 'best_rate' set but not used [-Wunused-but-set-variable]
+     340 |         unsigned long best_rate = 0, actual_rate, mclk_rate, rate_err = -1;
+         |                       ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/_raw_read_lock_bh +311 net/netfilter/nfnetlink_queue.c
+vim +/ep93xx_syscon_swlocked_write +152 drivers/clk/clk-ep93xx.c
 
-   303	
-   304	static int nfqnl_put_sk_classid(struct sk_buff *skb, struct sock *sk)
-   305	{
-   306		u32 classid;
-   307	
-   308		if (!sk_fullsock(sk))
-   309			return 0;
-   310	
- > 311		read_lock_bh(sk->sk_callback_lock);
- > 312		sock_cgroup_classid(&entskb->sk->sk_cgrp_data);
-   313		if (nla_put_be32(skb, NFQA_CLASSID, htonl(classid)))
-   314			goto nla_put_failure;
- > 315		read_unlock_bh(sk->sk_callback_lock);
-   316		return 0;
-   317	
-   318	nla_put_failure:
-   319		read_unlock_bh(sk->sk_callback_lock);
-   320		return -1;
-   321	}
-   322	
+   139	
+   140	static int ep93xx_clk_enable(struct clk_hw *hw)
+   141	{
+   142		struct clk_psc *psc = to_clk_psc(hw);
+   143		unsigned long flags = 0;
+   144		u32 val;
+   145	
+   146		if (psc->lock)
+   147			spin_lock_irqsave(psc->lock, flags);
+   148	
+   149		ep93xx_regmap_read(psc->reg, &val);
+   150		val |= BIT(psc->bit_idx);
+   151	
+ > 152		ep93xx_syscon_swlocked_write(val, psc->reg);
+   153	
+   154		if (psc->lock)
+   155			spin_unlock_irqrestore(psc->lock, flags);
+   156	
+   157		return 0;
+   158	}
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
