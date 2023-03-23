@@ -1,49 +1,47 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F492BA54;
-	Thu, 23 Mar 2023 18:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AB6BA54
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 18:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679594621; x=1711130621;
+  t=1679595221; x=1711131221;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=P5vLr1EmL8h7eHQhc8i127T9nq9qHp50s3VJKwH/T58=;
-  b=UegksNFIHQQ3PbvGUGfYL61A3HyzL6mbWnVMt4MvyAbY8xmt8idu9xkS
-   4MOqFpBDU9NJHbT1k2oHY1NO1q6DB9txUt8iLj+Xr1Q6zfGJsWZ/qx9Vk
-   y7AzAYiV2ww3MLGYshmTOR4Yku8vI/RYZO5ZrPm3IxLSWYk7fxDjF4kzw
-   v/Bdd+3sYvHGCoBHZTLUaHMfI9Nfhb4eTHnCWV2G45kmWA4YqMYbbJu2j
-   39GVbACXP5IL1JU7X1QobAxaiWM8bXOY9lDkLvwnpuX0Vy3N15w3MN6I9
-   CGCr/uwkmNMa1jfQH6q8INKJ4vAuKpKimQ0o6U0Uov74I2GgKhzhZ3kAb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402158143"
+  bh=CItIdhfWQzSLqxClwXxP9K65h4AwMiALZAMPIBdeqKQ=;
+  b=Di8YOgegGwVwZXe6uCG4j3xAscsSn3jwWzGMTCyVshy60WLww2MsRWHe
+   3lPpCIPYigQ4i8hwFvw0Pm94p+I/rb+fBbZ9o3LIAhU5jMK9gx36RyhVE
+   vM5T8VXcEZifx+8C0ufXi6huZWiy5RNDVkl4ML3LLTCDcEhUArKiua9B/
+   wiMwMx4Mp7BjdxW9/lx6X2TDwTl7PWcu2kgsS1T1ciWkuYMGIn2V2NTD+
+   JJ4IXwPnpIsdJqcB6GPmu3P6ei+PdCifqc426SCUc5n3KdPkRbt9NyXN/
+   9C9pw5gslAyHef93fP5FCnJWyr6iSXDFvGInZGH0YhO3jPhSZGlNxXIsi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402162370"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="402158143"
+   d="scan'208";a="402162370"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 11:03:40 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 11:13:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="714921162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="714924898"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="714921162"
+   d="scan'208";a="714924898"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2023 11:03:38 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2023 11:13:38 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfPHl-000EbM-1b;
-	Thu, 23 Mar 2023 18:03:37 +0000
-Date: Fri, 24 Mar 2023 02:02:56 +0800
+	id 1pfPRS-000Ebo-06;
+	Thu, 23 Mar 2023 18:13:38 +0000
+Date: Fri, 24 Mar 2023 02:13:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: Re: [PATCH 8/8] usb: gadget: uvc: implement s/g_parm
-Message-ID: <202303240129.Efnw3p6C-lkp@intel.com>
-References: <20230323-uvc-gadget-cleanup-v1-8-e41f0c5d9d8e@pengutronix.de>
+To: John Garry <john.g.garry@oracle.com>, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, dgilbert@interlog.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bvanassche@acm.org,
+	John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH v2 06/11] scsi: scsi_debug: Dynamically allocate
+ sdebug_queued_cmd
+Message-ID: <202303240216.2NoF5RCq-lkp@intel.com>
+References: <20230323094555.584624-7-john.g.garry@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,150 +50,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323-uvc-gadget-cleanup-v1-8-e41f0c5d9d8e@pengutronix.de>
+In-Reply-To: <20230323094555.584624-7-john.g.garry@oracle.com>
 
-Hi Michael,
+Hi John,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on 8be174835f07b2c106b9961c0775486d06112a3c]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on next-20230323]
+[cannot apply to jejb-scsi/for-next linus/master v6.3-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Tretter/usb-gadget-uvc-use-fourcc-printk-helper/20230323-194359
-base:   8be174835f07b2c106b9961c0775486d06112a3c
-patch link:    https://lore.kernel.org/r/20230323-uvc-gadget-cleanup-v1-8-e41f0c5d9d8e%40pengutronix.de
-patch subject: [PATCH 8/8] usb: gadget: uvc: implement s/g_parm
-config: hexagon-randconfig-r041-20230322 (https://download.01.org/0day-ci/archive/20230324/202303240129.Efnw3p6C-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/scsi-scsi_debug-Fix-check-for-sdev-queue-full/20230323-175305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230323094555.584624-7-john.g.garry%40oracle.com
+patch subject: [PATCH v2 06/11] scsi: scsi_debug: Dynamically allocate sdebug_queued_cmd
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230324/202303240216.2NoF5RCq-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f6fdbbf392bbaa79e8553af32337c54a663760db
+        # https://github.com/intel-lab-lkp/linux/commit/be81e49de2c71f280dd3eac902d05afcb1061d12
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Michael-Tretter/usb-gadget-uvc-use-fourcc-printk-helper/20230323-194359
-        git checkout f6fdbbf392bbaa79e8553af32337c54a663760db
+        git fetch --no-tags linux-review John-Garry/scsi-scsi_debug-Fix-check-for-sdev-queue-full/20230323-175305
+        git checkout be81e49de2c71f280dd3eac902d05afcb1061d12
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/usb/gadget/function/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303240129.Efnw3p6C-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240216.2NoF5RCq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/usb/gadget/function/uvc_v4l2.c:24:
-   In file included from drivers/usb/gadget/function/uvc.h:15:
-   In file included from include/linux/usb/composite.h:27:
-   In file included from include/linux/usb/gadget.h:24:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/usb/gadget/function/uvc_v4l2.c:24:
-   In file included from drivers/usb/gadget/function/uvc.h:15:
-   In file included from include/linux/usb/composite.h:27:
-   In file included from include/linux/usb/gadget.h:24:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/usb/gadget/function/uvc_v4l2.c:24:
-   In file included from drivers/usb/gadget/function/uvc.h:15:
-   In file included from include/linux/usb/composite.h:27:
-   In file included from include/linux/usb/gadget.h:24:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/usb/gadget/function/uvc_v4l2.c:289:2: warning: comparison of distinct pointer types ('typeof ((interval)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-           do_div(interval, timeperframe->denominator);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-           (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-                  ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/usb/gadget/function/uvc_v4l2.c:289:2: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-           do_div(interval, timeperframe->denominator);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-                   __rem = __div64_32(&(n), __base);       \
-                                      ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-   extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-                                        ^
->> drivers/usb/gadget/function/uvc_v4l2.c:289:2: warning: shift count >= width of type [-Wshift-count-overflow]
-           do_div(interval, timeperframe->denominator);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                                  ^  ~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   8 warnings and 1 error generated.
+>> drivers/scsi/scsi_debug.c:5579:27: warning: no previous prototype for 'sdebug_alloc_queued_cmd' [-Wmissing-prototypes]
+    5579 | struct sdebug_queued_cmd *sdebug_alloc_queued_cmd(struct scsi_cmnd *scmd)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +289 drivers/usb/gadget/function/uvc_v4l2.c
+vim +/sdebug_alloc_queued_cmd +5579 drivers/scsi/scsi_debug.c
 
-   265	
-   266	static void find_closest_timeperframe(struct uvc_device *uvc,
-   267					      struct v4l2_fract *timeperframe)
-   268	{
-   269		struct uvc_video *video = &uvc->video;
-   270		struct uvcg_format *uformat;
-   271		struct uvcg_frame *uframe;
-   272		unsigned long interval;
-   273		unsigned int best_interval;
-   274		unsigned int curr;
-   275		unsigned int dist;
-   276		unsigned int best_dist = UINT_MAX;
-   277		int i;
-   278	
-   279		if (timeperframe->denominator == 0)
-   280			timeperframe->denominator = video->timeperframe.denominator;
-   281		if (timeperframe->numerator == 0)
-   282			timeperframe->numerator = video->timeperframe.numerator;
-   283	
-   284		uformat = find_format_by_pix(uvc, video->fcc);
-   285		uframe = find_closest_frame_by_size(uvc, uformat,
-   286						    video->width, video->height);
-   287	
-   288		interval = timeperframe->numerator * 10000000;
- > 289		do_div(interval, timeperframe->denominator);
-   290	
-   291		for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
-   292			curr = uframe->dw_frame_interval[i];
-   293			dist = interval > curr ? interval - curr : curr - interval;
-   294			if (dist < best_dist) {
-   295				best_dist = dist;
-   296				best_interval = curr;
-   297			}
-   298		}
-   299	
-   300		timeperframe->numerator = best_interval;
-   301		timeperframe->denominator = 10000000;
-   302		v4l2_simplify_fraction(&timeperframe->numerator,
-   303				       &timeperframe->denominator, 8, 333);
-   304	}
-   305	
+  5578	
+> 5579	struct sdebug_queued_cmd *sdebug_alloc_queued_cmd(struct scsi_cmnd *scmd)
+  5580	{
+  5581		struct sdebug_queued_cmd *sqcp = kmem_cache_zalloc(queued_cmd_cache, GFP_ATOMIC);
+  5582		struct sdebug_defer *sd_dp;
+  5583	
+  5584		if (!sqcp)
+  5585			return NULL;
+  5586	
+  5587		sd_dp = &sqcp->sd_dp;
+  5588	
+  5589		hrtimer_init(&sd_dp->hrt, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
+  5590		sd_dp->hrt.function = sdebug_q_cmd_hrt_complete;
+  5591		INIT_WORK(&sd_dp->ew.work, sdebug_q_cmd_wq_complete);
+  5592	
+  5593		sqcp->scmd = scmd;
+  5594		sd_dp->sqa_idx = -1;
+  5595	
+  5596		return sqcp;
+  5597	}
+  5598	
 
 -- 
 0-DAY CI Kernel Test Service
