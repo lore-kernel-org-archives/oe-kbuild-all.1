@@ -1,45 +1,51 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC332BA53
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Mar 2023 23:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FB219C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 00:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679529243; x=1711065243;
+  t=1679531705; x=1711067705;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xoAgyqqu49oMWpZueFWuEj/HoO1dMC7XQtg6BYrQs0M=;
-  b=I+tOxSNtOaw9lHUwRs7KUTxfFoEohMf59dfmBiv6oVPFR5nwJUpV6FD/
-   sMpNvQ1qySp7OMc0t+38h/80tBDlO599HqzB3c+1Xm6ocElhxhkdq9bvy
-   0kuBBTWUNAxnMrv+JXWsSrxP7WCw0b/VvMDqW8WxiSlI3/UmMDn+XcIM7
-   99HzkCvS/6tjLj6TLxZAUoqk0jS2+KM6NmVXjWRzxyRNTyd7VGEioNWBS
-   XaTfqCcFJGcSbi1+OrZDfGeXnUFQfMT7sU+ETAIFjqRePrnL/0Gz8VgE3
-   nw3ULqtGNDXra+pL8UVwyY7LyvPOvdEDSsdIUoUUEE3uVVkJxQXNaEYhW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341719307"
+  bh=Wp4vyR2Y2dOx4yjIT2WaC+9FkZoxRrFcxxrBaYARJOI=;
+  b=RjHDcvOyuYC60laji9YoVk4gML/oUoaArp5iEEM/IiNvvK9kav+4WbHF
+   b3EE7ps51t6U356XwwAjZx0fnlJ0BSMWKShpBdP48RVOv0QVRXOSpOmtE
+   YLSQRKaYHMFz5zxJ/ZvNsXgXUG9qJRkqC+dDTZ9UbbpirBoxSuuIjr/JF
+   JeQk73kQV8CBJ2McRXBBN4iPFWDL9EmyFcvUKk3/dlX+BU2vPUiVuYwqq
+   1eNQKeiqO2Q8ZHx5o+jdHoXRPcsuRjyzyhhYhKO33KMenu0lq737HUyBO
+   dtbhqd3Etf518A0I6vLpBN3iszSzJy96CP0OcCc6D/JKsw5Jwkaj24LCg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319756230"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="341719307"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 16:54:03 -0700
+   d="scan'208";a="319756230"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 17:35:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682111188"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="928031581"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="682111188"
+   d="scan'208";a="928031581"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 16:54:01 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 22 Mar 2023 17:35:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf8HI-000DlE-2K;
-	Wed, 22 Mar 2023 23:54:00 +0000
-Date: Thu, 23 Mar 2023 07:53:41 +0800
+	id 1pf8uz-000Dma-2A;
+	Thu, 23 Mar 2023 00:35:01 +0000
+Date: Thu, 23 Mar 2023 08:34:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shannon Nelson <shannon.nelson@amd.com>, brett.creeley@amd.com,
-	davem@davemloft.net, netdev@vger.kernel.org, kuba@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, drivers@pensando.io, leon@kernel.org,
-	jiri@resnulli.us
-Subject: Re: [PATCH v5 net-next 02/14] pds_core: add devcmd device interfaces
-Message-ID: <202303230742.pX3ply0t-lkp@intel.com>
-References: <20230322185626.38758-3-shannon.nelson@amd.com>
+To: Jianhua Lu <lujianhua000@gmail.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	Jianhua Lu <lujianhua000@gmail.com>
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: sm8250-xiaomi-elish-boe: Add
+ Xiaomi Mi Pad 5 Pro BOE variant
+Message-ID: <202303230827.w5y3UTfE-lkp@intel.com>
+References: <20230322150320.31787-3-lujianhua000@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +54,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322185626.38758-3-shannon.nelson@amd.com>
+In-Reply-To: <20230322150320.31787-3-lujianhua000@gmail.com>
 
-Hi Shannon,
+Hi Jianhua,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shannon-Nelson/pds_core-initial-framework-for-pds_core-PF-driver/20230323-030131
-patch link:    https://lore.kernel.org/r/20230322185626.38758-3-shannon.nelson%40amd.com
-patch subject: [PATCH v5 net-next 02/14] pds_core: add devcmd device interfaces
-reproduce:
-        make versioncheck
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianhua-Lu/arm64-dts-qcom-sm8250-xiaomi-elish-add-mdss-and-dsi-node/20230322-230551
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230322150320.31787-3-lujianhua000%40gmail.com
+patch subject: [PATCH 3/4] arm64: dts: qcom: sm8250-xiaomi-elish-boe: Add Xiaomi Mi Pad 5 Pro BOE variant
+config: arm64-randconfig-r011-20230322 (https://download.01.org/0day-ci/archive/20230323/202303230827.w5y3UTfE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/14b429402cdaeb77734646a64f00653841d703a7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jianhua-Lu/arm64-dts-qcom-sm8250-xiaomi-elish-add-mdss-and-dsi-node/20230322-230551
+        git checkout 14b429402cdaeb77734646a64f00653841d703a7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230742.pX3ply0t-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230827.w5y3UTfE-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/net/ethernet/amd/pds_core/dev.c: 4 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:516.14-15 syntax error
+   FATAL ERROR: Unable to parse input tree
 
 -- 
 0-DAY CI Kernel Test Service
