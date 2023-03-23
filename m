@@ -1,43 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D62C959
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 20:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD66C959
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 20:16:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679602006; x=1711138006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4hb14gfdONh7Zsce1csru/7nyiSLnIGus5tdzM8+Drs=;
-  b=WhD9GsAFi3Wb56S2xQcHTDhjR6gwxJAL5bia4uzwHjPfMJzEd3+RU/vE
-   W51aEzoUy/7BMPrB4QFqBQhBj2kpEAbHgj6yFMeC99xUlKucTqtEnMsfs
-   3md2vqiTrdzHwZjtV/EuqMB6RYFKMg7ZuweaZOT7WIxodaHTz9vmuzvL7
-   5ujyQRsBLRytpHOfTYoYTtOvZYnIxn2yq2RDGep74xsX85ymtKAiZsC+Y
-   hz9MAkB3HC8gttez+Fjd0sGFxAEX/R1WuAbmTtnQcmGKq8rFGccNKe+5N
-   mOn+z3S1YeyrletgqZlRKOPQ7gDliotUsSfziBZ042fMk+dfSe5NeCL25
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="323472280"
+  t=1679602606; x=1711138606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2uDqmEwaU5mjJXXcalFZYkVQ7mXckIPLaYooLwrSK1w=;
+  b=ibLFkYZCF6wODxUIEuOmcdVaSSky0Rj1ir/rPhBK62j+E6mbrb/UiNkt
+   wwNkVNUqJ+8TU6RMKmDvf+Wu5sSXKGAvS4YypE1h7pMLCAeCO7KFBCpJ3
+   xhva07fWoqA3JDuURQywiHALBgKEUwUs2W9Z31bBQMXyinc9BpBxKEm4o
+   iE//VLbOyBjfW26fRFk0ZKVSX9iwLOQldcqFTgPbh7PrijaRM5JYP+v3q
+   Ez1KWdKyaCRWr/fdNGKVpuWfV2daDU6kAdgLnlgQ/lJTiomLY1FovTDQ2
+   PxvTFEVWgrcPaZchOUCCVtipDl51pQtwcmqRi5lN1YIctaW83IQohWLNP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402193458"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="323472280"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 13:06:44 -0700
+   d="scan'208";a="402193458"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 13:16:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="684885255"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="751634785"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="684885255"
+   d="scan'208";a="751634785"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Mar 2023 13:06:41 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2023 13:16:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfRCq-000EfQ-2X;
-	Thu, 23 Mar 2023 20:06:40 +0000
-Date: Fri, 24 Mar 2023 04:05:52 +0800
+	id 1pfRMX-000Eg2-2W;
+	Thu, 23 Mar 2023 20:16:41 +0000
+Date: Fri, 24 Mar 2023 04:16:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-4.19 3/3] mm/page-writeback.c:2014:6: error:
- redefinition of 'laptop_sync_completion'
-Message-ID: <202303240453.bWh9SpNP-lkp@intel.com>
+To: Jason Yan <yanaijie@huawei.com>, tytso@mit.edu,
+	adilger.kernel@dilger.ca, jack@suse.cz, ritesh.list@gmail.com,
+	lczerner@redhat.com, linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH 4/8] ext4: factor out ext4_flex_groups_free()
+Message-ID: <202303240449.6Cg6YXJO-lkp@intel.com>
+References: <20230323140517.1070239-5-yanaijie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +48,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230323140517.1070239-5-yanaijie@huawei.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-4.19
-head:   1d6b56c1dc594e32afe4d3243532404a26e13b69
-commit: 1d6b56c1dc594e32afe4d3243532404a26e13b69 [3/3] BACKPORT: mm: hide laptop_mode_wb_timer entirely behind the BDI API
-config: arc-randconfig-r043-20230322 (https://download.01.org/0day-ci/archive/20230324/202303240453.bWh9SpNP-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+Hi Jason,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on linus/master v6.3-rc3 next-20230323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Yan/ext4-factor-out-ext4_hash_info_init/20230323-221039
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230323140517.1070239-5-yanaijie%40huawei.com
+patch subject: [PATCH 4/8] ext4: factor out ext4_flex_groups_free()
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230324/202303240449.6Cg6YXJO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-4.19
-        git checkout 1d6b56c1dc594e32afe4d3243532404a26e13b69
+        # https://github.com/intel-lab-lkp/linux/commit/883a78e3cabf802d7a0e1487f65bf49b4a4e60fb
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jason-Yan/ext4-factor-out-ext4_hash_info_init/20230323-221039
+        git checkout 883a78e3cabf802d7a0e1487f65bf49b4a4e60fb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ext4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303240453.bWh9SpNP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240449.6Cg6YXJO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/page-writeback.c:1991:6: warning: no previous prototype for 'laptop_mode_timer_fn' [-Wmissing-prototypes]
-    1991 | void laptop_mode_timer_fn(struct timer_list *t)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> mm/page-writeback.c:2004:6: warning: no previous prototype for 'laptop_io_completion' [-Wmissing-prototypes]
-    2004 | void laptop_io_completion(struct backing_dev_info *info)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> mm/page-writeback.c:2014:6: error: redefinition of 'laptop_sync_completion'
-    2014 | void laptop_sync_completion(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/memcontrol.h:31,
-                    from include/linux/swap.h:9,
-                    from mm/page-writeback.c:19:
-   include/linux/writeback.h:313:20: note: previous definition of 'laptop_sync_completion' with type 'void(void)'
-     313 | static inline void laptop_sync_completion(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/perf_event.h:25,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:85,
-                    from mm/page-writeback.c:33:
-   arch/arc/include/asm/perf_event.h:130:23: warning: 'arc_pmu_cache_map' defined but not used [-Wunused-const-variable=]
-     130 | static const unsigned arc_pmu_cache_map[C(MAX)][C(OP_MAX)][C(RESULT_MAX)] = {
-         |                       ^~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/perf_event.h:95:27: warning: 'arc_pmu_ev_hw_map' defined but not used [-Wunused-const-variable=]
-      95 | static const char * const arc_pmu_ev_hw_map[] = {
-         |                           ^~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/fs.h:23,
-                    from include/linux/backing-dev.h:13,
-                    from mm/backing-dev.c:3:
-   mm/backing-dev.c: In function 'bdi_alloc_node':
->> mm/backing-dev.c:872:49: error: 'laptop_mode_timer_fn' undeclared (first use in this function)
-     872 |         timer_setup(&bdi->laptop_mode_wb_timer, laptop_mode_timer_fn, 0);
-         |                                                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/timer.h:103:43: note: in definition of macro '__init_timer'
-     103 |                 init_timer_key((_timer), (_fn), (_flags), #_timer, &__key);\
-         |                                           ^~~
-   mm/backing-dev.c:872:9: note: in expansion of macro 'timer_setup'
-     872 |         timer_setup(&bdi->laptop_mode_wb_timer, laptop_mode_timer_fn, 0);
-         |         ^~~~~~~~~~~
-   mm/backing-dev.c:872:49: note: each undeclared identifier is reported only once for each function it appears in
-     872 |         timer_setup(&bdi->laptop_mode_wb_timer, laptop_mode_timer_fn, 0);
-         |                                                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/timer.h:103:43: note: in definition of macro '__init_timer'
-     103 |                 init_timer_key((_timer), (_fn), (_flags), #_timer, &__key);\
-         |                                           ^~~
-   mm/backing-dev.c:872:9: note: in expansion of macro 'timer_setup'
-     872 |         timer_setup(&bdi->laptop_mode_wb_timer, laptop_mode_timer_fn, 0);
-         |         ^~~~~~~~~~~
+   fs/ext4/super.c: In function 'ext4_put_super':
+>> fs/ext4/super.c:1262:13: warning: unused variable 'i' [-Wunused-variable]
+    1262 |         int i, err;
+         |             ^
+   fs/ext4/super.c: In function '__ext4_fill_super':
+   fs/ext4/super.c:5104:22: warning: unused variable 'i' [-Wunused-variable]
+    5104 |         unsigned int i;
+         |                      ^
 
 
-vim +/laptop_sync_completion +2014 mm/page-writeback.c
+vim +/i +1262 fs/ext4/super.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1990  
-bca237a52ca003 Kees Cook       2017-08-28 @1991  void laptop_mode_timer_fn(struct timer_list *t)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1992  {
-bca237a52ca003 Kees Cook       2017-08-28  1993  	struct backing_dev_info *backing_dev_info =
-bca237a52ca003 Kees Cook       2017-08-28  1994  		from_timer(backing_dev_info, t, laptop_mode_wb_timer);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1995  
-bca237a52ca003 Kees Cook       2017-08-28  1996  	wakeup_flusher_threads_bdi(backing_dev_info, WB_REASON_LAPTOP_TIMER);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1997  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1998  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1999  /*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2000   * We've spun up the disk and we're in laptop mode: schedule writeback
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2001   * of all dirty data a few seconds from now.  If the flush is already scheduled
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2002   * then push it back - the user is still using the disk.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2003   */
-31373d09da5b7f Matthew Garrett 2010-04-06 @2004  void laptop_io_completion(struct backing_dev_info *info)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2005  {
-31373d09da5b7f Matthew Garrett 2010-04-06  2006  	mod_timer(&info->laptop_mode_wb_timer, jiffies + laptop_mode);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2007  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2008  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2009  /*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2010   * We're in laptop mode and we've just synced. The sync's writes will have
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2011   * caused another writeback to be scheduled by laptop_io_completion.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2012   * Nothing needs to be written back anymore, so we unschedule the writeback.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2013   */
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @2014  void laptop_sync_completion(void)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2015  {
-31373d09da5b7f Matthew Garrett 2010-04-06  2016  	struct backing_dev_info *bdi;
-31373d09da5b7f Matthew Garrett 2010-04-06  2017  
-31373d09da5b7f Matthew Garrett 2010-04-06  2018  	rcu_read_lock();
-31373d09da5b7f Matthew Garrett 2010-04-06  2019  
-31373d09da5b7f Matthew Garrett 2010-04-06  2020  	list_for_each_entry_rcu(bdi, &bdi_list, bdi_list)
-31373d09da5b7f Matthew Garrett 2010-04-06  2021  		del_timer(&bdi->laptop_mode_wb_timer);
-31373d09da5b7f Matthew Garrett 2010-04-06  2022  
-31373d09da5b7f Matthew Garrett 2010-04-06  2023  	rcu_read_unlock();
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2024  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2025  
-
-:::::: The code at line 2014 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+883a78e3cabf80 Jason Yan               2023-03-23  1256  
+617ba13b31fbf5 Mingming Cao            2006-10-11  1257  static void ext4_put_super(struct super_block *sb)
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1258  {
+617ba13b31fbf5 Mingming Cao            2006-10-11  1259  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+617ba13b31fbf5 Mingming Cao            2006-10-11  1260  	struct ext4_super_block *es = sbi->s_es;
+97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1261  	int aborted = 0;
+ef2cabf7c6d838 Hidehiro Kawai          2008-10-27 @1262  	int i, err;
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1263  
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1264  	/*
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1265  	 * Unregister sysfs before destroying jbd2 journal.
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1266  	 * Since we could still access attr_journal_task attribute via sysfs
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1267  	 * path which could have sbi->s_journal->j_task as NULL
+b98535d091795a Ye Bin                  2022-03-22  1268  	 * Unregister sysfs before flush sbi->s_error_work.
+b98535d091795a Ye Bin                  2022-03-22  1269  	 * Since user may read /proc/fs/ext4/xx/mb_groups during umount, If
+b98535d091795a Ye Bin                  2022-03-22  1270  	 * read metadata verify failed then will queue error work.
+b98535d091795a Ye Bin                  2022-03-22  1271  	 * flush_stashed_error_work will call start_this_handle may trigger
+b98535d091795a Ye Bin                  2022-03-22  1272  	 * BUG_ON.
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1273  	 */
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1274  	ext4_unregister_sysfs(sb);
+5e47868fb94b63 Ritesh Harjani          2020-03-18  1275  
+4808cb5b98b436 Zhang Yi                2022-04-12  1276  	if (___ratelimit(&ext4_mount_msg_ratelimit, "EXT4-fs unmount"))
+bb0fbc782ee9fa Lukas Czerner           2022-11-08  1277  		ext4_msg(sb, KERN_INFO, "unmounting filesystem %pU.",
+bb0fbc782ee9fa Lukas Czerner           2022-11-08  1278  			 &sb->s_uuid);
+4808cb5b98b436 Zhang Yi                2022-04-12  1279  
+b98535d091795a Ye Bin                  2022-03-22  1280  	ext4_unregister_li_request(sb);
+b98535d091795a Ye Bin                  2022-03-22  1281  	ext4_quota_off_umount(sb);
+b98535d091795a Ye Bin                  2022-03-22  1282  
+b98535d091795a Ye Bin                  2022-03-22  1283  	flush_work(&sbi->s_error_work);
+b98535d091795a Ye Bin                  2022-03-22  1284  	destroy_workqueue(sbi->rsv_conversion_wq);
+b98535d091795a Ye Bin                  2022-03-22  1285  	ext4_release_orphan_info(sb);
+b98535d091795a Ye Bin                  2022-03-22  1286  
+0390131ba84fd3 Frank Mayhar            2009-01-07  1287  	if (sbi->s_journal) {
+97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1288  		aborted = is_journal_aborted(sbi->s_journal);
+ef2cabf7c6d838 Hidehiro Kawai          2008-10-27  1289  		err = jbd2_journal_destroy(sbi->s_journal);
+47b4a50bebfd34 Jan Kara                2008-07-11  1290  		sbi->s_journal = NULL;
+878520ac45f9f6 Theodore Ts'o           2019-11-19  1291  		if ((err < 0) && !aborted) {
+54d3adbc29f0c7 Theodore Ts'o           2020-03-28  1292  			ext4_abort(sb, -err, "Couldn't clean up the journal");
+0390131ba84fd3 Frank Mayhar            2009-01-07  1293  		}
+878520ac45f9f6 Theodore Ts'o           2019-11-19  1294  	}
+d4edac314e9ad0 Josef Bacik             2009-12-08  1295  
+d3922a777f9b4c Zheng Liu               2013-07-01  1296  	ext4_es_unregister_shrinker(sbi);
+292a089d78d3e2 Steven Rostedt (Google  2022-12-20  1297) 	timer_shutdown_sync(&sbi->s_err_report);
+d4edac314e9ad0 Josef Bacik             2009-12-08  1298  	ext4_release_system_zone(sb);
+d4edac314e9ad0 Josef Bacik             2009-12-08  1299  	ext4_mb_release(sb);
+d4edac314e9ad0 Josef Bacik             2009-12-08  1300  	ext4_ext_release(sb);
+d4edac314e9ad0 Josef Bacik             2009-12-08  1301  
+bc98a42c1f7d0f David Howells           2017-07-17  1302  	if (!sb_rdonly(sb) && !aborted) {
+e2b911c53584a9 Darrick J. Wong         2015-10-17  1303  		ext4_clear_feature_journal_needs_recovery(sb);
+02f310fcf47fa9 Jan Kara                2021-08-16  1304  		ext4_clear_feature_orphan_present(sb);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1305  		es->s_state = cpu_to_le16(sbi->s_mount_state);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1306  	}
+bc98a42c1f7d0f David Howells           2017-07-17  1307  	if (!sb_rdonly(sb))
+4392fbc4bab57d Jan Kara                2020-12-16  1308  		ext4_commit_super(sb);
+a8e25a83245618 Artem Bityutskiy        2012-03-21  1309  
+d7cdc05df16e78 Jason Yan               2023-03-23  1310  	ext4_group_desc_free(sbi);
+883a78e3cabf80 Jason Yan               2023-03-23  1311  	ext4_flex_groups_free(sbi);
+57df61a7d6477e Jason Yan               2023-03-23  1312  	ext4_percpu_param_destroy(sbi);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1313  #ifdef CONFIG_QUOTA
+a2d4a646e61954 Jan Kara                2014-09-11  1314  	for (i = 0; i < EXT4_MAXQUOTAS; i++)
+33458eaba4dfe7 Theodore Ts'o           2018-10-12  1315  		kfree(get_qf_name(sb, sbi, i));
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1316  #endif
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1317  
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1318  	/* Debugging code just in case the in-memory inode orphan list
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1319  	 * isn't empty.  The on-disk one can be non-empty if we've
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1320  	 * detected an error and taken the fs readonly, but the
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1321  	 * in-memory list had better be clean by this point. */
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1322  	if (!list_empty(&sbi->s_orphan))
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1323  		dump_orphan_list(sb, sbi);
+837c23fbc1b812 Chunguang Xu            2020-11-07  1324  	ASSERT(list_empty(&sbi->s_orphan));
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1325  
+89d96a6f8e6491 Theodore Ts'o           2015-06-20  1326  	sync_blockdev(sb->s_bdev);
+f98393a64ca139 Peter Zijlstra          2007-05-06  1327  	invalidate_bdev(sb->s_bdev);
+ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1328  	if (sbi->s_journal_bdev && sbi->s_journal_bdev != sb->s_bdev) {
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1329  		/*
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1330  		 * Invalidate the journal device's buffers.  We don't want them
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1331  		 * floating about in memory - the physical journal device may
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1332  		 * hotswapped, and it breaks the `ro-after' testing code.
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1333  		 */
+ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1334  		sync_blockdev(sbi->s_journal_bdev);
+ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1335  		invalidate_bdev(sbi->s_journal_bdev);
+617ba13b31fbf5 Mingming Cao            2006-10-11  1336  		ext4_blkdev_remove(sbi);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1337  	}
+50c15df69e062b Chengguang Xu           2018-12-04  1338  
+dec214d00e0d78 Tahsin Erdogan          2017-06-22  1339  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
+dec214d00e0d78 Tahsin Erdogan          2017-06-22  1340  	sbi->s_ea_inode_cache = NULL;
+50c15df69e062b Chengguang Xu           2018-12-04  1341  
+47387409ee2e09 Tahsin Erdogan          2017-06-22  1342  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
+47387409ee2e09 Tahsin Erdogan          2017-06-22  1343  	sbi->s_ea_block_cache = NULL;
+50c15df69e062b Chengguang Xu           2018-12-04  1344  
+618f003199c618 Pavel Skripkin          2021-04-30  1345  	ext4_stop_mmpd(sbi);
+618f003199c618 Pavel Skripkin          2021-04-30  1346  
+9060dd2c5036b1 Eric Sandeen            2016-11-26  1347  	brelse(sbi->s_sbh);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1348  	sb->s_fs_info = NULL;
+3197ebdb130473 Theodore Ts'o           2009-03-31  1349  	/*
+3197ebdb130473 Theodore Ts'o           2009-03-31  1350  	 * Now that we are completely done shutting down the
+3197ebdb130473 Theodore Ts'o           2009-03-31  1351  	 * superblock, we need to actually destroy the kobject.
+3197ebdb130473 Theodore Ts'o           2009-03-31  1352  	 */
+3197ebdb130473 Theodore Ts'o           2009-03-31  1353  	kobject_put(&sbi->s_kobj);
+3197ebdb130473 Theodore Ts'o           2009-03-31  1354  	wait_for_completion(&sbi->s_kobj_unregister);
+0441984a339897 Darrick J. Wong         2012-04-29  1355  	if (sbi->s_chksum_driver)
+0441984a339897 Darrick J. Wong         2012-04-29  1356  		crypto_free_shash(sbi->s_chksum_driver);
+705895b61133ef Pekka Enberg            2009-02-15  1357  	kfree(sbi->s_blockgroup_lock);
+8012b866085523 Shiyang Ruan            2022-06-03  1358  	fs_put_dax(sbi->s_daxdev, NULL);
+ac4acb1f4b2b6b Eric Biggers            2020-09-16  1359  	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
+5298d4bfe80f6a Christoph Hellwig       2022-01-18  1360  #if IS_ENABLED(CONFIG_UNICODE)
+f8f4acb6cded4e Daniel Rosenberg        2020-10-28  1361  	utf8_unload(sb->s_encoding);
+c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  1362  #endif
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1363  	kfree(sbi);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1364  }
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  1365  
 
 -- 
 0-DAY CI Kernel Test Service
