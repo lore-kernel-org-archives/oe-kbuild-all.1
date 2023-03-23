@@ -1,47 +1,52 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AB6BA54
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 18:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2CD3C04
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 18:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679595221; x=1711131221;
+  t=1679596481; x=1711132481;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CItIdhfWQzSLqxClwXxP9K65h4AwMiALZAMPIBdeqKQ=;
-  b=Di8YOgegGwVwZXe6uCG4j3xAscsSn3jwWzGMTCyVshy60WLww2MsRWHe
-   3lPpCIPYigQ4i8hwFvw0Pm94p+I/rb+fBbZ9o3LIAhU5jMK9gx36RyhVE
-   vM5T8VXcEZifx+8C0ufXi6huZWiy5RNDVkl4ML3LLTCDcEhUArKiua9B/
-   wiMwMx4Mp7BjdxW9/lx6X2TDwTl7PWcu2kgsS1T1ciWkuYMGIn2V2NTD+
-   JJ4IXwPnpIsdJqcB6GPmu3P6ei+PdCifqc426SCUc5n3KdPkRbt9NyXN/
-   9C9pw5gslAyHef93fP5FCnJWyr6iSXDFvGInZGH0YhO3jPhSZGlNxXIsi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402162370"
+  bh=LGy7Q84BjzZMuq5uOO+dWdMwnplCocPGQbI8I2BPrDE=;
+  b=nHAb73eqIxa6keI2bPh4WXRMmdZCAkQbh/F5q80lQV/+wrgblhTKTJmP
+   yjNZvK5xHgaw7/olk8Nt9ykVXMtg6LEQR3AKQaWPh7IPtkfiDID7RZWgj
+   yrPQN2vykAcCtpcuuVQ+EtlrR9jDp6QTPWYwSVVNccuK4xYnd+hPbQcy8
+   65uemMBuNnjSKsZFdYF2qqy3cZJypw+liz+aP53zanOy4uYegAZ3jeQZm
+   9wUEAVWpDc6+52/IvlGS6Dx8l++tXHWASfzZXrP9XMjphuIRvKGjgX5G5
+   kT+W3I7b4nmpLt3KDbHryv8r2eeUIiz+QqVBbRxax00l75Pk4J1xI5D70
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="323448769"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="402162370"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 11:13:41 -0700
+   d="scan'208";a="323448769"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 11:34:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="714924898"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="712774241"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="714924898"
+   d="scan'208";a="712774241"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2023 11:13:38 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Mar 2023 11:34:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfPRS-000Ebo-06;
-	Thu, 23 Mar 2023 18:13:38 +0000
-Date: Fri, 24 Mar 2023 02:13:17 +0800
+	id 1pfPlm-000EcS-2D;
+	Thu, 23 Mar 2023 18:34:38 +0000
+Date: Fri, 24 Mar 2023 02:34:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Garry <john.g.garry@oracle.com>, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, dgilbert@interlog.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bvanassche@acm.org,
-	John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH v2 06/11] scsi: scsi_debug: Dynamically allocate
- sdebug_queued_cmd
-Message-ID: <202303240216.2NoF5RCq-lkp@intel.com>
-References: <20230323094555.584624-7-john.g.garry@oracle.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Jan =?utf-8?B?RMSFYnJvxZs=?= <jsd@semihalf.com>,
+	Grzegorz Bernacki <gjb@semihalf.com>,
+	Mark Hasemeyer <markhas@chromium.org>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] i2c: designware: Use PCI PSP driver for
+ communication
+Message-ID: <202303240224.PvBra327-lkp@intel.com>
+References: <20230322210227.464-4-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,71 +55,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323094555.584624-7-john.g.garry@oracle.com>
+In-Reply-To: <20230322210227.464-4-mario.limonciello@amd.com>
 
-Hi John,
+Hi Mario,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on next-20230323]
-[cannot apply to jejb-scsi/for-next linus/master v6.3-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on e6af5c0c4d32a27e04a56f29aad587e03ff427f1]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/scsi-scsi_debug-Fix-check-for-sdev-queue-full/20230323-175305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230323094555.584624-7-john.g.garry%40oracle.com
-patch subject: [PATCH v2 06/11] scsi: scsi_debug: Dynamically allocate sdebug_queued_cmd
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230324/202303240216.2NoF5RCq-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/crypto-ccp-Bump-up-doorbell-debug-messages-to-error/20230323-050710
+base:   e6af5c0c4d32a27e04a56f29aad587e03ff427f1
+patch link:    https://lore.kernel.org/r/20230322210227.464-4-mario.limonciello%40amd.com
+patch subject: [PATCH v6 3/4] i2c: designware: Use PCI PSP driver for communication
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230324/202303240224.PvBra327-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/be81e49de2c71f280dd3eac902d05afcb1061d12
+        # https://github.com/intel-lab-lkp/linux/commit/addff0f32acff3a5278cbbf6fffc9054ecb03e2f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review John-Garry/scsi-scsi_debug-Fix-check-for-sdev-queue-full/20230323-175305
-        git checkout be81e49de2c71f280dd3eac902d05afcb1061d12
+        git fetch --no-tags linux-review Mario-Limonciello/crypto-ccp-Bump-up-doorbell-debug-messages-to-error/20230323-050710
+        git checkout addff0f32acff3a5278cbbf6fffc9054ecb03e2f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/scsi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303240216.2NoF5RCq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240224.PvBra327-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/scsi_debug.c:5579:27: warning: no previous prototype for 'sdebug_alloc_queued_cmd' [-Wmissing-prototypes]
-    5579 | struct sdebug_queued_cmd *sdebug_alloc_queued_cmd(struct scsi_cmnd *scmd)
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/sdebug_alloc_queued_cmd +5579 drivers/scsi/scsi_debug.c
-
-  5578	
-> 5579	struct sdebug_queued_cmd *sdebug_alloc_queued_cmd(struct scsi_cmnd *scmd)
-  5580	{
-  5581		struct sdebug_queued_cmd *sqcp = kmem_cache_zalloc(queued_cmd_cache, GFP_ATOMIC);
-  5582		struct sdebug_defer *sd_dp;
-  5583	
-  5584		if (!sqcp)
-  5585			return NULL;
-  5586	
-  5587		sd_dp = &sqcp->sd_dp;
-  5588	
-  5589		hrtimer_init(&sd_dp->hrt, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED);
-  5590		sd_dp->hrt.function = sdebug_q_cmd_hrt_complete;
-  5591		INIT_WORK(&sd_dp->ew.work, sdebug_q_cmd_wq_complete);
-  5592	
-  5593		sqcp->scmd = scmd;
-  5594		sd_dp->sqa_idx = -1;
-  5595	
-  5596		return sqcp;
-  5597	}
-  5598	
+>> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/i2c/busses/i2c-designware-amdpsp.o: in function `psp_send_i2c_req':
+   i2c-designware-amdpsp.c:(.text+0xe0): undefined reference to `psp_send_platform_access_msg'
+   aarch64-linux-ld: i2c-designware-amdpsp.c:(.text+0x16c): undefined reference to `psp_send_platform_access_msg'
+   aarch64-linux-ld: drivers/i2c/busses/i2c-designware-amdpsp.o: in function `i2c_dw_amdpsp_probe_lock_support':
+   i2c-designware-amdpsp.c:(.text+0xad4): undefined reference to `psp_check_platform_access_status'
 
 -- 
 0-DAY CI Kernel Test Service
