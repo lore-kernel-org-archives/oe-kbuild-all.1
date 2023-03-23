@@ -1,42 +1,64 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736B2944E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 13:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0628944E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 13:53:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679579613; x=1711115613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R221u+h22HyuYT3ygACrgEsflSD/kOYs28PsSsxpwX0=;
-  b=A1eiQ1Py+iODFP/DLjjGyZk6PBIX2XgNqcucntQ5knAXsMVInYcYQ0JH
-   9F7AHWtwZk9t4M2Mi+IZLoTPNoK1DXEghlfdY3XO4kUQoqFBXIrDNTY8t
-   1yDbBZL11DNDx8tEJOhMXHe0LwcbytGsrk+u34SqGhok56dn+8++pA2nz
-   GxpViJSzkSeSP8rt0C7QD6URBXkpEhwfVuhaeWhM1eLIjcHWACHpeeVIe
-   qwn0uUJNMFXpNI5CDI1RKlaMRekFxlcOdBM/L55YRwxnIE8Bym4jfl4Q9
-   PUF+TOFUJhN3jrNbcFAM+jm8Vao4+aFmh3Xu19nnvaB9A93ZwHIDGAlDa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341043834"
+  t=1679579615; x=1711115615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BMnT2f9PT/iwzjkpsd4vT/8VCzv4VAo8CKM1oplFTtk=;
+  b=n+GcQtPM626CDq/bKWyV2tOKm7PCYgNrWNQDSKhb+CPPNIOpIPOrNtNJ
+   6Jughs88GnHGFHISMMsq/4QPkHDVhg3c7LWhtsvp6ZExSAhjADX7xqMA7
+   qoaPFeCttnZlZSiplIB53sjKdq0z00NybhWqXQRpBVb9lhPzMkMwX9Cy5
+   5WP6rXwNO6oOUOI3uXUPFZI8vNoR4qA9diPVerAPBh74VlYGo71q9kbYY
+   5dj5mqMn6sh8jNgaku51HSfSEENW1rNgSIRO6gHDsXRzd8e0Qr14QZWsL
+   fNMbP0imWE00n00aUI7XQE38ZwgM1uBWQc/Z+pUEXB2ktyhuHBJM9tefp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341043854"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="341043834"
+   d="scan'208";a="341043854"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:46:29 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:46:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="746717841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="746717842"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="746717841"
+   d="scan'208";a="746717842"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2023 06:46:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfLGt-000EPq-2h;
+	id 1pfLGt-000EPw-2r;
 	Thu, 23 Mar 2023 13:46:27 +0000
-Date: Thu, 23 Mar 2023 21:46:11 +0800
+Date: Thu, 23 Mar 2023 21:46:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 4/4] unwind_kunit.c:undefined reference to
- `kunit_try_catch_throw'
-Message-ID: <202303232114.23S5Iuk1-lkp@intel.com>
+To: Mike Rapoport <rppt@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Mike Rapoport <rppt@kernel.org>, Rich Felker <dalias@libc.org>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Zi Yan <ziy@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-ia64@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH 02/14] arm64: drop ranges in definition of
+ ARCH_FORCE_MAX_ORDER
+Message-ID: <202303232149.Chh6KhiI-lkp@intel.com>
+References: <20230323092156.2545741-3-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,154 +67,442 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230323092156.2545741-3-rppt@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   2aaad0e8b633791ba5d96e87bdf49cc05225d00a
-commit: 2aaad0e8b633791ba5d96e87bdf49cc05225d00a [4/4] WIP: add more unwind tests
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303232114.23S5Iuk1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Mike,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on 51551d71edbc998fd8c8afa7312db3d270f5998e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/arm-reword-ARCH_FORCE_MAX_ORDER-prompt-and-help-text/20230323-172512
+base:   51551d71edbc998fd8c8afa7312db3d270f5998e
+patch link:    https://lore.kernel.org/r/20230323092156.2545741-3-rppt%40kernel.org
+patch subject: [PATCH 02/14] arm64: drop ranges in definition of ARCH_FORCE_MAX_ORDER
+config: arm64-randconfig-r022-20230322 (https://download.01.org/0day-ci/archive/20230323/202303232149.Chh6KhiI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=2aaad0e8b633791ba5d96e87bdf49cc05225d00a
-        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
-        git fetch --no-tags mark stacktrace/tests
-        git checkout 2aaad0e8b633791ba5d96e87bdf49cc05225d00a
+        # https://github.com/intel-lab-lkp/linux/commit/0522f943c071abf1610651ea40405b7489c50987
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mike-Rapoport/arm-reword-ARCH_FORCE_MAX_ORDER-prompt-and-help-text/20230323-172512
+        git checkout 0522f943c071abf1610651ea40405b7489c50987
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/base/regmap/ drivers/iommu/ fs/proc/ mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303232114.23S5Iuk1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303232149.Chh6KhiI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_nounwind':
-   unwind_kunit.c:(.text+0x368): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x36c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x36c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x390): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_nounwind':
-   unwind_kunit.c:(.text+0x428): undefined reference to `kunit_binary_ptr_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x42c): undefined reference to `kunit_binary_ptr_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x42c): undefined reference to `kunit_binary_ptr_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x450): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `uwd_assert_callers_present':
-   unwind_kunit.c:(.text+0x6d0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x6d4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x6d4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x6f8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x720): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x724): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x724): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x748): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x770): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x774): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x774): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x798): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7ac): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7b0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7b0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7d4): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7e8): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7ec): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x7ec): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x810): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_exit_unwind_from_caller':
-   unwind_kunit.c:(.text+0x8c0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x8c4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x8c4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x8e8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_entry_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x978): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x97c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x97c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x9a0): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_entry_unwind_from_caller':
-   unwind_kunit.c:(.text+0xa30): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xa34): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xa34): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xa58): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_regs':
-   unwind_kunit.c:(.text+0xd60): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xd64): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xd64): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xd88): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_caller':
-   unwind_kunit.c:(.text+0xe14): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xe18): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xe18): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xe3c): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_nounwind':
-   unwind_kunit.c:(.text+0xec0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xec4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xec4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0xee8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L138':
-   unwind_kunit.c:(.text+0xf98): undefined reference to `kunit_kfree'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L133':
-   unwind_kunit.c:(.text+0xff8): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L137':
-   unwind_kunit.c:(.text+0x1040): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `uwd_test_init':
-   unwind_kunit.c:(.text+0x107c): undefined reference to `kunit_kmalloc_array'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_caller':
-   unwind_kunit.c:(.text+0x11d8): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x11dc): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x11dc): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1200): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_regs':
-   unwind_kunit.c:(.text+0x1290): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1294): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1294): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x12b8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_caller':
->> unwind_kunit.c:(.text+0x1344): undefined reference to `kunit_try_catch_throw'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x13cc): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_regs':
-   unwind_kunit.c:(.text+0x1448): undefined reference to `kunit_try_catch_throw'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x14d0): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x154c): undefined reference to `kunit_try_catch_throw'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x15d4): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1618): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_nounwind':
-   unwind_kunit.c:(.text+0x1690): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1694): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1694): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x16b8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_regs':
-   unwind_kunit.c:(.text+0x1850): undefined reference to `kunit_try_catch_throw'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x18d8): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_caller':
-   unwind_kunit.c:(.text+0x1954): undefined reference to `kunit_try_catch_throw'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x19dc): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x1d18): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x1d90): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1d94): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1d94): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1db8): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1e0c): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_exit_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x1e9c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1ea0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1ea0): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1ec4): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1f18): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x1fa8): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1fac): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1fac): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x1fd0): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x2024): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_caller_reliable':
-   unwind_kunit.c:(.text+0x20b0): undefined reference to `kunit_try_catch_throw'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x2138): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x217c): undefined reference to `kunit_log_append'
+   In file included from include/linux/kernel.h:25,
+                    from mm/mm_init.c:9:
+   mm/mm_init.c: In function 'find_zone_movable_pfns_for_nodes':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/math.h:61:25: note: in definition of macro 'roundup'
+      61 |         typeof(y) __y = y;                              \
+         |                         ^
+   mm/mm_init.c:429:55: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     429 |                         roundup(required_movablecore, MAX_ORDER_NR_PAGES);
+         |                                                       ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/math.h:61:25: note: in definition of macro 'roundup'
+      61 |         typeof(y) __y = y;                              \
+         |                         ^
+   mm/mm_init.c:540:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     540 |                         roundup(zone_movable_pfn[nid], MAX_ORDER_NR_PAGES);
+         |                                                        ^~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/debug.c:10:
+   mm/debug.c: In function '__dump_page':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   mm/debug.c:70:44: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+      70 |         if (page < head || (page >= head + MAX_ORDER_NR_PAGES)) {
+         |                                            ^~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/smp.h:12,
+                    from include/linux/kernel_stat.h:5,
+                    from mm/memory.c:42:
+   mm/memory.c: In function 'clear_huge_page':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   mm/memory.c:5791:44: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+    5791 |         if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
+         |                                            ^~~~~~~~~~~~~~~~~~
+   mm/memory.c: In function 'copy_user_huge_page':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   mm/memory.c:5843:44: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+    5843 |         if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
+         |                                            ^~~~~~~~~~~~~~~~~~
+--
+   mm/shuffle.c: In function '__shuffle_zone':
+>> mm/shuffle.c:86:35: warning: left shift count is negative [-Wshift-count-negative]
+      86 |         const int order_pages = 1 << order;
+         |                                 ~~^~~~~~~~
+--
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/list.h:9,
+                    from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/debugfs.h:15,
+                    from mm/page_owner.c:2:
+   mm/page_owner.c: In function 'pagetypeinfo_showmixedcount_print':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_owner.c:298:31: note: in expansion of macro 'ALIGN'
+     298 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                               ^~~~~
+   mm/page_owner.c:298:46: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     298 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                                              ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_owner.c:298:31: note: in expansion of macro 'ALIGN'
+     298 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                               ^~~~~
+   mm/page_owner.c:298:46: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     298 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                                              ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13:
+   mm/page_owner.c: In function 'read_page_owner':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   mm/page_owner.c:526:43: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     526 |         while (!pfn_valid(pfn) && (pfn & (MAX_ORDER_NR_PAGES - 1)) != 0)
+         |                                           ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   mm/page_owner.c:543:29: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     543 |                 if ((pfn & (MAX_ORDER_NR_PAGES - 1)) == 0 && !pfn_valid(pfn)) {
+         |                             ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   mm/page_owner.c:544:32: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     544 |                         pfn += MAX_ORDER_NR_PAGES - 1;
+         |                                ^~~~~~~~~~~~~~~~~~
+   mm/page_owner.c: In function 'init_pages_in_zone':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_owner.c:636:31: note: in expansion of macro 'ALIGN'
+     636 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                               ^~~~~
+   mm/page_owner.c:636:46: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     636 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                                              ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_owner.c:636:31: note: in expansion of macro 'ALIGN'
+     636 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                               ^~~~~
+   mm/page_owner.c:636:46: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     636 |                         pfn = ALIGN(pfn + 1, MAX_ORDER_NR_PAGES);
+         |                                              ^~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/kernel.h:26,
+                    from arch/arm64/include/asm/cpufeature.h:22,
+                    from arch/arm64/include/asm/ptrace.h:11,
+                    from arch/arm64/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:16,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/page_isolation.c:6:
+   mm/page_isolation.c: In function 'isolate_single_pageblock':
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:27: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                           ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:27: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                           ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:27: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                           ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:40: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                                        ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:40: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                                        ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:28:40: note: in definition of macro '__cmp'
+      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                                        ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
+      31 |                 typeof(x) unique_x = (x);               \
+         |                                       ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
+      31 |                 typeof(x) unique_x = (x);               \
+         |                                       ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+>> include/linux/mmzone.h:33:31: warning: left shift count is negative [-Wshift-count-negative]
+      33 | #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
+         |                               ^~
+   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
+      31 |                 typeof(x) unique_x = (x);               \
+         |                                       ^
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/page_isolation.c:329:22: note: in expansion of macro 'max'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                      ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:9:33: note: in expansion of macro '__ALIGN_KERNEL'
+       9 | #define ALIGN_DOWN(x, a)        __ALIGN_KERNEL((x) - ((a) - 1), (a))
+         |                                 ^~~~~~~~~~~~~~
+   mm/page_isolation.c:329:26: note: in expansion of macro 'ALIGN_DOWN'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                          ^~~~~~~~~~
+   mm/page_isolation.c:329:56: note: in expansion of macro 'MAX_ORDER_NR_PAGES'
+     329 |         start_pfn  = max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGES),
+         |                                                        ^~~~~~~~~~~~~~~~~~
+..
+
+
+vim +16 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
 
 -- 
 0-DAY CI Kernel Test Service
