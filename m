@@ -1,43 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153BF33D4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 10:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89DC19F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 11:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679568684; x=1711104684;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vaSD4aV8j8uLXhTHUEs1e0gQsHXn6vuABDWbS8z7tXM=;
-  b=izSSoL8fK+H+Lsg8G9910Z/347hYgVbJBFOEoGcls9ur4SRJmTf8vCIb
-   7Gz9O9lEb4xY4VF2b/BBCfKiQG+Xa0tNRpPHQh7o8jpoxzcXAs30RQYUw
-   BQxAGUJcbECiYge/RXDwJCV3Lh9AZW0JIjydM3104So+vukNC6e4DHUaH
-   Q6SnrNUu23PGfZqD9Go0nVXMN83jNsj2tUsBcCZguH2GDkSEy+yuRRZLG
-   Hsbpobkr56wvnNxz69fano0rqagGwmqH2qgCZEi57mbmjmCCDkVXr1AoE
-   J+6AixOgd2SuMrVY4kJfH8B1dk1nIZCJFyuccaCtSHj8zDwRp6YZPfCe6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341817892"
+  t=1679569357; x=1711105357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cy/L6PcS6IdrKnZQhlSOnWX/s/1PZcdpOFMnQDt9HGU=;
+  b=fG1lFateIWtWi1Bu5JTGuvdRm4kDpKC9l9wKJv7eML/+jVYB9Ztnig8Z
+   YH1aGkzfcSZbvKpYqBzRldao56jtBTSvOBwnkSvJ+hG13QdNfJY0U5DLr
+   JFGPTJHk3KAdP3aOoBeZj7ewrTUo+8bCQt+Xd/oLfFedT2eRVmuXAQIff
+   7sf1ePyNTZYJVSihw8Iy5gCVNmuLY7GBJaO3o62UeIlSLD6OPs/K46vTZ
+   Yg5IKyxrzkToAUb0Bbft767hyi1Zic/n8BfNjQu50KqhTL2D+uavu86gq
+   sCY/OuYNxReYOhub132bY6CHr7Fb8oEYmUAs64lLSP3NhGC/ES0TX+kXu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="367194518"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="341817892"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 03:51:23 -0700
+   d="scan'208";a="367194518"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 04:02:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="714742956"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="712617065"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="714742956"
+   d="scan'208";a="712617065"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2023 03:51:22 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Mar 2023 04:02:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfIXR-000EG4-2X;
-	Thu, 23 Mar 2023 10:51:21 +0000
-Date: Thu, 23 Mar 2023 18:51:05 +0800
+	id 1pfIi6-000EGa-0l;
+	Thu, 23 Mar 2023 11:02:22 +0000
+Date: Thu, 23 Mar 2023 19:01:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 189/325]
- arch/x86/include/asm/cpu.h:74:20: error: conflicting types for
- 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
-Message-ID: <202303231803.JWgprAQP-lkp@intel.com>
+To: Selvin Xavier <selvin.xavier@broadcom.com>, jgg@ziepe.ca,
+	leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	andrew.gospodarek@broadcom.com,
+	Selvin Xavier <selvin.xavier@broadcom.com>
+Subject: Re: [PATCH for-next 7/7] RDMA/bnxt_re: Enable congestion control by
+ default
+Message-ID: <202303231827.oPu3RsK1-lkp@intel.com>
+References: <1679562739-24472-8-git-send-email-selvin.xavier@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,109 +50,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1679562739-24472-8-git-send-email-selvin.xavier@broadcom.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   2a4df90769b13103056558d83a28e6ebca4ba2ee
-commit: d68520c1ce54f89d3f33e9df684f5f306f817641 [189/325] [REVERTME] x86/cpu/tsx: Add helper functions to save/restore IA32_TSX_CTRL MSR
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230323/202303231803.JWgprAQP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Selvin,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/RDMA-bnxt_re-Update-HW-interface-headers/20230323-171441
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/1679562739-24472-8-git-send-email-selvin.xavier%40broadcom.com
+patch subject: [PATCH for-next 7/7] RDMA/bnxt_re: Enable congestion control by default
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230323/202303231827.oPu3RsK1-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/d68520c1ce54f89d3f33e9df684f5f306f817641
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout d68520c1ce54f89d3f33e9df684f5f306f817641
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a8a24a74b6a3209329cc8c157309b156d507cb7d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Selvin-Xavier/RDMA-bnxt_re-Update-HW-interface-headers/20230323-171441
+        git checkout a8a24a74b6a3209329cc8c157309b156d507cb7d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/infiniband/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231803.JWgprAQP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303231827.oPu3RsK1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/events/perf_event.h:19,
-                    from arch/x86/events/core.c:45:
->> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
-      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-         |                    ^~~~~~~~~~~~~~
-   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
-      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
-         |                   ^~~~~~~~~~~~~~
---
-   In file included from arch/x86/kernel/traps.c:54:
->> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
-      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-         |                    ^~~~~~~~~~~~~~
-   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
-      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
-         |                   ^~~~~~~~~~~~~~
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/uapi/linux/kernel.h:6,
-                    from include/linux/cache.h:5,
-                    from arch/x86/include/asm/current.h:9,
-                    from include/linux/sched.h:12,
-                    from include/linux/context_tracking.h:5,
-                    from arch/x86/kernel/traps.c:15:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
-   include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:20:41: note: in expansion of macro '_BITUL'
-      20 | #define TDX_ERROR                       _BITUL(TDX_ERROR_BIT)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:21:42: note: in expansion of macro 'TDX_ERROR'
-      21 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:25:42: note: in expansion of macro 'TDX_SW_ERROR'
-      25 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:182:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     182 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
---
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/uapi/linux/kernel.h:6,
-                    from include/linux/cache.h:5,
-                    from arch/x86/include/asm/current.h:9,
-                    from include/linux/sched.h:12,
-                    from include/linux/context_tracking.h:5,
-                    from arch/x86/kernel/kvm.c:12:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
-   include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:20:41: note: in expansion of macro '_BITUL'
-      20 | #define TDX_ERROR                       _BITUL(TDX_ERROR_BIT)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:21:42: note: in expansion of macro 'TDX_ERROR'
-      21 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:25:42: note: in expansion of macro 'TDX_SW_ERROR'
-      25 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:182:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     182 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/kvm.c:33:
-   arch/x86/include/asm/cpu.h: At top level:
->> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
-      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-         |                    ^~~~~~~~~~~~~~
-   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
-      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
-         |                   ^~~~~~~~~~~~~~
+>> drivers/infiniband/hw/bnxt_re/qplib_sp.c:854:6: warning: no previous prototype for 'bnxt_qplib_fill_cc_gen1' [-Wmissing-prototypes]
+     854 | void bnxt_qplib_fill_cc_gen1(struct cmdq_modify_roce_cc_gen1_tlv *ext_req,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +74 arch/x86/include/asm/cpu.h
+vim +/bnxt_qplib_fill_cc_gen1 +854 drivers/infiniband/hw/bnxt_re/qplib_sp.c
 
-    72	
-    73	static inline u64 tsx_ctrl_clear(void) { return 0; }
-  > 74	static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
-    75	
+   853	
+ > 854	void bnxt_qplib_fill_cc_gen1(struct cmdq_modify_roce_cc_gen1_tlv *ext_req,
+   855				     struct bnxt_qplib_cc_param_ext *cc_ext)
+   856	{
+   857		ext_req->modify_mask = cpu_to_le64(cc_ext->ext_mask);
+   858		cc_ext->ext_mask = 0;
+   859		ext_req->inactivity_th_hi = cpu_to_le16(cc_ext->inact_th_hi);
+   860		ext_req->min_time_between_cnps = cpu_to_le16(cc_ext->min_delta_cnp);
+   861		ext_req->init_cp = cpu_to_le16(cc_ext->init_cp);
+   862		ext_req->tr_update_mode = cc_ext->tr_update_mode;
+   863		ext_req->tr_update_cycles = cc_ext->tr_update_cyls;
+   864		ext_req->fr_num_rtts = cc_ext->fr_rtt;
+   865		ext_req->ai_rate_increase = cc_ext->ai_rate_incr;
+   866		ext_req->reduction_relax_rtts_th = cpu_to_le16(cc_ext->rr_rtt_th);
+   867		ext_req->additional_relax_cr_th = cpu_to_le16(cc_ext->ar_cr_th);
+   868		ext_req->cr_min_th = cpu_to_le16(cc_ext->cr_min_th);
+   869		ext_req->bw_avg_weight = cc_ext->bw_avg_weight;
+   870		ext_req->actual_cr_factor = cc_ext->cr_factor;
+   871		ext_req->max_cp_cr_th = cpu_to_le16(cc_ext->cr_th_max_cp);
+   872		ext_req->cp_bias_en = cc_ext->cp_bias_en;
+   873		ext_req->cp_bias = cc_ext->cp_bias;
+   874		ext_req->cnp_ecn = cc_ext->cnp_ecn;
+   875		ext_req->rtt_jitter_en = cc_ext->rtt_jitter_en;
+   876		ext_req->link_bytes_per_usec = cpu_to_le16(cc_ext->bytes_per_usec);
+   877		ext_req->reset_cc_cr_th = cpu_to_le16(cc_ext->cc_cr_reset_th);
+   878		ext_req->cr_width = cc_ext->cr_width;
+   879		ext_req->quota_period_min = cc_ext->min_quota;
+   880		ext_req->quota_period_max = cc_ext->max_quota;
+   881		ext_req->quota_period_abs_max = cc_ext->abs_max_quota;
+   882		ext_req->tr_lower_bound = cpu_to_le16(cc_ext->tr_lb);
+   883		ext_req->cr_prob_factor = cc_ext->cr_prob_fac;
+   884		ext_req->tr_prob_factor = cc_ext->tr_prob_fac;
+   885		ext_req->fairness_cr_th = cpu_to_le16(cc_ext->fair_cr_th);
+   886		ext_req->red_div = cc_ext->red_div;
+   887		ext_req->cnp_ratio_th = cc_ext->cnp_ratio_th;
+   888		ext_req->exp_ai_rtts = cpu_to_le16(cc_ext->ai_ext_rtt);
+   889		ext_req->exp_ai_cr_cp_ratio = cc_ext->exp_crcp_ratio;
+   890		ext_req->use_rate_table = cc_ext->low_rate_en;
+   891		ext_req->cp_exp_update_th = cpu_to_le16(cc_ext->cpcr_update_th);
+   892		ext_req->high_exp_ai_rtts_th1 = cpu_to_le16(cc_ext->ai_rtt_th1);
+   893		ext_req->high_exp_ai_rtts_th2 = cpu_to_le16(cc_ext->ai_rtt_th2);
+   894		ext_req->actual_cr_cong_free_rtts_th = cpu_to_le16(cc_ext->cf_rtt_th);
+   895		ext_req->severe_cong_cr_th1 = cpu_to_le16(cc_ext->sc_cr_th1);
+   896		ext_req->severe_cong_cr_th2 = cpu_to_le16(cc_ext->sc_cr_th2);
+   897		ext_req->link64B_per_rtt = cpu_to_le32(cc_ext->l64B_per_rtt);
+   898		ext_req->cc_ack_bytes = cc_ext->cc_ack_bytes;
+   899	}
+   900	
 
 -- 
 0-DAY CI Kernel Test Service
