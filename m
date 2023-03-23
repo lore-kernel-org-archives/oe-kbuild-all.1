@@ -1,49 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A03A93A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 15:18:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BABDA93A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 15:39:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679584720; x=1711120720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fBTf1WFkxv6jpIw1EyUCMiRABvqdmGxDE71QRCONeqM=;
-  b=eJDy74BnaGJQV0FBpjM/Cb66TncNeNvpUzjafx6UYGAcYDUM37oWccS2
-   xFjmsttf3RmH2QzKAzKBDwR9R4XWQr9NoKRl5EZPBGpXtuq5NI8LT9Iao
-   hOZxBZBaoVbN0t9v9idt8VeBxe2GZOZG3Lm0ZHC9UeNqcw5wSqWcF5hcC
-   2uVHlIu8amNwkVKTgGb/CaJV97rHYzrlKyzl9l3WhH5jX5njcL/itAWGn
-   IRqvMhVWIgVTle+xH4y7e4GmFn5zRQAy40RPZ6d0SIRN/3s3OWQxRQYWj
-   hxq6zMz/Fed/Ux5Xz1J3h82ySyIEZEeeBm9C1SOnOkjMTAl8PhWpOav3J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="319171899"
+  t=1679585982; x=1711121982;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Kk1T3IDAdWWQqyZ3FkeO9SRgEK4xWJm0ohKktttBU3Q=;
+  b=MQ4jh7IZpQ2SG3kk99vT7rAygdchBF2RBsKvrKX4zFJmPc5nGjZcAO5R
+   WtuVBxn0xV9U+I6+NPrMH8ZZYrLuUUX2/2swYo3Uu/X5WeAwBUeyug0K6
+   0IoFF+YGIX2cW0VNpfpJUE345YP86zIW78VDZPG3cSUlx7U56D+Fjpiky
+   Q3d3wsrhRWBg1YwcoLty5Nv99XKRFjy56WHBoykXbaRThokudt++Ycp/A
+   nwNbMthYdaezhVGYrdpgIhc0cHSHeOXSFlfba6JNMLVD4xahubJofvzAI
+   WvwzbDr1+/6NWMc0F4qrt+jsp6mjG5oMukGakVD4CwL+7kloyLG8wLwUM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339561607"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="319171899"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 08:18:40 -0700
+   d="scan'208";a="339561607"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 08:39:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="675745582"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="682356138"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="675745582"
+   d="scan'208";a="682356138"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Mar 2023 08:18:31 -0700
+  by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 08:39:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfMhz-000ETr-0r;
-	Thu, 23 Mar 2023 15:18:31 +0000
-Date: Thu, 23 Mar 2023 23:18:24 +0800
+	id 1pfN2J-000EUS-2G;
+	Thu, 23 Mar 2023 15:39:31 +0000
+Date: Thu, 23 Mar 2023 23:38:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Weigand <mweigand@mweigand.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maximilian Weigand <mweigand@mweigand.net>,
-	Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH 2/6] Input: cyttsp5: remove unused code
-Message-ID: <202303232302.FB64fi39-lkp@intel.com>
-References: <20230323135205.1160879-3-mweigand@mweigand.net>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:smp/core 9/13] ld:
+ kernel/sched/core.o:include/trace/events/ipi.h:19: multiple definition of
+ `__tracepoint_ipi_raise'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:19:
+ first defined here
+Message-ID: <202303232305.BrfyAphp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,81 +47,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323135205.1160879-3-mweigand@mweigand.net>
 
-Hi Maximilian,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on dtor-input/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230323135205.1160879-3-mweigand%40mweigand.net
-patch subject: [PATCH 2/6] Input: cyttsp5: remove unused code
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303232302.FB64fi39-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git smp/core
+head:   6ce99af1c9685e7dd788092089a03e75612bd6ed
+commit: c94ad1090c166d4fc7e61a6d03925cb6b4b4b001 [9/13] treewide: Trace IPIs sent via smp_send_reschedule()
+config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230323/202303232305.BrfyAphp-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/4358a60821eb8149dabed197c09d3c0eab63bf38
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-        git checkout 4358a60821eb8149dabed197c09d3c0eab63bf38
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=c94ad1090c166d4fc7e61a6d03925cb6b4b4b001
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue smp/core
+        git checkout c94ad1090c166d4fc7e61a6d03925cb6b4b4b001
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/touchscreen/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303232302.FB64fi39-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303232305.BrfyAphp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_get_hid_descriptor':
->> drivers/input/touchscreen/cyttsp5.c:604:12: warning: unused variable 'cmd' [-Wunused-variable]
-     604 |         u8 cmd[2];
-         |            ^~~
-
-
-vim +/cmd +604 drivers/input/touchscreen/cyttsp5.c
-
-5b0c03e24a061f Alistair Francis 2022-10-31  598  
-5b0c03e24a061f Alistair Francis 2022-10-31  599  static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
-5b0c03e24a061f Alistair Francis 2022-10-31  600  				      struct cyttsp5_hid_desc *desc)
-5b0c03e24a061f Alistair Francis 2022-10-31  601  {
-5b0c03e24a061f Alistair Francis 2022-10-31  602  	struct device *dev = ts->dev;
-5b0c03e24a061f Alistair Francis 2022-10-31  603  	int rc;
-5b0c03e24a061f Alistair Francis 2022-10-31 @604  	u8 cmd[2];
-5b0c03e24a061f Alistair Francis 2022-10-31  605  
-5b0c03e24a061f Alistair Francis 2022-10-31  606  	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
-5b0c03e24a061f Alistair Francis 2022-10-31  607  	if (rc) {
-5b0c03e24a061f Alistair Francis 2022-10-31  608  		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
-5b0c03e24a061f Alistair Francis 2022-10-31  609  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  610  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  611  
-5b0c03e24a061f Alistair Francis 2022-10-31  612  	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
-5b0c03e24a061f Alistair Francis 2022-10-31  613  			msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
-5b0c03e24a061f Alistair Francis 2022-10-31  614  	if (rc <= 0) {
-5b0c03e24a061f Alistair Francis 2022-10-31  615  		dev_err(ts->dev, "HID get descriptor timed out\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  616  		rc = -ETIMEDOUT;
-5b0c03e24a061f Alistair Francis 2022-10-31  617  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  618  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  619  
-5b0c03e24a061f Alistair Francis 2022-10-31  620  	memcpy(desc, ts->response_buf, sizeof(*desc));
-5b0c03e24a061f Alistair Francis 2022-10-31  621  
-5b0c03e24a061f Alistair Francis 2022-10-31  622  	/* Check HID descriptor length and version */
-5b0c03e24a061f Alistair Francis 2022-10-31  623  	if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
-5b0c03e24a061f Alistair Francis 2022-10-31  624  	    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
-5b0c03e24a061f Alistair Francis 2022-10-31  625  		dev_err(dev, "Unsupported HID version\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  626  		return -ENODEV;
-5b0c03e24a061f Alistair Francis 2022-10-31  627  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  628  
-5b0c03e24a061f Alistair Francis 2022-10-31  629  	return 0;
-5b0c03e24a061f Alistair Francis 2022-10-31  630  }
-5b0c03e24a061f Alistair Francis 2022-10-31  631  
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:19: multiple definition of `__tracepoint_ipi_raise'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:19: first defined here
+   ld: kernel/sched/core.o: in function `__SCT__tp_func_ipi_raise':
+   core.c:(.static_call.text+0x130): multiple definition of `__SCT__tp_func_ipi_raise'; virt/kvm/kvm_main.o:kvm_main.c:(.static_call.text+0xb0): first defined here
+   ld: kernel/sched/core.o: in function `__traceiter_ipi_raise':
+>> include/trace/events/ipi.h:19: multiple definition of `__traceiter_ipi_raise'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:19: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:38: multiple definition of `__tracepoint_ipi_send_cpumask'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:38: first defined here
+   ld: kernel/sched/core.o: in function `__SCT__tp_func_ipi_send_cpumask':
+   core.c:(.static_call.text+0x138): multiple definition of `__SCT__tp_func_ipi_send_cpumask'; virt/kvm/kvm_main.o:kvm_main.c:(.static_call.text+0xb8): first defined here
+   ld: kernel/sched/core.o: in function `__traceiter_ipi_send_cpumask':
+>> include/trace/events/ipi.h:38: multiple definition of `__traceiter_ipi_send_cpumask'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:38: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:86: multiple definition of `__tracepoint_ipi_entry'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:86: first defined here
+   ld: kernel/sched/core.o: in function `__SCT__tp_func_ipi_entry':
+   core.c:(.static_call.text+0x140): multiple definition of `__SCT__tp_func_ipi_entry'; virt/kvm/kvm_main.o:kvm_main.c:(.static_call.text+0xc0): first defined here
+   ld: kernel/sched/core.o: in function `__traceiter_ipi_entry':
+>> include/trace/events/ipi.h:86: multiple definition of `__traceiter_ipi_entry'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:86: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:102: multiple definition of `__tracepoint_ipi_exit'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:102: first defined here
+   ld: kernel/sched/core.o: in function `__SCT__tp_func_ipi_exit':
+   core.c:(.static_call.text+0x148): multiple definition of `__SCT__tp_func_ipi_exit'; virt/kvm/kvm_main.o:kvm_main.c:(.static_call.text+0xc8): first defined here
+   ld: kernel/sched/core.o: in function `__traceiter_ipi_exit':
+>> include/trace/events/ipi.h:102: multiple definition of `__traceiter_ipi_exit'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:102: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:102: multiple definition of `__SCK__tp_func_ipi_exit'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:102: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:86: multiple definition of `__SCK__tp_func_ipi_entry'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:86: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:38: multiple definition of `__SCK__tp_func_ipi_send_cpumask'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:38: first defined here
+>> ld: kernel/sched/core.o:include/trace/events/ipi.h:19: multiple definition of `__SCK__tp_func_ipi_raise'; virt/kvm/kvm_main.o:include/trace/events/ipi.h:19: first defined here
 
 -- 
 0-DAY CI Kernel Test Service
