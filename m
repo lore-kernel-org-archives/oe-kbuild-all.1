@@ -1,64 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A38A950;
-	Thu, 23 Mar 2023 17:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D68BA54
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 17:42:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679591569; x=1711127569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bOk/bK3iytGpOoPzSN/P3lMEMqW4rV3s8Am9+KQ4/Qo=;
-  b=VVz38drQNTRqjT8lKjzwPT0RNtJCyq0wpAgv28ZPNHzDOyykzzIfFGcD
-   O2QnXfSUW8DT38HkAdk4CxptF5mFmsvcCu1KJY//35ffzkf+d5gh9rx+Y
-   wcKC1WGZsD494Mp+ghiWFl+Hhvesk47IhIdoelPRbOdXxXadBM+SsVXcc
-   vLgp04hpIJfpWw4CK7+Jm4tmmD1mpqyComRiyIFVyxYuqSp1VoFT3h01m
-   QLWX7dhTIvw4vUsFQMFL+FB1DZhMaWSqEA3OBT5macRNhcQ4X8ggC1MfE
-   ej5WmUAZ7M414ov8EOhGFHLDJzFGw6rxvKtGjCm4FFnnumgrqbYz/FKq0
+  t=1679593362; x=1711129362;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o+xTf/86J1kbCBTb2NcGIukazyguIr78YmS1f061ptM=;
+  b=fLAvo3a4/GTU5T3OYikwV9SBSnPj46OSoKEeecveAFQ3rI1yI/A+uSLb
+   SLojVk6FT0UNcOAV2tOmUdS6MzNDNxHwFSN1icAcAYMd9Z0lwZ1pcY0Q/
+   nULJQahizX3BSwj65DPJkJ4q1j2nlChOLXOSkaNtKsnG30nq3orSa4uMb
+   h2bf8IVTg+9wUI3lIDysJKqUDCEomwYiLNrp4/JhijgxRbPyWsq7Cp5Tq
+   vcA4AwPBq5Vqve3XTrMvMq/I1p/1yP6874A89Sy+QUY9VgHkVl+kDYUDa
+   /sEu2GAZfkKHgIeD5zUd8oNVXNB+rGTnAFtbwvJJQSfw7ttrZjw4yxI8m
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="338283372"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="319230411"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="338283372"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 10:12:48 -0700
+   d="scan'208";a="319230411"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 10:42:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="825909467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="856579644"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="825909467"
+   d="scan'208";a="856579644"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2023 10:12:41 -0700
+  by orsmga005.jf.intel.com with ESMTP; 23 Mar 2023 10:42:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfOUO-000EZ8-0H;
-	Thu, 23 Mar 2023 17:12:36 +0000
-Date: Fri, 24 Mar 2023 01:11:39 +0800
+	id 1pfOxQ-000EaI-35;
+	Thu, 23 Mar 2023 17:42:36 +0000
+Date: Fri, 24 Mar 2023 01:42:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Mike Rapoport <rppt@kernel.org>, Rich Felker <dalias@libc.org>,
-	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zi Yan <ziy@nvidia.com>, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-ia64@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 02/14] arm64: drop ranges in definition of
- ARCH_FORCE_MAX_ORDER
-Message-ID: <202303240155.01y6T6Fj-lkp@intel.com>
-References: <20230323092156.2545741-3-rppt@kernel.org>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202303240127.hyNYFwhJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,216 +48,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323092156.2545741-3-rppt@kernel.org>
 
-Hi Mike,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on 51551d71edbc998fd8c8afa7312db3d270f5998e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/arm-reword-ARCH_FORCE_MAX_ORDER-prompt-and-help-text/20230323-172512
-base:   51551d71edbc998fd8c8afa7312db3d270f5998e
-patch link:    https://lore.kernel.org/r/20230323092156.2545741-3-rppt%40kernel.org
-patch subject: [PATCH 02/14] arm64: drop ranges in definition of ARCH_FORCE_MAX_ORDER
-config: arm64-randconfig-r031-20230322 (https://download.01.org/0day-ci/archive/20230324/202303240155.01y6T6Fj-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: b7aa7e9f2bc16fe18b1cced9581df8527baf2dea Merge origin/chromeos-5.10-esdfs
+date:   2 years, 3 months ago
+config: alpha-randconfig-s053-20230322 (https://download.01.org/0day-ci/archive/20230324/202303240127.hyNYFwhJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/0522f943c071abf1610651ea40405b7489c50987
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mike-Rapoport/arm-reword-ARCH_FORCE_MAX_ORDER-prompt-and-help-text/20230323-172512
-        git checkout 0522f943c071abf1610651ea40405b7489c50987
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=b7aa7e9f2bc16fe18b1cced9581df8527baf2dea
+        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
+        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
+        git checkout b7aa7e9f2bc16fe18b1cced9581df8527baf2dea
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/iommu/ kernel/dma/ mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303240155.01y6T6Fj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240127.hyNYFwhJ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
->> mm/memory.c:5791:37: warning: shift count is negative [-Wshift-count-negative]
-           if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
-                                              ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
->> mm/memory.c:5791:37: warning: shift count is negative [-Wshift-count-negative]
-           if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
-                                              ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_check__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   mm/memory.c:5843:37: warning: shift count is negative [-Wshift-count-negative]
-           if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
-                                              ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   mm/memory.c:5843:37: warning: shift count is negative [-Wshift-count-negative]
-           if (unlikely(pages_per_huge_page > MAX_ORDER_NR_PAGES)) {
-                                              ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_check__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   4 warnings generated.
+sparse warnings: (new ones prefixed by >>)
+   fs/esdfs/file.c:382:1: sparse: sparse: symbol 'esdfs_read_iter' was not declared. Should it be static?
+   fs/esdfs/file.c:410:1: sparse: sparse: symbol 'esdfs_write_iter' was not declared. Should it be static?
+   fs/esdfs/file.c: note: in included file:
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
 --
->> drivers/iommu/dma-iommu.c:739:16: error: anonymous bit-field has negative width (-1)
-           order_mask &= GENMASK(MAX_ORDER, 0);
-                         ^
-   include/linux/bits.h:37:3: note: expanded from macro 'GENMASK'
-           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-            ^
-   include/linux/bits.h:23:3: note: expanded from macro 'GENMASK_INPUT_CHECK'
-           (BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
-            ^
-   include/linux/build_bug.h:16:53: note: expanded from macro 'BUILD_BUG_ON_ZERO'
-   #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-                                                       ^
->> drivers/iommu/dma-iommu.c:739:16: warning: shift count >= width of type [-Wshift-count-overflow]
-           order_mask &= GENMASK(MAX_ORDER, 0);
-                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bits.h:37:31: note: expanded from macro 'GENMASK'
-           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-                                        ^~~~~~~~~~~~~~~
-   include/linux/bits.h:35:11: note: expanded from macro '__GENMASK'
-            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+   fs/esdfs/inode.c: note: in included file:
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
 --
->> kernel/dma/pool.c:197:39: warning: shift count is negative [-Wshift-count-negative]
-                   pages = min_t(unsigned long, pages, MAX_ORDER_NR_PAGES);
-                                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/minmax.h:126:59: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                                                   ^
-   include/linux/minmax.h:37:12: note: expanded from macro '__careful_cmp'
-                   __cmp(x, y, op), \
-                            ^
-   include/linux/minmax.h:28:34: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                                    ^
->> kernel/dma/pool.c:197:39: warning: shift count is negative [-Wshift-count-negative]
-                   pages = min_t(unsigned long, pages, MAX_ORDER_NR_PAGES);
-                                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/minmax.h:126:59: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                                                   ^
-   include/linux/minmax.h:37:12: note: expanded from macro '__careful_cmp'
-                   __cmp(x, y, op), \
-                            ^
-   include/linux/minmax.h:28:46: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                                                ^
->> kernel/dma/pool.c:197:39: warning: shift count is negative [-Wshift-count-negative]
-                   pages = min_t(unsigned long, pages, MAX_ORDER_NR_PAGES);
-                                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:33:31: note: expanded from macro 'MAX_ORDER_NR_PAGES'
-   #define MAX_ORDER_NR_PAGES (1 << MAX_ORDER)
-                                 ^  ~~~~~~~~~
-   include/linux/minmax.h:126:59: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                                                   ^
-   include/linux/minmax.h:38:17: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                                 ^
-   include/linux/minmax.h:32:25: note: expanded from macro '__cmp_once'
-                   typeof(y) unique_y = (y);               \
-                                         ^
-   3 warnings generated.
+   fs/esdfs/lookup.c: note: in included file:
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+--
+   fs/esdfs/mmap.c: note: in included file:
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
+--
+   fs/esdfs/derive.c: note: in included file:
+>> fs/esdfs/esdfs.h:616:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *current_creds @@     got struct cred const [noderef] __rcu *cred @@
+   fs/esdfs/esdfs.h:616:51: sparse:     expected struct cred const *current_creds
+   fs/esdfs/esdfs.h:616:51: sparse:     got struct cred const [noderef] __rcu *cred
 
+vim +616 fs/esdfs/esdfs.h
 
-vim +739 drivers/iommu/dma-iommu.c
+f5548a15ab7ead Russ W. Knize 2013-04-07  613  
+f5548a15ab7ead Russ W. Knize 2013-04-07  614  static inline void esdfs_revert_creds(const struct cred *creds, int *mask)
+f5548a15ab7ead Russ W. Knize 2013-04-07  615  {
+f5548a15ab7ead Russ W. Knize 2013-04-07 @616  	const struct cred *current_creds = current->cred;
+f5548a15ab7ead Russ W. Knize 2013-04-07  617  
+f5548a15ab7ead Russ W. Knize 2013-04-07  618  	/* restore the old umask */
+f5548a15ab7ead Russ W. Knize 2013-04-07  619  	if (mask)
+f5548a15ab7ead Russ W. Knize 2013-04-07  620  		*mask = xchg(&current->fs->umask, *mask & S_IRWXUGO);
+f5548a15ab7ead Russ W. Knize 2013-04-07  621  
+f5548a15ab7ead Russ W. Knize 2013-04-07  622  	/* restore the old creds into current */
+f5548a15ab7ead Russ W. Knize 2013-04-07  623  	revert_creds(creds);
+f5548a15ab7ead Russ W. Knize 2013-04-07  624  	put_cred(current_creds);	/* destroy the old temporary creds */
+f5548a15ab7ead Russ W. Knize 2013-04-07  625  }
+f5548a15ab7ead Russ W. Knize 2013-04-07  626  
 
-0db2e5d18f76a6 Robin Murphy        2015-10-01  732  
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  733  static struct page **__iommu_dma_alloc_pages(struct device *dev,
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  734  		unsigned int count, unsigned long order_mask, gfp_t gfp)
-0db2e5d18f76a6 Robin Murphy        2015-10-01  735  {
-0db2e5d18f76a6 Robin Murphy        2015-10-01  736  	struct page **pages;
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  737  	unsigned int i = 0, nid = dev_to_node(dev);
-3b6b7e19e31a81 Robin Murphy        2016-04-13  738  
-98d56389a5e38b Kirill A. Shutemov  2023-03-15 @739  	order_mask &= GENMASK(MAX_ORDER, 0);
-3b6b7e19e31a81 Robin Murphy        2016-04-13  740  	if (!order_mask)
-3b6b7e19e31a81 Robin Murphy        2016-04-13  741  		return NULL;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  742  
-ab6f4b001c8c72 Gustavo A. R. Silva 2021-09-28  743  	pages = kvcalloc(count, sizeof(*pages), GFP_KERNEL);
-0db2e5d18f76a6 Robin Murphy        2015-10-01  744  	if (!pages)
-0db2e5d18f76a6 Robin Murphy        2015-10-01  745  		return NULL;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  746  
-0db2e5d18f76a6 Robin Murphy        2015-10-01  747  	/* IOMMU can map any pages, so himem can also be used here */
-0db2e5d18f76a6 Robin Murphy        2015-10-01  748  	gfp |= __GFP_NOWARN | __GFP_HIGHMEM;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  749  
-0db2e5d18f76a6 Robin Murphy        2015-10-01  750  	while (count) {
-0db2e5d18f76a6 Robin Murphy        2015-10-01  751  		struct page *page = NULL;
-3b6b7e19e31a81 Robin Murphy        2016-04-13  752  		unsigned int order_size;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  753  
-0db2e5d18f76a6 Robin Murphy        2015-10-01  754  		/*
-0db2e5d18f76a6 Robin Murphy        2015-10-01  755  		 * Higher-order allocations are a convenience rather
-0db2e5d18f76a6 Robin Murphy        2015-10-01  756  		 * than a necessity, hence using __GFP_NORETRY until
-3b6b7e19e31a81 Robin Murphy        2016-04-13  757  		 * falling back to minimum-order allocations.
-0db2e5d18f76a6 Robin Murphy        2015-10-01  758  		 */
-a706e6e10225fb Kirill A. Shutemov  2023-03-15  759  		for (order_mask &= GENMASK(__fls(count), 0);
-3b6b7e19e31a81 Robin Murphy        2016-04-13  760  		     order_mask; order_mask &= ~order_size) {
-3b6b7e19e31a81 Robin Murphy        2016-04-13  761  			unsigned int order = __fls(order_mask);
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  762  			gfp_t alloc_flags = gfp;
-3b6b7e19e31a81 Robin Murphy        2016-04-13  763  
-3b6b7e19e31a81 Robin Murphy        2016-04-13  764  			order_size = 1U << order;
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  765  			if (order_mask > order_size)
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  766  				alloc_flags |= __GFP_NORETRY;
-c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  767  			page = alloc_pages_node(nid, alloc_flags, order);
-0db2e5d18f76a6 Robin Murphy        2015-10-01  768  			if (!page)
-0db2e5d18f76a6 Robin Murphy        2015-10-01  769  				continue;
-4604393ca0c6e4 Robin Murphy        2020-09-03  770  			if (order)
-0db2e5d18f76a6 Robin Murphy        2015-10-01  771  				split_page(page, order);
-0db2e5d18f76a6 Robin Murphy        2015-10-01  772  			break;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  773  		}
-0db2e5d18f76a6 Robin Murphy        2015-10-01  774  		if (!page) {
-0db2e5d18f76a6 Robin Murphy        2015-10-01  775  			__iommu_dma_free_pages(pages, i);
-0db2e5d18f76a6 Robin Murphy        2015-10-01  776  			return NULL;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  777  		}
-3b6b7e19e31a81 Robin Murphy        2016-04-13  778  		count -= order_size;
-3b6b7e19e31a81 Robin Murphy        2016-04-13  779  		while (order_size--)
-0db2e5d18f76a6 Robin Murphy        2015-10-01  780  			pages[i++] = page++;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  781  	}
-0db2e5d18f76a6 Robin Murphy        2015-10-01  782  	return pages;
-0db2e5d18f76a6 Robin Murphy        2015-10-01  783  }
-0db2e5d18f76a6 Robin Murphy        2015-10-01  784  
+:::::: The code at line 616 was first introduced by commit
+:::::: f5548a15ab7ead52d472cb9ee29964b90e7caf1c CHROMIUM: fs: Import esdfs code
+
+:::::: TO: Russ W. Knize <Russ.Knize@motorola.com>
+:::::: CC: Guenter Roeck <groeck@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
