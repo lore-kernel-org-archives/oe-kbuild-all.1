@@ -1,42 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E0D19F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153BF33D4
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 10:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679568683; x=1711104683;
+  t=1679568684; x=1711104684;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CxCXye+j8XtvIZmVPy11LBLnIZJQw49LE2BQ6CM2HmA=;
-  b=b1uvHp/8fFeDbh6qLoKHnEmtli1NjQSvQF+U+K7gw/YtWAU8yVu4Q+MM
-   DG5wxl67LfXC8mHzG3vs/TmbnryX0xh1KZxRJos7pzajk7xsSbEO30CH9
-   vatg/9+5yBlL3QY+7xnM9HOAqsNvFYtgCItjgOXQtyi8ubHKk1Y9BDzOO
-   7e2KqMzRKdSIGdYgbNCo5uMYlbm36aKoABd36ipIRxYAiaSuEhg3yzxqP
-   mCTGwumHDnZSStDmoTybw6xrDscc8A+E1PAggWHlXwxUpj5N48MqmjMQ1
-   3kcuSyLj6eTaCr1fMiWWvC06eSLaU7Sq3tCuXL5jbqZX+GM0i4mEqfE6s
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319842746"
+  bh=vaSD4aV8j8uLXhTHUEs1e0gQsHXn6vuABDWbS8z7tXM=;
+  b=izSSoL8fK+H+Lsg8G9910Z/347hYgVbJBFOEoGcls9ur4SRJmTf8vCIb
+   7Gz9O9lEb4xY4VF2b/BBCfKiQG+Xa0tNRpPHQh7o8jpoxzcXAs30RQYUw
+   BQxAGUJcbECiYge/RXDwJCV3Lh9AZW0JIjydM3104So+vukNC6e4DHUaH
+   Q6SnrNUu23PGfZqD9Go0nVXMN83jNsj2tUsBcCZguH2GDkSEy+yuRRZLG
+   Hsbpobkr56wvnNxz69fano0rqagGwmqH2qgCZEi57mbmjmCCDkVXr1AoE
+   J+6AixOgd2SuMrVY4kJfH8B1dk1nIZCJFyuccaCtSHj8zDwRp6YZPfCe6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341817892"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="319842746"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 03:51:23 -0700
+   d="scan'208";a="341817892"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 03:51:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="746674192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="714742956"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="746674192"
+   d="scan'208";a="714742956"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2023 03:51:22 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2023 03:51:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfIXR-000EG6-2b;
+	id 1pfIXR-000EG4-2X;
 	Thu, 23 Mar 2023 10:51:21 +0000
-Date: Thu, 23 Mar 2023 18:51:04 +0800
+Date: Thu, 23 Mar 2023 18:51:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 3/4] unwind_kunit.c:undefined reference to
- `kunit_binary_ptr_assert_format'
-Message-ID: <202303231822.UMYqfXYi-lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 189/325]
+ arch/x86/include/asm/cpu.h:74:20: error: conflicting types for
+ 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
+Message-ID: <202303231803.JWgprAQP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +47,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   2aaad0e8b633791ba5d96e87bdf49cc05225d00a
-commit: fac0c3411c9aacc9f7954eab7e0e8792b1fb15f6 [3/4] lib: add basic unwind tests
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303231822.UMYqfXYi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   2a4df90769b13103056558d83a28e6ebca4ba2ee
+commit: d68520c1ce54f89d3f33e9df684f5f306f817641 [189/325] [REVERTME] x86/cpu/tsx: Add helper functions to save/restore IA32_TSX_CTRL MSR
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230323/202303231803.JWgprAQP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=fac0c3411c9aacc9f7954eab7e0e8792b1fb15f6
-        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
-        git fetch --no-tags mark stacktrace/tests
-        git checkout fac0c3411c9aacc9f7954eab7e0e8792b1fb15f6
+        # https://github.com/intel/tdx/commit/d68520c1ce54f89d3f33e9df684f5f306f817641
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout d68520c1ce54f89d3f33e9df684f5f306f817641
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231822.UMYqfXYi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303231803.JWgprAQP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_nounwind':
->> unwind_kunit.c:(.text+0x104): undefined reference to `kunit_binary_ptr_assert_format'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x108): undefined reference to `kunit_binary_ptr_assert_format'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x108): undefined reference to `kunit_binary_ptr_assert_format'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x12c): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `uwd_assert_callers_present':
->> unwind_kunit.c:(.text+0x2f8): undefined reference to `kunit_binary_assert_format'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x2fc): undefined reference to `kunit_binary_assert_format'
->> loongarch64-linux-ld: unwind_kunit.c:(.text+0x2fc): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x320): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x348): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x34c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x34c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x370): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x398): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x39c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x39c): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x3c0): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x3d4): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x3d8): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x3d8): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x3fc): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x410): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x414): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x414): undefined reference to `kunit_binary_assert_format'
-   loongarch64-linux-ld: unwind_kunit.c:(.text+0x438): undefined reference to `kunit_do_failed_assertion'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller_reliable':
->> unwind_kunit.c:(.text+0x4f8): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L55':
->> unwind_kunit.c:(.text+0x638): undefined reference to `kunit_kfree'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L50':
-   unwind_kunit.c:(.text+0x698): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `.L54':
-   unwind_kunit.c:(.text+0x6e0): undefined reference to `kunit_log_append'
-   loongarch64-linux-ld: lib/unwind_kunit.o: in function `uwd_test_init':
->> unwind_kunit.c:(.text+0x71c): undefined reference to `kunit_kmalloc_array'
+   In file included from arch/x86/events/perf_event.h:19,
+                    from arch/x86/events/core.c:45:
+>> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
+      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
+         |                    ^~~~~~~~~~~~~~
+   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
+      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
+         |                   ^~~~~~~~~~~~~~
+--
+   In file included from arch/x86/kernel/traps.c:54:
+>> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
+      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
+         |                    ^~~~~~~~~~~~~~
+   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
+      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
+         |                   ^~~~~~~~~~~~~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/uapi/linux/kernel.h:6,
+                    from include/linux/cache.h:5,
+                    from arch/x86/include/asm/current.h:9,
+                    from include/linux/sched.h:12,
+                    from include/linux/context_tracking.h:5,
+                    from arch/x86/kernel/traps.c:15:
+   arch/x86/include/asm/tdx.h: In function '__seamcall':
+   include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+      28 | #define _BITUL(x)       (_UL(1) << (x))
+         |                                 ^~
+   arch/x86/include/asm/tdx.h:20:41: note: in expansion of macro '_BITUL'
+      20 | #define TDX_ERROR                       _BITUL(TDX_ERROR_BIT)
+         |                                         ^~~~~~
+   arch/x86/include/asm/tdx.h:21:42: note: in expansion of macro 'TDX_ERROR'
+      21 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+         |                                          ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:25:42: note: in expansion of macro 'TDX_SW_ERROR'
+      25 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+         |                                          ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:182:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
+     182 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+         |                                                                      ^~~~~~~~~~~~~~~
+--
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/uapi/linux/kernel.h:6,
+                    from include/linux/cache.h:5,
+                    from arch/x86/include/asm/current.h:9,
+                    from include/linux/sched.h:12,
+                    from include/linux/context_tracking.h:5,
+                    from arch/x86/kernel/kvm.c:12:
+   arch/x86/include/asm/tdx.h: In function '__seamcall':
+   include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+      28 | #define _BITUL(x)       (_UL(1) << (x))
+         |                                 ^~
+   arch/x86/include/asm/tdx.h:20:41: note: in expansion of macro '_BITUL'
+      20 | #define TDX_ERROR                       _BITUL(TDX_ERROR_BIT)
+         |                                         ^~~~~~
+   arch/x86/include/asm/tdx.h:21:42: note: in expansion of macro 'TDX_ERROR'
+      21 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+         |                                          ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:25:42: note: in expansion of macro 'TDX_SW_ERROR'
+      25 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+         |                                          ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:182:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
+     182 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+         |                                                                      ^~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/kvm.c:33:
+   arch/x86/include/asm/cpu.h: At top level:
+>> arch/x86/include/asm/cpu.h:74:20: error: conflicting types for 'tsx_ctrl_clear'; have 'void(u64)' {aka 'void(long long unsigned int)'}
+      74 | static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
+         |                    ^~~~~~~~~~~~~~
+   arch/x86/include/asm/cpu.h:73:19: note: previous definition of 'tsx_ctrl_clear' with type 'u64(void)' {aka 'long long unsigned int(void)'}
+      73 | static inline u64 tsx_ctrl_clear(void) { return 0; }
+         |                   ^~~~~~~~~~~~~~
+
+
+vim +74 arch/x86/include/asm/cpu.h
+
+    72	
+    73	static inline u64 tsx_ctrl_clear(void) { return 0; }
+  > 74	static inline void tsx_ctrl_clear(u64 tsx_ctrl) {}
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
