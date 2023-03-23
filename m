@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD5015B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 01:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CB815B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 01:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679534765; x=1711070765;
+  t=1679534780; x=1711070780;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ibJHhvTMRSXwlod9kYDHsNNrjdN9/ndXSpMrtOFGtsg=;
-  b=cwWdAF7Fa+yLoZcjALxMXsbRBELK0RsUo1oPpFUlgq4kOuDYDNGB1fJZ
-   mJwWBYByr1G6N8FOICcacvcIkwinQCrDc22Scqz/j0Hwd9dZQ41I1ziK5
-   6YjS7sS5xfX2m0Pmc/R+mkdu+43/Nsr2bb0EAUqs/gZSv8gpdVwKuG3IK
-   yJXJ/skI91KpFYSOtoDpzGItKc/wYc+GjfAkbklzatberhEc+10WFVbzZ
-   WNZ9ZINSl4DJpvg6uYMEAswJq40q3qQnHfownrubV+HIK6MMnkO5BxXb6
-   XrIJw2zi46D2cAESTZBkynf6GcaelidUQr9j+QYpzdZxoINOWW8n4k8JF
+  bh=I40A728vBnWwrqJRn2xF+YSOLZY+fr7O8cMyTNLETD0=;
+  b=beG/clVYLQX0pb1oBGklRSwjTeFQuech1YcKJykdvcT6IUCG8C4dq8Az
+   +IwIc00kRQQmIkvvLHWI8uRlwog3c+vZQmc1ZGe1i/NWka8LtF9lGVYop
+   EPKItcZiZVPk097bgc4aWlkR3FuA38d/7ePRUxrP9Uq+PLKALgSoRorZG
+   ervaBFfnRjYrrkUGcwswQQV4CDKHW2jV6XRYEGBcrBGSRLd6MTf9kRTS7
+   7aEQaH5rA0SckWUFXuQwQkf93iOo4zfytXFYA4lv2SpHwofaJn71ceqpa
+   XwtDR0Jgl0X4V6XPC2YZ1m2Sq0tHkd3ZgzdZF0wV8M+zutxeT94MCZIR2
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319022083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338090476"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="319022083"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 18:26:05 -0700
+   d="scan'208";a="338090476"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 18:26:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="684513815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659390570"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="684513815"
+   d="scan'208";a="659390570"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2023 18:26:03 -0700
+  by orsmga006.jf.intel.com with ESMTP; 22 Mar 2023 18:26:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf9iM-000DoG-35;
-	Thu, 23 Mar 2023 01:26:02 +0000
-Date: Thu, 23 Mar 2023 09:25:33 +0800
+	id 1pf9iN-000DoO-09;
+	Thu, 23 Mar 2023 01:26:03 +0000
+Date: Thu, 23 Mar 2023 09:25:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH 2/3] ip: Make __ip{,6}_append_data() and co. take a
  msghdr*
-Message-ID: <202303230954.Qtw5rHvX-lkp@intel.com>
+Message-ID: <202303230918.CpQpgPsA-lkp@intel.com>
 References: <20230322135612.3265850-3-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,7 +62,7 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/David-Howells/ip-Make-__ip-6-_append_data-and-co-take-a-msghdr/20230322-225741
 patch link:    https://lore.kernel.org/r/20230322135612.3265850-3-dhowells%40redhat.com
 patch subject: [RFC PATCH 2/3] ip: Make __ip{,6}_append_data() and co. take a msghdr*
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230323/202303230954.Qtw5rHvX-lkp@intel.com/config)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230323/202303230918.CpQpgPsA-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/intel-lab-lkp/linux/commit/eecac0727821eaf716a8600550bf68f21ead4b87
@@ -71,12 +71,12 @@ reproduce (this is a W=1 build):
         git checkout eecac0727821eaf716a8600550bf68f21ead4b87
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash lib// net/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash lib// net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230954.Qtw5rHvX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230918.CpQpgPsA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
