@@ -1,175 +1,88 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84D7179
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 06:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679553925; x=1711089925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A6mO3eZa9srZD0TwB6Z9CiOjfI3r19eFRufP6HLE7HM=;
-  b=c3rw1uaAYeHmI5yRCRXNcTw1Ksg+T7YHHRt9v+6KyLZhDp0E9wftaim+
-   f2qx86niJKDHxabxEST+p2ki2bph2gNzMATptgIqXGUqx2nLsnfMcA3yM
-   j4XWBCdcorZ20ysXu8WJTwKc9enMLrk+IoXKHsgLsoQciX46RhS3PwlbU
-   3cUX/mqaGmEKX7Fxwi7XL2r1XqlpHLGlYlPq/IhtT4uEvRRBhaJYxWh/O
-   e+dPRs0B3/OSu66lOxWby5uIvHHZNBtZxfmOezKH+lAyI97bXxe/30v2C
-   R61+tlAnEYuOiPWjQMV/XZbiWpR5Dh4GEp5ucqQMKn260Np1ERLOKYNc2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319800781"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="319800781"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 23:45:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632275854"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="632275854"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 23:45:14 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfEhF-000E5A-19;
-	Thu, 23 Mar 2023 06:45:13 +0000
-Date: Thu, 23 Mar 2023 14:44:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Yang <mmyangfl@gmail.com>, linux-clk@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 7/9] clk: hisilicon: Migrate devm APIs
-Message-ID: <202303231400.ccfrqXUI-lkp@intel.com>
-References: <20230322164201.2454771-8-mmyangfl@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5976923C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 07:23:58 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so1162006pjz.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 00:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679556237;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=buAA0gQONMWjkOKf6MOi67XvxnQyV7zOZpCFmaXgVLI=;
+        b=BwyezKzNUfJO24XJVuCeWKjJ6IRxjZ5OOcKf8Yd902IfLfzLsna/DcHVVSTAbNhKrc
+         pfvcZdbY4N0rWsUWviK4dJtIzMnBKTJR+gdbIyTsg9RxsNxzQM+mond4mqGZBbPx0jN4
+         /2vdACU86PD3yHB4FUwCJj5Chni2Qtp9LvQQUF/zhCTJnvxsAUeDAr+MHnuwGFT6cx3v
+         OqO8tJs3nd1/05RDD2+FOWJBaJYBVshaWdA7b85efOn9i38Ef6dqbvCSAY0KgWoA1nVh
+         lyS/V+wK+dk4twEqJECyiDr3XgGzcngjcSHOYSI6Xz41a31PgE9+NQboqvUMzQBEZQSw
+         Pk2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679556237;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=buAA0gQONMWjkOKf6MOi67XvxnQyV7zOZpCFmaXgVLI=;
+        b=uQuFWrCDhNyYrvsaKm16ICXBw4jGFcYyohSGkTZOx34g8MxdnbUY73lSxuIoK1bkd4
+         4Dp7361ld86GVcPsDZn1MMyIsXA+2UZ0Zc8nRpjkoMx706d0KH5zYlDCb24ImrBA0s48
+         7dMI0y0jsNxT22J25xGJTXYvOTgaNhs4Cr+ALl1/hl+kxfm8AjNy3aU94ZmUKDbGtpiM
+         guKs9bR9TlfcF1ZWVhC3QSwSiFwyhxhSmlUlRbZ3rDhSrYUw0r7jcDb5T+CDmV831cMW
+         oszo3PZ+edhd5ODWRRMB2lyzDi3Pgv7Q5AKZY42xBq+lBps6yGG1ch4oZf775bGhTftV
+         BwCQ==
+X-Gm-Message-State: AO0yUKURNj4kiYdpWiI/K0RPlR6o6zlaLDea+OMBVf/SFP+NVJKKEQb2
+	298GfbQsjIH4LnPa/Nmcpjk=
+X-Google-Smtp-Source: AK7set9SOXtJImuAOa1KTCi+7H6Igv15mIZLquTlrWTwPzp4jAwGniT1wHdZ3xUmfpJkH70sHH0irw==
+X-Received: by 2002:a17:903:42c3:b0:19e:dc0e:1269 with SMTP id jy3-20020a17090342c300b0019edc0e1269mr4723439plb.7.1679556237546;
+        Thu, 23 Mar 2023 00:23:57 -0700 (PDT)
+Received: from DESKTOP-B5TBVBT.localdomain ([175.117.51.71])
+        by smtp.gmail.com with ESMTPSA id je1-20020a170903264100b001a1ddd224desm5235691plb.89.2023.03.23.00.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 00:23:56 -0700 (PDT)
+From: Yohan Joung <jyh429@gmail.com>
+To: lkp@intel.com
+Cc: chao@kernel.org,
+	jaegeuk@kernel.org,
+	jyh429@gmail.com,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Yohan Joung <yohan.joung@sk.com>
+Subject: [PATCH] f2fs: fix align check for npo2
+Date: Thu, 23 Mar 2023 16:23:38 +0900
+Message-Id: <20230323072338.175-1-jyh429@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202303231039.GKLRE8O5-lkp@intel.com>
+References: <202303231039.GKLRE8O5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322164201.2454771-8-mmyangfl@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Fix alignment check to be correct in npo2 as well
 
-Thank you for the patch! Yet something to improve:
+Signed-off-by: Yohan Joung <yohan.joung@sk.com>
+---
+ fs/f2fs/segment.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test ERROR on 6015b1aca1a233379625385feb01dd014aca60b5]
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index 055e70e77aa2..46458085a8d0 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -1858,7 +1858,7 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
+ 		sector = SECTOR_FROM_BLOCK(blkstart);
+ 		nr_sects = SECTOR_FROM_BLOCK(blklen);
+ 
+-		if (sector & (bdev_zone_sectors(bdev) - 1) ||
++		if (sector % bdev_zone_sectors(bdev) ||
+ 				nr_sects != bdev_zone_sectors(bdev)) {
+ 			f2fs_err(sbi, "(%d) %s: Unaligned zone reset attempted (block %x + %x)",
+ 				 devi, sbi->s_ndevs ? FDEV(devi).path : "",
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230323-004453
-base:   6015b1aca1a233379625385feb01dd014aca60b5
-patch link:    https://lore.kernel.org/r/20230322164201.2454771-8-mmyangfl%40gmail.com
-patch subject: [PATCH v7 7/9] clk: hisilicon: Migrate devm APIs
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303231400.ccfrqXUI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8d88e46ef325130e4dd516ce36e3e0484bc52230
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Yang/clk-hisilicon-Rename-Hi3798CV200-to-Hi3798/20230323-004453
-        git checkout 8d88e46ef325130e4dd516ce36e3e0484bc52230
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/hisilicon/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231400.ccfrqXUI-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from drivers/clk/hisilicon/clk-hi3620.c:14:
-   drivers/clk/hisilicon/clk-hi3620.c: In function 'clk_register_hisi_mmc':
->> drivers/clk/hisilicon/clk-hi3620.c:435:35: error: 'clks' undeclared (first use in this function); did you mean 'clk'?
-     435 |                         __func__, clks[i].name);
-         |                                   ^~~~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
-     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
-         |                 ^~~~~~~
-   drivers/clk/hisilicon/clk-hi3620.c:435:35: note: each undeclared identifier is reported only once for each function it appears in
-     435 |                         __func__, clks[i].name);
-         |                                   ^~~~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
-     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
-         |                 ^~~~~~~
->> drivers/clk/hisilicon/clk-hi3620.c:435:40: error: 'i' undeclared (first use in this function)
-     435 |                         __func__, clks[i].name);
-         |                                        ^
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/clk/hisilicon/clk-hi3620.c:434:17: note: in expansion of macro 'dev_err'
-     434 |                 dev_err(dev, "%s: failed to register clock %s\n",
-         |                 ^~~~~~~
->> drivers/clk/hisilicon/clk-hi3620.c:436:24: warning: returning 'int' from a function with return type 'struct clk_hw *' makes pointer from integer without a cast [-Wint-conversion]
-     436 |                 return ret;
-         |                        ^~~
---
-   drivers/clk/hisilicon/clk-hix5hd2.c: In function 'hix5hd2_clk_register_complex':
-   drivers/clk/hisilicon/clk-hix5hd2.c:260:46: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     260 |         struct hix5hd2_complex_clock *clks = clocks;
-         |                                              ^~~~~~
->> drivers/clk/hisilicon/clk-hix5hd2.c:300:31: error: 'data->clk_data' is a pointer; did you mean to use '->'?
-     300 |                 data->clk_data.clks[clks[i].id] = clk;
-         |                               ^
-         |                               ->
-
-
-vim +435 drivers/clk/hisilicon/clk-hi3620.c
-
-   399	
-   400	static struct clk_hw *
-   401	clk_register_hisi_mmc(struct device *dev, const struct hisi_mmc_clock *mmc_clk,
-   402			      void __iomem *base)
-   403	{
-   404		struct clk_mmc *mclk;
-   405		struct clk_init_data init;
-   406		int ret;
-   407	
-   408		mclk = devm_kzalloc(dev, sizeof(*mclk), GFP_KERNEL);
-   409		if (!mclk)
-   410			return ERR_PTR(-ENOMEM);
-   411	
-   412		init.name = mmc_clk->name;
-   413		init.ops = &clk_mmc_ops;
-   414		init.flags = mmc_clk->flags;
-   415		init.parent_names = (mmc_clk->parent_name ? &mmc_clk->parent_name : NULL);
-   416		init.num_parents = (mmc_clk->parent_name ? 1 : 0);
-   417		mclk->hw.init = &init;
-   418	
-   419		mclk->id = mmc_clk->id;
-   420		mclk->clken_reg = base + mmc_clk->clken_reg;
-   421		mclk->clken_bit = mmc_clk->clken_bit;
-   422		mclk->div_reg = base + mmc_clk->div_reg;
-   423		mclk->div_off = mmc_clk->div_off;
-   424		mclk->div_bits = mmc_clk->div_bits;
-   425		mclk->drv_reg = base + mmc_clk->drv_reg;
-   426		mclk->drv_off = mmc_clk->drv_off;
-   427		mclk->drv_bits = mmc_clk->drv_bits;
-   428		mclk->sam_reg = base + mmc_clk->sam_reg;
-   429		mclk->sam_off = mmc_clk->sam_off;
-   430		mclk->sam_bits = mmc_clk->sam_bits;
-   431	
-   432		ret = devm_clk_hw_register(dev, &mclk->hw);
-   433		if (ret) {
-   434			dev_err(dev, "%s: failed to register clock %s\n",
- > 435				__func__, clks[i].name);
- > 436			return ret;
-   437		}
-   438	
-   439		return &mclk->hw;
-   440	}
-   441	
-
+base-commit: d15180a8d1d72c7bddcb700d2c9ffdab7d2b9481
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
