@@ -1,83 +1,196 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A55B944E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 13:57:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679579851; x=1711115851;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gBJb0c0Yb7Obq0J/Gt5S73TDVV8wV6QjkPNedeADdRw=;
-  b=mFvRrL7THqx+EJWm9xDvTaH6B6GK2YYta8G3V+tAV99rqx8qXivroxOq
-   0NSOh53n74d2495CZAdflQtQ3WmqZ8zafG66vUxYpCTdGr29zvgA+cXLk
-   X6XKm+NYJ6RcnXtm6G4ZaJV+Hgf0Ua190NHBeP5fRG3uflbDI6LZy9DE2
-   284VVQmmV2kOjWrIBiVGcy5sVvdExtJVoJ5tCEv6PZL/9RCltlMczCa8c
-   7BRT4tspiQOjbVOmVufLVZhgtAUP83UjxEebZgy6r7zwpjQiQmGEpmHC8
-   dBbNcaQGlbK1oBKUaX1cL2qdjs/ib1iX3yXLT+joRjfxunQjF+3+Re+8M
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="425772318"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="425772318"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:57:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="1011807918"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="1011807918"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Mar 2023 06:57:28 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfLRY-000EQI-07;
-	Thu, 23 Mar 2023 13:57:28 +0000
-Date: Thu, 23 Mar 2023 21:56:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 1000/6100] gpio.c:undefined reference to
- `of_mm_gpiochip_add_data'
-Message-ID: <202303232154.aXOXAWhg-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D82944E;
+	Thu, 23 Mar 2023 14:03:11 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id j11so27843583lfg.13;
+        Thu, 23 Mar 2023 07:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679580190;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOQetMaSZJeNzVjClm+fyta6IWYDYNGcO8Ll5rNU0Rg=;
+        b=RrlNG0U+jDtZkeulhvHpLMUDCxk0SXpsIHK71lf1mX2OZ2tjEeMIBIQqV6UT7vFh2E
+         GfLDu6S78BnVpK269bDpjWbzXjke9WTw6NlfzkxGvBQ8cJNiupzHaTmjT5/ogLRVtaCt
+         Wl20ed9pwpImcLI6TB5WbV8iQT+3z/QHFl5TSr6Rk8vwkXvaEcq7WYKyUbD+njnMuqkC
+         0HafRRWpwlmFJheTydrV/+F7j7BK5StMRJksOYbl8Pw/XyC7dIiILfant15ozYGS/G4C
+         4kmJMtMQ3kqvUFKMN0PuXqDKWDW1w2PKSfoX5j6xJX7v6o3IPcHdjORRMMnTC8qahxwy
+         3JcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679580190;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oOQetMaSZJeNzVjClm+fyta6IWYDYNGcO8Ll5rNU0Rg=;
+        b=bp+V9AVYDb+LuvofGsb9ho+PVKC+cxjQZVMgbva9rbAoiJYM3L2rr0jQgVgonYtYOW
+         uoe4WzM48WVLLU1yQZr1YHRt7/gGMP82MeszEGoR6f12nJB29H67oZvcaFmX/EvRRJe3
+         e5j6zXGfc+kXtscoVtlozca33H+MwJWS8giVKYA+Q7N8Aff7sQKwVO90RoGWVWDSTep3
+         xcd5hXBiaLNX7i0feYFOFU3PW2vSADREuWeZLjHnWnjkexEnvLR3iRlYWoFz1EjLo0+f
+         kAEF8URmS8pGPWErT2oMBOWwNg+ycmWptTC51/v3fE3ETDV4GctpMfPBZHkoI6PdzX3y
+         BEdw==
+X-Gm-Message-State: AO0yUKUpV78HEHT4bCA5at5EJiDFJuIvzeKzEBg7sweWobvWiUgYJFYw
+	rLybctZ4wJ1JEWs5/xTwlnpkYDiim19jPoXTd+0=
+X-Google-Smtp-Source: AK7set8TYyLqEFaEsXNIHMHmfwHG4jXQs5rhwOxsSONSO+PY1C+M5g0CYUEscmGIoG8RcCwuK6ml9AC+MkSx4gZ3xao=
+X-Received: by 2002:a05:6512:2803:b0:4e8:49cc:6744 with SMTP id
+ cf3-20020a056512280300b004e849cc6744mr3298073lfb.1.1679580189398; Thu, 23 Mar
+ 2023 07:03:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <13de0bf0-aa74-46a3-8389-3c70fe77be1f@kili.mountain> <bbb33b9e-570f-8d02-1162-fa93fbe006dd@talpey.com>
+In-Reply-To: <bbb33b9e-570f-8d02-1162-fa93fbe006dd@talpey.com>
+From: Shyam Prasad N <nspmangalore@gmail.com>
+Date: Thu, 23 Mar 2023 19:32:58 +0530
+Message-ID: <CANT5p=rTryD+hrQTnSMJkp61zPTdphNZqraazHYD2FK02B4YVw@mail.gmail.com>
+Subject: Re: [cifs:for-next 3/8] fs/cifs/connect.c:1303 cifs_ipaddr_cmp()
+ error: memcmp() '&saddr4->sin_addr.s_addr' too small (4 vs 16)
+To: Tom Talpey <tom@talpey.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
+	Shyam Prasad N <sprasad@microsoft.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	Steve French <stfrench@microsoft.com>, "Paulo Alcantara (SUSE)" <pc@manguebit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7c4a254d78f89546d0e74a40617ef24c6151c8d1
-commit: a99cc66807d6c854a7f65f962766c530c91be149 [1000/6100] gpiolib: split of_mm_gpio_chip out of linux/of_gpio.h
-config: powerpc-randconfig-s041-20230322 (https://download.01.org/0day-ci/archive/20230323/202303232154.aXOXAWhg-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=a99cc66807d6c854a7f65f962766c530c91be149
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout a99cc66807d6c854a7f65f962766c530c91be149
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash
+On Thu, Mar 23, 2023 at 7:10=E2=80=AFPM Tom Talpey <tom@talpey.com> wrote:
+>
+> On 3/23/2023 5:40 AM, Dan Carpenter wrote:
+> > tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+> > head:   96114df697dfaef2ce29c14089a83e4a5777e915
+> > commit: 010c4e0a894e6a3dee3176aa2f654fce632d0346 [3/8] cifs: fix sockad=
+dr comparison in iface_cmp
+> > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/2=
+0230323/202303230210.ufS9gVzi-lkp@intel.com/config)
+> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202303230210.ufS9gVzi-lkp@intel.com/
+> >
+> > New smatch warnings:
+> > fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&saddr4->sin_=
+addr.s_addr' too small (4 vs 16)
+> > fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&saddr6->sin6=
+_addr' too small (16 vs 28)
+> >
+> > Old smatch warnings:
+> > fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&vaddr4->sin_=
+addr.s_addr' too small (4 vs 16)
+> > fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&vaddr6->sin6=
+_addr' too small (16 vs 28)
+> > fs/cifs/connect.c:2937 generic_ip_connect() error: we previously assume=
+d 'socket' could be null (see line 2925)
+> >
+> > vim +1303 fs/cifs/connect.c
+> >
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1279  int
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1280  cifs_ipaddr_cmp(struct=
+ sockaddr *srcaddr, struct sockaddr *rhs)
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1281  {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1282       struct sockaddr_i=
+n *saddr4 =3D (struct sockaddr_in *)srcaddr;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1283       struct sockaddr_i=
+n *vaddr4 =3D (struct sockaddr_in *)rhs;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1284       struct sockaddr_i=
+n6 *saddr6 =3D (struct sockaddr_in6 *)srcaddr;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1285       struct sockaddr_i=
+n6 *vaddr6 =3D (struct sockaddr_in6 *)rhs;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1286
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1287       switch (srcaddr->=
+sa_family) {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1288       case AF_UNSPEC:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1289               switch (r=
+hs->sa_family) {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1290               case AF_U=
+NSPEC:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1291                       r=
+eturn 0;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1292               case AF_I=
+NET:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1293               case AF_I=
+NET6:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1294                       r=
+eturn 1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1295               default:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1296                       r=
+eturn -1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1297               }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1298       case AF_INET: {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1299               switch (r=
+hs->sa_family) {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1300               case AF_U=
+NSPEC:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1301                       r=
+eturn -1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1302               case AF_I=
+NET:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1303                       r=
+eturn memcmp(&saddr4->sin_addr.s_addr,
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1304                        =
+      &vaddr4->sin_addr.s_addr,
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1305                        =
+      sizeof(struct sockaddr_in));
+> >
+> > saddr4 and vaddr4 are type sockaddr_in.  But sin_addr.s_addr is an
+> > offset into the struct.  This looks like a read overflow.  I would thin=
+k
+> > it should be sizeof(struct in_addr).
+>
+> Oh, definitely. It's more than a read overflow, it's an incorrect
+> comparison which will lead to creating new and unnecessary channels.
+> Two bugs here.
+>
+> Tom.
+>
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1306               case AF_I=
+NET6:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1307                       r=
+eturn 1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1308               default:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1309                       r=
+eturn -1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1310               }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1311       }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1312       case AF_INET6: {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1313               switch (r=
+hs->sa_family) {
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1314               case AF_U=
+NSPEC:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1315               case AF_I=
+NET:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1316                       r=
+eturn -1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1317               case AF_I=
+NET6:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1318                       r=
+eturn memcmp(&saddr6->sin6_addr,
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1319                        =
+             &vaddr6->sin6_addr,
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1320                        =
+             sizeof(struct sockaddr_in6));
+> >
+> > Same.
+> >
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1321               default:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1322                       r=
+eturn -1;
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1323               }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1324       }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1325       default:
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1326               return -1=
+; /* don't expect to be here */
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1327       }
+> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1328  }
+> >
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303232154.aXOXAWhg-lkp@intel.com/
+Thanks for catching this Dan.
+I will fix this and send an updated patch.
 
-All errors (new ones prefixed by >>):
-
-   powerpc-linux-ld: powerpc-linux-ld: DWARF error: could not find abbrev number 15209
-   arch/powerpc/platforms/4xx/gpio.o: in function `ppc4xx_add_gpiochips':
->> gpio.c:(.init.text+0xec): undefined reference to `of_mm_gpiochip_add_data'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--=20
+Regards,
+Shyam
