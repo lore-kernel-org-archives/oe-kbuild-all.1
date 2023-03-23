@@ -1,45 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF2115B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 01:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A0F15B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 01:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679534791; x=1711070791;
+  t=1679536626; x=1711072626;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZkGbgWWOqmguyF/qJk0Xfw0Ahx3qSoeIjrBaGvZWR+M=;
-  b=Oj8FBGZqLi97C1mJJm7y2Ff8M2GxXlubUc7vo/LIBiKIxUv3DvRhJHQd
-   YOBZgroMBuZGyAGQ+8WRURnLCWzU4IfM4yDrI+y+017C+XNgnb8GbhN08
-   XYPauvNxf3A29ctc3bKoWPDCfGmPyjMofbS6JO/0N/ZNCthFG5nyn8e28
-   8KvQH2exGaeqIwIVKwj1j/z0s38O3JtOky3KmS+79R5BK7wnI2pPvyvMV
-   1wy4cXtou4BSSSIru+OMSAzh9XDauBrcwJygYKzKpuEXVO6Q8RF2Cl/ZF
-   sjL+9nrYLd2rHlf4L4oQw5DY3OojweQpESsARymCepnwljtAu3OJHOsYd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319022126"
+  bh=hBwoYvb7t1pTzgwd5L5jTzap5pt3wrW0qS8fEMi6fDw=;
+  b=F0R0zmfN+HpsYlXGJG51IvdXqx0XgAFL+cqJ8x4bulOXoUngWu3wNukv
+   A4G5u4ywHTzaTwiLVtdJxKpg7MOXDzQ432AhY51IwReJT1YKrvJZ2nlP2
+   trbCnpbNNJm9vTOGCfsWsSa4Rr7gTF1K8Zp45kUrepj/qCHywppyfNRNV
+   Fu1p6mSJCOSBAqEhB2LYLvOZz2ZzEdUxEpblLhRX+NDGwQ4mGQSWkywE8
+   Hhd0zTvsGwQueepNJQZEjit4nP393HDKPofoH03MCnh87yRoxdDiKZWIV
+   Q7/EgB9LCdFxEfrrGBYKX/CLCWDa3BpsjZNGCmB6+wj3HuvgfujgUvFTO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="340912680"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="319022126"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 18:26:10 -0700
+   d="scan'208";a="340912680"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 18:57:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="684513829"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="771268781"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="684513829"
+   d="scan'208";a="771268781"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2023 18:26:08 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Mar 2023 18:57:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf9iN-000DoQ-0C;
-	Thu, 23 Mar 2023 01:26:03 +0000
-Date: Thu, 23 Mar 2023 09:25:40 +0800
+	id 1pfACN-000Dpo-2s;
+	Thu, 23 Mar 2023 01:57:03 +0000
+Date: Thu, 23 Mar 2023 09:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: William Breathitt Gray <william.gray@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [brgl:gpio/for-next 55/68] drivers/gpio/gpio-pci-idio-16.c:39:13:
- error: implicit declaration of function 'idio_16_get_direction'; did you
- mean 'idio_16_gpio_get_direction'?
-Message-ID: <202303230922.hLLAnLQ6-lkp@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:20230322-deprecate-bdev_disk_changed 1/1]
+ block/partitions/core.c:701:1: warning: data definition has no type or
+ storage class
+Message-ID: <202303230917.GT8niXu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,197 +47,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   16d6fa5a94b3873968941b701b99903abc4e5059
-commit: 473b79057bbd9756f6969e6647e2d9ecababa7af [55/68] gpio: idio-16: Remove unused legacy interface
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303230922.hLLAnLQ6-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230322-deprecate-bdev_disk_changed
+head:   64988d63873be8d60ab3ebb87c869cba3960116e
+commit: 64988d63873be8d60ab3ebb87c869cba3960116e [1/1] block: annotate bdev_disk_changed() deprecation with a symbol namespace
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230323/202303230917.GT8niXu6-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=473b79057bbd9756f6969e6647e2d9ecababa7af
-        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
-        git fetch --no-tags brgl gpio/for-next
-        git checkout 473b79057bbd9756f6969e6647e2d9ecababa7af
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=64988d63873be8d60ab3ebb87c869cba3960116e
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof 20230322-deprecate-bdev_disk_changed
+        git checkout 64988d63873be8d60ab3ebb87c869cba3960116e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash block/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230922.hLLAnLQ6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230917.GT8niXu6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpio/gpio-pci-idio-16.c:32:30: error: field 'state' has incomplete type
-      32 |         struct idio_16_state state;
-         |                              ^~~~~
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_get_direction':
->> drivers/gpio/gpio-pci-idio-16.c:39:13: error: implicit declaration of function 'idio_16_get_direction'; did you mean 'idio_16_gpio_get_direction'? [-Werror=implicit-function-declaration]
-      39 |         if (idio_16_get_direction(offset))
-         |             ^~~~~~~~~~~~~~~~~~~~~
-         |             idio_16_gpio_get_direction
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_get':
->> drivers/gpio/gpio-pci-idio-16.c:62:16: error: implicit declaration of function 'idio_16_get'; did you mean 'idio_16_gpio_get'? [-Werror=implicit-function-declaration]
-      62 |         return idio_16_get(idio16gpio->reg, &idio16gpio->state, offset);
-         |                ^~~~~~~~~~~
-         |                idio_16_gpio_get
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_get_multiple':
->> drivers/gpio/gpio-pci-idio-16.c:70:9: error: implicit declaration of function 'idio_16_get_multiple'; did you mean 'idio_16_gpio_get_multiple'? [-Werror=implicit-function-declaration]
-      70 |         idio_16_get_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         idio_16_gpio_get_multiple
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_set':
->> drivers/gpio/gpio-pci-idio-16.c:79:9: error: implicit declaration of function 'idio_16_set'; did you mean 'idio_16_gpio_set'? [-Werror=implicit-function-declaration]
-      79 |         idio_16_set(idio16gpio->reg, &idio16gpio->state, offset, value);
-         |         ^~~~~~~~~~~
-         |         idio_16_gpio_set
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_set_multiple':
->> drivers/gpio/gpio-pci-idio-16.c:87:9: error: implicit declaration of function 'idio_16_set_multiple'; did you mean 'idio_16_gpio_set_multiple'? [-Werror=implicit-function-declaration]
-      87 |         idio_16_set_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         idio_16_gpio_set_multiple
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_irq_mask':
->> drivers/gpio/gpio-pci-idio-16.c:106:45: error: invalid use of undefined type 'struct idio_16'
-     106 |                 iowrite8(0, &idio16gpio->reg->irq_ctl);
-         |                                             ^~
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_irq_unmask':
-   drivers/gpio/gpio-pci-idio-16.c:129:41: error: invalid use of undefined type 'struct idio_16'
-     129 |                 ioread8(&idio16gpio->reg->irq_ctl);
-         |                                         ^~
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_irq_handler':
-   drivers/gpio/gpio-pci-idio-16.c:164:46: error: invalid use of undefined type 'struct idio_16'
-     164 |         irq_status = ioread8(&idio16gpio->reg->irq_status);
-         |                                              ^~
-   drivers/gpio/gpio-pci-idio-16.c:178:37: error: invalid use of undefined type 'struct idio_16'
-     178 |         iowrite8(0, &idio16gpio->reg->in0_7);
-         |                                     ^~
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_irq_init_hw':
-   drivers/gpio/gpio-pci-idio-16.c:198:37: error: invalid use of undefined type 'struct idio_16'
-     198 |         iowrite8(0, &idio16gpio->reg->irq_ctl);
-         |                                     ^~
-   drivers/gpio/gpio-pci-idio-16.c:199:37: error: invalid use of undefined type 'struct idio_16'
-     199 |         iowrite8(0, &idio16gpio->reg->in0_7);
-         |                                     ^~
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_probe':
-   drivers/gpio/gpio-pci-idio-16.c:232:37: error: invalid use of undefined type 'struct idio_16'
-     232 |         iowrite8(0, &idio16gpio->reg->filter_ctl);
-         |                                     ^~
->> drivers/gpio/gpio-pci-idio-16.c:248:9: error: implicit declaration of function 'idio_16_state_init'; did you mean 'file_ra_state_init'? [-Werror=implicit-function-declaration]
-     248 |         idio_16_state_init(&idio16gpio->state);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         file_ra_state_init
-   drivers/gpio/gpio-pci-idio-16.c: In function 'idio_16_gpio_get':
-   drivers/gpio/gpio-pci-idio-16.c:63:1: error: control reaches end of non-void function [-Werror=return-type]
-      63 | }
-         | ^
+>> block/partitions/core.c:701:1: warning: data definition has no type or storage class
+     701 | EXPORT_SYMBOL_GPL_NS(bdev_disk_changed, BLOCK_DEPRECATED);
+         | ^~~~~~~~~~~~~~~~~~~~
+   block/partitions/core.c:701:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL_GPL_NS' [-Werror=implicit-int]
+>> block/partitions/core.c:701:1: warning: parameter names (without types) in function declaration
    cc1: some warnings being treated as errors
 
 
-vim +39 drivers/gpio/gpio-pci-idio-16.c
+vim +701 block/partitions/core.c
 
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   19  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   20  /**
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   21   * struct idio_16_gpio - GPIO device private data structure
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   22   * @chip:	instance of the gpio_chip
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   23   * @lock:	synchronization lock to prevent I/O race conditions
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   24   * @reg:	I/O address offset for the GPIO device registers
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18   25   * @state:	ACCES IDIO-16 device state
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   26   * @irq_mask:	I/O bits affected by interrupts
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   27   */
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   28  struct idio_16_gpio {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   29  	struct gpio_chip chip;
-ea38ce081d15553 Julia Cartwright       2017-03-21   30  	raw_spinlock_t lock;
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18   31  	struct idio_16 __iomem *reg;
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @32  	struct idio_16_state state;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   33  	unsigned long irq_mask;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   34  };
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   35  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   36  static int idio_16_gpio_get_direction(struct gpio_chip *chip,
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   37  	unsigned int offset)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   38  {
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @39  	if (idio_16_get_direction(offset))
-e42615ec233b30d Matti Vaittinen        2019-11-06   40  		return GPIO_LINE_DIRECTION_IN;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   41  
-e42615ec233b30d Matti Vaittinen        2019-11-06   42  	return GPIO_LINE_DIRECTION_OUT;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   43  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   44  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   45  static int idio_16_gpio_direction_input(struct gpio_chip *chip,
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   46  	unsigned int offset)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   47  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   48  	return 0;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   49  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   50  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   51  static int idio_16_gpio_direction_output(struct gpio_chip *chip,
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   52  	unsigned int offset, int value)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   53  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   54  	chip->set(chip, offset, value);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   55  	return 0;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   56  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   57  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   58  static int idio_16_gpio_get(struct gpio_chip *chip, unsigned int offset)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   59  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   60  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   61  
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @62  	return idio_16_get(idio16gpio->reg, &idio16gpio->state, offset);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   63  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   64  
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   65  static int idio_16_gpio_get_multiple(struct gpio_chip *chip,
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   66  	unsigned long *mask, unsigned long *bits)
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   67  {
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   68  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   69  
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @70  	idio_16_get_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   71  	return 0;
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   72  }
-810ebfc5efca9a0 William Breathitt Gray 2018-03-22   73  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   74  static void idio_16_gpio_set(struct gpio_chip *chip, unsigned int offset,
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   75  	int value)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   76  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   77  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   78  
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @79  	idio_16_set(idio16gpio->reg, &idio16gpio->state, offset, value);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   80  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   81  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   82  static void idio_16_gpio_set_multiple(struct gpio_chip *chip,
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   83  	unsigned long *mask, unsigned long *bits)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   84  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   85  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   86  
-e7f758fa9b7fda8 William Breathitt Gray 2022-09-18  @87  	idio_16_set_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
-2dc7c3c16daac73 William Breathitt Gray 2019-12-04   88  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   89  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   90  static void idio_16_irq_ack(struct irq_data *data)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   91  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   92  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   93  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   94  static void idio_16_irq_mask(struct irq_data *data)
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   95  {
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   96  	struct gpio_chip *chip = irq_data_get_irq_chip_data(data);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   97  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   98  	const unsigned long mask = BIT(irqd_to_hwirq(data));
-02e74fc0401ae3f William Breathitt Gray 2017-02-01   99  	unsigned long flags;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  100  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  101  	idio16gpio->irq_mask &= ~mask;
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  102  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  103  	if (!idio16gpio->irq_mask) {
-ea38ce081d15553 Julia Cartwright       2017-03-21  104  		raw_spin_lock_irqsave(&idio16gpio->lock, flags);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  105  
-02e74fc0401ae3f William Breathitt Gray 2017-02-01 @106  		iowrite8(0, &idio16gpio->reg->irq_ctl);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  107  
-ea38ce081d15553 Julia Cartwright       2017-03-21  108  		raw_spin_unlock_irqrestore(&idio16gpio->lock, flags);
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  109  	}
-141d5527568e923 Linus Walleij          2023-03-09  110  
-141d5527568e923 Linus Walleij          2023-03-09  111  	gpiochip_disable_irq(chip, irqd_to_hwirq(data));
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  112  }
-02e74fc0401ae3f William Breathitt Gray 2017-02-01  113  
-
-:::::: The code at line 39 was first introduced by commit
-:::::: e7f758fa9b7fda8b91f2e429b2be93ae0b88ac33 gpio: pci-idio-16: Utilize the idio-16 GPIO library
-
-:::::: TO: William Breathitt Gray <william.gray@linaro.org>
-:::::: CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+   654	
+   655	int bdev_disk_changed(struct gendisk *disk, bool invalidate)
+   656	{
+   657		int ret = 0;
+   658	
+   659		lockdep_assert_held(&disk->open_mutex);
+   660	
+   661		if (!disk_live(disk))
+   662			return -ENXIO;
+   663	
+   664	rescan:
+   665		if (disk->open_partitions)
+   666			return -EBUSY;
+   667		sync_blockdev(disk->part0);
+   668		invalidate_bdev(disk->part0);
+   669		blk_drop_partitions(disk);
+   670	
+   671		clear_bit(GD_NEED_PART_SCAN, &disk->state);
+   672	
+   673		/*
+   674		 * Historically we only set the capacity to zero for devices that
+   675		 * support partitions (independ of actually having partitions created).
+   676		 * Doing that is rather inconsistent, but changing it broke legacy
+   677		 * udisks polling for legacy ide-cdrom devices.  Use the crude check
+   678		 * below to get the sane behavior for most device while not breaking
+   679		 * userspace for this particular setup.
+   680		 */
+   681		if (invalidate) {
+   682			if (!(disk->flags & GENHD_FL_NO_PART) ||
+   683			    !(disk->flags & GENHD_FL_REMOVABLE))
+   684				set_capacity(disk, 0);
+   685		}
+   686	
+   687		if (get_capacity(disk)) {
+   688			ret = blk_add_partitions(disk);
+   689			if (ret == -EAGAIN)
+   690				goto rescan;
+   691		} else if (invalidate) {
+   692			/*
+   693			 * Tell userspace that the media / partition table may have
+   694			 * changed.
+   695			 */
+   696			kobject_uevent(&disk_to_dev(disk)->kobj, KOBJ_CHANGE);
+   697		}
+   698	
+   699		return ret;
+   700	}
+ > 701	EXPORT_SYMBOL_GPL_NS(bdev_disk_changed, BLOCK_DEPRECATED);
+   702	
 
 -- 
 0-DAY CI Kernel Test Service
