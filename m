@@ -1,44 +1,52 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F33A950;
-	Thu, 23 Mar 2023 16:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55C3A950
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 17:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679590299; x=1711126299;
+  t=1679591560; x=1711127560;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gol4GFX54FO4WNeKu+XTxoaVCDKBpq4J47Q+uJRsF4M=;
-  b=Xiq5pSs5Ht4HveEZkISf0IyLoleQj2Bb2Aiy4WyPwWPr7uA8yRysIm8G
-   Wg7qRVaclBKSefmpcMH76So4ngfh0zzSeMe1OSUuqcbgY40PsvTdxXnrg
-   n/jl3+YEW/MjlXD+izljon1txHC7F6gLtpyjSHeMHz+LxMFFf+puwghXh
-   e4LPDeWIZlXCqNmWef4vv7XSA4H/CspIwYfGqGL3YgnQXXkI10r0d8/6F
-   9UcnYOjhVyjXJJ7ENXnxHcjbsYG4jlAES0xd5BG778qe5bcRVABQ2sD1V
-   5UZZMH1DQ7+2ZBg18ULZTWlnlvMDMJQg30+yJ7+8xu/a3V9u834f7FufB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339588636"
+  bh=1P6DW8GCu0Rh5J3iAuRbJHRJpgLRrsh0L9ouH/3CJLg=;
+  b=PJWMxZqqocQHGP8huFT75Euv5bA4XMHxw65nwifY8M9uaTQW3Kdxi+E1
+   Ewa93e6I2g0/Y3wd00dz8yfEjFLHpunf3Xs4/6LASDQupl83iQ3rOF1fz
+   5+TlEZDd6nnRWfYryplfXH85Lc0yvVVcngGHSiKmUd6hbllEOkEK+Z+at
+   0Xkj2asLekWxiyTe4T6yCx6ZYNLbGb7wTsiK1ef/m5JCOo8OC6GtAtSWG
+   nMSijUBIxTJbdvR8O+wwW4urWkEsmRFFvwuTOkUiNKWwBYkery2XVL7if
+   4+3X1zaovEejfLd9E2X4liOQy1RmlI401aInKBCGOwG1CpC8chQuwLsgN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="341942781"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="339588636"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 09:51:37 -0700
+   d="scan'208";a="341942781"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 10:12:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="682374288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="1011906519"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="682374288"
+   d="scan'208";a="1011906519"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 09:51:35 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 23 Mar 2023 10:12:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfOA2-000EY4-2l;
-	Thu, 23 Mar 2023 16:51:34 +0000
-Date: Fri, 24 Mar 2023 00:50:45 +0800
+	id 1pfOUO-000EZ6-09;
+	Thu, 23 Mar 2023 17:12:36 +0000
+Date: Fri, 24 Mar 2023 01:11:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 01/29] drm/i915/tc: Group the TC PHY
- setup/query functions per platform
-Message-ID: <202303240020.UQr6flaJ-lkp@intel.com>
-References: <20230323142035.1432621-2-imre.deak@intel.com>
+To: Chester Lin <clin@suse.com>, Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chester Lin <clin@suse.com>,
+	NXP S32 Linux Team <s32@nxp.com>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@oss.nxp.com>,
+	Andrei Stefanescu <andrei.stefanescu@nxp.com>,
+	Radu Pirea <radu-nicolae.pirea@nxp.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Matthias Brugger <mbrugger@suse.com>
+Subject: Re: [PATCH v3 1/6] pinctrl: s32g2: use of_device_get_match_data() to
+ get device data
+Message-ID: <202303240158.uaLsPb4O-lkp@intel.com>
+References: <20230323144833.28562-2-clin@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,86 +55,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323142035.1432621-2-imre.deak@intel.com>
+In-Reply-To: <20230323144833.28562-2-clin@suse.com>
 
-Hi Imre,
+Hi Chester,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-tip/drm-tip]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next next-20230323]
+[cannot apply to linus/master v6.3-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-i915-tc-Group-the-TC-PHY-setup-query-functions-per-platform/20230323-222328
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230323142035.1432621-2-imre.deak%40intel.com
-patch subject: [Intel-gfx] [PATCH 01/29] drm/i915/tc: Group the TC PHY setup/query functions per platform
-config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230324/202303240020.UQr6flaJ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chester-Lin/pinctrl-s32g2-use-of_device_get_match_data-to-get-device-data/20230323-225141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20230323144833.28562-2-clin%40suse.com
+patch subject: [PATCH v3 1/6] pinctrl: s32g2: use of_device_get_match_data() to get device data
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230324/202303240158.uaLsPb4O-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7b85ed1627f7c16b7ff080b604d35d729c70313f
+        # https://github.com/intel-lab-lkp/linux/commit/b716f96ba217e92e79b0d888f187ba0f30d705cf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Imre-Deak/drm-i915-tc-Group-the-TC-PHY-setup-query-functions-per-platform/20230323-222328
-        git checkout 7b85ed1627f7c16b7ff080b604d35d729c70313f
+        git fetch --no-tags linux-review Chester-Lin/pinctrl-s32g2-use-of_device_get_match_data-to-get-device-data/20230323-225141
+        git checkout b716f96ba217e92e79b0d888f187ba0f30d705cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/pinctrl/nxp/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303240020.UQr6flaJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240158.uaLsPb4O-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_tc.c:264: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * ICL TC PHY handlers
-   drivers/gpu/drm/i915/display/intel_tc.c:457: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * ADLP TC PHY handlers
-   drivers/gpu/drm/i915/display/intel_tc.c:535: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Generic TC PHY handlers
-   drivers/gpu/drm/i915/display/intel_tc.c:1026: warning: Function parameter or member 'work' not described in 'intel_tc_port_disconnect_phy_work'
-   drivers/gpu/drm/i915/display/intel_tc.c:1026: warning: Excess function parameter 'dig_port' description in 'intel_tc_port_disconnect_phy_work'
+   drivers/pinctrl/nxp/pinctrl-s32g2.c: In function 's32g_pinctrl_probe':
+>> drivers/pinctrl/nxp/pinctrl-s32g2.c:747:40: warning: passing argument 2 of 's32_pinctrl_probe' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     747 |         return s32_pinctrl_probe(pdev, info);
+         |                                        ^~~~
+   In file included from drivers/pinctrl/nxp/pinctrl-s32g2.c:18:
+   drivers/pinctrl/nxp/pinctrl-s32.h:70:54: note: expected 'struct s32_pinctrl_soc_info *' but argument is of type 'const struct s32_pinctrl_soc_info *'
+      70 |                         struct s32_pinctrl_soc_info *info);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +264 drivers/gpu/drm/i915/display/intel_tc.c
+vim +747 drivers/pinctrl/nxp/pinctrl-s32g2.c
 
-   262	
-   263	/**
- > 264	 * ICL TC PHY handlers
-   265	 * -------------------
-   266	 */
-   267	static u32 icl_tc_port_live_status_mask(struct intel_digital_port *dig_port)
-   268	{
-   269		struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-   270		u32 isr_bit = i915->display.hotplug.pch_hpd[dig_port->base.hpd_pin];
-   271		u32 mask = 0;
-   272		u32 val;
-   273	
-   274		val = intel_de_read(i915, PORT_TX_DFLEXDPSP(dig_port->tc_phy_fia));
-   275	
-   276		if (val == 0xffffffff) {
-   277			drm_dbg_kms(&i915->drm,
-   278				    "Port %s: PHY in TCCOLD, nothing connected\n",
-   279				    dig_port->tc_port_name);
-   280			return mask;
-   281		}
-   282	
-   283		if (val & TC_LIVE_STATE_TBT(dig_port->tc_phy_fia_idx))
-   284			mask |= BIT(TC_PORT_TBT_ALT);
-   285		if (val & TC_LIVE_STATE_TC(dig_port->tc_phy_fia_idx))
-   286			mask |= BIT(TC_PORT_DP_ALT);
-   287	
-   288		if (intel_de_read(i915, SDEISR) & isr_bit)
-   289			mask |= BIT(TC_PORT_LEGACY);
-   290	
-   291		/* The sink can be connected only in a single mode. */
-   292		if (!drm_WARN_ON_ONCE(&i915->drm, hweight32(mask) > 1))
-   293			tc_port_fixup_legacy_flag(dig_port, mask);
-   294	
-   295		return mask;
-   296	}
-   297	
+   740	
+   741	static int s32g_pinctrl_probe(struct platform_device *pdev)
+   742	{
+   743		const struct s32_pinctrl_soc_info *info;
+   744	
+   745		info = of_device_get_match_data(&pdev->dev);
+   746	
+ > 747		return s32_pinctrl_probe(pdev, info);
+   748	}
+   749	
 
 -- 
 0-DAY CI Kernel Test Service
