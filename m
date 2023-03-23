@@ -1,47 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5E88F6D;
-	Thu, 23 Mar 2023 13:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0189446
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 13:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679578378; x=1711114378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uqQSc+v2/TMDzubfF7ygdSeqEdNvDr6jR/3c2Yhry5Q=;
-  b=P/pFwZSsYD4lJWhTjdkUwan1xr5qqZt5y8ia86YcLCW3iJS/qUG5yvVm
-   As9JC/2Nm0UItSLz9LsC+zUmQUbbVViDi45MivtiwB2Ld5xuoLlhgwzf5
-   DcSoYXaD9IrNS9rGTn7VrYwcyt5kcChDIhMXfdwFnnfGnsU3MxIvKylcG
-   cB5IccNWjFP5L3dT8an0n12EorwxO+zwhZVuBFswT55knKZnPKIKcAoUz
-   HMEJGrEsO+iF1g9odRjnriQ6BL4jxfsHbpsF7Bytj7x9eiA2AydX3+QUo
-   ugXgvhTcPfcvOY5uIiu3rgEfniaLkzY/io+5TdBbUARd/pmJEAMklSwj2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341031974"
+  t=1679579190; x=1711115190;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ybag5jqR1/Pu+uK83DbadnfqElk+O4Kml3IWqD9bRSM=;
+  b=kaVt0N1R0K5XAUYAt21PkcBtCahTPcY5rsC1B49OgdaTA44+9pRy/0qS
+   zrl+R6XF6lPO5niY1YKtNXBIW6bD+Lpm2c/1ZZh9aRLXzLqn1Dyo0Mljv
+   lWy7q2ia80h4pdQfn3AIWxwK+zIBT1X0l4uvstD4jCpBFCBArfcvQ83os
+   4yUna98iM1Lp0FShi011rsGi9dfuDE2TPwHx+Lm8f0uDevexJ0Vd7qk3l
+   6ZRLLxRstJ+0IQ0vC0ZAy3mxfQzC59+IEUMsOfL5+bVwNW8EbWViStKVL
+   zUkRci6LzDmsYWJIpovpuoayPG/a419koTksG8+iUCby9QyT2dZiji896
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339523424"
 X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="341031974"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:15:29 -0700
+   d="scan'208";a="339523424"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:46:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="746711569"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="746711569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="928241272"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
+   d="scan'208";a="928241272"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2023 06:15:27 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 Mar 2023 06:46:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfKms-000ENk-2n;
-	Thu, 23 Mar 2023 13:15:26 +0000
-Date: Thu, 23 Mar 2023 21:15:02 +0800
+	id 1pfLGt-000EPo-2b;
+	Thu, 23 Mar 2023 13:46:27 +0000
+Date: Thu, 23 Mar 2023 21:46:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] ntb: epf: Remove redundant pci_clear_master
-Message-ID: <202303232151.ldN29HC6-lkp@intel.com>
-References: <20230323115336.12986-2-cai.huoqing@linux.dev>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:stacktrace/tests 4/4]
+ unwind_kunit.c:(.text.test_ftrace_unwind_from_regs+0x40): undefined
+ reference to `kunit_try_catch_throw'
+Message-ID: <202303232112.QZBy1Sth-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,119 +46,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323115336.12986-2-cai.huoqing@linux.dev>
 
-Hi Cai,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on jonmason-ntb/ntb-next]
-[also build test ERROR on linus/master v6.3-rc3 next-20230323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/ntb-epf-Remove-redundant-pci_clear_master/20230323-195616
-base:   https://github.com/jonmason/ntb ntb-next
-patch link:    https://lore.kernel.org/r/20230323115336.12986-2-cai.huoqing%40linux.dev
-patch subject: [PATCH 2/3] ntb: epf: Remove redundant pci_clear_master
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230323/202303232151.ldN29HC6-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
+head:   2aaad0e8b633791ba5d96e87bdf49cc05225d00a
+commit: 2aaad0e8b633791ba5d96e87bdf49cc05225d00a [4/4] WIP: add more unwind tests
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230323/202303232112.QZBy1Sth-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/aa42a659eb567a583441b91cb47fd1727fa714df
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/ntb-epf-Remove-redundant-pci_clear_master/20230323-195616
-        git checkout aa42a659eb567a583441b91cb47fd1727fa714df
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=2aaad0e8b633791ba5d96e87bdf49cc05225d00a
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
+        git fetch --no-tags mark stacktrace/tests
+        git checkout 2aaad0e8b633791ba5d96e87bdf49cc05225d00a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/ntb/hw/epf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303232151.ldN29HC6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303232112.QZBy1Sth-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/ntb/hw/epf/ntb_hw_epf.c: In function 'ntb_epf_init_pci':
->> drivers/ntb/hw/epf/ntb_hw_epf.c:609:25: error: label 'err_dma_mask' used but not defined
-     609 |                         goto err_dma_mask;
-         |                         ^~~~
-
-
-vim +/err_dma_mask +609 drivers/ntb/hw/epf/ntb_hw_epf.c
-
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  565  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  566  static int ntb_epf_init_pci(struct ntb_epf_dev *ndev,
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  567  			    struct pci_dev *pdev)
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  568  {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  569  	struct device *dev = ndev->dev;
-e75d5ae8ab88b7 Frank Li               2022-02-22  570  	size_t spad_sz, spad_off;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  571  	int ret;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  572  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  573  	pci_set_drvdata(pdev, ndev);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  574  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  575  	ret = pci_enable_device(pdev);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  576  	if (ret) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  577  		dev_err(dev, "Cannot enable PCI device\n");
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  578  		goto err_pci_enable;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  579  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  580  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  581  	ret = pci_request_regions(pdev, "ntb");
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  582  	if (ret) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  583  		dev_err(dev, "Cannot obtain PCI resources\n");
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  584  		goto err_pci_regions;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  585  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  586  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  587  	pci_set_master(pdev);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  588  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  589  	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  590  	if (ret) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  591  		ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  592  		if (ret) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  593  			dev_err(dev, "Cannot set DMA mask\n");
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  594  			goto err_dma_mask;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  595  		}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  596  		dev_warn(&pdev->dev, "Cannot DMA highmem\n");
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  597  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  598  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  599  	ndev->ctrl_reg = pci_iomap(pdev, ndev->ctrl_reg_bar, 0);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  600  	if (!ndev->ctrl_reg) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  601  		ret = -EIO;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  602  		goto err_dma_mask;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  603  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  604  
-e75d5ae8ab88b7 Frank Li               2022-02-22  605  	if (ndev->peer_spad_reg_bar) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  606  		ndev->peer_spad_reg = pci_iomap(pdev, ndev->peer_spad_reg_bar, 0);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  607  		if (!ndev->peer_spad_reg) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  608  			ret = -EIO;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02 @609  			goto err_dma_mask;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  610  		}
-e75d5ae8ab88b7 Frank Li               2022-02-22  611  	} else {
-e75d5ae8ab88b7 Frank Li               2022-02-22  612  		spad_sz = 4 * readl(ndev->ctrl_reg + NTB_EPF_SPAD_COUNT);
-e75d5ae8ab88b7 Frank Li               2022-02-22  613  		spad_off = readl(ndev->ctrl_reg + NTB_EPF_SPAD_OFFSET);
-e75d5ae8ab88b7 Frank Li               2022-02-22  614  		ndev->peer_spad_reg = ndev->ctrl_reg + spad_off  + spad_sz;
-e75d5ae8ab88b7 Frank Li               2022-02-22  615  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  616  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  617  	ndev->db_reg = pci_iomap(pdev, ndev->db_reg_bar, 0);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  618  	if (!ndev->db_reg) {
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  619  		ret = -EIO;
-aa42a659eb567a Cai Huoqing            2023-03-23  620  		goto err_pci_regions;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  621  	}
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  622  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  623  	return 0;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  624  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  625  err_pci_regions:
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  626  	pci_disable_device(pdev);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  627  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  628  err_pci_enable:
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  629  	pci_set_drvdata(pdev, NULL);
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  630  
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  631  	return ret;
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  632  }
-812ce2f8d14ea7 Kishon Vijay Abraham I 2021-02-02  633  
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_regs':
+>> unwind_kunit.c:(.text.test_ftrace_unwind_from_regs+0x40): undefined reference to `kunit_try_catch_throw'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_nounwind':
+>> unwind_kunit.c:(.text.test_fgraph_nounwind+0x6c): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_nounwind+0x70): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_nounwind+0xb0): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_nounwind':
+   unwind_kunit.c:(.text.test_nounwind+0x54): undefined reference to `kunit_binary_ptr_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_nounwind+0x58): undefined reference to `kunit_binary_ptr_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_nounwind+0x8c): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `uwd_test_init':
+   unwind_kunit.c:(.text.uwd_test_init+0x34): undefined reference to `kunit_kmalloc_array'
+   mips-linux-ld: lib/unwind_kunit.o: in function `uwd_test_exit':
+   unwind_kunit.c:(.text.uwd_test_exit+0x98): undefined reference to `kunit_kfree'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_test_exit+0x1bc): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_test_exit+0x258): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `uwd_assert_callers_present':
+   unwind_kunit.c:(.text.uwd_assert_callers_present+0x74): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x78): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0xb8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0xf8): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0xfc): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x13c): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x17c): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x180): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x1c0): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x1f0): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x1f4): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x238): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x268): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x26c): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.uwd_assert_callers_present+0x2b0): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_exit_unwind_from_caller':
+>> unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller+0x74): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller+0x78): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller+0xb8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_entry_unwind_from_caller_reliable':
+>> unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller_reliable+0x74): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller_reliable+0x78): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller_reliable+0xb8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_entry_unwind_from_caller':
+>> unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller+0x74): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller+0x78): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_entry_unwind_from_caller+0xb8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_regs':
+>> unwind_kunit.c:(.text.test_fgraph_async_unwind_from_regs+0x80): undefined reference to `kunit_try_catch_throw'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_regs+0xe4): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_regs+0x178): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_caller':
+>> unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller+0x80): undefined reference to `kunit_try_catch_throw'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller+0xe4): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller+0x178): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_caller':
+>> unwind_kunit.c:(.text.test_ftrace_unwind_from_caller+0x6c): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_unwind_from_caller+0x70): undefined reference to `kunit_binary_assert_format'
+>> mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_unwind_from_caller+0xb0): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_nounwind':
+   unwind_kunit.c:(.text.test_ftrace_nounwind+0x64): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_nounwind+0x68): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_nounwind+0xa8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_unwind_from_caller_reliable+0x84): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_nounwind':
+   unwind_kunit.c:(.text.test_kprobe_nounwind+0xa8): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_nounwind+0xac): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_nounwind+0xec): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_caller':
+   unwind_kunit.c:(.text.test_kprobe_unwind_from_caller+0xb0): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_caller+0xb4): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_caller+0xf4): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_regs':
+   unwind_kunit.c:(.text.test_kprobe_unwind_from_regs+0xb0): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_regs+0xb4): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_regs+0xf4): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_ftrace_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_ftrace_unwind_from_caller_reliable+0x6c): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_unwind_from_caller_reliable+0x70): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_unwind_from_caller_reliable+0xb0): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.test_ftrace_unwind_from_caller_reliable+0x104): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_exit_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller_reliable+0x74): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller_reliable+0x78): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller_reliable+0xb8): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_exit_unwind_from_caller_reliable+0x10c): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_kprobe_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_kprobe_unwind_from_caller_reliable+0xb0): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_caller_reliable+0xb4): undefined reference to `kunit_binary_assert_format'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_caller_reliable+0xf4): undefined reference to `kunit_do_failed_assertion'
+   mips-linux-ld: unwind_kunit.c:(.text.test_kprobe_unwind_from_caller_reliable+0x16c): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_caller':
+   unwind_kunit.c:(.text.test_async_unwind_from_caller+0x90): undefined reference to `kunit_try_catch_throw'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_caller+0x128): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_caller+0x1d4): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_regs':
+   unwind_kunit.c:(.text.test_async_unwind_from_regs+0x90): undefined reference to `kunit_try_catch_throw'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_regs+0x128): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_regs+0x1d4): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_async_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_async_unwind_from_caller_reliable+0x90): undefined reference to `kunit_try_catch_throw'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_caller_reliable+0x128): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_caller_reliable+0x1d4): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_async_unwind_from_caller_reliable+0x230): undefined reference to `kunit_log_append'
+   mips-linux-ld: lib/unwind_kunit.o: in function `test_fgraph_async_unwind_from_caller_reliable':
+   unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller_reliable+0x80): undefined reference to `kunit_try_catch_throw'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller_reliable+0xe4): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller_reliable+0x178): undefined reference to `kunit_log_append'
+   mips-linux-ld: unwind_kunit.c:(.text.test_fgraph_async_unwind_from_caller_reliable+0x1d4): undefined reference to `kunit_log_append'
 
 -- 
 0-DAY CI Kernel Test Service
