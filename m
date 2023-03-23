@@ -1,43 +1,45 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE7B15BE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 01:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EB915B4;
+	Thu, 23 Mar 2023 01:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1679534783; x=1711070783;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IU2WmXgC/7JP8q7+cH5YagdszJXHAsq9qVtFDzDLQi8=;
-  b=EbD+BfwTGyj3UO04D6ykZIkHJb+YQscyrOcfRTGvcsLb+wzfcAPhUHnU
-   e0F10mGtFo+hde4TQWVbCcKhEmiPgm/r8fbkYtPybcILdDhDP4AWU++Y3
-   Wv3hUeeaqZ0kB0U44Ytk+w8nPYcRITZMKH4LbI9KKvzezMt3CAX4La1b/
-   fJObV9O89/X919t+NAWDVpU48buWvQasTGLlogan6fJ3KMqBymifWJPJM
-   +vTmoy8jqCI+FzhPOGgzUxlz8NblHywbjSO5k+crwcgQ3KCFlJWi4T8Y/
-   7EOq5khHkQdy0WVI6DHXVJvxvDIa/quPWfD128uouKZp8FoNUOjhJv5vK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338090478"
+  bh=bca4rV0/SD5/IeJf0J1JNJdskFY4zNxqkHrZncUa/T4=;
+  b=ERXAY2Vckk4nRSBG4V4uxDUF3mjT/TKllhrzc7PqeZo7Ev6Mq1ZGOhCq
+   VecNbtT1aGBpMZvLtX00G3Lf5utDdreX/jzoraMYfgTDblbRRwyd79RCd
+   MoyeVi60pJURJKEItEkPXJQxNKzvxmJ9z4RvztDzJDxjp4MQHzbCG6QV7
+   YFO+zYrc4WIBbrnGx8UHgxiikKTSP819eK1AO2SIC3xP9WYsvGH++NEH0
+   4DJVxPSAQiNtqrakWmTjVmyigL1IjNf0Ahw/OJ+vGMe0+/g5nOsLJ7K7A
+   9U4cC7Xr4umFlK1ySO7NusqOtD8Ryn68yc3jQS/C/y/IK7JI7WRrewLgs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338090482"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="338090478"
+   d="scan'208";a="338090482"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 18:26:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659390572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659390571"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="659390572"
+   d="scan'208";a="659390571"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga006.jf.intel.com with ESMTP; 22 Mar 2023 18:26:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pf9iN-000DoM-07;
-	Thu, 23 Mar 2023 01:26:03 +0000
-Date: Thu, 23 Mar 2023 09:25:31 +0800
+	id 1pf9iM-000DoI-3B;
+	Thu, 23 Mar 2023 01:26:02 +0000
+Date: Thu, 23 Mar 2023 09:25:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/acpi/acpica/tbfind.c:60:9: error: 'strncpy' specified bound
- 6 equals destination size
-Message-ID: <202303230903.Wi6Knuqq-lkp@intel.com>
+To: William Breathitt Gray <william.gray@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [brgl:gpio/for-next 55/68] drivers/gpio/gpio-pci-idio-16.c:32:23:
+ error: field has incomplete type 'struct idio_16_state'
+Message-ID: <202303230924.cF2c6S05-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,91 +49,217 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fff5a5e7f528b2ed2c335991399a766c2cf01103
-commit: 8f9e0a52810dd83406c768972d022c37e7a18f1f ACPI: Don't build ACPICA with '-Os'
-date:   8 weeks ago
-config: x86_64-sof-customedconfig-fuzz-defconfig (https://download.01.org/0day-ci/archive/20230323/202303230903.Wi6Knuqq-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   16d6fa5a94b3873968941b701b99903abc4e5059
+commit: 473b79057bbd9756f6969e6647e2d9ecababa7af [55/68] gpio: idio-16: Remove unused legacy interface
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230323/202303230924.cF2c6S05-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f9e0a52810dd83406c768972d022c37e7a18f1f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8f9e0a52810dd83406c768972d022c37e7a18f1f
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=473b79057bbd9756f6969e6647e2d9ecababa7af
+        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+        git fetch --no-tags brgl gpio/for-next
+        git checkout 473b79057bbd9756f6969e6647e2d9ecababa7af
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230903.Wi6Knuqq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230924.cF2c6S05-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
->> drivers/acpi/acpica/tbfind.c:60:9: error: 'strncpy' specified bound 6 equals destination size [-Werror=stringop-truncation]
-      60 |         strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/tbfind.c:61:9: error: 'strncpy' specified bound 8 equals destination size [-Werror=stringop-truncation]
-      61 |         strncpy(header.oem_table_id, oem_table_id, ACPI_OEM_TABLE_ID_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpio/gpio-pci-idio-16.c:32:23: error: field has incomplete type 'struct idio_16_state'
+           struct idio_16_state state;
+                                ^
+   drivers/gpio/gpio-pci-idio-16.c:32:9: note: forward declaration of 'struct idio_16_state'
+           struct idio_16_state state;
+                  ^
+>> drivers/gpio/gpio-pci-idio-16.c:39:6: error: implicit declaration of function 'idio_16_get_direction' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           if (idio_16_get_direction(offset))
+               ^
+   drivers/gpio/gpio-pci-idio-16.c:39:6: note: did you mean 'idio_16_gpio_get_direction'?
+   drivers/gpio/gpio-pci-idio-16.c:36:12: note: 'idio_16_gpio_get_direction' declared here
+   static int idio_16_gpio_get_direction(struct gpio_chip *chip,
+              ^
+>> drivers/gpio/gpio-pci-idio-16.c:62:9: error: implicit declaration of function 'idio_16_get' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return idio_16_get(idio16gpio->reg, &idio16gpio->state, offset);
+                  ^
+>> drivers/gpio/gpio-pci-idio-16.c:70:2: error: implicit declaration of function 'idio_16_get_multiple' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           idio_16_get_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
+           ^
+   drivers/gpio/gpio-pci-idio-16.c:70:2: note: did you mean 'idio_16_gpio_get_multiple'?
+   drivers/gpio/gpio-pci-idio-16.c:65:12: note: 'idio_16_gpio_get_multiple' declared here
+   static int idio_16_gpio_get_multiple(struct gpio_chip *chip,
+              ^
+>> drivers/gpio/gpio-pci-idio-16.c:79:2: error: implicit declaration of function 'idio_16_set' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           idio_16_set(idio16gpio->reg, &idio16gpio->state, offset, value);
+           ^
+>> drivers/gpio/gpio-pci-idio-16.c:87:2: error: implicit declaration of function 'idio_16_set_multiple' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           idio_16_set_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
+           ^
+   drivers/gpio/gpio-pci-idio-16.c:87:2: note: did you mean 'idio_16_gpio_set_multiple'?
+   drivers/gpio/gpio-pci-idio-16.c:82:13: note: 'idio_16_gpio_set_multiple' declared here
+   static void idio_16_gpio_set_multiple(struct gpio_chip *chip,
+               ^
+>> drivers/gpio/gpio-pci-idio-16.c:106:31: error: incomplete definition of type 'struct idio_16'
+                   iowrite8(0, &idio16gpio->reg->irq_ctl);
+                                ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:129:27: error: incomplete definition of type 'struct idio_16'
+                   ioread8(&idio16gpio->reg->irq_ctl);
+                            ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:164:39: error: incomplete definition of type 'struct idio_16'
+           irq_status = ioread8(&idio16gpio->reg->irq_status);
+                                 ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:178:30: error: incomplete definition of type 'struct idio_16'
+           iowrite8(0, &idio16gpio->reg->in0_7);
+                        ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:198:30: error: incomplete definition of type 'struct idio_16'
+           iowrite8(0, &idio16gpio->reg->irq_ctl);
+                        ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:199:30: error: incomplete definition of type 'struct idio_16'
+           iowrite8(0, &idio16gpio->reg->in0_7);
+                        ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+   drivers/gpio/gpio-pci-idio-16.c:232:30: error: incomplete definition of type 'struct idio_16'
+           iowrite8(0, &idio16gpio->reg->filter_ctl);
+                        ~~~~~~~~~~~~~~~^
+   drivers/gpio/gpio-pci-idio-16.c:31:9: note: forward declaration of 'struct idio_16'
+           struct idio_16 __iomem *reg;
+                  ^
+>> drivers/gpio/gpio-pci-idio-16.c:248:2: error: implicit declaration of function 'idio_16_state_init' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           idio_16_state_init(&idio16gpio->state);
+           ^
+   drivers/gpio/gpio-pci-idio-16.c:248:2: note: did you mean 'file_ra_state_init'?
+   include/linux/fs.h:2750:1: note: 'file_ra_state_init' declared here
+   file_ra_state_init(struct file_ra_state *ra, struct address_space *mapping);
+   ^
+   14 errors generated.
 
 
-vim +/strncpy +60 drivers/acpi/acpica/tbfind.c
+vim +32 drivers/gpio/gpio-pci-idio-16.c
 
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  16  
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  17  /*******************************************************************************
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  18   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  19   * FUNCTION:    acpi_tb_find_table
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  20   *
-ba494beeaa69bc drivers/acpi/acpica/tbfind.c Bob Moore 2012-07-12  21   * PARAMETERS:  signature           - String with ACPI table signature
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  22   *              oem_id              - String with the table OEM ID
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  23   *              oem_table_id        - String with the OEM Table ID
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  24   *              table_index         - Where the table index is returned
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  25   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  26   * RETURN:      Status and table index
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  27   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  28   * DESCRIPTION: Find an ACPI table (in the RSDT/XSDT) that matches the
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  29   *              Signature, OEM ID and OEM Table ID. Returns an index that can
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  30   *              be used to get the table header or entire table.
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  31   *
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  32   ******************************************************************************/
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  33  acpi_status
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  34  acpi_tb_find_table(char *signature,
-67a119f990063f drivers/acpi/tables/tbfind.c Bob Moore 2008-06-10  35  		   char *oem_id, char *oem_table_id, u32 *table_index)
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  36  {
-ac0f06ebb815da drivers/acpi/acpica/tbfind.c Lv Zheng  2016-09-07  37  	acpi_status status = AE_OK;
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  38  	struct acpi_table_header header;
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  39  	u32 i;
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  40  
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  41  	ACPI_FUNCTION_TRACE(tb_find_table);
-f3d2e7865c8162 drivers/acpi/tables/tbfind.c Bob Moore 2007-02-02  42  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  43  	/* Validate the input table signature */
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  44  
-6a0df32c22fdfc drivers/acpi/acpica/tbfind.c Bob Moore 2016-05-05  45  	if (!acpi_ut_valid_nameseg(signature)) {
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  46  		return_ACPI_STATUS(AE_BAD_SIGNATURE);
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  47  	}
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  48  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  49  	/* Don't allow the OEM strings to be too long */
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  50  
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  51  	if ((strlen(oem_id) > ACPI_OEM_ID_SIZE) ||
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  52  	    (strlen(oem_table_id) > ACPI_OEM_TABLE_ID_SIZE)) {
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  53  		return_ACPI_STATUS(AE_AML_STRING_LIMIT);
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  54  	}
-9f41fd8a175ff8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-08-25  55  
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  56  	/* Normalize the input strings */
-47c08729bf1c60 drivers/acpi/tables/tbfind.c Lin Ming  2008-04-10  57  
-4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01  58  	memset(&header, 0, sizeof(struct acpi_table_header));
-a3ce7a8e0dd9ba drivers/acpi/acpica/tbfind.c Bob Moore 2019-04-08  59  	ACPI_COPY_NAMESEG(header.signature, signature);
-4fa4616e279df8 drivers/acpi/acpica/tbfind.c Bob Moore 2015-07-01 @60  	strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   19  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   20  /**
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   21   * struct idio_16_gpio - GPIO device private data structure
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   22   * @chip:	instance of the gpio_chip
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   23   * @lock:	synchronization lock to prevent I/O race conditions
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   24   * @reg:	I/O address offset for the GPIO device registers
+e7f758fa9b7fda William Breathitt Gray 2022-09-18   25   * @state:	ACCES IDIO-16 device state
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   26   * @irq_mask:	I/O bits affected by interrupts
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   27   */
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   28  struct idio_16_gpio {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   29  	struct gpio_chip chip;
+ea38ce081d1555 Julia Cartwright       2017-03-21   30  	raw_spinlock_t lock;
+e7f758fa9b7fda William Breathitt Gray 2022-09-18   31  	struct idio_16 __iomem *reg;
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @32  	struct idio_16_state state;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   33  	unsigned long irq_mask;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   34  };
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   35  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   36  static int idio_16_gpio_get_direction(struct gpio_chip *chip,
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   37  	unsigned int offset)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   38  {
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @39  	if (idio_16_get_direction(offset))
+e42615ec233b30 Matti Vaittinen        2019-11-06   40  		return GPIO_LINE_DIRECTION_IN;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   41  
+e42615ec233b30 Matti Vaittinen        2019-11-06   42  	return GPIO_LINE_DIRECTION_OUT;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   43  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   44  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   45  static int idio_16_gpio_direction_input(struct gpio_chip *chip,
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   46  	unsigned int offset)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   47  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   48  	return 0;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   49  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   50  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   51  static int idio_16_gpio_direction_output(struct gpio_chip *chip,
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   52  	unsigned int offset, int value)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   53  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   54  	chip->set(chip, offset, value);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   55  	return 0;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   56  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   57  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   58  static int idio_16_gpio_get(struct gpio_chip *chip, unsigned int offset)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   59  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   60  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   61  
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @62  	return idio_16_get(idio16gpio->reg, &idio16gpio->state, offset);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   63  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   64  
+810ebfc5efca9a William Breathitt Gray 2018-03-22   65  static int idio_16_gpio_get_multiple(struct gpio_chip *chip,
+810ebfc5efca9a William Breathitt Gray 2018-03-22   66  	unsigned long *mask, unsigned long *bits)
+810ebfc5efca9a William Breathitt Gray 2018-03-22   67  {
+810ebfc5efca9a William Breathitt Gray 2018-03-22   68  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
+810ebfc5efca9a William Breathitt Gray 2018-03-22   69  
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @70  	idio_16_get_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
+810ebfc5efca9a William Breathitt Gray 2018-03-22   71  	return 0;
+810ebfc5efca9a William Breathitt Gray 2018-03-22   72  }
+810ebfc5efca9a William Breathitt Gray 2018-03-22   73  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   74  static void idio_16_gpio_set(struct gpio_chip *chip, unsigned int offset,
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   75  	int value)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   76  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   77  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   78  
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @79  	idio_16_set(idio16gpio->reg, &idio16gpio->state, offset, value);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   80  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   81  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   82  static void idio_16_gpio_set_multiple(struct gpio_chip *chip,
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   83  	unsigned long *mask, unsigned long *bits)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   84  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   85  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   86  
+e7f758fa9b7fda William Breathitt Gray 2022-09-18  @87  	idio_16_set_multiple(idio16gpio->reg, &idio16gpio->state, mask, bits);
+2dc7c3c16daac7 William Breathitt Gray 2019-12-04   88  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   89  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   90  static void idio_16_irq_ack(struct irq_data *data)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   91  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   92  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   93  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   94  static void idio_16_irq_mask(struct irq_data *data)
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   95  {
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   96  	struct gpio_chip *chip = irq_data_get_irq_chip_data(data);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   97  	struct idio_16_gpio *const idio16gpio = gpiochip_get_data(chip);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   98  	const unsigned long mask = BIT(irqd_to_hwirq(data));
+02e74fc0401ae3 William Breathitt Gray 2017-02-01   99  	unsigned long flags;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  100  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  101  	idio16gpio->irq_mask &= ~mask;
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  102  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  103  	if (!idio16gpio->irq_mask) {
+ea38ce081d1555 Julia Cartwright       2017-03-21  104  		raw_spin_lock_irqsave(&idio16gpio->lock, flags);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  105  
+02e74fc0401ae3 William Breathitt Gray 2017-02-01 @106  		iowrite8(0, &idio16gpio->reg->irq_ctl);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  107  
+ea38ce081d1555 Julia Cartwright       2017-03-21  108  		raw_spin_unlock_irqrestore(&idio16gpio->lock, flags);
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  109  	}
+141d5527568e92 Linus Walleij          2023-03-09  110  
+141d5527568e92 Linus Walleij          2023-03-09  111  	gpiochip_disable_irq(chip, irqd_to_hwirq(data));
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  112  }
+02e74fc0401ae3 William Breathitt Gray 2017-02-01  113  
 
-:::::: The code at line 60 was first introduced by commit
-:::::: 4fa4616e279df89baeb36287bbee83ab272edaed ACPICA: De-macroize calls to standard C library functions
+:::::: The code at line 32 was first introduced by commit
+:::::: e7f758fa9b7fda8b91f2e429b2be93ae0b88ac33 gpio: pci-idio-16: Utilize the idio-16 GPIO library
 
-:::::: TO: Bob Moore <robert.moore@intel.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: TO: William Breathitt Gray <william.gray@linaro.org>
+:::::: CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
