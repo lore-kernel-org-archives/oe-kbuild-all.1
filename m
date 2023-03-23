@@ -1,202 +1,133 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924E2A950;
-	Thu, 23 Mar 2023 16:40:39 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id e21so10613053ljn.7;
-        Thu, 23 Mar 2023 09:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679589637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yXT7Q99MJclBWr90utjHDOXI0lYhfPprxpFtnCAbI3E=;
-        b=K7bGXXSOqaiENwya0fNZ/RjBuNbB5DlugwUBxRk21H4yNPZ8ZmIynx6cqRhFL0VeQS
-         hzOmOSD7VcxRQHkt9XRoh0eFMY/sPF6ErTb1nm0H5BNW/DoL/tdKKSrXQunhb4/wooIF
-         F9QGNIFoNfpeTfyCulTjH5o1xBEzNzLLaci818BqdvXiUYgotIxIl70yj1a6RGsBAg9c
-         18/fTtIUVj4EhhYikNFBe2+hU68OPF8Td0HKTjbTXpZDADl3I5WM/MR/dTySggL2Tvuj
-         wSItBFtd4pBoRTnYJxyN7oqKWDEmzPiYwSKPw1dO+w8vXcIqDWAdh5TPSemYAfmip014
-         CZkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679589637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yXT7Q99MJclBWr90utjHDOXI0lYhfPprxpFtnCAbI3E=;
-        b=lSpsYlDyNLuqwmyWFB5yeDGH8ukFdbCG6KW3n5jIrNxIJKjxDCGEAo38eggLMylVa1
-         vNpvFPztVAzsLloKEZTog6h4MwEDRnsxLE/MDWDwuqrd2TiAqDtwUXAg5a+YbZbYWLiT
-         nNBPUc6dOaMX0wZcn3YL9Nez3RQOpNQFlEBEF/MYZSGKXyMVVETPUKlctIFPPPyCU10+
-         AsV5SaWHDxAHIUZFbDWusSnkQd7bcAe3kdYm2DBSEZzTVGTAye9jta6uOy0BMsqoksNI
-         q7K1hZk5ItIegNhSsRlZV2VBUmEqb+QkaDGrtA7hPKJejHVelK5yBsBnmSjnXFdAh18g
-         3ynA==
-X-Gm-Message-State: AO0yUKWpHFUkyPC/wPOss0wsvBDxc3SjSLSEcNr9law7+AtJokuZ14+1
-	h+Q/7Jl83aNEkjl++UEAw1/cxYpX11ngA4sVpHc=
-X-Google-Smtp-Source: AK7set+J6H0D6JdtlocH4Wq/tcJoY8/CIj+hLVrjQzrduh123EtXGlKAmlm7DWTvEq11Vym5n1sSG5n5brlO2Fju3ME=
-X-Received: by 2002:a2e:8ed1:0:b0:299:9de5:2f1b with SMTP id
- e17-20020a2e8ed1000000b002999de52f1bmr3446275ljl.7.1679589637352; Thu, 23 Mar
- 2023 09:40:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B57CA950;
+	Thu, 23 Mar 2023 16:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679590297; x=1711126297;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=123AA5ELbZfpz7VtBcVSzqg9/UGsBV1fQ6/lkV2i1D8=;
+  b=ZtqAVA1YCUFvvz59hEMjW9maVqUg7KkoTp8UNQzRVxpp2gSANr0B7SVh
+   tBOyaRFcBY0L5rVc/4f58Fknm5DzZBYU0V2MsoOwh+jPBCymE8TW/r0kT
+   u5X+5zFxkDc5WoX5Xc6CHQXfn8wpVDTxIpNZoko8zolzHh7eeTRLLPWYr
+   JFZyA1BkWx9aveNcqW9ycTQGkt6G1W+qUydw7v528LnFNF8jjpKTYL0lb
+   IEmHVpW2HwsyqCxanqjmTJqwNFDkqlH0Wq9bn0fAZ7nzjOFjwWCFGho9w
+   iZiFmL32TRyhu9GvTciuAXzvpvBz6F5LzbWR393Ew8U4sr6y4BOfKcl+z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339588633"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
+   d="scan'208";a="339588633"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 09:51:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="682374286"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
+   d="scan'208";a="682374286"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 09:51:35 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfOA2-000EY7-3C;
+	Thu, 23 Mar 2023 16:51:35 +0000
+Date: Fri, 24 Mar 2023 00:50:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH 01/29] drm/i915/tc: Group the TC PHY
+ setup/query functions per platform
+Message-ID: <202303240014.FNfWYmf7-lkp@intel.com>
+References: <20230323142035.1432621-2-imre.deak@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <13de0bf0-aa74-46a3-8389-3c70fe77be1f@kili.mountain> <bbb33b9e-570f-8d02-1162-fa93fbe006dd@talpey.com>
-In-Reply-To: <bbb33b9e-570f-8d02-1162-fa93fbe006dd@talpey.com>
-From: Steve French <smfrench@gmail.com>
-Date: Thu, 23 Mar 2023 11:40:26 -0500
-Message-ID: <CAH2r5mscB6L4vZEhAj99sfgRXkPvLpgGJi_5QeJvNtzydArnTg@mail.gmail.com>
-Subject: Re: [cifs:for-next 3/8] fs/cifs/connect.c:1303 cifs_ipaddr_cmp()
- error: memcmp() '&saddr4->sin_addr.s_addr' too small (4 vs 16)
-To: Tom Talpey <tom@talpey.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
-	Shyam Prasad N <sprasad@microsoft.com>, "Paulo Alcantara (SUSE)" <pc@manguebit.com>, linux-cifs@vger.kernel.org, 
-	lkp@intel.com, samba-technical@lists.samba.org, oe-kbuild-all@lists.linux.dev, 
-	Steve French <stfrench@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323142035.1432621-2-imre.deak@intel.com>
 
-I have removed that patch from for-next (so still has the other 8
-multichannel fixes and debug improvements).  Should be adding an
-important deferred close fix later this afternoon and the "umount -f"
-fix as well
+Hi Imre,
 
-On Thu, Mar 23, 2023 at 8:07=E2=80=AFAM Tom Talpey via samba-technical
-<samba-technical@lists.samba.org> wrote:
->
-> On 3/23/2023 5:40 AM, Dan Carpenter wrote:
-> > tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-> > head:   96114df697dfaef2ce29c14089a83e4a5777e915
-> > commit: 010c4e0a894e6a3dee3176aa2f654fce632d0346 [3/8] cifs: fix sockad=
-dr comparison in iface_cmp
-> > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/2=
-0230323/202303230210.ufS9gVzi-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Link: https://lore.kernel.org/r/202303230210.ufS9gVzi-lkp@intel.com/
-> >
-> > New smatch warnings:
-> > fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&saddr4->sin_=
-addr.s_addr' too small (4 vs 16)
-> > fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&saddr6->sin6=
-_addr' too small (16 vs 28)
-> >
-> > Old smatch warnings:
-> > fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&vaddr4->sin_=
-addr.s_addr' too small (4 vs 16)
-> > fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&vaddr6->sin6=
-_addr' too small (16 vs 28)
-> > fs/cifs/connect.c:2937 generic_ip_connect() error: we previously assume=
-d 'socket' could be null (see line 2925)
-> >
-> > vim +1303 fs/cifs/connect.c
-> >
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1279  int
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1280  cifs_ipaddr_cmp(struct=
- sockaddr *srcaddr, struct sockaddr *rhs)
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1281  {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1282       struct sockaddr_i=
-n *saddr4 =3D (struct sockaddr_in *)srcaddr;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1283       struct sockaddr_i=
-n *vaddr4 =3D (struct sockaddr_in *)rhs;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1284       struct sockaddr_i=
-n6 *saddr6 =3D (struct sockaddr_in6 *)srcaddr;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1285       struct sockaddr_i=
-n6 *vaddr6 =3D (struct sockaddr_in6 *)rhs;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1286
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1287       switch (srcaddr->=
-sa_family) {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1288       case AF_UNSPEC:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1289               switch (r=
-hs->sa_family) {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1290               case AF_U=
-NSPEC:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1291                       r=
-eturn 0;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1292               case AF_I=
-NET:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1293               case AF_I=
-NET6:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1294                       r=
-eturn 1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1295               default:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1296                       r=
-eturn -1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1297               }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1298       case AF_INET: {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1299               switch (r=
-hs->sa_family) {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1300               case AF_U=
-NSPEC:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1301                       r=
-eturn -1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1302               case AF_I=
-NET:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1303                       r=
-eturn memcmp(&saddr4->sin_addr.s_addr,
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1304                        =
-      &vaddr4->sin_addr.s_addr,
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1305                        =
-      sizeof(struct sockaddr_in));
-> >
-> > saddr4 and vaddr4 are type sockaddr_in.  But sin_addr.s_addr is an
-> > offset into the struct.  This looks like a read overflow.  I would thin=
-k
-> > it should be sizeof(struct in_addr).
->
-> Oh, definitely. It's more than a read overflow, it's an incorrect
-> comparison which will lead to creating new and unnecessary channels.
-> Two bugs here.
->
-> Tom.
->
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1306               case AF_I=
-NET6:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1307                       r=
-eturn 1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1308               default:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1309                       r=
-eturn -1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1310               }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1311       }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1312       case AF_INET6: {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1313               switch (r=
-hs->sa_family) {
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1314               case AF_U=
-NSPEC:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1315               case AF_I=
-NET:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1316                       r=
-eturn -1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1317               case AF_I=
-NET6:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1318                       r=
-eturn memcmp(&saddr6->sin6_addr,
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1319                        =
-             &vaddr6->sin6_addr,
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1320                        =
-             sizeof(struct sockaddr_in6));
-> >
-> > Same.
-> >
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1321               default:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1322                       r=
-eturn -1;
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1323               }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1324       }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1325       default:
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1326               return -1=
-; /* don't expect to be here */
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1327       }
-> > 010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1328  }
-> >
->
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-i915-tc-Group-the-TC-PHY-setup-query-functions-per-platform/20230323-222328
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230323142035.1432621-2-imre.deak%40intel.com
+patch subject: [Intel-gfx] [PATCH 01/29] drm/i915/tc: Group the TC PHY setup/query functions per platform
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230324/202303240014.FNfWYmf7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7b85ed1627f7c16b7ff080b604d35d729c70313f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Imre-Deak/drm-i915-tc-Group-the-TC-PHY-setup-query-functions-per-platform/20230323-222328
+        git checkout 7b85ed1627f7c16b7ff080b604d35d729c70313f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303240014.FNfWYmf7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_tc.c:264: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * ICL TC PHY handlers
+   drivers/gpu/drm/i915/display/intel_tc.c:457: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * ADLP TC PHY handlers
+   drivers/gpu/drm/i915/display/intel_tc.c:535: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Generic TC PHY handlers
+   drivers/gpu/drm/i915/display/intel_tc.c:1026: warning: Function parameter or member 'work' not described in 'intel_tc_port_disconnect_phy_work'
+   drivers/gpu/drm/i915/display/intel_tc.c:1026: warning: Excess function parameter 'dig_port' description in 'intel_tc_port_disconnect_phy_work'
 
 
---=20
-Thanks,
+vim +264 drivers/gpu/drm/i915/display/intel_tc.c
 
-Steve
+   262	
+   263	/**
+ > 264	 * ICL TC PHY handlers
+   265	 * -------------------
+   266	 */
+   267	static u32 icl_tc_port_live_status_mask(struct intel_digital_port *dig_port)
+   268	{
+   269		struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+   270		u32 isr_bit = i915->display.hotplug.pch_hpd[dig_port->base.hpd_pin];
+   271		u32 mask = 0;
+   272		u32 val;
+   273	
+   274		val = intel_de_read(i915, PORT_TX_DFLEXDPSP(dig_port->tc_phy_fia));
+   275	
+   276		if (val == 0xffffffff) {
+   277			drm_dbg_kms(&i915->drm,
+   278				    "Port %s: PHY in TCCOLD, nothing connected\n",
+   279				    dig_port->tc_port_name);
+   280			return mask;
+   281		}
+   282	
+   283		if (val & TC_LIVE_STATE_TBT(dig_port->tc_phy_fia_idx))
+   284			mask |= BIT(TC_PORT_TBT_ALT);
+   285		if (val & TC_LIVE_STATE_TC(dig_port->tc_phy_fia_idx))
+   286			mask |= BIT(TC_PORT_DP_ALT);
+   287	
+   288		if (intel_de_read(i915, SDEISR) & isr_bit)
+   289			mask |= BIT(TC_PORT_LEGACY);
+   290	
+   291		/* The sink can be connected only in a single mode. */
+   292		if (!drm_WARN_ON_ONCE(&i915->drm, hweight32(mask) > 1))
+   293			tc_port_fixup_legacy_flag(dig_port, mask);
+   294	
+   295		return mask;
+   296	}
+   297	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
