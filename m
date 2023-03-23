@@ -1,46 +1,47 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B851FA8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 05:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6F1C04
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Mar 2023 05:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679548994; x=1711084994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZZWhajVf94otlaDxvhMc13wCWR+0aAVrmHV4MxrPRbo=;
-  b=CnJUCL6frQe7LRhy/CppfmK4vf3VHyqG2DzRyNpgw4KaNPBlarfWyrw0
-   g+2BVJsui+XSIWEBkDtw7duUPUxbp2cBD6veK00pmNPyqiQ14GRnbzH3A
-   7XW3GlzTt0XvxvqN0tJ4cPsZL8pzf/HS1y+lE0elUJOQ0R9LcpAwzjEBn
-   bTBc6qf07gtxWlovsjRQbsKuqgLJl/R5+hdetkosbI/l1WJKpnZn1RLeZ
-   nRNybMhegmSWAEam82xYAQbrySdr8R18+5zOZCvQVLcd3EoYGw2br5HKJ
-   PT2bDc+v7SXV+u0hmy6dJ3cV9UMTrE0c0WdQMLHE/U7zJ2uSl5MzjnpWA
+  t=1679549594; x=1711085594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eeT9vjKxfyxeoOujdGKUe8wwlJyUy/Cg24s6iyjLyNw=;
+  b=lE0yELnper5heyabGlZYMqUKwFHjpoUsiLOpcHIp9UdFbaHYRhIklUg8
+   QuKYF6+/LP+5km+uM8RZhDww5svfzBYVlgq7Dgk+iAjkQDOA32D0GAQfR
+   gaeej2wHpDPKrBxR2qaQv9mLzf6E3HqL1QYwCDfLXr8MrqkgBZA7nqed2
+   uI4ZK0En2eK55irmLRSQOlF0YXztrHjjdYv/ifAfqaOm4lJuvdlw0YUMP
+   ee2q5ZpOgtWA0UeWujEqkRXFgTojLBc2Ncmo2aPH260JgRMlYAuQI6Dn6
+   bXH/xIqdhwDZMQdS0xzCBlzYnts+Jqjwvk1OhjWyVXdHBeqDastpMiXm4
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338119709"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="425682978"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="338119709"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 22:23:13 -0700
+   d="scan'208";a="425682978"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 22:33:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="751343160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659455875"
 X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="751343160"
+   d="scan'208";a="659455875"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2023 22:23:10 -0700
+  by orsmga006.jf.intel.com with ESMTP; 22 Mar 2023 22:33:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfDPq-000DzY-01;
-	Thu, 23 Mar 2023 05:23:10 +0000
-Date: Thu, 23 Mar 2023 13:22:11 +0800
+	id 1pfDZW-000E0C-1y;
+	Thu, 23 Mar 2023 05:33:10 +0000
+Date: Thu, 23 Mar 2023 13:32:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: ye.xingchen@zte.com.cn, shawn.lin@rock-chips.com
-Cc: oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
-	robh@kernel.org, bhelgaas@google.com, heiko@sntech.de,
-	linux-pci@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: rockchip: Use dev_err_probe()
-Message-ID: <202303231338.oVZa9IHF-lkp@intel.com>
-References: <202303231146312337844@zte.com.cn>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rob Clark <robdclark@chromium.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [linux-next:master 5004/6100] kismet: WARNING: unmet direct
+ dependencies detected for PM_GENERIC_DOMAINS when selected by DRM_MSM
+Message-ID: <202303231357.22x4kn3m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,92 +50,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202303231146312337844@zte.com.cn>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.3-rc3 next-20230323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/PCI-rockchip-Use-dev_err_probe/20230323-114809
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/202303231146312337844%40zte.com.cn
-patch subject: [PATCH] PCI: rockchip: Use dev_err_probe()
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230323/202303231338.oVZa9IHF-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4ad6c26e54b926f384a1bdc99892900cbfa83eea
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/PCI-rockchip-Use-dev_err_probe/20230323-114809
-        git checkout 4ad6c26e54b926f384a1bdc99892900cbfa83eea
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/pci/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0aa250ce67a2697327415132a0aa4e9f1f0fe000
+commit: c11fa1204fe9405d2a82a714d021360b865cf8bc [5004/6100] drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc collapse
+config: riscv-kismet-CONFIG_PM_GENERIC_DOMAINS-CONFIG_DRM_MSM-0-0 (https://download.01.org/0day-ci/archive/20230323/202303231357.22x4kn3m-lkp@intel.com/config)
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c11fa1204fe9405d2a82a714d021360b865cf8bc
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout c11fa1204fe9405d2a82a714d021360b865cf8bc
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_PM_GENERIC_DOMAINS --selectors CONFIG_DRM_MSM -a=riscv
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=riscv olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303231338.oVZa9IHF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303231357.22x4kn3m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/pci/controller/pcie-rockchip.c: In function 'rockchip_pcie_get_phys':
->> drivers/pci/controller/pcie-rockchip.c:313:74: warning: format '%ld' expects a matching 'long int' argument [-Wformat=]
-     313 |                                              "missing phy for lane %d: %ld\n", i);
-         |                                                                        ~~^
-         |                                                                          |
-         |                                                                          long int
-
-
-vim +313 drivers/pci/controller/pcie-rockchip.c
-
-   282	
-   283	int rockchip_pcie_get_phys(struct rockchip_pcie *rockchip)
-   284	{
-   285		struct device *dev = rockchip->dev;
-   286		struct phy *phy;
-   287		char *name;
-   288		u32 i;
-   289	
-   290		phy = devm_phy_get(dev, "pcie-phy");
-   291		if (!IS_ERR(phy)) {
-   292			rockchip->legacy_phy = true;
-   293			rockchip->phys[0] = phy;
-   294			dev_warn(dev, "legacy phy model is deprecated!\n");
-   295			return 0;
-   296		}
-   297	
-   298		if (PTR_ERR(phy) == -EPROBE_DEFER)
-   299			return PTR_ERR(phy);
-   300	
-   301		dev_dbg(dev, "missing legacy phy; search for per-lane PHY\n");
-   302	
-   303		for (i = 0; i < MAX_LANE_NUM; i++) {
-   304			name = kasprintf(GFP_KERNEL, "pcie-phy-%u", i);
-   305			if (!name)
-   306				return -ENOMEM;
-   307	
-   308			phy = devm_of_phy_get(dev, dev->of_node, name);
-   309			kfree(name);
-   310	
-   311			if (IS_ERR(phy))
-   312				return dev_err_probe(dev, PTR_ERR(phy),
- > 313						     "missing phy for lane %d: %ld\n", i);
-   314	
-   315			rockchip->phys[i] = phy;
-   316		}
-   317	
-   318		return 0;
-   319	}
-   320	EXPORT_SYMBOL_GPL(rockchip_pcie_get_phys);
-   321	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS when selected by DRM_MSM
+   
+   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+     Depends on [n]: PM [=n]
+     Selected by [y]:
+     - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
 
 -- 
 0-DAY CI Kernel Test Service
