@@ -1,50 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A492D27706;
-	Fri, 24 Mar 2023 21:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7758227706
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 21:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679691863; x=1711227863;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lrh8mfNbujVclko7AoZ5oMBIAjQ3E9uh/4Jho+AveiE=;
-  b=ktB3mKp7GHM8FtDdQEmQBqqE5DG+C8c/RWSAulIKI7UiErMPOwjhyYJU
-   xlhE5wtGtWZonikpGzWLwU4zCmcyWQTqLan4TiYpXXDY2ZGOJQnTa5pb/
-   IkgwaRpXpg4kX/QUpelD1DDftXNkTgVclmXHQxaE6q1ZPiIvmF3c7F0Uh
-   /Q3kfR+MvJrpESs4/wBayVFg6hAQR7PuRuyOWKbgPfH0vg7qG2RM6Wsch
-   5jHVc3VuA12gETTAQVgemaC76Icd/oYL7yWOrBnGfU5uUPg+w1CuaVkFN
-   hBelcL1YV4fTyab0YFiaSQQlJlv+orGAli/+5EgdKpXfbX3GSDbkEjtRR
+  t=1679692359; x=1711228359;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zqxhtrF2/kYpuz2321QQr5UBrUdW68WoRfA0Rdky2F8=;
+  b=gRGSFS0AUZy3Uegc8uLteWB5QCyyJE3BF0D9s2VexTr/AZm0gx4gB177
+   ZaCHa+svLhxdkzFUxdhh+vIdkKGnfGRkOakiax6erqLN4Z1D1KwFN0PNc
+   DYXj0E3XGku9NlmOPgJ1pNwG4vqvYGDrgOFyCNr8uEqjFdk75iKHN2ETD
+   nghwLtVUhYBvJac9+9qhTMD1oFOgCICW2uygiNX0zBeGUzpLzdf6kjnDy
+   3Lxjb5Q3cFw7jVo+jPOAOhjafpN0JKU6EhGbJIFpe8fCLd9QyVJwci5y5
+   PAXbe5ens2wO5XJWvP+v/RoQOvYAu6bhMnT+nbk//Ma/IY7iap5knZjRD
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="338608055"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="323769599"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="338608055"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 14:01:38 -0700
+   d="scan'208";a="323769599"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 14:12:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="793584347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="772026096"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="793584347"
+   d="scan'208";a="772026096"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Mar 2023 14:01:33 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Mar 2023 14:12:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfoXU-000Fee-2t;
-	Fri, 24 Mar 2023 21:01:32 +0000
-Date: Sat, 25 Mar 2023 05:01:09 +0800
+	id 1pfoi9-000FfE-0y;
+	Fri, 24 Mar 2023 21:12:33 +0000
+Date: Sat, 25 Mar 2023 05:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Liang Kan <kan.liang@linux.intel.com>, linux-cxl@vger.kernel.org,
-	peterz@infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mingo@redhat.com,
-	acme@kernel.org, mark.rutland@arm.com, will@kernel.org,
-	dan.j.williams@intel.com, linuxarm@huawei.com,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [PATCH v2 3/5] cxl/pci: Find and register CXL PMU devices
-Message-ID: <202303250419.FANh4fIC-lkp@intel.com>
-References: <20230324171313.18448-4-Jonathan.Cameron@huawei.com>
+To: Larysa Zaremba <larysa.zaremba@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Lobakin <aleksander.lobakin@intel.com>
+Subject: [alobakin:pr/17 29/32]
+ drivers/net/ethernet/intel/iavf/iavf_xsk.c:6:10: fatal error:
+ linux/net/intel/libie.h: No such file or directory
+Message-ID: <202303250536.4brXi8YL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,81 +47,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324171313.18448-4-Jonathan.Cameron@huawei.com>
 
-Hi Jonathan,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on acme/perf/core]
-[also build test ERROR on tip/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git perf/core
-patch link:    https://lore.kernel.org/r/20230324171313.18448-4-Jonathan.Cameron%40huawei.com
-patch subject: [PATCH v2 3/5] cxl/pci: Find and register CXL PMU devices
-config: arm-randconfig-r023-20230322 (https://download.01.org/0day-ci/archive/20230325/202303250419.FANh4fIC-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://github.com/alobakin/linux pr/17
+head:   966873bc3f1da2cbd3450c8920c2c60cf52e0069
+commit: e9e2e3e34bb925af1f0b7e73bf3a737d2b063c9e [29/32] iavf: Implement AF_XDP RX processing
+config: loongarch-randconfig-r006-20230322 (https://download.01.org/0day-ci/archive/20230325/202303250536.4brXi8YL-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/ab99ab31e5c4aa9f68425f3505f22a790d64bfe9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
-        git checkout ab99ab31e5c4aa9f68425f3505f22a790d64bfe9
+        # https://github.com/alobakin/linux/commit/e9e2e3e34bb925af1f0b7e73bf3a737d2b063c9e
+        git remote add alobakin https://github.com/alobakin/linux
+        git fetch --no-tags alobakin pr/17
+        git checkout e9e2e3e34bb925af1f0b7e73bf3a737d2b063c9e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/cxl/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/ethernet/intel/iavf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303250419.FANh4fIC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303250536.4brXi8YL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/cxl/core/port.c:60:20: error: use of undeclared identifier 'cxl_cpmu_type'; did you mean 'cxl_bus_type'?
-           if (dev->type == &cxl_cpmu_type)
-                             ^~~~~~~~~~~~~
-                             cxl_bus_type
-   drivers/cxl/cxl.h:732:24: note: 'cxl_bus_type' declared here
-   extern struct bus_type cxl_bus_type;
-                          ^
-   1 error generated.
+>> drivers/net/ethernet/intel/iavf/iavf_xsk.c:6:10: fatal error: linux/net/intel/libie.h: No such file or directory
+       6 | #include <linux/net/intel/libie.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +60 drivers/cxl/core/port.c
+vim +6 drivers/net/ethernet/intel/iavf/iavf_xsk.c
 
-    40	
-    41	static int cxl_device_id(const struct device *dev)
-    42	{
-    43		if (dev->type == &cxl_nvdimm_bridge_type)
-    44			return CXL_DEVICE_NVDIMM_BRIDGE;
-    45		if (dev->type == &cxl_nvdimm_type)
-    46			return CXL_DEVICE_NVDIMM;
-    47		if (dev->type == CXL_PMEM_REGION_TYPE())
-    48			return CXL_DEVICE_PMEM_REGION;
-    49		if (dev->type == CXL_DAX_REGION_TYPE())
-    50			return CXL_DEVICE_DAX_REGION;
-    51		if (is_cxl_port(dev)) {
-    52			if (is_cxl_root(to_cxl_port(dev)))
-    53				return CXL_DEVICE_ROOT;
-    54			return CXL_DEVICE_PORT;
-    55		}
-    56		if (is_cxl_memdev(dev))
-    57			return CXL_DEVICE_MEMORY_EXPANDER;
-    58		if (dev->type == CXL_REGION_TYPE())
-    59			return CXL_DEVICE_REGION;
-  > 60		if (dev->type == &cxl_cpmu_type)
-    61			return CXL_DEVICE_CPMU;
-    62		return 0;
-    63	}
-    64	
+     3	
+     4	#include <linux/bpf_trace.h>
+     5	#include <linux/filter.h>
+   > 6	#include <linux/net/intel/libie.h>
+     7	#include <net/xdp_sock_drv.h>
+     8	#include <net/xdp_sock.h>
+     9	#include "iavf.h"
+    10	#include "iavf_trace.h"
+    11	#include "iavf_xsk.h"
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
