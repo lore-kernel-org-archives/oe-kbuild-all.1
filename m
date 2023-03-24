@@ -1,51 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994511FD3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 03:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831651FD3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 04:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679629620; x=1711165620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8co0ZdFzyi4N9K0a/L1zFwdckqxK52/r+doDVNBcj8I=;
-  b=ClVwa3t2GWqB1OFUUWPCPNXmLOC9Atvt5CvqnsOZKEfxx0Hfo0zCBtTN
-   9Ws/bA7MpKD87ntMVrgTRTw66rHrzUI6ObmWJ02kDAHtUSDnTPMtOmUxb
-   j9O2ubxjQo7ZW2Qeq+E034Ah3hDakSLiA+ATqsWYUBPiwY/2bnbSyC2L3
-   WggX/n8oY6X/WokPDIGz39+nQ66uViHInrS9bI/wZgcDvNitv9bNwXP/2
-   GjxAWEBTKorQGdAdytLp6UyN68wKGqb1007FiXC5OAo81LWUFNW01vN4m
-   GYKVUzmCkWMtyZsHO77d8R0KpU/xN1fQBgR84vitmqiG1FYpX8tJ+CltP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="404603550"
+  t=1679632080; x=1711168080;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qd2cuBVpx9SVSMnIM3lGfsMVXUDSyYXNwZ7cJ2wn9Tc=;
+  b=bQpoAA/1SvW2C/+fYFTyQFX3BTT2puvxkV84UJwSlesJW010WNVNeNz1
+   P7irjei6j1PsD4JeLMaKnMSRTUkr+7ajNJLaExo9p4lTGoYX5PO11NSJa
+   diO/CBanxZ+nuKhHKXuZfjpqqdN91hTaQ0qH0zeteuyjakM13unx9kLiI
+   nSH0DMXi4GmnJAtlQ/ZzVWu/5uLTyX8m1wgtqME0s2Y6Ua9YlDR7tCeHJ
+   WtQkmIUiZbHtU2AI3/vAU6iktaSXlEii+7jjZ0T5pqR2qXgDkrl2nabdp
+   uOdW62v1rGNzCU0AF73PPZAAard3YCqEAEFOHsMva3BFYmiYWqTc1I0dp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="342078266"
 X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="404603550"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 20:46:59 -0700
+   d="scan'208";a="342078266"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 21:28:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="632685457"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="682543300"
 X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="632685457"
+   d="scan'208";a="682543300"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Mar 2023 20:46:57 -0700
+  by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 21:27:59 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfYOG-000Ex2-1G;
-	Fri, 24 Mar 2023 03:46:56 +0000
-Date: Fri, 24 Mar 2023 11:46:34 +0800
+	id 1pfZ1y-000Eye-1Y;
+	Fri, 24 Mar 2023 04:27:58 +0000
+Date: Fri, 24 Mar 2023 12:27:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: William Breathitt Gray <william.gray@linaro.org>,
-	linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	William Breathitt Gray <william.gray@linaro.org>
-Subject: Re: [PATCH v2 3/3] counter: 104-quad-8: Utilize helper functions to
- handle PR, FLAG and PSC
-Message-ID: <202303241128.WBKc4LIy-lkp@intel.com>
-References: <c0e914e2b2d5876265494df3ca102edcf259f02a.1679605919.git.william.gray@linaro.org>
+To: Matteo Croce <mcroce@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:alexghiti_test 70/78] string.c:(.text+0x12dc): multiple
+ definition of `memcpy'; mm/kasan/shadow.o:shadow.c:(.text+0x18e): first
+ defined here
+Message-ID: <202303241211.mkSRftmo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,144 +46,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c0e914e2b2d5876265494df3ca102edcf259f02a.1679605919.git.william.gray@linaro.org>
 
-Hi William,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on 00f4bc5184c19cb33f468f1ea409d70d19f8f502]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Breathitt-Gray/counter-104-quad-8-Utilize-bitfield-access-macros/20230324-052655
-base:   00f4bc5184c19cb33f468f1ea409d70d19f8f502
-patch link:    https://lore.kernel.org/r/c0e914e2b2d5876265494df3ca102edcf259f02a.1679605919.git.william.gray%40linaro.org
-patch subject: [PATCH v2 3/3] counter: 104-quad-8: Utilize helper functions to handle PR, FLAG and PSC
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230324/202303241128.WBKc4LIy-lkp@intel.com/config)
+tree:   https://github.com/avpatel/linux.git alexghiti_test
+head:   93aaa7cba9ba7ae91a47812465117e2f9b9e3712
+commit: 2502ee1fcf82360af802cc79074238ebd4b7b5a7 [70/78] riscv: optimized memcpy
+config: riscv-randconfig-r042-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241211.mkSRftmo-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5da9052d37541a9470e1f9b6621d41b52c148b34
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review William-Breathitt-Gray/counter-104-quad-8-Utilize-bitfield-access-macros/20230324-052655
-        git checkout 5da9052d37541a9470e1f9b6621d41b52c148b34
+        # https://github.com/avpatel/linux/commit/2502ee1fcf82360af802cc79074238ebd4b7b5a7
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel alexghiti_test
+        git checkout 2502ee1fcf82360af802cc79074238ebd4b7b5a7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241128.WBKc4LIy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241211.mkSRftmo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/counter/104-quad-8.c:8:
-   In function 'field_multiplier',
-       inlined from 'field_mask' at include/linux/bitfield.h:170:17,
-       inlined from 'u8_encode_bits' at include/linux/bitfield.h:198:1,
-       inlined from 'u8p_replace_bits' at include/linux/bitfield.h:198:1,
-       inlined from 'quad8_control_register_update' at drivers/counter/104-quad-8.c:206:2:
->> include/linux/bitfield.h:165:17: error: call to '__bad_mask' declared with attribute error: bad bitfield mask
-     165 |                 __bad_mask();
-         |                 ^~~~~~~~~~~~
-   In function 'field_multiplier',
-       inlined from 'u8_encode_bits' at include/linux/bitfield.h:198:1,
-       inlined from 'u8p_replace_bits' at include/linux/bitfield.h:198:1,
-       inlined from 'quad8_control_register_update' at drivers/counter/104-quad-8.c:206:2:
->> include/linux/bitfield.h:165:17: error: call to '__bad_mask' declared with attribute error: bad bitfield mask
-     165 |                 __bad_mask();
-         |                 ^~~~~~~~~~~~
-
-
-vim +/__bad_mask +165 include/linux/bitfield.h
-
-e2192de59e457a Johannes Berg   2023-01-18  119  
-e2192de59e457a Johannes Berg   2023-01-18  120  /**
-e2192de59e457a Johannes Berg   2023-01-18  121   * FIELD_PREP_CONST() - prepare a constant bitfield element
-e2192de59e457a Johannes Berg   2023-01-18  122   * @_mask: shifted mask defining the field's length and position
-e2192de59e457a Johannes Berg   2023-01-18  123   * @_val:  value to put in the field
-e2192de59e457a Johannes Berg   2023-01-18  124   *
-e2192de59e457a Johannes Berg   2023-01-18  125   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-e2192de59e457a Johannes Berg   2023-01-18  126   * be combined with other fields of the bitfield using logical OR.
-e2192de59e457a Johannes Berg   2023-01-18  127   *
-e2192de59e457a Johannes Berg   2023-01-18  128   * Unlike FIELD_PREP() this is a constant expression and can therefore
-e2192de59e457a Johannes Berg   2023-01-18  129   * be used in initializers. Error checking is less comfortable for this
-e2192de59e457a Johannes Berg   2023-01-18  130   * version, and non-constant masks cannot be used.
-e2192de59e457a Johannes Berg   2023-01-18  131   */
-e2192de59e457a Johannes Berg   2023-01-18  132  #define FIELD_PREP_CONST(_mask, _val)					\
-e2192de59e457a Johannes Berg   2023-01-18  133  	(								\
-e2192de59e457a Johannes Berg   2023-01-18  134  		/* mask must be non-zero */				\
-e2192de59e457a Johannes Berg   2023-01-18  135  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
-e2192de59e457a Johannes Berg   2023-01-18  136  		/* check if value fits */				\
-e2192de59e457a Johannes Berg   2023-01-18  137  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-e2192de59e457a Johannes Berg   2023-01-18  138  		/* check if mask is contiguous */			\
-e2192de59e457a Johannes Berg   2023-01-18  139  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
-e2192de59e457a Johannes Berg   2023-01-18  140  		/* and create the value */				\
-e2192de59e457a Johannes Berg   2023-01-18  141  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-e2192de59e457a Johannes Berg   2023-01-18  142  	)
-e2192de59e457a Johannes Berg   2023-01-18  143  
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  144  /**
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  145   * FIELD_GET() - extract a bitfield element
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  146   * @_mask: shifted mask defining the field's length and position
-7240767450d6d8 Masahiro Yamada 2017-10-03  147   * @_reg:  value of entire bitfield
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  148   *
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  149   * FIELD_GET() extracts the field specified by @_mask from the
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  150   * bitfield passed in as @_reg by masking and shifting it down.
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  151   */
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  152  #define FIELD_GET(_mask, _reg)						\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  153  	({								\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  154  		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  155  		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  156  	})
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  157  
-e7d4a95da86e0b Johannes Berg   2018-06-20  158  extern void __compiletime_error("value doesn't fit into mask")
-00b0c9b82663ac Al Viro         2017-12-14  159  __field_overflow(void);
-00b0c9b82663ac Al Viro         2017-12-14  160  extern void __compiletime_error("bad bitfield mask")
-00b0c9b82663ac Al Viro         2017-12-14  161  __bad_mask(void);
-00b0c9b82663ac Al Viro         2017-12-14  162  static __always_inline u64 field_multiplier(u64 field)
-00b0c9b82663ac Al Viro         2017-12-14  163  {
-00b0c9b82663ac Al Viro         2017-12-14  164  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
-00b0c9b82663ac Al Viro         2017-12-14 @165  		__bad_mask();
-00b0c9b82663ac Al Viro         2017-12-14  166  	return field & -field;
-00b0c9b82663ac Al Viro         2017-12-14  167  }
-00b0c9b82663ac Al Viro         2017-12-14  168  static __always_inline u64 field_mask(u64 field)
-00b0c9b82663ac Al Viro         2017-12-14  169  {
-00b0c9b82663ac Al Viro         2017-12-14  170  	return field / field_multiplier(field);
-00b0c9b82663ac Al Viro         2017-12-14  171  }
-e31a50162feb35 Alex Elder      2020-03-12  172  #define field_max(field)	((typeof(field))field_mask(field))
-00b0c9b82663ac Al Viro         2017-12-14  173  #define ____MAKE_OP(type,base,to,from)					\
-00b0c9b82663ac Al Viro         2017-12-14  174  static __always_inline __##type type##_encode_bits(base v, base field)	\
-00b0c9b82663ac Al Viro         2017-12-14  175  {									\
-e7d4a95da86e0b Johannes Berg   2018-06-20  176  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
-00b0c9b82663ac Al Viro         2017-12-14  177  		__field_overflow();					\
-00b0c9b82663ac Al Viro         2017-12-14  178  	return to((v & field_mask(field)) * field_multiplier(field));	\
-00b0c9b82663ac Al Viro         2017-12-14  179  }									\
-00b0c9b82663ac Al Viro         2017-12-14  180  static __always_inline __##type type##_replace_bits(__##type old,	\
-00b0c9b82663ac Al Viro         2017-12-14  181  					base val, base field)		\
-00b0c9b82663ac Al Viro         2017-12-14  182  {									\
-00b0c9b82663ac Al Viro         2017-12-14  183  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro         2017-12-14  184  }									\
-00b0c9b82663ac Al Viro         2017-12-14  185  static __always_inline void type##p_replace_bits(__##type *p,		\
-00b0c9b82663ac Al Viro         2017-12-14  186  					base val, base field)		\
-00b0c9b82663ac Al Viro         2017-12-14  187  {									\
-00b0c9b82663ac Al Viro         2017-12-14  188  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro         2017-12-14  189  }									\
-00b0c9b82663ac Al Viro         2017-12-14  190  static __always_inline base type##_get_bits(__##type v, base field)	\
-00b0c9b82663ac Al Viro         2017-12-14  191  {									\
-00b0c9b82663ac Al Viro         2017-12-14  192  	return (from(v) & field)/field_multiplier(field);		\
-00b0c9b82663ac Al Viro         2017-12-14  193  }
-00b0c9b82663ac Al Viro         2017-12-14  194  #define __MAKE_OP(size)							\
-00b0c9b82663ac Al Viro         2017-12-14  195  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
-00b0c9b82663ac Al Viro         2017-12-14  196  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
-00b0c9b82663ac Al Viro         2017-12-14  197  	____MAKE_OP(u##size,u##size,,)
-37a3862e123826 Johannes Berg   2018-06-20  198  ____MAKE_OP(u8,u8,,)
-00b0c9b82663ac Al Viro         2017-12-14  199  __MAKE_OP(16)
-00b0c9b82663ac Al Viro         2017-12-14  200  __MAKE_OP(32)
-00b0c9b82663ac Al Viro         2017-12-14  201  __MAKE_OP(64)
-00b0c9b82663ac Al Viro         2017-12-14  202  #undef __MAKE_OP
-00b0c9b82663ac Al Viro         2017-12-14  203  #undef ____MAKE_OP
-00b0c9b82663ac Al Viro         2017-12-14  204  
+   riscv64-linux-ld: lib/string.o: in function `memcpy':
+>> string.c:(.text+0x12dc): multiple definition of `memcpy'; mm/kasan/shadow.o:shadow.c:(.text+0x18e): first defined here
+--
+>> drivers/firmware/efi/libstub/intrinsics.c:18:7: warning: no previous prototype for 'memcpy' [-Wmissing-prototypes]
+      18 | void *memcpy(void *dst, const void *src, size_t len)
+         |       ^~~~~~
+--
+>> mm/kasan/shadow.c:72:7: warning: no previous prototype for 'memcpy' [-Wmissing-prototypes]
+      72 | void *memcpy(void *dest, const void *src, size_t len)
+         |       ^~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
