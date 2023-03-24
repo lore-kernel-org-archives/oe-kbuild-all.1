@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02E82F2C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 18:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DBC2F2C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 19:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679683113; x=1711219113;
+  t=1679685572; x=1711221572;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eYz/AGrCIqHvZOPWlAVZlhjVB1/1rnUHjnQZAvXtgVU=;
-  b=KWKJgrE5zo4YTcC8iR/mb1P9ChPSoYTgo7+fI5oYZPO/3/jGGiiUO3va
-   Tn+9DcD+fMs+d7AmrI/pKg0TKnlrxECKniKfuD7HrRrwZh2EnwRo5gS4Y
-   NmfZr+/rN2LLT8msN480a/8qbouNHD2HtEAIhNn0o9FvsYjlpaxVa7XiC
-   CaYDDWs0PoAJ6avmsIVI9ob+TPZKpu/mnga8qGkccQPhG0NqA149KeoBQ
-   UMKyQsQphg/EjRqtDnsmLR+F1IiXfdQ1fWEDEc/4qjjHGEKOlGDqnHdIZ
-   8oDSCKiyuvx8eDgSApZOx6bKiqaXGJFrQ+EZQo2j7iHX+srOoa7RgdPF9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="426121699"
+  bh=8/qKiew+054cPBw+Sm/N1rAXXMte7nVvjOewX9qKU+8=;
+  b=Cu+7rnVGLHQcOj404RtHMQDzxSjKhAWfrbJMfmMfxRjijDiICks1ghjm
+   HCueQTHFrNthAkTKxVAAWPkJ147SUP6onUgSwyeGKqinNrgYrsxzm8PBP
+   bHcvBLJN0ly5U2h72cKWVboCOADO70C3BDPxmeTPJyL4NXRtNa4TJn1/v
+   T94GgVe7SAna2stnhMWysxdzgUUG1c5V7tiPiB/MHvwKneMIhUSp2RRdq
+   S7BDvAzbKjasUjY6Zr+HImiA6D5vxOpRHJrPLqaWeNyNVyDTMVsb8nkXU
+   a+q/HsGOU7+i4Fmg5OOOrvTWfboXNBUdtFxaIijL26Cd4sqzMA2JYTcB7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="339890999"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="426121699"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 11:38:32 -0700
+   d="scan'208";a="339890999"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 12:19:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="806773129"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="715355577"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="806773129"
+   d="scan'208";a="715355577"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 24 Mar 2023 11:38:28 -0700
+  by orsmga001.jf.intel.com with ESMTP; 24 Mar 2023 12:19:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfmJ2-000FZE-0u;
-	Fri, 24 Mar 2023 18:38:28 +0000
-Date: Sat, 25 Mar 2023 02:38:02 +0800
+	id 1pfmwj-000Fax-1c;
+	Fri, 24 Mar 2023 19:19:29 +0000
+Date: Sat, 25 Mar 2023 03:18:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:pwm-dev-v15 4/9] drivers/pwm/pwm-microchip-core.c:398:13:
- warning: variable 'ret' set but not used
-Message-ID: <202303250201.WNciwXmE-lkp@intel.com>
+Subject: [arm-integrator:virt-to-pfn-v6.3-rc3-redux 6/8]
+ drivers/tee/tee_shm.c:35:16: sparse: sparse: incorrect type in argument 1
+ (different base types)
+Message-ID: <202303250333.lWWO1e3x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,91 +47,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pwm-dev-v15
-head:   f675a783c2fc465c5fb8f52191d740467e265b89
-commit: 1d5bcc2680eafb15c14856a00fbb92b40e26cba1 [4/9] report pwmchip_add() failures
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230325/202303250201.WNciwXmE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.3-rc3-redux
+head:   b5fe3402030c1ea066167108866fd21881895594
+commit: 1df3431f995d6bb7a731770a7393c3011b52a581 [6/8] ARM: mm: Make virt_to_pfn() a static inline
+config: arm-randconfig-s053-20230322 (https://download.01.org/0day-ci/archive/20230325/202303250333.lWWO1e3x-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/commit/?id=1d5bcc2680eafb15c14856a00fbb92b40e26cba1
-        git remote add conor https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git
-        git fetch --no-tags conor pwm-dev-v15
-        git checkout 1d5bcc2680eafb15c14856a00fbb92b40e26cba1
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=1df3431f995d6bb7a731770a7393c3011b52a581
+        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
+        git fetch --no-tags arm-integrator virt-to-pfn-v6.3-rc3-redux
+        git checkout 1df3431f995d6bb7a731770a7393c3011b52a581
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pwm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/ drivers/tee/ kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303250201.WNciwXmE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303250333.lWWO1e3x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tee/tee_shm.c:35:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const *p @@     got unsigned long start @@
+   drivers/tee/tee_shm.c:35:16: sparse:     expected void const *p
+   drivers/tee/tee_shm.c:35:16: sparse:     got unsigned long start
+--
+   drivers/gpu/drm/drm_client.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_client.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_gem.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_gem.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_print.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_print.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_prime.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_prime.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_gem_dma_helper.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_gem_dma_helper.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_gem_shmem_helper.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_gem_shmem_helper.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/drm_format_helper.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/drm_format_helper.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_dev.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/arm/display/komeda/komeda_dev.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/v3d/v3d_bo.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/v3d/v3d_bo.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/vkms/vkms_plane.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/vkms/vkms_plane.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/vkms/vkms_writeback.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/vkms/vkms_writeback.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/armada/armada_gem.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/armada/armada_gem.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *io_addr @@     got void *addr @@
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     expected void volatile [noderef] __iomem *io_addr
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     got void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     expected void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     got void [noderef] __iomem *
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
+--
+   drivers/gpu/drm/msm/msm_gem_prime.c: note: in included file (through arch/arm/include/asm/io.h, include/linux/io.h, include/linux/iosys-map.h, ...):
+   arch/arm/include/asm/memory.h:384:9: sparse: sparse: preprocessor token ARCH_PFN_OFFSET redefined
+   drivers/gpu/drm/msm/msm_gem_prime.c: note: in included file (through arch/arm/include/asm/page.h, arch/arm/include/asm/memory.h, arch/arm/include/asm/io.h, ...):
+>> include/asm-generic/memory_model.h:15:9: sparse: this was the original definition
 
-   drivers/pwm/pwm-microchip-core.c: In function 'mchp_core_pwm_probe':
-   drivers/pwm/pwm-microchip-core.c:430:65: error: expected ';' before 'if'
-     430 |         ret = devm_pwmchip_add(&pdev->dev, &mchp_core_pwm->chip)
-         |                                                                 ^
-         |                                                                 ;
-     431 |         if (ret)
-         |         ~~                                                       
->> drivers/pwm/pwm-microchip-core.c:398:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     398 |         int ret;
-         |             ^~~
-   drivers/pwm/pwm-microchip-core.c:435:1: error: control reaches end of non-void function [-Werror=return-type]
-     435 | }
-         | ^
-   cc1: some warnings being treated as errors
+vim +35 drivers/tee/tee_shm.c
 
+53e16519c2eccd Jens Wiklander 2022-02-04  24  
+53e16519c2eccd Jens Wiklander 2022-02-04  25  static int shm_get_kernel_pages(unsigned long start, size_t page_count,
+53e16519c2eccd Jens Wiklander 2022-02-04  26  				struct page **pages)
+53e16519c2eccd Jens Wiklander 2022-02-04  27  {
+0249a75b365911 Ira Weiny      2023-02-03  28  	struct page *page;
+53e16519c2eccd Jens Wiklander 2022-02-04  29  	size_t n;
+53e16519c2eccd Jens Wiklander 2022-02-04  30  
+0249a75b365911 Ira Weiny      2023-02-03  31  	if (WARN_ON_ONCE(is_vmalloc_addr((void *)start) ||
+0249a75b365911 Ira Weiny      2023-02-03  32  			 is_kmap_addr((void *)start)))
+c83900393aa133 Ira Weiny      2023-02-03  33  		return -EINVAL;
+3e47235eaee094 Phil Chang     2022-02-25  34  
+0249a75b365911 Ira Weiny      2023-02-03 @35  	page = virt_to_page(start);
+53e16519c2eccd Jens Wiklander 2022-02-04  36  	for (n = 0; n < page_count; n++) {
+0249a75b365911 Ira Weiny      2023-02-03  37  		pages[n] = page + n;
+0249a75b365911 Ira Weiny      2023-02-03  38  		get_page(pages[n]);
+53e16519c2eccd Jens Wiklander 2022-02-04  39  	}
+53e16519c2eccd Jens Wiklander 2022-02-04  40  
+0249a75b365911 Ira Weiny      2023-02-03  41  	return page_count;
+4300cd6374a519 John Hubbard   2020-08-24  42  }
+4300cd6374a519 John Hubbard   2020-08-24  43  
 
-vim +/ret +398 drivers/pwm/pwm-microchip-core.c
+:::::: The code at line 35 was first introduced by commit
+:::::: 0249a75b365911f91b87935bc08a4795a6fa7dd0 tee: Remove call to get_kernel_pages()
 
-   393	
-   394	static int mchp_core_pwm_probe(struct platform_device *pdev)
-   395	{
-   396		struct mchp_core_pwm_chip *mchp_core_pwm;
-   397		struct resource *regs;
- > 398		int ret;
-   399	
-   400		mchp_core_pwm = devm_kzalloc(&pdev->dev, sizeof(*mchp_core_pwm), GFP_KERNEL);
-   401		if (!mchp_core_pwm)
-   402			return -ENOMEM;
-   403	
-   404		mchp_core_pwm->base = devm_platform_get_and_ioremap_resource(pdev, 0, &regs);
-   405		if (IS_ERR(mchp_core_pwm->base))
-   406			return PTR_ERR(mchp_core_pwm->base);
-   407	
-   408		mchp_core_pwm->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-   409		if (IS_ERR(mchp_core_pwm->clk))
-   410			return dev_err_probe(&pdev->dev, PTR_ERR(mchp_core_pwm->clk),
-   411					     "failed to get PWM clock\n");
-   412	
-   413		if (of_property_read_u32(pdev->dev.of_node, "microchip,sync-update-mask",
-   414					 &mchp_core_pwm->sync_update_mask))
-   415			mchp_core_pwm->sync_update_mask = 0;
-   416	
-   417		mutex_init(&mchp_core_pwm->lock);
-   418	
-   419		mchp_core_pwm->chip.dev = &pdev->dev;
-   420		mchp_core_pwm->chip.ops = &mchp_core_pwm_ops;
-   421		mchp_core_pwm->chip.npwm = 16;
-   422	
-   423		mchp_core_pwm->channel_enabled = readb_relaxed(mchp_core_pwm->base + MCHPCOREPWM_EN(0));
-   424		mchp_core_pwm->channel_enabled |=
-   425			readb_relaxed(mchp_core_pwm->base + MCHPCOREPWM_EN(1)) << 8;
-   426	
-   427		writel_relaxed(1U, mchp_core_pwm->base + MCHPCOREPWM_SYNC_UPD);
-   428		mchp_core_pwm->update_timestamp = ktime_get();
-   429	
-   430		ret = devm_pwmchip_add(&pdev->dev, &mchp_core_pwm->chip)
-   431		if (ret)
-   432			return dev_err_probe(&pdev->dev, ret, "Failed to add pwmchip\n")
-   433	
-   434		return 0;
-   435	}
-   436	
+:::::: TO: Ira Weiny <ira.weiny@intel.com>
+:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
