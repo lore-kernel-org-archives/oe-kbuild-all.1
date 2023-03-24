@@ -1,142 +1,129 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CF2F2D;
-	Fri, 24 Mar 2023 08:56:40 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a] (unknown [IPv6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id B52946603111;
-	Fri, 24 Mar 2023 08:56:37 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1679648198;
-	bh=fSTAJcZ+stux5F7CVDxrYSB6CjZcdcUM5EQHkwSolOQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KKVdO9t0sYkHaJ1tstArEyba/Fvd76PT+Bb8whfZp36eVUKPCYx6dyCpSzgaHNQp9
-	 PwavG2SpFEZPWYNj8NHCvb7hfu0czslZWU1neac/udmuLbgOdOevERU3lx0d2roFkM
-	 ZY0njDbuL4MOMUmrRdEc5kyjlWN3steO1fR3FNSalz3wH+kgoCxB5l3b0+K9JA11ie
-	 uTdtvV2M3vKrzlUSFuJPpYcGZke6Dw4wZkh9VCo4R2VAC5dhhRE0+5YHyERpLZc6cH
-	 Ky37tKSoz4+Si/+YVszJgLXCKE1wq4wvSl/WETQfTQAiot7Ys4CfAsugbkirmU2Inz
-	 cbMAAZQAM0FiA==
-Message-ID: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
-Date: Fri, 24 Mar 2023 09:56:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811382F2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 09:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679648649; x=1711184649;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r/C2TLpuTZ/5O98xfb36vuLqGKcU8eT7JPkiAxu0Yfc=;
+  b=h1BDUR/2XvCKvDWNvmDqk2unWvFUB98vIwPzo+Zb965Ob2/kM4Mgiq4X
+   cYioWG72V+j7yfanVG6UaqdsIRSE7fktwJxMODgtM8mCg4R1Y56oB3Mse
+   ZyAAMCo9XSSTZsBzSuAhs5lv7zAVCkGQSplzsSG9Pg0579uGrJd2FBdyl
+   R5gPXGdOfR4yW+MuXM6NWlvRQLq9A4gGrgyvBKNP/0xC/whHgPpfBg9Cw
+   Lt7V15BXMFYndjSMZuWJxc90tPocsy1ZOHnNHaOT3VBqy2aDA+wwzuQNC
+   2pgnsuO0IKq9ivkmNCF6bbaBkZUfKBR0MPpWmE2EWI7Vytq9SODtmhkcl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="319385466"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="319385466"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 02:04:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="793371939"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="793371939"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 24 Mar 2023 02:04:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfdLD-000F9q-1N;
+	Fri, 24 Mar 2023 09:04:07 +0000
+Date: Fri, 24 Mar 2023 17:03:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: aloktiagi <aloktiagi@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v4 2/2] file, epoll: Implement do_replace() and
+ eventpoll_replace()
+Message-ID: <202303241601.tE7CEyMq-lkp@intel.com>
+References: <20230324063422.1031181-2-aloktiagi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
- bin.liu@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- daniel.almeida@collabora.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
- <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
- <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
- <20230324084830.GA18895@pendragon.ideasonboard.com>
- <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230324063422.1031181-2-aloktiagi@gmail.com>
+
+Hi aloktiagi,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on kees/for-next/seccomp]
+[also build test ERROR on vfs-idmapping/for-next linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/aloktiagi/file-epoll-Implement-do_replace-and-eventpoll_replace/20230324-143628
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/seccomp
+patch link:    https://lore.kernel.org/r/20230324063422.1031181-2-aloktiagi%40gmail.com
+patch subject: [RFC v4 2/2] file, epoll: Implement do_replace() and eventpoll_replace()
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230324/202303241601.tE7CEyMq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/16224b0d75bd4532819c7f65b407877237fcaf31
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review aloktiagi/file-epoll-Implement-do_replace-and-eventpoll_replace/20230324-143628
+        git checkout 16224b0d75bd4532819c7f65b407877237fcaf31
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241601.tE7CEyMq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/file.c: In function 'do_replace':
+   fs/file.c:1176:31: error: 'struct file' has no member named 'f_ep'; did you mean 'f_op'?
+    1176 |         if (fdfile && fdfile->f_ep) {
+         |                               ^~~~
+         |                               f_op
+>> fs/file.c:1177:17: error: implicit declaration of function 'eventpoll_replace_file'; did you mean 'eventpoll_release'? [-Werror=implicit-function-declaration]
+    1177 |                 eventpoll_replace_file(fdfile, file);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 eventpoll_release
+   cc1: some warnings being treated as errors
 
 
-Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
-> On 24/03/2023 09:48, Laurent Pinchart wrote:
->> On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
->>> On 24/03/2023 09:11, Benjamin Gaignard wrote:
->>>> Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
->>>>> Hi Benjamin,
->>>>>
->>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>>
->>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
->>>>> base:   git://linuxtv.org/media_tree.git master
->>>>> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
->>>>> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
->>>>> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
->>>>> compiler: aarch64-linux-gcc (GCC) 12.1.0
->>>>>
->>>>> If you fix the issue, kindly add following tag where applicable
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Reported-by: Dan Carpenter <error27@gmail.com>
->>>>> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
->>>>>
->>>>> smatch warnings:
->>>>> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
->>>>> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
->>>>>
->>>>> vim +1272 include/media/videobuf2-core.h
->>>>>
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
->>>>>                                                           ^^^^^^^^^^^^^^^^^^^^^^^
->>>>> Holding a spin lock.
->>>>>
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
->>>>>                                                                                                                                        ^^^^^^^^^^
->>>>> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
->>>>> allocation outside the lock?
->>>> I will add GFP_ATOMIC flag in next version.
->>> No need. Instead, don't use realloc here, just allocate a new array, copy over all
->>> the data from the old, and then switch q->bufs with the spinlock held. Then you
->>> can free the old one.
->>>
->>> It's only when you update q->bufs that you need the lock.
->> The copy also needs to be protected by the lock.
-> I suspect that that is not needed, since you shouldn't be able to add buffers here
-> since a mutex should be held at this time.
->
-> That said, it's something that Benjamin needs to analyze.
+vim +1177 fs/file.c
 
-Does using GFP_ATOMIC is problematic ?
+  1159	
+  1160	static void do_replace(struct files_struct *files,
+  1161	        struct file *file, unsigned fd, struct file *fdfile)
+  1162	{
+  1163		unsigned n = 0;
+  1164		struct replace_filefd ffd = {
+  1165			.files = files,
+  1166			.fd = fd,
+  1167			.fdfile = fdfile,
+  1168			.file = file
+  1169		};
+  1170	
+  1171		/*
+  1172		 * Check if the file referenced by the fd number is linked to the epoll
+  1173		 * interface. If yes, replace the reference with the received file in
+  1174		 * the epoll interface.
+  1175		 */
+  1176		if (fdfile && fdfile->f_ep) {
+> 1177			eventpoll_replace_file(fdfile, file);
+  1178		}
+  1179		/*
+  1180		 * Install the received file in the file descriptor table for all fd
+  1181		 * numbers referencing the same file as the one we are trying to
+  1182		 * replace. Do not install it for the fd number received since that is
+  1183		 * handled in do_dup2()
+  1184		 */
+  1185		iterate_fd(files, n, do_replace_fd_array, &ffd);
+  1186	}
+  1187	
 
->
-> Regards,
->
-> 	Hans
->
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273          if (!tmp)
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274              goto realloc_failed;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276          q->max_num_bufs *= 2;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277          q->bufs = tmp;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278      }
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280      if (vb->index < q->max_num_bufs) {
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281          q->bufs[vb->index] = vb;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282          ret = true;
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283      }
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286      spin_unlock(&q->bufs_lock);
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288      return ret;
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
