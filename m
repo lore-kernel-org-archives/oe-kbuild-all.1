@@ -1,35 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606836FA1;
-	Fri, 24 Mar 2023 14:50:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21C6C433D2;
-	Fri, 24 Mar 2023 14:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679669458;
-	bh=8E2IvQpdT34xtqqpUMSWG8UjKpG0Mn8v7Bf/LKYHRAM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XIeIOprB0Jl+/v6D4q8V85bvTq2Ix7z4aqA5DSNMbpVKpDHYMh8z+TTpZAO7IMW9D
-	 FcR1+ocAe8uo+QmmOZXinK6C21XH5jopyKnNzaMekbMClRKhipUlBcZMmRroZFVjs9
-	 7QXE/jB6IJZS6eJP6+/WEtWk3IXe/e0Ss1MebWnZ4DQwH2Y2zRbkUQSrm5Ev2I3rA9
-	 TpR+F+7F0lF+Ky9qpCPEi0RXkry3tBWfzK8JtTWBKAGzDgT89cqMSL3kUQd4NXqVGB
-	 FQNKC/tv17zypCOXpt3PYG0NyjqreIyLx64hhHqpiKXHBlDXNiKAcRGMWXfePaEHv2
-	 qoy1pjnJKFWXA==
-Date: Fri, 24 Mar 2023 07:50:56 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Qin Jian <qinjian@cqplus1.com>, kernel test robot <lkp@intel.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning:
- result of comparison of constant 18446744073709551615 with expression of
- type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char:
- (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
-Message-ID: <20230324145056.GA428955@dev-arch.thelio-3990X>
-References: <202303221947.pXP2v4xJ-lkp@intel.com>
- <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org>
- <20230322195933.GA2828949@dev-arch.thelio-3990X>
- <00c24196e5ceb60b7d69967b73910264.sboyd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61C6FA1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 15:12:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679670747; x=1711206747;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wa3Cl6lp63uL9OEMeoEQaLKY/BQtnhgMgCl/VAsRz78=;
+  b=E75+ZEsb5IrY2+FION8cvHHTRR6ikttjYMUJfBOJRahTrhCXlteu4+uQ
+   MFZMHePZ/r8AUjH+cPpadUGoWf4HX5kk3wIlcCyvW859v7P8TkbPS34+X
+   Djmunw2KdiSj2zzC8bAxt0FyVIAg04re0ayECsY5fjUmstXbwLxXIxhkH
+   IUHLzXuAOvfNgXYdKDRD+0KX2PJv1CZlQnqYouSsi0ghxb8+l/eN4x7GA
+   etXYNqRVeYDscCk/5Sm+dQsS1tDDOwqpIN+DZU1VY8EvuoLlf1VI4Q71l
+   xV7mX5gwkxIGzyWU/AlgrpeB1TMEYhSUjGE+fTGVqLFVLaTxvpJEIiQA7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="319448023"
+X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
+   d="scan'208";a="319448023"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:12:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="928685123"
+X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
+   d="scan'208";a="928685123"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Mar 2023 08:12:20 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfj5X-000FPW-11;
+	Fri, 24 Mar 2023 15:12:19 +0000
+Date: Fri, 24 Mar 2023 23:12:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:dma-sync-rework 12/20]
+ arch/mips/mm/dma-noncoherent.c:63:17: error: expected declaration specifiers
+ or '...' before '(' token
+Message-ID: <202303242356.VaoqPWHL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -38,102 +46,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <00c24196e5ceb60b7d69967b73910264.sboyd@kernel.org>
 
-On Wed, Mar 22, 2023 at 04:48:43PM -0700, Stephen Boyd wrote:
-> Quoting Nathan Chancellor (2023-03-22 12:59:33)
-> > On Wed, Mar 22, 2023 at 10:39:06AM -0700, Stephen Boyd wrote:
-> > > Quoting kernel test robot (2023-03-22 04:17:48)
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sunplus
-> > > > head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > > > commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunplus SP7021 clock driver
-> > > > config: mips-randconfig-r012-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
-> > > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-> > > > reproduce (this is a W=1 build):
-> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > > >         chmod +x ~/bin/make.cross
-> > > >         # install mips cross compiling tool for clang build
-> > > >         # apt-get install binutils-mipsel-linux-gnu
-> > > >         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > > >         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
-> > > >         git fetch --no-tags clk clk-sunplus
-> > > >         git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
-> > > >         # save the config file
-> > > >         mkdir build_dir && cp config build_dir/.config
-> > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-> > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/clk/
-> > > > 
-> > > > If you fix the issue, kindly add following tag where applicable
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-lkp@intel.com/
-> > > > 
-> > > 
-> > > Does this fix it?
-> > > 
-> > > ---8<---
-> > > diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-> > > index 8fec14120105..caabbf5e2197 100644
-> > > --- a/drivers/clk/clk-sp7021.c
-> > > +++ b/drivers/clk/clk-sp7021.c
-> > > @@ -30,9 +30,9 @@ enum {
-> > >       P_MAX
-> > >  };
-> > >  
-> > > -#define MASK_SEL_FRA GENMASK(1, 1)
-> > > -#define MASK_SDM_MOD GENMASK(2, 2)
-> > > -#define MASK_PH_SEL  GENMASK(4, 4)
-> > > +#define MASK_SEL_FRA BITMASK(1)
-> > > +#define MASK_SDM_MOD BITMASK(2)
-> > > +#define MASK_PH_SEL  BITMASK(4)
-> > >  #define MASK_NFRA    GENMASK(12, 6)
-> > >  #define MASK_DIVR    GENMASK(8, 7)
-> > >  #define MASK_DIVN    GENMASK(7, 0)
-> > > 
-> > 
-> > No (BITMASK did not exist but BIT_MASK does).
-> 
-> Heh ok.
-> 
-> > It looks like clang is
-> > complaining that mask is an unsigned int and it is being compared
-> > against ~0ull, which will always be false. This makes the warning go
-> > away for me, which is similar to commit cfd6fb45cfaf ("crypto: ccree -
-> > avoid out-of-range warnings from clang"), but I am not sure if that is
-> > correct or not.
-> 
-> Cool thanks. Can you send it as a proper patch?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git dma-sync-rework
+head:   9a711fbea373208c1eeb2fafb0c744bc23a79a43
+commit: 4a04caf3aca03b0132be4519f2064ce6fc6a0f24 [12/20] mips: dma-mapping: split out cache operation logic
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230324/202303242356.VaoqPWHL-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git/commit/?id=4a04caf3aca03b0132be4519f2064ce6fc6a0f24
+        git remote add arnd-asm-generic https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
+        git fetch --no-tags arnd-asm-generic dma-sync-rework
+        git checkout 4a04caf3aca03b0132be4519f2064ce6fc6a0f24
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-Sure thing, I will do so when I am back online next week.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303242356.VaoqPWHL-lkp@intel.com/
 
-> > diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-> > index 8fec14120105..11d22043ddd7 100644
-> > --- a/drivers/clk/clk-sp7021.c
-> > +++ b/drivers/clk/clk-sp7021.c
-> > @@ -41,7 +41,7 @@ enum {
-> >  /* HIWORD_MASK FIELD_PREP */
-> >  #define HWM_FIELD_PREP(mask, value)            \
-> >  ({                                             \
-> > -       u32 _m = mask;                          \
-> > +       u64 _m = mask;                          \
-> >         (_m << 16) | FIELD_PREP(_m, value);     \
-> >  })
-> >  
-> > 
-> > For the record, this only happens under W=1 but I think we would like to
-> > eventually enable this warning so it would be good to avoid introducing
-> > new instances.
-> 
-> It makes sense to me because FIELD_PREP typically takes a GENMASK input,
-> which is an unsigned long long shifted around. 
-> 
-> I think I'm building with W=1, but I'm not building with clang. I'll
-> have to go fetch another compiler and put it into circulation.
+All errors (new ones prefixed by >>):
 
-If you have not seen it already, I provide prebuilt up to date versions
-of clang on kernel.org, which I hope eases the friction of testing with
-two compilers:
+>> arch/mips/mm/dma-noncoherent.c:63:17: error: expected declaration specifiers or '...' before '(' token
+      63 |                 (void)(*cache_op)(unsigned long start, unsigned long size));
+         |                 ^
+>> arch/mips/mm/dma-noncoherent.c:64:1: error: expected identifier or '(' before '{' token
+      64 | {
+         | ^
+   arch/mips/mm/dma-noncoherent.c: In function 'arch_sync_dma_for_device':
+>> arch/mips/mm/dma-noncoherent.c:93:17: error: implicit declaration of function 'dma_sync_phys'; did you mean 'dma_to_phys'? [-Werror=implicit-function-declaration]
+      93 |                 dma_sync_phys(paddr, size, _dma_cache_wback);
+         |                 ^~~~~~~~~~~~~
+         |                 dma_to_phys
+   cc1: some warnings being treated as errors
 
-https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990X/
 
-Cheers,
-Nathan
+vim +63 arch/mips/mm/dma-noncoherent.c
+
+    56	
+    57	/*
+    58	 * A single sg entry may refer to multiple physically contiguous pages.  But
+    59	 * we still need to process highmem pages individually.  If highmem is not
+    60	 * configured then the bulk of this loop gets optimized out.
+    61	 */
+    62	static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+  > 63			(void)(*cache_op)(unsigned long start, unsigned long size));
+  > 64	{
+    65		struct page *page = pfn_to_page(paddr >> PAGE_SHIFT);
+    66		unsigned long offset = paddr & ~PAGE_MASK;
+    67		size_t left = size;
+    68	
+    69		do {
+    70			size_t len = left;
+    71			void *addr;
+    72	
+    73			if (PageHighMem(page)) {
+    74				if (offset + len > PAGE_SIZE)
+    75					len = PAGE_SIZE - offset;
+    76			}
+    77	
+    78			addr = kmap_atomic(page);
+    79			cache_op(addr + offset, len);
+    80			kunmap_atomic(addr);
+    81	
+    82			offset = 0;
+    83			page++;
+    84			left -= len;
+    85		} while (left);
+    86	}
+    87	
+    88	void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+    89			enum dma_data_direction dir)
+    90	{
+    91		switch (dir) {
+    92		case DMA_TO_DEVICE:
+  > 93			dma_sync_phys(paddr, size, _dma_cache_wback);
+    94			break;
+    95		case DMA_FROM_DEVICE:
+    96			dma_sync_phys(paddr, size, _dma_cache_inv);
+    97			break;
+    98		case DMA_BIDIRECTIONAL:
+    99			if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) &&
+   100			    cpu_needs_post_dma_flush())
+   101				dma_sync_phys(paddr, size, _dma_cache_wback);
+   102			else
+   103				dma_sync_phys(paddr, size, _dma_cache_wback_inv);
+   104			break;
+   105		default:
+   106			break;
+   107		}
+   108	}
+   109	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
