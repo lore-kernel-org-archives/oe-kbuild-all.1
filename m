@@ -1,48 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4807E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 06:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636447E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 07:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679640681; x=1711176681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JlL8rYJbsrhy2KQzEdkMafFIo26MMid90GZaZUB4ySw=;
-  b=fEf9HTAnS5WpGuXqUFc239wj0rxbAOVIHC6VjZZaA0n1EfxvPvto9weG
-   xSQ0lpolV8b1qekSoOu3+YoEu2lBnKmGWgew9oqi4TY55uZ0HnKBPD8Bk
-   ZviX1bjgao15U0INxbiKZ6Q0bEonyccjwbKQCQmgWIebtzOkGrieoaTSq
-   vUhxCHOKIqv2twbmpA3oyWJ9LngtW4UmCc4K3tuGGMAz87z2RcxNLk9X0
-   j5PV6hWonMLCQSlLcPeUQ3cZUrZB9I0gPZXwUmzTFZOuFWTH8SgtvETZc
-   v55xoF8PVZse7JPXao6oAjdgsXAktGRyJJ47idTC9hhFG3C7JGixRZ3Db
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="337217562"
+  t=1679643126; x=1711179126;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IaGhop8XhAF6DG9lzA7SDhn2l0NPtjI98c+1mT48yhc=;
+  b=fYn6OgN3v7KWxJaE09xy4e5Ipd5sxUmAA+Y38GX08px8pB3LdktOApO3
+   dOAw+fG+VNK0UJYK8YXvb/vZa8WFtxOURjyY/+iOZ2UKGl89iMr/+1oBD
+   OIOX5quE8MM6KpK0RznVJs8ZYRSfqApwovt6dMu0YTxbw5gHN7z1aCzlc
+   ISMhK5UPqeqsul5t2oubDpggE12DukXes+fJ7IhfiMpPVgiNXs4GNBf4R
+   Zm0KRroStcZY7ZNr1CNUPUtXmFP2foj/aPZDsEb4GGeD3KsQcToQR7mvn
+   zYTMEVqHY9NiRU+VdVFrtDNJNif0+x151iAZougpoAEBNs2yX3CFcPgm4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="323588199"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="337217562"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 23:51:07 -0700
+   d="scan'208";a="323588199"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 00:32:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="632729355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="856778333"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="632729355"
+   d="scan'208";a="856778333"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Mar 2023 23:51:03 -0700
+  by orsmga005.jf.intel.com with ESMTP; 24 Mar 2023 00:32:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfbGQ-000F3k-2k;
-	Fri, 24 Mar 2023 06:51:02 +0000
-Date: Fri, 24 Mar 2023 14:50:53 +0800
+	id 1pfbu8-000F5U-0n;
+	Fri, 24 Mar 2023 07:32:04 +0000
+Date: Fri, 24 Mar 2023 15:31:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fangrui Song <maskray@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Collingbourne <pcc@google.com>, Will Deacon <will@kernel.org>,
-	Fangrui Song <maskray@google.com>
-Subject: Re: [PATCH] Makefile: use -z pack-relative-relocs
-Message-ID: <202303241443.0sSziFDY-lkp@intel.com>
-References: <20230323204427.3594372-1-maskray@google.com>
+To: Matteo Croce <mcroce@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:alexghiti_test 72/78] string.c:(.text+0x1194): multiple
+ definition of `memset'; mm/kasan/shadow.o:shadow.c:(.text+0x8e): first
+ defined here
+Message-ID: <202303241547.KUVsh7QP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,45 +46,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323204427.3594372-1-maskray@google.com>
 
-Hi Fangrui,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.3-rc3 next-20230323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fangrui-Song/Makefile-use-z-pack-relative-relocs/20230324-044515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230323204427.3594372-1-maskray%40google.com
-patch subject: [PATCH] Makefile: use -z pack-relative-relocs
-config: arm64-randconfig-r022-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241443.0sSziFDY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/avpatel/linux.git alexghiti_test
+head:   93aaa7cba9ba7ae91a47812465117e2f9b9e3712
+commit: fa2bd47c3903dd647e86e017cab6f7b3915538ed [72/78] riscv: optimized memset
+config: riscv-randconfig-r042-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241547.KUVsh7QP-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8f47a36faf182f96a2bbf4d3b9305fe9a90c5cde
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Fangrui-Song/Makefile-use-z-pack-relative-relocs/20230324-044515
-        git checkout 8f47a36faf182f96a2bbf4d3b9305fe9a90c5cde
+        # https://github.com/avpatel/linux/commit/fa2bd47c3903dd647e86e017cab6f7b3915538ed
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel alexghiti_test
+        git checkout fa2bd47c3903dd647e86e017cab6f7b3915538ed
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241443.0sSziFDY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241547.KUVsh7QP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> aarch64-linux-ld: warning: -z pack-relative-relocs ignored
->> aarch64-linux-ld: warning: -z pack-relative-relocs ignored
->> aarch64-linux-ld: warning: -z pack-relative-relocs ignored
+   drivers/firmware/efi/libstub/intrinsics.c:18:7: warning: no previous prototype for 'memcpy' [-Wmissing-prototypes]
+      18 | void *memcpy(void *dst, const void *src, size_t len)
+         |       ^~~~~~
+>> drivers/firmware/efi/libstub/intrinsics.c:26:7: warning: no previous prototype for 'memset' [-Wmissing-prototypes]
+      26 | void *memset(void *dst, int c, size_t len)
+         |       ^~~~~~
+--
+   riscv64-linux-ld: lib/string.o: in function `memset':
+>> string.c:(.text+0x1194): multiple definition of `memset'; mm/kasan/shadow.o:shadow.c:(.text+0x8e): first defined here
+   riscv64-linux-ld: lib/string.o: in function `memcpy':
+   string.c:(.text+0x1352): multiple definition of `memcpy'; mm/kasan/shadow.o:shadow.c:(.text+0x10e): first defined here
+--
+>> mm/kasan/shadow.c:51:7: warning: no previous prototype for 'memset' [-Wmissing-prototypes]
+      51 | void *memset(void *addr, int c, size_t len)
+         |       ^~~~~~
+   mm/kasan/shadow.c:72:7: warning: no previous prototype for 'memcpy' [-Wmissing-prototypes]
+      72 | void *memcpy(void *dest, const void *src, size_t len)
+         |       ^~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
