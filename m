@@ -1,43 +1,35 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7774210B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 14:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679668341; x=1711204341;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iss6ZZCyK2nkk17pJKVbsmbvgd8SvoQv3pUkA9mNt+8=;
-  b=My22QzTBVH+jdIwLLSIlrMufifU/QWSQQQnOlLgFBglLnv/Vg+blY2V8
-   OOcBQQlkJBKa5m8KBTNTbB+/OYg9bUo4TzIpb0U4u4252XqC2lRiKr/Ah
-   ld+MQW5lhaZDSma0juCEavCEd2b+9gZHbfleSM7d1f3jmZ5HvOqQkWzKc
-   P21WTMsV+Bccw3gtVW8q+gShU2isMPhytOQGZ6E+5wOfma1UDUa5kXhcc
-   YOzSzN7sSmagw4ivPrqTd5duGdJ1RmKgVDxZxC27Dhu7Iewu0FxzH2KAL
-   iitdIFP8N5MCyyNlO6uN8srbFUJrgbq25Ct4GhzL967yVLoLfQ9KPupZp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="404707370"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="404707370"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 07:32:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="826276319"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="826276319"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Mar 2023 07:32:18 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfiSn-000FMu-1i;
-	Fri, 24 Mar 2023 14:32:17 +0000
-Date: Fri, 24 Mar 2023 22:31:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:dma-sync-rework 20/20]
- arch/openrisc/kernel/dma.c:126:9: warning: this 'for' clause does not
- guard...
-Message-ID: <202303242205.5V2cu64T-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606836FA1;
+	Fri, 24 Mar 2023 14:50:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21C6C433D2;
+	Fri, 24 Mar 2023 14:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679669458;
+	bh=8E2IvQpdT34xtqqpUMSWG8UjKpG0Mn8v7Bf/LKYHRAM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XIeIOprB0Jl+/v6D4q8V85bvTq2Ix7z4aqA5DSNMbpVKpDHYMh8z+TTpZAO7IMW9D
+	 FcR1+ocAe8uo+QmmOZXinK6C21XH5jopyKnNzaMekbMClRKhipUlBcZMmRroZFVjs9
+	 7QXE/jB6IJZS6eJP6+/WEtWk3IXe/e0Ss1MebWnZ4DQwH2Y2zRbkUQSrm5Ev2I3rA9
+	 TpR+F+7F0lF+Ky9qpCPEi0RXkry3tBWfzK8JtTWBKAGzDgT89cqMSL3kUQd4NXqVGB
+	 FQNKC/tv17zypCOXpt3PYG0NyjqreIyLx64hhHqpiKXHBlDXNiKAcRGMWXfePaEHv2
+	 qoy1pjnJKFWXA==
+Date: Fri, 24 Mar 2023 07:50:56 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Qin Jian <qinjian@cqplus1.com>, kernel test robot <lkp@intel.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [clk:clk-sunplus 1/1] drivers/clk/clk-sp7021.c:316:8: warning:
+ result of comparison of constant 18446744073709551615 with expression of
+ type 'typeof (_Generic((_m), char: (unsigned char)0, unsigned char:
+ (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigne...
+Message-ID: <20230324145056.GA428955@dev-arch.thelio-3990X>
+References: <202303221947.pXP2v4xJ-lkp@intel.com>
+ <81b2a67f89d7f46dd27f6d05606e753f.sboyd@kernel.org>
+ <20230322195933.GA2828949@dev-arch.thelio-3990X>
+ <00c24196e5ceb60b7d69967b73910264.sboyd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +38,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <00c24196e5ceb60b7d69967b73910264.sboyd@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git dma-sync-rework
-head:   9a711fbea373208c1eeb2fafb0c744bc23a79a43
-commit: 9a711fbea373208c1eeb2fafb0c744bc23a79a43 [20/20] dma-mapping: replace custom code with generic implementation
-config: openrisc-randconfig-r002-20230322 (https://download.01.org/0day-ci/archive/20230324/202303242205.5V2cu64T-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git/commit/?id=9a711fbea373208c1eeb2fafb0c744bc23a79a43
-        git remote add arnd-asm-generic https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
-        git fetch --no-tags arnd-asm-generic dma-sync-rework
-        git checkout 9a711fbea373208c1eeb2fafb0c744bc23a79a43
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash arch/openrisc/kernel/
+On Wed, Mar 22, 2023 at 04:48:43PM -0700, Stephen Boyd wrote:
+> Quoting Nathan Chancellor (2023-03-22 12:59:33)
+> > On Wed, Mar 22, 2023 at 10:39:06AM -0700, Stephen Boyd wrote:
+> > > Quoting kernel test robot (2023-03-22 04:17:48)
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-sunplus
+> > > > head:   d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> > > > commit: d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2 [1/1] clk: Add Sunplus SP7021 clock driver
+> > > > config: mips-randconfig-r012-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221947.pXP2v4xJ-lkp@intel.com/config)
+> > > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+> > > > reproduce (this is a W=1 build):
+> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > > >         chmod +x ~/bin/make.cross
+> > > >         # install mips cross compiling tool for clang build
+> > > >         # apt-get install binutils-mipsel-linux-gnu
+> > > >         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> > > >         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
+> > > >         git fetch --no-tags clk clk-sunplus
+> > > >         git checkout d54c1fd4a51e8fbc7f9da86b0cd338a4f7cd2bb2
+> > > >         # save the config file
+> > > >         mkdir build_dir && cp config build_dir/.config
+> > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+> > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/clk/
+> > > > 
+> > > > If you fix the issue, kindly add following tag where applicable
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Link: https://lore.kernel.org/oe-kbuild-all/202303221947.pXP2v4xJ-lkp@intel.com/
+> > > > 
+> > > 
+> > > Does this fix it?
+> > > 
+> > > ---8<---
+> > > diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
+> > > index 8fec14120105..caabbf5e2197 100644
+> > > --- a/drivers/clk/clk-sp7021.c
+> > > +++ b/drivers/clk/clk-sp7021.c
+> > > @@ -30,9 +30,9 @@ enum {
+> > >       P_MAX
+> > >  };
+> > >  
+> > > -#define MASK_SEL_FRA GENMASK(1, 1)
+> > > -#define MASK_SDM_MOD GENMASK(2, 2)
+> > > -#define MASK_PH_SEL  GENMASK(4, 4)
+> > > +#define MASK_SEL_FRA BITMASK(1)
+> > > +#define MASK_SDM_MOD BITMASK(2)
+> > > +#define MASK_PH_SEL  BITMASK(4)
+> > >  #define MASK_NFRA    GENMASK(12, 6)
+> > >  #define MASK_DIVR    GENMASK(8, 7)
+> > >  #define MASK_DIVN    GENMASK(7, 0)
+> > > 
+> > 
+> > No (BITMASK did not exist but BIT_MASK does).
+> 
+> Heh ok.
+> 
+> > It looks like clang is
+> > complaining that mask is an unsigned int and it is being compared
+> > against ~0ull, which will always be false. This makes the warning go
+> > away for me, which is similar to commit cfd6fb45cfaf ("crypto: ccree -
+> > avoid out-of-range warnings from clang"), but I am not sure if that is
+> > correct or not.
+> 
+> Cool thanks. Can you send it as a proper patch?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303242205.5V2cu64T-lkp@intel.com/
+Sure thing, I will do so when I am back online next week.
 
-All warnings (new ones prefixed by >>):
+> > diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
+> > index 8fec14120105..11d22043ddd7 100644
+> > --- a/drivers/clk/clk-sp7021.c
+> > +++ b/drivers/clk/clk-sp7021.c
+> > @@ -41,7 +41,7 @@ enum {
+> >  /* HIWORD_MASK FIELD_PREP */
+> >  #define HWM_FIELD_PREP(mask, value)            \
+> >  ({                                             \
+> > -       u32 _m = mask;                          \
+> > +       u64 _m = mask;                          \
+> >         (_m << 16) | FIELD_PREP(_m, value);     \
+> >  })
+> >  
+> > 
+> > For the record, this only happens under W=1 but I think we would like to
+> > eventually enable this warning so it would be good to avoid introducing
+> > new instances.
+> 
+> It makes sense to me because FIELD_PREP typically takes a GENMASK input,
+> which is an unsigned long long shifted around. 
+> 
+> I think I'm building with W=1, but I'm not building with clang. I'll
+> have to go fetch another compiler and put it into circulation.
 
-   arch/openrisc/kernel/dma.c: In function 'arch_dma_cache_inv':
-   arch/openrisc/kernel/dma.c:115:19: error: 'addr' undeclared (first use in this function); did you mean 'paddr'?
-     115 |         for (cl = addr; cl < addr + size;
-         |                   ^~~~
-         |                   paddr
-   arch/openrisc/kernel/dma.c:115:19: note: each undeclared identifier is reported only once for each function it appears in
-   arch/openrisc/kernel/dma.c: In function 'arch_dma_cache_wback_inv':
-   arch/openrisc/kernel/dma.c:126:19: error: 'addr' undeclared (first use in this function); did you mean 'paddr'?
-     126 |         for (cl = addr; cl < addr + size;
-         |                   ^~~~
-         |                   paddr
->> arch/openrisc/kernel/dma.c:126:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
-     126 |         for (cl = addr; cl < addr + size;
-         |         ^~~
-   arch/openrisc/kernel/dma.c:129:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
-     129 |                 break;
-         |                 ^~~~~
-   arch/openrisc/kernel/dma.c:129:17: error: break statement not within loop or switch
+If you have not seen it already, I provide prebuilt up to date versions
+of clang on kernel.org, which I hope eases the friction of testing with
+two compilers:
 
+https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990X/
 
-vim +/for +126 arch/openrisc/kernel/dma.c
-
-9a711fbea373208 Arnd Bergmann 2023-03-22  119  
-9a711fbea373208 Arnd Bergmann 2023-03-22  120  static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
-9a711fbea373208 Arnd Bergmann 2023-03-22  121  {
-9a711fbea373208 Arnd Bergmann 2023-03-22  122  	unsigned long cl;
-9a711fbea373208 Arnd Bergmann 2023-03-22  123  	struct cpuinfo_or1k *cpuinfo = &cpuinfo_or1k[smp_processor_id()];
-9a711fbea373208 Arnd Bergmann 2023-03-22  124  
-586fa29b78e5976 Arnd Bergmann 2023-03-21  125  	/* Flush the dcache for the requested range */
-586fa29b78e5976 Arnd Bergmann 2023-03-21 @126  	for (cl = addr; cl < addr + size;
-586fa29b78e5976 Arnd Bergmann 2023-03-21  127  	     cl += cpuinfo->dcache_block_size)
-586fa29b78e5976 Arnd Bergmann 2023-03-21  128  		mtspr(SPR_DCBFR, cl);
-586fa29b78e5976 Arnd Bergmann 2023-03-21  129  		break;
-a39af6f7b806f2a Jonas Bonn    2011-06-04  130  }
-9a711fbea373208 Arnd Bergmann 2023-03-22  131  
-
-:::::: The code at line 126 was first introduced by commit
-:::::: 586fa29b78e59767a0a6d19e82c81e469bae6e08 openrisc: dma-mapping: flush bidirectional mappings
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Cheers,
+Nathan
