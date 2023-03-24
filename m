@@ -1,47 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D302B525F;
-	Fri, 24 Mar 2023 11:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A68525F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 12:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679659110; x=1711195110;
+  t=1679660898; x=1711196898;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZBOnlGHEHX5QehSOnThNvSqkic6+pzAnwoOKrCff764=;
-  b=QJnvD4E0iibWote4SEjgGGlj3zcA3Y5EEOr2kwqZ+VvkL5jmRfgZ6HxA
-   kdW1UjmU/9UIhfHXovkTIUnZM63d+002Dhw2fACX1BwLlAl202tNemLEj
-   iGmOBztu0/xFzE7taypvhvqNz5n9qJ1hBMc42umVNBPFi/iW6WmynW+G3
-   ASaW86z2csYFAT3TElO7w+d/oOv0SNOxrHy271cAuGizlZrTxb0C4m915
-   HoeXnUp+xPmYcMnPKXq9BFC91i3EOkqXCshcVgYgo2j6i2Je/jiA6P/RR
-   IEfBnjbSFD27Lb9y/VolBcI1AUy/HZ7ulSeo2lM5cMhyh+uaoFkxU+f8y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="367494520"
+  bh=Bj2wGLDUkyzJKrD5t65t2ML1HC1u4hulruUloRKcFZo=;
+  b=MdB7GhovjjcCnwupLAPfpf3IUspSEewy+Ovb8SHPU0UYRVJ6q2YPhqd3
+   G3WBddviEy/IVo1EbqOI0PMVI8YLW1qP/W3ylKusK6jOucWD2qrC5fGt6
+   SJoyLovGTCiaxSTseG6eRh6WyLon3wQmR+Oj6X1f/culKSyPs5zHoohom
+   Z3wwkOdWNTddt3vH7Hfvgzjj1X4RdkeJIz3LR4NB8BELR0Ww9D8jC9rTJ
+   Bc7FQyprd1PlV7pkAqxVU495mzPhNFiLmydal1KRmPDns8IpG0bqRMijk
+   nydyQXaUa0aUe9yrE/ZxJR37lVKAykk0AfaDVi/z+2vxrFlKW8yeYgRmM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="338486323"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="367494520"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 04:58:22 -0700
+   d="scan'208";a="338486323"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 05:28:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="632818046"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="682685074"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="632818046"
+   d="scan'208";a="682685074"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Mar 2023 04:58:19 -0700
+  by orsmga002.jf.intel.com with ESMTP; 24 Mar 2023 05:28:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfg3h-000FGu-29;
-	Fri, 24 Mar 2023 11:58:13 +0000
-Date: Fri, 24 Mar 2023 19:57:25 +0800
+	id 1pfgWk-000FIq-24;
+	Fri, 24 Mar 2023 12:28:14 +0000
+Date: Fri, 24 Mar 2023 20:27:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chung-Chiang Cheng <cccheng@synology.com>, linux-ext4@vger.kernel.org,
-	tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz,
-	yi.zhang@huawei.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, shepjeng@gmail.com,
-	kernel@cccheng.net, Chung-Chiang Cheng <cccheng@synology.com>,
-	Robbie Ko <robbieko@synology.com>
-Subject: Re: [PATCH] ext4: defer updating i_disksize until endio
-Message-ID: <202303241950.C1ApLyal-lkp@intel.com>
-References: <20230324092907.1341457-1-cccheng@synology.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Bernard Metzler <BMT@zurich.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] RDMA/rxe: Pass a pointer to virt_to_page()
+Message-ID: <202303242000.HmTaa6yB-lkp@intel.com>
+References: <20230324103252.712107-1-linus.walleij@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,88 +50,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324092907.1341457-1-cccheng@synology.com>
+In-Reply-To: <20230324103252.712107-1-linus.walleij@linaro.org>
 
-Hi Chung-Chiang,
+Hi Linus,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on v6.3-rc3]
-[also build test WARNING on linus/master]
-[cannot apply to tytso-ext4/dev next-20230324]
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230324]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chung-Chiang-Cheng/ext4-defer-updating-i_disksize-until-endio/20230324-173716
-patch link:    https://lore.kernel.org/r/20230324092907.1341457-1-cccheng%40synology.com
-patch subject: [PATCH] ext4: defer updating i_disksize until endio
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230324/202303241950.C1ApLyal-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/RDMA-rxe-Pass-a-pointer-to-virt_to_page/20230324-183329
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20230324103252.712107-1-linus.walleij%40linaro.org
+patch subject: [PATCH] RDMA/rxe: Pass a pointer to virt_to_page()
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230324/202303242000.HmTaa6yB-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9a02b364d2cffe71a45866edf750b0280c8cb990
+        # https://github.com/intel-lab-lkp/linux/commit/f162d87e28eb5241d1a0e2085b80bfc70f626536
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chung-Chiang-Cheng/ext4-defer-updating-i_disksize-until-endio/20230324-173716
-        git checkout 9a02b364d2cffe71a45866edf750b0280c8cb990
+        git fetch --no-tags linux-review Linus-Walleij/RDMA-rxe-Pass-a-pointer-to-virt_to_page/20230324-183329
+        git checkout f162d87e28eb5241d1a0e2085b80bfc70f626536
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/infiniband/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241950.C1ApLyal-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303242000.HmTaa6yB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ext4/inode.c:3115:23: warning: variable 'end' set but not used [-Wunused-but-set-variable]
-           unsigned long start, end;
-                                ^
-   1 warning generated.
+   In file included from arch/parisc/include/asm/page.h:181,
+                    from include/linux/mm_types_task.h:16,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/bio.h:10,
+                    from include/linux/libnvdimm.h:14,
+                    from drivers/infiniband/sw/rxe/rxe_mr.c:7:
+   drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_set_page':
+>> drivers/infiniband/sw/rxe/rxe_mr.c:216:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     216 |         struct page *page = virt_to_page((void *)(iova & mr->page_mask));
+         |                                          ^
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   arch/parisc/include/asm/page.h:179:45: note: in expansion of macro '__pa'
+     179 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                             ^~~~
+   drivers/infiniband/sw/rxe/rxe_mr.c:216:29: note: in expansion of macro 'virt_to_page'
+     216 |         struct page *page = virt_to_page((void *)(iova & mr->page_mask));
+         |                             ^~~~~~~~~~~~
+   drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_mr_copy_dma':
+   drivers/infiniband/sw/rxe/rxe_mr.c:291:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     291 |                 page = virt_to_page((void *)(iova & mr->page_mask));
+         |                                     ^
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   arch/parisc/include/asm/page.h:179:45: note: in expansion of macro '__pa'
+     179 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                             ^~~~
+   drivers/infiniband/sw/rxe/rxe_mr.c:291:24: note: in expansion of macro 'virt_to_page'
+     291 |                 page = virt_to_page((void *)(iova & mr->page_mask));
+         |                        ^~~~~~~~~~~~
+   drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_mr_do_atomic_op':
+   drivers/infiniband/sw/rxe/rxe_mr.c:491:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     491 |                 page = virt_to_page((void *)(iova & PAGE_MASK));
+         |                                     ^
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   arch/parisc/include/asm/page.h:179:45: note: in expansion of macro '__pa'
+     179 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                             ^~~~
+   drivers/infiniband/sw/rxe/rxe_mr.c:491:24: note: in expansion of macro 'virt_to_page'
+     491 |                 page = virt_to_page((void *)(iova & PAGE_MASK));
+         |                        ^~~~~~~~~~~~
 
 
-vim +/end +3115 fs/ext4/inode.c
+vim +216 drivers/infiniband/sw/rxe/rxe_mr.c
 
-64769240bd07f4 Alex Tomas         2008-07-11  3108  
-64769240bd07f4 Alex Tomas         2008-07-11  3109  static int ext4_da_write_end(struct file *file,
-64769240bd07f4 Alex Tomas         2008-07-11  3110  			     struct address_space *mapping,
-64769240bd07f4 Alex Tomas         2008-07-11  3111  			     loff_t pos, unsigned len, unsigned copied,
-64769240bd07f4 Alex Tomas         2008-07-11  3112  			     struct page *page, void *fsdata)
-64769240bd07f4 Alex Tomas         2008-07-11  3113  {
-64769240bd07f4 Alex Tomas         2008-07-11  3114  	struct inode *inode = mapping->host;
-632eaeab1feb5d Mingming Cao       2008-07-11 @3115  	unsigned long start, end;
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3116  	int write_mode = (int)(unsigned long)fsdata;
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3117  
-74d553aad7926e Theodore Ts'o      2013-04-03  3118  	if (write_mode == FALL_BACK_TO_NONDELALLOC)
-74d553aad7926e Theodore Ts'o      2013-04-03  3119  		return ext4_write_end(file, mapping, pos,
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3120  				      len, copied, page, fsdata);
-632eaeab1feb5d Mingming Cao       2008-07-11  3121  
-9bffad1ed2a003 Theodore Ts'o      2009-06-17  3122  	trace_ext4_da_write_end(inode, pos, len, copied);
-6984aef59814fb Zhang Yi           2021-07-16  3123  
-6984aef59814fb Zhang Yi           2021-07-16  3124  	if (write_mode != CONVERT_INLINE_DATA &&
-6984aef59814fb Zhang Yi           2021-07-16  3125  	    ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA) &&
-6984aef59814fb Zhang Yi           2021-07-16  3126  	    ext4_has_inline_data(inode))
-6984aef59814fb Zhang Yi           2021-07-16  3127  		return ext4_write_inline_data_end(inode, pos, len, copied, page);
-6984aef59814fb Zhang Yi           2021-07-16  3128  
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  3129  	start = pos & (PAGE_SIZE - 1);
-632eaeab1feb5d Mingming Cao       2008-07-11  3130  	end = start + copied - 1;
-64769240bd07f4 Alex Tomas         2008-07-11  3131  
-64769240bd07f4 Alex Tomas         2008-07-11  3132  	/*
-4df031ff5876d9 Zhang Yi           2021-07-16  3133  	 * Since we are holding inode lock, we are sure i_disksize <=
-4df031ff5876d9 Zhang Yi           2021-07-16  3134  	 * i_size. We also know that if i_disksize < i_size, there are
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3135  	 * delalloc writes pending in the range upto i_size. There's no
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3136  	 * need to touch i_disksize since the endio of writeback will
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3137  	 * push i_disksize upto i_size eventually.
-4df031ff5876d9 Zhang Yi           2021-07-16  3138  	 *
-4df031ff5876d9 Zhang Yi           2021-07-16  3139  	 * Note that we defer inode dirtying to generic_write_end() /
-4df031ff5876d9 Zhang Yi           2021-07-16  3140  	 * ext4_da_write_inline_data_end().
-64769240bd07f4 Alex Tomas         2008-07-11  3141  	 */
-9c3569b50f12e4 Tao Ma             2012-12-10  3142  
-cc883236b79297 Zhang Yi           2021-07-16  3143  	return generic_write_end(file, mapping, pos, len, copied, page, fsdata);
-64769240bd07f4 Alex Tomas         2008-07-11  3144  }
-64769240bd07f4 Alex Tomas         2008-07-11  3145  
+   212	
+   213	static int rxe_set_page(struct ib_mr *ibmr, u64 iova)
+   214	{
+   215		struct rxe_mr *mr = to_rmr(ibmr);
+ > 216		struct page *page = virt_to_page((void *)(iova & mr->page_mask));
+   217		bool persistent = !!(mr->access & IB_ACCESS_FLUSH_PERSISTENT);
+   218		int err;
+   219	
+   220		if (persistent && !is_pmem_page(page)) {
+   221			rxe_dbg_mr(mr, "Page cannot be persistent\n");
+   222			return -EINVAL;
+   223		}
+   224	
+   225		if (unlikely(mr->nbuf == mr->num_buf))
+   226			return -ENOMEM;
+   227	
+   228		err = xa_err(xa_store(&mr->page_list, mr->nbuf, page, GFP_KERNEL));
+   229		if (err)
+   230			return err;
+   231	
+   232		mr->nbuf++;
+   233		return 0;
+   234	}
+   235	
 
 -- 
 0-DAY CI Kernel Test Service
