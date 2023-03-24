@@ -1,128 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C102F2D;
-	Fri, 24 Mar 2023 08:52:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D11DC4339C;
-	Fri, 24 Mar 2023 08:52:15 +0000 (UTC)
-Message-ID: <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
-Date: Fri, 24 Mar 2023 09:52:13 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E8E2F2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 08:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679648049; x=1711184049;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F/3yo+AbATCHO7Q/cwdJ66q4P8okwraxD5IWyv1t2F4=;
+  b=KbOcqtAiD9haIVUVx7Uf5IkB6qFTais69XUXd/uo9AnymaeDWgsH2hgm
+   UzIqp/UMGAo7w/u8XA0yfeRyutUPPAy0EOWM7W/w25shMfaIM1Gk7aUXr
+   NAcL7aTRFxv6M0OKTSaJV7e8vkhQ5lIQC6uWhyXK4GAJLf7QbXShPXvTX
+   agnL5V5m33RSb5GtD4I/w8t9GqSSDFXylvoaKPORfYiU0F6kwqbBnzll7
+   JPPo+77NANllb8dq7VTIFtwf1pA/q79ZXrkTSotU4+IcUcz0VmqNIVKps
+   9QTqxtfSTyUje5oqdDI2yg7oqlDW1ScuhE0op5rN07KthN+JfrAqcBRoH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="426002445"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="426002445"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 01:54:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="856799484"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="856799484"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 24 Mar 2023 01:54:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfdBW-000F92-2p;
+	Fri, 24 Mar 2023 08:54:06 +0000
+Date: Fri, 24 Mar 2023 16:53:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nick Terrell <terrelln@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: ERROR: modpost: "__ld_r13_to_r21_ret" [lib/zstd/zstd_decompress.ko]
+ undefined!
+Message-ID: <202303241601.lySuke4F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
- bin.liu@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- daniel.almeida@collabora.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
- <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
- <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
- <20230324084830.GA18895@pendragon.ideasonboard.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230324084830.GA18895@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 24/03/2023 09:48, Laurent Pinchart wrote:
-> On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
->> On 24/03/2023 09:11, Benjamin Gaignard wrote:
->>>
->>> Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
->>>> Hi Benjamin,
->>>>
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
->>>> base:   git://linuxtv.org/media_tree.git master
->>>> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
->>>> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
->>>> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
->>>> compiler: aarch64-linux-gcc (GCC) 12.1.0
->>>>
->>>> If you fix the issue, kindly add following tag where applicable
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Reported-by: Dan Carpenter <error27@gmail.com>
->>>> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
->>>>
->>>> smatch warnings:
->>>> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
->>>> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
->>>>
->>>> vim +1272 include/media/videobuf2-core.h
->>>>
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
->>>>                                                          ^^^^^^^^^^^^^^^^^^^^^^^
->>>> Holding a spin lock.
->>>>
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
->>>>                                                                                                                                       ^^^^^^^^^^
->>>> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
->>>> allocation outside the lock?
->>>
->>> I will add GFP_ATOMIC flag in next version.
->>
->> No need. Instead, don't use realloc here, just allocate a new array, copy over all
->> the data from the old, and then switch q->bufs with the spinlock held. Then you
->> can free the old one.
->>
->> It's only when you update q->bufs that you need the lock.
-> 
-> The copy also needs to be protected by the lock.
+Hi Nick,
 
-I suspect that that is not needed, since you shouldn't be able to add buffers here
-since a mutex should be held at this time.
+First bad commit (maybe != root cause):
 
-That said, it's something that Benjamin needs to analyze.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1e760fa3596e8c7f08412712c168288b79670d78
+commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+date:   5 months ago
+config: arc-randconfig-c024-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241601.lySuke4F-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2aa14b1ab2c41a4fe41efae80d58bb77da91f19f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
-Regards,
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241601.lySuke4F-lkp@intel.com/
 
-	Hans
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> 
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273          if (!tmp)
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274              goto realloc_failed;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276          q->max_num_bufs *= 2;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277          q->bufs = tmp;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278      }
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280      if (vb->index < q->max_num_bufs) {
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281          q->bufs[vb->index] = vb;
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282          ret = true;
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283      }
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286      spin_unlock(&q->bufs_lock);
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
->>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288      return ret;
->>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
-> 
+ERROR: modpost: "__st_r13_to_r22" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r17" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r21_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r19_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r22_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r25" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r24" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r17_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r21" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r19" [lib/zstd/zstd_decompress.ko] undefined!
+WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
