@@ -1,49 +1,49 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C087927706
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 21:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C6127706
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 21:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679694229; x=1711230229;
+  t=1679694823; x=1711230823;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XcrBWyt+plC+jyKx4GB1SFRBFOEkhh6uG5p5ikaNNVM=;
-  b=Fj2ZMMGOhYHM5ZtfrjklkfLvWouHdv0SbLmlVnjifdKidjE4rkn6uTwE
-   Bg67sFAQBmVZ/fFNRdWU75G5pmfhw4hiPjUoXDkXMVEBhaOkg/f14Gi95
-   2UTVVSeoH+mrSIRC3J3W60b4Y8ky+IItwtTJh40DjJCi7OsKOn/sDxvfA
-   589KgJGr2tTKsYsLtrpQHSGP42zk/LS8RzeirqbrsFGefxR1fpvS309r5
-   0V5xf8VvX5yf4M2+NSpBh6xkPterxDXgBgL9Aaf3r2D4tGvL+dxuxXfEv
-   Oyh9vFY2XgyQ6w/rcGLyw1Cvsowckfc5KxoHviSvRN+AzjTllSgnTd3Ll
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="426154958"
+  bh=7BxIj7sfQnrAoBk/QZyzI+WLdJD6yHfKb9dYwULjk7M=;
+  b=PPo568zRqBTZWu+AnlGXpmI2iSGEm/EybQwyR6p9hBNDdjlubuLiLdXv
+   kKXwcxvmwEB36mSyb98Xiq/dwH5L7Q7XNtM/h/5jTxc+5kg2CfQVFg1pX
+   LvcLwqbiUMSxcmrDedbFGSqYPFDfARdnCPOLKXg0ebFNwqek4vGsNcWqb
+   t0MqEATWf449d3Thb4jf9ukApZagpu1B/+5YYaqUNVQI/jTbZUckQa9cI
+   MVS88cfFqkoA2chV8CC3sd474gS13tEUb2dTtf4LyB07nbsGhK0Dg3Rig
+   Nbd0vmYNdbhY0NZgy0uX50V6LNLTGsSTTcFQm6qBdOboTN8HBY0yhIvP7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="341462737"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="426154958"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 14:43:40 -0700
+   d="scan'208";a="341462737"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 14:53:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="857015458"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="685330606"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="857015458"
+   d="scan'208";a="685330606"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Mar 2023 14:43:35 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 24 Mar 2023 14:53:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfpCA-000FgK-1p;
-	Fri, 24 Mar 2023 21:43:34 +0000
-Date: Sat, 25 Mar 2023 05:42:55 +0800
+	id 1pfpLq-000Fgc-2H;
+	Fri, 24 Mar 2023 21:53:34 +0000
+Date: Sat, 25 Mar 2023 05:53:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Liang Kan <kan.liang@linux.intel.com>, linux-cxl@vger.kernel.org,
-	peterz@infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, mingo@redhat.com, acme@kernel.org,
-	mark.rutland@arm.com, will@kernel.org, dan.j.williams@intel.com,
-	linuxarm@huawei.com, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [PATCH v2 4/5] cxl: CXL Performance Monitoring Unit driver
-Message-ID: <202303250549.dFFcvnrK-lkp@intel.com>
-References: <20230324171313.18448-5-Jonathan.Cameron@huawei.com>
+To: Yinbo Zhu <zhuyinbo@loongson.cn>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+	wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
+	loongson-kernel@lists.loongnix.cn, Yinbo Zhu <zhuyinbo@loongson.cn>
+Subject: Re: [PATCH v3 2/2] spi: loongson: add bus driver for the loongson
+ spi controller
+Message-ID: <202303250536.OV1LR58y-lkp@intel.com>
+References: <20230324063317.14664-3-zhuyinbo@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,347 +52,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324171313.18448-5-Jonathan.Cameron@huawei.com>
+In-Reply-To: <20230324063317.14664-3-zhuyinbo@loongson.cn>
 
-Hi Jonathan,
+Hi Yinbo,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on acme/perf/core]
-[also build test ERROR on tip/perf/core cxl/next cxl/pending linus/master v6.3-rc3 next-20230324]
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.3-rc3 next-20230324]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git perf/core
-patch link:    https://lore.kernel.org/r/20230324171313.18448-5-Jonathan.Cameron%40huawei.com
-patch subject: [PATCH v2 4/5] cxl: CXL Performance Monitoring Unit driver
-config: alpha-buildonly-randconfig-r006-20230322 (https://download.01.org/0day-ci/archive/20230325/202303250549.dFFcvnrK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230324-143432
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20230324063317.14664-3-zhuyinbo%40loongson.cn
+patch subject: [PATCH v3 2/2] spi: loongson: add bus driver for the loongson spi controller
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230325/202303250536.OV1LR58y-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a04f0052a1fa10bda54569c8c7b3ab7fe60ca975
+        # https://github.com/intel-lab-lkp/linux/commit/3742622c455d25c4a110d2caf2f5b2ceefe88f91
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
-        git checkout a04f0052a1fa10bda54569c8c7b3ab7fe60ca975
+        git fetch --no-tags linux-review Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230324-143432
+        git checkout 3742622c455d25c4a110d2caf2f5b2ceefe88f91
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/cxl/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303250549.dFFcvnrK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303250536.OV1LR58y-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-         |                                                        ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   drivers/cxl/cpmu.c:653:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:653:56: error: 'struct perf_event' has no member named 'pmu'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                                        ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:653:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:653:56: error: 'struct perf_event' has no member named 'pmu'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                                        ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:653:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:653:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     653 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:654:43: error: 'struct perf_event' has no member named 'hw'
-     654 |         struct hw_perf_event *hwc = &event->hw;
-         |                                           ^~
-   drivers/cxl/cpmu.c:658:45: error: 'struct hw_perf_event' has no member named 'prev_count'
-     658 |                 prev_cnt = local64_read(&hwc->prev_count);
-         |                                             ^~
-   arch/alpha/include/asm/local.h:14:44: note: in definition of macro 'local_read'
-      14 | #define local_read(l)   atomic_long_read(&(l)->a)
-         |                                            ^
-   drivers/cxl/cpmu.c:658:28: note: in expansion of macro 'local64_read'
-     658 |                 prev_cnt = local64_read(&hwc->prev_count);
-         |                            ^~~~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11:
-   drivers/cxl/cpmu.c:660:38: error: 'struct hw_perf_event' has no member named 'prev_count'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                                      ^~
-   include/linux/atomic/atomic-instrumented.h:2049:16: note: in definition of macro 'cmpxchg_local'
-    2049 |         typeof(ptr) __ai_ptr = (ptr); \
-         |                ^~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:38: error: 'struct hw_perf_event' has no member named 'prev_count'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                                      ^~
-   include/linux/atomic/atomic-instrumented.h:2049:33: note: in definition of macro 'cmpxchg_local'
-    2049 |         typeof(ptr) __ai_ptr = (ptr); \
-         |                                 ^~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-instrumented.h:2050:50: error: invalid type argument of unary '*' (have 'int')
-    2050 |         instrument_atomic_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                                  ^~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-instrumented.h:2050:33: warning: passing argument 1 of 'instrument_atomic_write' makes pointer from integer without a cast [-Wint-conversion]
-    2050 |         instrument_atomic_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                 ^~~~~~~~
-         |                                 |
-         |                                 int
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   In file included from include/linux/atomic/atomic-instrumented.h:22:
-   include/linux/instrumented.h:85:74: note: expected 'const volatile void *' but argument is of type 'int'
-      85 | static __always_inline void instrument_atomic_write(const volatile void *v, size_t size)
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from arch/alpha/include/asm/atomic.h:7,
-                    from include/linux/atomic.h:7:
->> arch/alpha/include/asm/cmpxchg.h:22:20: error: invalid type argument of unary '*' (have 'int')
-      22 |         __typeof__(*(ptr)) _o_ = (o);                                   \
-         |                    ^~~~~~
-   include/linux/atomic/atomic-instrumented.h:2051:9: note: in expansion of macro 'arch_cmpxchg_local'
-    2051 |         arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   arch/alpha/include/asm/cmpxchg.h:23:20: error: invalid type argument of unary '*' (have 'int')
-      23 |         __typeof__(*(ptr)) _n_ = (n);                                   \
-         |                    ^~~~~~
-   include/linux/atomic/atomic-instrumented.h:2051:9: note: in expansion of macro 'arch_cmpxchg_local'
-    2051 |         arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   arch/alpha/include/asm/cmpxchg.h:24:21: error: invalid type argument of unary '*' (have 'int')
-      24 |         (__typeof__(*(ptr))) __cmpxchg_local((ptr), (unsigned long)_o_, \
-         |                     ^~~~~~
-   include/linux/atomic/atomic-instrumented.h:2051:9: note: in expansion of macro 'arch_cmpxchg_local'
-    2051 |         arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   arch/alpha/include/asm/cmpxchg.h:26:50: error: invalid type argument of unary '*' (have 'int')
-      26 |                                           sizeof(*(ptr)));              \
-         |                                                  ^~~~~~
-   include/linux/atomic/atomic-instrumented.h:2051:9: note: in expansion of macro 'arch_cmpxchg_local'
-    2051 |         arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
->> arch/alpha/include/asm/cmpxchg.h:24:46: warning: passing argument 1 of '__cmpxchg_local' makes pointer from integer without a cast [-Wint-conversion]
-      24 |         (__typeof__(*(ptr))) __cmpxchg_local((ptr), (unsigned long)_o_, \
-         |                                              ^~~~~
-         |                                              |
-         |                                              int
-   include/linux/atomic/atomic-instrumented.h:2051:9: note: in expansion of macro 'arch_cmpxchg_local'
-    2051 |         arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/local.h:56:10: note: in expansion of macro 'cmpxchg_local'
-      56 |         (cmpxchg_local(&((l)->a.counter), (o), (n)))
-         |          ^~~~~~~~~~~~~
-   include/asm-generic/local64.h:45:34: note: in expansion of macro 'local_cmpxchg'
-      45 | #define local64_cmpxchg(l, o, n) local_cmpxchg((&(l)->a), (o), (n))
-         |                                  ^~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:660:18: note: in expansion of macro 'local64_cmpxchg'
-     660 |         } while (local64_cmpxchg(&hwc->prev_count, prev_cnt, new_cnt) != prev_cnt);
-         |                  ^~~~~~~~~~~~~~~
-   arch/alpha/include/asm/xchg.h:229:30: note: expected 'volatile void *' but argument is of type 'int'
-     229 | ____cmpxchg(, volatile void *ptr, unsigned long old, unsigned long new,
-         |               ~~~~~~~~~~~~~~~^~~
-   arch/alpha/include/asm/cmpxchg.h:10:69: note: in definition of macro '____cmpxchg'
-      10 | #define ____cmpxchg(type, args...)      __cmpxchg ## type ## _local(args)
-         |                                                                     ^~~~
-   drivers/cxl/cpmu.c:670:34: error: 'struct perf_event' has no member named 'count'
-     670 |         local64_add(delta, &event->count);
-         |                                  ^~
-   arch/alpha/include/asm/local.h:18:48: note: in definition of macro 'local_add'
-      18 | #define local_add(i,l)  atomic_long_add((i),(&(l)->a))
-         |                                                ^
-   drivers/cxl/cpmu.c:670:9: note: in expansion of macro 'local64_add'
-     670 |         local64_add(delta, &event->count);
-         |         ^~~~~~~~~~~
-   drivers/cxl/cpmu.c: In function 'cpmu_event_stop':
-   drivers/cxl/cpmu.c:680:56: error: 'struct perf_event' has no member named 'pmu'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                                        ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   drivers/cxl/cpmu.c:680:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:680:56: error: 'struct perf_event' has no member named 'pmu'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                                        ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:680:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:680:56: error: 'struct perf_event' has no member named 'pmu'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                                        ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:680:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/cxl/cpmu.c:82:32: note: in expansion of macro 'container_of'
-      82 | #define pmu_to_cpmu_info(_pmu) container_of(_pmu, struct cpmu_info, pmu)
-         |                                ^~~~~~~~~~~~
-   drivers/cxl/cpmu.c:680:34: note: in expansion of macro 'pmu_to_cpmu_info'
-     680 |         struct cpmu_info *info = pmu_to_cpmu_info(event->pmu);
-         |                                  ^~~~~~~~~~~~~~~~
-   drivers/cxl/cpmu.c:682:43: error: 'struct perf_event' has no member named 'hw'
-     682 |         struct hw_perf_event *hwc = &event->hw;
-         |                                           ^~
-   drivers/cxl/cpmu.c:686:25: error: 'struct hw_perf_event' has no member named 'state'
-     686 |         WARN_ON_ONCE(hwc->state & PERF_HES_STOPPED);
-
-
-vim +2050 include/linux/atomic/atomic-instrumented.h
-
-0aa7be05d83cc5 include/linux/atomic/atomic-instrumented.h Uros Bizjak   2022-05-15  2046  
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland  2018-09-04  2047  #define cmpxchg_local(ptr, ...) \
-b06ed71a624ba0 include/asm-generic/atomic-instrumented.h  Dmitry Vyukov 2018-01-29  2048  ({ \
-df79ed2c064363 include/asm-generic/atomic-instrumented.h  Mark Rutland  2018-07-16  2049  	typeof(ptr) __ai_ptr = (ptr); \
-ed8af2e4d2a71b include/asm-generic/atomic-instrumented.h  Marco Elver   2020-01-21 @2050  	instrument_atomic_write(__ai_ptr, sizeof(*__ai_ptr)); \
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland  2018-09-04  2051  	arch_cmpxchg_local(__ai_ptr, __VA_ARGS__); \
-b06ed71a624ba0 include/asm-generic/atomic-instrumented.h  Dmitry Vyukov 2018-01-29  2052  })
-b06ed71a624ba0 include/asm-generic/atomic-instrumented.h  Dmitry Vyukov 2018-01-29  2053  
+>> ERROR: modpost: "loongson_spi_dev_pm_ops" [drivers/spi/spi-loongson-pci.ko] undefined!
+>> ERROR: modpost: "loongson_spi_dev_pm_ops" [drivers/spi/spi-loongson-plat.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
