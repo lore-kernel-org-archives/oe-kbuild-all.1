@@ -1,206 +1,116 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E29D2F7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 17:41:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QFEDYn3l1sSiQ9lL1cCGyK2Hf8OUyJukoS9tJLvIvMgZubSiWRdgPP8J6M5BzhXj05CXf83RjjyE+8ajrJy8T3FkDwfF+UEedZHKXGakH8pGXLYZurVZC3xlaHxl0QvZKHVpxkkdeZNsX9HeRP06et4kCpmg9ulPDyiLxw0jmRWZrS0i3aHqsc58wA7YoS0lKJ6DLlNEkYOGQG75reyHo4xkg413LIumT0FMLPdaSXIKnHM7igGpWb1htOHFAC813yWRKPbNlsiDacTJGZ7UjeJbKcYsvIIFN4kp0QO1kxf/Nqna4GlR5hWTK8xWiekDKX2BnZT+v4qXuMJy2cIGOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jQhpyV3URBLWe+xngP1NU8QdUR/DbxTOwJYO9tHq2XQ=;
- b=Alfg7bU/+hnNQIv5vN42W5XmHG1o6PixE8vfzx8qn96qP0t+siw7MGyWNS5ebTcsfas7DKzqn9a+NYoVgApJ+ZtALWrY0FSpPqnP2Qw24kEQpH3gLc1umvx0Mmv6GR9O7jZsNhTxqG8ZyMzLhV+zbJwQauWpQNpMOIhLnHQ9kaErIXHLdDZa4l5pa2vNj/676VDNqG7ZrjvgaVkDXqCtwSaOQ0kGpPtpOIruufUXW754R4w/JSm/5LfeqGCTz887wnmObcpJP0kT7sFYFdaM3TnpeFEqwWAoKyv7ZZPXxNBwzT0Wtj05wmxfZM8ahtYgOcf0ZuzmJNw/Ul92gWDgbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQhpyV3URBLWe+xngP1NU8QdUR/DbxTOwJYO9tHq2XQ=;
- b=GdJ6cGiEBeSTldMJkRWNQvF8Bf5U48JYS0KEcKqSWrF37RusG6JBLLaEddJOAZ0lO/k5ef2F0k+D3A3O2ZakcY0y6bMrIIBHfJMVOIIgX/WZUK/vO3v7Lk+EN4A2q4IpH1aJtcfyBYZaZM0MjcWOsW3T3EKT1chj8qdOfGzcrw4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS0PR12MB6390.namprd12.prod.outlook.com (2603:10b6:8:ce::7) by
- BL1PR12MB5319.namprd12.prod.outlook.com (2603:10b6:208:317::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
- 2023 17:41:10 +0000
-Received: from DS0PR12MB6390.namprd12.prod.outlook.com
- ([fe80::8ffc:be4a:e730:2bbc]) by DS0PR12MB6390.namprd12.prod.outlook.com
- ([fe80::8ffc:be4a:e730:2bbc%5]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
- 17:41:09 +0000
-Message-ID: <ce57b2ce-dcf1-1b32-3ebe-aeca66ff0f7a@amd.com>
-Date: Fri, 24 Mar 2023 12:41:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, alison.schofield@intel.com,
- vishal.l.verma@intel.com, ira.weiny@intel.com, bwidawsk@kernel.org,
- dan.j.williams@intel.com, dave.jiang@intel.com, Jonathan.Cameron@huawei.com,
- linux-cxl@vger.kernel.org, rrichter@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- bhelgaas@google.com
-References: <20230323213808.398039-6-terry.bowman@amd.com>
- <202303241458.BV292BDH-lkp@intel.com>
-From: Terry Bowman <Terry.Bowman@amd.com>
-In-Reply-To: <202303241458.BV292BDH-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0315.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::20) To DS0PR12MB6390.namprd12.prod.outlook.com
- (2603:10b6:8:ce::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2A4D2F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 17:48:58 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pflX1-0001Xk-9M; Fri, 24 Mar 2023 18:48:51 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pflWy-006R4F-ER; Fri, 24 Mar 2023 18:48:48 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pflWx-007gCW-P8; Fri, 24 Mar 2023 18:48:47 +0100
+Date: Fri, 24 Mar 2023 18:48:47 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
+	kernel@pengutronix.de, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] pinctrl: mcp23s08: Implement gpio bulk functions
+Message-ID: <20230324174847.mliztdmecz4kivgo@pengutronix.de>
+References: <20230324140148.479125-2-u.kleine-koenig@pengutronix.de>
+ <202303250001.YzK908so-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6390:EE_|BL1PR12MB5319:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9016d21a-ff28-4bd8-193a-08db2c8ef436
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	jMs1RuQXg9fOjgowHON04YFrwPmrvAY06ySYJ/TjEecZWm/UFMcWF/TszxUmPMobs48wx2nc1CV1p8u7IHnA3QF465XR3HlKBMFiaJ1IpIi5QM/9EIsOStUpa8dFw/uaHXI1JGZKJcOorYgV7GDjAWkoh4qyIL8bi1cudBzXiQqL1/MOf7oWLknSpWiJ8E/+eZ26wP+HGWX3FS8E0iit/PiPOi7+SQtfICpFpkhE+R1uQe8oSfSf2rlWUL28pAxaM4ju0yf4xn1gCXnk5S1S6UZH8y7WBSlaWngqbFPKwWrEU2NSB/LRbBRq1IfLNeWB35bF2Nn9Iwh5QjBNnJqje9wTrydiee1Ty05tbV42aGOZulv3vNAI2rQ9qmqWFcLJNuHG7BrY18HinvCsXMQRAAPbbWBMPuylC7q6CNywmXvY2qzSNy0+3VIiX4WnK4kvD1x8dC1+kQhVNjkb4rDgfV8HuPWOVTpYKnE6NivAnHpip9SOl7sfJBA0w4CInQ4KYFBgn9MqT6gymHslgrv1cu5e7qNL5YH/3VjMesNYmdXt7SLbe8TPyjo4vdzId1Ltr5k+MArfyD/19qKfHma3oDxGhKMZz4jrGbcYrJnCRxuEIMJ2feFzJVL5Jv53W8pb2e21ZvhcaUJwWQnRApery8CQGsT36SLKAWGeQBdAPv1xJ5pomM4fUOjVjnUxCDGtWQe3UrpSYomCxCf/VGgMELTzYd6gM+lu0v9sLm9T8h5oUxXj0XhD8DayaIyLUOxgY1KoTpuqKcGDPID3XeNnEw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6390.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(136003)(376002)(39860400002)(396003)(451199021)(6512007)(186003)(31686004)(83380400001)(86362001)(38100700002)(4326008)(7416002)(2616005)(8676002)(66556008)(66476007)(41300700001)(8936002)(66946007)(5660300002)(921005)(36756003)(6636002)(6506007)(6666004)(53546011)(31696002)(316002)(6486002)(966005)(478600001)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SVlCNXdjWTlJRUk5cE10bnl0YzIzUVJzeXFvN09CemtLVFl3ZXBUL2l5STdl?=
- =?utf-8?B?WTh6dHZsNUwvc1hLOG5Ea0JDZFBjbkpmVUZKaFdWMURBTGxaVlpKa2srSmd3?=
- =?utf-8?B?UG90WGZ6TUlqbnNzN3U0U0RoUnN6VUsyMFpPelVGbUh5Z21UWXdVUERyVHUx?=
- =?utf-8?B?N3hSQlF4RHhoWTF1WnNQNGQ1QklDeVZhK3pna01KSGJwdkNtbGhXaUx3cWpC?=
- =?utf-8?B?RE1neHgyNm02cVVNR2s1TmVvM3c0NEtTRWIybElKYjB5aHYrTVVkMmdtcGFP?=
- =?utf-8?B?ZFBJd09tQ0htU25leXNiTXRwMzRhWFlsYVNUM2ZZTmM1RUo3RHl5QmFQN1Fx?=
- =?utf-8?B?Wko0d3NteTJSczlya2FJVTduYW1TZnNldXVpWDRlc1N6QzZ3dFFzazJMb2ht?=
- =?utf-8?B?RWtsOGhKWUczaDJpSFo3NzRKVnEwUlFIdE15elNLMk1PTDB1cjJ5aWlEaUNK?=
- =?utf-8?B?cnU0N24wSWtPVlJLaktuQkhRYUUzemRscHRuK3hMbjJFY0Q0ZnFqMHVGU21R?=
- =?utf-8?B?U3NGeWdUc0pMV21iMzFZZHM2R0E5ZjZQeC9heHVueXFVeGlIOHdlbSsxL3dV?=
- =?utf-8?B?YXB2V0thakdBVjBuNFBRaVFNZ2hjalloRWRsK3ZuZ0JnOW1lVkh4bmZFdGdu?=
- =?utf-8?B?dHJvdThJZmVIcDdMcEdHWW9DRWRLRlE3QzFTblQzdFEzVWlPU3pldDJFV1RR?=
- =?utf-8?B?S0dERmdKMVVVWkkyc0FRWEtsbjUxbjN3TEVacXNWck5ISHliSnpIcUFKUlB4?=
- =?utf-8?B?cDVQdllmMGdDZ2dzZHJuaUt6NnRoK295bHpuNkV6RU00Y1hEZVgvNGMwd2M1?=
- =?utf-8?B?cWhYT3RST2hmWFNJcE1DZENFcVlHMVV0azhOakhYNEpoQnc0Z0ZTK0M5SFVF?=
- =?utf-8?B?ZmpXOU5TQWZ3T01QVUFXQ3JBSkRGSlg1UnVob3N4NGlrRjkzNGRHUkR5bE9v?=
- =?utf-8?B?NXlvOW1DYVlrYnBvVHVYQngwUU1WV24vdWs1WC9vMjAzeWhPN0EyL2NHR2Zn?=
- =?utf-8?B?VHBWRjdWT3ljT3dtYjYwRWVlRC9XNFJwRG1FSHV1RXhNcmFNSXJRY283Z3ph?=
- =?utf-8?B?U0MyMG82cm1FRHdzRThUWnUzYkgzbXYxN0pNcHdlbCs3MGVRaHJ2TzJtYjZi?=
- =?utf-8?B?cXpIZGRZK3hjL0V6NzRBZDVraHRLWDdmc0NoVGNvVzBoSnJzMVo0YVZsdE5V?=
- =?utf-8?B?UFljOUpEWkgwQlFxZHE0MFVMR2VqQm5Jb2x5R0xma0N5Nmd4aTdJd0VSL0Rn?=
- =?utf-8?B?RWM4WjVUTjBpQVVodVFGUGdzYUxNaUdPRzVnMzNyNXFxNUJQSGErbFpyU1RB?=
- =?utf-8?B?UEJKNFBFYitHTUJDcmtxM2hxWUM1ZGgwSWlPYUJYR2toUTQxV0VzOGxIRGRY?=
- =?utf-8?B?YzJpd2xEeTdBZ0FhWEp0bGpwY2hlUlRldDJNSHNzWVEyRHlGSU5FUzdXNG9O?=
- =?utf-8?B?a1VKOXRlMWJack10cDQzSFQrMFB5SGFONSt3aUJsck8wZTJQTDFKZ21UVFZm?=
- =?utf-8?B?VEMzVW9FWUlqdHNMWjZzK0JHV01CTFg2aDByWXJoT2NzVEh5VElEYW5HN0Ir?=
- =?utf-8?B?ZERHWGZ6QnREMEZxUTYzc3lkTmZsV1R5eWZDL3VvNXNhNTBCaklUMkN0Wklo?=
- =?utf-8?B?dUs5U2Z2djNKRXMyZStEUWVTWjhNcUpHMm9sNkcyZHlMZlRyaU5QV3UyaHZu?=
- =?utf-8?B?M0Q5eGMrNitwN3pvWWsreU9tNXRaSW5PbGhuS0t0aElUYSszVndPZ01BR1Jz?=
- =?utf-8?B?eEVCNXhTdzYrWFBlME1FakJTQkZwdE1qZ3NPSnR2eEl5UnVDTitySjJYUURB?=
- =?utf-8?B?UDhRMmUxNHRFaDUzRkY4Qno3Yzg0RzYyT3VaZjYzK3pjMTY2N21uMEJQRDZk?=
- =?utf-8?B?SU10WkdoU2tnSk9lYlJ3R3dkV3EySTRqY3FySytBbExLNDJQaDZudU41enZH?=
- =?utf-8?B?KytueGtsREtxZlhCYUtZZVdzWklXelIyRXgzM0VMZGhXeVoxeWdSNFB4aTZL?=
- =?utf-8?B?ZFdyWEU3RWs3SEhqRkNwTk8wZnlrVTFWOXZjRmEwOXQvN1Z1b3JLckNPSzJl?=
- =?utf-8?B?UUxSSHNFVW54V00vWjhNYXVkNXUzeWlIejR1ZmU4VnBqdGplZkg1K0lGV0F3?=
- =?utf-8?B?VFJIa3pEVHNKYU8rc3VUZHZTVExjWS9vYzlHb296d0lWTkU5Y3huN0ZJLzRI?=
- =?utf-8?Q?LBPrfCtmRJno741fVvkDE9b4d4D4jv38hbv+7ehcioeQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9016d21a-ff28-4bd8-193a-08db2c8ef436
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6390.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 17:41:09.8783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UW/dTKfShAwPl/hMXYQeskN41tXGY+wlVt/fDdATO+a7kq8jaxl0jT2ulEontUX7PTYKbmQS6ioOYVZpEQbgPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5319
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jdcyibuamcdvvmri"
+Content-Disposition: inline
+In-Reply-To: <202303250001.YzK908so-lkp@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-I added a comment below.
 
-On 3/24/23 01:30, kernel test robot wrote:
-> Hi Terry,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on pci/next]
-> [also build test ERROR on pci/for-linus efi/next cxl/next linus/master v6.3-rc3 next-20230323]
-> [cannot apply to cxl/pending]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20230323213808.398039-6-terry.bowman%40amd.com
-> patch subject: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
-> config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230324/202303241458.BV292BDH-lkp@intel.com/config)
+--jdcyibuamcdvvmri
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Mar 25, 2023 at 01:05:58AM +0800, kernel test robot wrote:
+> Hi Uwe,
+>=20
+> I love your patch! Perhaps something to improve:
+>=20
+> [auto build test WARNING on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/p=
+inctrl-mcp23s08-Implement-gpio-bulk-functions/20230324-220530
+> base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+> patch link:    https://lore.kernel.org/r/20230324140148.479125-2-u.kleine=
+-koenig%40pengutronix.de
+> patch subject: [PATCH 2/2] pinctrl: mcp23s08: Implement gpio bulk functio=
+ns
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/2023=
+0325/202303250001.YzK908so-lkp@intel.com/config)
 > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
+> reproduce (this is a W=3D1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/0e7980f9275391601=
+f384ff6fe0c4713114f0f0b
 >         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
->         git checkout c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
+>         git fetch --no-tags linux-review Uwe-Kleine-K-nig/pinctrl-mcp23s0=
+8-Implement-gpio-bulk-functions/20230324-220530
+>         git checkout 0e7980f9275391601f384ff6fe0c4713114f0f0b
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=i386 olddefconfig
->         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
-> 
+>         make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
+>         make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/
+>=20
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303241458.BV292BDH-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/cxl/mem.c: In function 'rcec_enable_aer_ints':
->>> drivers/cxl/mem.c:51:36: error: 'struct pci_dev' has no member named 'rcec'
->       51 |         struct pci_dev *rcec = pdev->rcec;
->          |                                    ^~
->>> drivers/cxl/mem.c:63:21: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
->       63 |         aer = rcec->aer_cap;
->          |                     ^~~~~~~
->          |                     ats_cap
-> 
-> 
-> vim +51 drivers/cxl/mem.c
-> 
->     48	
->     49	static int rcec_enable_aer_ints(struct pci_dev *pdev)
->     50	{
->   > 51		struct pci_dev *rcec = pdev->rcec;
->     52		int aer, rc;
->     53		u32 mask;
->     54	
->     55		if (!rcec)
->     56			return -ENODEV;
->     57	
->     58		/*
->     59		 * Internal errors are masked by default, unmask RCEC's here
->     60		 * PCI6.0 7.8.4.3 Uncorrectable Error Mask Register (Offset 08h)
->     61		 * PCI6.0 7.8.4.6 Correctable Error Mask Register (Offset 14h)
->     62		 */
->   > 63		aer = rcec->aer_cap;
->     64		rc = pci_read_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, &mask);
->     65		if (rc)
->     66			return rc;
->     67		mask &= ~PCI_ERR_UNC_INTN;
->     68		rc = pci_write_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, mask);
->     69		if (rc)
->     70			return rc;
->     71	
->     72		rc = pci_read_config_dword(rcec, aer + PCI_ERR_COR_MASK, &mask);
->     73		if (rc)
->     74			return rc;
->     75		mask &= ~PCI_ERR_COR_INTERNAL;
->     76		rc = pci_write_config_dword(rcec, aer + PCI_ERR_COR_MASK, mask);
->     77	
->     78		return rc;
->     79	}
->     80	
-> 
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303250001.YzK908so-lkp@i=
+ntel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+>    drivers/pinctrl/pinctrl-mcp23s08.c: In function 'mcp23s08_set_multiple=
+':
+> >> drivers/pinctrl/pinctrl-mcp23s08.c:351:13: warning: unused variable 'r=
+et' [-Wunused-variable]
+>      351 |         int ret;
+>          |             ^~~
 
-I will add #ifdef checks for CONFIG_PCIEPORTBUS and CONFIG_PCIEAER
-around the related code.
+FTR: I noticed that myself and there is already a v2 on the list that is
+older than this bot report.
 
-Regards,
-Terry
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jdcyibuamcdvvmri
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQd4n4ACgkQj4D7WH0S
+/k6CpAf/QSISNpSmnOhxh4EgkGKOdWrQl1BSake3bQkrhUgYJVFcFnGE/mTRF1+N
+NI5YhIeJtiAvMebKsr+N4OpJuc/wg8JoCTFLSqWWu5TdjB4PK2p2zYJNEifhRDkh
+TGXXAQm9oYKvTP2foFc5iZsWltGJu1liKr9n8RAensyGlhFCy0xjuaZ2PldTXjPc
+L4eJAgrNs+MVEoCiLexyzIiKYYSoXoWVtClc+wr0f8fanzm8b7kvKr2siGHXNkyf
+HDjFASD5/Ui8fIanxPNRPfdZrzzfuT4PUD1+u6sxBYEygGA7uywzx/62tdm+EQmD
+rwu62wP2Odm8CN+nsjx66ce2NOip5w==
+=6u03
+-----END PGP SIGNATURE-----
+
+--jdcyibuamcdvvmri--
