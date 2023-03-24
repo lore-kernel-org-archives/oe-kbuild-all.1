@@ -1,42 +1,49 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E693C24
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 09:45:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540B0443C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 10:15:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679651111; x=1711187111;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qrWaeGkbLuk83Xu+4e9KpP7tnegmfP1xmKYlknE6a8A=;
-  b=j7FVDSUSSiiM6VJZlaUVD7TdHHq+/n4C66pQcc+JoA9r1d3MnTpndUQZ
-   K//rdPzdLU0si+dDzONbNxxs6Os8YnFHJwEA4WjCnXOu0X/MdKz1Ybu1R
-   lm1AfU+CuGdcODi1R3I3VOvf57l5LQuwnAtSCRIK0cTttAxiVloRXLQDT
-   I/AKP63hxZKphBBLSeNbi55J4KyG8/emA8RNJ/qqH8BzIOulohDz7J4+p
-   BxyrN4FWBBbI6BWRZTuA2BgI6j4N2/OmKILpuWJje7sQZ8OFrl7RY3e9V
-   Ox+pWv8SjN3L6JeNDZg9E3qjP5Q7dwPKhdPF08kRaeTTI7kUrMI5d2E7d
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="341308224"
+  t=1679652915; x=1711188915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lhhFN5Vd1W/aAgP72ZDMZOV8VUt3XUbMuQBIwOPdm1s=;
+  b=QZyvH+XkK0eFlj3F42EMPORE6anTUosYeD7fuO6AWfmIvgiwpYm7h8Nk
+   cJSUXaMC/rkc36LfxTl/48E9B/ziG7gCurvwOSH7Vg1Lv/JQp1qi918Ui
+   0oo5tWYX6LdRI50/AoS3MRpFtKRDDMnuTfbhZhRLOmES2EKbD+zlFDMcD
+   4p1T6px6mBMj0z5Pp+4kd6VYsNgsqlPR3O5O8RXsHfuW8DOc9+CQcYQYN
+   mg/Jlf57LNtwdjCyAo3wjBU4j3hcFbnzdlUvOHsnWITXf49wAr3PWiRNg
+   axaaHoCE0GLSTWAB2eYuse2f0v3tGnhZbZYrT0YkJRZmhJTdReDZgr+tr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="338467219"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="341308224"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 02:45:11 -0700
+   d="scan'208";a="338467219"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 03:15:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="660003707"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="715179880"
 X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="660003707"
+   d="scan'208";a="715179880"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 24 Mar 2023 02:45:09 -0700
+  by orsmga001.jf.intel.com with ESMTP; 24 Mar 2023 03:15:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfdyu-000FBU-2W;
-	Fri, 24 Mar 2023 09:45:08 +0000
-Date: Fri, 24 Mar 2023 17:44:41 +0800
+	id 1pfeRy-000FCm-2w;
+	Fri, 24 Mar 2023 10:15:10 +0000
+Date: Fri, 24 Mar 2023 18:15:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:srcu-cf.2023.03.23a 14/20] kernel/rcu/tasks.h:140:20:
- warning: 'tasks_rcu_exit_srcu' defined but not used
-Message-ID: <202303241725.0RIyOS2U-lkp@intel.com>
+To: Yinbo Zhu <zhuyinbo@loongson.cn>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+	wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
+	loongson-kernel@lists.loongnix.cn, Yinbo Zhu <zhuyinbo@loongson.cn>
+Subject: Re: [PATCH v3 2/2] spi: loongson: add bus driver for the loongson
+ spi controller
+Message-ID: <202303241811.OXj9KxAr-lkp@intel.com>
+References: <20230324063317.14664-3-zhuyinbo@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,58 +52,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230324063317.14664-3-zhuyinbo@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git srcu-cf.2023.03.23a
-head:   01abd52f1773d0ad92560b79bb55b48e26da06d5
-commit: fd18a19e0cef4deac7fb327209443a851355653a [14/20] srcu: Move work-scheduling fields from srcu_struct to srcu_usage
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230324/202303241725.0RIyOS2U-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Yinbo,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230324-143432
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20230324063317.14664-3-zhuyinbo%40loongson.cn
+patch subject: [PATCH v3 2/2] spi: loongson: add bus driver for the loongson spi controller
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230324/202303241811.OXj9KxAr-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=fd18a19e0cef4deac7fb327209443a851355653a
-        git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-        git fetch --no-tags paulmck-rcu srcu-cf.2023.03.23a
-        git checkout fd18a19e0cef4deac7fb327209443a851355653a
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3742622c455d25c4a110d2caf2f5b2ceefe88f91
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yinbo-Zhu/dt-bindings-spi-add-loongson-spi/20230324-143432
+        git checkout 3742622c455d25c4a110d2caf2f5b2ceefe88f91
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241725.0RIyOS2U-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241811.OXj9KxAr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/srcu.h:49,
-                    from include/linux/notifier.h:16,
-                    from arch/x86/include/asm/uprobes.h:13,
-                    from include/linux/uprobes.h:49,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/sched/signal.h:13,
-                    from kernel/rcu/update.c:26:
->> kernel/rcu/tasks.h:140:20: warning: 'tasks_rcu_exit_srcu' defined but not used [-Wunused-variable]
-     140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-         |                    ^~~~~~~~~~~~~~~~~~~
-   include/linux/srcutree.h:171:38: note: in definition of macro '__DEFINE_SRCU'
-     171 |         is_static struct srcu_struct name =                                                     \
-         |                                      ^~~~
-   kernel/rcu/tasks.h:140:1: note: in expansion of macro 'DEFINE_STATIC_SRCU'
-     140 | DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-         | ^~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-loongson-core.c: In function 'loongson_spi_init_master':
+>> drivers/spi/spi-loongson-core.c:229:21: error: implicit declaration of function 'devm_ioremap'; did you mean 'of_ioremap'? [-Werror=implicit-function-declaration]
+     229 |         spi->base = devm_ioremap(dev, res->start, resource_size(res));
+         |                     ^~~~~~~~~~~~
+         |                     of_ioremap
+>> drivers/spi/spi-loongson-core.c:229:19: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     229 |         spi->base = devm_ioremap(dev, res->start, resource_size(res));
+         |                   ^
+   cc1: some warnings being treated as errors
 
 
-vim +/tasks_rcu_exit_srcu +140 kernel/rcu/tasks.h
+vim +229 drivers/spi/spi-loongson-core.c
 
-07e105158d97b4 Paul E. McKenney 2020-03-02  138  
-eacd6f04a13331 Paul E. McKenney 2020-03-02  139  /* Track exiting tasks in order to allow them to be waited for. */
-eacd6f04a13331 Paul E. McKenney 2020-03-02 @140  DEFINE_STATIC_SRCU(tasks_rcu_exit_srcu);
-eacd6f04a13331 Paul E. McKenney 2020-03-02  141  
-
-:::::: The code at line 140 was first introduced by commit
-:::::: eacd6f04a1333187dd3e96e5635c0edce0a2e354 rcu-tasks: Move Tasks RCU to its own file
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+   201	
+   202	int loongson_spi_init_master(struct device *dev, struct resource *res)
+   203	{
+   204		struct spi_master *master;
+   205		struct loongson_spi *spi;
+   206		struct clk *clk;
+   207		int ret;
+   208	
+   209		master = spi_alloc_master(dev, sizeof(struct loongson_spi));
+   210		if (master == NULL) {
+   211			dev_dbg(dev, "master allocation failed\n");
+   212			return -ENOMEM;
+   213		}
+   214	
+   215		master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
+   216		master->setup = loongson_spi_setup;
+   217		master->prepare_message = loongson_spi_prepare_message;
+   218		master->transfer_one = loongson_spi_transfer_one;
+   219		master->unprepare_message = loongson_spi_unprepare_message;
+   220		master->set_cs = loongson_spi_set_cs;
+   221		master->num_chipselect = 4;
+   222		master->dev.of_node = of_node_get(dev->of_node);
+   223		dev_set_drvdata(dev, master);
+   224	
+   225		spi = spi_master_get_devdata(master);
+   226	
+   227		spi->master = master;
+   228	
+ > 229		spi->base = devm_ioremap(dev, res->start, resource_size(res));
+   230		if (spi->base == NULL) {
+   231			dev_err(dev, "cannot map io\n");
+   232			ret = -ENXIO;
+   233			goto free_master;
+   234		}
+   235	
+   236		clk = devm_clk_get(dev, NULL);
+   237		if (!IS_ERR(clk))
+   238			spi->clk_rate = clk_get_rate(clk);
+   239	
+   240		loongson_spi_reginit(spi);
+   241	
+   242		spi->mode = 0;
+   243		if (of_get_property(dev->of_node, "spi-nocs", NULL))
+   244			spi->mode |= SPI_NO_CS;
+   245	
+   246		ret = spi_register_master(master);
+   247		if (ret < 0)
+   248			goto free_master;
+   249	
+   250		return ret;
+   251	
+   252	free_master:
+   253		kfree(master);
+   254		spi_master_put(master);
+   255	
+   256		return ret;
+   257	}
+   258	EXPORT_SYMBOL_GPL(loongson_spi_init_master);
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
