@@ -1,122 +1,126 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B5F7E;
-	Fri, 24 Mar 2023 08:11:45 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a] (unknown [IPv6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6BCE66603103;
-	Fri, 24 Mar 2023 08:11:37 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1679645498;
-	bh=3Mr86UDy3UpNufjt21Ufqdk3iHtyAj7hnO+u3KjB708=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mnKwthLEv+tlfb7ktpXfQvkMYedJR8yf4IqgZX78OzHBsb3TXu0cXugvy4Tly1zQo
-	 T559lOJFKtJKlc5TrAvI/G7z02NG3Zw5H9zTdNntrzJ6WRCUa5ZOfMF+6ak+B5hYRQ
-	 0EU351Y7+sj8DXpHNRkpvvVU2JmsmcZCv7YN/hb+EfppmoltHjTd82Xz3hGp5fSQuh
-	 JXjn5XZhtu358kjzylV8DCcNzShYzFfxEiwlJ9sy1xu1Qgfmb8C8oSYABUGDCo6bNi
-	 TmnC5WYWGJMw2VFJ4ri7+hmLy6b0+HnNNczgw9Ff6SVwpnRXjus4LbzhUT6M+Ru8XG
-	 sZWzWQx6uyvWA==
-Message-ID: <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
-Date: Fri, 24 Mar 2023 09:11:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AA67E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 08:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679645588; x=1711181588;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZzmfjIINI3Ggf38WfahljjYjP7Tr3A2QcqGJu2CVgE=;
+  b=jFjgS06bhr9tdTmt8O+WCSx0MCNm6fSQDXVyulqDyX4FPDkpAI2x4tpD
+   NpwlprLQ5+D6qJOtcGOneHwLcXg6a62aDwBFh3FeOxqG5wXAX/NxZZtcW
+   3eWvQ09nIuVByPGkUJUO9pO69iG2jE7t5DjYeTXr78+b+FNP8Ho9vKItR
+   Gw0pLe40TAUtu57sboQZqaUwmpL6R31scOi64FC6+WoE7tPXBRLIAndIP
+   tsmAxRCB4yt4eJq0jEWqxQACVkLd/+9S9c0/y60p3ktP51EhNZIuWu5Jx
+   zsD29XaMNEhEJpLYlEtXC4gK3oU9z6Gn6Cw88WrxcCdxWhJ9hgh4dY+4F
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="367460243"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="367460243"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 01:13:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="659975191"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="659975191"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 24 Mar 2023 01:13:05 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfcXo-000F6O-2v;
+	Fri, 24 Mar 2023 08:13:04 +0000
+Date: Fri, 24 Mar 2023 16:12:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [niks:has_ioport_v4 4/39] drivers/char/tpm/tpm_infineon.c:57:31:
+ error: 'TPM_INF_IO_PORT' undeclared; did you mean 'TPM_INF_IO_MEM'?
+Message-ID: <202303241635.E6U9Zxu5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
- bin.liu@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
- laurent.pinchart@ideasonboard.com, jernel@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git has_ioport_v4
+head:   53b49a3f5a95d058e0deb169b87e695d69033f5c
+commit: 07c67f2075061c0893444807c2afa4de6e7d08f5 [4/39] char: impi, tpm: depend on HAS_IOPORT
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230324/202303241635.E6U9Zxu5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/commit/?id=07c67f2075061c0893444807c2afa4de6e7d08f5
+        git remote add niks https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
+        git fetch --no-tags niks has_ioport_v4
+        git checkout 07c67f2075061c0893444807c2afa4de6e7d08f5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241635.E6U9Zxu5-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_data_out':
+>> drivers/char/tpm/tpm_infineon.c:57:31: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+      57 |         if (tpm_dev.iotype == TPM_INF_IO_PORT)
+         |                               ^~~~~~~~~~~~~~~
+         |                               TPM_INF_IO_MEM
+   drivers/char/tpm/tpm_infineon.c:57:31: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_data_in':
+   drivers/char/tpm/tpm_infineon.c:67:31: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+      67 |         if (tpm_dev.iotype == TPM_INF_IO_PORT)
+         |                               ^~~~~~~~~~~~~~~
+         |                               TPM_INF_IO_MEM
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_config_out':
+   drivers/char/tpm/tpm_infineon.c:76:31: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+      76 |         if (tpm_dev.iotype == TPM_INF_IO_PORT)
+         |                               ^~~~~~~~~~~~~~~
+         |                               TPM_INF_IO_MEM
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_config_in':
+   drivers/char/tpm/tpm_infineon.c:86:31: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+      86 |         if (tpm_dev.iotype == TPM_INF_IO_PORT)
+         |                               ^~~~~~~~~~~~~~~
+         |                               TPM_INF_IO_MEM
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_inf_pnp_probe':
+   drivers/char/tpm/tpm_infineon.c:411:34: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+     411 |                 tpm_dev.iotype = TPM_INF_IO_PORT;
+         |                                  ^~~~~~~~~~~~~~~
+         |                                  TPM_INF_IO_MEM
+   drivers/char/tpm/tpm_infineon.c: In function 'tpm_inf_pnp_remove':
+   drivers/char/tpm/tpm_infineon.c:588:31: error: 'TPM_INF_IO_PORT' undeclared (first use in this function); did you mean 'TPM_INF_IO_MEM'?
+     588 |         if (tpm_dev.iotype == TPM_INF_IO_PORT) {
+         |                               ^~~~~~~~~~~~~~~
+         |                               TPM_INF_IO_MEM
 
 
-Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
-> Hi Benjamin,
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
-> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
-> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
->
-> smatch warnings:
-> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
-> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
->
-> vim +1272 include/media/videobuf2-core.h
->
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265  	bool ret = false;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267  	spin_lock(&q->bufs_lock);
->                                                          ^^^^^^^^^^^^^^^^^^^^^^^
-> Holding a spin lock.
->
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269  	if (vb->index >= q->max_num_bufs) {
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270  		struct vb2_buffer **tmp;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272  		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
->                                                                                                                                       ^^^^^^^^^^
-> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
-> allocation outside the lock?
+vim +57 drivers/char/tpm/tpm_infineon.c
 
-I will add GFP_ATOMIC flag in next version.
+d954e8edee5de9 Alex Williamson 2007-05-08  53  
+d954e8edee5de9 Alex Williamson 2007-05-08  54  static inline void tpm_data_out(unsigned char data, unsigned char offset)
+d954e8edee5de9 Alex Williamson 2007-05-08  55  {
+07c67f2075061c Niklas Schnelle 2021-12-20  56  #ifdef CONFIG_HAS_IOPORT
+d954e8edee5de9 Alex Williamson 2007-05-08 @57  	if (tpm_dev.iotype == TPM_INF_IO_PORT)
+d954e8edee5de9 Alex Williamson 2007-05-08  58  		outb(data, tpm_dev.data_regs + offset);
+d954e8edee5de9 Alex Williamson 2007-05-08  59  	else
+07c67f2075061c Niklas Schnelle 2021-12-20  60  #endif
+d954e8edee5de9 Alex Williamson 2007-05-08  61  		writeb(data, tpm_dev.mem_base + tpm_dev.data_regs + offset);
+d954e8edee5de9 Alex Williamson 2007-05-08  62  }
+d954e8edee5de9 Alex Williamson 2007-05-08  63  
 
-Thanks for your help,
-Benjamin
+:::::: The code at line 57 was first introduced by commit
+:::::: d954e8edee5de90f8625c041ce177e04ae2c88fe tpm_infineon: add support for devices in mmio space
 
->
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273  		if (!tmp)
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274  			goto realloc_failed;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276  		q->max_num_bufs *= 2;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277  		q->bufs = tmp;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278  	}
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280  	if (vb->index < q->max_num_bufs) {
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281  		q->bufs[vb->index] = vb;
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282  		ret = true;
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283  	}
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286  	spin_unlock(&q->bufs_lock);
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
-> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288  	return ret;
-> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
->
+:::::: TO: Alex Williamson <alex.williamson@hp.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
