@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1D36FA1;
-	Fri, 24 Mar 2023 15:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3FB6FDF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 15:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679671402; x=1711207402;
+  t=1679672002; x=1711208002;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=67Ifw9mmyJRELTQW5P+QTodIwWBkaBtEAdB+tLBaqIw=;
-  b=WMFq6th7xePhctoMivdOVkFovIHgQBIablObWYy4bmfg64qXJGhmOXPM
-   ctMB8OKB2YTkSmJ3pt8nDCaxX8lJLPRbu07V73QH0a0gGDmUiNl4ZsPXW
-   jlx+tP/r19XfFf3eLn8Bsy5MPi/dNi7TE7k2HA5hP98S+HAr7sM6d+8DN
-   Is5stDLpuRCh7bCJXIAw/XlqaiWdDLu+3YE4JDhJzvCYoyQhoTlKq1PTX
-   uQ2KSKGdSqWGOnv575rXEMnxkA/9xrowDVUf3rppyMudGasfHTKb/xt5G
-   BJ9C5G21CEQAqaiU89u3yjMVWcEL42HfKCf6wDo92VkmEDzY5Y+mim6Zl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="402390709"
+  bh=y7MHMqsq5toCYzjTStk7noqNPwLyMdqcH/g8dca/tqM=;
+  b=l8g0xeRKZTRabbcSjfKgSC/QrJWiXd2FpV0gSi+cz59XowhLQRzww9mK
+   ttb+AyDRCg+fsyK3uXRTQPdYgFZq/SMIbeGYaqFK9ZMGdk3Ii2qN7+G2f
+   3JULwlL4sHwEq7xmiuf3Qj6Fb7YBuz/yKUuPHicfoNoJjScg7/l8SThay
+   pKeDyTKdgxM/K0UimeF6inFef4ZvfWKsHZ9qIZRwznVGIUsGI+Dar5l+n
+   ZqK8FW0fagEsDvSrGxHhpbYkFO95Pg5IF9ecFuhv5Ua++cyOXYXWqlL1V
+   Jn5Xr5CV57Ocl8SplOGfaTbPs40Td4WNVeZ2L7cutOODRGHxZ9UCrHYOj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="323682005"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="402390709"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:23:22 -0700
+   d="scan'208";a="323682005"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:33:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="632867022"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="826299590"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="632867022"
+   d="scan'208";a="826299590"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Mar 2023 08:23:20 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 24 Mar 2023 08:33:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfjGB-000FQ8-33;
-	Fri, 24 Mar 2023 15:23:19 +0000
-Date: Fri, 24 Mar 2023 23:22:47 +0800
+	id 1pfjPs-000FQO-0o;
+	Fri, 24 Mar 2023 15:33:20 +0000
+Date: Fri, 24 Mar 2023 23:33:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:dma-sync-rework 20/20]
- arch/hexagon/kernel/dma.c:19:27: error: use of undeclared identifier 'paddr'
-Message-ID: <202303242303.IAFZ31Wv-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi 1/12] include/linux/trace_events.h:802:
+ multiple definition of `bpf_uprobe_multi_link_attach';
+ init/main.o:include/linux/trace_events.h:802: first defined here
+Message-ID: <202303242316.yk4WAmg1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,103 +47,214 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git dma-sync-rework
-head:   9a711fbea373208c1eeb2fafb0c744bc23a79a43
-commit: 9a711fbea373208c1eeb2fafb0c744bc23a79a43 [20/20] dma-mapping: replace custom code with generic implementation
-config: hexagon-randconfig-r033-20230324 (https://download.01.org/0day-ci/archive/20230324/202303242303.IAFZ31Wv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi
+head:   15b74bd6fc8b0e3e7f0ed0dae0505d371fe8ddcd
+commit: 21f85abbdf8ad8b7665ef27d411ffee672dd34ae [1/12] bpf: Add multi uprobe link
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230324/202303242316.yk4WAmg1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git/commit/?id=9a711fbea373208c1eeb2fafb0c744bc23a79a43
-        git remote add arnd-asm-generic https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
-        git fetch --no-tags arnd-asm-generic dma-sync-rework
-        git checkout 9a711fbea373208c1eeb2fafb0c744bc23a79a43
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=21f85abbdf8ad8b7665ef27d411ffee672dd34ae
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi
+        git checkout 21f85abbdf8ad8b7665ef27d411ffee672dd34ae
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303242303.IAFZ31Wv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303242316.yk4WAmg1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/hexagon/kernel/dma.c:8:
-   In file included from include/linux/dma-map-ops.h:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/dma.c:8:
-   In file included from include/linux/dma-map-ops.h:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/dma.c:8:
-   In file included from include/linux/dma-map-ops.h:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> arch/hexagon/kernel/dma.c:19:27: error: use of undeclared identifier 'paddr'
-           hexagon_inv_dcache_range(paddr, paddr + size);
-                                    ^
-   arch/hexagon/kernel/dma.c:19:34: error: use of undeclared identifier 'paddr'
-           hexagon_inv_dcache_range(paddr, paddr + size);
-                                           ^
->> arch/hexagon/kernel/dma.c:24:2: error: call to undeclared function 'hexagon_flush_dcache_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           hexagon_flush_dcache_range(paddr, paddr + size);
-           ^
-   arch/hexagon/kernel/dma.c:24:2: note: did you mean 'hexagon_clean_dcache_range'?
-   arch/hexagon/include/asm/cacheflush.h:75:13: note: 'hexagon_clean_dcache_range' declared here
-   extern void hexagon_clean_dcache_range(unsigned long start, unsigned long end);
-               ^
-   arch/hexagon/kernel/dma.c:24:29: error: use of undeclared identifier 'paddr'
-           hexagon_flush_dcache_range(paddr, paddr + size);
-                                      ^
-   arch/hexagon/kernel/dma.c:24:36: error: use of undeclared identifier 'paddr'
-           hexagon_flush_dcache_range(paddr, paddr + size);
-                                             ^
-   6 warnings and 5 errors generated.
+   ld: init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: init/noinitramfs.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: arch/um/drivers/mconsole_kern.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: arch/x86/um/ldt.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: arch/x86/um/tls_32.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: arch/x86/kernel/sys_ia32.o: in function `bpf_uprobe_multi_link_attach':
+   arch/x86/um/../kernel/sys_ia32.c:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: arch/x86/um/syscalls_32.o: in function `bpf_uprobe_multi_link_attach':
+   arch/x86/um/syscalls_32.c:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/kmod.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/groups.o: in function `bpf_uprobe_multi_link_attach':
+>> include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/power/main.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/power/process.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/power/suspend.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/module/main.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/freezer.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/time.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/timer.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/hrtimer.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/posix-timers.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/posix-clock.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/itimer.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/time/tick-common.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/futex/syscalls.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/uid16.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/acct.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: kernel/seccomp.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/oom_kill.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/fadvise.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/page-writeback.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/readahead.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/shmem.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/debug.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mmap_lock.o: in function `bpf_uprobe_multi_link_attach':
+   mm/mmap_lock.c:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mincore.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mlock.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mmap.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mprotect.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/mremap.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/msync.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/process_vm_access.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/madvise.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/swapfile.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: mm/memfd.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/open.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/read_write.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/stat.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/exec.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/pipe.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/namei.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/fcntl.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/ioctl.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/readdir.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/select.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
+   ld: fs/file.o: in function `bpf_uprobe_multi_link_attach':
+   include/linux/trace_events.h:802: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:802: first defined here
 
 
-vim +/paddr +19 arch/hexagon/kernel/dma.c
+vim +802 include/linux/trace_events.h
 
-    16	
-    17	static inline void arch_dma_cache_inv(phys_addr_t start, size_t size)
-    18	{
-  > 19		hexagon_inv_dcache_range(paddr, paddr + size);
-    20	}
-    21	
-    22	static inline void arch_dma_cache_wback_inv(phys_addr_t start, size_t size)
-    23	{
-  > 24		hexagon_flush_dcache_range(paddr, paddr + size);
-    25	}
-    26	
+   766	
+   767	static inline int
+   768	perf_event_query_prog_array(struct perf_event *event, void __user *info)
+   769	{
+   770		return -EOPNOTSUPP;
+   771	}
+   772	static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+   773	{
+   774		return -EOPNOTSUPP;
+   775	}
+   776	static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_prog *p)
+   777	{
+   778		return -EOPNOTSUPP;
+   779	}
+   780	static inline struct bpf_raw_event_map *bpf_get_raw_tracepoint(const char *name)
+   781	{
+   782		return NULL;
+   783	}
+   784	static inline void bpf_put_raw_tracepoint(struct bpf_raw_event_map *btp)
+   785	{
+   786	}
+   787	static inline int bpf_get_perf_event_info(const struct perf_event *event,
+   788						  u32 *prog_id, u32 *fd_type,
+   789						  const char **buf, u64 *probe_offset,
+   790						  u64 *probe_addr)
+   791	{
+   792		return -EOPNOTSUPP;
+   793	}
+   794	static inline int
+   795	bpf_kprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   796	{
+   797		return -EOPNOTSUPP;
+   798	}
+   799	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+   800	{
+   801		return -EOPNOTSUPP;
+ > 802	}
+   803	#endif
+   804	
 
 -- 
 0-DAY CI Kernel Test Service
