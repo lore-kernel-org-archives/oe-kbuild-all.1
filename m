@@ -1,113 +1,142 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFD02F2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 08:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679648051; x=1711184051;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j5CbuxsW9YhmDTT/LOuuIKZ5pDvmHmeXkVuCe8TyAu8=;
-  b=Jn9K6mf4UDgAy5KCMh12B1wCA/LGW/IjeaIeoMTPWrDcvx7AYWArFrcI
-   u/DpZlTea97pGFtE2D4nYBLpB8gBtntx1/w+aFLYnKUq/Kb/kTlNrkWZx
-   vf8N/3nUlxp1xNofvAcL2UyOWcTWM9+lqFQnOz0P1GTB9rbNqsy5Twz/w
-   OGhuu/3K0TbGyOkU9dm12LdMNt4+Fe84KUHzsb7+jgGHnbxyj1seFCemw
-   kNlrQcdiEx9rW0N5Rc27i1uhQvdDYgUJ63LY6LxkEJUo5B3yWOIO3Ff+z
-   zizV9RuzMN/jnH9KXAk/s/86nByrmdbSuGSqEfzqnrhdrOo5mb91vpD7N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="328146196"
-X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="328146196"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 01:54:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="806580721"
-X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="806580721"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 24 Mar 2023 01:54:07 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfdBW-000F94-2u;
-	Fri, 24 Mar 2023 08:54:06 +0000
-Date: Fri, 24 Mar 2023 16:53:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com, bwidawsk@kernel.org,
-	dan.j.williams@intel.com, dave.jiang@intel.com,
-	Jonathan.Cameron@huawei.com, linux-cxl@vger.kernel.org,
-	rrichter@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	bhelgaas@google.com
-Subject: Re: [PATCH v2 1/5] cxl/pci: Add RCH downstream port AER and RAS
- register discovery
-Message-ID: <202303241632.HTxJ0yfj-lkp@intel.com>
-References: <20230323213808.398039-2-terry.bowman@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CF2F2D;
+	Fri, 24 Mar 2023 08:56:40 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a] (unknown [IPv6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B52946603111;
+	Fri, 24 Mar 2023 08:56:37 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1679648198;
+	bh=fSTAJcZ+stux5F7CVDxrYSB6CjZcdcUM5EQHkwSolOQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KKVdO9t0sYkHaJ1tstArEyba/Fvd76PT+Bb8whfZp36eVUKPCYx6dyCpSzgaHNQp9
+	 PwavG2SpFEZPWYNj8NHCvb7hfu0czslZWU1neac/udmuLbgOdOevERU3lx0d2roFkM
+	 ZY0njDbuL4MOMUmrRdEc5kyjlWN3steO1fR3FNSalz3wH+kgoCxB5l3b0+K9JA11ie
+	 uTdtvV2M3vKrzlUSFuJPpYcGZke6Dw4wZkh9VCo4R2VAC5dhhRE0+5YHyERpLZc6cH
+	 Ky37tKSoz4+Si/+YVszJgLXCKE1wq4wvSl/WETQfTQAiot7Ys4CfAsugbkirmU2Inz
+	 cbMAAZQAM0FiA==
+Message-ID: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
+Date: Fri, 24 Mar 2023 09:56:34 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323213808.398039-2-terry.bowman@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Content-Language: en-US
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+ ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+ bin.liu@mediatek.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+ andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ daniel.almeida@collabora.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com
+References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+ <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
+ <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
+ <20230324084830.GA18895@pendragon.ideasonboard.com>
+ <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Terry,
 
-Thank you for the patch! Perhaps something to improve:
+Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
+> On 24/03/2023 09:48, Laurent Pinchart wrote:
+>> On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
+>>> On 24/03/2023 09:11, Benjamin Gaignard wrote:
+>>>> Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
+>>>>> Hi Benjamin,
+>>>>>
+>>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>>>
+>>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+>>>>> base:   git://linuxtv.org/media_tree.git master
+>>>>> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+>>>>> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+>>>>> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+>>>>> compiler: aarch64-linux-gcc (GCC) 12.1.0
+>>>>>
+>>>>> If you fix the issue, kindly add following tag where applicable
+>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>> | Reported-by: Dan Carpenter <error27@gmail.com>
+>>>>> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
+>>>>>
+>>>>> smatch warnings:
+>>>>> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+>>>>> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
+>>>>>
+>>>>> vim +1272 include/media/videobuf2-core.h
+>>>>>
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
+>>>>>                                                           ^^^^^^^^^^^^^^^^^^^^^^^
+>>>>> Holding a spin lock.
+>>>>>
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+>>>>>                                                                                                                                        ^^^^^^^^^^
+>>>>> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+>>>>> allocation outside the lock?
+>>>> I will add GFP_ATOMIC flag in next version.
+>>> No need. Instead, don't use realloc here, just allocate a new array, copy over all
+>>> the data from the old, and then switch q->bufs with the spinlock held. Then you
+>>> can free the old one.
+>>>
+>>> It's only when you update q->bufs that you need the lock.
+>> The copy also needs to be protected by the lock.
+> I suspect that that is not needed, since you shouldn't be able to add buffers here
+> since a mutex should be held at this time.
+>
+> That said, it's something that Benjamin needs to analyze.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus efi/next cxl/next cxl/pending linus/master v6.3-rc3 next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Does using GFP_ATOMIC is problematic ?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230323213808.398039-2-terry.bowman%40amd.com
-patch subject: [PATCH v2 1/5] cxl/pci: Add RCH downstream port AER and RAS register discovery
-config: parisc-randconfig-s043-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241632.HTxJ0yfj-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/7cbc5c7357504af79c820ad7d0e9369b4a580a65
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
-        git checkout 7cbc5c7357504af79c820ad7d0e9369b4a580a65
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241632.HTxJ0yfj-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/cxl/core/regs.c:340:24: sparse: sparse: Using plain integer as NULL pointer
-   drivers/cxl/core/regs.c:345:24: sparse: sparse: Using plain integer as NULL pointer
-
-vim +340 drivers/cxl/core/regs.c
-
-   338	
-   339		if (!request_mem_region(map->resource, map->max_size, name))
- > 340			return 0;
-   341	
-   342		map->base = ioremap(map->resource, map->max_size);
-   343		if (!map->base) {
-   344			release_mem_region(map->resource, map->max_size);
-   345			return 0;
-   346		}
-   347	
-   348		return map->base;
-   349	}
-   350	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+>
+> Regards,
+>
+> 	Hans
+>
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273          if (!tmp)
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274              goto realloc_failed;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276          q->max_num_bufs *= 2;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277          q->bufs = tmp;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278      }
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280      if (vb->index < q->max_num_bufs) {
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281          q->bufs[vb->index] = vb;
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282          ret = true;
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283      }
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286      spin_unlock(&q->bufs_lock);
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
+>>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288      return ret;
+>>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
+>
