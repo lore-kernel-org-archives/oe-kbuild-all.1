@@ -1,47 +1,64 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C9C20F4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 04:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679633292; x=1711169292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iuSVJySxch0+zE7YbQ4dkxYZSIAl4bM37WBu6B7ujFQ=;
-  b=CnR90AdrXp6bSRLFVXEFUhu3kEmRSQLYdlrJIz40fKC35v4BmNMixw/Y
-   ePDdoZ0z5vCBM6LEbsOBHpj4qbk0gmJC+hB7cZxeDn9addhglnG4rpXKY
-   KHiOtpwLWIYYmicvQVe3JogcMlt2ibjxYnCwtWNki/VrLKEBiueq29t2r
-   2uazrcZSalzTwCHIqxVpkf6+NJBC/WrO33olU34HSzSp5CZyp3Cj0AYR/
-   QTAya2oXhDffkukHjPNg2OJwU4IH4v8RwA2vY+cFMMARUdXL5cOK2N/hC
-   /lcd7lc9eMxDvVCHMM+/YthuFFrOnhOwkUHchN/q9QjadZbYJfV4UwES5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339723838"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="339723838"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 21:48:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="632698101"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="632698101"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Mar 2023 21:48:04 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfZLK-000EzC-3C;
-	Fri, 24 Mar 2023 04:47:58 +0000
-Date: Fri, 24 Mar 2023 12:47:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elliot Berman <quic_eberman@quicinc.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Sudeep Holla <sudeep.holla@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Elliot Berman <quic_eberman@quicinc.com>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] mailbox: pcc: Use mbox_bind_client
-Message-ID: <202303241233.htC8Sxvg-lkp@intel.com>
-References: <20230323191527.1472695-4-quic_eberman@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E337C20F5;
+	Fri, 24 Mar 2023 05:01:15 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id r11so3308367edd.5;
+        Thu, 23 Mar 2023 22:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679634074;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qjRWCU/VLQErX2z0uvL/aL2jDlqWYNpnjGy6qbEOGGE=;
+        b=AV4afuHsts3hAqNjn+9LdAhIgZ+Zdmq1EJCCmlG/TdZACcSB8wehdUwVsHhv/Dopjp
+         RTph8NS7MUsrtZ+Ev++hdhIOfeWehOCfOIUWSVtYW+uK0vaIPqUYPxuffx6LMoIXSNOz
+         5SaDg2awjB3Bdo2P0vjaJHPPrMIRZIaUZnRD1Vfpb69yaq96zT/2rXIpk2EvucvO+aNV
+         HBT40USzBCx+QgLCahLeo9aFpJ+igenZMfPloCpeBZK3bUsAfR+2LFmLSJ/EuHxaBLDk
+         bGbsEr6dFrTrDeMWRxE69GUfgXTX4AJXn6YIuA7BWne11xTaWAPULAXH/wzrufLxu+i0
+         dxgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679634074;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qjRWCU/VLQErX2z0uvL/aL2jDlqWYNpnjGy6qbEOGGE=;
+        b=dqchkdVEz7HHY9EkYknMcY5Q7L3JxmOGw3KGs5HDJ1Znn0DQCiLLb1rmTXdtq2SKiu
+         TAiHCVeRLzvXsnPi7zG5eycMR+PfsqlpoRJQSH4eb77KEw3sxfOAZIVH0xNm+SDSogHd
+         BdH6VZPTUJJagZOzTXTRu4JkA78Hf/spC/NIUM0Htou8PXaSsdjMhQxWdTAC8lKAu2hh
+         E5BSMHD0r0bMZ4hanUwQEkYr9A4lsCuqmTtAvvrUbm2TIeOS4NXYTG56n38wA7+qg5iA
+         L62InyGQYLGIBtbuSoNd6VDEWVA9E6NPk2T7fdsjWVVbo2pqfoCybHPkRn2cGEXReYz7
+         w1Ag==
+X-Gm-Message-State: AAQBX9d3xVLDNcIAHYKfUBLkXvDQ2AlHp8zfVg2n9wjuJJ+fUynYpiKc
+	8A8YBDdLlYn92gFavTVFCZZUUOf9uttTug==
+X-Google-Smtp-Source: AKy350Z6AhniQxuCsI+BdYd/geEC5/fUia7TructKG3W3ffPTO5hgdA9jsSFB3KZs+E/YxUvVP/DzA==
+X-Received: by 2002:a05:6402:1503:b0:4fd:2b0e:ce87 with SMTP id f3-20020a056402150300b004fd2b0ece87mr1438213edw.24.1679634073874;
+        Thu, 23 Mar 2023 22:01:13 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c24-20020a50d658000000b00501d5432f2fsm5249889edj.60.2023.03.23.22.01.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 22:01:13 -0700 (PDT)
+Date: Fri, 24 Mar 2023 08:01:09 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+	ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+	bin.liu@mediatek.com, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+	stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, jernel@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Message-ID: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +67,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323191527.1472695-4-quic_eberman@quicinc.com>
+In-Reply-To: <20230321102855.346732-3-benjamin.gaignard@collabora.com>
 
-Hi Elliot,
+Hi Benjamin,
 
-Thank you for the patch! Perhaps something to improve:
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[auto build test WARNING on 6ccbe33a39523f6d62b22c5ee99c6695993c935e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/mailbox-Allow-direct-registration-to-a-channel/20230324-031813
-base:   6ccbe33a39523f6d62b22c5ee99c6695993c935e
-patch link:    https://lore.kernel.org/r/20230323191527.1472695-4-quic_eberman%40quicinc.com
-patch subject: [PATCH v2 3/3] mailbox: pcc: Use mbox_bind_client
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230324/202303241233.htC8Sxvg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/5db6edf9f393224193ab13e82d63e0d7616c74c9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Elliot-Berman/mailbox-Allow-direct-registration-to-a-channel/20230324-031813
-        git checkout 5db6edf9f393224193ab13e82d63e0d7616c74c9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/mailbox/
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241233.htC8Sxvg-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/pcc.c:355:5: sparse: sparse: symbol 'pcc_startup' was not declared. Should it be static?
->> drivers/mailbox/pcc.c:378:6: sparse: sparse: symbol 'pcc_shutdown' was not declared. Should it be static?
+smatch warnings:
+include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
+
+vim +1272 include/media/videobuf2-core.h
+
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265  	bool ret = false;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267  	spin_lock(&q->bufs_lock);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+Holding a spin lock.
+
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269  	if (vb->index >= q->max_num_bufs) {
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270  		struct vb2_buffer **tmp;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272  		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+                                                                                                                                     ^^^^^^^^^^
+Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+allocation outside the lock?
+
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273  		if (!tmp)
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274  			goto realloc_failed;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276  		q->max_num_bufs *= 2;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277  		q->bufs = tmp;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278  	}
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280  	if (vb->index < q->max_num_bufs) {
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281  		q->bufs[vb->index] = vb;
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282  		ret = true;
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283  	}
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286  	spin_unlock(&q->bufs_lock);
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287  
+487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288  	return ret;
+625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
