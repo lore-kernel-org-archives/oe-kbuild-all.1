@@ -1,138 +1,96 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054065662
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 13:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679662820; x=1711198820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0gQbiAEwFlaGRGOxkHt7lqh8x5ufN1CTssACc2w11cA=;
-  b=VQwcNU2Pttdhj+P8tEkQIo6csddToP3yql7xLUKl7RIu5VCZpR4mvHmI
-   5RIVHQEXnOvi/KzKVPz1xtg2TZIDoOJ7FZ/NbblcfV4j0BWAH/8N2WJs/
-   8IIwrbbWWp/RDBT9AWN/IOyxtSMVUisKDZ4qSkzdC7J9KVxVIwCkq1oRF
-   R1tDrHLyFXaQC21SQ6MG3NEceEOTHhAksdyLdS/3GvYv1d/EbmgBfjF6s
-   e6i+H/7Am8hVXutOLlBInNn2fBI3/0KUF9xIOxGw/X+NraGy5m8mw3QVE
-   QiqRWBazWYcEurrS2UZn/CPkhK9u/rnxgiVtwnjJ7n3qDfpi1iyBGoeqs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="426040549"
-X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="426040549"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 06:00:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="751889599"
-X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
-   d="scan'208";a="751889599"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Mar 2023 06:00:16 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfh1j-000FKK-2u;
-	Fri, 24 Mar 2023 13:00:15 +0000
-Date: Fri, 24 Mar 2023 20:59:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chung-Chiang Cheng <cccheng@synology.com>, linux-ext4@vger.kernel.org,
-	tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz,
-	yi.zhang@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, shepjeng@gmail.com, kernel@cccheng.net,
-	Chung-Chiang Cheng <cccheng@synology.com>,
-	Robbie Ko <robbieko@synology.com>
-Subject: Re: [PATCH] ext4: defer updating i_disksize until endio
-Message-ID: <202303242033.wiXS9jKn-lkp@intel.com>
-References: <20230324092907.1341457-1-cccheng@synology.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17135662
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 13:07:55 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id fb38so1199983pfb.7
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 06:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679663275;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ML7VBv7XlyCu7FAut6rRzjQeV7yr72fXHIIMk8RclWk=;
+        b=mfWseLTSCbOBB+sSAr5vN/irU+vs2TOjW9ljyOFopToQR18sDQigO4UZdXn97oJ8go
+         ISTlF4ZuIFAel06Z0s5OfTSRpczkqKdIKyM8gV8MSLOH0PZm28F3dnpv2uMM94BknmUM
+         FkcIfDkztBDpDruWEpdjixZle3KoeViAXyAet+Ges4nwUPXYKECPr6tUj8L9e4xr2Krq
+         x8GyItMO8NafsYSSrerh1tVtoPrVhsg5x9yuqT9KOpB0OpzUDvnIcxpru/qZfSZq7C7p
+         yhMaXfeXYGYMKU7M5w9qPPkGBUrh8RtP/PLwYkXMIWfj+aXyLAY7Ut3Nb8hbLkapVigR
+         QlcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679663275;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ML7VBv7XlyCu7FAut6rRzjQeV7yr72fXHIIMk8RclWk=;
+        b=JtE8QkpwjYCOSJAe0zS335gnfrVCsnTRjT4C2durowf7RwEqeACBQccFen3IwfIx1w
+         j/QgyIJfhIYMJhmdnQVLbGynCgMh6CXBJMtj39JGTdZ14v5y2pNHBN8xBlxigCNe9zdE
+         ZBxt6mLcpl3wYKFUiK119bg7eKV+3uRkn/lthQlIkSK5uJlT248p55INCyH+ctOr80F4
+         DHw6bczC0YfVdrnopUzvBIuvJ248RgSV/AZTKdmz2lW68CL7OpFgytwQQGnQGtBSvXOe
+         A6MJoObbRAT62HLzRC1W5Z7SstN5rVVjsPveCeIxOB8S6bAsKp3hUlhz/jGYx2g3hpFc
+         x1wQ==
+X-Gm-Message-State: AAQBX9ceagEFx/7rMzByse6big7kv1WevDoFRugN4wEERVV0EOI03hzm
+	QwtOzDuxcgAqUIzNr62vcMo=
+X-Google-Smtp-Source: AKy350awoE/Mfx31AyNqUQ0MW8ZHQLZjcZ9TVqVIFJQa3De1zZ/eJqj8JlErfsgbbcmpb23ogieGNA==
+X-Received: by 2002:aa7:9908:0:b0:5a8:a0df:a624 with SMTP id z8-20020aa79908000000b005a8a0dfa624mr2604869pff.22.1679663275065;
+        Fri, 24 Mar 2023 06:07:55 -0700 (PDT)
+Received: from DESKTOP-B5TBVBT.localdomain ([175.117.51.71])
+        by smtp.gmail.com with ESMTPSA id p18-20020a62ab12000000b005809d382016sm4141966pff.74.2023.03.24.06.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 06:07:54 -0700 (PDT)
+From: Yohan Joung <jyh429@gmail.com>
+To: jaegeuk@kernel.org
+Cc: jyh429@gmail.com,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Yohan Joung <yohan.joung@sk.com>
+Subject: [PATCH] f2fs: fix align check for npo2
+Date: Fri, 24 Mar 2023 22:07:47 +0900
+Message-Id: <20230324130747.523-1-jyh429@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <ZBzlJ36kO5KvxODB@google.com>
+References: <ZBzlJ36kO5KvxODB@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230324092907.1341457-1-cccheng@synology.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Chung-Chiang,
+Fix alignment check to be correct in npo2 as well
 
-Thank you for the patch! Perhaps something to improve:
+Signed-off-by: Yohan Joung <yohan.joung@sk.com>
+---
+ fs/f2fs/segment.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-[auto build test WARNING on v6.3-rc3]
-[also build test WARNING on linus/master]
-[cannot apply to tytso-ext4/dev next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chung-Chiang-Cheng/ext4-defer-updating-i_disksize-until-endio/20230324-173716
-patch link:    https://lore.kernel.org/r/20230324092907.1341457-1-cccheng%40synology.com
-patch subject: [PATCH] ext4: defer updating i_disksize until endio
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230324/202303242033.wiXS9jKn-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9a02b364d2cffe71a45866edf750b0280c8cb990
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chung-Chiang-Cheng/ext4-defer-updating-i_disksize-until-endio/20230324-173716
-        git checkout 9a02b364d2cffe71a45866edf750b0280c8cb990
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash fs/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303242033.wiXS9jKn-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   fs/ext4/inode.c: In function 'ext4_da_write_end':
->> fs/ext4/inode.c:3115:30: warning: variable 'end' set but not used [-Wunused-but-set-variable]
-    3115 |         unsigned long start, end;
-         |                              ^~~
-
-
-vim +/end +3115 fs/ext4/inode.c
-
-64769240bd07f4 Alex Tomas         2008-07-11  3108  
-64769240bd07f4 Alex Tomas         2008-07-11  3109  static int ext4_da_write_end(struct file *file,
-64769240bd07f4 Alex Tomas         2008-07-11  3110  			     struct address_space *mapping,
-64769240bd07f4 Alex Tomas         2008-07-11  3111  			     loff_t pos, unsigned len, unsigned copied,
-64769240bd07f4 Alex Tomas         2008-07-11  3112  			     struct page *page, void *fsdata)
-64769240bd07f4 Alex Tomas         2008-07-11  3113  {
-64769240bd07f4 Alex Tomas         2008-07-11  3114  	struct inode *inode = mapping->host;
-632eaeab1feb5d Mingming Cao       2008-07-11 @3115  	unsigned long start, end;
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3116  	int write_mode = (int)(unsigned long)fsdata;
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3117  
-74d553aad7926e Theodore Ts'o      2013-04-03  3118  	if (write_mode == FALL_BACK_TO_NONDELALLOC)
-74d553aad7926e Theodore Ts'o      2013-04-03  3119  		return ext4_write_end(file, mapping, pos,
-79f0be8d2e6ebd Aneesh Kumar K.V   2008-10-08  3120  				      len, copied, page, fsdata);
-632eaeab1feb5d Mingming Cao       2008-07-11  3121  
-9bffad1ed2a003 Theodore Ts'o      2009-06-17  3122  	trace_ext4_da_write_end(inode, pos, len, copied);
-6984aef59814fb Zhang Yi           2021-07-16  3123  
-6984aef59814fb Zhang Yi           2021-07-16  3124  	if (write_mode != CONVERT_INLINE_DATA &&
-6984aef59814fb Zhang Yi           2021-07-16  3125  	    ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA) &&
-6984aef59814fb Zhang Yi           2021-07-16  3126  	    ext4_has_inline_data(inode))
-6984aef59814fb Zhang Yi           2021-07-16  3127  		return ext4_write_inline_data_end(inode, pos, len, copied, page);
-6984aef59814fb Zhang Yi           2021-07-16  3128  
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  3129  	start = pos & (PAGE_SIZE - 1);
-632eaeab1feb5d Mingming Cao       2008-07-11  3130  	end = start + copied - 1;
-64769240bd07f4 Alex Tomas         2008-07-11  3131  
-64769240bd07f4 Alex Tomas         2008-07-11  3132  	/*
-4df031ff5876d9 Zhang Yi           2021-07-16  3133  	 * Since we are holding inode lock, we are sure i_disksize <=
-4df031ff5876d9 Zhang Yi           2021-07-16  3134  	 * i_size. We also know that if i_disksize < i_size, there are
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3135  	 * delalloc writes pending in the range upto i_size. There's no
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3136  	 * need to touch i_disksize since the endio of writeback will
-9a02b364d2cffe Chung-Chiang Cheng 2023-03-24  3137  	 * push i_disksize upto i_size eventually.
-4df031ff5876d9 Zhang Yi           2021-07-16  3138  	 *
-4df031ff5876d9 Zhang Yi           2021-07-16  3139  	 * Note that we defer inode dirtying to generic_write_end() /
-4df031ff5876d9 Zhang Yi           2021-07-16  3140  	 * ext4_da_write_inline_data_end().
-64769240bd07f4 Alex Tomas         2008-07-11  3141  	 */
-9c3569b50f12e4 Tao Ma             2012-12-10  3142  
-cc883236b79297 Zhang Yi           2021-07-16  3143  	return generic_write_end(file, mapping, pos, len, copied, page, fsdata);
-64769240bd07f4 Alex Tomas         2008-07-11  3144  }
-64769240bd07f4 Alex Tomas         2008-07-11  3145  
-
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index 055e70e77aa2..f4a22a065277 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -1842,6 +1842,7 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
+ 	sector_t sector, nr_sects;
+ 	block_t lblkstart = blkstart;
+ 	int devi = 0;
++	u32 remainder = 0;
+ 
+ 	if (f2fs_is_multi_device(sbi)) {
+ 		devi = f2fs_target_device_index(sbi, blkstart);
+@@ -1857,9 +1858,9 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
+ 	if (f2fs_blkz_is_seq(sbi, devi, blkstart)) {
+ 		sector = SECTOR_FROM_BLOCK(blkstart);
+ 		nr_sects = SECTOR_FROM_BLOCK(blklen);
++		div_u64_rem(sector, bdev_zone_sectors(bdev), &remainder);
+ 
+-		if (sector & (bdev_zone_sectors(bdev) - 1) ||
+-				nr_sects != bdev_zone_sectors(bdev)) {
++		if (remainder || nr_sects != bdev_zone_sectors(bdev)) {
+ 			f2fs_err(sbi, "(%d) %s: Unaligned zone reset attempted (block %x + %x)",
+ 				 devi, sbi->s_ndevs ? FDEV(devi).path : "",
+ 				 blkstart, blklen);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
