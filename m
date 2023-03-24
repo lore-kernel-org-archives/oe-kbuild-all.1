@@ -1,43 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD16920F5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 05:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096B320F5;
+	Fri, 24 Mar 2023 05:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679635173; x=1711171173;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lh+wuWBQzxBsgAn/RD1Qur1QJ+JuVFaf6s3oaJoIkSQ=;
-  b=gH+sdIc/ryKwGgsrY2qJDW+e1/JVtsdLn9IHC2d8cTDVD6AAhlELebnJ
-   eSx4OVIquIj/MYgHAS1KpCE6cfWNEupbGwGu++wJZFGyetNlulIettrJn
-   9kVkRzsEhiRizELz/66IHhNKVMO7ivetk3APFUCa7vz91GMS9JAkpuclV
-   5zE5SyL+IAzuRXt1e/JLS65TTBe20p6QNsxg176/+Lkrsfgg43IYeMVXv
-   kElX5IARkxb13pxltFnieZRl9Bq0d/z1ZvLy/lxIU9eEjWvtq7QRqAmE1
-   6dzx45anD+t9JDK1I2z2yxzdBvvFUo2UZO5tRzVp7naG6PNRUqu/cQVoa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339728031"
+  t=1679636406; x=1711172406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lz4E1YV6Yw7Hz3q4Hij1kHmq1J+RPLt8Y3nDI4SGDMQ=;
+  b=hxixpqgFE6d4xPcn6Oe2OFoVWIGTARuSfvc+WvJqLWvBojXeph1G+RZL
+   k+HnF3pqORunNunyCEVYd34eTiBF4zlPXHZXXFGHFt0eLqtk62I+fS34M
+   PC98X4epCv0XWo4GJj3WEUTX7c9AfvZ2D5/3duNX7SOYjDsYL+AOqaUsY
+   +CMYOK3crKjfweWB49gD2bWc4UqE0Dk77H1MWbgNAA0Z7dfI6Ra6f5LrT
+   QRk/Ou8zFJOwfslE/D9U3KA9AmfL+04WN/pJEKj7Ut/D+xHwHeBZqeJ3s
+   NApdGf+oV8Mu4mP/8I44CioD0wplDs9EN1brbaZF13KlXMyn0U1uylE87
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="367439464"
 X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="339728031"
+   d="scan'208";a="367439464"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 22:19:02 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 22:40:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="676005005"
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="676010886"
 X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="676005005"
+   d="scan'208";a="676010886"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Mar 2023 22:19:00 -0700
+  by orsmga007.jf.intel.com with ESMTP; 23 Mar 2023 22:40:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfZpM-000F0W-0i;
-	Fri, 24 Mar 2023 05:19:00 +0000
-Date: Fri, 24 Mar 2023 13:18:18 +0800
+	id 1pfa9g-000F1E-2P;
+	Fri, 24 Mar 2023 05:40:00 +0000
+Date: Fri, 24 Mar 2023 13:39:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-arcvm 20/42]
- arch/arm64/kernel/kvm-uclamp.c:26:36: error: expected '=', ',', ';', 'asm'
- or '__attribute__' before '__ro_after_init'
-Message-ID: <202303241318.9QN16LoZ-lkp@intel.com>
+To: Terry Bowman <terry.bowman@amd.com>, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com, bwidawsk@kernel.org,
+	dan.j.williams@intel.com, dave.jiang@intel.com,
+	Jonathan.Cameron@huawei.com, linux-cxl@vger.kernel.org,
+	rrichter@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, bhelgaas@google.com
+Subject: Re: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
+Message-ID: <202303241305.7Xdy6342-lkp@intel.com>
+References: <20230323213808.398039-6-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +51,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230323213808.398039-6-terry.bowman@amd.com>
 
-Hi Masami,
+Hi Terry,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Yet something to improve:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-arcvm
-head:   7ff20e76d8b2c2bb8e7c210cb2644d34ce1cfe8b
-commit: e6d9e3afd83522329ee34169e9169077a72ee97f [20/42] CHROMIUM: KVM: sched: Use KVM uclamp hypercall if available
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230324/202303241318.9QN16LoZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus efi/next cxl/next linus/master v6.3-rc3 next-20230323]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230323213808.398039-6-terry.bowman%40amd.com
+patch subject: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230324/202303241305.7Xdy6342-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15-arcvm
-        git checkout e6d9e3afd83522329ee34169e9169077a72ee97f
+        # https://github.com/intel-lab-lkp/linux/commit/c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
+        git checkout c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cxl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303241318.9QN16LoZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303241305.7Xdy6342-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/kvm-uclamp.c:26:36: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ro_after_init'
-      26 | static int kvm_arch_uclamp_support __ro_after_init;
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/kvm-uclamp.c: In function 'kvm_arch_uclamp_init':
->> arch/arm64/kernel/kvm-uclamp.c:37:17: error: 'kvm_arch_uclamp_support' undeclared (first use in this function); did you mean 'kvm_arch_uclamp_supported'?
-      37 |                 kvm_arch_uclamp_support = KVM_UCLAMP_UNSUPPORTED;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 kvm_arch_uclamp_supported
-   arch/arm64/kernel/kvm-uclamp.c:37:17: note: each undeclared identifier is reported only once for each function it appears in
-   arch/arm64/kernel/kvm-uclamp.c: In function 'kvm_arch_uclamp_supported':
-   arch/arm64/kernel/kvm-uclamp.c:47:16: error: 'kvm_arch_uclamp_support' undeclared (first use in this function); did you mean 'kvm_arch_uclamp_supported'?
-      47 |         return kvm_arch_uclamp_support == KVM_UCLAMP_SUPPORTED;
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-         |                kvm_arch_uclamp_supported
-   arch/arm64/kernel/kvm-uclamp.c:48:1: error: control reaches end of non-void function [-Werror=return-type]
-      48 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> drivers/cxl/mem.c:51:31: error: no member named 'rcec' in 'struct pci_dev'
+           struct pci_dev *rcec = pdev->rcec;
+                                  ~~~~  ^
+>> drivers/cxl/mem.c:63:14: error: no member named 'aer_cap' in 'struct pci_dev'
+           aer = rcec->aer_cap;
+                 ~~~~  ^
+   2 errors generated.
 
 
-vim +26 arch/arm64/kernel/kvm-uclamp.c
+vim +51 drivers/cxl/mem.c
 
-    25	
-  > 26	static int kvm_arch_uclamp_support __ro_after_init;
-    27	/* Store per-vcpu current uclamp values */
-    28	static DEFINE_PER_CPU(struct uclamp_value, current_uclamp);
-    29	
-    30	static int __init kvm_arch_uclamp_init(void)
-    31	{
-    32		int ret;
-    33	
-    34		/* Check whether the host supports this service at first. */
-    35		ret = kvm_arm_hyp_service_available(ARM_SMCCC_KVM_FUNC_UCLAMP);
-    36		if (ret <= 0)
-  > 37			kvm_arch_uclamp_support = KVM_UCLAMP_UNSUPPORTED;
-    38		else
-    39			kvm_arch_uclamp_support = KVM_UCLAMP_SUPPORTED;
-    40	
-    41		return 0;
-    42	}
-    43	late_initcall(kvm_arch_uclamp_init);
-    44	
+    48	
+    49	static int rcec_enable_aer_ints(struct pci_dev *pdev)
+    50	{
+  > 51		struct pci_dev *rcec = pdev->rcec;
+    52		int aer, rc;
+    53		u32 mask;
+    54	
+    55		if (!rcec)
+    56			return -ENODEV;
+    57	
+    58		/*
+    59		 * Internal errors are masked by default, unmask RCEC's here
+    60		 * PCI6.0 7.8.4.3 Uncorrectable Error Mask Register (Offset 08h)
+    61		 * PCI6.0 7.8.4.6 Correctable Error Mask Register (Offset 14h)
+    62		 */
+  > 63		aer = rcec->aer_cap;
+    64		rc = pci_read_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, &mask);
+    65		if (rc)
+    66			return rc;
+    67		mask &= ~PCI_ERR_UNC_INTN;
+    68		rc = pci_write_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, mask);
+    69		if (rc)
+    70			return rc;
+    71	
+    72		rc = pci_read_config_dword(rcec, aer + PCI_ERR_COR_MASK, &mask);
+    73		if (rc)
+    74			return rc;
+    75		mask &= ~PCI_ERR_COR_INTERNAL;
+    76		rc = pci_write_config_dword(rcec, aer + PCI_ERR_COR_MASK, mask);
+    77	
+    78		return rc;
+    79	}
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
