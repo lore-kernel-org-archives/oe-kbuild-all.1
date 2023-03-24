@@ -1,138 +1,206 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90177D2F7;
-	Fri, 24 Mar 2023 17:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679679450; x=1711215450;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HkPJwubimH9FL5MsjNq3bMdfxdl2ZtMV9NFR2g0BQrE=;
-  b=K+Y1T/hLqd4ej+8LAFYk3G5+0kGaA6xRqtBGgiLV/YUECsLHl+B/oy/A
-   dWAV0mAIMa/VZsEWgRozQdOjbVO/JoVNT3X2ECzr9s/YozCdQaiaWXBIm
-   KUxztTOz7dKEteFA0akIQZwUkfvBOAP9DdT88JiBZLE2g9vg1hh/2N8QB
-   WRpu22SJXVAJuD/Aax1KHT18PuuQgAavlc3XOGL5Mq/2VwfXHiJ61TYZZ
-   DwEFS++FR3TPn0KfUiUrvPAN0NXVYdfpGgtzW6jfRW39DOQ5RdKPRVHna
-   gAGMqZW7pkzpsfWFvMM7w0ZRPhezRKo/xSQpn5dA6st7VlmvObvLDCZAD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="426105528"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="426105528"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 10:37:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="685246824"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="685246824"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Mar 2023 10:37:27 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pflLy-000FWe-1I;
-	Fri, 24 Mar 2023 17:37:26 +0000
-Date: Sat, 25 Mar 2023 01:37:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [chunkuang-hu:mediatek-drm-next 9/13]
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:415:10: warning: cast to
- smaller integer type 'enum mtk_ovl_adaptor_comp_type' from 'const void *'
-Message-ID: <202303250109.kP1Qb39o-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E29D2F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Mar 2023 17:41:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QFEDYn3l1sSiQ9lL1cCGyK2Hf8OUyJukoS9tJLvIvMgZubSiWRdgPP8J6M5BzhXj05CXf83RjjyE+8ajrJy8T3FkDwfF+UEedZHKXGakH8pGXLYZurVZC3xlaHxl0QvZKHVpxkkdeZNsX9HeRP06et4kCpmg9ulPDyiLxw0jmRWZrS0i3aHqsc58wA7YoS0lKJ6DLlNEkYOGQG75reyHo4xkg413LIumT0FMLPdaSXIKnHM7igGpWb1htOHFAC813yWRKPbNlsiDacTJGZ7UjeJbKcYsvIIFN4kp0QO1kxf/Nqna4GlR5hWTK8xWiekDKX2BnZT+v4qXuMJy2cIGOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jQhpyV3URBLWe+xngP1NU8QdUR/DbxTOwJYO9tHq2XQ=;
+ b=Alfg7bU/+hnNQIv5vN42W5XmHG1o6PixE8vfzx8qn96qP0t+siw7MGyWNS5ebTcsfas7DKzqn9a+NYoVgApJ+ZtALWrY0FSpPqnP2Qw24kEQpH3gLc1umvx0Mmv6GR9O7jZsNhTxqG8ZyMzLhV+zbJwQauWpQNpMOIhLnHQ9kaErIXHLdDZa4l5pa2vNj/676VDNqG7ZrjvgaVkDXqCtwSaOQ0kGpPtpOIruufUXW754R4w/JSm/5LfeqGCTz887wnmObcpJP0kT7sFYFdaM3TnpeFEqwWAoKyv7ZZPXxNBwzT0Wtj05wmxfZM8ahtYgOcf0ZuzmJNw/Ul92gWDgbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jQhpyV3URBLWe+xngP1NU8QdUR/DbxTOwJYO9tHq2XQ=;
+ b=GdJ6cGiEBeSTldMJkRWNQvF8Bf5U48JYS0KEcKqSWrF37RusG6JBLLaEddJOAZ0lO/k5ef2F0k+D3A3O2ZakcY0y6bMrIIBHfJMVOIIgX/WZUK/vO3v7Lk+EN4A2q4IpH1aJtcfyBYZaZM0MjcWOsW3T3EKT1chj8qdOfGzcrw4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB6390.namprd12.prod.outlook.com (2603:10b6:8:ce::7) by
+ BL1PR12MB5319.namprd12.prod.outlook.com (2603:10b6:208:317::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
+ 2023 17:41:10 +0000
+Received: from DS0PR12MB6390.namprd12.prod.outlook.com
+ ([fe80::8ffc:be4a:e730:2bbc]) by DS0PR12MB6390.namprd12.prod.outlook.com
+ ([fe80::8ffc:be4a:e730:2bbc%5]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
+ 17:41:09 +0000
+Message-ID: <ce57b2ce-dcf1-1b32-3ebe-aeca66ff0f7a@amd.com>
+Date: Fri, 24 Mar 2023 12:41:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, alison.schofield@intel.com,
+ vishal.l.verma@intel.com, ira.weiny@intel.com, bwidawsk@kernel.org,
+ dan.j.williams@intel.com, dave.jiang@intel.com, Jonathan.Cameron@huawei.com,
+ linux-cxl@vger.kernel.org, rrichter@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ bhelgaas@google.com
+References: <20230323213808.398039-6-terry.bowman@amd.com>
+ <202303241458.BV292BDH-lkp@intel.com>
+From: Terry Bowman <Terry.Bowman@amd.com>
+In-Reply-To: <202303241458.BV292BDH-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0315.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::20) To DS0PR12MB6390.namprd12.prod.outlook.com
+ (2603:10b6:8:ce::7)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6390:EE_|BL1PR12MB5319:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9016d21a-ff28-4bd8-193a-08db2c8ef436
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jMs1RuQXg9fOjgowHON04YFrwPmrvAY06ySYJ/TjEecZWm/UFMcWF/TszxUmPMobs48wx2nc1CV1p8u7IHnA3QF465XR3HlKBMFiaJ1IpIi5QM/9EIsOStUpa8dFw/uaHXI1JGZKJcOorYgV7GDjAWkoh4qyIL8bi1cudBzXiQqL1/MOf7oWLknSpWiJ8E/+eZ26wP+HGWX3FS8E0iit/PiPOi7+SQtfICpFpkhE+R1uQe8oSfSf2rlWUL28pAxaM4ju0yf4xn1gCXnk5S1S6UZH8y7WBSlaWngqbFPKwWrEU2NSB/LRbBRq1IfLNeWB35bF2Nn9Iwh5QjBNnJqje9wTrydiee1Ty05tbV42aGOZulv3vNAI2rQ9qmqWFcLJNuHG7BrY18HinvCsXMQRAAPbbWBMPuylC7q6CNywmXvY2qzSNy0+3VIiX4WnK4kvD1x8dC1+kQhVNjkb4rDgfV8HuPWOVTpYKnE6NivAnHpip9SOl7sfJBA0w4CInQ4KYFBgn9MqT6gymHslgrv1cu5e7qNL5YH/3VjMesNYmdXt7SLbe8TPyjo4vdzId1Ltr5k+MArfyD/19qKfHma3oDxGhKMZz4jrGbcYrJnCRxuEIMJ2feFzJVL5Jv53W8pb2e21ZvhcaUJwWQnRApery8CQGsT36SLKAWGeQBdAPv1xJ5pomM4fUOjVjnUxCDGtWQe3UrpSYomCxCf/VGgMELTzYd6gM+lu0v9sLm9T8h5oUxXj0XhD8DayaIyLUOxgY1KoTpuqKcGDPID3XeNnEw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6390.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(136003)(376002)(39860400002)(396003)(451199021)(6512007)(186003)(31686004)(83380400001)(86362001)(38100700002)(4326008)(7416002)(2616005)(8676002)(66556008)(66476007)(41300700001)(8936002)(66946007)(5660300002)(921005)(36756003)(6636002)(6506007)(6666004)(53546011)(31696002)(316002)(6486002)(966005)(478600001)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SVlCNXdjWTlJRUk5cE10bnl0YzIzUVJzeXFvN09CemtLVFl3ZXBUL2l5STdl?=
+ =?utf-8?B?WTh6dHZsNUwvc1hLOG5Ea0JDZFBjbkpmVUZKaFdWMURBTGxaVlpKa2srSmd3?=
+ =?utf-8?B?UG90WGZ6TUlqbnNzN3U0U0RoUnN6VUsyMFpPelVGbUh5Z21UWXdVUERyVHUx?=
+ =?utf-8?B?N3hSQlF4RHhoWTF1WnNQNGQ1QklDeVZhK3pna01KSGJwdkNtbGhXaUx3cWpC?=
+ =?utf-8?B?RE1neHgyNm02cVVNR2s1TmVvM3c0NEtTRWIybElKYjB5aHYrTVVkMmdtcGFP?=
+ =?utf-8?B?ZFBJd09tQ0htU25leXNiTXRwMzRhWFlsYVNUM2ZZTmM1RUo3RHl5QmFQN1Fx?=
+ =?utf-8?B?Wko0d3NteTJSczlya2FJVTduYW1TZnNldXVpWDRlc1N6QzZ3dFFzazJMb2ht?=
+ =?utf-8?B?RWtsOGhKWUczaDJpSFo3NzRKVnEwUlFIdE15elNLMk1PTDB1cjJ5aWlEaUNK?=
+ =?utf-8?B?cnU0N24wSWtPVlJLaktuQkhRYUUzemRscHRuK3hMbjJFY0Q0ZnFqMHVGU21R?=
+ =?utf-8?B?U3NGeWdUc0pMV21iMzFZZHM2R0E5ZjZQeC9heHVueXFVeGlIOHdlbSsxL3dV?=
+ =?utf-8?B?YXB2V0thakdBVjBuNFBRaVFNZ2hjalloRWRsK3ZuZ0JnOW1lVkh4bmZFdGdu?=
+ =?utf-8?B?dHJvdThJZmVIcDdMcEdHWW9DRWRLRlE3QzFTblQzdFEzVWlPU3pldDJFV1RR?=
+ =?utf-8?B?S0dERmdKMVVVWkkyc0FRWEtsbjUxbjN3TEVacXNWck5ISHliSnpIcUFKUlB4?=
+ =?utf-8?B?cDVQdllmMGdDZ2dzZHJuaUt6NnRoK295bHpuNkV6RU00Y1hEZVgvNGMwd2M1?=
+ =?utf-8?B?cWhYT3RST2hmWFNJcE1DZENFcVlHMVV0azhOakhYNEpoQnc0Z0ZTK0M5SFVF?=
+ =?utf-8?B?ZmpXOU5TQWZ3T01QVUFXQ3JBSkRGSlg1UnVob3N4NGlrRjkzNGRHUkR5bE9v?=
+ =?utf-8?B?NXlvOW1DYVlrYnBvVHVYQngwUU1WV24vdWs1WC9vMjAzeWhPN0EyL2NHR2Zn?=
+ =?utf-8?B?VHBWRjdWT3ljT3dtYjYwRWVlRC9XNFJwRG1FSHV1RXhNcmFNSXJRY283Z3ph?=
+ =?utf-8?B?U0MyMG82cm1FRHdzRThUWnUzYkgzbXYxN0pNcHdlbCs3MGVRaHJ2TzJtYjZi?=
+ =?utf-8?B?cXpIZGRZK3hjL0V6NzRBZDVraHRLWDdmc0NoVGNvVzBoSnJzMVo0YVZsdE5V?=
+ =?utf-8?B?UFljOUpEWkgwQlFxZHE0MFVMR2VqQm5Jb2x5R0xma0N5Nmd4aTdJd0VSL0Rn?=
+ =?utf-8?B?RWM4WjVUTjBpQVVodVFGUGdzYUxNaUdPRzVnMzNyNXFxNUJQSGErbFpyU1RB?=
+ =?utf-8?B?UEJKNFBFYitHTUJDcmtxM2hxWUM1ZGgwSWlPYUJYR2toUTQxV0VzOGxIRGRY?=
+ =?utf-8?B?YzJpd2xEeTdBZ0FhWEp0bGpwY2hlUlRldDJNSHNzWVEyRHlGSU5FUzdXNG9O?=
+ =?utf-8?B?a1VKOXRlMWJack10cDQzSFQrMFB5SGFONSt3aUJsck8wZTJQTDFKZ21UVFZm?=
+ =?utf-8?B?VEMzVW9FWUlqdHNMWjZzK0JHV01CTFg2aDByWXJoT2NzVEh5VElEYW5HN0Ir?=
+ =?utf-8?B?ZERHWGZ6QnREMEZxUTYzc3lkTmZsV1R5eWZDL3VvNXNhNTBCaklUMkN0Wklo?=
+ =?utf-8?B?dUs5U2Z2djNKRXMyZStEUWVTWjhNcUpHMm9sNkcyZHlMZlRyaU5QV3UyaHZu?=
+ =?utf-8?B?M0Q5eGMrNitwN3pvWWsreU9tNXRaSW5PbGhuS0t0aElUYSszVndPZ01BR1Jz?=
+ =?utf-8?B?eEVCNXhTdzYrWFBlME1FakJTQkZwdE1qZ3NPSnR2eEl5UnVDTitySjJYUURB?=
+ =?utf-8?B?UDhRMmUxNHRFaDUzRkY4Qno3Yzg0RzYyT3VaZjYzK3pjMTY2N21uMEJQRDZk?=
+ =?utf-8?B?SU10WkdoU2tnSk9lYlJ3R3dkV3EySTRqY3FySytBbExLNDJQaDZudU41enZH?=
+ =?utf-8?B?KytueGtsREtxZlhCYUtZZVdzWklXelIyRXgzM0VMZGhXeVoxeWdSNFB4aTZL?=
+ =?utf-8?B?ZFdyWEU3RWs3SEhqRkNwTk8wZnlrVTFWOXZjRmEwOXQvN1Z1b3JLckNPSzJl?=
+ =?utf-8?B?UUxSSHNFVW54V00vWjhNYXVkNXUzeWlIejR1ZmU4VnBqdGplZkg1K0lGV0F3?=
+ =?utf-8?B?VFJIa3pEVHNKYU8rc3VUZHZTVExjWS9vYzlHb296d0lWTkU5Y3huN0ZJLzRI?=
+ =?utf-8?Q?LBPrfCtmRJno741fVvkDE9b4d4D4jv38hbv+7ehcioeQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9016d21a-ff28-4bd8-193a-08db2c8ef436
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6390.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 17:41:09.8783
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UW/dTKfShAwPl/hMXYQeskN41tXGY+wlVt/fDdATO+a7kq8jaxl0jT2ulEontUX7PTYKbmQS6ioOYVZpEQbgPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5319
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git mediatek-drm-next
-head:   012cc7ebec1e795518b0cd5ec9015fd4b4701a8a
-commit: 453c3364632a1f305db7d425dc9f8d6711cd3491 [9/13] drm/mediatek: Add ovl_adaptor support for MT8195
-config: arm64-buildonly-randconfig-r003-20230324 (https://download.01.org/0day-ci/archive/20230325/202303250109.kP1Qb39o-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?id=453c3364632a1f305db7d425dc9f8d6711cd3491
-        git remote add chunkuang-hu https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git
-        git fetch --no-tags chunkuang-hu mediatek-drm-next
-        git checkout 453c3364632a1f305db7d425dc9f8d6711cd3491
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/mediatek/
+I added a comment below.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303250109.kP1Qb39o-lkp@intel.com/
+On 3/24/23 01:30, kernel test robot wrote:
+> Hi Terry,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on pci/next]
+> [also build test ERROR on pci/for-linus efi/next cxl/next linus/master v6.3-rc3 next-20230323]
+> [cannot apply to cxl/pending]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/20230323213808.398039-6-terry.bowman%40amd.com
+> patch subject: [PATCH v2 5/5] cxl/pci: Add RCH downstream port error logging
+> config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230324/202303241458.BV292BDH-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230324-054044
+>         git checkout c40ca148e9cff1a1c32cd4c5c9b252bf0cf201b6
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=i386 olddefconfig
+>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303241458.BV292BDH-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/cxl/mem.c: In function 'rcec_enable_aer_ints':
+>>> drivers/cxl/mem.c:51:36: error: 'struct pci_dev' has no member named 'rcec'
+>       51 |         struct pci_dev *rcec = pdev->rcec;
+>          |                                    ^~
+>>> drivers/cxl/mem.c:63:21: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+>       63 |         aer = rcec->aer_cap;
+>          |                     ^~~~~~~
+>          |                     ats_cap
+> 
+> 
+> vim +51 drivers/cxl/mem.c
+> 
+>     48	
+>     49	static int rcec_enable_aer_ints(struct pci_dev *pdev)
+>     50	{
+>   > 51		struct pci_dev *rcec = pdev->rcec;
+>     52		int aer, rc;
+>     53		u32 mask;
+>     54	
+>     55		if (!rcec)
+>     56			return -ENODEV;
+>     57	
+>     58		/*
+>     59		 * Internal errors are masked by default, unmask RCEC's here
+>     60		 * PCI6.0 7.8.4.3 Uncorrectable Error Mask Register (Offset 08h)
+>     61		 * PCI6.0 7.8.4.6 Correctable Error Mask Register (Offset 14h)
+>     62		 */
+>   > 63		aer = rcec->aer_cap;
+>     64		rc = pci_read_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, &mask);
+>     65		if (rc)
+>     66			return rc;
+>     67		mask &= ~PCI_ERR_UNC_INTN;
+>     68		rc = pci_write_config_dword(rcec, aer + PCI_ERR_UNCOR_MASK, mask);
+>     69		if (rc)
+>     70			return rc;
+>     71	
+>     72		rc = pci_read_config_dword(rcec, aer + PCI_ERR_COR_MASK, &mask);
+>     73		if (rc)
+>     74			return rc;
+>     75		mask &= ~PCI_ERR_COR_INTERNAL;
+>     76		rc = pci_write_config_dword(rcec, aer + PCI_ERR_COR_MASK, mask);
+>     77	
+>     78		return rc;
+>     79	}
+>     80	
+> 
 
-All warnings (new ones prefixed by >>):
+I will add #ifdef checks for CONFIG_PCIEPORTBUS and CONFIG_PCIEAER
+around the related code.
 
->> drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:415:10: warning: cast to smaller integer type 'enum mtk_ovl_adaptor_comp_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-                   type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +415 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-
-   391	
-   392	static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
-   393	{
-   394		struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
-   395		struct device_node *node, *parent;
-   396		struct platform_device *comp_pdev;
-   397	
-   398		parent = dev->parent->parent->of_node->parent;
-   399	
-   400		for_each_child_of_node(parent, node) {
-   401			const struct of_device_id *of_id;
-   402			enum mtk_ovl_adaptor_comp_type type;
-   403			int id;
-   404	
-   405			of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
-   406			if (!of_id)
-   407				continue;
-   408	
-   409			if (!of_device_is_available(node)) {
-   410				dev_dbg(dev, "Skipping disabled component %pOF\n",
-   411					node);
-   412				continue;
-   413			}
-   414	
- > 415			type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-   416			id = ovl_adaptor_comp_get_id(dev, node, type);
-   417			if (id < 0) {
-   418				dev_warn(dev, "Skipping unknown component %pOF\n",
-   419					 node);
-   420				continue;
-   421			}
-   422	
-   423			comp_pdev = of_find_device_by_node(node);
-   424			if (!comp_pdev)
-   425				return -EPROBE_DEFER;
-   426	
-   427			priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
-   428	
-   429			drm_of_component_match_add(dev, match, compare_of, node);
-   430			dev_dbg(dev, "Adding component match for %pOF\n", node);
-   431		}
-   432	
-   433		if (!*match) {
-   434			dev_err(dev, "No match device for ovl_adaptor\n");
-   435			return -ENODEV;
-   436		}
-   437	
-   438		return 0;
-   439	}
-   440	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+Terry
