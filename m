@@ -1,97 +1,179 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F015C2F2A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 16:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679761030; x=1711297030;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vrcn0rGVgrXIQf6tSvf4FE1wbGH838j2OtTvkbDyXDw=;
-  b=FzcmW4q+Gfmp+iGjQiU34wtfqLnS3vovFCvSLrD0YO/BKDv/huv01vQ2
-   84ByNc2jjur+T/YASzE7aMfFqEu9B55SlznVEsHS/3+vy0pMT14M5GwQX
-   3Fdxu+DnvDNWth9ZQQ78qcrkoKbkiruNJncVxPMeqs2FhVA4X/3lEpG5s
-   Oh9U5NRxW9wQwOBm6r6Kux4yFPDYIt87IQK3NGa6mKPGX1KIcY62oJWOY
-   DompPOxc2VrLtVqXj00SexdfxLzTLLSV2aSoUxZ8A5qdL5bzK03rcMNdw
-   +CrTOVn7nHR3iQhjkf6l8uZ++peMUx9gGA5eIxGUmKCrJCQFfjlEczsGc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="404914158"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="404914158"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 09:17:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="685520387"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="685520387"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Mar 2023 09:17:07 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pg6Zn-000GNO-0v;
-	Sat, 25 Mar 2023 16:17:07 +0000
-Date: Sun, 26 Mar 2023 00:16:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dylan Van Assche <me@dylanvanassche.be>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	Dylan Van Assche <me@dylanvanassche.be>
-Subject: Re: [PATCH 2/4] dts: arm64: qcom: sdm845: add SLPI FastRPC support
-Message-ID: <202303260005.DW8hkIxU-lkp@intel.com>
-References: <20230325135114.21688-3-me@dylanvanassche.be>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06C939B;
+	Sat, 25 Mar 2023 17:04:39 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id x3so19721907edb.10;
+        Sat, 25 Mar 2023 10:04:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679763878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wh8Vxm+9lurFsruhK/8nNRb/9+vLUcqW5Y89wM9tlkQ=;
+        b=RP4tPhyM4Now7Cdr2wnYsHFAE7BtVLTd+SxjXNqAqR0wizH5LHrrrzWlA0UG7QT1c4
+         HHM7G25JM76Lw/XzmlvLrfcttycsm3BAwFbyj6g7biXi3dbTi3Jz803ipNUhBvzFbOQt
+         5EPWTzGOYOaDr5hBNI5IO8wvFHht45GCjVeLvUkm3AblJ+ipz/biQqS23krImF+kXy/o
+         HiwWwR/bjYwNpNGwc4WtL7YFlCwfurmyirHgetuHtEHkITJ12tBTy7Q1wuU0NXo8rF9y
+         BV2R7s72TWPuZj9hu9rKaocHqNzix8zAKnorJO0VVxeGvFw7SQ7c06nxaTDTGFUe3sWK
+         QYbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679763878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wh8Vxm+9lurFsruhK/8nNRb/9+vLUcqW5Y89wM9tlkQ=;
+        b=4zhAmNdOkYSjFML2XgZG7GAnstxph2TDHpSoBQo1AiEz2UaykvYWGDRQBucpFJnK8b
+         XCzKejxtD4o854lL6XNIs86sO0NNCjnlbXd+SOcWW8UfjLN5kvMwMiYU+Kx3YrR4kV3m
+         McCPZtcrtTm5fG1E2qtga0esqVzAzvBoO7lb1WlUFdlkO8D7oAAyNkxMn4sD0fiXBNMv
+         HaS/dMqpkAEcXDmi2oSH1oNBh7sF1yZZOOFVDWxmnUooC1lBUVkhhk07ctO8ybZ5vMBK
+         GsNkKk9JHNsEVcz0HgbhJnlVxAkw08G8G3RXz5DgDQzC6wKuRAm70KRpoCDrpZmMrLvt
+         NhXw==
+X-Gm-Message-State: AAQBX9eX4JUDv7BHdxKjB4MIfwUBkNlPkKMfl4KhMxIMft09gkgWLs2l
+	m9qXj2W8JjXSsFWs/o8FoyNaOoBdTX6QjnBL4Rc=
+X-Google-Smtp-Source: AKy350Z49+5f/Dub0VCGK2MeBWkaFg6E3B2OgJdBki1p2Tlf9L8ScH6n8IfSqWj4LQv2o7HuOCjSudOqbsbQLJbV5/o=
+X-Received: by 2002:a50:9e4b:0:b0:502:3c99:417f with SMTP id
+ z69-20020a509e4b000000b005023c99417fmr489628ede.6.1679763877811; Sat, 25 Mar
+ 2023 10:04:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230325135114.21688-3-me@dylanvanassche.be>
+References: <20230318214953.36834-1-u9012063@gmail.com> <8ddd5e22-91e6-407d-86bc-220fce2f6e0f@kili.mountain>
+In-Reply-To: <8ddd5e22-91e6-407d-86bc-220fce2f6e0f@kili.mountain>
+From: William Tu <u9012063@gmail.com>
+Date: Sat, 25 Mar 2023 10:03:59 -0700
+Message-ID: <CALDO+SZHu3GW8BbXzdJ6A0OtY=XypYT3DG-xPP9VuERx+sYzGw@mail.gmail.com>
+Subject: Re: [PATCH RFC v18 net-next] vmxnet3: Add XDP support.
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dylan,
+On Thu, Mar 23, 2023 at 7:07=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> Hi William,
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/William-Tu/vmxnet3=
+-Add-XDP-support/20230319-055034
+> patch link:    https://lore.kernel.org/r/20230318214953.36834-1-u9012063%=
+40gmail.com
+> patch subject: [PATCH RFC v18 net-next] vmxnet3: Add XDP support.
+> config: s390-randconfig-m031-20230321 (https://download.01.org/0day-ci/ar=
+chive/20230323/202303232106.UkMR3FEX-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 12.1.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202303232106.UkMR3FEX-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/net/vmxnet3/vmxnet3_xdp.c:362 vmxnet3_process_xdp_small() warn: v=
+ariable dereferenced before check 'skb_xdp_pass' (see line 361)
+> drivers/net/vmxnet3/vmxnet3_xdp.c:406 vmxnet3_process_xdp() warn: variabl=
+e dereferenced before check 'skb_xdp_pass' (see line 405)
+>
+> vim +/skb_xdp_pass +362 drivers/net/vmxnet3/vmxnet3_xdp.c
+>
+> 089db7a8620943 William Tu 2023-03-18  351       rcu_read_lock();
+> 089db7a8620943 William Tu 2023-03-18  352       xdp_prog =3D rcu_derefere=
+nce(rq->adapter->xdp_bpf_prog);
+> 089db7a8620943 William Tu 2023-03-18  353       if (!xdp_prog) {
+> 089db7a8620943 William Tu 2023-03-18  354               act =3D XDP_PASS;
+> 089db7a8620943 William Tu 2023-03-18  355               goto out_skb;
+> 089db7a8620943 William Tu 2023-03-18  356       }
+> 089db7a8620943 William Tu 2023-03-18  357       act =3D vmxnet3_run_xdp(r=
+q, &xdp, xdp_prog);
+> 089db7a8620943 William Tu 2023-03-18  358
+> 089db7a8620943 William Tu 2023-03-18  359       if (act =3D=3D XDP_PASS) =
+{
+> 089db7a8620943 William Tu 2023-03-18  360  out_skb:
+> 089db7a8620943 William Tu 2023-03-18 @361               *skb_xdp_pass =3D=
+ vmxnet3_build_skb(rq, page, &xdp);
+> 089db7a8620943 William Tu 2023-03-18 @362               if (!skb_xdp_pass=
+)
+>
+> This should be testing if (!*skb_xdp_pass)
+>
+> 089db7a8620943 William Tu 2023-03-18  363                       return XD=
+P_DROP;
+> 089db7a8620943 William Tu 2023-03-18  364       }
+> 089db7a8620943 William Tu 2023-03-18  365
+> 089db7a8620943 William Tu 2023-03-18  366       /* No need to refill. */
+> 089db7a8620943 William Tu 2023-03-18  367       return act;
+> 089db7a8620943 William Tu 2023-03-18  368  }
+> 089db7a8620943 William Tu 2023-03-18  369
+> 089db7a8620943 William Tu 2023-03-18  370  int
+> 089db7a8620943 William Tu 2023-03-18  371  vmxnet3_process_xdp(struct vmx=
+net3_adapter *adapter,
+> 089db7a8620943 William Tu 2023-03-18  372                   struct vmxnet=
+3_rx_queue *rq,
+> 089db7a8620943 William Tu 2023-03-18  373                   struct Vmxnet=
+3_RxCompDesc *rcd,
+> 089db7a8620943 William Tu 2023-03-18  374                   struct vmxnet=
+3_rx_buf_info *rbi,
+> 089db7a8620943 William Tu 2023-03-18  375                   struct Vmxnet=
+3_RxDesc *rxd,
+> 089db7a8620943 William Tu 2023-03-18  376                   struct sk_buf=
+f **skb_xdp_pass)
+> 089db7a8620943 William Tu 2023-03-18  377  {
+> 089db7a8620943 William Tu 2023-03-18  378       struct bpf_prog *xdp_prog=
+;
+> 089db7a8620943 William Tu 2023-03-18  379       dma_addr_t new_dma_addr;
+> 089db7a8620943 William Tu 2023-03-18  380       struct xdp_buff xdp;
+> 089db7a8620943 William Tu 2023-03-18  381       struct page *page;
+> 089db7a8620943 William Tu 2023-03-18  382       void *new_data;
+> 089db7a8620943 William Tu 2023-03-18  383       int act;
+> 089db7a8620943 William Tu 2023-03-18  384
+> 089db7a8620943 William Tu 2023-03-18  385       page =3D rbi->page;
+> 089db7a8620943 William Tu 2023-03-18  386       dma_sync_single_for_cpu(&=
+adapter->pdev->dev,
+> 089db7a8620943 William Tu 2023-03-18  387                               p=
+age_pool_get_dma_addr(page) +
+> 089db7a8620943 William Tu 2023-03-18  388                               r=
+q->page_pool->p.offset, rcd->len,
+> 089db7a8620943 William Tu 2023-03-18  389                               p=
+age_pool_get_dma_dir(rq->page_pool));
+> 089db7a8620943 William Tu 2023-03-18  390
+> 089db7a8620943 William Tu 2023-03-18  391       xdp_init_buff(&xdp, rbi->=
+len, &rq->xdp_rxq);
+> 089db7a8620943 William Tu 2023-03-18  392       xdp_prepare_buff(&xdp, pa=
+ge_address(page), rq->page_pool->p.offset,
+> 089db7a8620943 William Tu 2023-03-18  393                        rcd->len=
+, false);
+> 089db7a8620943 William Tu 2023-03-18  394       xdp_buff_clear_frags_flag=
+(&xdp);
+> 089db7a8620943 William Tu 2023-03-18  395
+> 089db7a8620943 William Tu 2023-03-18  396       xdp_prog =3D rcu_derefere=
+nce(rq->adapter->xdp_bpf_prog);
+> 089db7a8620943 William Tu 2023-03-18  397       if (!xdp_prog) {
+> 089db7a8620943 William Tu 2023-03-18  398               act =3D XDP_PASS;
+> 089db7a8620943 William Tu 2023-03-18  399               goto out_skb;
+> 089db7a8620943 William Tu 2023-03-18  400       }
+> 089db7a8620943 William Tu 2023-03-18  401       act =3D vmxnet3_run_xdp(r=
+q, &xdp, xdp_prog);
+> 089db7a8620943 William Tu 2023-03-18  402
+> 089db7a8620943 William Tu 2023-03-18  403       if (act =3D=3D XDP_PASS) =
+{
+> 089db7a8620943 William Tu 2023-03-18  404  out_skb:
+> 089db7a8620943 William Tu 2023-03-18 @405               *skb_xdp_pass =3D=
+ vmxnet3_build_skb(rq, page, &xdp);
+> 089db7a8620943 William Tu 2023-03-18 @406               if (!skb_xdp_pass=
+)
+>                                                             ^^^^^^^^^^^^^
+> Same.
+>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+>
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.3-rc3 next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Van-Assche/dts-arm64-qcom-sdm845-add-SLPI-remoteproc/20230325-215354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230325135114.21688-3-me%40dylanvanassche.be
-patch subject: [PATCH 2/4] dts: arm64: qcom: sdm845: add SLPI FastRPC support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230326/202303260005.DW8hkIxU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/df03f51210d03566bf0d35a56633d55e3c57b5ad
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dylan-Van-Assche/dts-arm64-qcom-sdm845-add-SLPI-remoteproc/20230325-215354
-        git checkout df03f51210d03566bf0d35a56633d55e3c57b5ad
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303260005.DW8hkIxU-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/qcom/sdm845.dtsi:3360.4-5 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Hi Dan,
+Thanks for picking up this patch and testing it!
+I will fix the two places and resend.
+William
