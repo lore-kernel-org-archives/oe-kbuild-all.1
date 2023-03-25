@@ -1,46 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B6429A5;
-	Sat, 25 Mar 2023 14:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF5238B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 14:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679754248; x=1711290248;
+  t=1679754848; x=1711290848;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fWnwKgiACzUjmHZD/VpEGrkRZoO32ZcvirvyD887QJ4=;
-  b=eiDly+mnyUXbaa95wAXbwqWCSYJzNKjFeAm/i+dSuWNDdrv+KeRO2pae
-   GpseaoV3Yqqs2QJcVnvvZJyqfJ3GOiPXsal9o2zAioACv5L2Xzqv61ojg
-   wCXCEMPwW6cBwzZAUHoh6ZwGemFgxuYfalYm7tSaaTHxj/+DHsz73zSrG
-   TOfgMlK29jNvUsfR7ePClZsZggxfZ/mwvHKMZMhMgGJNjFBn1/CKnC10A
-   c2a0E6EPZueEJoh3N4suHCmq8BLE77eRtlAkmf7DGu7h/I8J5dD3JFdgZ
-   VTg3obOeuxgOzbQZr/H5UKKLBZekbKsUy+xVC3da08PTNi2loV4uQIbjd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="342372212"
+  bh=oNOj8UigMXiKdxiLjukUvsNGu+DV+5EtKFL9xZ9xqlQ=;
+  b=ftAJRcz2akUr49+Kts4BqHec08tLOhYvCCGDeC/EiJH3Gy878wgW8bbo
+   xBFko2uF8+UfVZqSgZlKKzcwWqJqC7l0EZE5LMn0xVNkdskoIyEUkK1z9
+   s54P6JACZRUxopdOvdrglkBDtyg+LgLLsfP8RUhVc3/JrOBzjyJ1K5dZg
+   jBH4n/oDt/YZCuxDcDaGdQnD0ARzJ8CABoWUwzfqPwip+u8dUWwCm4Bfs
+   c4Y9eq7/etoFYrU5zmWySekIGrUIswQGx9vFR4puM7oho0KWaQYmiJSCN
+   Iz649W2EFmxnKNCdg/IXIpDEXaLhNGthUfKClArFjmjxtliEmuvCZLUiS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="337478568"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="342372212"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 07:24:06 -0700
+   d="scan'208";a="337478568"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 07:34:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="793780441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="633146967"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="793780441"
+   d="scan'208";a="633146967"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 07:24:03 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Mar 2023 07:34:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pg4oN-000GJb-16;
-	Sat, 25 Mar 2023 14:24:03 +0000
-Date: Sat, 25 Mar 2023 22:23:28 +0800
+	id 1pg4y3-000GJz-1z;
+	Sat, 25 Mar 2023 14:34:03 +0000
+Date: Sat, 25 Mar 2023 22:33:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Sage <eric_sage@apple.com>, netfilter-devel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fw@strlen.de,
-	kadlec@netfilter.org, pablo@netfilter.org,
-	Eric Sage <eric_sage@apple.com>
-Subject: Re: [PATCH v3] netfilter: nfnetlink_queue: enable classid socket
- info retrieval
-Message-ID: <202303252207.P9ydXMRy-lkp@intel.com>
-References: <20230323184438.42218-1-eric_sage@apple.com>
+To: Baokun Li <libaokun1@huawei.com>, linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tytso@mit.edu, adilger.kernel@dilger.ca,
+	jack@suse.cz, ritesh.list@gmail.com, linux-kernel@vger.kernel.org,
+	yi.zhang@huawei.com, yangerkun@huawei.com, yukuai3@huawei.com,
+	libaokun1@huawei.com, stable@kernel.org
+Subject: Re: [PATCH 1/2] ext4: turning quotas off if mount failed after
+ enable quotas
+Message-ID: <202303252258.vJkQLCe1-lkp@intel.com>
+References: <20230325064732.1897482-2-libaokun1@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,129 +50,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323184438.42218-1-eric_sage@apple.com>
+In-Reply-To: <20230325064732.1897482-2-libaokun1@huawei.com>
 
-Hi Eric,
+Hi Baokun,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on horms-ipvs/master]
+[auto build test WARNING on tytso-ext4/dev]
 [also build test WARNING on linus/master v6.3-rc3 next-20230324]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Sage/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230324-034613
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20230323184438.42218-1-eric_sage%40apple.com
-patch subject: [PATCH v3] netfilter: nfnetlink_queue: enable classid socket info retrieval
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230325/202303252207.P9ydXMRy-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baokun-Li/ext4-turning-quotas-off-if-mount-failed-after-enable-quotas/20230325-144948
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230325064732.1897482-2-libaokun1%40huawei.com
+patch subject: [PATCH 1/2] ext4: turning quotas off if mount failed after enable quotas
+config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230325/202303252258.vJkQLCe1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5337cbc118f664da3b9316c76695fdd28eaeeb65
+        # https://github.com/intel-lab-lkp/linux/commit/0796673fe204bc43455489f7d9cdf18c1ca9c678
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Eric-Sage/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230324-034613
-        git checkout 5337cbc118f664da3b9316c76695fdd28eaeeb65
+        git fetch --no-tags linux-review Baokun-Li/ext4-turning-quotas-off-if-mount-failed-after-enable-quotas/20230325-144948
+        git checkout 0796673fe204bc43455489f7d9cdf18c1ca9c678
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/netfilter/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303252207.P9ydXMRy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303252258.vJkQLCe1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/netfilter/nfnetlink_queue.c:425:3: warning: expression result unused [-Wunused-value]
-                   + nla_total_size(sizeof(u_int32_t));    /* classid */
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   fs/ext4/super.c: In function '__ext4_fill_super':
+>> fs/ext4/super.c:5544:1: warning: label 'failed_mount9' defined but not used [-Wunused-label]
+    5544 | failed_mount9:
+         | ^~~~~~~~~~~~~
 
 
-vim +425 net/netfilter/nfnetlink_queue.c
+vim +/failed_mount9 +5544 fs/ext4/super.c
 
-   387	
-   388	static struct sk_buff *
-   389	nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
-   390				   struct nf_queue_entry *entry,
-   391				   __be32 **packet_id_ptr)
-   392	{
-   393		size_t size;
-   394		size_t data_len = 0, cap_len = 0;
-   395		unsigned int hlen = 0;
-   396		struct sk_buff *skb;
-   397		struct nlattr *nla;
-   398		struct nfqnl_msg_packet_hdr *pmsg;
-   399		struct nlmsghdr *nlh;
-   400		struct sk_buff *entskb = entry->skb;
-   401		struct net_device *indev;
-   402		struct net_device *outdev;
-   403		struct nf_conn *ct = NULL;
-   404		enum ip_conntrack_info ctinfo = 0;
-   405		const struct nfnl_ct_hook *nfnl_ct;
-   406		bool csum_verify;
-   407		char *secdata = NULL;
-   408		u32 seclen = 0;
-   409		ktime_t tstamp;
-   410	
-   411		size = nlmsg_total_size(sizeof(struct nfgenmsg))
-   412			+ nla_total_size(sizeof(struct nfqnl_msg_packet_hdr))
-   413			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
-   414			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
-   415	#if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
-   416			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
-   417			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
-   418	#endif
-   419			+ nla_total_size(sizeof(u_int32_t))	/* mark */
-   420			+ nla_total_size(sizeof(u_int32_t))	/* priority */
-   421			+ nla_total_size(sizeof(struct nfqnl_msg_packet_hw))
-   422			+ nla_total_size(sizeof(u_int32_t))	/* skbinfo */
-   423			+ nla_total_size(sizeof(u_int32_t));	/* cap_len */
-   424	#if IS_ENABLED(CONFIG_CGROUP_NET_CLASSID)
- > 425			+ nla_total_size(sizeof(u_int32_t));	/* classid */
-   426	#endif
-   427	
-   428		tstamp = skb_tstamp_cond(entskb, false);
-   429		if (tstamp)
-   430			size += nla_total_size(sizeof(struct nfqnl_msg_packet_timestamp));
-   431	
-   432		size += nfqnl_get_bridge_size(entry);
-   433	
-   434		if (entry->state.hook <= NF_INET_FORWARD ||
-   435		   (entry->state.hook == NF_INET_POST_ROUTING && entskb->sk == NULL))
-   436			csum_verify = !skb_csum_unnecessary(entskb);
-   437		else
-   438			csum_verify = false;
-   439	
-   440		outdev = entry->state.out;
-   441	
-   442		switch ((enum nfqnl_config_mode)READ_ONCE(queue->copy_mode)) {
-   443		case NFQNL_COPY_META:
-   444		case NFQNL_COPY_NONE:
-   445			break;
-   446	
-   447		case NFQNL_COPY_PACKET:
-   448			if (!(queue->flags & NFQA_CFG_F_GSO) &&
-   449			    entskb->ip_summed == CHECKSUM_PARTIAL &&
-   450			    skb_checksum_help(entskb))
-   451				return NULL;
-   452	
-   453			data_len = READ_ONCE(queue->copy_range);
-   454			if (data_len > entskb->len)
-   455				data_len = entskb->len;
-   456	
-   457			hlen = skb_zerocopy_headlen(entskb);
-   458			hlen = min_t(unsigned int, hlen, data_len);
-   459			size += sizeof(struct nlattr) + hlen;
-   460			cap_len = entskb->len;
-   461			break;
-   462		}
-   463	
-   464		nfnl_ct = rcu_dereference(nfnl_ct_hook);
-   465	
+9b2ff35753c051 Jan Kara                2013-03-02  5499  
+bc71726c725767 zhangyi (F              2020-06-20  5500) 	/*
+bc71726c725767 zhangyi (F              2020-06-20  5501) 	 * Save the original bdev mapping's wb_err value which could be
+bc71726c725767 zhangyi (F              2020-06-20  5502) 	 * used to detect the metadata async write error.
+bc71726c725767 zhangyi (F              2020-06-20  5503) 	 */
+bc71726c725767 zhangyi (F              2020-06-20  5504) 	spin_lock_init(&sbi->s_bdev_wb_lock);
+bc71726c725767 zhangyi (F              2020-06-20  5505) 	errseq_check_and_advance(&sb->s_bdev->bd_inode->i_mapping->wb_err,
+bc71726c725767 zhangyi (F              2020-06-20  5506) 				 &sbi->s_bdev_wb_err);
+bc71726c725767 zhangyi (F              2020-06-20  5507) 	sb->s_bdev->bd_super = sb;
+617ba13b31fbf5 Mingming Cao            2006-10-11  5508  	EXT4_SB(sb)->s_mount_state |= EXT4_ORPHAN_FS;
+617ba13b31fbf5 Mingming Cao            2006-10-11  5509  	ext4_orphan_cleanup(sb, es);
+617ba13b31fbf5 Mingming Cao            2006-10-11  5510  	EXT4_SB(sb)->s_mount_state &= ~EXT4_ORPHAN_FS;
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5511  	/*
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5512  	 * Update the checksum after updating free space/inode counters and
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5513  	 * ext4_orphan_cleanup. Otherwise the superblock can have an incorrect
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5514  	 * checksum in the buffer cache until it is written out and
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5515  	 * e2fsprogs programs trying to open a file system immediately
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5516  	 * after it is mounted can fail.
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5517  	 */
+9b6641dd95a0c4 Ye Bin                  2022-05-25  5518  	ext4_superblock_csum_set(sb);
+0390131ba84fd3 Frank Mayhar            2009-01-07  5519  	if (needs_recovery) {
+b31e15527a9bb7 Eric Sandeen            2009-06-04  5520  		ext4_msg(sb, KERN_INFO, "recovery complete");
+11215630aada28 Jan Kara                2020-07-10  5521  		err = ext4_mark_recovery_complete(sb, es);
+11215630aada28 Jan Kara                2020-07-10  5522  		if (err)
+0796673fe204bc Baokun Li               2023-03-25  5523  			goto failed_mount10;
+0390131ba84fd3 Frank Mayhar            2009-01-07  5524  	}
+0390131ba84fd3 Frank Mayhar            2009-01-07  5525  
+70200574cc229f Christoph Hellwig       2022-04-15  5526  	if (test_opt(sb, DISCARD) && !bdev_max_discard_sectors(sb->s_bdev))
+79add3a3f795e6 Lukas Czerner           2012-11-08  5527  		ext4_msg(sb, KERN_WARNING,
+70200574cc229f Christoph Hellwig       2022-04-15  5528  			 "mounting with \"discard\" option, but the device does not support discard");
+79add3a3f795e6 Lukas Czerner           2012-11-08  5529  
+66e61a9e9504f6 Theodore Ts'o           2010-07-27  5530  	if (es->s_error_count)
+66e61a9e9504f6 Theodore Ts'o           2010-07-27  5531  		mod_timer(&sbi->s_err_report, jiffies + 300*HZ); /* 5 minutes */
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  5532  
+efbed4dc5857f8 Theodore Ts'o           2013-10-17  5533  	/* Enable message ratelimiting. Default is 10 messages per 5 secs. */
+efbed4dc5857f8 Theodore Ts'o           2013-10-17  5534  	ratelimit_state_init(&sbi->s_err_ratelimit_state, 5 * HZ, 10);
+efbed4dc5857f8 Theodore Ts'o           2013-10-17  5535  	ratelimit_state_init(&sbi->s_warning_ratelimit_state, 5 * HZ, 10);
+efbed4dc5857f8 Theodore Ts'o           2013-10-17  5536  	ratelimit_state_init(&sbi->s_msg_ratelimit_state, 5 * HZ, 10);
+1cf006ed19a887 Dmitry Monakhov         2020-07-25  5537  	atomic_set(&sbi->s_warning_count, 0);
+1cf006ed19a887 Dmitry Monakhov         2020-07-25  5538  	atomic_set(&sbi->s_msg_count, 0);
+efbed4dc5857f8 Theodore Ts'o           2013-10-17  5539  
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  5540  	return 0;
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  5541  
+0796673fe204bc Baokun Li               2023-03-25  5542  failed_mount10:
+0796673fe204bc Baokun Li               2023-03-25  5543  	ext4_quota_off_umount(sb);
+02f310fcf47fa9 Jan Kara                2021-08-16 @5544  failed_mount9:
+02f310fcf47fa9 Jan Kara                2021-08-16  5545  	ext4_release_orphan_info(sb);
+72ba74508b2857 Theodore Ts'o           2013-01-24  5546  failed_mount8:
+ebd173beb8db5b Theodore Ts'o           2015-09-23  5547  	ext4_unregister_sysfs(sb);
+cb8d53d2c97369 Eric Biggers            2020-09-22  5548  	kobject_put(&sbi->s_kobj);
+dcf2d804ed6ffe Tao Ma                  2011-10-06  5549  failed_mount7:
+dcf2d804ed6ffe Tao Ma                  2011-10-06  5550  	ext4_unregister_li_request(sb);
+dcf2d804ed6ffe Tao Ma                  2011-10-06  5551  failed_mount6:
+f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5552  	ext4_mb_release(sb);
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5553  	rcu_read_lock();
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5554  	flex_groups = rcu_dereference(sbi->s_flex_groups);
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5555  	if (flex_groups) {
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5556  		for (i = 0; i < sbi->s_flex_groups_allocated; i++)
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5557  			kvfree(flex_groups[i]);
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5558  		kvfree(flex_groups);
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5559  	}
+7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5560  	rcu_read_unlock();
+d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5561  	percpu_counter_destroy(&sbi->s_freeclusters_counter);
+d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5562  	percpu_counter_destroy(&sbi->s_freeinodes_counter);
+d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5563  	percpu_counter_destroy(&sbi->s_dirs_counter);
+d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5564  	percpu_counter_destroy(&sbi->s_dirtyclusters_counter);
+efc61345274d6c Eric Whitney            2021-02-18  5565  	percpu_counter_destroy(&sbi->s_sra_exceeded_retry_limit);
+bbd55937de8f27 Eric Biggers            2020-02-19  5566  	percpu_free_rwsem(&sbi->s_writepages_rwsem);
+007649375f6af2 Azat Khuzhin            2014-04-07  5567  failed_mount5:
+f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5568  	ext4_ext_release(sb);
+f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5569  	ext4_release_system_zone(sb);
+f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5570  failed_mount4a:
+94bf608a18fa44 Al Viro                 2012-01-09  5571  	dput(sb->s_root);
+32a9bb57d7c1fd Manish Katiyar          2011-02-27  5572  	sb->s_root = NULL;
+94bf608a18fa44 Al Viro                 2012-01-09  5573  failed_mount4:
+b31e15527a9bb7 Eric Sandeen            2009-06-04  5574  	ext4_msg(sb, KERN_ERR, "mount failed");
+2e8fa54e3b48e4 Jan Kara                2013-06-04  5575  	if (EXT4_SB(sb)->rsv_conversion_wq)
+2e8fa54e3b48e4 Jan Kara                2013-06-04  5576  		destroy_workqueue(EXT4_SB(sb)->rsv_conversion_wq);
+4c0425ff68b1b8 Mingming Cao            2009-09-28  5577  failed_mount_wq:
+dec214d00e0d78 Tahsin Erdogan          2017-06-22  5578  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
+dec214d00e0d78 Tahsin Erdogan          2017-06-22  5579  	sbi->s_ea_inode_cache = NULL;
+50c15df69e062b Chengguang Xu           2018-12-04  5580  
+47387409ee2e09 Tahsin Erdogan          2017-06-22  5581  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
+47387409ee2e09 Tahsin Erdogan          2017-06-22  5582  	sbi->s_ea_block_cache = NULL;
+50c15df69e062b Chengguang Xu           2018-12-04  5583  
+0390131ba84fd3 Frank Mayhar            2009-01-07  5584  	if (sbi->s_journal) {
+bb9464e08309f6 yangerkun               2021-09-24  5585  		/* flush s_error_work before journal destroy. */
+bb9464e08309f6 yangerkun               2021-09-24  5586  		flush_work(&sbi->s_error_work);
+dab291af8d6307 Mingming Cao            2006-10-11  5587  		jbd2_journal_destroy(sbi->s_journal);
+47b4a50bebfd34 Jan Kara                2008-07-11  5588  		sbi->s_journal = NULL;
+0390131ba84fd3 Frank Mayhar            2009-01-07  5589  	}
+50460fe8c6d1d9 Darrick J. Wong         2014-10-30  5590  failed_mount3a:
+d3922a777f9b4c Zheng Liu               2013-07-01  5591  	ext4_es_unregister_shrinker(sbi);
+eb68d0e2fc5a4e Zheng Liu               2014-09-01  5592  failed_mount3:
+bb9464e08309f6 yangerkun               2021-09-24  5593  	/* flush s_error_work before sbi destroy */
+c92dc856848f32 Jan Kara                2020-11-27  5594  	flush_work(&sbi->s_error_work);
+2a4ae3bcdf05b8 Jan Kara                2021-03-15  5595  	del_timer_sync(&sbi->s_err_report);
+618f003199c618 Pavel Skripkin          2021-04-30  5596  	ext4_stop_mmpd(sbi);
+a4e6a511d7de5d Jason Yan               2022-09-16  5597  	ext4_group_desc_free(sbi);
+ac27a0ec112a08 Dave Kleikamp           2006-10-11  5598  failed_mount:
+0441984a339897 Darrick J. Wong         2012-04-29  5599  	if (sbi->s_chksum_driver)
+0441984a339897 Darrick J. Wong         2012-04-29  5600  		crypto_free_shash(sbi->s_chksum_driver);
+c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  5601  
 
 -- 
 0-DAY CI Kernel Test Service
