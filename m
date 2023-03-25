@@ -1,179 +1,227 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06C939B;
-	Sat, 25 Mar 2023 17:04:39 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id x3so19721907edb.10;
-        Sat, 25 Mar 2023 10:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679763878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wh8Vxm+9lurFsruhK/8nNRb/9+vLUcqW5Y89wM9tlkQ=;
-        b=RP4tPhyM4Now7Cdr2wnYsHFAE7BtVLTd+SxjXNqAqR0wizH5LHrrrzWlA0UG7QT1c4
-         HHM7G25JM76Lw/XzmlvLrfcttycsm3BAwFbyj6g7biXi3dbTi3Jz803ipNUhBvzFbOQt
-         5EPWTzGOYOaDr5hBNI5IO8wvFHht45GCjVeLvUkm3AblJ+ipz/biQqS23krImF+kXy/o
-         HiwWwR/bjYwNpNGwc4WtL7YFlCwfurmyirHgetuHtEHkITJ12tBTy7Q1wuU0NXo8rF9y
-         BV2R7s72TWPuZj9hu9rKaocHqNzix8zAKnorJO0VVxeGvFw7SQ7c06nxaTDTGFUe3sWK
-         QYbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679763878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wh8Vxm+9lurFsruhK/8nNRb/9+vLUcqW5Y89wM9tlkQ=;
-        b=4zhAmNdOkYSjFML2XgZG7GAnstxph2TDHpSoBQo1AiEz2UaykvYWGDRQBucpFJnK8b
-         XCzKejxtD4o854lL6XNIs86sO0NNCjnlbXd+SOcWW8UfjLN5kvMwMiYU+Kx3YrR4kV3m
-         McCPZtcrtTm5fG1E2qtga0esqVzAzvBoO7lb1WlUFdlkO8D7oAAyNkxMn4sD0fiXBNMv
-         HaS/dMqpkAEcXDmi2oSH1oNBh7sF1yZZOOFVDWxmnUooC1lBUVkhhk07ctO8ybZ5vMBK
-         GsNkKk9JHNsEVcz0HgbhJnlVxAkw08G8G3RXz5DgDQzC6wKuRAm70KRpoCDrpZmMrLvt
-         NhXw==
-X-Gm-Message-State: AAQBX9eX4JUDv7BHdxKjB4MIfwUBkNlPkKMfl4KhMxIMft09gkgWLs2l
-	m9qXj2W8JjXSsFWs/o8FoyNaOoBdTX6QjnBL4Rc=
-X-Google-Smtp-Source: AKy350Z49+5f/Dub0VCGK2MeBWkaFg6E3B2OgJdBki1p2Tlf9L8ScH6n8IfSqWj4LQv2o7HuOCjSudOqbsbQLJbV5/o=
-X-Received: by 2002:a50:9e4b:0:b0:502:3c99:417f with SMTP id
- z69-20020a509e4b000000b005023c99417fmr489628ede.6.1679763877811; Sat, 25 Mar
- 2023 10:04:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A79D3C27;
+	Sat, 25 Mar 2023 19:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679773759; x=1711309759;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/55eFo1NR1xT1wYp3Cp0xIc5nr1VWKvWhVajJLz/C+s=;
+  b=MeCW5674rMYgwwVwiwsgyakrM3qZMYiy0qUHi+BB9TBkBNFQgZG2fYpi
+   Y4OV3beu89GO7/7L3m8u9YXYQ19DHJPFRLA5mNsltlkSbvoEKKbgGIc00
+   ytwYyE6qzDdjzNsEHMWGsLp/GXfFYJOwrC/xDqSODld0qJ1ZioKZd1hiC
+   uolyg9qlrhQ66KpVCYFNF3c2sjqxI7MjtD3zzvkziUFnnqx+PQImtgtkN
+   HNrzuaQ8iRbRNV3KRCwpy/cvfarQCB4fss84mlT0Q3HfNp8cFa1b6Jiig
+   efXqbZHKLpT78lJRh3eLSumYXk8XxFDnKVbwfLAHJMdbsoYEho3+MDrw/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="402606819"
+X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
+   d="scan'208";a="402606819"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 12:49:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="807039644"
+X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
+   d="scan'208";a="807039644"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 25 Mar 2023 12:49:16 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pg9t5-000GdD-3B;
+	Sat, 25 Mar 2023 19:49:15 +0000
+Date: Sun, 26 Mar 2023 03:49:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: ye.xingchen@zte.com.cn, andersson@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mathieu.poirier@linaro.org, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] remoteproc/davinci: Use dev_err_probe()
+Message-ID: <202303260319.W0GPLfaj-lkp@intel.com>
+References: <202303231600496082749@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230318214953.36834-1-u9012063@gmail.com> <8ddd5e22-91e6-407d-86bc-220fce2f6e0f@kili.mountain>
-In-Reply-To: <8ddd5e22-91e6-407d-86bc-220fce2f6e0f@kili.mountain>
-From: William Tu <u9012063@gmail.com>
-Date: Sat, 25 Mar 2023 10:03:59 -0700
-Message-ID: <CALDO+SZHu3GW8BbXzdJ6A0OtY=XypYT3DG-xPP9VuERx+sYzGw@mail.gmail.com>
-Subject: Re: [PATCH RFC v18 net-next] vmxnet3: Add XDP support.
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202303231600496082749@zte.com.cn>
 
-On Thu, Mar 23, 2023 at 7:07=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> Hi William,
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/William-Tu/vmxnet3=
--Add-XDP-support/20230319-055034
-> patch link:    https://lore.kernel.org/r/20230318214953.36834-1-u9012063%=
-40gmail.com
-> patch subject: [PATCH RFC v18 net-next] vmxnet3: Add XDP support.
-> config: s390-randconfig-m031-20230321 (https://download.01.org/0day-ci/ar=
-chive/20230323/202303232106.UkMR3FEX-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202303232106.UkMR3FEX-lkp@intel.com/
->
-> smatch warnings:
-> drivers/net/vmxnet3/vmxnet3_xdp.c:362 vmxnet3_process_xdp_small() warn: v=
-ariable dereferenced before check 'skb_xdp_pass' (see line 361)
-> drivers/net/vmxnet3/vmxnet3_xdp.c:406 vmxnet3_process_xdp() warn: variabl=
-e dereferenced before check 'skb_xdp_pass' (see line 405)
->
-> vim +/skb_xdp_pass +362 drivers/net/vmxnet3/vmxnet3_xdp.c
->
-> 089db7a8620943 William Tu 2023-03-18  351       rcu_read_lock();
-> 089db7a8620943 William Tu 2023-03-18  352       xdp_prog =3D rcu_derefere=
-nce(rq->adapter->xdp_bpf_prog);
-> 089db7a8620943 William Tu 2023-03-18  353       if (!xdp_prog) {
-> 089db7a8620943 William Tu 2023-03-18  354               act =3D XDP_PASS;
-> 089db7a8620943 William Tu 2023-03-18  355               goto out_skb;
-> 089db7a8620943 William Tu 2023-03-18  356       }
-> 089db7a8620943 William Tu 2023-03-18  357       act =3D vmxnet3_run_xdp(r=
-q, &xdp, xdp_prog);
-> 089db7a8620943 William Tu 2023-03-18  358
-> 089db7a8620943 William Tu 2023-03-18  359       if (act =3D=3D XDP_PASS) =
-{
-> 089db7a8620943 William Tu 2023-03-18  360  out_skb:
-> 089db7a8620943 William Tu 2023-03-18 @361               *skb_xdp_pass =3D=
- vmxnet3_build_skb(rq, page, &xdp);
-> 089db7a8620943 William Tu 2023-03-18 @362               if (!skb_xdp_pass=
-)
->
-> This should be testing if (!*skb_xdp_pass)
->
-> 089db7a8620943 William Tu 2023-03-18  363                       return XD=
-P_DROP;
-> 089db7a8620943 William Tu 2023-03-18  364       }
-> 089db7a8620943 William Tu 2023-03-18  365
-> 089db7a8620943 William Tu 2023-03-18  366       /* No need to refill. */
-> 089db7a8620943 William Tu 2023-03-18  367       return act;
-> 089db7a8620943 William Tu 2023-03-18  368  }
-> 089db7a8620943 William Tu 2023-03-18  369
-> 089db7a8620943 William Tu 2023-03-18  370  int
-> 089db7a8620943 William Tu 2023-03-18  371  vmxnet3_process_xdp(struct vmx=
-net3_adapter *adapter,
-> 089db7a8620943 William Tu 2023-03-18  372                   struct vmxnet=
-3_rx_queue *rq,
-> 089db7a8620943 William Tu 2023-03-18  373                   struct Vmxnet=
-3_RxCompDesc *rcd,
-> 089db7a8620943 William Tu 2023-03-18  374                   struct vmxnet=
-3_rx_buf_info *rbi,
-> 089db7a8620943 William Tu 2023-03-18  375                   struct Vmxnet=
-3_RxDesc *rxd,
-> 089db7a8620943 William Tu 2023-03-18  376                   struct sk_buf=
-f **skb_xdp_pass)
-> 089db7a8620943 William Tu 2023-03-18  377  {
-> 089db7a8620943 William Tu 2023-03-18  378       struct bpf_prog *xdp_prog=
-;
-> 089db7a8620943 William Tu 2023-03-18  379       dma_addr_t new_dma_addr;
-> 089db7a8620943 William Tu 2023-03-18  380       struct xdp_buff xdp;
-> 089db7a8620943 William Tu 2023-03-18  381       struct page *page;
-> 089db7a8620943 William Tu 2023-03-18  382       void *new_data;
-> 089db7a8620943 William Tu 2023-03-18  383       int act;
-> 089db7a8620943 William Tu 2023-03-18  384
-> 089db7a8620943 William Tu 2023-03-18  385       page =3D rbi->page;
-> 089db7a8620943 William Tu 2023-03-18  386       dma_sync_single_for_cpu(&=
-adapter->pdev->dev,
-> 089db7a8620943 William Tu 2023-03-18  387                               p=
-age_pool_get_dma_addr(page) +
-> 089db7a8620943 William Tu 2023-03-18  388                               r=
-q->page_pool->p.offset, rcd->len,
-> 089db7a8620943 William Tu 2023-03-18  389                               p=
-age_pool_get_dma_dir(rq->page_pool));
-> 089db7a8620943 William Tu 2023-03-18  390
-> 089db7a8620943 William Tu 2023-03-18  391       xdp_init_buff(&xdp, rbi->=
-len, &rq->xdp_rxq);
-> 089db7a8620943 William Tu 2023-03-18  392       xdp_prepare_buff(&xdp, pa=
-ge_address(page), rq->page_pool->p.offset,
-> 089db7a8620943 William Tu 2023-03-18  393                        rcd->len=
-, false);
-> 089db7a8620943 William Tu 2023-03-18  394       xdp_buff_clear_frags_flag=
-(&xdp);
-> 089db7a8620943 William Tu 2023-03-18  395
-> 089db7a8620943 William Tu 2023-03-18  396       xdp_prog =3D rcu_derefere=
-nce(rq->adapter->xdp_bpf_prog);
-> 089db7a8620943 William Tu 2023-03-18  397       if (!xdp_prog) {
-> 089db7a8620943 William Tu 2023-03-18  398               act =3D XDP_PASS;
-> 089db7a8620943 William Tu 2023-03-18  399               goto out_skb;
-> 089db7a8620943 William Tu 2023-03-18  400       }
-> 089db7a8620943 William Tu 2023-03-18  401       act =3D vmxnet3_run_xdp(r=
-q, &xdp, xdp_prog);
-> 089db7a8620943 William Tu 2023-03-18  402
-> 089db7a8620943 William Tu 2023-03-18  403       if (act =3D=3D XDP_PASS) =
-{
-> 089db7a8620943 William Tu 2023-03-18  404  out_skb:
-> 089db7a8620943 William Tu 2023-03-18 @405               *skb_xdp_pass =3D=
- vmxnet3_build_skb(rq, page, &xdp);
-> 089db7a8620943 William Tu 2023-03-18 @406               if (!skb_xdp_pass=
-)
->                                                             ^^^^^^^^^^^^^
-> Same.
->
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
+Hi,
 
-Hi Dan,
-Thanks for picking up this patch and testing it!
-I will fix the two places and resend.
-William
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/remoteproc-davinci-Use-dev_err_probe/20230323-160242
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/202303231600496082749%40zte.com.cn
+patch subject: [PATCH] remoteproc/davinci: Use dev_err_probe()
+config: arm-davinci_all_defconfig (https://download.01.org/0day-ci/archive/20230326/202303260319.W0GPLfaj-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/a0080d71b9ef7a6f3996093945ea5578f8e43ce1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/remoteproc-davinci-Use-dev_err_probe/20230323-160242
+        git checkout a0080d71b9ef7a6f3996093945ea5578f8e43ce1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/remoteproc/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303260319.W0GPLfaj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/remoteproc/da8xx_remoteproc.c:283:42: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+                                        "unable to get reset control: %ld\n");
+                                                                      ~~^
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PINCTRL_SINGLE
+   Depends on [n]: PINCTRL [=n] && OF [=y] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - ARCH_DAVINCI [=y] && ARCH_MULTI_V5 [=y] && CPU_LITTLE_ENDIAN [=y]
+
+
+vim +283 drivers/remoteproc/da8xx_remoteproc.c
+
+   235	
+   236	static int da8xx_rproc_probe(struct platform_device *pdev)
+   237	{
+   238		struct device *dev = &pdev->dev;
+   239		struct da8xx_rproc *drproc;
+   240		struct rproc *rproc;
+   241		struct irq_data *irq_data;
+   242		struct resource *bootreg_res;
+   243		struct resource *chipsig_res;
+   244		struct clk *dsp_clk;
+   245		struct reset_control *dsp_reset;
+   246		void __iomem *chipsig;
+   247		void __iomem *bootreg;
+   248		int irq;
+   249		int ret;
+   250	
+   251		irq = platform_get_irq(pdev, 0);
+   252		if (irq < 0)
+   253			return irq;
+   254	
+   255		irq_data = irq_get_irq_data(irq);
+   256		if (!irq_data) {
+   257			dev_err(dev, "irq_get_irq_data(%d): NULL\n", irq);
+   258			return -EINVAL;
+   259		}
+   260	
+   261		bootreg_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+   262							   "host1cfg");
+   263		bootreg = devm_ioremap_resource(dev, bootreg_res);
+   264		if (IS_ERR(bootreg))
+   265			return PTR_ERR(bootreg);
+   266	
+   267		chipsig_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+   268							   "chipsig");
+   269		chipsig = devm_ioremap_resource(dev, chipsig_res);
+   270		if (IS_ERR(chipsig))
+   271			return PTR_ERR(chipsig);
+   272	
+   273		dsp_clk = devm_clk_get(dev, NULL);
+   274		if (IS_ERR(dsp_clk)) {
+   275			dev_err(dev, "clk_get error: %ld\n", PTR_ERR(dsp_clk));
+   276	
+   277			return PTR_ERR(dsp_clk);
+   278		}
+   279	
+   280		dsp_reset = devm_reset_control_get_exclusive(dev, NULL);
+   281		if (IS_ERR(dsp_reset))
+   282			return dev_err_probe(dev, PTR_ERR(dsp_reset),
+ > 283					     "unable to get reset control: %ld\n");
+   284	
+   285		if (dev->of_node) {
+   286			ret = of_reserved_mem_device_init(dev);
+   287			if (ret) {
+   288				dev_err(dev, "device does not have specific CMA pool: %d\n",
+   289					ret);
+   290				return ret;
+   291			}
+   292		}
+   293	
+   294		rproc = rproc_alloc(dev, "dsp", &da8xx_rproc_ops, da8xx_fw_name,
+   295			sizeof(*drproc));
+   296		if (!rproc) {
+   297			ret = -ENOMEM;
+   298			goto free_mem;
+   299		}
+   300	
+   301		/* error recovery is not supported at present */
+   302		rproc->recovery_disabled = true;
+   303	
+   304		drproc = rproc->priv;
+   305		drproc->rproc = rproc;
+   306		drproc->dsp_clk = dsp_clk;
+   307		drproc->dsp_reset = dsp_reset;
+   308		rproc->has_iommu = false;
+   309	
+   310		ret = da8xx_rproc_get_internal_memories(pdev, drproc);
+   311		if (ret)
+   312			goto free_rproc;
+   313	
+   314		platform_set_drvdata(pdev, rproc);
+   315	
+   316		/* everything the ISR needs is now setup, so hook it up */
+   317		ret = devm_request_threaded_irq(dev, irq, da8xx_rproc_callback,
+   318						handle_event, 0, "da8xx-remoteproc",
+   319						rproc);
+   320		if (ret) {
+   321			dev_err(dev, "devm_request_threaded_irq error: %d\n", ret);
+   322			goto free_rproc;
+   323		}
+   324	
+   325		/*
+   326		 * rproc_add() can end up enabling the DSP's clk with the DSP
+   327		 * *not* in reset, but da8xx_rproc_start() needs the DSP to be
+   328		 * held in reset at the time it is called.
+   329		 */
+   330		ret = reset_control_assert(dsp_reset);
+   331		if (ret)
+   332			goto free_rproc;
+   333	
+   334		drproc->chipsig = chipsig;
+   335		drproc->bootreg = bootreg;
+   336		drproc->ack_fxn = irq_data->chip->irq_ack;
+   337		drproc->irq_data = irq_data;
+   338		drproc->irq = irq;
+   339	
+   340		ret = rproc_add(rproc);
+   341		if (ret) {
+   342			dev_err(dev, "rproc_add failed: %d\n", ret);
+   343			goto free_rproc;
+   344		}
+   345	
+   346		return 0;
+   347	
+   348	free_rproc:
+   349		rproc_free(rproc);
+   350	free_mem:
+   351		if (dev->of_node)
+   352			of_reserved_mem_device_release(dev);
+   353		return ret;
+   354	}
+   355	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
