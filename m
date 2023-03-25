@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E533B28E2;
-	Sat, 25 Mar 2023 15:15:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15D72F2A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 15:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679757306; x=1711293306;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BrbbmeiVzAUMWkCR5zgPhZBiqTZU/l3gDHn2ink1uEw=;
-  b=jGm7SGElRd9jCOvcjKD37MCnBVu+FTpiM/MlSN92bS92uLQA5nfdoFyS
-   2WBzaPUZ7jU+469Ql8YtroVNoT14sGetyncw2PHjjVO8vUrMX3nUieHhF
-   /BLzI3GsEwjDRK4EjCOrYmK0M6czJRiC8mbT1nM6++NkOESBfOqxiavXT
-   unJPXlR88hRnfJANwSZW7hRSNU/sQKRWPJJpQ5v+gT6GIpSgVyaOfxhVk
-   X3l4UtTx5h+lDcUbhytnysMyXOcu5vL1NivWoGnUsrF1EC4yvWr2ByHAq
-   l4vFwNYwybptT3Ub3ow0BiHO4pc+qz12jERCLQazCrcHuJjVDXSGFaiZw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="323867020"
+  t=1679758567; x=1711294567;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n/TjVjWNTRAG1jZMifPMrdPkDbA+rPApCrvv2Fwg7jY=;
+  b=j5i7RjA5XijBb6o0uET67+GNsf1ENPenblhwxAbf9XrJNFqdQqAqMESc
+   yrVEtI8tXgqVcxTncCQzcGWPvlU38Q4NZ+oLIL3vpUH5D3LYiunYMiCpb
+   Y4AH2evMCMHRQH3Lenon17trxPPvyfqxay0GUwgHLEwsBtywuYXURcW65
+   +ZR6SBbsJ3kl+fTQASQHDmlgB4wrOLjmG2Ms/+iM35KJk5gcHJ/pW7zNF
+   GEmHFxuH9SV7BFoXgslQsuUorkW7inCxKzXQdjl0l9vIFQh/K3pgHBQvc
+   4Sf+w1+ZZ6XbcqfXeFZlNGnvsQ/FBWNomQI+rilNoROMM0XPzfqVoTPOz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="426244686"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="323867020"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 08:15:06 -0700
+   d="scan'208";a="426244686"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 08:36:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="807002403"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="772207577"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="807002403"
+   d="scan'208";a="772207577"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 25 Mar 2023 08:15:05 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Mar 2023 08:36:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pg5bk-000GL5-1l;
-	Sat, 25 Mar 2023 15:15:04 +0000
-Date: Sat, 25 Mar 2023 23:14:34 +0800
+	id 1pg5w5-000GLV-2a;
+	Sat, 25 Mar 2023 15:36:05 +0000
+Date: Sat, 25 Mar 2023 23:35:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Gow <davidgow@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] kunit: Add APIs for managing devices
-Message-ID: <202303252216.4ChgDLYh-lkp@intel.com>
-References: <20230325043104.3761770-3-davidgow@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 375/25663] htmldocs:
+ Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline
+ emphasis start-string without end-string.
+Message-ID: <202303252345.oHz4eLyo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,99 +46,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230325043104.3761770-3-davidgow@google.com>
 
-Hi David,
+Hi Saravana,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc3]
-[cannot apply to next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/kunit-resource-Add-kunit_defer-functionality/20230325-123304
-patch link:    https://lore.kernel.org/r/20230325043104.3761770-3-davidgow%40google.com
-patch subject: [RFC PATCH 2/2] kunit: Add APIs for managing devices
-config: hexagon-randconfig-r041-20230322 (https://download.01.org/0day-ci/archive/20230325/202303252216.4ChgDLYh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/489de1f44af455844bbc158f03f5940c2707992d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Gow/kunit-resource-Add-kunit_defer-functionality/20230325-123304
-        git checkout 489de1f44af455844bbc158f03f5940c2707992d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash lib/kunit/
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   13e656b3b5d58dcb8b2f70a368547be9c06a5143
+commit: 2d4a45a8388023a4a1f35813cad0e2bab225047b [375/25663] FROMGIT: docs: driver-model: Add documentation for sync_state
+reproduce:
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android11-5.4
+        git checkout 2d4a45a8388023a4a1f35813cad0e2bab225047b
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303252216.4ChgDLYh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303252345.oHz4eLyo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/kunit/device.c:57:20: warning: cast from 'void (*)(struct device *)' to 'kunit_defer_function_t' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-           kunit_defer(test, (kunit_defer_function_t)device_unregister, &kunit_dev->dev, GFP_KERNEL);
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/kunit/device.c:32:16: warning: no previous prototype for function 'kunit_device_register' [-Wmissing-prototypes]
-   struct device *kunit_device_register(struct kunit *test, const char *name)
-                  ^
-   lib/kunit/device.c:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct device *kunit_device_register(struct kunit *test, const char *name)
-   ^
-   static 
-   lib/kunit/device.c:65:28: warning: cast from 'void (*)(struct device *)' to 'kunit_defer_function_t' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-           kunit_defer_trigger(test, (kunit_defer_function_t)device_unregister, dev);
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/kunit/device.c:63:6: warning: no previous prototype for function 'kunit_device_unregister' [-Wmissing-prototypes]
-   void kunit_device_unregister(struct kunit *test, struct device *dev)
-        ^
-   lib/kunit/device.c:63:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void kunit_device_unregister(struct kunit *test, struct device *dev)
-   ^
-   static 
-   4 warnings generated.
+>> Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline emphasis start-string without end-string.
 
+vim +215 Documentation/driver-api/driver-model/driver.rst
 
-vim +57 lib/kunit/device.c
+2d4a45a8388023 Documentation/driver-api/driver-model/driver.rst Saravana Kannan 2019-10-11  214  
+^1da177e4c3f41 Documentation/driver-model/driver.txt            Linus Torvalds  2005-04-16 @215  	int 	(*remove)	(struct device *dev);
+^1da177e4c3f41 Documentation/driver-model/driver.txt            Linus Torvalds  2005-04-16  216  
 
-    31	
-  > 32	struct device *kunit_device_register(struct kunit *test, const char *name)
-    33	{
-    34		struct kunit_device *kunit_dev;
-    35		int err = -ENOMEM;
-    36	
-    37		kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
-    38		if (!kunit_dev)
-    39			return ERR_PTR(err);
-    40	
-    41		kunit_dev->owner = test;
-    42	
-    43		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
-    44		if (err) {
-    45			kfree(kunit_dev);
-    46			return ERR_PTR(err);
-    47		}
-    48	
-    49		kunit_dev->dev.release = kunit_device_release;
-    50	
-    51		err = device_register(&kunit_dev->dev);
-    52		if (err) {
-    53			put_device(&kunit_dev->dev);
-    54			return ERR_PTR(err);
-    55		}
-    56	
-  > 57		kunit_defer(test, (kunit_defer_function_t)device_unregister, &kunit_dev->dev, GFP_KERNEL);
-    58	
-    59		return &kunit_dev->dev;
-    60	}
-    61	EXPORT_SYMBOL_GPL(kunit_device_register);
-    62	
-  > 63	void kunit_device_unregister(struct kunit *test, struct device *dev)
+:::::: The code at line 215 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
