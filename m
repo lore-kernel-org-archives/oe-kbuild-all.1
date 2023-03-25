@@ -1,43 +1,48 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084917F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 07:46:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D14C17F1;
+	Sat, 25 Mar 2023 08:18:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679730416; x=1711266416;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CSGtsri+fvT1FxJgxUt6mGNofjsTjxe7si2b8vtmcac=;
-  b=GGrlleMiKi1na+HMvhFhColGhcQupeEKlDTJUDWAniNFxww7i/6+U6Mk
-   2vR/NhT2GzlZ5z62gXXwG07v1bW8CVxYP8VPoSGbIRAzpGIVq8lcBjwUM
-   uSqNfOIubEL2eGo4HQWJv5/dDfX1dBRjZSco3jmau+ai6LVAEo15iy5jr
-   /2M2+wTN2KkKoJMy3i2yRUIp1WJaKWEtz2MmHnQHYqn+KtFzN0IuYfPCy
-   3Q9xBsMn8bTQ/uQGjyEGKNgqqUKwLB4T95YdSjiqts3zdty653iJ4Cwnl
-   nRkJ50653iiigwKQVcRv64tdZqbIskrbuz16w7dnD2a2/GjppDtmOZ7B/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="342345109"
+  t=1679732287; x=1711268287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vkGsebY+bi2zt68dIYP5n+JMfaG3q4r/7n81x+5v2jE=;
+  b=EFysMelJDUnzSaC7Z09+x0aiO0B8FrTUmSDSaTEDnX1g8gyyaq5F2BMc
+   OkHzanbq66RX2eAD9OEm+jw4JOU70IUbDl5JR7ssktjoGNQGkYMUn/Y+i
+   grvFU65A7MkeceBk1YNadATswZ5g7VA6DGjDaXDOhdczMMocJaYly53md
+   t5SvVYJynd7S5WTbJ0WsXRZ1HWdfWMEsSyzZfc/VZvxM2HPVe7kwOjqfA
+   OqtNjAK/q5Y2Kfrfpg/wARgMjNvHmfCng9K9gDYteHnJ90XJHAJWzJAJu
+   Yzj5+I1yHjrDks3BehiSF/eKvEGo8MI3HFNwxLqg2OhFMWOpo1bTYeiOR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="319603156"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="342345109"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 00:46:55 -0700
+   d="scan'208";a="319603156"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 01:17:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="660317363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="1012535901"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="660317363"
+   d="scan'208";a="1012535901"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 25 Mar 2023 00:46:54 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 25 Mar 2023 01:17:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfyc1-000G55-1I;
-	Sat, 25 Mar 2023 07:46:53 +0000
-Date: Sat, 25 Mar 2023 15:46:25 +0800
+	id 1pfz62-000G6N-0Q;
+	Sat, 25 Mar 2023 08:17:54 +0000
+Date: Sat, 25 Mar 2023 16:16:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 58/328]
- arch/x86/virt/vmx/tdx/tdx.c:1251:28: error: 'tdx_keyid_start' undeclared;
- did you mean 'tdx_guest_keyid_start'?
-Message-ID: <202303251535.IFwIN7mK-lkp@intel.com>
+To: Shenghao Ding <13916275206@139.com>, broonie@kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kevin-lu@ti.com,
+	shenghao-ding@ti.com, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, x1077012@ti.com, peeyush@ti.com,
+	navada@ti.com, Shenghao Ding <13916275206@139.com>
+Subject: Re: [PATCH v6] ASoC: tas2781: Add tas2781 driver
+Message-ID: <202303251653.7HZjyxTf-lkp@intel.com>
+References: <20230324110755.27652-1-13916275206@139.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,147 +51,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230324110755.27652-1-13916275206@139.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   694338d50183e3371330efb5291e044153c7c615
-commit: 23c65eaa13ff53aa3fc47f1d9e2b610f055829b1 [58/328] x86/cpu: Add helper functions to allocate/free TDX private host key id
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230325/202303251535.IFwIN7mK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Shenghao,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoC-tas2781-Add-tas2781-driver/20230324-190955
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230324110755.27652-1-13916275206%40139.com
+patch subject: [PATCH v6] ASoC: tas2781: Add tas2781 driver
+config: arm-randconfig-r021-20230322 (https://download.01.org/0day-ci/archive/20230325/202303251653.7HZjyxTf-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/23c65eaa13ff53aa3fc47f1d9e2b610f055829b1
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 23c65eaa13ff53aa3fc47f1d9e2b610f055829b1
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/ae727fb08bb90265d16859aa62c7c956e46841ee
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shenghao-Ding/ASoC-tas2781-Add-tas2781-driver/20230324-190955
+        git checkout ae727fb08bb90265d16859aa62c7c956e46841ee
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303251535.IFwIN7mK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303251653.7HZjyxTf-lkp@intel.com/
 
-Note: the intel-tdx/kvm-upstream-workaround HEAD 694338d50183e3371330efb5291e044153c7c615 builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+>> sound/soc/codecs/tas2781-dsp.c:1357:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (in) {
+               ^~
+   sound/soc/codecs/tas2781-dsp.c:1378:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   sound/soc/codecs/tas2781-dsp.c:1357:2: note: remove the 'if' if its condition is always true
+           if (in) {
+           ^~~~~~~~
+   sound/soc/codecs/tas2781-dsp.c:1343:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   sound/soc/codecs/tas2781-dsp.c:1407:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (in) {
+               ^~
+   sound/soc/codecs/tas2781-dsp.c:1444:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   sound/soc/codecs/tas2781-dsp.c:1407:2: note: remove the 'if' if its condition is always true
+           if (in) {
+           ^~~~~~~~
+   sound/soc/codecs/tas2781-dsp.c:1388:9: note: initialize the variable 'ret' to silence this warning
+           int ret, i;
+                  ^
+                   = 0
+   2 warnings generated.
 
-   arch/x86/virt/vmx/tdx/tdx.c: In function 'init_tdx_module':
->> arch/x86/virt/vmx/tdx/tdx.c:1251:28: error: 'tdx_keyid_start' undeclared (first use in this function); did you mean 'tdx_guest_keyid_start'?
-    1251 |         tdx_global_keyid = tdx_keyid_start;
-         |                            ^~~~~~~~~~~~~~~
-         |                            tdx_guest_keyid_start
-   arch/x86/virt/vmx/tdx/tdx.c:1251:28: note: each undeclared identifier is reported only once for each function it appears in
 
+vim +1357 sound/soc/codecs/tas2781-dsp.c
 
-vim +1251 arch/x86/virt/vmx/tdx/tdx.c
-
-  1186	
-  1187	static int init_tdx_module(void)
-  1188	{
-  1189		static DECLARE_PADDED_STRUCT(tdsysinfo_struct, tdsysinfo,
-  1190				TDSYSINFO_STRUCT_SIZE, TDSYSINFO_STRUCT_ALIGNMENT);
-  1191		static struct cmr_info cmr_array[MAX_CMRS]
-  1192				__aligned(CMR_INFO_ARRAY_ALIGNMENT);
-  1193		struct tdsysinfo_struct *sysinfo = &PADDED_STRUCT(tdsysinfo);
-  1194		struct tdmr_info_list tdmr_list;
-  1195		int ret;
-  1196	
-  1197		ret = tdx_get_sysinfo(sysinfo, cmr_array);
-  1198		if (ret)
-  1199			return ret;
-  1200	
-  1201		/*
-  1202		 * To keep things simple, assume that all TDX-protected memory
-  1203		 * will come from the page allocator.  Make sure all pages in the
-  1204		 * page allocator are TDX-usable memory.
-  1205		 *
-  1206		 * Build the list of "TDX-usable" memory regions which cover all
-  1207		 * pages in the page allocator to guarantee that.  Do it while
-  1208		 * holding mem_hotplug_lock read-lock as the memory hotplug code
-  1209		 * path reads the @tdx_memlist to reject any new memory.
-  1210		 */
-  1211		get_online_mems();
-  1212	
-  1213		ret = build_tdx_memlist(&tdx_memlist);
-  1214		if (ret)
-  1215			goto out;
-  1216	
-  1217		/* Allocate enough space for constructing TDMRs */
-  1218		ret = alloc_tdmr_list(&tdmr_list, sysinfo);
-  1219		if (ret)
-  1220			goto out_free_tdx_mem;
-  1221	
-  1222		/* Cover all TDX-usable memory regions in TDMRs */
-  1223		ret = construct_tdmrs(&tdx_memlist, &tdmr_list, sysinfo);
-  1224		if (ret)
-  1225			goto out_free_tdmrs;
-  1226	
-  1227		/* Pass the TDMRs and the global KeyID to the TDX module */
-  1228		ret = config_tdx_module(&tdmr_list, tdx_global_keyid);
-  1229		if (ret)
-  1230			goto out_free_pamts;
-  1231	
-  1232		/*
-  1233		 * Hardware doesn't guarantee cache coherency across different
-  1234		 * KeyIDs.  The kernel needs to flush PAMT's dirty cachelines
-  1235		 * (associated with KeyID 0) before the TDX module can use the
-  1236		 * global KeyID to access the PAMT.  Given PAMTs are potentially
-  1237		 * large (~1/256th of system RAM), just use WBINVD on all cpus
-  1238		 * to flush the cache.
-  1239		 */
-  1240		wbinvd_on_all_cpus();
-  1241	
-  1242		/* Config the key of global KeyID on all packages */
-  1243		ret = config_global_keyid();
-  1244		if (ret)
-  1245			goto out_free_pamts;
-  1246	
-  1247		/*
-  1248		 * Reserve the first TDX KeyID as global KeyID to protect
-  1249		 * TDX module metadata.
-  1250		 */
-> 1251		tdx_global_keyid = tdx_keyid_start;
-  1252	
-  1253		/* Initialize TDMRs to complete the TDX module initialization */
-  1254		ret = init_tdmrs(&tdmr_list);
-  1255	
-  1256	out_free_pamts:
-  1257		if (ret) {
-  1258			/*
-  1259			 * Part of PAMT may already have been initialized by the
-  1260			 * TDX module.  Flush cache before returning PAMT back
-  1261			 * to the kernel.
-  1262			 *
-  1263			 * No need to worry about integrity checks here.  KeyID
-  1264			 * 0 has integrity checking disabled.
-  1265			 */
-  1266			wbinvd_on_all_cpus();
-  1267			tdmrs_free_pamt_all(&tdmr_list);
-  1268		}
-  1269		else
-  1270			pr_info("%lu KBs allocated for PAMT.\n",
-  1271					tdmrs_count_pamt_pages(&tdmr_list) * 4);
-  1272	out_free_tdmrs:
-  1273		/*
-  1274		 * Free the space for the TDMRs no matter the initialization is
-  1275		 * successful or not.  They are not needed anymore after the
-  1276		 * module initialization.
-  1277		 */
-  1278		free_tdmr_list(&tdmr_list);
-  1279	out_free_tdx_mem:
-  1280		if (ret)
-  1281			free_tdx_memlist(&tdx_memlist);
-  1282	out:
-  1283		/*
-  1284		 * @tdx_memlist is written here and read at memory hotplug time.
-  1285		 * Lock out memory hotplug code while building it.
-  1286		 */
-  1287		put_online_mems();
-  1288	
-  1289		return ret;
-  1290	}
-  1291	
+  1336	
+  1337	static int do_singlereg_checksum(struct tasdevice_priv *tasdevice,
+  1338		enum channel chl, unsigned char book, unsigned char page,
+  1339		unsigned char reg, unsigned char val)
+  1340	{
+  1341		struct tas_crc crc_data;
+  1342		unsigned int nData1;
+  1343		int ret;
+  1344		bool in;
+  1345	
+  1346		if ((book == TASDEVICE_BOOK_ID(TAS2781_SA_COEFF_SWAP_REG))
+  1347			&& (page == TASDEVICE_PAGE_ID(TAS2781_SA_COEFF_SWAP_REG))
+  1348			&& (reg >= TASDEVICE_PAGE_REG(TAS2781_SA_COEFF_SWAP_REG))
+  1349			&& (reg <= (TASDEVICE_PAGE_REG(
+  1350			TAS2781_SA_COEFF_SWAP_REG) + 4))) {
+  1351			/*DSP swap command, pass */
+  1352			ret = 0;
+  1353			goto end;
+  1354		}
+  1355	
+  1356		in = check_yram(&crc_data, book, page, reg, 1);
+> 1357		if (in) {
+  1358			ret = tasdevice_dev_read(tasdevice, chl,
+  1359				TASDEVICE_REG(book, page, reg), &nData1);
+  1360			if (ret < 0)
+  1361				goto end;
+  1362	
+  1363			if (nData1 != val) {
+  1364				dev_err(tasdevice->dev,
+  1365					"B[0x%x]P[0x%x]R[0x%x] W[0x%x], R[0x%x]\n",
+  1366					book, page, reg,
+  1367					val, nData1);
+  1368				tasdevice->tasdevice[chl].err_code |=
+  1369					ERROR_YRAM_CRCCHK;
+  1370				ret = -EAGAIN;
+  1371				goto end;
+  1372			}
+  1373	
+  1374			ret = crc8(tasdevice->crc8_lkp_tbl, &val, 1, 0);
+  1375		}
+  1376	
+  1377	end:
+  1378		return ret;
+  1379	}
+  1380	
 
 -- 
 0-DAY CI Kernel Test Service
