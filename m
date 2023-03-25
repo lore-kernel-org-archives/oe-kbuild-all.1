@@ -1,47 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2B8389
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 03:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FFC389
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Mar 2023 04:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679713307; x=1711249307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iQJGa7yfXG9hUk26kSizEa/MoGGxWJ3Cee01d8SSU+8=;
-  b=WzYCWfiFoYZY6gxeVmSNt74cQHTHSnXo3cNv0JoJQsrBIy5y3MXYCdJB
-   4CyGNLJLxzsPk+5k6CsIWRPVcv3iNy/sWJmNbu2VNsv0u09Q+niOhm4Oq
-   O6IiJxEwJRz/eQwrFiHrVTnThcjryPCw0E0nZS/G1jcl2zrRTKW+ufpem
-   bUOJ/eSfkZoDEHo65AjrQzRaanj1vqBSOXDIzQQW6gaJm+ocFh8Ng9AFK
-   C7s+376AZlOlNUqBsFIRZUdK+JsiEhyBl037nibssNbnXrrH6mB6Ujkdb
-   p/+QYO/P205dcR7uppqr2jlOrltkys95DxXRCh+y+aWXPdA4WbPz0UMPD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="319580306"
+  t=1679716976; x=1711252976;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o2G1yHVLu9KwuKNJ6AySszy3IweCKDpqTuwDBdk2m1M=;
+  b=dTSUncIeQSdGUiZruMIx++w1ADw/VWFsqWeXc9vf6tHI3+TuXv2IRyRT
+   HcwCRUtrfJG6Hlx/xiYSPeGHSoJsm/UG1HL9B6I4+wC7ap5ZvDTCOn/OP
+   cFUFGsIgvzPe2wnRXwnvV6RIsaDcpI9JPDtpJ4xDJAqnL+Mjmw4HtO+8e
+   ylFrkTLo5J/iHFHPCmwN+W/PpRV6mUQjG2GMdFikCFPgEowlCGznZYDba
+   FkptJZ194nmMuxLY+gd8rLXFJTB67NkxyCIJznKtymTJUgcdRwtcSoMnp
+   YdpTDlBu9KFYl5GLXwXRA+4rj4sqVt4HZWcgB9yy+HYxLXF38UScWwrFQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="426194673"
 X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
-   d="scan'208";a="319580306"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 20:01:46 -0700
+   d="scan'208";a="426194673"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 21:02:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="826460917"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="633056460"
 X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
-   d="scan'208";a="826460917"
+   d="scan'208";a="633056460"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Mar 2023 20:01:44 -0700
+  by orsmga003.jf.intel.com with ESMTP; 24 Mar 2023 21:02:46 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfuA4-000FtT-0T;
-	Sat, 25 Mar 2023 03:01:44 +0000
-Date: Sat, 25 Mar 2023 11:01:32 +0800
+	id 1pfv77-000FvX-1d;
+	Sat, 25 Mar 2023 04:02:45 +0000
+Date: Sat, 25 Mar 2023 12:02:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Subject: Re: [PATCH] firmware: cs_dsp: Add a debugfs entry containing control
- details
-Message-ID: <202303251059.g8YEWRGa-lkp@intel.com>
-References: <20230324161010.938599-1-rf@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:dma-sync-rework 2/22]
+ arch/parisc/include/asm/vdso.h:10:10: fatal error:
+ generated/vdso32-offsets.h: No such file or directory
+Message-ID: <202303251132.We6NFavu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,84 +46,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324161010.938599-1-rf@opensource.cirrus.com>
 
-Hi Richard,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc3 next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/firmware-cs_dsp-Add-a-debugfs-entry-containing-control-details/20230325-001218
-patch link:    https://lore.kernel.org/r/20230324161010.938599-1-rf%40opensource.cirrus.com
-patch subject: [PATCH] firmware: cs_dsp: Add a debugfs entry containing control details
-config: mips-randconfig-r005-20230322 (https://download.01.org/0day-ci/archive/20230325/202303251059.g8YEWRGa-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git dma-sync-rework
+head:   985cd64f3b17b82468e68c6269e09a5556d3720e
+commit: 30859fbc741ae9358edd55aa0041ecd7ec95e808 [2/22] build workaround
+config: parisc-generic-64bit_defconfig (https://download.01.org/0day-ci/archive/20230325/202303251132.We6NFavu-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/62afac6e0c35c0d7e44e0bd1e4b2af8380413164
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Richard-Fitzgerald/firmware-cs_dsp-Add-a-debugfs-entry-containing-control-details/20230325-001218
-        git checkout 62afac6e0c35c0d7e44e0bd1e4b2af8380413164
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git/commit/?id=30859fbc741ae9358edd55aa0041ecd7ec95e808
+        git remote add arnd-asm-generic https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
+        git fetch --no-tags arnd-asm-generic dma-sync-rework
+        git checkout 30859fbc741ae9358edd55aa0041ecd7ec95e808
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/firmware/cirrus/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303251059.g8YEWRGa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303251132.We6NFavu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/firmware/cirrus/cs_dsp.c: In function 'cs_dsp_debugfs_read_controls_show':
->> drivers/firmware/cirrus/cs_dsp.c:471:44: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     471 |                 seq_printf(s, "%22.*s: %#8lx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
-         |                                        ~~~~^
-         |                                            |
-         |                                            long unsigned int
-         |                                        %#8x
-     472 |                            ctl->subname_len, ctl->subname, ctl->len,
-         |                                                            ~~~~~~~~
-         |                                                               |
-         |                                                               size_t {aka unsigned int}
+   In file included from arch/parisc/kernel/signal.c:32:
+>> arch/parisc/include/asm/vdso.h:10:10: fatal error: generated/vdso32-offsets.h: No such file or directory
+      10 | #include <generated/vdso32-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +471 drivers/firmware/cirrus/cs_dsp.c
+vim +10 arch/parisc/include/asm/vdso.h
 
-   459	
-   460	static int cs_dsp_coeff_base_reg(struct cs_dsp_coeff_ctl *ctl, unsigned int *reg,
-   461					 unsigned int off);
-   462	
-   463	static int cs_dsp_debugfs_read_controls_show(struct seq_file *s, void *ignored)
-   464	{
-   465		struct cs_dsp *dsp = s->private;
-   466		struct cs_dsp_coeff_ctl *ctl;
-   467		unsigned int reg;
-   468	
-   469		list_for_each_entry(ctl, &dsp->ctl_list, list) {
-   470			cs_dsp_coeff_base_reg(ctl, &reg, 0);
- > 471			seq_printf(s, "%22.*s: %#8lx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
-   472				   ctl->subname_len, ctl->subname, ctl->len,
-   473				   cs_dsp_mem_region_name(ctl->alg_region.type),
-   474				   ctl->offset, reg, ctl->fw_name, ctl->alg_region.alg, ctl->type,
-   475				   ctl->flags & WMFW_CTL_FLAG_VOLATILE ? 'V' : '-',
-   476				   ctl->flags & WMFW_CTL_FLAG_SYS ? 'S' : '-',
-   477				   ctl->flags & WMFW_CTL_FLAG_READABLE ? 'R' : '-',
-   478				   ctl->flags & WMFW_CTL_FLAG_WRITEABLE ? 'W' : '-',
-   479				   ctl->enabled ? "enabled" : "disabled",
-   480				   ctl->set ? "dirty" : "clean");
-   481		}
-   482	
-   483		return 0;
-   484	}
-   485	DEFINE_SHOW_ATTRIBUTE(cs_dsp_debugfs_read_controls);
-   486	
+df24e1783e6e0e Helge Deller 2021-12-08   6  
+df24e1783e6e0e Helge Deller 2021-12-08   7  #ifdef CONFIG_64BIT
+df24e1783e6e0e Helge Deller 2021-12-08   8  #include <generated/vdso64-offsets.h>
+df24e1783e6e0e Helge Deller 2021-12-08   9  #endif
+df24e1783e6e0e Helge Deller 2021-12-08 @10  #include <generated/vdso32-offsets.h>
+df24e1783e6e0e Helge Deller 2021-12-08  11  
+
+:::::: The code at line 10 was first introduced by commit
+:::::: df24e1783e6e0eb3dc0e3ba5a8df3bb0cc537408 parisc: Add vDSO support
+
+:::::: TO: Helge Deller <deller@gmx.de>
+:::::: CC: Helge Deller <deller@gmx.de>
 
 -- 
 0-DAY CI Kernel Test Service
