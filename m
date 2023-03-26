@@ -1,44 +1,47 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7A36AAE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 21:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38D86ABD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 23:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679865955; x=1711401955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=klFg1rTB6lgpLYoVDipAOSZrfAGFtIkpayfXE0udZvs=;
-  b=c5x0iV0N0Kkr8ynSmBm9G84wCl43VG4NN3x4HSsHfw+Jm++xhEzRMsvD
-   rWuEt9FBOkEY5rWE00unabwHROHG/JSNQZLN80imuSfdt8MRO0wIeJg95
-   OUxDWm35Jon8ARMjAtoWKwseMC18vBQ+E20bz8I4pxXQhGTjuXQVXHtzd
-   3AyX7X7y7IxMRUIYkZlMayO55C6oXhQJc+MBJaZkMujzjmYai5mc1UXZZ
-   Lur6HKyaf7yX21kItyJ/7nbTakELbpZlKLMIbKIW4WKrjVnqipy6JAjWe
-   MQAx4mnMS6onlMmhgt8CjN3FvUG9347QQSjZF8sGchwl2IbOOSVEI4Cqb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="340158543"
+  t=1679873338; x=1711409338;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZqzYgx1wmMTF/ya4EIk39hGV+DkzN55FNJE6pa1ltX8=;
+  b=elCUTxu9gscNzKHoJDw8370z+1KHDPbTY2qpeNbv5ehVdrNuNrrjNF9l
+   FfJ1Sv1Fylnt5/TN3LGVVwrNM512Tab57y/LdhQKkXQPV3Rxpadek7hp+
+   Fy9vxHMFIHfsai3XkIYebtAhbstpzQ2hwh/lPtRkhuI2JhE1yEH/VSRtO
+   rPPyx5xr7hx/6X+63aYSiyLWUX7rAtJgBvZdbD0v14ewWWcAxxlvMBRgF
+   e0RZtpogmM5DoRhOKQT69ysgmulK30m33fo+n+eui94lTBQWuJFvjEHtP
+   xnnCR5FCkxmvReQoRREUQZl+4U1FuDqUnuqw46VsxtvU4uFzsf7QNZHdX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="319798682"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="340158543"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 14:25:54 -0700
+   d="scan'208";a="319798682"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 16:28:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="676764241"
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="857471050"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="676764241"
+   d="scan'208";a="857471050"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Mar 2023 14:25:52 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Mar 2023 16:28:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgXs8-000HN5-0L;
-	Sun, 26 Mar 2023 21:25:52 +0000
-Date: Mon, 27 Mar 2023 05:25:26 +0800
+	id 1pgZnC-000HPD-1v;
+	Sun, 26 Mar 2023 23:28:54 +0000
+Date: Mon, 27 Mar 2023 07:28:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used
- uninitialized
-Message-ID: <202303270506.UifKK4hb-lkp@intel.com>
+To: Joy Chakraborty <joychakr@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, manugautam@google.com,
+	rohitner@google.com, Joy Chakraborty <joychakr@google.com>
+Subject: Re: [PATCH v3 2/2] spi: dw: Add dma controller capability checks
+Message-ID: <202303270715.w9sMJhIh-lkp@intel.com>
+References: <20230326173511.710749-3-joychakr@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +50,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230326173511.710749-3-joychakr@google.com>
 
-Hi Marco,
+Hi Joy,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0ec57cfa721fbd36b4c4c0d9ccc5d78a78f7fa35
-commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-date:   5 months ago
-config: arc-randconfig-r021-20230327 (https://download.01.org/0day-ci/archive/20230327/202303270506.UifKK4hb-lkp@intel.com/config)
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joy-Chakraborty/spi-dw-Add-32-bpw-support-to-DW-DMA-Controller/20230327-013645
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20230326173511.710749-3-joychakr%40google.com
+patch subject: [PATCH v3 2/2] spi: dw: Add dma controller capability checks
+config: arc-randconfig-s041-20230326 (https://download.01.org/0day-ci/archive/20230327/202303270715.w9sMJhIh-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80a21da360516fa602f3a50eb9792f9dfbfb5fdb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/9962c1acd23cb0766a09948c1bee4f29950b8a96
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Joy-Chakraborty/spi-dw-Add-32-bpw-support-to-DW-DMA-Controller/20230327-013645
+        git checkout 9962c1acd23cb0766a09948c1bee4f29950b8a96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303270506.UifKK4hb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303270715.w9sMJhIh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-dw-dma.c:241:56: sparse: sparse: marked inline, but without a definition
 
-   drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
->> drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized [-Wuninitialized]
-     817 |         u16 p_best, p;
-         |             ^~~~~~
->> drivers/media/i2c/tc358746.c:816:13: warning: 'm_best' is used uninitialized [-Wuninitialized]
-     816 |         u16 m_best, mul;
-         |             ^~~~~~
+vim +241 drivers/spi/spi-dw-dma.c
 
-
-vim +/p_best +817 drivers/media/i2c/tc358746.c
-
-   805	
-   806	static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
-   807							unsigned long refclk,
-   808							unsigned long fout)
-   809	
-   810	{
-   811		struct device *dev = tc358746->sd.dev;
-   812		unsigned long best_freq = 0;
-   813		u32 min_delta = 0xffffffff;
-   814		u16 prediv_max = 17;
-   815		u16 prediv_min = 1;
- > 816		u16 m_best, mul;
- > 817		u16 p_best, p;
-   818		u8 postdiv;
-   819	
-   820		if (fout > 1000 * HZ_PER_MHZ) {
-   821			dev_err(dev, "HS-Clock above 1 Ghz are not supported\n");
-   822			return 0;
-   823		}
-   824	
-   825		if (fout >= 500 * HZ_PER_MHZ)
-   826			postdiv = 1;
-   827		else if (fout >= 250 * HZ_PER_MHZ)
-   828			postdiv = 2;
-   829		else if (fout >= 125 * HZ_PER_MHZ)
-   830			postdiv = 4;
-   831		else
-   832			postdiv = 8;
-   833	
-   834		for (p = prediv_min; p <= prediv_max; p++) {
-   835			unsigned long delta, fin;
-   836			u64 tmp;
-   837	
-   838			fin = DIV_ROUND_CLOSEST(refclk, p);
-   839			if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
-   840				continue;
-   841	
-   842			tmp = fout * p * postdiv;
-   843			do_div(tmp, fin);
-   844			mul = tmp;
-   845			if (mul > 511)
-   846				continue;
-   847	
-   848			tmp = mul * fin;
-   849			do_div(tmp, p * postdiv);
-   850	
-   851			delta = abs(fout - tmp);
-   852			if (delta < min_delta) {
-   853				p_best = p;
-   854				m_best = mul;
-   855				min_delta = delta;
-   856				best_freq = tmp;
-   857			};
-   858	
-   859			if (delta == 0)
-   860				break;
-   861		};
-   862	
-   863		if (!best_freq) {
-   864			dev_err(dev, "Failed find PLL frequency\n");
-   865			return 0;
-   866		}
-   867	
-   868		tc358746->pll_post_div = postdiv;
-   869		tc358746->pll_pre_div = p_best;
-   870		tc358746->pll_mul = m_best;
-   871	
-   872		if (best_freq != fout)
-   873			dev_warn(dev, "Request PLL freq:%lu, found PLL freq:%lu\n",
-   874				 fout, best_freq);
-   875	
-   876		dev_dbg(dev, "Found PLL settings: freq:%lu prediv:%u multi:%u postdiv:%u\n",
-   877			best_freq, p_best, m_best, postdiv);
-   878	
-   879		return best_freq;
-   880	}
-   881	
+f89a6d8f43ebe9 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  240  
+57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29 @241  static enum dma_slave_buswidth dw_spi_dma_convert_width(u8 n_bytes)
+57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29  242  {
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  243  	switch (n_bytes) {
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  244  	case 1:
+e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  245  		return DMA_SLAVE_BUSWIDTH_1_BYTE;
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  246  	case 2:
+e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  247  		return DMA_SLAVE_BUSWIDTH_2_BYTES;
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  248  	case 3:
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  249  	case 4:
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  250  		return DMA_SLAVE_BUSWIDTH_4_BYTES;
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  251  	default:
+e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  252  		return DMA_SLAVE_BUSWIDTH_UNDEFINED;
+e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  253  	}
+80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  254  }
+e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  255  
 
 -- 
 0-DAY CI Kernel Test Service
