@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC8064E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 05:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E12A64E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 05:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679807071; x=1711343071;
+  t=1679808992; x=1711344992;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hb+L7UYVa4M8p33EPDSU4OpFyYiazPOuKHOug9mJpNg=;
-  b=AhipyPEsKZaiWPgEAmBb3010aPS/nhAFzF6VkBXZHztJ3vLJi9+purY/
-   4B8PSwKdqvPzVX/C5qxkv8aNJslYqqw8TPENP996yVXLPCISy9LVD5fnQ
-   y+NOTdxTX4N84aDDTwQvxqreelckRnC+EHvKSlZUG8FdASsf0/ZO6LlZN
-   U+EdWCNmILrh0n6cfOoIa3jq7A3bqy4acXcw/tcLbqQQde9tFu8PB1VrF
-   AT7afBTSwkTv0i6lV1g6fDJbaQ7VzZeghKtPMohEU4Lfp3g4jY+mLMv2q
-   Uar+apqV/P5dcMwyrkFUIecauiH2hyh3Zyiy5cA6+6VXwMmDP+DQ/g0sq
+  bh=eIa4vUD0cnD04PtqCIU+4fHe6tuuzrPvWugF9MIixyQ=;
+  b=OCgn5Z4cE51ro2IcafnscbMtd9TMrm815WHWEOI2laUGHIoOJRd030Ay
+   VdbKKM9ebi6GasF4LLqvnTehSfJ9tQTz5uY80rGEtWxUL6oKHR0Ksil32
+   vfWH97L7wEXGMiVdwNLLBMluJBxdan7VL2M0FThXx07ac3FSlZLJ4Ba7i
+   t/FK/Vy3pWfPcsY0wGyx01vuzqZB74+S/3qCnuD/1fN5+QnQFzzHorHf9
+   FEC1CATpjAKXCUO9MEHhukrsVO4Bdf2nlj9waRsp4vcEyHFxP0EH+3byh
+   RXVIuKXO02OP8d2CZ2OM2n1QPDW45jgHkUJaz+nBxbibQl/6/KRHiwf/a
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="342448504"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="338770865"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="342448504"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 22:04:31 -0700
+   d="scan'208";a="338770865"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 22:36:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="772304634"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="752317708"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="772304634"
+   d="scan'208";a="752317708"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Mar 2023 22:04:30 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 25 Mar 2023 22:36:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgIYP-000Gtb-1I;
-	Sun, 26 Mar 2023 05:04:29 +0000
-Date: Sun, 26 Mar 2023 13:04:17 +0800
+	id 1pgJ3N-000Gu1-26;
+	Sun, 26 Mar 2023 05:36:29 +0000
+Date: Sun, 26 Mar 2023 13:35:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 51/60] drivers/tty/hvc/hvc_xen.c:422:57:
- warning: passing argument 1 of 'bind_interdomain_evtchn_to_irq_lateeoi'
- makes pointer from integer without a cast
-Message-ID: <202303261247.tZTtQYLO-lkp@intel.com>
+Subject: [sashal-stable:pending-5.10 51/60] drivers/tty/hvc/hvc_xen.c:422:47:
+ warning: incompatible integer to pointer conversion passing 'int' to
+ parameter of type 'struct xenbus_device *'
+Message-ID: <202303261357.feTBks8e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,58 +50,54 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
 head:   86de57a583009244b8dab2847952503da3a08a19
 commit: 9cd1b7ae28690f24cc448eb0bf28ec7a237c0224 [51/60] xen/events: link interdomain events to associated xenbus device
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230326/202303261247.tZTtQYLO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230326/202303261357.feTBks8e-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=9cd1b7ae28690f24cc448eb0bf28ec7a237c0224
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-5.10
         git checkout 9cd1b7ae28690f24cc448eb0bf28ec7a237c0224
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/tty/hvc/ drivers/xen/events/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/tty/hvc/ drivers/xen/events/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303261247.tZTtQYLO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303261357.feTBks8e-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/hvc/hvc_xen.c: In function 'xencons_connect_backend':
->> drivers/tty/hvc/hvc_xen.c:422:57: warning: passing argument 1 of 'bind_interdomain_evtchn_to_irq_lateeoi' makes pointer from integer without a cast [-Wint-conversion]
-     422 |         irq = bind_interdomain_evtchn_to_irq_lateeoi(dev->otherend_id, evtchn);
-         |                                                      ~~~^~~~~~~~~~~~~
-         |                                                         |
-         |                                                         int
-   In file included from drivers/tty/hvc/hvc_xen.c:25:
-   include/xen/events.h:39:66: note: expected 'struct xenbus_device *' but argument is of type 'int'
-      39 | int bind_interdomain_evtchn_to_irq_lateeoi(struct xenbus_device *dev,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/tty/hvc/hvc_xen.c: In function 'xen_hvc_init':
-   drivers/tty/hvc/hvc_xen.c:587:29: error: implicit declaration of function 'bind_evtchn_to_irq_lateeoi'; did you mean 'bind_evtchn_to_irqhandler_lateeoi'? [-Werror=implicit-function-declaration]
-     587 |                 info->irq = bind_evtchn_to_irq_lateeoi(info->evtchn);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             bind_evtchn_to_irqhandler_lateeoi
-   cc1: some warnings being treated as errors
+>> drivers/tty/hvc/hvc_xen.c:422:47: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct xenbus_device *' [-Wint-conversion]
+           irq = bind_interdomain_evtchn_to_irq_lateeoi(dev->otherend_id, evtchn);
+                                                        ^~~~~~~~~~~~~~~~
+   include/xen/events.h:39:66: note: passing argument to parameter 'dev' here
+   int bind_interdomain_evtchn_to_irq_lateeoi(struct xenbus_device *dev,
+                                                                    ^
+   drivers/tty/hvc/hvc_xen.c:587:15: error: implicit declaration of function 'bind_evtchn_to_irq_lateeoi' [-Werror,-Wimplicit-function-declaration]
+                   info->irq = bind_evtchn_to_irq_lateeoi(info->evtchn);
+                               ^
+   1 warning and 1 error generated.
 --
->> drivers/xen/events/events_base.c:1199:5: warning: no previous prototype for 'bind_evtchn_to_irq_lateeoi' [-Wmissing-prototypes]
-    1199 | int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/events/events_base.c: In function 'bind_evtchn_to_irq_lateeoi':
-   drivers/xen/events/events_base.c:1201:16: error: too few arguments to function 'bind_evtchn_to_irq_chip'
-    1201 |         return bind_evtchn_to_irq_chip(evtchn, &xen_lateeoi_chip);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/events/events_base.c:1153:12: note: declared here
-    1153 | static int bind_evtchn_to_irq_chip(evtchn_port_t evtchn, struct irq_chip *chip,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/events/events_base.c:1202:1: error: control reaches end of non-void function [-Werror=return-type]
-    1202 | }
-         | ^
-   cc1: some warnings being treated as errors
+   drivers/xen/events/events_base.c:1201:58: error: too few arguments to function call, expected 3, have 2
+           return bind_evtchn_to_irq_chip(evtchn, &xen_lateeoi_chip);
+                  ~~~~~~~~~~~~~~~~~~~~~~~                          ^
+   drivers/xen/events/events_base.c:1153:12: note: 'bind_evtchn_to_irq_chip' declared here
+   static int bind_evtchn_to_irq_chip(evtchn_port_t evtchn, struct irq_chip *chip,
+              ^
+>> drivers/xen/events/events_base.c:1199:5: warning: no previous prototype for function 'bind_evtchn_to_irq_lateeoi' [-Wmissing-prototypes]
+   int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
+       ^
+   drivers/xen/events/events_base.c:1199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
+   ^
+   static 
+   1 warning and 1 error generated.
 
 
-vim +/bind_interdomain_evtchn_to_irq_lateeoi +422 drivers/tty/hvc/hvc_xen.c
+vim +422 drivers/tty/hvc/hvc_xen.c
 
 02e19f9c7cacfb drivers/tty/hvc/hvc_xen.c Stefano Stabellini  2012-01-30  410  
 02e19f9c7cacfb drivers/tty/hvc/hvc_xen.c Stefano Stabellini  2012-01-30  411  static int xencons_connect_backend(struct xenbus_device *dev,
