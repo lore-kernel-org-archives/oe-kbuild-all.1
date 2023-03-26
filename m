@@ -1,43 +1,48 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE307F7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 07:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95C6372;
+	Sun, 26 Mar 2023 08:40:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679816981; x=1711352981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w6MnFT9qrAEUQkVYK0bSJdJnJcnXrwAOO6zQ8esN5p8=;
-  b=A8hDYyuAbJVrtwOibMKzG19SHgw3/whjAxz/TMfGoL3fBlREcxvaJwjU
-   JqGDG4EHKNMRrD4Igf36Lr1bKYhQBvpCwNDi82UEkXboPUD93Zpcg5QJ9
-   LhfiZI/m9UccWhINpGtn2YOyuqVdbbVR5PTKkv84dCc/JEqyYQl25An2x
-   c9FjIrf5SLnqBeScGwFD+th3aHutgPFdsgYtrqU8E/AHPGSfi9T/2kpNR
-   29Z2dUuf6Ha9XzUnVzMRMATOoibNsq1lGIDgucBbCrnrfcxmrlXdqbXG3
-   Us3wX/jAD35Dg5jpPy90S8a/FW7cq5XPFqOOOQZTCSt1sexulHdGHVp/A
+  t=1679820038; x=1711356038;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N6dUsrWNh5ZG+2Cl6547/PoM1DWg7zz+R8iUxF6D7Yk=;
+  b=LI0X1cCA/YAlZ2FVfHfhC1fTKJmOHQ/vkpmVtwofC94fLxIUIhVUlaBt
+   2fLcfKo/4BUD5iuLLvoQLFnUVSnetXmHq8I/aST/c4HxZkMiydRPk/vHd
+   YGbiSOlai+eaPyb/+sS8tHWNb6DCfArPsI25yv9ah6W+UMsXoJ7vdwqag
+   PNg0MHVh4R/Gai/iRJjHRndVfVIaCW67E+dgPYdQaTcXsluwAtfOE9ZS4
+   8zf4fpw5VxXT8JwV8OnlI1PeOphiyeCYI/gaaejuQu+J6Wr4E1JKRG8po
+   kn4Xy8nZmqa5xollPDCA/vwDgtnEpy/7WJtm3OFBpA2+46qSXEcJqVzdO
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="337565958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="337568700"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="337565958"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 00:49:33 -0700
+   d="scan'208";a="337568700"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 01:40:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="683118150"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="676640343"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="683118150"
+   d="scan'208";a="676640343"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 26 Mar 2023 00:49:32 -0700
+  by orsmga007.jf.intel.com with ESMTP; 26 Mar 2023 01:40:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgL87-000GxP-2d;
-	Sun, 26 Mar 2023 07:49:31 +0000
-Date: Sun, 26 Mar 2023 15:48:51 +0800
+	id 1pgLvV-000Gyz-1P;
+	Sun, 26 Mar 2023 08:40:33 +0000
+Date: Sun, 26 Mar 2023 16:40:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 51/60]
- drivers/xen/events/events_base.c:1201:58: error: too few arguments to
- function call, expected 3, have 2
-Message-ID: <202303261510.FXfuK9Ic-lkp@intel.com>
+To: Bharat Bhushan <bbhushan2@marvell.com>, wim@linux-watchdog.org,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bharat Bhushan <bbhushan2@marvell.com>
+Subject: Re: [PATCH 2/2] Watchdog: octeontx2: Add Pseudo-NMI GTI watchdog
+ driver
+Message-ID: <202303261656.JoHKPpgU-lkp@intel.com>
+References: <20230324145652.19221-2-bbhushan2@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +51,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230324145652.19221-2-bbhushan2@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   86de57a583009244b8dab2847952503da3a08a19
-commit: 9cd1b7ae28690f24cc448eb0bf28ec7a237c0224 [51/60] xen/events: link interdomain events to associated xenbus device
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230326/202303261510.FXfuK9Ic-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Bharat,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on groeck-staging/hwmon-next linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharat-Bhushan/Watchdog-octeontx2-Add-Pseudo-NMI-GTI-watchdog-driver/20230324-225820
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230324145652.19221-2-bbhushan2%40marvell.com
+patch subject: [PATCH 2/2] Watchdog: octeontx2: Add Pseudo-NMI GTI watchdog driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20230326/202303261656.JoHKPpgU-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=9cd1b7ae28690f24cc448eb0bf28ec7a237c0224
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.10
-        git checkout 9cd1b7ae28690f24cc448eb0bf28ec7a237c0224
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/b703845ae954bff5a3ae14669043889a8989adde
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bharat-Bhushan/Watchdog-octeontx2-Add-Pseudo-NMI-GTI-watchdog-driver/20230324-225820
+        git checkout b703845ae954bff5a3ae14669043889a8989adde
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/bnxt_re/ drivers/watchdog/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303261510.FXfuK9Ic-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303261656.JoHKPpgU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/xen/events/events_base.c:1201:58: error: too few arguments to function call, expected 3, have 2
-           return bind_evtchn_to_irq_chip(evtchn, &xen_lateeoi_chip);
-                  ~~~~~~~~~~~~~~~~~~~~~~~                          ^
-   drivers/xen/events/events_base.c:1153:12: note: 'bind_evtchn_to_irq_chip' declared here
-   static int bind_evtchn_to_irq_chip(evtchn_port_t evtchn, struct irq_chip *chip,
-              ^
-   drivers/xen/events/events_base.c:1199:5: warning: no previous prototype for function 'bind_evtchn_to_irq_lateeoi' [-Wmissing-prototypes]
-   int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
-       ^
-   drivers/xen/events/events_base.c:1199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
+>> drivers/watchdog/octeontx2_gti_watchdog.c:67:6: warning: no previous prototype for function 'octeontx2_gti_wdt_callback_other_cpus' [-Wmissing-prototypes]
+   void octeontx2_gti_wdt_callback_other_cpus(void *unused)
+        ^
+   drivers/watchdog/octeontx2_gti_watchdog.c:67:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void octeontx2_gti_wdt_callback_other_cpus(void *unused)
    ^
    static 
-   1 warning and 1 error generated.
---
-   drivers/tty/hvc/hvc_xen.c:422:47: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct xenbus_device *' [-Wint-conversion]
-           irq = bind_interdomain_evtchn_to_irq_lateeoi(dev->otherend_id, evtchn);
-                                                        ^~~~~~~~~~~~~~~~
-   include/xen/events.h:39:66: note: passing argument to parameter 'dev' here
-   int bind_interdomain_evtchn_to_irq_lateeoi(struct xenbus_device *dev,
-                                                                    ^
->> drivers/tty/hvc/hvc_xen.c:587:15: error: implicit declaration of function 'bind_evtchn_to_irq_lateeoi' [-Werror,-Wimplicit-function-declaration]
-                   info->irq = bind_evtchn_to_irq_lateeoi(info->evtchn);
-                               ^
-   1 warning and 1 error generated.
+   1 warning generated.
 
 
-vim +1201 drivers/xen/events/events_base.c
+vim +/octeontx2_gti_wdt_callback_other_cpus +67 drivers/watchdog/octeontx2_gti_watchdog.c
 
-e46cdb66c8fc1c arch/i386/xen/events.c           Jeremy Fitzhardinge 2007-07-17  1198  
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07  1199  int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07  1200  {
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07 @1201  	return bind_evtchn_to_irq_chip(evtchn, &xen_lateeoi_chip);
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07  1202  }
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07  1203  EXPORT_SYMBOL_GPL(bind_evtchn_to_irq_lateeoi);
-54c9de89895e0a drivers/xen/events/events_base.c Juergen Gross       2020-09-07  1204  
-
-:::::: The code at line 1201 was first introduced by commit
-:::::: 54c9de89895e0a36047fcc4ae754ea5b8655fb9d xen/events: add a new "late EOI" evtchn framework
-
-:::::: TO: Juergen Gross <jgross@suse.com>
-:::::: CC: Juergen Gross <jgross@suse.com>
+    66	
+  > 67	void octeontx2_gti_wdt_callback_other_cpus(void *unused)
+    68	{
+    69		struct pt_regs *regs = get_irq_regs();
+    70	
+    71		pr_emerg("GTI Watchdog CPU:%d\n", raw_smp_processor_id());
+    72	
+    73		if (regs)
+    74			show_regs(regs);
+    75		else
+    76			dump_stack();
+    77	}
+    78	
 
 -- 
 0-DAY CI Kernel Test Service
