@@ -1,43 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C336A;
-	Sun, 26 Mar 2023 00:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F8136A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 00:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679790386; x=1711326386;
+  t=1679790446; x=1711326446;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PjyW3M9gchViuMOkWKBiti9p0Vnkx+btmmxL03qkX8E=;
-  b=BWzU58qOuNgr2SbpgvokHWmowt1Obi9TeBmD5eMqBKHr9FHYSAZfmX36
-   0lp66oE0eYE0WGSRQ+8594KQjx2Dn4TioEc4dzPd5snwBRZIK53KPVRF5
-   iimt2Om8LWHE3RhECxTABbkIZq1O/49UknIlWWSDw0nAqiEEV3RYA3DnU
-   aXf+uNTLl+jrkP+KH+Im6dn0DAxryxPcfRyoN3lsVALwqembmDvoMXwIN
-   RihcHSJgAgeLlECvoD4WIAbbpmjVgkv6dlmKP8DpBJ2RTujsNZsUgtgWR
-   uMxkRH2G7GDRwZdRnRcZEU6I3ZSiWbvmTsGx/oXsMqISu+gduniz+PRsX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="338747827"
+  bh=UEwv8iyHukdJuqSIDOgvaEuTpOAfRruovVEWOEbwvP0=;
+  b=EaAkSTCcP3tWoag6yKBk3z2ORmPtEcFsAYjB2EuOaS6tmzGVM7bAOGLo
+   LFucgTI0/LVmnmJ44MURpx0DVo55PgFfvGMcN7SyhqC6gTvka0sv+D2Kq
+   zw1A7zmYgAaOF1tXiXYcTEFtAM27AsAmvcaN8YdX7WkPt9OxzyzFzIn+u
+   CYugLJCCYMTmQL7vPKoCWYZqPiVarSGxpJ1oL00t4JTNxZ4/EUjiA6q+b
+   DCkyvXvt335usd58G3x40rByFvUQDjVctTYQ6abKuB4X4CNtzl+jB66Xl
+   teEmQcx5KzsEGhxYWGs2JsPr5I54ZOSjLmjF30qL3Hhwq5brICCxSksBR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="426287884"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="338747827"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 17:26:26 -0700
+   d="scan'208";a="426287884"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 17:27:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="747571641"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="1012670629"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="747571641"
+   d="scan'208";a="1012670629"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Mar 2023 17:26:24 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 25 Mar 2023 17:27:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgEDH-000Gm7-3D;
-	Sun, 26 Mar 2023 00:26:23 +0000
-Date: Sun, 26 Mar 2023 08:26:23 +0800
+	id 1pgEEG-000GmB-02;
+	Sun, 26 Mar 2023 00:27:24 +0000
+Date: Sun, 26 Mar 2023 08:26:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 8/39] sound/soc/soc-ops.c:817:5: warning:
- stack frame size (1072) exceeds limit (1024) in 'snd_soc_set_enum_kctl'
-Message-ID: <202303260852.KupV2smW-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.2/prjc 284/378] kernel/sched/cputime.c:252:31: error:
+ 'paravirt_steal_enabled' undeclared
+Message-ID: <202303260807.xHzosPfT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,79 +46,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   b4adc8d4b163c456483eded9c3b6b1082b8feb40
-commit: e44f313d4ee5114ffdf399b048f8fcab0a177ba5 [8/39] ASoC: ops: Introduce 'soc_set_enum_kctl'
-config: riscv-randconfig-r032-20230326 (https://download.01.org/0day-ci/archive/20230326/202303260852.KupV2smW-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi Alfred,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
+head:   cc40208b65c30b11f0c42b3b4d347fb315de837b
+commit: 2f71a7687db0896451980a290f1fa0a9f5c47e3d [284/378] sched/alt: Headers cleanup
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230326/202303260807.xHzosPfT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/AsahiLinux/linux/commit/e44f313d4ee5114ffdf399b048f8fcab0a177ba5
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/070-audio
-        git checkout e44f313d4ee5114ffdf399b048f8fcab0a177ba5
+        # https://github.com/zen-kernel/zen-kernel/commit/2f71a7687db0896451980a290f1fa0a9f5c47e3d
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.2/prjc
+        git checkout 2f71a7687db0896451980a290f1fa0a9f5c47e3d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303260852.KupV2smW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303260807.xHzosPfT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/soc-ops.c:817:5: warning: stack frame size (1072) exceeds limit (1024) in 'snd_soc_set_enum_kctl' [-Wframe-larger-than]
-   int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-       ^
-   84/1072 (7.84%) spills, 988/1072 (92.16%) variables
-   1 warning generated.
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/idle.c: In function 'cpu_idle_poll':
+   kernel/sched/idle.c:56:9: error: implicit declaration of function 'ct_idle_enter'; did you mean 'cpuidle_enter'? [-Werror=implicit-function-declaration]
+      56 |         ct_idle_enter();
+         |         ^~~~~~~~~~~~~
+         |         cpuidle_enter
+   kernel/sched/idle.c:63:9: error: implicit declaration of function 'ct_idle_exit'; did you mean 'ct_irq_exit'? [-Werror=implicit-function-declaration]
+      63 |         ct_idle_exit();
+         |         ^~~~~~~~~~~~
+         |         ct_irq_exit
+   In file included from kernel/sched/build_policy.c:56:
+   kernel/sched/cputime.c: In function 'steal_account_process_time':
+>> kernel/sched/cputime.c:252:31: error: 'paravirt_steal_enabled' undeclared (first use in this function)
+     252 |         if (static_key_false(&paravirt_steal_enabled)) {
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/cputime.c:252:31: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/sched/cputime.c:255:25: error: implicit declaration of function 'paravirt_steal_clock' [-Werror=implicit-function-declaration]
+     255 |                 steal = paravirt_steal_clock(smp_processor_id());
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/snd_soc_set_enum_kctl +817 sound/soc/soc-ops.c
+vim +/paravirt_steal_enabled +252 kernel/sched/cputime.c
 
-   806	
-   807	/**
-   808	 * snd_soc_set_enum_kctl - Set enumerated controls matching a pattern
-   809	 *
-   810	 * @card: where to look for the controls
-   811	 * @name: name pattern
-   812	 * @value: string value to set the controls to
-   813	 *
-   814	 * Return number of matching and set controls on success, else error.
-   815	 * No controls need to match.
-   816	 */
- > 817	int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-   818		const char *name, const char *value)
-   819	{
-   820		struct snd_kcontrol *kctl;
-   821		int hits = 0;
-   822		int ret;
-   823	
-   824		/* Sanity check for name */
-   825		if (unlikely(!name))
-   826			return -EINVAL;
-   827	
-   828		list_for_each_entry(kctl, &card->snd_card->controls, list) {
-   829			if (!soc_control_matches(kctl, name))
-   830				continue;
-   831	
-   832			ret = soc_set_enum_kctl(kctl, value);
-   833			if (ret < 0)
-   834				return ret;
-   835			hits++;
-   836		}
-   837	
-   838		if (!hits)
-   839			return -EINVAL;
-   840	
-   841		return hits;
-   842	}
-   843	EXPORT_SYMBOL_GPL(snd_soc_set_enum_kctl);
-   844	
+1fcf54deb767d4 Josh Don            2022-06-29  243  
+03cbc732639ddc Wanpeng Li          2016-08-17  244  /*
+03cbc732639ddc Wanpeng Li          2016-08-17  245   * When a guest is interrupted for a longer amount of time, missed clock
+03cbc732639ddc Wanpeng Li          2016-08-17  246   * ticks are not redelivered later. Due to that, this function may on
+03cbc732639ddc Wanpeng Li          2016-08-17  247   * occasion account more time than the calling functions think elapsed.
+03cbc732639ddc Wanpeng Li          2016-08-17  248   */
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  249  static __always_inline u64 steal_account_process_time(u64 maxtime)
+73fbec604432e1 Frederic Weisbecker 2012-06-16  250  {
+73fbec604432e1 Frederic Weisbecker 2012-06-16  251  #ifdef CONFIG_PARAVIRT
+73fbec604432e1 Frederic Weisbecker 2012-06-16 @252  	if (static_key_false(&paravirt_steal_enabled)) {
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  253  		u64 steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  254  
+73fbec604432e1 Frederic Weisbecker 2012-06-16 @255  		steal = paravirt_steal_clock(smp_processor_id());
+73fbec604432e1 Frederic Weisbecker 2012-06-16  256  		steal -= this_rq()->prev_steal_time;
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  257  		steal = min(steal, maxtime);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  258  		account_steal_time(steal);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  259  		this_rq()->prev_steal_time += steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  260  
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  261  		return steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  262  	}
+73fbec604432e1 Frederic Weisbecker 2012-06-16  263  #endif
+807e5b80687c06 Wanpeng Li          2016-06-13  264  	return 0;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  265  }
+73fbec604432e1 Frederic Weisbecker 2012-06-16  266  
+
+:::::: The code at line 252 was first introduced by commit
+:::::: 73fbec604432e1fbfeb1bc59a110dac1f98160f6 sched: Move cputime code to its own file
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Frederic Weisbecker <fweisbec@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
