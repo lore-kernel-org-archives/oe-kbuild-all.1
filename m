@@ -1,43 +1,45 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C899762F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 04:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A92664E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 04:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679804010; x=1711340010;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kFNku97bZt6y06wwP5iCpxBEPE+eUMrqt5tBnu/AXoo=;
-  b=PpJd8dpKHBNXTSYE3bDNZlC/dA+MMsvUyIcX2+e+16W5muOgrFCq+zes
-   qIt0rQ77S7fbYKZrvML/6wSfFsZujccZIFeZCfFYrus6QXiSXyV53MGQk
-   Bpes9FTOFBOgVxlOFQV2frL3rgdUVcrDsR7EN/segeympmLC1/DUxH5jL
-   qe9aS++M4+nNGJkQY6Ut37kpSzGRCuYj+tIW7ITWzalVGaQHE3BRndFvo
-   2wIr9jlrcrJ65xX8d8g9c4Bh4sLVIbt+NAu2NmYNcmG8DqO0Ob/Ruw6eP
-   jhKQEQdNG1iYfIQHfmDsooJ7NxHu0vqzZ9iwOJtwtEg94k5cEqcQ3K/t5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="341618968"
+  t=1679806472; x=1711342472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=goI5FIzzqqXyMlc1zypX0lLLheZbHnfA8Kj2NjXg4io=;
+  b=LXivRa0o5ZktbbCC4oJPRQ6FwRm4JXeZi7iL88QF0DU5xwiyr7ZZd+gS
+   8NTpdoFNkbuuuzF6hFWRxTB0Qb0ufaSwueTaHZxgtgEtFimhD3rURCtfM
+   HVKGCaCZg4y2/X1EkGfZ5bkZp0ounf/ek435I3h1IQPZ1Cc+tNV4aDWVA
+   VT2GDFq9HR3ftXj/ZhVR/ZM5l5lSSWRMkODGLTgYYqzGkTM0xcFKuFTaX
+   1PG8hta1zJWRnxXAi1ZLh8EZxUC3Uvw0k5sTsFd1EuzkbJTO0fGlL9Plz
+   +ZJxDeTU0RgzkH0lL2Puwgrgs4S7BZMAoUiaa8QTUqZH1k6BSEdaOh2tD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="341622492"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="341618968"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 21:13:30 -0700
+   d="scan'208";a="341622492"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 21:54:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="676596159"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="793913345"
 X-IronPort-AV: E=Sophos;i="5.98,291,1673942400"; 
-   d="scan'208";a="676596159"
+   d="scan'208";a="793913345"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Mar 2023 21:13:29 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 21:54:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgHl2-000Grv-1D;
-	Sun, 26 Mar 2023 04:13:28 +0000
-Date: Sun, 26 Mar 2023 12:13:17 +0800
+	id 1pgIOj-000GtJ-0t;
+	Sun, 26 Mar 2023 04:54:29 +0000
+Date: Sun, 26 Mar 2023 12:54:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:regcache-maple 9/9]
- drivers/base/regmap/regcache-maple.c:107:23: warning: 'lower_index' is used
- uninitialized
-Message-ID: <202303261249.u43tji3k-lkp@intel.com>
+To: Eric Sage <eric_sage@apple.com>, netfilter-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, fw@strlen.de, kadlec@netfilter.org,
+	pablo@netfilter.org, Eric Sage <eric_sage@apple.com>
+Subject: Re: [PATCH v4] netfilter: nfnetlink_queue: enable classid socket
+ info retrieval
+Message-ID: <202303261230.0O0Nxzgo-lkp@intel.com>
+References: <20230326022449.92668-1-eric_sage@apple.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,110 +48,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230326022449.92668-1-eric_sage@apple.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regcache-maple
-head:   4af3053a956457882ba34e259c4ae8df3502caf4
-commit: 4af3053a956457882ba34e259c4ae8df3502caf4 [9/9] regmap: Add maple tree based register cache
-config: arc-randconfig-r012-20230326 (https://download.01.org/0day-ci/archive/20230326/202303261249.u43tji3k-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+Hi Eric,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on horms-ipvs/master]
+[also build test ERROR on linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Sage/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230326-102636
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/20230326022449.92668-1-eric_sage%40apple.com
+patch subject: [PATCH v4] netfilter: nfnetlink_queue: enable classid socket info retrieval
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230326/202303261230.0O0Nxzgo-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=4af3053a956457882ba34e259c4ae8df3502caf4
-        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
-        git fetch --no-tags broonie-ci regcache-maple
-        git checkout 4af3053a956457882ba34e259c4ae8df3502caf4
+        # https://github.com/intel-lab-lkp/linux/commit/fea5f85f8e567b36d6ec0091654a910e282bac4e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Eric-Sage/netfilter-nfnetlink_queue-enable-classid-socket-info-retrieval/20230326-102636
+        git checkout fea5f85f8e567b36d6ec0091654a910e282bac4e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/base/regmap/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/netfilter/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303261249.u43tji3k-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303261230.0O0Nxzgo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/base/regmap/regcache-maple.c: In function 'regcache_maple_drop':
->> drivers/base/regmap/regcache-maple.c:107:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
-     107 |         unsigned long lower_index, lower_last;
-         |                       ^~~~~~~~~~~
->> drivers/base/regmap/regcache-maple.c:107:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
-     107 |         unsigned long lower_index, lower_last;
-         |                                    ^~~~~~~~~~
+   net/netfilter/nfnetlink_queue.c: In function 'nfqnl_build_packet_message':
+>> net/netfilter/nfnetlink_queue.c:423:56: error: expected ';' before 'tstamp'
+     423 |                 + nla_total_size(sizeof(u_int32_t))     /* cap_len */
+         |                                                    ^~~~~
+         |                                                        ;
+   ......
+     428 |         tstamp = skb_tstamp_cond(entskb, false);
+         |         ~~~~~~                                      
 
 
-vim +/lower_index +107 drivers/base/regmap/regcache-maple.c
+vim +423 net/netfilter/nfnetlink_queue.c
 
-   100	
-   101	static int regcache_maple_drop(struct regmap *map, unsigned int min,
-   102				       unsigned int max)
-   103	{
-   104		struct maple_tree *mt = map->cache;
-   105		MA_STATE(mas, mt, min, max);
-   106		unsigned long *entry, *lower, *upper;
- > 107		unsigned long lower_index, lower_last;
-   108		unsigned long upper_index, upper_last;
-   109		int ret;
-   110	
-   111		mas_for_each(&mas, entry, max) {
-   112			lower = NULL;
-   113			upper = NULL;
-   114	
-   115			/* Do we need to save any of this entry? */
-   116			if (mas.index < min) {
-   117				lower_index = mas.index;
-   118				lower_last = min -1;
-   119	
-   120				lower = kmemdup(entry, ((min - mas.index) *
-   121							sizeof(unsigned long)),
-   122						GFP_KERNEL);
-   123				if (!lower)
-   124					return -ENOMEM;
-   125			}
-   126	
-   127			if (mas.last > max) {
-   128				upper_index = max + 1;
-   129				upper_last = mas.last;
-   130	
-   131				upper = kmemdup(&entry[max + 1],
-   132						((mas.last - max) *
-   133						 sizeof(unsigned long)),
-   134						GFP_KERNEL);
-   135				if (!upper) {
-   136					kfree(lower);
-   137					return -ENOMEM;
-   138				}
-   139			}
-   140	
-   141			/* Delete the current entry */
-   142			mas_erase(&mas);
-   143			kfree(entry);
-   144	
-   145			/* Insert new nodes with the saved data */
-   146			if (lower) {
-   147				mas_set_range(&mas, lower_index, lower_last);
-   148				ret = mas_store_gfp(&mas, lower, GFP_KERNEL);
-   149				if (ret != 0) {
-   150					kfree(lower);
-   151					kfree(upper);
-   152					return ret;
-   153				}
-   154			}
-   155	
-   156			if (upper) {
-   157				mas_set_range(&mas, upper_index, upper_last);
-   158				ret = mas_store_gfp(&mas, upper, GFP_KERNEL);
-   159				if (ret != 0) {
-   160					kfree(upper);
-   161					return ret;
-   162				}
-   163			}
-   164		}
-   165	
-   166		return 0;
-   167	}
-   168	
+   387	
+   388	static struct sk_buff *
+   389	nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+   390				   struct nf_queue_entry *entry,
+   391				   __be32 **packet_id_ptr)
+   392	{
+   393		size_t size;
+   394		size_t data_len = 0, cap_len = 0;
+   395		unsigned int hlen = 0;
+   396		struct sk_buff *skb;
+   397		struct nlattr *nla;
+   398		struct nfqnl_msg_packet_hdr *pmsg;
+   399		struct nlmsghdr *nlh;
+   400		struct sk_buff *entskb = entry->skb;
+   401		struct net_device *indev;
+   402		struct net_device *outdev;
+   403		struct nf_conn *ct = NULL;
+   404		enum ip_conntrack_info ctinfo = 0;
+   405		const struct nfnl_ct_hook *nfnl_ct;
+   406		bool csum_verify;
+   407		char *secdata = NULL;
+   408		u32 seclen = 0;
+   409		ktime_t tstamp;
+   410	
+   411		size = nlmsg_total_size(sizeof(struct nfgenmsg))
+   412			+ nla_total_size(sizeof(struct nfqnl_msg_packet_hdr))
+   413			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
+   414			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
+   415	#if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
+   416			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
+   417			+ nla_total_size(sizeof(u_int32_t))	/* ifindex */
+   418	#endif
+   419			+ nla_total_size(sizeof(u_int32_t))	/* mark */
+   420			+ nla_total_size(sizeof(u_int32_t))	/* priority */
+   421			+ nla_total_size(sizeof(struct nfqnl_msg_packet_hw))
+   422			+ nla_total_size(sizeof(u_int32_t))	/* skbinfo */
+ > 423			+ nla_total_size(sizeof(u_int32_t))	/* cap_len */
+   424	#if IS_ENABLED(CONFIG_CGROUP_NET_CLASSID)
+   425			+ nla_total_size(sizeof(u_int32_t));	/* classid */
+   426	#endif
+   427	
+   428		tstamp = skb_tstamp_cond(entskb, false);
+   429		if (tstamp)
+   430			size += nla_total_size(sizeof(struct nfqnl_msg_packet_timestamp));
+   431	
+   432		size += nfqnl_get_bridge_size(entry);
+   433	
+   434		if (entry->state.hook <= NF_INET_FORWARD ||
+   435		   (entry->state.hook == NF_INET_POST_ROUTING && entskb->sk == NULL))
+   436			csum_verify = !skb_csum_unnecessary(entskb);
+   437		else
+   438			csum_verify = false;
+   439	
+   440		outdev = entry->state.out;
+   441	
+   442		switch ((enum nfqnl_config_mode)READ_ONCE(queue->copy_mode)) {
+   443		case NFQNL_COPY_META:
+   444		case NFQNL_COPY_NONE:
+   445			break;
+   446	
+   447		case NFQNL_COPY_PACKET:
+   448			if (!(queue->flags & NFQA_CFG_F_GSO) &&
+   449			    entskb->ip_summed == CHECKSUM_PARTIAL &&
+   450			    skb_checksum_help(entskb))
+   451				return NULL;
+   452	
+   453			data_len = READ_ONCE(queue->copy_range);
+   454			if (data_len > entskb->len)
+   455				data_len = entskb->len;
+   456	
+   457			hlen = skb_zerocopy_headlen(entskb);
+   458			hlen = min_t(unsigned int, hlen, data_len);
+   459			size += sizeof(struct nlattr) + hlen;
+   460			cap_len = entskb->len;
+   461			break;
+   462		}
+   463	
+   464		nfnl_ct = rcu_dereference(nfnl_ct_hook);
+   465	
 
 -- 
 0-DAY CI Kernel Test Service
