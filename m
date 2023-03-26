@@ -1,46 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486D5373
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 10:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA7E15AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 10:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679826819; x=1711362819;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=i+vT2Yv+9tXyOsApuWCxFHs7HUCVwIvClWiYPf+Qutg=;
-  b=WF1npF+ZkVkm89FLV1kZWmJYEFUbXhSrgeXG6M+aGeToptosKJL/8h3m
-   bnJNSPAAIK5vnqXMVAFUWoiP8ZaMnqUdIusaCYuUnHdJLSLvnBIRr00Qf
-   r9M+8F4X8hpMKYGwqbz5qXwbi5xW1XbDP5/BCoxhzL6EB93K7S263nmSS
-   E4Lg9GHeqhGKneRO9jkqyE6vVRCOxbX2UBqLMPIVFY2WF97heFt5gF3x3
-   B0iD7jmW6CPyqTgTL1m/VR95zhJCY8Rc5UKmbc25UoHQM2ZHkOSJrrxjW
-   /0W6MlKuWcwd9P7Kmf4LxUD1LMgim6vOdt+DelxejyRQ2n9DbRsC1ldLQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="320470298"
+  t=1679827959; x=1711363959;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gTd4kdnFmC3wE1GqFWLWq+oWqf5E6pP7lLTXrSlRJHg=;
+  b=dN7ppYryuRbRClz8fn6GNiIxT9Ct0ufFgzjJSCiDEYj22kefImjL0+VI
+   Ap/U9uU8f2oCwwZ4g/IgfjlVbdrtKmboxNIXJk8cthaTRw1k9pmj+Sup/
+   0htKed4UpRFS3gWMzlYLsw8EpSJ/9RyKsh+lkD2SIXLgJ7bAHJaurmSSg
+   iiIv433EaPORiLNk8+BhrvWuUQdRLDeazduLWBySd0uui7ppnosHGJ4bD
+   O3Nye4XTJIpOI0Ksp0H6hGLN0MGMI4opZ3eAemOnq5uuzzR4yKyLy/sby
+   Y7ilC6Vux4lSxfwNfPnOOc5xGKLE80yBMyopomlcajmIrivPXqXDDEzb4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="404994147"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="320470298"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 03:33:38 -0700
+   d="scan'208";a="404994147"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 03:52:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="676658164"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="685687788"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="676658164"
+   d="scan'208";a="685687788"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Mar 2023 03:33:37 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 26 Mar 2023 03:52:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgNgu-000H3H-1U;
-	Sun, 26 Mar 2023 10:33:36 +0000
-Date: Sun, 26 Mar 2023 18:32:38 +0800
+	id 1pgNzJ-000H4D-0Y;
+	Sun, 26 Mar 2023 10:52:37 +0000
+Date: Sun, 26 Mar 2023 18:52:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner (Microsoft) <brauner@kernel.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Josh Triplett <josh@joshtriplett.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-Subject: [lkp] [+454 bytes kernel size regression] [i386-tinyconfig]
- [5b31ca6562] fs: allow to tuck mounts explicitly
-Message-ID: <64201f46.o87j+SIw4ZuVXsIP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH bpf-next 03/13] bpf: Implement bpf namespace
+Message-ID: <202303261855.fwn7UyAo-lkp@intel.com>
+References: <20230326092208.13613-4-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,36 +45,43 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20230326092208.13613-4-laoar.shao@gmail.com>
 
+Hi Yafang,
 
-FYI, we noticed a +454 bytes kernel size regression due to commit:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on bpf-next/master]
 
-commit: 5b31ca65629e53f06bb0edf43d31fe5723d91ccd (fs: allow to tuck mounts explicitly)
-https://git.kernel.org/cgit/linux/kernel/git/vfs/idmapping.git b4/fs-tucked-mounts
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/fork-New-clone3-flag-for-BPF-namespace/20230326-172511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230326092208.13613-4-laoar.shao%40gmail.com
+patch subject: [RFC PATCH bpf-next 03/13] bpf: Implement bpf namespace
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230326/202303261855.fwn7UyAo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/97c1724462aa56ab051d35da4a23086e98466e40
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yafang-Shao/fork-New-clone3-flag-for-BPF-namespace/20230326-172511
+        git checkout 97c1724462aa56ab051d35da4a23086e98466e40
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303261855.fwn7UyAo-lkp@intel.com/
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
+All errors (new ones prefixed by >>):
 
-d13cc7e2: fs: use a for loop when locking a mount
-5b31ca65: fs: allow to tuck mounts explicitly
+   ld: kernel/nsproxy.o: in function `create_new_namespaces':
+>> nsproxy.c:(.text+0x164): undefined reference to `copy_bpfns'
+   ld: kernel/nsproxy.o: in function `free_nsproxy':
+>> nsproxy.c:(.text+0x551): undefined reference to `put_bpfns'
+>> ld: kernel/nsproxy.o:(.data+0x24): undefined reference to `init_bpf_ns'
+>> ld: fs/proc/namespaces.o:(.data+0x24): undefined reference to `bpfns_operations'
 
-+----------------------------+----------+----------+-------+
-|           symbol           | d13cc7e2 | 5b31ca65 | delta |
-+----------------------------+----------+----------+-------+
-| bzImage                    | 501536   | 501824   | 288   |
-| nm.t.do_move_mount         | 464      | 647      | 183   |
-| nm.t.lock_mount_mountpoint | 0        | 152      | 152   |
-| nm.t.attach_recursive_mnt  | 454      | 572      | 118   |
-| nm.t.mnt_tuck_mountpoint   | 0        | 69       | 69    |
-| nm.t.can_umount            | 0        | 44       | 44    |
-| nm.T.__ia32_sys_move_mount | 180      | 219      | 39    |
-| nm.T.path_mount            | 1092     | 1094     | 2     |
-| nm.T.path_umount           | 83       | 59       | -24   |
-| nm.t.lock_mount            | 136      | 7        | -129  |
-+----------------------------+----------+----------+-------+
-
-
-
-Thanks
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
