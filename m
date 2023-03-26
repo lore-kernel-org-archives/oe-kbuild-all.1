@@ -1,44 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851801845;
-	Sun, 26 Mar 2023 11:25:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE3B1C2F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 11:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679829941; x=1711365941;
+  t=1679830601; x=1711366601;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XbeqmbWfnwLwAoNzQkdlnSNyIRypRwvPWdNllCsjJDc=;
-  b=AihxeJ+0jMrCnnp7EEUiDUZUamIDo01lF+sLfMMBaUFGsWgbUcj/oh++
-   B8zixYZ5rD+OiPpQTHMm+w94WuCGF/D4i3KYGENYKCiPZ8jWO/PiBdmOU
-   OtbcR7uzj9IV5lzSWySduNAzUpfLt/qBaI7LOguPtQsQLkW1h2wPjNWx4
-   c7UAfZTGRFHNajIqp0RaC3Y5EazNzVevynbRW/vn6CPeGq8pTTepWO2zS
-   L/uFmSJcriF+EIsqQLzK+LYDqoa22GMI7KrMPU1crAEPIuV6D88zfsDaV
-   W/N/j9Y8rRQlL72kg9yiA0esgwaEJsS7x8JMYXWWFeJr2nbYs50XwCNHX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="323958014"
+  bh=AUcoz7VHcy0tTTimM8ucDsZWY0Qd0SmmeRpc7K8G6Ls=;
+  b=oFBBeowHn75O7nQxkObffbznV5Z8sKPbPAXA6HUGn3QJfCYNKzDwUSNw
+   0chpAjxEXwAVPQMuNaTw+JkHYSShEQyuGG4kqlGju9T2+DrjxEDqhX4Xa
+   QkECKOjsxnJiDdvp58s3iUmRqPDeT+1f/ZsOF99zUCXq6vtCaTP7BU3Do
+   vSJ1d81JaOuwgULLX2QsnYICUx7d1JY4N7MnYWhvCygSaTHB6MiA6Y9Lt
+   EEOwaVhHQVjL4VrOqS4zvoKs6vX9tu0euY2gxV4f+42fR2KmicrX2fXfG
+   y4Fcp9Rm4f8KCtp46ONW6EaN11EOUM8zz2kEOzhCrUQLLbqdxGmj72i8R
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="319728217"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="323958014"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 04:25:40 -0700
+   d="scan'208";a="319728217"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 04:36:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="826734266"
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="660569486"
 X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; 
-   d="scan'208";a="826734266"
+   d="scan'208";a="660569486"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Mar 2023 04:25:39 -0700
+  by orsmga006.jf.intel.com with ESMTP; 26 Mar 2023 04:36:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgOVG-000H63-11;
-	Sun, 26 Mar 2023 11:25:38 +0000
-Date: Sun, 26 Mar 2023 19:25:09 +0800
+	id 1pgOfu-000H6i-2r;
+	Sun, 26 Mar 2023 11:36:38 +0000
+Date: Sun, 26 Mar 2023 19:35:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
 Subject: [driver-core:class_cleanup 77/77]
- drivers/gpio/gpiolib-sysfs.c:557:18: error: no member named 'p' in 'struct
- class'
-Message-ID: <202303261930.3hImFQWz-lkp@intel.com>
+ drivers/gpio/gpiolib-sysfs.c:557:25: error: 'struct class' has no member
+ named 'p'; did you mean 'pm'?
+Message-ID: <202303261957.UQvos3xt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,35 +50,34 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git class_cleanup
 head:   7c7807965477de8463e209426241adc80f5e9bb7
 commit: 7c7807965477de8463e209426241adc80f5e9bb7 [77/77] driver core: class: remove subsystem private pointer from struct class
-config: arm-randconfig-r046-20230326 (https://download.01.org/0day-ci/archive/20230326/202303261930.3hImFQWz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230326/202303261957.UQvos3xt-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?id=7c7807965477de8463e209426241adc80f5e9bb7
         git remote add driver-core https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
         git fetch --no-tags driver-core class_cleanup
         git checkout 7c7807965477de8463e209426241adc80f5e9bb7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpio/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303261930.3hImFQWz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303261957.UQvos3xt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpio/gpiolib-sysfs.c:557:18: error: no member named 'p' in 'struct class'
-           if (!gpio_class.p) {
-                ~~~~~~~~~~ ^
-   drivers/gpio/gpiolib-sysfs.c:731:18: error: no member named 'p' in 'struct class'
-           if (!gpio_class.p)
-                ~~~~~~~~~~ ^
-   2 errors generated.
+   drivers/gpio/gpiolib-sysfs.c: In function 'gpiod_export':
+>> drivers/gpio/gpiolib-sysfs.c:557:25: error: 'struct class' has no member named 'p'; did you mean 'pm'?
+     557 |         if (!gpio_class.p) {
+         |                         ^
+         |                         pm
+   drivers/gpio/gpiolib-sysfs.c: In function 'gpiochip_sysfs_register':
+   drivers/gpio/gpiolib-sysfs.c:731:25: error: 'struct class' has no member named 'p'; did you mean 'pm'?
+     731 |         if (!gpio_class.p)
+         |                         ^
+         |                         pm
 
 
 vim +557 drivers/gpio/gpiolib-sysfs.c
