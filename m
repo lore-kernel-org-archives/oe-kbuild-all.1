@@ -1,41 +1,45 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8366E622;
-	Mon, 27 Mar 2023 03:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12B664C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 03:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679888644; x=1711424644;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=GQTgmM4Xb832yVBSVCyEVJDNRzrg9kfGPctLBLAgA0E=;
-  b=dk914gWMn2amCtjBdx6srR4329oEwErDe7oVCl2Gac0vAPS/1tNAgDeX
-   /oR8oP38XQ8xBUZkgEuo7XkRSZsgfslaTSUNs/bQk6aH4Graayenlrc64
-   jE5s8vpSzS14hoqtjEh7gsdqs+FbI3JdMJbFZQA/UCRRBh4KkZS5dcAXq
-   iGr1/Uu1mFKeiO6Pd55dOA6jiZwXcSB4QOzjhZX/IY7efBCtKIakMCA/v
-   LXfIsSV894bXXrdldil1YV4sVkWIqGYw92x9sEZhjjSsOcDm0DvsBljEW
-   VoVUH7gSwy86TKBiQ1NeG6ScA9cnzXQ1LH9Mxw2NxliUH1F6ZD/JN7XT2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="328609743"
+  t=1679888646; x=1711424646;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gZTOFeZ2MI8uBoxt3Mab3JTsurLNAgTZuLP1K0i7vzg=;
+  b=kJc/CWnl9JUFNtw1GwmiZz0QXgizU5Q0YSpu5YL2vJtwq9H68Ov1YbVJ
+   krfKbMOsAqU4sgtAqtbUdSWlCCqcF+wvsRHBGnTdGhCPFUS/BCmwXeW8D
+   e0IMORVjj8gOsT53pLcIuJttX014tSrUklRBoJDtW5tELoFzwowg36C2+
+   89kcCZ03FyCEXIRDfHvfi8GrBmS4nlqSB9kevWS3Hi+D9yoze6UEOHM6z
+   fC7Ao7X1DtlkuSMBmnQKZwnsy1tmHwaXMn3hnSxMjtOGCFDidAwKks4WO
+   35NamOIX3LR/1nANQdEdS4EVBT6fEBBDO2IcN9y9WLGHBYTeOTtfHUw0X
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="328609747"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="328609743"
+   d="scan'208";a="328609747"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 20:44:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="715919394"
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="715919406"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="715919394"
+   d="scan'208";a="715919406"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 26 Mar 2023 20:44:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgdm6-000HWo-11;
+	id 1pgdm6-000HWl-0t;
 	Mon, 27 Mar 2023 03:44:02 +0000
-Date: Mon, 27 Mar 2023 11:43:08 +0800
+Date: Mon, 27 Mar 2023 11:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: __ct_user_enter+0x33: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202303271143.eUG1UWi1-lkp@intel.com>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/usb/gadget/function/f_accessory.c:270:20: warning: implicit
+ truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1
+Message-ID: <202303271157.FDHsU75H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,123 +49,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Frederic Weisbecker <frederic@kernel.org>
-CC: "Paul E. McKenney" <paulmck@kernel.org>
-CC: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-
-Hi Frederic,
+Hi Benoit,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   197b6b60ae7bc51dd0814953c562833143b292aa
-commit: 0ffc781a19ed3030c792ad1a0e44e6e047bb9adc context_tracking: Rename __context_tracking_enter/exit() to __ct_user_enter/exit()
-date:   9 months ago
-config: x86_64-randconfig-a016-20230327 (https://download.01.org/0day-ci/archive/20230327/202303271143.eUG1UWi1-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: fc65a210c3bffecf9ea9ef0b77b8252e2f393102 ANDROID: usb: gadget: f_accessory: Add Android Accessory function
+date:   2 years, 3 months ago
+config: s390-randconfig-r044-20230327 (https://download.01.org/0day-ci/archive/20230327/202303271157.FDHsU75H-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0ffc781a19ed3030c792ad1a0e44e6e047bb9adc
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0ffc781a19ed3030c792ad1a0e44e6e047bb9adc
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=fc65a210c3bffecf9ea9ef0b77b8252e2f393102
+        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
+        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
+        git checkout fc65a210c3bffecf9ea9ef0b77b8252e2f393102
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/usb/gadget/function/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303271143.eUG1UWi1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303271157.FDHsU75H-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: sync_regs+0x24: call to memcpy() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x7a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x59: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x56: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x49: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_start+0x68: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x65: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_enter+0x14: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_enter+0x41: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter+0x1e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_irq_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_exit+0x3c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_exit+0x1b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_nmi_enter+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit+0x1e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_irq_enter+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x59: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x49: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x5f: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: __ct_user_enter+0x33: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
+   include/uapi/linux/swab.h:19:12: note: expanded from macro '___constant_swab32'
+           (((__u32)(x) & (__u32)0x000000ffUL) << 24) |            \
+                     ^
+   In file included from drivers/usb/gadget/function/f_accessory.c:43:
+   In file included from include/linux/usb/composite.h:41:
+   In file included from include/linux/usb/gadget.h:25:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:80:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
+           ___constant_swab32(x) :                 \
+                              ^
+   include/uapi/linux/swab.h:20:12: note: expanded from macro '___constant_swab32'
+           (((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |            \
+                     ^
+   In file included from drivers/usb/gadget/function/f_accessory.c:43:
+   In file included from include/linux/usb/composite.h:41:
+   In file included from include/linux/usb/gadget.h:25:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:80:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
+           ___constant_swab32(x) :                 \
+                              ^
+   include/uapi/linux/swab.h:21:12: note: expanded from macro '___constant_swab32'
+           (((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |            \
+                     ^
+   In file included from drivers/usb/gadget/function/f_accessory.c:43:
+   In file included from include/linux/usb/composite.h:41:
+   In file included from include/linux/usb/gadget.h:25:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:80:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
+           ___constant_swab32(x) :                 \
+                              ^
+   include/uapi/linux/swab.h:22:12: note: expanded from macro '___constant_swab32'
+           (((__u32)(x) & (__u32)0xff000000UL) >> 24)))
+                     ^
+   In file included from drivers/usb/gadget/function/f_accessory.c:43:
+   In file included from include/linux/usb/composite.h:41:
+   In file included from include/linux/usb/gadget.h:25:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:80:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:120:12: note: expanded from macro '__swab32'
+           __fswab32(x))
+                     ^
+   In file included from drivers/usb/gadget/function/f_accessory.c:43:
+   In file included from include/linux/usb/composite.h:41:
+   In file included from include/linux/usb/gadget.h:25:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:80:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/usb/gadget/function/f_accessory.c:270:20: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+           dev->disconnected = 1;
+                             ^ ~
+   drivers/usb/gadget/function/f_accessory.c:772:25: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+           _acc_dev->disconnected = 1;
+                                  ^ ~
+   drivers/usb/gadget/function/f_accessory.c:822:5: warning: no previous prototype for function 'acc_ctrlrequest' [-Wmissing-prototypes]
+   int acc_ctrlrequest(struct usb_composite_dev *cdev,
+       ^
+   drivers/usb/gadget/function/f_accessory.c:822:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int acc_ctrlrequest(struct usb_composite_dev *cdev,
+   ^
+   static 
+   drivers/usb/gadget/function/f_accessory.c:1172:14: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+           dev->online = 1;
+                       ^ ~
+   drivers/usb/gadget/function/f_accessory.c:1232:6: warning: no previous prototype for function 'acc_disconnect' [-Wmissing-prototypes]
+   void acc_disconnect(void)
+        ^
+   drivers/usb/gadget/function/f_accessory.c:1232:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void acc_disconnect(void)
+   ^
+   static 
+   drivers/usb/gadget/function/f_accessory.c:1303:18: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
+           struct acc_dev *dev;
+                           ^
+   drivers/usb/gadget/function/f_accessory.c:1330:5: warning: no previous prototype for function 'acc_ctrlrequest_configfs' [-Wmissing-prototypes]
+   int acc_ctrlrequest_configfs(struct usb_function *f,
+       ^
+   drivers/usb/gadget/function/f_accessory.c:1330:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int acc_ctrlrequest_configfs(struct usb_function *f,
+   ^
+   static 
+   27 warnings generated.
 
 
-objdump-func vmlinux.o __ct_user_enter:
-0000 00000000000061a0 <__ct_user_enter>:
-0000     61a0:	55                   	push   %rbp
-0001     61a1:	48 89 e5             	mov    %rsp,%rbp
-0004     61a4:	41 57                	push   %r15
-0006     61a6:	41 56                	push   %r14
-0008     61a8:	41 54                	push   %r12
-000a     61aa:	53                   	push   %rbx
-000b     61ab:	41 89 fe             	mov    %edi,%r14d
-000e     61ae:	65 4c 8b 3c 25 00 00 00 00 	mov    %gs:0x0,%r15	61b3: R_X86_64_32S	current_task
-0017     61b7:	4d 8b a7 a0 03 00 00 	mov    0x3a0(%r15),%r12
-001e     61be:	31 db                	xor    %ebx,%ebx
-0020     61c0:	4d 85 e4             	test   %r12,%r12
-0023     61c3:	0f 94 c3             	sete   %bl
-0026     61c6:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	61c9: R_X86_64_32S	_ftrace_annotated_branch+0x4e120
-002d     61cd:	89 de                	mov    %ebx,%esi
-002f     61cf:	31 d2                	xor    %edx,%edx
-0031     61d1:	31 c9                	xor    %ecx,%ecx
-0033     61d3:	e8 00 00 00 00       	call   61d8 <__ct_user_enter+0x38>	61d4: R_X86_64_PLT32	ftrace_likely_update-0x4
-0038     61d8:	4d 85 e4             	test   %r12,%r12
-003b     61db:	75 04                	jne    61e1 <__ct_user_enter+0x41>
-003d     61dd:	90                   	nop
-003e     61de:	0f 0b                	ud2
-0040     61e0:	90                   	nop
-0041     61e1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	61e4: R_X86_64_32S	_ftrace_annotated_branch+0x4e150
-0048     61e8:	89 de                	mov    %ebx,%esi
-004a     61ea:	31 d2                	xor    %edx,%edx
-004c     61ec:	31 c9                	xor    %ecx,%ecx
-004e     61ee:	e8 00 00 00 00       	call   61f3 <__ct_user_enter+0x53>	61ef: R_X86_64_PLT32	ftrace_likely_update-0x4
-0053     61f3:	e8 48 00 00 00       	call   6240 <context_tracking_recursion_enter>
-0058     61f8:	84 c0                	test   %al,%al
-005a     61fa:	74 3b                	je     6237 <__ct_user_enter+0x97>
-005c     61fc:	65 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%eax        # 6203 <__ct_user_enter+0x63>	61ff: R_X86_64_PC32	context_tracking+0x4
-0063     6203:	44 39 f0             	cmp    %r14d,%eax
-0066     6206:	74 28                	je     6230 <__ct_user_enter+0x90>
-0068     6208:	65 8a 05 00 00 00 00 	mov    %gs:0x0(%rip),%al        # 620f <__ct_user_enter+0x6f>	620b: R_X86_64_PC32	context_tracking-0x4
-006f     620f:	41 83 fe 01          	cmp    $0x1,%r14d
-0073     6213:	75 13                	jne    6228 <__ct_user_enter+0x88>
-0075     6215:	84 c0                	test   %al,%al
-0077     6217:	74 0f                	je     6228 <__ct_user_enter+0x88>
-0079     6219:	90                   	nop
-007a     621a:	e8 00 00 00 00       	call   621f <__ct_user_enter+0x7f>	621b: R_X86_64_PLT32	.text+0x56233c
-007f     621f:	4c 89 ff             	mov    %r15,%rdi
-0082     6222:	e8 00 00 00 00       	call   6227 <__ct_user_enter+0x87>	6223: R_X86_64_PLT32	vtime_user_enter-0x4
-0087     6227:	90                   	nop
-0088     6228:	65 44 89 35 00 00 00 00 	mov    %r14d,%gs:0x0(%rip)        # 6230 <__ct_user_enter+0x90>	622c: R_X86_64_PC32	context_tracking+0x4
-0090     6230:	65 ff 0d 00 00 00 00 	decl   %gs:0x0(%rip)        # 6237 <__ct_user_enter+0x97>	6233: R_X86_64_PC32	context_tracking
-0097     6237:	5b                   	pop    %rbx
-0098     6238:	41 5c                	pop    %r12
-009a     623a:	41 5e                	pop    %r14
-009c     623c:	41 5f                	pop    %r15
-009e     623e:	5d                   	pop    %rbp
-009f     623f:	c3                   	ret
+vim +/int +270 drivers/usb/gadget/function/f_accessory.c
+
+   267	
+   268	static void acc_set_disconnected(struct acc_dev *dev)
+   269	{
+ > 270		dev->disconnected = 1;
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
