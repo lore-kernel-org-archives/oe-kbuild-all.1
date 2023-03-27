@@ -1,48 +1,62 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583DB79CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 21:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F6179DD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 21:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679952459; x=1711488459;
+  t=1679954321; x=1711490321;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oY4+vDAxY0246pEy4b081gmn25gIUk5XxHRtZZZXKmo=;
-  b=eWcsHfqNyr3bLC4hC5A5r/QvMxVjuWKa/aYC6yPByURrBaRIdiePYa6v
-   7QZHL2NxgJAIOIydxuFyd6m1O1Ln/u2KqmK9vXjBciIUuVKWYXhAyrXxz
-   AxYp/049jrP/W8LUBd4ZTJDFNbyIBcleViHefoukbPaC5phQiOutE963u
-   DCy4okxMDboR158SjW0yREWaLBEltV7KnhJbI4ymPgkBANVy4WjbTvVKB
-   DFtSZp+MRYr9EAPLG2/ssZk8IAn9iAwbr3bVOYm77RBBGbWRELex15DSD
-   v/riTZo2DqGoFi06fqBqfTQmrRMG7h2IsKLb8vX5OPV8wpgkEiXAt/CTX
+  bh=K8elsuuHEP+ah5YfSiPOlfAsO3FRV8t6GIdL66uBhyg=;
+  b=NunPe94mYy9FXio6Fc960zTByQwAOF0wN87Pqj3M7IdlPYutKu9vFHIV
+   KQZamAWGlunn49GYsIm3c5e/Uu4gSGRV0EW3UnIAYScrpuek5qgGJxOgs
+   sOMZH34hBaXGUlHWsf87B08/kFlQ1PzTnHNrceKx1NhPD+BO/rrk/gRhs
+   9JTS5R19yT1g6ZdA20z1tt2A60fM+8/j4b6yqhxAclEV3IijFUypof2q0
+   aB3O0gcoZoLdYWT3h9wNba791fKq4p1bTBn3i2ggvo8kWIOyaY7xNk4cM
+   wRSheC4bXFuG4Xbe/FUvv2deKqYuVZz7yjmjhU79/jWQt9eZxXB1DM2su
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="368148897"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403002688"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="368148897"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 14:27:38 -0700
+   d="scan'208";a="403002688"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 14:58:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="1013280464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="929623497"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="1013280464"
+   d="scan'208";a="929623497"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Mar 2023 14:27:35 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Mar 2023 14:58:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pguNK-000I1v-2P;
-	Mon, 27 Mar 2023 21:27:34 +0000
-Date: Tue, 28 Mar 2023 05:27:24 +0800
+	id 1pgurL-000I2n-1e;
+	Mon, 27 Mar 2023 21:58:35 +0000
+Date: Tue, 28 Mar 2023 05:58:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: Re: [PATCH v4 1/5] firmware: qcom_scm: provide a read-modify-write
- function
-Message-ID: <202303280535.acb66sQT-lkp@intel.com>
-References: <1679935281-18445-2-git-send-email-quic_mojha@quicinc.com>
+To: Abel Vesa <abel.vesa@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v4 6/7] mmc: sdhci-msm: Switch to the new ICE API
+Message-ID: <202303280550.QHofWszH-lkp@intel.com>
+References: <20230327134734.3256974-7-abel.vesa@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,66 +65,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679935281-18445-2-git-send-email-quic_mojha@quicinc.com>
+In-Reply-To: <20230327134734.3256974-7-abel.vesa@linaro.org>
 
-Hi Mukesh,
+Hi Abel,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on next-20230327]
-[also build test WARNING on v6.3-rc4]
-[cannot apply to linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc4 v6.3-rc3 v6.3-rc2]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.3-rc4 next-20230327]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware-qcom_scm-provide-a-read-modify-write-function/20230328-004405
-patch link:    https://lore.kernel.org/r/1679935281-18445-2-git-send-email-quic_mojha%40quicinc.com
-patch subject: [PATCH v4 1/5] firmware: qcom_scm: provide a read-modify-write function
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303280535.acb66sQT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-crypto-Add-Qualcomm-Inline-Crypto-Engine/20230327-214958
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230327134734.3256974-7-abel.vesa%40linaro.org
+patch subject: [PATCH v4 6/7] mmc: sdhci-msm: Switch to the new ICE API
+config: microblaze-randconfig-s042-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280550.QHofWszH-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/47c3bb52fbb758e2238a7ab29c00e3188afe9754
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/2b59bf19ddc6de631e808bb2f30d5cf030f37828
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mukesh-Ojha/firmware-qcom_scm-provide-a-read-modify-write-function/20230328-004405
-        git checkout 47c3bb52fbb758e2238a7ab29c00e3188afe9754
+        git fetch --no-tags linux-review Abel-Vesa/dt-bindings-crypto-Add-Qualcomm-Inline-Crypto-Engine/20230327-214958
+        git checkout 2b59bf19ddc6de631e808bb2f30d5cf030f37828
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/firmware/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/soc/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303280535.acb66sQT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303280550.QHofWszH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/qcom/ice.c:273:32: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct qcom_ice * @@     got void [noderef] __iomem *[assigned] base @@
+   drivers/soc/qcom/ice.c:273:32: sparse:     expected struct qcom_ice *
+   drivers/soc/qcom/ice.c:273:32: sparse:     got void [noderef] __iomem *[assigned] base
 
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_io_update_field':
->> drivers/firmware/qcom_scm.c:419:49: warning: suggest parentheses around '-' inside '<<' [-Wparentheses]
-     419 |         new = (old & ~mask) | (val << ffs(mask) - 1);
-         |                                       ~~~~~~~~~~^~~
+vim +273 drivers/soc/qcom/ice.c
 
-
-vim +419 drivers/firmware/qcom_scm.c
-
-   409	
-   410	int qcom_scm_io_update_field(phys_addr_t addr, unsigned int mask, unsigned int val)
-   411	{
-   412		unsigned int old, new;
-   413		int ret;
-   414	
-   415		ret = qcom_scm_io_readl(addr, &old);
-   416		if (ret)
-   417			return ret;
-   418	
- > 419		new = (old & ~mask) | (val << ffs(mask) - 1);
-   420	
-   421		return qcom_scm_io_writel(addr, new);
-   422	}
-   423	EXPORT_SYMBOL(qcom_scm_io_update_field);
-   424	
+a9e1199fcc2742 Abel Vesa 2023-03-27  256  
+a9e1199fcc2742 Abel Vesa 2023-03-27  257  struct qcom_ice *of_qcom_ice_get(struct device *dev)
+a9e1199fcc2742 Abel Vesa 2023-03-27  258  {
+a9e1199fcc2742 Abel Vesa 2023-03-27  259  	struct platform_device *pdev = to_platform_device(dev);
+a9e1199fcc2742 Abel Vesa 2023-03-27  260  	struct qcom_ice *ice = ERR_PTR(-EPROBE_DEFER);
+a9e1199fcc2742 Abel Vesa 2023-03-27  261  	struct device_node *node;
+a9e1199fcc2742 Abel Vesa 2023-03-27  262  	struct resource *res;
+a9e1199fcc2742 Abel Vesa 2023-03-27  263  	void __iomem *base;
+a9e1199fcc2742 Abel Vesa 2023-03-27  264  
+a9e1199fcc2742 Abel Vesa 2023-03-27  265  	if (!dev || !dev->of_node)
+a9e1199fcc2742 Abel Vesa 2023-03-27  266  		return ERR_PTR(-ENODEV);
+a9e1199fcc2742 Abel Vesa 2023-03-27  267  
+a9e1199fcc2742 Abel Vesa 2023-03-27  268  	/* legacy has ice reg range in the consumer DT node */
+a9e1199fcc2742 Abel Vesa 2023-03-27  269  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ice");
+a9e1199fcc2742 Abel Vesa 2023-03-27  270  	if (res) {
+a9e1199fcc2742 Abel Vesa 2023-03-27  271  		base = devm_ioremap_resource(&pdev->dev, res);
+a9e1199fcc2742 Abel Vesa 2023-03-27  272  		if (IS_ERR(base))
+a9e1199fcc2742 Abel Vesa 2023-03-27 @273  			return base;
+a9e1199fcc2742 Abel Vesa 2023-03-27  274  
+a9e1199fcc2742 Abel Vesa 2023-03-27  275  		/* create ICE instance using consumer dev */
+a9e1199fcc2742 Abel Vesa 2023-03-27  276  		return qcom_ice_create(pdev, base);
+a9e1199fcc2742 Abel Vesa 2023-03-27  277  	}
+a9e1199fcc2742 Abel Vesa 2023-03-27  278  
+a9e1199fcc2742 Abel Vesa 2023-03-27  279  	node = of_parse_phandle(dev->of_node, "qcom,ice", 0);
+a9e1199fcc2742 Abel Vesa 2023-03-27  280  	if (!node) {
+a9e1199fcc2742 Abel Vesa 2023-03-27  281  		ice = NULL;
+a9e1199fcc2742 Abel Vesa 2023-03-27  282  		goto out;
+a9e1199fcc2742 Abel Vesa 2023-03-27  283  	}
+a9e1199fcc2742 Abel Vesa 2023-03-27  284  
+a9e1199fcc2742 Abel Vesa 2023-03-27  285  	pdev = of_find_device_by_node(node);
+a9e1199fcc2742 Abel Vesa 2023-03-27  286  	if (!pdev) {
+a9e1199fcc2742 Abel Vesa 2023-03-27  287  		dev_err(dev, "Cannot find device node %s\n", node->name);
+a9e1199fcc2742 Abel Vesa 2023-03-27  288  		goto out;
+a9e1199fcc2742 Abel Vesa 2023-03-27  289  	}
+a9e1199fcc2742 Abel Vesa 2023-03-27  290  
+a9e1199fcc2742 Abel Vesa 2023-03-27  291  	ice = platform_get_drvdata(pdev);
+a9e1199fcc2742 Abel Vesa 2023-03-27  292  	if (!ice) {
+a9e1199fcc2742 Abel Vesa 2023-03-27  293  		dev_err(dev, "Cannot get ice\n");
+a9e1199fcc2742 Abel Vesa 2023-03-27  294  		put_device(&pdev->dev);
+a9e1199fcc2742 Abel Vesa 2023-03-27  295  		return ERR_PTR(-ENODEV);
+a9e1199fcc2742 Abel Vesa 2023-03-27  296  	}
+a9e1199fcc2742 Abel Vesa 2023-03-27  297  
+a9e1199fcc2742 Abel Vesa 2023-03-27  298  out:
+a9e1199fcc2742 Abel Vesa 2023-03-27  299  	of_node_put(node);
+a9e1199fcc2742 Abel Vesa 2023-03-27  300  
+a9e1199fcc2742 Abel Vesa 2023-03-27  301  	return ice;
+a9e1199fcc2742 Abel Vesa 2023-03-27  302  }
+a9e1199fcc2742 Abel Vesa 2023-03-27  303  EXPORT_SYMBOL_GPL(of_qcom_ice_get);
+a9e1199fcc2742 Abel Vesa 2023-03-27  304  
 
 -- 
 0-DAY CI Kernel Test Service
