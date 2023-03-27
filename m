@@ -1,42 +1,50 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488966AB6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 18:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B696AB6;
+	Mon, 27 Mar 2023 18:12:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679940744; x=1711476744;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QHEusEBvCSPr6xHWXxFbZlXzTLxOuJ7bKPJOuO5tBrc=;
-  b=fcWRDp3BYgTEiXlQxIMmWq2itakHTp7BYI74mJzgw9sCqKHZ9UdKqCrq
-   chVMGz1jWuH19NwLIuy5jWpo3/GOaXX3185NsgOGKayWmso9+4tLqNJnY
-   vqYi2eu7I4BU07jtVrx2oYCADWCT1AWt0ZAzhqSicINQTRMj+Yc/3AcLV
-   RTzNVo26s2E0oI8UM175t/UMfKM0FGy8CCkK1NxYWB16YnzF1X+PX1LH9
-   RVM1qNnbqoiCZwkFYhNjiMzk8H1GvjLzegoyxDdKl4qZ99j1BCLq2lTvH
-   B4IXqQA+rdnObG6PhlTYByvEATAHyGdejufeD2agHUg4ArBW2sDwqACsx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342753068"
+  t=1679940750; x=1711476750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y6w2xJ/oqEByFFIHKtzvwFaQsZynVoW8risyl+Pyoy4=;
+  b=d7kOAQmP5fPC+x6egDBRB65MNBkU6PyQzovvVZBmYF2fK0eLBt2r4N+a
+   Dt2taGwCtcYzNeUQ8rK3ZmDZU3Lq8Y9Vz65rx4/031GI4iPqAUtnDzTPA
+   k39yZpGN+xeUT3oUihfVfsE1IDuR2YHqiMz6kd3SVrQdpTYpE8xHduhH9
+   TJH4pactzS+SuKvJaALadrO3wB/DkUTyzrR0IKu3seEeCuejY9fs2+V3f
+   B5TYvP//IRYeNxdBP9GmNFGWoIi2Y8OoHTXirZr6jw1ObtZgoXKMDSmdA
+   hPSE6g1ycCbfyFCc6B7aOIlkci7/NP5Ks9ivMl/58jb4HxvF9BGVuN8Vx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342753091"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="342753068"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 11:12:23 -0700
+   d="scan'208";a="342753091"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 11:12:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="677072842"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="713939744"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="677072842"
+   d="scan'208";a="713939744"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Mar 2023 11:12:22 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Mar 2023 11:12:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgrKP-000Hud-2h;
+	id 1pgrKP-000HuV-27;
 	Mon, 27 Mar 2023 18:12:21 +0000
-Date: Tue, 28 Mar 2023 02:11:56 +0800
+Date: Tue, 28 Mar 2023 02:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cel:nfsd-next 22/23] net/sunrpc/svcsock.c:237:22: error:
- 'TLS_RECORD_TYPE_ALERT' undeclared; did you mean 'TLS_RECORD_TYPE_DATA'?
-Message-ID: <202303280242.Xv5LvXcx-lkp@intel.com>
+To: Maximilian Weigand <mweigand@mweigand.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Maximilian Weigand <mweigand@mweigand.net>,
+	Alistair Francis <alistair@alistair23.me>
+Subject: Re: [PATCH 6/6] Input: cyttsp5: implement proper sleep and wakeup
+ procedures
+Message-ID: <202303280119.UlD7s4Rk-lkp@intel.com>
+References: <20230323135205.1160879-7-mweigand@mweigand.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,68 +53,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230323135205.1160879-7-mweigand@mweigand.net>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-next
-head:   1fe18960b9965f80c2d27af8f3cc769b587e7b23
-commit: 5e8add4e4927986d790e0bf718269d102dc7ccf6 [22/23] SUNRPC: Recognize control messages in server-side TCP socket code
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230328/202303280242.Xv5LvXcx-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Maximilian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.3-rc4 next-20230327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230323135205.1160879-7-mweigand%40mweigand.net
+patch subject: [PATCH 6/6] Input: cyttsp5: implement proper sleep and wakeup procedures
+config: i386-randconfig-a011-20230327 (https://download.01.org/0day-ci/archive/20230328/202303280119.UlD7s4Rk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=5e8add4e4927986d790e0bf718269d102dc7ccf6
-        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
-        git fetch --no-tags cel nfsd-next
-        git checkout 5e8add4e4927986d790e0bf718269d102dc7ccf6
+        # https://github.com/intel-lab-lkp/linux/commit/9988f8132aa9a4e8c9f0eb3093b06a9f02d90ec9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+        git checkout 9988f8132aa9a4e8c9f0eb3093b06a9f02d90ec9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/sunrpc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303280242.Xv5LvXcx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303280119.UlD7s4Rk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/sunrpc/svcsock.c: In function 'svc_tcp_sock_process_cmsg':
->> net/sunrpc/svcsock.c:237:22: error: 'TLS_RECORD_TYPE_ALERT' undeclared (first use in this function); did you mean 'TLS_RECORD_TYPE_DATA'?
-     237 |                 case TLS_RECORD_TYPE_ALERT:
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-         |                      TLS_RECORD_TYPE_DATA
-   net/sunrpc/svcsock.c:237:22: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/input/touchscreen/cyttsp5.c:581:6: warning: unused variable 'crc' [-Wunused-variable]
+           u16 crc;
+               ^
+   drivers/input/touchscreen/cyttsp5.c:620:6: warning: unused variable 'crc' [-Wunused-variable]
+           u16 crc;
+               ^
+   drivers/input/touchscreen/cyttsp5.c:700:5: warning: unused variable 'cmd' [-Wunused-variable]
+           u8 cmd[2];
+              ^
+>> drivers/input/touchscreen/cyttsp5.c:1004:6: warning: unused variable 'error' [-Wunused-variable]
+           int error;
+               ^
+>> drivers/input/touchscreen/cyttsp5.c:1003:21: warning: unused variable 'client' [-Wunused-variable]
+           struct i2c_client *client = to_i2c_client(dev);
+                              ^
+   5 warnings generated.
 
 
-vim +237 net/sunrpc/svcsock.c
+vim +/crc +581 drivers/input/touchscreen/cyttsp5.c
 
-   219	
-   220	static int
-   221	svc_tcp_sock_process_cmsg(struct svc_sock *svsk, struct msghdr *msg,
-   222				  struct cmsghdr *cmsg, int ret)
-   223	{
-   224		if (cmsg->cmsg_level == SOL_TLS &&
-   225		    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
-   226			u8 content_type = *((u8 *)CMSG_DATA(cmsg));
-   227	
-   228			trace_svcsock_tls_ctype(&svsk->sk_xprt, content_type);
-   229			switch (content_type) {
-   230			case TLS_RECORD_TYPE_DATA:
-   231				/* TLS sets EOR at the end of each application data
-   232				 * record, even though there might be more frames
-   233				 * waiting to be decrypted.
-   234				 */
-   235				msg->msg_flags &= ~MSG_EOR;
-   236				break;
- > 237			case TLS_RECORD_TYPE_ALERT:
-   238				ret = -ENOTCONN;
-   239				break;
-   240			default:
-   241				ret = -EAGAIN;
-   242			}
-   243		}
-   244		return ret;
-   245	}
-   246	
+   576	
+   577	static int cyttsp5_enter_sleep(struct cyttsp5 *ts)
+   578	{
+   579		int rc;
+   580		u8 cmd[2];
+ > 581		u16 crc;
+   582	
+   583		memset(cmd, 0, sizeof(cmd));
+   584	
+   585		SET_CMD_REPORT_TYPE(cmd[0], 0);
+   586		SET_CMD_REPORT_ID(cmd[0], HID_POWER_SLEEP);
+   587		SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
+   588	
+   589		rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, 2);
+   590		if (rc) {
+   591			dev_err(ts->dev, "Failed to write command %d", rc);
+   592			return rc;
+   593		}
+   594	
+   595		rc = wait_for_completion_interruptible_timeout(&ts->cmd_command_done,
+   596					msecs_to_jiffies(CY_HID_SET_POWER_TIMEOUT));
+   597		if (rc <= 0) {
+   598			dev_err(ts->dev, "HID output cmd execution timed out\n");
+   599			rc = -ETIMEDOUT;
+   600			return rc;
+   601		}
+   602	
+   603		/* validate */
+   604		if ((ts->response_buf[2] != HID_RESPONSE_REPORT_ID)
+   605				|| ((ts->response_buf[3] & 0x3) != HID_POWER_SLEEP)
+   606				|| ((ts->response_buf[4] & 0xF) != HID_CMD_SET_POWER)) {
+   607			rc = -EINVAL;
+   608			dev_err(ts->dev, "Validation of the sleep response failed\n");
+   609			return rc;
+   610		}
+   611	
+   612		return 0;
+   613	
 
 -- 
 0-DAY CI Kernel Test Service
