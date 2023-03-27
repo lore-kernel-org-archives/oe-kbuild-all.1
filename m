@@ -1,229 +1,156 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12B664C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 03:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679888646; x=1711424646;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gZTOFeZ2MI8uBoxt3Mab3JTsurLNAgTZuLP1K0i7vzg=;
-  b=kJc/CWnl9JUFNtw1GwmiZz0QXgizU5Q0YSpu5YL2vJtwq9H68Ov1YbVJ
-   krfKbMOsAqU4sgtAqtbUdSWlCCqcF+wvsRHBGnTdGhCPFUS/BCmwXeW8D
-   e0IMORVjj8gOsT53pLcIuJttX014tSrUklRBoJDtW5tELoFzwowg36C2+
-   89kcCZ03FyCEXIRDfHvfi8GrBmS4nlqSB9kevWS3Hi+D9yoze6UEOHM6z
-   fC7Ao7X1DtlkuSMBmnQKZwnsy1tmHwaXMn3hnSxMjtOGCFDidAwKks4WO
-   35NamOIX3LR/1nANQdEdS4EVBT6fEBBDO2IcN9y9WLGHBYTeOTtfHUw0X
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="328609747"
-X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="328609747"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 20:44:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="715919406"
-X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="715919406"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 Mar 2023 20:44:02 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pgdm6-000HWl-0t;
-	Mon, 27 Mar 2023 03:44:02 +0000
-Date: Mon, 27 Mar 2023 11:43:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/usb/gadget/function/f_accessory.c:270:20: warning: implicit
- truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1
-Message-ID: <202303271157.FDHsU75H-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F697622
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 04:03:32 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id cf7so8824605ybb.5
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 21:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679889811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44uUxFYwsArqBtqy4mYcm+gQ9NS3Dy6uSJ7usODITCI=;
+        b=StUxz0jVABbeM1hEm5fyHaEzT/KlPApejjTT9AtYMc9PamUXeMAV1pb0DxvI1ttzlE
+         r6yQuNylLjQl2LfQJ7CA3UA3yk1S8KwE5LMGwiTjGo9JZSlcyCYrKz+fuGEJ1zziVPUq
+         5fa3FG+Y+XIYBzzwX1sipVVkUZQnqwstXt0PPSzqK1L82tc5P1RDQErHhxEKLWgN6mxP
+         aRdHYzhBgb+emVwUGD4d/CL+dgHYY1AYpZa5mQwmS7WBn5vYJ0/+ixg8HOzZIk5LAUK4
+         3bRnsJrnFyM3O8LJbTfswUr+21f2WJ7VZoZgguPO33667hXQsQmNScsi6qjUwT+41Z6l
+         A+qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679889811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=44uUxFYwsArqBtqy4mYcm+gQ9NS3Dy6uSJ7usODITCI=;
+        b=kr4jgWQmPcSLWiMmLx57SJcFpQdmt6XZPGoBsoRYYcfiUgIbMb4tm45UmlFcg4iqsf
+         cGck63jpflAO8P8KlQ3Q9FdJohV+0/3uGkfs61uiFHpbemWP0Wm9bGgwdtg3bnSjgg0O
+         dy8AaLYb9ZgAgTXbrjV5UiTJxgYqn4dR+wGARIKzQTQS0XVn3iocTHcAd8BLIAAw67I+
+         OSmwVA6Qo6Xq+kHUb2WqEHCT5oD5kfkpF6QEZ/VNCddAN4ynCoAOIK768VxymL/SjJeQ
+         qYAJud1wMIM6g59b1eetSOABjgqiNg/qZpcFep6xfOt5OGNkU3259ALVNLmE1N634eIW
+         ZDhg==
+X-Gm-Message-State: AAQBX9dQ2hl56o0/4aZEZcg0KzuhdxP4fOpLCDs682V4WJpG69Gr0RFr
+	uVV5ZQd+XSflFwBdMyLzcUZDCX6o9nlvswy3yVwnUg==
+X-Google-Smtp-Source: AKy350ZxnkU1qJuXiniK3lhm3Ae6t7cGlvqs4DKooP9FTo5L1afqwypI6CCPtVuiAdGP6q4BI4+HLgMcwtc7XrJTwuo=
+X-Received: by 2002:a05:6902:168d:b0:b7b:f02a:919d with SMTP id
+ bx13-20020a056902168d00b00b7bf02a919dmr202956ybb.8.1679889811008; Sun, 26 Mar
+ 2023 21:03:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230326173511.710749-3-joychakr@google.com> <202303270715.w9sMJhIh-lkp@intel.com>
+In-Reply-To: <202303270715.w9sMJhIh-lkp@intel.com>
+From: Joy Chakraborty <joychakr@google.com>
+Date: Mon, 27 Mar 2023 09:33:19 +0530
+Message-ID: <CAOSNQF1xc8Bfw2=7+A_hU-EXy7dmG5scUvE6bUYUjzTMvRv_Yw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] spi: dw: Add dma controller capability checks
+To: kernel test robot <lkp@intel.com>
+Cc: Serge Semin <fancer.lancer@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, manugautam@google.com, rohitner@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Benoit,
+Hi Serge(y)
 
-FYI, the error/warning still remains.
+On Mon, Mar 27, 2023 at 4:59=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Joy,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on broonie-spi/for-next]
+> [also build test WARNING on linus/master v6.3-rc4 next-20230324]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joy-Chakraborty/sp=
+i-dw-Add-32-bpw-support-to-DW-DMA-Controller/20230327-013645
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git f=
+or-next
+> patch link:    https://lore.kernel.org/r/20230326173511.710749-3-joychakr=
+%40google.com
+> patch subject: [PATCH v3 2/2] spi: dw: Add dma controller capability chec=
+ks
+> config: arc-randconfig-s041-20230326 (https://download.01.org/0day-ci/arc=
+hive/20230327/202303270715.w9sMJhIh-lkp@intel.com/config)
+> compiler: arceb-elf-gcc (GCC) 12.1.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://github.com/intel-lab-lkp/linux/commit/9962c1acd23cb0766=
+a09948c1bee4f29950b8a96
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Joy-Chakraborty/spi-dw-Add-32-bp=
+w-support-to-DW-DMA-Controller/20230327-013645
+>         git checkout 9962c1acd23cb0766a09948c1bee4f29950b8a96
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Darc olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Darc SHELL=3D/bin/bash drivers/spi/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303270715.w9sMJhIh-lkp@i=
+ntel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/spi/spi-dw-dma.c:241:56: sparse: sparse: marked inline, but wi=
+thout a definition
+>
+> vim +241 drivers/spi/spi-dw-dma.c
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: fc65a210c3bffecf9ea9ef0b77b8252e2f393102 ANDROID: usb: gadget: f_accessory: Add Android Accessory function
-date:   2 years, 3 months ago
-config: s390-randconfig-r044-20230327 (https://download.01.org/0day-ci/archive/20230327/202303271157.FDHsU75H-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=fc65a210c3bffecf9ea9ef0b77b8252e2f393102
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout fc65a210c3bffecf9ea9ef0b77b8252e2f393102
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/usb/gadget/function/
+Indeed I have marked it inline in the function prototype.
+Removing the same and sending a V4 patch.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303271157.FDHsU75H-lkp@intel.com/
+>
+> f89a6d8f43ebe9 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  240
+> 57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29 @241  =
+static enum dma_slave_buswidth dw_spi_dma_convert_width(u8 n_bytes)
+> 57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29  242  =
+{
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  243  =
+       switch (n_bytes) {
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  244  =
+       case 1:
+> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  245  =
+               return DMA_SLAVE_BUSWIDTH_1_BYTE;
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  246  =
+       case 2:
+> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  247  =
+               return DMA_SLAVE_BUSWIDTH_2_BYTES;
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  248  =
+       case 3:
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  249  =
+       case 4:
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  250  =
+               return DMA_SLAVE_BUSWIDTH_4_BYTES;
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  251  =
+       default:
+> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  252  =
+               return DMA_SLAVE_BUSWIDTH_UNDEFINED;
+> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  253  =
+       }
+> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  254  =
+}
+> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  255
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-All warnings (new ones prefixed by >>):
-
-   include/uapi/linux/swab.h:19:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0x000000ffUL) << 24) |            \
-                     ^
-   In file included from drivers/usb/gadget/function/f_accessory.c:43:
-   In file included from include/linux/usb/composite.h:41:
-   In file included from include/linux/usb/gadget.h:25:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:20:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |            \
-                     ^
-   In file included from drivers/usb/gadget/function/f_accessory.c:43:
-   In file included from include/linux/usb/composite.h:41:
-   In file included from include/linux/usb/gadget.h:25:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:21:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |            \
-                     ^
-   In file included from drivers/usb/gadget/function/f_accessory.c:43:
-   In file included from include/linux/usb/composite.h:41:
-   In file included from include/linux/usb/gadget.h:25:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
-           ___constant_swab32(x) :                 \
-                              ^
-   include/uapi/linux/swab.h:22:12: note: expanded from macro '___constant_swab32'
-           (((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-                     ^
-   In file included from drivers/usb/gadget/function/f_accessory.c:43:
-   In file included from include/linux/usb/composite.h:41:
-   In file included from include/linux/usb/gadget.h:25:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:120:12: note: expanded from macro '__swab32'
-           __fswab32(x))
-                     ^
-   In file included from drivers/usb/gadget/function/f_accessory.c:43:
-   In file included from include/linux/usb/composite.h:41:
-   In file included from include/linux/usb/gadget.h:25:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/usb/gadget/function/f_accessory.c:270:20: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-           dev->disconnected = 1;
-                             ^ ~
-   drivers/usb/gadget/function/f_accessory.c:772:25: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-           _acc_dev->disconnected = 1;
-                                  ^ ~
-   drivers/usb/gadget/function/f_accessory.c:822:5: warning: no previous prototype for function 'acc_ctrlrequest' [-Wmissing-prototypes]
-   int acc_ctrlrequest(struct usb_composite_dev *cdev,
-       ^
-   drivers/usb/gadget/function/f_accessory.c:822:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int acc_ctrlrequest(struct usb_composite_dev *cdev,
-   ^
-   static 
-   drivers/usb/gadget/function/f_accessory.c:1172:14: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-           dev->online = 1;
-                       ^ ~
-   drivers/usb/gadget/function/f_accessory.c:1232:6: warning: no previous prototype for function 'acc_disconnect' [-Wmissing-prototypes]
-   void acc_disconnect(void)
-        ^
-   drivers/usb/gadget/function/f_accessory.c:1232:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void acc_disconnect(void)
-   ^
-   static 
-   drivers/usb/gadget/function/f_accessory.c:1303:18: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-           struct acc_dev *dev;
-                           ^
-   drivers/usb/gadget/function/f_accessory.c:1330:5: warning: no previous prototype for function 'acc_ctrlrequest_configfs' [-Wmissing-prototypes]
-   int acc_ctrlrequest_configfs(struct usb_function *f,
-       ^
-   drivers/usb/gadget/function/f_accessory.c:1330:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int acc_ctrlrequest_configfs(struct usb_function *f,
-   ^
-   static 
-   27 warnings generated.
-
-
-vim +/int +270 drivers/usb/gadget/function/f_accessory.c
-
-   267	
-   268	static void acc_set_disconnected(struct acc_dev *dev)
-   269	{
- > 270		dev->disconnected = 1;
-   271	}
-   272	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks
+Joy
