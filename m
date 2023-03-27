@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E787468
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 18:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695C17468
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 19:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679942604; x=1711478604;
+  t=1679943806; x=1711479806;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FaY6H/wAK3p877/RSmKTR3DYKMpRFNrR248k2ZHUwhM=;
-  b=gEiBL5QyO+JSzeXryoONLAZBE1RUbiFky7F2oqQYG4EGwlcuY4ow+6zY
-   3PGHhuQWwImRJ0+HOuAuXpMI2ss2HKINKC1UgEMIr0mh0dsfk/daMBQzt
-   4UVk3eL3bUFCHN3u9R+R+NKmRUMOl8f3rVgmiSUHFmxiIUiCj4OQ6K/75
-   NTKCfgfxtr/6GOuKzdtXRokvQzsntMEpqm1/0qxYAECR/gh2ykNJpNGzz
-   Aa98CBBatqKlnHAACSdW4NNR4MQYo22BdnPFQMhXzqb2BaMMGDmXvLqg6
-   TPfM3TpCIMmrOocBj/IlErb0PvEyqFy7o2LyoFj19VE9y8bls0RmSJrpG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="426620319"
+  bh=nC5hJSUuf+Cgqjahpe4rW5KT8pgyywhP8pBQOijVRoY=;
+  b=Uogfm2+5wVNNJbOF1lbW+KhiA8cH2ytkx627i3IT8UqYeJBdVIMtsv5d
+   z73G+nO9p8CoWl1nh4bpZ+qwA3YK8960aOvs/iDgE9kMCszK6NpeSt+B1
+   kpTyhs3IsiL6tSNBCpsknayVmbrfpX8z4gdORWA2pbZCbqKWrbKMGU3Rn
+   Q4BEvrN0pj/BWoggE198SLOSJkQCseLnocFuDzG9ssynIQpJ+GLkvRbHb
+   amhDnVGHbCFXioHuvX3UHCiAgeNrOc5gC2EBGQxg1bs/RcYuxxIZcvgC0
+   FqK8lcjCleDfYNhR9w5nPWWM3MVn4JuEXNnIrNYxlJOS19mGT6cm69pNC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="337863686"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="426620319"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 11:43:24 -0700
+   d="scan'208";a="337863686"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 12:03:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794464009"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="713956903"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="794464009"
+   d="scan'208";a="713956903"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2023 11:43:23 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Mar 2023 12:03:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgroQ-000Hvi-2Q;
-	Mon, 27 Mar 2023 18:43:22 +0000
-Date: Tue, 28 Mar 2023 02:42:37 +0800
+	id 1pgs7n-000HwV-0s;
+	Mon, 27 Mar 2023 19:03:23 +0000
+Date: Tue, 28 Mar 2023 03:03:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean()
  helper
-Message-ID: <202303280208.wYfwjY3I-lkp@intel.com>
+Message-ID: <202303280250.Q1Mbb3gM-lkp@intel.com>
 References: <20230327121317.4081816-21-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -51,10 +51,10 @@ In-Reply-To: <20230327121317.4081816-21-arnd@kernel.org>
 
 Hi Arnd,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on jcmvbkbc-xtensa/xtensa-for-next powerpc/next powerpc/fixes linus/master v6.3-rc4 next-20230323]
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on jcmvbkbc-xtensa/xtensa-for-next powerpc/next powerpc/fixes linus/master v6.3-rc4 next-20230327]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -63,7 +63,7 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/openrisc-dm
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
 patch link:    https://lore.kernel.org/r/20230327121317.4081816-21-arnd%40kernel.org
 patch subject: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean() helper
-config: arm-randconfig-r046-20230327 (https://download.01.org/0day-ci/archive/20230328/202303280208.wYfwjY3I-lkp@intel.com/config)
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303280250.Q1Mbb3gM-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -79,12 +79,12 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303280208.wYfwjY3I-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303280250.Q1Mbb3gM-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    arch/arm/mm/dma-mapping.c: In function 'arm_iommu_sync_dma_for_cpu':
->> arch/arm/mm/dma-mapping.c:1306:45: error: 's' undeclared (first use in this function); did you mean 's8'?
+   arch/arm/mm/dma-mapping.c:1306:45: error: 's' undeclared (first use in this function); did you mean 's8'?
     1306 |                 arch_sync_dma_for_cpu(phys, s->length, dir);
          |                                             ^
          |                                             s8
@@ -100,26 +100,26 @@ All error/warnings (new ones prefixed by >>):
     1436 |         int len = PAGE_ALIGN(size + offset);
          |             ^~~
    arch/arm/mm/dma-mapping.c: At top level:
->> arch/arm/mm/dma-mapping.c:1446:28: error: expected ')' before '->' token
+   arch/arm/mm/dma-mapping.c:1446:28: error: expected ')' before '->' token
     1446 |         iommu_unmap(mapping->domain, iova, len);
          |                            ^~
          |                            )
 >> arch/arm/mm/dma-mapping.c:1447:9: warning: data definition has no type or storage class
     1447 |         __free_iova(mapping, iova, len);
          |         ^~~~~~~~~~~
->> arch/arm/mm/dma-mapping.c:1447:9: error: type defaults to 'int' in declaration of '__free_iova' [-Werror=implicit-int]
+   arch/arm/mm/dma-mapping.c:1447:9: error: type defaults to 'int' in declaration of '__free_iova' [-Werror=implicit-int]
 >> arch/arm/mm/dma-mapping.c:1447:9: warning: parameter names (without types) in function declaration
->> arch/arm/mm/dma-mapping.c:1447:9: error: conflicting types for '__free_iova'; have 'int()'
+   arch/arm/mm/dma-mapping.c:1447:9: error: conflicting types for '__free_iova'; have 'int()'
    arch/arm/mm/dma-mapping.c:825:20: note: previous definition of '__free_iova' with type 'void(struct dma_iommu_mapping *, dma_addr_t,  size_t)' {aka 'void(struct dma_iommu_mapping *, unsigned int,  unsigned int)'}
      825 | static inline void __free_iova(struct dma_iommu_mapping *mapping,
          |                    ^~~~~~~~~~~
->> arch/arm/mm/dma-mapping.c:1448:1: error: expected identifier or '(' before '}' token
+   arch/arm/mm/dma-mapping.c:1448:1: error: expected identifier or '(' before '}' token
     1448 | }
          | ^
    cc1: some warnings being treated as errors
 
 
-vim +1306 arch/arm/mm/dma-mapping.c
+vim +/if +1441 arch/arm/mm/dma-mapping.c
 
   1300	
   1301	static void arm_iommu_sync_dma_for_cpu(phys_addr_t phys, size_t len,
@@ -257,7 +257,7 @@ vim +1306 arch/arm/mm/dma-mapping.c
   1433		dma_addr_t iova = handle & PAGE_MASK;
   1434		phys_addr_t phys;
   1435		int offset = handle & ~PAGE_MASK;
-  1436		int len = PAGE_ALIGN(size + offset);
+> 1436		int len = PAGE_ALIGN(size + offset);
   1437	
   1438		if (!iova)
   1439			return;
@@ -269,7 +269,7 @@ vim +1306 arch/arm/mm/dma-mapping.c
   1445	
 > 1446		iommu_unmap(mapping->domain, iova, len);
 > 1447		__free_iova(mapping, iova, len);
-> 1448	}
+  1448	}
   1449	
 
 -- 
