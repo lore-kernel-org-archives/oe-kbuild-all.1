@@ -1,123 +1,95 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6193C0F;
-	Mon, 27 Mar 2023 16:06:37 +0000 (UTC)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Plcg30hrgz6J7m2;
-	Mon, 27 Mar 2023 23:48:47 +0800 (CST)
-Received: from localhost (10.48.153.9) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 27 Mar
- 2023 16:50:18 +0100
-Date: Mon, 27 Mar 2023 16:50:17 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: kernel test robot <lkp@intel.com>
-CC: Liang Kan <kan.liang@linux.intel.com>, <linux-cxl@vger.kernel.org>,
-	<peterz@infradead.org>, <llvm@lists.linux.dev>,
-	<oe-kbuild-all@lists.linux.dev>, <mingo@redhat.com>, <acme@kernel.org>,
-	<mark.rutland@arm.com>, <will@kernel.org>, <dan.j.williams@intel.com>,
-	<linuxarm@huawei.com>, <linux-perf-users@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, "Davidlohr Bueso" <dave@stgolabs.net>, Dave
- Jiang <dave.jiang@intel.com>
-Subject: Re: [PATCH v2 3/5] cxl/pci: Find and register CXL PMU devices
-Message-ID: <20230327165017.000010dd@Huawei.com>
-In-Reply-To: <202303250419.FANh4fIC-lkp@intel.com>
-References: <20230324171313.18448-4-Jonathan.Cameron@huawei.com>
-	<202303250419.FANh4fIC-lkp@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664A463B6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 16:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679935821; x=1711471821;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SOT7nhA6MPObFV5f32FmyqbbzJHsbS0CdZ+uC1Hhuv0=;
+  b=c8CYr0vLVm/xfrpVYMsO8cFTTFqW7bbulL4cO6ovd0E2NppsKpShHCsk
+   aEvt6My0uVUkQDXdTCjedUeLscFMZbI/MQ4LqS9vzWsElG5xmYQRnSKq9
+   zCw+GROat7rsG9MWRYpYTCdYIVJDNxtV+r2lJVdoZ7zjH4YnCVT8v6+Qu
+   EpREXzGQw4aK+95y43QaxcLh+ynnQ+P4Wq97eYk13eV1kni3U8b0bATKX
+   tGhMCSx+2GepaUdg/fhcmRyrjXO+kYgrFfP4jBGQ47OoydXcTaqr4rHNR
+   rV7nCNmZubrHc6idaPFyJ3qZ7ribaM0axr+JLi/XvEEZ7jzQ+xcvvb/SE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="340350953"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
+   d="scan'208";a="340350953"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 09:50:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794430414"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
+   d="scan'208";a="794430414"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2023 09:50:19 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pgq30-000Hr1-1s;
+	Mon, 27 Mar 2023 16:50:18 +0000
+Date: Tue, 28 Mar 2023 00:49:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-5.15.y 7197/9999] WARNING: modpost:
+ vmlinux.o(.text.unlikely+0x2248c): Section mismatch in reference from the
+ function io_uring_drop_tctx_refs() to the variable
+ .init.data:initcall_level_names
+Message-ID: <202303280053.By0fitJ5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.153.9]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 25 Mar 2023 05:01:09 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Jens,
 
-> Hi Jonathan,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on acme/perf/core]
-> [also build test ERROR on tip/perf/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git perf/core
-> patch link:    https://lore.kernel.org/r/20230324171313.18448-4-Jonathan.Cameron%40huawei.com
-> patch subject: [PATCH v2 3/5] cxl/pci: Find and register CXL PMU devices
-> config: arm-randconfig-r023-20230322 (https://download.01.org/0day-ci/archive/20230325/202303250419.FANh4fIC-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         # https://github.com/intel-lab-lkp/linux/commit/ab99ab31e5c4aa9f68425f3505f22a790d64bfe9
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Jonathan-Cameron/cxl-Add-function-to-count-regblocks-of-a-given-type/20230325-011827
->         git checkout ab99ab31e5c4aa9f68425f3505f22a790d64bfe9
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/cxl/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303250419.FANh4fIC-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/cxl/core/port.c:60:20: error: use of undeclared identifier 'cxl_cpmu_type'; did you mean 'cxl_bus_type'?  
->            if (dev->type == &cxl_cpmu_type)
->                              ^~~~~~~~~~~~~
-Definition is under the CXL_REGION ifdef and it shouldn't be.
-Moved it up to alongside the nvdimm ones.
+FYI, the error/warning still remains.
 
->                              cxl_bus_type
->    drivers/cxl/cxl.h:732:24: note: 'cxl_bus_type' declared here
->    extern struct bus_type cxl_bus_type;
->                           ^
->    1 error generated.
-> 
-> 
-> vim +60 drivers/cxl/core/port.c
-> 
->     40	
->     41	static int cxl_device_id(const struct device *dev)
->     42	{
->     43		if (dev->type == &cxl_nvdimm_bridge_type)
->     44			return CXL_DEVICE_NVDIMM_BRIDGE;
->     45		if (dev->type == &cxl_nvdimm_type)
->     46			return CXL_DEVICE_NVDIMM;
->     47		if (dev->type == CXL_PMEM_REGION_TYPE())
->     48			return CXL_DEVICE_PMEM_REGION;
->     49		if (dev->type == CXL_DAX_REGION_TYPE())
->     50			return CXL_DEVICE_DAX_REGION;
->     51		if (is_cxl_port(dev)) {
->     52			if (is_cxl_root(to_cxl_port(dev)))
->     53				return CXL_DEVICE_ROOT;
->     54			return CXL_DEVICE_PORT;
->     55		}
->     56		if (is_cxl_memdev(dev))
->     57			return CXL_DEVICE_MEMORY_EXPANDER;
->     58		if (dev->type == CXL_REGION_TYPE())
->     59			return CXL_DEVICE_REGION;
->   > 60		if (dev->type == &cxl_cpmu_type)  
->     61			return CXL_DEVICE_CPMU;
->     62		return 0;
->     63	}
->     64	
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   115472395b0a9ea522ba0e106d6dfd7a73df8ba6
+commit: f435c66d2336fff104e2c3cbfff60905733e7d89 [7197/9999] io_uring: move to separate directory
+config: xtensa-randconfig-r016-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280053.By0fitJ5-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=f435c66d2336fff104e2c3cbfff60905733e7d89
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout f435c66d2336fff104e2c3cbfff60905733e7d89
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303280053.By0fitJ5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux.o(.text.unlikely+0x2248c): Section mismatch in reference from the function io_uring_drop_tctx_refs() to the variable .init.data:initcall_level_names
+The function io_uring_drop_tctx_refs() references
+the variable __initdata initcall_level_names.
+This is often because io_uring_drop_tctx_refs lacks a __initdata
+annotation or the annotation of initcall_level_names is wrong.
+
+Note: the below error/warnings can be found in parent commit:
+<< WARNING: modpost: vmlinux.o(.text.unlikely+0x2248c): Section mismatch in reference from the function bfq_pos_tree_add_move() to the variable .init.data:initcall_level_names
+<< WARNING: modpost: vmlinux.o(.text.unlikely+0x2253c): Section mismatch in reference from the function bitmap_equal() to the variable .init.rodata:__setup_str_initcall_blacklist
+<< WARNING: modpost: vmlinux.o(.data+0xa3cce8): Section mismatch in reference from the variable qed_mfw_ext_maps to the variable .init.rodata:__setup_str_initcall_blacklist
+<< WARNING: modpost: vmlinux.o(.data+0xa491b0): Section mismatch in reference from the variable qede_forced_speed_maps to the variable .init.rodata:__setup_str_initcall_blacklist
+<< WARNING: modpost: vmlinux.o(.data+0xa3cbf0): Section mismatch in reference from the variable qed_mfw_legacy_maps to the variable .init.rodata:__setup_str_initcall_blacklist
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
