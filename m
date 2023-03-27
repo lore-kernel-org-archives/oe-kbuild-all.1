@@ -1,49 +1,50 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446B23C0F;
-	Mon, 27 Mar 2023 15:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679930312; x=1711466312;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=17LMq6FcckRvCjRKh2cYsU9tHbmYq+HS/t9LCbX9zWs=;
-  b=XRxKw6YDlwBjmsBEeav0LrqO3G2aKK/iojUhC19QrU4PpcmL17WaU9gR
-   ysUh9e2f/qtH+5KQ5MrBDJIQWBhbfeVixS1GEKkmct95+OczyGaCLuE4x
-   nWxhkkcQVZzh18u6YaiPHZ87N3PeuZsTQntlg0vUz3FRua9whQUxjsoZx
-   394K7rLvaEyUJ5lr/Qe/DIY6pFxXusQH0pVLRHUYh4sDJOGpr57abwFN5
-   0g+wINomQr+6l9z4h4R5/z6uYEgjPZRqiziTIrAt1xl16ZWbwhU5ghFJq
-   xGGWKQIaYCOn2ZFq3hLKm9UGD+89JvZgvc4o9VQbly1Gtb5En/nuaD19C
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320693419"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="320693419"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 08:18:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="676999194"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="676999194"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Mar 2023 08:18:16 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pgobv-000Hnx-10;
-	Mon, 27 Mar 2023 15:18:15 +0000
-Date: Mon, 27 Mar 2023 23:17:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maximilian Weigand <mweigand@mweigand.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Maximilian Weigand <mweigand@mweigand.net>,
-	Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH 2/6] Input: cyttsp5: remove unused code
-Message-ID: <202303272323.nRNi9Sso-lkp@intel.com>
-References: <20230323135205.1160879-3-mweigand@mweigand.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887F03C0F;
+	Mon, 27 Mar 2023 15:30:43 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id p34so5277834wms.3;
+        Mon, 27 Mar 2023 08:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679931041;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AXK7oru0AfEDzPeFckyjSP+WN6K9DgaXywL/sEsWdG8=;
+        b=Zc+L1zUKJ0H3CT88qLp3HiweUNg3om2uvYGypmY+vW/4ISbpztkS5Y6CEuxrhsHCYr
+         ofbLcfvMD1ofC4/pAU9iqPJjJmsTeBpwMRiWkyAfrbN5FMVPosSGklzDcjucDraoKEn1
+         6es2Zy6Cu/L8CdUKGR4feg5+6atAL5dUU/e6qCEbR4PvACs5obMleYYMFHFo8EqAwIVd
+         tCT9irmFk/r7tRg7Bz1MYe+eYhMnwqZlLznc71J/MpsOPUmYprhUZuzXslsxhX9GYXAd
+         PlFAhVNLjqCaxG3UJU7zzj/sAxHifrWDUbO1jR+Ta2OZqVuoz82e8Xp3lnkQU7+TMGDQ
+         /GSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679931041;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AXK7oru0AfEDzPeFckyjSP+WN6K9DgaXywL/sEsWdG8=;
+        b=47QPmC7AHrifx5ctTDIBTGmrGybXnET+JCZVd3MLP3vbykAJCsLsB+7jew23j8I1az
+         Dt9Z2p8iYA3aB9LTxV07xPLy1fJHXxF5FkFXRUCnW46ZTM+REGwVzFeYRY/46iIPbjC1
+         vLiccc7nm43lU4b614DM/mxk81Apzd29nrWokTSMWAvGJMQn/eBvpQ3r4xVPEhAwlWB1
+         MDnNZzkOamV/Gc0jE+CEueOL1z5Zz4hkUUGMpPkjVubmPT0fbT0Mml7Opznv8CQf+u9b
+         yMkXUgy8yuphu/r5lQhcigehnxYYo1SskCjlCJ0ujLihziGI163YOYjhL36ztILhFhSc
+         AJpA==
+X-Gm-Message-State: AO0yUKVa4m2w++shu2Kd/0cWoFOLu7wDFL7rpzdiFBJMjxtqpHCpgkSa
+	yEk7oEZOlzms5AsRAXsDs5GBYlD/014=
+X-Google-Smtp-Source: AK7set9keKbzHNTF+88AoF2fitfnHHHTCS0FOElmF4LDzPt3fRfceuc1GqEfKtAbtzUEgQhGGmslCg==
+X-Received: by 2002:a1c:ed05:0:b0:3eb:395b:8b62 with SMTP id l5-20020a1ced05000000b003eb395b8b62mr9292509wmh.39.1679931041322;
+        Mon, 27 Mar 2023 08:30:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m31-20020a05600c3b1f00b003ef5bb63f13sm9426633wms.10.2023.03.27.08.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 08:30:40 -0700 (PDT)
+Date: Mon, 27 Mar 2023 18:30:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sunil V L <sunilvl@ventanamicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: [avpatel:alexghiti_test 30/78] arch/riscv/kernel/cpufeature.c:141
+ riscv_fill_hwcap() error: uninitialized symbol 'isa'.
+Message-ID: <13017ff9-8e1a-40a9-a23f-4568bf566053@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,85 +53,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230323135205.1160879-3-mweigand@mweigand.net>
 
-Hi Maximilian,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.3-rc4 next-20230327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230323135205.1160879-3-mweigand%40mweigand.net
-patch subject: [PATCH 2/6] Input: cyttsp5: remove unused code
-config: i386-randconfig-a011-20230327 (https://download.01.org/0day-ci/archive/20230327/202303272323.nRNi9Sso-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4358a60821eb8149dabed197c09d3c0eab63bf38
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
-        git checkout 4358a60821eb8149dabed197c09d3c0eab63bf38
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
+tree:   https://github.com/avpatel/linux.git alexghiti_test
+head:   93aaa7cba9ba7ae91a47812465117e2f9b9e3712
+commit: 0f713f9456748d534d3fedde51fe941454109f7f [30/78] RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
+config: riscv-randconfig-m031-20230326 (https://download.01.org/0day-ci/archive/20230327/202303272310.T2uiCm4o-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303272323.nRNi9Sso-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303272310.T2uiCm4o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+arch/riscv/kernel/cpufeature.c:141 riscv_fill_hwcap() error: uninitialized symbol 'isa'.
 
->> drivers/input/touchscreen/cyttsp5.c:604:5: warning: unused variable 'cmd' [-Wunused-variable]
-           u8 cmd[2];
-              ^
-   1 warning generated.
+vim +/isa +141 arch/riscv/kernel/cpufeature.c
 
+3df952ae2ac81f Jisheng Zhang  2021-05-16   90  void __init riscv_fill_hwcap(void)
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10   91  {
+dd81c8ab819d36 Johan Hovold   2019-01-18   92  	struct device_node *node;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10   93  	const char *isa;
+58004f26691891 Tsukasa OI     2022-03-14   94  	char print_str[NUM_ALPHA_EXTS + 1];
+ad635e723e1737 Sunil V L      2022-05-27   95  	int i, j, rc;
+726855549cf8d5 Andrew Jones   2022-11-29   96  	unsigned long isa2hwcap[26] = {0};
+0f713f9456748d Sunil V L      2023-03-06   97  	struct acpi_table_header *rhct;
+0f713f9456748d Sunil V L      2023-03-06   98  	acpi_status status;
+0f713f9456748d Sunil V L      2023-03-06   99  	unsigned int cpu;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  100  
+726855549cf8d5 Andrew Jones   2022-11-29  101  	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+726855549cf8d5 Andrew Jones   2022-11-29  102  	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+726855549cf8d5 Andrew Jones   2022-11-29  103  	isa2hwcap['a' - 'a'] = COMPAT_HWCAP_ISA_A;
+726855549cf8d5 Andrew Jones   2022-11-29  104  	isa2hwcap['f' - 'a'] = COMPAT_HWCAP_ISA_F;
+726855549cf8d5 Andrew Jones   2022-11-29  105  	isa2hwcap['d' - 'a'] = COMPAT_HWCAP_ISA_D;
+726855549cf8d5 Andrew Jones   2022-11-29  106  	isa2hwcap['c' - 'a'] = COMPAT_HWCAP_ISA_C;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  107  
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  108  	elf_hwcap = 0;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  109  
+6bcff51539ccae Anup Patel     2020-04-24  110  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+6bcff51539ccae Anup Patel     2020-04-24  111  
+0f713f9456748d Sunil V L      2023-03-06  112  	if (!acpi_disabled) {
+0f713f9456748d Sunil V L      2023-03-06  113  		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+0f713f9456748d Sunil V L      2023-03-06  114  		if (ACPI_FAILURE(status))
+0f713f9456748d Sunil V L      2023-03-06  115  			return;
+0f713f9456748d Sunil V L      2023-03-06  116  	}
+0f713f9456748d Sunil V L      2023-03-06  117  
+0f713f9456748d Sunil V L      2023-03-06  118  	for_each_possible_cpu(cpu) {
+fbdc6193dc706c Atish Patra    2019-02-22  119  		unsigned long this_hwcap = 0;
+02d52fbd940af7 Atish Patra    2022-03-14  120  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
+3f96db125d6812 Atish Patra    2022-03-14  121  		const char *temp;
+fbdc6193dc706c Atish Patra    2019-02-22  122  
+0f713f9456748d Sunil V L      2023-03-06  123  		if (acpi_disabled) {
+0f713f9456748d Sunil V L      2023-03-06  124  			node = of_cpu_device_node_get(cpu);
+0f713f9456748d Sunil V L      2023-03-06  125  			if (node) {
+0f713f9456748d Sunil V L      2023-03-06  126  				rc = of_property_read_string(node, "riscv,isa", &isa);
+0f713f9456748d Sunil V L      2023-03-06  127  				of_node_put(node);
+0f713f9456748d Sunil V L      2023-03-06  128  				if (rc) {
+7265d103902c0b Johan Hovold   2019-01-18  129  					pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+fbdc6193dc706c Atish Patra    2019-02-22  130  					continue;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  131  				}
+0f713f9456748d Sunil V L      2023-03-06  132  			}
 
-vim +/cmd +604 drivers/input/touchscreen/cyttsp5.c
+"isa" not initialized if of_cpu_device_node_get() return NULL.
 
-5b0c03e24a061f Alistair Francis 2022-10-31  598  
-5b0c03e24a061f Alistair Francis 2022-10-31  599  static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
-5b0c03e24a061f Alistair Francis 2022-10-31  600  				      struct cyttsp5_hid_desc *desc)
-5b0c03e24a061f Alistair Francis 2022-10-31  601  {
-5b0c03e24a061f Alistair Francis 2022-10-31  602  	struct device *dev = ts->dev;
-5b0c03e24a061f Alistair Francis 2022-10-31  603  	int rc;
-5b0c03e24a061f Alistair Francis 2022-10-31 @604  	u8 cmd[2];
-5b0c03e24a061f Alistair Francis 2022-10-31  605  
-5b0c03e24a061f Alistair Francis 2022-10-31  606  	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
-5b0c03e24a061f Alistair Francis 2022-10-31  607  	if (rc) {
-5b0c03e24a061f Alistair Francis 2022-10-31  608  		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
-5b0c03e24a061f Alistair Francis 2022-10-31  609  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  610  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  611  
-5b0c03e24a061f Alistair Francis 2022-10-31  612  	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
-5b0c03e24a061f Alistair Francis 2022-10-31  613  			msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
-5b0c03e24a061f Alistair Francis 2022-10-31  614  	if (rc <= 0) {
-5b0c03e24a061f Alistair Francis 2022-10-31  615  		dev_err(ts->dev, "HID get descriptor timed out\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  616  		rc = -ETIMEDOUT;
-5b0c03e24a061f Alistair Francis 2022-10-31  617  		return rc;
-5b0c03e24a061f Alistair Francis 2022-10-31  618  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  619  
-5b0c03e24a061f Alistair Francis 2022-10-31  620  	memcpy(desc, ts->response_buf, sizeof(*desc));
-5b0c03e24a061f Alistair Francis 2022-10-31  621  
-5b0c03e24a061f Alistair Francis 2022-10-31  622  	/* Check HID descriptor length and version */
-5b0c03e24a061f Alistair Francis 2022-10-31  623  	if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
-5b0c03e24a061f Alistair Francis 2022-10-31  624  	    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
-5b0c03e24a061f Alistair Francis 2022-10-31  625  		dev_err(dev, "Unsupported HID version\n");
-5b0c03e24a061f Alistair Francis 2022-10-31  626  		return -ENODEV;
-5b0c03e24a061f Alistair Francis 2022-10-31  627  	}
-5b0c03e24a061f Alistair Francis 2022-10-31  628  
-5b0c03e24a061f Alistair Francis 2022-10-31  629  	return 0;
-5b0c03e24a061f Alistair Francis 2022-10-31  630  }
-5b0c03e24a061f Alistair Francis 2022-10-31  631  
+0f713f9456748d Sunil V L      2023-03-06  133  		} else {
+0f713f9456748d Sunil V L      2023-03-06  134  			rc = acpi_get_riscv_isa(rhct, cpu, &isa);
+0f713f9456748d Sunil V L      2023-03-06  135  			if (rc < 0) {
+0f713f9456748d Sunil V L      2023-03-06  136  				pr_warn("Unable to get ISA for the hart - %d\n", cpu);
+0f713f9456748d Sunil V L      2023-03-06  137  				continue;
+0f713f9456748d Sunil V L      2023-03-06  138  			}
+0f713f9456748d Sunil V L      2023-03-06  139  		}
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  140  
+3f96db125d6812 Atish Patra    2022-03-14 @141  		temp = isa;
+6bcff51539ccae Anup Patel     2020-04-24  142  #if IS_ENABLED(CONFIG_32BIT)
+6bcff51539ccae Anup Patel     2020-04-24  143  		if (!strncmp(isa, "rv32", 4))
+2a31c54be097c7 Tsukasa OI     2022-03-14  144  			isa += 4;
+6bcff51539ccae Anup Patel     2020-04-24  145  #elif IS_ENABLED(CONFIG_64BIT)
+6bcff51539ccae Anup Patel     2020-04-24  146  		if (!strncmp(isa, "rv64", 4))
+2a31c54be097c7 Tsukasa OI     2022-03-14  147  			isa += 4;
+6bcff51539ccae Anup Patel     2020-04-24  148  #endif
+3f96db125d6812 Atish Patra    2022-03-14  149  		/* The riscv,isa DT property must start with rv64 or rv32 */
+3f96db125d6812 Atish Patra    2022-03-14  150  		if (temp == isa)
+3f96db125d6812 Atish Patra    2022-03-14  151  			continue;
+02d52fbd940af7 Atish Patra    2022-03-14  152  		bitmap_zero(this_isa, RISCV_ISA_EXT_MAX);
+2a31c54be097c7 Tsukasa OI     2022-03-14  153  		for (; *isa; ++isa) {
+2a31c54be097c7 Tsukasa OI     2022-03-14  154  			const char *ext = isa++;
+2a31c54be097c7 Tsukasa OI     2022-03-14  155  			const char *ext_end = isa;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
