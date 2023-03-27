@@ -1,62 +1,44 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F6179DD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 21:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9B579DD;
+	Mon, 27 Mar 2023 22:09:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679954321; x=1711490321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K8elsuuHEP+ah5YfSiPOlfAsO3FRV8t6GIdL66uBhyg=;
-  b=NunPe94mYy9FXio6Fc960zTByQwAOF0wN87Pqj3M7IdlPYutKu9vFHIV
-   KQZamAWGlunn49GYsIm3c5e/Uu4gSGRV0EW3UnIAYScrpuek5qgGJxOgs
-   sOMZH34hBaXGUlHWsf87B08/kFlQ1PzTnHNrceKx1NhPD+BO/rrk/gRhs
-   9JTS5R19yT1g6ZdA20z1tt2A60fM+8/j4b6yqhxAclEV3IijFUypof2q0
-   aB3O0gcoZoLdYWT3h9wNba791fKq4p1bTBn3i2ggvo8kWIOyaY7xNk4cM
-   wRSheC4bXFuG4Xbe/FUvv2deKqYuVZz7yjmjhU79/jWQt9eZxXB1DM2su
+  t=1679954979; x=1711490979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6BHbMQs1pxGDMwXVK/xTlLZeRHbo+B3K718wGX0LvpU=;
+  b=mq93P9nwXm9vdhUun9P4HT6PW44hIyBxreZF0RVYReRM2QLR3KOc1Rdx
+   y2587uNNPXG2p3chA8ndtL38tFhsKszUHVVFbi5cIS4iNSbBW84hnZnLd
+   KsU/no84FX1taByPc7hvlc+ZCqqSQBwmPCwTI1v/cF6Ess39wUAlSj7Li
+   FX/09Cq3vfEKpRjIIvzxZZ+TxYsoYa378VhF/Ia4SRRd7KzVxKG5heXv3
+   aaCDrBGnM2agVfb9g8S+/RYCZyexg1btA6RvBRVjuGSMflcLQrpU/4BOE
+   YfyEZi6/fRyqp2HxWSJVObDGuCHwMH2U7Wsgjkhutv8nq5rP4GjwjUqB7
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403002688"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403005174"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="403002688"
+   d="scan'208";a="403005174"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 14:58:41 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 15:09:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="929623497"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="929624944"
 X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="929623497"
+   d="scan'208";a="929624944"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Mar 2023 14:58:36 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Mar 2023 15:09:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgurL-000I2n-1e;
-	Mon, 27 Mar 2023 21:58:35 +0000
-Date: Tue, 28 Mar 2023 05:58:20 +0800
+	id 1pgv1z-000I3D-2y;
+	Mon, 27 Mar 2023 22:09:35 +0000
+Date: Tue, 28 Mar 2023 06:08:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"James E . J . Bottomley" <jejb@linux.ibm.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] mmc: sdhci-msm: Switch to the new ICE API
-Message-ID: <202303280550.QHofWszH-lkp@intel.com>
-References: <20230327134734.3256974-7-abel.vesa@linaro.org>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3]
+ arch/arm/include/asm/glue-cache.h:126:2: error: Unknown cache maintenance
+ model
+Message-ID: <202303280632.SyiLf8ne-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,98 +47,184 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230327134734.3256974-7-abel.vesa@linaro.org>
 
-Hi Abel,
+Hi Greg,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.3-rc4 next-20230327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-crypto-Add-Qualcomm-Inline-Crypto-Engine/20230327-214958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230327134734.3256974-7-abel.vesa%40linaro.org
-patch subject: [PATCH v4 6/7] mmc: sdhci-msm: Switch to the new ICE API
-config: microblaze-randconfig-s042-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280550.QHofWszH-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   ab3e3486789d73658a4137c4d337e9c57e2be0de
+commit: 7a001f49d2e36c8feef08fec4b9c283af6a71df4 [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-c002-20230327 (https://download.01.org/0day-ci/archive/20230328/202303280632.SyiLf8ne-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/2b59bf19ddc6de631e808bb2f30d5cf030f37828
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Abel-Vesa/dt-bindings-crypto-Add-Qualcomm-Inline-Crypto-Engine/20230327-214958
-        git checkout 2b59bf19ddc6de631e808bb2f30d5cf030f37828
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git/commit/?id=7a001f49d2e36c8feef08fec4b9c283af6a71df4
+        git remote add gerg-m68knommu https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git
+        git fetch --no-tags gerg-m68knommu armnommu
+        git checkout 7a001f49d2e36c8feef08fec4b9c283af6a71df4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/soc/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303280550.QHofWszH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303280632.SyiLf8ne-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/ice.c:273:32: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct qcom_ice * @@     got void [noderef] __iomem *[assigned] base @@
-   drivers/soc/qcom/ice.c:273:32: sparse:     expected struct qcom_ice *
-   drivers/soc/qcom/ice.c:273:32: sparse:     got void [noderef] __iomem *[assigned] base
+All errors (new ones prefixed by >>):
 
-vim +273 drivers/soc/qcom/ice.c
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:25:
+   In file included from include/linux/atomic.h:7:
+   arch/arm/include/asm/atomic.h:28:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ >= 6
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:27:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:13:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/arm/include/asm/bug.h:7:
+   In file included from arch/arm/include/asm/opcodes.h:86:
+   In file included from include/linux/swab.h:5:
+   In file included from include/uapi/linux/swab.h:8:
+   In file included from arch/arm/include/asm/swab.h:19:
+   arch/arm/include/uapi/asm/swab.h:27:29: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if !defined(__KERNEL__) || __LINUX_ARM_ARCH__ < 6
+                               ^
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:27:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:13:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/arm/include/asm/bug.h:7:
+   In file included from arch/arm/include/asm/opcodes.h:86:
+   In file included from include/linux/swab.h:5:
+   In file included from include/uapi/linux/swab.h:8:
+   arch/arm/include/asm/swab.h:21:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ >= 6
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:27:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:14:
+   In file included from include/linux/restart_block.h:10:
+   In file included from include/linux/time64.h:5:
+   In file included from include/linux/math64.h:6:
+   In file included from include/linux/math.h:6:
+   In file included from arch/arm/include/asm/div64.h:107:
+   In file included from include/asm-generic/div64.h:55:
+   In file included from include/linux/log2.h:12:
+   In file included from include/linux/bitops.h:68:
+   arch/arm/include/asm/bitops.h:218:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ < 5
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:27:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/arm/include/asm/thread_info.h:13:
+   arch/arm/include/asm/fpstate.h:29:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ < 6
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:855:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:9:
+   In file included from include/linux/sched/task.h:11:
+   In file included from include/linux/uaccess.h:11:
+   arch/arm/include/asm/uaccess.h:302:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ >= 6
+       ^
+   arch/arm/include/asm/uaccess.h:404:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ >= 6
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:13:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   arch/arm/include/asm/io.h:53:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ < 6
+       ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from arch/arm/include/asm/cacheflush.h:12:
+>> arch/arm/include/asm/glue-cache.h:126:2: error: Unknown cache maintenance model
+   #error Unknown cache maintenance model
+    ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from arch/arm/include/asm/cacheflush.h:14:
+   arch/arm/include/asm/cachetype.h:29:5: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #if __LINUX_ARM_ARCH__ >= 7
+       ^
+   arch/arm/include/asm/cachetype.h:34:7: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #elif __LINUX_ARM_ARCH__ >= 6
+         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   arch/arm/include/asm/cacheflush.h:197:7: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #elif __LINUX_ARM_ARCH__ >= 7 && defined(CONFIG_SMP)
+         ^
+   arch/arm/include/asm/cacheflush.h:199:7: warning: '__LINUX_ARM_ARCH__' is not defined, evaluates to 0 [-Wundef]
+   #elif __LINUX_ARM_ARCH__ == 6 && defined(CONFIG_ARM_ERRATA_411920)
+         ^
+   In file included from arch/arm/kernel/asm-offsets.c:16:
+>> arch/arm/include/asm/glue-df.h:96:2: error: Unknown data abort handler type
+   #error Unknown data abort handler type
+    ^
+   In file included from arch/arm/kernel/asm-offsets.c:17:
+>> arch/arm/include/asm/glue-pf.h:51:2: error: Unknown prefetch abort handler type
+   #error Unknown prefetch abort handler type
+    ^
+   24 warnings and 3 errors generated.
+   make[2]: *** [scripts/Makefile.build:114: arch/arm/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-a9e1199fcc2742 Abel Vesa 2023-03-27  256  
-a9e1199fcc2742 Abel Vesa 2023-03-27  257  struct qcom_ice *of_qcom_ice_get(struct device *dev)
-a9e1199fcc2742 Abel Vesa 2023-03-27  258  {
-a9e1199fcc2742 Abel Vesa 2023-03-27  259  	struct platform_device *pdev = to_platform_device(dev);
-a9e1199fcc2742 Abel Vesa 2023-03-27  260  	struct qcom_ice *ice = ERR_PTR(-EPROBE_DEFER);
-a9e1199fcc2742 Abel Vesa 2023-03-27  261  	struct device_node *node;
-a9e1199fcc2742 Abel Vesa 2023-03-27  262  	struct resource *res;
-a9e1199fcc2742 Abel Vesa 2023-03-27  263  	void __iomem *base;
-a9e1199fcc2742 Abel Vesa 2023-03-27  264  
-a9e1199fcc2742 Abel Vesa 2023-03-27  265  	if (!dev || !dev->of_node)
-a9e1199fcc2742 Abel Vesa 2023-03-27  266  		return ERR_PTR(-ENODEV);
-a9e1199fcc2742 Abel Vesa 2023-03-27  267  
-a9e1199fcc2742 Abel Vesa 2023-03-27  268  	/* legacy has ice reg range in the consumer DT node */
-a9e1199fcc2742 Abel Vesa 2023-03-27  269  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ice");
-a9e1199fcc2742 Abel Vesa 2023-03-27  270  	if (res) {
-a9e1199fcc2742 Abel Vesa 2023-03-27  271  		base = devm_ioremap_resource(&pdev->dev, res);
-a9e1199fcc2742 Abel Vesa 2023-03-27  272  		if (IS_ERR(base))
-a9e1199fcc2742 Abel Vesa 2023-03-27 @273  			return base;
-a9e1199fcc2742 Abel Vesa 2023-03-27  274  
-a9e1199fcc2742 Abel Vesa 2023-03-27  275  		/* create ICE instance using consumer dev */
-a9e1199fcc2742 Abel Vesa 2023-03-27  276  		return qcom_ice_create(pdev, base);
-a9e1199fcc2742 Abel Vesa 2023-03-27  277  	}
-a9e1199fcc2742 Abel Vesa 2023-03-27  278  
-a9e1199fcc2742 Abel Vesa 2023-03-27  279  	node = of_parse_phandle(dev->of_node, "qcom,ice", 0);
-a9e1199fcc2742 Abel Vesa 2023-03-27  280  	if (!node) {
-a9e1199fcc2742 Abel Vesa 2023-03-27  281  		ice = NULL;
-a9e1199fcc2742 Abel Vesa 2023-03-27  282  		goto out;
-a9e1199fcc2742 Abel Vesa 2023-03-27  283  	}
-a9e1199fcc2742 Abel Vesa 2023-03-27  284  
-a9e1199fcc2742 Abel Vesa 2023-03-27  285  	pdev = of_find_device_by_node(node);
-a9e1199fcc2742 Abel Vesa 2023-03-27  286  	if (!pdev) {
-a9e1199fcc2742 Abel Vesa 2023-03-27  287  		dev_err(dev, "Cannot find device node %s\n", node->name);
-a9e1199fcc2742 Abel Vesa 2023-03-27  288  		goto out;
-a9e1199fcc2742 Abel Vesa 2023-03-27  289  	}
-a9e1199fcc2742 Abel Vesa 2023-03-27  290  
-a9e1199fcc2742 Abel Vesa 2023-03-27  291  	ice = platform_get_drvdata(pdev);
-a9e1199fcc2742 Abel Vesa 2023-03-27  292  	if (!ice) {
-a9e1199fcc2742 Abel Vesa 2023-03-27  293  		dev_err(dev, "Cannot get ice\n");
-a9e1199fcc2742 Abel Vesa 2023-03-27  294  		put_device(&pdev->dev);
-a9e1199fcc2742 Abel Vesa 2023-03-27  295  		return ERR_PTR(-ENODEV);
-a9e1199fcc2742 Abel Vesa 2023-03-27  296  	}
-a9e1199fcc2742 Abel Vesa 2023-03-27  297  
-a9e1199fcc2742 Abel Vesa 2023-03-27  298  out:
-a9e1199fcc2742 Abel Vesa 2023-03-27  299  	of_node_put(node);
-a9e1199fcc2742 Abel Vesa 2023-03-27  300  
-a9e1199fcc2742 Abel Vesa 2023-03-27  301  	return ice;
-a9e1199fcc2742 Abel Vesa 2023-03-27  302  }
-a9e1199fcc2742 Abel Vesa 2023-03-27  303  EXPORT_SYMBOL_GPL(of_qcom_ice_get);
-a9e1199fcc2742 Abel Vesa 2023-03-27  304  
+
+vim +126 arch/arm/include/asm/glue-cache.h
+
+55bdd694116597 Catalin Marinas 2010-05-21  124  
+753790e713d80b Russell King    2011-02-06  125  #if !defined(_CACHE) && !defined(MULTI_CACHE)
+25985edcedea63 Lucas De Marchi 2011-03-30 @126  #error Unknown cache maintenance model
+753790e713d80b Russell King    2011-02-06  127  #endif
+753790e713d80b Russell King    2011-02-06  128  
+
+:::::: The code at line 126 was first introduced by commit
+:::::: 25985edcedea6396277003854657b5f3cb31a628 Fix common misspellings
+
+:::::: TO: Lucas De Marchi <lucas.demarchi@profusion.mobi>
+:::::: CC: Lucas De Marchi <lucas.demarchi@profusion.mobi>
 
 -- 
 0-DAY CI Kernel Test Service
