@@ -1,198 +1,157 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BF062A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 01:43:47 +0000 (UTC)
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.56])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PlFs90n1czKx91;
-	Mon, 27 Mar 2023 09:41:17 +0800 (CST)
-Received: from [10.174.177.174] (10.174.177.174) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Mar 2023 09:43:37 +0800
-Message-ID: <ef1f08cc-51eb-4c6f-a245-e0dc6fb7759b@huawei.com>
-Date: Mon, 27 Mar 2023 09:43:37 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0589F62A;
+	Mon, 27 Mar 2023 02:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679883124; x=1711419124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8S/SepVjMRx72JXxp5dop7Uh13vNqZ05re9q9sjARYo=;
+  b=L3KeGwNpSBu60pAtB7bi77p7hx8IzJYOcdikAi2YHZGM8L0iGrf4eWgY
+   5RRheemUgiwdYt+F/ZZE1A0PtEpO7dp9F14RgLoGQ7TF4DRXfMS7k4yq2
+   1ywiwjGig1UIHf8ylwpYkSRQt167mK5yRjodzjhfl1wcE2fnmyQm55GUt
+   fE1XllRRdu/pCsdlAu4Yy4YQWxzfJBM29rq9PqVhmXU3iC0YL5/hQo3V0
+   d2UDoQZXfQGB/cIIy4W5c9CEeHoZbqX2SqgPfbUB0qmkQITwjh2A96kU3
+   bjw2vgZlWofEXzuwV2bRY0nIwj7pHQuERs9v3DpwQZcFgiFvQtIyCJevE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="367902106"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="367902106"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 19:12:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="857502189"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="857502189"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 26 Mar 2023 19:12:00 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pgcL2-000HTf-0C;
+	Mon, 27 Mar 2023 02:12:00 +0000
+Date: Mon, 27 Mar 2023 10:11:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Yang <mmyangfl@gmail.com>, linux-clk@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Yang <mmyangfl@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Nick Alcock <nick.alcock@oracle.com>
+Subject: Re: [PATCH 4/4] clk: hisilicon: Migrate devm APIs
+Message-ID: <202303271023.do1t8Cfa-lkp@intel.com>
+References: <20230326052757.297551-5-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 1/2] ext4: turning quotas off if mount failed after enable
- quotas
-To: kernel test robot <lkp@intel.com>, <linux-ext4@vger.kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <jack@suse.cz>, <ritesh.list@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <yi.zhang@huawei.com>,
-	<yangerkun@huawei.com>, <yukuai3@huawei.com>, <stable@kernel.org>
-References: <20230325064732.1897482-2-libaokun1@huawei.com>
- <202303252258.vJkQLCe1-lkp@intel.com>
-Content-Language: en-US
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <202303252258.vJkQLCe1-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.174]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500021.china.huawei.com (7.185.36.21)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230326052757.297551-5-mmyangfl@gmail.com>
 
-On 2023/3/25 22:33, kernel test robot wrote:
-> Hi Baokun,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on tytso-ext4/dev]
-> [also build test WARNING on linus/master v6.3-rc3 next-20230324]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baokun-Li/ext4-turning-quotas-off-if-mount-failed-after-enable-quotas/20230325-144948
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> patch link:    https://lore.kernel.org/r/20230325064732.1897482-2-libaokun1%40huawei.com
-> patch subject: [PATCH 1/2] ext4: turning quotas off if mount failed after enable quotas
-> config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230325/202303252258.vJkQLCe1-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->          # https://github.com/intel-lab-lkp/linux/commit/0796673fe204bc43455489f7d9cdf18c1ca9c678
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Baokun-Li/ext4-turning-quotas-off-if-mount-failed-after-enable-quotas/20230325-144948
->          git checkout 0796673fe204bc43455489f7d9cdf18c1ca9c678
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          make W=1 O=build_dir ARCH=x86_64 olddefconfig
->          make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303252258.vJkQLCe1-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     fs/ext4/super.c: In function '__ext4_fill_super':
->>> fs/ext4/super.c:5544:1: warning: label 'failed_mount9' defined but not used [-Wunused-label]
->      5544 | failed_mount9:
->           | ^~~~~~~~~~~~~
+Hi David,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on fff5a5e7f528b2ed2c335991399a766c2cf01103]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/clk-hisilicon-Add-helper-functions-for-platform-driver/20230326-133108
+base:   fff5a5e7f528b2ed2c335991399a766c2cf01103
+patch link:    https://lore.kernel.org/r/20230326052757.297551-5-mmyangfl%40gmail.com
+patch subject: [PATCH 4/4] clk: hisilicon: Migrate devm APIs
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230327/202303271023.do1t8Cfa-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/7fd49da57e4d2205c1f5842dc29fc79c0f89263e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Yang/clk-hisilicon-Add-helper-functions-for-platform-driver/20230326-133108
+        git checkout 7fd49da57e4d2205c1f5842dc29fc79c0f89263e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/clk/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303271023.do1t8Cfa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/clk/hisilicon/clk-hi3620.c:435:14: error: use of undeclared identifier 'clks'
+                           __func__, clks[i].name);
+                                     ^
+>> drivers/clk/hisilicon/clk-hi3620.c:435:19: error: use of undeclared identifier 'i'
+                           __func__, clks[i].name);
+                                          ^
+>> drivers/clk/hisilicon/clk-hi3620.c:436:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct clk_hw *' [-Wint-conversion]
+                   return ret;
+                          ^~~
+   3 errors generated.
+--
+>> drivers/clk/hisilicon/clk-hix5hd2.c:300:17: error: member reference type 'struct clk_hw_onecell_data *' is a pointer; did you mean to use '->'?
+                   data->clk_data.clks[clks[i].id] = clk;
+                   ~~~~~~~~~~~~~~^
+                                 ->
+>> drivers/clk/hisilicon/clk-hix5hd2.c:300:18: error: no member named 'clks' in 'struct clk_hw_onecell_data'
+                   data->clk_data.clks[clks[i].id] = clk;
+                   ~~~~~~~~~~~~~~ ^
+   2 errors generated.
 
 
-Thank you very much for testing!
+vim +/clks +435 drivers/clk/hisilicon/clk-hi3620.c
 
-I checked for compile alarms with W=1, but I tested with CONFIG_QUOTA 
-enabled, so I missed that.
+   399	
+   400	static struct clk_hw *
+   401	clk_register_hisi_mmc(struct device *dev, const struct hisi_mmc_clock *mmc_clk,
+   402			      void __iomem *base)
+   403	{
+   404		struct clk_mmc *mclk;
+   405		struct clk_init_data init;
+   406		int ret;
+   407	
+   408		mclk = devm_kzalloc(dev, sizeof(*mclk), GFP_KERNEL);
+   409		if (!mclk)
+   410			return ERR_PTR(-ENOMEM);
+   411	
+   412		init.name = mmc_clk->name;
+   413		init.ops = &clk_mmc_ops;
+   414		init.flags = mmc_clk->flags;
+   415		init.parent_names = (mmc_clk->parent_name ? &mmc_clk->parent_name : NULL);
+   416		init.num_parents = (mmc_clk->parent_name ? 1 : 0);
+   417		mclk->hw.init = &init;
+   418	
+   419		mclk->id = mmc_clk->id;
+   420		mclk->clken_reg = base + mmc_clk->clken_reg;
+   421		mclk->clken_bit = mmc_clk->clken_bit;
+   422		mclk->div_reg = base + mmc_clk->div_reg;
+   423		mclk->div_off = mmc_clk->div_off;
+   424		mclk->div_bits = mmc_clk->div_bits;
+   425		mclk->drv_reg = base + mmc_clk->drv_reg;
+   426		mclk->drv_off = mmc_clk->drv_off;
+   427		mclk->drv_bits = mmc_clk->drv_bits;
+   428		mclk->sam_reg = base + mmc_clk->sam_reg;
+   429		mclk->sam_off = mmc_clk->sam_off;
+   430		mclk->sam_bits = mmc_clk->sam_bits;
+   431	
+   432		ret = devm_clk_hw_register(dev, &mclk->hw);
+   433		if (ret) {
+   434			dev_err(dev, "%s: failed to register clock %s\n",
+ > 435				__func__, clks[i].name);
+ > 436			return ret;
+   437		}
+   438	
+   439		return &mclk->hw;
+   440	}
+   441	
 
-I will send a v2 patch to fix the issue. Tanks again!
-
->
-> vim +/failed_mount9 +5544 fs/ext4/super.c
->
-> 9b2ff35753c051 Jan Kara                2013-03-02  5499
-> bc71726c725767 zhangyi (F              2020-06-20  5500) 	/*
-> bc71726c725767 zhangyi (F              2020-06-20  5501) 	 * Save the original bdev mapping's wb_err value which could be
-> bc71726c725767 zhangyi (F              2020-06-20  5502) 	 * used to detect the metadata async write error.
-> bc71726c725767 zhangyi (F              2020-06-20  5503) 	 */
-> bc71726c725767 zhangyi (F              2020-06-20  5504) 	spin_lock_init(&sbi->s_bdev_wb_lock);
-> bc71726c725767 zhangyi (F              2020-06-20  5505) 	errseq_check_and_advance(&sb->s_bdev->bd_inode->i_mapping->wb_err,
-> bc71726c725767 zhangyi (F              2020-06-20  5506) 				 &sbi->s_bdev_wb_err);
-> bc71726c725767 zhangyi (F              2020-06-20  5507) 	sb->s_bdev->bd_super = sb;
-> 617ba13b31fbf5 Mingming Cao            2006-10-11  5508  	EXT4_SB(sb)->s_mount_state |= EXT4_ORPHAN_FS;
-> 617ba13b31fbf5 Mingming Cao            2006-10-11  5509  	ext4_orphan_cleanup(sb, es);
-> 617ba13b31fbf5 Mingming Cao            2006-10-11  5510  	EXT4_SB(sb)->s_mount_state &= ~EXT4_ORPHAN_FS;
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5511  	/*
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5512  	 * Update the checksum after updating free space/inode counters and
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5513  	 * ext4_orphan_cleanup. Otherwise the superblock can have an incorrect
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5514  	 * checksum in the buffer cache until it is written out and
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5515  	 * e2fsprogs programs trying to open a file system immediately
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5516  	 * after it is mounted can fail.
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5517  	 */
-> 9b6641dd95a0c4 Ye Bin                  2022-05-25  5518  	ext4_superblock_csum_set(sb);
-> 0390131ba84fd3 Frank Mayhar            2009-01-07  5519  	if (needs_recovery) {
-> b31e15527a9bb7 Eric Sandeen            2009-06-04  5520  		ext4_msg(sb, KERN_INFO, "recovery complete");
-> 11215630aada28 Jan Kara                2020-07-10  5521  		err = ext4_mark_recovery_complete(sb, es);
-> 11215630aada28 Jan Kara                2020-07-10  5522  		if (err)
-> 0796673fe204bc Baokun Li               2023-03-25  5523  			goto failed_mount10;
-> 0390131ba84fd3 Frank Mayhar            2009-01-07  5524  	}
-> 0390131ba84fd3 Frank Mayhar            2009-01-07  5525
-> 70200574cc229f Christoph Hellwig       2022-04-15  5526  	if (test_opt(sb, DISCARD) && !bdev_max_discard_sectors(sb->s_bdev))
-> 79add3a3f795e6 Lukas Czerner           2012-11-08  5527  		ext4_msg(sb, KERN_WARNING,
-> 70200574cc229f Christoph Hellwig       2022-04-15  5528  			 "mounting with \"discard\" option, but the device does not support discard");
-> 79add3a3f795e6 Lukas Czerner           2012-11-08  5529
-> 66e61a9e9504f6 Theodore Ts'o           2010-07-27  5530  	if (es->s_error_count)
-> 66e61a9e9504f6 Theodore Ts'o           2010-07-27  5531  		mod_timer(&sbi->s_err_report, jiffies + 300*HZ); /* 5 minutes */
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  5532
-> efbed4dc5857f8 Theodore Ts'o           2013-10-17  5533  	/* Enable message ratelimiting. Default is 10 messages per 5 secs. */
-> efbed4dc5857f8 Theodore Ts'o           2013-10-17  5534  	ratelimit_state_init(&sbi->s_err_ratelimit_state, 5 * HZ, 10);
-> efbed4dc5857f8 Theodore Ts'o           2013-10-17  5535  	ratelimit_state_init(&sbi->s_warning_ratelimit_state, 5 * HZ, 10);
-> efbed4dc5857f8 Theodore Ts'o           2013-10-17  5536  	ratelimit_state_init(&sbi->s_msg_ratelimit_state, 5 * HZ, 10);
-> 1cf006ed19a887 Dmitry Monakhov         2020-07-25  5537  	atomic_set(&sbi->s_warning_count, 0);
-> 1cf006ed19a887 Dmitry Monakhov         2020-07-25  5538  	atomic_set(&sbi->s_msg_count, 0);
-> efbed4dc5857f8 Theodore Ts'o           2013-10-17  5539
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  5540  	return 0;
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  5541
-> 0796673fe204bc Baokun Li               2023-03-25  5542  failed_mount10:
-> 0796673fe204bc Baokun Li               2023-03-25  5543  	ext4_quota_off_umount(sb);
-> 02f310fcf47fa9 Jan Kara                2021-08-16 @5544  failed_mount9:
-> 02f310fcf47fa9 Jan Kara                2021-08-16  5545  	ext4_release_orphan_info(sb);
-> 72ba74508b2857 Theodore Ts'o           2013-01-24  5546  failed_mount8:
-> ebd173beb8db5b Theodore Ts'o           2015-09-23  5547  	ext4_unregister_sysfs(sb);
-> cb8d53d2c97369 Eric Biggers            2020-09-22  5548  	kobject_put(&sbi->s_kobj);
-> dcf2d804ed6ffe Tao Ma                  2011-10-06  5549  failed_mount7:
-> dcf2d804ed6ffe Tao Ma                  2011-10-06  5550  	ext4_unregister_li_request(sb);
-> dcf2d804ed6ffe Tao Ma                  2011-10-06  5551  failed_mount6:
-> f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5552  	ext4_mb_release(sb);
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5553  	rcu_read_lock();
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5554  	flex_groups = rcu_dereference(sbi->s_flex_groups);
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5555  	if (flex_groups) {
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5556  		for (i = 0; i < sbi->s_flex_groups_allocated; i++)
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5557  			kvfree(flex_groups[i]);
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5558  		kvfree(flex_groups);
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5559  	}
-> 7c990728b99ed6 Suraj Jitindar Singh    2020-02-18  5560  	rcu_read_unlock();
-> d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5561  	percpu_counter_destroy(&sbi->s_freeclusters_counter);
-> d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5562  	percpu_counter_destroy(&sbi->s_freeinodes_counter);
-> d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5563  	percpu_counter_destroy(&sbi->s_dirs_counter);
-> d5e03cbb0c88cd Theodore Ts'o           2014-07-15  5564  	percpu_counter_destroy(&sbi->s_dirtyclusters_counter);
-> efc61345274d6c Eric Whitney            2021-02-18  5565  	percpu_counter_destroy(&sbi->s_sra_exceeded_retry_limit);
-> bbd55937de8f27 Eric Biggers            2020-02-19  5566  	percpu_free_rwsem(&sbi->s_writepages_rwsem);
-> 007649375f6af2 Azat Khuzhin            2014-04-07  5567  failed_mount5:
-> f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5568  	ext4_ext_release(sb);
-> f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5569  	ext4_release_system_zone(sb);
-> f9ae9cf5d72b39 Theodore Ts'o           2014-07-11  5570  failed_mount4a:
-> 94bf608a18fa44 Al Viro                 2012-01-09  5571  	dput(sb->s_root);
-> 32a9bb57d7c1fd Manish Katiyar          2011-02-27  5572  	sb->s_root = NULL;
-> 94bf608a18fa44 Al Viro                 2012-01-09  5573  failed_mount4:
-> b31e15527a9bb7 Eric Sandeen            2009-06-04  5574  	ext4_msg(sb, KERN_ERR, "mount failed");
-> 2e8fa54e3b48e4 Jan Kara                2013-06-04  5575  	if (EXT4_SB(sb)->rsv_conversion_wq)
-> 2e8fa54e3b48e4 Jan Kara                2013-06-04  5576  		destroy_workqueue(EXT4_SB(sb)->rsv_conversion_wq);
-> 4c0425ff68b1b8 Mingming Cao            2009-09-28  5577  failed_mount_wq:
-> dec214d00e0d78 Tahsin Erdogan          2017-06-22  5578  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
-> dec214d00e0d78 Tahsin Erdogan          2017-06-22  5579  	sbi->s_ea_inode_cache = NULL;
-> 50c15df69e062b Chengguang Xu           2018-12-04  5580
-> 47387409ee2e09 Tahsin Erdogan          2017-06-22  5581  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
-> 47387409ee2e09 Tahsin Erdogan          2017-06-22  5582  	sbi->s_ea_block_cache = NULL;
-> 50c15df69e062b Chengguang Xu           2018-12-04  5583
-> 0390131ba84fd3 Frank Mayhar            2009-01-07  5584  	if (sbi->s_journal) {
-> bb9464e08309f6 yangerkun               2021-09-24  5585  		/* flush s_error_work before journal destroy. */
-> bb9464e08309f6 yangerkun               2021-09-24  5586  		flush_work(&sbi->s_error_work);
-> dab291af8d6307 Mingming Cao            2006-10-11  5587  		jbd2_journal_destroy(sbi->s_journal);
-> 47b4a50bebfd34 Jan Kara                2008-07-11  5588  		sbi->s_journal = NULL;
-> 0390131ba84fd3 Frank Mayhar            2009-01-07  5589  	}
-> 50460fe8c6d1d9 Darrick J. Wong         2014-10-30  5590  failed_mount3a:
-> d3922a777f9b4c Zheng Liu               2013-07-01  5591  	ext4_es_unregister_shrinker(sbi);
-> eb68d0e2fc5a4e Zheng Liu               2014-09-01  5592  failed_mount3:
-> bb9464e08309f6 yangerkun               2021-09-24  5593  	/* flush s_error_work before sbi destroy */
-> c92dc856848f32 Jan Kara                2020-11-27  5594  	flush_work(&sbi->s_error_work);
-> 2a4ae3bcdf05b8 Jan Kara                2021-03-15  5595  	del_timer_sync(&sbi->s_err_report);
-> 618f003199c618 Pavel Skripkin          2021-04-30  5596  	ext4_stop_mmpd(sbi);
-> a4e6a511d7de5d Jason Yan               2022-09-16  5597  	ext4_group_desc_free(sbi);
-> ac27a0ec112a08 Dave Kleikamp           2006-10-11  5598  failed_mount:
-> 0441984a339897 Darrick J. Wong         2012-04-29  5599  	if (sbi->s_chksum_driver)
-> 0441984a339897 Darrick J. Wong         2012-04-29  5600  		crypto_free_shash(sbi->s_chksum_driver);
-> c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  5601
->
 -- 
-With Best Regards,
-Baokun Li
-.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
