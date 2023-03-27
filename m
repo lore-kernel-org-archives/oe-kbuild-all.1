@@ -1,156 +1,153 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F697622
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 04:03:32 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id cf7so8824605ybb.5
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Mar 2023 21:03:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A077622;
+	Mon, 27 Mar 2023 04:09:51 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id j24so7242683wrd.0;
+        Sun, 26 Mar 2023 21:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679889811;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=44uUxFYwsArqBtqy4mYcm+gQ9NS3Dy6uSJ7usODITCI=;
-        b=StUxz0jVABbeM1hEm5fyHaEzT/KlPApejjTT9AtYMc9PamUXeMAV1pb0DxvI1ttzlE
-         r6yQuNylLjQl2LfQJ7CA3UA3yk1S8KwE5LMGwiTjGo9JZSlcyCYrKz+fuGEJ1zziVPUq
-         5fa3FG+Y+XIYBzzwX1sipVVkUZQnqwstXt0PPSzqK1L82tc5P1RDQErHhxEKLWgN6mxP
-         aRdHYzhBgb+emVwUGD4d/CL+dgHYY1AYpZa5mQwmS7WBn5vYJ0/+ixg8HOzZIk5LAUK4
-         3bRnsJrnFyM3O8LJbTfswUr+21f2WJ7VZoZgguPO33667hXQsQmNScsi6qjUwT+41Z6l
-         A+qQ==
+        d=gmail.com; s=20210112; t=1679890189;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7ijLTIesAOEpn36Fs42xeH/9XS1VZZGszE+oGRCXj0=;
+        b=nRFIUVWQPecoMEHzKmyeLvjTcp/yjMztl4Pg0OOaG8c+ImjWC64i/lOL7hFiE1UqSX
+         U4IGBSV4MEE8UmS8xQN+/sgPQ11QMkGhQhatGpXJHvAIhOxJoo8GFV+KXI6pFBeYFhTD
+         D5J3r6GOqCIRV5KXr393hmZr/jh280QtfOE5I/RitL7occNpSq3UPSBipgTiOdj4ltxt
+         2H8v98bxRssnPxcUlpQhnHs0snHLhZ03REm/Vy7kVsOxbq5Hlbgwl93q0rB5MZZTqFn8
+         yhDWWFDeW1BCsZGPuUygdPsmdGQuT6rrkbzxnZnGjtKVuxCKHCZKuzXoLiGCRDXJhtW6
+         yJ1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679889811;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=44uUxFYwsArqBtqy4mYcm+gQ9NS3Dy6uSJ7usODITCI=;
-        b=kr4jgWQmPcSLWiMmLx57SJcFpQdmt6XZPGoBsoRYYcfiUgIbMb4tm45UmlFcg4iqsf
-         cGck63jpflAO8P8KlQ3Q9FdJohV+0/3uGkfs61uiFHpbemWP0Wm9bGgwdtg3bnSjgg0O
-         dy8AaLYb9ZgAgTXbrjV5UiTJxgYqn4dR+wGARIKzQTQS0XVn3iocTHcAd8BLIAAw67I+
-         OSmwVA6Qo6Xq+kHUb2WqEHCT5oD5kfkpF6QEZ/VNCddAN4ynCoAOIK768VxymL/SjJeQ
-         qYAJud1wMIM6g59b1eetSOABjgqiNg/qZpcFep6xfOt5OGNkU3259ALVNLmE1N634eIW
-         ZDhg==
-X-Gm-Message-State: AAQBX9dQ2hl56o0/4aZEZcg0KzuhdxP4fOpLCDs682V4WJpG69Gr0RFr
-	uVV5ZQd+XSflFwBdMyLzcUZDCX6o9nlvswy3yVwnUg==
-X-Google-Smtp-Source: AKy350ZxnkU1qJuXiniK3lhm3Ae6t7cGlvqs4DKooP9FTo5L1afqwypI6CCPtVuiAdGP6q4BI4+HLgMcwtc7XrJTwuo=
-X-Received: by 2002:a05:6902:168d:b0:b7b:f02a:919d with SMTP id
- bx13-20020a056902168d00b00b7bf02a919dmr202956ybb.8.1679889811008; Sun, 26 Mar
- 2023 21:03:31 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679890189;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l7ijLTIesAOEpn36Fs42xeH/9XS1VZZGszE+oGRCXj0=;
+        b=wj7EwyLb3pmrZ5TSKExpEtOuTi0vEU/U/cuWj0G+BKvreUqCAKp5osljEEU4ZNjvuC
+         2COs5gp7noW8NBx5R41SqfB1FW3ch+UV1hrWUp8l7bObLEtj0jXKEwuPTJ24jN4DZPHz
+         F0xhOVVhvWR+5szKJCXHHZhTmeqQeChjKS5Qfae6nLumGIrasLKyCc6ZYcpzT5c7HKPA
+         Bvwwn/mmEj6yCnA0tkD2oAITQBQ95oK4M+ktk4P16o77cE5fuKwUw7+kJexXJlhk2t+2
+         RtsmOixJ8CQUtmSvMk1k+Kd0AO4B1XjCbs3EUtGdx49moYuGd0e1iM3Q+4YxgILheIXl
+         CW9w==
+X-Gm-Message-State: AAQBX9fqkcIANZGc9ZhEMn/PLIOEgHafZO6/NG++72ebh0GUcfrLus6c
+	I/NUGJc9q/ZPooxxdSwOrPj5M0oOkOQ=
+X-Google-Smtp-Source: AKy350aPtQ3/HJnPD7bxSqU78HCNLeKUq9YcfPVBKGfxJ65U31vR/MXIZDGYGxEq5i77c837P1WT5Q==
+X-Received: by 2002:adf:f2c6:0:b0:2d1:5b75:28f0 with SMTP id d6-20020adff2c6000000b002d15b7528f0mr8409709wrp.39.1679890189402;
+        Sun, 26 Mar 2023 21:09:49 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s2-20020a5d5102000000b002c71b4d476asm23832783wrt.106.2023.03.26.21.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Mar 2023 21:09:48 -0700 (PDT)
+Date: Mon, 27 Mar 2023 07:09:45 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Dylan Van Assche <me@dylanvanassche.be>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Amol Maheshwari <amahesh@qti.qualcomm.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org,
+	Dylan Van Assche <me@dylanvanassche.be>
+Subject: Re: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to
+ the DSP
+Message-ID: <c138a832-4b10-4f7b-9e7e-4386e8de0465@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230326173511.710749-3-joychakr@google.com> <202303270715.w9sMJhIh-lkp@intel.com>
-In-Reply-To: <202303270715.w9sMJhIh-lkp@intel.com>
-From: Joy Chakraborty <joychakr@google.com>
-Date: Mon, 27 Mar 2023 09:33:19 +0530
-Message-ID: <CAOSNQF1xc8Bfw2=7+A_hU-EXy7dmG5scUvE6bUYUjzTMvRv_Yw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] spi: dw: Add dma controller capability checks
-To: kernel test robot <lkp@intel.com>
-Cc: Serge Semin <fancer.lancer@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, manugautam@google.com, rohitner@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230325134410.21092-3-me@dylanvanassche.be>
 
-Hi Serge(y)
+Hi Dylan,
 
-On Mon, Mar 27, 2023 at 4:59=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Joy,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> [auto build test WARNING on broonie-spi/for-next]
-> [also build test WARNING on linus/master v6.3-rc4 next-20230324]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joy-Chakraborty/sp=
-i-dw-Add-32-bpw-support-to-DW-DMA-Controller/20230327-013645
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git f=
-or-next
-> patch link:    https://lore.kernel.org/r/20230326173511.710749-3-joychakr=
-%40google.com
-> patch subject: [PATCH v3 2/2] spi: dw: Add dma controller capability chec=
-ks
-> config: arc-randconfig-s041-20230326 (https://download.01.org/0day-ci/arc=
-hive/20230327/202303270715.w9sMJhIh-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 12.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://github.com/intel-lab-lkp/linux/commit/9962c1acd23cb0766=
-a09948c1bee4f29950b8a96
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Joy-Chakraborty/spi-dw-Add-32-bp=
-w-support-to-DW-DMA-Controller/20230327-013645
->         git checkout 9962c1acd23cb0766a09948c1bee4f29950b8a96
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Darc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Darc SHELL=3D/bin/bash drivers/spi/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303270715.w9sMJhIh-lkp@i=
-ntel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/spi/spi-dw-dma.c:241:56: sparse: sparse: marked inline, but wi=
-thout a definition
->
-> vim +241 drivers/spi/spi-dw-dma.c
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Indeed I have marked it inline in the function prototype.
-Removing the same and sending a V4 patch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Van-Assche/dt-bindings-misc-qcom-fastrpc-add-qcom-assign-all-memory-property/20230325-214518
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230325134410.21092-3-me%40dylanvanassche.be
+patch subject: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to the DSP
+config: microblaze-randconfig-m041-20230326 (https://download.01.org/0day-ci/archive/20230327/202303270739.ODb2LA29-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
->
-> f89a6d8f43ebe9 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  240
-> 57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29 @241  =
-static enum dma_slave_buswidth dw_spi_dma_convert_width(u8 n_bytes)
-> 57784411728ff4 drivers/spi/spi-dw-dma.c Serge Semin     2020-05-29  242  =
-{
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  243  =
-       switch (n_bytes) {
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  244  =
-       case 1:
-> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  245  =
-               return DMA_SLAVE_BUSWIDTH_1_BYTE;
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  246  =
-       case 2:
-> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  247  =
-               return DMA_SLAVE_BUSWIDTH_2_BYTES;
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  248  =
-       case 3:
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  249  =
-       case 4:
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  250  =
-               return DMA_SLAVE_BUSWIDTH_4_BYTES;
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  251  =
-       default:
-> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  252  =
-               return DMA_SLAVE_BUSWIDTH_UNDEFINED;
-> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  253  =
-       }
-> 80de96dae70648 drivers/spi/spi-dw-dma.c Joy Chakraborty 2023-03-26  254  =
-}
-> e31abce778bc05 drivers/spi/spi-dw-mid.c Andy Shevchenko 2015-03-09  255
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303270739.ODb2LA29-lkp@intel.com/
 
-Thanks
-Joy
+New smatch warnings:
+drivers/misc/fastrpc.c:2273 fastrpc_rpmsg_probe() warn: possible memory leak of 'data'
+
+vim +/data +2273 drivers/misc/fastrpc.c
+
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2227  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2228  {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2229  	struct device *rdev = &rpdev->dev;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2230  	struct fastrpc_channel_ctx *data;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2231  	int i, err, domain_id = -1, vmcount;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2232  	const char *domain;
+99edd50174e519 Dylan Van Assche         2023-03-25  2233  	bool secure_dsp, assign_all_mem;
+99edd50174e519 Dylan Van Assche         2023-03-25  2234  	struct device_node *rmem_node;
+99edd50174e519 Dylan Van Assche         2023-03-25  2235  	struct reserved_mem *rmem;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2236  	unsigned int vmids[FASTRPC_MAX_VMIDS];
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2237  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2238  	err = of_property_read_string(rdev->of_node, "label", &domain);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2239  	if (err) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2240  		dev_info(rdev, "FastRPC Domain not specified in DT\n");
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2241  		return err;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2242  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2243  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2244  	for (i = 0; i <= CDSP_DOMAIN_ID; i++) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2245  		if (!strcmp(domains[i], domain)) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2246  			domain_id = i;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2247  			break;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2248  		}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2249  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2250  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2251  	if (domain_id < 0) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2252  		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2253  		return -EINVAL;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2254  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2255  
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2256  	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2257  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2258  
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2259  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2260  				"qcom,vmids", &vmids[0], 0, FASTRPC_MAX_VMIDS);
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2261  	if (vmcount < 0)
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2262  		vmcount = 0;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2263  	else if (!qcom_scm_is_available())
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2264  		return -EPROBE_DEFER;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2265  
+278d56f970ae6e Bjorn Andersson          2019-08-29  2266  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+278d56f970ae6e Bjorn Andersson          2019-08-29  2267  	if (!data)
+278d56f970ae6e Bjorn Andersson          2019-08-29  2268  		return -ENOMEM;
+278d56f970ae6e Bjorn Andersson          2019-08-29  2269  
+99edd50174e519 Dylan Van Assche         2023-03-25  2270  	assign_all_mem = of_property_read_bool(rdev->of_node, "qcom,assign-all-mem");
+99edd50174e519 Dylan Van Assche         2023-03-25  2271  
+99edd50174e519 Dylan Van Assche         2023-03-25  2272  	if (assign_all_mem && !vmcount)
+99edd50174e519 Dylan Van Assche         2023-03-25 @2273  		return -EINVAL;
+
+Move this code before the data = kzalloc() allocation to avoid a memory
+leak.
+
+99edd50174e519 Dylan Van Assche         2023-03-25  2274  
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2275  	if (vmcount) {
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2276  		data->vmcount = vmcount;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2277  		data->perms = BIT(QCOM_SCM_VMID_HLOS);
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2278  		for (i = 0; i < data->vmcount; i++) {
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2279  			data->vmperms[i].vmid = vmids[i];
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2280  			data->vmperms[i].perm = QCOM_SCM_PERM_RWX;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
