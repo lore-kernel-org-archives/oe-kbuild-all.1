@@ -1,63 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E29B67EA;
-	Mon, 27 Mar 2023 06:08:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBCBD4B3;
-	Sun, 26 Mar 2023 23:09:26 -0700 (PDT)
-Received: from [10.162.42.7] (a077893.blr.arm.com [10.162.42.7])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB7193F6C4;
-	Sun, 26 Mar 2023 23:08:39 -0700 (PDT)
-Message-ID: <4feeae36-f6fe-1422-9f0f-081b9106e91c@arm.com>
-Date: Mon, 27 Mar 2023 11:38:36 +0530
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58FE7EA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Mar 2023 06:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679897886; x=1711433886;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6o0fKQmvkTDxMY4zxOWWNTnYAsFjBoC1E2c2rziwavI=;
+  b=CGrxKUbN83X80XZyVNX6qfQcT5k4XW4eLdPwE/5yNcdyGErw3siuWZp6
+   dOKM+/9UEQRN1HXqTMIUM3nX53+xKQszNR7rfmJ8DXjLmty3fjPovun1T
+   3lNliE56nbspWWgjRGY3egyuVK7sNES8q0HknLPTFkeUTJdC7L8xBsRru
+   YBiOGpeoJmP7DSwhoIyQgsQJLP5klnRja6iIAS8XjZ4BGZ6jKGDox9qQG
+   xsPKKOqEArjQeknYKuF7t29U+hp2rQfTvIAcQNy2smSInGgK9g8eoZRiQ
+   ryWXacu3Rz56n8hLnda9d7vhTCljXWPnd1OeuAOqWVIGN11L8x5uoJZcT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="342589954"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="342589954"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 23:18:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="660732137"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="660732137"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 26 Mar 2023 23:18:05 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pggBB-000HaN-0h;
+	Mon, 27 Mar 2023 06:18:05 +0000
+Date: Mon, 27 Mar 2023 14:17:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: vmlinux.o: warning: objtool: xenpv_exc_double_fault+0xd: unreachable
+ instruction
+Message-ID: <202303271446.1FSJkyat-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] arm64: Disable EL2 traps for BRBE instructions executed
- in EL1
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- linux-kernel@vger.kernel.org
-References: <20230324055127.2228330-1-anshuman.khandual@arm.com>
- <202303250802.KytExIHw-lkp@intel.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202303250802.KytExIHw-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Peter,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   197b6b60ae7bc51dd0814953c562833143b292aa
+commit: 443ed4c302fff6a26af980300463343a7adc9ee8 objtool: mem*() are not uaccess safe
+date:   6 weeks ago
+config: x86_64-randconfig-r035-20230327 (https://download.01.org/0day-ci/archive/20230327/202303271446.1FSJkyat-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=443ed4c302fff6a26af980300463343a7adc9ee8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 443ed4c302fff6a26af980300463343a7adc9ee8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303271446.1FSJkyat-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> vmlinux.o: warning: objtool: xenpv_exc_double_fault+0xd: unreachable instruction
 
 
+objdump-func vmlinux.o xenpv_exc_double_fault:
+0000 0000000000001680 <xenpv_exc_double_fault>:
+0000     1680:	f3 0f 1e fa          	endbr64
+0004     1684:	55                   	push   %rbp
+0005     1685:	48 89 e5             	mov    %rsp,%rbp
+0008     1688:	e8 00 00 00 00       	call   168d <xenpv_exc_double_fault+0xd>	1689: R_X86_64_PLT32	exc_double_fault-0x4
+000d     168d:	5d                   	pop    %rbp
+000e     168e:	c3                   	ret
+000f     168f:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+001a     169a:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+0025     16a5:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+0030     16b0:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+003b     16bb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
 
-On 3/25/23 06:07, kernel test robot wrote:
-> All errors (new ones prefixed by >>):
-> 
->>> <instantiation>:36:14: error: expected compatible register or logical immediate
->     orr x0, x0, #HFGITR_EL2_nBRBIALL
->                 ^
->    <instantiation>:10:2: note: while in macro instantiation
->     __init_el2_fgt
->     ^
->    arch/arm64/kernel/head.S:577:2: note: while in macro instantiation
->     init_el2_state
->     ^
->    <instantiation>:37:14: error: expected compatible register or logical immediate
->     orr x0, x0, #HFGITR_EL2_nBRBINJ
->                 ^
->    <instantiation>:10:2: note: while in macro instantiation
->     __init_el2_fgt
->     ^
->    arch/arm64/kernel/head.S:577:2: note: while in macro instantiation
->     init_el2_state
->     ^
-
-I guess these build errors are caused by unavailability of the pre-requisite
-patches from Mark Brown, in this test environment ?
-
-https://lore.kernel.org/all/20230306-arm64-fgt-reg-gen-v3-0-decba93cbaab@kernel.org/
- 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
