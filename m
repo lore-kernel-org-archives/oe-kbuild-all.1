@@ -1,50 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6EA2F2A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 20:40:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99352772D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 21:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680036025; x=1711572025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gvb2HmdFB0pZ7hrIpyWYWFwcMsyDepZT+cCpwZ9+i3U=;
-  b=NPiAET3iVay2dtVpQfdTV8crem784OhM/cHGq0jq6zAUKaVqEj7JsxVS
-   lqT2EzAk5hIWDoVjtB2DxUBaI+2T8VcfYMxLsZvSmSpr/RWE5wl4NqjJu
-   cKLpsTB/4+eBYfrthIOq1zG1yNH2wqt0UZ7YhP2sw9h/hBJM0qC52lGs0
-   T9kVXGhS5NhQ9fjL5nMIVHC/7lpp7CaSha4dDHffUh4xQZcPO2riCwlnl
-   G5WhcTwqi7DE9bXcOYEWazT4Xd5aeEWkPWrdCFKHHvnCkC2IxuUNh+X0k
-   ZjiCJbQSd/0+P53hgu63yIlzFKeA6w5Z9pHV/YIDp7jq8B0rQpeQWOEdQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="320339018"
+  t=1680039744; x=1711575744;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=eO8IqPBPoLCogARfWNubQrMSOqpaultzyNjehZgMcuo=;
+  b=gD3HXu7Ptsog0bQX9b9eqD2u64nZIwaNtRoZpJR+F/HIdgAvRv/Mh8wW
+   LHHsx0JMX+Rsg7UDk3hE3qxh/hfAtvK4JzZjqRAj58K86SWoSLwrX0SNK
+   8H94CzKy7csVNAhpAxy/YWx+I00PBKoWIfjyiFeEnC51Xi0IzVevWVwFs
+   LxP6BKTM5AyjkRdy5iCa/KWipWF49qKLQPy4rw9MByE6wjLH+nPM9WYz3
+   mm1ioWb/FRdbw+wtYm3nfOyBTyBTXFA/g4F09xKuipybiBPB7TXbw2lgD
+   S3lNXnfeJ12UcmiPI5hLK01f4V8xDoIXyZtnt4OFbrGLkylizbO6wFRCV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="426973025"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="320339018"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 13:40:24 -0700
+   d="scan'208";a="426973025"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 14:42:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773297847"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="634214642"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="773297847"
+   d="scan'208";a="634214642"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2023 13:40:21 -0700
+  by orsmga003.jf.intel.com with ESMTP; 28 Mar 2023 14:42:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phG7A-000It5-2N;
-	Tue, 28 Mar 2023 20:40:20 +0000
-Date: Wed, 29 Mar 2023 04:40:17 +0800
+	id 1phH5C-000Iut-0G;
+	Tue, 28 Mar 2023 21:42:22 +0000
+Date: Wed, 29 Mar 2023 05:41:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-	tvrtko.ursulin@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
-	ville.syrjala@linux.intel.com, imre.deak@intel.com,
-	tejas.upadhyay@intel.com, javierm@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915: Implement fbdev emulation as
- in-kernel client
-Message-ID: <202303290420.6rd5p4br-lkp@intel.com>
-References: <20230328111422.23986-5-tzimmermann@suse.de>
+To: Sagar Biradar <sagar.biradar@microchip.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] aacraid: reply queue mapping to CPUs based of IRQ
+ affinity
+Message-ID: <ZCNfEtmZXd9QTuZ/@0f0c699f4fc0>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,55 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230328111422.23986-5-tzimmermann@suse.de>
+In-Reply-To: <20230328214124.26419-1-sagar.biradar@microchip.com>
 
-Hi Thomas,
+Hi,
 
-I love your patch! Yet something to improve:
+Thanks for your patch.
 
-[auto build test ERROR on 6e5f96153989e454041848f66a5227be9bd0bbc3]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-i915-Move-fbdev-functions/20230328-191627
-base:   6e5f96153989e454041848f66a5227be9bd0bbc3
-patch link:    https://lore.kernel.org/r/20230328111422.23986-5-tzimmermann%40suse.de
-patch subject: [Intel-gfx] [PATCH 4/4] drm/i915: Implement fbdev emulation as in-kernel client
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230329/202303290420.6rd5p4br-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6db03fde4587438371c6f7871675cba6389a1319
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/drm-i915-Move-fbdev-functions/20230328-191627
-        git checkout 6db03fde4587438371c6f7871675cba6389a1319
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH] aacraid: reply queue mapping to CPUs based of IRQ affinity
+Link: https://lore.kernel.org/stable/20230328214124.26419-1-sagar.biradar%40microchip.com
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290420.6rd5p4br-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/i915_driver.c:55:
->> drivers/gpu/drm/i915/display/intel_fbdev.h:22:1: error: expected identifier or '(' before '{' token
-      22 | {
-         | ^
-
-
-vim +22 drivers/gpu/drm/i915/display/intel_fbdev.h
-
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  15  
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  16  #ifdef CONFIG_DRM_FBDEV_EMULATION
-6db03fde458743 drivers/gpu/drm/i915/display/intel_fbdev.h Thomas Zimmermann 2023-03-28  17  void intel_fbdev_setup(struct drm_i915_private *dev_priv);
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  18  void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous);
-c1c04560ac038d drivers/gpu/drm/i915/display/intel_fbdev.h Jani Nikula       2022-02-15  19  struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev);
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  20  #else
-6db03fde458743 drivers/gpu/drm/i915/display/intel_fbdev.h Thomas Zimmermann 2023-03-28  21  void intel_fbdev_setup(struct drm_i915_private *dev_priv);
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05 @22  {
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  23  }
-6dfccb95cf17cd drivers/gpu/drm/i915/intel_fbdev.h         Jani Nikula       2019-04-05  24  
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
+
+
