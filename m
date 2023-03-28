@@ -1,43 +1,44 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9BFAD30
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 18:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80577AD30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 18:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680026787; x=1711562787;
+  t=1680026789; x=1711562789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nAijSQ1k8u0lJZ89EcVO+KuMeKcEsy2/98bfVxO6GiY=;
-  b=BLWTsin3CX+yb8R/YQrYry3RzKPDK7VftprE1GDpE6tcUyFxDLTxeExH
-   5L1CmOcrK3E+jPAwzFvxFoTe8EuRi1wpFy3zmEueTwH1LUG8x7kvCwsl/
-   ckCeLCIJ3Tmdq/mcUsW0m+CUvl509CJ72tP2iTkjao7KqwYsW0qRGGrVY
-   gMfGDJ4QSE163FCPnYKXdKOOr1CjItemLLwZ6BawxH0IZvPEng2cLkwlB
-   7gLM352zw8Us+Fbl2Zu6zrjqgQxx10z9n+Cck/RY1BYghKBZB3c26rFZv
-   cQZ/flSCQobZTjD9YDqMLzAqaOyrEwbc8whYqZDrT5MXxCYaEiorowGk6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405589824"
+  bh=50/w02QSISI+EfRnY5mPe00nw2Ef+a6Ab+EH9dOeYkY=;
+  b=Nq4LiP7ulGzXYFmckBosES3ooyTn4DUR8pRTYCz0YrHteo9OurIjepZR
+   RVCTlhTqTW55QvAHG383E/jlVYr1+k2ikZ2EKwRowkvzm9q9j474eNDrx
+   Xaaf/cQQwqGraKCH3sQ6oGQ0TZkECncS18Fa619DL0L511hDx0wB3+shQ
+   pAgg5bRDwXUO1lMtIlVAaoWcSPN/KlgJe4SbQgyDncO6Ars1oOdPIodpg
+   1FuvnrfpFLbn6wcgVPUPXwc8Ss17VMlUCc1YDaK7t1wVnyE0Rn/HzZfwC
+   0ns9XZGfNSX+0ulOOpp7sKtEOLCZy6ch+2Makm/HZp34aqbmhhMWxqdz7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405589819"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="405589824"
+   d="scan'208";a="405589819"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 11:06:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="753256819"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="753256820"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="753256819"
+   d="scan'208";a="753256820"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 11:06:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phDi3-000InP-27;
+	id 1phDi3-000InS-2J;
 	Tue, 28 Mar 2023 18:06:15 +0000
-Date: Wed, 29 Mar 2023 02:05:25 +0800
+Date: Wed, 29 Mar 2023 02:05:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: vmlinux.o: warning: objtool: local_clock+0xaa: call to
- preempt_schedule_notrace_thunk() leaves .noinstr.text section
-Message-ID: <202303290127.5NjnWVWg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 107/107]
+ drivers/virtio/virtio_balloon.c:189:41: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202303290245.4CR5iuzs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,85 +48,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3a93e40326c8f470e71d20b4c42d36767450f38f
-commit: 776f22913b8e50011004c6ae43004711dab7efa5 sched/clock: Make local_clock() noinstr
-date:   8 weeks ago
-config: x86_64-buildonly-randconfig-r004-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290127.5NjnWVWg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=776f22913b8e50011004c6ae43004711dab7efa5
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 776f22913b8e50011004c6ae43004711dab7efa5
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   268c8aee161e4135a7202da9cf31722ddbdb750e
+commit: 06c7c42cb1e901ed805ec8c993426e8c08f9c6de [107/107] CHROMIUM: virtio_balloon: support the event queue
+config: h8300-randconfig-s051-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290245.4CR5iuzs-lkp@intel.com/config)
+compiler: h8300-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 06c7c42cb1e901ed805ec8c993426e8c08f9c6de
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=h8300 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/virtio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290127.5NjnWVWg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290245.4CR5iuzs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_balloon.c:189:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __virtio32 [usertype] type @@     got int @@
+   drivers/virtio/virtio_balloon.c:189:41: sparse:     expected restricted __virtio32 [usertype] type
+   drivers/virtio/virtio_balloon.c:189:41: sparse:     got int
+   drivers/virtio/virtio_balloon.c:468:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __virtio32 [usertype] type @@     got int @@
+   drivers/virtio/virtio_balloon.c:468:37: sparse:     expected restricted __virtio32 [usertype] type
+   drivers/virtio/virtio_balloon.c:468:37: sparse:     got int
 
-   vmlinux.o: warning: objtool: native_sched_clock+0x97: call to preempt_schedule_notrace_thunk() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: local_clock+0xaa: call to preempt_schedule_notrace_thunk() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x30: call to preempt_count_add() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x66: call to preempt_count_add() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x38: call to preempt_count_add() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x30: call to preempt_count_add() leaves .noinstr.text section
+vim +189 drivers/virtio/virtio_balloon.c
 
-
-objdump-func vmlinux.o local_clock:
-0000 0000000000002800 <local_clock>:
-0000     2800:	f3 0f 1e fa          	endbr64
-0004     2804:	eb 1e                	jmp    2824 <local_clock+0x24>
-0006     2806:	e8 00 00 00 00       	call   280b <local_clock+0xb>	2807: R_X86_64_PLT32	sched_clock-0x4
-000b     280b:	48 03 05 00 00 00 00 	add    0x0(%rip),%rax        # 2812 <local_clock+0x12>	280e: R_X86_64_PC32	__sched_clock_offset-0x4
-0012     2812:	49 89 c0             	mov    %rax,%r8
-0015     2815:	4c 89 c0             	mov    %r8,%rax
-0018     2818:	31 d2                	xor    %edx,%edx
-001a     281a:	31 c9                	xor    %ecx,%ecx
-001c     281c:	31 f6                	xor    %esi,%esi
-001e     281e:	31 ff                	xor    %edi,%edi
-0020     2820:	45 31 c0             	xor    %r8d,%r8d
-0023     2823:	c3                   	ret
-0024     2824:	ff 05 00 00 00 00    	incl   0x0(%rip)        # 282a <local_clock+0x2a>	2826: R_X86_64_PC32	pcpu_hot+0x4
-002a     282a:	e8 00 00 00 00       	call   282f <local_clock+0x2f>	282b: R_X86_64_PLT32	sched_clock-0x4
-002f     282f:	48 2b 05 00 00 00 00 	sub    0x0(%rip),%rax        # 2836 <local_clock+0x36>	2832: R_X86_64_PC32	sched_clock_data-0x4
-0036     2836:	48 8b 15 00 00 00 00 	mov    0x0(%rip),%rdx        # 283d <local_clock+0x3d>	2839: R_X86_64_PC32	.data..read_mostly+0x25b4
-003d     283d:	48 89 c1             	mov    %rax,%rcx
-0040     2840:	b8 00 00 00 00       	mov    $0x0,%eax
-0045     2845:	48 0f 48 c8          	cmovs  %rax,%rcx
-0049     2849:	48 03 15 00 00 00 00 	add    0x0(%rip),%rdx        # 2850 <local_clock+0x50>	284c: R_X86_64_PC32	sched_clock_data+0x4
-0050     2850:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 2857 <local_clock+0x57>	2853: R_X86_64_PC32	sched_clock_data+0xc
-0057     2857:	48 89 d7             	mov    %rdx,%rdi
-005a     285a:	48 89 d6             	mov    %rdx,%rsi
-005d     285d:	48 29 c7             	sub    %rax,%rdi
-0060     2860:	4c 8d 04 11          	lea    (%rcx,%rdx,1),%r8
-0064     2864:	48 85 ff             	test   %rdi,%rdi
-0067     2867:	7f 09                	jg     2872 <local_clock+0x72>
-0069     2869:	4c 89 c1             	mov    %r8,%rcx
-006c     286c:	48 89 c6             	mov    %rax,%rsi
-006f     286f:	48 29 c1             	sub    %rax,%rcx
-0072     2872:	48 81 c2 00 09 3d 00 	add    $0x3d0900,%rdx
-0079     2879:	48 89 c7             	mov    %rax,%rdi
-007c     287c:	48 29 d7             	sub    %rdx,%rdi
-007f     287f:	48 85 ff             	test   %rdi,%rdi
-0082     2882:	48 0f 4f d0          	cmovg  %rax,%rdx
-0086     2886:	48 85 c9             	test   %rcx,%rcx
-0089     2889:	4c 0f 4e c6          	cmovle %rsi,%r8
-008d     288d:	49 39 d0             	cmp    %rdx,%r8
-0090     2890:	4c 0f 49 c2          	cmovns %rdx,%r8
-0094     2894:	4c 0f b1 05 00 00 00 00 	cmpxchg %r8,0x0(%rip)        # 289c <local_clock+0x9c>	2898: R_X86_64_PC32	sched_clock_data+0xc
-009c     289c:	75 8c                	jne    282a <local_clock+0x2a>
-009e     289e:	ff 0d 00 00 00 00    	decl   0x0(%rip)        # 28a4 <local_clock+0xa4>	28a0: R_X86_64_PC32	pcpu_hot+0x4
-00a4     28a4:	0f 85 6b ff ff ff    	jne    2815 <local_clock+0x15>
-00aa     28aa:	e8 00 00 00 00       	call   28af <local_clock+0xaf>	28ab: R_X86_64_PLT32	preempt_schedule_notrace_thunk-0x4
-00af     28af:	e9 61 ff ff ff       	jmp    2815 <local_clock+0x15>
-00b4     28b4:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-00be     28be:	66 90                	xchg   %ax,%ax
+   184	
+   185	static void tell_host_puff_event(struct virtio_balloon *vb)
+   186	{
+   187		struct scatterlist sg;
+   188	
+ > 189		vb->event.puff_failure.hdr.type = VIRTIO_BALLOON_EVENT_PUFF_FAILURE;
+   190	
+   191		sg_init_one(&sg, &vb->event, sizeof(vb->event.puff_failure));
+   192		tell_host(vb, vb->events_vq, &sg);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
