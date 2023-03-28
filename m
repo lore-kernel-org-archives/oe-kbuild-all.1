@@ -1,44 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0D9AD30
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 18:16:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF01AD30;
+	Tue, 28 Mar 2023 18:27:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680027387; x=1711563387;
+  t=1680028038; x=1711564038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zBQitEvYxCLjLt1+EQCRPPqqsZ2f4VP3z/thZj5ux5U=;
-  b=ixyUTCL05Ta+Mw5I4Olv3aGbsJmKDFDmISYbabsx2Y0hyNx/uDmFARQq
-   Xa7cA+iYk1261otSP7bhTdLXBahkksag/38OJuXIW/ryuANkkRs7YToNh
-   wTtXOEbvxvqjLIyYZnxvrIs9lOwhcmX4kGtixmCcTrc4GPdVHr0muWnpa
-   FiszArPVyX38+ZNk2+vUJG2SCHWemRNGO0ha0sWHMsuW/XyV9oe0b+hKb
-   DOVQlpkGafnGrWDVJRXLhTURRwfW0LrfMss21PyK6JuHXypWv5L1d0pdf
-   nDvno5QqBaX2xzhantytQOD1RYyLxBmwyJd5KNIopOx76gxvtT9ELyHnZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405592320"
+  bh=DN2FJwTresxePdSR3n6OQRN52obEh0wie816tu/NgMA=;
+  b=R0Wq8iBKlJkEL7u+V+CEtHKlNTtYCIM31Oe8jqEPw1viGJIZT2zkM2VJ
+   LjchSCbR7Y23aeSf2ql0q0lFDPDHW/9A6eXCVlSWIOUWmASORoTCF4+vd
+   GLt5EOl1ecFW9voYIHlgUXqrpAz3uhiTOgklaWNMSrGSHFMrv4Kgc40xN
+   mPM6cIGLAvmIT2P/RdrdOGeS8ao6ltmAi5h0GzIBv2Ro65zMSa+qBdIHy
+   33UzG1aos7IS1xQ4YgPxxcf1C2gX55mTEKfrd72yJim3kICLG88r6Ssv9
+   w/5MUR88gOVRnOK8OEodbjaNJ9PyQVG0pvhbDGP4sqMthza/j2DimZLgN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="338157384"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="405592320"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 11:16:16 -0700
+   d="scan'208";a="338157384"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 11:27:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="1013668203"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="930020912"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="1013668203"
+   d="scan'208";a="930020912"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2023 11:16:16 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Mar 2023 11:27:17 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phDrk-000Inv-05;
-	Tue, 28 Mar 2023 18:16:16 +0000
-Date: Wed, 29 Mar 2023 02:16:02 +0800
+	id 1phE2O-000IoR-1R;
+	Tue, 28 Mar 2023 18:27:16 +0000
+Date: Wed, 29 Mar 2023 02:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:iommufd-v5.19-rc5 89/104] htmldocs:
- ./include/uapi/linux/iommufd.h:506: warning: expecting prototype for struct
- iommu_hwpt_invalidate_s1_cache. Prototype was for struct
- iommu_cache_invalidate_info instead
-Message-ID: <202303290221.lmtYN3Kh-lkp@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/070-audio 2/40] sound/soc/codecs/tas2764.c:749:20:
+ warning: cast to smaller integer type 'enum tas2764_devid' from 'const void
+ *'
+Message-ID: <202303290224.erYF2KBF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,79 +48,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git iommufd-v5.19-rc5
-head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
-commit: f06d7e4ee0b250be209bf105edc7a5b1caeb79d3 [89/104] uapi/iommufd: Add user structures for nesting
-reproduce:
-        # https://github.com/yiliu1765/iommufd/commit/f06d7e4ee0b250be209bf105edc7a5b1caeb79d3
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd iommufd-v5.19-rc5
-        git checkout f06d7e4ee0b250be209bf105edc7a5b1caeb79d3
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   04466302f3a6cb36c4784f371777f254644bfff3
+commit: 61c2d7249c3eb1c55b6b2e1dc0a809d66e88863a [2/40] ASoC: tas2764: Extend driver to SN012776
+config: arm64-randconfig-r023-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290224.erYF2KBF-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/AsahiLinux/linux/commit/61c2d7249c3eb1c55b6b2e1dc0a809d66e88863a
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/070-audio
+        git checkout 61c2d7249c3eb1c55b6b2e1dc0a809d66e88863a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290221.lmtYN3Kh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290224.erYF2KBF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./include/uapi/linux/iommufd.h:506: warning: expecting prototype for struct iommu_hwpt_invalidate_s1_cache. Prototype was for struct iommu_cache_invalidate_info instead
->> Documentation/userspace-api/iommufd:178: ./include/uapi/linux/iommufd.h:411: WARNING: Unexpected indentation.
->> Documentation/userspace-api/iommufd:178: ./include/uapi/linux/iommufd.h:413: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> sound/soc/codecs/tas2764.c:749:20: warning: cast to smaller integer type 'enum tas2764_devid' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+                   tas2764->devid = (enum tas2764_devid) of_id->data;
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-vim +506 ./include/uapi/linux/iommufd.h
 
-   459	
-   460	/**
-   461	 * struct iommu_hwpt_invalidate_s1_cache - ioctl(IOMMU_HWPT_INVAL_S1_CACHE)
-   462	 * @size: sizeof(struct iommu_hwpt_invalidate_s1_cache)
-   463	 * @flags: Must be 0
-   464	 * @hwpt_id: hwpt ID of target hardware page table for the invalidation
-   465	 * @cache: bitfield that allows to select which caches to invalidate
-   466	 * @granularity: defines the lowest granularity used for the invalidation:
-   467	 *     domain > PASID > addr
-   468	 * @padding: reserved for future use (should be zero)
-   469	 * @pasid_info: invalidation data when @granularity is %IOMMU_INV_GRANU_PASID
-   470	 * @addr_info: invalidation data when @granularity is %IOMMU_INV_GRANU_ADDR
-   471	 *
-   472	 * Not all the combinations of cache/granularity are valid:
-   473	 *
-   474	 * +--------------+---------------+---------------+---------------+
-   475	 * | type /       |   DEV_IOTLB   |     IOTLB     |      PASID    |
-   476	 * | granularity  |               |               |      cache    |
-   477	 * +==============+===============+===============+===============+
-   478	 * | DOMAIN       |       N/A     |       Y       |       Y       |
-   479	 * +--------------+---------------+---------------+---------------+
-   480	 * | PASID        |       Y       |       Y       |       Y       |
-   481	 * +--------------+---------------+---------------+---------------+
-   482	 * | ADDR         |       Y       |       Y       |       N/A     |
-   483	 * +--------------+---------------+---------------+---------------+
-   484	 *
-   485	 * Invalidations by %IOMMU_INV_GRANU_DOMAIN don't take any argument other than
-   486	 * @version and @cache.
-   487	 *
-   488	 * If multiple cache types are invalidated simultaneously, they all
-   489	 * must support the used granularity.
-   490	 */
-   491	struct iommu_cache_invalidate_info {
-   492	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
-   493		__u32	version;
-   494	/* IOMMU paging structure cache */
-   495	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
-   496	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
-   497	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
-   498	#define IOMMU_CACHE_INV_TYPE_NR		(3)
-   499		__u8	cache;
-   500		__u8	granularity;
-   501		__u8	padding[6];
-   502		union {
-   503			struct iommu_inv_pasid_info pasid_info;
-   504			struct iommu_inv_addr_info addr_info;
-   505		} granu;
- > 506	};
-   507	
+vim +749 sound/soc/codecs/tas2764.c
+
+   733	
+   734	static int tas2764_i2c_probe(struct i2c_client *client)
+   735	{
+   736		struct tas2764_priv *tas2764;
+   737		const struct of_device_id *of_id = NULL;
+   738		int result;
+   739	
+   740		tas2764 = devm_kzalloc(&client->dev, sizeof(struct tas2764_priv),
+   741				       GFP_KERNEL);
+   742		if (!tas2764)
+   743			return -ENOMEM;
+   744	
+   745		if (client->dev.of_node)
+   746			of_id = of_match_device(tas2764_of_match, &client->dev);
+   747	
+   748		if (of_id)
+ > 749			tas2764->devid = (enum tas2764_devid) of_id->data;
+   750		else
+   751			tas2764->devid = DEVID_TAS2764;
+   752	
+   753		tas2764->dev = &client->dev;
+   754		tas2764->irq = client->irq;
+   755		i2c_set_clientdata(client, tas2764);
+   756		dev_set_drvdata(&client->dev, tas2764);
+   757	
+   758		tas2764->regmap = devm_regmap_init_i2c(client, &tas2764_i2c_regmap);
+   759		if (IS_ERR(tas2764->regmap)) {
+   760			result = PTR_ERR(tas2764->regmap);
+   761			dev_err(&client->dev, "Failed to allocate register map: %d\n",
+   762						result);
+   763			return result;
+   764		}
+   765	
+   766		if (client->dev.of_node) {
+   767			result = tas2764_parse_dt(&client->dev, tas2764);
+   768			if (result) {
+   769				dev_err(tas2764->dev, "%s: Failed to parse devicetree\n",
+   770					__func__);
+   771				return result;
+   772			}
+   773		}
+   774	
+   775		return devm_snd_soc_register_component(tas2764->dev,
+   776						       &soc_component_driver_tas2764,
+   777						       tas2764_dai_driver,
+   778						       ARRAY_SIZE(tas2764_dai_driver));
+   779	}
+   780	
 
 -- 
 0-DAY CI Kernel Test Service
