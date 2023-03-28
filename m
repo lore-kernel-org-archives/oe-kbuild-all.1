@@ -1,96 +1,277 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710BD33D9;
-	Tue, 28 Mar 2023 13:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tCBTxDVdoLcE409lLKwvhPJrvjGn24H6cSgTTCSn3dM=; b=PnlNCohPImClILJzQRBl6hdove
-	ji2dSu7DV+vGPq+zkPB6ttaeoIu48cAFGTfHdLwic9OfG0VNSDHGQZvJ3fu/SSzpvsCt+iYAdSfTB
-	iVmrqkIa2kaiVXPTmhxuDQ1GA/PZDH5ltDrLn7ocDmQlH8JtNYn2Nr98sYTABLLCDVmqw4jmkHbaG
-	XNWhvmXZgWEdW/FvRLPLEgFaXI/VIvTx1ulLPTnFwkGa7J1+ETzRkAisTvo7rVBSwuRRPFaYsxiXb
-	6Xc0G9F6ZqJ+OEL2rpVX7voEFckYzBMDXtYueoM69wCmh3r1TI+FlMnln4ivTT6TA0kQkGVxBo7bx
-	GSSwnIkg==;
-Received: from [191.255.122.45] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1ph8Ta-009wi5-Pd; Tue, 28 Mar 2023 14:30:59 +0200
-Message-ID: <a180230d-3f4c-b124-d678-7653bc3336d2@igalia.com>
-Date: Tue, 28 Mar 2023 09:30:53 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBB063CD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 13:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680009487; x=1711545487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tE2u1lBqf9u+p4/wYScBvkkVU/fP5GPnsP4F3gvq4wM=;
+  b=Mar5D17JVTer3gwCZ84F7+0b8G8G+XYRH8oKOsWfhPa5mV3rvzpQxxUg
+   XdzEF5OQwdthXdLp+Cj8d1Ko/AIwl4H2eslmxXUrHuidJ2YzirwihiebA
+   5rwAAv2qbBWG4SRRT6wYde9fh+SdQaUrE9izvIgvxKzbIh6QtdBWqXisr
+   PXfAWWTSqFOnurgXrBzOEn/u0aHIrRWoNHqbalYZeuRBNlGKFbvnq5PQI
+   393AK1l7FIIcR+rrhpa3XOaCtJqwaKvaMx4P7vSQhUtg82HQXMtbjjRko
+   zjVuRaIJUE4SvlcxRbcXG9X7PH0UZ7YWL0K7ClfNGgyVW7LvtdGLyuSpg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="368319948"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="368319948"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 06:18:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="677367500"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="677367500"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 28 Mar 2023 06:18:05 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ph9DA-000IYB-1A;
+	Tue, 28 Mar 2023 13:18:04 +0000
+Date: Tue, 28 Mar 2023 21:17:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean()
+ helper
+Message-ID: <202303282114.do3TMGYj-lkp@intel.com>
+References: <20230327121317.4081816-21-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [linux-next:master 646/7309] arch/parisc/kernel/firmware.c:1271
- pdc_soft_power_button_panic() error: uninitialized symbol 'flags'.
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
-References: <acbcffb2-5913-45c2-98ef-fe2f06501807@kili.mountain>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <acbcffb2-5913-45c2-98ef-fe2f06501807@kili.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230327121317.4081816-21-arnd@kernel.org>
 
-On 28/03/2023 07:23, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   a6faf7ea9fcb7267d06116d4188947f26e00e57e
-> commit: cf559f6a9e3a7228f402dc43cff08d0a47ee8b7c [646/7309] parisc: Replace regular spinlock with spin_trylock on panic path
-> config: parisc-randconfig-m031-20230326 (https://download.01.org/0day-ci/archive/20230328/202303281743.gzT66f6u-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202303281743.gzT66f6u-lkp@intel.com/
-> 
-> New smatch warnings:
-> arch/parisc/kernel/firmware.c:1271 pdc_soft_power_button_panic() error: uninitialized symbol 'flags'.
-> 
-> Old smatch warnings:
-> arch/parisc/kernel/firmware.c:779 pdc_stable_read() warn: inconsistent indenting
-> arch/parisc/kernel/firmware.c:805 pdc_stable_write() warn: inconsistent indenting
-> arch/parisc/kernel/firmware.c:830 pdc_stable_get_size() warn: inconsistent indenting
-> arch/parisc/kernel/firmware.c:850 pdc_stable_verify_contents() warn: inconsistent indenting
-> arch/parisc/kernel/firmware.c:869 pdc_stable_initialize() warn: inconsistent indenting
-> 
-> vim +/flags +1271 arch/parisc/kernel/firmware.c
-> 
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1260  int pdc_soft_power_button_panic(int sw_control)
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1261  {
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1262  	int retval;
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1263  	unsigned long flags;
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1264  
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1265  	if (!spin_trylock_irqsave(&pdc_lock, flags)) {
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1266  		pr_emerg("Couldn't enable soft power button\n");
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1267  		return -EBUSY; /* ignored by the panic notifier */
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1268  	}
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1269  
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1270  	retval = mem_pdc_call(PDC_SOFT_POWER, PDC_SOFT_POWER_ENABLE, __pa(pdc_result), sw_control);
-> cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20 @1271  	spin_unlock_irqrestore(&pdc_lock, flags);
-> 
-> This is a weird warning.  I wonder if it has to do with the BOOTLOADER
-> stuff at the start of the file:
-> 
-> arch/parisc/kernel/firmware.c
->     67  
->     68  #if defined(BOOTLOADER)
->     69  # undef  spin_lock_irqsave
->     70  # define spin_lock_irqsave(a, b) { b = 1; }
->     71  # undef  spin_unlock_irqrestore
->     72  # define spin_unlock_irqrestore(a, b)
->     73  #else
->     74  static DEFINE_SPINLOCK(pdc_lock);
->     75  #endif
-> 
+Hi Arnd,
 
-Interesting finding, but spin_trylock_irqsave() is not redefined in this
-block, so it's a bit confusing...
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on jcmvbkbc-xtensa/xtensa-for-next powerpc/next powerpc/fixes linus/master v6.3-rc4 next-20230328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/openrisc-dma-mapping-flush-bidirectional-mappings/20230327-202133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230327121317.4081816-21-arnd%40kernel.org
+patch subject: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean() helper
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303282114.do3TMGYj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6455ebecc75d3dcbfcaf31db6e97534d0c564ca3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Arnd-Bergmann/openrisc-dma-mapping-flush-bidirectional-mappings/20230327-202133
+        git checkout 6455ebecc75d3dcbfcaf31db6e97534d0c564ca3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303282114.do3TMGYj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/arm/mm/dma-mapping.c: In function 'arm_iommu_sync_dma_for_cpu':
+>> arch/arm/mm/dma-mapping.c:1306:45: error: 's' undeclared (first use in this function); did you mean 's8'?
+    1306 |                 arch_sync_dma_for_cpu(phys, s->length, dir);
+         |                                             ^
+         |                                             s8
+   arch/arm/mm/dma-mapping.c:1306:45: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm/mm/dma-mapping.c: In function 'arm_iommu_unmap_page':
+   arch/arm/mm/dma-mapping.c:1441:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    1441 |         if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+         |         ^~
+   arch/arm/mm/dma-mapping.c:1443:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    1443 |                 arm_iommu_sync_dma_for_cpu(phys, size, dir, dev->dma_coherent);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mm/dma-mapping.c:1436:13: warning: unused variable 'len' [-Wunused-variable]
+    1436 |         int len = PAGE_ALIGN(size + offset);
+         |             ^~~
+   arch/arm/mm/dma-mapping.c: At top level:
+>> arch/arm/mm/dma-mapping.c:1446:28: error: expected ')' before '->' token
+    1446 |         iommu_unmap(mapping->domain, iova, len);
+         |                            ^~
+         |                            )
+   arch/arm/mm/dma-mapping.c:1447:9: warning: data definition has no type or storage class
+    1447 |         __free_iova(mapping, iova, len);
+         |         ^~~~~~~~~~~
+>> arch/arm/mm/dma-mapping.c:1447:9: error: type defaults to 'int' in declaration of '__free_iova' [-Werror=implicit-int]
+   arch/arm/mm/dma-mapping.c:1447:9: warning: parameter names (without types) in function declaration
+>> arch/arm/mm/dma-mapping.c:1447:9: error: conflicting types for '__free_iova'; have 'int()'
+   arch/arm/mm/dma-mapping.c:825:20: note: previous definition of '__free_iova' with type 'void(struct dma_iommu_mapping *, dma_addr_t,  size_t)' {aka 'void(struct dma_iommu_mapping *, unsigned int,  unsigned int)'}
+     825 | static inline void __free_iova(struct dma_iommu_mapping *mapping,
+         |                    ^~~~~~~~~~~
+>> arch/arm/mm/dma-mapping.c:1448:1: error: expected identifier or '(' before '}' token
+    1448 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +1306 arch/arm/mm/dma-mapping.c
+
+  1300	
+  1301	static void arm_iommu_sync_dma_for_cpu(phys_addr_t phys, size_t len,
+  1302					       enum dma_data_direction dir,
+  1303					       bool dma_coherent)
+  1304	{
+  1305		if (!dma_coherent)
+> 1306			arch_sync_dma_for_cpu(phys, s->length, dir);
+  1307	
+  1308		if (dir == DMA_FROM_DEVICE)
+  1309			arch_dma_mark_clean(phys, s->length);
+  1310	}
+  1311	
+  1312	/**
+  1313	 * arm_iommu_unmap_sg - unmap a set of SG buffers mapped by dma_map_sg
+  1314	 * @dev: valid struct device pointer
+  1315	 * @sg: list of buffers
+  1316	 * @nents: number of buffers to unmap (same as was passed to dma_map_sg)
+  1317	 * @dir: DMA transfer direction (same as was passed to dma_map_sg)
+  1318	 *
+  1319	 * Unmap a set of streaming mode DMA translations.  Again, CPU access
+  1320	 * rules concerning calls here are the same as for dma_unmap_single().
+  1321	 */
+  1322	static void arm_iommu_unmap_sg(struct device *dev,
+  1323				       struct scatterlist *sg, int nents,
+  1324				       enum dma_data_direction dir,
+  1325				       unsigned long attrs)
+  1326	{
+  1327		struct scatterlist *s;
+  1328		int i;
+  1329	
+  1330		for_each_sg(sg, s, nents, i) {
+  1331			if (sg_dma_len(s))
+  1332				__iommu_remove_mapping(dev, sg_dma_address(s),
+  1333						       sg_dma_len(s));
+  1334			if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+  1335				arm_iommu_sync_dma_for_cpu(sg_phys(s), s->length, dir,
+  1336							   dev->dma_coherent);
+  1337		}
+  1338	}
+  1339	
+  1340	/**
+  1341	 * arm_iommu_sync_sg_for_cpu
+  1342	 * @dev: valid struct device pointer
+  1343	 * @sg: list of buffers
+  1344	 * @nents: number of buffers to map (returned from dma_map_sg)
+  1345	 * @dir: DMA transfer direction (same as was passed to dma_map_sg)
+  1346	 */
+  1347	static void arm_iommu_sync_sg_for_cpu(struct device *dev,
+  1348				struct scatterlist *sg,
+  1349				int nents, enum dma_data_direction dir)
+  1350	{
+  1351		struct scatterlist *s;
+  1352		int i;
+  1353	
+  1354		for_each_sg(sg, s, nents, i)
+  1355			arm_iommu_sync_dma_for_cpu(sg_phys(s), s->length, dir,
+  1356						   dev->dma_coherent);
+  1357	}
+  1358	
+  1359	/**
+  1360	 * arm_iommu_sync_sg_for_device
+  1361	 * @dev: valid struct device pointer
+  1362	 * @sg: list of buffers
+  1363	 * @nents: number of buffers to map (returned from dma_map_sg)
+  1364	 * @dir: DMA transfer direction (same as was passed to dma_map_sg)
+  1365	 */
+  1366	static void arm_iommu_sync_sg_for_device(struct device *dev,
+  1367				struct scatterlist *sg,
+  1368				int nents, enum dma_data_direction dir)
+  1369	{
+  1370		struct scatterlist *s;
+  1371		int i;
+  1372	
+  1373		if (dev->dma_coherent)
+  1374			return;
+  1375	
+  1376		for_each_sg(sg, s, nents, i)
+  1377			arch_sync_dma_for_device(page_to_phys(sg_page(s)) + s->offset,
+  1378						 s->length, dir);
+  1379	}
+  1380	
+  1381	/**
+  1382	 * arm_iommu_map_page
+  1383	 * @dev: valid struct device pointer
+  1384	 * @page: page that buffer resides in
+  1385	 * @offset: offset into page for start of buffer
+  1386	 * @size: size of buffer to map
+  1387	 * @dir: DMA transfer direction
+  1388	 *
+  1389	 * IOMMU aware version of arm_dma_map_page()
+  1390	 */
+  1391	static dma_addr_t arm_iommu_map_page(struct device *dev, struct page *page,
+  1392		     unsigned long offset, size_t size, enum dma_data_direction dir,
+  1393		     unsigned long attrs)
+  1394	{
+  1395		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
+  1396		dma_addr_t dma_addr;
+  1397		int ret, prot, len = PAGE_ALIGN(size + offset);
+  1398	
+  1399		if (!dev->dma_coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+  1400			arch_sync_dma_for_device(page_to_phys(page) + offset,
+  1401						 size, dir);
+  1402	
+  1403		dma_addr = __alloc_iova(mapping, len);
+  1404		if (dma_addr == DMA_MAPPING_ERROR)
+  1405			return dma_addr;
+  1406	
+  1407		prot = __dma_info_to_prot(dir, attrs);
+  1408	
+  1409		ret = iommu_map(mapping->domain, dma_addr, page_to_phys(page), len,
+  1410				prot, GFP_KERNEL);
+  1411		if (ret < 0)
+  1412			goto fail;
+  1413	
+  1414		return dma_addr + offset;
+  1415	fail:
+  1416		__free_iova(mapping, dma_addr, len);
+  1417		return DMA_MAPPING_ERROR;
+  1418	}
+  1419	
+  1420	/**
+  1421	 * arm_iommu_unmap_page
+  1422	 * @dev: valid struct device pointer
+  1423	 * @handle: DMA address of buffer
+  1424	 * @size: size of buffer (same as passed to dma_map_page)
+  1425	 * @dir: DMA transfer direction (same as passed to dma_map_page)
+  1426	 *
+  1427	 * IOMMU aware version of arm_dma_unmap_page()
+  1428	 */
+  1429	static void arm_iommu_unmap_page(struct device *dev, dma_addr_t handle,
+  1430			size_t size, enum dma_data_direction dir, unsigned long attrs)
+  1431	{
+  1432		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
+  1433		dma_addr_t iova = handle & PAGE_MASK;
+  1434		phys_addr_t phys;
+  1435		int offset = handle & ~PAGE_MASK;
+  1436		int len = PAGE_ALIGN(size + offset);
+  1437	
+  1438		if (!iova)
+  1439			return;
+  1440	
+  1441		if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+  1442			phys = iommu_iova_to_phys(mapping->domain, handle);
+> 1443			arm_iommu_sync_dma_for_cpu(phys, size, dir, dev->dma_coherent);
+  1444		}
+  1445	
+> 1446		iommu_unmap(mapping->domain, iova, len);
+> 1447		__free_iova(mapping, iova, len);
+> 1448	}
+  1449	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
