@@ -1,126 +1,68 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EC4AD23
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 16:37:54 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id e12so9333775uaa.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 09:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680021474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sAgqfmy3+Sdexvx3MtTk8w4OkaEeTrCc0NuiY1qiHGo=;
-        b=aV1GpKIOxu9YUFKPITfmnlrbtURER60HjoFgLTP2d/dB+QwSLaf6KHXNKkOe1QgYJ/
-         PHr15fkkmSOGDcSOK9useKgPkkzomFv1UXp95rWNhExc2EGkzLn2HDlK4jgXhV8jlMy2
-         f3wWaZVGMMjgXBZy7Hpx9E3xt08/IttYYa6Q3ORrQrodgQ09N0Jmt0mQA2q4hs9MF9hO
-         PpiwqD6r7C1eqoLCvtnXTYQBuwz6Qmyaf6hVb+BFBdmvrzo03cfhoE49B/fFrdgRNX3N
-         zx/RRVARXJUnQKHQ0AIlibO5UbGhPJ1rPYgGLyyH6gLZ/61TSJ+2mEZguyIw9WRPkGk2
-         Xn0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680021474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sAgqfmy3+Sdexvx3MtTk8w4OkaEeTrCc0NuiY1qiHGo=;
-        b=3EcBvHoqJpW2tBx3C0BHhzbOZuVATXALWlAE0GiyL9pm8hUgOv+pWZau7cGLuYVBpK
-         0fCb5sqAWPm1b+vT1Dm3v7Mzq2dpyEJ00XLd/e4jCFz1zWQS1VeA8DqcphLzHQYHeMuz
-         AxvxZExZrudoVFt1xPEp1SElM4jEcJGBP8UVDcxtnN3WizH/plq+G0OE6OvZNbLbTPZE
-         OVfXRaRUATbSTti9mVG6Vvp28YIoVc8bIgohstO8+HBjBw0C/hsMumd0xPK+KfvF3hjg
-         pIqE+gi/m9ziiauy5AgYpJoSVVn3LkuivFUL63+x9f5LMUKVEf/ID4MSRupZ+Md1srbM
-         fzjw==
-X-Gm-Message-State: AAQBX9dFXY8BrT2H4nU1NVypz8zKIMj+07CnelegAq9rdgKAA2dED7Ey
-	aroqgIAP9XCrqlk5w0FmZ880LcaBuvd+6FBAn65sp+FHaqRquKdgfDgfOvbR
-X-Google-Smtp-Source: AKy350Yt+tNqzzmeb5s50dpmAcB50sxxAS+/O4PEQZqs8OpCwgLX/yhM4sXU4TfO+/MEwUteGCYQjtBe3CxRNzqbMxg=
-X-Received: by 2002:a05:6130:c91:b0:68a:a9d:13f5 with SMTP id
- ch17-20020a0561300c9100b0068a0a9d13f5mr11175613uab.1.1680021473774; Tue, 28
- Mar 2023 09:37:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344EA3D74
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 16:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680021817; x=1711557817;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ifJv7WGm1PqAKW94HBCfLiMSqfXPhD4dC+ZV5tdmfwM=;
+  b=aDJ+0TyPSb8EIcP71EkfnLHLanem1mTetVBk/yr1S9pA63FFl3ZPZZ11
+   TeFWkslJwDl0EUymI00kci2hZCSy/ga1p1K1/zUh8L91rswIzh2KsblQY
+   Kz9Yip1KCi317udEZCNSeurE4KkGrZDMdIxnJOA3k681dyHQQoj6l4lCG
+   86dySXc7ybtHsmZANSiCVtLqvUS7P8kZr63PhVlXWAQi40yeV/HZg6KmB
+   oWYx2A2PnHP6jPetftRi+mWgIn7H2EkCfFWB/Iv94y5pGtaRo9LGrwrIN
+   9DHniGZETqzK7pR0rTvHdU3lElH/vQiQ6FeHZjNaYjsfguM/+jy7DBhTi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339346784"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="339346784"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 09:43:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="748457429"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="748457429"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Mar 2023 09:43:13 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phCPg-000Iih-22;
+	Tue, 28 Mar 2023 16:43:12 +0000
+Date: Wed, 29 Mar 2023 00:42:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/md/dm-verity-target.c:1178:24-30: ERROR: application of
+ sizeof to pointer
+Message-ID: <202303290051.KhwlQ27Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202303281539.zzI4vpw1-lkp@intel.com> <20230328122138.GA1275@willie-the-truck>
- <d2de874e-d2e8-435e-a90e-a3aef763f2b3@app.fastmail.com> <86o7ocx51a.wl-maz@kernel.org>
-In-Reply-To: <86o7ocx51a.wl-maz@kernel.org>
-From: Zaid Al-Bassam <zalbassam@google.com>
-Date: Tue, 28 Mar 2023 12:37:42 -0400
-Message-ID: <CALBRaFmmTZSZ+pm-=QKh5x_Pp8iMX_zdF50-u9HPdweq24jmzQ@mail.gmail.com>
-Subject: Re: [linux-next:master 6577/7309] drivers/perf/arm_pmuv3.c:44:2:
- error: use of undeclared identifier 'PERF_MAP_ALL_UNSUPPORTED'
-To: Marc Zyngier <maz@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>, kernel test robot <lkp@intel.com>, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you Marc.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: 08eb8d58a182a6fdebef25088bde6fc6cb5b10b9 CHROMIUM: md: dm-verity fixes chromeos needs
+date:   2 years, 3 months ago
+config: powerpc-randconfig-c003-20230326 (https://download.01.org/0day-ci/archive/20230329/202303290051.KhwlQ27Q-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
-Arnd, Do you want to change your patch to drop [1], or should I create
-a new patch? Btw, Thank you for the patch.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290051.KhwlQ27Q-lkp@intel.com/
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?=
-id=3D3b16f6268e66
+cocci warnings: (new ones prefixed by >>)
+>> drivers/md/dm-verity-target.c:1178:24-30: ERROR: application of sizeof to pointer
 
-Zaid
-
-On Tue, Mar 28, 2023 at 11:35=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrot=
-e:
->
-> On Tue, 28 Mar 2023 16:29:07 +0100,
-> "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >
-> > On Tue, Mar 28, 2023, at 14:21, Will Deacon wrote:
-> > > On Tue, Mar 28, 2023 at 04:01:49PM +0800, kernel test robot wrote:
-> >
-> > > I think the Kconfig warning is relevant here:
-> > >
-> > >> Kconfig warnings: (for reference only)
-> > >>    WARNING: unmet direct dependencies detected for ARM_PMUV3
-> > >>    Depends on [n]: PERF_EVENTS [=3Dy] && HW_PERF_EVENTS [=3Dn] && (A=
-RM [=3Dy] && CPU_V7 [=3Dy] || ARM64)
-> > >>    Selected by [y]:
-> > >>    - ARCH_VIRT [=3Dy] && ARCH_MULTI_V7 [=3Dy] && PERF_EVENTS [=3Dy]
-> > >
-> > > Since we're selecting an option which has its own dependencies. I thi=
-nk
-> > > the easiest bet is to invert the linkage so that PMUV3 has a dependen=
-cy
-> > > on ARCH_VIRT for 32-bit Arm (diff below).
-> > >
-> > > Marc, Zaid -- what do you think?
-> >
-> > I think dropping the 'select' is best, as this is still a user-visible
-> > option. How about this instead:
-> >
-> > --- a/drivers/perf/Kconfig
-> > +++ b/drivers/perf/Kconfig
-> > @@ -103,7 +103,7 @@ config ARM_SMMU_V3_PMU
-> >  config ARM_PMUV3
-> >         depends on HW_PERF_EVENTS && ((ARM && CPU_V7) || ARM64)
-> >         bool "ARM PMUv3 support" if !ARM64
-> > -       default ARM64
-> > +       default ARM64 || ARCH_VIRT
-> >           help
-> >           Say y if you want to use the ARM performance monitor unit (PM=
-U)
-> >           version 3. The PMUv3 is the CPU performance monitors on ARMv8
-> >
-> > This way, it's still enabled by default for most people, but
-> > there is no dependency problem and it's also possible to
-> > turn it off.
->
-> [removing my old self from the Cc list]
->
-> Either way work for me. Or even drop that patch altogether and let
-> people select PMUv3 if they really want it. This is extremely niche
-> anyway, and most people won't care.
->
-> Thanks,
->
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
