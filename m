@@ -1,49 +1,48 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639A2EBB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 07:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679987518; x=1711523518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6EMwksUcgneeDJrIel2ml+6289XzTvwVeWFaCidCXvM=;
-  b=M2Dn91QvSPXvtZD8daBUQGAa6+jA0la1S2oOYZ/ywtTlt0l5mopJrLrT
-   b0QfsCbgzpEWuCvZ02NnjfMUzGi+9OpwoQwQ1YgsnA4hO2dmq8gQ32AAq
-   U9WugtfOcNK8i0DBYA3Qwv1EmQ1Nx5/tQWbSYtWXlvEmEuS6xh7s5Z3z2
-   RUtde2KQJowdNLop7kBJ6eZaMLBx7lBsoILyh+SL5Q2OP7QpEkoZaVQYJ
-   DfVEFZlKnmvVn8A1VoCyBaSCi9ZJ2JZ7WOjK8+d+FQnEeuXYESdBmE8tu
-   rXLiUBWcCrCbcccaKkdzDmbv9wF70Yz7oas2Wlb7RgMSKP4iUhtUjX+1P
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="426754942"
-X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="426754942"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 00:11:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="773033858"
-X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="773033858"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2023 00:11:54 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ph3Un-000IMh-1x;
-	Tue, 28 Mar 2023 07:11:53 +0000
-Date: Tue, 28 Mar 2023 15:11:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
-	hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
-	dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-	kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH v5 11/18] nvme: Add pr_ops read_keys support
-Message-ID: <202303281502.U47uzous-lkp@intel.com>
-References: <20230324181741.13908-12-michael.christie@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87656EBB;
+	Tue, 28 Mar 2023 07:25:00 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id n10-20020a05600c4f8a00b003ee93d2c914so8399994wmq.2;
+        Tue, 28 Mar 2023 00:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679988298;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vvJlLxHt/dHBZTsUFDFiFq7b9g6WegP6MNxKcW+ZdtI=;
+        b=JMacKHj07EMR4HS5C2ZjTmTPT626/hhvu04mm6Mh8qvcx1NedpI7mUQJMl6v5Xp0Ev
+         IvHwDhHqMoq5j1nlyHWkx25M3YaZlQeiIsi9/Uchi6LH9NPJcwPEKfmd3p8KRnpff6Vh
+         kkI1dVeiPiVhAFcJKACOBJFR9bCumq1MrLEGubfe8NgPMpV4FKVvGpflYk1SVSjtbeAR
+         uCOj8/BfS48Iyy0Bj/r94eWKHJGa9Bzq6MFCi+aPGpWP8YnhvC38FxRIOzAa2kFFmPXa
+         VLXnv1Imspnl1DV5d34pAgslJLtPSl4mUPwIXW6QJG500QEa0YaWf2DfngOqlQI3s1hr
+         zaxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679988298;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vvJlLxHt/dHBZTsUFDFiFq7b9g6WegP6MNxKcW+ZdtI=;
+        b=y7+oYDyqhtnrz7mqHpHN7YhymjzuvK3ZRdP/LNBgc0/DwxcC2vmIfEmHR5YbYhAS8+
+         9LFyIIKfUztqbOiyRonyg+bNuLgebsTXYn/sbVV0p6fL9gpuvwXOo90/B1/DrWrKOp1q
+         1NkENdOkkExAXhydKcoWs1pa1xpa341xgfAuG2xPhLLmorey59hgpQYDBSgMDX7L0idI
+         Tt27Bka8j9h+hv07setGLqcECmbG0mfpMGiiw+NXmMFUBMRgHEMZdkf4aDQdFhcGq08p
+         j0a/HT56uwH4/1RlOE8120d+u2wtx2WnzaGFWKaeA6tECUeU9gbPzoqJ3bTyvLNTL8db
+         Rfig==
+X-Gm-Message-State: AO0yUKWAg0eNraMA3MkDxKROfHpZ/wtBBI/tBR3YbQcymgqvtx/aAjEy
+	VnS0y1lGCVYv6RNAk6Q29TbSta7hBwk=
+X-Google-Smtp-Source: AK7set9TVlEpJ2VWg6lBJ0ScC2MOTVwHVdqCoslU+EB8Xvnhsy89wgbZ99BL0UuqD5UFZ5MSy6U1/A==
+X-Received: by 2002:a05:600c:378d:b0:3ea:f6c4:5f3d with SMTP id o13-20020a05600c378d00b003eaf6c45f3dmr11730801wmr.2.1679988298206;
+        Tue, 28 Mar 2023 00:24:58 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e8-20020a05600c218800b003ede06f3178sm16077344wme.31.2023.03.28.00.24.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 00:24:57 -0700 (PDT)
+Date: Tue, 28 Mar 2023 07:02:37 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Anup Patel <apatel@ventanamicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:alexghiti_test 51/78] arch/riscv/kvm/aia_aplic.c:303
+ kvm_riscv_aia_aplic_inject() error: uninitialized symbol 'inject'.
+Message-ID: <787e78ae-16dd-4623-a763-7f69295e5f71@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,76 +51,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324181741.13908-12-michael.christie@oracle.com>
 
-Hi Mike,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next axboe-block/for-next linus/master v6.3-rc4 next-20230328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230324181741.13908-12-michael.christie%40oracle.com
-patch subject: [PATCH v5 11/18] nvme: Add pr_ops read_keys support
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230328/202303281502.U47uzous-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/fcd2233cf643c550ab3cea2b6102077b1d05b389
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-        git checkout fcd2233cf643c550ab3cea2b6102077b1d05b389
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/host/
+tree:   https://github.com/avpatel/linux.git alexghiti_test
+head:   93aaa7cba9ba7ae91a47812465117e2f9b9e3712
+commit: c9c4cf36341f2f48f84a8db75d1908a21d130de2 [51/78] RISC-V: KVM: Add in-kernel emulation of AIA APLIC
+config: riscv-randconfig-m031-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280121.pelkT1tG-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303281502.U47uzous-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303280121.pelkT1tG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/host/pr.c:165:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] cdw11 @@     got int @@
-   drivers/nvme/host/pr.c:165:24: sparse:     expected restricted __le32 [assigned] [usertype] cdw11
-   drivers/nvme/host/pr.c:165:24: sparse:     got int
->> drivers/nvme/host/pr.c:171:21: sparse: sparse: restricted __le32 degrades to integer
+smatch warnings:
+arch/riscv/kvm/aia_aplic.c:303 kvm_riscv_aia_aplic_inject() error: uninitialized symbol 'inject'.
+arch/riscv/kvm/aia_aplic.c:304 kvm_riscv_aia_aplic_inject() error: uninitialized symbol 'target'.
 
-vim +165 drivers/nvme/host/pr.c
+vim +/inject +303 arch/riscv/kvm/aia_aplic.c
 
-   156	
-   157	static int nvme_pr_resv_report(struct block_device *bdev, void *data,
-   158			u32 data_len, bool *eds)
-   159	{
-   160		struct nvme_command c = { };
-   161		int ret;
-   162	
-   163		c.common.opcode = nvme_cmd_resv_report;
-   164		c.common.cdw10 = cpu_to_le32(nvme_bytes_to_numd(data_len));
- > 165		c.common.cdw11 = NVME_EXTENDED_DATA_STRUCT;
-   166		*eds = true;
-   167	
-   168	retry:
-   169		ret = nvme_send_pr_command(bdev, &c, data, data_len);
-   170		if (ret == NVME_SC_HOST_ID_INCONSIST &&
- > 171		    c.common.cdw11 == NVME_EXTENDED_DATA_STRUCT) {
-   172			c.common.cdw11 = 0;
-   173			*eds = false;
-   174			goto retry;
-   175		}
-   176	
-   177		if (ret < 0)
-   178			return ret;
-   179	
-   180		return nvme_sc_to_pr_err(ret);
-   181	}
-   182	
+c9c4cf36341f2f Anup Patel 2022-01-19  249  int kvm_riscv_aia_aplic_inject(struct kvm *kvm, u32 source, bool level)
+c9c4cf36341f2f Anup Patel 2022-01-19  250  {
+c9c4cf36341f2f Anup Patel 2022-01-19  251  	u32 target;
+c9c4cf36341f2f Anup Patel 2022-01-19  252  	bool inject, ie;
+c9c4cf36341f2f Anup Patel 2022-01-19  253  	unsigned long flags;
+c9c4cf36341f2f Anup Patel 2022-01-19  254  	struct aplic_irq *irqd;
+c9c4cf36341f2f Anup Patel 2022-01-19  255  	struct aplic *aplic = kvm->arch.aia.aplic_state;
+c9c4cf36341f2f Anup Patel 2022-01-19  256  
+c9c4cf36341f2f Anup Patel 2022-01-19  257  	if (!aplic || !source || (aplic->nr_irqs <= source))
+c9c4cf36341f2f Anup Patel 2022-01-19  258  		return -ENODEV;
+c9c4cf36341f2f Anup Patel 2022-01-19  259  	irqd = &aplic->irqs[source];
+c9c4cf36341f2f Anup Patel 2022-01-19  260  	ie = (aplic->domaincfg & APLIC_DOMAINCFG_IE) ? true : false;
+c9c4cf36341f2f Anup Patel 2022-01-19  261  
+c9c4cf36341f2f Anup Patel 2022-01-19  262  	raw_spin_lock_irqsave(&irqd->lock, flags);
+c9c4cf36341f2f Anup Patel 2022-01-19  263  
+c9c4cf36341f2f Anup Patel 2022-01-19  264  	if (irqd->sourcecfg & APLIC_SOURCECFG_D)
+c9c4cf36341f2f Anup Patel 2022-01-19  265  		goto skip_unlock;
+
+uninitialized variables on this goto
+
+c9c4cf36341f2f Anup Patel 2022-01-19  266  
+c9c4cf36341f2f Anup Patel 2022-01-19  267  	switch (irqd->sourcecfg & APLIC_SOURCECFG_SM_MASK) {
+c9c4cf36341f2f Anup Patel 2022-01-19  268  	case APLIC_SOURCECFG_SM_EDGE_RISE:
+c9c4cf36341f2f Anup Patel 2022-01-19  269  		if (level && !(irqd->state & APLIC_IRQ_STATE_INPUT) &&
+c9c4cf36341f2f Anup Patel 2022-01-19  270  		    !(irqd->state & APLIC_IRQ_STATE_PENDING))
+c9c4cf36341f2f Anup Patel 2022-01-19  271  			irqd->state |= APLIC_IRQ_STATE_PENDING;
+c9c4cf36341f2f Anup Patel 2022-01-19  272  		break;
+c9c4cf36341f2f Anup Patel 2022-01-19  273  	case APLIC_SOURCECFG_SM_EDGE_FALL:
+c9c4cf36341f2f Anup Patel 2022-01-19  274  		if (!level && (irqd->state & APLIC_IRQ_STATE_INPUT) &&
+c9c4cf36341f2f Anup Patel 2022-01-19  275  		    !(irqd->state & APLIC_IRQ_STATE_PENDING))
+c9c4cf36341f2f Anup Patel 2022-01-19  276  			irqd->state |= APLIC_IRQ_STATE_PENDING;
+c9c4cf36341f2f Anup Patel 2022-01-19  277  		break;
+c9c4cf36341f2f Anup Patel 2022-01-19  278  	case APLIC_SOURCECFG_SM_LEVEL_HIGH:
+c9c4cf36341f2f Anup Patel 2022-01-19  279  		if (level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
+c9c4cf36341f2f Anup Patel 2022-01-19  280  			irqd->state |= APLIC_IRQ_STATE_PENDING;
+c9c4cf36341f2f Anup Patel 2022-01-19  281  		break;
+c9c4cf36341f2f Anup Patel 2022-01-19  282  	case APLIC_SOURCECFG_SM_LEVEL_LOW:
+c9c4cf36341f2f Anup Patel 2022-01-19  283  		if (!level && !(irqd->state & APLIC_IRQ_STATE_PENDING))
+c9c4cf36341f2f Anup Patel 2022-01-19  284  			irqd->state |= APLIC_IRQ_STATE_PENDING;
+c9c4cf36341f2f Anup Patel 2022-01-19  285  		break;
+c9c4cf36341f2f Anup Patel 2022-01-19  286  	}
+c9c4cf36341f2f Anup Patel 2022-01-19  287  
+c9c4cf36341f2f Anup Patel 2022-01-19  288  	if (level)
+c9c4cf36341f2f Anup Patel 2022-01-19  289  		irqd->state |= APLIC_IRQ_STATE_INPUT;
+c9c4cf36341f2f Anup Patel 2022-01-19  290  	else
+c9c4cf36341f2f Anup Patel 2022-01-19  291  		irqd->state &= ~APLIC_IRQ_STATE_INPUT;
+c9c4cf36341f2f Anup Patel 2022-01-19  292  
+c9c4cf36341f2f Anup Patel 2022-01-19  293  	inject = false;
+c9c4cf36341f2f Anup Patel 2022-01-19  294  	target = irqd->target;
+c9c4cf36341f2f Anup Patel 2022-01-19  295  	if (ie && (irqd->state & APLIC_IRQ_STATE_ENPEND)) {
+c9c4cf36341f2f Anup Patel 2022-01-19  296  		irqd->state &= ~APLIC_IRQ_STATE_PENDING;
+c9c4cf36341f2f Anup Patel 2022-01-19  297  		inject = true;
+c9c4cf36341f2f Anup Patel 2022-01-19  298  	}
+c9c4cf36341f2f Anup Patel 2022-01-19  299  
+c9c4cf36341f2f Anup Patel 2022-01-19  300  skip_unlock:
+c9c4cf36341f2f Anup Patel 2022-01-19  301  	raw_spin_unlock_irqrestore(&irqd->lock, flags);
+c9c4cf36341f2f Anup Patel 2022-01-19  302  
+c9c4cf36341f2f Anup Patel 2022-01-19 @303  	if (inject)
+c9c4cf36341f2f Anup Patel 2022-01-19 @304  		aplic_inject_msi(kvm, source, target);
+c9c4cf36341f2f Anup Patel 2022-01-19  305  
+c9c4cf36341f2f Anup Patel 2022-01-19  306  	return 0;
+c9c4cf36341f2f Anup Patel 2022-01-19  307  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
