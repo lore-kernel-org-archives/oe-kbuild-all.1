@@ -1,43 +1,59 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2187E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 01:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D8AA21
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 03:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679967888; x=1711503888;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+P7kwI2DxeEk9F0rErH/JVSPiz7aJ7ATF44thgX7QbM=;
-  b=C7+UVx2UU0z4AHzFINBnfWCrUIU6OHlR7TNzS2p0mcdyc4xYgt5VG0Iy
-   sp7p0nbRPKn/BeBZoxoPLqiVT39FgKfUuBaGqD2tNpQO/DL8Ly6DtzmSA
-   glUF018WULvqS9MfL2e9UvNDyBb7Us8NliVczBhjamLyi3d+smfR9yNbs
-   H2yWVBQgq9DUXQJ/IZOTVzgUz6FvQRDXs6bm3gLlAMHqojJRoSnEyoVqc
-   8VAgD3lTyYUvpWfJcZmngklQ50sGKt3/8+9o4JSAetgmuR7S+PnynOZtE
-   Nu43iThHYjRz7u5FeWMHOtadVZiZiY0MhTyuXTamCLXZjLg8HC8OChU0+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="337942469"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="337942469"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 18:44:47 -0700
+  t=1679974613; x=1711510613;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j5hmjjyKk5Psz1U4nuya4ZEXu6xtodg5+e6026qUC0c=;
+  b=ACHcw3lum1ln2MkXQWzcK7L0yUgmyD6P0C2/nzljwq22+EJSq9+LoWi5
+   fdo5bYa++Ww3uDH+FpllvePDwC7OVx2rXKKtqysL/4alxmUATj86ja/jy
+   S+Jn4+oJVX3OlGWb0Sg6PkckZHSctqw9xcRtAl4Xy+BO1V/jaFJuYwKR7
+   u1p0fZpAiHIZm8dtn7RsRV9hBwPwJRwjopq90wri6xrbs8Dsd6Sx425WS
+   OtyKBzt9rS18Km+ge0ps/mcdYi+gA+o1we/GQtWL0fV4qL1KbFFbi+UB2
+   /y9+Cwstif/fICWSQ5fw6ZD6eGcAZ0XtsUZTfV/CvzhUQ+7a4UlgKjvOm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320861203"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="320861203"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 20:36:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="661008477"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="661008477"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="807715325"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="807715325"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Mar 2023 18:44:46 -0700
+  by orsmga004.jf.intel.com with ESMTP; 27 Mar 2023 20:36:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgyO8-000I9n-2B;
-	Tue, 28 Mar 2023 01:44:40 +0000
-Date: Tue, 28 Mar 2023 09:44:27 +0800
+	id 1ph08c-000IFb-1y;
+	Tue, 28 Mar 2023 03:36:46 +0000
+Date: Tue, 28 Mar 2023 11:36:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:virt-to-pfn-v6.3-rc3-redux 8/8]
- arch/m68k/include/asm/page_mm.h:131:26: error: invalid operands to binary <<
- (have 'void *' and 'int')
-Message-ID: <202303280900.t1CADF52-lkp@intel.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>, Wei Fang <wei.fang@nxp.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Shenwei Wang <shenwei.wang@nxp.com>,
+	Clark Wang <xiaoning.wang@nxp.com>,
+	NXP Linux Team <linux-imx@nxp.com>, Amit Cohen <amcohen@nvidia.com>,
+	Gal Pressman <gal@nvidia.com>,
+	Alexandru Tachici <alexandru.tachici@analog.com>,
+	Piergiorgio Beruto <piergiorgio.beruto@gmail.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: [PATCH net-next v2 4/8] ethtool: eee: Rework get/set handler for
+ SmartEEE-capable PHYs with non-EEE MACs
+Message-ID: <202303281117.3288i7kT-lkp@intel.com>
+References: <20230327142202.3754446-5-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,67 +62,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230327142202.3754446-5-o.rempel@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.3-rc3-redux
-head:   b5fe3402030c1ea066167108866fd21881895594
-commit: b5fe3402030c1ea066167108866fd21881895594 [8/8] m68k/mm: Make pfn accessors static inlines
-config: m68k-randconfig-r036-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280900.t1CADF52-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Oleksij,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-phy-Add-driver-specific-get-set_eee-support-for-non-standard-PHYs/20230327-222630
+patch link:    https://lore.kernel.org/r/20230327142202.3754446-5-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v2 4/8] ethtool: eee: Rework get/set handler for SmartEEE-capable PHYs with non-EEE MACs
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230328/202303281117.3288i7kT-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=b5fe3402030c1ea066167108866fd21881895594
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator virt-to-pfn-v6.3-rc3-redux
-        git checkout b5fe3402030c1ea066167108866fd21881895594
+        # https://github.com/intel-lab-lkp/linux/commit/fcee3230c8abb824746744ba0fc39dfd626faa65
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oleksij-Rempel/net-phy-Add-driver-specific-get-set_eee-support-for-non-standard-PHYs/20230327-222630
+        git checkout fcee3230c8abb824746744ba0fc39dfd626faa65
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303280900.t1CADF52-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303281117.3288i7kT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/page.h:60,
-                    from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/m68k/kernel/asm-offsets.c:15:
-   arch/m68k/include/asm/page_mm.h: In function 'pfn_to_virt':
->> arch/m68k/include/asm/page_mm.h:131:26: error: invalid operands to binary << (have 'void *' and 'int')
-     131 |         return __va(pfn) << PAGE_SHIFT;
-         |                ~~~~~~~~~ ^~
-         |                |
-         |                void *
-   make[2]: *** [scripts/Makefile.build:114: arch/m68k/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +131 arch/m68k/include/asm/page_mm.h
-
-   128	
-   129	static inline void * pfn_to_virt(unsigned long pfn)
-   130	{
- > 131		return __va(pfn) << PAGE_SHIFT;
-   132	}
-   133	
+   csky-linux-ld: net/ethtool/common.o: in function `__ethtool_get_eee':
+   common.c:(.text+0x45c): undefined reference to `phy_ethtool_get_eee'
+   csky-linux-ld: net/ethtool/common.o: in function `__ethtool_set_eee':
+   common.c:(.text+0x49c): undefined reference to `phy_ethtool_set_eee'
+>> csky-linux-ld: common.c:(.text+0x4b8): undefined reference to `phy_ethtool_get_eee'
+>> csky-linux-ld: common.c:(.text+0x4bc): undefined reference to `phy_ethtool_set_eee'
 
 -- 
 0-DAY CI Kernel Test Service
