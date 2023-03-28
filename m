@@ -1,48 +1,46 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262478465;
-	Tue, 28 Mar 2023 14:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435A78474
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 14:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680012010; x=1711548010;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Oj3MPxsUxa8idTXjaz0LqHZazOUaL0RhUSuGpsCBQQk=;
-  b=RhO5nqiR6qyV3ZwG57IlS30VQJknTPLJAi1RGeDJbT3RdWnTdepMAt7w
-   8UYCF6TIS5kCBzs5AsJUjRIzvv4BGejXZ0J7b+UORAppS/CUsWlVPxYWN
-   F6PPIM+f6ARB9y13opiM44/TY7u3OV3+9Q7qQ8v8yEG6ydcehgzk+fEN8
-   YETIW+iByFYhibtR+masM17rHiTiRA3rZIpEQOB84bNcyd8Qy7qoMcKm7
-   d6WmSkJERFw8tfXhAEicVrUnWkk964S+FYSfik/o1Uup9RE/XXsa7XdK+
-   yeXmSSxCzqdm+QlEZhcVyJYYOYChb9O8/7SmN+k7ecYAUAJQKsdnYdBlC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="338071021"
+  t=1680014409; x=1711550409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C6gBIqXPWX1iSN2TWu38Zxga/kLELfj5xm0VoahpXS8=;
+  b=FhgNrEGL7ByhjPHx32glGML48frfRYhi30pZi+8+sHquIScERnRlZD9s
+   /rOVqvFcoVIvwhbi9GUy+Gf0a7/h10iKhL5wY9izT7EqjRFSbEcZEAZyi
+   6hPOT73810NsISfF41aIHJsvDAkGWGyFD8eTuVLTTuF5DpbnUmmZfBx6o
+   uCfHo0kHc8tBdQdfFFUns8Ix58uM4KXCDgiZMbyE3fGoC8f5Uhh9lCNB6
+   /qR3tzse0z9dtJ6FClZL5aNKKap1gqdFj581oBFzgW6C2aR2SRG4oY+98
+   YSwoWbkfYZUO4rAk2xmmh5bTryM2b69gYIEK+j7ucrcptwVZc8tfoUSvv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320982167"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="338071021"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:00:09 -0700
+   d="scan'208";a="320982167"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:40:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="661185170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="748415800"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="661185170"
+   d="scan'208";a="748415800"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Mar 2023 07:00:06 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 28 Mar 2023 07:40:07 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ph9rp-000IaR-29;
-	Tue, 28 Mar 2023 14:00:05 +0000
-Date: Tue, 28 Mar 2023 21:59:13 +0800
+	id 1phAUY-000IcB-2G;
+	Tue, 28 Mar 2023 14:40:06 +0000
+Date: Tue, 28 Mar 2023 22:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wentong Wu <wentong.wu@intel.com>, sakari.ailus@linux.intel.com,
-	hdegoede@redhat.com, djrscally@gmail.com,
-	laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-	xiang.ye@intel.com, tian.shu.qiu@intel.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v3 1/3] media: pci: intel: ivsc: Add CSI submodule
-Message-ID: <202303282158.PaVVxGIS-lkp@intel.com>
-References: <1679898188-14426-2-git-send-email-wentong.wu@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-rolling-lts 877/1774] drivers/gpu/drm/i915/i915.o:
+ warning: objtool: __i915_schedule.cold+0x153: relocation to !ENDBR:
+ i915_sched_node_reinit.cold+0x0
+Message-ID: <202303282232.0Rji6bjf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,65 +49,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679898188-14426-2-git-send-email-wentong.wu@intel.com>
 
-Hi Wentong,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on rafael-pm/linux-next sailus-media-tree/streams linus/master v6.3-rc4 next-20230328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentong-Wu/media-pci-intel-ivsc-Add-CSI-submodule/20230327-142435
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/1679898188-14426-2-git-send-email-wentong.wu%40intel.com
-patch subject: [PATCH v3 1/3] media: pci: intel: ivsc: Add CSI submodule
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303282158.PaVVxGIS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-rolling-lts
+head:   c1c1238e584a25aff184f9c4e37e9d8d4fcd45d2
+commit: 4a501b4ef88170a860be55ad98efb4aab9e1bdfe [877/1774] rcu: Make RCU_LOCKDEP_WARN() avoid early lockdep checks
+config: x86_64-randconfig-r035-20230327 (https://download.01.org/0day-ci/archive/20230328/202303282232.0Rji6bjf-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/413726a06ca6f775b34425ed81e996b9b7237d31
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Wentong-Wu/media-pci-intel-ivsc-Add-CSI-submodule/20230327-142435
-        git checkout 413726a06ca6f775b34425ed81e996b9b7237d31
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=4a501b4ef88170a860be55ad98efb4aab9e1bdfe
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-rolling-lts
+        git checkout 4a501b4ef88170a860be55ad98efb4aab9e1bdfe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/i2c/ drivers/media/pci/intel/ivsc/ drivers/net/usb/ net/netfilter/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303282158.PaVVxGIS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303282232.0Rji6bjf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/pci/intel/ivsc/csi_bridge.c:179:2: error: implicit declaration of function 'software_node_unregister_nodes' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           software_node_unregister_nodes(sensor->swnodes);
-           ^
-   drivers/media/pci/intel/ivsc/csi_bridge.c:231:8: error: implicit declaration of function 'software_node_register_nodes' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           ret = software_node_register_nodes(sensor->swnodes);
-                 ^
-   drivers/media/pci/intel/ivsc/csi_bridge.c:249:2: error: implicit declaration of function 'software_node_unregister_nodes' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           software_node_unregister_nodes(sensor->swnodes);
-           ^
->> drivers/media/pci/intel/ivsc/csi_bridge.c:284:5: warning: no previous prototype for function 'csi_bridge_init' [-Wmissing-prototypes]
-   int csi_bridge_init(struct mei_cl_device *csi_dev)
-       ^
-   drivers/media/pci/intel/ivsc/csi_bridge.c:284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int csi_bridge_init(struct mei_cl_device *csi_dev)
-   ^
-   static 
-   1 warning and 3 errors generated.
+   drivers/gpu/drm/i915/i915.o: warning: objtool: gen6_alloc_va_range.cold+0x153: relocation to !ENDBR: gen6_ppgtt_cleanup.cold+0x0
+   drivers/gpu/drm/i915/i915.o: warning: objtool: eb_move_to_gpu.cold+0x39: relocation to !ENDBR: i915_reset_gen7_sol_offsets.cold+0x0
+   drivers/gpu/drm/i915/i915.o: warning: objtool: __i915_gem_object_release_mmap_gtt.cold+0x97: relocation to !ENDBR: i915_gem_object_runtime_pm_release_mmap_offset.cold+0x0
+>> drivers/gpu/drm/i915/i915.o: warning: objtool: __i915_schedule.cold+0x153: relocation to !ENDBR: i915_sched_node_reinit.cold+0x0
+   drivers/gpu/drm/i915/i915.o: warning: objtool: __guc_context_destroy.cold+0x97: relocation to !ENDBR: guc_flush_destroyed_contexts.cold+0x0
+   drivers/gpu/drm/i915/i915.o: warning: objtool: emit_bb_start_child_no_preempt_mid_batch.cold+0x2cb: relocation to !ENDBR: emit_fini_breadcrumb_child_no_preempt_mid_batch.cold+0x0
 
 
-vim +/csi_bridge_init +284 drivers/media/pci/intel/ivsc/csi_bridge.c
-
-   283	
- > 284	int csi_bridge_init(struct mei_cl_device *csi_dev)
+objdump-func vmlinux.o __i915_schedule.cold:
 
 -- 
 0-DAY CI Kernel Test Service
