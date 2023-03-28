@@ -1,46 +1,46 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C510820E7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 09:22:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C027220E7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Mar 2023 09:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679995320; x=1711531320;
+  t=1679995322; x=1711531322;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OpBwDm3bc0RVrygPOMQqxYOOiHUF9v3KqPn1PaW6G9U=;
-  b=TRNDLsKYs0vMdaeSoLfsJQxNMl/nsMms6sSnYA5lKL5dhb0VP5W7bgjD
-   p7n+LI6Z+koLr5oyQxzs0TDwH9O83M/mR4plkRND8CLj5QeIZ0FZ/Cn0O
-   fZwm/ATKL3/KWrj+T2Jcfwu+gxFRSpxAPJzwoU+nMlb4Yy4lg/dyTJ7X9
-   +X1Bnjp4Ucv3caLsbrU0pFFtn+3xSfS4G929yklLv//8/9eAxj+JG2PlK
-   uWwuVq4qZnNrnVzjKGuvL0kW5AOByggY9sCs8lxFIPRKUTJZJR2+Lhw+A
-   srNybyQAf4mkqZIBOmuO/5WXr3WsG/puxNSTiuzKnXtOm9s6O4pSE2zIs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320168604"
+  bh=NEodsf9qOMz0LrPdYsRrX9vLsE9vQRvcCQWk2WPyZ6k=;
+  b=ASKhLtdENutje/tw/F43G2kC+T6f+8BdBum61/N2fLX5dCAEieUI5/TI
+   i6FEzBrDrrsDVWcb2TFX+FYh2JW2F9Mp/LUcC3DHI2KmjlSpqAhrcrcrp
+   0+FESL7+SaPJrfWX+4ZPJ7vJmiuM6i+Xf+NPx/tosl/lOWHIEbd945TcK
+   wMC5AIbwvEaR70zltKvdqrWwZVQPi/Mo+zBaI5jlsbEm4sI0iN0fL/TjG
+   dZdmF5XnrvoCOpU8rv+ldvWGIz0QmYku8dE0o9/p9N5Wab1xuOwMS0zh1
+   Ax0IA5IeY6OoXl9Y0Fbtmrd4y0MauVq05OxBCEWob/k5P/eTWFWbgJXc+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320168606"
 X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="320168604"
+   d="scan'208";a="320168606"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 02:22:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="753067433"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="753067432"
 X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="753067433"
+   d="scan'208";a="753067432"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 02:21:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ph5Wf-000IQm-2l;
+	id 1ph5Wf-000IQh-2Y;
 	Tue, 28 Mar 2023 09:21:57 +0000
-Date: Tue, 28 Mar 2023 17:21:32 +0800
+Date: Tue, 28 Mar 2023 17:21:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamizh Chelvam Raja <quic_tamizhr@quicinc.com>,
-	ath11k@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
-	Tamizh Chelvam Raja <quic_tamizhr@quicinc.com>
-Subject: Re: [PATCH] wifi: ath11k: skip status ring entry processing
-Message-ID: <202303281719.CvnPkOiK-lkp@intel.com>
-References: <20230328071814.13018-1-quic_tamizhr@quicinc.com>
+To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Felix.Kuehling@amd.com,
+	Jonathan.kim@amd.com
+Subject: Re: [PATCH 27/34] drm/amdkfd: add debug set and clear address watch
+ points operation
+Message-ID: <202303281754.75Z2VixI-lkp@intel.com>
+References: <20230327184339.125016-27-jonathan.kim@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,86 +49,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230328071814.13018-1-quic_tamizhr@quicinc.com>
+In-Reply-To: <20230327184339.125016-27-jonathan.kim@amd.com>
 
-Hi Tamizh,
+Hi Jonathan,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bea046575a2e6d7d1cf63cc7ab032647a3585de5]
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-tip/drm-tip next-20230328]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.3-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tamizh-Chelvam-Raja/wifi-ath11k-skip-status-ring-entry-processing/20230328-151947
-base:   bea046575a2e6d7d1cf63cc7ab032647a3585de5
-patch link:    https://lore.kernel.org/r/20230328071814.13018-1-quic_tamizhr%40quicinc.com
-patch subject: [PATCH] wifi: ath11k: skip status ring entry processing
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281719.CvnPkOiK-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Kim/drm-amdkfd-display-debug-capabilities/20230328-024632
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20230327184339.125016-27-jonathan.kim%40amd.com
+patch subject: [PATCH 27/34] drm/amdkfd: add debug set and clear address watch points operation
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.75Z2VixI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c6e8f81ccc1ac66cdf84bc9bbe71993ffd267677
+        # https://github.com/intel-lab-lkp/linux/commit/8c5e1781294f7e41d41632cb46e533c598933cd8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tamizh-Chelvam-Raja/wifi-ath11k-skip-status-ring-entry-processing/20230328-151947
-        git checkout c6e8f81ccc1ac66cdf84bc9bbe71993ffd267677
+        git fetch --no-tags linux-review Jonathan-Kim/drm-amdkfd-display-debug-capabilities/20230328-024632
+        git checkout 8c5e1781294f7e41d41632cb46e533c598933cd8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/net/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303281719.CvnPkOiK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303281754.75Z2VixI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/ath11k/dp_rx.c:2964:1: warning: no previous prototype for 'ath11k_dp_rx_mon_handle_status_buf_done' [-Wmissing-prototypes]
-    2964 | ath11k_dp_rx_mon_handle_status_buf_done(struct ath11k_base *ab, struct hal_srng *srng,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c:164:10: warning: no previous prototype for 'kgd_gfx_aldebaran_clear_address_watch' [-Wmissing-prototypes]
+     164 | uint32_t kgd_gfx_aldebaran_clear_address_watch(struct amdgpu_device *adev,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:63,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c:22:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c:781:10: warning: no previous prototype for 'kgd_gfx_v11_clear_address_watch' [-Wmissing-prototypes]
+     781 | uint32_t kgd_gfx_v11_clear_address_watch(struct amdgpu_device *adev,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:63,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c:23:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
+      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ath11k_dp_rx_mon_handle_status_buf_done +2964 drivers/net/wireless/ath/ath11k/dp_rx.c
+vim +/kgd_gfx_aldebaran_clear_address_watch +164 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c
 
-  2962	
-  2963	enum dp_mon_status_buf_state
-> 2964	ath11k_dp_rx_mon_handle_status_buf_done(struct ath11k_base *ab, struct hal_srng *srng,
-  2965						struct dp_rxdma_ring *rx_ring)
-  2966	{
-  2967		void *status_desc;
-  2968		struct sk_buff *skb;
-  2969		struct ath11k_skb_rxcb *rxcb;
-  2970		struct hal_tlv_hdr *tlv;
-  2971		dma_addr_t paddr;
-  2972		u32 cookie;
-  2973		int buf_id;
-  2974		u8 rbm;
-  2975	
-  2976		status_desc = ath11k_hal_srng_src_next_peek(ab, srng);
-  2977		if (!status_desc)
-  2978			return DP_MON_STATUS_NO_DMA;
-  2979	
-  2980		ath11k_hal_rx_buf_addr_info_get(status_desc, &paddr, &cookie, &rbm);
-  2981	
-  2982		buf_id = FIELD_GET(DP_RXDMA_BUF_COOKIE_BUF_ID, cookie);
-  2983	
-  2984		spin_lock_bh(&rx_ring->idr_lock);
-  2985		skb = idr_find(&rx_ring->bufs_idr, buf_id);
-  2986		spin_unlock_bh(&rx_ring->idr_lock);
-  2987	
-  2988		if (!skb)
-  2989			return DP_MON_STATUS_NO_DMA;
-  2990	
-  2991		rxcb = ATH11K_SKB_RXCB(skb);
-  2992		dma_sync_single_for_cpu(ab->dev, rxcb->paddr,
-  2993					skb->len + skb_tailroom(skb),
-  2994					DMA_FROM_DEVICE);
-  2995	
-  2996		tlv = (struct hal_tlv_hdr *)skb->data;
-  2997		if (FIELD_GET(HAL_TLV_HDR_TAG, tlv->tl) != HAL_RX_STATUS_BUFFER_DONE)
-  2998			return DP_MON_STATUS_NO_DMA;
-  2999	
-  3000		return DP_MON_STATUS_REPLINISH;
-  3001	}
-  3002	
+   163	
+ > 164	uint32_t kgd_gfx_aldebaran_clear_address_watch(struct amdgpu_device *adev,
+   165						uint32_t watch_id)
+   166	{
+   167		return 0;
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
