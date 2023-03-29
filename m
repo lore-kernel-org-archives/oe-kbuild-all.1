@@ -1,45 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322D17B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 00:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AE67B;
+	Wed, 29 Mar 2023 01:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680050133; x=1711586133;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j26AOijIMhdyBYYxEn0cgdPK8sTTQok3Z5F0i4RtAqU=;
-  b=dbHg0wXwScSFSBy/fl1SN/QIDA6G3PnpBulnBPSCW91hbSK/iZOtve4K
-   5btC/hYsGsPlanNb2t2u4FIARtQ89iOBc8BWmd5l+B0bsoeEEp9Fubcoo
-   w30ex4SmhWCZGjbgG04CNaoG7DghCVBg8b7xwGHH2/UT7ZismiGT9HN25
-   8U/O9FuKf2YeTFllqpMet8Co6+HQuuxmyOqEy1ddCDPkLIsPx+OT/rPxK
-   7OY04lu8GEz2gHm2FdqD/CVKr2S019YtGsz8I98rt9W7y3S/rxOLtUeea
-   1w7dqpz7JYBS5PlRzQrLsCV9cPD1ePs3hoJ2ZfBkTV09zC21h73G4bPIl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="338238181"
+  t=1680053191; x=1711589191;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vmr09GSFFlVgt8I+ZiRFgG6DCgOmY538xijO4C08NlU=;
+  b=gf2CTP27xLzzTcU9+Ly0s/A21cCK8MkJspquu9NuDzACbSF5rLaF1Foq
+   zH667eRMDdydFqjqpzIgaxvB6NSpOXJyK93gHzExMOAHiBz9hhmWUQvtX
+   Ra/3Bb9HcsanjvHJFH6+zFwfnlgihN9ttLvNHmdDm3nOPzPtdVgMtFgkt
+   0FyH6UpZawoiOVTy/+c2f4CGrI315W7QbEO+aj7PC/wWxGcIA0CDRGdbo
+   VxGyiEoFGCThJrHY+KZ1UDvUbqV0wICs05hfNqH8I2EZmv3Ii06XBVRc3
+   HhkBkbrKxcHn7CiEVe6v8BuXwyVcFbw4q1iS8IfSsv2sRTi3FfZ73NOHg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403362426"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="338238181"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 17:35:30 -0700
+   d="scan'208";a="403362426"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 18:26:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="677568396"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="795025103"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="677568396"
+   d="scan'208";a="795025103"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Mar 2023 17:35:27 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 18:26:29 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phJmh-000J0x-0S;
-	Wed, 29 Mar 2023 00:35:27 +0000
-Date: Wed, 29 Mar 2023 08:34:57 +0800
+	id 1phKa4-000J2l-1h;
+	Wed, 29 Mar 2023 01:26:28 +0000
+Date: Wed, 29 Mar 2023 09:25:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kan.liang@linux.intel.com, mingo@redhat.com,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ak@linux.intel.com, eranian@google.com,
-	Kan Liang <kan.liang@linux.intel.com>
-Subject: Re: [PATCH 2/2] perf/x86/intel/ds: Use the size from each PEBS record
-Message-ID: <202303290854.CQhdHZDG-lkp@intel.com>
-References: <20230328222735.1367829-2-kan.liang@linux.intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/030-misc 19/19] error[E0405]: cannot find trait
+ `Tuple` in module `core::marker`
+Message-ID: <202303290931.P56he0AX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,108 +45,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230328222735.1367829-2-kan.liang@linux.intel.com>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core linus/master v6.3-rc4 next-20230328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/kan-liang-linux-intel-com/perf-x86-intel-ds-Use-the-size-from-each-PEBS-record/20230329-064258
-patch link:    https://lore.kernel.org/r/20230328222735.1367829-2-kan.liang%40linux.intel.com
-patch subject: [PATCH 2/2] perf/x86/intel/ds: Use the size from each PEBS record
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230329/202303290854.CQhdHZDG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   1b63a4ae14541e2a3f7e037f9832684e25d8d1d5
+commit: 1b63a4ae14541e2a3f7e037f9832684e25d8d1d5 [19/19] rust: Fixes for 1.67.0
+config: x86_64-randconfig-a012-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290931.P56he0AX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/a5988003cfa30fb0c88507d2d124eb551d42e1a6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review kan-liang-linux-intel-com/perf-x86-intel-ds-Use-the-size-from-each-PEBS-record/20230329-064258
-        git checkout a5988003cfa30fb0c88507d2d124eb551d42e1a6
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/1b63a4ae14541e2a3f7e037f9832684e25d8d1d5
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/030-misc
+        git checkout 1b63a4ae14541e2a3f7e037f9832684e25d8d1d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290854.CQhdHZDG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290931.P56he0AX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/events/intel/ds.c: In function '__intel_pmu_pebs_event':
->> arch/x86/events/intel/ds.c:2042:31: warning: unused variable 'cpuc' [-Wunused-variable]
-    2042 |         struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-         |                               ^~~~
-
-
-vim +/cpuc +2042 arch/x86/events/intel/ds.c
-
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2029  
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2030  static __always_inline void
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2031  __intel_pmu_pebs_event(struct perf_event *event,
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2032  		       struct pt_regs *iregs,
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2033  		       struct perf_sample_data *data,
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2034  		       void *base, void *top,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2035  		       int bit, int count,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2036  		       void (*setup_sample)(struct perf_event *,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2037  					    struct pt_regs *,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2038  					    void *,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2039  					    struct perf_sample_data *,
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2040  					    struct pt_regs *))
-43cf76312faefe arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2041  {
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02 @2042  	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2043  	struct hw_perf_event *hwc = &event->hw;
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2044  	struct x86_perf_regs perf_regs;
-c22497f5838c23 arch/x86/events/intel/ds.c                Kan Liang      2019-04-02  2045  	struct pt_regs *regs = &perf_regs.regs;
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2046  	void *at = get_next_pebs_record_by_bit(base, top, bit);
-e506d1dac0edb2 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2047  	static struct pt_regs dummy_iregs;
-43cf76312faefe arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2048  
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2049  	if (hwc->flags & PERF_X86_EVENT_AUTO_RELOAD) {
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2050  		/*
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2051  		 * Now, auto-reload is only enabled in fixed period mode.
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2052  		 * The reload value is always hwc->sample_period.
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2053  		 * May need to change it, if auto-reload is enabled in
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2054  		 * freq mode later.
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2055  		 */
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2056  		intel_pmu_save_and_restart_reload(event, count);
-d31fc13fdcb20e arch/x86/events/intel/ds.c                Kan Liang      2018-02-12  2057  	} else if (!intel_pmu_save_and_restart(event))
-43cf76312faefe arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2058  		return;
-43cf76312faefe arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2059  
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2060  	if (!iregs)
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2061  		iregs = &dummy_iregs;
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2062  
-a3d86542de8850 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra 2015-05-12  2063  	while (count > 1) {
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2064  		setup_sample(event, iregs, at, data, regs);
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2065  		perf_event_output(event, data, regs);
-a5988003cfa30f arch/x86/events/intel/ds.c                Kan Liang      2023-03-28  2066  		at += get_pebs_size(at);
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2067  		at = get_next_pebs_record_by_bit(at, top, bit);
-a3d86542de8850 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra 2015-05-12  2068  		count--;
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2069  	}
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2070  
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2071  	setup_sample(event, iregs, at, data, regs);
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2072  	if (iregs == &dummy_iregs) {
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2073  		/*
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2074  		 * The PEBS records may be drained in the non-overflow context,
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2075  		 * e.g., large PEBS + context switch. Perf should treat the
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2076  		 * last record the same as other PEBS records, and doesn't
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2077  		 * invoke the generic overflow handler.
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2078  		 */
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2079  		perf_event_output(event, data, regs);
-35d1ce6bec1336 arch/x86/events/intel/ds.c                Kan Liang      2020-09-02  2080  	} else {
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2081  		/*
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2082  		 * All but the last records are processed.
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2083  		 * The last one is left to be able to call the overflow handler.
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2084  		 */
-9dfa9a5c9bae34 arch/x86/events/intel/ds.c                Peter Zijlstra 2020-10-30  2085  		if (perf_event_overflow(event, data, regs))
-a4eaf7f14675cb arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra 2010-06-16  2086  			x86_pmu_stop(event, 0);
-21509084f999d7 arch/x86/kernel/cpu/perf_event_intel_ds.c Yan, Zheng     2015-05-06  2087  	}
-2b0b5c6fe9b383 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra 2010-04-08  2088  }
-2b0b5c6fe9b383 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra 2010-04-08  2089  
+>> error[E0405]: cannot find trait `Tuple` in module `core::marker`
+   --> rust/alloc/boxed.rs:1872:26
+   |
+   1872 | impl<Args: core::marker::Tuple, F: FnOnce<Args> + ?Sized, A: Allocator> FnOnce<Args> for Box<F, A> {
+   |                          ^^^^^ not found in `core::marker`
+--
+>> error[E0405]: cannot find trait `Tuple` in module `core::marker`
+   --> rust/alloc/boxed.rs:1881:26
+   |
+   1881 | impl<Args: core::marker::Tuple, F: FnMut<Args> + ?Sized, A: Allocator> FnMut<Args> for Box<F, A> {
+   |                          ^^^^^ not found in `core::marker`
+--
+>> error[E0405]: cannot find trait `Tuple` in module `core::marker`
+   --> rust/alloc/boxed.rs:1888:26
+   |
+   1888 | impl<Args: core::marker::Tuple, F: Fn<Args> + ?Sized, A: Allocator> Fn<Args> for Box<F, A> {
+   |                          ^^^^^ not found in `core::marker`
+--
+>> error: aborting due to 3 previous errors
 
 -- 
 0-DAY CI Kernel Test Service
