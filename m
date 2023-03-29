@@ -1,220 +1,204 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846EC10E3;
-	Wed, 29 Mar 2023 05:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAFC10E3;
+	Wed, 29 Mar 2023 05:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680068623; x=1711604623;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C1fML/7RisxPvrLe5CofxF3dlUzqz7mxCBghMI/fiik=;
-  b=ggocGvsnBNcDss+YPVT1dkocpdh9Z/21wia1N7yTc0hR4XoHVuoc81Q4
-   knxC36pgXnSzlZIbOQuLYfR3phiz5rey9Z+altk1uwhOA8vuX8ToOhCP2
-   ox/txTrU0VNSuCuTT36ZVJMwmAcyrRMNQSDOIiUFrBDMSBw2deQn7Wmrp
-   ZuDnOLya3Q2wweHaXfKN/ALj8K+VX704M5wE9Zvner85EIao8UYYx3nws
-   lUSMAdQAn/J4IcT6Xwp4FM2Ktxcwf7lKJV9n6sc4SBo/17WVNeGhOm5WW
-   qPDczmF84yT7+CT14/Ji6nsY0hZzoYiL+KNF3EVexNIxyRxBjnD2AH3Ks
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340806861"
+  t=1680069134; x=1711605134;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=p3usiXT0OWvx7c48hcpWmQTs7HQA37+WXnj5dhkVQcc=;
+  b=A9vjJv6e70ZuOpc4xofdkvHEeo2h+42DIxeAX7cYd2z8BA6DrLJD3P0x
+   W0FfeCu6HlvksibKvedCNyeaxZGm+aoziplD/r41AIObtW30BfxNk++tz
+   1jrQnbTeDVIfzATrwQZSVLFwfNtugRdgj17gQKenKEwaDV1KCH/S4n2KW
+   NkrLrQO2mGzzqFrh9GwltxfDocQqsSfAE6/WNWbPJ/AZ+gVbGJw/Wo4zf
+   +ybbjzL1LhOCmv7QVrKkmlwdt0rYqgcw/vO8fm6RdVVaGZ4lisR2cIgM7
+   BbLJ4XBnqBrCuj4HMiA2skV3eaQ83z6Y3ISazqbedN6PNy7u21Z6Hw5L1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="427061574"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="340806861"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:43:42 -0700
+   d="scan'208";a="427061574"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:52:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808073478"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="661468728"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="808073478"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 22:43:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phOaw-000JGq-2F;
-	Wed, 29 Mar 2023 05:43:38 +0000
-Date: Wed, 29 Mar 2023 13:42:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to
- APPLE_MAILBOX
-Message-ID: <202303291348.nYR9dkeW-lkp@intel.com>
-References: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
+   d="scan'208";a="661468728"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga006.jf.intel.com with ESMTP; 28 Mar 2023 22:52:12 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 28 Mar 2023 22:52:12 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 28 Mar 2023 22:52:11 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 28 Mar 2023 22:52:11 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 28 Mar 2023 22:52:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GIPUf1is8mmxXV+seW99oXBvOFwSKjwafS/1Qq6LN2LJ2MFatczFhCduTLJJJFY26tVW5Abd5UI32jpd5zOH06oZW2sPrb0ub0qoFP0oPjxcLeG/vlW/bc9dR4YDowno9g9fYc13PyzhBmiOEcYsV5mBNObkDD69qBvpAiE9+djwxhTE2YmTJu8ntxy1Fa0GkgbST7d5Yw5IS8/CYQIHapcGW4NtCS8cF+W8mPdZUImYqHcj1ozrRXw/jlbI/vM6zGljbPyHuHQzmRuuLtAs1i5ApIt5nYcNJLcb2yjjeYh6WTiWiAtEqJnXSzTwjpAUS5ymgDXoFx73sWGPhdT+Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p3usiXT0OWvx7c48hcpWmQTs7HQA37+WXnj5dhkVQcc=;
+ b=GsJWThhq2yt7HNM4nzjbbaBF5Swr/9yYRB3Fho5gybkStPBW+r7FUhHWz75PWn1Fp1u7h2KMB2lt9DXbcrGj0kJlpL/cZk6CfaEL05xvj4Iwvenmq9Utqu0na/rOOqZIH+iXEiL8S9cXk6t36usbn1udfUu51hlBWWhdLjzbeYUU46jlteRCrfrqzthBcBD9LRSqKXURU+oLvsgBVTnqaC7oBHQZH/4GwJ9yITUM45im97tpYxuMoGb+1PBjK6e6iclXgwopoULWpc0xUlylUBc0DmrAWhn1lRHnWthTv71VR2PCLXAkD39HTfuZ96X7bL+6Fqj6YpzM50ck00RiPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by BN9PR11MB5515.namprd11.prod.outlook.com (2603:10b6:408:104::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Wed, 29 Mar
+ 2023 05:52:07 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::5ac7:aae0:92aa:74f0]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::5ac7:aae0:92aa:74f0%5]) with mapi id 15.20.6222.028; Wed, 29 Mar 2023
+ 05:52:07 +0000
+From: "Liu, Yujie" <yujie.liu@intel.com>
+To: "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "anshuman.khandual@arm.com"
+	<anshuman.khandual@arm.com>, lkp <lkp@intel.com>
+CC: "maz@kernel.org" <maz@kernel.org>, "broonie@kernel.org"
+	<broonie@kernel.org>, "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"will@kernel.org" <will@kernel.org>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] arm64: Disable EL2 traps for BRBE instructions executed
+ in EL1
+Thread-Topic: [PATCH] arm64: Disable EL2 traps for BRBE instructions executed
+ in EL1
+Thread-Index: AQHZXrH5KcpVz1+Jz0eMuCLzHZNBrK8OJ74AgAMfWYA=
+Date: Wed, 29 Mar 2023 05:52:06 +0000
+Message-ID: <1aed64aff49b74bfe2e7295c0ae7e40fe6d68055.camel@intel.com>
+References: <20230324055127.2228330-1-anshuman.khandual@arm.com>
+	 <202303250802.KytExIHw-lkp@intel.com>
+	 <4feeae36-f6fe-1422-9f0f-081b9106e91c@arm.com>
+In-Reply-To: <4feeae36-f6fe-1422-9f0f-081b9106e91c@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|BN9PR11MB5515:EE_
+x-ms-office365-filtering-correlation-id: 804b91a0-717e-49c3-3129-08db3019bac8
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: smkq2ifTYNT3jHCppeRC4sLEBJeTYgez2z2Pksm2iMu5ZaWM/Nf/ZVbpnEWhRNHRAb/MipEETmZc7Fn38CNLeNbSpiGyAaYOqWo3+NFaIv2zkJlRDad1cxBbFMRhL6Gntaqy8fnDrl2WMHqowHxqTbnI9c08BzoFRGkaFPc/1uXworpMuFJNM3XVmkgUyFD09kSEBKr5Wp3ZU9R6FwdzcZzQvxbHqDi0DOZ9OJafzIdPdaBJGyAFF4CvOmGOAg/tWCNYZCGkBI1AuQ3X5IwzzZGSnj5wL1nBqhaCZ/yRjBCifIO+91ttBsFbJ4ZKR6d4zO79scVZQKGpT18vT5XnYBCSXmKtthE8RqyXlt0X6rJJKzjLeR6TbV2/YJMKDtlzUknNPIqFgcIKcr3YcNd00UUzW6OQ6jyDe8oG5FylwLhAJ+FQiC9k90PMlbydmWUAFtbwEawnmui2Z+GBHHdSwjYQO+W22g6ydxuOUaPT7cqiPjXnQj8Ltw4LiGrdteDgGEwXTmHY0sFre/bMnazTZkz86Mz1j1dtLWbYEqBgh8gTdcnZdkGSR8dZUo1CqQs0Pi1IZ+d5/OYNM/2ur/+4wb53ih3i1Bj/0KmnZa1F/K5fzuLEsWgCIF7XBD8+5JfoCj1kg4KgFZSMdCa5Qa+5Fw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(39860400002)(346002)(396003)(376002)(366004)(451199021)(82960400001)(122000001)(53546011)(26005)(6486002)(966005)(38100700002)(2616005)(186003)(2906002)(8936002)(5660300002)(6512007)(6506007)(36756003)(54906003)(6636002)(478600001)(110136005)(316002)(38070700005)(71200400001)(91956017)(86362001)(41300700001)(4326008)(8676002)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WllXU3FsdFkvamYzam5tK2VESlp4b0FoVnNQQkd1YmtDMXRocVlhVXJnbUk0?=
+ =?utf-8?B?Q05qR0w5S0h0d1A2OWplYXBGbEpmTjR0MEZmdkoyOVJaT3Z3RXBhMVI2aHIz?=
+ =?utf-8?B?ZVFISTdhOW9EYkZSRTR3RDFQdUJmRDQzL3NpbGV4bkI4M0VkRC9jb2JxQ0ph?=
+ =?utf-8?B?cCtRUStMekRnOGtjSmJnRGtqamdjWGVLd1FKSURJVDNsaGpMdWxGUHRib3RI?=
+ =?utf-8?B?YUNVWDh2MWhQUE1GeEhIeWRMTkpLdDQvVDRNVld3M3lpcC9IaFpvemtxSm5r?=
+ =?utf-8?B?bEtqeEFoMnlaVmpTaVlsbTBBU0JVZU1qWC8wRGU4eGJoK1lJUjZSSE1xQ3kw?=
+ =?utf-8?B?Q25CbXNuQVBNZWNWSUV0TS9MbXVLS0w3OE43TWtzRkdiZnZIcTFFTWd0WmQy?=
+ =?utf-8?B?b0k5UUE1Qlg1dHNXbmZ1N1lnbWY0Zm1nMzRRcFZXMkJmSi9RL3RUbkU1SEpD?=
+ =?utf-8?B?K25QaEpTMmtHd0czWkd1bjdnL252cWFjL0tXRGFxdXltcE02UFdTV1JDdEsw?=
+ =?utf-8?B?cWs2VWc3cFFxeHdYN25zaHZkZ1BFN1Y4N0hkaldNZ3VITVR6Skgvbk5NME1i?=
+ =?utf-8?B?Z3dhRi9Wam9YOUlQSHZ1YzBNelBGYU5KNENTOWNPeXRsK0kyWkZKUFlBdlNW?=
+ =?utf-8?B?b1Zld2E4aXpmK3FSVS9IQUxVT0RFVWdHOHBscXlITUVEbHFJVjI0VUhNNDZ6?=
+ =?utf-8?B?cXZwcktZOUJ6Q0dtaEo2ZG1ROVcwc2x5SWNqNmx1SWlrQkdBaGtMQWh5blY2?=
+ =?utf-8?B?UGV2MmZaTnFtdFE0YlFWSFhMbmgzTEJhUHdZQnVkbE1lR3J2SGNhdGxNdmhH?=
+ =?utf-8?B?YVFsUFJNK3VzQ0tvRWk4Q2hJOG9rWE1MWkNNRzRILy9ML2V5M0dTTTdyOGZ2?=
+ =?utf-8?B?ODVDNHZFUVp2eUxleWYyTVRXTU9QR09VY1ZEbXFqNUNwVTdQdUdtNmdlSnNU?=
+ =?utf-8?B?MHpDT3RIdDIrZkpKVlJ1UEIrTE4wazFCOTNvTzZqZVhnUkZqSXFxTTBEWWk3?=
+ =?utf-8?B?bkNuMmNaam9WZ3htQ1lON25uOGpyRlYybDA1d0F6ZHpvbHdZa3kwK3Q2U09U?=
+ =?utf-8?B?Zmh1NjFOUWR6ODJlRU5OdlZNWjg2UUVGRlQ0QjB0ZjljREJnV1JRQUIxYlI2?=
+ =?utf-8?B?c09PRUdmWDlFcUV3OEszOWlPd1c1VXhXZ1BaVTBITWVrTFQ3NCsvUFZoNldS?=
+ =?utf-8?B?MkExbkxJZWtTWWlTWjd4L3ZaVzBDTUlDSlZNZzF1M1VheHRPTUI2bHdFMVVG?=
+ =?utf-8?B?L2NhL3dHQTVlaDhIWXhQWDFCRzN1VWU3eGdBSmhUdXdyeTRPOUF3bVNrbm5W?=
+ =?utf-8?B?WWcwYkg4RGU4OHJzeUszT2J2RWt0Z1l0U05JY0FWVXF5Mk5nN2NLR0hBc3JN?=
+ =?utf-8?B?cDZmNFAvT2t0RDdraE5GaUpwLzNTWFhqOWdGeGl1MTdRU0k0ZWd4ZlVNVkty?=
+ =?utf-8?B?Vk9mNzBUOEpvQy9TbC83S29JSWdNY00xZDNsR2JJN0crc2NNZFRuWkJaWU0x?=
+ =?utf-8?B?ZnBFQXpjMHRtbjhNZUlpOXg5QWlrbFg4UFdRcUVQMXdQdHVrWS91YlBtc0pN?=
+ =?utf-8?B?SktBbzhrVXI0bEtrTjZjUERMbEtrbjJhREFIVjVvS2ptWkxWemVDaUx1ZENN?=
+ =?utf-8?B?eGhkTU5GL0xPZ2lPSjBOUVM5Mkt0OVpDaGNuK3pUNjhYb2U0ZDB6bDFwam9v?=
+ =?utf-8?B?RmdROEE4SkxBbmpVckZGTnhWb1pkNmtoZGZxUFJ4NkFyN25xUU51a1FiZUor?=
+ =?utf-8?B?ZXNPbTNPdzdhNnlKY21ZdzZZSXJFeGhWZDhBVjFEa2t0VWJ1Znp1TTByc0Z3?=
+ =?utf-8?B?Nlp6ZG9BQ285eW93WU5JSWRmdmVOV3M0RWZuWVNTMDZxaHhNQ2U2dVF6ZnBy?=
+ =?utf-8?B?Q05OTTJZa29RYUJhZmVyVjJja1FCN0pRMGlLNDlKaWM0ZlBFU0lINTJzK3Rj?=
+ =?utf-8?B?eGxUR2Zyamwzem5VeFVJTVBaSkZFaHFuZ0d5bDdwZi84RXJHcmxJQnFtSzBn?=
+ =?utf-8?B?WjR5QTZSMklna05LUFovTXRXcjUzQjNTZmZlTitCVlZidnc1QjV5cDRXd3l3?=
+ =?utf-8?B?UVZrazJ2SFV6N2IrOWtxTkVHWkpRWmJYemUzeUQrdjgvRTlRcStHOW4wT0pC?=
+ =?utf-8?Q?14sZ6QwHOk6Ugto1HUkVVywme?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EA28B0081A6EBC4FB491FE04BC5BDDEF@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 804b91a0-717e-49c3-3129-08db3019bac8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2023 05:52:06.8932
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iw+DcCZye1cdN1C1anv/Gj4wZuBqdtn18WTPlqMFwZCu7BbfMPzhafk+JdwOUb5Z0XTcGr/+grKrwI2XZU86Gw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5515
+X-OriginatorOrg: intel.com
 
-Hi Hector,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on bdfe6de2695c5bccc663a5a7d530f81925d8bc10]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
-base:   bdfe6de2695c5bccc663a5a7d530f81925d8bc10
-patch link:    https://lore.kernel.org/r/20230328-soc-mailbox-v1-5-3953814532fd%40marcan.st
-patch subject: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303291348.nYR9dkeW-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d0addf95095d935cdd5940101fbf1b1594b08158
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
-        git checkout d0addf95095d935cdd5940101fbf1b1594b08158
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/soc/apple/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291348.nYR9dkeW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
->> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
-         |                        ^~~~~~~~~~
-   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
->> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     188 |                 msg.msg1 = FIELD_GET(
-         |                            ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
-
-8b654b5034baba0 Hector Martin 2023-03-28   95  
-8b654b5034baba0 Hector Martin 2023-03-28   96  int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
-8b654b5034baba0 Hector Martin 2023-03-28   97  		    bool atomic)
-8b654b5034baba0 Hector Martin 2023-03-28   98  {
-8b654b5034baba0 Hector Martin 2023-03-28   99  	unsigned long flags;
-8b654b5034baba0 Hector Martin 2023-03-28  100  	int ret;
-8b654b5034baba0 Hector Martin 2023-03-28  101  	u32 mbox_ctrl;
-8b654b5034baba0 Hector Martin 2023-03-28  102  	long t;
-8b654b5034baba0 Hector Martin 2023-03-28  103  
-8b654b5034baba0 Hector Martin 2023-03-28  104  	spin_lock_irqsave(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  105  	mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
-8b654b5034baba0 Hector Martin 2023-03-28  106  
-8b654b5034baba0 Hector Martin 2023-03-28  107  	while (mbox_ctrl & mbox->hw->control_full) {
-8b654b5034baba0 Hector Martin 2023-03-28  108  		if (atomic) {
-8b654b5034baba0 Hector Martin 2023-03-28  109  			ret = readl_poll_timeout_atomic(
-8b654b5034baba0 Hector Martin 2023-03-28  110  				mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
-8b654b5034baba0 Hector Martin 2023-03-28  111  				!(mbox_ctrl & mbox->hw->control_full), 100,
-8b654b5034baba0 Hector Martin 2023-03-28  112  				APPLE_MBOX_TX_TIMEOUT * 1000);
-8b654b5034baba0 Hector Martin 2023-03-28  113  
-8b654b5034baba0 Hector Martin 2023-03-28  114  			if (ret) {
-8b654b5034baba0 Hector Martin 2023-03-28  115  				spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  116  				return ret;
-8b654b5034baba0 Hector Martin 2023-03-28  117  			}
-8b654b5034baba0 Hector Martin 2023-03-28  118  
-8b654b5034baba0 Hector Martin 2023-03-28  119  			break;
-8b654b5034baba0 Hector Martin 2023-03-28  120  		}
-8b654b5034baba0 Hector Martin 2023-03-28  121  		/*
-8b654b5034baba0 Hector Martin 2023-03-28  122  		 * The interrupt is level triggered and will keep firing as long as the
-8b654b5034baba0 Hector Martin 2023-03-28  123  		 * FIFO is empty. It will also keep firing if the FIFO was empty
-8b654b5034baba0 Hector Martin 2023-03-28  124  		 * at any point in the past until it has been acknowledged at the
-8b654b5034baba0 Hector Martin 2023-03-28  125  		 * mailbox level. By acknowledging it here we can ensure that we will
-8b654b5034baba0 Hector Martin 2023-03-28  126  		 * only get the interrupt once the FIFO has been cleared again.
-8b654b5034baba0 Hector Martin 2023-03-28  127  		 * If the FIFO is already empty before the ack it will fire again
-8b654b5034baba0 Hector Martin 2023-03-28  128  		 * immediately after the ack.
-8b654b5034baba0 Hector Martin 2023-03-28  129  		 */
-8b654b5034baba0 Hector Martin 2023-03-28  130  		if (mbox->hw->has_irq_controls) {
-8b654b5034baba0 Hector Martin 2023-03-28  131  			writel_relaxed(mbox->hw->irq_bit_send_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  132  				       mbox->regs + mbox->hw->irq_ack);
-8b654b5034baba0 Hector Martin 2023-03-28  133  		}
-8b654b5034baba0 Hector Martin 2023-03-28  134  		enable_irq(mbox->irq_send_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  135  		reinit_completion(&mbox->tx_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  136  		spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  137  
-8b654b5034baba0 Hector Martin 2023-03-28  138  		t = wait_for_completion_interruptible_timeout(
-8b654b5034baba0 Hector Martin 2023-03-28  139  			&mbox->tx_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  140  			msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
-8b654b5034baba0 Hector Martin 2023-03-28  141  		if (t < 0)
-8b654b5034baba0 Hector Martin 2023-03-28  142  			return t;
-8b654b5034baba0 Hector Martin 2023-03-28  143  		else if (t == 0)
-8b654b5034baba0 Hector Martin 2023-03-28  144  			return -ETIMEDOUT;
-8b654b5034baba0 Hector Martin 2023-03-28  145  
-8b654b5034baba0 Hector Martin 2023-03-28  146  		spin_lock_irqsave(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  147  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
-8b654b5034baba0 Hector Martin 2023-03-28  148  	}
-8b654b5034baba0 Hector Martin 2023-03-28  149  
-8b654b5034baba0 Hector Martin 2023-03-28  150  	writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
-8b654b5034baba0 Hector Martin 2023-03-28 @151  	writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
-8b654b5034baba0 Hector Martin 2023-03-28  152  		       mbox->regs + mbox->hw->a2i_send1);
-8b654b5034baba0 Hector Martin 2023-03-28  153  
-8b654b5034baba0 Hector Martin 2023-03-28  154  	spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  155  
-8b654b5034baba0 Hector Martin 2023-03-28  156  	return 0;
-8b654b5034baba0 Hector Martin 2023-03-28  157  }
-8b654b5034baba0 Hector Martin 2023-03-28  158  EXPORT_SYMBOL(apple_mbox_send);
-8b654b5034baba0 Hector Martin 2023-03-28  159  
-8b654b5034baba0 Hector Martin 2023-03-28  160  static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
-8b654b5034baba0 Hector Martin 2023-03-28  161  {
-8b654b5034baba0 Hector Martin 2023-03-28  162  	struct apple_mbox *mbox = data;
-8b654b5034baba0 Hector Martin 2023-03-28  163  
-8b654b5034baba0 Hector Martin 2023-03-28  164  	/*
-8b654b5034baba0 Hector Martin 2023-03-28  165  	 * We don't need to acknowledge the interrupt at the mailbox level
-8b654b5034baba0 Hector Martin 2023-03-28  166  	 * here even if supported by the hardware. It will keep firing but that
-8b654b5034baba0 Hector Martin 2023-03-28  167  	 * doesn't matter since it's disabled at the main interrupt controller.
-8b654b5034baba0 Hector Martin 2023-03-28  168  	 * apple_mbox_send will acknowledge it before enabling
-8b654b5034baba0 Hector Martin 2023-03-28  169  	 * it at the main controller again.
-8b654b5034baba0 Hector Martin 2023-03-28  170  	 */
-8b654b5034baba0 Hector Martin 2023-03-28  171  	spin_lock(&mbox->tx_lock);
-8b654b5034baba0 Hector Martin 2023-03-28  172  	disable_irq_nosync(mbox->irq_send_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  173  	complete(&mbox->tx_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  174  	spin_unlock(&mbox->tx_lock);
-8b654b5034baba0 Hector Martin 2023-03-28  175  
-8b654b5034baba0 Hector Martin 2023-03-28  176  	return IRQ_HANDLED;
-8b654b5034baba0 Hector Martin 2023-03-28  177  }
-8b654b5034baba0 Hector Martin 2023-03-28  178  
-8b654b5034baba0 Hector Martin 2023-03-28  179  static int apple_mbox_poll_locked(struct apple_mbox *mbox)
-8b654b5034baba0 Hector Martin 2023-03-28  180  {
-8b654b5034baba0 Hector Martin 2023-03-28  181  	struct apple_mbox_msg msg;
-8b654b5034baba0 Hector Martin 2023-03-28  182  	int ret = 0;
-8b654b5034baba0 Hector Martin 2023-03-28  183  
-8b654b5034baba0 Hector Martin 2023-03-28  184  	u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
-8b654b5034baba0 Hector Martin 2023-03-28  185  
-8b654b5034baba0 Hector Martin 2023-03-28  186  	while (!(mbox_ctrl & mbox->hw->control_empty)) {
-8b654b5034baba0 Hector Martin 2023-03-28  187  		msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
-8b654b5034baba0 Hector Martin 2023-03-28 @188  		msg.msg1 = FIELD_GET(
-8b654b5034baba0 Hector Martin 2023-03-28  189  			APPLE_MBOX_MSG1_MSG,
-8b654b5034baba0 Hector Martin 2023-03-28  190  			readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
-8b654b5034baba0 Hector Martin 2023-03-28  191  
-8b654b5034baba0 Hector Martin 2023-03-28  192  		mbox->rx(mbox, msg, mbox->cookie);
-8b654b5034baba0 Hector Martin 2023-03-28  193  		ret++;
-8b654b5034baba0 Hector Martin 2023-03-28  194  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
-8b654b5034baba0 Hector Martin 2023-03-28  195  	}
-8b654b5034baba0 Hector Martin 2023-03-28  196  
-8b654b5034baba0 Hector Martin 2023-03-28  197  	/*
-8b654b5034baba0 Hector Martin 2023-03-28  198  	 * The interrupt will keep firing even if there are no more messages
-8b654b5034baba0 Hector Martin 2023-03-28  199  	 * unless we also acknowledge it at the mailbox level here.
-8b654b5034baba0 Hector Martin 2023-03-28  200  	 * There's no race if a message comes in between the check in the while
-8b654b5034baba0 Hector Martin 2023-03-28  201  	 * loop above and the ack below: If a new messages arrives inbetween
-8b654b5034baba0 Hector Martin 2023-03-28  202  	 * those two the interrupt will just fire again immediately after the
-8b654b5034baba0 Hector Martin 2023-03-28  203  	 * ack since it's level triggered.
-8b654b5034baba0 Hector Martin 2023-03-28  204  	 */
-8b654b5034baba0 Hector Martin 2023-03-28  205  	if (mbox->hw->has_irq_controls) {
-8b654b5034baba0 Hector Martin 2023-03-28  206  		writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  207  			       mbox->regs + mbox->hw->irq_ack);
-8b654b5034baba0 Hector Martin 2023-03-28  208  	}
-8b654b5034baba0 Hector Martin 2023-03-28  209  
-8b654b5034baba0 Hector Martin 2023-03-28  210  	return ret;
-8b654b5034baba0 Hector Martin 2023-03-28  211  }
-8b654b5034baba0 Hector Martin 2023-03-28  212  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+T24gTW9uLCAyMDIzLTAzLTI3IGF0IDExOjM4ICswNTMwLCBBbnNodW1hbiBLaGFuZHVhbCB3cm90
+ZToNCj4gT24gMy8yNS8yMyAwNjowNywga2VybmVsIHRlc3Qgcm9ib3Qgd3JvdGU6DQo+ID4gQWxs
+IGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOg0KPiA+IA0KPiA+ID4gPiA8aW5zdGFu
+dGlhdGlvbj46MzY6MTQ6IGVycm9yOiBleHBlY3RlZCBjb21wYXRpYmxlIHJlZ2lzdGVyIG9yIGxv
+Z2ljYWwgaW1tZWRpYXRlDQo+ID4gwqDCoMKgIG9yciB4MCwgeDAsICNIRkdJVFJfRUwyX25CUkJJ
+QUxMDQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF4NCj4gPiDCoMKgIDxpbnN0
+YW50aWF0aW9uPjoxMDoyOiBub3RlOiB3aGlsZSBpbiBtYWNybyBpbnN0YW50aWF0aW9uDQo+ID4g
+wqDCoMKgIF9faW5pdF9lbDJfZmd0DQo+ID4gwqDCoMKgIF4NCj4gPiDCoMKgIGFyY2gvYXJtNjQv
+a2VybmVsL2hlYWQuUzo1Nzc6Mjogbm90ZTogd2hpbGUgaW4gbWFjcm8gaW5zdGFudGlhdGlvbg0K
+PiA+IMKgwqDCoCBpbml0X2VsMl9zdGF0ZQ0KPiA+IMKgwqDCoCBeDQo+ID4gwqDCoCA8aW5zdGFu
+dGlhdGlvbj46Mzc6MTQ6IGVycm9yOiBleHBlY3RlZCBjb21wYXRpYmxlIHJlZ2lzdGVyIG9yIGxv
+Z2ljYWwgaW1tZWRpYXRlDQo+ID4gwqDCoMKgIG9yciB4MCwgeDAsICNIRkdJVFJfRUwyX25CUkJJ
+TkoNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXg0KPiA+IMKgwqAgPGluc3Rh
+bnRpYXRpb24+OjEwOjI6IG5vdGU6IHdoaWxlIGluIG1hY3JvIGluc3RhbnRpYXRpb24NCj4gPiDC
+oMKgwqAgX19pbml0X2VsMl9mZ3QNCj4gPiDCoMKgwqAgXg0KPiA+IMKgwqAgYXJjaC9hcm02NC9r
+ZXJuZWwvaGVhZC5TOjU3NzoyOiBub3RlOiB3aGlsZSBpbiBtYWNybyBpbnN0YW50aWF0aW9uDQo+
+ID4gwqDCoMKgIGluaXRfZWwyX3N0YXRlDQo+ID4gwqDCoMKgIF4NCj4gDQo+IEkgZ3Vlc3MgdGhl
+c2UgYnVpbGQgZXJyb3JzIGFyZSBjYXVzZWQgYnkgdW5hdmFpbGFiaWxpdHkgb2YgdGhlIHByZS1y
+ZXF1aXNpdGUNCj4gcGF0Y2hlcyBmcm9tIE1hcmsgQnJvd24sIGluIHRoaXMgdGVzdCBlbnZpcm9u
+bWVudCA/DQo+IA0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMzAzMDYtYXJtNjQt
+Zmd0LXJlZy1nZW4tdjMtMC1kZWNiYTkzY2JhYWJAa2VybmVsLm9yZy/CoA0KDQpUaGFua3MgZm9y
+IHRoZSBpbmZvcm1hdGlvbi4NCg0KV2Ugbm90aWNlZCB0aGF0IHRoZSBiYXNlIGFuZCBwcmVyZXF1
+aXNpdGUgcGF0Y2hlcyBhcmUgbWVudGlvbmVkIGluIHRoZQ0KY29tbWl0IG1lc3NhZ2U6DQoNCi0t
+LQ0KVGhpcyBwYXRjaCBhcHBsaWVzIG9uIHY2LjMtcmMzLCBhZnRlciB0aGUgZm9sbG93aW5nIHBh
+dGNoIHNlcmllcyBmcm9tIE1hcmsNCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjMw
+MzA2LWFybTY0LWZndC1yZWctZ2VuLXYzLTAtZGVjYmE5M2NiYWFiQGtlcm5lbC5vcmcvDQoNCg0K
+VGhlIHJvYm90IGNvdWxkbid0IHVuZGVyc3RhbmQgYWJvdmUgZGVzY3JpcHRpb24sIGFuZCBpdCBp
+cyByZWNvbW1lbmRlZA0KdG8gdXNlIGBnaXQgZm9ybWF0LXBhdGNoIC0tYmFzZWAgdG8gZ2VuZXJh
+dGUgYmFzZSBpbmZvLg0KDQpQbGVhc2UgcmVmZXIgdG8gdGhlIGRvY3VtZW50cyBpbjoNCmh0dHBz
+Oi8vZ2l0LXNjbS5jb20vZG9jcy9naXQtZm9ybWF0LXBhdGNoI19iYXNlX3RyZWVfaW5mb3JtYXRp
+b24NCg0KRm9yIHRoaXMgY2FzZSwgdGhlIGNvcnJlY3Qgb3JkZXIgb2YgcGF0Y2hlcyB3b3VsZCBi
+ZToNCg0KICAgICAgICAgICAgIGFybTY0OiBEaXNhYmxlIEVMMiB0cmFwcyBmb3IgQlJCRSBpbnN0
+cnVjdGlvbnMgZXhlY3V0ZWQgaW4gRUwxDQogICAgICAgICAgICAgYXJtNjQvc3lzcmVnOiBDb252
+ZXJ0IEhGR0lUUl9FTDIgdG8gYXV0b21hdGljIGdlbmVyYXRpb24NCiAgICAgICAgICAgICBhcm02
+NC9zeXNyZWc6IENvbnZlcnQgSEZHW1JXXVRSX0VMMiB0byBhdXRvbWF0aWMgZ2VuZXJhdGlvbg0K
+ZThkMDE4ZGQwMjU3IExpbnV4IDYuMy1yYzMNCg0KUGxlYXNlIGNoZWNrb3V0IHRvIHRoZSBwYXRj
+aCBhbmQgZG8gYGdpdCBmb3JtYXQtcGF0Y2ggLS1iYXNlDQplOGQwMThkZDAyNTcgLTFgLCBpdCB3
+aWxsIGdlbmVyYXRlIGJhc2UgaW5mbyBpbiB0aGUgZm9vdGVyIG9mIHRoZQ0KcGF0Y2g6DQoNCmJh
+c2UtY29tbWl0OiBlOGQwMThkZDAyNTdmNzQ0Y2E1MGE3MjllM2QwNDJjZjJlYzlkYTY1DQpwcmVy
+ZXF1aXNpdGUtcGF0Y2gtaWQ6IDZmNDQ4NDQ0YzdhNDBhNDQxNDZkNGVjYmZhNTcxOTBhZTMwYTI1
+N2YNCnByZXJlcXVpc2l0ZS1wYXRjaC1pZDogNDg0YzYwNWZhOWQzNWQ3NzZlZGEzYzQ3YWI5NWEy
+NDg0MTcxMjg4NQ0KDQpUaGVuIHRoZSByb2JvdCBjYW4gcGFyc2UgdGhpcyBpbmZvIHRvIHNlbGVj
+dCBiYXNlIGFuZCBhcHBseQ0KcHJlcmVxdWlzaXRlIHBhdGNoZXMgYXMgZXhwZWN0ZWQuDQoNCi0t
+DQpCZXN0IFJlZ2FyZHMsDQpZdWppZQ0K
