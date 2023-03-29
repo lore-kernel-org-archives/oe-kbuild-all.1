@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31255A31
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 04:41:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8973310E3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 05:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680064900; x=1711600900;
+  t=1680066700; x=1711602700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kBUem085M06AR+e3nStYlkAiYSthfF7+oSwG8ps65L4=;
-  b=Iz+lE3oy627mFqV3zvbS7JBDVteA4Oa03fWp2pps+eu4Ef04GMxy9eq4
-   n4UZCH5f5t39bitzmy1soWVbkTjhVNlazCF7Qh2+tqcRPx3lW+hjXEZQ3
-   yxU5Z6qOAcX1YwvUXA16NFbKDp/4A2/z+cgE5ir817I0TK6X+Z2MWXLye
-   ox+VArYrMTxo69aC0kknWnLdtKKqFj4ZWAJMxwBiG0TpHTQPujpQFWohu
-   hhYHkE5Ph/1OItyiqWrNJJqqOGRPXk7p9UZm8O2cawz80kreDmvsI9mWc
-   c5ZW7S5jzsrHS9/T/6fANpGR9iBc7EGxUVnRNu/3zLn5fciRHOw4dDsmJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="338276992"
+  bh=2ufP/Htlm9oazcg1PMB+cSOtSjLRw5MUKuLC9O9DTsA=;
+  b=iz0fRScjBON9usTfd/sY8ISGjIOgGsXkAAXSyyheET+8L04+TV7rXn19
+   vyQ+0nFz5/xUX96WQO+A0+iYKQPkXnL7SFRP8sPQ2s84m05+lO4WnYTh7
+   toM3lq7pKPrEji7zJQd5mjvpmnQT8POqbTjiS35iKXjaPN5ogJ3Mg8k+D
+   b2x9PzK50/5ebOe6oxiaFC8DjovUyw7CVvRAUjXTXfL8tUdrIGe1UH6VD
+   RsawCj9K/PICHQtbrjv6e4U89c9ev9oFWNAdH4WCev3CDcZqPiPTSr3QX
+   oJ5adt1KB2V3ZEZOAnaqGFvHpB8d9hNP6YuI9R2lJPi84rACBXDbb/yju
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405722076"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="338276992"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 21:41:39 -0700
+   d="scan'208";a="405722076"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:11:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="661459672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="1013870037"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="661459672"
+   d="scan'208";a="1013870037"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Mar 2023 21:41:38 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2023 22:11:38 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phNcv-000JEV-0o;
-	Wed, 29 Mar 2023 04:41:37 +0000
-Date: Wed, 29 Mar 2023 12:40:41 +0800
+	id 1phO5y-000JFb-01;
+	Wed, 29 Mar 2023 05:11:38 +0000
+Date: Wed, 29 Mar 2023 13:11:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Manisha Chinthapally <manisha.chinthapally@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1980/7896]
- drivers/md/dm-user.c:525:6: warning: no previous prototype for
- 'message_kill'
-Message-ID: <202303291226.KhRn9b4X-lkp@intel.com>
+Subject: drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse:
+ function 'SOCPERF_Read_Data3' with external linkage has definition
+Message-ID: <202303291303.tqFgfyVx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,124 +46,170 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Palmer,
+Hi Manisha,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   993014e4433829d09f2664c6d8576041bf9914ea
-commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [1980/7896] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230329/202303291226.KhRn9b4X-lkp@intel.com/config)
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: c859e634bf058e7963fccc4c1219c1365e925ad4 platform/x86: Update SEP driver for 5.9 pull
+date:   2 years, 6 months ago
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230329/202303291303.tqFgfyVx-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout 83bf345abc0bc06b98e906bfbb120a52446e1c43
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/mchinth/linux/commit/c859e634bf058e7963fccc4c1219c1365e925ad4
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout c859e634bf058e7963fccc4c1219c1365e925ad4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/md/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291226.KhRn9b4X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291303.tqFgfyVx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse: function 'SOCPERF_Read_Data3' with external linkage has definition
+   drivers/platform/x86/socperf/socperfdrv.c:885:1: sparse: sparse: function 'SOCPERF_Switch_Group3' with external linkage has definition
+>> drivers/platform/x86/socperf/socperfdrv.c:101:22: sparse: sparse: symbol 'socperf_drv_version' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:102:5: sparse: sparse: symbol 'read_unc_ctr_info' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:103:10: sparse: sparse: symbol 'dispatch_uncore' was not declared. Should it be static?
+   drivers/platform/x86/socperf/socperfdrv.c:104:12: sparse: sparse: symbol 'socperf_drv_cfg' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:105:14: sparse: sparse: symbol 'socperf_global_ec' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:106:14: sparse: sparse: symbol 'socperf_abnormal_terminate' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:107:11: sparse: sparse: symbol 'socperf_control' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:111:8: sparse: sparse: symbol 'socperf_pcb_size' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:984:28: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/platform/x86/socperf/socperfdrv.c:1070:6: sparse: sparse: symbol 'lwpmudrv_Stop_Mem' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:1155:15: sparse: sparse: symbol 'socperf_Service_IOCTL' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:1274:6: sparse: sparse: symbol 'socperf_Device_Control' was not declared. Should it be static?
+>> drivers/platform/x86/socperf/socperfdrv.c:1358:5: sparse: sparse: symbol 'SOCPERF_Abnormal_Terminate' was not declared. Should it be static?
 
->> drivers/md/dm-user.c:525:6: warning: no previous prototype for 'message_kill' [-Wmissing-prototypes]
-     525 | void message_kill(struct message *m, mempool_t *pool)
-         |      ^~~~~~~~~~~~
-   drivers/md/dm-user.c:539:5: warning: no previous prototype for 'target_poll' [-Wmissing-prototypes]
-     539 | int target_poll(struct target *t)
-         |     ^~~~~~~~~~~
-   drivers/md/dm-user.c:544:6: warning: no previous prototype for 'target_release' [-Wmissing-prototypes]
-     544 | void target_release(struct kref *ref)
-         |      ^~~~~~~~~~~~~~
-   drivers/md/dm-user.c:565:6: warning: no previous prototype for 'target_put' [-Wmissing-prototypes]
-     565 | void target_put(struct target *t)
-         |      ^~~~~~~~~~
->> drivers/md/dm-user.c:578:17: warning: no previous prototype for 'channel_alloc' [-Wmissing-prototypes]
-     578 | struct channel *channel_alloc(struct target *t)
-         |                 ^~~~~~~~~~~~~
-   drivers/md/dm-user.c:596:6: warning: no previous prototype for 'channel_free' [-Wmissing-prototypes]
-     596 | void channel_free(struct channel *c)
-         |      ^~~~~~~~~~~~
+vim +/SOCPERF_Read_Data3 +203 drivers/platform/x86/socperf/socperfdrv.c
 
+f57492d07625ddd Manisha Chinthapally 2019-05-01   99  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  100  /* Global variables of the driver */
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @101  SOCPERF_VERSION_NODE socperf_drv_version;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @102  U64 *read_unc_ctr_info;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @103  DISPATCH dispatch_uncore;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  104  DRV_CONFIG socperf_drv_cfg;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @105  EVENT_CONFIG socperf_global_ec;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @106  volatile S32 socperf_abnormal_terminate;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @107  LWPMU_DEV socperf_control;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  108  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  109  LWPMU_DEVICE device_uncore;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  110  CPU_STATE socperf_pcb;
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @111  size_t socperf_pcb_size;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  112  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  113  #if defined(DRV_USE_UNLOCKED_IOCTL)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  114  static struct mutex ioctl_lock;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  115  #endif
+f57492d07625ddd Manisha Chinthapally 2019-05-01  116  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  117  #define PMU_DEVICES 1 // pmu control
+f57492d07625ddd Manisha Chinthapally 2019-05-01  118  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  119  static dev_t lwpmu_DevNum; /* the major and minor parts for SOCPERF base */
+f57492d07625ddd Manisha Chinthapally 2019-05-01  120  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  121  static struct class *pmu_class;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  122  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  123  #define DRV_DEVICE_DELIMITER "!"
+f57492d07625ddd Manisha Chinthapally 2019-05-01  124  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  125  #if !defined(DRV_USE_UNLOCKED_IOCTL)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  126  #define MUTEX_INIT(lock)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  127  #define MUTEX_LOCK(lock)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  128  #define MUTEX_UNLOCK(lock)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  129  #else
+f57492d07625ddd Manisha Chinthapally 2019-05-01  130  #define MUTEX_INIT(lock) mutex_init(&(lock))
+f57492d07625ddd Manisha Chinthapally 2019-05-01  131  #define MUTEX_LOCK(lock) mutex_lock(&(lock))
+f57492d07625ddd Manisha Chinthapally 2019-05-01  132  #define MUTEX_UNLOCK(lock) mutex_unlock(&(lock))
+f57492d07625ddd Manisha Chinthapally 2019-05-01  133  #endif
+f57492d07625ddd Manisha Chinthapally 2019-05-01  134  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  135  /* ------------------------------------------------------------------------- */
+f57492d07625ddd Manisha Chinthapally 2019-05-01  136  /*!
+f57492d07625ddd Manisha Chinthapally 2019-05-01  137   * @fn  static OS_STATUS lwpmudrv_Initialize_State(void)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  138   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  139   * @param none
+f57492d07625ddd Manisha Chinthapally 2019-05-01  140   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  141   * @return OS_STATUS
+f57492d07625ddd Manisha Chinthapally 2019-05-01  142   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  143   * @brief  Allocates the memory needed at load time.  Initializes all the
+f57492d07625ddd Manisha Chinthapally 2019-05-01  144   * @brief  necessary state variables with the default values.
+f57492d07625ddd Manisha Chinthapally 2019-05-01  145   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  146   * <I>Special Notes</I>
+f57492d07625ddd Manisha Chinthapally 2019-05-01  147   */
+f57492d07625ddd Manisha Chinthapally 2019-05-01  148  static OS_STATUS lwpmudrv_Initialize_State(VOID)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  149  {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  150  	S32 i, max_cpu_id = 0;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  151  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  152  	for_each_possible_cpu(i) {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  153  		if (cpu_present(i)) {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  154  			if (i > max_cpu_id) {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  155  				max_cpu_id = i;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  156  			}
+f57492d07625ddd Manisha Chinthapally 2019-05-01  157  		}
+f57492d07625ddd Manisha Chinthapally 2019-05-01  158  	}
+f57492d07625ddd Manisha Chinthapally 2019-05-01  159  	max_cpu_id++;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  160  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  161  	/*
+f57492d07625ddd Manisha Chinthapally 2019-05-01  162  	 *  Machine Initializations
+f57492d07625ddd Manisha Chinthapally 2019-05-01  163  	 *  Abstract this information away into a separate entry point
+f57492d07625ddd Manisha Chinthapally 2019-05-01  164  	 *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  165  	 *  Question:  Should we allow for the use of Hot-cpu
+f57492d07625ddd Manisha Chinthapally 2019-05-01  166  	 *    add/subtract functionality while the driver is executing?
+f57492d07625ddd Manisha Chinthapally 2019-05-01  167  	 */
+f57492d07625ddd Manisha Chinthapally 2019-05-01  168  	if (max_cpu_id > num_present_cpus()) {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  169  		GLOBAL_STATE_num_cpus(socperf_driver_state) = max_cpu_id;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  170  	} else {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  171  		GLOBAL_STATE_num_cpus(socperf_driver_state) =
+f57492d07625ddd Manisha Chinthapally 2019-05-01  172  			num_present_cpus();
+f57492d07625ddd Manisha Chinthapally 2019-05-01  173  	}
+f57492d07625ddd Manisha Chinthapally 2019-05-01  174  	GLOBAL_STATE_active_cpus(socperf_driver_state) = num_online_cpus();
+f57492d07625ddd Manisha Chinthapally 2019-05-01  175  	GLOBAL_STATE_cpu_count(socperf_driver_state) = 0;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  176  	GLOBAL_STATE_dpc_count(socperf_driver_state) = 0;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  177  	GLOBAL_STATE_num_em_groups(socperf_driver_state) = 0;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  178  	GLOBAL_STATE_current_phase(socperf_driver_state) =
+f57492d07625ddd Manisha Chinthapally 2019-05-01  179  		DRV_STATE_UNINITIALIZED;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  180  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  181  	SOCPERF_PRINT_DEBUG(
+f57492d07625ddd Manisha Chinthapally 2019-05-01  182  		"%s: num_cpus=%d, active_cpus=%d\n",
+f57492d07625ddd Manisha Chinthapally 2019-05-01  183  		__func__,
+f57492d07625ddd Manisha Chinthapally 2019-05-01  184  		GLOBAL_STATE_num_cpus(socperf_driver_state),
+f57492d07625ddd Manisha Chinthapally 2019-05-01  185  		GLOBAL_STATE_active_cpus(socperf_driver_state));
+f57492d07625ddd Manisha Chinthapally 2019-05-01  186  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  187  	return OS_SUCCESS;
+f57492d07625ddd Manisha Chinthapally 2019-05-01  188  }
+f57492d07625ddd Manisha Chinthapally 2019-05-01  189  
+f57492d07625ddd Manisha Chinthapally 2019-05-01  190  /* ------------------------------------------------------------------------- */
+f57492d07625ddd Manisha Chinthapally 2019-05-01  191  /*!
+f57492d07625ddd Manisha Chinthapally 2019-05-01  192   * @fn       VOID SOCPERF_Read_Data
+f57492d07625ddd Manisha Chinthapally 2019-05-01  193   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  194   * @brief    Reads counter data
+f57492d07625ddd Manisha Chinthapally 2019-05-01  195   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  196   * @param    param   data_buffer - buffer for reading counter data.
+f57492d07625ddd Manisha Chinthapally 2019-05-01  197   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  198   * @return  None
+f57492d07625ddd Manisha Chinthapally 2019-05-01  199   *
+f57492d07625ddd Manisha Chinthapally 2019-05-01  200   * <I>Special Notes:</I>
+f57492d07625ddd Manisha Chinthapally 2019-05-01  201   *              <NONE>
+f57492d07625ddd Manisha Chinthapally 2019-05-01  202   */
+f57492d07625ddd Manisha Chinthapally 2019-05-01 @203  extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+f57492d07625ddd Manisha Chinthapally 2019-05-01  204  {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  205  	if (dispatch_uncore && dispatch_uncore->read_current_data) {
+f57492d07625ddd Manisha Chinthapally 2019-05-01  206  		dispatch_uncore->read_current_data(data_buffer);
+f57492d07625ddd Manisha Chinthapally 2019-05-01  207  	}
+f57492d07625ddd Manisha Chinthapally 2019-05-01  208  	SOCPERF_PRINT_DEBUG("%s called\n", __func__);
+f57492d07625ddd Manisha Chinthapally 2019-05-01  209  }
+f57492d07625ddd Manisha Chinthapally 2019-05-01  210  EXPORT_SYMBOL(SOCPERF_Read_Data3);
+f57492d07625ddd Manisha Chinthapally 2019-05-01  211  
 
-vim +/message_kill +525 drivers/md/dm-user.c
+:::::: The code at line 203 was first introduced by commit
+:::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
 
-   524	
- > 525	void message_kill(struct message *m, mempool_t *pool)
-   526	{
-   527		m->bio->bi_status = BLK_STS_IOERR;
-   528		bio_endio(m->bio);
-   529		bio_put(m->bio);
-   530		mempool_free(m, pool);
-   531	}
-   532	
-   533	/*
-   534	 * Returns 0 when there is no work left to do.  This must be callable without
-   535	 * holding the target lock, as it is part of the waitqueue's check expression.
-   536	 * When called without the lock it may spuriously indicate there is remaining
-   537	 * work, but when called with the lock it must be accurate.
-   538	 */
- > 539	int target_poll(struct target *t)
-   540	{
-   541		return !list_empty(&t->to_user) || t->dm_destroyed;
-   542	}
-   543	
-   544	void target_release(struct kref *ref)
-   545	{
-   546		struct target *t = container_of(ref, struct target, references);
-   547		struct list_head *cur;
-   548	
-   549		/*
-   550		 * There may be outstanding BIOs that have not yet been given to
-   551		 * userspace.  At this point there's nothing we can do about them, as
-   552		 * there are and will never be any channels.
-   553		 */
-   554		list_for_each (cur, &t->to_user) {
-   555			message_kill(list_entry(cur, struct message, to_user),
-   556				     &t->message_pool);
-   557		}
-   558	
-   559		mempool_exit(&t->message_pool);
-   560		mutex_unlock(&t->lock);
-   561		mutex_destroy(&t->lock);
-   562		kfree(t);
-   563	}
-   564	
-   565	void target_put(struct target *t)
-   566	{
-   567		/*
-   568		 * This both releases a reference to the target and the lock.  We leave
-   569		 * it up to the caller to hold the lock, as they probably needed it for
-   570		 * something else.
-   571		 */
-   572		lockdep_assert_held(&t->lock);
-   573	
-   574		if (!kref_put(&t->references, target_release))
-   575			mutex_unlock(&t->lock);
-   576	}
-   577	
- > 578	struct channel *channel_alloc(struct target *t)
-   579	{
-   580		struct channel *c;
-   581	
-   582		lockdep_assert_held(&t->lock);
-   583	
-   584		c = kzalloc(sizeof(*c), GFP_KERNEL);
-   585		if (c == NULL)
-   586			return NULL;
-   587	
-   588		kref_get(&t->references);
-   589		c->target = t;
-   590		c->cur_from_user = &c->scratch_message_from_user;
-   591		mutex_init(&c->lock);
-   592		INIT_LIST_HEAD(&c->from_user);
-   593		return c;
-   594	}
-   595	
+:::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
+:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
