@@ -1,43 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC4BAD30
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 22:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02115AD30
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 22:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680129988; x=1711665988;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C13Rk/Z50L3VJ+1mQDtBV+nVXakCeh0jzOipkvHHL0w=;
-  b=iPaYAxY0gRd81m59nIJymwWEKjCrzHSxu6e82S/uP7J4sPWxHz0zY6wV
-   xJVuqlBVqmZu9tC4nAWsBRIn6RdxoPFhOLt4Q25nehoIayIjijBeMPTMe
-   nJ9M481LbWkSbIvwsk44NO+iNVCqNLICRK8su7GZOrUfzDRbqCsjZ4kw/
-   tpBZHSb9ohO/cvJ1zE1OVyu9bDkstdw/EETWkn/CgAsjkjYMrOHlEvnm5
-   j00YdddU4BlYwiMxyc2tPRCehHH7peaYcadxpid6ThmuxYtV39nwIkVjZ
-   FgJQrtL1ep3RGGiz1k5J7JwCne6FTmrkE92GRf5kcabzcN68uPvJQhso7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="368791036"
+  t=1680130579; x=1711666579;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UMadLe8/Q98PSmEX0kA8aCgiUC6P+hNGYoBK15brJ8o=;
+  b=ASZmQFOU3ZyHksjTd+r2QJn63a5NZXZypByz/L/jH9gfYQ2x19w3AJYh
+   fzwHkHEnY9uTYvw6K99+wRZRyNvLok49cJFsRAh613OkNqVmlrXRT381Q
+   ssG2rr12I1PZnr3xir5XTzMmIBNqupgg+5xTkFq5VGpbSFFrhPnv1iFtW
+   /MW+UULBe5FzyQezDDc4BbD+cS0s3wi1hL5G3Gg1Curz6tUo9ntor5xFH
+   esQzKZAx2/FdNaNoJ83A/egJuoYvkkK2zTZHji59Dn7iVlIkehngmMlu9
+   pq3OYCv1utRfQJpAYreMrUGyQvl1mzxJw6izUD2vhomI1YmJTI8N2ZUmC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="339741331"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="368791036"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 15:46:17 -0700
+   d="scan'208";a="339741331"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 15:56:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="684467222"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="858672261"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="684467222"
+   d="scan'208";a="858672261"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 29 Mar 2023 15:46:15 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 Mar 2023 15:56:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pheYY-000K1K-35;
-	Wed, 29 Mar 2023 22:46:14 +0000
-Date: Thu, 30 Mar 2023 06:45:34 +0800
+	id 1pheiF-000K24-1B;
+	Wed, 29 Mar 2023 22:56:15 +0000
+Date: Thu, 30 Mar 2023 06:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: drivers/scsi/megaraid.c:4470:26: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202303300602.tuYKjvUe-lkp@intel.com>
+To: Dennis Zhou <dennis@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Dennis Zhou <dennis@kernel.org>
+Subject: Re: [PATCH] mmc: inline the first mmc_scan() on mmc_start_host()
+Message-ID: <202303300639.UEUl5xWY-lkp@intel.com>
+References: <20230329202148.71107-1-dennis@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,128 +47,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230329202148.71107-1-dennis@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ffe78bbd512166e0ef1cc4858010b128c510ed7d
-commit: c44f15c1c09481d50fd33478ebb5b8284f8f5edb arc: iounmap() arg is volatile
-date:   5 months ago
-config: arc-randconfig-s031-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300602.tuYKjvUe-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce:
+Hi Dennis,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on ulf-hansson-mmc-mirror/next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230329]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dennis-Zhou/mmc-inline-the-first-mmc_scan-on-mmc_start_host/20230330-042213
+base:   https://git.linaro.org/people/ulf.hansson/mmc-mirror.git next
+patch link:    https://lore.kernel.org/r/20230329202148.71107-1-dennis%40kernel.org
+patch subject: [PATCH] mmc: inline the first mmc_scan() on mmc_start_host()
+config: arm-randconfig-r046-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300639.UEUl5xWY-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c44f15c1c09481d50fd33478ebb5b8284f8f5edb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c44f15c1c09481d50fd33478ebb5b8284f8f5edb
+        # https://github.com/intel-lab-lkp/linux/commit/d2de7314d2198df0c7a452546af0c15799b2d864
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dennis-Zhou/mmc-inline-the-first-mmc_scan-on-mmc_start_host/20230330-042213
+        git checkout d2de7314d2198df0c7a452546af0c15799b2d864
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash drivers/isdn/hardware/mISDN/ drivers/scsi/ scripts/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/mmc/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300602.tuYKjvUe-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300639.UEUl5xWY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/megaraid.c:4470:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/scsi/megaraid.c:4470:26: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/megaraid.c:4470:26: sparse:     got void *
-   drivers/scsi/megaraid.c:4529:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/scsi/megaraid.c:4529:26: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/megaraid.c:4529:26: sparse:     got void *
---
-   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse:     expected unsigned int [usertype] value
-   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse:     got restricted __le32 [usertype]
-   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse:     expected unsigned short [usertype] value
-   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse:     got restricted __le16 [usertype]
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse:     expected unsigned int [usertype] val
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse:     got restricted __le32 [usertype]
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] @@
-   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse:     expected unsigned short [usertype] val
-   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse:     got restricted __le16 [usertype]
-   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: cast from restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: cast from restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
-   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
-   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
->> drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +4470 drivers/scsi/megaraid.c
+>> drivers/mmc/core/core.c:2202:6: warning: no previous prototype for '__mmc_rescan' [-Wmissing-prototypes]
+    2202 | void __mmc_rescan(struct mmc_host *host)
+         |      ^~~~~~~~~~~~
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4443  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4444  	pci_set_drvdata(pdev, host);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4445  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4446  	mega_create_proc_entry(hba_count, mega_proc_dir_entry);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4447  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4448  	error = scsi_add_host(host, &pdev->dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4449  	if (error)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4450  		goto out_free_mbox;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4451  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4452  	scsi_scan_host(host);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4453  	hba_count++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4454  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4455  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4456   out_free_mbox:
-ec090ef8cd1c23 Suraj Upadhyay 2020-07-29  4457  	dma_free_coherent(&adapter->dev->dev, sizeof(mbox64_t),
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4458  			  adapter->una_mbox64, adapter->una_mbox64_dma);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4459   out_free_irq:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4460  	free_irq(adapter->host->irq, adapter);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4461   out_free_scb_list:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4462  	kfree(adapter->scb_list);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4463   out_free_cmd_buffer:
-ec090ef8cd1c23 Suraj Upadhyay 2020-07-29  4464  	dma_free_coherent(&adapter->dev->dev, MEGA_BUFFER_SIZE,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4465  			  adapter->mega_buffer, adapter->buf_dma_handle);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4466   out_host_put:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4467  	scsi_host_put(host);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4468   out_iounmap:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4469  	if (flag & BOARD_MEMMAP)
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @4470  		iounmap((void *)mega_baseport);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4471   out_release_region:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4472  	if (flag & BOARD_MEMMAP)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4473  		release_mem_region(tbase, 128);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4474  	else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4475  		release_region(mega_baseport, 16);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4476   out_disable_device:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4477  	pci_disable_device(pdev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4478   out:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4479  	return error;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4480  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4481  
 
-:::::: The code at line 4470 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +/__mmc_rescan +2202 drivers/mmc/core/core.c
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  2201	
+> 2202	void __mmc_rescan(struct mmc_host *host)
+  2203	{
+  2204		int i;
+  2205	
+  2206		if (host->rescan_disable)
+  2207			return;
+  2208	
+  2209		/* If there is a non-removable card registered, only scan once */
+  2210		if (!mmc_card_is_removable(host) && host->rescan_entered)
+  2211			return;
+  2212		host->rescan_entered = 1;
+  2213	
+  2214		if (host->trigger_card_event && host->ops->card_event) {
+  2215			mmc_claim_host(host);
+  2216			host->ops->card_event(host);
+  2217			mmc_release_host(host);
+  2218			host->trigger_card_event = false;
+  2219		}
+  2220	
+  2221		/* Verify a registered card to be functional, else remove it. */
+  2222		if (host->bus_ops)
+  2223			host->bus_ops->detect(host);
+  2224	
+  2225		host->detect_change = 0;
+  2226	
+  2227		/* if there still is a card present, stop here */
+  2228		if (host->bus_ops != NULL)
+  2229			goto out;
+  2230	
+  2231		mmc_claim_host(host);
+  2232		if (mmc_card_is_removable(host) && host->ops->get_cd &&
+  2233				host->ops->get_cd(host) == 0) {
+  2234			mmc_power_off(host);
+  2235			mmc_release_host(host);
+  2236			goto out;
+  2237		}
+  2238	
+  2239		/* If an SD express card is present, then leave it as is. */
+  2240		if (mmc_card_sd_express(host)) {
+  2241			mmc_release_host(host);
+  2242			goto out;
+  2243		}
+  2244	
+  2245		for (i = 0; i < ARRAY_SIZE(freqs); i++) {
+  2246			unsigned int freq = freqs[i];
+  2247			if (freq > host->f_max) {
+  2248				if (i + 1 < ARRAY_SIZE(freqs))
+  2249					continue;
+  2250				freq = host->f_max;
+  2251			}
+  2252			if (!mmc_rescan_try_freq(host, max(freq, host->f_min)))
+  2253				break;
+  2254			if (freqs[i] <= host->f_min)
+  2255				break;
+  2256		}
+  2257	
+  2258		/*
+  2259		 * Ignore the command timeout errors observed during
+  2260		 * the card init as those are excepted.
+  2261		 */
+  2262		host->err_stats[MMC_ERR_CMD_TIMEOUT] = 0;
+  2263		mmc_release_host(host);
+  2264	
+  2265	 out:
+  2266		if (host->caps & MMC_CAP_NEEDS_POLL)
+  2267			mmc_schedule_delayed_work(&host->detect, HZ);
+  2268	}
+  2269	
 
 -- 
 0-DAY CI Kernel Test Service
