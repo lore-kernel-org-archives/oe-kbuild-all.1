@@ -1,121 +1,230 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF115EB8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 02:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3C8EB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 02:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680058115; x=1711594115;
+  t=1680058120; x=1711594120;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=weuoNablgVL42p7piYNfbp72zEh5G7yzh+rfF25ARSM=;
-  b=fCxqzDU/XjwCJfv+Kse/yPbkltVE3XXIr70IleOtDU7H8jZipiZmEMg4
-   kSnkNveJRVn3yCkLimYlc13fWHV62fq8TURJFs/iObcRqTbv0KBDQnMW1
-   o4rpq2+9rVQPn5o0QDdW7EYluiUhze9wYResvf2zKqEd80pg1NH08Sjnp
-   p5QpOMrNu8WK/RYtj5YB4yuyXhf6dPxgGm+42seW1JqBofknS7MGaOM7J
-   0yHYA4ra6CicX2xsgQY2sOB4QJjzDO0ovKR0c05HnKznncSYnt/5TSJi7
-   pyb0xlw1OpcRSSEEtizRI77mtw72LrUxF93dSSqT63654lqUIbzZHt1t/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403376126"
+   mime-version:in-reply-to;
+  bh=zWVM1XKe1VFK47f/RGqAXZAGN/Fc8fiPwEhDoVnF3HA=;
+  b=gnKGSIYRqfTsF/rIW590ss9BG7VgmU3YP2JbW+CH7AixvpFVoBQscdwn
+   pb8M16CN8xcJduCirsi9uptdrVnwNOHoiY6tvlhVNZbrqB2lEHx8vq0pA
+   n9MqBWv2P1RCt/KCspNWQwEaBbIpQqb3/MckWnALnOTGIPKZ3Gm16Iq9Z
+   b4PnDvOlxoBmUazXeceRSOTe4Sn2fEIrPzJhJm8SXB2e9Au9iMOqlGFf8
+   htxcVgoW4PBwLw7WSu+0jVazVcpYpeLmg9KMRnk7TY8zkvuJolyftk233
+   YYq7mzMZeXJ5kJdBbHZIJug5AwyQoc2LMwVGH3dMohM7V9QftfBc0MrBP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="343170008"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="403376126"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 19:48:33 -0700
+   d="scan'208";a="343170008"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 19:48:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="753412926"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="686650715"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="753412926"
+   d="scan'208";a="686650715"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 19:48:32 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 28 Mar 2023 19:48:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phLrT-000J7N-2W;
+	id 1phLrT-000J7L-2O;
 	Wed, 29 Mar 2023 02:48:31 +0000
-Date: Wed, 29 Mar 2023 10:48:03 +0800
+Date: Wed, 29 Mar 2023 10:48:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm/debugfs: remove debugfs_root pointer
- from minor
-Message-ID: <202303291026.iRc2NXSy-lkp@intel.com>
-References: <20230328143709.86644-5-christian.koenig@amd.com>
+To: Reinette Chatre <reinette.chatre@intel.com>, jgg@nvidia.com,
+	yishaih@nvidia.com, shameerali.kolothum.thodi@huawei.com,
+	kevin.tian@intel.com, alex.williamson@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, darwi@linutronix.de,
+	kvm@vger.kernel.org, dave.jiang@intel.com, jing2.liu@intel.com,
+	ashok.raj@intel.com, fenghua.yu@intel.com,
+	tom.zanussi@linux.intel.com, reinette.chatre@intel.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 7/8] vfio/pci: Support dynamic MSI-x
+Message-ID: <202303291000.PWFqGCxH-lkp@intel.com>
+References: <419f3ba2f732154d8ae079b3deb02d0fdbe3e258.1680038771.git.reinette.chatre@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230328143709.86644-5-christian.koenig@amd.com>
+In-Reply-To: <419f3ba2f732154d8ae079b3deb02d0fdbe3e258.1680038771.git.reinette.chatre@intel.com>
 
-Hi Christian,
+Hi Reinette,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test ERROR on 197b6b60ae7bc51dd0814953c562833143b292aa]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v2/20230328-223907
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230328143709.86644-5-christian.koenig%40amd.com
-patch subject: [Intel-gfx] [PATCH 5/5] drm/debugfs: remove debugfs_root pointer from minor
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230329/202303291026.iRc2NXSy-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230329-055735
+base:   197b6b60ae7bc51dd0814953c562833143b292aa
+patch link:    https://lore.kernel.org/r/419f3ba2f732154d8ae079b3deb02d0fdbe3e258.1680038771.git.reinette.chatre%40intel.com
+patch subject: [PATCH V2 7/8] vfio/pci: Support dynamic MSI-x
+config: i386-randconfig-a001-20230327 (https://download.01.org/0day-ci/archive/20230329/202303291000.PWFqGCxH-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/a17b8a95102c9f2cf2b5cadadcf99c364dafed15
+        # https://github.com/intel-lab-lkp/linux/commit/420198d6ba9227a0ef81a2192ca35019fa6439cf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v2/20230328-223907
-        git checkout a17b8a95102c9f2cf2b5cadadcf99c364dafed15
+        git fetch --no-tags linux-review Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230329-055735
+        git checkout 420198d6ba9227a0ef81a2192ca35019fa6439cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/vfio/pci/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291026.iRc2NXSy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291000.PWFqGCxH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_hotplug.c: In function 'intel_hpd_debugfs_register':
->> drivers/gpu/drm/i915/display/intel_hotplug.c:950:64: error: 'struct drm_minor' has no member named 'debugfs_root'
-     950 |         debugfs_create_bool("i915_ignore_long_hpd", 0644, minor->debugfs_root,
-         |                                                                ^~
---
-   drivers/gpu/drm/i915/display/intel_psr.c: In function 'intel_psr_debugfs_register':
->> drivers/gpu/drm/i915/display/intel_psr.c:2873:62: error: 'struct drm_minor' has no member named 'debugfs_root'
-    2873 |         debugfs_create_file("i915_edp_psr_debug", 0644, minor->debugfs_root,
-         |                                                              ^~
-   drivers/gpu/drm/i915/display/intel_psr.c:2876:63: error: 'struct drm_minor' has no member named 'debugfs_root'
-    2876 |         debugfs_create_file("i915_edp_psr_status", 0444, minor->debugfs_root,
-         |                                                               ^~
---
-   drivers/gpu/drm/i915/display/intel_wm.c: In function 'intel_wm_debugfs_register':
->> drivers/gpu/drm/i915/display/intel_wm.c:398:63: error: 'struct drm_minor' has no member named 'debugfs_root'
-     398 |         debugfs_create_file("i915_pri_wm_latency", 0644, minor->debugfs_root,
-         |                                                               ^~
-   drivers/gpu/drm/i915/display/intel_wm.c:401:63: error: 'struct drm_minor' has no member named 'debugfs_root'
-     401 |         debugfs_create_file("i915_spr_wm_latency", 0644, minor->debugfs_root,
-         |                                                               ^~
-   drivers/gpu/drm/i915/display/intel_wm.c:404:63: error: 'struct drm_minor' has no member named 'debugfs_root'
-     404 |         debugfs_create_file("i915_cur_wm_latency", 0644, minor->debugfs_root,
-         |                                                               ^~
+   drivers/vfio/pci/vfio_pci_intrs.c: In function 'vfio_msi_set_vector_signal':
+>> drivers/vfio/pci/vfio_pci_intrs.c:427:21: error: implicit declaration of function 'pci_msix_can_alloc_dyn' [-Werror=implicit-function-declaration]
+     427 |         if (msix && pci_msix_can_alloc_dyn(vdev->pdev))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +950 drivers/gpu/drm/i915/display/intel_hotplug.c
+vim +/pci_msix_can_alloc_dyn +427 drivers/vfio/pci/vfio_pci_intrs.c
 
-1bed8b07342069e Jani Nikula         2022-09-16  941  
-1bed8b07342069e Jani Nikula         2022-09-16  942  void intel_hpd_debugfs_register(struct drm_i915_private *i915)
-1bed8b07342069e Jani Nikula         2022-09-16  943  {
-1bed8b07342069e Jani Nikula         2022-09-16  944  	struct drm_minor *minor = i915->drm.primary;
-1bed8b07342069e Jani Nikula         2022-09-16  945  
-a17b8a95102c9f2 Christian König     2023-03-28  946  	debugfs_create_file("i915_hpd_storm_ctl", 0644, minor->dev->debugfs_root,
-1bed8b07342069e Jani Nikula         2022-09-16  947  			    i915, &i915_hpd_storm_ctl_fops);
-a17b8a95102c9f2 Christian König     2023-03-28  948  	debugfs_create_file("i915_hpd_short_storm_ctl", 0644, minor->dev->debugfs_root,
-1bed8b07342069e Jani Nikula         2022-09-16  949  			    i915, &i915_hpd_short_storm_ctl_fops);
-b0fbef65e227ad4 Vinod Govindapillai 2023-02-15 @950  	debugfs_create_bool("i915_ignore_long_hpd", 0644, minor->debugfs_root,
+   413	
+   414	static int vfio_msi_set_vector_signal(struct vfio_pci_core_device *vdev,
+   415					      unsigned int vector, int fd, bool msix)
+   416	{
+   417		struct pci_dev *pdev = vdev->pdev;
+   418		struct vfio_pci_irq_ctx *ctx;
+   419		struct msi_map msix_map = {};
+   420		bool allow_dyn_alloc = false;
+   421		struct eventfd_ctx *trigger;
+   422		bool new_ctx = false;
+   423		int irq, ret;
+   424		u16 cmd;
+   425	
+   426		/* Only MSI-X allows dynamic allocation. */
+ > 427		if (msix && pci_msix_can_alloc_dyn(vdev->pdev))
+   428			allow_dyn_alloc = true;
+   429	
+   430		ctx = vfio_irq_ctx_get(vdev, vector);
+   431		if (!ctx && !allow_dyn_alloc)
+   432			return -EINVAL;
+   433	
+   434		irq = pci_irq_vector(pdev, vector);
+   435		/* Context and interrupt are always allocated together. */
+   436		WARN_ON((ctx && irq == -EINVAL) || (!ctx && irq != -EINVAL));
+   437	
+   438		if (ctx && ctx->trigger) {
+   439			irq_bypass_unregister_producer(&ctx->producer);
+   440	
+   441			cmd = vfio_pci_memory_lock_and_enable(vdev);
+   442			free_irq(irq, ctx->trigger);
+   443			if (allow_dyn_alloc) {
+   444				msix_map.index = vector;
+   445				msix_map.virq = irq;
+   446				pci_msix_free_irq(pdev, msix_map);
+   447				irq = -EINVAL;
+   448			}
+   449			vfio_pci_memory_unlock_and_restore(vdev, cmd);
+   450			kfree(ctx->name);
+   451			eventfd_ctx_put(ctx->trigger);
+   452			ctx->trigger = NULL;
+   453			if (allow_dyn_alloc) {
+   454				vfio_irq_ctx_free(vdev, ctx, vector);
+   455				ctx = NULL;
+   456			}
+   457		}
+   458	
+   459		if (fd < 0)
+   460			return 0;
+   461	
+   462		if (!ctx) {
+   463			ctx = vfio_irq_ctx_alloc_single(vdev, vector);
+   464			if (!ctx)
+   465				return -ENOMEM;
+   466			new_ctx = true;
+   467		}
+   468	
+   469		ctx->name = kasprintf(GFP_KERNEL_ACCOUNT, "vfio-msi%s[%d](%s)",
+   470				      msix ? "x" : "", vector, pci_name(pdev));
+   471		if (!ctx->name) {
+   472			ret = -ENOMEM;
+   473			goto out_free_ctx;
+   474		}
+   475	
+   476		trigger = eventfd_ctx_fdget(fd);
+   477		if (IS_ERR(trigger)) {
+   478			ret = PTR_ERR(trigger);
+   479			goto out_free_name;
+   480		}
+   481	
+   482		cmd = vfio_pci_memory_lock_and_enable(vdev);
+   483		if (msix) {
+   484			if (irq == -EINVAL) {
+   485				msix_map = pci_msix_alloc_irq_at(pdev, vector, NULL);
+   486				if (msix_map.index < 0) {
+   487					vfio_pci_memory_unlock_and_restore(vdev, cmd);
+   488					ret = msix_map.index;
+   489					goto out_put_eventfd_ctx;
+   490				}
+   491				irq = msix_map.virq;
+   492			} else {
+   493				/*
+   494				 * The MSIx vector table resides in device memory which
+   495				 * may be cleared via backdoor resets. We don't allow
+   496				 * direct access to the vector table so even if a
+   497				 * userspace driver attempts to save/restore around
+   498				 * such a reset it would be unsuccessful. To avoid
+   499				 * this, restore the cached value of the message prior
+   500				 * to enabling.
+   501				 */
+   502				struct msi_msg msg;
+   503	
+   504				get_cached_msi_msg(irq, &msg);
+   505				pci_write_msi_msg(irq, &msg);
+   506			}
+   507		}
+   508	
+   509		ret = request_irq(irq, vfio_msihandler, 0, ctx->name, trigger);
+   510		if (ret)
+   511			goto out_free_irq_locked;
+   512	
+   513		vfio_pci_memory_unlock_and_restore(vdev, cmd);
+   514	
+   515		ctx->producer.token = trigger;
+   516		ctx->producer.irq = irq;
+   517		ret = irq_bypass_register_producer(&ctx->producer);
+   518		if (unlikely(ret)) {
+   519			dev_info(&pdev->dev,
+   520			"irq bypass producer (token %p) registration fails: %d\n",
+   521			ctx->producer.token, ret);
+   522	
+   523			ctx->producer.token = NULL;
+   524		}
+   525		ctx->trigger = trigger;
+   526	
+   527		return 0;
+   528	
+   529	out_free_irq_locked:
+   530		if (allow_dyn_alloc && new_ctx) {
+   531			msix_map.index = vector;
+   532			msix_map.virq = irq;
+   533			pci_msix_free_irq(pdev, msix_map);
+   534		}
+   535		vfio_pci_memory_unlock_and_restore(vdev, cmd);
+   536	out_put_eventfd_ctx:
+   537		eventfd_ctx_put(trigger);
+   538	out_free_name:
+   539		kfree(ctx->name);
+   540		ctx->name = NULL;
+   541	out_free_ctx:
+   542		if (allow_dyn_alloc && new_ctx)
+   543			vfio_irq_ctx_free(vdev, ctx, vector);
+   544		return ret;
+   545	}
+   546	
 
 -- 
 0-DAY CI Kernel Test Service
