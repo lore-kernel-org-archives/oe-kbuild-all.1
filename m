@@ -1,43 +1,49 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D53EC6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 03:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEB2EB8;
+	Wed, 29 Mar 2023 03:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680059976; x=1711595976;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mOOtmsatrbLpFIKro4tM9vRHn3Hf6s9ikOaaWku7nsc=;
-  b=ZCvp+zyHQ4pNBlG6qXr8KOPkycmYIhzhezwYjL4iKqGIORggEp9HJ7Cq
-   vsWPGDIQ38MWQebgbrSk1s0/CYNmmc6vsTL1yj/HCe3TcPVCUN39F1Yny
-   SXWbOHidhwuWA8BKYc+6+yns2eF++kwA6/P11HqxqD/G0gytXsK+3cbUH
-   PggVgDaPB4mwjISnuUYyReTe15bYg5T0uN6qocRwOwsgk0P6ulxJHRE0D
-   qEiN9fWBtgBWOu9LyNZEU7Id97p05qkVIAvP6md6XyD311Wm1lLb9yamk
-   OPCnRPL27Csuymd6bCJdY2XyMQgCw5WQ/h7sJg+jL3urQ994AIj1JdMDQ
+  t=1680060582; x=1711596582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zux2cGUIRDkE6Z2IVIQOmNv5GDDvZe8t52R5ff09Pnc=;
+  b=Cv3O0WExDU7a747t/vfnU81U3HsATfzfwmIAh+GzNYQfVMq02XKAFDhh
+   jbOLwm9ssaWT7QGZ3oBVOuRiF7zQwB6fMwYSdRa2fZZKdgB2KUqr0BxGT
+   YSChHZWz1bdL/bqXUMiY1I16/UFvzQlzGa0pqU9oBe89TFtWYAn3TCyOK
+   l0aIiiA3i/Um+G7UdxtDS5nT750hD7CEGrPHlSknz5m3FxntkL589yaz/
+   05poVXZLulQyYKdFznPvKmSKPKK0X9RknaX6AUiiUv9PUCnueplD0w2DS
+   TG5GbgiLMJ0xPEPHzjwVkt+Bfmr/JE/DO5ksb538s/8mZCD69hzXJyglM
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="343177198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="329226702"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="343177198"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 20:19:34 -0700
+   d="scan'208";a="329226702"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 20:29:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808033415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="686660204"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="808033415"
+   d="scan'208";a="686660204"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 20:19:33 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 28 Mar 2023 20:29:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phMLV-000J9x-0k;
-	Wed, 29 Mar 2023 03:19:33 +0000
-Date: Wed, 29 Mar 2023 11:19:15 +0800
+	id 1phMVD-000JB9-0G;
+	Wed, 29 Mar 2023 03:29:35 +0000
+Date: Wed, 29 Mar 2023 11:29:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/address-helpers 17/20] drivers/fsi/fsi-core.c:420:13:
- error: implicit declaration of function 'of_property_read_reg'; did you mean
- 'of_property_read_s32'?
-Message-ID: <202303291125.CavID9xZ-lkp@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>, jgg@nvidia.com,
+	yishaih@nvidia.com, shameerali.kolothum.thodi@huawei.com,
+	kevin.tian@intel.com, alex.williamson@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tglx@linutronix.de,
+	darwi@linutronix.de, kvm@vger.kernel.org, dave.jiang@intel.com,
+	jing2.liu@intel.com, ashok.raj@intel.com, fenghua.yu@intel.com,
+	tom.zanussi@linux.intel.com, reinette.chatre@intel.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 8/8] vfio/pci: Clear VFIO_IRQ_INFO_NORESIZE for MSI-X
+Message-ID: <202303291158.UlMhtYCO-lkp@intel.com>
+References: <81a6066c0f0d6dfa06f41c016abfb7152064e33e.1680038771.git.reinette.chatre@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,124 +52,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <81a6066c0f0d6dfa06f41c016abfb7152064e33e.1680038771.git.reinette.chatre@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/address-helpers
-head:   3a4e9c2e639e023556eefa93256ce5bf34137a60
-commit: 629a809c284559be2cbd0f0f582d0dc5a46aa0b4 [17/20] fsi: Use of_property_read_reg()
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303291125.CavID9xZ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Reinette,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on 197b6b60ae7bc51dd0814953c562833143b292aa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230329-055735
+base:   197b6b60ae7bc51dd0814953c562833143b292aa
+patch link:    https://lore.kernel.org/r/81a6066c0f0d6dfa06f41c016abfb7152064e33e.1680038771.git.reinette.chatre%40intel.com
+patch subject: [PATCH V2 8/8] vfio/pci: Clear VFIO_IRQ_INFO_NORESIZE for MSI-X
+config: i386-randconfig-a014-20230327 (https://download.01.org/0day-ci/archive/20230329/202303291158.UlMhtYCO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=629a809c284559be2cbd0f0f582d0dc5a46aa0b4
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/address-helpers
-        git checkout 629a809c284559be2cbd0f0f582d0dc5a46aa0b4
+        # https://github.com/intel-lab-lkp/linux/commit/39bc54993b029037b12b4a7e947d6cd500065c6b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230329-055735
+        git checkout 39bc54993b029037b12b4a7e947d6cd500065c6b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/fsi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/vfio/pci/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291125.CavID9xZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291158.UlMhtYCO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/fsi/fsi-core.c: In function 'fsi_device_node_matches':
->> drivers/fsi/fsi-core.c:420:13: error: implicit declaration of function 'of_property_read_reg'; did you mean 'of_property_read_s32'? [-Werror=implicit-function-declaration]
-     420 |         if (of_property_read_reg(np, 0, &paddr, &psize))
-         |             ^~~~~~~~~~~~~~~~~~~~
-         |             of_property_read_s32
-   In file included from include/linux/device.h:15,
-                    from drivers/fsi/fsi-core.c:14:
->> drivers/fsi/fsi-core.c:428:25: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/fsi/fsi-core.c:427:17: note: in expansion of macro 'dev_warn'
-     427 |                 dev_warn(dev,
-         |                 ^~~~~~~~
-   drivers/fsi/fsi-core.c:428:32: note: format string is defined here
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                               ~^
-         |                                |
-         |                                void *
-         |                               %lld
->> drivers/fsi/fsi-core.c:428:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'uint32_t' {aka 'unsigned int'} [-Wformat=]
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/fsi/fsi-core.c:427:17: note: in expansion of macro 'dev_warn'
-     427 |                 dev_warn(dev,
-         |                 ^~~~~~~~
-   drivers/fsi/fsi-core.c:428:83: note: format string is defined here
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                                                                                ~~~^
-         |                                                                                   |
-         |                                                                                   long long unsigned int
-         |                                                                                %x
->> drivers/fsi/fsi-core.c:428:25: warning: format '%x' expects a matching 'unsigned int' argument [-Wformat=]
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/fsi/fsi-core.c:427:17: note: in expansion of macro 'dev_warn'
-     427 |                 dev_warn(dev,
-         |                 ^~~~~~~~
-   drivers/fsi/fsi-core.c:428:98: note: format string is defined here
-     428 |                         "node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-         |                                                                                                 ~^
-         |                                                                                                  |
-         |                                                                                                  unsigned int
-   drivers/fsi/fsi-core.c: In function 'fsi_slave_node_matches':
->> drivers/fsi/fsi-core.c:651:16: error: 'reg' undeclared (first use in this function)
-     651 |         return reg == ((u64)link << 32) | id;
-         |                ^~~
-   drivers/fsi/fsi-core.c:651:16: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/fsi/fsi-core.c:652:1: error: control reaches end of non-void function [-Werror=return-type]
-     652 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> drivers/vfio/pci/vfio_pci_core.c:1116:6: error: implicit declaration of function 'pci_msix_can_alloc_dyn' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                     !pci_msix_can_alloc_dyn(vdev->pdev)))
+                      ^
+   1 error generated.
 
 
-vim +420 drivers/fsi/fsi-core.c
+vim +/pci_msix_can_alloc_dyn +1116 drivers/vfio/pci/vfio_pci_core.c
 
-   414	
-   415	static bool fsi_device_node_matches(struct device *dev, struct device_node *np,
-   416			uint32_t addr, uint32_t size)
-   417	{
-   418		u64 paddr, psize;
-   419	
- > 420		if (of_property_read_reg(np, 0, &paddr, &psize))
-   421			return false;
-   422	
-   423		if (paddr != addr)
-   424			return false;
-   425	
-   426		if (psize != size) {
-   427			dev_warn(dev,
- > 428				"node %pOF matches probed address, but not size (got 0x%llx, expected 0x%x)",
-   429				psize, size);
-   430		}
-   431	
-   432		return true;
-   433	}
-   434	
+  1082	
+  1083	static int vfio_pci_ioctl_get_irq_info(struct vfio_pci_core_device *vdev,
+  1084					       struct vfio_irq_info __user *arg)
+  1085	{
+  1086		unsigned long minsz = offsetofend(struct vfio_irq_info, count);
+  1087		struct vfio_irq_info info;
+  1088	
+  1089		if (copy_from_user(&info, arg, minsz))
+  1090			return -EFAULT;
+  1091	
+  1092		if (info.argsz < minsz || info.index >= VFIO_PCI_NUM_IRQS)
+  1093			return -EINVAL;
+  1094	
+  1095		switch (info.index) {
+  1096		case VFIO_PCI_INTX_IRQ_INDEX ... VFIO_PCI_MSIX_IRQ_INDEX:
+  1097		case VFIO_PCI_REQ_IRQ_INDEX:
+  1098			break;
+  1099		case VFIO_PCI_ERR_IRQ_INDEX:
+  1100			if (pci_is_pcie(vdev->pdev))
+  1101				break;
+  1102			fallthrough;
+  1103		default:
+  1104			return -EINVAL;
+  1105		}
+  1106	
+  1107		info.flags = VFIO_IRQ_INFO_EVENTFD;
+  1108	
+  1109		info.count = vfio_pci_get_irq_count(vdev, info.index);
+  1110	
+  1111		if (info.index == VFIO_PCI_INTX_IRQ_INDEX)
+  1112			info.flags |=
+  1113				(VFIO_IRQ_INFO_MASKABLE | VFIO_IRQ_INFO_AUTOMASKED);
+  1114		else if ((info.index != VFIO_PCI_MSIX_IRQ_INDEX) ||
+  1115			 (info.index == VFIO_PCI_MSIX_IRQ_INDEX &&
+> 1116			  !pci_msix_can_alloc_dyn(vdev->pdev)))
+  1117			info.flags |= VFIO_IRQ_INFO_NORESIZE;
+  1118	
+  1119		return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
+  1120	}
+  1121	
 
 -- 
 0-DAY CI Kernel Test Service
