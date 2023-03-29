@@ -1,48 +1,48 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEB2EB8;
-	Wed, 29 Mar 2023 03:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BA1EB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 03:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680060582; x=1711596582;
+  t=1680060586; x=1711596586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zux2cGUIRDkE6Z2IVIQOmNv5GDDvZe8t52R5ff09Pnc=;
-  b=Cv3O0WExDU7a747t/vfnU81U3HsATfzfwmIAh+GzNYQfVMq02XKAFDhh
-   jbOLwm9ssaWT7QGZ3oBVOuRiF7zQwB6fMwYSdRa2fZZKdgB2KUqr0BxGT
-   YSChHZWz1bdL/bqXUMiY1I16/UFvzQlzGa0pqU9oBe89TFtWYAn3TCyOK
-   l0aIiiA3i/Um+G7UdxtDS5nT750hD7CEGrPHlSknz5m3FxntkL589yaz/
-   05poVXZLulQyYKdFznPvKmSKPKK0X9RknaX6AUiiUv9PUCnueplD0w2DS
-   TG5GbgiLMJ0xPEPHzjwVkt+Bfmr/JE/DO5ksb538s/8mZCD69hzXJyglM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="329226702"
+  bh=CDmOpr2W/GruaXlVq7PTCDeHnClp5NxDsEZ2pjssUUE=;
+  b=k8+wSsIXG4FP3EG07769gFJXqDagKWqNBKKOLofqBoMAimBNdg89gJ1o
+   h8GZ7SOpwoWfZVkWwacqpVOeNQ3zdTRjI7R2ZIDVgbcUycDch2NNq574Q
+   aEaYhzViUkt1q6jLmWTY47wFoaakxprIzndnigmHH8TaFM72FK9YqGzLU
+   KCOLIlvEZ7XOKhAnHvmDf7UNyOri+ALBCU60+BUA2NrmxBHb+QEvb02Sx
+   AVUHGgg+NqxdOo7ILUyEKZffosaW8oHgIGtr98HFb4JFrDHc6hOBvDHYY
+   UiEo21maDA6ta43nN2jLlWZ0Pwc0SPbdUlx0T5PipZNfbMHC9XxiCbdf7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324663458"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="329226702"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 20:29:41 -0700
+   d="scan'208";a="324663458"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 20:29:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="686660204"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="795059289"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="686660204"
+   d="scan'208";a="795059289"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Mar 2023 20:29:37 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 20:29:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phMVD-000JB9-0G;
+	id 1phMVD-000JBB-0Q;
 	Wed, 29 Mar 2023 03:29:35 +0000
-Date: Wed, 29 Mar 2023 11:29:33 +0800
+Date: Wed, 29 Mar 2023 11:29:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Reinette Chatre <reinette.chatre@intel.com>, jgg@nvidia.com,
 	yishaih@nvidia.com, shameerali.kolothum.thodi@huawei.com,
 	kevin.tian@intel.com, alex.williamson@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tglx@linutronix.de,
-	darwi@linutronix.de, kvm@vger.kernel.org, dave.jiang@intel.com,
-	jing2.liu@intel.com, ashok.raj@intel.com, fenghua.yu@intel.com,
+Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, darwi@linutronix.de,
+	kvm@vger.kernel.org, dave.jiang@intel.com, jing2.liu@intel.com,
+	ashok.raj@intel.com, fenghua.yu@intel.com,
 	tom.zanussi@linux.intel.com, reinette.chatre@intel.com,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH V2 8/8] vfio/pci: Clear VFIO_IRQ_INFO_NORESIZE for MSI-X
-Message-ID: <202303291158.UlMhtYCO-lkp@intel.com>
+Message-ID: <202303291114.8inU0hbN-lkp@intel.com>
 References: <81a6066c0f0d6dfa06f41c016abfb7152064e33e.1680038771.git.reinette.chatre@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,30 +64,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Reinette-Chatre/vfio-pci-
 base:   197b6b60ae7bc51dd0814953c562833143b292aa
 patch link:    https://lore.kernel.org/r/81a6066c0f0d6dfa06f41c016abfb7152064e33e.1680038771.git.reinette.chatre%40intel.com
 patch subject: [PATCH V2 8/8] vfio/pci: Clear VFIO_IRQ_INFO_NORESIZE for MSI-X
-config: i386-randconfig-a014-20230327 (https://download.01.org/0day-ci/archive/20230329/202303291158.UlMhtYCO-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: i386-randconfig-a001-20230327 (https://download.01.org/0day-ci/archive/20230329/202303291114.8inU0hbN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/39bc54993b029037b12b4a7e947d6cd500065c6b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230329-055735
         git checkout 39bc54993b029037b12b4a7e947d6cd500065c6b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/vfio/pci/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/vfio/pci/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291158.UlMhtYCO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291114.8inU0hbN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/vfio/pci/vfio_pci_core.c:1116:6: error: implicit declaration of function 'pci_msix_can_alloc_dyn' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                     !pci_msix_can_alloc_dyn(vdev->pdev)))
-                      ^
-   1 error generated.
+   drivers/vfio/pci/vfio_pci_core.c: In function 'vfio_pci_ioctl_get_irq_info':
+>> drivers/vfio/pci/vfio_pci_core.c:1116:20: error: implicit declaration of function 'pci_msix_can_alloc_dyn' [-Werror=implicit-function-declaration]
+    1116 |                   !pci_msix_can_alloc_dyn(vdev->pdev)))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
 vim +/pci_msix_can_alloc_dyn +1116 drivers/vfio/pci/vfio_pci_core.c
