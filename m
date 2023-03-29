@@ -1,243 +1,107 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0245AA44;
-	Wed, 29 Mar 2023 02:32:03 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.43:60248.2003268682
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-	by 189.cn (HERMES) with SMTP id 73AE21002BE;
-	Wed, 29 Mar 2023 10:26:54 +0800 (CST)
-Received: from  ([114.242.206.180])
-	by gateway-151646-dep-7b48884fd-tj646 with ESMTP id aa981a0edace4612916c58baf46d0016 for nathan@kernel.org;
-	Wed, 29 Mar 2023 10:26:58 CST
-X-Transaction-ID: aa981a0edace4612916c58baf46d0016
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <207dfcfa-0fae-ffaa-3e2d-9dbd944a9ad2@189.cn>
-Date: Wed, 29 Mar 2023 10:26:53 +0800
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF90EB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 02:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680058114; x=1711594114;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vjARycvSt8dE9Ra3mjO4BFskaW6a/mD9/pPDIHiPV1Q=;
+  b=hKwxUUWnH6CQsIJyUr4fTm6hSww2E7RasUdQGhfipj8XG+u7gbY4dm0l
+   JkGaeQcj9weO46etEQcDyU2RZwPOnhapuygX8JKTztLPLfi78urvhgo30
+   qIXSv6GjLQzX8KuLTmwFJH8gMntdynnav5nmWjy6hc1TikMZ6Spc/Svve
+   gNGVj8td1fsS8bebfReeDh81bBAuc6iePE/6a6NplRznHVt2O5ic52f3Z
+   D+fqlt1zjw80rIYOhg4oo4CG7I3+wlj5BUkMpZMOX6eEPrbDdt0zgsKZn
+   /PLSZ7lvZxYpoqY0hyhMcfChu8r1FtObmnE61rxKlOFKxuqVptygUZFti
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403376125"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="403376125"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 19:48:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="753412927"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="753412927"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 19:48:32 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phLrT-000J7P-2g;
+	Wed, 29 Mar 2023 02:48:31 +0000
+Date: Wed, 29 Mar 2023 10:48:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.3-rc3-net-next-ethtool-eee-v5 /24]
+ drivers/net/phy/phy-c45.c:1397: warning: expecting prototype for
+ phy_eee_clk_stop_enable(). Prototype was for
+ genphy_c45_eee_clk_stop_enable() instead
+Message-ID: <202303291029.SwY2Fht0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v8 2/2] drm: add kms driver for loongson display
- controller
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>
-References: <20230320100131.1277034-3-15330273260@189.cn>
- <202303281754.jWI20j2C-lkp@intel.com>
- <027cf6d5-6de2-3424-7a81-a43ab689c3d4@189.cn>
- <20230328170636.GA1986005@dev-arch.thelio-3990X>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230328170636.GA1986005@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/lunn/linux.git v6.3-rc3-net-next-ethtool-eee-v5
+head:   900606855a3fbafc543b01a40e85cc77333e55de
+commit: 318d7117017d65c672d9a5ff93473035fa677366 [/24] net: phy: Add helper to set EEE Clock stop enable bit
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230329/202303291029.SwY2Fht0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/lunn/linux/commit/318d7117017d65c672d9a5ff93473035fa677366
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.3-rc3-net-next-ethtool-eee-v5
+        git checkout 318d7117017d65c672d9a5ff93473035fa677366
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/phy/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291029.SwY2Fht0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/phy/phy-c45.c:1397: warning: expecting prototype for phy_eee_clk_stop_enable(). Prototype was for genphy_c45_eee_clk_stop_enable() instead
 
 
-On 2023/3/29 01:06, Nathan Chancellor wrote:
-> On Tue, Mar 28, 2023 at 11:22:50PM +0800, Sui Jingfeng wrote:
->> HI,
->>
->> On 2023/3/28 17:27, kernel test robot wrote:
->>> Hi Sui,
->>>
->>> Thank you for the patch! Perhaps something to improve:
->>>
->>> [auto build test WARNING on drm-misc/drm-misc-next]
->>> [also build test WARNING on linus/master v6.3-rc4 next-20230328]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
->>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>> patch link:    https://lore.kernel.org/r/20230320100131.1277034-3-15330273260%40189.cn
->>> patch subject: [PATCH v8 2/2] drm: add kms driver for loongson display controller
->>> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.jWI20j2C-lkp@intel.com/config)
->>> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
->>> reproduce (this is a W=1 build):
->>>           wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>           chmod +x ~/bin/make.cross
->>>           # https://github.com/intel-lab-lkp/linux/commit/80b4115f44993f4ebf47b1cb9e8f02953575b977
->>>           git remote add linux-review https://github.com/intel-lab-lkp/linux
->>>           git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
->>>           git checkout 80b4115f44993f4ebf47b1cb9e8f02953575b977
->>>           # save the config file
->>>           mkdir build_dir && cp config build_dir/.config
->>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
->>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/accel/ drivers/gpu/drm/loongson/ drivers/iio/light/ drivers/media/pci/intel/
->>>
->>> If you fix the issue, kindly add following tag where applicable
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Link: https://lore.kernel.org/oe-kbuild-all/202303281754.jWI20j2C-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>>> drivers/gpu/drm/loongson/lsdc_drv.c:232:11: warning: variable 'gpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->>>              else if (descp->chip == CHIP_LS7A2000)
->>>                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:235:7: note: uninitialized use occurs here
->>>              if (!gpu) {
->>>                   ^~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:232:7: note: remove the 'if' if its condition is always true
->>>              else if (descp->chip == CHIP_LS7A2000)
->>>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:217:21: note: initialize the variable 'gpu' to silence this warning
->>>              struct pci_dev *gpu;
->>>                                 ^
->>>                                  = NULL
->>>      1 warning generated.
->>> --
->> In practice,  either  descp->chip == CHIP_LS7A2000 or descp->chip ==
->> CHIP_LS7A1000 will be happened at runtime.
->>
->> the variable 'gpu' is guaranteed to be initialized when code run at
->> drivers/gpu/drm/loongson/lsdc_drv.c:235
->>
->> This warnning is almost wrong here.
-> Clang's semantic analysis happens before optimizations, meaning it does
-> not perform interprocedural analysis, so it does not have enough
-> information at this point to tell that. Either just initialize gpu to
-> NULL and let the existing 'if (!gpu)' handle it or add a separate else
-> branch that warns about an unhandled chip value so that it is obvious
-> what needs to be done if someone forgets to update this statement when a
-> new chip is supported by this driver.
+vim +1397 drivers/net/phy/phy-c45.c
 
-Right,  I overlook the point you mentioned previously.
+  1388	
+  1389	/**
+  1390	 * phy_eee_clk_stop_enable - Clock should stop during LPI signalling
+  1391	 * @phydev: target phy_device struct
+  1392	 *
+  1393	 * Description: Program the MMD register 3.0 setting the "Clock stop enable"
+  1394	 * bit.
+  1395	 */
+  1396	int genphy_c45_eee_clk_stop_enable(struct phy_device *phydev)
+> 1397	{
+  1398		int ret;
+  1399	
+  1400		/* IEEE 802.3:2018 - 45.2.3.2.6 Clock stop capable (3.1.6) */
+  1401		ret = phy_read_mmd(phydev, MDIO_MMD_PCS, MDIO_STAT1);
+  1402		if (ret < 0)
+  1403			return ret;
+  1404	
+  1405		if (ret & MDIO_STAT1_CLKSTOP_CAPABLE)
+  1406			/* IEEE 802.3-2018 45.2.3.1.4 Clock stop enable (3.0.10) */
+  1407			return phy_set_bits_mmd(phydev, MDIO_MMD_PCS, MDIO_CTRL1,
+  1408						MDIO_PCS_CTRL1_CLKSTOP_EN);
+  1409		return 0;
+  1410	}
+  1411	EXPORT_SYMBOL_GPL(genphy_c45_eee_clk_stop_enable);
+  1412	
 
-And I just have a new idea,  using pci_get_domain_bus_and_slot function
-
-to handle this.  the DC and the GPU have the same pci bus number and  
-domain number.
-
-The slot number of the dc and gpu is also same(6), only the function 
-number is different.
-
-
-For ls7a1000,  what lspci -t -nnn -vvv show is:
-
--[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a00]
-
-            ...
-
-            +-06.0  Loongson Technology LLC Vivante GPU (Graphics 
-Processing Unit) [0014:7a15]
-            +-06.1  Loongson Technology LLC DC (Display Controller) 
-[0014:7a06]
-
-            ...
-
-
-For ls7a2000, what lspci -t -nnn -vvv show is:
-
--[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a00]
-            +-00.1  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a10]
-            ...
-            +-06.0  Loongson Technology LLC LoongGPU Device [0014:7a25]
-            +-06.1  Loongson Technology LLC DC (Display Controller) 
-Device [0014:7a36]
-            +-06.2  Loongson Technology LLC Audio Device [0014:7a37]
-
-             ...
-
-So
-
-pdev_gpu = pci_get_domain_bus_and_slot(pci_domain_nr(pdev_dc->bus),
-                            pdev_dc->bus->number,
-                            PCI_DEVFN(6, 0));
-
-
-can help to handle all case, will this be ok?
-
-
->>>>> drivers/gpu/drm/loongson/lsdc_pll.c:188:14: warning: variable 'diff' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->>>                                      else if (clock_khz < computed)
->>>                                               ^~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:191:9: note: uninitialized use occurs here
->>>                                      if (diff < min) {
->>>                                          ^~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:188:10: note: remove the 'if' if its condition is always true
->>>                                      else if (clock_khz < computed)
->>>                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:177:22: note: initialize the variable 'diff' to silence this warning
->>>                                      unsigned int diff;
->>>                                                       ^
->>>                                                        = 0
->>>      1 warning generated.
->> Here the robot is also wrong here in practice,
->>
->> because either  if (clock_khz >= computed) or else if (clock_khz < computed)
->> will be happen.
->>
->> 'diff' variable is guaranteed to be initialized.
-> Make that clearer by turning 'else if (clock_khz < computed)' into just
-> 'else' as the warning suggests? I do not see why the condition is
-> specified at all if it is just an 'else' in practice.
-
-Yes, you are right.
-
-The test robot do find something,  i will fix this at next version.
-
-> Cheers,
-> Nathan
->
->>> vim +232 drivers/gpu/drm/loongson/lsdc_drv.c
->>>
->>>      212	
->>>      213	static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
->>>      214					   const struct lsdc_desc *descp)
->>>      215	{
->>>      216		struct drm_device *ddev = &ldev->base;
->>>      217		struct pci_dev *gpu;
->>>      218		resource_size_t base, size;
->>>      219	
->>>      220		/*
->>>      221		 * The GPU and display controller in LS7A1000/LS7A2000 are separated
->>>      222		 * PCIE devices, they are two devices not one. The DC does not has a
->>>      223		 * dedicate VRAM bar, because the BIOS engineer choose to assign the
->>>      224		 * VRAM to the GPU device. Sadly, after years application, this form
->>>      225		 * as a convention for loongson integrated graphics. Bar 2 of the GPU
->>>      226		 * device contain the base address and size of the VRAM, both the GPU
->>>      227		 * and the DC can access the on-board VRAM as long as the DMA address
->>>      228		 * emitted fall in [base, base + size).
->>>      229		 */
->>>      230		if (descp->chip == CHIP_LS7A1000)
->>>      231			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
->>>    > 232		else if (descp->chip == CHIP_LS7A2000)
->>>      233			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
->>>      234	
->>>      235		if (!gpu) {
->>>      236			drm_warn(ddev, "No GPU device found\n");
->>>      237			return -ENODEV;
->>>      238		}
->>>      239	
->>>      240		base = pci_resource_start(gpu, 2);
->>>      241		size = pci_resource_len(gpu, 2);
->>>      242	
->>>      243		ldev->vram_base = base;
->>>      244		ldev->vram_size = size;
->>>      245	
->>>      246		drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
->>>      247			 (u64)base, (u32)(size >> 20));
->>>      248	
->>>      249		return 0;
->>>      250	}
->>>      251	
->>>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
