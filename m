@@ -1,42 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690771102
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 07:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6391102
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 07:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680075405; x=1711611405;
+  t=1680076004; x=1711612004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NDW+4F8uADaon0OIEsKwJv4vHVXWeM0DMgqQw8Pkf/Y=;
-  b=jUUIwDmeUlQV/xoTX9hEnMRBknvBa/ViPhrQEGqY9tCaiqjjVtZZA6Bq
-   jI9EVxTku3ACl3EVGjQ9Q6f+01la0MGEKo2TenzZuZf9fJmdArKU0mbRt
-   swYXS2cCQiYB7SfxjcvSH9GwybXhEbu77kMNEpnzsWzlA0JlDX4xeKi3Z
-   e1OYUFc1auOjKqJXmGSdNqGYKBWWVgXfs1jbPKUtuVNaxWa9+10MF9rrp
-   YS6wS/VG7uaZDd6iDTqxWb7fMHY/26faCsgzn5lq5nO2j6Fg425faoMD0
-   WYN7ZxVHYrE8oQGTpCuOTx8OVJ0NeLFMwG+VvO2jjuN6wKOsAk4HM/1bZ
+  bh=iKXifoHx5lElDCWRpDNmBAS/JgQk8h6DxWJOuVMFqkU=;
+  b=VV3pw8a2+xf1a9uebAFqC76wB7qckD0/FIXBt/AngUYohaItOj3c+2p2
+   O+Im2lRuMp7sqUqjpLlFUuS7Nlg7LsFaArxn7t2CI0CDMfUb9/pe/vTDl
+   901JV9KPlnyO/+Q4zqCpwQoUFLKF7DXjWXXxSERgUIpqjvC7hFvYE/27r
+   kkvR2JkL8ICrQ1oKVP/EWXlbXiY5EWBlx2ee0MkwEV1XKAJBIN0dsdB2+
+   kCW76TuQUQAjhyA8Ei/+WV+VCjSn7rCkCt1QBFApR1OKYOLLy2sVweUqK
+   FrrRJR+ZAYVRUEdf1kQej9A2PuK3XUx+U0Q0lJPTdd67HfrzP+sqrcre1
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403427349"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324709788"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="403427349"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 00:36:43 -0700
+   d="scan'208";a="324709788"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 00:46:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="714535069"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808101072"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="714535069"
+   d="scan'208";a="808101072"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 29 Mar 2023 00:36:41 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Mar 2023 00:46:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phQMK-000JJe-2B;
-	Wed, 29 Mar 2023 07:36:40 +0000
-Date: Wed, 29 Mar 2023 15:35:53 +0800
+	id 1phQW1-000JLW-2J;
+	Wed, 29 Mar 2023 07:46:41 +0000
+Date: Wed, 29 Mar 2023 15:46:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:20230328-module-alloc-opts 40/40]
- kernel/module/tracking.c:18:39: error: expected ';' before 'int'
-Message-ID: <202303291533.36FfMXoT-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 28981/30000]
+ drivers/staging/olpc_dcon/olpc_dcon.c:605:13: error: 'num_registered_fb'
+ undeclared; did you mean 'WB_registered'?
+Message-ID: <202303291517.1D5BSZaU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,162 +48,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230328-module-alloc-opts
-head:   6a931d2d6ad46e4090218b63a131b8c9591699e0
-commit: 6a931d2d6ad46e4090218b63a131b8c9591699e0 [40/40] module: add debug stats to help identify memory pressure
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230329/202303291533.36FfMXoT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   3d06aac2e0879c67834fd31862ed9689255d9d18
+commit: c569f6601cd01d049191bf568437144a5ac7d7e3 [28981/30000] UPSTREAM: fbdev: Make registered_fb[] private to fbmem.c
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230329/202303291517.1D5BSZaU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=6a931d2d6ad46e4090218b63a131b8c9591699e0
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230328-module-alloc-opts
-        git checkout 6a931d2d6ad46e4090218b63a131b8c9591699e0
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout c569f6601cd01d049191bf568437144a5ac7d7e3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291533.36FfMXoT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291517.1D5BSZaU-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/module/stats.c: In function 'read_file_mod_stats':
->> kernel/module/stats.c:120:38: warning: variable 'floads' set but not used [-Wunused-but-set-variable]
-     120 |         u32 live_mod_count, fkreads, floads;
-         |                                      ^~~~~~
->> kernel/module/stats.c:120:29: warning: variable 'fkreads' set but not used [-Wunused-but-set-variable]
-     120 |         u32 live_mod_count, fkreads, floads;
-         |                             ^~~~~~~
---
->> kernel/module/tracking.c:18:39: error: expected ';' before 'int'
-      18 | extern struct dentry *mod_debugfs_root
-         |                                       ^
-         |                                       ;
-      19 | 
-      20 | int try_add_tainted_module(struct module *mod)
-         | ~~~                                    
-   kernel/module/tracking.c: In function 'unloaded_tainted_modules_init':
->> kernel/module/tracking.c:124:55: error: 'mod_debugfs_root' undeclared (first use in this function)
-     124 |         debugfs_create_file("unloaded_tainted", 0444, mod_debugfs_root, NULL,
-         |                                                       ^~~~~~~~~~~~~~~~
-   kernel/module/tracking.c:124:55: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/staging/olpc_dcon/olpc_dcon.c: In function 'dcon_probe':
+>> drivers/staging/olpc_dcon/olpc_dcon.c:605:13: error: 'num_registered_fb' undeclared (first use in this function); did you mean 'WB_registered'?
+     605 |         if (num_registered_fb < 1) {
+         |             ^~~~~~~~~~~~~~~~~
+         |             WB_registered
+   drivers/staging/olpc_dcon/olpc_dcon.c:605:13: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/staging/olpc_dcon/olpc_dcon.c:610:24: error: 'registered_fb' undeclared (first use in this function)
+     610 |         dcon->fbinfo = registered_fb[0];
+         |                        ^~~~~~~~~~~~~
 
 
-vim +18 kernel/module/tracking.c
+vim +605 drivers/staging/olpc_dcon/olpc_dcon.c
 
-    16	
-    17	static LIST_HEAD(unloaded_tainted_modules);
-  > 18	extern struct dentry *mod_debugfs_root
-    19	
-    20	int try_add_tainted_module(struct module *mod)
-    21	{
-    22		struct mod_unload_taint *mod_taint;
-    23	
-    24		module_assert_mutex_or_preempt();
-    25	
-    26		if (!mod->taints)
-    27			goto out;
-    28	
-    29		list_for_each_entry_rcu(mod_taint, &unloaded_tainted_modules, list,
-    30					lockdep_is_held(&module_mutex)) {
-    31			if (!strcmp(mod_taint->name, mod->name) &&
-    32			    mod_taint->taints & mod->taints) {
-    33				mod_taint->count++;
-    34				goto out;
-    35			}
-    36		}
-    37	
-    38		mod_taint = kmalloc(sizeof(*mod_taint), GFP_KERNEL);
-    39		if (unlikely(!mod_taint))
-    40			return -ENOMEM;
-    41		strscpy(mod_taint->name, mod->name, MODULE_NAME_LEN);
-    42		mod_taint->taints = mod->taints;
-    43		list_add_rcu(&mod_taint->list, &unloaded_tainted_modules);
-    44		mod_taint->count = 1;
-    45	out:
-    46		return 0;
-    47	}
-    48	
-    49	void print_unloaded_tainted_modules(void)
-    50	{
-    51		struct mod_unload_taint *mod_taint;
-    52		char buf[MODULE_FLAGS_BUF_SIZE];
-    53	
-    54		if (!list_empty(&unloaded_tainted_modules)) {
-    55			printk(KERN_DEFAULT "Unloaded tainted modules:");
-    56			list_for_each_entry_rcu(mod_taint, &unloaded_tainted_modules,
-    57						list) {
-    58				size_t l;
-    59	
-    60				l = module_flags_taint(mod_taint->taints, buf);
-    61				buf[l++] = '\0';
-    62				pr_cont(" %s(%s):%llu", mod_taint->name, buf,
-    63					mod_taint->count);
-    64			}
-    65		}
-    66	}
-    67	
-    68	#ifdef CONFIG_DEBUG_FS
-    69	static void *unloaded_tainted_modules_seq_start(struct seq_file *m, loff_t *pos)
-    70		__acquires(rcu)
-    71	{
-    72		rcu_read_lock();
-    73		return seq_list_start_rcu(&unloaded_tainted_modules, *pos);
-    74	}
-    75	
-    76	static void *unloaded_tainted_modules_seq_next(struct seq_file *m, void *p, loff_t *pos)
-    77	{
-    78		return seq_list_next_rcu(p, &unloaded_tainted_modules, pos);
-    79	}
-    80	
-    81	static void unloaded_tainted_modules_seq_stop(struct seq_file *m, void *p)
-    82		__releases(rcu)
-    83	{
-    84		rcu_read_unlock();
-    85	}
-    86	
-    87	static int unloaded_tainted_modules_seq_show(struct seq_file *m, void *p)
-    88	{
-    89		struct mod_unload_taint *mod_taint;
-    90		char buf[MODULE_FLAGS_BUF_SIZE];
-    91		size_t l;
-    92	
-    93		mod_taint = list_entry(p, struct mod_unload_taint, list);
-    94		l = module_flags_taint(mod_taint->taints, buf);
-    95		buf[l++] = '\0';
-    96	
-    97		seq_printf(m, "%s (%s) %llu", mod_taint->name, buf, mod_taint->count);
-    98		seq_puts(m, "\n");
-    99	
-   100		return 0;
-   101	}
-   102	
-   103	static const struct seq_operations unloaded_tainted_modules_seq_ops = {
-   104		.start = unloaded_tainted_modules_seq_start,
-   105		.next  = unloaded_tainted_modules_seq_next,
-   106		.stop  = unloaded_tainted_modules_seq_stop,
-   107		.show  = unloaded_tainted_modules_seq_show,
-   108	};
-   109	
-   110	static int unloaded_tainted_modules_open(struct inode *inode, struct file *file)
-   111	{
-   112		return seq_open(file, &unloaded_tainted_modules_seq_ops);
-   113	}
-   114	
-   115	static const struct file_operations unloaded_tainted_modules_fops = {
-   116		.open = unloaded_tainted_modules_open,
-   117		.read = seq_read,
-   118		.llseek = seq_lseek,
-   119		.release = seq_release,
-   120	};
-   121	
-   122	static int __init unloaded_tainted_modules_init(void)
-   123	{
- > 124		debugfs_create_file("unloaded_tainted", 0444, mod_debugfs_root, NULL,
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  584  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  585  static int dcon_probe(struct i2c_client *client, const struct i2c_device_id *id)
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  586  {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  587  	struct dcon_priv *dcon;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  588  	int rc, i, j;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  589  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  590  	if (!pdata)
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  591  		return -ENXIO;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  592  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  593  	dcon = kzalloc(sizeof(*dcon), GFP_KERNEL);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  594  	if (!dcon)
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  595  		return -ENOMEM;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  596  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  597  	dcon->client = client;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  598  	init_waitqueue_head(&dcon->waitq);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  599  	INIT_WORK(&dcon->switch_source, dcon_source_switch);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  600  	dcon->reboot_nb.notifier_call = dcon_reboot_notify;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  601  	dcon->reboot_nb.priority = -1;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  602  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  603  	i2c_set_clientdata(client, dcon);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  604  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04 @605  	if (num_registered_fb < 1) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  606  		dev_err(&client->dev, "DCON driver requires a registered fb\n");
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  607  		rc = -EIO;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  608  		goto einit;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  609  	}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04 @610  	dcon->fbinfo = registered_fb[0];
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  611  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  612  	rc = dcon_hw_init(dcon, 1);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  613  	if (rc)
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  614  		goto einit;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  615  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  616  	/* Add the DCON device */
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  617  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  618  	dcon_device = platform_device_alloc("dcon", -1);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  619  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  620  	if (!dcon_device) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  621  		pr_err("Unable to create the DCON device\n");
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  622  		rc = -ENOMEM;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  623  		goto eirq;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  624  	}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  625  	rc = platform_device_add(dcon_device);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  626  	platform_set_drvdata(dcon_device, dcon);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  627  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  628  	if (rc) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  629  		pr_err("Unable to add the DCON device\n");
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  630  		goto edev;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  631  	}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  632  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  633  	for (i = 0; i < ARRAY_SIZE(dcon_device_files); i++) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  634  		rc = device_create_file(&dcon_device->dev,
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  635  					&dcon_device_files[i]);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  636  		if (rc) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  637  			dev_err(&dcon_device->dev, "Cannot create sysfs file\n");
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  638  			goto ecreate;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  639  		}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  640  	}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  641  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  642  	dcon->bl_val = dcon_read(dcon, DCON_REG_BRIGHT) & 0x0F;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  643  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  644  	/* Add the backlight device for the DCON */
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  645  	dcon_bl_props.brightness = dcon->bl_val;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  646  	dcon->bl_dev = backlight_device_register("dcon-bl", &dcon_device->dev,
+848d9eabcaebf21 Zebulon McCorkle   2017-11-21  647  						 dcon, &dcon_bl_ops,
+848d9eabcaebf21 Zebulon McCorkle   2017-11-21  648  						 &dcon_bl_props);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  649  	if (IS_ERR(dcon->bl_dev)) {
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  650  		dev_err(&client->dev, "cannot register backlight dev (%ld)\n",
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  651  			PTR_ERR(dcon->bl_dev));
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  652  		dcon->bl_dev = NULL;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  653  	}
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  654  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  655  	register_reboot_notifier(&dcon->reboot_nb);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  656  	atomic_notifier_chain_register(&panic_notifier_list, &dcon_panic_nb);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  657  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  658  	return 0;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  659  
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  660   ecreate:
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  661  	for (j = 0; j < i; j++)
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  662  		device_remove_file(&dcon_device->dev, &dcon_device_files[j]);
+4996b4610767064 Jing Xiangfeng     2020-11-20  663  	platform_device_del(dcon_device);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  664   edev:
+4996b4610767064 Jing Xiangfeng     2020-11-20  665  	platform_device_put(dcon_device);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  666  	dcon_device = NULL;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  667   eirq:
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  668  	free_irq(DCON_IRQ, dcon);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  669   einit:
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  670  	kfree(dcon);
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  671  	return rc;
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  672  }
+53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  673  
+
+:::::: The code at line 605 was first introduced by commit
+:::::: 53c43c5ca13328ac8f415aa2251791b441a12b51 Revert "Staging: olpc_dcon: Remove obsolete driver"
+
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
