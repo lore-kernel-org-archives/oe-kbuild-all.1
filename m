@@ -1,56 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2F26ADB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754D86FA2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680115033; x=1711651033;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FbAW5hJcEPp+g9Ac5hrxCsaF479gOltUGf/yQKYrhw8=;
-  b=Dsn6FQVjKADZsTFMWhnhD21aNCqcoW9K0ZU2GR2yRydZGBFLDg9BH5xY
-   YFGQS5gxzBGAc0/uuEinBJRckaaM89b+CHOWEZCEZ13dsDjkUuMALq9v6
-   fJXYEMrqaMribH4eCrZd6+C0fY5wwRkp6u475SDxfc1AMYNTWFBVT2orJ
-   nqCmQL3AEs4epgeRg6+njXArVkhq69DiFLOIILNliEuocAaMZuv5RCN8n
-   5F0/IZx4ycDHFivddluZJUS+814AWC9V4pZFnCxFQ6pdpRHYttg/NdwAJ
-   GHzAggQzslqS1NIw19/VlBSIu68igZFSyElAH4tXlI3cPrC3kg/HiFS6M
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427243789"
+  t=1680116290; x=1711652290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ljrfnDxbr6tNexL3uEz0cAUdzMrGQ6M9pENRFgx4P4Q=;
+  b=JbKc9PS4avrcGC5VESz8IbqKMEzGufMhlfmPdUg97juf/GBDPklVIvRb
+   uvCAITCzDSN10zEhKZlcVi/T5egTIIkIYzQC3hCyL77D5YRPW1ZO2eAHV
+   MHIZwT222QlIGhaH+7ukVf0aKjwBahnA823yfAKDjkcNPfF4a9ZRWd8VS
+   MjRCnlHFZB++ExqqVjDTM2tKCuEBG3u+9AGXuXaQfTAFosjXtR1g8Yhp/
+   kT/k7QvKD5iMdeGbMXS7yjjbkA2TMCm7Fsnk4jLoeInquGxVqqkikKz47
+   eaRfSyOAe9QdKgsPH5TKNGxBZ59BgVMg848C156+yapGDXKYHA0t86SrB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342583447"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="427243789"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:37:12 -0700
+   d="scan'208";a="342583447"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014137919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="686947687"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="1014137919"
+   d="scan'208";a="686947687"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 11:37:07 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2023 11:58:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phafS-000Jp4-2L;
-	Wed, 29 Mar 2023 18:37:06 +0000
-Date: Thu, 30 Mar 2023 02:36:31 +0800
+	id 1phazn-000JqS-1Y;
+	Wed, 29 Mar 2023 18:58:07 +0000
+Date: Thu, 30 Mar 2023 02:57:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
-	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v8 6/9] nvmet: add copy command support for bdev and file
- ns
-Message-ID: <202303300238.vmt9ne37-lkp@intel.com>
-References: <20230327084103.21601-7-anuj20.g@samsung.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:acpi-header-cleanup 1/1]
+ drivers/tty/serial/8250/8250_tegra.c:68:15: error: implicit declaration of
+ function 'of_alias_get_id'
+Message-ID: <202303300209.MkcO2xDE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,142 +46,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230327084103.21601-7-anuj20.g@samsung.com>
 
-Hi Anuj,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230329]
-[cannot apply to device-mapper-dm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230327084103.21601-7-anuj20.g%40samsung.com
-patch subject: [PATCH v8 6/9] nvmet: add copy command support for bdev and file ns
-config: arm64-randconfig-s041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300238.vmt9ne37-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git acpi-header-cleanup
+head:   333a203a26446521eac7046c6fb7426997569bf8
+commit: 333a203a26446521eac7046c6fb7426997569bf8 [1/1] ACPI: Replace irqdomain.h include with struct declarations
+config: ia64-randconfig-r036-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300209.MkcO2xDE-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f846a8ac40882d9d42532e9e2b43560650ef8510
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
-        git checkout f846a8ac40882d9d42532e9e2b43560650ef8510
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=333a203a26446521eac7046c6fb7426997569bf8
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh acpi-header-cleanup
+        git checkout 333a203a26446521eac7046c6fb7426997569bf8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/nvme/target/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/tty/serial/8250/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300238.vmt9ne37-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300209.MkcO2xDE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/admin-cmd.c:539:29: sparse: sparse: cast from restricted __le16
+All errors (new ones prefixed by >>):
 
-vim +539 drivers/nvme/target/admin-cmd.c
+   drivers/tty/serial/8250/8250_tegra.c: In function 'tegra_uart_probe':
+>> drivers/tty/serial/8250/8250_tegra.c:68:15: error: implicit declaration of function 'of_alias_get_id' [-Werror=implicit-function-declaration]
+      68 |         ret = of_alias_get_id(pdev->dev.of_node, "serial");
+         |               ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   490	
-   491	static void nvmet_execute_identify_ns(struct nvmet_req *req)
-   492	{
-   493		struct nvme_id_ns *id;
-   494		u16 status;
-   495	
-   496		if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
-   497			req->error_loc = offsetof(struct nvme_identify, nsid);
-   498			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
-   499			goto out;
-   500		}
-   501	
-   502		id = kzalloc(sizeof(*id), GFP_KERNEL);
-   503		if (!id) {
-   504			status = NVME_SC_INTERNAL;
-   505			goto out;
-   506		}
-   507	
-   508		/* return an all zeroed buffer if we can't find an active namespace */
-   509		status = nvmet_req_find_ns(req);
-   510		if (status) {
-   511			status = 0;
-   512			goto done;
-   513		}
-   514	
-   515		if (nvmet_ns_revalidate(req->ns)) {
-   516			mutex_lock(&req->ns->subsys->lock);
-   517			nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
-   518			mutex_unlock(&req->ns->subsys->lock);
-   519		}
-   520	
-   521		/*
-   522		 * nuse = ncap = nsze isn't always true, but we have no way to find
-   523		 * that out from the underlying device.
-   524		 */
-   525		id->ncap = id->nsze =
-   526			cpu_to_le64(req->ns->size >> req->ns->blksize_shift);
-   527		switch (req->port->ana_state[req->ns->anagrpid]) {
-   528		case NVME_ANA_INACCESSIBLE:
-   529		case NVME_ANA_PERSISTENT_LOSS:
-   530			break;
-   531		default:
-   532			id->nuse = id->nsze;
-   533			break;
-   534		}
-   535	
-   536		if (req->ns->bdev)
-   537			nvmet_bdev_set_limits(req->ns->bdev, id);
-   538		else {
- > 539			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
-   540			id->mssrl = cpu_to_le16(BIO_MAX_VECS <<
-   541					(PAGE_SHIFT - SECTOR_SHIFT));
-   542			id->mcl = cpu_to_le32(le16_to_cpu(id->mssrl));
-   543		}
-   544	
-   545		/*
-   546		 * We just provide a single LBA format that matches what the
-   547		 * underlying device reports.
-   548		 */
-   549		id->nlbaf = 0;
-   550		id->flbas = 0;
-   551	
-   552		/*
-   553		 * Our namespace might always be shared.  Not just with other
-   554		 * controllers, but also with any other user of the block device.
-   555		 */
-   556		id->nmic = NVME_NS_NMIC_SHARED;
-   557		id->anagrpid = cpu_to_le32(req->ns->anagrpid);
-   558	
-   559		memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
-   560	
-   561		id->lbaf[0].ds = req->ns->blksize_shift;
-   562	
-   563		if (req->sq->ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
-   564			id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
-   565				  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
-   566				  NVME_NS_DPC_PI_TYPE3;
-   567			id->mc = NVME_MC_EXTENDED_LBA;
-   568			id->dps = req->ns->pi_type;
-   569			id->flbas = NVME_NS_FLBAS_META_EXT;
-   570			id->lbaf[0].ms = cpu_to_le16(req->ns->metadata_size);
-   571		}
-   572	
-   573		if (req->ns->readonly)
-   574			id->nsattr |= NVME_NS_ATTR_RO;
-   575	done:
-   576		if (!status)
-   577			status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-   578	
-   579		kfree(id);
-   580	out:
-   581		nvmet_req_complete(req, status);
-   582	}
-   583	
+
+vim +/of_alias_get_id +68 drivers/tty/serial/8250/8250_tegra.c
+
+c6825c6395b7db Jeff Brasen 2020-01-29   41  
+c6825c6395b7db Jeff Brasen 2020-01-29   42  static int tegra_uart_probe(struct platform_device *pdev)
+c6825c6395b7db Jeff Brasen 2020-01-29   43  {
+c6825c6395b7db Jeff Brasen 2020-01-29   44  	struct uart_8250_port port8250;
+c6825c6395b7db Jeff Brasen 2020-01-29   45  	struct tegra_uart *uart;
+c6825c6395b7db Jeff Brasen 2020-01-29   46  	struct uart_port *port;
+c6825c6395b7db Jeff Brasen 2020-01-29   47  	struct resource *res;
+c6825c6395b7db Jeff Brasen 2020-01-29   48  	int ret;
+c6825c6395b7db Jeff Brasen 2020-01-29   49  
+c6825c6395b7db Jeff Brasen 2020-01-29   50  	uart = devm_kzalloc(&pdev->dev, sizeof(*uart), GFP_KERNEL);
+c6825c6395b7db Jeff Brasen 2020-01-29   51  	if (!uart)
+c6825c6395b7db Jeff Brasen 2020-01-29   52  		return -ENOMEM;
+c6825c6395b7db Jeff Brasen 2020-01-29   53  
+c6825c6395b7db Jeff Brasen 2020-01-29   54  	memset(&port8250, 0, sizeof(port8250));
+c6825c6395b7db Jeff Brasen 2020-01-29   55  
+c6825c6395b7db Jeff Brasen 2020-01-29   56  	port = &port8250.port;
+c6825c6395b7db Jeff Brasen 2020-01-29   57  	spin_lock_init(&port->lock);
+c6825c6395b7db Jeff Brasen 2020-01-29   58  
+c6825c6395b7db Jeff Brasen 2020-01-29   59  	port->flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF | UPF_FIXED_PORT |
+c6825c6395b7db Jeff Brasen 2020-01-29   60  		      UPF_FIXED_TYPE;
+c6825c6395b7db Jeff Brasen 2020-01-29   61  	port->iotype = UPIO_MEM32;
+c6825c6395b7db Jeff Brasen 2020-01-29   62  	port->regshift = 2;
+c6825c6395b7db Jeff Brasen 2020-01-29   63  	port->type = PORT_TEGRA;
+c6825c6395b7db Jeff Brasen 2020-01-29   64  	port->irqflags |= IRQF_SHARED;
+c6825c6395b7db Jeff Brasen 2020-01-29   65  	port->dev = &pdev->dev;
+c6825c6395b7db Jeff Brasen 2020-01-29   66  	port->handle_break = tegra_uart_handle_break;
+c6825c6395b7db Jeff Brasen 2020-01-29   67  
+c6825c6395b7db Jeff Brasen 2020-01-29  @68  	ret = of_alias_get_id(pdev->dev.of_node, "serial");
+c6825c6395b7db Jeff Brasen 2020-01-29   69  	if (ret >= 0)
+c6825c6395b7db Jeff Brasen 2020-01-29   70  		port->line = ret;
+c6825c6395b7db Jeff Brasen 2020-01-29   71  
+c6825c6395b7db Jeff Brasen 2020-01-29   72  	ret = platform_get_irq(pdev, 0);
+c6825c6395b7db Jeff Brasen 2020-01-29   73  	if (ret < 0)
+c6825c6395b7db Jeff Brasen 2020-01-29   74  		return ret;
+c6825c6395b7db Jeff Brasen 2020-01-29   75  
+c6825c6395b7db Jeff Brasen 2020-01-29   76  	port->irq = ret;
+c6825c6395b7db Jeff Brasen 2020-01-29   77  
+c6825c6395b7db Jeff Brasen 2020-01-29   78  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+c6825c6395b7db Jeff Brasen 2020-01-29   79  	if (!res)
+c6825c6395b7db Jeff Brasen 2020-01-29   80  		return -ENODEV;
+c6825c6395b7db Jeff Brasen 2020-01-29   81  
+c6825c6395b7db Jeff Brasen 2020-01-29   82  	port->membase = devm_ioremap(&pdev->dev, res->start,
+c6825c6395b7db Jeff Brasen 2020-01-29   83  				     resource_size(res));
+c6825c6395b7db Jeff Brasen 2020-01-29   84  	if (!port->membase)
+c6825c6395b7db Jeff Brasen 2020-01-29   85  		return -ENOMEM;
+c6825c6395b7db Jeff Brasen 2020-01-29   86  
+c6825c6395b7db Jeff Brasen 2020-01-29   87  	port->mapbase = res->start;
+c6825c6395b7db Jeff Brasen 2020-01-29   88  	port->mapsize = resource_size(res);
+c6825c6395b7db Jeff Brasen 2020-01-29   89  
+c6825c6395b7db Jeff Brasen 2020-01-29   90  	uart->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
+c6825c6395b7db Jeff Brasen 2020-01-29   91  	if (IS_ERR(uart->rst))
+c6825c6395b7db Jeff Brasen 2020-01-29   92  		return PTR_ERR(uart->rst);
+c6825c6395b7db Jeff Brasen 2020-01-29   93  
+c6825c6395b7db Jeff Brasen 2020-01-29   94  	if (device_property_read_u32(&pdev->dev, "clock-frequency",
+c6825c6395b7db Jeff Brasen 2020-01-29   95  				     &port->uartclk)) {
+c6825c6395b7db Jeff Brasen 2020-01-29   96  		uart->clk = devm_clk_get(&pdev->dev, NULL);
+c6825c6395b7db Jeff Brasen 2020-01-29   97  		if (IS_ERR(uart->clk)) {
+c6825c6395b7db Jeff Brasen 2020-01-29   98  			dev_err(&pdev->dev, "failed to get clock!\n");
+c6825c6395b7db Jeff Brasen 2020-01-29   99  			return -ENODEV;
+c6825c6395b7db Jeff Brasen 2020-01-29  100  		}
+c6825c6395b7db Jeff Brasen 2020-01-29  101  
+c6825c6395b7db Jeff Brasen 2020-01-29  102  		ret = clk_prepare_enable(uart->clk);
+c6825c6395b7db Jeff Brasen 2020-01-29  103  		if (ret < 0)
+c6825c6395b7db Jeff Brasen 2020-01-29  104  			return ret;
+c6825c6395b7db Jeff Brasen 2020-01-29  105  
+c6825c6395b7db Jeff Brasen 2020-01-29  106  		port->uartclk = clk_get_rate(uart->clk);
+c6825c6395b7db Jeff Brasen 2020-01-29  107  	}
+c6825c6395b7db Jeff Brasen 2020-01-29  108  
+c6825c6395b7db Jeff Brasen 2020-01-29  109  	ret = reset_control_deassert(uart->rst);
+c6825c6395b7db Jeff Brasen 2020-01-29  110  	if (ret)
+c6825c6395b7db Jeff Brasen 2020-01-29  111  		goto err_clkdisable;
+c6825c6395b7db Jeff Brasen 2020-01-29  112  
+c6825c6395b7db Jeff Brasen 2020-01-29  113  	ret = serial8250_register_8250_port(&port8250);
+c6825c6395b7db Jeff Brasen 2020-01-29  114  	if (ret < 0)
+c6825c6395b7db Jeff Brasen 2020-01-29  115  		goto err_clkdisable;
+c6825c6395b7db Jeff Brasen 2020-01-29  116  
+c6825c6395b7db Jeff Brasen 2020-01-29  117  	platform_set_drvdata(pdev, uart);
+c6825c6395b7db Jeff Brasen 2020-01-29  118  	uart->line = ret;
+c6825c6395b7db Jeff Brasen 2020-01-29  119  
+c6825c6395b7db Jeff Brasen 2020-01-29  120  	return 0;
+c6825c6395b7db Jeff Brasen 2020-01-29  121  
+c6825c6395b7db Jeff Brasen 2020-01-29  122  err_clkdisable:
+c6825c6395b7db Jeff Brasen 2020-01-29  123  	clk_disable_unprepare(uart->clk);
+c6825c6395b7db Jeff Brasen 2020-01-29  124  
+c6825c6395b7db Jeff Brasen 2020-01-29  125  	return ret;
+c6825c6395b7db Jeff Brasen 2020-01-29  126  }
+c6825c6395b7db Jeff Brasen 2020-01-29  127  
+
+:::::: The code at line 68 was first introduced by commit
+:::::: c6825c6395b7dbcb5421d89ac8d5631be815ca36 serial: 8250_tegra: Create Tegra specific 8250 driver
+
+:::::: TO: Jeff Brasen <jbrasen@nvidia.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
