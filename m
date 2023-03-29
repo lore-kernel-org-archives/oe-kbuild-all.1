@@ -1,42 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C9EAD30
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 22:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC4BAD30
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 22:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680129979; x=1711665979;
+  t=1680129988; x=1711665988;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m0KgOGM74LI9PGag5/9HcCRYmZrCKP6bQxRCK6KsQ9E=;
-  b=LhgPom1ShQ4bJzng1Y7z6/Dk0NiBS+o7giL8Q+iy5BxvH1rifxbyY/Sj
-   4zGF4GlKK0z7FRYx1uCNVNnH7KYODzSZ/2FCRODLtJY7MMehWYuaQFRh4
-   0Y5CQgViGUQR1IGYfM1NINrBRx/TctiRTgnjHEDK2fhRyGZTVVgGGxSI8
-   Rl6sQwj92zcZBMt7EXA7WTrWeDDosDXWyDRY0D4YKizx96t5xisn4HXOk
-   OZWOLx6laArpu+SXCcizCHvVKsWTPbkwDIFcxt+3EA1T+KcrWmVNljqCW
-   gQO9b8uwvxzMlB6fd+iP+KPww8qzSJflevm8X5Lyz/k12kdlE5ZY29Oum
+  bh=C13Rk/Z50L3VJ+1mQDtBV+nVXakCeh0jzOipkvHHL0w=;
+  b=iPaYAxY0gRd81m59nIJymwWEKjCrzHSxu6e82S/uP7J4sPWxHz0zY6wV
+   xJVuqlBVqmZu9tC4nAWsBRIn6RdxoPFhOLt4Q25nehoIayIjijBeMPTMe
+   nJ9M481LbWkSbIvwsk44NO+iNVCqNLICRK8su7GZOrUfzDRbqCsjZ4kw/
+   tpBZHSb9ohO/cvJ1zE1OVyu9bDkstdw/EETWkn/CgAsjkjYMrOHlEvnm5
+   j00YdddU4BlYwiMxyc2tPRCehHH7peaYcadxpid6ThmuxYtV39nwIkVjZ
+   FgJQrtL1ep3RGGiz1k5J7JwCne6FTmrkE92GRf5kcabzcN68uPvJQhso7
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="339739218"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="368791036"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="339739218"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 15:46:16 -0700
+   d="scan'208";a="368791036"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 15:46:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748940496"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="684467222"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="748940496"
+   d="scan'208";a="684467222"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 15:46:15 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Mar 2023 15:46:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pheYY-000K1I-30;
+	id 1pheYY-000K1K-35;
 	Wed, 29 Mar 2023 22:46:14 +0000
-Date: Thu, 30 Mar 2023 06:45:28 +0800
+Date: Thu, 30 Mar 2023 06:45:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manisha Chinthapally <manisha.chinthapally@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse:
- function 'SOCPERF_Read_Data3' with external linkage has definition
-Message-ID: <202303300618.TqsrlEUd-lkp@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: drivers/scsi/megaraid.c:4470:26: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202303300602.tuYKjvUe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,170 +47,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Manisha,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
-head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
-commit: c859e634bf058e7963fccc4c1219c1365e925ad4 platform/x86: Update SEP driver for 5.9 pull
-date:   2 years, 6 months ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230330/202303300618.TqsrlEUd-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ffe78bbd512166e0ef1cc4858010b128c510ed7d
+commit: c44f15c1c09481d50fd33478ebb5b8284f8f5edb arc: iounmap() arg is volatile
+date:   5 months ago
+config: arc-randconfig-s031-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300602.tuYKjvUe-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/mchinth/linux/commit/c859e634bf058e7963fccc4c1219c1365e925ad4
-        git remote add mchinth https://github.com/mchinth/linux
-        git fetch --no-tags mchinth sep_socwatch_linux_5_10
-        git checkout c859e634bf058e7963fccc4c1219c1365e925ad4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c44f15c1c09481d50fd33478ebb5b8284f8f5edb
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c44f15c1c09481d50fd33478ebb5b8284f8f5edb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash drivers/isdn/hardware/mISDN/ drivers/scsi/ scripts/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300618.TqsrlEUd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300602.tuYKjvUe-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse: function 'SOCPERF_Read_Data3' with external linkage has definition
-   drivers/platform/x86/socperf/socperfdrv.c:885:1: sparse: sparse: function 'SOCPERF_Switch_Group3' with external linkage has definition
->> drivers/platform/x86/socperf/socperfdrv.c:101:22: sparse: sparse: symbol 'socperf_drv_version' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:102:5: sparse: sparse: symbol 'read_unc_ctr_info' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:103:10: sparse: sparse: symbol 'dispatch_uncore' was not declared. Should it be static?
-   drivers/platform/x86/socperf/socperfdrv.c:104:12: sparse: sparse: symbol 'socperf_drv_cfg' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:105:14: sparse: sparse: symbol 'socperf_global_ec' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:106:14: sparse: sparse: symbol 'socperf_abnormal_terminate' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:107:11: sparse: sparse: symbol 'socperf_control' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:111:8: sparse: sparse: symbol 'socperf_pcb_size' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:984:28: sparse: sparse: Using plain integer as NULL pointer
->> drivers/platform/x86/socperf/socperfdrv.c:1070:6: sparse: sparse: symbol 'lwpmudrv_Stop_Mem' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1155:15: sparse: sparse: symbol 'socperf_Service_IOCTL' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1274:6: sparse: sparse: symbol 'socperf_Device_Control' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1358:5: sparse: sparse: symbol 'SOCPERF_Abnormal_Terminate' was not declared. Should it be static?
+>> drivers/scsi/megaraid.c:4470:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/scsi/megaraid.c:4470:26: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/scsi/megaraid.c:4470:26: sparse:     got void *
+   drivers/scsi/megaraid.c:4529:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/scsi/megaraid.c:4529:26: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/scsi/megaraid.c:4529:26: sparse:     got void *
+--
+   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
+   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse:     expected unsigned int [usertype] value
+   drivers/isdn/hardware/mISDN/hfcmulti.c:452:22: sparse:     got restricted __le32 [usertype]
+   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
+   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse:     expected unsigned short [usertype] value
+   drivers/isdn/hardware/mISDN/hfcmulti.c:457:22: sparse:     got restricted __le16 [usertype]
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse:     expected unsigned int [usertype] val
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse:     got restricted __le32 [usertype]
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:472:17: sparse: sparse: cast from restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] @@
+   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse:     expected unsigned short [usertype] val
+   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse:     got restricted __le16 [usertype]
+   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: cast from restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:478:17: sparse: sparse: cast from restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:496:32: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:501:32: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:518:25: sparse: sparse: cast to restricted __le32
+   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
+   drivers/isdn/hardware/mISDN/hfcmulti.c:524:25: sparse: sparse: cast to restricted __le16
+>> drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/isdn/hardware/mISDN/hfcmulti.c:1092:26: sparse:     got void *
 
-vim +/SOCPERF_Read_Data3 +203 drivers/platform/x86/socperf/socperfdrv.c
+vim +4470 drivers/scsi/megaraid.c
 
-f57492d07625dd Manisha Chinthapally 2019-05-01   99  
-f57492d07625dd Manisha Chinthapally 2019-05-01  100  /* Global variables of the driver */
-f57492d07625dd Manisha Chinthapally 2019-05-01 @101  SOCPERF_VERSION_NODE socperf_drv_version;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @102  U64 *read_unc_ctr_info;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @103  DISPATCH dispatch_uncore;
-f57492d07625dd Manisha Chinthapally 2019-05-01  104  DRV_CONFIG socperf_drv_cfg;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @105  EVENT_CONFIG socperf_global_ec;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @106  volatile S32 socperf_abnormal_terminate;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @107  LWPMU_DEV socperf_control;
-f57492d07625dd Manisha Chinthapally 2019-05-01  108  
-f57492d07625dd Manisha Chinthapally 2019-05-01  109  LWPMU_DEVICE device_uncore;
-f57492d07625dd Manisha Chinthapally 2019-05-01  110  CPU_STATE socperf_pcb;
-f57492d07625dd Manisha Chinthapally 2019-05-01 @111  size_t socperf_pcb_size;
-f57492d07625dd Manisha Chinthapally 2019-05-01  112  
-f57492d07625dd Manisha Chinthapally 2019-05-01  113  #if defined(DRV_USE_UNLOCKED_IOCTL)
-f57492d07625dd Manisha Chinthapally 2019-05-01  114  static struct mutex ioctl_lock;
-f57492d07625dd Manisha Chinthapally 2019-05-01  115  #endif
-f57492d07625dd Manisha Chinthapally 2019-05-01  116  
-f57492d07625dd Manisha Chinthapally 2019-05-01  117  #define PMU_DEVICES 1 // pmu control
-f57492d07625dd Manisha Chinthapally 2019-05-01  118  
-f57492d07625dd Manisha Chinthapally 2019-05-01  119  static dev_t lwpmu_DevNum; /* the major and minor parts for SOCPERF base */
-f57492d07625dd Manisha Chinthapally 2019-05-01  120  
-f57492d07625dd Manisha Chinthapally 2019-05-01  121  static struct class *pmu_class;
-f57492d07625dd Manisha Chinthapally 2019-05-01  122  
-f57492d07625dd Manisha Chinthapally 2019-05-01  123  #define DRV_DEVICE_DELIMITER "!"
-f57492d07625dd Manisha Chinthapally 2019-05-01  124  
-f57492d07625dd Manisha Chinthapally 2019-05-01  125  #if !defined(DRV_USE_UNLOCKED_IOCTL)
-f57492d07625dd Manisha Chinthapally 2019-05-01  126  #define MUTEX_INIT(lock)
-f57492d07625dd Manisha Chinthapally 2019-05-01  127  #define MUTEX_LOCK(lock)
-f57492d07625dd Manisha Chinthapally 2019-05-01  128  #define MUTEX_UNLOCK(lock)
-f57492d07625dd Manisha Chinthapally 2019-05-01  129  #else
-f57492d07625dd Manisha Chinthapally 2019-05-01  130  #define MUTEX_INIT(lock) mutex_init(&(lock))
-f57492d07625dd Manisha Chinthapally 2019-05-01  131  #define MUTEX_LOCK(lock) mutex_lock(&(lock))
-f57492d07625dd Manisha Chinthapally 2019-05-01  132  #define MUTEX_UNLOCK(lock) mutex_unlock(&(lock))
-f57492d07625dd Manisha Chinthapally 2019-05-01  133  #endif
-f57492d07625dd Manisha Chinthapally 2019-05-01  134  
-f57492d07625dd Manisha Chinthapally 2019-05-01  135  /* ------------------------------------------------------------------------- */
-f57492d07625dd Manisha Chinthapally 2019-05-01  136  /*!
-f57492d07625dd Manisha Chinthapally 2019-05-01  137   * @fn  static OS_STATUS lwpmudrv_Initialize_State(void)
-f57492d07625dd Manisha Chinthapally 2019-05-01  138   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  139   * @param none
-f57492d07625dd Manisha Chinthapally 2019-05-01  140   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  141   * @return OS_STATUS
-f57492d07625dd Manisha Chinthapally 2019-05-01  142   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  143   * @brief  Allocates the memory needed at load time.  Initializes all the
-f57492d07625dd Manisha Chinthapally 2019-05-01  144   * @brief  necessary state variables with the default values.
-f57492d07625dd Manisha Chinthapally 2019-05-01  145   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  146   * <I>Special Notes</I>
-f57492d07625dd Manisha Chinthapally 2019-05-01  147   */
-f57492d07625dd Manisha Chinthapally 2019-05-01  148  static OS_STATUS lwpmudrv_Initialize_State(VOID)
-f57492d07625dd Manisha Chinthapally 2019-05-01  149  {
-f57492d07625dd Manisha Chinthapally 2019-05-01  150  	S32 i, max_cpu_id = 0;
-f57492d07625dd Manisha Chinthapally 2019-05-01  151  
-f57492d07625dd Manisha Chinthapally 2019-05-01  152  	for_each_possible_cpu(i) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  153  		if (cpu_present(i)) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  154  			if (i > max_cpu_id) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  155  				max_cpu_id = i;
-f57492d07625dd Manisha Chinthapally 2019-05-01  156  			}
-f57492d07625dd Manisha Chinthapally 2019-05-01  157  		}
-f57492d07625dd Manisha Chinthapally 2019-05-01  158  	}
-f57492d07625dd Manisha Chinthapally 2019-05-01  159  	max_cpu_id++;
-f57492d07625dd Manisha Chinthapally 2019-05-01  160  
-f57492d07625dd Manisha Chinthapally 2019-05-01  161  	/*
-f57492d07625dd Manisha Chinthapally 2019-05-01  162  	 *  Machine Initializations
-f57492d07625dd Manisha Chinthapally 2019-05-01  163  	 *  Abstract this information away into a separate entry point
-f57492d07625dd Manisha Chinthapally 2019-05-01  164  	 *
-f57492d07625dd Manisha Chinthapally 2019-05-01  165  	 *  Question:  Should we allow for the use of Hot-cpu
-f57492d07625dd Manisha Chinthapally 2019-05-01  166  	 *    add/subtract functionality while the driver is executing?
-f57492d07625dd Manisha Chinthapally 2019-05-01  167  	 */
-f57492d07625dd Manisha Chinthapally 2019-05-01  168  	if (max_cpu_id > num_present_cpus()) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  169  		GLOBAL_STATE_num_cpus(socperf_driver_state) = max_cpu_id;
-f57492d07625dd Manisha Chinthapally 2019-05-01  170  	} else {
-f57492d07625dd Manisha Chinthapally 2019-05-01  171  		GLOBAL_STATE_num_cpus(socperf_driver_state) =
-f57492d07625dd Manisha Chinthapally 2019-05-01  172  			num_present_cpus();
-f57492d07625dd Manisha Chinthapally 2019-05-01  173  	}
-f57492d07625dd Manisha Chinthapally 2019-05-01  174  	GLOBAL_STATE_active_cpus(socperf_driver_state) = num_online_cpus();
-f57492d07625dd Manisha Chinthapally 2019-05-01  175  	GLOBAL_STATE_cpu_count(socperf_driver_state) = 0;
-f57492d07625dd Manisha Chinthapally 2019-05-01  176  	GLOBAL_STATE_dpc_count(socperf_driver_state) = 0;
-f57492d07625dd Manisha Chinthapally 2019-05-01  177  	GLOBAL_STATE_num_em_groups(socperf_driver_state) = 0;
-f57492d07625dd Manisha Chinthapally 2019-05-01  178  	GLOBAL_STATE_current_phase(socperf_driver_state) =
-f57492d07625dd Manisha Chinthapally 2019-05-01  179  		DRV_STATE_UNINITIALIZED;
-f57492d07625dd Manisha Chinthapally 2019-05-01  180  
-f57492d07625dd Manisha Chinthapally 2019-05-01  181  	SOCPERF_PRINT_DEBUG(
-f57492d07625dd Manisha Chinthapally 2019-05-01  182  		"%s: num_cpus=%d, active_cpus=%d\n",
-f57492d07625dd Manisha Chinthapally 2019-05-01  183  		__func__,
-f57492d07625dd Manisha Chinthapally 2019-05-01  184  		GLOBAL_STATE_num_cpus(socperf_driver_state),
-f57492d07625dd Manisha Chinthapally 2019-05-01  185  		GLOBAL_STATE_active_cpus(socperf_driver_state));
-f57492d07625dd Manisha Chinthapally 2019-05-01  186  
-f57492d07625dd Manisha Chinthapally 2019-05-01  187  	return OS_SUCCESS;
-f57492d07625dd Manisha Chinthapally 2019-05-01  188  }
-f57492d07625dd Manisha Chinthapally 2019-05-01  189  
-f57492d07625dd Manisha Chinthapally 2019-05-01  190  /* ------------------------------------------------------------------------- */
-f57492d07625dd Manisha Chinthapally 2019-05-01  191  /*!
-f57492d07625dd Manisha Chinthapally 2019-05-01  192   * @fn       VOID SOCPERF_Read_Data
-f57492d07625dd Manisha Chinthapally 2019-05-01  193   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  194   * @brief    Reads counter data
-f57492d07625dd Manisha Chinthapally 2019-05-01  195   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  196   * @param    param   data_buffer - buffer for reading counter data.
-f57492d07625dd Manisha Chinthapally 2019-05-01  197   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  198   * @return  None
-f57492d07625dd Manisha Chinthapally 2019-05-01  199   *
-f57492d07625dd Manisha Chinthapally 2019-05-01  200   * <I>Special Notes:</I>
-f57492d07625dd Manisha Chinthapally 2019-05-01  201   *              <NONE>
-f57492d07625dd Manisha Chinthapally 2019-05-01  202   */
-f57492d07625dd Manisha Chinthapally 2019-05-01 @203  extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
-f57492d07625dd Manisha Chinthapally 2019-05-01  204  {
-f57492d07625dd Manisha Chinthapally 2019-05-01  205  	if (dispatch_uncore && dispatch_uncore->read_current_data) {
-f57492d07625dd Manisha Chinthapally 2019-05-01  206  		dispatch_uncore->read_current_data(data_buffer);
-f57492d07625dd Manisha Chinthapally 2019-05-01  207  	}
-f57492d07625dd Manisha Chinthapally 2019-05-01  208  	SOCPERF_PRINT_DEBUG("%s called\n", __func__);
-f57492d07625dd Manisha Chinthapally 2019-05-01  209  }
-f57492d07625dd Manisha Chinthapally 2019-05-01  210  EXPORT_SYMBOL(SOCPERF_Read_Data3);
-f57492d07625dd Manisha Chinthapally 2019-05-01  211  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4443  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4444  	pci_set_drvdata(pdev, host);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4445  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4446  	mega_create_proc_entry(hba_count, mega_proc_dir_entry);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4447  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4448  	error = scsi_add_host(host, &pdev->dev);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4449  	if (error)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4450  		goto out_free_mbox;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4451  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4452  	scsi_scan_host(host);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4453  	hba_count++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4454  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4455  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4456   out_free_mbox:
+ec090ef8cd1c23 Suraj Upadhyay 2020-07-29  4457  	dma_free_coherent(&adapter->dev->dev, sizeof(mbox64_t),
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4458  			  adapter->una_mbox64, adapter->una_mbox64_dma);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4459   out_free_irq:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4460  	free_irq(adapter->host->irq, adapter);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4461   out_free_scb_list:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4462  	kfree(adapter->scb_list);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4463   out_free_cmd_buffer:
+ec090ef8cd1c23 Suraj Upadhyay 2020-07-29  4464  	dma_free_coherent(&adapter->dev->dev, MEGA_BUFFER_SIZE,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4465  			  adapter->mega_buffer, adapter->buf_dma_handle);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4466   out_host_put:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4467  	scsi_host_put(host);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4468   out_iounmap:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4469  	if (flag & BOARD_MEMMAP)
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @4470  		iounmap((void *)mega_baseport);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4471   out_release_region:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4472  	if (flag & BOARD_MEMMAP)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4473  		release_mem_region(tbase, 128);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4474  	else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4475  		release_region(mega_baseport, 16);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4476   out_disable_device:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4477  	pci_disable_device(pdev);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4478   out:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4479  	return error;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4480  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  4481  
 
-:::::: The code at line 203 was first introduced by commit
-:::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
+:::::: The code at line 4470 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
-:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
