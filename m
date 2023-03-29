@@ -1,179 +1,144 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E496FA2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501546FA2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 19:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680116296; x=1711652296;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iFMfpO1rcVzrBtGFigcEjcf/UNisBZWLmooJ0PVXzbI=;
-  b=DOOpLTHgL+pnx0bABsAPGwVqC/vpt8JllEmeQ6UZoy5iUbY94PfGbukj
-   NvqZZCLlADrVw2nE4TnzbrLrw6e0ime5IKY52bnhqc1R+WT/pVBwPD0kS
-   elQ2DYEKz3DP2t+AkfBcYyYBUo0s0pkr1vwLbPzesEWg13GTOfCPXmT98
-   9dtUUnYawINGQyNSFjiiP7eGXk7zPNQx19Kv/tQKm4KE/k6gKoOJPjCqU
-   Tf8A5BksXmTSfXL8DFpLZwc3k3Ql3I/E1CahTUyDdYbp1X9+1sN6cz2Hc
-   eHEOXy+cxAdE82dN85Mx0wiqRe8Jt0eMpxua52mAXf8LrRJKz7moh0om7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405925404"
+  t=1680117490; x=1711653490;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7pDIQlbSzUdo3NOMdUp85+Vs70H9f8XxcioSgfoeBfY=;
+  b=fuYVNeCLlfvBztekE1zSeYTQzABIgoHFBstPrkrX/u/LzaeCkXGWHwb1
+   OPnsP/JKSMh9XnVwcym8ZUJXlB3kQaA3FP171jfkWOhuwe+N2+nMi2Pxh
+   JCkDuVnvoW+mJTGS+DmBn7p6Lffsmcj4lZ+BiL65J7kGZcmBeGvwBxJrH
+   lWerfIrMPq9dM2bftjQc2nny6GUVOgcpyVTLwU7IYe80RQCxGJGfGpeRj
+   kOCsGV405M+awV9C19MxgruiDiKaQoM9k1MJ9wfzGL6IJJjWkrN+82eGM
+   Vxj6qseAzP0eClp3ksXqhZGBGOoA10sEbmgBcv4Fj1Uz2NIHZ/YJRpuZE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="329463202"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="405925404"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:13 -0700
+   d="scan'208";a="329463202"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 12:18:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748886475"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="684407250"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="748886475"
+   d="scan'208";a="684407250"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 11:58:13 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Mar 2023 12:18:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phazn-000JqU-1e;
-	Wed, 29 Mar 2023 18:58:07 +0000
-Date: Thu, 30 Mar 2023 02:57:29 +0800
+	id 1phbJA-000JrU-0I;
+	Wed, 29 Mar 2023 19:18:08 +0000
+Date: Thu, 30 Mar 2023 03:17:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:acpi-header-cleanup 1/1] drivers/iio/adc/ad7292.c:307:9:
- error: implicit declaration of function 'for_each_available_child_of_node';
- did you mean 'fwnode_for_each_available_child_node'?
-Message-ID: <202303300215.NYzjkkSH-lkp@intel.com>
+Subject: [dhowells-fs:iov-sendpage 28/63] net/tls/tls_main.c:130:18: error:
+ 'struct msghdr' has no member named 'msg_kflags'; did you mean 'msg_flags'?
+Message-ID: <202303300334.Mwk5R4mw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git acpi-header-cleanup
-head:   333a203a26446521eac7046c6fb7426997569bf8
-commit: 333a203a26446521eac7046c6fb7426997569bf8 [1/1] ACPI: Replace irqdomain.h include with struct declarations
-config: csky-randconfig-r004-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300215.NYzjkkSH-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-sendpage
+head:   39e48c1301bf2fb60a53912fe5870a253256debc
+commit: e1bd0668a8caff3ca2428ad9312c430379b56e46 [28/63] tls: Inline do_tcp_sendpages()
+config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230330/202303300334.Mwk5R4mw-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=333a203a26446521eac7046c6fb7426997569bf8
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh acpi-header-cleanup
-        git checkout 333a203a26446521eac7046c6fb7426997569bf8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?id=e1bd0668a8caff3ca2428ad9312c430379b56e46
+        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
+        git fetch --no-tags dhowells-fs iov-sendpage
+        git checkout e1bd0668a8caff3ca2428ad9312c430379b56e46
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/iio/adc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300215.NYzjkkSH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300334.Mwk5R4mw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ad7292.c: In function 'ad7292_probe':
->> drivers/iio/adc/ad7292.c:307:9: error: implicit declaration of function 'for_each_available_child_of_node'; did you mean 'fwnode_for_each_available_child_node'? [-Werror=implicit-function-declaration]
-     307 |         for_each_available_child_of_node(spi->dev.of_node, child) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         fwnode_for_each_available_child_node
->> drivers/iio/adc/ad7292.c:307:66: error: expected ';' before '{' token
-     307 |         for_each_available_child_of_node(spi->dev.of_node, child) {
-         |                                                                  ^~
-         |                                                                  ;
-   drivers/iio/adc/ad7292.c:263:14: warning: unused variable 'diff_channels' [-Wunused-variable]
-     263 |         bool diff_channels = false;
-         |              ^~~~~~~~~~~~~
-   drivers/iio/adc/ad7292.c:324:1: error: control reaches end of non-void function [-Werror=return-type]
-     324 | }
-         | ^
-   drivers/iio/adc/ad7292.c: At top level:
-   drivers/iio/adc/ad7292.c:61:35: warning: 'ad7292_channels_diff' defined but not used [-Wunused-const-variable=]
-      61 | static const struct iio_chan_spec ad7292_channels_diff[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ad7292.c:50:35: warning: 'ad7292_channels' defined but not used [-Wunused-const-variable=]
-      50 | static const struct iio_chan_spec ad7292_channels[] = {
-         |                                   ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   net/tls/tls_main.c: In function 'tls_push_sg':
+>> net/tls/tls_main.c:130:18: error: 'struct msghdr' has no member named 'msg_kflags'; did you mean 'msg_flags'?
+     130 |                 .msg_kflags     = MSG_SPLICE_PAGES,
+         |                  ^~~~~~~~~~
+         |                  msg_flags
 
 
-vim +307 drivers/iio/adc/ad7292.c
+vim +130 net/tls/tls_main.c
 
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  257  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  258  static int ad7292_probe(struct spi_device *spi)
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  259  {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  260  	struct ad7292_state *st;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  261  	struct iio_dev *indio_dev;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  262  	struct device_node *child;
-707182b4ff3e64 Guoqing Chi     2021-03-19  263  	bool diff_channels = false;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  264  	int ret;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  265  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  266  	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  267  	if (!indio_dev)
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  268  		return -ENOMEM;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  269  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  270  	st = iio_priv(indio_dev);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  271  	st->spi = spi;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  272  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  273  	ret = ad7292_spi_reg_read(st, AD7292_REG_VENDOR_ID);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  274  	if (ret != ADI_VENDOR_ID) {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  275  		dev_err(&spi->dev, "Wrong vendor id 0x%x\n", ret);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  276  		return -EINVAL;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  277  	}
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  278  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  279  	st->reg = devm_regulator_get_optional(&spi->dev, "vref");
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  280  	if (!IS_ERR(st->reg)) {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  281  		ret = regulator_enable(st->reg);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  282  		if (ret) {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  283  			dev_err(&spi->dev,
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  284  				"Failed to enable external vref supply\n");
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  285  			return ret;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  286  		}
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  287  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  288  		ret = devm_add_action_or_reset(&spi->dev,
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  289  					       ad7292_regulator_disable, st);
-22b4277641c682 Matti Vaittinen 2022-08-19  290  		if (ret)
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  291  			return ret;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  292  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  293  		ret = regulator_get_voltage(st->reg);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  294  		if (ret < 0)
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  295  			return ret;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  296  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  297  		st->vref_mv = ret / 1000;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  298  	} else {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  299  		/* Use the internal voltage reference. */
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  300  		st->vref_mv = 1250;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  301  	}
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  302  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  303  	indio_dev->name = spi_get_device_id(spi)->name;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  304  	indio_dev->modes = INDIO_DIRECT_MODE;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  305  	indio_dev->info = &ad7292_info;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  306  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08 @307  	for_each_available_child_of_node(spi->dev.of_node, child) {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  308  		diff_channels = of_property_read_bool(child, "diff-channels");
-b8a533f3c24b3b Nuno Sá         2020-09-25  309  		if (diff_channels) {
-b8a533f3c24b3b Nuno Sá         2020-09-25  310  			of_node_put(child);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  311  			break;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  312  		}
-b8a533f3c24b3b Nuno Sá         2020-09-25  313  	}
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  314  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  315  	if (diff_channels) {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  316  		indio_dev->num_channels = ARRAY_SIZE(ad7292_channels_diff);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  317  		indio_dev->channels = ad7292_channels_diff;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  318  	} else {
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  319  		indio_dev->num_channels = ARRAY_SIZE(ad7292_channels);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  320  		indio_dev->channels = ad7292_channels;
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  321  	}
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  322  
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  323  	return devm_iio_device_register(&spi->dev, indio_dev);
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  324  }
-506d2e317a0a02 Marcelo Schmitt 2019-11-08  325  
-
-:::::: The code at line 307 was first introduced by commit
-:::::: 506d2e317a0a02631a74bbc4c508334c29e26eae iio: adc: Add driver support for AD7292
-
-:::::: TO: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+   120	
+   121	int tls_push_sg(struct sock *sk,
+   122			struct tls_context *ctx,
+   123			struct scatterlist *sg,
+   124			u16 first_offset,
+   125			int flags)
+   126	{
+   127		struct bio_vec bvec;
+   128		struct msghdr msg = {
+   129			.msg_flags	= flags | MSG_SENDPAGE_NOTLAST,
+ > 130			.msg_kflags	= MSG_SPLICE_PAGES,
+   131		};
+   132		int ret = 0;
+   133		struct page *p;
+   134		size_t size;
+   135		int offset = first_offset;
+   136	
+   137		size = sg->length - offset;
+   138		offset += sg->offset;
+   139	
+   140		ctx->splicing_pages = true;
+   141		while (1) {
+   142			if (sg_is_last(sg))
+   143				msg.msg_flags = flags;
+   144	
+   145			/* is sending application-limited? */
+   146			tcp_rate_check_app_limited(sk);
+   147			p = sg_page(sg);
+   148	retry:
+   149			bvec_set_page(&bvec, p, size, offset);
+   150			iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, size);
+   151	
+   152			ret = tcp_sendmsg_locked(sk, &msg, size);
+   153	
+   154			if (ret != size) {
+   155				if (ret > 0) {
+   156					offset += ret;
+   157					size -= ret;
+   158					goto retry;
+   159				}
+   160	
+   161				offset -= sg->offset;
+   162				ctx->partially_sent_offset = offset;
+   163				ctx->partially_sent_record = (void *)sg;
+   164				ctx->splicing_pages = false;
+   165				return ret;
+   166			}
+   167	
+   168			put_page(p);
+   169			sk_mem_uncharge(sk, sg->length);
+   170			sg = sg_next(sg);
+   171			if (!sg)
+   172				break;
+   173	
+   174			offset = sg->offset;
+   175			size = sg->length;
+   176		}
+   177	
+   178		ctx->splicing_pages = false;
+   179	
+   180		return 0;
+   181	}
+   182	
 
 -- 
 0-DAY CI Kernel Test Service
