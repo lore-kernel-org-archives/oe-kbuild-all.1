@@ -1,56 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44FC2582
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 13:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2F12583
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 14:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680098296; x=1711634296;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ck3URVmLgHrVhcVJ5gg7rR62G4o0wwV83BuwrsZ3cYk=;
-  b=AymY7/T7AdwS4dRjI3Ya7vPMZD6C4xyIo80bg77ITE/TTedcovek2flp
-   BlZohY0P1HVCRYaiiqVKM29vgimks1lFEsHR9vjGTzQPN15cRp6WnDPvE
-   2ykgPmC12RikN2GtKQV2/6rVVY16TIL09xp8pSUb2o9ZCiHepN2f+qWYR
-   IHLvzFWMOFgqurFob4BzuBKc4PRt403CI0+3rsLYO6rhi7cJep4H2bKg0
-   mjM2hhgc8my7mtd217jNrzV1DRN15wZ1a0NQhDMv67GMBeBcZzDGrWqsD
-   LHx3J+FYb/XkWaQtkvRJVAv3uQpsSJbaZb355602klHW5P7vjXoJ3reeR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="329348374"
+  t=1680098902; x=1711634902;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4J/oLpR+LsybDTNXpkfVHwQtZat7VxkCiGdAK6F4CCM=;
+  b=aVfX8DNLtfdIvhLUDWW3pC8o/Kc9ND18t3vUapC9MfGN4WayqVjM/ng7
+   NLFud7ismUCiLrUqxEqQG8w3craVmCz7F8APbNZRbcgT+dH4UuQzOkkGZ
+   hVw5DTsjReboi6TxZk6uv+1ZF+NN1Kg/8IAZN9DUwJYyUD1Jltdxuf9WD
+   vAI3Z7JM/NmLwi/u+zUUoh8sz/8fV61Eo7J5mOaBYvwHyi7G0NNHiDGEB
+   OLbdx14gWFhn5bqxQ6Ya6wNmzAKvdGHqZDV4etwTtGh+Do6e7lRfLCMDF
+   GGiFoLl7TRz7I5uKsPLY8N9dXqLmzyUVgxI5n8fB574eQx/VmECt3A7BL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405829142"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="329348374"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 06:58:00 -0700
+   d="scan'208";a="405829142"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 07:07:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="716892985"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="686833827"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="716892985"
+   d="scan'208";a="686833827"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 Mar 2023 06:57:54 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2023 07:07:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phWJF-000Jb6-0H;
-	Wed, 29 Mar 2023 13:57:53 +0000
-Date: Wed, 29 Mar 2023 21:56:55 +0800
+	id 1phWSv-000JbY-14;
+	Wed, 29 Mar 2023 14:07:53 +0000
+Date: Wed, 29 Mar 2023 22:07:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
-	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v8 6/9] nvmet: add copy command support for bdev and file
- ns
-Message-ID: <202303292148.Pbx4mDpS-lkp@intel.com>
-References: <20230327084103.21601-7-anuj20.g@samsung.com>
+To: Manisha Chinthapally <manisha.chinthapally@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Faycal Benmlih <faycal.benmlih@intel.com>
+Subject: drivers/platform/x86/socwatch/sw_telem.c:239:33: sparse: sparse:
+ cast removes address space '__iomem' of expression
+Message-ID: <202303292238.8FLsmHIy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,114 +46,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230327084103.21601-7-anuj20.g@samsung.com>
 
-Hi Anuj,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230329]
-[cannot apply to device-mapper-dm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230327084103.21601-7-anuj20.g%40samsung.com
-patch subject: [PATCH v8 6/9] nvmet: add copy command support for bdev and file ns
-config: arm64-randconfig-s041-20230329 (https://download.01.org/0day-ci/archive/20230329/202303292148.Pbx4mDpS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: 4a8adda8065c4c6944ffedd3025605c845c262a5 SEP/SOCWATCH resolve build errors after rebasing to linux v5.6-rc3
+date:   2 years, 6 months ago
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230329/202303292238.8FLsmHIy-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f846a8ac40882d9d42532e9e2b43560650ef8510
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
-        git checkout f846a8ac40882d9d42532e9e2b43560650ef8510
+        # https://github.com/mchinth/linux/commit/4a8adda8065c4c6944ffedd3025605c845c262a5
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout 4a8adda8065c4c6944ffedd3025605c845c262a5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/nvme/target/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303292148.Pbx4mDpS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303292238.8FLsmHIy-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
-   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     expected unsigned int [usertype] val
-   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     got restricted __le16 [usertype] mssrl
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:57:29: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     expected unsigned int [usertype] val
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     got restricted __le16 [usertype] mssrl
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
+>> drivers/platform/x86/socwatch/sw_telem.c:239:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:242:28: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:245:58: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/platform/x86/socwatch/sw_telem.c:260:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_punitInterfaceAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:260:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:260:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_punitInterfaceAddr
+   drivers/platform/x86/socwatch/sw_telem.c:264:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_punitDataAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:264:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:264:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_punitDataAddr
+>> drivers/platform/x86/socwatch/sw_telem.c:268:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *ssram_virt_addr @@
+   drivers/platform/x86/socwatch/sw_telem.c:268:54: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:268:54: sparse:     got unsigned long long volatile [usertype] *ssram_virt_addr
+   drivers/platform/x86/socwatch/sw_telem.c:280:28: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:283:28: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:286:29: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:289:29: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:292:56: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/platform/x86/socwatch/sw_telem.c:307:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCCmdAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:307:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:307:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCCmdAddr
+   drivers/platform/x86/socwatch/sw_telem.c:311:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCStsAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:311:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:311:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCStsAddr
+   drivers/platform/x86/socwatch/sw_telem.c:315:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCWBufAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:315:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:315:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCWBufAddr
+   drivers/platform/x86/socwatch/sw_telem.c:319:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCRBufAddr @@
+   drivers/platform/x86/socwatch/sw_telem.c:319:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:319:25: sparse:     got unsigned long long volatile [usertype] *static [assigned] [toplevel] s_pmcIPCRBufAddr
+   drivers/platform/x86/socwatch/sw_telem.c:323:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long volatile [usertype] *ssram_virt_addr @@
+   drivers/platform/x86/socwatch/sw_telem.c:323:52: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/platform/x86/socwatch/sw_telem.c:323:52: sparse:     got unsigned long long volatile [usertype] *ssram_virt_addr
+>> drivers/platform/x86/socwatch/sw_telem.c:671:5: sparse: sparse: symbol 'read_telem' was not declared. Should it be static?
+--
+>> drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:1634:67: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:1634:67: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_trace_notifier_provider.c:1634:67: sparse:     got restricted gfp_t
 
-vim +55 drivers/nvme/target/io-cmd-bdev.c
+vim +/__iomem +239 drivers/platform/x86/socwatch/sw_telem.c
 
-    12	
-    13	void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
-    14	{
-    15		/* Logical blocks per physical block, 0's based. */
-    16		const __le16 lpp0b = to0based(bdev_physical_block_size(bdev) /
-    17					      bdev_logical_block_size(bdev));
-    18	
-    19		/*
-    20		 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-    21		 * NAWUPF, and NACWU are defined for this namespace and should be
-    22		 * used by the host for this namespace instead of the AWUN, AWUPF,
-    23		 * and ACWU fields in the Identify Controller data structure. If
-    24		 * any of these fields are zero that means that the corresponding
-    25		 * field from the identify controller data structure should be used.
-    26		 */
-    27		id->nsfeat |= 1 << 1;
-    28		id->nawun = lpp0b;
-    29		id->nawupf = lpp0b;
-    30		id->nacwu = lpp0b;
-    31	
-    32		/*
-    33		 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-    34		 * NOWS are defined for this namespace and should be used by
-    35		 * the host for I/O optimization.
-    36		 */
-    37		id->nsfeat |= 1 << 4;
-    38		/* NPWG = Namespace Preferred Write Granularity. 0's based */
-    39		id->npwg = lpp0b;
-    40		/* NPWA = Namespace Preferred Write Alignment. 0's based */
-    41		id->npwa = id->npwg;
-    42		/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-    43		id->npdg = to0based(bdev_discard_granularity(bdev) /
-    44				    bdev_logical_block_size(bdev));
-    45		/* NPDG = Namespace Preferred Deallocate Alignment */
-    46		id->npda = id->npdg;
-    47		/* NOWS = Namespace Optimal Write Size */
-    48		id->nows = to0based(bdev_io_opt(bdev) / bdev_logical_block_size(bdev));
-    49	
-    50		/*Copy limits*/
-    51		if (bdev_max_copy_sectors(bdev)) {
-    52			id->msrc = id->msrc;
-    53			id->mssrl = cpu_to_le16((bdev_max_copy_sectors(bdev) <<
-    54					SECTOR_SHIFT) / bdev_logical_block_size(bdev));
-  > 55			id->mcl = cpu_to_le32(id->mssrl);
-    56		} else {
-    57			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
-    58			id->mssrl = cpu_to_le16((BIO_MAX_VECS << PAGE_SHIFT) /
-    59					bdev_logical_block_size(bdev));
-    60			id->mcl = cpu_to_le32(id->mssrl);
-    61		}
-    62	}
-    63	
+   231	
+   232	/**
+   233	 * setup_punit_mbox -- Setup P-Unit virtual mappings
+   234	 *
+   235	 * Returns: true if setup successfully
+   236	 */
+   237	static bool setup_punit_mbox(void)
+   238	{
+ > 239		s_punitInterfaceAddr = (u64 *)ioremap_cache(
+   240					(unsigned long)s_mchBarAddrs[TELEM_MCHBAR_CFG] +
+   241					PUNIT_MAILBOX_INTERFACE_OFFSET, 0x4);
+   242		s_punitDataAddr = (u64 *)ioremap_cache(
+   243					(unsigned long)s_mchBarAddrs[TELEM_MCHBAR_CFG] +
+   244					PUNIT_MAILBOX_DATA_OFFSET, 0x4);
+   245		s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr = (u64 *)ioremap_cache(
+   246					(unsigned long)
+   247						s_mchBarAddrs[TELEM_SSRAMBAR_CFG] +
+   248					PSS_TELEM_SSRAM_OFFSET, TELEM_SSRAM_SIZE);
+   249	
+   250		return (s_punitInterfaceAddr && s_punitDataAddr &&
+   251			s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr);
+   252	}
+   253	
+   254	/**
+   255	 * destroy_punit_mbox -- Unmap p-unit virtual addresses
+   256	 */
+   257	static void destroy_punit_mbox(void)
+   258	{
+   259		if (s_punitInterfaceAddr) {
+ > 260			iounmap(s_punitInterfaceAddr);
+   261			s_punitInterfaceAddr = NULL;
+   262		}
+   263		if (s_punitDataAddr) {
+   264			iounmap(s_punitDataAddr);
+   265			s_punitDataAddr = NULL;
+   266		}
+   267		if (s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr) {
+ > 268			iounmap(s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr);
+   269			s_telemEventInfo[TELEM_PUNIT].ssram_virt_addr = NULL;
+   270		}
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
