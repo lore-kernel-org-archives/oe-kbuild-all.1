@@ -1,44 +1,40 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FA17B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 11:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66817B;
+	Wed, 29 Mar 2023 12:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680090171; x=1711626171;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=22+SGcppje4NRDYAga4MlrSwF0aX3K61rlI5WMuxHp8=;
-  b=AAPvmVbNZD82fIWmgywMUOFhSe5WQCnb0VxcCLuA+wXeXjp5KTGN7u/w
-   Bi55KdeL/KSvKQH/fP9bGAL56E8Gy2Wkm1zMC/tEEan+ain20I9TG9tsf
-   uV3If4UQHPH/eP25tL3ifqCLhfvqS/gK5ystzn8LUK7qRmwJ8Bwai6pyh
-   Ey3FSsgcMk785Ba2l4t4G4NO2GnxjawW/8le87fSVdWRlOUwIpwbgnRT0
-   2d9SDovzTeG896lMdZiSTqai1HU8yoaFGVzebgPqOPF+cXpLdUJOrz/6R
-   SBIXULzbKQu4ERxkohhP74jAf1Pu4IuE/gfwF1EGG/Pv7AEVuAI6VZ2/N
+  t=1680091480; x=1711627480;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=FOpiUgg+gtmsGup/yumIEZMzKn+RhYA2r7msXMyPcTg=;
+  b=F6TIAldmU4TdJwNyczYCVAVBvzekIwttqQBp9rYMDd+UUXHfjVTwqAR9
+   DkOjPlUOvsUOPkP5+RBwEb1/NHrGM6Zq2R6+iM0nZ3KtZeq+cLiK6sOAI
+   HeYHRkOeB1USIEzb2Pw9aVYVzkH8WbkwMAEO0DEnpOyiub2nx5kh9NAb3
+   ETXcnKG5NQC2fmq20Vd9OAH0mBTt+NeXZam1euZeBRfEwok401Dfx9JC1
+   pYeCO6janX5S6bpYpA169mdredKE9wzI6JtrQOkRwLMusTrrY//Q3n6m3
+   fciwENU5TAqiwgcPgOwuzVCRsLfLrvdgbtRZXOdHEXGI34GD2YUlnTZ0d
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="343271878"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339581784"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="343271878"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 04:42:50 -0700
+   d="scan'208";a="339581784"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 05:03:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="661574061"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="686805275"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="661574061"
+   d="scan'208";a="686805275"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 29 Mar 2023 04:42:49 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2023 05:03:49 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phUCV-000JUO-2s;
-	Wed, 29 Mar 2023 11:42:47 +0000
-Date: Wed, 29 Mar 2023 19:41:54 +0800
+	id 1phUWq-000JVM-1T;
+	Wed, 29 Mar 2023 12:03:48 +0000
+Date: Wed, 29 Mar 2023 20:03:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [linux-next:master 2684/7607] arch/mips/loongson64/smp.c:203:26:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202303291916.ovLFJk2i-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: clang: error: unknown argument: '-mr10k-cache-barrier=store'
+Message-ID: <202303291937.QUZxNGAa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,177 +44,225 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   198925fae644b0099b66fac1d972721e6e563b17
-commit: 5bd3990723bdf43333b2c268cc6644cb1961125b [2684/7607] MIPS: Loongson64: Prefix ipi register address pointers with __iomem
-config: mips-randconfig-s031-20230329 (https://download.01.org/0day-ci/archive/20230329/202303291916.ovLFJk2i-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.1.0
-reproduce:
+CC: linux-kernel@vger.kernel.org
+TO: Tiezhu Yang <yangtiezhu@loongson.cn>
+CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+
+Hi Tiezhu,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fcd476ea6a888ef6e6627f4c21a2ea8cca3e9312
+commit: 048cc2378c2494519d940597629465b3ea44a96f MIPS: SGI-IP22: Remove unnecessary check of GCC option
+date:   1 year, 3 months ago
+config: mips-buildonly-randconfig-r006-20230329 (https://download.01.org/0day-ci/archive/20230329/202303291937.QUZxNGAa-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=5bd3990723bdf43333b2c268cc6644cb1961125b
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 5bd3990723bdf43333b2c268cc6644cb1961125b
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips64-linux-gnuabi64
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=048cc2378c2494519d940597629465b3ea44a96f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 048cc2378c2494519d940597629465b3ea44a96f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash arch/mips/loongson64/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291916.ovLFJk2i-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291937.QUZxNGAa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/mips/loongson64/smp.c:203:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:203:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:203:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:205:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:205:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:205:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:207:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:207:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:207:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:209:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:209:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:209:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:211:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:211:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:211:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:213:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:213:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:213:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:215:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:215:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:215:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:217:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:217:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:217:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:219:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:219:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:219:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:221:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:221:26: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:221:26: sparse:     got void *
-   arch/mips/loongson64/smp.c:223:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:223:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:223:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:225:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:225:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:225:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:227:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:227:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:227:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:229:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:229:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:229:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:231:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:231:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:231:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:233:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:233:27: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:233:27: sparse:     got void *
-   arch/mips/loongson64/smp.c:239:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:239:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:239:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:241:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:241:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:241:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:243:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:243:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:243:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:245:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:245:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:245:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:247:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:247:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:247:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:249:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:249:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:249:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:251:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:251:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:251:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:253:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:253:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:253:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:255:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:255:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:255:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:257:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:257:28: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:257:28: sparse:     got void *
-   arch/mips/loongson64/smp.c:259:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:259:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:259:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:261:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:261:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:261:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:263:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:263:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:263:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:265:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:265:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:265:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:267:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:267:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:267:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:269:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:269:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:269:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:275:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:275:29: sparse:     expected void [noderef] __iomem *
-   arch/mips/loongson64/smp.c:275:29: sparse:     got void *
-   arch/mips/loongson64/smp.c:277:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   arch/mips/loongson64/smp.c:277:29: sparse:     expected void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +203 arch/mips/loongson64/smp.c
-
-ffe59ee36aaa83 arch/mips/loongson64/loongson-3/smp.c Huacai Chen 2019-09-21  200  
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  201  static void ipi_set0_regs_init(void)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  202  {
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26 @203  	ipi_set0_regs[0] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  204  		(SMP_CORE_GROUP0_BASE + SMP_CORE0_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  205  	ipi_set0_regs[1] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  206  		(SMP_CORE_GROUP0_BASE + SMP_CORE1_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  207  	ipi_set0_regs[2] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  208  		(SMP_CORE_GROUP0_BASE + SMP_CORE2_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  209  	ipi_set0_regs[3] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  210  		(SMP_CORE_GROUP0_BASE + SMP_CORE3_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  211  	ipi_set0_regs[4] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  212  		(SMP_CORE_GROUP1_BASE + SMP_CORE0_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  213  	ipi_set0_regs[5] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  214  		(SMP_CORE_GROUP1_BASE + SMP_CORE1_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  215  	ipi_set0_regs[6] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  216  		(SMP_CORE_GROUP1_BASE + SMP_CORE2_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  217  	ipi_set0_regs[7] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  218  		(SMP_CORE_GROUP1_BASE + SMP_CORE3_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  219  	ipi_set0_regs[8] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  220  		(SMP_CORE_GROUP2_BASE + SMP_CORE0_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  221  	ipi_set0_regs[9] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  222  		(SMP_CORE_GROUP2_BASE + SMP_CORE1_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  223  	ipi_set0_regs[10] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  224  		(SMP_CORE_GROUP2_BASE + SMP_CORE2_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  225  	ipi_set0_regs[11] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  226  		(SMP_CORE_GROUP2_BASE + SMP_CORE3_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  227  	ipi_set0_regs[12] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  228  		(SMP_CORE_GROUP3_BASE + SMP_CORE0_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  229  	ipi_set0_regs[13] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  230  		(SMP_CORE_GROUP3_BASE + SMP_CORE1_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  231  	ipi_set0_regs[14] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  232  		(SMP_CORE_GROUP3_BASE + SMP_CORE2_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  233  	ipi_set0_regs[15] = (void *)
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  234  		(SMP_CORE_GROUP3_BASE + SMP_CORE3_OFFSET + SET0);
-e7841be50fe2b8 arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-06-26  235  }
-300459d558725c arch/mips/loongson/loongson-3/smp.c   Huacai Chen 2014-03-21  236  
-
-:::::: The code at line 203 was first introduced by commit
-:::::: e7841be50fe2b8751a51a068b8cdcdcb6611e354 MIPS: Add Loongson-3B support
-
-:::::: TO: Huacai Chen <chenhc@lemote.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+>> clang: error: unknown argument: '-mr10k-cache-barrier=store'
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   scripts/sign-file.c:89:14: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
+           while ((e = ERR_get_error_line(&file, &line))) {
+                       ^
+   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:102:9: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
+           while (ERR_get_error_line(&file, &line)) {}
+                  ^
+   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:142:3: warning: 'ENGINE_load_builtin_engines' is deprecated [-Wdeprecated-declarations]
+                   ENGINE_load_builtin_engines();
+                   ^
+   /usr/include/openssl/engine.h:358:1: note: 'ENGINE_load_builtin_engines' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:144:7: warning: 'ENGINE_by_id' is deprecated [-Wdeprecated-declarations]
+                   e = ENGINE_by_id("pkcs11");
+                       ^
+   /usr/include/openssl/engine.h:336:1: note: 'ENGINE_by_id' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:146:7: warning: 'ENGINE_init' is deprecated [-Wdeprecated-declarations]
+                   if (ENGINE_init(e))
+                       ^
+   /usr/include/openssl/engine.h:620:1: note: 'ENGINE_init' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:151:9: warning: 'ENGINE_ctrl_cmd_string' is deprecated [-Wdeprecated-declarations]
+                           ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+                                ^
+   /usr/include/openssl/engine.h:478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/sign-file.c:153:17: warning: 'ENGINE_load_private_key' is deprecated [-Wdeprecated-declarations]
+                   private_key = ENGINE_load_private_key(e, private_key_name,
+                                 ^
+   /usr/include/openssl/engine.h:637:1: note: 'ENGINE_load_private_key' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   7 warnings generated.
+   scripts/extract-cert.c:46:14: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
+           while ((e = ERR_get_error_line(&file, &line))) {
+                       ^
+   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated [-Wdeprecated-declarations]
+           while (ERR_get_error_line(&file, &line)) {}
+                  ^
+   /usr/include/openssl/err.h:422:1: note: 'ERR_get_error_line' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:124:3: warning: 'ENGINE_load_builtin_engines' is deprecated [-Wdeprecated-declarations]
+                   ENGINE_load_builtin_engines();
+                   ^
+   /usr/include/openssl/engine.h:358:1: note: 'ENGINE_load_builtin_engines' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:126:7: warning: 'ENGINE_by_id' is deprecated [-Wdeprecated-declarations]
+                   e = ENGINE_by_id("pkcs11");
+                       ^
+   /usr/include/openssl/engine.h:336:1: note: 'ENGINE_by_id' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:128:7: warning: 'ENGINE_init' is deprecated [-Wdeprecated-declarations]
+                   if (ENGINE_init(e))
+                       ^
+   /usr/include/openssl/engine.h:620:1: note: 'ENGINE_init' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:133:9: warning: 'ENGINE_ctrl_cmd_string' is deprecated [-Wdeprecated-declarations]
+                           ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
+                                ^
+   /usr/include/openssl/engine.h:478:1: note: 'ENGINE_ctrl_cmd_string' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   scripts/extract-cert.c:134:3: warning: 'ENGINE_ctrl_cmd' is deprecated [-Wdeprecated-declarations]
+                   ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+                   ^
+   /usr/include/openssl/engine.h:450:1: note: 'ENGINE_ctrl_cmd' has been explicitly marked deprecated here
+   OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
+   ^
+   /usr/include/openssl/macros.h:182:49: note: expanded from macro 'OSSL_DEPRECATEDIN_3_0'
+   #   define OSSL_DEPRECATEDIN_3_0                OSSL_DEPRECATED(3.0)
+                                                   ^
+   /usr/include/openssl/macros.h:62:52: note: expanded from macro 'OSSL_DEPRECATED'
+   #     define OSSL_DEPRECATED(since) __attribute__((deprecated))
+                                                      ^
+   7 warnings generated.
+>> clang: error: unknown argument: '-mr10k-cache-barrier=store'
+>> clang: error: unknown argument: '-mr10k-cache-barrier=store'
+   make[2]: *** [scripts/Makefile.build:121: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1196: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:219: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
