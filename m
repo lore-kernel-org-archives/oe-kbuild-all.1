@@ -1,42 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8203F7B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 01:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8496A7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 01:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680055052; x=1711591052;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W7KMWqpXgoLsppUFfDryFSKJmvAp7vOo8P5sl+ZlIoo=;
-  b=j3v1bs7nooh/3xmlbBw6NCt5IaVYtJGTEKQKLsFp+AgBS+JS0skFSWWL
-   CSYwJxJys+dF9Z5iMwRYnewzKYJW8tQlwvvqilC6IEADSqUH0ar6mY7cN
-   hQ9ctfUVC0eBXw1mBGsR/zd3H6Sn4OGnt8AIXiAzMmVSyj1NUsC12piyM
-   q7g9G3kdibRBiptCwxTucpVAHHIWr+YAsK3ZfTHICUumskvMPj0+JxLMK
-   wZiVn0+shSdxuYyXZtZou7QDpwvZKb+yco+RJxDYtx5eBqhEw8ppBkAOh
-   Wb/QUTxWuG9vbO/U3TeNjF9I1O7lI92i3h92CFygJsKIce1KTMtugrPZx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339474934"
+  t=1680055058; x=1711591058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V/1sXQDCXlzQkKAyuFWjdRLSAuUIQdMwdqg1m6D3HS4=;
+  b=ltWPG8muquKMcOmgU80CeG/jwZD3m8caS/fNidMWU2YFQVtDkQgrV4uW
+   4JkWdYHPZvsivEL5rCn3XEtvJvZ0WOqiSwaruEg9lZ+0lkeAlL9ZUf1Am
+   OraBGVTm4XEEQl9KX564YGDX7qW6J4Wyp0POAwP+dzsF37XG7IXMb+imN
+   ou2o2R/EyvkChz4b92cS1SpkNZKTwCXoEj70ZRl78NgaQTwMZnd2jcHYX
+   o+C74pgdCbvbn6Es3GRAlrJ7BFHlrLjrqukbFm/AXb/rXNEGGCLNTDiFp
+   r0WgyHkyuNQXM/Ji0je62/sU3jiT/jYAD/NVKrUgDcERH7rU/G0bfIckG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403366975"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="339474934"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 18:57:31 -0700
+   d="scan'208";a="403366975"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 18:57:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808021168"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="714443074"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="808021168"
+   d="scan'208";a="714443074"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 18:57:30 -0700
+  by orsmga008.jf.intel.com with ESMTP; 28 Mar 2023 18:57:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phL45-000J4d-24;
+	id 1phL45-000J4j-2U;
 	Wed, 29 Mar 2023 01:57:29 +0000
-Date: Wed, 29 Mar 2023 09:56:36 +0800
+Date: Wed, 29 Mar 2023 09:56:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Faycal Benmlih <faycal.benmlih@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/platform/x86/socwatch/sw_pci.c:64:6: sparse: sparse: symbol
- 'sw_print_pci_devices_i' was not declared. Should it be static?
-Message-ID: <202303290918.zxW8TUmY-lkp@intel.com>
+To: Minghao Zhang <quic_minghao@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, konrad.dybcio@somainline.org,
+	linus.walleij@linaro.or
+Cc: oe-kbuild-all@lists.linux.dev, Minghao Zhang <quic_minghao@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_satyap@quicinc.com,
+	quic_tsoni@quicinc.com
+Subject: Re: [PATCH] pinctrl: qcom: Add support to log pin status before
+ suspend for TLMM
+Message-ID: <202303290928.dSDvzIQo-lkp@intel.com>
+References: <1680004791-4216-1-git-send-email-quic_minghao@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,48 +52,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1680004791-4216-1-git-send-email-quic_minghao@quicinc.com>
 
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
-head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
-commit: cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19 SEP/SOCWATCH Update SoCWatch driver after rebasing to linux v5.7
-date:   2 years, 6 months ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230329/202303290918.zxW8TUmY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/mchinth/linux/commit/cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
-        git remote add mchinth https://github.com/mchinth/linux
-        git fetch --no-tags mchinth sep_socwatch_linux_5_10
-        git checkout cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
+Hi Minghao,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.3-rc4 next-20230328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Minghao-Zhang/pinctrl-qcom-Add-support-to-log-pin-status-before-suspend-for-TLMM/20230328-200200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/1680004791-4216-1-git-send-email-quic_minghao%40quicinc.com
+patch subject: [PATCH] pinctrl: qcom: Add support to log pin status before suspend for TLMM
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230329/202303290928.dSDvzIQo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5a98341ba812869812018e6f72274e57343aa893
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Minghao-Zhang/pinctrl-qcom-Add-support-to-log-pin-status-before-suspend-for-TLMM/20230328-200200
+        git checkout 5a98341ba812869812018e6f72274e57343aa893
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pinctrl/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290918.zxW8TUmY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290928.dSDvzIQo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/socwatch/sw_pci.c:64:6: sparse: sparse: symbol 'sw_print_pci_devices_i' was not declared. Should it be static?
---
->> drivers/platform/x86/socwatch/sw_pmt.c:232:8: sparse: sparse: symbol 's_endpoint_index' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/sw_print_pci_devices_i +64 drivers/platform/x86/socwatch/sw_pci.c
+>> drivers/pinctrl/qcom/pinctrl-msm.c:1497:6: warning: no previous prototype for 'debug_pintctrl_msm_enable' [-Wmissing-prototypes]
+    1497 | void debug_pintctrl_msm_enable(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-msm.c:1503:6: warning: no previous prototype for 'debug_pintctrl_msm_disable' [-Wmissing-prototypes]
+    1503 | void debug_pintctrl_msm_disable(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    63	
-  > 64	void sw_print_pci_devices_i(void) {
-    65		int i = 0;
-    66	
-    67		for(i = 0; i < s_pci_dev_list.num_entries; ++i) {
-    68			pw_pr_debug("bus: %x, dev: %x, func: %x, vendor: %x, device: %x, class: %x, header: %x\n",
-    69					s_pci_dev_list.info[i].bus, s_pci_dev_list.info[i].device, s_pci_dev_list.info[i].function,
-    70					s_pci_dev_list.info[i].vendorID, s_pci_dev_list.info[i].deviceID, s_pci_dev_list.info[i].classID,
-    71					s_pci_dev_list.info[i].headerType);
-    72		}
-    73	}
-    74	
+
+vim +/debug_pintctrl_msm_enable +1497 drivers/pinctrl/qcom/pinctrl-msm.c
+
+  1496	
+> 1497	void debug_pintctrl_msm_enable(void)
+  1498	{
+  1499		pinctrl_msm_log_mask = true;
+  1500	}
+  1501	EXPORT_SYMBOL(debug_pintctrl_msm_enable);
+  1502	
+> 1503	void debug_pintctrl_msm_disable(void)
+  1504	{
+  1505		pinctrl_msm_log_mask = false;
+  1506	}
+  1507	EXPORT_SYMBOL(debug_pintctrl_msm_disable);
+  1508	
 
 -- 
 0-DAY CI Kernel Test Service
