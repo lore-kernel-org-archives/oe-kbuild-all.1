@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A167463D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9C763D2;
+	Wed, 29 Mar 2023 18:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680113181; x=1711649181;
+  t=1680113767; x=1711649767;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5w5DoFQoqFOoOe6e6TrJ8KxOF5sKDE2uohW1G2VOdZM=;
-  b=g7BycsV/pgZRRplI9R1d/Of/SREZksjuwKs7qB1kXLDeNCydjLB9XFuC
-   L/rVwcFpdU6670l+Y23tsI5KXlhJVhfaRpmN77RayJ3bEC0A0YQ0MAGKM
-   X9m+sKZ8ouAskes8VLK2AFX41s0IkLgNHr2tUJozRWMyhtQKbr/yl6GRI
-   q88NdvyaEWZBEqon9KiId2S8xoU6wQkmvOD3146Z836xVxw7A1ABlQiWA
-   WOy/uunwNyX7mS/BaZUcV6eNNkN9MIIZz28OavwgkbmLsL6q9Lv3mX0pu
-   H8vsyMo8YgSN+kkG0rGXtg/hEZha3zr/y+l9g9k+kQFPd/X0cToRWPdL+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="339685363"
+  bh=SM93Gf3OEoykbLXAhRIQnQY2XUwDEpIaR6b8tjYkRWo=;
+  b=MgB/piJv37kf9UeGxMF8XqJcKOPdRdffmrxhdm60fYddydBnYjDlEAfw
+   9OYrKBTHvYPHGLZ6jdEBDy6U9hXBYgiqdm9WkHdoF6kzh+1SuZ39QakzK
+   5EFVon1x5UKoD2FAzpH2lk2jeMu2ryKpM3KV3PiG8SnjLu5kyu6Qauplu
+   UC5HqzV/cKR1uPOS74TZIZg5XbrwOaWEdyPUsj/vzwt79lTT/IExN/NcS
+   c+HQEMHqv+bii96pRAzt/MhqkqtxACDBl/Rw7jtO7NuHanQrw9agrGyWs
+   z9FrSgw3QYZCqNQ27KPfax3JtZktQ4FaHIPDUO7u47RZ7INH8V5Dp2t0y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405914093"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="339685363"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:06:06 -0700
+   d="scan'208";a="405914093"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:16:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="773677817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="795347176"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="773677817"
+   d="scan'208";a="795347176"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Mar 2023 11:06:05 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 29 Mar 2023 11:16:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phaBR-000JnL-0G;
-	Wed, 29 Mar 2023 18:06:05 +0000
-Date: Thu, 30 Mar 2023 02:05:36 +0800
+	id 1phaL7-000JoC-2W;
+	Wed, 29 Mar 2023 18:16:05 +0000
+Date: Thu, 30 Mar 2023 02:16:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 3/42]
- drivers/iommu/iommufd/device.c:323:6: warning: variable 'rc' is used
- uninitialized whenever 'if' condition is false
-Message-ID: <202303300103.luCe8qDs-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:iov-sendpage 28/63] net/tls/tls_main.c:130:4: error:
+ field designator 'msg_kflags' does not refer to any field in type 'struct
+ msghdr'; did you mean 'msg_flags'?
+Message-ID: <202303300200.v3pCrbDt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,113 +47,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
-head:   032ce679f2322b426350f8721d7a1afca1bb7aab
-commit: 06ac6c12f5cac61638684e9d6f3fee0fca1287d3 [3/42] iommufd: Add IOMMU_DEVICE_GET_HW_INFO
-config: riscv-randconfig-r042-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300103.luCe8qDs-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-sendpage
+head:   39e48c1301bf2fb60a53912fe5870a253256debc
+commit: e1bd0668a8caff3ca2428ad9312c430379b56e46 [28/63] tls: Inline do_tcp_sendpages()
+config: riscv-randconfig-r011-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300200.v3pCrbDt-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/yiliu1765/iommufd/commit/06ac6c12f5cac61638684e9d6f3fee0fca1287d3
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd wip/iommufd_nesting-03292023-yi
-        git checkout 06ac6c12f5cac61638684e9d6f3fee0fca1287d3
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?id=e1bd0668a8caff3ca2428ad9312c430379b56e46
+        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
+        git fetch --no-tags dhowells-fs iov-sendpage
+        git checkout e1bd0668a8caff3ca2428ad9312c430379b56e46
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/iommu/iommufd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/tls/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300103.luCe8qDs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300200.v3pCrbDt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iommu/iommufd/device.c:323:6: warning: variable 'rc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (length < cmd->data_len) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/device.c:329:7: note: uninitialized use occurs here
-           if (!rc) {
-                ^~
-   drivers/iommu/iommufd/device.c:323:2: note: remove the 'if' if its condition is always true
-           if (length < cmd->data_len) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/device.c:284:8: note: initialize the variable 'rc' to silence this warning
-           int rc;
-                 ^
-                  = 0
-   1 warning generated.
+>> net/tls/tls_main.c:130:4: error: field designator 'msg_kflags' does not refer to any field in type 'struct msghdr'; did you mean 'msg_flags'?
+                   .msg_kflags     = MSG_SPLICE_PAGES,
+                    ^~~~~~~~~~
+                    msg_flags
+   include/linux/socket.h:74:15: note: 'msg_flags' declared here
+           unsigned int    msg_flags;      /* flags on received message */
+                           ^
+   net/tls/tls_main.c:130:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+                   .msg_kflags     = MSG_SPLICE_PAGES,
+                                     ^~~~~~~~~~~~~~~~
+   include/linux/socket.h:330:26: note: expanded from macro 'MSG_SPLICE_PAGES'
+   #define MSG_SPLICE_PAGES 0x8000000      /* Splice the pages from the iterator in sendmsg() */
+                            ^~~~~~~~~
+   net/tls/tls_main.c:129:16: note: previous initialization is here
+                   .msg_flags      = flags | MSG_SENDPAGE_NOTLAST,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +323 drivers/iommu/iommufd/device.c
+vim +130 net/tls/tls_main.c
 
-   276	
-   277	int iommufd_device_get_hw_info(struct iommufd_ucmd *ucmd)
-   278	{
-   279		struct iommu_hw_info *cmd = ucmd->cmd;
-   280		unsigned int length, data_len;
-   281		struct iommufd_device *idev;
-   282		const struct iommu_ops *ops;
-   283		void *data = NULL;
-   284		int rc;
-   285	
-   286		if (cmd->flags || cmd->__reserved || !cmd->data_len)
-   287			return -EOPNOTSUPP;
-   288	
-   289		idev = iommufd_get_device(ucmd, cmd->dev_id);
-   290		if (IS_ERR(idev))
-   291			return PTR_ERR(idev);
-   292	
-   293		ops = dev_iommu_ops(idev->dev);
-   294		if (!ops->hw_info) {
-   295			rc = 0;
-   296			length = 0;
-   297			goto out;
-   298		}
-   299	
-   300		/* driver has hw_info callback should have a unique hw_info_type */
-   301		if (ops->hw_info_type == IOMMU_HW_INFO_TYPE_NONE) {
-   302			pr_warn_ratelimited("iommu driver set an invalid type\n");
-   303			rc = -ENODEV;
-   304			goto out;
-   305		}
-   306	
-   307		data = ops->hw_info(idev->dev, &data_len);
-   308		if (IS_ERR(data)) {
-   309			rc = PTR_ERR(data);
-   310			goto out;
-   311		}
-   312	
-   313		length = min(cmd->data_len, data_len);
-   314		if (copy_to_user(u64_to_user_ptr(cmd->data_ptr), data, length)) {
-   315			rc = -EFAULT;
-   316			goto out;
-   317		}
-   318	
-   319		/*
-   320		 * Zero the trailing bytes if the user buffer is bigger than the
-   321		 * data size kernel actually has.
-   322		 */
- > 323		if (length < cmd->data_len) {
-   324			rc = iommufd_zero_fill_user(cmd->data_ptr + length,
-   325						    cmd->data_len - length);
-   326		}
-   327	
-   328	out:
-   329		if (!rc) {
-   330			cmd->out_data_type = ops->hw_info_type;
-   331			cmd->data_len = length;
-   332			rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-   333		}
-   334	
-   335		kfree(data);
-   336		iommufd_put_object(&idev->obj);
-   337		return rc;
-   338	}
-   339	
+   120	
+   121	int tls_push_sg(struct sock *sk,
+   122			struct tls_context *ctx,
+   123			struct scatterlist *sg,
+   124			u16 first_offset,
+   125			int flags)
+   126	{
+   127		struct bio_vec bvec;
+   128		struct msghdr msg = {
+   129			.msg_flags	= flags | MSG_SENDPAGE_NOTLAST,
+ > 130			.msg_kflags	= MSG_SPLICE_PAGES,
+   131		};
+   132		int ret = 0;
+   133		struct page *p;
+   134		size_t size;
+   135		int offset = first_offset;
+   136	
+   137		size = sg->length - offset;
+   138		offset += sg->offset;
+   139	
+   140		ctx->splicing_pages = true;
+   141		while (1) {
+   142			if (sg_is_last(sg))
+   143				msg.msg_flags = flags;
+   144	
+   145			/* is sending application-limited? */
+   146			tcp_rate_check_app_limited(sk);
+   147			p = sg_page(sg);
+   148	retry:
+   149			bvec_set_page(&bvec, p, size, offset);
+   150			iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, size);
+   151	
+   152			ret = tcp_sendmsg_locked(sk, &msg, size);
+   153	
+   154			if (ret != size) {
+   155				if (ret > 0) {
+   156					offset += ret;
+   157					size -= ret;
+   158					goto retry;
+   159				}
+   160	
+   161				offset -= sg->offset;
+   162				ctx->partially_sent_offset = offset;
+   163				ctx->partially_sent_record = (void *)sg;
+   164				ctx->splicing_pages = false;
+   165				return ret;
+   166			}
+   167	
+   168			put_page(p);
+   169			sk_mem_uncharge(sk, sg->length);
+   170			sg = sg_next(sg);
+   171			if (!sg)
+   172				break;
+   173	
+   174			offset = sg->offset;
+   175			size = sg->length;
+   176		}
+   177	
+   178		ctx->splicing_pages = false;
+   179	
+   180		return 0;
+   181	}
+   182	
 
 -- 
 0-DAY CI Kernel Test Service
