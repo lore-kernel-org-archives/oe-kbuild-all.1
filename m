@@ -1,42 +1,47 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E17BAFE7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 13:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2131C32
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 13:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680097014; x=1711633014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5nsdkCrxLBUH9tKbMWKtqUuj5Q4V+wA9wiG1VhPleKA=;
-  b=JAN8lJbtV1pEuA1uc8490yoIavHdvkpELB+5RcUxVWkspTeWnZ/yeZAK
-   R3z/EQ6Bz1tdqrTl56d5VhtRItgmqaYv8WnqIIyeBxuxeymGug3vbfj6N
-   8EboNHw/BQ1Vdz8f5uXjZtYjtGEMMhtjB6CsGjqQuBnDljraSH6MdT3Mj
-   hHk8i2mZcehAojZKX2Z8TVV6ORlbE48Zh6UlaZ+0fzUYRDeQyECCppdp8
-   jWEEvCAdY2YKNAKypGh7GdkI6I6spcwT8roHaIwGWWApYPiRExnDTUJ/o
-   upLQDfXdEiMxI05+aYiabfqTYYCnkS7ZzjTB7qG0FzxeGWf5E/c3kcTxF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="321271342"
+  t=1680097016; x=1711633016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/+830BIGyxkaS/X9JdvqrrRiNUxLdgMKrlJlssiTfWg=;
+  b=imHSkRb/GA2HxHwmu9C/VCDgqEiYekGNLbjjqPpe5BnKwyJhd0t926tT
+   MyKfgGYJT2gRI4FQxnYdczCaBcEqfgVeVCYsAqgKLrluO8bl7x4pvsAaE
+   lzL9RoyeTKzPTlTzWojAXOP9ebPs1z5ZM7vuM4dPlU8dX4Mljzc7Pp5PI
+   8ay6zXKvJBfeaZ1jw5UB4bv9avj0CgsQxmmQhoYVBm9eIs8dMJm2REvJe
+   Ax54keh6iLknPRqw+QsccM53IT5jQ0fjhN8TjzjLVUa9a8KSohaBXwaCH
+   bVrLGJ1v1naVbwAa0arpvXbZkmyOzXW7SfENrURfZ6gPFiP/Jv2ciUmgY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="368648517"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="321271342"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 06:36:53 -0700
+   d="scan'208";a="368648517"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 06:36:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="773582681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="686829764"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="773582681"
+   d="scan'208";a="686829764"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Mar 2023 06:36:53 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2023 06:36:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phVyu-000Ja6-1L;
+	id 1phVyu-000Ja4-1E;
 	Wed, 29 Mar 2023 13:36:52 +0000
-Date: Wed, 29 Mar 2023 21:36:24 +0800
+Date: Wed, 29 Mar 2023 21:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhu Lingshan <lingshan.zhu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ls-zhu:refactor 5/7] drivers/vdpa/ifcvf/ifcvf_main.c:439:31:
- warning: variable 'adapter' set but not used
-Message-ID: <202303292144.Yx54vxL4-lkp@intel.com>
+To: Domenico Cerasuolo <cerasuolodomenico@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org, surenb@google.com,
+	brauner@kernel.org, chris@chrisdown.name, hannes@cmpxchg.org,
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+Subject: Re: [PATCH v3 4/4] sched/psi: allow unprivileged polling of N*2s
+ period
+Message-ID: <202303292129.PLXZnmls-lkp@intel.com>
+References: <20230329074842.16209-5-cerasuolodomenico@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,73 +50,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230329074842.16209-5-cerasuolodomenico@gmail.com>
 
-tree:   https://github.com/ls-zhu/linux refactor
-head:   eec40a854a7617076952ac5dfc273a9f3ed10bf0
-commit: e07aed8d27dc17ff4587560d7e484de57870e970 [5/7] retire ifcvf_add_status, ifcvf_start_hw and ifcvf_start_datapath
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303292144.Yx54vxL4-lkp@intel.com/config)
+Hi Domenico,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on tj-cgroup/for-next vfs-idmapping/for-next linus/master v6.3-rc4 next-20230329]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Domenico-Cerasuolo/sched-psi-rearrange-polling-code-in-preparation/20230329-155205
+patch link:    https://lore.kernel.org/r/20230329074842.16209-5-cerasuolodomenico%40gmail.com
+patch subject: [PATCH v3 4/4] sched/psi: allow unprivileged polling of N*2s period
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303292129.PLXZnmls-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ls-zhu/linux/commit/e07aed8d27dc17ff4587560d7e484de57870e970
-        git remote add ls-zhu https://github.com/ls-zhu/linux
-        git fetch --no-tags ls-zhu refactor
-        git checkout e07aed8d27dc17ff4587560d7e484de57870e970
+        # https://github.com/intel-lab-lkp/linux/commit/6c9f1219e1ccea05926017b359e41bfff24e9bd9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Domenico-Cerasuolo/sched-psi-rearrange-polling-code-in-preparation/20230329-155205
+        git checkout 6c9f1219e1ccea05926017b359e41bfff24e9bd9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/vdpa/ifcvf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303292144.Yx54vxL4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303292129.PLXZnmls-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/vdpa/ifcvf/ifcvf_main.c: In function 'ifcvf_vdpa_set_status':
->> drivers/vdpa/ifcvf/ifcvf_main.c:439:31: warning: variable 'adapter' set but not used [-Wunused-but-set-variable]
-     439 |         struct ifcvf_adapter *adapter;
-         |                               ^~~~~~~
+   In file included from kernel/sched/build_utility.c:97:
+   kernel/sched/psi.c: In function 'psi_irq_open':
+>> kernel/sched/psi.c:1602:16: error: implicit declaration of function 'psi_open'; did you mean 'psi_io_open'? [-Werror=implicit-function-declaration]
+    1602 |         return psi_open(file, psi_irq_show);
+         |                ^~~~~~~~
+         |                psi_io_open
+   cc1: some warnings being treated as errors
 
 
-vim +/adapter +439 drivers/vdpa/ifcvf/ifcvf_main.c
+vim +1602 kernel/sched/psi.c
 
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  436  
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  437  static void ifcvf_vdpa_set_status(struct vdpa_device *vdpa_dev, u8 status)
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  438  {
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26 @439  	struct ifcvf_adapter *adapter;
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  440  	struct ifcvf_hw *vf;
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  441  	u8 status_old;
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  442  	int ret;
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  443  
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  444  	vf  = vdpa_to_vf(vdpa_dev);
-6b5df347c6482f drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2021-08-12  445  	adapter = vdpa_to_adapter(vdpa_dev);
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  446  	status_old = ifcvf_get_status(vf);
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  447  
-bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  448  	if (status_old == status)
-bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  449  		return;
-bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  450  
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  451  	if ((status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  452  	    !(status_old & VIRTIO_CONFIG_S_DRIVER_OK)) {
-7cfd36b7e8be6b drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-11-25  453  		ret = ifcvf_request_irq(vf);
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  454  		if (ret) {
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  455  			status = ifcvf_get_status(vf);
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  456  			status |= VIRTIO_CONFIG_S_FAILED;
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  457  			ifcvf_set_status(vf, status);
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  458  			return;
-7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  459  		}
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  460  	}
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  461  
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  462  	ifcvf_set_status(vf, status);
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  463  }
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  464  
-
-:::::: The code at line 439 was first introduced by commit
-:::::: 5a2414bc454e89e0515b47500734a65aa40cf9fe virtio: Intel IFC VF driver for VDPA
-
-:::::: TO: Zhu Lingshan <lingshan.zhu@intel.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+52b1364ba0b105 Chengming Zhou 2022-08-26  1599  
+52b1364ba0b105 Chengming Zhou 2022-08-26  1600  static int psi_irq_open(struct inode *inode, struct file *file)
+52b1364ba0b105 Chengming Zhou 2022-08-26  1601  {
+52b1364ba0b105 Chengming Zhou 2022-08-26 @1602  	return psi_open(file, psi_irq_show);
+52b1364ba0b105 Chengming Zhou 2022-08-26  1603  }
+52b1364ba0b105 Chengming Zhou 2022-08-26  1604  
 
 -- 
 0-DAY CI Kernel Test Service
