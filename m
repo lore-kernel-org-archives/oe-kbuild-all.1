@@ -1,42 +1,48 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8973310E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 05:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846EC10E3;
+	Wed, 29 Mar 2023 05:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680066700; x=1711602700;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2ufP/Htlm9oazcg1PMB+cSOtSjLRw5MUKuLC9O9DTsA=;
-  b=iz0fRScjBON9usTfd/sY8ISGjIOgGsXkAAXSyyheET+8L04+TV7rXn19
-   vyQ+0nFz5/xUX96WQO+A0+iYKQPkXnL7SFRP8sPQ2s84m05+lO4WnYTh7
-   toM3lq7pKPrEji7zJQd5mjvpmnQT8POqbTjiS35iKXjaPN5ogJ3Mg8k+D
-   b2x9PzK50/5ebOe6oxiaFC8DjovUyw7CVvRAUjXTXfL8tUdrIGe1UH6VD
-   RsawCj9K/PICHQtbrjv6e4U89c9ev9oFWNAdH4WCev3CDcZqPiPTSr3QX
-   oJ5adt1KB2V3ZEZOAnaqGFvHpB8d9hNP6YuI9R2lJPi84rACBXDbb/yju
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405722076"
+  t=1680068623; x=1711604623;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C1fML/7RisxPvrLe5CofxF3dlUzqz7mxCBghMI/fiik=;
+  b=ggocGvsnBNcDss+YPVT1dkocpdh9Z/21wia1N7yTc0hR4XoHVuoc81Q4
+   knxC36pgXnSzlZIbOQuLYfR3phiz5rey9Z+altk1uwhOA8vuX8ToOhCP2
+   ox/txTrU0VNSuCuTT36ZVJMwmAcyrRMNQSDOIiUFrBDMSBw2deQn7Wmrp
+   ZuDnOLya3Q2wweHaXfKN/ALj8K+VX704M5wE9Zvner85EIao8UYYx3nws
+   lUSMAdQAn/J4IcT6Xwp4FM2Ktxcwf7lKJV9n6sc4SBo/17WVNeGhOm5WW
+   qPDczmF84yT7+CT14/Ji6nsY0hZzoYiL+KNF3EVexNIxyRxBjnD2AH3Ks
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340806861"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="405722076"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:11:39 -0700
+   d="scan'208";a="340806861"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:43:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="1013870037"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808073478"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="1013870037"
+   d="scan'208";a="808073478"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2023 22:11:38 -0700
+  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 22:43:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phO5y-000JFb-01;
-	Wed, 29 Mar 2023 05:11:38 +0000
-Date: Wed, 29 Mar 2023 13:11:31 +0800
+	id 1phOaw-000JGq-2F;
+	Wed, 29 Mar 2023 05:43:38 +0000
+Date: Wed, 29 Mar 2023 13:42:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manisha Chinthapally <manisha.chinthapally@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse:
- function 'SOCPERF_Read_Data3' with external linkage has definition
-Message-ID: <202303291303.tqFgfyVx-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to
+ APPLE_MAILBOX
+Message-ID: <202303291348.nYR9dkeW-lkp@intel.com>
+References: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,171 +51,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
 
-Hi Manisha,
+Hi Hector,
 
-First bad commit (maybe != root cause):
+I love your patch! Yet something to improve:
 
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
-head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
-commit: c859e634bf058e7963fccc4c1219c1365e925ad4 platform/x86: Update SEP driver for 5.9 pull
-date:   2 years, 6 months ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230329/202303291303.tqFgfyVx-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/mchinth/linux/commit/c859e634bf058e7963fccc4c1219c1365e925ad4
-        git remote add mchinth https://github.com/mchinth/linux
-        git fetch --no-tags mchinth sep_socwatch_linux_5_10
-        git checkout c859e634bf058e7963fccc4c1219c1365e925ad4
+[auto build test ERROR on bdfe6de2695c5bccc663a5a7d530f81925d8bc10]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
+base:   bdfe6de2695c5bccc663a5a7d530f81925d8bc10
+patch link:    https://lore.kernel.org/r/20230328-soc-mailbox-v1-5-3953814532fd%40marcan.st
+patch subject: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303291348.nYR9dkeW-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d0addf95095d935cdd5940101fbf1b1594b08158
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
+        git checkout d0addf95095d935cdd5940101fbf1b1594b08158
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/soc/apple/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291303.tqFgfyVx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291348.nYR9dkeW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/socperf/socperfdrv.c:203:13: sparse: sparse: function 'SOCPERF_Read_Data3' with external linkage has definition
-   drivers/platform/x86/socperf/socperfdrv.c:885:1: sparse: sparse: function 'SOCPERF_Switch_Group3' with external linkage has definition
->> drivers/platform/x86/socperf/socperfdrv.c:101:22: sparse: sparse: symbol 'socperf_drv_version' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:102:5: sparse: sparse: symbol 'read_unc_ctr_info' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:103:10: sparse: sparse: symbol 'dispatch_uncore' was not declared. Should it be static?
-   drivers/platform/x86/socperf/socperfdrv.c:104:12: sparse: sparse: symbol 'socperf_drv_cfg' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:105:14: sparse: sparse: symbol 'socperf_global_ec' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:106:14: sparse: sparse: symbol 'socperf_abnormal_terminate' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:107:11: sparse: sparse: symbol 'socperf_control' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:111:8: sparse: sparse: symbol 'socperf_pcb_size' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:984:28: sparse: sparse: Using plain integer as NULL pointer
->> drivers/platform/x86/socperf/socperfdrv.c:1070:6: sparse: sparse: symbol 'lwpmudrv_Stop_Mem' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1155:15: sparse: sparse: symbol 'socperf_Service_IOCTL' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1274:6: sparse: sparse: symbol 'socperf_Device_Control' was not declared. Should it be static?
->> drivers/platform/x86/socperf/socperfdrv.c:1358:5: sparse: sparse: symbol 'SOCPERF_Abnormal_Terminate' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/SOCPERF_Read_Data3 +203 drivers/platform/x86/socperf/socperfdrv.c
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
+>> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |                        ^~~~~~~~~~
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
+>> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     188 |                 msg.msg1 = FIELD_GET(
+         |                            ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
-f57492d07625ddd Manisha Chinthapally 2019-05-01   99  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  100  /* Global variables of the driver */
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @101  SOCPERF_VERSION_NODE socperf_drv_version;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @102  U64 *read_unc_ctr_info;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @103  DISPATCH dispatch_uncore;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  104  DRV_CONFIG socperf_drv_cfg;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @105  EVENT_CONFIG socperf_global_ec;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @106  volatile S32 socperf_abnormal_terminate;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @107  LWPMU_DEV socperf_control;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  108  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  109  LWPMU_DEVICE device_uncore;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  110  CPU_STATE socperf_pcb;
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @111  size_t socperf_pcb_size;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  112  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  113  #if defined(DRV_USE_UNLOCKED_IOCTL)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  114  static struct mutex ioctl_lock;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  115  #endif
-f57492d07625ddd Manisha Chinthapally 2019-05-01  116  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  117  #define PMU_DEVICES 1 // pmu control
-f57492d07625ddd Manisha Chinthapally 2019-05-01  118  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  119  static dev_t lwpmu_DevNum; /* the major and minor parts for SOCPERF base */
-f57492d07625ddd Manisha Chinthapally 2019-05-01  120  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  121  static struct class *pmu_class;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  122  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  123  #define DRV_DEVICE_DELIMITER "!"
-f57492d07625ddd Manisha Chinthapally 2019-05-01  124  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  125  #if !defined(DRV_USE_UNLOCKED_IOCTL)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  126  #define MUTEX_INIT(lock)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  127  #define MUTEX_LOCK(lock)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  128  #define MUTEX_UNLOCK(lock)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  129  #else
-f57492d07625ddd Manisha Chinthapally 2019-05-01  130  #define MUTEX_INIT(lock) mutex_init(&(lock))
-f57492d07625ddd Manisha Chinthapally 2019-05-01  131  #define MUTEX_LOCK(lock) mutex_lock(&(lock))
-f57492d07625ddd Manisha Chinthapally 2019-05-01  132  #define MUTEX_UNLOCK(lock) mutex_unlock(&(lock))
-f57492d07625ddd Manisha Chinthapally 2019-05-01  133  #endif
-f57492d07625ddd Manisha Chinthapally 2019-05-01  134  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  135  /* ------------------------------------------------------------------------- */
-f57492d07625ddd Manisha Chinthapally 2019-05-01  136  /*!
-f57492d07625ddd Manisha Chinthapally 2019-05-01  137   * @fn  static OS_STATUS lwpmudrv_Initialize_State(void)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  138   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  139   * @param none
-f57492d07625ddd Manisha Chinthapally 2019-05-01  140   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  141   * @return OS_STATUS
-f57492d07625ddd Manisha Chinthapally 2019-05-01  142   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  143   * @brief  Allocates the memory needed at load time.  Initializes all the
-f57492d07625ddd Manisha Chinthapally 2019-05-01  144   * @brief  necessary state variables with the default values.
-f57492d07625ddd Manisha Chinthapally 2019-05-01  145   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  146   * <I>Special Notes</I>
-f57492d07625ddd Manisha Chinthapally 2019-05-01  147   */
-f57492d07625ddd Manisha Chinthapally 2019-05-01  148  static OS_STATUS lwpmudrv_Initialize_State(VOID)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  149  {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  150  	S32 i, max_cpu_id = 0;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  151  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  152  	for_each_possible_cpu(i) {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  153  		if (cpu_present(i)) {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  154  			if (i > max_cpu_id) {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  155  				max_cpu_id = i;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  156  			}
-f57492d07625ddd Manisha Chinthapally 2019-05-01  157  		}
-f57492d07625ddd Manisha Chinthapally 2019-05-01  158  	}
-f57492d07625ddd Manisha Chinthapally 2019-05-01  159  	max_cpu_id++;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  160  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  161  	/*
-f57492d07625ddd Manisha Chinthapally 2019-05-01  162  	 *  Machine Initializations
-f57492d07625ddd Manisha Chinthapally 2019-05-01  163  	 *  Abstract this information away into a separate entry point
-f57492d07625ddd Manisha Chinthapally 2019-05-01  164  	 *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  165  	 *  Question:  Should we allow for the use of Hot-cpu
-f57492d07625ddd Manisha Chinthapally 2019-05-01  166  	 *    add/subtract functionality while the driver is executing?
-f57492d07625ddd Manisha Chinthapally 2019-05-01  167  	 */
-f57492d07625ddd Manisha Chinthapally 2019-05-01  168  	if (max_cpu_id > num_present_cpus()) {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  169  		GLOBAL_STATE_num_cpus(socperf_driver_state) = max_cpu_id;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  170  	} else {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  171  		GLOBAL_STATE_num_cpus(socperf_driver_state) =
-f57492d07625ddd Manisha Chinthapally 2019-05-01  172  			num_present_cpus();
-f57492d07625ddd Manisha Chinthapally 2019-05-01  173  	}
-f57492d07625ddd Manisha Chinthapally 2019-05-01  174  	GLOBAL_STATE_active_cpus(socperf_driver_state) = num_online_cpus();
-f57492d07625ddd Manisha Chinthapally 2019-05-01  175  	GLOBAL_STATE_cpu_count(socperf_driver_state) = 0;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  176  	GLOBAL_STATE_dpc_count(socperf_driver_state) = 0;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  177  	GLOBAL_STATE_num_em_groups(socperf_driver_state) = 0;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  178  	GLOBAL_STATE_current_phase(socperf_driver_state) =
-f57492d07625ddd Manisha Chinthapally 2019-05-01  179  		DRV_STATE_UNINITIALIZED;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  180  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  181  	SOCPERF_PRINT_DEBUG(
-f57492d07625ddd Manisha Chinthapally 2019-05-01  182  		"%s: num_cpus=%d, active_cpus=%d\n",
-f57492d07625ddd Manisha Chinthapally 2019-05-01  183  		__func__,
-f57492d07625ddd Manisha Chinthapally 2019-05-01  184  		GLOBAL_STATE_num_cpus(socperf_driver_state),
-f57492d07625ddd Manisha Chinthapally 2019-05-01  185  		GLOBAL_STATE_active_cpus(socperf_driver_state));
-f57492d07625ddd Manisha Chinthapally 2019-05-01  186  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  187  	return OS_SUCCESS;
-f57492d07625ddd Manisha Chinthapally 2019-05-01  188  }
-f57492d07625ddd Manisha Chinthapally 2019-05-01  189  
-f57492d07625ddd Manisha Chinthapally 2019-05-01  190  /* ------------------------------------------------------------------------- */
-f57492d07625ddd Manisha Chinthapally 2019-05-01  191  /*!
-f57492d07625ddd Manisha Chinthapally 2019-05-01  192   * @fn       VOID SOCPERF_Read_Data
-f57492d07625ddd Manisha Chinthapally 2019-05-01  193   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  194   * @brief    Reads counter data
-f57492d07625ddd Manisha Chinthapally 2019-05-01  195   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  196   * @param    param   data_buffer - buffer for reading counter data.
-f57492d07625ddd Manisha Chinthapally 2019-05-01  197   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  198   * @return  None
-f57492d07625ddd Manisha Chinthapally 2019-05-01  199   *
-f57492d07625ddd Manisha Chinthapally 2019-05-01  200   * <I>Special Notes:</I>
-f57492d07625ddd Manisha Chinthapally 2019-05-01  201   *              <NONE>
-f57492d07625ddd Manisha Chinthapally 2019-05-01  202   */
-f57492d07625ddd Manisha Chinthapally 2019-05-01 @203  extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
-f57492d07625ddd Manisha Chinthapally 2019-05-01  204  {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  205  	if (dispatch_uncore && dispatch_uncore->read_current_data) {
-f57492d07625ddd Manisha Chinthapally 2019-05-01  206  		dispatch_uncore->read_current_data(data_buffer);
-f57492d07625ddd Manisha Chinthapally 2019-05-01  207  	}
-f57492d07625ddd Manisha Chinthapally 2019-05-01  208  	SOCPERF_PRINT_DEBUG("%s called\n", __func__);
-f57492d07625ddd Manisha Chinthapally 2019-05-01  209  }
-f57492d07625ddd Manisha Chinthapally 2019-05-01  210  EXPORT_SYMBOL(SOCPERF_Read_Data3);
-f57492d07625ddd Manisha Chinthapally 2019-05-01  211  
 
-:::::: The code at line 203 was first introduced by commit
-:::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
 
-:::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
-:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
+8b654b5034baba0 Hector Martin 2023-03-28   95  
+8b654b5034baba0 Hector Martin 2023-03-28   96  int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+8b654b5034baba0 Hector Martin 2023-03-28   97  		    bool atomic)
+8b654b5034baba0 Hector Martin 2023-03-28   98  {
+8b654b5034baba0 Hector Martin 2023-03-28   99  	unsigned long flags;
+8b654b5034baba0 Hector Martin 2023-03-28  100  	int ret;
+8b654b5034baba0 Hector Martin 2023-03-28  101  	u32 mbox_ctrl;
+8b654b5034baba0 Hector Martin 2023-03-28  102  	long t;
+8b654b5034baba0 Hector Martin 2023-03-28  103  
+8b654b5034baba0 Hector Martin 2023-03-28  104  	spin_lock_irqsave(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  105  	mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+8b654b5034baba0 Hector Martin 2023-03-28  106  
+8b654b5034baba0 Hector Martin 2023-03-28  107  	while (mbox_ctrl & mbox->hw->control_full) {
+8b654b5034baba0 Hector Martin 2023-03-28  108  		if (atomic) {
+8b654b5034baba0 Hector Martin 2023-03-28  109  			ret = readl_poll_timeout_atomic(
+8b654b5034baba0 Hector Martin 2023-03-28  110  				mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+8b654b5034baba0 Hector Martin 2023-03-28  111  				!(mbox_ctrl & mbox->hw->control_full), 100,
+8b654b5034baba0 Hector Martin 2023-03-28  112  				APPLE_MBOX_TX_TIMEOUT * 1000);
+8b654b5034baba0 Hector Martin 2023-03-28  113  
+8b654b5034baba0 Hector Martin 2023-03-28  114  			if (ret) {
+8b654b5034baba0 Hector Martin 2023-03-28  115  				spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  116  				return ret;
+8b654b5034baba0 Hector Martin 2023-03-28  117  			}
+8b654b5034baba0 Hector Martin 2023-03-28  118  
+8b654b5034baba0 Hector Martin 2023-03-28  119  			break;
+8b654b5034baba0 Hector Martin 2023-03-28  120  		}
+8b654b5034baba0 Hector Martin 2023-03-28  121  		/*
+8b654b5034baba0 Hector Martin 2023-03-28  122  		 * The interrupt is level triggered and will keep firing as long as the
+8b654b5034baba0 Hector Martin 2023-03-28  123  		 * FIFO is empty. It will also keep firing if the FIFO was empty
+8b654b5034baba0 Hector Martin 2023-03-28  124  		 * at any point in the past until it has been acknowledged at the
+8b654b5034baba0 Hector Martin 2023-03-28  125  		 * mailbox level. By acknowledging it here we can ensure that we will
+8b654b5034baba0 Hector Martin 2023-03-28  126  		 * only get the interrupt once the FIFO has been cleared again.
+8b654b5034baba0 Hector Martin 2023-03-28  127  		 * If the FIFO is already empty before the ack it will fire again
+8b654b5034baba0 Hector Martin 2023-03-28  128  		 * immediately after the ack.
+8b654b5034baba0 Hector Martin 2023-03-28  129  		 */
+8b654b5034baba0 Hector Martin 2023-03-28  130  		if (mbox->hw->has_irq_controls) {
+8b654b5034baba0 Hector Martin 2023-03-28  131  			writel_relaxed(mbox->hw->irq_bit_send_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  132  				       mbox->regs + mbox->hw->irq_ack);
+8b654b5034baba0 Hector Martin 2023-03-28  133  		}
+8b654b5034baba0 Hector Martin 2023-03-28  134  		enable_irq(mbox->irq_send_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  135  		reinit_completion(&mbox->tx_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  136  		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  137  
+8b654b5034baba0 Hector Martin 2023-03-28  138  		t = wait_for_completion_interruptible_timeout(
+8b654b5034baba0 Hector Martin 2023-03-28  139  			&mbox->tx_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  140  			msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+8b654b5034baba0 Hector Martin 2023-03-28  141  		if (t < 0)
+8b654b5034baba0 Hector Martin 2023-03-28  142  			return t;
+8b654b5034baba0 Hector Martin 2023-03-28  143  		else if (t == 0)
+8b654b5034baba0 Hector Martin 2023-03-28  144  			return -ETIMEDOUT;
+8b654b5034baba0 Hector Martin 2023-03-28  145  
+8b654b5034baba0 Hector Martin 2023-03-28  146  		spin_lock_irqsave(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  147  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+8b654b5034baba0 Hector Martin 2023-03-28  148  	}
+8b654b5034baba0 Hector Martin 2023-03-28  149  
+8b654b5034baba0 Hector Martin 2023-03-28  150  	writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+8b654b5034baba0 Hector Martin 2023-03-28 @151  	writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+8b654b5034baba0 Hector Martin 2023-03-28  152  		       mbox->regs + mbox->hw->a2i_send1);
+8b654b5034baba0 Hector Martin 2023-03-28  153  
+8b654b5034baba0 Hector Martin 2023-03-28  154  	spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  155  
+8b654b5034baba0 Hector Martin 2023-03-28  156  	return 0;
+8b654b5034baba0 Hector Martin 2023-03-28  157  }
+8b654b5034baba0 Hector Martin 2023-03-28  158  EXPORT_SYMBOL(apple_mbox_send);
+8b654b5034baba0 Hector Martin 2023-03-28  159  
+8b654b5034baba0 Hector Martin 2023-03-28  160  static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+8b654b5034baba0 Hector Martin 2023-03-28  161  {
+8b654b5034baba0 Hector Martin 2023-03-28  162  	struct apple_mbox *mbox = data;
+8b654b5034baba0 Hector Martin 2023-03-28  163  
+8b654b5034baba0 Hector Martin 2023-03-28  164  	/*
+8b654b5034baba0 Hector Martin 2023-03-28  165  	 * We don't need to acknowledge the interrupt at the mailbox level
+8b654b5034baba0 Hector Martin 2023-03-28  166  	 * here even if supported by the hardware. It will keep firing but that
+8b654b5034baba0 Hector Martin 2023-03-28  167  	 * doesn't matter since it's disabled at the main interrupt controller.
+8b654b5034baba0 Hector Martin 2023-03-28  168  	 * apple_mbox_send will acknowledge it before enabling
+8b654b5034baba0 Hector Martin 2023-03-28  169  	 * it at the main controller again.
+8b654b5034baba0 Hector Martin 2023-03-28  170  	 */
+8b654b5034baba0 Hector Martin 2023-03-28  171  	spin_lock(&mbox->tx_lock);
+8b654b5034baba0 Hector Martin 2023-03-28  172  	disable_irq_nosync(mbox->irq_send_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  173  	complete(&mbox->tx_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  174  	spin_unlock(&mbox->tx_lock);
+8b654b5034baba0 Hector Martin 2023-03-28  175  
+8b654b5034baba0 Hector Martin 2023-03-28  176  	return IRQ_HANDLED;
+8b654b5034baba0 Hector Martin 2023-03-28  177  }
+8b654b5034baba0 Hector Martin 2023-03-28  178  
+8b654b5034baba0 Hector Martin 2023-03-28  179  static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+8b654b5034baba0 Hector Martin 2023-03-28  180  {
+8b654b5034baba0 Hector Martin 2023-03-28  181  	struct apple_mbox_msg msg;
+8b654b5034baba0 Hector Martin 2023-03-28  182  	int ret = 0;
+8b654b5034baba0 Hector Martin 2023-03-28  183  
+8b654b5034baba0 Hector Martin 2023-03-28  184  	u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+8b654b5034baba0 Hector Martin 2023-03-28  185  
+8b654b5034baba0 Hector Martin 2023-03-28  186  	while (!(mbox_ctrl & mbox->hw->control_empty)) {
+8b654b5034baba0 Hector Martin 2023-03-28  187  		msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+8b654b5034baba0 Hector Martin 2023-03-28 @188  		msg.msg1 = FIELD_GET(
+8b654b5034baba0 Hector Martin 2023-03-28  189  			APPLE_MBOX_MSG1_MSG,
+8b654b5034baba0 Hector Martin 2023-03-28  190  			readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+8b654b5034baba0 Hector Martin 2023-03-28  191  
+8b654b5034baba0 Hector Martin 2023-03-28  192  		mbox->rx(mbox, msg, mbox->cookie);
+8b654b5034baba0 Hector Martin 2023-03-28  193  		ret++;
+8b654b5034baba0 Hector Martin 2023-03-28  194  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+8b654b5034baba0 Hector Martin 2023-03-28  195  	}
+8b654b5034baba0 Hector Martin 2023-03-28  196  
+8b654b5034baba0 Hector Martin 2023-03-28  197  	/*
+8b654b5034baba0 Hector Martin 2023-03-28  198  	 * The interrupt will keep firing even if there are no more messages
+8b654b5034baba0 Hector Martin 2023-03-28  199  	 * unless we also acknowledge it at the mailbox level here.
+8b654b5034baba0 Hector Martin 2023-03-28  200  	 * There's no race if a message comes in between the check in the while
+8b654b5034baba0 Hector Martin 2023-03-28  201  	 * loop above and the ack below: If a new messages arrives inbetween
+8b654b5034baba0 Hector Martin 2023-03-28  202  	 * those two the interrupt will just fire again immediately after the
+8b654b5034baba0 Hector Martin 2023-03-28  203  	 * ack since it's level triggered.
+8b654b5034baba0 Hector Martin 2023-03-28  204  	 */
+8b654b5034baba0 Hector Martin 2023-03-28  205  	if (mbox->hw->has_irq_controls) {
+8b654b5034baba0 Hector Martin 2023-03-28  206  		writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  207  			       mbox->regs + mbox->hw->irq_ack);
+8b654b5034baba0 Hector Martin 2023-03-28  208  	}
+8b654b5034baba0 Hector Martin 2023-03-28  209  
+8b654b5034baba0 Hector Martin 2023-03-28  210  	return ret;
+8b654b5034baba0 Hector Martin 2023-03-28  211  }
+8b654b5034baba0 Hector Martin 2023-03-28  212  
 
 -- 
 0-DAY CI Kernel Test Service
