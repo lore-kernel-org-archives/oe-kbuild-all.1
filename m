@@ -1,46 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E446FA2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 19:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08836FA2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 19:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680118153; x=1711654153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eXdFVSGTvIKz7EDIZLcUeytXl6nXJcuFiBB8WJdknyI=;
-  b=fBdsS07wLkDJ6kwKiZMWchxDmY9JEA+ehCmNmhzVwfujpdztf9ScaY30
-   x7gVbQzKyIFnLH2L865px8TWZW+HIkaXUZYuSG6Oq474z7UcRAu1Pi5Dp
-   csUogy3sc0sRTRRasR4KPkgk3lcTS/if5am7h82/p0Z3a3y49wkWyywnw
-   bZF02lr021b0iI8X+3FtemYNjJZF6Yp4AY7l7hLLQcCrRnVsc1KF+KIYV
-   9njswgLcXZqt82eMNouRR5X0hP+8D69IBo9syojMcVIjE+t16vqFrJegQ
-   jOydbvgc1iM/9Zv7c4+AO5soh+GvQWUwG0hlIFEV2phWPQ805cYBqg4qE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427255363"
+  t=1680118156; x=1711654156;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xeDmjrHHnABVteH5Ec6CypoFDMg3Kan9s3iitS46crs=;
+  b=mrU5cschwt4A4YicTq/YtviYwmXlvxQLgzzN8YQpy64dtA/XfZi5BQV7
+   1YCos8wEW1lP6bwgxQ4Swyu0OyrxUSaEqXvSHOe1n/8//yISXfv1GXJdn
+   UQXYp7tRxvL8Zihig7pIzawQVYK6LiYBLI4HOv6uKaYduXoqBAsoPH8Fi
+   qsL94asvJQAg/XTOkEIWwUCusQ1ScU5lO5LH0xO97L+ISscUMtx15HIxs
+   qzqNLTSlsx/EYefOhKDln+cRZvuGobusrXMSZR4F8J/sCk/kfn+cfvSe4
+   EEPVPgZeUqzunBWsrVQty8yP6aeCpfMn8R1Sm5cG2JzMrxkpyU7BO0c9H
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="329466248"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="427255363"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 12:29:13 -0700
+   d="scan'208";a="329466248"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 12:29:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="677902215"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="808348318"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="677902215"
+   d="scan'208";a="808348318"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 29 Mar 2023 12:29:10 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Mar 2023 12:29:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phbTp-000JsG-23;
+	id 1phbTp-000JsM-2F;
 	Wed, 29 Mar 2023 19:29:09 +0000
 Date: Thu, 30 Mar 2023 03:28:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Cheatham <Benjamin.Cheatham@amd.com>, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, benjamin.cheatham@amd.com,
-	yazen.ghannam@amd.com, linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org, tony.luck@intel.com
-Subject: Re: [PATCH] ACPI, APEI, EINJ: Remove memory range validation for CXL
- error types
-Message-ID: <202303300345.QZXN7i0i-lkp@intel.com>
-References: <20230329143813.25849-1-Benjamin.Cheatham@amd.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:tls-netlink.v8 18/20]
+ drivers/nvme/target/tcp.c:653:29: error: 'struct nvmet_tcp_queue' has no
+ member named 'tls_psk'
+Message-ID: <202303300320.DQz90XwQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,111 +46,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329143813.25849-1-Benjamin.Cheatham@amd.com>
 
-Hi Ben,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230329]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/ACPI-APEI-EINJ-Remove-memory-range-validation-for-CXL-error-types/20230329-224405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230329143813.25849-1-Benjamin.Cheatham%40amd.com
-patch subject: [PATCH] ACPI, APEI, EINJ: Remove memory range validation for CXL error types
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303300345.QZXN7i0i-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git tls-netlink.v8
+head:   b160cccb84362674ac09fb349ab21bd2339eb28e
+commit: 6f832c87e83768f104444dbfc3945a8ee2e24b65 [18/20] nvmet-tcp: rework sendpage for kTLS
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230330/202303300320.DQz90XwQ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/f0c48248d842ab224de7ac3d62d260e9f411e80c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ben-Cheatham/ACPI-APEI-EINJ-Remove-memory-range-validation-for-CXL-error-types/20230329-224405
-        git checkout f0c48248d842ab224de7ac3d62d260e9f411e80c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git/commit/?id=6f832c87e83768f104444dbfc3945a8ee2e24b65
+        git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git
+        git fetch --no-tags hare-scsi-devel tls-netlink.v8
+        git checkout 6f832c87e83768f104444dbfc3945a8ee2e24b65
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/acpi/apei/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/nvme/target/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300345.QZXN7i0i-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300320.DQz90XwQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/acpi/apei/einj.c: In function 'einj_error_inject':
->> drivers/acpi/apei/einj.c:527:13: warning: unused variable 'available_error_types' [-Wunused-variable]
-     527 |         u32 available_error_types = 0;
-         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/tcp.c: In function 'nvmet_try_send_response':
+>> drivers/nvme/target/tcp.c:653:29: error: 'struct nvmet_tcp_queue' has no member named 'tls_psk'
+     653 |         else if (!cmd->queue->tls_psk)
+         |                             ^~
+   drivers/nvme/target/tcp.c: In function 'nvmet_try_send_r2t':
+   drivers/nvme/target/tcp.c:681:29: error: 'struct nvmet_tcp_queue' has no member named 'tls_psk'
+     681 |         else if (!cmd->queue->tls_psk)
+         |                             ^~
+   drivers/nvme/target/tcp.c: In function 'nvmet_try_send_ddgst':
+   drivers/nvme/target/tcp.c:711:29: error: 'struct nvmet_tcp_queue' has no member named 'tls_psk'
+     711 |         else if (!cmd->queue->tls_psk)
+         |                             ^~
+   drivers/nvme/target/tcp.c: In function 'nvmet_tcp_alloc_queue':
+   drivers/nvme/target/tcp.c:1801:1: warning: label 'out_free_queue' defined but not used [-Wunused-label]
+    1801 | out_free_queue:
+         | ^~~~~~~~~~~~~~
 
 
-vim +/available_error_types +527 drivers/acpi/apei/einj.c
+vim +653 drivers/nvme/target/tcp.c
 
-   521	
-   522	/* Inject the specified hardware error */
-   523	static int einj_error_inject(u32 type, u32 flags, u64 param1, u64 param2,
-   524				     u64 param3, u64 param4)
-   525	{
-   526		int rc;
- > 527		u32 available_error_types = 0;
-   528		u64 base_addr, size;
-   529	
-   530		/* If user manually set "flags", make sure it is legal */
-   531		if (flags && (flags &
-   532			~(SETWA_FLAGS_APICID|SETWA_FLAGS_MEM|SETWA_FLAGS_PCIE_SBDF)))
-   533			return -EINVAL;
-   534	
-   535		/*
-   536		 * We need extra sanity checks for memory errors.
-   537		 * Other types leap directly to injection.
-   538		 */
-   539	
-   540		/* ensure param1/param2 existed */
-   541		if (!(param_extension || acpi5))
-   542			goto inject;
-   543	
-   544		/* ensure injection is memory related */
-   545		if (type & ACPI5_VENDOR_BIT) {
-   546			if (vendor_flags != SETWA_FLAGS_MEM)
-   547				goto inject;
-   548		} else if (!(type & MEM_ERROR_MASK) && !(flags & SETWA_FLAGS_MEM)) {
-   549			goto inject;
-   550		} else if (type & CXL_ERROR_MASK) {
-   551			goto inject;
-   552		}
-   553	
-   554		/*
-   555		 * Disallow crazy address masks that give BIOS leeway to pick
-   556		 * injection address almost anywhere. Insist on page or
-   557		 * better granularity and that target address is normal RAM or
-   558		 * NVDIMM.
-   559		 */
-   560		base_addr = param1 & param2;
-   561		size = ~param2 + 1;
-   562	
-   563		if (((param2 & PAGE_MASK) != PAGE_MASK) ||
-   564		    ((region_intersects(base_addr, size, IORESOURCE_SYSTEM_RAM, IORES_DESC_NONE)
-   565					!= REGION_INTERSECTS) &&
-   566		     (region_intersects(base_addr, size, IORESOURCE_MEM, IORES_DESC_PERSISTENT_MEMORY)
-   567					!= REGION_INTERSECTS) &&
-   568		     (region_intersects(base_addr, size, IORESOURCE_MEM, IORES_DESC_SOFT_RESERVED)
-   569					!= REGION_INTERSECTS) &&
-   570		     !arch_is_platform_page(base_addr)))
-   571			return -EINVAL;
-   572	
-   573		if (is_zero_pfn(base_addr >> PAGE_SHIFT))
-   574			return -EADDRINUSE;
-   575	
-   576	inject:
-   577		mutex_lock(&einj_mutex);
-   578		rc = __einj_error_inject(type, flags, param1, param2, param3, param4);
-   579		mutex_unlock(&einj_mutex);
-   580	
-   581		return rc;
-   582	}
-   583	
+   642	
+   643	static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+   644			bool last_in_batch)
+   645	{
+   646		u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
+   647		int left = sizeof(*cmd->rsp_pdu) - cmd->offset + hdgst;
+   648		int flags = MSG_DONTWAIT;
+   649		int ret;
+   650	
+   651		if (!last_in_batch && cmd->queue->send_list_len)
+   652			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+ > 653		else if (!cmd->queue->tls_psk)
+   654			flags |= MSG_EOR;
+   655	
+   656		ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
+   657			offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
+   658		if (ret <= 0)
+   659			return ret;
+   660		cmd->offset += ret;
+   661		left -= ret;
+   662	
+   663		if (left)
+   664			return -EAGAIN;
+   665	
+   666		nvmet_tcp_free_cmd_buffers(cmd);
+   667		cmd->queue->snd_cmd = NULL;
+   668		nvmet_tcp_put_cmd(cmd);
+   669		return 1;
+   670	}
+   671	
 
 -- 
 0-DAY CI Kernel Test Service
