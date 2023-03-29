@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1DC5380
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 16:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF365382
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 17:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680108853; x=1711644853;
+  t=1680110654; x=1711646654;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W1YGt+CxBuyGcfTld0KaeTCjU9IbhsL/iEx1LJy6d5s=;
-  b=CmglodKHhwaNknKmVd75145560MjUd60p2hRBlrU8ymEYJ/bjK3C5JJI
-   K+WhprON/kFVcC5uNB7VlabmAr9fbVPx1Kn2OWEJdTNDzVbcnkh+rhIRa
-   LlPt20trowXuZMuqyZtyATieMeMF19tYKy2v6Sj34uDMxSclzpYY+Wasy
-   JQyf2OtCksyr42kbHBGZPwPacMjg06DHttmmEnwzSsQWtCEGlo7WCmM69
-   Lhc8JvTw71e3jc/aw86rkD2yjc2rHizgfiXZqBXamTUvvvG23lQGfi7LZ
-   V7LcjJHq13ZMoxhxwpBwKiB324+rPSH1WcTyYQQ86wIdPVBJpikD/9o++
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338441427"
+  bh=Hc7pRBEZa8n07+rtc06cewa5kTTBvODDSc+kOyka3XY=;
+  b=UE/2p9rrKK/D8OyDHStMRuWJ8ZDYrakcFCKE+z+WbQk7q8lTAlb5LGbo
+   D7asLL279tM3Kco2kRALAXAg44brDT8Ijc8whXkE5m2xXEdOI/FcSECR5
+   u2nfa8cH79yEUW8MffABrGq4tq2tUSPkevfbWAM9l3PygaoCchf+PYfqS
+   vmEwxmCyuYDq/PesnB4v8J8y53XLeTEvpmUA+qK7crvmJRWUNOEzEo7nl
+   WYmBj69lSn3GdE8IatxN+s+cqCZ4As4EEtNX51XawPZoQrPSJ1dY08NL7
+   VhU2jjXe0ILOY7PhvU6nseil43dJSPhnNgIWbZkU/zour5fZfphS0XeJ+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="368720485"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="338441427"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 09:54:03 -0700
+   d="scan'208";a="368720485"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 10:24:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="930403120"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014108461"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="930403120"
+   d="scan'208";a="1014108461"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 29 Mar 2023 09:54:02 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 10:24:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phZ3h-000Jjs-2b;
-	Wed, 29 Mar 2023 16:54:01 +0000
-Date: Thu, 30 Mar 2023 00:53:22 +0800
+	id 1phZWl-000Jl4-1K;
+	Wed, 29 Mar 2023 17:24:03 +0000
+Date: Thu, 30 Mar 2023 01:23:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:for-kernelci 9/11] arch/arm/kernel/head.S:262: Error: invalid
- constant (1ff000) after fixup
-Message-ID: <202303300036.1B5WO1J0-lkp@intel.com>
+Subject: drivers/platform/x86/socwatch/sw_counter_list.c:88:25: sparse:
+ sparse: incorrect type in argument 2 (different base types)
+Message-ID: <202303300155.IEvnN58t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +46,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
-head:   65a20e72febca3edf64d56b2ac1973086b16a342
-commit: 8ac5a3710750dde4a136fe35c90cc56caac62552 [9/11] ARM: head: Omit TEXT_OFFSET from initial kernel mapping when possible
-config: arm-randconfig-r046-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300036.1B5WO1J0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=8ac5a3710750dde4a136fe35c90cc56caac62552
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb for-kernelci
-        git checkout 8ac5a3710750dde4a136fe35c90cc56caac62552
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: 80c46c8183c607e70bcb88e9b04febae6c7775a2 SEP/SOCWATCH Update SoCWatch driver after rebasing to linux v5.6
+date:   2 years, 6 months ago
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230330/202303300155.IEvnN58t-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/mchinth/linux/commit/80c46c8183c607e70bcb88e9b04febae6c7775a2
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout 80c46c8183c607e70bcb88e9b04febae6c7775a2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300036.1B5WO1J0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300155.IEvnN58t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/socwatch/sw_counter_list.c:88:25: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_counter_list.c:88:25: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_counter_list.c:88:25: sparse:     got restricted gfp_t
 
-   arch/arm/kernel/head.S: Assembler messages:
->> arch/arm/kernel/head.S:262: Error: invalid constant (1ff000) after fixup
+vim +88 drivers/platform/x86/socwatch/sw_counter_list.c
 
-
-vim +262 arch/arm/kernel/head.S
-
-   230	
-   231		ldr	r7, [r10, #PROCINFO_MM_MMUFLAGS] @ mm_mmuflags
-   232	
-   233		/*
-   234		 * Create identity mapping to cater for __enable_mmu.
-   235		 * This identity mapping will be removed by paging_init().
-   236		 */
-   237		adr_l	r5, __turn_mmu_on		@ _pa(__turn_mmu_on)
-   238		adr_l	r6, __turn_mmu_on_end		@ _pa(__turn_mmu_on_end)
-   239		mov	r5, r5, lsr #SECTION_SHIFT
-   240		mov	r6, r6, lsr #SECTION_SHIFT
-   241	
-   242	1:	orr	r3, r7, r5, lsl #SECTION_SHIFT	@ flags + kernel base
-   243		str	r3, [r4, r5, lsl #PMD_ENTRY_ORDER]	@ identity mapping
-   244		cmp	r5, r6
-   245		addlo	r5, r5, #1			@ next section
-   246		blo	1b
-   247	
-   248		/*
-   249		 * The main matter: map in the kernel using section mappings, and
-   250		 * set two variables to indicate the physical start and end of the
-   251		 * kernel.
-   252		 */
-   253		add	r0, r4, #KERNEL_OFFSET >> (SECTION_SHIFT - PMD_ENTRY_ORDER)
-   254	#if (TEXT_OFFSET >> SECTION_SHIFT) != 0
-   255		/*
-   256		 * If the TEXT_OFFSET reservation covers multiple sections, omit the
-   257		 * lower ones that are not shared with the swapper page tables and the
-   258		 * start of kernel text.
-   259		 */
-   260		add	r0, r0, #(TEXT_OFFSET >> SECTION_SHIFT) << PMD_ENTRY_ORDER
-   261	#endif
- > 262		bic	r3, r4, #((1 << (SECTION_SHIFT - PAGE_SHIFT)) - 1) << PAGE_SHIFT
-   263		ldr	r6, =(_end - 1)
-   264		adr_l	r5, kernel_sec_start		@ _pa(kernel_sec_start)
-   265	#if defined CONFIG_CPU_ENDIAN_BE8 || defined CONFIG_CPU_ENDIAN_BE32
-   266		str	r3, [r5, #4]			@ Save physical start of kernel (BE)
-   267	#else
-   268		str	r3, [r5]			@ Save physical start of kernel (LE)
-   269	#endif
-   270		orr	r3, r3, r7			@ Add the MMU flags
-   271		add	r6, r4, r6, lsr #(SECTION_SHIFT - PMD_ENTRY_ORDER)
-   272	1:	str	r3, [r0], #1 << PMD_ENTRY_ORDER
-   273		add	r3, r3, #1 << SECTION_SHIFT
-   274		cmp	r0, r6
-   275		bls	1b
-   276		eor	r3, r3, r7			@ Remove the MMU flags
-   277		adr_l	r5, kernel_sec_end		@ _pa(kernel_sec_end)
-   278	#if defined CONFIG_CPU_ENDIAN_BE8 || defined CONFIG_CPU_ENDIAN_BE32
-   279		str	r3, [r5, #4]			@ Save physical end of kernel (BE)
-   280	#else
-   281		str	r3, [r5]			@ Save physical end of kernel (LE)
-   282	#endif
-   283	
+    74	
+    75		pw_u64_t i = 0, max_msr_value = 0;//, msr_array_size = 0;
+    76		pw_u64_t msr_list_size = sizeof(msr_info_list) / sizeof(msr_info_list[0]);
+    77	
+    78		// TODO: Probably sort msr_info_list rather than assuming it is sorted.
+    79	
+    80		// Since 'msr_info_list' is sorted, the last entry should be the highest MSR
+    81		// address
+    82		max_msr_value = msr_info_list[msr_list_size-1];
+    83		pw_pr_debug("max msr value: %llx\n", max_msr_value);
+    84	
+    85		// TODO: Optimize the memory usage by making msr_search_array a bit vector
+    86		msr_search_array_size = max_msr_value + 1;
+    87		msr_search_array = sw_kmalloc(msr_search_array_size * sizeof(pw_u8_t),
+  > 88				GFP_KERNEL);
+    89	
+    90		if (msr_search_array == NULL) {
+    91			return -PW_ERROR;
+    92		}
+    93	
+    94		memset(msr_search_array, 0, msr_search_array_size);
+    95	
+    96		for (i = 0; i < msr_list_size; ++i) {
+    97			msr_search_array[msr_info_list[i]] = 1;
+    98		}
+    99	
+   100		return PW_SUCCESS;
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
