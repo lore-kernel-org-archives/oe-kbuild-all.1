@@ -1,43 +1,56 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9C763D2;
-	Wed, 29 Mar 2023 18:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2F26ADB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680113767; x=1711649767;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SM93Gf3OEoykbLXAhRIQnQY2XUwDEpIaR6b8tjYkRWo=;
-  b=MgB/piJv37kf9UeGxMF8XqJcKOPdRdffmrxhdm60fYddydBnYjDlEAfw
-   9OYrKBTHvYPHGLZ6jdEBDy6U9hXBYgiqdm9WkHdoF6kzh+1SuZ39QakzK
-   5EFVon1x5UKoD2FAzpH2lk2jeMu2ryKpM3KV3PiG8SnjLu5kyu6Qauplu
-   UC5HqzV/cKR1uPOS74TZIZg5XbrwOaWEdyPUsj/vzwt79lTT/IExN/NcS
-   c+HQEMHqv+bii96pRAzt/MhqkqtxACDBl/Rw7jtO7NuHanQrw9agrGyWs
-   z9FrSgw3QYZCqNQ27KPfax3JtZktQ4FaHIPDUO7u47RZ7INH8V5Dp2t0y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405914093"
+  t=1680115033; x=1711651033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FbAW5hJcEPp+g9Ac5hrxCsaF479gOltUGf/yQKYrhw8=;
+  b=Dsn6FQVjKADZsTFMWhnhD21aNCqcoW9K0ZU2GR2yRydZGBFLDg9BH5xY
+   YFGQS5gxzBGAc0/uuEinBJRckaaM89b+CHOWEZCEZ13dsDjkUuMALq9v6
+   fJXYEMrqaMribH4eCrZd6+C0fY5wwRkp6u475SDxfc1AMYNTWFBVT2orJ
+   nqCmQL3AEs4epgeRg6+njXArVkhq69DiFLOIILNliEuocAaMZuv5RCN8n
+   5F0/IZx4ycDHFivddluZJUS+814AWC9V4pZFnCxFQ6pdpRHYttg/NdwAJ
+   GHzAggQzslqS1NIw19/VlBSIu68igZFSyElAH4tXlI3cPrC3kg/HiFS6M
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427243789"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="405914093"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:16:07 -0700
+   d="scan'208";a="427243789"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:37:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="795347176"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014137919"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="795347176"
+   d="scan'208";a="1014137919"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Mar 2023 11:16:06 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 11:37:07 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phaL7-000JoC-2W;
-	Wed, 29 Mar 2023 18:16:05 +0000
-Date: Thu, 30 Mar 2023 02:16:04 +0800
+	id 1phafS-000Jp4-2L;
+	Wed, 29 Mar 2023 18:37:06 +0000
+Date: Thu, 30 Mar 2023 02:36:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-sendpage 28/63] net/tls/tls_main.c:130:4: error:
- field designator 'msg_kflags' does not refer to any field in type 'struct
- msghdr'; did you mean 'msg_flags'?
-Message-ID: <202303300200.v3pCrbDt-lkp@intel.com>
+To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
+	ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 6/9] nvmet: add copy command support for bdev and file
+ ns
+Message-ID: <202303300238.vmt9ne37-lkp@intel.com>
+References: <20230327084103.21601-7-anuj20.g@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,116 +59,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230327084103.21601-7-anuj20.g@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-sendpage
-head:   39e48c1301bf2fb60a53912fe5870a253256debc
-commit: e1bd0668a8caff3ca2428ad9312c430379b56e46 [28/63] tls: Inline do_tcp_sendpages()
-config: riscv-randconfig-r011-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300200.v3pCrbDt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+Hi Anuj,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230329]
+[cannot apply to device-mapper-dm/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230327084103.21601-7-anuj20.g%40samsung.com
+patch subject: [PATCH v8 6/9] nvmet: add copy command support for bdev and file ns
+config: arm64-randconfig-s041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300238.vmt9ne37-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?id=e1bd0668a8caff3ca2428ad9312c430379b56e46
-        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
-        git fetch --no-tags dhowells-fs iov-sendpage
-        git checkout e1bd0668a8caff3ca2428ad9312c430379b56e46
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f846a8ac40882d9d42532e9e2b43560650ef8510
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
+        git checkout f846a8ac40882d9d42532e9e2b43560650ef8510
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/tls/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/nvme/target/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300200.v3pCrbDt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300238.vmt9ne37-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/admin-cmd.c:539:29: sparse: sparse: cast from restricted __le16
 
->> net/tls/tls_main.c:130:4: error: field designator 'msg_kflags' does not refer to any field in type 'struct msghdr'; did you mean 'msg_flags'?
-                   .msg_kflags     = MSG_SPLICE_PAGES,
-                    ^~~~~~~~~~
-                    msg_flags
-   include/linux/socket.h:74:15: note: 'msg_flags' declared here
-           unsigned int    msg_flags;      /* flags on received message */
-                           ^
-   net/tls/tls_main.c:130:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-                   .msg_kflags     = MSG_SPLICE_PAGES,
-                                     ^~~~~~~~~~~~~~~~
-   include/linux/socket.h:330:26: note: expanded from macro 'MSG_SPLICE_PAGES'
-   #define MSG_SPLICE_PAGES 0x8000000      /* Splice the pages from the iterator in sendmsg() */
-                            ^~~~~~~~~
-   net/tls/tls_main.c:129:16: note: previous initialization is here
-                   .msg_flags      = flags | MSG_SENDPAGE_NOTLAST,
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+vim +539 drivers/nvme/target/admin-cmd.c
 
-
-vim +130 net/tls/tls_main.c
-
-   120	
-   121	int tls_push_sg(struct sock *sk,
-   122			struct tls_context *ctx,
-   123			struct scatterlist *sg,
-   124			u16 first_offset,
-   125			int flags)
-   126	{
-   127		struct bio_vec bvec;
-   128		struct msghdr msg = {
-   129			.msg_flags	= flags | MSG_SENDPAGE_NOTLAST,
- > 130			.msg_kflags	= MSG_SPLICE_PAGES,
-   131		};
-   132		int ret = 0;
-   133		struct page *p;
-   134		size_t size;
-   135		int offset = first_offset;
-   136	
-   137		size = sg->length - offset;
-   138		offset += sg->offset;
-   139	
-   140		ctx->splicing_pages = true;
-   141		while (1) {
-   142			if (sg_is_last(sg))
-   143				msg.msg_flags = flags;
-   144	
-   145			/* is sending application-limited? */
-   146			tcp_rate_check_app_limited(sk);
-   147			p = sg_page(sg);
-   148	retry:
-   149			bvec_set_page(&bvec, p, size, offset);
-   150			iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, size);
-   151	
-   152			ret = tcp_sendmsg_locked(sk, &msg, size);
-   153	
-   154			if (ret != size) {
-   155				if (ret > 0) {
-   156					offset += ret;
-   157					size -= ret;
-   158					goto retry;
-   159				}
-   160	
-   161				offset -= sg->offset;
-   162				ctx->partially_sent_offset = offset;
-   163				ctx->partially_sent_record = (void *)sg;
-   164				ctx->splicing_pages = false;
-   165				return ret;
-   166			}
-   167	
-   168			put_page(p);
-   169			sk_mem_uncharge(sk, sg->length);
-   170			sg = sg_next(sg);
-   171			if (!sg)
-   172				break;
-   173	
-   174			offset = sg->offset;
-   175			size = sg->length;
-   176		}
-   177	
-   178		ctx->splicing_pages = false;
-   179	
-   180		return 0;
-   181	}
-   182	
+   490	
+   491	static void nvmet_execute_identify_ns(struct nvmet_req *req)
+   492	{
+   493		struct nvme_id_ns *id;
+   494		u16 status;
+   495	
+   496		if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
+   497			req->error_loc = offsetof(struct nvme_identify, nsid);
+   498			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+   499			goto out;
+   500		}
+   501	
+   502		id = kzalloc(sizeof(*id), GFP_KERNEL);
+   503		if (!id) {
+   504			status = NVME_SC_INTERNAL;
+   505			goto out;
+   506		}
+   507	
+   508		/* return an all zeroed buffer if we can't find an active namespace */
+   509		status = nvmet_req_find_ns(req);
+   510		if (status) {
+   511			status = 0;
+   512			goto done;
+   513		}
+   514	
+   515		if (nvmet_ns_revalidate(req->ns)) {
+   516			mutex_lock(&req->ns->subsys->lock);
+   517			nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
+   518			mutex_unlock(&req->ns->subsys->lock);
+   519		}
+   520	
+   521		/*
+   522		 * nuse = ncap = nsze isn't always true, but we have no way to find
+   523		 * that out from the underlying device.
+   524		 */
+   525		id->ncap = id->nsze =
+   526			cpu_to_le64(req->ns->size >> req->ns->blksize_shift);
+   527		switch (req->port->ana_state[req->ns->anagrpid]) {
+   528		case NVME_ANA_INACCESSIBLE:
+   529		case NVME_ANA_PERSISTENT_LOSS:
+   530			break;
+   531		default:
+   532			id->nuse = id->nsze;
+   533			break;
+   534		}
+   535	
+   536		if (req->ns->bdev)
+   537			nvmet_bdev_set_limits(req->ns->bdev, id);
+   538		else {
+ > 539			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
+   540			id->mssrl = cpu_to_le16(BIO_MAX_VECS <<
+   541					(PAGE_SHIFT - SECTOR_SHIFT));
+   542			id->mcl = cpu_to_le32(le16_to_cpu(id->mssrl));
+   543		}
+   544	
+   545		/*
+   546		 * We just provide a single LBA format that matches what the
+   547		 * underlying device reports.
+   548		 */
+   549		id->nlbaf = 0;
+   550		id->flbas = 0;
+   551	
+   552		/*
+   553		 * Our namespace might always be shared.  Not just with other
+   554		 * controllers, but also with any other user of the block device.
+   555		 */
+   556		id->nmic = NVME_NS_NMIC_SHARED;
+   557		id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+   558	
+   559		memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+   560	
+   561		id->lbaf[0].ds = req->ns->blksize_shift;
+   562	
+   563		if (req->sq->ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+   564			id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
+   565				  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
+   566				  NVME_NS_DPC_PI_TYPE3;
+   567			id->mc = NVME_MC_EXTENDED_LBA;
+   568			id->dps = req->ns->pi_type;
+   569			id->flbas = NVME_NS_FLBAS_META_EXT;
+   570			id->lbaf[0].ms = cpu_to_le16(req->ns->metadata_size);
+   571		}
+   572	
+   573		if (req->ns->readonly)
+   574			id->nsattr |= NVME_NS_ATTR_RO;
+   575	done:
+   576		if (!status)
+   577			status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+   578	
+   579		kfree(id);
+   580	out:
+   581		nvmet_req_complete(req, status);
+   582	}
+   583	
 
 -- 
 0-DAY CI Kernel Test Service
