@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7622F7B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 01:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8203F7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 01:57:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680053797; x=1711589797;
+  t=1680055052; x=1711591052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CrKnf0P1mxA/GWpGqcTzGUUqeIzK/E/zYrhKozdcskQ=;
-  b=FHbDGVVe68PYPqAfGafbKE2SqkNKkmnGDULkLQMubVNL2GBECYsPeo43
-   IlgH7/duiFTIk5zY6HsksjaNIudLFLZjEFP7MqWNLEBHZSj26Nwh4hf2N
-   jVbYj/D04zUJiwOZpwBKMV8AiTtgvem+oM55mTDgWKAYZanHHW3JgM9A4
-   vTYTWuGOrFvFDysZobHLKJwKQS8slKzmB6IoWtS4rI8tPKFq6+a50to4F
-   7XZlURw5rjSPgyDUKVA37mOJ6Q+gg5nBBBBPPmUcePwraPbjE4c/2Gvd3
-   NYld6D/3RML3YZnWq5SID7ALgox8YV3q9+pHLiMd95bUTk2WQ8n6U8A3O
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="427020230"
+  bh=W7KMWqpXgoLsppUFfDryFSKJmvAp7vOo8P5sl+ZlIoo=;
+  b=j3v1bs7nooh/3xmlbBw6NCt5IaVYtJGTEKQKLsFp+AgBS+JS0skFSWWL
+   CSYwJxJys+dF9Z5iMwRYnewzKYJW8tQlwvvqilC6IEADSqUH0ar6mY7cN
+   hQ9ctfUVC0eBXw1mBGsR/zd3H6Sn4OGnt8AIXiAzMmVSyj1NUsC12piyM
+   q7g9G3kdibRBiptCwxTucpVAHHIWr+YAsK3ZfTHICUumskvMPj0+JxLMK
+   wZiVn0+shSdxuYyXZtZou7QDpwvZKb+yco+RJxDYtx5eBqhEw8ppBkAOh
+   Wb/QUTxWuG9vbO/U3TeNjF9I1O7lI92i3h92CFygJsKIce1KTMtugrPZx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339474934"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="427020230"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 18:36:30 -0700
+   d="scan'208";a="339474934"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 18:57:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="753394808"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808021168"
 X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="753394808"
+   d="scan'208";a="808021168"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 18:36:29 -0700
+  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 18:57:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phKjk-000J3f-2o;
-	Wed, 29 Mar 2023 01:36:28 +0000
-Date: Wed, 29 Mar 2023 09:36:03 +0800
+	id 1phL45-000J4d-24;
+	Wed, 29 Mar 2023 01:57:29 +0000
+Date: Wed, 29 Mar 2023 09:56:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/110-smc 1/21] lib/vsprintf.c:1779:30: sparse:
- sparse: cast to restricted __le32
-Message-ID: <202303290920.3ZtfaQpH-lkp@intel.com>
+Subject: drivers/platform/x86/socwatch/sw_pci.c:64:6: sparse: sparse: symbol
+ 'sw_print_pci_devices_i' was not declared. Should it be static?
+Message-ID: <202303290918.zxW8TUmY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,102 +46,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/110-smc
-head:   eb69bd05e1a21898f260c0db32a3c7b122b7153f
-commit: 4e41318d85e8b7189160e927ff386ff6a7deea7e [1/21] lib/vsprintf: Add support for generic FOURCCs by extending %p4cc
-config: m68k-randconfig-s042-20230326 (https://download.01.org/0day-ci/archive/20230329/202303290920.3ZtfaQpH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19 SEP/SOCWATCH Update SoCWatch driver after rebasing to linux v5.7
+date:   2 years, 6 months ago
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230329/202303290918.zxW8TUmY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/AsahiLinux/linux/commit/4e41318d85e8b7189160e927ff386ff6a7deea7e
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/110-smc
-        git checkout 4e41318d85e8b7189160e927ff386ff6a7deea7e
+        # https://github.com/mchinth/linux/commit/cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout cd0ae8e45c3cc66d1cfb9bfc5046d6a1e9b04d19
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290920.3ZtfaQpH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303290918.zxW8TUmY-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> drivers/platform/x86/socwatch/sw_pci.c:64:6: sparse: sparse: symbol 'sw_print_pci_devices_i' was not declared. Should it be static?
+--
+>> drivers/platform/x86/socwatch/sw_pmt.c:232:8: sparse: sparse: symbol 's_endpoint_index' was not declared. Should it be static?
 
-vim +1779 lib/vsprintf.c
+vim +/sw_print_pci_devices_i +64 drivers/platform/x86/socwatch/sw_pci.c
 
-  1753	
-  1754	static noinline_for_stack
-  1755	char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-  1756			    struct printf_spec spec, const char *fmt)
-  1757	{
-  1758		char output[sizeof("0123 little-endian (0x01234567)")];
-  1759		char *p = output;
-  1760		unsigned int i;
-  1761		bool pix_fmt = false;
-  1762		u32 orig, val;
-  1763	
-  1764		if (fmt[1] != 'c')
-  1765			return error_string(buf, end, "(%p4?)", spec);
-  1766	
-  1767		if (check_pointer(&buf, end, fourcc, spec))
-  1768			return buf;
-  1769	
-  1770		orig = get_unaligned(fourcc);
-  1771		switch (fmt[2]) {
-  1772		case 'h':
-  1773			val = orig;
-  1774			break;
-  1775		case 'r':
-  1776			val = orig = swab32(orig);
-  1777			break;
-  1778		case 'l':
-> 1779			val = orig = le32_to_cpu(orig);
-  1780			break;
-  1781		case 'b':
-> 1782			val = orig = be32_to_cpu(orig);
-  1783			break;
-  1784		case 'c':
-  1785			/* Pixel formats are printed LSB-first */
-  1786			val = swab32(orig & ~BIT(31));
-  1787			pix_fmt = true;
-  1788			break;
-  1789		default:
-  1790			return error_string(buf, end, "(%p4?)", spec);
-  1791		}
-  1792	
-  1793		for (i = 0; i < sizeof(u32); i++) {
-  1794			unsigned char c = val >> ((3 - i) * 8);
-  1795	
-  1796			/* Print non-control ASCII characters as-is, dot otherwise */
-  1797			*p++ = isascii(c) && isprint(c) ? c : '.';
-  1798		}
-  1799	
-  1800		if (pix_fmt) {
-  1801			*p++ = ' ';
-  1802			strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
-  1803			p += strlen(p);
-  1804		}
-  1805	
-  1806		*p++ = ' ';
-  1807		*p++ = '(';
-  1808		p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
-  1809		*p++ = ')';
-  1810		*p = '\0';
-  1811	
-  1812		return string(buf, end, output, spec);
-  1813	}
-  1814	
+    63	
+  > 64	void sw_print_pci_devices_i(void) {
+    65		int i = 0;
+    66	
+    67		for(i = 0; i < s_pci_dev_list.num_entries; ++i) {
+    68			pw_pr_debug("bus: %x, dev: %x, func: %x, vendor: %x, device: %x, class: %x, header: %x\n",
+    69					s_pci_dev_list.info[i].bus, s_pci_dev_list.info[i].device, s_pci_dev_list.info[i].function,
+    70					s_pci_dev_list.info[i].vendorID, s_pci_dev_list.info[i].deviceID, s_pci_dev_list.info[i].classID,
+    71					s_pci_dev_list.info[i].headerType);
+    72		}
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
