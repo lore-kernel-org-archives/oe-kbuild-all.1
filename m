@@ -1,43 +1,56 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C143BAFD3;
-	Wed, 29 Mar 2023 09:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E6E186B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 09:58:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680083927; x=1711619927;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dWz5Aud5uMbmtMrd4RE6wMv5RtHkC9GL674vLTLwZmQ=;
-  b=bEANwBlkgdwsugVA3aVQQyY4YuprL1yfCLcaf2b+aYM2DCBDjs4Q/cTs
-   0mf1m5+4m8kLGdgJT+8yYOf6iQYCydxoO3lhLh6CfqrlHNn6o5Zlpn64u
-   rou3JcVkce0V4YzFUURUGwTe6Ld6N4Ox2BR5Z7nVw7wqzOhZJu0p5Ossw
-   u1DZG7DcOSmPQ3tDZq1BCUABdnPJmr6VYr9bm8KpnLB2PQU5ZscPpwl/c
-   7eU4q8rjzUNVCl0w/q98cAhnwNQo9JInRg5cmLjPNNOlQ9XvPPzlFZa+R
-   235rPGBX90IrOVGrFKRBEJkbM9U+mz4CUltDyfzWgvk81izdOr8rr7qjd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="320487299"
+  t=1680083936; x=1711619936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=L329AyF3OgVN9WsY0kOL7oj+CaQXmNshjdDst3A4NC8=;
+  b=LPiiCvEDsDa7Ajl75aAYPrUy51vTISx0HxCwD2fI3hY3eAVmlU4tlP1F
+   IkGHrVUCzKmt1veMHLlgTc2U9Bqnn6FNAchYSNfsLBiXOrdgyQ1nvkcvT
+   b54bOhHz0jJFvvEbB3plSI0BVW8kf4SaiUuMbpYdEYsPyNs/fOccTY8hh
+   kYOLa/M+Sls/8CM79iDeVZwo1op2pbCOqJfGayCgmSX1MerbPCw8r4pM+
+   gR0fweeZ08idY+anbGOXcGZWQloRjeBKWK2ez/JfqT64+Zx4BEMLN2Dl+
+   mouxUJxRbqDSlbEDJ3T5boY2q6sbBR5rxXbR2qm7bhEsjTkevtEkfvsvF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339557874"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="320487299"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 02:58:47 -0700
+   d="scan'208";a="339557874"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 02:58:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="748734975"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="634415819"
 X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
-   d="scan'208";a="748734975"
+   d="scan'208";a="634415819"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 02:58:46 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Mar 2023 02:58:51 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phSZp-000JQ2-0X;
+	id 1phSZp-000JQ8-0v;
 	Wed, 29 Mar 2023 09:58:45 +0000
 Date: Wed, 29 Mar 2023 17:58:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:20230328-module-alloc-opts 40/40]
- kernel/module/main.c:2593:2: error: implicit declaration of function
- 'mod_stat_add64' is invalid in C99
-Message-ID: <202303291722.n1hQzARC-lkp@intel.com>
+To: Zi Yan <zi.yan@sent.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Yang Shi <shy828301@gmail.com>, Yu Zhao <yuzhao@google.com>,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Zi Yan <ziy@nvidia.com>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Zach O'Keefe <zokeefe@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 4/7] mm: page_owner: add support for splitting to any
+ order in split page_owner.
+Message-ID: <202303291732.7OqWI96E-lkp@intel.com>
+References: <20230329011712.3242298-5-zi.yan@sent.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,222 +59,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230329011712.3242298-5-zi.yan@sent.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230328-module-alloc-opts
-head:   6a931d2d6ad46e4090218b63a131b8c9591699e0
-commit: 6a931d2d6ad46e4090218b63a131b8c9591699e0 [40/40] module: add debug stats to help identify memory pressure
-config: i386-randconfig-a011-20230327 (https://download.01.org/0day-ci/archive/20230329/202303291722.n1hQzARC-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Zi,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.3-rc4 next-20230329]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-memcg-use-order-instead-of-nr-in-split_page_memcg/20230329-091809
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230329011712.3242298-5-zi.yan%40sent.com
+patch subject: [PATCH v2 4/7] mm: page_owner: add support for splitting to any order in split page_owner.
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230329/202303291732.7OqWI96E-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=6a931d2d6ad46e4090218b63a131b8c9591699e0
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230328-module-alloc-opts
-        git checkout 6a931d2d6ad46e4090218b63a131b8c9591699e0
+        # https://github.com/intel-lab-lkp/linux/commit/6d1831c0e01a1a742e026454fe6e5643e08c5985
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Zi-Yan/mm-memcg-use-order-instead-of-nr-in-split_page_memcg/20230329-091809
+        git checkout 6d1831c0e01a1a742e026454fe6e5643e08c5985
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291722.n1hQzARC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291732.7OqWI96E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/module/main.c:2593:2: error: implicit declaration of function 'mod_stat_add64' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           mod_stat_add64(text_size, &total_text_size);
-           ^
->> kernel/module/main.c:2593:29: error: use of undeclared identifier 'total_text_size'; did you mean 'total_size'?
-           mod_stat_add64(text_size, &total_text_size);
-                                      ^~~~~~~~~~~~~~~
-                                      total_size
-   kernel/module/main.c:2498:30: note: 'total_size' declared here
-           unsigned int text_size = 0, total_size = 0;
-                                       ^
->> kernel/module/main.c:2594:30: error: use of undeclared identifier 'total_mod_size'; did you mean 'total_size'?
-           mod_stat_add64(total_size, &total_mod_size);
-                                       ^~~~~~~~~~~~~~
-                                       total_size
-   kernel/module/main.c:2498:30: note: 'total_size' declared here
-           unsigned int text_size = 0, total_size = 0;
-                                       ^
->> kernel/module/main.c:2596:16: error: use of undeclared identifier 'modcount'
-           mod_stat_inc(&modcount);
-                         ^
-   kernel/module/main.c:3009:2: error: implicit declaration of function 'mod_stat_add64' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           mod_stat_add64(info->len, &invalid_mod_bytes);
-           ^
->> kernel/module/main.c:3009:29: error: use of undeclared identifier 'invalid_mod_bytes'
-           mod_stat_add64(info->len, &invalid_mod_bytes);
-                                      ^
->> kernel/module/main.c:3024:30: error: use of undeclared identifier 'invalid_mod_becoming_bytes'
-                   mod_stat_add64(info->len, &invalid_mod_becoming_bytes);
-                                              ^
->> kernel/module/main.c:3044:17: error: use of undeclared identifier 'failed_kreads'
-                   mod_stat_inc(&failed_kreads);
-                                 ^
-   kernel/module/main.c:3072:17: error: use of undeclared identifier 'failed_kreads'
-                   mod_stat_inc(&failed_kreads);
-                                 ^
-   kernel/module/main.c:3073:3: error: implicit declaration of function 'mod_stat_add64' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   mod_stat_add64(len, &invalid_kread_bytes);
-                   ^
->> kernel/module/main.c:3073:24: error: use of undeclared identifier 'invalid_kread_bytes'
-                   mod_stat_add64(len, &invalid_kread_bytes);
-                                        ^
->> kernel/module/main.c:3081:18: error: use of undeclared identifier 'failed_decompress'; did you mean 'module_decompress'?
-                           mod_stat_inc(&failed_decompress);
-                                         ^~~~~~~~~~~~~~~~~
-                                         module_decompress
-   kernel/module/internal.h:173:39: note: expanded from macro 'mod_stat_inc'
-   #define mod_stat_inc(name) atomic_inc(name)
-                                         ^
-   kernel/module/internal.h:206:19: note: 'module_decompress' declared here
-   static inline int module_decompress(struct load_info *info,
-                     ^
-   kernel/module/main.c:3082:4: error: implicit declaration of function 'mod_stat_add64' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           mod_stat_add64(len, &invalid_decompress_bytes);
-                           ^
->> kernel/module/main.c:3082:25: error: use of undeclared identifier 'invalid_decompress_bytes'
-                           mod_stat_add64(len, &invalid_decompress_bytes);
-                                                ^
-   14 errors generated.
+   mm/page_owner.c: In function '__split_page_owner':
+>> mm/page_owner.c:226:28: error: implicit declaration of function 'lookup_page_ext' [-Werror=implicit-function-declaration]
+     226 |                 page_ext = lookup_page_ext(page + i);
+         |                            ^~~~~~~~~~~~~~~
+   mm/page_owner.c:226:26: warning: assignment to 'struct page_ext *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     226 |                 page_ext = lookup_page_ext(page + i);
+         |                          ^
+   cc1: some warnings being treated as errors
 
 
-vim +/mod_stat_add64 +2593 kernel/module/main.c
+vim +/lookup_page_ext +226 mm/page_owner.c
 
-  2487	
-  2488	/*
-  2489	 * This is where the real work happens.
-  2490	 *
-  2491	 * Keep it uninlined to provide a reliable breakpoint target, e.g. for the gdb
-  2492	 * helper command 'lx-symbols'.
-  2493	 */
-  2494	static noinline int do_init_module(struct module *mod)
-  2495	{
-  2496		int ret = 0;
-  2497		struct mod_initfree *freeinit;
-> 2498		unsigned int text_size = 0, total_size = 0;
-  2499	
-  2500		for_each_mod_mem_type(type) {
-  2501			const struct module_memory *mod_mem = &mod->mem[type];
-  2502			if (mod_mem->size) {
-  2503				total_size += mod_mem->size;
-  2504				if (type == MOD_TEXT || type == MOD_INIT_TEXT)
-  2505					text_size += mod->mem[type].size;
-  2506			}
-  2507		}
-  2508	
-  2509		freeinit = kmalloc(sizeof(*freeinit), GFP_KERNEL);
-  2510		if (!freeinit) {
-  2511			ret = -ENOMEM;
-  2512			goto fail;
-  2513		}
-  2514		freeinit->init_text = mod->mem[MOD_INIT_TEXT].base;
-  2515		freeinit->init_data = mod->mem[MOD_INIT_DATA].base;
-  2516		freeinit->init_rodata = mod->mem[MOD_INIT_RODATA].base;
-  2517	
-  2518		do_mod_ctors(mod);
-  2519		/* Start the module */
-  2520		if (mod->init != NULL)
-  2521			ret = do_one_initcall(mod->init);
-  2522		if (ret < 0) {
-  2523			goto fail_free_freeinit;
-  2524		}
-  2525		if (ret > 0) {
-  2526			pr_warn("%s: '%s'->init suspiciously returned %d, it should "
-  2527				"follow 0/-E convention\n"
-  2528				"%s: loading module anyway...\n",
-  2529				__func__, mod->name, ret, __func__);
-  2530			dump_stack();
-  2531		}
-  2532	
-  2533		/* Now it's a first class citizen! */
-  2534		mod->state = MODULE_STATE_LIVE;
-  2535		blocking_notifier_call_chain(&module_notify_list,
-  2536					     MODULE_STATE_LIVE, mod);
-  2537	
-  2538		/* Delay uevent until module has finished its init routine */
-  2539		kobject_uevent(&mod->mkobj.kobj, KOBJ_ADD);
-  2540	
-  2541		/*
-  2542		 * We need to finish all async code before the module init sequence
-  2543		 * is done. This has potential to deadlock if synchronous module
-  2544		 * loading is requested from async (which is not allowed!).
-  2545		 *
-  2546		 * See commit 0fdff3ec6d87 ("async, kmod: warn on synchronous
-  2547		 * request_module() from async workers") for more details.
-  2548		 */
-  2549		if (!mod->async_probe_requested)
-  2550			async_synchronize_full();
-  2551	
-  2552		ftrace_free_mem(mod, mod->mem[MOD_INIT_TEXT].base,
-  2553				mod->mem[MOD_INIT_TEXT].base + mod->mem[MOD_INIT_TEXT].size);
-  2554		mutex_lock(&module_mutex);
-  2555		/* Drop initial reference. */
-  2556		module_put(mod);
-  2557		trim_init_extable(mod);
-  2558	#ifdef CONFIG_KALLSYMS
-  2559		/* Switch to core kallsyms now init is done: kallsyms may be walking! */
-  2560		rcu_assign_pointer(mod->kallsyms, &mod->core_kallsyms);
-  2561	#endif
-  2562		module_enable_ro(mod, true);
-  2563		mod_tree_remove_init(mod);
-  2564		module_arch_freeing_init(mod);
-  2565		for_class_mod_mem_type(type, init) {
-  2566			mod->mem[type].base = NULL;
-  2567			mod->mem[type].size = 0;
-  2568		}
-  2569	
-  2570	#ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-  2571		/* .BTF is not SHF_ALLOC and will get removed, so sanitize pointer */
-  2572		mod->btf_data = NULL;
-  2573	#endif
-  2574		/*
-  2575		 * We want to free module_init, but be aware that kallsyms may be
-  2576		 * walking this with preempt disabled.  In all the failure paths, we
-  2577		 * call synchronize_rcu(), but we don't want to slow down the success
-  2578		 * path. module_memfree() cannot be called in an interrupt, so do the
-  2579		 * work and call synchronize_rcu() in a work queue.
-  2580		 *
-  2581		 * Note that module_alloc() on most architectures creates W+X page
-  2582		 * mappings which won't be cleaned up until do_free_init() runs.  Any
-  2583		 * code such as mark_rodata_ro() which depends on those mappings to
-  2584		 * be cleaned up needs to sync with the queued work - ie
-  2585		 * rcu_barrier()
-  2586		 */
-  2587		if (llist_add(&freeinit->node, &init_free_list))
-  2588			schedule_work(&init_free_wq);
-  2589	
-  2590		mutex_unlock(&module_mutex);
-  2591		wake_up_all(&module_wq);
-  2592	
-> 2593		mod_stat_add64(text_size, &total_text_size);
-> 2594		mod_stat_add64(total_size, &total_mod_size);
-  2595	
-> 2596		mod_stat_inc(&modcount);
-  2597	
-  2598		return 0;
-  2599	
-  2600	fail_free_freeinit:
-  2601		kfree(freeinit);
-  2602	fail:
-  2603		/* Try to protect us from buggy refcounters. */
-  2604		mod->state = MODULE_STATE_GOING;
-  2605		synchronize_rcu();
-  2606		module_put(mod);
-  2607		blocking_notifier_call_chain(&module_notify_list,
-  2608					     MODULE_STATE_GOING, mod);
-  2609		klp_module_going(mod);
-  2610		ftrace_release_mod(mod);
-  2611		free_module(mod);
-  2612		wake_up_all(&module_wq);
-  2613	
-  2614		return ret;
-  2615	}
-  2616	
+   213	
+   214	void __split_page_owner(struct page *page, int old_order, int new_order)
+   215	{
+   216		int i;
+   217		struct page_ext *page_ext = page_ext_get(page);
+   218		struct page_owner *page_owner;
+   219		unsigned int old_nr = 1 << old_order;
+   220		unsigned int new_nr = 1 << new_order;
+   221	
+   222		if (unlikely(!page_ext))
+   223			return;
+   224	
+   225		for (i = 0; i < old_nr; i += new_nr) {
+ > 226			page_ext = lookup_page_ext(page + i);
+   227			page_owner = get_page_owner(page_ext);
+   228			page_owner->order = new_order;
+   229		}
+   230		page_ext_put(page_ext);
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
