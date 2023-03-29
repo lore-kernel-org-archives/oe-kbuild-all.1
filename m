@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754D86FA2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 18:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F42C6FA8;
+	Wed, 29 Mar 2023 18:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680116290; x=1711652290;
+  t=1680116295; x=1711652295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ljrfnDxbr6tNexL3uEz0cAUdzMrGQ6M9pENRFgx4P4Q=;
-  b=JbKc9PS4avrcGC5VESz8IbqKMEzGufMhlfmPdUg97juf/GBDPklVIvRb
-   uvCAITCzDSN10zEhKZlcVi/T5egTIIkIYzQC3hCyL77D5YRPW1ZO2eAHV
-   MHIZwT222QlIGhaH+7ukVf0aKjwBahnA823yfAKDjkcNPfF4a9ZRWd8VS
-   MjRCnlHFZB++ExqqVjDTM2tKCuEBG3u+9AGXuXaQfTAFosjXtR1g8Yhp/
-   kT/k7QvKD5iMdeGbMXS7yjjbkA2TMCm7Fsnk4jLoeInquGxVqqkikKz47
-   eaRfSyOAe9QdKgsPH5TKNGxBZ59BgVMg848C156+yapGDXKYHA0t86SrB
+  bh=n+9GNXGkNd6gLjrZsaN0OkjBmTgSohGwMtlnqzuCbD8=;
+  b=Wpoc6ctn6UdWumzZKfIpMoIAUzT9ON2MdUQNX80I39sKQ9jlg06B59gS
+   X93pzF3dp4XfxlVZUYiaVTLVuIXoHDsM9wqtQRvmQaKx0ytcKw8Z4Ixiu
+   slMZWZR60Pz6bIKWS8LzvX0quzupEsQ+uQwMNkZjhXJ2Kd8BD8lCf4dY3
+   uoeDQbfgZMtEPFtbEzxoZNBM/TvKeB/Jeq3prekp/DtGP8zPpjt0X4Eud
+   dxqYI5PtChGqZSG8LyZzOrxBNU+4EAISkyjjEz0T1WK569ExqGYNDKh8u
+   Q5uiLL1N+4nmvjYiEXFna8DOewO3Lw6HDJ20gE3Y89uGJIoMTRfeVHBzh
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342583447"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427248315"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="342583447"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:09 -0700
+   d="scan'208";a="427248315"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="686947687"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014149377"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="686947687"
+   d="scan'208";a="1014149377"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2023 11:58:08 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 11:58:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phazn-000JqS-1Y;
+	id 1phazn-000JqW-1i;
 	Wed, 29 Mar 2023 18:58:07 +0000
-Date: Thu, 30 Mar 2023 02:57:27 +0800
+Date: Thu, 30 Mar 2023 02:57:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:acpi-header-cleanup 1/1]
- drivers/tty/serial/8250/8250_tegra.c:68:15: error: implicit declaration of
- function 'of_alias_get_id'
-Message-ID: <202303300209.MkcO2xDE-lkp@intel.com>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2244/7607]
+ drivers/net/wireless/legacy/wl3501_cs.c:258:2: warning: performing pointer
+ arithmetic on a null pointer has undefined behavior
+Message-ID: <202303300253.mdmTTwec-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,131 +48,185 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git acpi-header-cleanup
-head:   333a203a26446521eac7046c6fb7426997569bf8
-commit: 333a203a26446521eac7046c6fb7426997569bf8 [1/1] ACPI: Replace irqdomain.h include with struct declarations
-config: ia64-randconfig-r036-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300209.MkcO2xDE-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Hi Kalle,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   198925fae644b0099b66fac1d972721e6e563b17
+commit: 298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec [2244/7607] wifi: move raycs, wl3501 and rndis_wlan to legacy directory
+config: riscv-buildonly-randconfig-r004-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300253.mdmTTwec-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=333a203a26446521eac7046c6fb7426997569bf8
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh acpi-header-cleanup
-        git checkout 333a203a26446521eac7046c6fb7426997569bf8
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/tty/serial/8250/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/wireless/legacy/ init/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300209.MkcO2xDE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300253.mdmTTwec-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_tegra.c: In function 'tegra_uart_probe':
->> drivers/tty/serial/8250/8250_tegra.c:68:15: error: implicit declaration of function 'of_alias_get_id' [-Werror=implicit-function-declaration]
-      68 |         ret = of_alias_get_id(pdev->dev.of_node, "serial");
-         |               ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/legacy/wl3501_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/net/wireless/legacy/wl3501_cs.c:258:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           wl3501_outsb(this->base_addr + WL3501_NIC_IODPA, src, size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/legacy/wl3501_cs.c:70:33: note: expanded from macro 'wl3501_outsb'
+   #define wl3501_outsb(a, b, c) { outsb(a, b, c); slow_down_io(); }
+                                   ^~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   drivers/net/wireless/legacy/wl3501_cs.c:281:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(this->base_addr + WL3501_NIC_IODPA, dest, size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   15 warnings generated.
 
 
-vim +/of_alias_get_id +68 drivers/tty/serial/8250/8250_tegra.c
+vim +258 drivers/net/wireless/legacy/wl3501_cs.c
 
-c6825c6395b7db Jeff Brasen 2020-01-29   41  
-c6825c6395b7db Jeff Brasen 2020-01-29   42  static int tegra_uart_probe(struct platform_device *pdev)
-c6825c6395b7db Jeff Brasen 2020-01-29   43  {
-c6825c6395b7db Jeff Brasen 2020-01-29   44  	struct uart_8250_port port8250;
-c6825c6395b7db Jeff Brasen 2020-01-29   45  	struct tegra_uart *uart;
-c6825c6395b7db Jeff Brasen 2020-01-29   46  	struct uart_port *port;
-c6825c6395b7db Jeff Brasen 2020-01-29   47  	struct resource *res;
-c6825c6395b7db Jeff Brasen 2020-01-29   48  	int ret;
-c6825c6395b7db Jeff Brasen 2020-01-29   49  
-c6825c6395b7db Jeff Brasen 2020-01-29   50  	uart = devm_kzalloc(&pdev->dev, sizeof(*uart), GFP_KERNEL);
-c6825c6395b7db Jeff Brasen 2020-01-29   51  	if (!uart)
-c6825c6395b7db Jeff Brasen 2020-01-29   52  		return -ENOMEM;
-c6825c6395b7db Jeff Brasen 2020-01-29   53  
-c6825c6395b7db Jeff Brasen 2020-01-29   54  	memset(&port8250, 0, sizeof(port8250));
-c6825c6395b7db Jeff Brasen 2020-01-29   55  
-c6825c6395b7db Jeff Brasen 2020-01-29   56  	port = &port8250.port;
-c6825c6395b7db Jeff Brasen 2020-01-29   57  	spin_lock_init(&port->lock);
-c6825c6395b7db Jeff Brasen 2020-01-29   58  
-c6825c6395b7db Jeff Brasen 2020-01-29   59  	port->flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF | UPF_FIXED_PORT |
-c6825c6395b7db Jeff Brasen 2020-01-29   60  		      UPF_FIXED_TYPE;
-c6825c6395b7db Jeff Brasen 2020-01-29   61  	port->iotype = UPIO_MEM32;
-c6825c6395b7db Jeff Brasen 2020-01-29   62  	port->regshift = 2;
-c6825c6395b7db Jeff Brasen 2020-01-29   63  	port->type = PORT_TEGRA;
-c6825c6395b7db Jeff Brasen 2020-01-29   64  	port->irqflags |= IRQF_SHARED;
-c6825c6395b7db Jeff Brasen 2020-01-29   65  	port->dev = &pdev->dev;
-c6825c6395b7db Jeff Brasen 2020-01-29   66  	port->handle_break = tegra_uart_handle_break;
-c6825c6395b7db Jeff Brasen 2020-01-29   67  
-c6825c6395b7db Jeff Brasen 2020-01-29  @68  	ret = of_alias_get_id(pdev->dev.of_node, "serial");
-c6825c6395b7db Jeff Brasen 2020-01-29   69  	if (ret >= 0)
-c6825c6395b7db Jeff Brasen 2020-01-29   70  		port->line = ret;
-c6825c6395b7db Jeff Brasen 2020-01-29   71  
-c6825c6395b7db Jeff Brasen 2020-01-29   72  	ret = platform_get_irq(pdev, 0);
-c6825c6395b7db Jeff Brasen 2020-01-29   73  	if (ret < 0)
-c6825c6395b7db Jeff Brasen 2020-01-29   74  		return ret;
-c6825c6395b7db Jeff Brasen 2020-01-29   75  
-c6825c6395b7db Jeff Brasen 2020-01-29   76  	port->irq = ret;
-c6825c6395b7db Jeff Brasen 2020-01-29   77  
-c6825c6395b7db Jeff Brasen 2020-01-29   78  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-c6825c6395b7db Jeff Brasen 2020-01-29   79  	if (!res)
-c6825c6395b7db Jeff Brasen 2020-01-29   80  		return -ENODEV;
-c6825c6395b7db Jeff Brasen 2020-01-29   81  
-c6825c6395b7db Jeff Brasen 2020-01-29   82  	port->membase = devm_ioremap(&pdev->dev, res->start,
-c6825c6395b7db Jeff Brasen 2020-01-29   83  				     resource_size(res));
-c6825c6395b7db Jeff Brasen 2020-01-29   84  	if (!port->membase)
-c6825c6395b7db Jeff Brasen 2020-01-29   85  		return -ENOMEM;
-c6825c6395b7db Jeff Brasen 2020-01-29   86  
-c6825c6395b7db Jeff Brasen 2020-01-29   87  	port->mapbase = res->start;
-c6825c6395b7db Jeff Brasen 2020-01-29   88  	port->mapsize = resource_size(res);
-c6825c6395b7db Jeff Brasen 2020-01-29   89  
-c6825c6395b7db Jeff Brasen 2020-01-29   90  	uart->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
-c6825c6395b7db Jeff Brasen 2020-01-29   91  	if (IS_ERR(uart->rst))
-c6825c6395b7db Jeff Brasen 2020-01-29   92  		return PTR_ERR(uart->rst);
-c6825c6395b7db Jeff Brasen 2020-01-29   93  
-c6825c6395b7db Jeff Brasen 2020-01-29   94  	if (device_property_read_u32(&pdev->dev, "clock-frequency",
-c6825c6395b7db Jeff Brasen 2020-01-29   95  				     &port->uartclk)) {
-c6825c6395b7db Jeff Brasen 2020-01-29   96  		uart->clk = devm_clk_get(&pdev->dev, NULL);
-c6825c6395b7db Jeff Brasen 2020-01-29   97  		if (IS_ERR(uart->clk)) {
-c6825c6395b7db Jeff Brasen 2020-01-29   98  			dev_err(&pdev->dev, "failed to get clock!\n");
-c6825c6395b7db Jeff Brasen 2020-01-29   99  			return -ENODEV;
-c6825c6395b7db Jeff Brasen 2020-01-29  100  		}
-c6825c6395b7db Jeff Brasen 2020-01-29  101  
-c6825c6395b7db Jeff Brasen 2020-01-29  102  		ret = clk_prepare_enable(uart->clk);
-c6825c6395b7db Jeff Brasen 2020-01-29  103  		if (ret < 0)
-c6825c6395b7db Jeff Brasen 2020-01-29  104  			return ret;
-c6825c6395b7db Jeff Brasen 2020-01-29  105  
-c6825c6395b7db Jeff Brasen 2020-01-29  106  		port->uartclk = clk_get_rate(uart->clk);
-c6825c6395b7db Jeff Brasen 2020-01-29  107  	}
-c6825c6395b7db Jeff Brasen 2020-01-29  108  
-c6825c6395b7db Jeff Brasen 2020-01-29  109  	ret = reset_control_deassert(uart->rst);
-c6825c6395b7db Jeff Brasen 2020-01-29  110  	if (ret)
-c6825c6395b7db Jeff Brasen 2020-01-29  111  		goto err_clkdisable;
-c6825c6395b7db Jeff Brasen 2020-01-29  112  
-c6825c6395b7db Jeff Brasen 2020-01-29  113  	ret = serial8250_register_8250_port(&port8250);
-c6825c6395b7db Jeff Brasen 2020-01-29  114  	if (ret < 0)
-c6825c6395b7db Jeff Brasen 2020-01-29  115  		goto err_clkdisable;
-c6825c6395b7db Jeff Brasen 2020-01-29  116  
-c6825c6395b7db Jeff Brasen 2020-01-29  117  	platform_set_drvdata(pdev, uart);
-c6825c6395b7db Jeff Brasen 2020-01-29  118  	uart->line = ret;
-c6825c6395b7db Jeff Brasen 2020-01-29  119  
-c6825c6395b7db Jeff Brasen 2020-01-29  120  	return 0;
-c6825c6395b7db Jeff Brasen 2020-01-29  121  
-c6825c6395b7db Jeff Brasen 2020-01-29  122  err_clkdisable:
-c6825c6395b7db Jeff Brasen 2020-01-29  123  	clk_disable_unprepare(uart->clk);
-c6825c6395b7db Jeff Brasen 2020-01-29  124  
-c6825c6395b7db Jeff Brasen 2020-01-29  125  	return ret;
-c6825c6395b7db Jeff Brasen 2020-01-29  126  }
-c6825c6395b7db Jeff Brasen 2020-01-29  127  
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  237  
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  238  /**
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  239   * wl3501_set_to_wla - Move 'size' bytes from PC to card
+2307d0bc9d8b60 drivers/net/wireless/wl3501_cs.c Lee Jones      2020-08-26  240   * @this: Card
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  241   * @dest: Card addressing space
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  242   * @src: PC addressing space
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  243   * @size: Bytes to move
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  244   *
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  245   * Move 'size' bytes from PC to card. (Shouldn't be interrupted)
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  246   */
+ff1d2767d5a43c drivers/net/wireless/wl3501_cs.c Jouni Malinen  2005-05-12  247  static void wl3501_set_to_wla(struct wl3501_card *this, u16 dest, void *src,
+ff1d2767d5a43c drivers/net/wireless/wl3501_cs.c Jouni Malinen  2005-05-12  248  			      int size)
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  249  {
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  250  	/* switch to SRAM Page 0 */
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  251  	wl3501_switch_page(this, (dest & 0x8000) ? WL3501_BSS_SPAGE1 :
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  252  						   WL3501_BSS_SPAGE0);
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  253  	/* set LMAL and LMAH */
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  254  	wl3501_outb(dest & 0xff, this->base_addr + WL3501_NIC_LMAL);
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  255  	wl3501_outb(((dest >> 8) & 0x7f), this->base_addr + WL3501_NIC_LMAH);
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  256  
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  257  	/* rep out to Port A */
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16 @258  	wl3501_outsb(this->base_addr + WL3501_NIC_IODPA, src, size);
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  259  }
+^1da177e4c3f41 drivers/net/wireless/wl3501_cs.c Linus Torvalds 2005-04-16  260  
 
-:::::: The code at line 68 was first introduced by commit
-:::::: c6825c6395b7dbcb5421d89ac8d5631be815ca36 serial: 8250_tegra: Create Tegra specific 8250 driver
+:::::: The code at line 258 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Jeff Brasen <jbrasen@nvidia.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
