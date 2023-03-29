@@ -1,161 +1,117 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EBD2F30
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Mar 2023 15:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C201E2F30;
+	Wed, 29 Mar 2023 16:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680105123; x=1711641123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nrzrnZhDKWcMw663KvKNv8peZE7CfPUyU+hNDlDbRM8=;
-  b=WE5p3mJsH822Q+9IvWYkKdWfl8deKMnjIKgaq7JpFzfoMSvKdWe6nIPM
-   uWhexrKyecECHbt7eOmgruqZbH+XQtgZOw55nKXjfsKkbqcZGjjdfnrXp
-   CmQjePueJ1vUlxAy7l94nohn8qx5mxOpfq1oS9EVOqXXHJcHFJOSFsZWF
-   pjifmwak5aW5Hedt1skkbHq+3Qz5X/on4q6umsBIfkegN7srf++HY9N5d
-   lZ+BHFaFm/avUkayhV4mPTcg6dAYnjGpRXbIlxoKru5Kby6FJiJmYISZ+
-   bs8r5UlKDXHyv5AJUn/ICyAFpuvzBEx/phb7ijG+iARx5rxwpXqdMcsUn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338419762"
+  t=1680105728; x=1711641728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=agpdi5xj6PEqJgMmgE/91PwMeriot5GLiWkFuZx+35M=;
+  b=aP1YPEBOFEovgLUYcsuM+FQJWkQ8xD7LpQKjWkyODfuSGO7TkIKbvCTD
+   1dRRh3KxMP/PjwCkfQjOoe7rUxpL13M/rw4lLSos3zkNJ1v6bMGS5Bllv
+   LxRyiHDrLxPhw/k+Mxm3d+XKydvCdwOklOzkSWzyYw0WpYFeyhKGbehrj
+   /hVDPrW9r4CA464UPYpWiRaoLDa/MQz6huGNoxVaYUGfCdIHrr6KhmCMK
+   1g2qv23PbmGVNa0fbwx8oTbFCtB9uwDqNW0HlU4xgFKNtT3DCI+NcGdtJ
+   /PExJPZpjYrW/ByoGhpkvHizsNqI/sAhKG+qd9/cS4owyCO4FrGGzqJ5z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="340943256"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="338419762"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 08:52:03 -0700
+   d="scan'208";a="340943256"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 09:02:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="716924607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748823865"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="716924607"
+   d="scan'208";a="748823865"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 Mar 2023 08:51:59 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 09:01:59 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phY5e-000Jgi-2h;
-	Wed, 29 Mar 2023 15:51:58 +0000
-Date: Wed, 29 Mar 2023 23:51:20 +0800
+	id 1phYFL-000Jh2-0B;
+	Wed, 29 Mar 2023 16:01:59 +0000
+Date: Thu, 30 Mar 2023 00:01:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: meenakshi.aggarwal@nxp.com, horia.geanta@nxp.com, V.sethi@nxp.com,
-	pankaj.gupta@nxp.com, gaurav.jain@nxp.com,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>,
-	Varun Sethi <v.sethi@nxp.com>
-Subject: Re: [PATCH v2 1/2] crypto: caam - reduce page 0 regs access to
- minimum
-Message-ID: <202303292311.eRQf8n1I-lkp@intel.com>
-References: <20230322061716.3195841-2-meenakshi.aggarwal@nxp.com>
+To: Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ls-zhu:refactor 5/7] drivers/vdpa/ifcvf/ifcvf_main.c:439:24:
+ warning: variable 'adapter' set but not used
+Message-ID: <202303292340.yEcx9I77-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230322061716.3195841-2-meenakshi.aggarwal@nxp.com>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.3-rc4 next-20230329]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/meenakshi-aggarwal-nxp-com/crypto-caam-OP-TEE-firmware-support/20230322-151746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20230322061716.3195841-2-meenakshi.aggarwal%40nxp.com
-patch subject: [PATCH v2 1/2] crypto: caam - reduce page 0 regs access to minimum
-config: powerpc-randconfig-s051-20230329 (https://download.01.org/0day-ci/archive/20230329/202303292311.eRQf8n1I-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/ls-zhu/linux refactor
+head:   eec40a854a7617076952ac5dfc273a9f3ed10bf0
+commit: e07aed8d27dc17ff4587560d7e484de57870e970 [5/7] retire ifcvf_add_status, ifcvf_start_hw and ifcvf_start_datapath
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230329/202303292340.yEcx9I77-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/627d651dccbe8862582b68f0ceab5c40460dd281
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review meenakshi-aggarwal-nxp-com/crypto-caam-OP-TEE-firmware-support/20230322-151746
-        git checkout 627d651dccbe8862582b68f0ceab5c40460dd281
+        # https://github.com/ls-zhu/linux/commit/e07aed8d27dc17ff4587560d7e484de57870e970
+        git remote add ls-zhu https://github.com/ls-zhu/linux
+        git fetch --no-tags ls-zhu refactor
+        git checkout e07aed8d27dc17ff4587560d7e484de57870e970
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/crypto/caam/ drivers/media/i2c/ drivers/phy/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/vdpa/ifcvf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303292311.eRQf8n1I-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303292340.yEcx9I77-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/caam/debugfs.c:58:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:58:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:58:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:60:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:60:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:60:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:62:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:62:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:62:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:64:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:64:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:64:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:66:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:66:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:66:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:68:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:68:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:68:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:70:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:70:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:70:30: sparse:     got unsigned long long [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:74:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned long long [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:74:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:74:30: sparse:     got unsigned long long [noderef] __iomem *
->> drivers/crypto/caam/debugfs.c:76:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned int [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:76:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:76:30: sparse:     got unsigned int [noderef] __iomem *
-   drivers/crypto/caam/debugfs.c:78:30: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got unsigned int [noderef] __iomem * @@
-   drivers/crypto/caam/debugfs.c:78:30: sparse:     expected void *data
-   drivers/crypto/caam/debugfs.c:78:30: sparse:     got unsigned int [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +58 drivers/crypto/caam/debugfs.c
+>> drivers/vdpa/ifcvf/ifcvf_main.c:439:24: warning: variable 'adapter' set but not used [-Wunused-but-set-variable]
+           struct ifcvf_adapter *adapter;
+                                 ^
+   1 warning generated.
 
-abd9875497ba47 Horia Geantă 2020-08-06  44  
-627d651dccbe88 Horia GeantA 2023-03-22  45  void caam_debugfs_init(struct caam_drv_private *ctrlpriv,
-627d651dccbe88 Horia GeantA 2023-03-22  46  		       struct caam_perfmon __iomem *perfmon,
-627d651dccbe88 Horia GeantA 2023-03-22  47  		       struct dentry *root)
-abd9875497ba47 Horia Geantă 2020-08-06  48  {
-abd9875497ba47 Horia Geantă 2020-08-06  49  	/*
-abd9875497ba47 Horia Geantă 2020-08-06  50  	 * FIXME: needs better naming distinction, as some amalgamation of
-abd9875497ba47 Horia Geantă 2020-08-06  51  	 * "caam" and nprop->full_name. The OF name isn't distinctive,
-abd9875497ba47 Horia Geantă 2020-08-06  52  	 * but does separate instances
-abd9875497ba47 Horia Geantă 2020-08-06  53  	 */
-abd9875497ba47 Horia Geantă 2020-08-06  54  
-abd9875497ba47 Horia Geantă 2020-08-06  55  	ctrlpriv->ctl = debugfs_create_dir("ctl", root);
-abd9875497ba47 Horia Geantă 2020-08-06  56  
-abd9875497ba47 Horia Geantă 2020-08-06  57  	debugfs_create_file("rq_dequeued", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06 @58  			    &perfmon->req_dequeued, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  59  	debugfs_create_file("ob_rq_encrypted", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  60  			    &perfmon->ob_enc_req, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  61  	debugfs_create_file("ib_rq_decrypted", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  62  			    &perfmon->ib_dec_req, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  63  	debugfs_create_file("ob_bytes_encrypted", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  64  			    &perfmon->ob_enc_bytes, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  65  	debugfs_create_file("ob_bytes_protected", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  66  			    &perfmon->ob_prot_bytes, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  67  	debugfs_create_file("ib_bytes_decrypted", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  68  			    &perfmon->ib_dec_bytes, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  69  	debugfs_create_file("ib_bytes_validated", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  70  			    &perfmon->ib_valid_bytes, &caam_fops_u64_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  71  
-abd9875497ba47 Horia Geantă 2020-08-06  72  	/* Controller level - global status values */
-abd9875497ba47 Horia Geantă 2020-08-06  73  	debugfs_create_file("fault_addr", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06  74  			    &perfmon->faultaddr, &caam_fops_u32_ro);
-abd9875497ba47 Horia Geantă 2020-08-06  75  	debugfs_create_file("fault_detail", 0444, ctrlpriv->ctl,
-abd9875497ba47 Horia Geantă 2020-08-06 @76  			    &perfmon->faultdetail, &caam_fops_u32_ro);
+
+vim +/adapter +439 drivers/vdpa/ifcvf/ifcvf_main.c
+
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  436  
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  437  static void ifcvf_vdpa_set_status(struct vdpa_device *vdpa_dev, u8 status)
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  438  {
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26 @439  	struct ifcvf_adapter *adapter;
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  440  	struct ifcvf_hw *vf;
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  441  	u8 status_old;
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  442  	int ret;
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  443  
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  444  	vf  = vdpa_to_vf(vdpa_dev);
+6b5df347c6482f drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2021-08-12  445  	adapter = vdpa_to_adapter(vdpa_dev);
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  446  	status_old = ifcvf_get_status(vf);
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  447  
+bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  448  	if (status_old == status)
+bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  449  		return;
+bb02e6e63d0e71 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-06-05  450  
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  451  	if ((status & VIRTIO_CONFIG_S_DRIVER_OK) &&
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  452  	    !(status_old & VIRTIO_CONFIG_S_DRIVER_OK)) {
+7cfd36b7e8be6b drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-11-25  453  		ret = ifcvf_request_irq(vf);
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  454  		if (ret) {
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  455  			status = ifcvf_get_status(vf);
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  456  			status |= VIRTIO_CONFIG_S_FAILED;
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  457  			ifcvf_set_status(vf, status);
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  458  			return;
+7dd793f37e2ab4 drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2020-05-12  459  		}
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  460  	}
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  461  
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  462  	ifcvf_set_status(vf, status);
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  463  }
+5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-26  464  
+
+:::::: The code at line 439 was first introduced by commit
+:::::: 5a2414bc454e89e0515b47500734a65aa40cf9fe virtio: Intel IFC VF driver for VDPA
+
+:::::: TO: Zhu Lingshan <lingshan.zhu@intel.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
