@@ -1,115 +1,131 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA6F1C3E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 10:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680173652; x=1711709652;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9MvugIT0Opc7QtqQlkrFBdrhnJIKGkn//xf4X4wAM/k=;
-  b=iODnRw9/KVM6go62F6z04crfDAJWJQfGwFQaYMbdoYIZOJXFg0qZL+Gj
-   v4DiuYoQmpTDwLOZ7tcaWyzFthi7V+JXWBaTLzRCmVZjEhr1cKbH9cCVQ
-   3U6cxKhcp60S3Gx/F2N2X3i1o7qX0wppN5rgENaO9Mcol+G9UfVzU5Bt7
-   1yx4q/ZeNjuMKSi/cTAZKEX6gpMkL/cxvj4rSFRWp7lYgZcm1MX/J/Gta
-   uhvLhqu6NgH2RtQNram8nldox2WSk7mtVwI1so50w4ctQNvNad1rnuUIf
-   FQwjYE+bcq1Ds5mfcKI63xIfdLKMYPEeL/8nRLBRRZg4DrG5JSY5bFpat
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342745948"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="342745948"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 03:53:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="808588244"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="808588244"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 30 Mar 2023 03:53:50 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phpuf-000Klm-10;
-	Thu, 30 Mar 2023 10:53:49 +0000
-Date: Thu, 30 Mar 2023 18:53:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Enric Balletbo i Serra <eballetbo@redhat.com>,
-	Brendan Higgins <brendanhiggins@google.com>,
-	linux-kselftest@vger.kernel.org,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	David Gow <davidgow@google.com>,
-	Daniel Latypov <dlatypov@google.com>, kunit-dev@googlegroups.com,
-	Maxime Ripard <maxime@cerno.tech>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1301C3E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 11:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680174738;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oYqpg+uZa6tgjrnBGs2tsZwqEVLA3EFw2OD8bhme+dA=;
+	b=BrBpizUyonNeEhyICiSSg2huuqD9uFEg18Z0uTO90G8wfDWB51ZlDH8Qg/3zgG1eoW9ip9
+	pqyEqVcrBZQj/d0TUSdRAUV/234eYZrm3ebsGj4sC50LCc/pnxjxAT79Bse2K3Z4mBr6a2
+	JvAwubixSHlsPgRM8+9Al3Nc8MUFbpw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-491-bi5pYMSGPNKV85wEAn9G7g-1; Thu, 30 Mar 2023 07:12:14 -0400
+X-MC-Unique: bi5pYMSGPNKV85wEAn9G7g-1
+Received: by mail-wr1-f71.google.com with SMTP id b9-20020a05600018a900b002cfe70737d2so1910684wri.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 04:12:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680174734;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oYqpg+uZa6tgjrnBGs2tsZwqEVLA3EFw2OD8bhme+dA=;
+        b=FbuIPIUvv4ZoVsnEL8DAh61++1DA4nVSaQ/Muhrqz5xx7FJoe2xd3l5JgAOco+YDl8
+         iYWIozJSbkdPvxii1l5SZrYdx4+i+CmasSSScanlSYmgH3htNgaWdzJwJdnG+c/okrZL
+         5DjlBNTpO1Po5VJtpAFpm826j/u2xUHiwf6dUrpkDxJEz6CRKQf62fE0suFx6QOP9deX
+         +8qQU57HXdqdzrzSBXY+lQhMs8UN4LjSwma9yJubEeei1IKZK6IdWf9E1HKOU4UqEvD5
+         jyjwQ5ntz2uTsZRe1eLjyKJdAWGwtpawNBnQIDuc0BX1V6l9PgkrYlLyvjRmvJvwcWqA
+         qw9w==
+X-Gm-Message-State: AAQBX9daeYeLA7idRZXjSVldWw1wWaQDa3isJBR/TJywSehlw7lVVZ/K
+	WRRYYHKsdhHU5NyqwN005xIcAfc1yG8qkOtdwvl6iNDTz7Bl01QoIeuYkbP5aUOQzVsbETLhlvZ
+	NOB4opu6/JgubuiDoXFICiM0E4g==
+X-Received: by 2002:adf:f4c7:0:b0:2ce:ac70:5113 with SMTP id h7-20020adff4c7000000b002ceac705113mr17557468wrp.41.1680174733788;
+        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bnsNEVnBMYqDKqOs+BLR/fboYCbIFeK4GxvvvH5EDwj1dlpauKlszJEHQWcs591307lwwQdA==
+X-Received: by 2002:adf:f4c7:0:b0:2ce:ac70:5113 with SMTP id h7-20020adff4c7000000b002ceac705113mr17557441wrp.41.1680174733432;
+        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id l5-20020adfe585000000b002cea9d931e6sm32767201wrm.78.2023.03.30.04.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Enric Balletbo i Serra
+ <eballetbo@redhat.com>, Brendan Higgins <brendanhiggins@google.com>,
+ linux-kselftest@vger.kernel.org, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mcanal@igalia.com>, David
+ Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
+ kunit-dev@googlegroups.com, Maxime Ripard <maxime@cerno.tech>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
 Subject: Re: [PATCH v2] Input: Add KUnit tests for some of the input core
  helper functions
-Message-ID: <202303301815.kRKFM3NH-lkp@intel.com>
+In-Reply-To: <202303301815.kRKFM3NH-lkp@intel.com>
 References: <20230330081831.2291351-1-javierm@redhat.com>
+ <202303301815.kRKFM3NH-lkp@intel.com>
+Date: Thu, 30 Mar 2023 13:12:12 +0200
+Message-ID: <87a5zufq7n.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330081831.2291351-1-javierm@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-Hi Javier,
+kernel test robot <lkp@intel.com> writes:
 
-I love your patch! Perhaps something to improve:
+Hello,
 
-[auto build test WARNING on 3a93e40326c8f470e71d20b4c42d36767450f38f]
+[...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/Input-Add-KUnit-tests-for-some-of-the-input-core-helper-functions/20230330-162045
-base:   3a93e40326c8f470e71d20b4c42d36767450f38f
-patch link:    https://lore.kernel.org/r/20230330081831.2291351-1-javierm%40redhat.com
-patch subject: [PATCH v2] Input: Add KUnit tests for some of the input core helper functions
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230330/202303301815.kRKFM3NH-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c0455fa125039a03d011836a8f82a2427591e51c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Javier-Martinez-Canillas/Input-Add-KUnit-tests-for-some-of-the-input-core-helper-functions/20230330-162045
-        git checkout c0455fa125039a03d011836a8f82a2427591e51c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
+>    drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+>    drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+>    drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
+>>> drivers/input/tests/.kunitconfig: warning: ignored by one of the .gitignore files
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303301815.kRKFM3NH-lkp@intel.com/
+KUnit folks, what should we do about this? I believe the correct thing
+here would be for these dot-files to not be ignored by git.
 
-All warnings (new ones prefixed by >>):
+Not only to prevent these reports, but also to avoid the need to add
+them using `git add -f`, since is quite error prone and easy to miss.
 
-   drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
->> drivers/input/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-   fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
-   fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
-   kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore files
-   lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
-   mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
-   net/sunrpc/.kunitconfig: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+I was thinking about posting the following patch:
+
+From f1dc1733001682886458c23b676123635bc29da0 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Thu, 30 Mar 2023 13:04:42 +0200
+Subject: [PATCH] .gitignore: Exclude KUnit config dot-files
+
+There's a rule to ignore all the dot-files (.*) but we want to exclude the
+config files used by KUnit (.kunitconfig) since those are usually added to
+allow executing test suites without having to enable custom config options.
+
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitignore b/.gitignore
+index 70ec6037fa7a..7f86e0837909 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -103,6 +103,7 @@ modules.order
+ !.get_maintainer.ignore
+ !.gitattributes
+ !.gitignore
++!.kunitconfig
+ !.mailmap
+ !.rustfmt.toml
+ 
+
+base-commit: 197b6b60ae7bc51dd0814953c562833143b292aa
+-- 
+2.40.0
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
