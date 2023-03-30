@@ -1,54 +1,46 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EC979C6;
-	Thu, 30 Mar 2023 15:27:56 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso12052502wmo.0;
-        Thu, 30 Mar 2023 08:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680190074;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ugAmLJblkYMugEo7tfI+icr2H8SDN/QMTqfPS9Pdgjo=;
-        b=A44BlkQDQ7N2zVdqRxC0isCQGdigI1SNxHICLB5Te0OaNAhTzUqOU3fXpGMpN9Mrrx
-         16wpg/ZDZzSZbMB+PZyzz5LjPXiWSRX5nKCXvRlbMxxbvP839agd1ifIDZy9TAysKPWD
-         V5kC908V8ZkcCScJZ9Br8fhwrtH22KblL7nGQwijPSIn5N1MDo4eQxXeNLJFhMjKDga/
-         5J1c3KtjAxa8fJZzsP2Go+oPHw3yIy0odwD/AtgxawbSTbTkE+X0+5ZM290469AK/QUf
-         PsvIDvanw8B+VkULGYhmkO6VkqILXrAjGiJDL/pkC96KnGgUjIn5SmqQbCIm0VVDvFaF
-         iZ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680190074;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ugAmLJblkYMugEo7tfI+icr2H8SDN/QMTqfPS9Pdgjo=;
-        b=3wM+wCGvfTCDzHyUv6b4ceDw48qs5V+FJTTRJrjlcGWVqZOd+d55YXigK0W6Kw0CWn
-         ED4mriG9sXY2t6h0xn92looFyAXVf1y0HgclXdzSHptvV2EwiprULgpGMmneuqJ4lCSg
-         RLv6TtmbQOs9bPZTja/UHd00c5UGvA+F0P512hRrLMWtWd9sQmrg5bSp1ZxTMreOWrc7
-         UL3mPRJZ0H1obn7bL6TSZc923FgcrSn9pkzR5Z72ZJRl72lFSgtTNLPk5RWQ0cdlAXbT
-         IbBZfBmQGwBwy+LNigVxgGNlSN43YpG5vMpAYK4wBe/Ck02f7CkUrI2d6L7Ho8v6OirN
-         yTLw==
-X-Gm-Message-State: AO0yUKWOzxhUJANQQSGkzs3Nu297mduhGBOeuI3PwTvLPA/DOjSTy1Go
-	TEh+4XnBdzYx29OgV8h07yDkd8E+GA8=
-X-Google-Smtp-Source: AK7set9CzWMbpFkxw8byP8zOEJzHj/hUibEgy5nYYaciVm0s2mkNKVRPXh1b2EftFefmV84mZU6tQA==
-X-Received: by 2002:a05:600c:2110:b0:3ed:2b27:5bcc with SMTP id u16-20020a05600c211000b003ed2b275bccmr17827101wml.38.1680190074112;
-        Thu, 30 Mar 2023 08:27:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i22-20020a05600c355600b003ede6540190sm6788865wmq.0.2023.03.30.08.27.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 08:27:53 -0700 (PDT)
-Date: Thu, 30 Mar 2023 18:27:50 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, ChiaEn Wu <chiaen_wu@richtek.com>,
-	jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, peterwu.pub@gmail.com,
-	cy_huang@richtek.com, ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: Re: [PATCH] iio: adc: mt6370: Fix ibus and ibat scaling value of
- some specific vendor ID chips
-Message-ID: <75f27c56-5e35-40dc-a320-66bf6a8ed36f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079E58480
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 15:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680191225; x=1711727225;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q8GGSSC9IgvYkYidGzOlvszoR7bmj25UccgsVJ2KLcI=;
+  b=Rk8InVaE3aH4snfpYJjvn2x4tol8+N+Y7VumfrxASGMxB6rwp6N0z9LN
+   fA1Mz6aQOCVRqUDScrbeX6dYolC+huSGCj1BmZ4Xp1HCu8iXHghBeLo+c
+   ywdH81i8WKbpSLsuY7DtLIKeAbIEoRgOCa8rwGzwtNmdVO6YsxKMrH6C5
+   u00jCq32UrfUxrosYLkOrJ9ZZq9raCgg40D4H2handqoa9g44qJ4Bpvub
+   FopBvjVFihFwNPnXnu4sFTfNoqO+9mryOrInl9sylJ/4CUylhcdeayWtC
+   sTln5R1t2F1Be2kldGHVR2HrkDXbIpoOWjNlCfxrKs1WZLcB6usRNTdy7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406199209"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="406199209"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 08:47:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662070385"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="662070385"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 08:46:59 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phuUN-000Ky0-0i;
+	Thu, 30 Mar 2023 15:46:59 +0000
+Date: Thu, 30 Mar 2023 23:46:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Piyush Malgujar <pmalgujar@marvell.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, wsa@kernel.org, rric@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jannadurai@marvell.com,
+	cchavva@marvell.com, Suneel Garapati <sgarapati@marvell.com>,
+	Piyush Malgujar <pmalgujar@marvell.com>
+Subject: Re: [PATCH 2/3] i2c: thunderx: Add support for High speed mode
+Message-ID: <202303302309.SSHrlrqN-lkp@intel.com>
+References: <20230330133953.21074-3-pmalgujar@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,60 +49,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679667167-16261-1-git-send-email-chiaen_wu@richtek.com>
+In-Reply-To: <20230330133953.21074-3-pmalgujar@marvell.com>
 
-Hi ChiaEn,
+Hi Piyush,
 
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ChiaEn-Wu/iio-adc-mt6370-Fix-ibus-and-ibat-scaling-value-of-some-specific-vendor-ID-chips/20230324-221545
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/1679667167-16261-1-git-send-email-chiaen_wu%40richtek.com
-patch subject: [PATCH] iio: adc: mt6370: Fix ibus and ibat scaling value of some specific vendor ID chips
-config: m68k-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303302231.gNdPKrtD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Piyush-Malgujar/i2c-thunderx-Clock-divisor-logic-changes/20230330-214626
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20230330133953.21074-3-pmalgujar%40marvell.com
+patch subject: [PATCH 2/3] i2c: thunderx: Add support for High speed mode
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230330/202303302309.SSHrlrqN-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c7866465c9142bf77cc1bc651704bfbfc9b0b411
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Piyush-Malgujar/i2c-thunderx-Clock-divisor-logic-changes/20230330-214626
+        git checkout c7866465c9142bf77cc1bc651704bfbfc9b0b411
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/i2c/busses/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303302231.gNdPKrtD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303302309.SSHrlrqN-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/mt6370-adc.c:306 mt6370_adc_probe() error: uninitialized symbol 'priv'.
+All errors (new ones prefixed by >>):
 
-vim +/priv +306 drivers/iio/adc/mt6370-adc.c
+   drivers/i2c/busses/i2c-octeon-core.c: In function 'octeon_i2c_wait':
+>> drivers/i2c/busses/i2c-octeon-core.c:74:33: error: implicit declaration of function '__udelay'; did you mean '__delay'? [-Werror=implicit-function-declaration]
+      74 |                                 __udelay(1);
+         |                                 ^~~~~~~~
+         |                                 __delay
+   cc1: some warnings being treated as errors
 
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  294  static int mt6370_adc_probe(struct platform_device *pdev)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  295  {
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  296  	struct device *dev = &pdev->dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  297  	struct mt6370_adc_data *priv;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  298  	struct iio_dev *indio_dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  299  	struct regmap *regmap;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  300  	int ret;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  301  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  302  	regmap = dev_get_regmap(pdev->dev.parent, NULL);
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  303  	if (!regmap)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  304  		return dev_err_probe(dev, -ENODEV, "Failed to get regmap\n");
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  305  
-9822359d5de2dba ChiaEn Wu 2023-03-24 @306  	ret = mt6370_get_vendor_info(priv);
 
-"priv" is uninitialized.
+vim +74 drivers/i2c/busses/i2c-octeon-core.c
 
-9822359d5de2dba ChiaEn Wu 2023-03-24  307  	if (ret)
-9822359d5de2dba ChiaEn Wu 2023-03-24  308  		return dev_err_probe(dev, ret, "Failed to get vid\n");
-9822359d5de2dba ChiaEn Wu 2023-03-24  309  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  310  	indio_dev = devm_iio_device_alloc(dev, sizeof(*priv));
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  311  	if (!indio_dev)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  312  		return -ENOMEM;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  313  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  314  	priv = iio_priv(indio_dev);
-                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  315  	priv->dev = dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  316  	priv->regmap = regmap;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  317  	mutex_init(&priv->adc_lock);
+    39	
+    40	/**
+    41	 * octeon_i2c_wait - wait for the IFLG to be set
+    42	 * @i2c: The struct octeon_i2c
+    43	 *
+    44	 * Returns 0 on success, otherwise a negative errno.
+    45	 */
+    46	static int octeon_i2c_wait(struct octeon_i2c *i2c)
+    47	{
+    48		long time_left;
+    49	
+    50		/*
+    51		 * Some chip revisions don't assert the irq in the interrupt
+    52		 * controller. So we must poll for the IFLG change.
+    53		 */
+    54		if (i2c->broken_irq_mode) {
+    55			u64 end = get_jiffies_64() + i2c->adap.timeout;
+    56	
+    57			while (!octeon_i2c_test_iflg(i2c) &&
+    58			       time_before64(get_jiffies_64(), end))
+    59				usleep_range(I2C_OCTEON_EVENT_WAIT / 2, I2C_OCTEON_EVENT_WAIT);
+    60	
+    61			return octeon_i2c_test_iflg(i2c) ? 0 : -ETIMEDOUT;
+    62		}
+    63	
+    64		if (IS_LS_FREQ(i2c->twsi_freq)) {
+    65			i2c->int_enable(i2c);
+    66			time_left = wait_event_timeout(i2c->queue,
+    67						       octeon_i2c_test_iflg(i2c),
+    68						       i2c->adap.timeout);
+    69			i2c->int_disable(i2c);
+    70		} else {
+    71			time_left = 1000; /* 1ms */
+    72			do {
+    73				if (time_left--)
+  > 74					__udelay(1);
+    75			} while (!octeon_i2c_test_iflg(i2c) && time_left);
+    76		}
+    77	
+    78		if (i2c->broken_irq_check && !time_left &&
+    79		    octeon_i2c_test_iflg(i2c)) {
+    80			dev_err(i2c->dev, "broken irq connection detected, switching to polling mode.\n");
+    81			i2c->broken_irq_mode = true;
+    82			return 0;
+    83		}
+    84	
+    85		if (!time_left)
+    86			return -ETIMEDOUT;
+    87	
+    88		return 0;
+    89	}
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
