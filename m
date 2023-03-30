@@ -1,42 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952510E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 21:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF7110E7;
+	Thu, 30 Mar 2023 21:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680210913; x=1711746913;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4c0aESFxZ8berxXFQmvySJKqSAPgcOxrerzDfckycYg=;
-  b=Wz9E2tHvzCSr/QNZPZIjKXLRniBy/PnhNl4VPkwT7r4EsgGEmdPw4CtT
-   cCq2q3OaqwGZ/fJB+ILQxITBGVwwNuQ3UzTemffeYGfHYUThJ9DeBL7hB
-   YLr+3Jh18fIVF258p9ksOQ0zncKopTgCD7vE1yHGvI2iPzzKfxw3QDXVU
-   m2ThwBmnwCSeyexQzjR0XfCgKMxzz2yxx5IHdAaxolTWlIxSdn04uZsQk
-   rtqGtCbj7HA/YogDWtV6ajh0s0Z/figCXOyl26pjKCqIhfAT/KrIbydH1
-   /JsX5CJX+f9zo/EkZOYuiBQ6HOV6Mp06624Fz7ieiqSZxB/jlxo2WK/me
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="320942031"
+  t=1680211573; x=1711747573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cKeZbKWkg9z99bXtIqconGRjRMnNZctSQaGvAUstSvg=;
+  b=AwdErX0DZ/nDjeZiLmUPqtYVoNH8VN/yN8UaioRYw/U51UBgGWjyYpgJ
+   MqU/hKDrWxxy7V6k0jWwcHn8UXyBCIDSCwf3lACfGtA1vA9LPRqhu4som
+   G0bIxEmJ2xOmPNBIwPOvVTDiLm8CkviCZoK1wA+8cKy7+YbmzrgH0ccyH
+   YPgwgGsUbnwyRZMSHkP/0mA1Dp/QrlOPG5oYclhV9j6P4l73vMrz9fIoK
+   ZWfSqYO9xgRpdsExe3VHDTnqJ1Uji3jQRKQ3exIWXuRZB6HkHGfytK4lR
+   xxyHxC7G+lHujgAiie745BDElvp08ILOyG8X7kbuMgAPncFvFowb7lVQF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="340016061"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="320942031"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 14:15:12 -0700
+   d="scan'208";a="340016061"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 14:26:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="808785785"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="678353758"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="808785785"
+   d="scan'208";a="678353758"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 30 Mar 2023 14:15:10 -0700
+  by orsmga007.jf.intel.com with ESMTP; 30 Mar 2023 14:26:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phzby-000LDM-0k;
-	Thu, 30 Mar 2023 21:15:10 +0000
-Date: Fri, 31 Mar 2023 05:15:00 +0800
+	id 1phzmc-000LDk-1k;
+	Thu, 30 Mar 2023 21:26:10 +0000
+Date: Fri, 31 Mar 2023 05:25:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw@amazon.co.uk>
-Subject: [dwmw2:tglx-parallel-2 22/25] kernel/cpu.c:1797:9: error: too many
- arguments to function 'cpuhp_bringup_cpus_parallel'
-Message-ID: <202303310531.t8Yhrzyw-lkp@intel.com>
+To: Sheng Yong <shengyong@oppo.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] f2fs: expand f2fs_compr_option to allow ioctl
+ setting compression level
+Message-ID: <202303310556.cf7vlToW-lkp@intel.com>
+References: <20230330153719.3085164-1-shengyong@oppo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,71 +47,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230330153719.3085164-1-shengyong@oppo.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux tglx-parallel-2
-head:   553f41a50ed7c3097c465e96d5c41522a1fae23e
-commit: c8f7cb6d0895e48171b3fc33201e9244ac0e5970 [22/25] cpu/hotplug: Allow "parallel" bringup up to CPUHP_BP_KICK_AP_STATE
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230331/202303310531.t8Yhrzyw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Sheng,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev next-20230330]
+[cannot apply to linus/master v6.3-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sheng-Yong/f2fs-expand-f2fs_compr_option-to-allow-ioctl-setting-compression-level/20230330-233928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20230330153719.3085164-1-shengyong%40oppo.com
+patch subject: [RFC PATCH] f2fs: expand f2fs_compr_option to allow ioctl setting compression level
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230331/202303310556.cf7vlToW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
-        git fetch --no-tags dwmw2 tglx-parallel-2
-        git checkout c8f7cb6d0895e48171b3fc33201e9244ac0e5970
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d454d77b29654af47145c3ff3b9a59714f84ca6a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sheng-Yong/f2fs-expand-f2fs_compr_option-to-allow-ioctl-setting-compression-level/20230330-233928
+        git checkout d454d77b29654af47145c3ff3b9a59714f84ca6a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303310531.t8Yhrzyw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303310556.cf7vlToW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/cpu.c: In function 'cpuhp_bp_sync_alive':
-   kernel/cpu.c:436:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     436 |         int ret = 0;
-         |             ^~~
-   kernel/cpu.c: In function 'bringup_nonboot_cpus':
->> kernel/cpu.c:1797:9: error: too many arguments to function 'cpuhp_bringup_cpus_parallel'
-    1797 |         cpuhp_bringup_cpus_parallel(setup_max_cpus);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/cpu.c:652:20: note: declared here
-     652 | static inline void cpuhp_bringup_cpus_parallel(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cpuhp_bringup_cpus_parallel +1797 kernel/cpu.c
-
-  1791	
-  1792	void bringup_nonboot_cpus(unsigned int setup_max_cpus)
-  1793	{
-  1794		unsigned int cpu;
-  1795	
-  1796		/* If enabled, run the "parallel" bringup states first. */
-> 1797		cpuhp_bringup_cpus_parallel(setup_max_cpus);
-  1798	
-  1799		/* Do the per CPU serialized bringup to ONLINE state */
-  1800		for_each_present_cpu(cpu) {
-  1801			if (num_online_cpus() >= setup_max_cpus)
-  1802				break;
-  1803	
-  1804			if (!cpu_online(cpu)) {
-  1805				struct cpuhp_cpu_state *st = per_cpu_ptr(&cpuhp_state, cpu);
-  1806				int ret = cpu_up(cpu, CPUHP_ONLINE);
-  1807	
-  1808				/*
-  1809				 * If parallel bringup is enabled, then the online
-  1810				 * attempt has only rolled back to CPUHP_BP_KICK_AP.
-  1811				 * Do the remaining cleanups. NOOP for the non
-  1812				 * parallel case.
-  1813				 */
-  1814				if (ret && can_rollback_cpu(st))
-  1815					WARN_ON(cpuhp_invoke_callback_range(false, cpu, st, CPUHP_OFFLINE));
-  1816			}
-  1817		}
-  1818	}
-  1819	
+   In file included from <built-in>:1:
+>> ./usr/include/linux/f2fs.h:109:16: warning: // comments are not allowed in this language [-Wcomment]
+                           __u8 value; // MSB 4 bit is version, LSB 4 bit is algorithm
+                                       ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
