@@ -1,78 +1,142 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBAB9455
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 19:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680204189; x=1711740189;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6+En+FPxNTvoULOGa+u0T1QqJO9VImC93u8e+kPzfxo=;
-  b=PkE61N6SipJPPInNDM8Q54s0rtlaLBtMltHZ6O8qbCyH7AmDEYXvuoB7
-   UJdHR0AmPKTPzen/jBW22VhuGQWO5S6G3SuQeygxTqR+kB5Sq3KLoWrcH
-   wl6Bv/KPr8iIzK4j1GSE2Z/ubmI+jdZ4v4aB/V4qn11xDHu9PT3OpfRtz
-   a+uCZ8wVkpeP2CmlM66pT26gj/UfQm/5wO3uIvYHGnhvEVeZgAMtzX45G
-   nJ8IUqg2fFSy9C3gc+fwM5q8OT/O+hAAfGqtxG/nWNZnKrBxH8cq5qQbZ
-   28cBG/mq2ifMGIEKd7tAkdkFBtk6blmKe2SaJWA6jo3FzCQ7Jay+pyHos
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329788627"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="329788627"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 12:23:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687376956"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="687376956"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 12:23:07 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phxrW-000L8k-1n;
-	Thu, 30 Mar 2023 19:23:06 +0000
-Date: Fri, 31 Mar 2023 03:22:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alyssa Ross <hi@alyssa.is>, chaitanyak@nvidia.com,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: oe-kbuild-all@lists.linux.dev, axboe@kernel.dk, hch@lst.de,
-	hi@alyssa.is, linux-block@vger.kernel.org
-Subject: Re: [PATCH blktests] loop/009: add test for loop partition uvents
-Message-ID: <202303310316.QS2vADHM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEF29455
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 19:50:57 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 469B35C0061;
+	Thu, 30 Mar 2023 15:50:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 30 Mar 2023 15:50:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1680205856; x=1680292256; bh=0v
+	imBmm2Am/TLqz8rMtJyhFPYD+SHUU8+le2YWXMgJo=; b=lsG8L2k+QgSQpsks4o
+	+TrEgumtshzxc0uN0cqaB7DJFL+6bdRYwr0HgDcmjaaW6yaA26fyG5sDMmN1zprb
+	gekafqmyYE9E7at3r32ngujp/cxaGvHV82cVB1z1WKxQSCsy2b5dqq5V83Qk/7cD
+	iU6rNcFFlObsDOGBILkoawlf9nJFqCK7GyAXhbyXSw8T+5jydrl15FQY1cDy8tSG
+	9KYqLPf0ic2hK5/ZTOZR6jAdon9IzKsPUP/XK7qNQRGug0vYeTw/FP/Cpl8byxxX
+	9gBWkgwo/fyuuQSimxcRLxuHAEaDYaQmHchTnmPJA4zPl/4R91vN2HDuEICyqMqt
+	bLvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1680205856; x=1680292256; bh=0vimBmm2Am/TL
+	qz8rMtJyhFPYD+SHUU8+le2YWXMgJo=; b=EJxhzoxAPq1V7MVN4GguhSS87C1MM
+	8lzqANO9FoPh+1bnZCFlLkA7ZkqOhq6yhQ+kRBApC3sFbZJxhWOuTCfUJn7nA+xl
+	G+UxuxXXaoSc/xzlf8VAl46LgsYVoZvY3cc4D9CU1oxRfRWU2o7bU62GmmQJGYnC
+	GWEmOwJfQBcPfW4O4DNNkbNJgWp4zIBUqPGmhgbRPjYOQUxaQzyYzdfPA4wlS6fk
+	HzrSpE0jGVnrRgbfRa0+jUicl+0/Uza3hjg6TJnsxqGfqeyerPKJzAJz1B6VDRH2
+	7Bd8V1z5+FIPn1mxJuOFEI2WM8oH8yf9aSduwVohriWs+wMr6Km2wcu0A==
+X-ME-Sender: <xms:H-glZHoOvjncZ2DBhG8HEKXtHOhFY6yR6La0xGQF4tvNnpx8B8vq5g>
+    <xme:H-glZBriW8Px8HuMiyPNR1pCubyUw4mMi6l7v-rMyuJ2oP-BLsUuz2z2kSoTA_QXq
+    MA8UKGihctp4xBCzQ>
+X-ME-Received: <xmr:H-glZEP5mq7KUke5sUt9OFkyERxnJxOpLkkgtYG7V54fiP8tqH88x08URKGg7qvFq5SIBYBaiKgx4zr3Lf42vAaTraJBkdXY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehledgheduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomheptehlhihs
+    shgrucftohhsshcuoehhihesrghlhihsshgrrdhisheqnecuggftrfgrthhtvghrnhepje
+    egjeegteekjeevfeeukedvfedthfelleeuudehjeeiueehhfehgeehtdejtdejnecuffho
+    mhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrhhnvghlrd
+    horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    hhhisegrlhihshhsrgdrihhs
+X-ME-Proxy: <xmx:H-glZK6_lbyZQ8a3OtnyjGfv6AWs2FSjyDhhZSxRfVYWCSRqqyUBcw>
+    <xmx:H-glZG61pKpd8NW7p1BILOw3T5bPJxbi0ufDwnR_xMk_MCAtgfpiEg>
+    <xmx:H-glZCiwcMlEEfK9rzLSYShMviC_G7OTs7LRsv_mgGJFLefiBYn1UQ>
+    <xmx:IOglZISBDrwWcjS-Gqv4zid8Dx6WbCWLotu_BJFI_GtqeQ9y66nYng>
+Feedback-ID: i12284293:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Mar 2023 15:50:55 -0400 (EDT)
+Received: by x220.qyliss.net (Postfix, from userid 1000)
+	id CBA232414; Thu, 30 Mar 2023 19:50:53 +0000 (UTC)
+Date: Thu, 30 Mar 2023 19:50:53 +0000
+From: Alyssa Ross <hi@alyssa.is>
+To: kernel test robot <lkp@intel.com>
+Cc: chaitanyak@nvidia.com,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	oe-kbuild-all@lists.linux.dev, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org
+Subject: LKP kernel test robot and blktests patches
+Message-ID: <20230330195053.hpb4upyezb7uy2dw@x220>
 References: <20230330160247.16030-1-hi@alyssa.is>
+ <202303310316.QS2vADHM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zu5tgpfp2prkujrp"
+Content-Disposition: inline
+In-Reply-To: <202303310316.QS2vADHM-lkp@intel.com>
+
+
+--zu5tgpfp2prkujrp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330160247.16030-1-hi@alyssa.is>
 
-Hi Alyssa,
+Hi LKP team,
 
-Thank you for the patch! Perhaps something to improve:
+blktests's CONTRIBUTING.md says that blktests patches should be
+sent either on GitHub, or to linux-block with the "PATCH blktests"
+subject prefix.  I just sent such a patch, and because it was just
+adding a file, the kernel test robot happily applied and tested it as if
+it was a kernel patch, which naturally resulted in it finding problems.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc4 next-20230330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Maybe the kernel test robot should skip patches starting with
+"[PATCH blktests]"?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alyssa-Ross/loop-009-add-test-for-loop-partition-uvents/20230331-001157
-patch link:    https://lore.kernel.org/r/20230330160247.16030-1-hi%40alyssa.is
-patch subject: [PATCH blktests] loop/009: add test for loop partition uvents
-reproduce:
-        scripts/spdxcheck.py
+n Fri, Mar 31, 2023 at 03:22:28AM +0800, kernel test robot wrote:
+> Hi Alyssa,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.3-rc4 next-20230330]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alyssa-Ross/loop-009-add-test-for-loop-partition-uvents/20230331-001157
+> patch link:    https://lore.kernel.org/r/20230330160247.16030-1-hi%40alyssa.is
+> patch subject: [PATCH blktests] loop/009: add test for loop partition uvents
+> reproduce:
+>         scripts/spdxcheck.py
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303310316.QS2vADHM-lkp@intel.com/
+>
+> spdxcheck warnings: (new ones prefixed by >>)
+> >> tests/loop/009: 2:27 Invalid License ID: GPL-3.0+
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303310316.QS2vADHM-lkp@intel.com/
+--zu5tgpfp2prkujrp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-spdxcheck warnings: (new ones prefixed by >>)
->> tests/loop/009: 2:27 Invalid License ID: GPL-3.0+
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+iQIzBAABCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmQl6BwACgkQ+dvtSFmy
+ccCk5hAAqFSWG19aTQ06rDtTDP9iihziv9tcfDbZHZa/IPrJ/1ycJSJlR1wn71y3
+Ik/oOgS8wSPmQXN9/HfqrJlst6rANsfEAb1eSwu0Iql3gc5sXMfBsxXG/QjZhBb2
+MVxEo9DSUOxnlkfjQJxT7Wku99soLAkdgYao5RQ8aJuoo0pNB1/TKvWC/iDMs4nB
+rUMxRHe+1TsZnNv6COQUihRED+rejzQw+SDM+oUr76aaNlhZlRMFy2Anxl1Fm3g9
+Fd5aJcpP5RQ7UmOzT26LU/FqYiwmR35fdDTPd6qep63+r7PAqVmOpq0WvX7WepEV
+UCOxkj5LAJPQrnolE+H9ixH7BlcTRRf6V/H8Uq1wfceNPpvsTgiKNlXir07Eocgr
+Z79P/HX+pOd5soFYN7ADJFfeNGkcqyt6sBZrkfdaDkyk/eHdd1rPkq2M5BbEMzzo
+U/RceYS7WGq3397LVUFUt0BAVvAr7NsgCt2280/JINCcAGdDsMBEwuNeHr2rKBfy
+mxnoViNHmqC2Cv2ltro/Gu8RKJHk/aneRbMoHl/rvvTTM72UG8zItpuR+XwsPEwi
+xrl3k20SF5qmCH0x01Gm8lB/s1uelvJa9qAI+FiVdc5n+yaV5tepSgoGsSv1K/WS
+9Nz9+3x7BwOAcofWNscmn6IMVK/NdJKnEBUhLmFjXD7bI75WMTs=
+=RO3L
+-----END PGP SIGNATURE-----
+
+--zu5tgpfp2prkujrp--
