@@ -1,75 +1,102 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A852586
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 13:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680182256; x=1711718256;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gjXiSFbLHj6Onw1h54YESVIc7/ZyAzNL297RfS9q8SQ=;
-  b=Nw6NaDBZtF7unuDxkWXIQlVZaekV4jb6nCvazsRpelzDa9xLUMRWWBiu
-   xCuQTO9P7tmtYj2N17fkM5Gk+lyEyeIG7MdkE8ssgjQm2/UuUWhcLT72y
-   WLV64mD+CivD5b4y9pHBEq0UDBcrFLEhxtEOKIQs5v4OL/jLo2QDEE5R3
-   3IGoma25TKAf7yqVyNDzIvShnRF2clVXq3WrUbq9AHHLTraygGiYUyPJy
-   /y647EgoJTAraSmUWDNEldczEQqabvSOXRYFfYdRjziAo8PG7tAi39quv
-   wAPDhifX+o6/Kpk8ltkhPWxXIqbk3XOwd0GEyZcKd4ZyeopqeVLaJQKsN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343621631"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="343621631"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 06:09:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="753989168"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="753989168"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 06:09:55 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phs2N-000Ksm-0F;
-	Thu, 30 Mar 2023 13:09:55 +0000
-Date: Thu, 30 Mar 2023 21:09:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-5.4.y 472/975] htmldocs:
- Documentation/filesystems/f2fs.rst: WARNING: document isn't included in any
- toctree
-Message-ID: <202303302104.kvZwuRLL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBBA2F3E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 13:31:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3CE9821A48;
+	Thu, 30 Mar 2023 13:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1680183111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6snkWrQq2EYU8phSPYz86ER0uOQohcNXWWKnClcp+w=;
+	b=thFnowIzN1ctey+npCiwIGKMoDBUOUQesTVeC8HD0DJq09UEAsmaZxcdUgCGIGNABlGV58
+	Qb+xvbpS+Uurc66IuvwA5/GDMhbdlTR0gLigulueKwPUs4skkxCorG7CXqVO51AZfWM1Jg
+	4ADo16XpETfyUcYsdUsSwr6JdvkGPDQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1680183111;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6snkWrQq2EYU8phSPYz86ER0uOQohcNXWWKnClcp+w=;
+	b=W42qryDGO/gKF8T0PDw4FONHddzm21b1zEIRYj6pPy1SHrhWVhscGPrd9Ae7xh7uPCIqn+
+	au9ircIimwkqb+Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1CDEA1348E;
+	Thu, 30 Mar 2023 13:31:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id cBTbBUePJWQkDAAAMHmgww
+	(envelope-from <tiwai@suse.de>); Thu, 30 Mar 2023 13:31:51 +0000
+Date: Thu, 30 Mar 2023 15:31:50 +0200
+Message-ID: <87r0t6l60p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Tasos Sahanidis <tasos@tasossah.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [linux-next:master 7406/7844] sound/pci/ymfpci/ymfpci_main.c:2259:9: error: implicit declaration of function 'snd_ac97_suspend'; did you mean 'snd_ac97_reset'?
+In-Reply-To: <202303301712.i4ddVa9j-lkp@intel.com>
+References: <202303301712.i4ddVa9j-lkp@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Chao,
+On Thu, 30 Mar 2023 11:51:50 +0200,
+kernel test robot wrote:
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
+> commit: 081364d7039395d5759dda17f6904d7e99d39f4b [7406/7844] ALSA: ymfpci: Switch to DEFINE_SIMPLE_DEV_PM_OPS()
+> config: microblaze-buildonly-randconfig-r001-20230329 (https://download.01.org/0day-ci/archive/20230330/202303301712.i4ddVa9j-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=081364d7039395d5759dda17f6904d7e99d39f4b
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 081364d7039395d5759dda17f6904d7e99d39f4b
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash sound/pci/ymfpci/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303301712.i4ddVa9j-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_suspend':
+> >> sound/pci/ymfpci/ymfpci_main.c:2259:9: error: implicit declaration of function 'snd_ac97_suspend'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
+>     2259 |         snd_ac97_suspend(chip->ac97);
+>          |         ^~~~~~~~~~~~~~~~
+>          |         snd_ac97_reset
+>    sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_resume':
+> >> sound/pci/ymfpci/ymfpci_main.c:2288:9: error: implicit declaration of function 'snd_ac97_resume'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
+>     2288 |         snd_ac97_resume(chip->ac97);
+>          |         ^~~~~~~~~~~~~~~
+>          |         snd_ac97_reset
+>    cc1: some warnings being treated as errors
 
-FYI, the error/warning still remains.
+FYI, I queued a fix for this, the addition of dummy functions.
+  https://lore.kernel.org/r/20230330132847.12882-1-tiwai@suse.de
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-5.4.y
-head:   493f9241a6b8df703431ca8204a1dba1ccc05256
-commit: b1fdab742a6cb19912b542040c142c1ba6cb8e4d [472/975] f2fs: compress: support compress level
-reproduce:
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common upstream-f2fs-stable-linux-5.4.y
-        git checkout b1fdab742a6cb19912b542040c142c1ba6cb8e4d
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303302104.kvZwuRLL-lkp@intel.com/
+thanks,
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/filesystems/f2fs.rst: WARNING: document isn't included in any toctree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Takashi
