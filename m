@@ -1,90 +1,92 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9431510E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 21:54:04 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id n125so25324866ybg.7
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 14:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680213243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2qFO8zqE1HD8ZXV4jIepLq36y3r9xuBKp48xFA1dRYA=;
-        b=WKllgSHyne2OJsJPzoD+dXHsfEaQ4/LcJSD1xWOhYI1iBSdA+VU486N/3RUcu77c7j
-         oHCPmdGHfqwxboW8Flz/0GxJ81zuw3eE/YHvroA0vqNvU02WUd6+wKDsYK546UNKdCRT
-         UmteKpXatVHUOhPI1kR55VOcseHR+TpVLnbVLsS0iHIyzMj+6odLDsslsgra6SaBs3cX
-         p0+Pv5VozGTCHgJKd4+jtgVdsgF476+6EkubYHMSEbV07o921mxb89uiE5NSOts3Dvp/
-         1qqfWIDHXQh8yayll2VyOLcFLE6+eE1voYALOZzTuNyWHPzeQLYLfWr5wwiE18JWG31u
-         QMKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680213243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2qFO8zqE1HD8ZXV4jIepLq36y3r9xuBKp48xFA1dRYA=;
-        b=r1/OX80xBshm6pbR1gBR/Xygqywru/PA+ZBnJ8ZCOt8DCfsHr/5lVkAHpciUlLBbPk
-         rBE+MzAnaD+3HrCubmeVOvMNHscmFEyirnn6tposMLAqMApkLVrjVCkFMlPs8Yw/TzO5
-         nZ+94L+ENwfDyyYzgueTogaast9JgHQTaHJr+m5KWkuF43iYdPtSh0gx28o3LscGOfJE
-         mzNepBhLJf5R8OdfC18ZdKwEsHDpJKXIfH3OsailiZoeAc669NK8JXvz4Nr915HuMTye
-         G0zvUjooR+JUvIyAeftVwgoqMHB+7k77E5PdSC+XRS0BSawc65P5AmGPBdfFM59J8F0t
-         2FBw==
-X-Gm-Message-State: AAQBX9e2mKot5tGhmncyhdYak/Y7/HsrHWkJklbxhZM79lTxiRiIB5Qj
-	n40fjC8Uxm7fHe/jj9xD+iJZ1uqsfxgz1Wn0hcBeSg==
-X-Google-Smtp-Source: AKy350YCcoZrk7hxqelLIR/cPBtZzXLYC7RtKiv34scraa77Z6qt77Dpkef0q92RdQZAPMlPrNUvg3vsmzQKi29KdOk=
-X-Received: by 2002:a05:6902:120c:b0:b74:77fa:581d with SMTP id
- s12-20020a056902120c00b00b7477fa581dmr13323999ybu.4.1680213243518; Thu, 30
- Mar 2023 14:54:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4B410E7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 22:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680215234; x=1711751234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5J/0pRyGjn9VO36Nme4pSF2xJSP+xrFxr6oieucejus=;
+  b=jqVz3/yXEfy4FN9cJ7ismo7BYqNquMmfwHrZHl00znKjDZjos58B686D
+   s6I0bOesqU2DcosBm+fPDoGTRLqA1HC5py+jAxlVyIKJu7Rai7n3Au6u5
+   HzNK1vwqUmD9V3e3OH3li0aawlmKvXB70v+s09R1NNK6bJ1PfWWMrbOVK
+   pNjZ7xcWxihoA9A2GdErulgexvQmoAEMB9oyn4tK1PAkVsDQ3yIhY0KPa
+   4XY9+aI8nDQsEJEcj51+IygJQTERXfBa5G+wNhYob4y+MzSy+tYByzSf/
+   Eg2Jbt4G5/D4YcgrkI0AoN4uZnlchckS2WGYy6dsr34a847QvPJ5bctvi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="404000145"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="404000145"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 15:27:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="754189043"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="754189043"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 15:27:13 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pi0jg-000LGo-1Z;
+	Thu, 30 Mar 2023 22:27:12 +0000
+Date: Fri, 31 Mar 2023 06:26:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sheng Yong <shengyong@oppo.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] f2fs: expand f2fs_compr_option to allow ioctl
+ setting compression level
+Message-ID: <202303310601.ffuatWCu-lkp@intel.com>
+References: <20230330153719.3085164-1-shengyong@oppo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0-v1-789ba72d2950+2e-ib_virt_page_jgg@nvidia.com> <202303310254.tmWyQaZG-lkp@intel.com>
-In-Reply-To: <202303310254.tmWyQaZG-lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 30 Mar 2023 23:53:52 +0200
-Message-ID: <CACRpkdYpob6Si2ghXHqSD=6f_PO_gPbJhE_u4jNEcu1VbxO4pQ@mail.gmail.com>
-Subject: Re: [PATCH] RDMA: Add ib_virt_dma_to_page()
-To: kernel test robot <lkp@intel.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Bernard Metzler <bmt@zurich.ibm.com>, 
-	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org, 
-	Zhu Yanjun <zyjzyj2000@gmail.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330153719.3085164-1-shengyong@oppo.com>
 
-On Thu, Mar 30, 2023 at 9:02=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
+Hi Sheng,
 
-> 0d1b756acf60da Linus Walleij   2022-09-02  536                           =
-       /*
-> 0d1b756acf60da Linus Walleij   2022-09-02  537                           =
-        * Cast to an uintptr_t to preserve all 64 bits
-> 0d1b756acf60da Linus Walleij   2022-09-02  538                           =
-        * in sge->laddr.
-> 0d1b756acf60da Linus Walleij   2022-09-02  539                           =
-        */
-> a10308d393288b Jason Gunthorpe 2023-03-30  540                           =
-       u64 va =3D (uintptr_t)(sge->laddr + sge_off);
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on jaegeuk-f2fs/dev-test]
+[also build test ERROR on jaegeuk-f2fs/dev next-20230330]
+[cannot apply to linus/master v6.3-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Oh now that becomes an u64
+url:    https://github.com/intel-lab-lkp/linux/commits/Sheng-Yong/f2fs-expand-f2fs_compr_option-to-allow-ioctl-setting-compression-level/20230330-233928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20230330153719.3085164-1-shengyong%40oppo.com
+patch subject: [RFC PATCH] f2fs: expand f2fs_compr_option to allow ioctl setting compression level
+config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20230331/202303310601.ffuatWCu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d454d77b29654af47145c3ff3b9a59714f84ca6a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sheng-Yong/f2fs-expand-f2fs_compr_option-to-allow-ioctl-setting-compression-level/20230330-233928
+        git checkout d454d77b29654af47145c3ff3b9a59714f84ca6a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-> b9be6f18cf9ed0 Bernard Metzler 2019-06-20  541
-> a10308d393288b Jason Gunthorpe 2023-03-30  542                           =
-       page_array[seg] =3D ib_virt_dma_to_page(va);
-> b9be6f18cf9ed0 Bernard Metzler 2019-06-20  543                           =
-       if (do_crc)
-> b9be6f18cf9ed0 Bernard Metzler 2019-06-20  544                           =
-               crypto_shash_update(
-> b9be6f18cf9ed0 Bernard Metzler 2019-06-20  545                           =
-                       c_tx->mpa_crc_hd,
-> 0d1b756acf60da Linus Walleij   2022-09-02 @546                           =
-                       (void *)va,
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303310601.ffuatWCu-lkp@intel.com/
 
-Then this cast needs to be (void *)(uintptr_t) again.
+All errors (new ones prefixed by >>):
 
-Not very elegant, possibly something more smooth can be done.
+   In file included from <command-line>:
+>> ./usr/include/linux/f2fs.h:109:37: error: C++ style comments are not allowed in ISO C90
+     109 |                         __u8 value; // MSB 4 bit is version, LSB 4 bit is algorithm
+         |                                     ^
+   ./usr/include/linux/f2fs.h:109:37: note: (this will be reported only once per input file)
 
-Yours,
-Linus Walleij
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
