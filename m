@@ -1,51 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DBA1C16;
-	Thu, 30 Mar 2023 06:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79180C2DC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 06:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680157733; x=1711693733;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wD8GKP3B56Z03DGtVse0/Ba7FvgZ/IA3mt3zB6FExL4=;
-  b=WaPIrW9y11NDiJNJD5SdAcNbVnCddLw/NCjqNl76V5DOwJpNMb+CSEra
-   B0qAFHzOdakXN6EVGO1mZ2X7cxegNS2qROxkEU2uReGk9d/hRCW7S3zvK
-   YmAPNwMthP9OFxiGHxRYQ6WFxMLibXQ9To4tkD65O9QKxHzE9sh61rQTI
-   LKIePFcV7jr/ZEvNO+UPKfbzwu4rOLhw6XprYPIju1WbLukh7+Vvx9TlR
-   GDRhQ890NvusJUIQWRFIEKrTNMuJNwthhHZuWNX3DiT2l+rIpwexhOaMh
-   a0d62d6miDygkSd4AMzvEj2PRvMGRBXYLxHd9fBGXn0ki0oQvHexlz862
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="325003989"
+  t=1680158377; x=1711694377;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+XX2wa5up+QX/32nkcHTXd3dU6jy3weLPBe2nnkYJS8=;
+  b=mSt6Y4aXavhIfmErvcq4N8gdBN1FIhBOkv2/cHS7zBf/WeYjh4BsEH0B
+   fTf0F+/8056awoA9/Zg2y02SJjgAx9074MOxS/Pasv676mzLINh17PnaU
+   DwapKJjdLy+wB196IakKPkfa492TqECpsG5FdvrfJDmbuC00mh8KLZa1W
+   k49Fg+H3cyhsPGZM7KD1q6vkFEWm4o1tKa8Hof50+IETjhClW89/x4cMP
+   2IH+vO90lNZ0ACWtEIfItBxTpANEAOvEzxI5wwq1LFS6LT63ou51QklnB
+   rIjIDffMYKDRZ8lSYM9ljEHBNEpDaPGE3ooTgeQfMj5R9Iw3gugrHZaif
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="343533688"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="325003989"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 23:28:42 -0700
+   d="scan'208";a="343533688"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 23:39:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753872393"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="828184239"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="753872393"
+   d="scan'208";a="828184239"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2023 23:28:39 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2023 23:39:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phllx-000KRS-38;
-	Thu, 30 Mar 2023 06:28:33 +0000
-Date: Thu, 30 Mar 2023 14:28:12 +0800
+	id 1phlwc-000KSi-2w;
+	Thu, 30 Mar 2023 06:39:34 +0000
+Date: Thu, 30 Mar 2023 14:38:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brenda Streiff <brenda.streiff@ni.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Brenda Streiff <brenda.streiff@ni.com>,
-	Gratian Crisan <gratian.crisan@ni.com>,
-	Jason Smith <jason.smith@ni.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH tty-next 2/2] serial: 8250: add driver for NI UARTs
-Message-ID: <202303301456.qfo36qC0-lkp@intel.com>
-References: <20230329154235.615349-3-brenda.streiff@ni.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android-gs-raviole-5.10-s-v2-beta-3
+ 1458/9999] drivers/firmware/arm_scmi/sensors.c:614:28: sparse: sparse:
+ incorrect type in argument 1 (different base types)
+Message-ID: <202303301414.1lEL2Mon-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,62 +47,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329154235.615349-3-brenda.streiff@ni.com>
 
-Hi Brenda,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.3-rc4 next-20230330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brenda-Streiff/serial-8250-add-driver-for-NI-UARTs/20230330-010726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20230329154235.615349-3-brenda.streiff%40ni.com
-patch subject: [PATCH tty-next 2/2] serial: 8250: add driver for NI UARTs
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303301456.qfo36qC0-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android-gs-raviole-5.10-s-v2-beta-3
+head:   51e133b6e4eb00703d3b3fe71cc2447ebd9fb4a8
+commit: ac18ef8d266d19126d544393120ef3da7f51c684 [1458/9999] UPSTREAM: firmware: arm_scmi: Add SCMI v3.0 sensor configuration support
+config: arm-randconfig-s033-20230326 (https://download.01.org/0day-ci/archive/20230330/202303301414.1lEL2Mon-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/6c50983e6760b2db288e3f8b7254cea537c0f052
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Brenda-Streiff/serial-8250-add-driver-for-NI-UARTs/20230330-010726
-        git checkout 6c50983e6760b2db288e3f8b7254cea537c0f052
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/ac18ef8d266d19126d544393120ef3da7f51c684
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android-gs-raviole-5.10-s-v2-beta-3
+        git checkout ac18ef8d266d19126d544393120ef3da7f51c684
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/tty/serial/8250/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/firmware/arm_scmi/ fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303301456.qfo36qC0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303301414.1lEL2Mon-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/sensors.c:614:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
+   drivers/firmware/arm_scmi/sensors.c:614:28: sparse:     expected unsigned int [usertype] val
+   drivers/firmware/arm_scmi/sensors.c:614:28: sparse:     got restricted __le32 [usertype]
 
->> drivers/tty/serial/8250/8250_ni.c:423:36: warning: unused variable 'ni16550_acpi_match' [-Wunused-const-variable]
-   static const struct acpi_device_id ni16550_acpi_match[] = {
-                                      ^
-   1 warning generated.
+vim +614 drivers/firmware/arm_scmi/sensors.c
 
-
-vim +/ni16550_acpi_match +423 drivers/tty/serial/8250/8250_ni.c
-
-   422	
- > 423	static const struct acpi_device_id ni16550_acpi_match[] = {
-   424		{ "NIC7750",	(kernel_ulong_t)&nic7750 },
-   425		{ "NIC7772",	(kernel_ulong_t)&nic7772 },
-   426		{ "NIC792B",	(kernel_ulong_t)&nic792b },
-   427		{ "NIC7A69",	(kernel_ulong_t)&nic7a69 },
-   428		{ },
-   429	};
-   430	MODULE_DEVICE_TABLE(acpi, ni16550_acpi_match);
-   431	
+   601	
+   602	static int scmi_sensor_config_get(const struct scmi_handle *handle,
+   603					  u32 sensor_id, u32 *sensor_config)
+   604	{
+   605		int ret;
+   606		struct scmi_xfer *t;
+   607	
+   608		ret = scmi_xfer_get_init(handle, SENSOR_CONFIG_GET,
+   609					 SCMI_PROTOCOL_SENSOR, sizeof(__le32),
+   610					 sizeof(__le32), &t);
+   611		if (ret)
+   612			return ret;
+   613	
+ > 614		put_unaligned_le32(cpu_to_le32(sensor_id), t->tx.buf);
+   615		ret = scmi_do_xfer(handle, t);
+   616		if (!ret) {
+   617			struct sensors_info *si = handle->sensor_priv;
+   618			struct scmi_sensor_info *s = si->sensors + sensor_id;
+   619	
+   620			*sensor_config = get_unaligned_le64(t->rx.buf);
+   621			s->sensor_config = *sensor_config;
+   622		}
+   623	
+   624		scmi_xfer_put(handle, t);
+   625		return ret;
+   626	}
+   627	
 
 -- 
 0-DAY CI Kernel Test Service
