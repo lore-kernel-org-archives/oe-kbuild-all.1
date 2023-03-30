@@ -1,131 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1301C3E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 11:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680174738;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oYqpg+uZa6tgjrnBGs2tsZwqEVLA3EFw2OD8bhme+dA=;
-	b=BrBpizUyonNeEhyICiSSg2huuqD9uFEg18Z0uTO90G8wfDWB51ZlDH8Qg/3zgG1eoW9ip9
-	pqyEqVcrBZQj/d0TUSdRAUV/234eYZrm3ebsGj4sC50LCc/pnxjxAT79Bse2K3Z4mBr6a2
-	JvAwubixSHlsPgRM8+9Al3Nc8MUFbpw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-491-bi5pYMSGPNKV85wEAn9G7g-1; Thu, 30 Mar 2023 07:12:14 -0400
-X-MC-Unique: bi5pYMSGPNKV85wEAn9G7g-1
-Received: by mail-wr1-f71.google.com with SMTP id b9-20020a05600018a900b002cfe70737d2so1910684wri.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 04:12:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680174734;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oYqpg+uZa6tgjrnBGs2tsZwqEVLA3EFw2OD8bhme+dA=;
-        b=FbuIPIUvv4ZoVsnEL8DAh61++1DA4nVSaQ/Muhrqz5xx7FJoe2xd3l5JgAOco+YDl8
-         iYWIozJSbkdPvxii1l5SZrYdx4+i+CmasSSScanlSYmgH3htNgaWdzJwJdnG+c/okrZL
-         5DjlBNTpO1Po5VJtpAFpm826j/u2xUHiwf6dUrpkDxJEz6CRKQf62fE0suFx6QOP9deX
-         +8qQU57HXdqdzrzSBXY+lQhMs8UN4LjSwma9yJubEeei1IKZK6IdWf9E1HKOU4UqEvD5
-         jyjwQ5ntz2uTsZRe1eLjyKJdAWGwtpawNBnQIDuc0BX1V6l9PgkrYlLyvjRmvJvwcWqA
-         qw9w==
-X-Gm-Message-State: AAQBX9daeYeLA7idRZXjSVldWw1wWaQDa3isJBR/TJywSehlw7lVVZ/K
-	WRRYYHKsdhHU5NyqwN005xIcAfc1yG8qkOtdwvl6iNDTz7Bl01QoIeuYkbP5aUOQzVsbETLhlvZ
-	NOB4opu6/JgubuiDoXFICiM0E4g==
-X-Received: by 2002:adf:f4c7:0:b0:2ce:ac70:5113 with SMTP id h7-20020adff4c7000000b002ceac705113mr17557468wrp.41.1680174733788;
-        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bnsNEVnBMYqDKqOs+BLR/fboYCbIFeK4GxvvvH5EDwj1dlpauKlszJEHQWcs591307lwwQdA==
-X-Received: by 2002:adf:f4c7:0:b0:2ce:ac70:5113 with SMTP id h7-20020adff4c7000000b002ceac705113mr17557441wrp.41.1680174733432;
-        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l5-20020adfe585000000b002cea9d931e6sm32767201wrm.78.2023.03.30.04.12.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 04:12:13 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Enric Balletbo i Serra
- <eballetbo@redhat.com>, Brendan Higgins <brendanhiggins@google.com>,
- linux-kselftest@vger.kernel.org, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mcanal@igalia.com>, David
- Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
- kunit-dev@googlegroups.com, Maxime Ripard <maxime@cerno.tech>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: Add KUnit tests for some of the input core
- helper functions
-In-Reply-To: <202303301815.kRKFM3NH-lkp@intel.com>
-References: <20230330081831.2291351-1-javierm@redhat.com>
- <202303301815.kRKFM3NH-lkp@intel.com>
-Date: Thu, 30 Mar 2023 13:12:12 +0200
-Message-ID: <87a5zufq7n.fsf@minerva.mail-host-address-is-not-set>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69361C3E;
+	Thu, 30 Mar 2023 11:24:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680175497; x=1711711497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F5r1hQ7cUkUBDcgkzl+YhbbYgvKadrwOMiLaWgNj7YI=;
+  b=UpPCj/XBBa9EfIuIG3eMYkXS7XrdaMbHeoZwK3P6ntK+aDRgQtJZBtLv
+   VT8gi4Iq7QTXUePnLB8CSKLzkRIJ0g1+5uKsbAuVT+LvAaw4lwRfvvJ0B
+   TCFgOACe8WEqzonMJXZy8ZUev8ALzB7Tnloa3ujr74EefyhKUAzUzm6JV
+   xF8ZJyPlAZeelamYLF5i2agbVaF1SsD8T2JqaHm532qQWcwepSMRkFM3o
+   6+s//uAB6L7ab5VPvN6nQFuwB/lw8rhOuDDIWROQB55Q5oAPccMFA8vTF
+   hPAXU8pFmb/1UVjHF9XFshwdm45YY2CdbpCbxpEYf498JNw3tIHLMN605
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338638365"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="338638365"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:24:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="717277836"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="717277836"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 30 Mar 2023 04:24:51 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phqOh-000Kny-0I;
+	Thu, 30 Mar 2023 11:24:51 +0000
+Date: Thu, 30 Mar 2023 19:24:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Boon Khai Ng <boon.khai.ng@intel.com>,
+	"David S . Miller" <davem@davemloft.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mun Yew Tham <mun.yew.tham@intel.com>,
+	Tien Sung Ang <tien.sung.ang@intel.com>,
+	Boon Khai Ng <boon.khai.ng@intel.com>
+Subject: Re: [PATCH v1 2/8] drivers: net: stmmac_main: fix vlan toggle option.
+Message-ID: <202303301902.TxsoXxWD-lkp@intel.com>
+References: <20230330070305.18808-1-boon.khai.ng@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330070305.18808-1-boon.khai.ng@intel.com>
 
-kernel test robot <lkp@intel.com> writes:
+Hi Boon,
 
-Hello,
+Thank you for the patch! Yet something to improve:
 
-[...]
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
->    drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
->    drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
->    drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
->>> drivers/input/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+url:    https://github.com/intel-lab-lkp/linux/commits/Boon-Khai-Ng/drivers-net-stmmac_main-Add-support-for-HW-accelerated-VLAN-Stripping/20230330-150648
+patch link:    https://lore.kernel.org/r/20230330070305.18808-1-boon.khai.ng%40intel.com
+patch subject: [PATCH v1 2/8] drivers: net: stmmac_main: fix vlan toggle option.
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230330/202303301902.TxsoXxWD-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/fb80bd4d4331439d42a4c555121e4bc27ddcd16f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Boon-Khai-Ng/drivers-net-stmmac_main-Add-support-for-HW-accelerated-VLAN-Stripping/20230330-150648
+        git checkout fb80bd4d4331439d42a4c555121e4bc27ddcd16f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/
 
-KUnit folks, what should we do about this? I believe the correct thing
-here would be for these dot-files to not be ignored by git.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303301902.TxsoXxWD-lkp@intel.com/
 
-Not only to prevent these reports, but also to avoid the need to add
-them using `git add -f`, since is quite error prone and easy to miss.
+All errors (new ones prefixed by >>):
 
-I was thinking about posting the following patch:
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5687:2: error: non-void function does not return a value [-Werror,-Wreturn-type]
+           }
+           ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5689:2: error: expected identifier or '('
+           return 0;
+           ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5690:1: error: extraneous closing brace ('}')
+   }
+   ^
+   3 errors generated.
 
-From f1dc1733001682886458c23b676123635bc29da0 Mon Sep 17 00:00:00 2001
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Thu, 30 Mar 2023 13:04:42 +0200
-Subject: [PATCH] .gitignore: Exclude KUnit config dot-files
 
-There's a rule to ignore all the dot-files (.*) but we want to exclude the
-config files used by KUnit (.kunitconfig) since those are usually added to
-allow executing test suites without having to enable custom config options.
+vim +5687 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
- .gitignore | 1 +
- 1 file changed, 1 insertion(+)
+  5656	
+  5657	static int stmmac_set_features(struct net_device *netdev,
+  5658				       netdev_features_t features)
+  5659	{
+  5660		struct stmmac_priv *priv = netdev_priv(netdev);
+  5661	
+  5662		netdev_features_t changed;
+  5663	
+  5664		changed = netdev->features ^ features;
+  5665	
+  5666		/* Keep the COE Type in case of csum is supporting */
+  5667		if (features & NETIF_F_RXCSUM)
+  5668			priv->hw->rx_csum = priv->plat->rx_coe;
+  5669		else
+  5670			priv->hw->rx_csum = 0;
+  5671		/* No check needed because rx_coe has been set before and it will be
+  5672		 * fixed in case of issue.
+  5673		 */
+  5674		stmmac_rx_ipc(priv, priv->hw);
+  5675	
+  5676		if (priv->sph_cap) {
+  5677			bool sph_en = (priv->hw->rx_csum > 0) && priv->sph;
+  5678			u32 chan;
+  5679	
+  5680			for (chan = 0; chan < priv->plat->rx_queues_to_use; chan++)
+  5681				stmmac_enable_sph(priv, priv->ioaddr, sph_en, chan);
+  5682		}
+  5683	
+  5684		if (changed & NETIF_F_HW_VLAN_CTAG_RX)
+  5685			stmmac_set_hw_vlan_mode(priv, priv->ioaddr, features);
+  5686			priv->plat->use_hw_vlan = features & NETIF_F_HW_VLAN_CTAG_RX;
+> 5687		}
+  5688	
+> 5689		return 0;
+> 5690	}
+  5691	
 
-diff --git a/.gitignore b/.gitignore
-index 70ec6037fa7a..7f86e0837909 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -103,6 +103,7 @@ modules.order
- !.get_maintainer.ignore
- !.gitattributes
- !.gitignore
-+!.kunitconfig
- !.mailmap
- !.rustfmt.toml
- 
-
-base-commit: 197b6b60ae7bc51dd0814953c562833143b292aa
 -- 
-2.40.0
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
