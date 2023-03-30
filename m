@@ -1,102 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBBA2F3E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 13:31:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3CE9821A48;
-	Thu, 30 Mar 2023 13:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680183111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S6snkWrQq2EYU8phSPYz86ER0uOQohcNXWWKnClcp+w=;
-	b=thFnowIzN1ctey+npCiwIGKMoDBUOUQesTVeC8HD0DJq09UEAsmaZxcdUgCGIGNABlGV58
-	Qb+xvbpS+Uurc66IuvwA5/GDMhbdlTR0gLigulueKwPUs4skkxCorG7CXqVO51AZfWM1Jg
-	4ADo16XpETfyUcYsdUsSwr6JdvkGPDQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680183111;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S6snkWrQq2EYU8phSPYz86ER0uOQohcNXWWKnClcp+w=;
-	b=W42qryDGO/gKF8T0PDw4FONHddzm21b1zEIRYj6pPy1SHrhWVhscGPrd9Ae7xh7uPCIqn+
-	au9ircIimwkqb+Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1CDEA1348E;
-	Thu, 30 Mar 2023 13:31:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id cBTbBUePJWQkDAAAMHmgww
-	(envelope-from <tiwai@suse.de>); Thu, 30 Mar 2023 13:31:51 +0000
-Date: Thu, 30 Mar 2023 15:31:50 +0200
-Message-ID: <87r0t6l60p.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Tasos Sahanidis <tasos@tasossah.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [linux-next:master 7406/7844] sound/pci/ymfpci/ymfpci_main.c:2259:9: error: implicit declaration of function 'snd_ac97_suspend'; did you mean 'snd_ac97_reset'?
-In-Reply-To: <202303301712.i4ddVa9j-lkp@intel.com>
-References: <202303301712.i4ddVa9j-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087872F3E;
+	Thu, 30 Mar 2023 13:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680184236; x=1711720236;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0RFB1dYZ9F2StXue2dw6vh4Fi8li3Ziwy4v/kPzxaaQ=;
+  b=lyayXXt0GM7m6k/XxvD5TSE9A3oHJgvmpiZamgOH10syR0w/TN58jPKF
+   ncppL7wXIas07HXkrqIchrxNwYMKnCRX9jW5kSSnPwvqDNGaQ5OSOa19L
+   +je0qhEBoPjNjFUs+vxVE3H5adhWkhTxjx4jUhxnr5eHk+A9T4nF3kqWs
+   zIt+OGr1sasyfP6LmpJlF4DEHsxu6SkB12IR0nupKspI+gscGog3WUsBD
+   njgeb5qaf28JeYpf46rTLcYXd2IEr+fRkNdbQaunbQqT/n9O4ziN4r+0d
+   tjEhQBgf/y0SYVZ3HhEkmvE9VexLrplPNklS69XFo7GbAODHoTlul1iqt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343638562"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="343638562"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 06:22:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="753990820"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="753990820"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 06:22:56 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phsEx-000KtE-0z;
+	Thu, 30 Mar 2023 13:22:55 +0000
+Date: Thu, 30 Mar 2023 21:22:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Triplett <josh@joshtriplett.org>, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ext4: Add a uapi header for ext4 userspace APIs
+Message-ID: <202303302155.FBlvXAL3-lkp@intel.com>
+References: <f0c650c0a0bcc799101573d265f3006c6f6bd046.1680149153.git.josh@joshtriplett.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f0c650c0a0bcc799101573d265f3006c6f6bd046.1680149153.git.josh@joshtriplett.org>
 
-On Thu, 30 Mar 2023 11:51:50 +0200,
-kernel test robot wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
-> commit: 081364d7039395d5759dda17f6904d7e99d39f4b [7406/7844] ALSA: ymfpci: Switch to DEFINE_SIMPLE_DEV_PM_OPS()
-> config: microblaze-buildonly-randconfig-r001-20230329 (https://download.01.org/0day-ci/archive/20230330/202303301712.i4ddVa9j-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=081364d7039395d5759dda17f6904d7e99d39f4b
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout 081364d7039395d5759dda17f6904d7e99d39f4b
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash sound/pci/ymfpci/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303301712.i4ddVa9j-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_suspend':
-> >> sound/pci/ymfpci/ymfpci_main.c:2259:9: error: implicit declaration of function 'snd_ac97_suspend'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
->     2259 |         snd_ac97_suspend(chip->ac97);
->          |         ^~~~~~~~~~~~~~~~
->          |         snd_ac97_reset
->    sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_resume':
-> >> sound/pci/ymfpci/ymfpci_main.c:2288:9: error: implicit declaration of function 'snd_ac97_resume'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
->     2288 |         snd_ac97_resume(chip->ac97);
->          |         ^~~~~~~~~~~~~~~
->          |         snd_ac97_reset
->    cc1: some warnings being treated as errors
+Hi Josh,
 
-FYI, I queued a fix for this, the addition of dummy functions.
-  https://lore.kernel.org/r/20230330132847.12882-1-tiwai@suse.de
+I love your patch! Yet something to improve:
 
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on linus/master v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Triplett/ext4-Add-a-uapi-header-for-ext4-userspace-APIs/20230330-123712
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/f0c650c0a0bcc799101573d265f3006c6f6bd046.1680149153.git.josh%40joshtriplett.org
+patch subject: [PATCH] ext4: Add a uapi header for ext4 userspace APIs
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230330/202303302155.FBlvXAL3-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9e61a3eab96b327fb2392b2ae665c6bc25e4b004
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Josh-Triplett/ext4-Add-a-uapi-header-for-ext4-userspace-APIs/20230330-123712
+        git checkout 9e61a3eab96b327fb2392b2ae665c6bc25e4b004
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Takashi
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303302155.FBlvXAL3-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <built-in>:1:
+>> ./usr/include/linux/ext4.h:7:10: fatal error: 'uapi/linux/fiemap.h' file not found
+   #include <uapi/linux/fiemap.h>
+            ^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
