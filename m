@@ -1,45 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA958AD30;
-	Wed, 29 Mar 2023 23:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCF1173;
+	Thu, 30 Mar 2023 00:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680133040; x=1711669040;
+  t=1680134905; x=1711670905;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0HvsDv4WB1iBA2t6SV9xl2qiHbdTwL5+Hyq6lxcFQ7s=;
-  b=FUbISoYRqqeg6MTaqGeQGqPhZrcpgTumRrClRpuRvIjlkHgz+UqYV5f1
-   XGHQW6Xw+e38WhZSD6CP/TjbBqzhi6Ux9vbe8cggjW/P1QwO5nQ15oViP
-   3e2CuG9Zn3mga+jQCDBFh51sDqoGl1iLD7Th6+4sjHDy/ScIezOpIzNq2
-   207lJKR9+8HJqNuqrcMuyP22MNySV0UoG55GNlyGwSZPgxcWdhs2q7yuf
-   nec48BQx5TojUGQm2wkuSZm2W6OvFC3R1Bki7kYoEvIkO4iiPyb9VOSKg
-   pWDw3QbAcotR5C0ig/3Qidm+Dx+wmhGRBYmCE4pDL+reB/Yb3lx7CNWHD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427300064"
+  bh=DpHW067FHxZyxfqzz/7G238gWCufopY8ZUT6p7y3+pM=;
+  b=m4bsPuOujAcFZDCW1uRMTM3e1WyHfNGLgwp9BAAAD5SSuYTgYyAUHPuw
+   7emuCdeSUCWAWo1PIJBAtB4tsl9z3sbFvRhV64PSjxoVPKUM6rWuhtZO3
+   BjkA94nObSMWUB/iZ416V/w+s+MtigIhc6q7+nfffvPWIIIkwk6xYbH4L
+   g5UnsUgLBeb9dNTNhJmxm6poSKnDJe+OuPmq0goqtCluAT+OlkbRDtOuD
+   A0kjn27H9wU0YA7NZI4Ie4z0DQx/yYzvhPcDswv4reoNclCHPArYHsW16
+   OyD/I9o6+8RzrAdQSywzIpvi5LoDYxzcKR6l1HJU/22FWwBzQztBnU+DY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338531296"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="427300064"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 16:37:18 -0700
+   d="scan'208";a="338531296"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 17:08:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="858690302"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714790067"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="858690302"
+   d="scan'208";a="714790067"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 29 Mar 2023 16:37:16 -0700
+  by orsmga008.jf.intel.com with ESMTP; 29 Mar 2023 17:08:17 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phfLw-000K36-03;
-	Wed, 29 Mar 2023 23:37:16 +0000
-Date: Thu, 30 Mar 2023 07:36:51 +0800
+	id 1phfpw-000K4Z-32;
+	Thu, 30 Mar 2023 00:08:16 +0000
+Date: Thu, 30 Mar 2023 08:07:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dennis Zhou <dennis@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dennis Zhou <dennis@kernel.org>
-Subject: Re: [PATCH] mmc: inline the first mmc_scan() on mmc_start_host()
-Message-ID: <202303300728.pAr0H6ZJ-lkp@intel.com>
-References: <20230329202148.71107-1-dennis@kernel.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] net: extend drop reasons for multiple subsystems
+Message-ID: <202303300823.aqDx9Rc3-lkp@intel.com>
+References: <20230329214620.131636-1-johannes@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +46,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329202148.71107-1-dennis@kernel.org>
+In-Reply-To: <20230329214620.131636-1-johannes@sipsolutions.net>
 
-Hi Dennis,
+Hi Johannes,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on ulf-hansson-mmc-mirror/next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230329]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main horms-ipvs/master net/main net-next/main linus/master v6.3-rc4 next-20230329]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dennis-Zhou/mmc-inline-the-first-mmc_scan-on-mmc_start_host/20230330-042213
-base:   https://git.linaro.org/people/ulf.hansson/mmc-mirror.git next
-patch link:    https://lore.kernel.org/r/20230329202148.71107-1-dennis%40kernel.org
-patch subject: [PATCH] mmc: inline the first mmc_scan() on mmc_start_host()
-config: hexagon-randconfig-r045-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300728.pAr0H6ZJ-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230330-054719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230329214620.131636-1-johannes%40sipsolutions.net
+patch subject: [RFC PATCH 1/2] net: extend drop reasons for multiple subsystems
+config: hexagon-randconfig-r045-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300823.aqDx9Rc3-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d2de7314d2198df0c7a452546af0c15799b2d864
+        # https://github.com/intel-lab-lkp/linux/commit/ff46d1291ffa265b9c23249a5132e6824f603ef5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dennis-Zhou/mmc-inline-the-first-mmc_scan-on-mmc_start_host/20230330-042213
-        git checkout d2de7314d2198df0c7a452546af0c15799b2d864
+        git fetch --no-tags linux-review Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230330-054719
+        git checkout ff46d1291ffa265b9c23249a5132e6824f603ef5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/mmc/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300728.pAr0H6ZJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300823.aqDx9Rc3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/mmc/core/core.c:12:
+   In file included from net/core/skbuff.c:41:
    In file included from include/linux/interrupt.h:11:
    In file included from include/linux/hardirq.h:11:
    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
@@ -101,7 +98,7 @@ All warnings (new ones prefixed by >>):
    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
    #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
                                                      ^
-   In file included from drivers/mmc/core/core.c:12:
+   In file included from net/core/skbuff.c:41:
    In file included from include/linux/interrupt.h:11:
    In file included from include/linux/hardirq.h:11:
    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
@@ -115,7 +112,7 @@ All warnings (new ones prefixed by >>):
    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
    #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
                                                      ^
-   In file included from drivers/mmc/core/core.c:12:
+   In file included from net/core/skbuff.c:41:
    In file included from include/linux/interrupt.h:11:
    In file included from include/linux/hardirq.h:11:
    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
@@ -132,87 +129,138 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
                                                          ~~~~~~~~~~ ^
->> drivers/mmc/core/core.c:2202:6: warning: no previous prototype for function '__mmc_rescan' [-Wmissing-prototypes]
-   void __mmc_rescan(struct mmc_host *host)
-        ^
-   drivers/mmc/core/core.c:2202:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __mmc_rescan(struct mmc_host *host)
-   ^
-   static 
-   7 warnings generated.
+>> net/core/skbuff.c:127:25: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
+           DEFINE_DROP_REASON(FN, FN)
+                                  ^
+   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
+           SKB_DROP_REASON_XDP,
+           ^
+   net/core/skbuff.c:127:25: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+           DEFINE_DROP_REASON(FN, FN)
+           ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   include/net/dropreason.h:81:2: note: expanded from macro 'DEFINE_DROP_REASON'
+           FNe(MAX)
+           ^~~~~~~~
+   net/core/skbuff.c:124:49: note: expanded from macro 'FN'
+   #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
+                                                   ^~~~~~~
+   <scratch space>:29:1: note: expanded from here
+   "MAX"
+   ^~~~~
+   net/core/skbuff.c:127:21: note: previous initialization is here
+           DEFINE_DROP_REASON(FN, FN)
+           ~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/net/dropreason.h:53:2: note: expanded from macro 'DEFINE_DROP_REASON'
+           FN(XDP)                         \
+           ^~~~~~~
+   net/core/skbuff.c:124:49: note: expanded from macro 'FN'
+   #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
+                                                   ^~~~~~~
+   <scratch space>:147:1: note: expanded from here
+   "XDP"
+   ^~~~~
+   7 warnings and 1 error generated.
+--
+   In file included from net/core/net-traces.c:8:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from net/core/net-traces.c:8:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from net/core/net-traces.c:8:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from net/core/net-traces.c:30:
+   In file included from include/trace/events/skb.h:95:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:94:
+>> include/trace/events/skb.h:14:24: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
+   DEFINE_DROP_REASON(FN, FN)
+                          ^
+   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
+           SKB_DROP_REASON_XDP,
+           ^
+   In file included from net/core/net-traces.c:30:
+   In file included from include/trace/events/skb.h:95:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:237:
+   include/trace/events/skb.h:48:31: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
+                                      DEFINE_DROP_REASON(FN, FNe)))
+                                                             ^
+   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
+           SKB_DROP_REASON_XDP,
+           ^
+   In file included from net/core/net-traces.c:51:
+   In file included from include/trace/events/neigh.h:255:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:419:
+   include/trace/events/neigh.h:42:20: warning: variable 'pin6' set but not used [-Wunused-but-set-variable]
+                   struct in6_addr *pin6;
+                                    ^
+   7 warnings and 2 errors generated.
 
 
-vim +/__mmc_rescan +2202 drivers/mmc/core/core.c
+vim +127 net/core/skbuff.c
 
-  2201	
-> 2202	void __mmc_rescan(struct mmc_host *host)
-  2203	{
-  2204		int i;
-  2205	
-  2206		if (host->rescan_disable)
-  2207			return;
-  2208	
-  2209		/* If there is a non-removable card registered, only scan once */
-  2210		if (!mmc_card_is_removable(host) && host->rescan_entered)
-  2211			return;
-  2212		host->rescan_entered = 1;
-  2213	
-  2214		if (host->trigger_card_event && host->ops->card_event) {
-  2215			mmc_claim_host(host);
-  2216			host->ops->card_event(host);
-  2217			mmc_release_host(host);
-  2218			host->trigger_card_event = false;
-  2219		}
-  2220	
-  2221		/* Verify a registered card to be functional, else remove it. */
-  2222		if (host->bus_ops)
-  2223			host->bus_ops->detect(host);
-  2224	
-  2225		host->detect_change = 0;
-  2226	
-  2227		/* if there still is a card present, stop here */
-  2228		if (host->bus_ops != NULL)
-  2229			goto out;
-  2230	
-  2231		mmc_claim_host(host);
-  2232		if (mmc_card_is_removable(host) && host->ops->get_cd &&
-  2233				host->ops->get_cd(host) == 0) {
-  2234			mmc_power_off(host);
-  2235			mmc_release_host(host);
-  2236			goto out;
-  2237		}
-  2238	
-  2239		/* If an SD express card is present, then leave it as is. */
-  2240		if (mmc_card_sd_express(host)) {
-  2241			mmc_release_host(host);
-  2242			goto out;
-  2243		}
-  2244	
-  2245		for (i = 0; i < ARRAY_SIZE(freqs); i++) {
-  2246			unsigned int freq = freqs[i];
-  2247			if (freq > host->f_max) {
-  2248				if (i + 1 < ARRAY_SIZE(freqs))
-  2249					continue;
-  2250				freq = host->f_max;
-  2251			}
-  2252			if (!mmc_rescan_try_freq(host, max(freq, host->f_min)))
-  2253				break;
-  2254			if (freqs[i] <= host->f_min)
-  2255				break;
-  2256		}
-  2257	
-  2258		/*
-  2259		 * Ignore the command timeout errors observed during
-  2260		 * the card init as those are excepted.
-  2261		 */
-  2262		host->err_stats[MMC_ERR_CMD_TIMEOUT] = 0;
-  2263		mmc_release_host(host);
-  2264	
-  2265	 out:
-  2266		if (host->caps & MMC_CAP_NEEDS_POLL)
-  2267			mmc_schedule_delayed_work(&host->detect, HZ);
-  2268	}
-  2269	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  122  
+9cb252c4c1c53a Menglong Dong  2022-09-05  123  #undef FN
+9cb252c4c1c53a Menglong Dong  2022-09-05  124  #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
+ff46d1291ffa26 Johannes Berg  2023-03-29  125  static const char * const drop_reasons[] = {
+0e84afe8ebfbb9 Eric Dumazet   2022-10-29  126  	[SKB_CONSUMED] = "CONSUMED",
+9cb252c4c1c53a Menglong Dong  2022-09-05 @127  	DEFINE_DROP_REASON(FN, FN)
+9cb252c4c1c53a Menglong Dong  2022-09-05  128  };
+ff46d1291ffa26 Johannes Berg  2023-03-29  129  
 
 -- 
 0-DAY CI Kernel Test Service
