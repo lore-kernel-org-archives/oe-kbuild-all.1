@@ -1,45 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF84BD301;
-	Thu, 30 Mar 2023 22:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E63BD301
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 23:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680217105; x=1711753105;
+  t=1680217697; x=1711753697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GgyxPetBIVo4pNOsM/GM2WPOBByZjXnSfgPF33BAwMs=;
-  b=M4+3lW7qhjt/wVJLFCdS5qQeIsfyNNP14T1tGTWPdkvl/xu8/tyZibQ8
-   GzwiqmbesTkpqdz4Cvxlni0LQMhZl7WCcPCDaNxYAM/o/tXxtlKyIZft1
-   if1XKm/kJRsC4CJ4W1P9uuj2C5bL+Gh1CoX0EKrdwQB/0Ua3E2n3VSO/1
-   gPWcQVU3P9L6R6rx9fk0OLAQ2M8iltwEX6qI02QCFgySLQgkh6wFUplZa
-   D3YToyhTedIPghVFEJSBUfGLqgREuow5uc6kNLcW3N008KIA6QDI6eiDi
-   rE31+YEPKN7cQnzIJtWIWweM7KkKJ1Y0iKdAjx0dLlM5+rhXLuSnRzLjv
+  bh=LYu7WGDMa6Q4Tgd6eU5td82J9HnYbVi/lhq0wD3U/vM=;
+  b=Q3joWU6Sn2apkVkJZj5ATsg0ykuhLBHoPTqy3g54H7fDEu3NT40sLD4x
+   VVbboCH8cxGfQ+F0Led6nPBmtApm/N5gUs+nxnPXhNVEhc2LfAhRl9sPF
+   wnFqBkSpPthlwr/dahGjN1YSS5Emi9HkOqDMauh53lHAP56kmbxKMwgcG
+   OfSt+U+hVu6CXN4a3Ua54Na7knjEe008GIf+pZ9IZerIcOuu8En3KqqoG
+   ckZdMd3n1Q5j8OfNC87Ywvuoo3JZVi0NP9y5aj8csxURI+Nbcpa+9AMBK
+   mE8EyNeDN6S2tBdIJod1xNWkwLd3o1J8IWHp/IMDyg6Nk7rHrrzGN0NUu
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="321691062"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="342953033"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="321691062"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 15:58:16 -0700
+   d="scan'208";a="342953033"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 16:08:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="754192672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662211821"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="754192672"
+   d="scan'208";a="662211821"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 15:58:14 -0700
+  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 16:08:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi1Di-000LHs-0y;
-	Thu, 30 Mar 2023 22:58:14 +0000
-Date: Fri, 31 Mar 2023 06:57:15 +0800
+	id 1pi1NO-000LIK-26;
+	Thu, 30 Mar 2023 23:08:14 +0000
+Date: Fri, 31 Mar 2023 07:07:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
 	Brian Gerst <brgerst@gmail.com>,
 	Usama Arif <usama.arif@bytedance.com>
-Subject: [dwmw2:tglx-parallel-2 24/25] kernel/cpu.c:641:3: error: implicit
- declaration of function 'cpu_up' is invalid in C99
-Message-ID: <202303310647.BrY9xHzl-lkp@intel.com>
+Subject: [dwmw2:tglx-parallel-2 24/25] kernel/cpu.c:641:17: error: implicit
+ declaration of function 'cpu_up'
+Message-ID: <202303310707.3I5nSh0C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,48 +51,46 @@ Content-Disposition: inline
 tree:   git://git.infradead.org/users/dwmw2/linux tglx-parallel-2
 head:   553f41a50ed7c3097c465e96d5c41522a1fae23e
 commit: 0a1bcd102db41f6364d0aa00960e2fb908fd3762 [24/25] x86/smpboot: Support parallel startup of secondary CPUs
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230331/202303310647.BrY9xHzl-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230331/202303310707.3I5nSh0C-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
         git fetch --no-tags dwmw2 tglx-parallel-2
         git checkout 0a1bcd102db41f6364d0aa00960e2fb908fd3762
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303310647.BrY9xHzl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303310707.3I5nSh0C-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/cpu.c:436:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret = 0;
-               ^
->> kernel/cpu.c:641:3: error: implicit declaration of function 'cpu_up' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   cpu_up(cpu, CPUHP_BP_KICK_AP);
-                   ^
-   kernel/cpu.c:641:3: note: did you mean '__cpu_up'?
-   include/linux/smp.h:139:12: note: '__cpu_up' declared here
-   extern int __cpu_up(unsigned int cpunum, struct task_struct *tidle);
-              ^
-   kernel/cpu.c:1706:12: error: static declaration of 'cpu_up' follows non-static declaration
-   static int cpu_up(unsigned int cpu, enum cpuhp_state target)
-              ^
-   kernel/cpu.c:641:3: note: previous implicit declaration is here
-                   cpu_up(cpu, CPUHP_BP_KICK_AP);
-                   ^
-   kernel/cpu.c:1797:30: error: too many arguments to function call, expected 0, have 1
-           cpuhp_bringup_cpus_parallel(setup_max_cpus);
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
-   kernel/cpu.c:631:13: note: 'cpuhp_bringup_cpus_parallel' declared here
-   static void cpuhp_bringup_cpus_parallel(void)
-               ^
-   1 warning and 3 errors generated.
+   kernel/cpu.c: In function 'cpuhp_bp_sync_alive':
+   kernel/cpu.c:436:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     436 |         int ret = 0;
+         |             ^~~
+   kernel/cpu.c: In function 'cpuhp_bringup_cpus_parallel':
+>> kernel/cpu.c:641:17: error: implicit declaration of function 'cpu_up' [-Werror=implicit-function-declaration]
+     641 |                 cpu_up(cpu, CPUHP_BP_KICK_AP);
+         |                 ^~~~~~
+   kernel/cpu.c: At top level:
+>> kernel/cpu.c:1706:12: error: static declaration of 'cpu_up' follows non-static declaration
+    1706 | static int cpu_up(unsigned int cpu, enum cpuhp_state target)
+         |            ^~~~~~
+   kernel/cpu.c:641:17: note: previous implicit declaration of 'cpu_up' with type 'int()'
+     641 |                 cpu_up(cpu, CPUHP_BP_KICK_AP);
+         |                 ^~~~~~
+   kernel/cpu.c: In function 'bringup_nonboot_cpus':
+   kernel/cpu.c:1797:9: error: too many arguments to function 'cpuhp_bringup_cpus_parallel'
+    1797 |         cpuhp_bringup_cpus_parallel(setup_max_cpus);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cpu.c:631:13: note: declared here
+     631 | static void cpuhp_bringup_cpus_parallel(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
 vim +/cpu_up +641 kernel/cpu.c
