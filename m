@@ -1,261 +1,112 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3021105
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 01:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680138681; x=1711674681;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QdvwQYrC1gpgl4r3qqaFnN4mcvbS6UddcfrnR1C6Aag=;
-  b=LnVbnyYp1zeA18wSABxyttbIx9/s9fC4f4kwE+2+GYrmG8QuOV7Udeip
-   QTcNFIazxivirVe0mkv2U0Aout5V0o1mFU8t1reVGE9JK5o5kRPnHSrIh
-   +Z4LzEiz2BBZ/FrDQMtf2A0pYsK4A0wYBBtHcHdt+chPp14GmccB8zvlC
-   sSX8Th6DNraaQnXpm0Em+XVOTRDj8jeeit+/2vm3E9NTjVbnMeb0bWBSx
-   sNo0eUrMFxvAoHXMBILj53eZIp/EXDe+mWr4ReVHx+gHlysnramwZJMZ5
-   VgG0GWae1rJtdLhoGtQYmrIh9rSLye05t3ECnzm6J/H+3GiJmgGhwqKpN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342651551"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="342651551"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 18:11:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="717110370"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="717110370"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 Mar 2023 18:11:20 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phgox-000K7k-0a;
-	Thu, 30 Mar 2023 01:11:19 +0000
-Date: Thu, 30 Mar 2023 09:10:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi 1/17] include/linux/trace_events.h:800:
- multiple definition of `bpf_uprobe_multi_link_attach';
- init/main.o:include/linux/trace_events.h:800: first defined here
-Message-ID: <202303300918.VhosgP09-lkp@intel.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467351105
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 01:30:32 +0000 (UTC)
+HMM_SOURCE_IP:10.64.8.43:56584.343497374
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+	by 189.cn (HERMES) with SMTP id E1F891002FD;
+	Thu, 30 Mar 2023 09:30:27 +0800 (CST)
+Received: from  ([114.242.206.180])
+	by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 2a513672f4724ede906719b5faed2f28 for lkp@intel.com;
+	Thu, 30 Mar 2023 09:30:30 CST
+X-Transaction-ID: 2a513672f4724ede906719b5faed2f28
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <eca6b468-1bf6-01a1-c9e4-5241f2d7cad9@189.cn>
+Date: Thu, 30 Mar 2023 09:30:24 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci
+ devices
+To: kernel test robot <lkp@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20230329205129.1513734-6-15330273260@189.cn>
+ <202303300759.E9lbKNTQ-lkp@intel.com>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <202303300759.E9lbKNTQ-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi
-head:   f81bdc54f7ac3f1c0c66810141f94cc1629d68e3
-commit: 84757f34ed3e8132c54a96949e3939f27da7d0e5 [1/17] bpf: Add multi uprobe link
-config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230330/202303300918.VhosgP09-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=84757f34ed3e8132c54a96949e3939f27da7d0e5
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi
-        git checkout 84757f34ed3e8132c54a96949e3939f27da7d0e5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300918.VhosgP09-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: init/do_mounts.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: init/do_mounts_initrd.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: init/initramfs.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/entry/syscall_64.o: in function `bpf_uprobe_multi_link_attach':
-   arch/x86/entry/syscall_64.c:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/entry/common.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/entry/vdso/extable.o: in function `bpf_uprobe_multi_link_attach':
-   arch/x86/entry/vdso/extable.c:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/entry/vsyscall/vsyscall_64.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: virt/kvm/kvm_main.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: virt/kvm/eventfd.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kvm/x86.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kvm/mmu/mmu.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kvm/mmu/tdp_mmu.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kvm/vmx/vmx.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/process_64.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/signal_64.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/traps.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/idt.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/irq.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/ioport.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/nmi.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/irqinit.o: in function `bpf_uprobe_multi_link_attach':
->> include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/irq_work.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/sys_x86_64.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/process.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/fpu/core.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/common.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/intel.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/mce/core.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/mce/severity.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/mce/threshold.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/resctrl/pseudo_lock.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/cpu/mshyperv.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/apic/apic.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/apic/vector.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/ftrace.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/kvm.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/kernel/umip.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/mm/fault.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: arch/x86/mm/extable.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/fork.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/exec_domain.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/cpu.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/exit.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/softirq.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sysctl.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/capability.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/ptrace.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/signal.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sys.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/umh.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/workqueue.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/pid.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/nsproxy.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/reboot.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/kmod.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/groups.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sched/core.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sched/fair.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sched/build_policy.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/sched/build_utility.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/locking/mutex.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/power/qos.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/power/main.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/power/process.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/power/suspend.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/printk/printk.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/irq/matrix.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/rcu/update.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/dma/swiotlb.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
-   ld: kernel/entry/common.o: in function `bpf_uprobe_multi_link_attach':
-   include/linux/trace_events.h:800: multiple definition of `bpf_uprobe_multi_link_attach'; init/main.o:include/linux/trace_events.h:800: first defined here
+Hi, pci_clear_master is located at pci.h.
 
 
-vim +800 include/linux/trace_events.h
+  Added by commit 6a479079c07211bf348ac8a79754f26bea258f26 (PCI: Add 
+pci_clear_master() as opposite of pci_set_master())
 
-   766	
-   767	static inline int
-   768	perf_event_query_prog_array(struct perf_event *event, void __user *info)
-   769	{
-   770		return -EOPNOTSUPP;
-   771	}
-   772	static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_prog *p)
-   773	{
-   774		return -EOPNOTSUPP;
-   775	}
-   776	static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_prog *p)
-   777	{
-   778		return -EOPNOTSUPP;
-   779	}
-   780	static inline struct bpf_raw_event_map *bpf_get_raw_tracepoint(const char *name)
-   781	{
-   782		return NULL;
-   783	}
-   784	static inline void bpf_put_raw_tracepoint(struct bpf_raw_event_map *btp)
-   785	{
-   786	}
-   787	static inline int bpf_get_perf_event_info(const struct perf_event *event,
-   788						  u32 *prog_id, u32 *fd_type,
-   789						  const char **buf, u64 *probe_offset,
-   790						  u64 *probe_addr)
-   791	{
-   792		return -EOPNOTSUPP;
-   793	}
-   794	static inline int
-   795	bpf_kprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   796	{
-   797		return -EOPNOTSUPP;
-   798	}
-   799	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
- > 800	{
-   801		return -EOPNOTSUPP;
-   802	}
-   803	#endif
-   804	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+  I don't know what the reason arc architecture can't use this.
+
+
+On 2023/3/30 08:07, kernel test robot wrote:
+> Hi Sui,
+>
+> Thank you for the patch! Yet something to improve:
+>
+> [auto build test ERROR on drm-misc/drm-misc-next]
+> [also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc4 next-20230329]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230329205129.1513734-6-15330273260%40189.cn
+> patch subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
+> config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300759.E9lbKNTQ-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+>          git checkout cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303300759.E9lbKNTQ-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+>        32 |         pci_clear_master(pdev);
+>           |         ^~~~~~~~~~~~~~~~
+>           |         pci_set_master
+>     cc1: some warnings being treated as errors
+>
+>
+> vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+>
+>      27	
+>      28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+>      29	{
+>      30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+>      31	
+>    > 32		pci_clear_master(pdev);
+>      33	
+>      34		dev_dbg(gpu->dev, "component is %s\n",
+>      35			component ? "enabled" : "disabled");
+>      36	}
+>      37	
+>
