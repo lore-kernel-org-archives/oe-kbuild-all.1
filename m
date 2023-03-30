@@ -1,45 +1,49 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF61C2EE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 09:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C021C31;
+	Thu, 30 Mar 2023 10:02:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680169971; x=1711705971;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=egdGxeVhZIVdSsv8G/WnZGpCHCkvcyJiVot8h8dNSFM=;
-  b=meParp5fqhrHZ2fZn+p/13jd/EL57Ar7jarmYlu6XAlzNFD1XLuHyXXo
-   G/Oz3K6zNCjfep+Rwmceg/qN7g3dJArZcd44e4ZlBlptY4kTyKaZKQmze
-   E2sWimMpwfS+J0IfvddOrdeHV5QABTqkbiHeZbcsKLxT0AutlTcP/VsMK
-   km728saPmCucAdcTQIlJwc39v0AoxtKp+esUvjtouTyuXOWLQkAlFl+z3
-   pY1a62V67dhTmVPi16/W2lBU66LSsnZOboIJl2n8LMSL6pWCXo34yaKhV
-   rqz/J5gOu6UXoPjfeDfrJMyBqddxoOYzhILeP3xzVnnrQrHN/o8ogaTVD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342734696"
+  t=1680170570; x=1711706570;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UwiIvFDGOSeFTFp9xrmlY+lVix6S4aniU0xTa6dOGNY=;
+  b=cu2gpsIGel13NgcI/7JQ84chaopdJBBg4uRyebNeLZcngq6Xt4fRpaKj
+   DEOV5oDNN/LYeYHBHB/OzRPQoHq46BzuZD4GYLPK5WeQwStKdYq4KDdid
+   gQuui6vX8OfTaJIjZfdulAvR0TRSq8JdC+tk3YeGpJ7NDbHFEIyr2Rtde
+   +NTl0GF6p7TT3G98dyWwJxVl65avZeTgxuNfIbGOFE7PNLdPDNCbH4V9/
+   l3UNsU1uVyr0gVc6TliGd5M1ZXs0/cjxl/01YaRZ9rTAzfJO2kL40PftQ
+   0t86m0KCZsoePTKpN3OFe6RwdLhKQ5sciUWjaHt+Qezl8ohWftPxDqSmF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="403775151"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="342734696"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 02:52:50 -0700
+   d="scan'208";a="403775151"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 03:02:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="678130008"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="930673602"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="678130008"
+   d="scan'208";a="930673602"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 30 Mar 2023 02:52:46 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 30 Mar 2023 03:02:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phoxZ-000Ki4-2G;
-	Thu, 30 Mar 2023 09:52:45 +0000
-Date: Thu, 30 Mar 2023 17:51:50 +0800
+	id 1php7H-000KjA-0F;
+	Thu, 30 Mar 2023 10:02:47 +0000
+Date: Thu, 30 Mar 2023 18:02:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tasos Sahanidis <tasos@tasossah.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 7406/7844] sound/pci/ymfpci/ymfpci_main.c:2259:9:
- error: implicit declaration of function 'snd_ac97_suspend'; did you mean
- 'snd_ac97_reset'?
-Message-ID: <202303301712.i4ddVa9j-lkp@intel.com>
+To: Manish Mandlik <mmandlik@google.com>, marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chromeos-bluetooth-upstreaming@chromium.org,
+	linux-bluetooth@vger.kernel.org,
+	Manish Mandlik <mmandlik@google.com>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v12 2/4] Bluetooth: Add vhci devcoredump support
+Message-ID: <202303301735.9Keuj1Mu-lkp@intel.com>
+References: <20230329230447.v12.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,106 +52,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230329230447.v12.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
-commit: 081364d7039395d5759dda17f6904d7e99d39f4b [7406/7844] ALSA: ymfpci: Switch to DEFINE_SIMPLE_DEV_PM_OPS()
-config: microblaze-buildonly-randconfig-r001-20230329 (https://download.01.org/0day-ci/archive/20230330/202303301712.i4ddVa9j-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+Hi Manish,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master linus/master v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Mandlik/Bluetooth-Add-vhci-devcoredump-support/20230330-140719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20230329230447.v12.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc%40changeid
+patch subject: [PATCH v12 2/4] Bluetooth: Add vhci devcoredump support
+config: hexagon-randconfig-r045-20230329 (https://download.01.org/0day-ci/archive/20230330/202303301735.9Keuj1Mu-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=081364d7039395d5759dda17f6904d7e99d39f4b
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 081364d7039395d5759dda17f6904d7e99d39f4b
+        # https://github.com/intel-lab-lkp/linux/commit/a96b21e272af3d91f47b77b297f1289c867259b4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Manish-Mandlik/Bluetooth-Add-vhci-devcoredump-support/20230330-140719
+        git checkout a96b21e272af3d91f47b77b297f1289c867259b4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash sound/pci/ymfpci/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303301712.i4ddVa9j-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303301735.9Keuj1Mu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_suspend':
->> sound/pci/ymfpci/ymfpci_main.c:2259:9: error: implicit declaration of function 'snd_ac97_suspend'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
-    2259 |         snd_ac97_suspend(chip->ac97);
-         |         ^~~~~~~~~~~~~~~~
-         |         snd_ac97_reset
-   sound/pci/ymfpci/ymfpci_main.c: In function 'snd_ymfpci_resume':
->> sound/pci/ymfpci/ymfpci_main.c:2288:9: error: implicit declaration of function 'snd_ac97_resume'; did you mean 'snd_ac97_reset'? [-Werror=implicit-function-declaration]
-    2288 |         snd_ac97_resume(chip->ac97);
-         |         ^~~~~~~~~~~~~~~
-         |         snd_ac97_reset
-   cc1: some warnings being treated as errors
+   In file included from drivers/bluetooth/hci_vhci.c:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/bluetooth/hci_vhci.c:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/bluetooth/hci_vhci.c:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/bluetooth/hci_vhci.c:334:9: error: no member named 'dump' in 'struct hci_dev'
+                   hdev->dump.timeout = msecs_to_jiffies(dump_data.timeout * 1000);
+                   ~~~~  ^
+   6 warnings and 1 error generated.
 
 
-vim +2259 sound/pci/ymfpci/ymfpci_main.c
+vim +334 drivers/bluetooth/hci_vhci.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2251  
-68cb2b55927885 Takashi Iwai   2012-07-02  2252  static int snd_ymfpci_suspend(struct device *dev)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2253  {
-68cb2b55927885 Takashi Iwai   2012-07-02  2254  	struct snd_card *card = dev_get_drvdata(dev);
-ded462356886e5 Takashi Iwai   2005-11-17  2255  	struct snd_ymfpci *chip = card->private_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2256  	unsigned int i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2257  	
-ded462356886e5 Takashi Iwai   2005-11-17  2258  	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @2259  	snd_ac97_suspend(chip->ac97);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2260  	for (i = 0; i < YDSXGR_NUM_SAVED_REGS; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2261  		chip->saved_regs[i] = snd_ymfpci_readl(chip, saved_regs_index[i]);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2262  	chip->saved_ydsxgr_mode = snd_ymfpci_readl(chip, YDSXGR_MODE);
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2263  	pci_read_config_word(chip->pci, PCIR_DSXG_LEGACY,
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2264  			     &chip->saved_dsxg_legacy);
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2265  	pci_read_config_word(chip->pci, PCIR_DSXG_ELEGACY,
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2266  			     &chip->saved_dsxg_elegacy);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2267  	snd_ymfpci_writel(chip, YDSXGR_NATIVEDACOUTVOL, 0);
-4a3b6983232cd2 Takashi Iwai   2008-06-25  2268  	snd_ymfpci_writel(chip, YDSXGR_BUF441OUTVOL, 0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2269  	snd_ymfpci_disable_dsp(chip);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2270  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2271  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2272  
-68cb2b55927885 Takashi Iwai   2012-07-02  2273  static int snd_ymfpci_resume(struct device *dev)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2274  {
-68cb2b55927885 Takashi Iwai   2012-07-02  2275  	struct pci_dev *pci = to_pci_dev(dev);
-68cb2b55927885 Takashi Iwai   2012-07-02  2276  	struct snd_card *card = dev_get_drvdata(dev);
-ded462356886e5 Takashi Iwai   2005-11-17  2277  	struct snd_ymfpci *chip = card->private_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2278  	unsigned int i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2279  
-ded462356886e5 Takashi Iwai   2005-11-17  2280  	snd_ymfpci_aclink_reset(pci);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2281  	snd_ymfpci_codec_ready(chip, 0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2282  	snd_ymfpci_download_image(chip);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2283  	udelay(100);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2284  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2285  	for (i = 0; i < YDSXGR_NUM_SAVED_REGS; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2286  		snd_ymfpci_writel(chip, saved_regs_index[i], chip->saved_regs[i]);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2287  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @2288  	snd_ac97_resume(chip->ac97);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2289  
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2290  	pci_write_config_word(chip->pci, PCIR_DSXG_LEGACY,
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2291  			      chip->saved_dsxg_legacy);
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2292  	pci_write_config_word(chip->pci, PCIR_DSXG_ELEGACY,
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2293  			      chip->saved_dsxg_elegacy);
-28aa165cc52fa6 Takashi Iwai   2012-03-13  2294  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2295  	/* start hw again */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2296  	if (chip->start_count > 0) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2297  		spin_lock_irq(&chip->reg_lock);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2298  		snd_ymfpci_writel(chip, YDSXGR_MODE, chip->saved_ydsxgr_mode);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2299  		chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2300  		spin_unlock_irq(&chip->reg_lock);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2301  	}
-ded462356886e5 Takashi Iwai   2005-11-17  2302  	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2303  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2304  }
-68cb2b55927885 Takashi Iwai   2012-07-02  2305  
-
-:::::: The code at line 2259 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   310	
+   311	static ssize_t force_devcd_write(struct file *file, const char __user *user_buf,
+   312					 size_t count, loff_t *ppos)
+   313	{
+   314		struct vhci_data *data = file->private_data;
+   315		struct hci_dev *hdev = data->hdev;
+   316		struct sk_buff *skb = NULL;
+   317		struct devcoredump_test_data dump_data;
+   318		int ret;
+   319	
+   320		ret = simple_write_to_buffer(&dump_data, sizeof(dump_data), ppos,
+   321					     user_buf, count);
+   322		if (ret < count)
+   323			return ret;
+   324	
+   325		skb = alloc_skb(sizeof(dump_data.data), GFP_ATOMIC);
+   326		if (!skb)
+   327			return -ENOMEM;
+   328		skb_put_data(skb, &dump_data.data, sizeof(dump_data.data));
+   329	
+   330		hci_devcd_register(hdev, vhci_coredump, vhci_coredump_hdr, NULL);
+   331	
+   332		/* Force the devcoredump timeout */
+   333		if (dump_data.timeout)
+ > 334			hdev->dump.timeout = msecs_to_jiffies(dump_data.timeout * 1000);
+   335	
+   336		ret = hci_devcd_init(hdev, skb->len);
+   337		if (ret) {
+   338			BT_ERR("Failed to generate devcoredump");
+   339			kfree_skb(skb);
+   340			return ret;
+   341		}
+   342	
+   343		hci_devcd_append(hdev, skb);
+   344	
+   345		switch (dump_data.state) {
+   346		case HCI_DEVCOREDUMP_DONE:
+   347			hci_devcd_complete(hdev);
+   348			break;
+   349		case HCI_DEVCOREDUMP_ABORT:
+   350			hci_devcd_abort(hdev);
+   351			break;
+   352		case HCI_DEVCOREDUMP_TIMEOUT:
+   353			/* Do nothing */
+   354			break;
+   355		default:
+   356			return -EINVAL;
+   357		}
+   358	
+   359		return count;
+   360	}
+   361	
 
 -- 
 0-DAY CI Kernel Test Service
