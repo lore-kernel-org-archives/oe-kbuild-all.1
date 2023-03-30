@@ -1,112 +1,180 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467351105
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 01:30:32 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.43:56584.343497374
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-	by 189.cn (HERMES) with SMTP id E1F891002FD;
-	Thu, 30 Mar 2023 09:30:27 +0800 (CST)
-Received: from  ([114.242.206.180])
-	by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 2a513672f4724ede906719b5faed2f28 for lkp@intel.com;
-	Thu, 30 Mar 2023 09:30:30 CST
-X-Transaction-ID: 2a513672f4724ede906719b5faed2f28
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <eca6b468-1bf6-01a1-c9e4-5241f2d7cad9@189.cn>
-Date: Thu, 30 Mar 2023 09:30:24 +0800
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DD81105;
+	Thu, 30 Mar 2023 01:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680139942; x=1711675942;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6AQp9StkLohSl/JIGg2zXeTxE47rvWyE9rmFLpPSf5g=;
+  b=Ras4OMRLvl/yOFg8ouX3o2gj7RE/fVX5fLzmQ+4/dEvhO5c/FYFNY/7o
+   HXOVH4yplhKc8wJIehX9hq03sIzxo1OwVCXgNGTTyOYuYoaHCUA2mSPLM
+   bvK13tkRHk6M94HuP2G3A0Yu0oCpuUbtsHIJamTEOQpsac2KjdzGJ5v0e
+   s2vy6CLWpvc80T8TZ+sIi0uEp8KHeY/VvdTQpoZCkn3olV2BDMQNTv/Y8
+   +AIy/VBngeu0qNdl4LV6c9ftyo5my4FRkPdnuU9PWTy3F1LiCTGtTkrZ+
+   7Q4g0lU/MA5n5mB2+xJeORGVZQrU73yhxmL0wGx8G/lDJ4efgsQHZRgUr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405999289"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="405999289"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 18:32:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="634686606"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="634686606"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 29 Mar 2023 18:32:20 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phh9H-000K8Y-2j;
+	Thu, 30 Mar 2023 01:32:19 +0000
+Date: Thu, 30 Mar 2023 09:31:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [cel:topic-shmem-stable-dir-cookies 1/1] mm/shmem.c:4038:3: error:
+ call to undeclared function 'shmem_dirent_destroy'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202303300953.ow1IwVln-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci
- devices
-To: kernel test robot <lkp@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Li Yi <liyi@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <suijingfeng@loongson.cn>
-References: <20230329205129.1513734-6-15330273260@189.cn>
- <202303300759.E9lbKNTQ-lkp@intel.com>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <202303300759.E9lbKNTQ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi, pci_clear_master is located at pci.h.
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-shmem-stable-dir-cookies
+head:   f24b5311a9ec85e941a370942947ce0ef018f7e3
+commit: f24b5311a9ec85e941a370942947ce0ef018f7e3 [1/1] shmem: stable directory cookies
+config: riscv-randconfig-r014-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300953.ow1IwVln-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=f24b5311a9ec85e941a370942947ce0ef018f7e3
+        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+        git fetch --no-tags cel topic-shmem-stable-dir-cookies
+        git checkout f24b5311a9ec85e941a370942947ce0ef018f7e3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300953.ow1IwVln-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/shmem.c:4038:3: error: call to undeclared function 'shmem_dirent_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   shmem_dirent_destroy(inode);
+                   ^
+>> mm/shmem.c:4114:13: error: use of undeclared identifier 'shmem_dir_llseek'
+           .llseek         = shmem_dir_llseek,
+                             ^
+>> mm/shmem.c:4116:20: error: use of undeclared identifier 'shmem_readdir'
+           .iterate_shared = shmem_readdir,
+                             ^
+   3 errors generated.
 
 
-  Added by commit 6a479079c07211bf348ac8a79754f26bea258f26 (PCI: Add 
-pci_clear_master() as opposite of pci_set_master())
+vim +/shmem_dirent_destroy +4038 mm/shmem.c
 
+  4032	
+  4033	static void shmem_free_in_core_inode(struct inode *inode)
+  4034	{
+  4035		if (S_ISLNK(inode->i_mode))
+  4036			kfree(inode->i_link);
+  4037		if (S_ISDIR(inode->i_mode))
+> 4038			shmem_dirent_destroy(inode);
+  4039		kmem_cache_free(shmem_inode_cachep, SHMEM_I(inode));
+  4040	}
+  4041	
+  4042	static void shmem_destroy_inode(struct inode *inode)
+  4043	{
+  4044		if (S_ISREG(inode->i_mode))
+  4045			mpol_free_shared_policy(&SHMEM_I(inode)->policy);
+  4046	}
+  4047	
+  4048	static void shmem_init_inode(void *foo)
+  4049	{
+  4050		struct shmem_inode_info *info = foo;
+  4051		inode_init_once(&info->vfs_inode);
+  4052	}
+  4053	
+  4054	static void shmem_init_inodecache(void)
+  4055	{
+  4056		shmem_inode_cachep = kmem_cache_create("shmem_inode_cache",
+  4057					sizeof(struct shmem_inode_info),
+  4058					0, SLAB_PANIC|SLAB_ACCOUNT, shmem_init_inode);
+  4059	}
+  4060	
+  4061	static void shmem_destroy_inodecache(void)
+  4062	{
+  4063		kmem_cache_destroy(shmem_inode_cachep);
+  4064	}
+  4065	
+  4066	/* Keep the page in page cache instead of truncating it */
+  4067	static int shmem_error_remove_page(struct address_space *mapping,
+  4068					   struct page *page)
+  4069	{
+  4070		return 0;
+  4071	}
+  4072	
+  4073	const struct address_space_operations shmem_aops = {
+  4074		.writepage	= shmem_writepage,
+  4075		.dirty_folio	= noop_dirty_folio,
+  4076	#ifdef CONFIG_TMPFS
+  4077		.write_begin	= shmem_write_begin,
+  4078		.write_end	= shmem_write_end,
+  4079	#endif
+  4080	#ifdef CONFIG_MIGRATION
+  4081		.migrate_folio	= migrate_folio,
+  4082	#endif
+  4083		.error_remove_page = shmem_error_remove_page,
+  4084	};
+  4085	EXPORT_SYMBOL(shmem_aops);
+  4086	
+  4087	static const struct file_operations shmem_file_operations = {
+  4088		.mmap		= shmem_mmap,
+  4089		.open		= generic_file_open,
+  4090		.get_unmapped_area = shmem_get_unmapped_area,
+  4091	#ifdef CONFIG_TMPFS
+  4092		.llseek		= shmem_file_llseek,
+  4093		.read_iter	= shmem_file_read_iter,
+  4094		.write_iter	= generic_file_write_iter,
+  4095		.fsync		= noop_fsync,
+  4096		.splice_read	= generic_file_splice_read,
+  4097		.splice_write	= iter_file_splice_write,
+  4098		.fallocate	= shmem_fallocate,
+  4099	#endif
+  4100	};
+  4101	
+  4102	static const struct inode_operations shmem_inode_operations = {
+  4103		.getattr	= shmem_getattr,
+  4104		.setattr	= shmem_setattr,
+  4105	#ifdef CONFIG_TMPFS_XATTR
+  4106		.listxattr	= shmem_listxattr,
+  4107		.set_acl	= simple_set_acl,
+  4108		.fileattr_get	= shmem_fileattr_get,
+  4109		.fileattr_set	= shmem_fileattr_set,
+  4110	#endif
+  4111	};
+  4112	
+  4113	static const struct file_operations shmem_dir_operations = {
+> 4114		.llseek		= shmem_dir_llseek,
+  4115		.read		= generic_read_dir,
+> 4116		.iterate_shared	= shmem_readdir,
+  4117		.fsync		= noop_fsync,
+  4118	};
+  4119	
 
-  I don't know what the reason arc architecture can't use this.
-
-
-On 2023/3/30 08:07, kernel test robot wrote:
-> Hi Sui,
->
-> Thank you for the patch! Yet something to improve:
->
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc4 next-20230329]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20230329205129.1513734-6-15330273260%40189.cn
-> patch subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
-> config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300759.E9lbKNTQ-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
->          git checkout cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/etnaviv/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303300759.E9lbKNTQ-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
->>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
->        32 |         pci_clear_master(pdev);
->           |         ^~~~~~~~~~~~~~~~
->           |         pci_set_master
->     cc1: some warnings being treated as errors
->
->
-> vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
->
->      27	
->      28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
->      29	{
->      30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
->      31	
->    > 32		pci_clear_master(pdev);
->      33	
->      34		dev_dbg(gpu->dev, "component is %s\n",
->      35			component ? "enabled" : "disabled");
->      36	}
->      37	
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
