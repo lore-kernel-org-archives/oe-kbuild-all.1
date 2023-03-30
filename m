@@ -1,140 +1,135 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4197A944A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 22:37:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UGk1AqZRDSC+93ShspyfT4CA6Nbv7kLcGIN4v9uPNzc5zdi0NoysRPOx+yN/VNm5+A7NoxfdRdKk1GA1DtbiBoTRFAZ9lSDyzVCnnyPfKTN+wFozmLSiYyzZS6CvOvKHQzMIwU0pb0ASK0nN9w9dGPdpNrbPR/aqStNZzL39l64YeId+JgmlGBQJjNqs9B0cZL2VrSbFNa2YdkZkOg4suiMAryIOELUaHixfrrjZmGv+9TzVTbTkcuPLXay/A3i5D72NLpus/unQ4R2nRBwVGBZaeTjdTvGDVRAExKqsMSfNkB09+b96S1QNl4kPMfaDfvBjaETpl/N8x79gQxdoHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8yra3jUzil5K49Ltmn/vCHf/FyAJYTOjod+b+/NOaJY=;
- b=ZN0jB9c5/QfVbfnq2frJfJibdsmKn2FJ+z1+5PROGSBFU9OwKTd/SSl14q9GwqELvny6NPq4yasRpD9jrk5WkQvOZxDvaNpIb8o3sX8PWoGcQ+wlIjBUB4lyv67hg6lOAP2imCoDgzQtKyf8tCF1QRlWA+bpIwZGfJEvb+U3EkMEssVCiBl+X7HAJn1K3on3HjsXfoGs5/IK11D0eGBP3Kggg66+WNEKT+MSs9RshDqo1z3+hjXkRv45YcKyuxwViQ6Z6uXrqhtcb+KgUuReP86qjwIp3zum1WkaP18Umre2742rGXw5ycI8TeGoloJDlEVonCh5l9vMoTxDUpubzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8yra3jUzil5K49Ltmn/vCHf/FyAJYTOjod+b+/NOaJY=;
- b=hezoPRv2fFV1wDjDW7LPxSewxGTn4U5poehVVDuKiySwcPYshnacSG/i1wmEvlJ9pSXCFofNKmOfKqJrQpwRqn1lcmxRnSwR08u7t26BxDlGiz3DbSN+UTJjChX4+DzIIF2zagzlEr0Uxn21LszEEFjHapCOd+8Zybfq4hIjuCbhL/U+yJcRsuy8QcFlY7sw1L47r19zbo8p3sN3mT04IRbOknphVzNiEJD9pe15XLyA0cSVaUVyUQBKvYVtboMLfu/kRFXMI3wTD5rYG2a32P0k2FPynseCdhx1qlI/dI1ukMUC3vYralGeTfFd8XUDrAnRcGn6b8QIOEPyKQpIow==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by CH2PR12MB5018.namprd12.prod.outlook.com (2603:10b6:610:6e::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Thu, 30 Mar
- 2023 22:37:19 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1%3]) with mapi id 15.20.6178.037; Thu, 30 Mar 2023
- 22:37:19 +0000
-Date: Thu, 30 Mar 2023 19:37:18 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: kernel test robot <lkp@intel.com>, Bernard Metzler <bmt@zurich.ibm.com>,
-	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-	Zhu Yanjun <zyjzyj2000@gmail.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] RDMA: Add ib_virt_dma_to_page()
-Message-ID: <ZCYPHgV5riNGE0rS@nvidia.com>
-References: <0-v1-789ba72d2950+2e-ib_virt_page_jgg@nvidia.com>
- <202303310254.tmWyQaZG-lkp@intel.com>
- <CACRpkdYpob6Si2ghXHqSD=6f_PO_gPbJhE_u4jNEcu1VbxO4pQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYpob6Si2ghXHqSD=6f_PO_gPbJhE_u4jNEcu1VbxO4pQ@mail.gmail.com>
-X-ClientProxiedBy: MN2PR08CA0030.namprd08.prod.outlook.com
- (2603:10b6:208:239::35) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF84BD301;
+	Thu, 30 Mar 2023 22:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680217105; x=1711753105;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GgyxPetBIVo4pNOsM/GM2WPOBByZjXnSfgPF33BAwMs=;
+  b=M4+3lW7qhjt/wVJLFCdS5qQeIsfyNNP14T1tGTWPdkvl/xu8/tyZibQ8
+   GzwiqmbesTkpqdz4Cvxlni0LQMhZl7WCcPCDaNxYAM/o/tXxtlKyIZft1
+   if1XKm/kJRsC4CJ4W1P9uuj2C5bL+Gh1CoX0EKrdwQB/0Ua3E2n3VSO/1
+   gPWcQVU3P9L6R6rx9fk0OLAQ2M8iltwEX6qI02QCFgySLQgkh6wFUplZa
+   D3YToyhTedIPghVFEJSBUfGLqgREuow5uc6kNLcW3N008KIA6QDI6eiDi
+   rE31+YEPKN7cQnzIJtWIWweM7KkKJ1Y0iKdAjx0dLlM5+rhXLuSnRzLjv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="321691062"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="321691062"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 15:58:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="754192672"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="754192672"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 15:58:14 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pi1Di-000LHs-0y;
+	Thu, 30 Mar 2023 22:58:14 +0000
+Date: Fri, 31 Mar 2023 06:57:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Brian Gerst <brgerst@gmail.com>,
+	Usama Arif <usama.arif@bytedance.com>
+Subject: [dwmw2:tglx-parallel-2 24/25] kernel/cpu.c:641:3: error: implicit
+ declaration of function 'cpu_up' is invalid in C99
+Message-ID: <202303310647.BrY9xHzl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH2PR12MB5018:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9f973e6-7668-4674-bab0-08db316f5204
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	UiFTfb9MeB/az5ftHWFhJBPOA9xq/vlzNbR4RC2lXjb8GD7A3VJQQ31DX0JqdGc8Ron2YDL13NYG6IKRvDGEB0vhDYaCiCC8hGeIFbJj282akbGArhL4nmlkZGuTk8Clq2iINb5WbGuQFdXrMJ1GFLBPYEnGrWevwXqkLVPU+ZoRD1hlXzaJg6evGGxGS8sksSGasRRriadWhcsP8TzQ5akdZvVbMNv88sC0xRqTgMGhheoYd+u110mDE+FxTktaA/Bt/3u7WUuw/4dzXvoum0qvGpVa6zqUWNTbUuvbRbcVjG2R+c/DkuzeThlU+Ul0lA8zAmIS7/kv6E4j/d9BEr3DtyB4tRdaO2ze9/c1Akxutgjny4EdGpHtBz5/attlDPBr5JM8kaVOnwzg02hemhlzV7dKUt9O+DheIfKkEexZVRVxpegYwMVNzOTVmA3NG6PzY5y3u412zwQIESVFRU/FHfkT67QlKIK72DUaT4nb8kKHJts2hcUOm6sosg9Mr9h0yMnTWMhtb9QQN9ebLLzUjfFwwpummEp+KyJVWlYlWhf9PM9vl9zKU67jqI0H
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(451199021)(66556008)(26005)(53546011)(6486002)(38100700002)(186003)(2616005)(6512007)(2906002)(5660300002)(8936002)(54906003)(66946007)(36756003)(478600001)(316002)(4326008)(41300700001)(6506007)(86362001)(8676002)(6916009)(66476007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OGYvRDhtd2VDRnN1OENvd3VLSjJNUUZ5b3NtRy8vbW0wa0lWTUIyZ0lNdUpR?=
- =?utf-8?B?V0J4eVFyZTBrRmxWcnJHeFlHRXozSTJWSHhSc1d0Qi8rODYrc21HdEhLaDc3?=
- =?utf-8?B?QnJ6dEdXbExRTWY5SnB4cGhSV2NJL0dTN2RNN04xRWtqRDVQdkdINUU4ZUpp?=
- =?utf-8?B?My9sUGIwSjVESmE2QnhuUkdiV1lPNGtONGlFOG5GTTBTN0E4eGN4Uk9tSjVT?=
- =?utf-8?B?Mi9PV1BRQ1FVVCsyc2JrVm5OTmFJSmsrZnJnekE0dXdlY0xhU0ZCSmp1TStu?=
- =?utf-8?B?anR0eTQ1M3hpQW9UWjI3aFF0NlJKT0gwd0wySzI1SExxcXJveGJaaGtOdUlt?=
- =?utf-8?B?cmJ1MnYya2tRRENTR2twTEtxcVlFOVIwV1JDQXArSktZZXZwOWV2RlY4Uzh5?=
- =?utf-8?B?RnV2SHkxL1o1YUtETi9RV2o2Y3hQYU92d2dTU1NQeVljeDcxY1RvdzJiT1A5?=
- =?utf-8?B?cy84cjZJRTBkOW5uSEJLbHZERElWV0dYaVpBTEV4SFYxMFo0cFIrRy96QVd2?=
- =?utf-8?B?QTFWZ25SSXRvcWVtb0V6ZjBDbkt0NGNJMXRvNlRQK1BoU2JNRVUvU1lQZHRj?=
- =?utf-8?B?RzR6Wi9INHo3T1lUbnRscElScExZbXh6R01iaXBBT0xWN1Nva09NcXR0WCtI?=
- =?utf-8?B?cGUvMjhHcFlyQjREMlFKOWVHeWxRaVE2WHlLYkdDZUd3VnovUXlDRmdjUkg4?=
- =?utf-8?B?TG5ZZXorSE1KNUVlc1NKaWszOFl2QW1Hbno2c1lvdUs5M283UU4vbndpYmVE?=
- =?utf-8?B?Y3hDSmZTcThqd0NyS0ZMOTdFVXk2aDhtQTk2NDlIWGhzRFQ0Yjl1UkZDUmlP?=
- =?utf-8?B?U1NhUVBacm1UMFY1WEFta2luYXBYREFsVndTdGI5aERsbUpTN1BXdlBVQ0d2?=
- =?utf-8?B?QVhVcG9xQ000VDVZNFNMWFEyTEp1UzBPR1p2T2ppbUVzVmFzR3hGMkE3Um1P?=
- =?utf-8?B?OUR1WHpuMG5XS0R4aThNVTZpSm1laGxjSFlsOGladmYwTUdxclhUQXBEeHRX?=
- =?utf-8?B?N0QrNnd0QlJEa2JkOW5IRHBHOXRhVkVvMXhKVkNldmExK0FBb3l2Zitsc3Rj?=
- =?utf-8?B?WFB6NjZsVXkyTTg3bDhWVHNqYSswNDJQWDhoQ2Ryb2YwOW9oa0xod1pEa2Rm?=
- =?utf-8?B?L005TXMrVFV0cFRmcGpqbkt4NFBsRmVDMG5nS2FDTVFpangrc3cwL0RYd3NI?=
- =?utf-8?B?K3VDSW9lcllYU041Y243OHlJNFZxVW5rVXloOXg4RHZOQlhTK1BGN1BJREt6?=
- =?utf-8?B?dDNqaDhLSEpVZERRMU5iVlBQd0Y0OUVUT1FCWVc5QUNTSEczSmZSVWVUKzNW?=
- =?utf-8?B?NlVTak84bEpSOHF3QUZ6d3ppRVJSYm5IY0NuckpCT1Q5OGprWnk2dWYvZ1hv?=
- =?utf-8?B?bG80V3p3YjRaZ1B3TG9YbmVzZzA0ZHo2RVFrWURDZ3o5Tm1ZLzAxZnhNcFd1?=
- =?utf-8?B?ZW5zaFJlM3VybFhHTVVQa2JEeWtLOXdQL3pvVkhJaUtRVk5TdHZzWXFITzNh?=
- =?utf-8?B?VVpzY2dOdGhaaFNyZWtjcVB4N3pxMHh5Qnh2TVhkREVYVG1DaTdxbzAvQjc0?=
- =?utf-8?B?M1lHQ20yMjF5TDlvbmt6K1MvVFdRMkdtRWdxSkZRYThRSzZQMFBKaTdxVmdT?=
- =?utf-8?B?RTBHMFBWeVBLbEt1Z0ErNnpKR0dqQ3MydlpNMTZyd0tTN21kVXNZM1E1b0sr?=
- =?utf-8?B?U2xMa1YvRlRZZEl2VVUrNzdqcVlrY1Z0VDU3ZzBhS1NCcmxCeHBpZng3aVdr?=
- =?utf-8?B?Sng2NzNicERxaFFrSFlxZHNGR1o5UzhhYnhCMVI1OTZEV3d2aWs2MWRHUWE5?=
- =?utf-8?B?TkU4Q0lST3V0VjVUMnpqVXo0UVptVGg0ZlA4ZHREYVFVWXg5MTVNYnd3M25B?=
- =?utf-8?B?cWVKbDk3Zi8vK3ZSYlhuM253ak1HVU8zek9tQWhNeEVsSkw1dWsyNmhaZ1Ji?=
- =?utf-8?B?bFdwMHE0MHo4NS9oQU1BdDBzZW9JQURHSWV2M2Z1YnNwZUVlQjMyWTlCeWMr?=
- =?utf-8?B?T2tseWp1UmhXZmJJd09McUxwcjdLQjBLd0grNEh6aXFKTUcxZmNmdlBLREJW?=
- =?utf-8?B?c3VTbW5ZcFZCWHh2bytXRjlDbEUvUXQrSGtQd0dSR09RY0tmNUFPWWdCVk9P?=
- =?utf-8?Q?lOxdEuyZ2j6rbcexp7tJHqovD?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9f973e6-7668-4674-bab0-08db316f5204
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 22:37:19.1791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SuGsDC4swNL/Z7/9PP8JcOs1r4msN5lv9I/bOM1dW7tic/NEgYnZGZpRJ8l3IYZU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 30, 2023 at 11:53:52PM +0200, Linus Walleij wrote:
-> On Thu, Mar 30, 2023 at 9:02 PM kernel test robot <lkp@intel.com> wrote:
-> 
-> > 0d1b756acf60da Linus Walleij   2022-09-02  536                                  /*
-> > 0d1b756acf60da Linus Walleij   2022-09-02  537                                   * Cast to an uintptr_t to preserve all 64 bits
-> > 0d1b756acf60da Linus Walleij   2022-09-02  538                                   * in sge->laddr.
-> > 0d1b756acf60da Linus Walleij   2022-09-02  539                                   */
-> > a10308d393288b Jason Gunthorpe 2023-03-30  540                                  u64 va = (uintptr_t)(sge->laddr + sge_off);
-> 
-> Oh now that becomes an u64
-> 
-> > b9be6f18cf9ed0 Bernard Metzler 2019-06-20  541
-> > a10308d393288b Jason Gunthorpe 2023-03-30  542                                  page_array[seg] = ib_virt_dma_to_page(va);
-> > b9be6f18cf9ed0 Bernard Metzler 2019-06-20  543                                  if (do_crc)
-> > b9be6f18cf9ed0 Bernard Metzler 2019-06-20  544                                          crypto_shash_update(
-> > b9be6f18cf9ed0 Bernard Metzler 2019-06-20  545                                                  c_tx->mpa_crc_hd,
-> > 0d1b756acf60da Linus Walleij   2022-09-02 @546                                                  (void *)va,
-> 
-> Then this cast needs to be (void *)(uintptr_t) again.
-> 
-> Not very elegant, possibly something more smooth can be done.
+tree:   git://git.infradead.org/users/dwmw2/linux tglx-parallel-2
+head:   553f41a50ed7c3097c465e96d5c41522a1fae23e
+commit: 0a1bcd102db41f6364d0aa00960e2fb908fd3762 [24/25] x86/smpboot: Support parallel startup of secondary CPUs
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230331/202303310647.BrY9xHzl-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 tglx-parallel-2
+        git checkout 0a1bcd102db41f6364d0aa00960e2fb908fd3762
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-It needs another similar helper function to from dma_addr to kva void *
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303310647.BrY9xHzl-lkp@intel.com/
 
-Jason
+All errors (new ones prefixed by >>):
+
+   kernel/cpu.c:436:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           int ret = 0;
+               ^
+>> kernel/cpu.c:641:3: error: implicit declaration of function 'cpu_up' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   cpu_up(cpu, CPUHP_BP_KICK_AP);
+                   ^
+   kernel/cpu.c:641:3: note: did you mean '__cpu_up'?
+   include/linux/smp.h:139:12: note: '__cpu_up' declared here
+   extern int __cpu_up(unsigned int cpunum, struct task_struct *tidle);
+              ^
+   kernel/cpu.c:1706:12: error: static declaration of 'cpu_up' follows non-static declaration
+   static int cpu_up(unsigned int cpu, enum cpuhp_state target)
+              ^
+   kernel/cpu.c:641:3: note: previous implicit declaration is here
+                   cpu_up(cpu, CPUHP_BP_KICK_AP);
+                   ^
+   kernel/cpu.c:1797:30: error: too many arguments to function call, expected 0, have 1
+           cpuhp_bringup_cpus_parallel(setup_max_cpus);
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+   kernel/cpu.c:631:13: note: 'cpuhp_bringup_cpus_parallel' declared here
+   static void cpuhp_bringup_cpus_parallel(void)
+               ^
+   1 warning and 3 errors generated.
+
+
+vim +/cpu_up +641 kernel/cpu.c
+
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  620  
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  621  /*
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  622   * On architectures which have enabled parallel bringup this invokes all BP
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  623   * prepare states for each of the to be onlined APs. The last state sends
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  624   * the startup IPI to the APs. The APs proceed through the low level
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  625   * bringup code in parallel and then wait for the control CPU to release
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  626   * them one by one for the final onlining procedure.
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  627   *
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  628   * This avoids waiting for each AP to respond to the startup IPI in
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  629   * CPUHP_BRINGUP_CPU.
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  630   */
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  631  static void cpuhp_bringup_cpus_parallel(void)
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  632  {
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  633  	unsigned int cpu, n = 1;
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  634  
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  635  	if (!__cpuhp_parallel_bringup)
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  636  		return;
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  637  
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  638  	for_each_present_cpu(cpu) {
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  639  		if (n++ >= setup_max_cpus)
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  640  			break;
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30 @641  		cpu_up(cpu, CPUHP_BP_KICK_AP);
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  642  	}
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  643  }
+c8f7cb6d0895e4 Thomas Gleixner 2023-03-30  644  
+
+:::::: The code at line 641 was first introduced by commit
+:::::: c8f7cb6d0895e48171b3fc33201e9244ac0e5970 cpu/hotplug: Allow "parallel" bringup up to CPUHP_BP_KICK_AP_STATE
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: David Woodhouse <dwmw@amazon.co.uk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
