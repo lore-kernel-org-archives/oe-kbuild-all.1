@@ -1,43 +1,50 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCF1173;
-	Thu, 30 Mar 2023 00:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97704816
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Mar 2023 00:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680134905; x=1711670905;
+  t=1680134909; x=1711670909;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DpHW067FHxZyxfqzz/7G238gWCufopY8ZUT6p7y3+pM=;
-  b=m4bsPuOujAcFZDCW1uRMTM3e1WyHfNGLgwp9BAAAD5SSuYTgYyAUHPuw
-   7emuCdeSUCWAWo1PIJBAtB4tsl9z3sbFvRhV64PSjxoVPKUM6rWuhtZO3
-   BjkA94nObSMWUB/iZ416V/w+s+MtigIhc6q7+nfffvPWIIIkwk6xYbH4L
-   g5UnsUgLBeb9dNTNhJmxm6poSKnDJe+OuPmq0goqtCluAT+OlkbRDtOuD
-   A0kjn27H9wU0YA7NZI4Ie4z0DQx/yYzvhPcDswv4reoNclCHPArYHsW16
-   OyD/I9o6+8RzrAdQSywzIpvi5LoDYxzcKR6l1HJU/22FWwBzQztBnU+DY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338531296"
+  bh=qReL1NQAo0s/ltkUWifMa5AxIawdGoSXs3VTdwExSJY=;
+  b=j89k70u3F3WtK4Zh7MKLg8siPj1CJt9TQqL+vecynv1NMsSkvRylUzfe
+   4fRJ2YgU/x/2XRRfR0ONnDtNJdn1idJiyJjkTQvwTJmjxe54lgHg+9uQ0
+   2rGCi1Fu/Oq+cOk1KgP2AT7tBH7fd1LJeTZHWEEhRU5MF7tO6ckoyhIyT
+   Zy9DdlxDwOKIUaMv6z3XOVwE3AoMo/4/YAhK/zYvfgPzpmGWciVsnYaEe
+   b5n0k97o2JuPBKavENZMhGiv+KQtKo78REukXB3gT/+JCxEM5vGzGHGzp
+   wUCkxyhtzGxvtDJIiJlQjbwi7wmZGcRV3NdKGnrY4HjvckmvcgXcCcXPo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="341048612"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="338531296"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 17:08:19 -0700
+   d="scan'208";a="341048612"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 17:08:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714790067"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753791960"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="714790067"
+   d="scan'208";a="753791960"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 29 Mar 2023 17:08:17 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2023 17:08:17 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phfpw-000K4Z-32;
+	id 1phfpw-000K4W-2s;
 	Thu, 30 Mar 2023 00:08:16 +0000
-Date: Thu, 30 Mar 2023 08:07:33 +0800
+Date: Thu, 30 Mar 2023 08:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/2] net: extend drop reasons for multiple subsystems
-Message-ID: <202303300823.aqDx9Rc3-lkp@intel.com>
-References: <20230329214620.131636-1-johannes@sipsolutions.net>
+To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Li Yi <liyi@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci
+ devices
+Message-ID: <202303300759.E9lbKNTQ-lkp@intel.com>
+References: <20230329205129.1513734-6-15330273260@189.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,221 +53,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329214620.131636-1-johannes@sipsolutions.net>
+In-Reply-To: <20230329205129.1513734-6-15330273260@189.cn>
 
-Hi Johannes,
+Hi Sui,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main horms-ipvs/master net/main net-next/main linus/master v6.3-rc4 next-20230329]
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc4 next-20230329]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230330-054719
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230329214620.131636-1-johannes%40sipsolutions.net
-patch subject: [RFC PATCH 1/2] net: extend drop reasons for multiple subsystems
-config: hexagon-randconfig-r045-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300823.aqDx9Rc3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230329205129.1513734-6-15330273260%40189.cn
+patch subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
+config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300759.E9lbKNTQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ff46d1291ffa265b9c23249a5132e6824f603ef5
+        # https://github.com/intel-lab-lkp/linux/commit/cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230330-054719
-        git checkout ff46d1291ffa265b9c23249a5132e6824f603ef5
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+        git checkout cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/etnaviv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303300823.aqDx9Rc3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300759.E9lbKNTQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/core/skbuff.c:41:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/core/skbuff.c:41:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/core/skbuff.c:41:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> net/core/skbuff.c:127:25: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
-           DEFINE_DROP_REASON(FN, FN)
-                                  ^
-   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
-           SKB_DROP_REASON_XDP,
-           ^
-   net/core/skbuff.c:127:25: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           DEFINE_DROP_REASON(FN, FN)
-           ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   include/net/dropreason.h:81:2: note: expanded from macro 'DEFINE_DROP_REASON'
-           FNe(MAX)
-           ^~~~~~~~
-   net/core/skbuff.c:124:49: note: expanded from macro 'FN'
-   #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
-                                                   ^~~~~~~
-   <scratch space>:29:1: note: expanded from here
-   "MAX"
-   ^~~~~
-   net/core/skbuff.c:127:21: note: previous initialization is here
-           DEFINE_DROP_REASON(FN, FN)
-           ~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/net/dropreason.h:53:2: note: expanded from macro 'DEFINE_DROP_REASON'
-           FN(XDP)                         \
-           ^~~~~~~
-   net/core/skbuff.c:124:49: note: expanded from macro 'FN'
-   #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
-                                                   ^~~~~~~
-   <scratch space>:147:1: note: expanded from here
-   "XDP"
-   ^~~~~
-   7 warnings and 1 error generated.
---
-   In file included from net/core/net-traces.c:8:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/core/net-traces.c:8:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/core/net-traces.c:8:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from net/core/net-traces.c:30:
-   In file included from include/trace/events/skb.h:95:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:94:
->> include/trace/events/skb.h:14:24: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
-   DEFINE_DROP_REASON(FN, FN)
-                          ^
-   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
-           SKB_DROP_REASON_XDP,
-           ^
-   In file included from net/core/net-traces.c:30:
-   In file included from include/trace/events/skb.h:95:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
-   include/trace/events/skb.h:48:31: error: use of undeclared identifier 'SKB_DROP_REASON_MAX'; did you mean 'SKB_DROP_REASON_XDP'?
-                                      DEFINE_DROP_REASON(FN, FNe)))
-                                                             ^
-   include/net/dropreason.h:248:2: note: 'SKB_DROP_REASON_XDP' declared here
-           SKB_DROP_REASON_XDP,
-           ^
-   In file included from net/core/net-traces.c:51:
-   In file included from include/trace/events/neigh.h:255:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:419:
-   include/trace/events/neigh.h:42:20: warning: variable 'pin6' set but not used [-Wunused-but-set-variable]
-                   struct in6_addr *pin6;
-                                    ^
-   7 warnings and 2 errors generated.
+   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+      32 |         pci_clear_master(pdev);
+         |         ^~~~~~~~~~~~~~~~
+         |         pci_set_master
+   cc1: some warnings being treated as errors
 
 
-vim +127 net/core/skbuff.c
+vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  122  
-9cb252c4c1c53a Menglong Dong  2022-09-05  123  #undef FN
-9cb252c4c1c53a Menglong Dong  2022-09-05  124  #define FN(reason) [SKB_DROP_REASON_##reason] = #reason,
-ff46d1291ffa26 Johannes Berg  2023-03-29  125  static const char * const drop_reasons[] = {
-0e84afe8ebfbb9 Eric Dumazet   2022-10-29  126  	[SKB_CONSUMED] = "CONSUMED",
-9cb252c4c1c53a Menglong Dong  2022-09-05 @127  	DEFINE_DROP_REASON(FN, FN)
-9cb252c4c1c53a Menglong Dong  2022-09-05  128  };
-ff46d1291ffa26 Johannes Berg  2023-03-29  129  
+    27	
+    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+    29	{
+    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+    31	
+  > 32		pci_clear_master(pdev);
+    33	
+    34		dev_dbg(gpu->dev, "component is %s\n",
+    35			component ? "enabled" : "disabled");
+    36	}
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
