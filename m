@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7823BC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 09:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB9B23BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 09:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680254433; x=1711790433;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STAd9w6l6VGg0VH72iBd10fAlaJz7l+QjP25KRcnSBs=;
-  b=cO5BdTiwWA+TGZSIZXBcCjqx6UDgt42TUE717gxQnzSG7eojGslBj2JY
-   ZBjda2k1sq19MHbrMQ9HH4emZdWVAyZvnsgjxzlVBfmj9TpeghV6CIDOl
-   4AMDJo441u9hEaLhhAx/8LlT9zRpvK2L5qzDgNIqSEhU0CBT7plS88WWW
-   R87tZDC1e+OnmQO/GjrQDiBe+uo47kTb1BoWTFRfLESveOOtA9ue7Il7z
-   rFRK+akdA+pvtglZ++8LEo12Xh1RQtSmzFDelN8mTsLF8RU/tnbF3d9uk
-   RK7yQ0R9E0SrbhT/O1E2RtTDn1nmsjzC+ht05MSyyMhCW6Wve5+IxScT0
+  t=1680255698; x=1711791698;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B2tO/P/P2UXnSRs+yYryjFmxuGvgvKCtVxOJlLufAx0=;
+  b=ZOttVOYD3izv+H4a+g1hQpd7ZVfPjJBY3qj8yu0ZH+5n2TLQ3HADT6Hn
+   pTXHBGf0cccSuFXHmGkhqDUnEizmp5D/YgEyUStqwXaTscAHlU2xgoGSh
+   eUutdn0iKz+nlAxD2Wvys9cxQmNEHslEATJBWzTpKYlx5YktKJvEHoW9i
+   aP/AgTALRRYMW/PBm8KifU0XTXX1JDcH4DBYL2oQYzluz07OOBmWuON7M
+   UdsE6bnOE0Mc2tjEbqXxNw3f9ARMpeVTS+OsMVaFYKhwG5SfcZxBAqhu3
+   NzsA0o06yAUiNZrbEu2qg465FBA1TcWmiDLDHqnKGK58rhZlUA4fZu7vs
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343063100"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343926958"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="343063100"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 02:20:32 -0700
+   d="scan'208";a="343926958"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 02:41:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="685060471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662353428"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="685060471"
+   d="scan'208";a="662353428"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2023 02:20:31 -0700
+  by orsmga006.jf.intel.com with ESMTP; 31 Mar 2023 02:41:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piAvu-000LeC-1E;
-	Fri, 31 Mar 2023 09:20:30 +0000
-Date: Fri, 31 Mar 2023 17:20:24 +0800
+	id 1piBGE-000Lei-2c;
+	Fri, 31 Mar 2023 09:41:30 +0000
+Date: Fri, 31 Mar 2023 17:40:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Dai <davidai@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/6] sched/fair: Add util_guest for tasks
-Message-ID: <202303311702.lGyTiDJn-lkp@intel.com>
-References: <20230331014356.1033759-2-davidai@google.com>
+To: Qing Zhang <zhangqing@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202303311726.MyYoXQRd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,205 +46,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331014356.1033759-2-davidai@google.com>
 
-Hi David,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvmarm/next tip/sched/core linus/master v6.3-rc4 next-20230331]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Dai/sched-fair-Add-util_guest-for-tasks/20230331-094936
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230331014356.1033759-2-davidai%40google.com
-patch subject: [RFC PATCH v2 1/6] sched/fair: Add util_guest for tasks
-config: csky-randconfig-r006-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311702.lGyTiDJn-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   62bad54b26db8bc98e28749cd76b2d890edb4258
+commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
+date:   8 months ago
+config: loongarch-randconfig-s033-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311726.MyYoXQRd-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/80e880c6cbaadfdac1b7da1672f571d1d7331166
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Dai/sched-fair-Add-util_guest-for-tasks/20230331-094936
-        git checkout 80e880c6cbaadfdac1b7da1672f571d1d7331166
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 93a4fa622eb061f75f87f0cf9609ab4e69c67d01
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash arch/loongarch/kernel/ crypto/ drivers/perf/ kernel/events/ kernel/time/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303311702.lGyTiDJn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303311726.MyYoXQRd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   kernel/sched/core.c: In function '__setscheduler_task_util':
->> kernel/sched/core.c:2034:14: error: 'struct sched_entity' has no member named 'avg'
-    2034 |         p->se.avg.util_guest = attr->sched_util_min;
-         |              ^
+sparse warnings: (new ones prefixed by >>)
+>> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
+   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
+>> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
+   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
+>> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
+   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
+>> crypto/crypto_engine.c:56:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   crypto/crypto_engine.c:56:9: sparse:     expected void *ptr
+   crypto/crypto_engine.c:56:9: sparse:     got unsigned int [noderef] __percpu *
 --
-   kernel/sched/fair.c:6076:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    6076 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   kernel/sched/fair.c: In function 'enqueue_task_fair':
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/linux/compiler_types.h:353:27: note: in definition of macro '__unqual_scalar_typeof'
-     353 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
-   In file included from ./arch/csky/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:247,
-                    from include/linux/kernel.h:20,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
->> kernel/sched/fair.c:6217:28: error: 'struct sched_entity' has no member named 'avg'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |                            ^
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   kernel/sched/fair.c:6217:13: note: in expansion of macro 'READ_ONCE'
-    6217 |         if (READ_ONCE(p->se.avg.util_guest))
-         |             ^~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:12500:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   12500 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12502:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   12502 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12507:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   12507 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12509:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   12509 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got int [noderef] __percpu *
+>> kernel/time/tick-sched.c:289:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:289:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:289:9: sparse:     got int [noderef] __percpu *
+   kernel/time/tick-sched.c:490:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __rcu * @@
+   kernel/time/tick-sched.c:490:17: sparse:     expected struct lockdep_map const *lock
+   kernel/time/tick-sched.c:490:17: sparse:     got struct lockdep_map [noderef] __rcu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
+   kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
+   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
 
+vim +56 crypto/crypto_engine.c
 
-vim +2034 kernel/sched/core.c
+735d37b5424b27 Baolin Wang    2016-01-26  18  
+218d1cc1860c45 Corentin LABBE 2018-01-26  19  /**
+218d1cc1860c45 Corentin LABBE 2018-01-26  20   * crypto_finalize_request - finalize one request if the request is done
+218d1cc1860c45 Corentin LABBE 2018-01-26  21   * @engine: the hardware engine
+218d1cc1860c45 Corentin LABBE 2018-01-26  22   * @req: the request need to be finalized
+218d1cc1860c45 Corentin LABBE 2018-01-26  23   * @err: error number
+218d1cc1860c45 Corentin LABBE 2018-01-26  24   */
+218d1cc1860c45 Corentin LABBE 2018-01-26  25  static void crypto_finalize_request(struct crypto_engine *engine,
+218d1cc1860c45 Corentin LABBE 2018-01-26  26  				    struct crypto_async_request *req, int err)
+218d1cc1860c45 Corentin LABBE 2018-01-26  27  {
+218d1cc1860c45 Corentin LABBE 2018-01-26  28  	unsigned long flags;
+6a89f492f8e509 Iuliana Prodan 2020-04-28  29  	bool finalize_req = false;
+218d1cc1860c45 Corentin LABBE 2018-01-26  30  	int ret;
+218d1cc1860c45 Corentin LABBE 2018-01-26  31  	struct crypto_engine_ctx *enginectx;
+218d1cc1860c45 Corentin LABBE 2018-01-26  32  
+6a89f492f8e509 Iuliana Prodan 2020-04-28  33  	/*
+6a89f492f8e509 Iuliana Prodan 2020-04-28  34  	 * If hardware cannot enqueue more requests
+6a89f492f8e509 Iuliana Prodan 2020-04-28  35  	 * and retry mechanism is not supported
+6a89f492f8e509 Iuliana Prodan 2020-04-28  36  	 * make sure we are completing the current request
+6a89f492f8e509 Iuliana Prodan 2020-04-28  37  	 */
+6a89f492f8e509 Iuliana Prodan 2020-04-28  38  	if (!engine->retry_support) {
+218d1cc1860c45 Corentin LABBE 2018-01-26  39  		spin_lock_irqsave(&engine->queue_lock, flags);
+6a89f492f8e509 Iuliana Prodan 2020-04-28  40  		if (engine->cur_req == req) {
+6a89f492f8e509 Iuliana Prodan 2020-04-28  41  			finalize_req = true;
+6a89f492f8e509 Iuliana Prodan 2020-04-28  42  			engine->cur_req = NULL;
+6a89f492f8e509 Iuliana Prodan 2020-04-28  43  		}
+218d1cc1860c45 Corentin LABBE 2018-01-26  44  		spin_unlock_irqrestore(&engine->queue_lock, flags);
+6a89f492f8e509 Iuliana Prodan 2020-04-28  45  	}
+218d1cc1860c45 Corentin LABBE 2018-01-26  46  
+6a89f492f8e509 Iuliana Prodan 2020-04-28  47  	if (finalize_req || engine->retry_support) {
+218d1cc1860c45 Corentin LABBE 2018-01-26  48  		enginectx = crypto_tfm_ctx(req->tfm);
+6a89f492f8e509 Iuliana Prodan 2020-04-28  49  		if (enginectx->op.prepare_request &&
+218d1cc1860c45 Corentin LABBE 2018-01-26  50  		    enginectx->op.unprepare_request) {
+218d1cc1860c45 Corentin LABBE 2018-01-26  51  			ret = enginectx->op.unprepare_request(engine, req);
+218d1cc1860c45 Corentin LABBE 2018-01-26  52  			if (ret)
+218d1cc1860c45 Corentin LABBE 2018-01-26  53  				dev_err(engine->dev, "failed to unprepare request\n");
+218d1cc1860c45 Corentin LABBE 2018-01-26  54  		}
+218d1cc1860c45 Corentin LABBE 2018-01-26  55  	}
+4058cf08945c18 Corentin Labbe 2022-02-21 @56  	lockdep_assert_in_softirq();
+218d1cc1860c45 Corentin LABBE 2018-01-26  57  	req->complete(req, err);
+218d1cc1860c45 Corentin LABBE 2018-01-26  58  
+218d1cc1860c45 Corentin LABBE 2018-01-26  59  	kthread_queue_work(engine->kworker, &engine->pump_requests);
+218d1cc1860c45 Corentin LABBE 2018-01-26  60  }
+218d1cc1860c45 Corentin LABBE 2018-01-26  61  
 
-  2030	
-  2031		if (likely(!(attr->sched_flags & SCHED_FLAG_UTIL_GUEST)))
-  2032			return;
-  2033	
-> 2034		p->se.avg.util_guest = attr->sched_util_min;
-  2035	}
-  2036	
+:::::: The code at line 56 was first introduced by commit
+:::::: 4058cf08945c18a6de193f4118fd05d83d3d4285 crypto: engine - check if BH is disabled during completion
+
+:::::: TO: Corentin Labbe <clabbe@baylibre.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
