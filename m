@@ -1,45 +1,55 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5483415B8;
-	Fri, 31 Mar 2023 02:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EB815B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 03:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680231204; x=1711767204;
+  t=1680231806; x=1711767806;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vwqZAqAZoSYXFCqKevohRNTUhZWRXAV9uVnJi7jz5vQ=;
-  b=EZcNvUHMGmaAbsH5xM7Q/95o5MbZ3mPKkcRit9bOv+aV/+sOw+XAE7UC
-   lb/xLSTNDomFLNLFtsJmScs6Nhxf/So4dTafXdluFJzd7G7C9nYDoPCiY
-   BB0LPHzrU/VJEmOfIGwuIafj4n9G1PhqkX/Y/Z5ko/vvtqqP2BtyOJWSi
-   YVilfkSl0S0ipu43Usau+5w4n8gNT1ldUnO2zFlpWn2/YaGX356hTDgZe
-   8L8SGaLGWoOy/NPPOggzTmqTLEe+JgbHwP9WEUZDcyeoSVwjmkUebPpWE
-   YxtFb7VxKK6BuzIew4dVuMnIpeD14Mh7NXt3GwQRcTUWSYwiyqxdnDQ4t
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="320990725"
+  bh=MsA0POeecZ/6JqCB8cjKEkAJwZbgcW7efgsYjItM9V8=;
+  b=BIQt8sZ0SKdN+qqnd9bDBlZ9YLCQ1FhhU5SmPP0j3ORdA5oNxUmO/J0Y
+   Jo3E8SbltJRKnnYHQi/7pClOZp2q8ZKTvs8Cix4+ZK3QUg9w3fPCiElvB
+   1aE6oJ5CvbKZQrTRN9R7MJklgR9bDhluW1jAI0/NuuX+Pd8VT6vvdCfnb
+   QOkFWeWq05jGbbr4mm33USgOg/JPdN9ERySyNIWC0049+b3YVVEjpRZxV
+   QYu8YiIsgJ+nnbNeXmPeLFeH4Tob0RZ4x+pOB7NFWXEAGTKKOdaShXwDL
+   z2A/ZtbG8UNgoDAPhG73I7jm6IFcwxBs7WgA3wxJr0Q5JkXxpUNIQ/dCh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406344984"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="320990725"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 19:53:23 -0700
+   d="scan'208";a="406344984"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 20:03:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="684933787"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="795936361"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="684933787"
+   d="scan'208";a="795936361"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Mar 2023 19:53:21 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2023 20:03:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi4tE-000LRQ-10;
-	Fri, 31 Mar 2023 02:53:20 +0000
-Date: Fri, 31 Mar 2023 10:52:35 +0800
+	id 1pi52u-000LRg-1i;
+	Fri, 31 Mar 2023 03:03:20 +0000
+Date: Fri, 31 Mar 2023 11:02:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditi Ghag <aditi.ghag@isovalent.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kafai@fb.com,
-	sdf@google.com, edumazet@google.com, aditi.ghag@isovalent.com
-Subject: Re: [PATCH v5 bpf-next 3/7] udp: seq_file: Helper function to match
- socket attributes
-Message-ID: <202303311022.2GVz6yAt-lkp@intel.com>
-References: <20230330151758.531170-4-aditi.ghag@isovalent.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Sven van Ashbrook <svenva@chromium.org>,
+	John Stultz <jstultz@google.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	David E Box <david.e.box@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Raul Rangel <rrangel@chromium.org>,
+	Rajat Jain <rajatja@google.com>,
+	S-k Shyam-sundar <Shyam-sundar.S-k@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v5 4/4] platform/x86/intel/pmc: core: Report duration of
+ time in HW sleep state
+Message-ID: <202303311048.UQo0skP2-lkp@intel.com>
+References: <20230330194439.14361-5-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,52 +58,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330151758.531170-4-aditi.ghag@isovalent.com>
+In-Reply-To: <20230330194439.14361-5-mario.limonciello@amd.com>
 
-Hi Aditi,
+Hi Mario,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditi-Ghag/bpf-tcp-Avoid-taking-fast-sock-lock-in-iterator/20230330-232137
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230330151758.531170-4-aditi.ghag%40isovalent.com
-patch subject: [PATCH v5 bpf-next 3/7] udp: seq_file: Helper function to match socket attributes
-config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20230331/202303311022.2GVz6yAt-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PM-Add-a-sysfs-file-to-represent-time-spent-in-hardware-sleep-state/20230331-034714
+patch link:    https://lore.kernel.org/r/20230330194439.14361-5-mario.limonciello%40amd.com
+patch subject: [PATCH v5 4/4] platform/x86/intel/pmc: core: Report duration of time in HW sleep state
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230331/202303311048.UQo0skP2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/66cc617bebf6cb3d2162587d6e248d86bc59c1c2
+        # https://github.com/intel-lab-lkp/linux/commit/ab8a5cd564c9bd22860612acbd76477f7515ca7b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Aditi-Ghag/bpf-tcp-Avoid-taking-fast-sock-lock-in-iterator/20230330-232137
-        git checkout 66cc617bebf6cb3d2162587d6e248d86bc59c1c2
+        git fetch --no-tags linux-review Mario-Limonciello/PM-Add-a-sysfs-file-to-represent-time-spent-in-hardware-sleep-state/20230331-034714
+        git checkout ab8a5cd564c9bd22860612acbd76477f7515ca7b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/ipv4/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303311022.2GVz6yAt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303311048.UQo0skP2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/ipv4/udp.c:2986:20: warning: function 'seq_sk_match' has internal linkage but is not defined [-Wundefined-internal]
-   static inline bool seq_sk_match(struct seq_file *seq, const struct sock *sk);
-                      ^
-   net/ipv4/udp.c:3015:8: note: used here
-                           if (seq_sk_match(seq, sk))
-                               ^
-   1 warning generated.
+   drivers/platform/x86/intel/pmc/core.c: In function 'pmc_core_is_s0ix_failed':
+>> drivers/platform/x86/intel/pmc/core.c:1206:9: error: implicit declaration of function 'pm_set_hw_sleep_time' [-Werror=implicit-function-declaration]
+    1206 |         pm_set_hw_sleep_time(s0ix_counter - pmcdev->s0ix_counter);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/seq_sk_match +2986 net/ipv4/udp.c
+vim +/pm_set_hw_sleep_time +1206 drivers/platform/x86/intel/pmc/core.c
 
-  2985	
-> 2986	static inline bool seq_sk_match(struct seq_file *seq, const struct sock *sk);
-  2987	
+  1198	
+  1199	static inline bool pmc_core_is_s0ix_failed(struct pmc_dev *pmcdev)
+  1200	{
+  1201		u64 s0ix_counter;
+  1202	
+  1203		if (pmc_core_dev_state_get(pmcdev, &s0ix_counter))
+  1204			return false;
+  1205	
+> 1206		pm_set_hw_sleep_time(s0ix_counter - pmcdev->s0ix_counter);
+  1207	
+  1208		if (s0ix_counter == pmcdev->s0ix_counter)
+  1209			return true;
+  1210	
+  1211		return false;
+  1212	}
+  1213	
 
 -- 
 0-DAY CI Kernel Test Service
