@@ -1,44 +1,56 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADE02F37
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 13:57:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FF2A20
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 14:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680271063; x=1711807063;
+  t=1680273534; x=1711809534;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3b7TFpPlZctUMlCM15YHGK46z2DxK0B5pdRsgaBaD1I=;
-  b=VbdcaYlDPFIiAcmui8t1QSxMnlE7XapwNgKzeMv3v/uwb/xrd3W9Xv4n
-   G5jx4kr60NFVZOptE04qZjpxHw/cQSshJgawPiVb5RDIAlXAfRrqjt1HK
-   0ZLNzOqJhHmLlFUSmvv/8ssp/Zt/XYUueAwIfvt18UUdyv7Pwa9gavN2O
-   sh+ry5VLnG05XNeoW5V0C4o52ZUS2m+EjgLBbK9kDpXCIqmY2PjCQvZBl
-   EoJry7W4E14LA6E0MTItK65xVbYY6hUGFyMPf2cJXa0XWuqmkOjiWxKsH
-   u6hle9TQVSxUFXDS+OVGw3dTbB4I5MNfHn7se6PHyedVnMNA/kHjV+QT8
+  bh=s4bXc6SA5sSnGSuRn29n954qgJk/hR6Pf1DFYwbffoE=;
+  b=loqeUwWLk1+pJXhh3tZBfWspiYNGxL7VwRq1hQOnw9l1ObAL51nZeDgo
+   UiG1Ui4z+RPnKNNXMa52nWjJ+h2iSN378JqLPHP/tL838utxfERqEAc8W
+   VKHIQzNWDXso/3K7KaRYi3aReZpw/xZnHOJVdVXyykZMiOtTHt+umU7s+
+   nh5/DG36Yy29lJMQ8WGPDm7FbpRUmgTeXRaGnxZC6nANtas6eH2h34YIK
+   AzuA8W4+wxptRjcxFJAMOYKVHJrvv92vsHkXqhyCRTZGHK2xC8/aCYNGu
+   6gfFr3bh6hgfCcllz3yZ0g78sClQYJK6/SrKCvMQjFczIjLeJi0D48p/w
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="406467540"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="343128150"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="406467540"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 06:57:42 -0700
+   d="scan'208";a="343128150"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 07:38:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="749655208"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="859349319"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="749655208"
+   d="scan'208";a="859349319"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 31 Mar 2023 06:57:41 -0700
+  by orsmga005.jf.intel.com with ESMTP; 31 Mar 2023 07:38:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piFG8-000Lqh-2o;
-	Fri, 31 Mar 2023 13:57:40 +0000
-Date: Fri, 31 Mar 2023 21:57:26 +0800
+	id 1piFtp-000Ls4-38;
+	Fri, 31 Mar 2023 14:38:41 +0000
+Date: Fri, 31 Mar 2023 22:38:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Gow <davidgow@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/3] kunit: Add kunit_add_action() to defer a call
- until test exit
-Message-ID: <202303312141.DHGQBfVZ-lkp@intel.com>
-References: <20230331080411.981038-2-davidgow@google.com>
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Eugen Hristev <eugen.hristev@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem
+ driver
+Message-ID: <202303312218.LXqt9wcT-lkp@intel.com>
+References: <20230331121826.96973-10-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +59,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331080411.981038-2-davidgow@google.com>
+In-Reply-To: <20230331121826.96973-10-jack.zhu@starfivetech.com>
 
-Hi David,
+Hi Jack,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc4 next-20230331]
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v6.3-rc4 next-20230331]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
-patch link:    https://lore.kernel.org/r/20230331080411.981038-2-davidgow%40google.com
-patch subject: [RFC PATCH v2 1/3] kunit: Add kunit_add_action() to defer a call until test exit
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230331/202303312141.DHGQBfVZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230331121826.96973-10-jack.zhu%40starfivetech.com
+patch subject: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230331/202303312218.LXqt9wcT-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3fe86a97881f9c663c66869d448b2dacf9363b53
+        # https://github.com/intel-lab-lkp/linux/commit/421adbf9815b633e8bac5da7146c33aac01e283c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
-        git checkout 3fe86a97881f9c663c66869d448b2dacf9363b53
+        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
+        git checkout 421adbf9815b633e8bac5da7146c33aac01e283c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303312141.DHGQBfVZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303312218.LXqt9wcT-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "kunit_add_action" [lib/kunit/kunit-test.ko] undefined!
->> ERROR: modpost: "kunit_remove_action" [lib/kunit/kunit-test.ko] undefined!
->> ERROR: modpost: "kunit_release_action_token" [lib/kunit/kunit-test.ko] undefined!
->> ERROR: modpost: "kunit_release_action" [lib/kunit/kunit-test.ko] undefined!
->> ERROR: modpost: "kunit_remove_action_token" [lib/kunit/kunit-test.ko] undefined!
+>> drivers/media/platform/starfive/stf_camss.c:41:5: warning: no previous prototype for 'stfcamss_get_mem_res' [-Wmissing-prototypes]
+      41 | int stfcamss_get_mem_res(struct platform_device *pdev,
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/media/platform/starfive/stf_isp.c:627:5: warning: no previous prototype for 'isp_close' [-Wmissing-prototypes]
+     627 | int isp_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+         |     ^~~~~~~~~
+--
+   drivers/media/platform/starfive/stf_vin.c: In function 'stf_vin_map_isp_pad':
+>> drivers/media/platform/starfive/stf_vin.c:99:24: warning: implicit conversion from 'enum isp_line_id' to 'enum isp_pad_id' [-Wenum-conversion]
+      99 |                 pad_id = vin_map_isp_line(line);
+         |                        ^
+   drivers/media/platform/starfive/stf_vin.c: In function 'vin_output_init_addrs':
+>> drivers/media/platform/starfive/stf_vin.c:683:20: warning: variable 'pong_addr' set but not used [-Wunused-but-set-variable]
+     683 |         dma_addr_t pong_addr;
+         |                    ^~~~~~~~~
+   drivers/media/platform/starfive/stf_vin.c: At top level:
+   drivers/media/platform/starfive/stf_vin.c:33:32: warning: 'vin_formats_raw' defined but not used [-Wunused-const-variable=]
+      33 | static const struct vin_format vin_formats_raw[] = {
+         |                                ^~~~~~~~~~~~~~~
+
+
+vim +/stfcamss_get_mem_res +41 drivers/media/platform/starfive/stf_camss.c
+
+    40	
+  > 41	int stfcamss_get_mem_res(struct platform_device *pdev,
+    42				 struct stfcamss *stfcamss)
+    43	{
+    44		stfcamss->syscon_base =
+    45			devm_platform_ioremap_resource_byname(pdev, "syscon");
+    46		if (IS_ERR(stfcamss->syscon_base))
+    47			return PTR_ERR(stfcamss->syscon_base);
+    48	
+    49		stfcamss->isp_base =
+    50			devm_platform_ioremap_resource_byname(pdev, "isp");
+    51		if (IS_ERR(stfcamss->isp_base))
+    52			return PTR_ERR(stfcamss->isp_base);
+    53	
+    54		return 0;
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
