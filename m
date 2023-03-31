@@ -1,87 +1,61 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mildred.dressbluecover.com (mildred.dressbluecover.com [83.137.158.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7803C2C9E;
-	Sun,  2 Apr 2023 16:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680453193; x=1711989193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nkYnLTnr+MDpSrUK+7YUtmEOZ0nX7zU95A4HbkYN1u0=;
-  b=baXYCZhi8SQldQwL/zrSLMQ8Zpom0BeQlbiaHC4HNZGpSaKliZ5DvEn+
-   9nyygZc+SRr8tqKl7BeNXf5cdgAo+np+Ze7qfcZzn4Y7eTsuMlAWKzY1A
-   43e8YyHimfg67rd81ACvnHxbUoywOWQpumAkOlm2lMbqvdg3iMWtQwdIy
-   1qBoHISuPGhy6kkxJe1oQ2Bl3Ji00nlnD4hEX9jjYdYAqb3fUzeAzkZN8
-   ZTMmOz8WPOwQrQ9wv54rkKwj5OvuEacXDU7n47Pt9Yi0aH77Fe0loPNtH
-   cGvbuKNRgNUJ5fy8lsgAQOEof2u8/Sbq27qZ7h4xm92eid9XlwP1lE/ks
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="341772135"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="341772135"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 09:33:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="809601353"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="809601353"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Apr 2023 09:33:10 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pj0dh-000NX3-1n;
-	Sun, 02 Apr 2023 16:33:09 +0000
-Date: Mon, 3 Apr 2023 00:33:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxim Georgiev <glipus@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next RFC v2] Add NDOs for hardware timestamp get/set
-Message-ID: <202304030058.xmknyQtu-lkp@intel.com>
-References: <20230402142435.47105-1-glipus@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B73A53A7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 18:05:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=dressbluecover.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ella@dressbluecover.com;
+ bh=CNna8pLrFv6ecv1s61thQVm6xzc=;
+ b=JsdEsWvngnGzcMzl2iINTkOUzEojTU5blnBU2CUc1SFe2kUmzhWkGY1LHhdIT6yR3iGfvTEdhTaD
+   I0FCZyHz9y6hpH0Z/Q8FJYQiGqwz0WT9X/WIw5spXx1oTyfV/faucG74nK4V6Dlo3maBTf+b5hDF
+   hs5LB1+klBOiwwXPu2GF9YCKJF9cqiyEe0pbaZrm6PUnDic8zQZrxdG8Z56M5/ozti1aIO/jeBsO
+   JCoCUEWhcYXBnk12O/zct2TotqT+abXP/TySGBTtKT642iYP+cPbVxNs8sXXvDiiilqovVDW/drk
+   6ltdZI0OPSm1f2d8MGUdviMQSIpA1G0HcfJYCg==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=dressbluecover.com;
+ b=OH8dnubmV/60f9CzFH558OwrtTgbOEAagvfEHgsyj3nF2TD7L7XRAVpOmfyb2Bn2dFYqSHqgW8OO
+   GsJan36T12kyhYxh+zbAGB0mrDo8srNVTnn8k6VNA8S4ZgEan+kOc/2f1A06RVbrbfOb22nvNvxD
+   A4MjhEVWFH73XfUmQOkZsv6PKa/bsbFwPOsCb97CrnRKG4UsmB84PZc7tfgF45bzdw78pTjvBdkD
+   eIqMuUEePqi7rtzUpI13mNnCqiG4/hZAnJe6GkaGgXuMiei87ic4KfCEBi9fBRlEFRhcvWhAGK3E
+   lvSkoikQWyz6/2e5KW9K7yBc6jm1HerX5z1atA==;
+Reply-To: me.mayvaz@gmail.com
+From: Mustafa Ayvaz <ella@dressbluecover.com>
+To: oe-kbuild-all@lists.linux.dev
+Subject: oe-kbuild-all !!!
+Date: 31 Mar 2023 15:39:36 -0700
+Message-ID: <20230331153936.98ACE63799EC9D2E@dressbluecover.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230402142435.47105-1-glipus@gmail.com>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxim,
+Beste oe-kbuild-all,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test ERROR on net-next/main]
+Ik ben Mustafa Ayvaz, een persoonlijke advocaat van wijlen de=20
+heer Robert, die zijn leven verloor als gevolg van de ziekte van=20
+Coronavirus die hij opliep tijdens zijn zakenreis in China enkele=20
+jaren geleden. Vanwege de wet hier, heb ik contact met u=20
+opgenomen om met mij samen te werken bij het veiligstellen van de=20
+overdracht van het fonds: vier miljoen vierhonderdtwintigduizend=20
+dollar, nagelaten door hem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxim-Georgiev/Add-NDOs-for-hardware-timestamp-get-set/20230402-222504
-patch link:    https://lore.kernel.org/r/20230402142435.47105-1-glipus%40gmail.com
-patch subject: [PATCH net-next RFC v2] Add NDOs for hardware timestamp get/set
-config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20230403/202304030058.xmknyQtu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9c768404248f059870f899ce676098d83bacdf18
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxim-Georgiev/Add-NDOs-for-hardware-timestamp-get-set/20230402-222504
-        git checkout 9c768404248f059870f899ce676098d83bacdf18
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Ik heb grondig gezocht naar de nabestaanden van mijn overleden=20
+cli=C3=ABnt, en heb gefaald omdat ik zijn huidige verblijfplaats en=20
+contactgegevens niet heb. Maar terwijl ik aan het zoeken was,=20
+kwam ik je profiel tegen met dezelfde achternaam en in dezelfde=20
+plaats met de nabestaanden. Ik besloot contact met je op te nemen=20
+en je te gebruiken als Bonafide nabestaanden.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304030058.xmknyQtu-lkp@intel.com/
+Ik vraag uw toestemming om u voor te dragen als naaste verwant=20
+van mijn overleden cli=C3=ABnt, aangezien u beiden dezelfde achternaam=20
+draagt. Het geld wordt vervolgens naar u als begunstigde=20
+overgemaakt en gedeeld volgens een voorgestelde deelverhouding=20
+van 60:40, d.w.z. 60% voor mij en 40% voor u. Neem dan direct=20
+contact met mij op voor meer informatie.
 
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:1:
->> ./usr/include/linux/net_tstamp.h:94:2: error: unknown type name 'u8'
-           u8 dummy;
-           ^
-   1 error generated.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Groeten
+Mustafa Ayvaz.
