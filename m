@@ -1,48 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAB2256F;
-	Fri, 31 Mar 2023 12:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63DB258B;
+	Fri, 31 Mar 2023 12:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680264941; x=1711800941;
+  t=1680266138; x=1711802138;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MDqfavBp0xhE9zr6CTvKsp9hMprvzZOnmnyhz/PHj+8=;
-  b=NF96LxiTprFr47GgBYtZ575vx1hQXsurzRZ3fCfjPE1P42OnoDz1jH2h
-   qASbbL1/8YXSlxupxjol2oQUFnbO9q/DRrrMLW5ixTImkLSDSt1LmA3sf
-   GHHZoO+vJnLkmhdD79paA9/0D/ZDsPzWY1fMldzAf1Ewh0/5JP/8nhi6Y
-   d6Zu9SDk2e57gz9AbbwfpaLtaAdsIHXB66nAAcTS4e6P2I9lV0Iuc075u
-   xj9UV5xwwK0ciJ8Ab4YXtmjl3C1KkbSqUu6CQoX/aGTEShs5fvMYWs2Ks
-   4mS1QkgZ17yz3ArDuwUCgWgD/emUvHaz4OWzndHLKhAbwRDVncf4XaEPl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="404155579"
+  bh=ANAR0lY2UMhP6Tvar5H/EIXPCBMv/zHYonBgXdDRCHU=;
+  b=PI183W5Ntui+7USTCAqtnYPb01KzyPcazCB0jcRRye1W3/wc9gsisiW3
+   8iKnjlhri+BW6jx46FOeLe3FXPvwFh1RlUc2Eg5GLqx4/z6NyWtay4Zds
+   MCHiD4M8f3XcE1r6T7jwWlLqgHG90JYWz05/5KYcuIKyjZrDOT8ZgBEPx
+   bTaMtkhRNkKls7HaaYJEQsYzRUQp5R26NOMph9ICmmV7nrEawhiSViPI5
+   JDBBOtFmXYfa0gQVWDgZ4YPQZbhbFPGOlGoryYpC15D767N4jXBShaaR4
+   kxNX/shjUdVD1Pvt/+ETBjGrlMXap2jov8n9SW23gNZzKQOwnd07O4Elw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406451939"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="404155579"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:15:40 -0700
+   d="scan'208";a="406451939"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:35:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="809018313"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="749627559"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="809018313"
+   d="scan'208";a="749627559"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 31 Mar 2023 05:15:36 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Mar 2023 05:35:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piDfL-000LlO-1i;
-	Fri, 31 Mar 2023 12:15:35 +0000
-Date: Fri, 31 Mar 2023 20:14:36 +0800
+	id 1piDyi-000Lm6-0C;
+	Fri, 31 Mar 2023 12:35:36 +0000
+Date: Fri, 31 Mar 2023 20:35:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, abelvesa@kernel.org,
-	abel.vesa@linaro.org, mturquette@baylibre.com, sboyd@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-imx@nxp.com,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 4/6] clk: imx: fracn-gppll: support integer pll
-Message-ID: <202303312017.I9c9cLVj-lkp@intel.com>
-References: <20230331064629.2475338-5-peng.fan@oss.nxp.com>
+To: David Gow <davidgow@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 2/3] kunit: executor_test: Use kunit_add_action()
+Message-ID: <202303312019.Hp141ZY0-lkp@intel.com>
+References: <20230331080411.981038-3-davidgow@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,124 +46,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331064629.2475338-5-peng.fan@oss.nxp.com>
+In-Reply-To: <20230331080411.981038-3-davidgow@google.com>
 
-Hi Peng,
+Hi David,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on abelvesa/clk/imx]
-[also build test WARNING on linus/master v6.3-rc4 next-20230331]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc4 next-20230331]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/clk-imx-fracn-gppll-fix-the-rate-table/20230331-144314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelvesa/linux.git clk/imx
-patch link:    https://lore.kernel.org/r/20230331064629.2475338-5-peng.fan%40oss.nxp.com
-patch subject: [PATCH 4/6] clk: imx: fracn-gppll: support integer pll
-config: hexagon-randconfig-r045-20230329 (https://download.01.org/0day-ci/archive/20230331/202303312017.I9c9cLVj-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
+patch link:    https://lore.kernel.org/r/20230331080411.981038-3-davidgow%40google.com
+patch subject: [RFC PATCH v2 2/3] kunit: executor_test: Use kunit_add_action()
+config: hexagon-randconfig-r041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303312019.Hp141ZY0-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b80cff81a332a2005b90c5c1fbab96e732c03494
+        # https://github.com/intel-lab-lkp/linux/commit/540c6f8bd0d14cb6eaecb86f4de2e52c630492b8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Peng-Fan-OSS/clk-imx-fracn-gppll-fix-the-rate-table/20230331-144314
-        git checkout b80cff81a332a2005b90c5c1fbab96e732c03494
+        git fetch --no-tags linux-review David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
+        git checkout 540c6f8bd0d14cb6eaecb86f4de2e52c630492b8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/clk/imx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303312017.I9c9cLVj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303312019.Hp141ZY0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/clk/imx/clk-fracn-gppll.c:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/clk/imx/clk-fracn-gppll.c:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/clk/imx/clk-fracn-gppll.c:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/clk/imx/clk-fracn-gppll.c:340:16: warning: no previous prototype for function '_imx_clk_fracn_gppll' [-Wmissing-prototypes]
-   struct clk_hw *_imx_clk_fracn_gppll(const char *name, const char *parent_name, void __iomem *base,
-                  ^
-   drivers/clk/imx/clk-fracn-gppll.c:340:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct clk_hw *_imx_clk_fracn_gppll(const char *name, const char *parent_name, void __iomem *base,
-   ^
-   static 
-   7 warnings generated.
+   In file included from lib/kunit/executor.c:223:
+>> lib/kunit/executor_test.c:138:4: warning: cast from 'void (*)(const void *)' to 'kunit_defer_function_t' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+                           (kunit_defer_function_t)kfree,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/_imx_clk_fracn_gppll +340 drivers/clk/imx/clk-fracn-gppll.c
+vim +138 lib/kunit/executor_test.c
 
-   339	
- > 340	struct clk_hw *_imx_clk_fracn_gppll(const char *name, const char *parent_name, void __iomem *base,
-   341					    const struct imx_fracn_gppll_clk *pll_clk, u32 pll_flags)
-   342	{
-   343		struct clk_fracn_gppll *pll;
-   344		struct clk_hw *hw;
-   345		struct clk_init_data init;
-   346		int ret;
-   347	
-   348		pll = kzalloc(sizeof(*pll), GFP_KERNEL);
-   349		if (!pll)
-   350			return ERR_PTR(-ENOMEM);
-   351	
-   352		init.name = name;
-   353		init.flags = pll_clk->flags;
-   354		init.parent_names = &parent_name;
-   355		init.num_parents = 1;
-   356		init.ops = &clk_fracn_gppll_ops;
-   357	
-   358		pll->base = base;
-   359		pll->hw.init = &init;
-   360		pll->rate_table = pll_clk->rate_table;
-   361		pll->rate_count = pll_clk->rate_count;
-   362		pll->flags = pll_flags;
-   363	
-   364		hw = &pll->hw;
-   365	
-   366		ret = clk_hw_register(NULL, hw);
-   367		if (ret) {
-   368			pr_err("%s: failed to register pll %s %d\n", __func__, name, ret);
-   369			kfree(pll);
-   370			return ERR_PTR(ret);
-   371		}
-   372	
-   373		return hw;
-   374	}
-   375	
+   127	
+   128	/* Use the resource API to register a call to kfree(to_free).
+   129	 * Since we never actually use the resource, it's safe to use on const data.
+   130	 */
+   131	static void kfree_at_end(struct kunit *test, const void *to_free)
+   132	{
+   133		/* kfree() handles NULL already, but avoid allocating a no-op cleanup. */
+   134		if (IS_ERR_OR_NULL(to_free))
+   135			return;
+   136	
+   137		kunit_add_action(test,
+ > 138				(kunit_defer_function_t)kfree,
+   139				(void *)to_free,
+   140				GFP_KERNEL);
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
