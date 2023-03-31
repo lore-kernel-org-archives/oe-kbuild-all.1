@@ -1,43 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2195D2592
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 12:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ABA258B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 12:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680266139; x=1711802139;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DMDOYXYAeH//I/7UAnCnDMR/SnHlfTK4Kx9Us/xmRPY=;
-  b=ABCvuDep0xfcc3RhoENY7nynM6/4KzG4LJtBugHoSNoU+deMuBBf05BK
-   cxxhyk3lUNT5712aMagYE0szZcr39wZs3EoI7P+QPkeIq8HRCy0bGR56x
-   YsS9Twnbq4eELvlN3ObUY4MuGuYC/OSzfFjpfq+v3elN2Q06HTBKTf9SB
-   Yz5TfsOa4LdZ50lpInYbuaYlIsb2x/9dRzGWjweZKIXhB5l21MhK+xYwK
-   p6IFn13kdNg5utftQLvwz6UajjR0h+uzkezrdiUu+cGGD/vCxWiJF5JnP
-   tm179SQZlqap+YIGt36QEFXARWF2RXoQD9QmtTCFU+NWYnP6oOYHfHWJl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343958335"
+  t=1680266810; x=1711802810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vi/GMhI0cSx/xT+5Tcr6BC25IJGipEWrLrBUzaJaBVk=;
+  b=QHK3veiwme4qsQXORSj1TVlejohU37XZfBynILpaagRIGklO5yBGlO9Z
+   zfDo8DAfOp5JmC+w6y8GUa0xt3KtGLIX/nMG5bSFrrD7gSbOVzeygFdpx
+   2c2uR9altr24PAHp6GuaVGp0pdd5FpgDLswnBWGgtZffGnrJyamwUtU11
+   x+jf1xq2KKSnsEpMl9ZlptmL7zD46etlgw462LO7JfNHR4jRcA41P6w4b
+   eAEo4rMA7L6AvIPrtc8BkX9E/oOH1ogyCHLuMXTp43FTtaT+2v7ZEtsjm
+   mxVcBiLwhYI+MXRe618q+ZwQwQu2W1FGwM15pENLzdmQcUIm6WVw8+cD7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="325408691"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="343958335"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:35:38 -0700
+   d="scan'208";a="325408691"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:46:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="796107330"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="828702135"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="796107330"
+   d="scan'208";a="828702135"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 31 Mar 2023 05:35:36 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2023 05:46:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piDyi-000Lm8-0H;
-	Fri, 31 Mar 2023 12:35:36 +0000
-Date: Fri, 31 Mar 2023 20:35:14 +0800
+	id 1piE9M-000Lmk-2A;
+	Fri, 31 Mar 2023 12:46:36 +0000
+Date: Fri, 31 Mar 2023 20:45:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rui Wang <wangrui@loongson.cn>
-Subject: kernel/events/core.c:223:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202303312017.ZniDYgaU-lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	Thomas BOURGOIN <thomas.bourgoin@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] crypto: hash - Remove maximum statesize limit
+Message-ID: <202303312021.84WtsA4u-lkp@intel.com>
+References: <ZCJllZQBWfjMCaoQ@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,210 +48,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZCJllZQBWfjMCaoQ@gondor.apana.org.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62bad54b26db8bc98e28749cd76b2d890edb4258
-commit: 720dc7ab252bbdf404cab7b909e26b31e602bf7e LoongArch: Add subword xchg/cmpxchg emulation
-date:   7 months ago
-config: loongarch-randconfig-s033-20230329 (https://download.01.org/0day-ci/archive/20230331/202303312017.ZniDYgaU-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=720dc7ab252bbdf404cab7b909e26b31e602bf7e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 720dc7ab252bbdf404cab7b909e26b31e602bf7e
+Hi Herbert,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on next-20230331]
+[cannot apply to herbert-crypto-2.6/master linus/master v6.3-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-hash-Remove-maximum-statesize-limit/20230328-115842
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/ZCJllZQBWfjMCaoQ%40gondor.apana.org.au
+patch subject: [PATCH] crypto: hash - Remove maximum statesize limit
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230331/202303312021.84WtsA4u-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/5258657ff30097b887ac972b95a5563918f4448f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Herbert-Xu/crypto-hash-Remove-maximum-statesize-limit/20230328-115842
+        git checkout 5258657ff30097b887ac972b95a5563918f4448f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash arch/loongarch/kernel/ drivers/perf/ kernel/events/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303312017.ZniDYgaU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303312021.84WtsA4u-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
->> kernel/events/core.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:223:9: sparse:     expected void *ptr
-   kernel/events/core.c:223:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:320:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:320:9: sparse:     expected void *ptr
-   kernel/events/core.c:320:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1074:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1074:9: sparse:     expected void *ptr
-   kernel/events/core.c:1074:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1161:9: sparse:     expected void *ptr
-   kernel/events/core.c:1161:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1170:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/events/core.c:1170:9: sparse:     expected void *ptr
-   kernel/events/core.c:1170:9: sparse:     got int [noderef] __percpu *
-   kernel/events/core.c:1402:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1402:15: sparse:    struct perf_event_context [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +223 kernel/events/core.c
+   crypto/algif_hash.c: In function 'hash_accept':
+   crypto/algif_hash.c:238:20: error: 'HASH_MAX_STATESIZE' undeclared (first use in this function); did you mean 'HASH_MAX_DESCSIZE'?
+     238 |         char state[HASH_MAX_STATESIZE];
+         |                    ^~~~~~~~~~~~~~~~~~
+         |                    HASH_MAX_DESCSIZE
+   crypto/algif_hash.c:238:20: note: each undeclared identifier is reported only once for each function it appears in
+>> crypto/algif_hash.c:238:14: warning: unused variable 'state' [-Wunused-variable]
+     238 |         char state[HASH_MAX_STATESIZE];
+         |              ^~~~~
 
-fae3fde65138b6 Peter Zijlstra      2016-01-11  213  
-fae3fde65138b6 Peter Zijlstra      2016-01-11  214  static int event_function(void *info)
-fae3fde65138b6 Peter Zijlstra      2016-01-11  215  {
-fae3fde65138b6 Peter Zijlstra      2016-01-11  216  	struct event_function_struct *efs = info;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  217  	struct perf_event *event = efs->event;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  218  	struct perf_event_context *ctx = event->ctx;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  219  	struct perf_cpu_context *cpuctx = __get_cpu_context(ctx);
-fae3fde65138b6 Peter Zijlstra      2016-01-11  220  	struct perf_event_context *task_ctx = cpuctx->task_ctx;
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  221  	int ret = 0;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  222  
-164446455a5d3f Frederic Weisbecker 2017-11-06 @223  	lockdep_assert_irqs_disabled();
-fae3fde65138b6 Peter Zijlstra      2016-01-11  224  
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  225  	perf_ctx_lock(cpuctx, task_ctx);
-fae3fde65138b6 Peter Zijlstra      2016-01-11  226  	/*
-fae3fde65138b6 Peter Zijlstra      2016-01-11  227  	 * Since we do the IPI call without holding ctx->lock things can have
-fae3fde65138b6 Peter Zijlstra      2016-01-11  228  	 * changed, double check we hit the task we set out to hit.
-fae3fde65138b6 Peter Zijlstra      2016-01-11  229  	 */
-fae3fde65138b6 Peter Zijlstra      2016-01-11  230  	if (ctx->task) {
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  231  		if (ctx->task != current) {
-0da4cf3e0a68c9 Peter Zijlstra      2016-02-24  232  			ret = -ESRCH;
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  233  			goto unlock;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  234  		}
-fae3fde65138b6 Peter Zijlstra      2016-01-11  235  
-fae3fde65138b6 Peter Zijlstra      2016-01-11  236  		/*
-fae3fde65138b6 Peter Zijlstra      2016-01-11  237  		 * We only use event_function_call() on established contexts,
-fae3fde65138b6 Peter Zijlstra      2016-01-11  238  		 * and event_function() is only ever called when active (or
-fae3fde65138b6 Peter Zijlstra      2016-01-11  239  		 * rather, we'll have bailed in task_function_call() or the
-fae3fde65138b6 Peter Zijlstra      2016-01-11  240  		 * above ctx->task != current test), therefore we must have
-fae3fde65138b6 Peter Zijlstra      2016-01-11  241  		 * ctx->is_active here.
-fae3fde65138b6 Peter Zijlstra      2016-01-11  242  		 */
-fae3fde65138b6 Peter Zijlstra      2016-01-11  243  		WARN_ON_ONCE(!ctx->is_active);
-fae3fde65138b6 Peter Zijlstra      2016-01-11  244  		/*
-fae3fde65138b6 Peter Zijlstra      2016-01-11  245  		 * And since we have ctx->is_active, cpuctx->task_ctx must
-fae3fde65138b6 Peter Zijlstra      2016-01-11  246  		 * match.
-fae3fde65138b6 Peter Zijlstra      2016-01-11  247  		 */
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  248  		WARN_ON_ONCE(task_ctx != ctx);
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  249  	} else {
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  250  		WARN_ON_ONCE(&cpuctx->ctx != ctx);
-fae3fde65138b6 Peter Zijlstra      2016-01-11  251  	}
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  252  
-fae3fde65138b6 Peter Zijlstra      2016-01-11  253  	efs->func(event, cpuctx, ctx, efs->data);
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  254  unlock:
-fae3fde65138b6 Peter Zijlstra      2016-01-11  255  	perf_ctx_unlock(cpuctx, task_ctx);
-fae3fde65138b6 Peter Zijlstra      2016-01-11  256  
-63b6da39bb38e8 Peter Zijlstra      2016-01-14  257  	return ret;
-fae3fde65138b6 Peter Zijlstra      2016-01-11  258  }
-fae3fde65138b6 Peter Zijlstra      2016-01-11  259  
 
-:::::: The code at line 223 was first introduced by commit
-:::::: 164446455a5d3f1402b5a0ea42acce33fd576ed7 perf/core: Use lockdep to assert IRQs are disabled/enabled
+vim +/state +238 crypto/algif_hash.c
 
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+fe869cdb89c95d0 Herbert Xu    2010-10-19  230  
+cdfbabfb2f0ce98 David Howells 2017-03-09  231  static int hash_accept(struct socket *sock, struct socket *newsock, int flags,
+cdfbabfb2f0ce98 David Howells 2017-03-09  232  		       bool kern)
+fe869cdb89c95d0 Herbert Xu    2010-10-19  233  {
+fe869cdb89c95d0 Herbert Xu    2010-10-19  234  	struct sock *sk = sock->sk;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  235  	struct alg_sock *ask = alg_sk(sk);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  236  	struct hash_ctx *ctx = ask->private;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  237  	struct ahash_request *req = &ctx->req;
+b68a7ec1e9a3efa Kees Cook     2018-08-07 @238  	char state[HASH_MAX_STATESIZE];
+fe869cdb89c95d0 Herbert Xu    2010-10-19  239  	struct sock *sk2;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  240  	struct alg_sock *ask2;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  241  	struct hash_ctx *ctx2;
+4afa5f961792745 Herbert Xu    2015-11-01  242  	bool more;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  243  	int err;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  244  
+4afa5f961792745 Herbert Xu    2015-11-01  245  	lock_sock(sk);
+4afa5f961792745 Herbert Xu    2015-11-01  246  	more = ctx->more;
+4afa5f961792745 Herbert Xu    2015-11-01  247  	err = more ? crypto_ahash_export(req, state) : 0;
+4afa5f961792745 Herbert Xu    2015-11-01  248  	release_sock(sk);
+4afa5f961792745 Herbert Xu    2015-11-01  249  
+fe869cdb89c95d0 Herbert Xu    2010-10-19  250  	if (err)
+fe869cdb89c95d0 Herbert Xu    2010-10-19  251  		return err;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  252  
+cdfbabfb2f0ce98 David Howells 2017-03-09  253  	err = af_alg_accept(ask->parent, newsock, kern);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  254  	if (err)
+fe869cdb89c95d0 Herbert Xu    2010-10-19  255  		return err;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  256  
+fe869cdb89c95d0 Herbert Xu    2010-10-19  257  	sk2 = newsock->sk;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  258  	ask2 = alg_sk(sk2);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  259  	ctx2 = ask2->private;
+4afa5f961792745 Herbert Xu    2015-11-01  260  	ctx2->more = more;
+4afa5f961792745 Herbert Xu    2015-11-01  261  
+4afa5f961792745 Herbert Xu    2015-11-01  262  	if (!more)
+4afa5f961792745 Herbert Xu    2015-11-01  263  		return err;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  264  
+fe869cdb89c95d0 Herbert Xu    2010-10-19  265  	err = crypto_ahash_import(&ctx2->req, state);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  266  	if (err) {
+fe869cdb89c95d0 Herbert Xu    2010-10-19  267  		sock_orphan(sk2);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  268  		sock_put(sk2);
+fe869cdb89c95d0 Herbert Xu    2010-10-19  269  	}
+fe869cdb89c95d0 Herbert Xu    2010-10-19  270  
+fe869cdb89c95d0 Herbert Xu    2010-10-19  271  	return err;
+fe869cdb89c95d0 Herbert Xu    2010-10-19  272  }
+fe869cdb89c95d0 Herbert Xu    2010-10-19  273  
 
 -- 
 0-DAY CI Kernel Test Service
