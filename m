@@ -1,43 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A76715C6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 03:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680233004; x=1711769004;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FHeqoCfyEo2zGt5byWFolwR2+nLbLafxGYsHyOAYIpc=;
-  b=Wix58TbPtvp6S96P0E1/s1e+0t/SL3Wqt0GTpCK9woIWiyTeLy94oX0h
-   Qrt54w2ILOOLOoOQ1QmcKQ4j2cKSac0G5j8Wmmsj7oeS5Iw1hb7jik5wC
-   n0bZuWgcxmfnUIkw+/f74xSQbXfHn0x1gnvyBW7DTz77NRxA1+JoXsQLW
-   KHDm0DGSaGO/f1YcJxEpYt1LTCkvFKw7wBMMEoQDyumAOju//UlZV73e/
-   lWalrfntQgEYxOOiN1AKcgvGqIPaKO93Dr1ej7bU3b40R5AYBfdTwzgfU
-   CbYaP7NU3ZGgot1SDPt0i2VllSA6qw/3Dmip2Mu59H8FoCl2Ip60i+AEh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="320994754"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="320994754"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 20:23:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="717557683"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="717557683"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 30 Mar 2023 20:23:21 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pi5MG-000LSC-2N;
-	Fri, 31 Mar 2023 03:23:20 +0000
-Date: Fri, 31 Mar 2023 11:23:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous
- prototype for '__vdso_getcpu'
-Message-ID: <202303311104.UfM3VgM1-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5C41C02;
+	Fri, 31 Mar 2023 04:39:37 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so14569215wmq.4;
+        Thu, 30 Mar 2023 21:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680237576;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7HB3lvYmnwPAvqI7YqRqQnPg5UbrGJRvfRpu4S+QUYs=;
+        b=Rpjvi8WZysdNrAbn7vnXWiqQnhtWzcy3rEYnNoctZ/iPFXSa+JySs03s5Z69MUxO/0
+         2o1S5eC2ZIoecdCTk26hMZCe+t3V14Tni1Ksx8hmVSMX6G0UceWlbxY6FgQ/dYhK4K9K
+         lxtQzHaJ2njsLOGQZFVbJaNhrrei6F2vbYCSWGct1lDgL4hWOvyWkLpKR85gcRUvgQgL
+         d0FH1DVkl3TEMmJ8mE6K1eTHnXZwjYSYozPj4yC36hDrMcnT3FdUMsJJkk8AOuwVTTzp
+         YYk7C18VNUetNJexdDny6RzxAPUr52yh2qMjepkZDTw5cPvmucZw1DKQMrJ1O8/hau41
+         sRXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680237576;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HB3lvYmnwPAvqI7YqRqQnPg5UbrGJRvfRpu4S+QUYs=;
+        b=3gMCan32svt8IPYJmaj+HCtkJF0xFDy5oKpsORX6W7Ht7/elSKiz7ylNGW+S0H6D8z
+         gJfEBdFTo4pgCIltbl8n8/h0BSCbWe43JE2iugAd8SNbd34BgxHCCpyHelbmRjglZm4U
+         Mqv/miTdQ74qCvqwe237AqLOgB0icsao24DY3A5O4pW7gmbMexWTF+iOxQoDtNRnxxC4
+         ixv+cdbs1HBLCCFBFluCsoJlQGPkhlDJNzyVbdAqUM1DFealWqHSShieKL25Ry+k2CIy
+         9OzbGbWySIVSN0URyDGJtXv+3V57auw2h/J6ahCp1SPGAQQgpnytfAAyP2CQ/AYhe7MD
+         E1Mg==
+X-Gm-Message-State: AO0yUKUdCyogBwTKVQDmCGSa6lYsdONHE6UX8V0ogUji0BczOTFyl1tY
+	oJQ612H3V8t0ogSglXDxP7w4RwC9KLI=
+X-Google-Smtp-Source: AK7set9JgezVshFtmuiz+4tBPEESBGBiol6PG/SoJbmRUbn8PU8Gtxgp/RPbPrEKMXjGZ9BLITlJTw==
+X-Received: by 2002:a7b:c44a:0:b0:3ef:8b0:dbb1 with SMTP id l10-20020a7bc44a000000b003ef08b0dbb1mr19002902wmi.7.1680237575861;
+        Thu, 30 Mar 2023 21:39:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o7-20020adfe807000000b002e4cd2ec5c7sm1031604wrm.86.2023.03.30.21.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 21:39:35 -0700 (PDT)
+Date: Fri, 31 Mar 2023 07:39:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Roger Lu <roger.lu@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1028/7844] drivers/soc/mediatek/mtk-svs.c:1740
+ svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+Message-ID: <5a5f15fd-4b79-4483-b9cd-75ef69fdacc5@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +52,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sebastian,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62bad54b26db8bc98e28749cd76b2d890edb4258
-commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 x86/vdso: Provide getcpu for x86-32.
-date:   8 weeks ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20230331/202303311104.UfM3VgM1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
+commit: 9f195f3a1e696b6576988c1e58fa7389beae3351 [1028/7844] soc: mediatek: mtk-svs: use svs get efuse common function
+config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310846.H0Ti6K3K-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303311104.UfM3VgM1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303310846.H0Ti6K3K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
->> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous prototype for '__vdso_getcpu' [-Werror=missing-prototypes]
-      13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-         | ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+Old smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
+vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
 
-vim +/__vdso_getcpu +13 arch/x86/entry/vdso/vdso32/../vgetcpu.c
+9f195f3a1e696b Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
+9f195f3a1e696b Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
+9f195f3a1e696b Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1735  {
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1737  
+9f195f3a1e696b Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
+9f195f3a1e696b Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
 
-2aae950b21e4bc7 arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  11  
-23adec554a7648f arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12  12  notrace long
-23adec554a7648f arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12 @13  __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-2aae950b21e4bc7 arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  14  {
-22245bdf0ad805d arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  15  	vdso_read_cpunode(cpu, node);
-ec3a94188df7d28 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  16  
-2aae950b21e4bc7 arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  17  	return 0;
-2aae950b21e4bc7 arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  18  }
-2aae950b21e4bc7 arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  19  
+nvmem_cell_get() cannot return NULL.  But if it could then it is a
+success case.  I have written a blog about this with more explanation:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+So this is wrong, but also it can't be NULL so it doesn't affect real
+life.
 
-:::::: The code at line 13 was first introduced by commit
-:::::: 23adec554a7648f99c8acc0caf49c66320cd2b84 x86: add notrace annotations to vsyscall.
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
 
-:::::: TO: Steven Rostedt <srostedt@redhat.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+PTR_ERR(NULL) is success.
+
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1743  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1744  
+9f195f3a1e696b Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
+9f195f3a1e696b Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
+9f195f3a1e696b Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
+9f195f3a1e696b Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1751  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1752  
+9f195f3a1e696b Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1755  
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1757  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
