@@ -1,46 +1,51 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B477C;
-	Fri, 31 Mar 2023 00:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B70C10E7;
+	Fri, 31 Mar 2023 00:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680221360; x=1711757360;
+  t=1680222628; x=1711758628;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y1UGoh+X/Y6FFXF7tNti3+usX6qoDVhQef5Jl5rCiWg=;
-  b=XRkqUd5XrHKWgjAsP0TxkwFqpyjMdvNvDY1lRaRy5eHq2UtgzjgcgKCC
-   NT9Wcb0T9+vXsHEUEFytZmrZqRCqsfIEgg5htqvodZO/xENEUk+ggVnkR
-   WLJxmGiMNHAv5w0eosFp18sC5C88OUqLYP2ZfmuAuYqYi+SC/zDqWuobW
-   SdKTdIajerCXavxLUNVhJZRKU7suBXNn5LiIMjP1jUF+4We/jhwl49ioQ
-   6ZHKwA231F4HJtIkM/bTFTfNqise8f1ba1VqvM7wX9oUsDfusiEUJ1DVn
-   5/raPDNr9U/PUoqu797XdpCfG4LZznQM8o5Gf34G76oXO7GG9wTq6Y49Y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="369102855"
+  bh=291iR8fs89AY3P1z/Ojn7EHb26WDXguxsSvangQrPS4=;
+  b=ZrWcomVeImflRNd7wbezdICfLICWxVjDmc9LItUAoOaLkRlOYeJBYQO4
+   JIZvGjWXjty+5HWKcV2hwDKSXadEWYt4bacTotDS/ivTYEnov+/VJJZMi
+   JUqvmBz0Ftt7jti7amwBLf+d1PtcltxiArdRna3Rsft7CNEdxwCTbSrRY
+   ZPNV8pb4CjAY1+rqd2pHlf4zdRH/X3NKmM70zs5P2KLSqTRnPUNxwJN9n
+   xErJ5HcYH1cxHliwLWXZ8O/wp8Z+7BuFa/TNMPkSPsbLMofd1NpUH28EB
+   3QbDCWRLrzhi85KmIu5Ymycz/b+56qb/QBTM4zrCH2lmiIXXD7iUezjjB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329844018"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="369102855"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 17:09:19 -0700
+   d="scan'208";a="329844018"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 17:30:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687448080"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="715219715"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="687448080"
+   d="scan'208";a="715219715"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 17:09:17 -0700
+  by orsmga008.jf.intel.com with ESMTP; 30 Mar 2023 17:30:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi2KS-000LKq-0n;
-	Fri, 31 Mar 2023 00:09:16 +0000
-Date: Fri, 31 Mar 2023 08:08:46 +0800
+	id 1pi2em-000LLc-2j;
+	Fri, 31 Mar 2023 00:30:16 +0000
+Date: Fri, 31 Mar 2023 08:29:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
+To: Jacky Huang <ychuang570808@gmail.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
+	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Felix.Kuehling@amd.com, Jonathan.kim@amd.com
-Subject: Re: [PATCH 27/34] drm/amdkfd: add debug set and clear address watch
- points operation
-Message-ID: <202303310739.oWaXssZp-lkp@intel.com>
-References: <20230327184339.125016-27-jonathan.kim@amd.com>
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	arnd@arndb.de, schung@nuvoton.com, mjchen@nuvoton.com,
+	Jacky Huang <ychuang3@nuvoton.com>
+Subject: Re: [PATCH v6 11/12] tty: serial: Add Nuvoton ma35d1 serial driver
+ support
+Message-ID: <202303310829.6uVozWbB-lkp@intel.com>
+References: <20230328021912.177301-12-ychuang570808@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,73 +54,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230327184339.125016-27-jonathan.kim@amd.com>
+In-Reply-To: <20230328021912.177301-12-ychuang570808@gmail.com>
 
-Hi Jonathan,
+Hi Jacky,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20230330]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next-fixes linus/master v6.3-rc4]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on clk/clk-next linus/master]
+[cannot apply to pza/reset/next pza/imx-drm/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Kim/drm-amdkfd-display-debug-capabilities/20230328-024632
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20230327184339.125016-27-jonathan.kim%40amd.com
-patch subject: [PATCH 27/34] drm/amdkfd: add debug set and clear address watch points operation
-config: arm64-randconfig-r014-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310739.oWaXssZp-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/arm64-Kconfig-platforms-Add-config-for-Nuvoton-MA35-platform/20230328-102245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230328021912.177301-12-ychuang570808%40gmail.com
+patch subject: [PATCH v6 11/12] tty: serial: Add Nuvoton ma35d1 serial driver support
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230331/202303310829.6uVozWbB-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/8c5e1781294f7e41d41632cb46e533c598933cd8
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/380d83a62e873855024ca4c660865c654a62748a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Kim/drm-amdkfd-display-debug-capabilities/20230328-024632
-        git checkout 8c5e1781294f7e41d41632cb46e533c598933cd8
+        git fetch --no-tags linux-review Jacky-Huang/arm64-Kconfig-platforms-Add-config-for-Nuvoton-MA35-platform/20230328-102245
+        git checkout 380d83a62e873855024ca4c660865c654a62748a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303310739.oWaXssZp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303310829.6uVozWbB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c:164:10: warning: no previous prototype for function 'kgd_gfx_aldebaran_clear_address_watch' [-Wmissing-prototypes]
-   uint32_t kgd_gfx_aldebaran_clear_address_watch(struct amdgpu_device *adev,
-            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c:164:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   uint32_t kgd_gfx_aldebaran_clear_address_watch(struct amdgpu_device *adev,
-   ^
-   static 
-   1 warning generated.
---
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c:781:10: warning: no previous prototype for function 'kgd_gfx_v11_clear_address_watch' [-Wmissing-prototypes]
-   uint32_t kgd_gfx_v11_clear_address_watch(struct amdgpu_device *adev,
-            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c:781:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   uint32_t kgd_gfx_v11_clear_address_watch(struct amdgpu_device *adev,
-   ^
-   static 
-   1 warning generated.
+>> drivers/tty/serial/ma35d1_serial.c:672:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (pdev->dev.of_node) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:679:27: note: uninitialized use occurs here
+           up = &ma35d1serial_ports[ret];
+                                    ^~~
+   drivers/tty/serial/ma35d1_serial.c:672:2: note: remove the 'if' if its condition is always true
+           if (pdev->dev.of_node) {
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:668:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+>> drivers/tty/serial/ma35d1_serial.c:730:6: warning: variable 'i' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (dev->dev.of_node)
+               ^~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:732:6: note: uninitialized use occurs here
+           if (i < 0) {
+               ^
+   drivers/tty/serial/ma35d1_serial.c:730:2: note: remove the 'if' if its condition is always true
+           if (dev->dev.of_node)
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:727:7: note: initialize the variable 'i' to silence this warning
+           int i;
+                ^
+                 = 0
+   drivers/tty/serial/ma35d1_serial.c:750:6: warning: variable 'i' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (dev->dev.of_node)
+               ^~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:752:6: note: uninitialized use occurs here
+           if (i < 0) {
+               ^
+   drivers/tty/serial/ma35d1_serial.c:750:2: note: remove the 'if' if its condition is always true
+           if (dev->dev.of_node)
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/ma35d1_serial.c:747:7: note: initialize the variable 'i' to silence this warning
+           int i;
+                ^
+                 = 0
+   3 warnings generated.
 
 
-vim +/kgd_gfx_aldebaran_clear_address_watch +164 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c
+vim +672 drivers/tty/serial/ma35d1_serial.c
 
-   163	
- > 164	uint32_t kgd_gfx_aldebaran_clear_address_watch(struct amdgpu_device *adev,
-   165						uint32_t watch_id)
-   166	{
-   167		return 0;
-   168	}
-   169	
+   658	
+   659	/*
+   660	 * Register a set of serial devices attached to a platform device.
+   661	 * The list is terminated with a zero flags entry, which means we expect
+   662	 * all entries to have at least UPF_BOOT_AUTOCONF set.
+   663	 */
+   664	static int ma35d1serial_probe(struct platform_device *pdev)
+   665	{
+   666		struct resource *res_mem;
+   667		struct uart_ma35d1_port *up;
+   668		int ret;
+   669		struct clk *clk;
+   670		int err;
+   671	
+ > 672		if (pdev->dev.of_node) {
+   673			ret = of_alias_get_id(pdev->dev.of_node, "serial");
+   674			if (ret < 0) {
+   675				dev_err(&pdev->dev, "failed to get alias/pdev id, errno %d\n", ret);
+   676				return ret;
+   677			}
+   678		}
+   679		up = &ma35d1serial_ports[ret];
+   680		up->port.line = ret;
+   681		res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   682		if (!res_mem)
+   683			return -ENODEV;
+   684	
+   685		up->port.iobase = res_mem->start;
+   686		up->port.membase = ioremap(up->port.iobase, UART_REG_SIZE);
+   687		up->port.ops = &ma35d1serial_ops;
+   688	
+   689		spin_lock_init(&up->port.lock);
+   690	
+   691		clk = of_clk_get(pdev->dev.of_node, 0);
+   692		if (IS_ERR(clk)) {
+   693			err = PTR_ERR(clk);
+   694			dev_err(&pdev->dev, "failed to get core clk: %d\n", err);
+   695			return -ENOENT;
+   696		}
+   697		err = clk_prepare_enable(clk);
+   698		if (err)
+   699			return -ENOENT;
+   700	
+   701		if (up->port.line != 0)
+   702			up->port.uartclk = clk_get_rate(clk);
+   703		up->port.irq = platform_get_irq(pdev, 0);
+   704		up->port.dev = &pdev->dev;
+   705		up->port.flags = UPF_BOOT_AUTOCONF;
+   706		ret = uart_add_one_port(&ma35d1serial_reg, &up->port);
+   707		platform_set_drvdata(pdev, up);
+   708		return 0;
+   709	}
+   710	
+   711	/*
+   712	 * Remove serial ports registered against a platform device.
+   713	 */
+   714	static int ma35d1serial_remove(struct platform_device *dev)
+   715	{
+   716		struct uart_port *port = platform_get_drvdata(dev);
+   717	
+   718		if (port) {
+   719			uart_remove_one_port(&ma35d1serial_reg, port);
+   720			free_irq(port->irq, port);
+   721		}
+   722		return 0;
+   723	}
+   724	
+   725	static int ma35d1serial_suspend(struct platform_device *dev, pm_message_t state)
+   726	{
+   727		int i;
+   728		struct uart_ma35d1_port *up;
+   729	
+ > 730		if (dev->dev.of_node)
+   731			i = of_alias_get_id(dev->dev.of_node, "serial");
+   732		if (i < 0) {
+   733			dev_err(&dev->dev, "failed to get alias/pdev id, errno %d\n", i);
+   734			return i;
+   735		}
+   736		up = &ma35d1serial_ports[i];
+   737		if (i == 0) {
+   738			up->console_baud_rate = serial_in(up, UART_REG_BAUD);
+   739			up->console_line = serial_in(up, UART_REG_LCR);
+   740			up->console_int = serial_in(up, UART_REG_IER);
+   741		}
+   742		return 0;
+   743	}
+   744	
 
 -- 
 0-DAY CI Kernel Test Service
