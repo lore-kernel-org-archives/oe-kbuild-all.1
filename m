@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2771FB1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 07:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B561323B3;
+	Fri, 31 Mar 2023 08:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680248979; x=1711784979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+LTW+lF4Yqlq0a/G6cQe2ofsUzIGGjbkd6VHS9N6a4=;
-  b=LBCUbkzolgLDL0Tp75dPAuLMEnZkjlHPWHdoUfqwZFZ0TDWlJwMbT/4U
-   CxzBfJXc7zFztbcNwH0pqUKwqRWeElamAHw3frAEB8foOd6r/BfUQeXN2
-   OvYFHAI/vv0v4pLggGwAjLrGLiKXjq5KhkqbEYrkW/EznXKVv3u0u+Jcr
-   8ja1GhsyRAf9piU2PvqjHVYGph+zAsxVCFiF0BonjmA6CkbuqeIwXZQPA
-   EobDnloaSPff9Fwj6knW7a0jG2eDFDS1Ncivo0K0MW6UoVCSCB6U23Hb7
-   Kk+CVlZqm0u2tYGMYxzdm34jjM2OVMmo+FjukKE7Uw+JKfhOVNlvA3YJF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="338888875"
+  t=1680250772; x=1711786772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sTyPK2aPx9EAAE/rKaVZQ1hVq+o8RHIyOfvHP84mnUo=;
+  b=m3Gru7ckFvgcMAT8EjT2poxbFgjJFtEZpMCzoIN9E38FNX7c6+QWOsRE
+   qZp36v9lD8i29t+wa/CqT9jsr4VA8gA1G9vV7vEtdGCsq6ESypd+CFBQX
+   kKAzFwVzgELMmp3AHFf81J5GC6Ft9TSpOmeyxTzXFjiYWoT0y3nHKCuiY
+   GD7ESknuALRunHm4kN6egoAwpZ1glM3s579Fg1Uae8e66KLogwktHIkHO
+   6ZmbtMV8YHj/lEkLNz9zqRDaInDeP2eDGXs/V34C8hQ3HXXvVJ2kcJq1L
+   zi7m177pVNAUnPB9QWVERcs17VnUpR91Ls+A+7W2fABjAtqlpF3DZQaRm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="404110030"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="338888875"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 00:49:30 -0700
+   d="scan'208";a="404110030"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 01:19:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="931044120"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="749547685"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="931044120"
+   d="scan'208";a="749547685"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Mar 2023 00:49:28 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Mar 2023 01:19:29 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi9Vo-000Las-01;
-	Fri, 31 Mar 2023 07:49:28 +0000
-Date: Fri, 31 Mar 2023 15:48:33 +0800
+	id 1pi9yr-000LcA-02;
+	Fri, 31 Mar 2023 08:19:29 +0000
+Date: Fri, 31 Mar 2023 16:19:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Subject: [asahilinux:bits/080-wifi 8/24]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202303311530.W5vkqYjg-lkp@intel.com>
+To: David Dai <davidai@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 1/6] sched/fair: Add util_guest for tasks
+Message-ID: <202303311649.lIfqlXGx-lkp@intel.com>
+References: <20230331014356.1033759-2-davidai@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,73 +46,199 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230331014356.1033759-2-davidai@google.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/080-wifi
-head:   0b3246356951e9fc86070cbddedbef60a8fc3566
-commit: ad6851f68007f8f12ed5d11c0e05450a7f380d76 [8/24] brcmfmac: cfg80211: Add support for PMKID_V3 operations
-config: nios2-randconfig-s052-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311530.W5vkqYjg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi David,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvmarm/next tip/sched/core linus/master v6.3-rc4 next-20230331]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Dai/sched-fair-Add-util_guest-for-tasks/20230331-094936
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230331014356.1033759-2-davidai%40google.com
+patch subject: [RFC PATCH v2 1/6] sched/fair: Add util_guest for tasks
+config: riscv-randconfig-r014-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311649.lIfqlXGx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/AsahiLinux/linux/commit/ad6851f68007f8f12ed5d11c0e05450a7f380d76
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/080-wifi
-        git checkout ad6851f68007f8f12ed5d11c0e05450a7f380d76
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/80e880c6cbaadfdac1b7da1672f571d1d7331166
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Dai/sched-fair-Add-util_guest-for-tasks/20230331-094936
+        git checkout 80e880c6cbaadfdac1b7da1672f571d1d7331166
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/ drivers/net/wireless/broadcom/brcm80211/brcmsmac/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303311530.W5vkqYjg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303311649.lIfqlXGx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] time_left @@     got unsigned int @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     expected restricted __le32 [usertype] time_left
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     got unsigned int
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+All errors (new ones prefixed by >>):
 
-vim +4334 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+>> kernel/sched/core.c:2034:8: error: no member named 'avg' in 'struct sched_entity'
+           p->se.avg.util_guest = attr->sched_util_min;
+           ~~~~~ ^
+   1 error generated.
+--
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:364:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:364:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:365:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:365:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:353:13: note: expanded from macro '__unqual_scalar_typeof'
+                   _Generic((x),                                           \
+                             ^
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:360:15: note: expanded from macro '__unqual_scalar_typeof'
+                            default: (x)))
+                                      ^
+>> kernel/sched/fair.c:6217:22: error: no member named 'avg' in 'struct sched_entity'
+           if (READ_ONCE(p->se.avg.util_guest))
+                         ~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                           ^
+>> kernel/sched/fair.c:6217:2: error: statement requires expression of scalar type ('void' invalid)
+           if (READ_ONCE(p->se.avg.util_guest))
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   9 errors generated.
 
-  4312	
-  4313	static s32
-  4314	brcmf_pmksa_v3_op(struct brcmf_if *ifp, struct cfg80211_pmksa *pmksa,
-  4315			  bool alive)
-  4316	{
-  4317		struct brcmf_pmk_op_v3_le *pmk_op;
-  4318		int length = offsetof(struct brcmf_pmk_op_v3_le, pmk);
-  4319		int ret;
-  4320	
-  4321		pmk_op = kzalloc(sizeof(*pmk_op), GFP_KERNEL);
-  4322		pmk_op->version = cpu_to_le16(BRCMF_PMKSA_VER_3);
-  4323	
-  4324		if (!pmksa) {
-  4325			/* Flush operation, operate on entire list */
-  4326			pmk_op->count = cpu_to_le16(0);
-  4327		} else {
-  4328			/* Single PMK operation */
-  4329			pmk_op->count = cpu_to_le16(1);
-  4330			length += sizeof(struct brcmf_pmksa_v3);
-  4331			memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
-  4332			memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
-  4333			pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
-> 4334			pmk_op->pmk[0].time_left = alive ? BRCMF_PMKSA_NO_EXPIRY : 0;
-  4335		}
-  4336	
-  4337		pmk_op->length = cpu_to_le16(length);
-  4338	
-  4339		ret = brcmf_fil_iovar_data_set(ifp, "pmkid_info", pmk_op, sizeof(*pmk_op));
-  4340		kfree(pmk_op);
-  4341		return ret;
-  4342	}
-  4343	
+
+vim +2034 kernel/sched/core.c
+
+  2030	
+  2031		if (likely(!(attr->sched_flags & SCHED_FLAG_UTIL_GUEST)))
+  2032			return;
+  2033	
+> 2034		p->se.avg.util_guest = attr->sched_util_min;
+  2035	}
+  2036	
 
 -- 
 0-DAY CI Kernel Test Service
