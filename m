@@ -1,55 +1,54 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7C18C10
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 18:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A48C10
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 18:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680285777; x=1711821777;
+  t=1680287036; x=1711823036;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1ZE2ydukO2Pi03RV+PLnVNWf0erf6eWYtcxgNoWA6ks=;
-  b=NMQmR1oln+t6zjoGpuBP0To/yyz6HuTTJWHxskexVGGLZgwoRgPXMUy8
-   itxiKLZav8PLdbof7/Dw1ZbaR9jA5m0Iw/k/JaOJCBWM3YfOfRm7mPsor
-   4t2JYBc94FjokYlIE3MGo+lb1cD9UJjFC1P6p5+la3Nz4gwEaaeuGW295
-   iEh7xvmo+IkscCdT3uV9fvNPCMwSejFHTe1JiCIpbOnePymrVkbMmNv0w
-   tlS8TZBF4Nsy5Ix6fBdGAnGzHbUxMk5MMTO8xUXUHRDcdrdWTgQ5n11JQ
-   B6PfOT78l/3KbktsLHgefAdJQ4HfXxzPTd9Mg9jrK5+wTh+o7Qe+BT4a5
+  bh=RfULin+IQkEIXF2U8/tMLOvTdsd0rNfXguvY06ABEEY=;
+  b=OlehgERxMqxiKS5DrK+I39W5yfZEY268Gx8vnQJlmUSXHr4A4wkI1trj
+   Ra0NEfY5yxj5E6uhskqiTZNvHyDLKcMyVftElSSj3MSzzmNT5ClIMWGsV
+   kr1IYuZTAkF22kXOUfqsR5UiAyNRSWSpMmeqZ0KvlYM5kL2+rlHAvFi79
+   0ljUGd1+Rjq9GKen/RHLrUWSGqiFt85tXyqKGfTrzlUr0apoXxsO5Hd+a
+   1TWVh0d4NwJFrDYLn9ZMNV26k9Q4XDXQhCjflUlYO58Qy3DL7PJWe2OPT
+   X0UQ9jB/JSENgZGVPK+2dglrdEUqo8/FB7xNaibgybBTzaDyNVp7kPaXB
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339021796"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="406551716"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="339021796"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 11:02:53 -0700
+   d="scan'208";a="406551716"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 11:23:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="828805835"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717827064"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="828805835"
+   d="scan'208";a="717827064"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2023 11:02:49 -0700
+  by orsmga001.jf.intel.com with ESMTP; 31 Mar 2023 11:23:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piJ5M-000M1Z-2c;
-	Fri, 31 Mar 2023 18:02:48 +0000
-Date: Sat, 1 Apr 2023 02:02:35 +0800
+	id 1piJPh-000M2G-1G;
+	Fri, 31 Mar 2023 18:23:49 +0000
+Date: Sat, 1 Apr 2023 02:23:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Peter Geis <pgwipeout@gmail.com>,
-	Elaine Zhang <zhangqing@rock-chips.com>,
-	Finley Xiao <finley.xiao@rock-chips.com>,
-	Jagan Teki <jagan@edgeble.ai>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Boris Brezillon <bbrezillon@kernel.org>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv1 2/2] soc: rockchip: power-domain: add rk3588 mem module
- support
-Message-ID: <202304010108.ta6EkS7C-lkp@intel.com>
-References: <20230331163058.5688-3-sebastian.reichel@collabora.com>
+To: Jesper Dangaard Brouer <brouer@redhat.com>, bpf@vger.kernel.org,
+	Stanislav Fomichev <sdf@google.com>,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jesper Dangaard Brouer <brouer@redhat.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, martin.lau@kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, alexandr.lobakin@intel.com,
+	larysa.zaremba@intel.com, xdp-hints@xdp-project.net,
+	anthony.l.nguyen@intel.com, yoong.siang.song@intel.com,
+	boon.leong.ong@intel.com, intel-wired-lan@lists.osuosl.org,
+	pabeni@redhat.com, jesse.brandeburg@intel.com, kuba@kernel.org,
+	edumazet@google.com, john.fastabend@gmail.com, hawk@kernel.org,
+	davem@davemloft.net, tariqt@nvidia.com
+Subject: Re: [PATCH bpf V4 1/5] xdp: rss hash types representation
+Message-ID: <202304010239.Jw6bKkWC-lkp@intel.com>
+References: <168027498690.3941176.99100635661990098.stgit@firesoul>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,104 +57,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331163058.5688-3-sebastian.reichel@collabora.com>
+In-Reply-To: <168027498690.3941176.99100635661990098.stgit@firesoul>
 
-Hi Sebastian,
+Hi Jesper,
 
 I love your patch! Yet something to improve:
 
-[auto build test ERROR on rockchip/for-next]
-[also build test ERROR on linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/clk-rockchip-rk3588-make-gate-linked-clocks-ignore-unused/20230401-003605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20230331163058.5688-3-sebastian.reichel%40collabora.com
-patch subject: [PATCHv1 2/2] soc: rockchip: power-domain: add rk3588 mem module support
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230401/202304010108.ta6EkS7C-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/xdp-rss-hash-types-representation/20230331-230552
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/168027498690.3941176.99100635661990098.stgit%40firesoul
+patch subject: [PATCH bpf V4 1/5] xdp: rss hash types representation
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230401/202304010239.Jw6bKkWC-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8a9b7bc14bff10030ef40e0350429490ff984f26
+        # https://github.com/intel-lab-lkp/linux/commit/9fcbbefa76e6e88a86426d13ed79ea24aacffe76
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sebastian-Reichel/clk-rockchip-rk3588-make-gate-linked-clocks-ignore-unused/20230401-003605
-        git checkout 8a9b7bc14bff10030ef40e0350429490ff984f26
+        git fetch --no-tags linux-review Jesper-Dangaard-Brouer/xdp-rss-hash-types-representation/20230331-230552
+        git checkout 9fcbbefa76e6e88a86426d13ed79ea24aacffe76
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304010108.ta6EkS7C-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304010239.Jw6bKkWC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/soc/rockchip/pm_domains.c: In function 'rockchip_pmu_domain_mem_reset':
->> drivers/soc/rockchip/pm_domains.c:462:9: error: implicit declaration of function 'dsb' [-Werror=implicit-function-declaration]
-     462 |         dsb(sy);
-         |         ^~~
->> drivers/soc/rockchip/pm_domains.c:462:13: error: 'sy' undeclared (first use in this function); did you mean 's8'?
-     462 |         dsb(sy);
-         |             ^~
-         |             s8
-   drivers/soc/rockchip/pm_domains.c:462:13: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/veth.c:1685:43: error: initialization of 'int (*)(const struct xdp_md *, u32 *, enum xdp_rss_hash_type *)' {aka 'int (*)(const struct xdp_md *, unsigned int *, enum xdp_rss_hash_type *)'} from incompatible pointer type 'int (*)(const struct xdp_md *, u32 *)' {aka 'int (*)(const struct xdp_md *, unsigned int *)'} [-Werror=incompatible-pointer-types]
+    1685 |         .xmo_rx_hash                    = veth_xdp_rx_hash,
+         |                                           ^~~~~~~~~~~~~~~~
+   drivers/net/veth.c:1685:43: note: (near initialization for 'veth_xdp_metadata_ops.xmo_rx_hash')
    cc1: some warnings being treated as errors
 
 
-vim +/dsb +462 drivers/soc/rockchip/pm_domains.c
+vim +1685 drivers/net/veth.c
 
-   441	
-   442	static int rockchip_pmu_domain_mem_reset(struct rockchip_pm_domain *pd)
-   443	{
-   444		struct rockchip_pmu *pmu = pd->pmu;
-   445		struct generic_pm_domain *genpd = &pd->genpd;
-   446		bool is_on;
-   447		int ret = 0;
-   448	
-   449		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_chain_on, pd, is_on,
-   450						is_on == true, 0, 10000);
-   451		if (ret) {
-   452			dev_err(pmu->dev,
-   453				"failed to get chain status '%s', target_on=1, val=%d\n",
-   454				genpd->name, is_on);
-   455			goto error;
-   456		}
-   457	
-   458		udelay(20);
-   459	
-   460		regmap_write(pmu->regmap, pmu->info->mem_pwr_offset + pd->info->pwr_offset,
-   461			     (pd->info->pwr_mask | pd->info->pwr_w_mask));
- > 462		dsb(sy);
-   463	
-   464		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_mem_on, pd, is_on,
-   465						is_on == false, 0, 10000);
-   466		if (ret) {
-   467			dev_err(pmu->dev,
-   468				"failed to get mem status '%s', target_on=0, val=%d\n",
-   469				genpd->name, is_on);
-   470			goto error;
-   471		}
-   472	
-   473		regmap_write(pmu->regmap, pmu->info->mem_pwr_offset + pd->info->pwr_offset,
-   474			     pd->info->pwr_w_mask);
-   475		dsb(sy);
-   476	
-   477		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_mem_on, pd, is_on,
-   478						is_on == true, 0, 10000);
-   479		if (ret) {
-   480			dev_err(pmu->dev,
-   481				"failed to get mem status '%s', target_on=1, val=%d\n",
-   482				genpd->name, is_on);
-   483		}
-   484	
-   485	error:
-   486		return ret;
-   487	}
-   488	
+4456e7bdf74c9f Stephen Hemminger  2008-11-19  1682  
+306531f0249f4e Stanislav Fomichev 2023-01-19  1683  static const struct xdp_metadata_ops veth_xdp_metadata_ops = {
+306531f0249f4e Stanislav Fomichev 2023-01-19  1684  	.xmo_rx_timestamp		= veth_xdp_rx_timestamp,
+306531f0249f4e Stanislav Fomichev 2023-01-19 @1685  	.xmo_rx_hash			= veth_xdp_rx_hash,
+306531f0249f4e Stanislav Fomichev 2023-01-19  1686  };
+306531f0249f4e Stanislav Fomichev 2023-01-19  1687  
 
 -- 
 0-DAY CI Kernel Test Service
