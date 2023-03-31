@@ -1,48 +1,55 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5F18835
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 17:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7C18C10
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 18:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680285177; x=1711821177;
+  t=1680285777; x=1711821777;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0EatCPNgNT1OHL0vD/bFoCVY34zovIIsS1cMYa0WF9s=;
-  b=FBtIS82a+SGQnKCqh5pvKjA/dGFMlQgakfn8/y/+ru4f//QGFR6k4p2z
-   suiVPYS0+bwaRcLvxbH7lYy+2X1UjxjR/Dch6QdXUYrgBXRvVORN8o10j
-   hVe+UI4g0akByUhsU5Uwl9Jdgt0lad/qaxzomrPcs19fuXf+f2gQ5Eyaw
-   Djub9uwB4VJbYTowcxxs9zgdIY77Nf3ndK90o9lOrVDB+xgHYIkmQ0u9B
-   R3xiEFbo9JqiQiViFxw66e9pYucRhKrbPlO5MzmiScgLUSF/zSumv4Y4e
-   c77aKB0iVUVKZ0JvdC4puM0NGqONbbcFXbKG2BOrbTALTmxAGtuaxhBBl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="343189593"
+  bh=1ZE2ydukO2Pi03RV+PLnVNWf0erf6eWYtcxgNoWA6ks=;
+  b=NMQmR1oln+t6zjoGpuBP0To/yyz6HuTTJWHxskexVGGLZgwoRgPXMUy8
+   itxiKLZav8PLdbof7/Dw1ZbaR9jA5m0Iw/k/JaOJCBWM3YfOfRm7mPsor
+   4t2JYBc94FjokYlIE3MGo+lb1cD9UJjFC1P6p5+la3Nz4gwEaaeuGW295
+   iEh7xvmo+IkscCdT3uV9fvNPCMwSejFHTe1JiCIpbOnePymrVkbMmNv0w
+   tlS8TZBF4Nsy5Ix6fBdGAnGzHbUxMk5MMTO8xUXUHRDcdrdWTgQ5n11JQ
+   B6PfOT78l/3KbktsLHgefAdJQ4HfXxzPTd9Mg9jrK5+wTh+o7Qe+BT4a5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339021796"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="343189593"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 10:52:51 -0700
+   d="scan'208";a="339021796"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 11:02:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="796204783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="828805835"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="796204783"
+   d="scan'208";a="828805835"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 31 Mar 2023 10:52:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2023 11:02:49 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piIvg-000M1B-1k;
-	Fri, 31 Mar 2023 17:52:48 +0000
-Date: Sat, 1 Apr 2023 01:52:22 +0800
+	id 1piJ5M-000M1Z-2c;
+	Fri, 31 Mar 2023 18:02:48 +0000
+Date: Sat, 1 Apr 2023 02:02:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 14/19] drm/i915/i915_gem: Provide function names to
- complete the expected kerneldoc format
-Message-ID: <202304010108.zHCEYcJV-lkp@intel.com>
-References: <20230331092607.700644-15-lee@kernel.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Peter Geis <pgwipeout@gmail.com>,
+	Elaine Zhang <zhangqing@rock-chips.com>,
+	Finley Xiao <finley.xiao@rock-chips.com>,
+	Jagan Teki <jagan@edgeble.ai>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Boris Brezillon <bbrezillon@kernel.org>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCHv1 2/2] soc: rockchip: power-domain: add rk3588 mem module
+ support
+Message-ID: <202304010108.ta6EkS7C-lkp@intel.com>
+References: <20230331163058.5688-3-sebastian.reichel@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,76 +58,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331092607.700644-15-lee@kernel.org>
+In-Reply-To: <20230331163058.5688-3-sebastian.reichel@collabora.com>
 
-Hi Lee,
+Hi Sebastian,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-misc/drm-misc-next next-20230331]
-[cannot apply to drm-intel/for-linux-next-fixes lee-leds/for-leds-next linus/master v6.3-rc4]
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on linus/master v6.3-rc4 next-20230331]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lee-Jones/drm-i915-i915_scatterlist-Fix-kerneldoc-formatting-issue-missing/20230331-173046
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20230331092607.700644-15-lee%40kernel.org
-patch subject: [PATCH 14/19] drm/i915/i915_gem: Provide function names to complete the expected kerneldoc format
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230401/202304010108.zHCEYcJV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/clk-rockchip-rk3588-make-gate-linked-clocks-ignore-unused/20230401-003605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20230331163058.5688-3-sebastian.reichel%40collabora.com
+patch subject: [PATCHv1 2/2] soc: rockchip: power-domain: add rk3588 mem module support
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230401/202304010108.ta6EkS7C-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/6fa884d5ec2846c7d9b54c4895c7114b363c4389
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8a9b7bc14bff10030ef40e0350429490ff984f26
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lee-Jones/drm-i915-i915_scatterlist-Fix-kerneldoc-formatting-issue-missing/20230331-173046
-        git checkout 6fa884d5ec2846c7d9b54c4895c7114b363c4389
+        git fetch --no-tags linux-review Sebastian-Reichel/clk-rockchip-rk3588-make-gate-linked-clocks-ignore-unused/20230401-003605
+        git checkout 8a9b7bc14bff10030ef40e0350429490ff984f26
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304010108.zHCEYcJV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304010108.ta6EkS7C-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/i915_gem.c:819: warning: expecting prototype for i915_gem_sw_finish_ioct(). Prototype was for i915_gem_sw_finish_ioctl() instead
+   drivers/soc/rockchip/pm_domains.c: In function 'rockchip_pmu_domain_mem_reset':
+>> drivers/soc/rockchip/pm_domains.c:462:9: error: implicit declaration of function 'dsb' [-Werror=implicit-function-declaration]
+     462 |         dsb(sy);
+         |         ^~~
+>> drivers/soc/rockchip/pm_domains.c:462:13: error: 'sy' undeclared (first use in this function); did you mean 's8'?
+     462 |         dsb(sy);
+         |             ^~
+         |             s8
+   drivers/soc/rockchip/pm_domains.c:462:13: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
 
-vim +819 drivers/gpu/drm/i915/i915_gem.c
+vim +/dsb +462 drivers/soc/rockchip/pm_domains.c
 
-673a394b1e3b69 Eric Anholt    2008-07-30  809  
-673a394b1e3b69 Eric Anholt    2008-07-30  810  /**
-6fa884d5ec2846 Lee Jones      2023-03-31  811   * i915_gem_sw_finish_ioct - Called when user space has done writes to this buffer
-14bb2c11796d70 Tvrtko Ursulin 2016-06-03  812   * @dev: drm device
-14bb2c11796d70 Tvrtko Ursulin 2016-06-03  813   * @data: ioctl data blob
-14bb2c11796d70 Tvrtko Ursulin 2016-06-03  814   * @file: drm file
-673a394b1e3b69 Eric Anholt    2008-07-30  815   */
-673a394b1e3b69 Eric Anholt    2008-07-30  816  int
-673a394b1e3b69 Eric Anholt    2008-07-30  817  i915_gem_sw_finish_ioctl(struct drm_device *dev, void *data,
-05394f3975dceb Chris Wilson   2010-11-08  818  			 struct drm_file *file)
-673a394b1e3b69 Eric Anholt    2008-07-30 @819  {
-673a394b1e3b69 Eric Anholt    2008-07-30  820  	struct drm_i915_gem_sw_finish *args = data;
-05394f3975dceb Chris Wilson   2010-11-08  821  	struct drm_i915_gem_object *obj;
-1d7cfea152cae6 Chris Wilson   2010-10-17  822  
-03ac0642f67a3a Chris Wilson   2016-07-20  823  	obj = i915_gem_object_lookup(file, args->handle);
-c21724cc4d3d5c Chris Wilson   2016-08-05  824  	if (!obj)
-c21724cc4d3d5c Chris Wilson   2016-08-05  825  		return -ENOENT;
-673a394b1e3b69 Eric Anholt    2008-07-30  826  
-a03f395ad78f88 Tina Zhang     2017-11-14  827  	/*
-a03f395ad78f88 Tina Zhang     2017-11-14  828  	 * Proxy objects are barred from CPU access, so there is no
-a03f395ad78f88 Tina Zhang     2017-11-14  829  	 * need to ban sw_finish as it is a nop.
-a03f395ad78f88 Tina Zhang     2017-11-14  830  	 */
-a03f395ad78f88 Tina Zhang     2017-11-14  831  
-673a394b1e3b69 Eric Anholt    2008-07-30  832  	/* Pinned buffers may be scanout, so flush the cache */
-5a97bcc69cc02d Chris Wilson   2017-02-22  833  	i915_gem_object_flush_if_display(obj);
-f0cd518206e1a4 Chris Wilson   2016-10-28  834  	i915_gem_object_put(obj);
-5a97bcc69cc02d Chris Wilson   2017-02-22  835  
-5a97bcc69cc02d Chris Wilson   2017-02-22  836  	return 0;
-673a394b1e3b69 Eric Anholt    2008-07-30  837  }
-673a394b1e3b69 Eric Anholt    2008-07-30  838  
+   441	
+   442	static int rockchip_pmu_domain_mem_reset(struct rockchip_pm_domain *pd)
+   443	{
+   444		struct rockchip_pmu *pmu = pd->pmu;
+   445		struct generic_pm_domain *genpd = &pd->genpd;
+   446		bool is_on;
+   447		int ret = 0;
+   448	
+   449		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_chain_on, pd, is_on,
+   450						is_on == true, 0, 10000);
+   451		if (ret) {
+   452			dev_err(pmu->dev,
+   453				"failed to get chain status '%s', target_on=1, val=%d\n",
+   454				genpd->name, is_on);
+   455			goto error;
+   456		}
+   457	
+   458		udelay(20);
+   459	
+   460		regmap_write(pmu->regmap, pmu->info->mem_pwr_offset + pd->info->pwr_offset,
+   461			     (pd->info->pwr_mask | pd->info->pwr_w_mask));
+ > 462		dsb(sy);
+   463	
+   464		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_mem_on, pd, is_on,
+   465						is_on == false, 0, 10000);
+   466		if (ret) {
+   467			dev_err(pmu->dev,
+   468				"failed to get mem status '%s', target_on=0, val=%d\n",
+   469				genpd->name, is_on);
+   470			goto error;
+   471		}
+   472	
+   473		regmap_write(pmu->regmap, pmu->info->mem_pwr_offset + pd->info->pwr_offset,
+   474			     pd->info->pwr_w_mask);
+   475		dsb(sy);
+   476	
+   477		ret = readx_poll_timeout_atomic(rockchip_pmu_domain_is_mem_on, pd, is_on,
+   478						is_on == true, 0, 10000);
+   479		if (ret) {
+   480			dev_err(pmu->dev,
+   481				"failed to get mem status '%s', target_on=1, val=%d\n",
+   482				genpd->name, is_on);
+   483		}
+   484	
+   485	error:
+   486		return ret;
+   487	}
+   488	
 
 -- 
 0-DAY CI Kernel Test Service
