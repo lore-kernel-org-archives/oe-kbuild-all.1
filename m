@@ -1,45 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ABA258B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 12:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADE02F37
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Mar 2023 13:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680266810; x=1711802810;
+  t=1680271063; x=1711807063;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Vi/GMhI0cSx/xT+5Tcr6BC25IJGipEWrLrBUzaJaBVk=;
-  b=QHK3veiwme4qsQXORSj1TVlejohU37XZfBynILpaagRIGklO5yBGlO9Z
-   zfDo8DAfOp5JmC+w6y8GUa0xt3KtGLIX/nMG5bSFrrD7gSbOVzeygFdpx
-   2c2uR9altr24PAHp6GuaVGp0pdd5FpgDLswnBWGgtZffGnrJyamwUtU11
-   x+jf1xq2KKSnsEpMl9ZlptmL7zD46etlgw462LO7JfNHR4jRcA41P6w4b
-   eAEo4rMA7L6AvIPrtc8BkX9E/oOH1ogyCHLuMXTp43FTtaT+2v7ZEtsjm
-   mxVcBiLwhYI+MXRe618q+ZwQwQu2W1FGwM15pENLzdmQcUIm6WVw8+cD7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="325408691"
+  bh=3b7TFpPlZctUMlCM15YHGK46z2DxK0B5pdRsgaBaD1I=;
+  b=VbdcaYlDPFIiAcmui8t1QSxMnlE7XapwNgKzeMv3v/uwb/xrd3W9Xv4n
+   G5jx4kr60NFVZOptE04qZjpxHw/cQSshJgawPiVb5RDIAlXAfRrqjt1HK
+   0ZLNzOqJhHmLlFUSmvv/8ssp/Zt/XYUueAwIfvt18UUdyv7Pwa9gavN2O
+   sh+ry5VLnG05XNeoW5V0C4o52ZUS2m+EjgLBbK9kDpXCIqmY2PjCQvZBl
+   EoJry7W4E14LA6E0MTItK65xVbYY6hUGFyMPf2cJXa0XWuqmkOjiWxKsH
+   u6hle9TQVSxUFXDS+OVGw3dTbB4I5MNfHn7se6PHyedVnMNA/kHjV+QT8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="406467540"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="325408691"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:46:39 -0700
+   d="scan'208";a="406467540"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 06:57:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="828702135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="749655208"
 X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="828702135"
+   d="scan'208";a="749655208"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2023 05:46:37 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Mar 2023 06:57:41 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piE9M-000Lmk-2A;
-	Fri, 31 Mar 2023 12:46:36 +0000
-Date: Fri, 31 Mar 2023 20:45:44 +0800
+	id 1piFG8-000Lqh-2o;
+	Fri, 31 Mar 2023 13:57:40 +0000
+Date: Fri, 31 Mar 2023 21:57:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	Thomas BOURGOIN <thomas.bourgoin@foss.st.com>
+To: David Gow <davidgow@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] crypto: hash - Remove maximum statesize limit
-Message-ID: <202303312021.84WtsA4u-lkp@intel.com>
-References: <ZCJllZQBWfjMCaoQ@gondor.apana.org.au>
+Subject: Re: [RFC PATCH v2 1/3] kunit: Add kunit_add_action() to defer a call
+ until test exit
+Message-ID: <202303312141.DHGQBfVZ-lkp@intel.com>
+References: <20230331080411.981038-2-davidgow@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,98 +47,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCJllZQBWfjMCaoQ@gondor.apana.org.au>
+In-Reply-To: <20230331080411.981038-2-davidgow@google.com>
 
-Hi Herbert,
+Hi David,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on next-20230331]
-[cannot apply to herbert-crypto-2.6/master linus/master v6.3-rc4]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3-rc4 next-20230331]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-hash-Remove-maximum-statesize-limit/20230328-115842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/ZCJllZQBWfjMCaoQ%40gondor.apana.org.au
-patch subject: [PATCH] crypto: hash - Remove maximum statesize limit
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230331/202303312021.84WtsA4u-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
+patch link:    https://lore.kernel.org/r/20230331080411.981038-2-davidgow%40google.com
+patch subject: [RFC PATCH v2 1/3] kunit: Add kunit_add_action() to defer a call until test exit
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230331/202303312141.DHGQBfVZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/5258657ff30097b887ac972b95a5563918f4448f
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3fe86a97881f9c663c66869d448b2dacf9363b53
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Herbert-Xu/crypto-hash-Remove-maximum-statesize-limit/20230328-115842
-        git checkout 5258657ff30097b887ac972b95a5563918f4448f
+        git fetch --no-tags linux-review David-Gow/kunit-Add-kunit_add_action-to-defer-a-call-until-test-exit/20230331-160604
+        git checkout 3fe86a97881f9c663c66869d448b2dacf9363b53
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303312021.84WtsA4u-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303312141.DHGQBfVZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   crypto/algif_hash.c: In function 'hash_accept':
-   crypto/algif_hash.c:238:20: error: 'HASH_MAX_STATESIZE' undeclared (first use in this function); did you mean 'HASH_MAX_DESCSIZE'?
-     238 |         char state[HASH_MAX_STATESIZE];
-         |                    ^~~~~~~~~~~~~~~~~~
-         |                    HASH_MAX_DESCSIZE
-   crypto/algif_hash.c:238:20: note: each undeclared identifier is reported only once for each function it appears in
->> crypto/algif_hash.c:238:14: warning: unused variable 'state' [-Wunused-variable]
-     238 |         char state[HASH_MAX_STATESIZE];
-         |              ^~~~~
-
-
-vim +/state +238 crypto/algif_hash.c
-
-fe869cdb89c95d0 Herbert Xu    2010-10-19  230  
-cdfbabfb2f0ce98 David Howells 2017-03-09  231  static int hash_accept(struct socket *sock, struct socket *newsock, int flags,
-cdfbabfb2f0ce98 David Howells 2017-03-09  232  		       bool kern)
-fe869cdb89c95d0 Herbert Xu    2010-10-19  233  {
-fe869cdb89c95d0 Herbert Xu    2010-10-19  234  	struct sock *sk = sock->sk;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  235  	struct alg_sock *ask = alg_sk(sk);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  236  	struct hash_ctx *ctx = ask->private;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  237  	struct ahash_request *req = &ctx->req;
-b68a7ec1e9a3efa Kees Cook     2018-08-07 @238  	char state[HASH_MAX_STATESIZE];
-fe869cdb89c95d0 Herbert Xu    2010-10-19  239  	struct sock *sk2;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  240  	struct alg_sock *ask2;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  241  	struct hash_ctx *ctx2;
-4afa5f961792745 Herbert Xu    2015-11-01  242  	bool more;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  243  	int err;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  244  
-4afa5f961792745 Herbert Xu    2015-11-01  245  	lock_sock(sk);
-4afa5f961792745 Herbert Xu    2015-11-01  246  	more = ctx->more;
-4afa5f961792745 Herbert Xu    2015-11-01  247  	err = more ? crypto_ahash_export(req, state) : 0;
-4afa5f961792745 Herbert Xu    2015-11-01  248  	release_sock(sk);
-4afa5f961792745 Herbert Xu    2015-11-01  249  
-fe869cdb89c95d0 Herbert Xu    2010-10-19  250  	if (err)
-fe869cdb89c95d0 Herbert Xu    2010-10-19  251  		return err;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  252  
-cdfbabfb2f0ce98 David Howells 2017-03-09  253  	err = af_alg_accept(ask->parent, newsock, kern);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  254  	if (err)
-fe869cdb89c95d0 Herbert Xu    2010-10-19  255  		return err;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  256  
-fe869cdb89c95d0 Herbert Xu    2010-10-19  257  	sk2 = newsock->sk;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  258  	ask2 = alg_sk(sk2);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  259  	ctx2 = ask2->private;
-4afa5f961792745 Herbert Xu    2015-11-01  260  	ctx2->more = more;
-4afa5f961792745 Herbert Xu    2015-11-01  261  
-4afa5f961792745 Herbert Xu    2015-11-01  262  	if (!more)
-4afa5f961792745 Herbert Xu    2015-11-01  263  		return err;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  264  
-fe869cdb89c95d0 Herbert Xu    2010-10-19  265  	err = crypto_ahash_import(&ctx2->req, state);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  266  	if (err) {
-fe869cdb89c95d0 Herbert Xu    2010-10-19  267  		sock_orphan(sk2);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  268  		sock_put(sk2);
-fe869cdb89c95d0 Herbert Xu    2010-10-19  269  	}
-fe869cdb89c95d0 Herbert Xu    2010-10-19  270  
-fe869cdb89c95d0 Herbert Xu    2010-10-19  271  	return err;
-fe869cdb89c95d0 Herbert Xu    2010-10-19  272  }
-fe869cdb89c95d0 Herbert Xu    2010-10-19  273  
+>> ERROR: modpost: "kunit_add_action" [lib/kunit/kunit-test.ko] undefined!
+>> ERROR: modpost: "kunit_remove_action" [lib/kunit/kunit-test.ko] undefined!
+>> ERROR: modpost: "kunit_release_action_token" [lib/kunit/kunit-test.ko] undefined!
+>> ERROR: modpost: "kunit_release_action" [lib/kunit/kunit-test.ko] undefined!
+>> ERROR: modpost: "kunit_remove_action_token" [lib/kunit/kunit-test.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
