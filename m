@@ -1,56 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EE77C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 02:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196A515A3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 02:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680315214; x=1711851214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Eka2BumyS/dRgCVD/9HCoyWAmeSkOvL1lRg44jTlg40=;
-  b=ROU87Lyxwl7alZpXfp7Y0sUTfj/FImKwgBZJVCdxFqI6fj+8T0yEU2Hr
-   jmhNkeQnZHH/kG4Q4F179RNSKbm5M1iPhA7QbUksjfpANPkfXT0vNXysA
-   kj1Tf45QEoA5BuIoCH3GIrQjQoImUSiirjJzfxnqOLva7IKxiXUln/8oc
-   YIuQKwpC4qALgWuVVgMO0ZOppBRJXB7jhzZUT4kmX1GIj4dInRQxaZw4C
-   uBG7OU3EDPcf/GHZ+Xewk+aU11zTCe5pGiXJeBJYyBFFnI/Oak//rotBG
-   w9/KmzmfhwEdEYmFoF3/QUkaD4fFbqF1bWUcUwF3r7yq4twGic4261Q7T
+  t=1680316450; x=1711852450;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XBgonofK0dQgeDZsmSForg1G8ge6gLhM7jGEB72EbiE=;
+  b=RDWQzGzAN5pvVbTLuBSsu1rYT8jRFusw1sbYo59liaXL0Bci2ximYJnc
+   KTCk2pIhz/y4W6KdNUG3S8UkbbBOI6jH7bvOTL3K6R0XkyUwfNXvSVpmP
+   yvO+Q4ZwfCpGrfKLZB1DvimollRMym1smYVegpnMnIjRJsHSvQeidcMY+
+   FZFAgOUkdia0s48FT1bNvOEu1s3+dmGj2AlnVja9G36epm2eVWZidk067
+   TJmmJerGdACnOLvnv8xzV9FZZm55PQnE5ulLoCfgMyPeQopd/ccsGRemt
+   nnryYlpwiFqD3Vf9x3SFMRYbpwjpnaKAdQsMkKo8hIA3I6CDak/1H1qxE
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339097604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="427882854"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="339097604"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 19:13:11 -0700
+   d="scan'208";a="427882854"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 19:34:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="931398666"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="715656969"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="931398666"
+   d="scan'208";a="715656969"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Mar 2023 19:13:07 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 Mar 2023 19:34:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piQjr-000MMw-00;
-	Sat, 01 Apr 2023 02:13:07 +0000
-Date: Sat, 1 Apr 2023 10:12:52 +0800
+	id 1piR4B-000MNp-1j;
+	Sat, 01 Apr 2023 02:34:07 +0000
+Date: Sat, 1 Apr 2023 10:33:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jack Zhu <jack.zhu@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Eugen Hristev <eugen.hristev@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v3 2/9] media: admin-guide: Add starfive_camss.rst for
- Starfive Camera Subsystem
-Message-ID: <202304010958.qMr3POf6-lkp@intel.com>
-References: <20230331121826.96973-3-jack.zhu@starfivetech.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [hverkuil-media-tree:tmp 16/25]
+ drivers/media/platform/ti/omap3isp/isp.c:1968:9: error: implicit declaration
+ of function 'v4l2_async_notifier_cleanup'; did you mean
+ 'v4l2_async_nf_cleanup'?
+Message-ID: <202304011023.E3XrM9LC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,44 +47,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331121826.96973-3-jack.zhu@starfivetech.com>
 
-Hi Jack,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230331121826.96973-3-jack.zhu%40starfivetech.com
-patch subject: [PATCH v3 2/9] media: admin-guide: Add starfive_camss.rst for Starfive Camera Subsystem
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/2e986871a1e6e63c6915803102a6025f19781772
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-        git checkout 2e986871a1e6e63c6915803102a6025f19781772
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   git://linuxtv.org/hverkuil/media_tree.git tmp
+head:   42249987f00786a33526b973c650743bc49681c2
+commit: d53fa8dcae176a268e39d8d14f778268d8d22d0a [16/25] omap3isp: Release the isp device struct by media device callback
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230401/202304011023.E3XrM9LC-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
+        git fetch --no-tags hverkuil-media-tree tmp
+        git checkout d53fa8dcae176a268e39d8d14f778268d8d22d0a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304010958.qMr3POf6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304011023.E3XrM9LC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/admin-guide/media/v4l-drivers.rst:9: WARNING: toctree contains reference to nonexisting document 'admin-guide/media/starfive'
->> Documentation/admin-guide/media/starfive_camss.rst: WARNING: document isn't included in any toctree
+   drivers/media/platform/ti/omap3isp/isp.c: In function 'isp_release':
+>> drivers/media/platform/ti/omap3isp/isp.c:1968:9: error: implicit declaration of function 'v4l2_async_notifier_cleanup'; did you mean 'v4l2_async_nf_cleanup'? [-Werror=implicit-function-declaration]
+    1968 |         v4l2_async_notifier_cleanup(&isp->notifier);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         v4l2_async_nf_cleanup
+   cc1: some warnings being treated as errors
 
-vim +9 Documentation/admin-guide/media/v4l-drivers.rst
 
-33fc918ab89bec Mauro Carvalho Chehab 2020-04-18  8  
-33fc918ab89bec Mauro Carvalho Chehab 2020-04-18 @9  .. toctree::
+vim +1968 drivers/media/platform/ti/omap3isp/isp.c
+
+  1959	
+  1960	static void isp_release(struct media_device *mdev)
+  1961	{
+  1962		struct isp_device *isp =
+  1963			container_of(mdev, struct isp_device, media_dev);
+  1964	
+  1965		isp_cleanup_modules(isp);
+  1966	
+  1967		media_entity_enum_cleanup(&isp->crashed);
+> 1968		v4l2_async_notifier_cleanup(&isp->notifier);
+  1969	
+  1970		kfree(isp);
+  1971	}
+  1972	
 
 -- 
 0-DAY CI Kernel Test Service
