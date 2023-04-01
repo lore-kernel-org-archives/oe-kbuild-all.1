@@ -1,43 +1,49 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7322915
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 10:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916823205
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 12:06:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680346405; x=1711882405;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d3q/M1aW9NNZmjM/fU6rvDWwmvq1CTejBNAlB0BK3bk=;
-  b=dEXSUAMuT0IzT+OTxB5TgwITu1wW4myPhP1RH7e4RWrAnSOQMYOZAoMz
-   1h+pOfNc/TpdZt68+6TodcmGnKiyPGJSwFJ0Z46KK3O2FA1/DV4hVNnhx
-   jggr12tkf1HbG5TttMMkeOy2BPELBHuIWof4lwfjhG2K9gEu6TS8UN0Lp
-   UByM52NnIW4aOvgTnDi42Qim7lGZzoyxwIOYQkkj0/nJ5WUVVFdRPAVIW
-   xGjo2IaX2oKW8rIDk1MEBIhhoOxwbuKKlTsqNznJSc37LyJsbRoeX+Wi5
-   QGTZufyYDsdktG72FAi5lksRelV5u13l/urU8mcdDAX6btrt/7zaGDegR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321291476"
+  t=1680350793; x=1711886793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GhN/zLgZPhjtxMWToJxXXsvcAbSsvRGheQVMGCpow7w=;
+  b=bHnXxtjecow8+mruu2cNG0S9yw7pyfRp5OwFbNv8i+HteKW6dSgl8i3x
+   LzgBURD+01a9ktr6zzmyb7tNofDniL9vT5g2BpKoWZ1ZvlE703Z1BmsoJ
+   tK5eymx0Va3op25/a9QECcnAzCTsSuMg1jz4oOEYRKLlYM48U5rbIgGHM
+   wHJFfeCQCnd09EmTIiqiFYbeC8k4N2ylnhqQufOkczXAfk+Y3yyVUbsyA
+   9c8pGJcwamC1RFdHkuU1oZrYD4UHkgKIlr9+doPTEu7jmlIxmuJAX+vdz
+   EARE338GZMbZoFq0E7HPmYbhUq9FPpPCxmA7sVxGiP0VXoi/4ZuRyfUJT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="427927555"
 X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="321291476"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 03:53:24 -0700
+   d="scan'208";a="427927555"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 05:06:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="809315558"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="859651603"
 X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="809315558"
+   d="scan'208";a="859651603"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Apr 2023 03:53:23 -0700
+  by orsmga005.jf.intel.com with ESMTP; 01 Apr 2023 05:06:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piYrK-000MhV-2x;
-	Sat, 01 Apr 2023 10:53:22 +0000
-Date: Sat, 1 Apr 2023 18:53:06 +0800
+	id 1pia01-000MkP-1w;
+	Sat, 01 Apr 2023 12:06:25 +0000
+Date: Sat, 1 Apr 2023 20:05:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 30/32] htmldocs:
- ./include/uapi/linux/gunyah.h:262: warning: expecting prototype for
- ANDROID(). Prototype was for GH_ANDROID_IOCTL_TYPE() instead
-Message-ID: <202304011833.HtKcAyDh-lkp@intel.com>
+To: Andreas Klinger <ak@it-klinger.de>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
+Message-ID: <202304011957.pKSWQHyS-lkp@intel.com>
+References: <ZCf085W4XL2PtQf6@arbad>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,36 +52,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZCf085W4XL2PtQf6@arbad>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   3a7f9f00f0500643853288cac4034d33d20a167f
-commit: 657af3fa64ff383e317895978f865822dd000a41 [30/32] ANDROID: gunyah: vm_mgr: Add lent memory
-reproduce:
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-6.1
-        git checkout 657af3fa64ff383e317895978f865822dd000a41
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi Andreas,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on jic23-iio/togreg]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/ZCf085W4XL2PtQf6%40arbad
+patch subject: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
+config: m68k-randconfig-r023-20230401 (https://download.01.org/0day-ci/archive/20230401/202304011957.pKSWQHyS-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6a49dae45811d8a644c56dc18b6cdbc6ea67df98
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
+        git checkout 6a49dae45811d8a644c56dc18b6cdbc6ea67df98
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011833.HtKcAyDh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304011957.pKSWQHyS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ./include/uapi/linux/gunyah.h:262: warning: expecting prototype for ANDROID(). Prototype was for GH_ANDROID_IOCTL_TYPE() instead
-
-vim +262 ./include/uapi/linux/gunyah.h
-
-   256	
-   257	/**
-   258	 * ANDROID: android14-6.1 unfortunately contains UAPI that won't be carried
-   259	 * in kernel.org. Expose orthogonal ioctls that will never conflict with
-   260	 * kernel.org for these UAPIs. See b/268234781.
-   261	 */
- > 262	#define GH_ANDROID_IOCTL_TYPE		'A'
-   263	
+>> ERROR: modpost: "__divdi3" [drivers/iio/pressure/mpr.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
