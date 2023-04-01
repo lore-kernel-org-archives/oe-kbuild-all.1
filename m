@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C3E17FA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 20:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EA28F64
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 20:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680381040; x=1711917040;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FneL4CM/IJgrCvaan/SOP4zKfBMW4yA484IprofLbos=;
-  b=N5rsjfQoXeVzWIiihqCCkeKlNNfi0TCZvxZwKcomHus7Tx7HLryvZSwB
-   oRSVBMiZjSGCT0zG5nEh7YEhkwU2aank42MAlkq3jmMo2bIiz9kTDG3Rx
-   3wUMjeYQ6Z6w7P1cIwGbPlNOJKtq0SiDWWUMlmAwVFEtFEKzO2IqI0oPT
-   xZp4DJPaE/affgjmKprHEo8YsOdV+e4G+SeaBmHtxmeh+WuDUA+fKW97S
-   HCz/oNjDQ3B2W795Mn4Ttuog2hHGJTeQ022LzorXpNZInyFmkfEii/QxQ
-   dnZ+ioo7JTD+hE1th1dJe1CgMsSzi5LpfWcbNWOB1Si/p+fCJV0DsuHlN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="322072711"
+  t=1680381700; x=1711917700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9R0KaVGdKQKmMbSC9pmT7EQxV3s6mJlNtyMRuWmlyaw=;
+  b=FPY23hklIjlVjHUHHTNGYKIaksKJHup+mPMNnZnMrWERBdb/LEOAP6lK
+   8cTtq82NOzt/57HtM6bAFCuuy4lSaD2AGYtCMvIGfg0FTCsHE5C1B5emr
+   p97KIsSe6bh+6XVN6JfI+WHdPPUW85Q/cY2fBah1/48sv4OqoQchuiu1k
+   sstNwDhQ9Xtb1UGqImfSBJpXJeyNwM70vcK5qaN0RP/xZEEiAegSrYALS
+   yxppmkwtSM1cIpHafnOAeJO6zsbmB6EozCtEfl+vqsZrSknFVVqKT3k8L
+   VNbhbIedB/pX6u8hQ4phTijp4tt4Rl0mQ7+EJVuEOvqAG77kOlTIErP20
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="404431736"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="322072711"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 13:30:40 -0700
+   d="scan'208";a="404431736"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 13:41:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="829102001"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="685494400"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="829102001"
+   d="scan'208";a="685494400"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2023 13:30:38 -0700
+  by orsmga002.jf.intel.com with ESMTP; 01 Apr 2023 13:41:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pihrx-000N0z-2q;
-	Sat, 01 Apr 2023 20:30:37 +0000
-Date: Sun, 2 Apr 2023 04:30:03 +0800
+	id 1pii2c-000N1h-1H;
+	Sat, 01 Apr 2023 20:41:38 +0000
+Date: Sun, 2 Apr 2023 04:40:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol
- '__pcpu_scope_overflow_stack' was not declared. Should it be static?
-Message-ID: <202304020428.Vid1AddO-lkp@intel.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v15 1/2] pwm: add microchip soft ip corePWM driver
+Message-ID: <202304020410.A86IBNES-lkp@intel.com>
+References: <20230330071203.286972-2-conor.dooley@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,38 +46,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230330071203.286972-2-conor.dooley@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   93e2b01740863cf2f4a58887ac1384e6324b50a2
-commit: 548ec3336f323db56260b312c232ab37285f0284 KVM: arm64: On stack overflow switch to hyp overflow_stack
-date:   8 months ago
-config: arm64-randconfig-s031-20230402 (https://download.01.org/0day-ci/archive/20230402/202304020428.Vid1AddO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Conor,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on thierry-reding-pwm/for-next]
+[also build test ERROR on linus/master v6.3-rc4 next-20230331]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Conor-Dooley/pwm-add-microchip-soft-ip-corePWM-driver/20230330-151415
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
+patch link:    https://lore.kernel.org/r/20230330071203.286972-2-conor.dooley%40microchip.com
+patch subject: [PATCH v15 1/2] pwm: add microchip soft ip corePWM driver
+config: arm-randconfig-c041-20230402 (https://download.01.org/0day-ci/archive/20230402/202304020410.A86IBNES-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=548ec3336f323db56260b312c232ab37285f0284
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 548ec3336f323db56260b312c232ab37285f0284
+        # https://github.com/intel-lab-lkp/linux/commit/703dc5c3f6c78464be383c1fa31ecfb3ad683d84
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Conor-Dooley/pwm-add-microchip-soft-ip-corePWM-driver/20230330-151415
+        git checkout 703dc5c3f6c78464be383c1fa31ecfb3ad683d84
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/ drivers/gpu/ drivers/usb/gadget/function/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304020428.Vid1AddO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304020410.A86IBNES-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/__pcpu_scope_overflow_stack +10 arch/arm64/kvm/hyp/nvhe/stacktrace.c
-
-  > 10	#include <asm/percpu.h>
-    11	
+   arm-linux-gnueabi-ld: arm-linux-gnueabi-ld: DWARF error: could not find abbrev number 57
+   drivers/pwm/pwm-microchip-core.o: in function `mchp_core_pwm_apply_locked':
+>> pwm-microchip-core.c:(.text+0x20a): undefined reference to `__aeabi_uldivmod'
 
 -- 
 0-DAY CI Kernel Test Service
