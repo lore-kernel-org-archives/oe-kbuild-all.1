@@ -1,46 +1,52 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD1915A3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 02:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73C517C7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 03:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680317051; x=1711853051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lbEbsKMc9MhjmKuTRlR3fVGeqdGfMrZ3ac6yj9i2FZ0=;
-  b=KQ9sO/GGZ35HTJGjswbrmrjxqIngyW0kQu7vFXK7XSrBswUh481wFmE7
-   aMlwqwJM3MBUPMfpGNQQmxDM/7FgabumNd0RzPec6e358N7Gh8i0J7w2D
-   LvM+0m7YpXOz5Rx0nQ04+/+1LqblPBh9ZfUVbRr+Up/6d5Gwe1wizWmsR
-   MRshrEX/snCcxL+w1ebND+9HP0wVbHXwaotJpAjBX2CNgyICrMwp8RWTL
-   G31p2NnYksR5sRL0c8ORViRPiFQEUsRg1xyi2MANQ7ubXsKOO/FeY0N2Y
-   gsK2xwMrNYQXDfo2LvUQiFkG85AwsrNUpPX/vq/x05JAnehNDXa/fXVrI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339100178"
+  t=1680320951; x=1711856951;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iKRGjxyuVPlp7bjfbPORRfcTp1PxnLq+Mx9fXMULy44=;
+  b=ThKrPOGoxzUoIMhzoTdTvpyr91wu5fmDMo3HLZal6ayQQ7rDwZpC8/xD
+   130+ltNzD+ma+bJBzVPBpc5cnt1JovotOCwH+FN2WkPumx5BeMhX0rtPJ
+   DtqVPa8oRO4yQciLw6rTc6INtfmTO0Ev/k1FSMbSVXbEd8UiNNzdldbLU
+   zZlUkZo4k0aTwT9I4tDiehRlAFdgIxet/PfSxDalwADesgCK4F0X3Wj0J
+   5C+NFDVUoQnxLj2vW0wYAk2WC8TWdOJUUPnKJfjv6qWWiyIdPBjDnoAcx
+   IAW3M72PHRj1v4/LEE0wd+Pm9FwrIvkT4rcGHwnNfWtKCnKEKdFnrLL2T
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321268513"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="339100178"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 19:44:11 -0700
+   d="scan'208";a="321268513"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 20:45:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="754588766"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="662612093"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="754588766"
+   d="scan'208";a="662612093"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Mar 2023 19:44:09 -0700
+  by orsmga006.jf.intel.com with ESMTP; 31 Mar 2023 20:45:10 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piRDs-000MOT-0c;
-	Sat, 01 Apr 2023 02:44:08 +0000
-Date: Sat, 1 Apr 2023 10:43:55 +0800
+	id 1piSAv-000MQR-2Z;
+	Sat, 01 Apr 2023 03:45:09 +0000
+Date: Sat, 1 Apr 2023 11:44:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Garmin.Chang" <Garmin.Chang@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [clk:clk-mediatek 80/82]
- drivers/clk/mediatek/clk-mt8188-wpe.c:91:31: error:
- 'clk_mt8188_vpp1_id_table' undeclared here (not in a function)
-Message-ID: <202304011039.UBDX1UOT-lkp@intel.com>
+To: Mark Yacoub <markyacoub@chromium.org>, Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Yacoub <markyacoub@chromium.org>,
+	intel-gfx@lists.freedesktop.org, dianders@chromium.org,
+	dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+	seanpaul@chromium.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v8 10/10] drm/msm: Implement HDCP 1.x using
+ the new drm HDCP helpers
+Message-ID: <202304011152.dsr8g6yX-lkp@intel.com>
+References: <20230331221213.1691997-11-markyacoub@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,58 +55,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230331221213.1691997-11-markyacoub@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-mediatek
-head:   0d2f2cefba64729a0730ce183ad58cf3e7929b94
-commit: f42b9e9a43e300ef94c3dc0381cc60f50e46e1fe [80/82] clk: mediatek: Add MT8188 wpesys clock support
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230401/202304011039.UBDX1UOT-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Mark,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-intel/for-linux-next-fixes]
+[also build test ERROR on linus/master v6.3-rc4]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm/drm-next next-20230331]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20230331221213.1691997-11-markyacoub%40google.com
+patch subject: [Intel-gfx] [PATCH v8 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
+config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230401/202304011152.dsr8g6yX-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=f42b9e9a43e300ef94c3dc0381cc60f50e46e1fe
-        git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
-        git fetch --no-tags clk clk-mediatek
-        git checkout f42b9e9a43e300ef94c3dc0381cc60f50e46e1fe
+        # https://github.com/intel-lab-lkp/linux/commit/697c762c590d862f4f6ed4a8cac97ac2de815f73
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
+        git checkout 697c762c590d862f4f6ed4a8cac97ac2de815f73
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/clk/mediatek/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011039.UBDX1UOT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304011152.dsr8g6yX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/platform_device.h:13,
-                    from drivers/clk/mediatek/clk-mt8188-wpe.c:9:
->> drivers/clk/mediatek/clk-mt8188-wpe.c:91:31: error: 'clk_mt8188_vpp1_id_table' undeclared here (not in a function)
-      91 | MODULE_DEVICE_TABLE(platform, clk_mt8188_vpp1_id_table);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:243:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:243:21: error: '__mod_platform__clk_mt8188_vpp1_id_table_device_table' aliased to undefined symbol 'clk_mt8188_vpp1_id_table'
-     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/clk/mediatek/clk-mt8188-wpe.c:91:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-      91 | MODULE_DEVICE_TABLE(platform, clk_mt8188_vpp1_id_table);
-         | ^~~~~~~~~~~~~~~~~~~
+   arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.o: in function `msm_atomic_commit_tail':
+>> drivers/gpu/drm/msm/msm_atomic.c:193: undefined reference to `dp_drm_is_bridge_msm_dp'
+>> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:193: undefined reference to `dp_drm_is_bridge_msm_dp'
+>> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:194: undefined reference to `dp_drm_atomic_commit'
+>> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:194: undefined reference to `dp_drm_atomic_commit'
+   arc-elf-ld: drivers/gpu/drm/msm/dp/dp_debug.o: in function `dp_hdcp_key_write':
+>> drivers/gpu/drm/msm/dp/dp_debug.c:219: undefined reference to `dp_hdcp_ingest_key'
+>> arc-elf-ld: drivers/gpu/drm/msm/dp/dp_debug.c:219: undefined reference to `dp_hdcp_ingest_key'
 
 
-vim +/clk_mt8188_vpp1_id_table +91 drivers/clk/mediatek/clk-mt8188-wpe.c
+vim +193 drivers/gpu/drm/msm/msm_atomic.c
 
-    85	
-    86	static const struct of_device_id of_match_clk_mt8188_wpe[] = {
-    87		{ .compatible = "mediatek,mt8188-wpesys", .data = &wpe_top_desc },
-    88		{ .compatible = "mediatek,mt8188-wpesys-vpp0", .data = &wpe_vpp0_desc },
-    89		{ /* sentinel */ }
-    90	};
-  > 91	MODULE_DEVICE_TABLE(platform, clk_mt8188_vpp1_id_table);
-    92	
+   184	
+   185	static void msm_atomic_commit_connectors(struct drm_atomic_state *state)
+   186	{
+   187		struct drm_device *dev = state->dev;
+   188		struct msm_drm_private *priv = dev->dev_private;
+   189		int i;
+   190	
+   191		for (i = 0; i < priv->num_bridges; ++i) {
+   192			struct drm_bridge *bridge = priv->bridges[i];
+ > 193			if (dp_drm_is_bridge_msm_dp(bridge)) {
+ > 194				dp_drm_atomic_commit(bridge, state);
+   195			}
+   196		}
+   197	}
+   198	
 
 -- 
 0-DAY CI Kernel Test Service
