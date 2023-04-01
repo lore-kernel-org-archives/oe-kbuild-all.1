@@ -1,48 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE6B23A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 05:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EEE19E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 06:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680328099; x=1711864099;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6tAxeISHFjUch5my/m6anU5mYMaYP5Vu4zvUbILAbrg=;
-  b=Peq+Biq84pZ8S3XskWZ8U+i1XroSqGVADM06mDn5E9j5udY+y2CQJxK2
-   rj/8AE55nAUgjWvADu75ztOgM284wdn09UdNAb9wN+isUxZr04NrHeYv+
-   wVraRSbF7/863DwMyGJv+4xxyKIYASJACSLjkNJb6mILTLnCSqfWXNvWd
-   YGFNHI1VOVztGb8XrHJJBcli/rZJXJU60Lfu+1GEQLCEWZOMk91Ww8oed
-   Po/LTxlfDB1kjCWQG1oXrOi/VF0TtEfbqViwXfCgo2xv3DFjbuBsALLDb
-   XwTg0CcP5RGlgAOr9jWsYYr/nbJq3ilnkKLcRu07rLB9UNp0vQb+C2hCU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="325613637"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="325613637"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 22:48:18 -0700
+  t=1680332369; x=1711868369;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PMXe2iN70hx/zxIuvJrNcRar4+/wnhcOjl1pyngv4JU=;
+  b=Dvp3qIrIxj0qKfrhd61hL2qI3g2u66iQfX0CyrAoPZU8djRoApO1vIOh
+   0hJgfIUfpDPLORYbBBr3IhvX3Dg1Ornkyh4UZB+j9AByoaRHjjyV6PBw/
+   iejSnP/eKmXF9QMFddshJE+fDQ8tQiFZRpZgDkRkBsfSVkEQc9b8Pw29K
+   Yq+5lsh01oBllWVWYSz6zll4mOl0PE5+pULzc3V+sMYEssB9ZavkeELjr
+   LdyKUYiLWwz6NYH7IaI/ocJ5Fr5Mw0WuZMmIQXRTI4T9YuaHp4f5SKZ9d
+   WX1Q83P5zETigKEPQWFt6LCgl4ACvxM5cNwQUflAoFsq1e+7/f75pNvND
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339123387"
+X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
+   d="scan'208";a="339123387"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 23:59:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717962073"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="717962073"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="715698542"
+X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
+   d="scan'208";a="715698542"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 31 Mar 2023 22:48:16 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 Mar 2023 23:59:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piU63-000MWv-0L;
-	Sat, 01 Apr 2023 05:48:15 +0000
-Date: Sat, 1 Apr 2023 13:47:29 +0800
+	id 1piVCo-000Ma3-0a;
+	Sat, 01 Apr 2023 06:59:18 +0000
+Date: Sat, 1 Apr 2023 14:58:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH v1 RESEND 1/1] HID: shield: Initial driver implementation
- with Thunderstrike support
-Message-ID: <202304011342.6Bh3cWhA-lkp@intel.com>
-References: <20230401032150.7424-2-rrameshbabu@nvidia.com>
+To: "Borislav Petkov (AMD)" <bp@alien8.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-doc@vger.kernel.org
+Subject: [linux-next:master 8321/8375] htmldocs: Warning: arch/x86/Kconfig
+ references a file that doesn't exist: Documentation/x86/shstk.rst
+Message-ID: <202304011449.XFV6lLwh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,84 +47,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230401032150.7424-2-rrameshbabu@nvidia.com>
 
-Hi Rahul,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rahul-Rameshbabu/HID-shield-Initial-driver-implementation-with-Thunderstrike-support/20230401-112438
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230401032150.7424-2-rrameshbabu%40nvidia.com
-patch subject: [PATCH v1 RESEND 1/1] HID: shield: Initial driver implementation with Thunderstrike support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230401/202304011342.6Bh3cWhA-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/febf8c75cc77baaf26a8ae869201cb1df6d67124
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rahul-Rameshbabu/HID-shield-Initial-driver-implementation-with-Thunderstrike-support/20230401-112438
-        git checkout febf8c75cc77baaf26a8ae869201cb1df6d67124
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
+commit: 3a5762993f9278880487d2dccfa964f09f6a1021 [8321/8375] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3a5762993f9278880487d2dccfa964f09f6a1021
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3a5762993f9278880487d2dccfa964f09f6a1021
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011342.6Bh3cWhA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304011449.XFV6lLwh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hid/hid-shield.c:199:6: warning: no previous prototype for 'thunderstrike_hostcmd_req_work_handler' [-Wmissing-prototypes]
-     199 | void thunderstrike_hostcmd_req_work_handler(struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/thunderstrike_hostcmd_req_work_handler +199 drivers/hid/hid-shield.c
-
-   198	
- > 199	void thunderstrike_hostcmd_req_work_handler(struct work_struct *work)
-   200	{
-   201		struct thunderstrike *ts =
-   202			container_of(work, struct thunderstrike, hostcmd_req_work);
-   203		struct thunderstrike_hostcmd_req_report *report;
-   204		unsigned long flags;
-   205	
-   206		report = ts->req_report_dmabuf;
-   207	
-   208		if (test_and_clear_bit(THUNDERSTRIKE_FW_VERSION_UPDATE, &ts->update_flags)) {
-   209			thunderstrike_hostcmd_req_report_init(
-   210				report, THUNDERSTRIKE_HOSTCMD_ID_FW_VERSION);
-   211			thunderstrike_send_hostcmd_request(ts);
-   212		}
-   213	
-   214		if (test_and_clear_bit(THUNDERSTRIKE_BOARD_INFO_UPDATE, &ts->update_flags)) {
-   215			thunderstrike_hostcmd_req_report_init(
-   216				report, THUNDERSTRIKE_HOSTCMD_ID_BOARD_INFO);
-   217			thunderstrike_send_hostcmd_request(ts);
-   218		}
-   219	
-   220		if (test_and_clear_bit(THUNDERSTRIKE_HAPTICS_UPDATE, &ts->update_flags)) {
-   221			thunderstrike_hostcmd_req_report_init(
-   222				report, THUNDERSTRIKE_HOSTCMD_ID_HAPTICS);
-   223	
-   224			report->haptics.update = 1;
-   225			spin_lock_irqsave(&ts->haptics_update_lock, flags);
-   226			report->haptics.motors = ts->haptics_val;
-   227			spin_unlock_irqrestore(&ts->haptics_update_lock, flags);
-   228	
-   229			thunderstrike_send_hostcmd_request(ts);
-   230		}
-   231	}
-   232	
+>> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/shstk.rst
 
 -- 
 0-DAY CI Kernel Test Service
