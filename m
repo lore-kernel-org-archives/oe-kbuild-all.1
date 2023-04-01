@@ -1,49 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916823205
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 12:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686B2199
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 12:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680350793; x=1711886793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GhN/zLgZPhjtxMWToJxXXsvcAbSsvRGheQVMGCpow7w=;
-  b=bHnXxtjecow8+mruu2cNG0S9yw7pyfRp5OwFbNv8i+HteKW6dSgl8i3x
-   LzgBURD+01a9ktr6zzmyb7tNofDniL9vT5g2BpKoWZ1ZvlE703Z1BmsoJ
-   tK5eymx0Va3op25/a9QECcnAzCTsSuMg1jz4oOEYRKLlYM48U5rbIgGHM
-   wHJFfeCQCnd09EmTIiqiFYbeC8k4N2ylnhqQufOkczXAfk+Y3yyVUbsyA
-   9c8pGJcwamC1RFdHkuU1oZrYD4UHkgKIlr9+doPTEu7jmlIxmuJAX+vdz
-   EARE338GZMbZoFq0E7HPmYbhUq9FPpPCxmA7sVxGiP0VXoi/4ZuRyfUJT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="427927555"
+  t=1680353189; x=1711889189;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IH16zvJ8AyZWz+2KO2UMr3PruLZamqWzIdO/8+LzhOE=;
+  b=czLpmuXcajKaxqQUKudEb0JPHRY5Lb/3jHfNk02yHGPk2NN2WRQEmcSp
+   Oh5FCoJv6exf9Kdl/KpuXHHNBtswHo18+qbgGJvIlRYiLKjM+qoe9bryk
+   p/zth1yRUAAGvdCm03kVnM9H8WeLlI8U+Hey0SE0fQPdE6H3Ib4eeWca0
+   C5o8mOrkmPe2BWlNOV55J9LVsDnZGmfVfeIFc6pPS9yuXNXSJidVVyzc/
+   xf219glDLapgXjj1n3HkWnyQpx8pwklzwpTR19p6AUhqTiRb4VF9SW3tC
+   67QTyRJVD6TE7SAKt88ar9Qesca0AB3bsnt53epER9+oboKYyzqtUN6Ww
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="339145478"
 X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="427927555"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 05:06:29 -0700
+   d="scan'208";a="339145478"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 05:46:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="859651603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="635592973"
 X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="859651603"
+   d="scan'208";a="635592973"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 01 Apr 2023 05:06:26 -0700
+  by orsmga003.jf.intel.com with ESMTP; 01 Apr 2023 05:46:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pia01-000MkP-1w;
-	Sat, 01 Apr 2023 12:06:25 +0000
-Date: Sat, 1 Apr 2023 20:05:35 +0800
+	id 1piack-000Mlv-1Z;
+	Sat, 01 Apr 2023 12:46:26 +0000
+Date: Sat, 1 Apr 2023 20:46:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Klinger <ak@it-klinger.de>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
-Message-ID: <202304011957.pKSWQHyS-lkp@intel.com>
-References: <ZCf085W4XL2PtQf6@arbad>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.4
+ 2811/9999] drivers/dma-buf/heaps/page_pool.c:236:17: sparse: sparse: symbol
+ 'pool_shrinker' was not declared. Should it be static?
+Message-ID: <202304012020.FmhA8lWS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,42 +47,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCf085W4XL2PtQf6@arbad>
 
-Hi Andreas,
+Hi John,
 
-I love your patch! Yet something to improve:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on jic23-iio/togreg]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/ZCf085W4XL2PtQf6%40arbad
-patch subject: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
-config: m68k-randconfig-r023-20230401 (https://download.01.org/0day-ci/archive/20230401/202304011957.pKSWQHyS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6a49dae45811d8a644c56dc18b6cdbc6ea67df98
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
-        git checkout 6a49dae45811d8a644c56dc18b6cdbc6ea67df98
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android12-5.4
+head:   09417023d02f21d46d6a239c93a6ae0f45a1b1e7
+commit: 44008f99d9ca0793e2562967e1da01fa74ee4a41 [2811/9999] ANDROID: dma-buf: system_heap: Add pagepool support to system heap
+config: x86_64-randconfig-s023 (https://download.01.org/0day-ci/archive/20230401/202304012020.FmhA8lWS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/44008f99d9ca0793e2562967e1da01fa74ee4a41
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android12-5.4
+        git checkout 44008f99d9ca0793e2562967e1da01fa74ee4a41
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma-buf/heaps/ init/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011957.pKSWQHyS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304012020.FmhA8lWS-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/heaps/page_pool.c:236:17: sparse: sparse: symbol 'pool_shrinker' was not declared. Should it be static?
+   drivers/dma-buf/heaps/page_pool.c:243:5: sparse: sparse: symbol 'dmabuf_page_pool_init_shrinker' was not declared. Should it be static?
 
->> ERROR: modpost: "__divdi3" [drivers/iio/pressure/mpr.ko] undefined!
+vim +/pool_shrinker +236 drivers/dma-buf/heaps/page_pool.c
+
+bd4db96bfc247af John Stultz 2020-10-02  235  
+bd4db96bfc247af John Stultz 2020-10-02 @236  struct shrinker pool_shrinker = {
+bd4db96bfc247af John Stultz 2020-10-02  237  	.count_objects = dmabuf_page_pool_shrink_count,
+bd4db96bfc247af John Stultz 2020-10-02  238  	.scan_objects = dmabuf_page_pool_shrink_scan,
+bd4db96bfc247af John Stultz 2020-10-02  239  	.seeks = DEFAULT_SEEKS,
+bd4db96bfc247af John Stultz 2020-10-02  240  	.batch = 0,
+bd4db96bfc247af John Stultz 2020-10-02  241  };
+bd4db96bfc247af John Stultz 2020-10-02  242  
+
+:::::: The code at line 236 was first introduced by commit
+:::::: bd4db96bfc247afdaf7a4cfde85fd8147522f3e6 ANDROID: dma-buf: heaps: Add a shrinker controlled page pool
+
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
