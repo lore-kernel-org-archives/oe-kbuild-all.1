@@ -1,50 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D683A179
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Apr 2023 00:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B467C7C;
+	Sat,  1 Apr 2023 00:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680308407; x=1711844407;
+  t=1680309666; x=1711845666;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i+fMdauhfahN1aZCfVPkPAeQqjT40gdgL5LTsfvPY/s=;
-  b=VA1klyks5vqdtxtOi9Q1JJa4sZtZfH++z4BVaOeG7hC+cz1cLd3HEVIO
-   hvzpp+XVDm3G0ZxTgihzdpY6YgwI6/ugxZzvGrFn6XUsqAfLDg1ruxZBb
-   F/7evqGRksmjxRI60kCFvsP6LUzVGHqVhiJv/Via7eBkIg8sN4/Z7RceV
-   2TjS85LmXa6FQNg9McvYKZUt8+OVEX1OWny8JBmpGxYn1nb6TSmxU1sA1
-   uimCxVcBLn7lSqgYokC9DfRYo0NzRM5rrOXQyH4JD9KSKlwpEjZIuYDWU
-   RZI04T/tZqUWCsoeHUe6G4o6q9FX3GNynG55YDdz0KkqW0YfS2vZGCupT
+  bh=/p6kHJVBSbUixOamAUXNdtskxeLyC+KHCubQPFvPg0c=;
+  b=Yma0hFXNRzcwfCFdi/NYg0ArvirEO+He3uFZ8pDCaN+fZIGWy94FyFzA
+   BRVxVaqUUnYP6FQ9knNDbQgLjp9YbZRvEafUqtCV9u04Y47iVJ1yHDFta
+   orA4f4WFTYS9kwNNX37uro8AMdDmxr2ZSJc7R7aNcmr4dNvIqoP0YjoHS
+   Hqz2URfJpmpZI2CR3xXoXsJajhy0QPg9aCgJ3kS7AWUzxzQgbekiNCISm
+   msHlJqD77zKTs+j1EFoipWust48Ppwlh6fz+TYBPWsEk746wASrrjOuLP
+   IDy6OjKcYFb8p6Q/uODdlu46fE7CUhKxKu/hNYnl7Db+pivQ2GaHPLH/n
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="344128908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="341610529"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="344128908"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 17:20:07 -0700
+   d="scan'208";a="341610529"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 17:41:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="662581327"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="931384387"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="662581327"
+   d="scan'208";a="931384387"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 31 Mar 2023 17:20:03 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 31 Mar 2023 17:41:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piOyQ-000MIf-2t;
-	Sat, 01 Apr 2023 00:20:02 +0000
-Date: Sat, 1 Apr 2023 08:19:50 +0800
+	id 1piPIl-000MJF-14;
+	Sat, 01 Apr 2023 00:41:03 +0000
+Date: Sat, 1 Apr 2023 08:40:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, seanpaul@chromium.org,
-	suraj.kandpal@intel.com, dianders@chromium.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@intel.com>,
-	Mark Yacoub <markyacoub@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 04/10] drm/hdcp: Expand HDCP helper library for
- enable/disable/check
-Message-ID: <202304010815.5iVFI5nv-lkp@intel.com>
-References: <20230331221213.1691997-5-markyacoub@google.com>
+To: Josh Triplett <josh@joshtriplett.org>, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] ext4: Add a uapi header for ext4 userspace APIs
+Message-ID: <202304010801.X0Hn9zmw-lkp@intel.com>
+References: <152752fa6b148e0ea304a3cdb3cc33bae0117918.1680272908.git.josh@joshtriplett.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,76 +48,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331221213.1691997-5-markyacoub@google.com>
+In-Reply-To: <152752fa6b148e0ea304a3cdb3cc33bae0117918.1680272908.git.josh@joshtriplett.org>
 
-Hi Mark,
+Hi Josh,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on drm-intel/for-linux-next-fixes]
-[also build test WARNING on drm/drm-next linus/master v6.3-rc4 next-20230331]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next]
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on linus/master v6.3-rc4 next-20230331]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230331221213.1691997-5-markyacoub%40google.com
-patch subject: [PATCH v8 04/10] drm/hdcp: Expand HDCP helper library for enable/disable/check
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230401/202304010815.5iVFI5nv-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Triplett/ext4-Add-a-uapi-header-for-ext4-userspace-APIs/20230331-224557
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/152752fa6b148e0ea304a3cdb3cc33bae0117918.1680272908.git.josh%40joshtriplett.org
+patch subject: [PATCH v2] ext4: Add a uapi header for ext4 userspace APIs
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230401/202304010801.X0Hn9zmw-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/82a092e7e090cdeb3ff18498e6ad671906268631
+        # https://github.com/intel-lab-lkp/linux/commit/50d05266bcf4bc3307776d25c0f70d11063a8a4e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
-        git checkout 82a092e7e090cdeb3ff18498e6ad671906268631
+        git fetch --no-tags linux-review Josh-Triplett/ext4-Add-a-uapi-header-for-ext4-userspace-APIs/20230331-224557
+        git checkout 50d05266bcf4bc3307776d25c0f70d11063a8a4e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/display/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304010815.5iVFI5nv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304010801.X0Hn9zmw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/display/drm_hdcp_helper.c:719: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Check if the sink is capable of HDCP 1.x. DisplayPort has a dedicated bit
-   drivers/gpu/drm/display/drm_hdcp_helper.c:742: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Check if the sink is capable of HDCP 1.x. HDMI spec states that transmitters
-   drivers/gpu/drm/display/drm_hdcp_helper.c:1633: warning: Function parameter or member 'aux' not described in 'drm_hdcp_helper_initialize_dp'
-
-
-vim +719 drivers/gpu/drm/display/drm_hdcp_helper.c
-
-   717	
-   718	/**
- > 719	 * Check if the sink is capable of HDCP 1.x. DisplayPort has a dedicated bit
-   720	 * for this in DPCD.
-   721	 *
-   722	 * @data: pointer to the HDCP helper data.
-   723	 * @capable: pointer to a bool which will contain true if the sink is capable.
-   724	 *
-   725	 * Returns:
-   726	 * -errno if the transacation between source and sink fails.
-   727	 */
-   728	int drm_hdcp_helper_hdcp1_capable_dp(struct drm_hdcp_helper_data *data,
-   729					     bool *capable)
-   730	{
-   731		int ret;
-   732		u8 bcaps;
-   733	
-   734		ret = data->funcs->remote_read(data, data->hdcp1_lut->bcaps, &bcaps, 1);
-   735		*capable = !ret && (bcaps & DP_BCAPS_HDCP_CAPABLE);
-   736	
-   737		return 0;
-   738	}
-   739	EXPORT_SYMBOL(drm_hdcp_helper_hdcp1_capable_dp);
-   740	
+   In file included from <built-in>:1:
+>> ./usr/include/linux/ext4.h:113:2: error: unknown type name 'compat_u64'
+           compat_u64 block_bitmap;
+           ^
+   ./usr/include/linux/ext4.h:114:2: error: unknown type name 'compat_u64'
+           compat_u64 inode_bitmap;
+           ^
+   ./usr/include/linux/ext4.h:115:2: error: unknown type name 'compat_u64'
+           compat_u64 inode_table;
+           ^
+   3 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
