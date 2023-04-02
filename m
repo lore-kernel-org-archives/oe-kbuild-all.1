@@ -1,45 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138A653B1
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 21:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155FA3205
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 22:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680470421; x=1712006421;
+  t=1680476013; x=1712012013;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3wE+slA5qhMnqVT0sZ1mxCRIEdGhb+vZHRgo3xSqLu4=;
-  b=PibU/KBEifQMfgvIC7cB5YDMF/+suxUQHXNnt6waQrcE4TXYvRA3t2C2
-   dlcPSFSrUqrElCRswyGx1juQ2KESEYtL/SgZCVUfLgOptiJBkegYn4Rmb
-   ohRyP+EdQo0hoN4nkyM/O/uHTDeGFDPdLSKHdsEVYCeYEYHfyOUtL7w1j
-   q2ucz8yvOMqDSJ3Z+Uu+CT/pH3p5lz+noIT5qfKEQc5b6CfQOnXNPeLlg
-   fnMDjXNNLaobpeABhQwrXx+GxBk3LLX0QlkMw8psdt5WsrHCBupaSbRtx
-   Z4dQlhpmXjuwcTM9VNWrxCM9eB5ySmIDGlSqtX9o8H1N7d2NvDUpwve25
+  bh=v2UONLO15B3Stu4+rDT9oAUu4OAZCnrUbPs74ldIswU=;
+  b=F0BHznzwiwPKmP4YIfKHTLlLHlCdnfuO9saT/Zo/2/mPL4pnrgHkuqy6
+   lFWRl8NLCNheIIWvXAKD+l0lbtM8BhTEbvnb7aOXmggRLTQFLFA3fkaBi
+   TDe7dOWH8snjasbXKwmUz5+6PKoVFyDeG54Kv5OWrIK0/4ht7C4OE50Ud
+   6UemoAlCawz95qB0QgVmAqPynoUsIHehqXM/kcdWnCVAu1zq0bY6w4FEN
+   xSE9Y/COoHKxeqCtIx4aq8vw2NOYZiuxqQTXi1qn5IwlV5NiXuFI92Gdd
+   e6ALWoFwAosFjVs8KEniVWJLtzh1K8CbD8oXTcZRsBu6DD2f6fALwiqa3
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="325766414"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="330342591"
 X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="325766414"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 14:20:20 -0700
+   d="scan'208";a="330342591"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 15:53:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="685732314"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="774969603"
 X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="685732314"
+   d="scan'208";a="774969603"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Apr 2023 14:20:19 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Apr 2023 15:53:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pj57a-000Ngx-0y;
-	Sun, 02 Apr 2023 21:20:18 +0000
-Date: Mon, 3 Apr 2023 05:19:24 +0800
+	id 1pj6Zm-000Nlx-0C;
+	Sun, 02 Apr 2023 22:53:30 +0000
+Date: Mon, 3 Apr 2023 06:52:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Kalle Valo <kvalo@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [matthias-bgg:v6.3-next/soc 20/23]
- drivers/soc/mediatek/mtk-mmsys.c:138: undefined reference to
- `cmdq_pkt_write_mask'
-Message-ID: <202304030540.JMoZv9J7-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2225/8375]
+ drivers/net/wireless/legacy/ray_cs.c:628:17: warning: 'strncpy' specified
+ bound 32 equals destination size
+Message-ID: <202304030646.HKFxS2Cl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,64 +48,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git v6.3-next/soc
-head:   e9a6f5bca5ea56f05d92a966034ed472408821b8
-commit: b34884b4c878a6ad2a4f70d7c88ef60ac39ad408 [20/23] soc: mediatek: Cleanup ifdefs for IS_REACHABLE(CONFIG_MTK_CMDQ)
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230403/202304030540.JMoZv9J7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Kalle,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
+commit: 298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec [2225/8375] wifi: move raycs, wl3501 and rndis_wlan to legacy directory
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230403/202304030646.HKFxS2Cl-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?id=b34884b4c878a6ad2a4f70d7c88ef60ac39ad408
-        git remote add matthias-bgg https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git
-        git fetch --no-tags matthias-bgg v6.3-next/soc
-        git checkout b34884b4c878a6ad2a4f70d7c88ef60ac39ad408
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/wireless/legacy/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304030540.JMoZv9J7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304030646.HKFxS2Cl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_update_bits':
->> drivers/soc/mediatek/mtk-mmsys.c:138: undefined reference to `cmdq_pkt_write_mask'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_probe':
->> drivers/soc/mediatek/mtk-mmsys.c:377: undefined reference to `cmdq_dev_get_client_reg'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_enable_by_cmdq':
->> drivers/soc/mediatek/mtk-mutex.c:883: undefined reference to `cmdq_pkt_write'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_probe':
->> drivers/soc/mediatek/mtk-mutex.c:1026: undefined reference to `cmdq_dev_get_client_reg'
+   In function 'init_startup_params',
+       inlined from 'ray_init' at drivers/net/wireless/legacy/ray_cs.c:506:2:
+>> drivers/net/wireless/legacy/ray_cs.c:628:17: warning: 'strncpy' specified bound 32 equals destination size [-Wstringop-truncation]
+     628 |                 strncpy(local->sparm.b4.a_current_ess_id, essid, ESSID_SIZE);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +138 drivers/soc/mediatek/mtk-mmsys.c
+vim +/strncpy +628 drivers/net/wireless/legacy/ray_cs.c
 
-   130	
-   131	static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val,
-   132					  struct cmdq_pkt *cmdq_pkt)
-   133	{
-   134		int ret;
-   135		u32 tmp;
-   136	
-   137		if (mmsys->cmdq_base.size && cmdq_pkt) {
- > 138			ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-   139						  mmsys->cmdq_base.offset + offset, val,
-   140						  mask);
-   141			if (ret)
-   142				pr_debug("CMDQ unavailable: using CPU write\n");
-   143			else
-   144				return;
-   145		}
-   146		tmp = readl_relaxed(mmsys->regs + offset);
-   147		tmp = (tmp & ~mask) | (val & mask);
-   148		writel_relaxed(tmp, mmsys->regs + offset);
-   149	}
-   150	
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  568  
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  569  /*===========================================================================*/
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  570  static void init_startup_params(ray_dev_t *local)
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  571  {
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  572  	int i;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  573  
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  574  	if (country > JAPAN_TEST)
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  575  		country = USA;
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  576  	else if (country < USA)
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  577  		country = USA;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  578  	/* structure for hop time and beacon period is defined here using
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  579  	 * New 802.11D6.1 format.  Card firmware is still using old format
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  580  	 * until version 6.
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  581  	 *    Before                    After
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  582  	 *    a_hop_time ms byte        a_hop_time ms byte
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  583  	 *    a_hop_time 2s byte        a_hop_time ls byte
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  584  	 *    a_hop_time ls byte        a_beacon_period ms byte
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  585  	 *    a_beacon_period           a_beacon_period ls byte
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  586  	 *
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  587  	 *    a_hop_time = uS           a_hop_time = KuS
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  588  	 *    a_beacon_period = hops    a_beacon_period = KuS
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  589  	 *//* 64ms = 010000 */
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  590  	if (local->fw_ver == 0x55) {
+e48d661eb13f2f drivers/net/wireless/ray_cs.c Kees Cook      2017-05-05  591  		memcpy(&local->sparm.b4, b4_default_startup_parms,
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  592  		       sizeof(struct b4_startup_params));
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  593  		/* Translate sane kus input values to old build 4/5 format */
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  594  		/* i = hop time in uS truncated to 3 bytes */
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  595  		i = (hop_dwell * 1024) & 0xffffff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  596  		local->sparm.b4.a_hop_time[0] = (i >> 16) & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  597  		local->sparm.b4.a_hop_time[1] = (i >> 8) & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  598  		local->sparm.b4.a_beacon_period[0] = 0;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  599  		local->sparm.b4.a_beacon_period[1] =
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  600  		    ((beacon_period / hop_dwell) - 1) & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  601  		local->sparm.b4.a_curr_country_code = country;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  602  		local->sparm.b4.a_hop_pattern_length =
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  603  		    hop_pattern_length[(int)country] - 1;
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  604  		if (bc) {
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  605  			local->sparm.b4.a_ack_timeout = 0x50;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  606  			local->sparm.b4.a_sifs = 0x3f;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  607  		}
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  608  	} else { /* Version 5 uses real kus values */
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  609  		memcpy((UCHAR *) &local->sparm.b5, b5_default_startup_parms,
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  610  		       sizeof(struct b5_startup_params));
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  611  
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  612  		local->sparm.b5.a_hop_time[0] = (hop_dwell >> 8) & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  613  		local->sparm.b5.a_hop_time[1] = hop_dwell & 0xff;
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  614  		local->sparm.b5.a_beacon_period[0] =
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  615  		    (beacon_period >> 8) & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  616  		local->sparm.b5.a_beacon_period[1] = beacon_period & 0xff;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  617  		if (psm)
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  618  			local->sparm.b5.a_power_mgt_state = 1;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  619  		local->sparm.b5.a_curr_country_code = country;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  620  		local->sparm.b5.a_hop_pattern_length =
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  621  		    hop_pattern_length[(int)country];
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  622  	}
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  623  
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  624  	local->sparm.b4.a_network_type = net_type & 0x01;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  625  	local->sparm.b4.a_acting_as_ap_status = TYPE_STA;
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  626  
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  627  	if (essid != NULL)
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16 @628  		strncpy(local->sparm.b4.a_current_ess_id, essid, ESSID_SIZE);
+^1da177e4c3f41 drivers/net/wireless/ray_cs.c Linus Torvalds 2005-04-16  629  } /* init_startup_params */
+141fa61f10c419 drivers/net/wireless/ray_cs.c John Daiker    2009-03-10  630  
+
+:::::: The code at line 628 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
