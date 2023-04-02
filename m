@@ -1,47 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1683015A7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 03:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4F217E2;
+	Sun,  2 Apr 2023 03:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680404630; x=1711940630;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7aZifsaAEso7qXDiYmzrkdxCr4EDkLyzHawHD9RGCQQ=;
-  b=ZA0AyOWuZszjWDwe8Ap4rOCZN1mnmKmR/crFtiIybBwjaE2BWcyF6L5l
-   vJrorY8pXqP556SBMtyCoYQ1P3IHWNeZZLlsoyVBHQiUnFZOeLtYNfc4X
-   DUJ75En2vO56B1N1CHaeYwAfS8lEjO+qmWtu2AegNl3v8wtULl545mDDN
-   TGCil43OHMqDiTIqKQULySnOOQVoPLBs6VK6eJOtMXeIY2/CY+9oMEZbP
-   wyvrUpmKpQXdbx6Y9hgbb01yLFjnqNsGeSXI49FgUXSe8/41d9RA5P8Oc
-   ZOxNS/v+66pfQKzjLVphJ3fblV0PnSoM6dzY2jVi99o3qxLmMQ5tedG4V
+  t=1680404636; x=1711940636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UwGIjXk3/Uoh9jUrJy/wr/+7yvyMHOiCs5iNw+KoTj8=;
+  b=MsYVmEvFEyy7DSx/e3YcPU4wLoNy3O8xGU7hObWELVA0KxyvcXeo/Gke
+   ImQYCQhgD9MeJxnU1XjrNdNH6BsrD2/1eU9jOIp+pSi8wBUaNqS6fnW8j
+   B9jm2mJ9/2Lhqr6y0SSUCXLavIqoVjKBOqSiB3O1axJa1PRwh9CVINH0A
+   SO/jB0eM0IztforZ6J4D7rNJGd0mgQkFtxz8XpqcVK+K6iIuJBIlNq4l2
+   2c31tUb1e5tFpr78EB1ZCt0AIUvuj6HrNSIOZCIPerrRwN97ST41sgmNK
+   V4ZqAUblFdDrq9HihBRRnwHfCAAhpB3LQc29pTrPLviJuWpL0tUmMsayI
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="406741669"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="330260333"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="406741669"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 20:03:49 -0700
+   d="scan'208";a="330260333"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 20:03:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="754819234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="718147955"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="754819234"
+   d="scan'208";a="718147955"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Apr 2023 20:03:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 01 Apr 2023 20:03:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pio0Q-000NCL-2a;
+	id 1pio0Q-000NCN-2f;
 	Sun, 02 Apr 2023 03:03:46 +0000
-Date: Sun, 2 Apr 2023 11:02:48 +0800
+Date: Sun, 2 Apr 2023 11:02:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Garmin.Chang" <Garmin.Chang@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stephen Boyd <sboyd@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [clk:clk-mediatek 82/82] FATAL: modpost:
- drivers/clk/mediatek/clk-mt8188-adsp_audio26m: sizeof(struct
- platform_device_id)=24 is not a modulo of the size of section
- __mod_platform__<identifier>_device_table=392.
-Message-ID: <202304021055.WDhQPcoS-lkp@intel.com>
+To: Andreas Klinger <ak@it-klinger.de>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
+Message-ID: <202304021013.6NytoSFn-lkp@intel.com>
+References: <ZCf085W4XL2PtQf6@arbad>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,32 +53,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZCf085W4XL2PtQf6@arbad>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-mediatek
-head:   0d2f2cefba64729a0730ce183ad58cf3e7929b94
-commit: 0d2f2cefba64729a0730ce183ad58cf3e7929b94 [82/82] clk: mediatek: Add MT8188 adsp clock support
-config: microblaze-randconfig-r024-20230402 (https://download.01.org/0day-ci/archive/20230402/202304021055.WDhQPcoS-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+Hi Andreas,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on jic23-iio/togreg]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/ZCf085W4XL2PtQf6%40arbad
+patch subject: [PATCH 2/3] iio: pressure: Honeywell mpr pressure sensor
+config: arm-buildonly-randconfig-r004-20230401 (https://download.01.org/0day-ci/archive/20230402/202304021013.6NytoSFn-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?id=0d2f2cefba64729a0730ce183ad58cf3e7929b94
-        git remote add clk https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
-        git fetch --no-tags clk clk-mediatek
-        git checkout 0d2f2cefba64729a0730ce183ad58cf3e7929b94
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/6a49dae45811d8a644c56dc18b6cdbc6ea67df98
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mpr-sensors/20230401-171226
+        git checkout 6a49dae45811d8a644c56dc18b6cdbc6ea67df98
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304021055.WDhQPcoS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304021013.6NytoSFn-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> FATAL: modpost: drivers/clk/mediatek/clk-mt8188-adsp_audio26m: sizeof(struct platform_device_id)=24 is not a modulo of the size of section __mod_platform__<identifier>_device_table=392.
-Fix definition of struct platform_device_id in mod_devicetable.h
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/iio/pressure/mpr.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
