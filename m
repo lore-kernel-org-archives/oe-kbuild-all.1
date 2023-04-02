@@ -1,45 +1,48 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AABB17CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 02:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958417C;
+	Sun,  2 Apr 2023 02:11:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680401509; x=1711937509;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TSRXxY1GK7cARfaf3QRa+0+lK0W9nr+gk2a1wVlK1MM=;
-  b=T6unSz0eWarMzZbLdFbc2yFjD0bnlJjtaaeOlUmfypg3OA5VUKZ0qrkN
-   YI6f2Y5a2v0MJt/pgHfwzz0tu4S2QPCZYIspG6OL0Lb47sdT4bXYveduD
-   LAoRyPPZI4FQUpV6bBMydynJ7yeUtSaxaawumbojPv9U9cDBD/i/wockW
-   mGvi6bv8zAy6FJxALgesdYEc3FFn2/5VzWfxpDU6iXwM2B3szcbNMrF/I
-   eoEEH8KuvxfKiLx4JYLdQ6hFL45X5gdW3CZLDjBQ3keHxlOlkJsYeY9pO
-   ltxj0ug+p8F3hpy26rg5Ze1D8Sd+uVM+CLzovNZGYxxyd9z2n+mg+5nD0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="343380746"
+  t=1680401510; x=1711937510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EAUnShvAN7CBmVvc/poi83y0CvKkYQeH+bGcVMW0RxY=;
+  b=NwVomtLbp0kCCMkowGI1ySxufmFDbW8n6tmgPpeXORJJ8qoR34BvUPbI
+   SAub9/CdfUrVWeHPTj8lDv+Th8FvAOup5ECaYf8pBkzLNrc/g68Sdp5q7
+   8AJ/H9Pn3wD7nrTg+IJ3ASmqV//g0vVWHstMWbkOfYXdY1tlGMJ1zwvhI
+   7BOr2c4GRO3TIGriM0E3g151tnd9MqrDuT057DjwPHcLfjCrOr9I13CC/
+   p2tfcubW4U3kh6+q7mwS5ko7uRI6I2LVz3KZYqzLWyvNxvXAR1gnusBam
+   mNUYFcP74Al2tai6SGssrLlIlBoLm6inDVZyYjAIk8v7Zt9Fp1iMNMEvB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="341713737"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="343380746"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 19:11:48 -0700
+   d="scan'208";a="341713737"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 19:11:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="750087025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="688113255"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="750087025"
+   d="scan'208";a="688113255"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Apr 2023 19:11:46 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 01 Apr 2023 19:11:46 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pinC5-000NAv-2V;
+	id 1pinC5-000NAx-2a;
 	Sun, 02 Apr 2023 02:11:45 +0000
-Date: Sun, 2 Apr 2023 10:11:17 +0800
+Date: Sun, 2 Apr 2023 10:11:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
-Subject: [linux-next:master 5598/8375] arch/riscv/include/asm/syscall.h:87
- syscall_handler() warn: inconsistent indenting
-Message-ID: <202304021048.J6a5T08T-lkp@intel.com>
+To: Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH v1 RESEND 1/1] HID: shield: Initial driver implementation
+ with Thunderstrike support
+Message-ID: <202304020922.vsngJnBT-lkp@intel.com>
+References: <20230401032150.7424-2-rrameshbabu@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,39 +51,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230401032150.7424-2-rrameshbabu@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
-commit: f0bddf50586da81360627a772be0e355b62f071e [5598/8375] riscv: entry: Convert to generic entry
-config: riscv-randconfig-m031-20230402 (https://download.01.org/0day-ci/archive/20230402/202304021048.J6a5T08T-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+Hi Rahul,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230331]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rahul-Rameshbabu/HID-shield-Initial-driver-implementation-with-Thunderstrike-support/20230401-112438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230401032150.7424-2-rrameshbabu%40nvidia.com
+patch subject: [PATCH v1 RESEND 1/1] HID: shield: Initial driver implementation with Thunderstrike support
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230402/202304020922.vsngJnBT-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/febf8c75cc77baaf26a8ae869201cb1df6d67124
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rahul-Rameshbabu/HID-shield-Initial-driver-implementation-with-Thunderstrike-support/20230401-112438
+        git checkout febf8c75cc77baaf26a8ae869201cb1df6d67124
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/ drivers/iio/pressure/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304021048.J6a5T08T-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304020922.vsngJnBT-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/include/asm/syscall.h:87 syscall_handler() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +87 arch/riscv/include/asm/syscall.h
+>> drivers/hid/hid-shield.c:199:6: warning: no previous prototype for function 'thunderstrike_hostcmd_req_work_handler' [-Wmissing-prototypes]
+   void thunderstrike_hostcmd_req_work_handler(struct work_struct *work)
+        ^
+   drivers/hid/hid-shield.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void thunderstrike_hostcmd_req_work_handler(struct work_struct *work)
+   ^
+   static 
+   1 warning generated.
 
-    76	
-    77	typedef long (*syscall_t)(ulong, ulong, ulong, ulong, ulong, ulong, ulong);
-    78	static inline void syscall_handler(struct pt_regs *regs, ulong syscall)
-    79	{
-    80		syscall_t fn;
-    81	
-    82	#ifdef CONFIG_COMPAT
-    83		if ((regs->status & SR_UXL) == SR_UXL_32)
-    84			fn = compat_sys_call_table[syscall];
-    85		else
-    86	#endif
-  > 87			fn = sys_call_table[syscall];
-    88	
-    89		regs->a0 = fn(regs->orig_a0, regs->a1, regs->a2,
-    90			      regs->a3, regs->a4, regs->a5, regs->a6);
-    91	}
-    92	
+
+vim +/thunderstrike_hostcmd_req_work_handler +199 drivers/hid/hid-shield.c
+
+   198	
+ > 199	void thunderstrike_hostcmd_req_work_handler(struct work_struct *work)
+   200	{
+   201		struct thunderstrike *ts =
+   202			container_of(work, struct thunderstrike, hostcmd_req_work);
+   203		struct thunderstrike_hostcmd_req_report *report;
+   204		unsigned long flags;
+   205	
+   206		report = ts->req_report_dmabuf;
+   207	
+   208		if (test_and_clear_bit(THUNDERSTRIKE_FW_VERSION_UPDATE, &ts->update_flags)) {
+   209			thunderstrike_hostcmd_req_report_init(
+   210				report, THUNDERSTRIKE_HOSTCMD_ID_FW_VERSION);
+   211			thunderstrike_send_hostcmd_request(ts);
+   212		}
+   213	
+   214		if (test_and_clear_bit(THUNDERSTRIKE_BOARD_INFO_UPDATE, &ts->update_flags)) {
+   215			thunderstrike_hostcmd_req_report_init(
+   216				report, THUNDERSTRIKE_HOSTCMD_ID_BOARD_INFO);
+   217			thunderstrike_send_hostcmd_request(ts);
+   218		}
+   219	
+   220		if (test_and_clear_bit(THUNDERSTRIKE_HAPTICS_UPDATE, &ts->update_flags)) {
+   221			thunderstrike_hostcmd_req_report_init(
+   222				report, THUNDERSTRIKE_HOSTCMD_ID_HAPTICS);
+   223	
+   224			report->haptics.update = 1;
+   225			spin_lock_irqsave(&ts->haptics_update_lock, flags);
+   226			report->haptics.motors = ts->haptics_val;
+   227			spin_unlock_irqrestore(&ts->haptics_update_lock, flags);
+   228	
+   229			thunderstrike_send_hostcmd_request(ts);
+   230		}
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
