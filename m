@@ -1,46 +1,50 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71BD7E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 00:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB9815BD;
+	Sun,  2 Apr 2023 00:38:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680395267; x=1711931267;
+  t=1680395928; x=1711931928;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OCox6QVeMf6eKXYGZU5Pl/SsjUXrp7OFa4I0paCyj0k=;
-  b=YQ6sdXyEtC1s6ld8EfnXEYynaOSKVaQxQT/uMTwqzw1Zr9twUv3jkIUL
-   HHx0g4d1LavHNMeP/WYCjDIcKPStusPBTJVKzMTcpilbcFo+FYJl6ugAO
-   AlurixI4X+sJWg6zkxdHCu8XCzqGcPfhFu14S1zpZgsE/wzviWYdJUZXo
-   0FhxVnMY0iAL/NIn8Sj/qg9DGkVr8fDR2wtshsWk2Ev+XSPdN/xB2ATX8
-   Bxxv12LEYxGOkj4Zf0iW31nSHeauURfcN8nG4PKaLVwOdoJdWNY/Nl2ru
-   CM0/+MrDR9MPQO4pGQauPzFF7yb7KkBYU0WGlxNSVLy+itHCdTSc3CPBC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="369489390"
+  bh=dTSvSuJZHP7riTVhzk3BSd8g6ONdydlSKSHTjFQslcI=;
+  b=eFwPU0DlOARIUqPD2Cq4vU8ACzCczxe1fLtHptjUtb/hhCVKZxRdtj7u
+   PdTwdobbY0aCDXAWJMmbuCFB8YWe1Gg8XF037frRJ0f4LO8LrsjCCEAp7
+   P1tHaF8eecIafY1zwT03wtr6M1bY1UfUWpVe9ngIsr+FJBOc0gaLrTXmU
+   zKAaviXgfyPAUu4eHsFI+uNYj72PBrQBWFHGI3UC/1zqOm8/a6qxl3No5
+   7MvHdHIoTtnh5XN+DNruBdYDFuCSf0MUjQw3KJDFqFO3aM36ccbSIbVRR
+   ZgA9LSOWZGb/LBAyS9Ggtl0fbycwbSJW15qvU4lIGmmUYEkCQXIXAYxd+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="341709324"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="369489390"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 17:27:47 -0700
+   d="scan'208";a="341709324"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 17:38:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="718129711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="715852649"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="718129711"
+   d="scan'208";a="715852649"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Apr 2023 17:27:45 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 Apr 2023 17:38:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pilZQ-000N8T-0f;
-	Sun, 02 Apr 2023 00:27:44 +0000
-Date: Sun, 2 Apr 2023 08:27:29 +0800
+	id 1pilk4-000N8l-1W;
+	Sun, 02 Apr 2023 00:38:44 +0000
+Date: Sun, 2 Apr 2023 08:37:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicholas Piggin <npiggin@gmail.com>, linuxppc-dev@ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, Nicholas Piggin <npiggin@gmail.com>,
-	kvm@vger.kernel.org, Paul Mackerras <paulus@ozlabs.org>,
-	Michael Neuling <mikey@neuling.org>
-Subject: Re: [PATCH v2 1/2] KVM: PPC: Permit SRR1 flags in more injected
- interrupt types
-Message-ID: <202304020827.3LEZ86WB-lkp@intel.com>
-References: <20230330103224.3589928-2-npiggin@gmail.com>
+To: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	v9fs@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, v9fs-developer@lists.sourceforge.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Eric Van Hensbergen <ericvh@kernel.org>
+Subject: Re: [PATCH] fs/9p: Rework cache modes and add new options to
+ Documentation
+Message-ID: <202304020858.JARvGo8W-lkp@intel.com>
+References: <20230401-ericvh-dev-rework-cache-options-v1-1-12d3adbdd33a@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,77 +53,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330103224.3589928-2-npiggin@gmail.com>
+In-Reply-To: <20230401-ericvh-dev-rework-cache-options-v1-1-12d3adbdd33a@kernel.org>
 
-Hi Nicholas,
+Hi Eric,
 
-I love your patch! Yet something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test ERROR on powerpc/topic/ppc-kvm]
-[also build test ERROR on linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 1543b4c5071c54d76aad7a7a26a6e43082269b0c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicholas-Piggin/KVM-PPC-Permit-SRR1-flags-in-more-injected-interrupt-types/20230330-183420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-patch link:    https://lore.kernel.org/r/20230330103224.3589928-2-npiggin%40gmail.com
-patch subject: [PATCH v2 1/2] KVM: PPC: Permit SRR1 flags in more injected interrupt types
-config: powerpc-randconfig-c033-20230402 (https://download.01.org/0day-ci/archive/20230402/202304020827.3LEZ86WB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Van-Hensbergen/fs-9p-Rework-cache-modes-and-add-new-options-to-Documentation/20230402-071815
+base:   1543b4c5071c54d76aad7a7a26a6e43082269b0c
+patch link:    https://lore.kernel.org/r/20230401-ericvh-dev-rework-cache-options-v1-1-12d3adbdd33a%40kernel.org
+patch subject: [PATCH] fs/9p: Rework cache modes and add new options to Documentation
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230402/202304020858.JARvGo8W-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/31c610025a69f60bfa70c098471861456b2e4012
+        # https://github.com/intel-lab-lkp/linux/commit/8d563b947e70b7fe9a067ef3be10471a05452505
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nicholas-Piggin/KVM-PPC-Permit-SRR1-flags-in-more-injected-interrupt-types/20230330-183420
-        git checkout 31c610025a69f60bfa70c098471861456b2e4012
+        git fetch --no-tags linux-review Eric-Van-Hensbergen/fs-9p-Rework-cache-modes-and-add-new-options-to-Documentation/20230402-071815
+        git checkout 8d563b947e70b7fe9a067ef3be10471a05452505
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kvm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/9p/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304020827.3LEZ86WB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304020858.JARvGo8W-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/powerpc/kvm/booke.c:1011:5: error: no previous prototype for 'kvmppc_handle_exit' [-Werror=missing-prototypes]
-    1011 | int kvmppc_handle_exit(struct kvm_vcpu *vcpu, unsigned int exit_nr)
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/powerpc/kvm/booke.c: In function 'kvmppc_handle_exit':
->> arch/powerpc/kvm/booke.c:1244:17: error: too many arguments to function 'kvmppc_core_queue_alignment'
-    1244 |                 kvmppc_core_queue_alignment(vcpu, 0, vcpu->arch.fault_dear,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/kvm/booke.c:306:13: note: declared here
-     306 | static void kvmppc_core_queue_alignment(struct kvm_vcpu *vcpu, ulong dear_flags,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   fs/9p/vfs_inode.c: In function 'v9fs_evict_inode':
+>> fs/9p/vfs_inode.c:375:16: warning: variable 'version' set but not used [-Wunused-but-set-variable]
+     375 |         __le32 version;
+         |                ^~~~~~~
+   fs/9p/vfs_inode.c: In function 'v9fs_vfs_atomic_open':
+>> fs/9p/vfs_inode.c:799:28: warning: variable 'v9inode' set but not used [-Wunused-but-set-variable]
+     799 |         struct v9fs_inode *v9inode;
+         |                            ^~~~~~~
+--
+   fs/9p/vfs_inode_dotl.c: In function 'v9fs_vfs_setattr_dotl':
+>> fs/9p/vfs_inode_dotl.c:541:35: warning: variable 'v9ses' set but not used [-Wunused-but-set-variable]
+     541 |         struct v9fs_session_info *v9ses;
+         |                                   ^~~~~
 
 
-vim +/kvmppc_core_queue_alignment +1244 arch/powerpc/kvm/booke.c
+vim +/version +375 fs/9p/vfs_inode.c
 
-  1229	
-  1230		case BOOKE_INTERRUPT_DATA_STORAGE:
-  1231			kvmppc_core_queue_data_storage(vcpu, 0, vcpu->arch.fault_dear,
-  1232			                               vcpu->arch.fault_esr);
-  1233			kvmppc_account_exit(vcpu, DSI_EXITS);
-  1234			r = RESUME_GUEST;
-  1235			break;
-  1236	
-  1237		case BOOKE_INTERRUPT_INST_STORAGE:
-  1238			kvmppc_core_queue_inst_storage(vcpu, vcpu->arch.fault_esr);
-  1239			kvmppc_account_exit(vcpu, ISI_EXITS);
-  1240			r = RESUME_GUEST;
-  1241			break;
-  1242	
-  1243		case BOOKE_INTERRUPT_ALIGNMENT:
-> 1244			kvmppc_core_queue_alignment(vcpu, 0, vcpu->arch.fault_dear,
-  1245			                            vcpu->arch.fault_esr);
-  1246			r = RESUME_GUEST;
-  1247			break;
-  1248	
+2bad8471511ce5 Eric Van Hensbergen 2005-09-09  366  
+60e78d2c993e58 Abhishek Kulkarni   2009-09-23  367  /**
+bc868036569e1d David Howells       2021-10-04  368   * v9fs_evict_inode - Remove an inode from the inode cache
+60e78d2c993e58 Abhishek Kulkarni   2009-09-23  369   * @inode: inode to release
+60e78d2c993e58 Abhishek Kulkarni   2009-09-23  370   *
+60e78d2c993e58 Abhishek Kulkarni   2009-09-23  371   */
+b57922d97fd6f7 Al Viro             2010-06-07  372  void v9fs_evict_inode(struct inode *inode)
+60e78d2c993e58 Abhishek Kulkarni   2009-09-23  373  {
+6b39f6d22fbf67 Aneesh Kumar K.V    2011-02-28  374  	struct v9fs_inode *v9inode = V9FS_I(inode);
+93c846143d8630 David Howells       2020-11-18 @375  	__le32 version;
+6b39f6d22fbf67 Aneesh Kumar K.V    2011-02-28  376  
+4ad78628445d26 Al Viro             2015-12-08  377  	truncate_inode_pages_final(&inode->i_data);
+93c846143d8630 David Howells       2020-11-18  378  	version = cpu_to_le32(v9inode->qid.version);
+8d563b947e70b7 Eric Van Hensbergen 2023-04-01  379  
 
 -- 
 0-DAY CI Kernel Test Service
