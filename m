@@ -1,61 +1,89 @@
-Received: from mildred.dressbluecover.com (mildred.dressbluecover.com [83.137.158.148])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B73A53A7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 18:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=dressbluecover.com;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ella@dressbluecover.com;
- bh=CNna8pLrFv6ecv1s61thQVm6xzc=;
- b=JsdEsWvngnGzcMzl2iINTkOUzEojTU5blnBU2CUc1SFe2kUmzhWkGY1LHhdIT6yR3iGfvTEdhTaD
-   I0FCZyHz9y6hpH0Z/Q8FJYQiGqwz0WT9X/WIw5spXx1oTyfV/faucG74nK4V6Dlo3maBTf+b5hDF
-   hs5LB1+klBOiwwXPu2GF9YCKJF9cqiyEe0pbaZrm6PUnDic8zQZrxdG8Z56M5/ozti1aIO/jeBsO
-   JCoCUEWhcYXBnk12O/zct2TotqT+abXP/TySGBTtKT642iYP+cPbVxNs8sXXvDiiilqovVDW/drk
-   6ltdZI0OPSm1f2d8MGUdviMQSIpA1G0HcfJYCg==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=dressbluecover.com;
- b=OH8dnubmV/60f9CzFH558OwrtTgbOEAagvfEHgsyj3nF2TD7L7XRAVpOmfyb2Bn2dFYqSHqgW8OO
-   GsJan36T12kyhYxh+zbAGB0mrDo8srNVTnn8k6VNA8S4ZgEan+kOc/2f1A06RVbrbfOb22nvNvxD
-   A4MjhEVWFH73XfUmQOkZsv6PKa/bsbFwPOsCb97CrnRKG4UsmB84PZc7tfgF45bzdw78pTjvBdkD
-   eIqMuUEePqi7rtzUpI13mNnCqiG4/hZAnJe6GkaGgXuMiei87ic4KfCEBi9fBRlEFRhcvWhAGK3E
-   lvSkoikQWyz6/2e5KW9K7yBc6jm1HerX5z1atA==;
-Reply-To: me.mayvaz@gmail.com
-From: Mustafa Ayvaz <ella@dressbluecover.com>
-To: oe-kbuild-all@lists.linux.dev
-Subject: oe-kbuild-all !!!
-Date: 31 Mar 2023 15:39:36 -0700
-Message-ID: <20230331153936.98ACE63799EC9D2E@dressbluecover.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF0853AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 19:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680464837; x=1712000837;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iZEXXHTNgcEyhepf6O/51XOSpOAWplNMXErvO86DuCU=;
+  b=denAwXwalg17FJD+btIoAP8R/0eynQbpn+3ze+8vqLkO2RKjxDMnGstp
+   Mqjooz3I/FqMyeZRqe3WvV2vrshOTFtC2emWhgTMvgAcS1WBs6LRyyE+V
+   w510tUk7Xy4PNwPuifO4KIm88rtQ36jFIr+LJwpbyTz5NKjSl3war2WkO
+   LFslVBPqy2sRSNpEn7B0j9HbKMn4eGjkocsgEgdB2PZM53NMClvw2Hxky
+   5m7j1ka6yxEfV/HvXgS01M4jTknNcj1EM0WIJwhI1eIvrBzqzmI8rlqRw
+   kg7PgJuVDYImYcgaRzOutD32aOLPfEeS/VP4WPI/9xxcYC5c5XCwZXRJe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="322154842"
+X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
+   d="scan'208";a="322154842"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 12:47:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="1015458095"
+X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
+   d="scan'208";a="1015458095"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 02 Apr 2023 12:47:15 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pj3fW-000Ndh-1Q;
+	Sun, 02 Apr 2023 19:47:14 +0000
+Date: Mon, 3 Apr 2023 03:46:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: [matthias-bgg:v6.3-next/soc 20/23] mtk-mmsys.c:undefined reference
+ to `cmdq_pkt_write_mask'
+Message-ID: <202304030314.tgvusZ7n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Beste oe-kbuild-all,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git v6.3-next/soc
+head:   e9a6f5bca5ea56f05d92a966034ed472408821b8
+commit: b34884b4c878a6ad2a4f70d7c88ef60ac39ad408 [20/23] soc: mediatek: Cleanup ifdefs for IS_REACHABLE(CONFIG_MTK_CMDQ)
+config: arm64-randconfig-r002-20230402 (https://download.01.org/0day-ci/archive/20230403/202304030314.tgvusZ7n-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?id=b34884b4c878a6ad2a4f70d7c88ef60ac39ad408
+        git remote add matthias-bgg https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git
+        git fetch --no-tags matthias-bgg v6.3-next/soc
+        git checkout b34884b4c878a6ad2a4f70d7c88ef60ac39ad408
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Ik ben Mustafa Ayvaz, een persoonlijke advocaat van wijlen de=20
-heer Robert, die zijn leven verloor als gevolg van de ziekte van=20
-Coronavirus die hij opliep tijdens zijn zakenreis in China enkele=20
-jaren geleden. Vanwege de wet hier, heb ik contact met u=20
-opgenomen om met mij samen te werken bij het veiligstellen van de=20
-overdracht van het fonds: vier miljoen vierhonderdtwintigduizend=20
-dollar, nagelaten door hem.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304030314.tgvusZ7n-lkp@intel.com/
 
-Ik heb grondig gezocht naar de nabestaanden van mijn overleden=20
-cli=C3=ABnt, en heb gefaald omdat ik zijn huidige verblijfplaats en=20
-contactgegevens niet heb. Maar terwijl ik aan het zoeken was,=20
-kwam ik je profiel tegen met dezelfde achternaam en in dezelfde=20
-plaats met de nabestaanden. Ik besloot contact met je op te nemen=20
-en je te gebruiken als Bonafide nabestaanden.
+All errors (new ones prefixed by >>):
 
-Ik vraag uw toestemming om u voor te dragen als naaste verwant=20
-van mijn overleden cli=C3=ABnt, aangezien u beiden dezelfde achternaam=20
-draagt. Het geld wordt vervolgens naar u als begunstigde=20
-overgemaakt en gedeeld volgens een voorgestelde deelverhouding=20
-van 60:40, d.w.z. 60% voor mij en 40% voor u. Neem dan direct=20
-contact met mij op voor meer informatie.
+>> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: aarch64-linux-ld: DWARF error: could not find abbrev number 1427041
+   drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_update_bits':
+>> mtk-mmsys.c:(.text+0xbc): undefined reference to `cmdq_pkt_write_mask'
+   aarch64-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_probe':
+>> mtk-mmsys.c:(.text+0xa74): undefined reference to `cmdq_dev_get_client_reg'
+   aarch64-linux-ld: aarch64-linux-ld: DWARF error: could not find abbrev number 5110
+   drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_enable_by_cmdq':
+>> mtk-mutex.c:(.text+0x7f0): undefined reference to `cmdq_pkt_write'
+   aarch64-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_probe':
+>> mtk-mutex.c:(.text+0xa98): undefined reference to `cmdq_dev_get_client_reg'
 
-Groeten
-Mustafa Ayvaz.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
