@@ -1,45 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442382101
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 06:50:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEC120FF
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Apr 2023 07:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680418256; x=1711954256;
+  t=1680420726; x=1711956726;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IW2eY28rKmH6Ag9Q3vWKVAPXz0hTOskJzL6SDWQnQbY=;
-  b=MCCgDpjT4YAlI7YXW+PvL2kzz+FRqzBQsESfz/qJ6fZfvRM9XTwwsbuf
-   GfZsqR0kRjWI8HwGbmDtOHrZQgWN6fVgSfmbPQXU4wwuymJmnWdgg0j0x
-   T3XNfukBaVvNu050aGur6+BsR0ata038zsQ4UqMRdOdmp8ozHWmXPWY3m
-   aW/bheyej2GXJv9EIw/ZjmVpmpVngO9yxCxeSx9LDPNaMWSMH5k//4jYp
-   kelM/55eiPIPstDyeU1Kr6Otad8XnhxHNBsry7IuhITjEKcWVPwDDSxlq
-   zcZRJDmnFEMWOTBCjLg5C6ou7e4k2VGZ/jkrJnZ+Yt7YZRfUKXkiMBaWn
+  bh=lo5nEgqiNIXNsZUgeozg0vNJ8HL2LgYV1BYTIKtHqUw=;
+  b=gUsnyuvdyxNt2orJDz/oJ/isv/9EXmm4Ct4xj3QjXnVXNkjhVWgFKxkI
+   Ee8o+pQmqUHlDGacnuVyQkWab5GXqPeCkOLaf+me2dXgj++IursmSW4Io
+   3tTj2rAQqOhNFhHGY1gFFxpwaEoQPK3Z8CHINPCzllfa8Hv7IuyTlme73
+   Xwh0YWUtP3kNQC7A1wPpcQ7rNDEsYHYRM2smNyxQYim7qW/jqHoBfXZrq
+   PbTfDTRciP99Buv0KPKzj5E0j0W/MImBnn+k6m2tqyoIwM1lvT9fOYy/x
+   cwAnAG0632XucMDp/RZQ9y9LytracT7o5oz7mVUE9OgQv/aos3pylL622
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="339205103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="344264318"
 X-IronPort-AV: E=Sophos;i="5.98,312,1673942400"; 
-   d="scan'208";a="339205103"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 23:50:54 -0700
+   d="scan'208";a="344264318"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 00:32:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="1015314276"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="754863004"
 X-IronPort-AV: E=Sophos;i="5.98,312,1673942400"; 
-   d="scan'208";a="1015314276"
+   d="scan'208";a="754863004"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Apr 2023 23:50:52 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Apr 2023 00:31:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pirYB-000NHf-1a;
-	Sun, 02 Apr 2023 06:50:51 +0000
-Date: Sun, 2 Apr 2023 14:49:58 +0800
+	id 1pisBs-000NIP-08;
+	Sun, 02 Apr 2023 07:31:52 +0000
+Date: Sun, 2 Apr 2023 15:31:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-4.14.y 433/4416]
- arch/xtensa/platforms/xtfpga/include/platform/hardware.h:59:26: error:
- initializer element is not constant
-Message-ID: <202304021430.twt1fBY8-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/xtensa/lib/kcsan-stubs.c:6:6: sparse: sparse: symbol
+ '__atomic_store_8' was not declared. Should it be static?
+Message-ID: <202304021532.n6LwHMwd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,237 +46,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Max,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
-head:   ef14eeed25df11f2b3a5fd5f90eb3ad1a41d97ef
-commit: fe700bd139564d097d1ebed90da637b80bd7f5c1 [433/4416] xtensa: xtfpga: use CONFIG_USE_OF instead of CONFIG_OF
-config: xtensa-randconfig-r003-20230402 (https://download.01.org/0day-ci/archive/20230402/202304021430.twt1fBY8-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
+commit: 725aea873261e8d986e527838fde2a721f0962d8 xtensa: enable KCSAN
+date:   11 months ago
+config: xtensa-randconfig-s053-20230402 (https://download.01.org/0day-ci/archive/20230402/202304021532.n6LwHMwd-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=fe700bd139564d097d1ebed90da637b80bd7f5c1
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.14.y
-        git checkout fe700bd139564d097d1ebed90da637b80bd7f5c1
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=725aea873261e8d986e527838fde2a721f0962d8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 725aea873261e8d986e527838fde2a721f0962d8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=xtensa SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304021430.twt1fBY8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304021532.n6LwHMwd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/xtensa/lib/kcsan-stubs.c:6:6: sparse: sparse: symbol '__atomic_store_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:11:5: sparse: sparse: symbol '__atomic_load_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:16:5: sparse: sparse: symbol '__atomic_exchange_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:21:6: sparse: sparse: symbol '__atomic_compare_exchange_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:26:5: sparse: sparse: symbol '__atomic_fetch_add_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:31:5: sparse: sparse: symbol '__atomic_fetch_sub_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:36:5: sparse: sparse: symbol '__atomic_fetch_and_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:41:5: sparse: sparse: symbol '__atomic_fetch_or_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:46:5: sparse: sparse: symbol '__atomic_fetch_xor_8' was not declared. Should it be static?
+>> arch/xtensa/lib/kcsan-stubs.c:51:5: sparse: sparse: symbol '__atomic_fetch_nand_8' was not declared. Should it be static?
 
-   In file included from include/linux/kernel.h:10:0,
-                    from arch/xtensa/platforms/xtfpga/setup.c:19:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
-     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-            ^
-   include/linux/compiler.h:33:34: note: in definition of macro '__branch_check__'
-       ______r = __builtin_expect(!!(x), expect); \
-                                     ^
-   include/asm-generic/bug.h:59:36: note: in expansion of macro 'unlikely'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                       ^~~~~~~~
-   include/linux/scatterlist.h:141:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(!virt_addr_valid(buf));
-     ^~~~~~
-   arch/xtensa/include/asm/page.h:193:32: note: in expansion of macro 'pfn_valid'
-    #define virt_addr_valid(kaddr) pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
-                                   ^~~~~~~~~
-   include/linux/scatterlist.h:141:10: note: in expansion of macro 'virt_addr_valid'
-     BUG_ON(!virt_addr_valid(buf));
-             ^~~~~~~~~~~~~~~
-   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
-     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-            ^
-   include/linux/compiler.h:35:19: note: in definition of macro '__branch_check__'
-              expect, is_constant); \
-                      ^~~~~~~~~~~
-   include/asm-generic/bug.h:59:36: note: in expansion of macro 'unlikely'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                       ^~~~~~~~
-   include/linux/scatterlist.h:141:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(!virt_addr_valid(buf));
-     ^~~~~~
-   arch/xtensa/include/asm/page.h:193:32: note: in expansion of macro 'pfn_valid'
-    #define virt_addr_valid(kaddr) pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
-                                   ^~~~~~~~~
-   include/linux/scatterlist.h:141:10: note: in expansion of macro 'virt_addr_valid'
-     BUG_ON(!virt_addr_valid(buf));
-             ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
-     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-            ^
-   include/linux/compiler.h:33:34: note: in definition of macro '__branch_check__'
-       ______r = __builtin_expect(!!(x), expect); \
-                                     ^
-   include/asm-generic/bug.h:59:36: note: in expansion of macro 'unlikely'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                       ^~~~~~~~
-   include/linux/dma-mapping.h:327:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-     ^~~~~~
-   include/linux/dma-mapping.h:327:9: note: in expansion of macro 'pfn_valid'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-            ^~~~~~~~~
-   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
-     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-            ^
-   include/linux/compiler.h:35:19: note: in definition of macro '__branch_check__'
-              expect, is_constant); \
-                      ^~~~~~~~~~~
-   include/asm-generic/bug.h:59:36: note: in expansion of macro 'unlikely'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                       ^~~~~~~~
-   include/linux/dma-mapping.h:327:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-     ^~~~~~
-   include/linux/dma-mapping.h:327:9: note: in expansion of macro 'pfn_valid'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-            ^~~~~~~~~
-   In file included from arch/xtensa/include/asm/processor.h:14:0,
-                    from arch/xtensa/include/asm/bitops.h:22,
-                    from include/linux/bitops.h:19,
-                    from include/linux/kernel.h:11,
-                    from arch/xtensa/platforms/xtfpga/setup.c:19:
-   arch/xtensa/platforms/xtfpga/setup.c: At top level:
->> arch/xtensa/platforms/xtfpga/include/platform/hardware.h:59:26: error: initializer element is not constant
-    #define OETH_REGS_PADDR  (XCHAL_KIO_PADDR + 0x0D030000)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:168:12: note: in expansion of macro 'OETH_REGS_PADDR'
-      .start = OETH_REGS_PADDR,
-               ^~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:59:26: note: (near initialization for 'ethoc_res[0].start')
-    #define OETH_REGS_PADDR  (XCHAL_KIO_PADDR + 0x0D030000)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:168:12: note: in expansion of macro 'OETH_REGS_PADDR'
-      .start = OETH_REGS_PADDR,
-               ^~~~~~~~~~~~~~~
->> arch/xtensa/platforms/xtfpga/include/platform/hardware.h:59:26: error: initializer element is not constant
-    #define OETH_REGS_PADDR  (XCHAL_KIO_PADDR + 0x0D030000)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:169:12: note: in expansion of macro 'OETH_REGS_PADDR'
-      .end   = OETH_REGS_PADDR + OETH_REGS_SIZE - 1,
-               ^~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:59:26: note: (near initialization for 'ethoc_res[0].end')
-    #define OETH_REGS_PADDR  (XCHAL_KIO_PADDR + 0x0D030000)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:169:12: note: in expansion of macro 'OETH_REGS_PADDR'
-      .end   = OETH_REGS_PADDR + OETH_REGS_SIZE - 1,
-               ^~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:61:29: error: initializer element is not constant
-    #define OETH_SRAMBUFF_PADDR (XCHAL_KIO_PADDR + 0x0D800000)
-                                ^
-   arch/xtensa/platforms/xtfpga/setup.c:173:12: note: in expansion of macro 'OETH_SRAMBUFF_PADDR'
-      .start = OETH_SRAMBUFF_PADDR,
-               ^~~~~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:61:29: note: (near initialization for 'ethoc_res[1].start')
-    #define OETH_SRAMBUFF_PADDR (XCHAL_KIO_PADDR + 0x0D800000)
-                                ^
-   arch/xtensa/platforms/xtfpga/setup.c:173:12: note: in expansion of macro 'OETH_SRAMBUFF_PADDR'
-      .start = OETH_SRAMBUFF_PADDR,
-               ^~~~~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:61:29: error: initializer element is not constant
-    #define OETH_SRAMBUFF_PADDR (XCHAL_KIO_PADDR + 0x0D800000)
-                                ^
-   arch/xtensa/platforms/xtfpga/setup.c:174:12: note: in expansion of macro 'OETH_SRAMBUFF_PADDR'
-      .end   = OETH_SRAMBUFF_PADDR + OETH_SRAMBUFF_SIZE - 1,
-               ^~~~~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:61:29: note: (near initialization for 'ethoc_res[1].end')
-    #define OETH_SRAMBUFF_PADDR (XCHAL_KIO_PADDR + 0x0D800000)
-                                ^
-   arch/xtensa/platforms/xtfpga/setup.c:174:12: note: in expansion of macro 'OETH_SRAMBUFF_PADDR'
-      .end   = OETH_SRAMBUFF_PADDR + OETH_SRAMBUFF_SIZE - 1,
-               ^~~~~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:66:23: error: initializer element is not constant
-    #define C67X00_PADDR  (XCHAL_KIO_PADDR + 0x0D0D0000)
-                          ^
-   arch/xtensa/platforms/xtfpga/setup.c:211:12: note: in expansion of macro 'C67X00_PADDR'
-      .start = C67X00_PADDR,
-               ^~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:66:23: note: (near initialization for 'c67x00_res[0].start')
-    #define C67X00_PADDR  (XCHAL_KIO_PADDR + 0x0D0D0000)
-                          ^
-   arch/xtensa/platforms/xtfpga/setup.c:211:12: note: in expansion of macro 'C67X00_PADDR'
-      .start = C67X00_PADDR,
-               ^~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:66:23: error: initializer element is not constant
-    #define C67X00_PADDR  (XCHAL_KIO_PADDR + 0x0D0D0000)
-                          ^
-   arch/xtensa/platforms/xtfpga/setup.c:212:12: note: in expansion of macro 'C67X00_PADDR'
-      .end   = C67X00_PADDR + C67X00_SIZE - 1,
-               ^~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:66:23: note: (near initialization for 'c67x00_res[0].end')
-    #define C67X00_PADDR  (XCHAL_KIO_PADDR + 0x0D0D0000)
-                          ^
-   arch/xtensa/platforms/xtfpga/setup.c:212:12: note: in expansion of macro 'C67X00_PADDR'
-      .end   = C67X00_PADDR + C67X00_SIZE - 1,
-               ^~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: error: initializer element is not constant
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:242:11: note: in expansion of macro 'DUART16552_PADDR'
-     .start = DUART16552_PADDR,
-              ^~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: note: (near initialization for 'serial_resource.start')
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:242:11: note: in expansion of macro 'DUART16552_PADDR'
-     .start = DUART16552_PADDR,
-              ^~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: error: initializer element is not constant
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:243:9: note: in expansion of macro 'DUART16552_PADDR'
-     .end = DUART16552_PADDR + 0x1f,
-            ^~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: note: (near initialization for 'serial_resource.end')
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:243:9: note: in expansion of macro 'DUART16552_PADDR'
-     .end = DUART16552_PADDR + 0x1f,
-            ^~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: error: initializer element is not constant
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:249:14: note: in expansion of macro 'DUART16552_PADDR'
-      .mapbase = DUART16552_PADDR,
-                 ^~~~~~~~~~~~~~~~
-   arch/xtensa/platforms/xtfpga/include/platform/hardware.h:46:26: note: (near initialization for 'serial_platform_data[0].mapbase')
-    #define DUART16552_PADDR (XCHAL_KIO_PADDR + 0x0D050020)
-                             ^
-   arch/xtensa/platforms/xtfpga/setup.c:249:14: note: in expansion of macro 'DUART16552_PADDR'
-      .mapbase = DUART16552_PADDR,
-                 ^~~~~~~~~~~~~~~~
+vim +/__atomic_store_8 +6 arch/xtensa/lib/kcsan-stubs.c
 
-
-vim +59 arch/xtensa/platforms/xtfpga/include/platform/hardware.h
-
-0d456bad36d42d Max Filippov 2012-11-05  56  
-0d456bad36d42d Max Filippov 2012-11-05  57  /*  OpenCores Ethernet controller:  */
-0d456bad36d42d Max Filippov 2012-11-05  58  				/* regs + RX/TX descriptors */
-0d456bad36d42d Max Filippov 2012-11-05 @59  #define OETH_REGS_PADDR		(XCHAL_KIO_PADDR + 0x0D030000)
-0d456bad36d42d Max Filippov 2012-11-05  60  #define OETH_REGS_SIZE		0x1000
-0d456bad36d42d Max Filippov 2012-11-05  61  #define OETH_SRAMBUFF_PADDR	(XCHAL_KIO_PADDR + 0x0D800000)
-0d456bad36d42d Max Filippov 2012-11-05  62  
-0d456bad36d42d Max Filippov 2012-11-05  63  				/* 5*rx buffs + 5*tx buffs */
-0d456bad36d42d Max Filippov 2012-11-05  64  #define OETH_SRAMBUFF_SIZE	(5 * 0x600 + 5 * 0x600)
-0d456bad36d42d Max Filippov 2012-11-05  65  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: 0d456bad36d42d16022be045c8a53ddbb59ee478 xtensa: add support for the XTFPGA boards
-
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Chris Zankel <chris@zankel.net>
+     5	
+   > 6	void __atomic_store_8(volatile void *p, u64 v, int i)
+     7	{
+     8		BUG();
+     9	}
+    10	
+  > 11	u64 __atomic_load_8(const volatile void *p, int i)
+    12	{
+    13		BUG();
+    14	}
+    15	
+  > 16	u64 __atomic_exchange_8(volatile void *p, u64 v, int i)
+    17	{
+    18		BUG();
+    19	}
+    20	
+  > 21	bool __atomic_compare_exchange_8(volatile void *p1, void *p2, u64 v, bool b, int i1, int i2)
+    22	{
+    23		BUG();
+    24	}
+    25	
+  > 26	u64 __atomic_fetch_add_8(volatile void *p, u64 v, int i)
+    27	{
+    28		BUG();
+    29	}
+    30	
+  > 31	u64 __atomic_fetch_sub_8(volatile void *p, u64 v, int i)
+    32	{
+    33		BUG();
+    34	}
+    35	
+  > 36	u64 __atomic_fetch_and_8(volatile void *p, u64 v, int i)
+    37	{
+    38		BUG();
+    39	}
+    40	
+  > 41	u64 __atomic_fetch_or_8(volatile void *p, u64 v, int i)
+    42	{
+    43		BUG();
+    44	}
+    45	
+  > 46	u64 __atomic_fetch_xor_8(volatile void *p, u64 v, int i)
+    47	{
+    48		BUG();
+    49	}
+    50	
+  > 51	u64 __atomic_fetch_nand_8(volatile void *p, u64 v, int i)
 
 -- 
 0-DAY CI Kernel Test Service
