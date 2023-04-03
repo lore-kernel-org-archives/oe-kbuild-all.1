@@ -1,44 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683B2747B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 17:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12557487
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 19:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680544533; x=1712080533;
+  t=1680550658; x=1712086658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jwmT4Vpby/hwZQ54Ern/x5nmEZC7nVdiE7uK9evEQEE=;
-  b=nV769Xt6FTlNOEBhad/1/XeCixo4VTm0cj6pz7TG3nBrNr+yEKSZn/wp
-   e7njuA7g6g1Pwt8JOHARqtowomn+zM69SIw//jq+93FCSgFiFYaxIiIaO
-   4MZnS63IkLnOenHy6Z5KtJYt2TE9MFITZjw0eGT9jBLNWojHfiMAQwDJI
-   6i1ooVDXF9sFuHDIydiVyYJux+5ONWrk2EE6H660YXXDVnIHC9/s/BPaU
-   uUf2C6xAVqb2Ay8g6js42IlGA86tAjv25Qzxe3CjOPL/X7i/Aakj4YBfP
-   vxFw9+/kauH8THVyeyQYDEqXKMn+7SD7H/E8LvHhpGFFq+sS0AU+gAVM+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="325984909"
+  bh=zCXsLB0nXEVZPhILP7zJaRe2mWZvSuIk+g7Wd/PHbWA=;
+  b=dTUysIE8LFqk/WfyQ5lV08FjbgKhKdkvhflN7KZGR6yJRhoIudHUZcCE
+   RIEAxp9FWybLEFPRwcu25qStYyqqGdR8tI2JHhvC9XrEF7G2DLO2HNZyC
+   ln4LJ/fY7AOAtzaU8Ug8QclVqqLQJbWJjwnhJWxMj+QJK/al0M3s0Bzfm
+   PVdETFQkVI7qr3lLpA7iMwQeEtf3avyg1nJZIZn+HQ7KQfAIBCj+oQ9Fj
+   NOAdZsEEvn+1j88aPDdojdZyRrOe7ly0uJs9Mcn86VQcWNoVri9QTxyG8
+   DC7iQaxW9xPUSkAulTunYBnRlTtC5iOfLhPGj8qPucx3+E8w4SXvKHCn8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="330573130"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="325984909"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 10:55:32 -0700
+   d="scan'208";a="330573130"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 12:37:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="755345821"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="679602418"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="755345821"
+   d="scan'208";a="679602418"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Apr 2023 10:55:31 -0700
+  by orsmga007.jf.intel.com with ESMTP; 03 Apr 2023 12:37:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjOOw-000OcP-0j;
-	Mon, 03 Apr 2023 17:55:30 +0000
-Date: Tue, 4 Apr 2023 01:54:41 +0800
+	id 1pjPzk-000Oj0-0z;
+	Mon, 03 Apr 2023 19:37:36 +0000
+Date: Tue, 4 Apr 2023 03:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 15/42]
- drivers/iommu/iommufd/selftest.c:340:22: warning: implicit conversion from
- 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from
- 18446744073709551615 to 4294967295
-Message-ID: <202304040101.9pkwOhIz-lkp@intel.com>
+Subject: [android-common:android-4.14-stable 13502/29445]
+ mm/kasan/generic_report.c:124:6: warning: no previous declaration for
+ '__asan_report_load1_noabort'
+Message-ID: <202304040358.KYNZtxSi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,66 +47,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
-head:   032ce679f2322b426350f8721d7a1afca1bb7aab
-commit: cfab6d45ee4dd485bc223d0135643093a7778923 [15/42] iommufd/selftest: Add domain_alloc_user() support in iommu mock
-config: powerpc-randconfig-c003-20230402 (https://download.01.org/0day-ci/archive/20230404/202304040101.9pkwOhIz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi Andrey,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-4.14-stable
+head:   31b2df53e60414738b9d5b896d321fae7bbf6f9d
+commit: 346ed760d42d8df8d8085de4e920060a0def1a50 [13502/29445] UPSTREAM: kasan: split out generic_report.c from report.c
+config: x86_64-randconfig-a011-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040358.KYNZtxSi-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/yiliu1765/iommufd/commit/cfab6d45ee4dd485bc223d0135643093a7778923
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd wip/iommufd_nesting-03292023-yi
-        git checkout cfab6d45ee4dd485bc223d0135643093a7778923
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.14-stable
+        git checkout 346ed760d42d8df8d8085de4e920060a0def1a50
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/iommufd/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash LDFLAGS=-z max-page-size=0x200000  mm/kasan/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040101.9pkwOhIz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040358.KYNZtxSi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/iommufd/selftest.c:340:22: warning: implicit conversion from 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-           .hwpt_type_bitmap = IOMMU_HWPT_TYPE_BITMAP_SELFTTEST,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommufd/iommufd_test.h:120:42: note: expanded from macro 'IOMMU_HWPT_TYPE_BITMAP_SELFTTEST'
-   #define IOMMU_HWPT_TYPE_BITMAP_SELFTTEST        U64_MAX
-                                                   ^~~~~~~
-   include/linux/limits.h:23:19: note: expanded from macro 'U64_MAX'
-   #define U64_MAX         ((u64)~0ULL)
-                            ^~~~~~~~~~
-   1 warning generated.
+>> mm/kasan/generic_report.c:124:6: warning: no previous declaration for '__asan_report_load1_noabort' [-Wmissing-declarations]
+    void __asan_report_load##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:137:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_LOAD'
+    DEFINE_ASAN_REPORT_LOAD(1);
+    ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:124:6: warning: no previous declaration for '__asan_report_load2_noabort' [-Wmissing-declarations]
+    void __asan_report_load##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:138:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_LOAD'
+    DEFINE_ASAN_REPORT_LOAD(2);
+    ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:124:6: warning: no previous declaration for '__asan_report_load4_noabort' [-Wmissing-declarations]
+    void __asan_report_load##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:139:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_LOAD'
+    DEFINE_ASAN_REPORT_LOAD(4);
+    ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:124:6: warning: no previous declaration for '__asan_report_load8_noabort' [-Wmissing-declarations]
+    void __asan_report_load##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:140:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_LOAD'
+    DEFINE_ASAN_REPORT_LOAD(8);
+    ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:124:6: warning: no previous declaration for '__asan_report_load16_noabort' [-Wmissing-declarations]
+    void __asan_report_load##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:141:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_LOAD'
+    DEFINE_ASAN_REPORT_LOAD(16);
+    ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:131:6: warning: no previous declaration for '__asan_report_store1_noabort' [-Wmissing-declarations]
+    void __asan_report_store##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:142:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_STORE'
+    DEFINE_ASAN_REPORT_STORE(1);
+    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:131:6: warning: no previous declaration for '__asan_report_store2_noabort' [-Wmissing-declarations]
+    void __asan_report_store##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:143:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_STORE'
+    DEFINE_ASAN_REPORT_STORE(2);
+    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:131:6: warning: no previous declaration for '__asan_report_store4_noabort' [-Wmissing-declarations]
+    void __asan_report_store##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:144:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_STORE'
+    DEFINE_ASAN_REPORT_STORE(4);
+    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:131:6: warning: no previous declaration for '__asan_report_store8_noabort' [-Wmissing-declarations]
+    void __asan_report_store##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:145:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_STORE'
+    DEFINE_ASAN_REPORT_STORE(8);
+    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:131:6: warning: no previous declaration for '__asan_report_store16_noabort' [-Wmissing-declarations]
+    void __asan_report_store##size##_noabort(unsigned long addr) \
+         ^
+   mm/kasan/generic_report.c:146:1: note: in expansion of macro 'DEFINE_ASAN_REPORT_STORE'
+    DEFINE_ASAN_REPORT_STORE(16);
+    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:148:6: warning: no previous declaration for '__asan_report_load_n_noabort' [-Wmissing-declarations]
+    void __asan_report_load_n_noabort(unsigned long addr, size_t size)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic_report.c:154:6: warning: no previous declaration for '__asan_report_store_n_noabort' [-Wmissing-declarations]
+    void __asan_report_store_n_noabort(unsigned long addr, size_t size)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +340 drivers/iommu/iommufd/selftest.c
+vim +/__asan_report_load1_noabort +124 mm/kasan/generic_report.c
 
-   334	
-   335	static const struct iommu_ops mock_ops = {
-   336		.owner = THIS_MODULE,
-   337		.pgsize_bitmap = MOCK_IO_PAGE_SIZE,
-   338		.hw_info_type = IOMMU_HW_INFO_TYPE_SELFTEST,
-   339		.hw_info = mock_domain_hw_info,
- > 340		.hwpt_type_bitmap = IOMMU_HWPT_TYPE_BITMAP_SELFTTEST,
-   341		.domain_alloc = mock_domain_alloc,
-   342		.domain_alloc_user = mock_domain_alloc_user,
-   343		.capable = mock_domain_capable,
-   344		.set_platform_dma_ops = mock_domain_set_plaform_dma_ops,
-   345		.default_domain_ops =
-   346			&(struct iommu_domain_ops){
-   347				.free = mock_domain_free,
-   348				.attach_dev = mock_domain_nop_attach,
-   349				.map_pages = mock_domain_map_pages,
-   350				.unmap_pages = mock_domain_unmap_pages,
-   351				.iova_to_phys = mock_domain_iova_to_phys,
-   352			},
-   353	};
-   354	
+   122	
+   123	#define DEFINE_ASAN_REPORT_LOAD(size)                     \
+ > 124	void __asan_report_load##size##_noabort(unsigned long addr) \
+   125	{                                                         \
+   126		kasan_report(addr, size, false, _RET_IP_);	  \
+   127	}                                                         \
+   128	EXPORT_SYMBOL(__asan_report_load##size##_noabort)
+   129	
+   130	#define DEFINE_ASAN_REPORT_STORE(size)                     \
+ > 131	void __asan_report_store##size##_noabort(unsigned long addr) \
+   132	{                                                          \
+   133		kasan_report(addr, size, true, _RET_IP_);	   \
+   134	}                                                          \
+   135	EXPORT_SYMBOL(__asan_report_store##size##_noabort)
+   136	
+ > 137	DEFINE_ASAN_REPORT_LOAD(1);
+ > 138	DEFINE_ASAN_REPORT_LOAD(2);
+ > 139	DEFINE_ASAN_REPORT_LOAD(4);
+ > 140	DEFINE_ASAN_REPORT_LOAD(8);
+ > 141	DEFINE_ASAN_REPORT_LOAD(16);
+ > 142	DEFINE_ASAN_REPORT_STORE(1);
+ > 143	DEFINE_ASAN_REPORT_STORE(2);
+ > 144	DEFINE_ASAN_REPORT_STORE(4);
+ > 145	DEFINE_ASAN_REPORT_STORE(8);
+   146	DEFINE_ASAN_REPORT_STORE(16);
+   147	
+ > 148	void __asan_report_load_n_noabort(unsigned long addr, size_t size)
+   149	{
+   150		kasan_report(addr, size, false, _RET_IP_);
+   151	}
+   152	EXPORT_SYMBOL(__asan_report_load_n_noabort);
+   153	
+ > 154	void __asan_report_store_n_noabort(unsigned long addr, size_t size)
 
 -- 
 0-DAY CI Kernel Test Service
