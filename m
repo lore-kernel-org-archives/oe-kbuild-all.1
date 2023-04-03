@@ -1,45 +1,55 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5D728E2;
-	Mon,  3 Apr 2023 11:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680519996; x=1712055996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CqkvZ0UozjqPbCvZ0FQQl+3N0cFqmjk9EOtoxPrpbQs=;
-  b=QK3U5E1se1H48zefAdqNLaIgLmLugyPFhB97i0aTh1j5d1KwJosMA/87
-   dKYw07GWdtCp/d0/0FxuRiDLt8TGLPkvMGTO4rzPJjcix2+qQhfWgiTUn
-   YnQ3rn8jVSjHPdyYz9I1SRRCU8zyqatWDR2yA3L0meayTEMT5IVpVPbkU
-   /Xv5WQG0FV8ieTTXmWsgtYM2Mb8c9gtt2peDzcLHED55jL3xhpVF16NNN
-   caYFBhMJvaEnRNtclitn31Dub9Chiqdo0wdYLKWe8DI1JcJnMz0PITqYJ
-   JlQhZe0fdpaDfXJa2nqXFidsR2Iaf6pWJo9MQzr0zIihyNjsLTeHRBMrQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="428155435"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="428155435"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 04:06:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="931980969"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="931980969"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Apr 2023 04:06:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjI0g-000ODd-0X;
-	Mon, 03 Apr 2023 11:06:02 +0000
-Date: Mon, 3 Apr 2023 19:05:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yangtao Li <frank.li@vivo.com>, jaegeuk@kernel.org, chao@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>
-Subject: Re: [PATCH v4] f2fs: support FAULT_LOCK type fault injection
-Message-ID: <202304031801.hGbHuuBP-lkp@intel.com>
-References: <20230403031723.43870-1-frank.li@vivo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB21733D2;
+	Mon,  3 Apr 2023 11:21:02 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id cn12so115912004edb.4;
+        Mon, 03 Apr 2023 04:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680520861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pSGbPNvPB+JspcMZAM7knRh0d6tq6zqNpiPGf74AOAk=;
+        b=GSRqITYHxQvX4a+vFTAh0mGJOK8s75BHXaBTK7FjohiEENwEwJqpv8RnAt+DKFC4B0
+         PqYcfmzIduKRaEguCAIwu782Mn0U2Qmil6Rm2zwZiijMpb9zvKEBbzNeMQcS4KFhw/4B
+         v4nDpR9kcOl1pRePVbJm5lXI4c5DcEFfZL/z0R0lxAwKwvDiEUw0ns31TeUfu+gtrVuM
+         ZLrSCh/GlaGIt47LB3SCWmzqHaK+cn7Q76Eg8Oi1g09acL1Jd5j5ct71GBwbe3V0hi5P
+         PpToOZeh7QkcVUK9z7gxx4fiXZ7k6gcEZ6scoKIwMfcuPibX6J4Cl+OpD/JcGZmj7T1U
+         Lr9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680520861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pSGbPNvPB+JspcMZAM7knRh0d6tq6zqNpiPGf74AOAk=;
+        b=jai27Ui6/L4LXGTCL/FxIqUrfCmjzSenqhrr1VQmQ/7uuGd92blbqva2JrRR3Bm2sR
+         /JmPYFhxPUPjEjb9RWMvls7oEoGwVMEhZzTLb8mJ6Wggcd5+kaKGkZ3FpIpbLj30kw09
+         bAuvW7d2JlyxBbGb16aOx0S9uW6KMQke4maZYrFhr0Z1xd2U/DpvGfyCHbY3Rh2tOCDH
+         gkGm74FDwfS5E4adZzEmq/tBXMgREuMcWIiu056Tu01+xXSvP2tgiYSPpKgEsCRWX/eS
+         SPJMG3IunlYJ2M0317hW+xGswANz+7MNw0FwkvP27CUhdChQoekESBjQN2fp8mMdIaLG
+         lS4g==
+X-Gm-Message-State: AAQBX9cpczYYP9+QGAJdDphE38nU1Wj+ZVB88ja/ZALm3kr58mEz2ZDn
+	tHtbH2naIckM8SatxqN7aR0=
+X-Google-Smtp-Source: AKy350Y758ypGm4nbge2JI3sswU+UqJX9IukkLLnBaBtKLA2khnktn53Px0p8a/quttJT+79zP8qbg==
+X-Received: by 2002:a17:906:1cc5:b0:931:42d2:a77f with SMTP id i5-20020a1709061cc500b0093142d2a77fmr34597474ejh.15.1680520860851;
+        Mon, 03 Apr 2023 04:21:00 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id kx6-20020a170907774600b009310d4dece9sm4402997ejc.62.2023.04.03.04.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Apr 2023 04:21:00 -0700 (PDT)
+Date: Mon, 3 Apr 2023 14:20:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Joseph Qi <joseph.qi@linux.alibaba.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild@lists.linux.dev,
+	Heming Zhao via Ocfs2-devel <ocfs2-devel@oss.oracle.com>,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error
+ code 'status'
+Message-ID: <1e7d7076-ddd6-41b3-b824-673986c35477@kili.mountain>
+References: <9e1d6835-34fc-49cd-869e-d99d9b546d17@kili.mountain>
+ <4154b815-3be4-53de-1bc0-ca87ecb925a4@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +58,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403031723.43870-1-frank.li@vivo.com>
+In-Reply-To: <4154b815-3be4-53de-1bc0-ca87ecb925a4@linux.alibaba.com>
 
-Hi Yangtao,
+Sorry, the kbuild bot is not supposed to send duplicate warnings.  I
+don't know why it was sent again...
 
-I love your patch! Yet something to improve:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7b50567bdcad8925ca1e075feb7171c12015afd1
+commit: 0737e01de9c411e4db87dcedf4a9789d41b1c5c1 ocfs2: ocfs2_mount_volume does cleanup job before return error
+date:   11 months ago
+:::::: branch date: 15 hours ago
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+Something happened on Apr 1.
 
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev linus/master v6.3-rc5 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+:::::: commit date: 11 months ago
+config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230401/202304012244.gX4H4rBO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/f2fs-support-FAULT_LOCK-type-fault-injection/20230403-111853
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20230403031723.43870-1-frank.li%40vivo.com
-patch subject: [PATCH v4] f2fs: support FAULT_LOCK type fault injection
-config: i386-randconfig-a006-20230403 (https://download.01.org/0day-ci/archive/20230403/202304031801.hGbHuuBP-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7a551520921cdc8921f448714472af3014da4f50
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yangtao-Li/f2fs-support-FAULT_LOCK-type-fault-injection/20230403-111853
-        git checkout 7a551520921cdc8921f448714472af3014da4f50
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/
+regards,
+dan carpenter
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304031801.hGbHuuBP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from fs/f2fs/dir.c:13:
->> fs/f2fs/f2fs.h:2174:60: error: incompatible pointer types passing 'struct rw_semaphore *' to parameter of type 'struct f2fs_rwsem *' [-Werror,-Wincompatible-pointer-types]
-           wait_event(sem->read_waiters, f2fs_down_read_trylock(sbi, &sem->internal_rwsem));
-                                                                     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/wait.h:343:6: note: expanded from macro 'wait_event'
-           if (condition)                                                          \
-               ^~~~~~~~~
-   fs/f2fs/f2fs.h:2164:25: note: passing argument to parameter 'sem' here
-                                           struct f2fs_rwsem *sem)
-                                                              ^
->> fs/f2fs/f2fs.h:2174:60: error: incompatible pointer types passing 'struct rw_semaphore *' to parameter of type 'struct f2fs_rwsem *' [-Werror,-Wincompatible-pointer-types]
-           wait_event(sem->read_waiters, f2fs_down_read_trylock(sbi, &sem->internal_rwsem));
-                                                                     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/wait.h:345:24: note: expanded from macro 'wait_event'
-           __wait_event(wq_head, condition);                                       \
-                                 ^~~~~~~~~
-   include/linux/wait.h:325:31: note: expanded from macro '__wait_event'
-           (void)___wait_event(wq_head, condition, TASK_UNINTERRUPTIBLE, 0, 0,     \
-                                        ^~~~~~~~~
-   include/linux/wait.h:310:7: note: expanded from macro '___wait_event'
-                   if (condition)                                                  \
-                       ^~~~~~~~~
-   fs/f2fs/f2fs.h:2164:25: note: passing argument to parameter 'sem' here
-                                           struct f2fs_rwsem *sem)
-                                                              ^
-   2 errors generated.
-
-
-vim +2174 fs/f2fs/f2fs.h
-
-  2170	
-  2171	static inline void f2fs_down_read(struct f2fs_sb_info *sbi, struct f2fs_rwsem *sem)
-  2172	{
-  2173	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
-> 2174		wait_event(sem->read_waiters, f2fs_down_read_trylock(sbi, &sem->internal_rwsem));
-  2175	#else
-  2176		down_read(&sem->internal_rwsem);
-  2177	#endif
-  2178	}
-  2179	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On Mon, Apr 03, 2023 at 07:07:37PM +0800, Joseph Qi wrote:
+> Hi,
+> IIRC, we've discussed this before.
+> Success return is expected in case of 'hard readonly'.
+> So this a false positive report.
+> 
+> Thanks,
+> Joseph
+> 
+> On 4/3/23 2:14 PM, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   7b50567bdcad8925ca1e075feb7171c12015afd1
+> > commit: 0737e01de9c411e4db87dcedf4a9789d41b1c5c1 ocfs2: ocfs2_mount_volume does cleanup job before return error
+> > config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230401/202304012244.gX4H4rBO-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202304012244.gX4H4rBO-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error code 'status'
+> > 
+> > vim +/status +1809 fs/ocfs2/super.c
+> > 
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1803  static int ocfs2_mount_volume(struct super_block *sb)
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1804  {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1805  	int status = 0;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1806  	struct ocfs2_super *osb = OCFS2_SB(sb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1807  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1808  	if (ocfs2_is_hard_readonly(osb))
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29 @1809  		goto out;
+> > 
+> > Hard to tell if this should be an error path or not...  Canonical
+> > problem with do nothing gotos.
+> > 
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1810  
+> > 5500ab4ed3b8f0 Gang He                     2019-03-05  1811  	mutex_init(&osb->obs_trim_fs_mutex);
+> > 5500ab4ed3b8f0 Gang He                     2019-03-05  1812  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1813  	status = ocfs2_dlm_init(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1814  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1815  		mlog_errno(status);
+> > a52370b3b182f7 Gang He                     2018-01-31  1816  		if (status == -EBADR && ocfs2_userspace_stack(osb))
+> > a52370b3b182f7 Gang He                     2018-01-31  1817  			mlog(ML_ERROR, "couldn't mount because cluster name on"
+> > a52370b3b182f7 Gang He                     2018-01-31  1818  			" disk does not match the running cluster name.\n");
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1819  		goto out;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1820  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1821  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1822  	status = ocfs2_super_lock(osb, 1);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1823  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1824  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1825  		goto out_dlm;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1826  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1827  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1828  	/* This will load up the node map and add ourselves to it. */
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1829  	status = ocfs2_find_slot(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1830  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1831  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1832  		goto out_super_lock;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1833  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1834  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1835  	/* load all node-local system inodes */
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1836  	status = ocfs2_init_local_system_inodes(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1837  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1838  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1839  		goto out_super_lock;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1840  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1841  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1842  	status = ocfs2_check_volume(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1843  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1844  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1845  		goto out_system_inodes;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1846  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1847  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1848  	status = ocfs2_truncate_log_init(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1849  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1850  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1851  		goto out_system_inodes;
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1852  	}
+> > c271c5c22b0a7c Sunil Mushran               2006-12-05  1853  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1854  	ocfs2_super_unlock(osb, 1);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1855  	return 0;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1856  
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1857  out_system_inodes:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1858  	if (osb->local_alloc_state == OCFS2_LA_ENABLED)
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1859  		ocfs2_shutdown_local_alloc(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1860  	ocfs2_release_system_inodes(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1861  	/* before journal shutdown, we should release slot_info */
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1862  	ocfs2_free_slot_info(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1863  	ocfs2_journal_shutdown(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1864  out_super_lock:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1865  	ocfs2_super_unlock(osb, 1);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1866  out_dlm:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1867  	ocfs2_dlm_shutdown(osb, 0);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1868  out:
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1869  	return status;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1870  }
+> > 
