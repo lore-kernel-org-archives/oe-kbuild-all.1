@@ -1,45 +1,46 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12423205
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 20:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEFDA935;
+	Mon,  3 Apr 2023 21:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680554395; x=1712090395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P+ArDF7g3Q1BhXVAGymZodKOHspveJm8iKHbAkAMNUk=;
-  b=bKH78VsrFbTwALy0EMUEZy3X8W+Y85kLxJ5FRN5WseTedsM3poYXsZE4
-   /jG1kdteqAWV2T39Ujr8DMFcxOwnBWvUD6nkMWFXjD5ISArzFiqhFj/Qi
-   GkowgqErNgyzrsdgElOZrHRPB2M4jibby/dMS+A9+LHHpOfIsgYQirzgp
-   RTf0FqbzuMEF63XdimgWjGDyl7rMemotqqihFrCeUUyJxx9fPViYta1P8
-   Uo+qAKiaF7FnPDX6fzX/NF3NAK7z8kz2HQEA8Ua48FE5rHO8VyCdWWSGb
-   nnjPFcIrpjzWS/o03cf8p0iuWiwWgKJ/Rb9lqW0CCzgjleFKIOAv/RQqQ
+  t=1680556262; x=1712092262;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/TL/94C71e8Y6Y2kHK5wljKsZJcW/biraeaZgkzhOkE=;
+  b=AOVuDcdfPyXWQgKqdO21uzNwd/+0l2Qk8AwNf2JDM/gFOx8dXFcDeFY9
+   SuO1VTHGWipmZvjgMN5CbENHVzofHQp/S1b1wvSuQvhKZRNaF8pQA47uh
+   gvfcVhK2bKZZe9k9gSP7UXab2sSm/7KOa3gEatfrtnJkXdtRkm84oe8iM
+   fQ6/3sfmmJUV6SNNEg/bHV53Z7psSF+5qVov8TUj8Mz6lvG2pdE2Gr/cw
+   wIyo/iqRWN5GWejWQp2ge6Y4g8/OC5GUZ9xIlrxi5FU3CcgTp1dkJrsFL
+   1UWJTlPYCaLMn4giGhB6yjKaySRkU2aDMt5a5+awIZ0WRhVEncqZCXN5v
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428298766"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="342042407"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="428298766"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 13:39:42 -0700
+   d="scan'208";a="342042407"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 14:10:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="809962379"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="932189509"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="809962379"
+   d="scan'208";a="932189509"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Apr 2023 13:39:40 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 03 Apr 2023 14:10:41 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjQxn-000Onq-1o;
-	Mon, 03 Apr 2023 20:39:39 +0000
-Date: Tue, 4 Apr 2023 04:39:27 +0800
+	id 1pjRRp-000Opm-13;
+	Mon, 03 Apr 2023 21:10:41 +0000
+Date: Tue, 4 Apr 2023 05:10:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Orlando Chamberlain <orlandoch.dev@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [linux-next:master 3256/8744]
- drivers/platform/x86/apple-gmux.c:224:48: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202304040401.IMxt7Ubi-lkp@intel.com>
+To: cem@kernel.org, hughd@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jack@suse.cz,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	djwong@kernel.org
+Subject: Re: [PATCH 2/6] shmem: make shmem_get_inode() return ERR_PTR instead
+ of NULL
+Message-ID: <202304040420.J4BUN9E6-lkp@intel.com>
+References: <20230403084759.884681-3-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,193 +49,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403084759.884681-3-cem@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   31bd35b66249699343d2416658f57e97314a433a
-commit: 0c18184de990e63f708b090bcb9fc6c0fbc427cd [3256/8744] platform/x86: apple-gmux: support MMIO gmux on T2 Macs
-config: x86_64-randconfig-s023-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040401.IMxt7Ubi-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0c18184de990e63f708b090bcb9fc6c0fbc427cd
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 0c18184de990e63f708b090bcb9fc6c0fbc427cd
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3-rc5]
+[cannot apply to akpm-mm/mm-everything next-20230403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
+patch link:    https://lore.kernel.org/r/20230403084759.884681-3-cem%40kernel.org
+patch subject: [PATCH 2/6] shmem: make shmem_get_inode() return ERR_PTR instead of NULL
+config: arm-randconfig-r046-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040420.J4BUN9E6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/98aa926ee22a768f6a2dc8b0b897d018fc47497e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
+        git checkout 98aa926ee22a768f6a2dc8b0b897d018fc47497e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040401.IMxt7Ubi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040420.J4BUN9E6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/x86/apple-gmux.c:224:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:224:48: sparse:     expected void const [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:224:48: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:227:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:227:53: sparse:     expected void const [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:227:53: sparse:     got unsigned char [usertype] *
->> drivers/platform/x86/apple-gmux.c:241:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:241:55: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:241:55: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:243:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:243:39: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:243:39: sparse:     got unsigned char [usertype] *
->> drivers/platform/x86/apple-gmux.c:245:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:245:32: sparse:     expected void const [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:245:32: sparse:     got unsigned char [usertype] *[noderef] iomem_base
->> drivers/platform/x86/apple-gmux.c:256:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:256:32: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:256:32: sparse:     got unsigned char [usertype] *[noderef] iomem_base
-   drivers/platform/x86/apple-gmux.c:258:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:258:53: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:258:53: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:260:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:260:39: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:260:39: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:272:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:272:55: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:272:55: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:274:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:274:39: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:274:39: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:276:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:276:15: sparse:     expected void const [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:276:15: sparse:     got unsigned char [usertype] *[noderef] iomem_base
->> drivers/platform/x86/apple-gmux.c:276:15: sparse: sparse: cast to restricted __be32
->> drivers/platform/x86/apple-gmux.c:286:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/platform/x86/apple-gmux.c:286:19: sparse:     expected unsigned int [usertype]
-   drivers/platform/x86/apple-gmux.c:286:19: sparse:     got restricted __be32 [usertype]
-   drivers/platform/x86/apple-gmux.c:286:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:286:46: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:286:46: sparse:     got unsigned char [usertype] *[noderef] iomem_base
-   drivers/platform/x86/apple-gmux.c:287:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:287:53: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:287:53: sparse:     got unsigned char [usertype] *
-   drivers/platform/x86/apple-gmux.c:289:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/platform/x86/apple-gmux.c:289:39: sparse:     expected void [noderef] __iomem *
-   drivers/platform/x86/apple-gmux.c:289:39: sparse:     got unsigned char [usertype] *
->> drivers/platform/x86/apple-gmux.c:739:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *[noderef] iomem_base @@     got void [noderef] __iomem * @@
-   drivers/platform/x86/apple-gmux.c:739:39: sparse:     expected unsigned char [usertype] *[noderef] iomem_base
-   drivers/platform/x86/apple-gmux.c:739:39: sparse:     got void [noderef] __iomem *
->> drivers/platform/x86/apple-gmux.c:889:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:889:34: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/platform/x86/apple-gmux.c:889:34: sparse:     got unsigned char [usertype] *[noderef] iomem_base
-   drivers/platform/x86/apple-gmux.c:916:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *[noderef] iomem_base @@
-   drivers/platform/x86/apple-gmux.c:916:34: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/platform/x86/apple-gmux.c:916:34: sparse:     got unsigned char [usertype] *[noderef] iomem_base
->> drivers/platform/x86/apple-gmux.c:224:26: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:227:31: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:241:33: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:243:17: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:245:23: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:256:23: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:258:31: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:260:17: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:272:33: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:274:17: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:276:15: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:286:37: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:287:31: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:289:17: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c: note: in included file:
->> include/linux/apple-gmux.h:69:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned char [usertype] *[noderef] __iomem iomem_base @@     got void [noderef] __iomem * @@
-   include/linux/apple-gmux.h:69:41: sparse:     expected unsigned char [usertype] *[noderef] __iomem iomem_base
-   include/linux/apple-gmux.h:69:41: sparse:     got void [noderef] __iomem *
->> include/linux/apple-gmux.h:80:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   include/linux/apple-gmux.h:80:34: sparse:     expected void const [noderef] __iomem *
-   include/linux/apple-gmux.h:80:34: sparse:     got unsigned char [usertype] *
->> include/linux/apple-gmux.h:81:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *[noderef] __iomem iomem_base @@
-   include/linux/apple-gmux.h:81:17: sparse:     expected void volatile [noderef] __iomem *addr
-   include/linux/apple-gmux.h:81:17: sparse:     got unsigned char [usertype] *[noderef] __iomem iomem_base
->> include/linux/apple-gmux.h:72:14: sparse: sparse: dereference of noderef expression
-   include/linux/apple-gmux.h:80:23: sparse: sparse: dereference of noderef expression
-   include/linux/apple-gmux.h:81:17: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:740:22: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:888:13: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:889:25: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:915:13: sparse: sparse: dereference of noderef expression
-   drivers/platform/x86/apple-gmux.c:916:25: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +224 drivers/platform/x86/apple-gmux.c
+>> mm/shmem.c:4261:29: error: too many arguments to function call, expected 5, have 6
+                                   S_IFREG | S_IRWXUGO, 0, flags);
+                                                           ^~~~~
+   mm/shmem.c:4231:29: note: 'shmem_get_inode' declared here
+   static inline struct inode *shmem_get_inode(struct super_block *sb, struct inode *dir,
+                               ^
+   1 error generated.
 
-   220	
-   221	static int gmux_mmio_wait(struct apple_gmux_data *gmux_data)
-   222	{
-   223		int i = 200;
- > 224		u8 gwr = ioread8(gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   225	
-   226		while (i && gwr) {
- > 227			gwr = ioread8(gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   228			udelay(100);
-   229			i--;
-   230		}
-   231	
-   232		return !!i;
-   233	}
-   234	
-   235	static u8 gmux_mmio_read8(struct apple_gmux_data *gmux_data, int port)
-   236	{
-   237		u8 val;
-   238	
-   239		mutex_lock(&gmux_data->index_lock);
-   240		gmux_mmio_wait(gmux_data);
- > 241		iowrite8((port & 0xff), gmux_data->iomem_base + GMUX_MMIO_PORT_SELECT);
-   242		iowrite8(GMUX_MMIO_READ | sizeof(val),
-   243			gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   244		gmux_mmio_wait(gmux_data);
- > 245		val = ioread8(gmux_data->iomem_base);
-   246		mutex_unlock(&gmux_data->index_lock);
-   247	
-   248		return val;
-   249	}
-   250	
-   251	static void gmux_mmio_write8(struct apple_gmux_data *gmux_data, int port,
-   252				      u8 val)
-   253	{
-   254		mutex_lock(&gmux_data->index_lock);
-   255		gmux_mmio_wait(gmux_data);
- > 256		iowrite8(val, gmux_data->iomem_base);
-   257	
-   258		iowrite8(port & 0xff, gmux_data->iomem_base + GMUX_MMIO_PORT_SELECT);
-   259		iowrite8(GMUX_MMIO_WRITE | sizeof(val),
-   260			gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   261	
-   262		gmux_mmio_wait(gmux_data);
-   263		mutex_unlock(&gmux_data->index_lock);
-   264	}
-   265	
-   266	static u32 gmux_mmio_read32(struct apple_gmux_data *gmux_data, int port)
-   267	{
-   268		u32 val;
-   269	
-   270		mutex_lock(&gmux_data->index_lock);
-   271		gmux_mmio_wait(gmux_data);
- > 272		iowrite8((port & 0xff), gmux_data->iomem_base + GMUX_MMIO_PORT_SELECT);
-   273		iowrite8(GMUX_MMIO_READ | sizeof(val),
-   274			gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   275		gmux_mmio_wait(gmux_data);
- > 276		val = be32_to_cpu(ioread32(gmux_data->iomem_base));
-   277		mutex_unlock(&gmux_data->index_lock);
-   278	
-   279		return val;
-   280	}
-   281	
-   282	static void gmux_mmio_write32(struct apple_gmux_data *gmux_data, int port,
-   283				       u32 val)
-   284	{
-   285		mutex_lock(&gmux_data->index_lock);
- > 286		iowrite32(cpu_to_be32(val), gmux_data->iomem_base);
- > 287		iowrite8(port & 0xff, gmux_data->iomem_base + GMUX_MMIO_PORT_SELECT);
-   288		iowrite8(GMUX_MMIO_WRITE | sizeof(val),
-   289			gmux_data->iomem_base + GMUX_MMIO_COMMAND_SEND);
-   290		gmux_mmio_wait(gmux_data);
-   291		mutex_unlock(&gmux_data->index_lock);
-   292	}
-   293	
+
+vim +4261 mm/shmem.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4241  
+703321b60b605b Matthew Auld      2017-10-06  4242  static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name, loff_t size,
+c7277090927a5e Eric Paris        2013-12-02  4243  				       unsigned long flags, unsigned int i_flags)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4244  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4245  	struct inode *inode;
+93dec2da7b2349 Al Viro           2018-07-08  4246  	struct file *res;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4247  
+703321b60b605b Matthew Auld      2017-10-06  4248  	if (IS_ERR(mnt))
+703321b60b605b Matthew Auld      2017-10-06  4249  		return ERR_CAST(mnt);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4250  
+285b2c4fdd69ea Hugh Dickins      2011-08-03  4251  	if (size < 0 || size > MAX_LFS_FILESIZE)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4252  		return ERR_PTR(-EINVAL);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4253  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4254  	if (shmem_acct_size(flags, size))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4255  		return ERR_PTR(-ENOMEM);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4256  
+7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4257  	if (is_idmapped_mnt(mnt))
+7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4258  		return ERR_PTR(-EINVAL);
+7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4259  
+7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4260  	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
+7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20 @4261  				S_IFREG | S_IRWXUGO, 0, flags);
+98aa926ee22a76 Lukas Czerner     2023-04-03  4262  
+98aa926ee22a76 Lukas Czerner     2023-04-03  4263  	if (IS_ERR(inode)) {
+dac2d1f6cbfe3f Al Viro           2018-06-09  4264  		shmem_unacct_size(flags, size);
+98aa926ee22a76 Lukas Czerner     2023-04-03  4265  		return ERR_CAST(inode);
+dac2d1f6cbfe3f Al Viro           2018-06-09  4266  	}
+c7277090927a5e Eric Paris        2013-12-02  4267  	inode->i_flags |= i_flags;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4268  	inode->i_size = size;
+6d6b77f163c7ea Miklos Szeredi    2011-10-28  4269  	clear_nlink(inode);	/* It is unlinked */
+26567cdbbf1a6b Al Viro           2013-03-01  4270  	res = ERR_PTR(ramfs_nommu_expand_for_mapping(inode, size));
+93dec2da7b2349 Al Viro           2018-07-08  4271  	if (!IS_ERR(res))
+93dec2da7b2349 Al Viro           2018-07-08  4272  		res = alloc_file_pseudo(inode, mnt, name, O_RDWR,
+4b42af81f0d7f9 Al Viro           2009-08-05  4273  				&shmem_file_operations);
+6b4d0b2793337c Al Viro           2013-02-14  4274  	if (IS_ERR(res))
+93dec2da7b2349 Al Viro           2018-07-08  4275  		iput(inode);
+6b4d0b2793337c Al Viro           2013-02-14  4276  	return res;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4277  }
+c7277090927a5e Eric Paris        2013-12-02  4278  
 
 -- 
 0-DAY CI Kernel Test Service
