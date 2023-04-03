@@ -1,275 +1,98 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C2F7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 03:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680491868; x=1712027868;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nSgiai6Qj5rGlomnKwlBVsZ21VB5blRI+ZuDQKaZ5S0=;
-  b=IJUO6Xp3d7A2+w+FuEiN5YrFXHRo0IgS+AICxQLCpxDUPCu2rc7NYL9h
-   DHzaSwGW/FU4zaTR3glzvYEgW0Yn9TT/Or47f+GEEJIrZ5ELDXRq7zdle
-   LdU5SoIGKSMHPDGfjZSwkXIkKg8ENimAQvkTliFX7dRPXRCppxvRlepu6
-   EKHbIXnOIyKhvkDQKXRdpqcIF6I54y5peTp1tb9K1+0dq9xZjhoA/+wbr
-   HXLnBFwGsKp16Lu2vDSU25yabc1tkfCAV+FnR5ekrcNJnT591jLCte4yv
-   pe9mPny4Tnokz1L51ay7Xdmo9rdKDIl4enx155+IC5KFkA/bdjtSpANtM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="339294465"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="339294465"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 20:17:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="635960651"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="635960651"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Apr 2023 20:17:46 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjAhV-000NxN-0N;
-	Mon, 03 Apr 2023 03:17:45 +0000
-Date: Mon, 3 Apr 2023 11:17:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 3/3] lib/test_map_h.c:43:2: error: call to
- '__compiletime_assert_238' declared with 'error' attribute: BUILD_BUG_ON
- failed: __builtin_memcmp(caten, "YESNOMAYBE", sizeof("YESNOMAYBE"))
-Message-ID: <202304031132.zJH5oFyE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1E67C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 03:41:32 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id om3-20020a17090b3a8300b0023efab0e3bfso31108514pjb.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Apr 2023 20:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680493292;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FXg7HFo8IGOwcXz+xhhxTe6e3AAoC5T1g7VGxj4ZrTU=;
+        b=GQMh9Mc66DJQmu3ozynlsyvpfEs2UHpQQq3PLKnmT5DOBz73qqb2LSX9XWX8O9sNOk
+         LVF7JaOsCdxo4lB8gW09vEx411Dh8psSegvwjBc0H1QBD6TsX1fAm4zbhDfqYdsXrlGO
+         ugeUsJ4Ah/04bj/Tye0jIXFl47Y5UsDp/Iab6YNi2L21rLEMOfUZpGdSRZEYs8+6Wluj
+         lUEqJDdkp8n8fXf/4wIDaRjQdVZGKipQEnBJVDdEENGgEljZCE/chAFyN0b7+pxWqv+j
+         pA+mi6PxK+w72E6M/T0XHUraXxJJKjMQHYpVbXKAQKS56rb/QdhvI9qU3PBez8yLdasw
+         NR2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680493292;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FXg7HFo8IGOwcXz+xhhxTe6e3AAoC5T1g7VGxj4ZrTU=;
+        b=h/f3iS1/Cjdkok8HyxdzZEtuxxSrvyQazYAZ9pbntFMRUAVQMVN5RSBRmncJnq1wGz
+         Qi5WPDgpkZvIuSizqZ24ofQ2IC041EU+x4LTFPELRafv4fiJc2kfr4Zbn49+gDKidhvK
+         8bIlJV+yFggyZ2OM5SiFIQ+FLWFj6GQhYSoOV+UBd2Oso/HKTYDIKphlL1c5wipapApX
+         6Vp4zdtfdUhDTb4FiaURS7vhFd0XwAXc56t1EcPA/isHzg+Nk0KsGvMooi4xdfPr60eS
+         hptg/QeQnaYFX2xdolL+nmitN1arnXzCFqF71EVGNRYa3PVIC1KllI4BvFZa3HJmCeE3
+         DxqQ==
+X-Gm-Message-State: AAQBX9efhg72+zs/ukXMy0znlnw7IWPsEj66BNi1JeqOycAK5bRZZAvr
+	K1ypTLlHdRqP5ZXVquczVU8=
+X-Google-Smtp-Source: AKy350Zj8qEaJ+ZabiLCgRpf2zuuu+PDP+ydP0Spb/wnTC7MJGQSvPJqCeW61Xy8SbFBrmDX/0gbIQ==
+X-Received: by 2002:a17:902:f785:b0:19e:2860:3ae8 with SMTP id q5-20020a170902f78500b0019e28603ae8mr39191402pln.33.1680493292013;
+        Sun, 02 Apr 2023 20:41:32 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-12.three.co.id. [116.206.28.12])
+        by smtp.gmail.com with ESMTPSA id v19-20020a1709028d9300b0019d397b0f18sm5455896plo.214.2023.04.02.20.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 20:41:31 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 5795110679D; Mon,  3 Apr 2023 10:41:27 +0700 (WIB)
+Date: Mon, 3 Apr 2023 10:41:27 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: kernel test robot <lkp@intel.com>, Joe Stringer <joe@isovalent.com>,
+	bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
+	martin.lau@linux.dev, maxtram95@gmail.com, john.fastabend@gmail.com
+Subject: Re: [PATCH bpf-next v4 2/2] docs/bpf: Add LRU internals description
+ and graph
+Message-ID: <ZCpK5wOI0ZEedhrr@debian.me>
+References: <20230401200651.1022113-2-joe@isovalent.com>
+ <202304022107.IwHc05cs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ilTwJv3f+pqw84Rg"
 Content-Disposition: inline
-
-tree:   https://github.com/jimc/linux.git maph
-head:   4f9ec383e57b05bb17395584cb8dbf658c615070
-commit: 4f9ec383e57b05bb17395584cb8dbf658c615070 [3/3] lib/test_map_h: add new module to test map.h macros
-config: mips-randconfig-r001-20230402 (https://download.01.org/0day-ci/archive/20230403/202304031132.zJH5oFyE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/jimc/linux/commit/4f9ec383e57b05bb17395584cb8dbf658c615070
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout 4f9ec383e57b05bb17395584cb8dbf658c615070
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash lib/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304031132.zJH5oFyE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> lib/test_map_h.c:43:2: error: call to '__compiletime_assert_238' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(caten, "YESNOMAYBE", sizeof("YESNOMAYBE"))
-           BUILD_BUG_STREQ(caten, "YESNOMAYBE");
-           ^
-   lib/test_map_h.c:32:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)));         \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:126:1: note: expanded from here
-   __compiletime_assert_238
-   ^
->> lib/test_map_h.c:43:2: error: call to '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(caten, "YESNOMAYBE", __builtin_strlen("YESNOMAYBE"))
-   lib/test_map_h.c:33:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref))); \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:130:1: note: expanded from here
-   __compiletime_assert_239
-   ^
->> lib/test_map_h.c:45:2: error: call to '__compiletime_assert_240' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[0], "DRMx_CORE", sizeof("DRMx_CORE"))
-           BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
-           ^
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:32:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)));         \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:135:1: note: expanded from here
-   __compiletime_assert_240
-   ^
->> lib/test_map_h.c:45:2: error: call to '__compiletime_assert_241' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[0], "DRMx_CORE", __builtin_strlen("DRMx_CORE"))
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:33:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref))); \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:139:1: note: expanded from here
-   __compiletime_assert_241
-   ^
->> lib/test_map_h.c:46:2: error: call to '__compiletime_assert_242' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[1], "DRMx_DRIVER", sizeof("DRMx_DRIVER"))
-           BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
-           ^
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:32:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)));         \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:144:1: note: expanded from here
-   __compiletime_assert_242
-   ^
->> lib/test_map_h.c:46:2: error: call to '__compiletime_assert_243' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[1], "DRMx_DRIVER", __builtin_strlen("DRMx_DRIVER"))
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:33:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref))); \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:148:1: note: expanded from here
-   __compiletime_assert_243
-   ^
->> lib/test_map_h.c:47:2: error: call to '__compiletime_assert_244' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[2], "DRMx_KMS", sizeof("DRMx_KMS"))
-           BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
-           ^
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:32:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)));         \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:153:1: note: expanded from here
-   __compiletime_assert_244
-   ^
->> lib/test_map_h.c:47:2: error: call to '__compiletime_assert_245' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[2], "DRMx_KMS", __builtin_strlen("DRMx_KMS"))
-   lib/test_map_h.c:37:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:33:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref))); \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:157:1: note: expanded from here
-   __compiletime_assert_245
-   ^
-   8 errors generated.
+In-Reply-To: <202304022107.IwHc05cs-lkp@intel.com>
 
 
-vim +43 lib/test_map_h.c
+--ilTwJv3f+pqw84Rg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    25	
-    26	#if defined(__i386__)
-    27	/* avoid a "__compiletime_assert_" error */
-    28	#define BUILD_BUG_STREQ(_var, ref)	 BUILD_BUG_ON(0)
-    29	#else
-    30	/* test w 2 exprs, for now */
-    31	#define BUILD_BUG_STREQ(_var, ref) do {					\
-    32		BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)));		\
-    33		BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref))); \
-    34	} while (0)
-    35	#endif
-    36	#define BUILD_BUG_STREQ_VI(_vec_, idx, ref) \
-    37		BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-    38	
-    39	/* force compile, even if its not called */
-    40	static void __used MAPH_BUILD_BUG(void)
-    41	{
-    42		BUILD_BUG_ON(sum != 6);
-  > 43		BUILD_BUG_STREQ(caten, "YESNOMAYBE");
-    44	
-  > 45		BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
-  > 46		BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
-  > 47		BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
-    48	
+On Sun, Apr 02, 2023 at 09:47:49PM +0800, kernel test robot wrote:
+> All warnings (new ones prefixed by >>):
+>=20
+> >> Warning: Orthogonal edges do not currently handle edge labels. Try usi=
+ng xlabels.
+>=20
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Hi,
+
+I can't reproduce the warning above. My system has graphviz 2.42.2
+installed (via Debian package). What graphviz version do kernel test
+robot have?
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ilTwJv3f+pqw84Rg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCpK4wAKCRD2uYlJVVFO
+ozQcAQCj8UTVKu5oY+LWQWX0nnujGgsrcAZl1lt6077X3AedOAEAgYGC9Us8sPRg
+ZPi23Z3f3810sBuRzxVOC9SzIa6oqwc=
+=bziQ
+-----END PGP SIGNATURE-----
+
+--ilTwJv3f+pqw84Rg--
