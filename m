@@ -1,46 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A38920F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 09:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10C20F2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 09:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680513240; x=1712049240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6+SAyrxuNamj1Gz85be/Ibt2hM7RxeSogWrKgGtCiUQ=;
-  b=nCiou3y2nEyUCcYcYRbo82/f0GqXT4brxvU2LLuRWsMQV21k2rNVQR8I
-   GAvTIQXJK679/uN/BBnTMAwq6YmQtfKCeww9CR2Zjk92FonW8R94M4kYO
-   bMJ3dCt8/PpQBUTeFW49gOi+LRLTEj1V8rLR2DyGtHXziYMxgtgNIf9Xr
-   1SebQQFc+YDsjlZ1wA1EXJUmsC1M1D9aaUlV02JIKSD07YulEKLgKiYaT
-   kCH+Au4i+0bPvUuj163mXh0D9R2CzuAiDBSNfEcZCovwXrS7Ls23FY8TS
-   u6xxIRO1dggH9Ech/C6Ch7w9ab5JelWoq1VXI8CTTcHngR+iUTCfKFODe
+  t=1680513840; x=1712049840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=usdf3g4r0utMo0qlvYm7gLnixp1wxVc6P6orjE21x+A=;
+  b=eJLeXyApTldtB1LHhtxzmKPcWspwjefebUr+7yXnblucfxl3TTWvgVPM
+   2aA08Fwk8AM7MCnkl6XPk2styH8OUxUjJTtPaC6eoKGNzc611ZMBpLKs3
+   yt9msUtoWIa4YVQfRpuhw9lp3tRuQW/5RnUkvmHKiw17U/+cqXeaNA0E9
+   SSOD8GiOR/44/VIz08QV/R3EzaL23N8iCV2UrBgN6QBGEGHJ7aebWmwyp
+   IPVNFn32gZNxxr9ETxF1ttYKTjUaR80achkchvsD/MfhtgRmdVemaWpZC
+   c4cI3DXg3g1xucej3ME1+/pEnn8pB+Psvc+dSCXGa4Vw9lPAjbWTRmWr3
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="344401044"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="321514167"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="344401044"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 02:13:59 -0700
+   d="scan'208";a="321514167"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 02:24:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="663136721"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="688446853"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="663136721"
+   d="scan'208";a="688446853"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 03 Apr 2023 02:13:57 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2023 02:23:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjGGD-000O95-04;
-	Mon, 03 Apr 2023 09:13:57 +0000
-Date: Mon, 3 Apr 2023 17:12:57 +0800
+	id 1pjGPt-000O9h-2O;
+	Mon, 03 Apr 2023 09:23:57 +0000
+Date: Mon, 3 Apr 2023 17:23:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fei Cheng <chenwei.0515@bytedance.com>, willemdebruijn.kernel@gmail.com,
-	dsahern@kernel.org, davem@davemloft.net,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, chenwei.0515@bytedance.com
-Subject: Re: [PATCH]     udp:nat:vxlan tx after nat should recsum if vxlan tx
- offload on
-Message-ID: <202304031611.3W21vgtb-lkp@intel.com>
-References: <20230401023029.967357-1-chenwei.0515@bytedance.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Thomas Hellstrom <thellstrom@vmware.com>,
+	Steven Price <steven.price@arm.com>
+Subject: fs/proc/task_mmu.c:743:33: warning: 'smaps_shmem_walk_ops' defined
+ but not used
+Message-ID: <202304031749.UiyJpxzF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,75 +48,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230401023029.967357-1-chenwei.0515@bytedance.com>
 
-Hi Fei,
+Hi Christoph,
 
-Thank you for the patch! Perhaps something to improve:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc5]
-[cannot apply to next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fei-Cheng/udp-nat-vxlan-tx-after-nat-should-recsum-if-vxlan-tx-offload-on/20230401-103127
-patch link:    https://lore.kernel.org/r/20230401023029.967357-1-chenwei.0515%40bytedance.com
-patch subject: [PATCH]     udp:nat:vxlan tx after nat should recsum if vxlan tx offload on
-config: microblaze-randconfig-s052-20230402 (https://download.01.org/0day-ci/archive/20230403/202304031611.3W21vgtb-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/58c404cd43734d67706e3dc48c04a3e11e9dd8e8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Fei-Cheng/udp-nat-vxlan-tx-after-nat-should-recsum-if-vxlan-tx-offload-on/20230401-103127
-        git checkout 58c404cd43734d67706e3dc48c04a3e11e9dd8e8
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
+commit: 7b86ac3371b70c3fd8fd95501719beb1faab719f pagewalk: separate function pointers from iterator data
+date:   3 years, 7 months ago
+config: i386-buildonly-randconfig-r004-20230403 (https://download.01.org/0day-ci/archive/20230403/202304031749.UiyJpxzF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b86ac3371b70c3fd8fd95501719beb1faab719f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7b86ac3371b70c3fd8fd95501719beb1faab719f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash net/netfilter/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/proc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304031611.3W21vgtb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304031749.UiyJpxzF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/nf_nat_proto.c:81:43: sparse: sparse: cast from restricted __be16
->> net/netfilter/nf_nat_proto.c:81:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int len @@     got restricted __be16 [usertype] @@
-   net/netfilter/nf_nat_proto.c:81:43: sparse:     expected int len
-   net/netfilter/nf_nat_proto.c:81:43: sparse:     got restricted __be16 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +81 net/netfilter/nf_nat_proto.c
+   fs/proc/task_mmu.c: In function 'pagemap_pmd_range':
+   fs/proc/task_mmu.c:1367:22: warning: variable 'orig_pte' set but not used [-Wunused-but-set-variable]
+    1367 |         pte_t *pte, *orig_pte;
+         |                      ^~~~~~~~
+   At top level:
+>> fs/proc/task_mmu.c:743:33: warning: 'smaps_shmem_walk_ops' defined but not used [-Wunused-const-variable=]
+     743 | static const struct mm_walk_ops smaps_shmem_walk_ops = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~
 
-    65	
-    66	static bool udp_manip_pkt(struct sk_buff *skb,
-    67				  unsigned int iphdroff, unsigned int hdroff,
-    68				  const struct nf_conntrack_tuple *tuple,
-    69				  enum nf_nat_manip_type maniptype)
-    70	{
-    71		struct udphdr *hdr;
-    72	
-    73		if (skb_ensure_writable(skb, hdroff + sizeof(*hdr)))
-    74			return false;
-    75	
-    76		hdr = (struct udphdr *)(skb->data + hdroff);
-    77		__udp_manip_pkt(skb, iphdroff, hdr, tuple, maniptype, !!hdr->check);
-    78	
-    79		if (skb->csum_local) {
-    80			hdr->check = 0;
-  > 81			hdr->check = udp_v4_check(htons(hdr->len), tuple->src.u3.ip, tuple->dst.u3.ip,
-    82						  lco_csum(skb));
-    83			if (hdr->check == 0)
-    84				hdr->check = CSUM_MANGLED_0;
-    85		}
-    86	
-    87		return true;
-    88	}
-    89	
+
+vim +/smaps_shmem_walk_ops +743 fs/proc/task_mmu.c
+
+   742	
+ > 743	static const struct mm_walk_ops smaps_shmem_walk_ops = {
+   744		.pmd_entry		= smaps_pte_range,
+   745		.hugetlb_entry		= smaps_hugetlb_range,
+   746		.pte_hole		= smaps_pte_hole,
+   747	};
+   748	
 
 -- 
 0-DAY CI Kernel Test Service
