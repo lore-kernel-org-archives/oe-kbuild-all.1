@@ -1,45 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10C20F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 09:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6128E2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 10:56:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680513840; x=1712049840;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=usdf3g4r0utMo0qlvYm7gLnixp1wxVc6P6orjE21x+A=;
-  b=eJLeXyApTldtB1LHhtxzmKPcWspwjefebUr+7yXnblucfxl3TTWvgVPM
-   2aA08Fwk8AM7MCnkl6XPk2styH8OUxUjJTtPaC6eoKGNzc611ZMBpLKs3
-   yt9msUtoWIa4YVQfRpuhw9lp3tRuQW/5RnUkvmHKiw17U/+cqXeaNA0E9
-   SSOD8GiOR/44/VIz08QV/R3EzaL23N8iCV2UrBgN6QBGEGHJ7aebWmwyp
-   IPVNFn32gZNxxr9ETxF1ttYKTjUaR80achkchvsD/MfhtgRmdVemaWpZC
-   c4cI3DXg3g1xucej3ME1+/pEnn8pB+Psvc+dSCXGa4Vw9lPAjbWTRmWr3
+  t=1680519364; x=1712055364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v+kcj0sTO/IKKp6uBWGgjPyK5ZNmgdLdPm7bcdAmJII=;
+  b=hDKXjqdDSrmEoRXwsoYfHRGwVXTHDlDm2wr+hMmUL/MyPbNXdb8gvcLd
+   RPo7r8kgAFqAIpa4RrTYL+R96CWBcTmuxQKXyh6RlHrSnzlU7BunX4Wtq
+   c0fYQ0CR6eaFHIo8t4quvbwzU1/b6Exx/CdQwZP81hz5/qKURb+PVz5DH
+   3nhzmmmu5J+CogC4NEu6wJsjtMdDfnmTCO/1ouNlWptudxR0gswKqz8O0
+   XhokQ2xwPwRQ4o1eh5vwSzllPaBsYAcjirRt73IlyHOw+OsnZZCSoaM62
+   VqlhxFTeekzUBcGOgEdxj990FdtSAPzsCdwCp1sVpolLLrEzFlvgJnBI0
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="321514167"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="344417653"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="321514167"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 02:24:00 -0700
+   d="scan'208";a="344417653"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 03:56:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="688446853"
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="860159520"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="688446853"
+   d="scan'208";a="860159520"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2023 02:23:58 -0700
+  by orsmga005.jf.intel.com with ESMTP; 03 Apr 2023 03:56:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjGPt-000O9h-2O;
-	Mon, 03 Apr 2023 09:23:57 +0000
-Date: Mon, 3 Apr 2023 17:23:10 +0800
+	id 1pjHqz-000ODJ-2I;
+	Mon, 03 Apr 2023 10:56:01 +0000
+Date: Mon, 3 Apr 2023 18:55:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Thomas Hellstrom <thellstrom@vmware.com>,
-	Steven Price <steven.price@arm.com>
-Subject: fs/proc/task_mmu.c:743:33: warning: 'smaps_shmem_walk_ops' defined
- but not used
-Message-ID: <202304031749.UiyJpxzF-lkp@intel.com>
+To: Mika Kahola <mika.kahola@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Add support for PM DEMAND
+Message-ID: <202304031821.7mf2eSpM-lkp@intel.com>
+References: <20230403085043.2219092-1-mika.kahola@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,52 +46,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403085043.2219092-1-mika.kahola@intel.com>
 
-Hi Christoph,
+Hi Mika,
 
-FYI, the error/warning still remains.
+Thank you for the patch! Yet something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
-commit: 7b86ac3371b70c3fd8fd95501719beb1faab719f pagewalk: separate function pointers from iterator data
-date:   3 years, 7 months ago
-config: i386-buildonly-randconfig-r004-20230403 (https://download.01.org/0day-ci/archive/20230403/202304031749.UiyJpxzF-lkp@intel.com/config)
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mika-Kahola/drm-i915-mtl-Add-support-for-PM-DEMAND/20230403-165720
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230403085043.2219092-1-mika.kahola%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/mtl: Add support for PM DEMAND
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230403/202304031821.7mf2eSpM-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b86ac3371b70c3fd8fd95501719beb1faab719f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7b86ac3371b70c3fd8fd95501719beb1faab719f
+        # https://github.com/intel-lab-lkp/linux/commit/4be7899ed410c745e6af3dbc42d17ee129ba5fd5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mika-Kahola/drm-i915-mtl-Add-support-for-PM-DEMAND/20230403-165720
+        git checkout 4be7899ed410c745e6af3dbc42d17ee129ba5fd5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/proc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304031749.UiyJpxzF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304031821.7mf2eSpM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'pagemap_pmd_range':
-   fs/proc/task_mmu.c:1367:22: warning: variable 'orig_pte' set but not used [-Wunused-but-set-variable]
-    1367 |         pte_t *pte, *orig_pte;
-         |                      ^~~~~~~~
-   At top level:
->> fs/proc/task_mmu.c:743:33: warning: 'smaps_shmem_walk_ops' defined but not used [-Wunused-const-variable=]
-     743 | static const struct mm_walk_ops smaps_shmem_walk_ops = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/intel_pm.c:47:6: error: no previous prototype for 'intel_is_c10phy' [-Werror=missing-prototypes]
+      47 | bool intel_is_c10phy(struct drm_i915_private *dev_priv, enum phy phy)
+         |      ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/smaps_shmem_walk_ops +743 fs/proc/task_mmu.c
+vim +/intel_is_c10phy +47 drivers/gpu/drm/i915/intel_pm.c
 
-   742	
- > 743	static const struct mm_walk_ops smaps_shmem_walk_ops = {
-   744		.pmd_entry		= smaps_pte_range,
-   745		.hugetlb_entry		= smaps_hugetlb_range,
-   746		.pte_hole		= smaps_pte_hole,
-   747	};
-   748	
+    46	
+  > 47	bool intel_is_c10phy(struct drm_i915_private *dev_priv, enum phy phy)
+    48	{
+    49	        if (IS_METEORLAKE(dev_priv) && (phy < PHY_C))
+    50	                return true;
+    51	
+    52	        return false;
+    53	}
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
