@@ -1,43 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348716FDF;
-	Mon,  3 Apr 2023 17:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683B2747B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 17:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680543354; x=1712079354;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7gUqY4F1y9I7JZn8Aobgq7REstjibic8ZHRTa+N9pY4=;
-  b=h8w6z7KMeD7650p1q/2Xa8Iy3qPLdnoDC/v/VsGqtW8EyfCLdoFyJKz0
-   7hCOOzpGVDb1q3BwbXEHSocX3RK0QB3zrt5oRg4QqV02vzllQxM1o+U+k
-   NwhfWXV2v9UwNfUPxOhBOrwOiMLskbggOuNSIuMcxz6Ud2AsFkuiwt++x
-   CfDDwYwyaZ1LuEUlBoYePNg+4stZtQLZGuVhwQUTI+9Jnx+WSdXG2iV9Q
-   q7/tz3BJ9O4h04bZSjBpQanJkwQBqbDM3UCLydOrYJ8JSywfC6t66ExAt
-   1IO+npJZ2L+fvDAcmmNIzWnGUqKtpLWN1azP6uXbr6mayJ6rgRpbf+RAu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322366697"
+  t=1680544533; x=1712080533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jwmT4Vpby/hwZQ54Ern/x5nmEZC7nVdiE7uK9evEQEE=;
+  b=nV769Xt6FTlNOEBhad/1/XeCixo4VTm0cj6pz7TG3nBrNr+yEKSZn/wp
+   e7njuA7g6g1Pwt8JOHARqtowomn+zM69SIw//jq+93FCSgFiFYaxIiIaO
+   4MZnS63IkLnOenHy6Z5KtJYt2TE9MFITZjw0eGT9jBLNWojHfiMAQwDJI
+   6i1ooVDXF9sFuHDIydiVyYJux+5ONWrk2EE6H660YXXDVnIHC9/s/BPaU
+   uUf2C6xAVqb2Ay8g6js42IlGA86tAjv25Qzxe3CjOPL/X7i/Aakj4YBfP
+   vxFw9+/kauH8THVyeyQYDEqXKMn+7SD7H/E8LvHhpGFFq+sS0AU+gAVM+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="325984909"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="322366697"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 10:34:31 -0700
+   d="scan'208";a="325984909"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 10:55:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="663283029"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="755345821"
 X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="663283029"
+   d="scan'208";a="755345821"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 03 Apr 2023 10:34:29 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 03 Apr 2023 10:55:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjO4a-000OaJ-2t;
-	Mon, 03 Apr 2023 17:34:28 +0000
-Date: Tue, 4 Apr 2023 01:33:55 +0800
+	id 1pjOOw-000OcP-0j;
+	Mon, 03 Apr 2023 17:55:30 +0000
+Date: Tue, 4 Apr 2023 01:54:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mika Kahola <mika.kahola@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Add support for PM DEMAND
-Message-ID: <202304040133.G6vbHTdV-lkp@intel.com>
-References: <20230403085043.2219092-1-mika.kahola@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 15/42]
+ drivers/iommu/iommufd/selftest.c:340:22: warning: implicit conversion from
+ 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from
+ 18446744073709551615 to 4294967295
+Message-ID: <202304040101.9pkwOhIz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,59 +47,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403085043.2219092-1-mika.kahola@intel.com>
 
-Hi Mika,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mika-Kahola/drm-i915-mtl-Add-support-for-PM-DEMAND/20230403-165720
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230403085043.2219092-1-mika.kahola%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915/mtl: Add support for PM DEMAND
-config: x86_64-randconfig-r031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040133.G6vbHTdV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
+head:   032ce679f2322b426350f8721d7a1afca1bb7aab
+commit: cfab6d45ee4dd485bc223d0135643093a7778923 [15/42] iommufd/selftest: Add domain_alloc_user() support in iommu mock
+config: powerpc-randconfig-c003-20230402 (https://download.01.org/0day-ci/archive/20230404/202304040101.9pkwOhIz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4be7899ed410c745e6af3dbc42d17ee129ba5fd5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mika-Kahola/drm-i915-mtl-Add-support-for-PM-DEMAND/20230403-165720
-        git checkout 4be7899ed410c745e6af3dbc42d17ee129ba5fd5
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/yiliu1765/iommufd/commit/cfab6d45ee4dd485bc223d0135643093a7778923
+        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
+        git fetch --no-tags yiliu1765-iommufd wip/iommufd_nesting-03292023-yi
+        git checkout cfab6d45ee4dd485bc223d0135643093a7778923
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/iommufd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040133.G6vbHTdV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040101.9pkwOhIz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/intel_pm.c:47:6: error: no previous prototype for function 'intel_is_c10phy' [-Werror,-Wmissing-prototypes]
-   bool intel_is_c10phy(struct drm_i915_private *dev_priv, enum phy phy)
-        ^
-   drivers/gpu/drm/i915/intel_pm.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool intel_is_c10phy(struct drm_i915_private *dev_priv, enum phy phy)
-   ^
-   static 
-   1 error generated.
+>> drivers/iommu/iommufd/selftest.c:340:22: warning: implicit conversion from 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+           .hwpt_type_bitmap = IOMMU_HWPT_TYPE_BITMAP_SELFTTEST,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/iommufd_test.h:120:42: note: expanded from macro 'IOMMU_HWPT_TYPE_BITMAP_SELFTTEST'
+   #define IOMMU_HWPT_TYPE_BITMAP_SELFTTEST        U64_MAX
+                                                   ^~~~~~~
+   include/linux/limits.h:23:19: note: expanded from macro 'U64_MAX'
+   #define U64_MAX         ((u64)~0ULL)
+                            ^~~~~~~~~~
+   1 warning generated.
 
 
-vim +/intel_is_c10phy +47 drivers/gpu/drm/i915/intel_pm.c
+vim +340 drivers/iommu/iommufd/selftest.c
 
-    46	
-  > 47	bool intel_is_c10phy(struct drm_i915_private *dev_priv, enum phy phy)
-    48	{
-    49	        if (IS_METEORLAKE(dev_priv) && (phy < PHY_C))
-    50	                return true;
-    51	
-    52	        return false;
-    53	}
-    54	
+   334	
+   335	static const struct iommu_ops mock_ops = {
+   336		.owner = THIS_MODULE,
+   337		.pgsize_bitmap = MOCK_IO_PAGE_SIZE,
+   338		.hw_info_type = IOMMU_HW_INFO_TYPE_SELFTEST,
+   339		.hw_info = mock_domain_hw_info,
+ > 340		.hwpt_type_bitmap = IOMMU_HWPT_TYPE_BITMAP_SELFTTEST,
+   341		.domain_alloc = mock_domain_alloc,
+   342		.domain_alloc_user = mock_domain_alloc_user,
+   343		.capable = mock_domain_capable,
+   344		.set_platform_dma_ops = mock_domain_set_plaform_dma_ops,
+   345		.default_domain_ops =
+   346			&(struct iommu_domain_ops){
+   347				.free = mock_domain_free,
+   348				.attach_dev = mock_domain_nop_attach,
+   349				.map_pages = mock_domain_map_pages,
+   350				.unmap_pages = mock_domain_unmap_pages,
+   351				.iova_to_phys = mock_domain_iova_to_phys,
+   352			},
+   353	};
+   354	
 
 -- 
 0-DAY CI Kernel Test Service
