@@ -1,43 +1,52 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC30A7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 04:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680494989; x=1712030989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3I1XMcoWzzyg6EtbtGjBzQu82JNz9MTciBhWpBmDwds=;
-  b=edg5qW0jLPZraYsaQIaZc+ocjuc96m5p9To0/9M+qmK9HPwpQqI8lMAk
-   OlPrEaQPrYidYVNoDSogncf5LHkiO0XJZ+geSaDJruoEIMit1RMZgUsgJ
-   vUi6keOyR5/Cl7wtFh48d3BbovqTcXBV92O9zXRRsrsVGp6aO2ABYQASc
-   ZLyDHgOidwiVpue6dl7I0UQVmz1EraTAV4lFciRdhQmQJxioldphuQgHd
-   WNGXUN0eaqYAv2qG2ajtAeKAtGcOo94CkGmPgyWT4NtNSqippUmtZz210
-   7jr+gNLgx8b31d1RQla3DliTbXVGBEBgoLMDudRkWpbunUcyMFY/5kIUm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="321463940"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="321463940"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 21:09:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="685808954"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="685808954"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Apr 2023 21:09:47 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjBVq-000Nyl-1j;
-	Mon, 03 Apr 2023 04:09:46 +0000
-Date: Mon, 3 Apr 2023 12:08:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
-Subject: [tip:locking/rcuref 2/2] include/asm-generic/cmpxchg-local.h:30:42:
- sparse: sparse: cast truncates bits from constant value (e0000000 becomes 0)
-Message-ID: <202304031213.U9LRonKm-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE77364;
+	Mon,  3 Apr 2023 04:31:25 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id i5so112284761eda.0;
+        Sun, 02 Apr 2023 21:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680496283;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
+        b=ZbHv2r8Ktd5QiZrnBtOxT7Mk+h1xwmbWqaCifz8aaEuh5wVoqBA3W6yZ9UfuBVK1Jm
+         qkeuc3aOOr2M8WsZeH3v9Jy7EdpZ0UojMHZwwsMK2rdNs+wIFqdBiZGPGtEY9wj/xCxZ
+         zRFRAI17/IeJf2hoLgbX87BCRHpQQV5tGYxe0bxJu4TRumN2Muk7u0Mq4eiQ8H8s1cpq
+         utvDWACs6rQQrKMdDH3wZ839QjPyGXoIQHbQbgs1fBAjUOCqrJq2/oDX2+UPMCKMVpM3
+         dgDxUYQ8LYQcCM5oG1W/FLwuAIQK6Hdi+nfrlQLi6U1tqp9ekAlolwF80LnMiJU1ZGb2
+         4w6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680496283;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
+        b=gU1OzcFV2UN/+6JVRPP6TXan0meWYpXuED/9fkbck1dm2llplhiyGLkR1q+83TbmBa
+         ZOuCh+KFFA3Q5p6OIZ9L4QsoiRfaCDq7w/TezmbcO1ldrVLp67NTDYnl6j+nU14czXf2
+         uWp6O4xJ4w046NAykxcogCwYUV79Z8qsRpJvERLt86ds6UTnADgbJOmzyD1zucOVtrcW
+         WLa3Wy2r6ejT4nmaEuaCcHnuIBRN7PvwHAt3hDJaMv0S0QU4mQh4TbcUunnZ6Ux9Eed6
+         gtHRXaC/UdQEgJSX5MXtSHTs8qpal0lkuHzEWUlxzDYa08rDEDa5KOy8tlNcKGBgGYAu
+         6/8w==
+X-Gm-Message-State: AAQBX9e7zIcyHMv7jqU862tWqi0y7wNrx9C33NK3xG2n98obtCosQ0A6
+	N0ypkjKqF0TP34SXODbYTcX45QB3afs2OA==
+X-Google-Smtp-Source: AKy350aSFhOtVydWaJqjb11e28VLkg7kXSNCAvSug1OMlJ64zoMZT5BufdmLmdwKcl6y/x15x+6TqQ==
+X-Received: by 2002:a17:906:5646:b0:930:7d8f:15a4 with SMTP id v6-20020a170906564600b009307d8f15a4mr34497884ejr.53.1680496283252;
+        Sun, 02 Apr 2023 21:31:23 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z8-20020a1709063ac800b00947ed087a2csm2829652ejd.154.2023.04.02.21.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 21:31:22 -0700 (PDT)
+Date: Mon, 3 Apr 2023 07:31:19 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing
+ error code? 'ret'
+Message-ID: <20bf4e9b-c78d-4e6a-a5af-6accdd20a499@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,87 +56,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/rcuref
-head:   ee1ee6db07795d9637bc5e8993a8ddcf886541ef
-commit: ee1ee6db07795d9637bc5e8993a8ddcf886541ef [2/2] atomics: Provide rcuref - scalable reference counting
-config: nios2-randconfig-s042-20230402 (https://download.01.org/0day-ci/archive/20230403/202304031213.U9LRonKm-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=ee1ee6db07795d9637bc5e8993a8ddcf886541ef
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip locking/rcuref
-        git checkout ee1ee6db07795d9637bc5e8993a8ddcf886541ef
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
+commit: e8550f0e7bde9bd31697e3c534d386f7f3b5787b clocksource/drivers/exynos_mct: Support frc-shared property
+config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230402/202304021446.46XVKag0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304031213.U9LRonKm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304021446.46XVKag0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/rcuref.c: note: in included file (through include/asm-generic/cmpxchg.h, arch/nios2/include/generated/asm/cmpxchg.h, include/asm-generic/atomic.h, ...):
->> include/asm-generic/cmpxchg-local.h:30:42: sparse: sparse: cast truncates bits from constant value (e0000000 becomes 0)
-   include/asm-generic/cmpxchg-local.h:34:44: sparse: sparse: cast truncates bits from constant value (e0000000 becomes 0)
+smatch warnings:
+drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing error code? 'ret'
 
-vim +30 include/asm-generic/cmpxchg-local.h
+vim +/ret +635 drivers/clocksource/exynos_mct.c
 
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07   7  
-aa93685afbefa0 Behan Webster     2012-11-20   8  extern unsigned long wrong_size_cmpxchg(volatile void *ptr)
-aa93685afbefa0 Behan Webster     2012-11-20   9  	__noreturn;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  10  
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  11  /*
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  12   * Generic version of __cmpxchg_local (disables interrupts). Takes an unsigned
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  13   * long parameter, supporting various types of architectures.
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  14   */
-6988631bdfddce Mark Rutland      2021-05-25  15  static inline unsigned long __generic_cmpxchg_local(volatile void *ptr,
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  16  		unsigned long old, unsigned long new, int size)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  17  {
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  18  	unsigned long flags, prev;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  19  
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  20  	/*
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  21  	 * Sanity checking, compile-time.
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  22  	 */
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  23  	if (size == 8 && sizeof(unsigned long) != 8)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  24  		wrong_size_cmpxchg(ptr);
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  25  
-5042afe7fe3239 Ingo Molnar       2009-07-03  26  	raw_local_irq_save(flags);
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  27  	switch (size) {
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  28  	case 1: prev = *(u8 *)ptr;
-6246541522845a Matt Evans        2023-02-01  29  		if (prev == (u8)old)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07 @30  			*(u8 *)ptr = (u8)new;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  31  		break;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  32  	case 2: prev = *(u16 *)ptr;
-6246541522845a Matt Evans        2023-02-01  33  		if (prev == (u16)old)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  34  			*(u16 *)ptr = (u16)new;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  35  		break;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  36  	case 4: prev = *(u32 *)ptr;
-6246541522845a Matt Evans        2023-02-01  37  		if (prev == (u32)old)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  38  			*(u32 *)ptr = (u32)new;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  39  		break;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  40  	case 8: prev = *(u64 *)ptr;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  41  		if (prev == old)
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  42  			*(u64 *)ptr = (u64)new;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  43  		break;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  44  	default:
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  45  		wrong_size_cmpxchg(ptr);
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  46  	}
-5042afe7fe3239 Ingo Molnar       2009-07-03  47  	raw_local_irq_restore(flags);
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  48  	return prev;
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  49  }
-068fbad288a2c1 Mathieu Desnoyers 2008-02-07  50  
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  613  static int __init mct_init_dt(struct device_node *np, unsigned int int_type)
+228e3023eb0430 drivers/clocksource/exynos_mct.c Arnd Bergmann      2013-04-09  614  {
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  615  	bool frc_shared = of_property_read_bool(np, "samsung,frc-shared");
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  616  	int ret;
+36ba5d527e9567 arch/arm/mach-exynos/mct.c       Thomas Abraham     2013-03-09  617  
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  618  	ret = exynos4_timer_resources(np);
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  619  	if (ret)
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  620  		return ret;
+3a062281129229 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-10-04  621  
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  622  	ret = exynos4_timer_interrupts(np, int_type);
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  623  	if (ret)
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  624  		return ret;
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  625  
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  626  	ret = exynos4_clocksource_init(frc_shared);
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  627  	if (ret)
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  628  		return ret;
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  629  
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  630  	/*
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  631  	 * When the FRC is shared with a main processor, this secondary
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  632  	 * processor cannot use the global comparator.
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  633  	 */
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  634  	if (frc_shared)
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09 @635  		return ret;
 
-:::::: The code at line 30 was first introduced by commit
-:::::: 068fbad288a2c18b75b0425fb56d241f018a1cb5 Add cmpxchg_local to asm-generic for per cpu atomic operations
+This is zero, but it looks like it should be a negative.  Changing this
+to either "return 0;" or "return -EINVAL;" would clean up the ambiguity.
 
-:::::: TO: Mathieu Desnoyers <mathieu.desnoyers@polymtl.ca>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  636  
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  637  	return exynos4_clockevent_init();
+30d8bead5a3094 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-03-11  638  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
