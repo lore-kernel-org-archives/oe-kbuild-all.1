@@ -1,85 +1,247 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5E1A943
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 22:14:30 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id b20so123143984edd.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Apr 2023 15:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1680560069;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I2gU0xPDdb0K1FdwRxRILyU2Pj+Ds548w8HpDbFE5RI=;
-        b=Z3NoYUpuN+51H4YiZ+UYdsc87GFYIQAyh0NSDMG3zS8LomdR8E6aRi5E3S2QdnrBb/
-         kjJIHm4IDH/Dj6cbTU7p9/qUFM4kYQSdN5SVTjL+KqSXSUlNP7qimcsU97bKdXIY9Rs4
-         vToz6xxm5tqyKeXovpsrjRyG1yGl5SHXsHE5QKphWSICeqHV56OBzlRXGs7E1S0heM+f
-         xjGQ8RewuNiyTV2gBrN3/HoBEcGcYzZYUaIHUrynX5B6VqlRyO6ek4HhVE7BYnr53FbU
-         4fG9hlG1x8/596/5W6OtaOCOH2VT3OrODJo0B4feYHD5cLkjOy+ZpxQXP5U0CEhveQBu
-         XRNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680560069;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I2gU0xPDdb0K1FdwRxRILyU2Pj+Ds548w8HpDbFE5RI=;
-        b=JVt4y/QRQlXIld38NYHQO8XNmvrPeBYqtlF9XcFdCP8TGoRlLdtk/VDhUkMev4GyVB
-         +wrUxQ1Kv9mIcK871VcDaaopCxa+EJZs6awluEnyCKjqJYnScgi5+SC/xO5JCFYWaggF
-         tEpQEGrK4fp/6KMp9C4Lcgw7oD68AJqIZrxb8OuhnVfCtklXTy5oHZjQAEv0aNYTeqyo
-         t3tqyKgen0rHvkJgxIGLQmQ9wAFCSUIx62bykMvUCIyOLyv+57iWwikV99JM5+9RMnyV
-         D60Er3zH45K1nhstTHComA8xOfSPSdoyK02nbOmEXlDKcLmxgubaMGqqNtYu+od7hrD3
-         mafA==
-X-Gm-Message-State: AAQBX9fiyxz9zbtfzPG7HBOjRy5bVXRGrW3kjsRJ+nV358DV4yr93um7
-	TIw22pJMNaBKd/i5386kUeaDinV99AVVBzRQaCt0JQ==
-X-Google-Smtp-Source: AKy350YZ1CZ0S5BzS52EaZnwqGrMGvgVImHG39BdJiwjlssHdwEMxh/stb+LlVhPZyYrsD8ZkSJhQYiO+WNXK1nF+ZI=
-X-Received: by 2002:a17:906:b55:b0:93f:82cb:fe44 with SMTP id
- v21-20020a1709060b5500b0093f82cbfe44mr114553ejg.11.1680560068875; Mon, 03 Apr
- 2023 15:14:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1037A954
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 23:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680563231; x=1712099231;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/7YNJodU4WnQvCxSIOBNDOn2uILv0oIDVT5WQ2OkDUw=;
+  b=EmxPfDWwGdBrzQsS1oiN40FZdHVE2V02NxcZdrHspSbITPA+vWwk5CPd
+   AFPKh8bGuLIKFBpL13ZpnPsmS/m3cajVTPWnkOm0uBLoC/H7WacOFMmO2
+   0+PFXaRznSBwyGqc1pMiA1GhRrFccbWstyNRaQuLiBPZEr/a83vdlT/mM
+   /kA0T4gYCYb7AkdqX16ZcTvK7qe7Uf4nhl6FjGZENou2hHtJFD/evnXHP
+   zU/R8SrfenkOXx88VktFFWHs9twISkIlS6uOsQdNzgOGPLzdBXrl944LW
+   ctH6FcyqjU1Ze11HBz9Ns5uKu8OdzrbD+IikuZg7qgqwd4EmX5xgBpV9H
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340770424"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
+   d="scan'208";a="340770424"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 16:06:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="636290458"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
+   d="scan'208";a="636290458"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 03 Apr 2023 16:06:47 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjTGA-000Ous-20;
+	Mon, 03 Apr 2023 23:06:46 +0000
+Date: Tue, 4 Apr 2023 07:05:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: drivers/video/fbdev/nvidia/nvidia.c:1429:17: sparse: sparse:
+ incorrect type in argument 1 (different modifiers)
+Message-ID: <202304040632.X21LXHrN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230401200651.1022113-2-joe@isovalent.com> <202304022107.IwHc05cs-lkp@intel.com>
- <ZCpK5wOI0ZEedhrr@debian.me> <ZCqTMq3sHMrx2boI@mail.gmail.com>
-In-Reply-To: <ZCqTMq3sHMrx2boI@mail.gmail.com>
-From: Joe Stringer <joe@isovalent.com>
-Date: Mon, 3 Apr 2023 15:14:17 -0700
-Message-ID: <CADa=Ryw2BNupx9GH8cMTKLbgTZD6sLLAHdsmwr0AiEwa9DOsZA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 2/2] docs/bpf: Add LRU internals description
- and graph
-To: Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, kernel test robot <lkp@intel.com>, bpf@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net, 
-	martin.lau@linux.dev, john.fastabend@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I can reproduce this issue, will fix it up.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   148341f0a2f53b5e8808d093333d85170586a15d
+commit: 04119ab1a49fc41cb70f0472be5455af268fa260 nvidiafb: detect the hardware support before removing console.
+date:   8 weeks ago
+config: m68k-randconfig-s041-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040632.X21LXHrN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=04119ab1a49fc41cb70f0472be5455af268fa260
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 04119ab1a49fc41cb70f0472be5455af268fa260
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/video/fbdev/nvidia/
 
-$ dot -V
-dot - graphviz version 2.43.0 (0
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040632.X21LXHrN-lkp@intel.com/
 
-On Mon, Apr 3, 2023 at 1:49=E2=80=AFAM Maxim Mikityanskiy <maxtram95@gmail.=
-com> wrote:
->
-> On Mon, 03 Apr 2023 at 10:41:27 +0700, Bagas Sanjaya wrote:
-> > On Sun, Apr 02, 2023 at 09:47:49PM +0800, kernel test robot wrote:
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > > >> Warning: Orthogonal edges do not currently handle edge labels. Try=
- using xlabels.
-> > >
-> >
-> > Hi,
-> >
-> > I can't reproduce the warning above. My system has graphviz 2.42.2
-> > installed (via Debian package). What graphviz version do kernel test
-> > robot have?
->
-> I have the same warning on Arch Linux.
->
-> $ dot --version
-> dot - graphviz version 7.1.0 (0)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/nvidia/nvidia.c:1429:17: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void [noderef] __iomem *addr @@     got unsigned int volatile [noderef] [usertype] __iomem *[assigned] REGS @@
+   drivers/video/fbdev/nvidia/nvidia.c:1429:17: sparse:     expected void [noderef] __iomem *addr
+   drivers/video/fbdev/nvidia/nvidia.c:1429:17: sparse:     got unsigned int volatile [noderef] [usertype] __iomem *[assigned] REGS
+   drivers/video/fbdev/nvidia/nvidia.c:1447:20: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void [noderef] __iomem *addr @@     got unsigned int volatile [noderef] [usertype] __iomem *REGS @@
+   drivers/video/fbdev/nvidia/nvidia.c:1447:20: sparse:     expected void [noderef] __iomem *addr
+   drivers/video/fbdev/nvidia/nvidia.c:1447:20: sparse:     got unsigned int volatile [noderef] [usertype] __iomem *REGS
+
+vim +1429 drivers/video/fbdev/nvidia/nvidia.c
+
+  1273	
+  1274	static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
+  1275	{
+  1276		struct nvidia_par *par;
+  1277		struct fb_info *info;
+  1278		unsigned short cmd;
+  1279		int ret;
+  1280		volatile u32 __iomem *REGS;
+  1281		int Chipset;
+  1282		u32 Architecture;
+  1283	
+  1284		NVTRACE_ENTER();
+  1285		assert(pd != NULL);
+  1286	
+  1287		if (pci_enable_device(pd)) {
+  1288			printk(KERN_ERR PFX "cannot enable PCI device\n");
+  1289			return -ENODEV;
+  1290		}
+  1291	
+  1292		/* enable IO and mem if not already done */
+  1293		pci_read_config_word(pd, PCI_COMMAND, &cmd);
+  1294		cmd |= (PCI_COMMAND_IO | PCI_COMMAND_MEMORY);
+  1295		pci_write_config_word(pd, PCI_COMMAND, cmd);
+  1296	
+  1297		nvidiafb_fix.mmio_start = pci_resource_start(pd, 0);
+  1298		nvidiafb_fix.mmio_len = pci_resource_len(pd, 0);
+  1299	
+  1300		REGS = ioremap(nvidiafb_fix.mmio_start, nvidiafb_fix.mmio_len);
+  1301		if (!REGS) {
+  1302			printk(KERN_ERR PFX "cannot ioremap MMIO base\n");
+  1303			return -ENODEV;
+  1304		}
+  1305	
+  1306		Chipset = nvidia_get_chipset(pd, REGS);
+  1307		Architecture = nvidia_get_arch(Chipset);
+  1308		if (Architecture == 0) {
+  1309			printk(KERN_ERR PFX "unknown NV_ARCH\n");
+  1310			goto err_out;
+  1311		}
+  1312	
+  1313		ret = aperture_remove_conflicting_pci_devices(pd, "nvidiafb");
+  1314		if (ret)
+  1315			goto err_out;
+  1316	
+  1317		info = framebuffer_alloc(sizeof(struct nvidia_par), &pd->dev);
+  1318		if (!info)
+  1319			goto err_out;
+  1320	
+  1321		par = info->par;
+  1322		par->pci_dev = pd;
+  1323		info->pixmap.addr = kzalloc(8 * 1024, GFP_KERNEL);
+  1324	
+  1325		if (info->pixmap.addr == NULL)
+  1326			goto err_out_kfree;
+  1327	
+  1328		if (pci_request_regions(pd, "nvidiafb")) {
+  1329			printk(KERN_ERR PFX "cannot request PCI regions\n");
+  1330			goto err_out_enable;
+  1331		}
+  1332	
+  1333		par->FlatPanel = flatpanel;
+  1334		if (flatpanel == 1)
+  1335			printk(KERN_INFO PFX "flatpanel support enabled\n");
+  1336		par->FPDither = fpdither;
+  1337	
+  1338		par->CRTCnumber = forceCRTC;
+  1339		par->FpScale = (!noscale);
+  1340		par->paneltweak = paneltweak;
+  1341		par->reverse_i2c = reverse_i2c;
+  1342	
+  1343		nvidiafb_fix.smem_start = pci_resource_start(pd, 1);
+  1344	
+  1345		par->REGS = REGS;
+  1346	
+  1347		par->Chipset = Chipset;
+  1348		par->Architecture = Architecture;
+  1349	
+  1350		sprintf(nvidiafb_fix.id, "NV%x", (pd->device & 0x0ff0) >> 4);
+  1351	
+  1352		if (NVCommonSetup(info))
+  1353			goto err_out_free_base0;
+  1354	
+  1355		par->FbAddress = nvidiafb_fix.smem_start;
+  1356		par->FbMapSize = par->RamAmountKBytes * 1024;
+  1357		if (vram && vram * 1024 * 1024 < par->FbMapSize)
+  1358			par->FbMapSize = vram * 1024 * 1024;
+  1359	
+  1360		/* Limit amount of vram to 64 MB */
+  1361		if (par->FbMapSize > 64 * 1024 * 1024)
+  1362			par->FbMapSize = 64 * 1024 * 1024;
+  1363	
+  1364		if(par->Architecture >= NV_ARCH_40)
+  1365	  	        par->FbUsableSize = par->FbMapSize - (560 * 1024);
+  1366		else
+  1367			par->FbUsableSize = par->FbMapSize - (128 * 1024);
+  1368		par->ScratchBufferSize = (par->Architecture < NV_ARCH_10) ? 8 * 1024 :
+  1369		    16 * 1024;
+  1370		par->ScratchBufferStart = par->FbUsableSize - par->ScratchBufferSize;
+  1371		par->CursorStart = par->FbUsableSize + (32 * 1024);
+  1372	
+  1373		info->screen_base = ioremap_wc(nvidiafb_fix.smem_start,
+  1374					       par->FbMapSize);
+  1375		info->screen_size = par->FbUsableSize;
+  1376		nvidiafb_fix.smem_len = par->RamAmountKBytes * 1024;
+  1377	
+  1378		if (!info->screen_base) {
+  1379			printk(KERN_ERR PFX "cannot ioremap FB base\n");
+  1380			goto err_out_free_base1;
+  1381		}
+  1382	
+  1383		par->FbStart = info->screen_base;
+  1384	
+  1385		if (!nomtrr)
+  1386			par->wc_cookie = arch_phys_wc_add(nvidiafb_fix.smem_start,
+  1387							  par->RamAmountKBytes * 1024);
+  1388	
+  1389		info->fbops = &nvidia_fb_ops;
+  1390		info->fix = nvidiafb_fix;
+  1391	
+  1392		if (nvidia_set_fbinfo(info) < 0) {
+  1393			printk(KERN_ERR PFX "error setting initial video mode\n");
+  1394			goto err_out_iounmap_fb;
+  1395		}
+  1396	
+  1397		nvidia_save_vga(par, &par->SavedReg);
+  1398	
+  1399		pci_set_drvdata(pd, info);
+  1400	
+  1401		if (backlight)
+  1402			nvidia_bl_init(par);
+  1403	
+  1404		if (register_framebuffer(info) < 0) {
+  1405			printk(KERN_ERR PFX "error registering nVidia framebuffer\n");
+  1406			goto err_out_iounmap_fb;
+  1407		}
+  1408	
+  1409		printk(KERN_INFO PFX
+  1410		       "PCI nVidia %s framebuffer (%dMB @ 0x%lX)\n",
+  1411		       info->fix.id,
+  1412		       par->FbMapSize / (1024 * 1024), info->fix.smem_start);
+  1413	
+  1414		NVTRACE_LEAVE();
+  1415		return 0;
+  1416	
+  1417	err_out_iounmap_fb:
+  1418		iounmap(info->screen_base);
+  1419	err_out_free_base1:
+  1420		fb_destroy_modedb(info->monspecs.modedb);
+  1421		nvidia_delete_i2c_busses(par);
+  1422	err_out_free_base0:
+  1423		pci_release_regions(pd);
+  1424	err_out_enable:
+  1425		kfree(info->pixmap.addr);
+  1426	err_out_kfree:
+  1427		framebuffer_release(info);
+  1428	err_out:
+> 1429		iounmap(REGS);
+  1430		return -ENODEV;
+  1431	}
+  1432	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
