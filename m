@@ -1,188 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2934A20F2;
-	Mon,  3 Apr 2023 09:10:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA04C4339E;
-	Mon,  3 Apr 2023 09:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680513056;
-	bh=48iR4u3n9K+PxbeYtFKNqoB1PmouHufH/K/8+z+ltr8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pUGoU8xlrNs3oUKWY+kDKvp9UpHs4QBaem8JXHsfGokdM2T4QTY29gJ9TDTHrep3/
-	 Y2knv+wWrmNDa76wQ4u5ZHNWRZhjg83gvM1SaRRzhmcQcwitQCYTGKVKBWA4X52JYO
-	 D/5aIiEKJO3jn07tL6ulp9irWcv1E99FIgAgCsM/BLrNRDUNzOqIqcLmZgK18zsJEn
-	 Jo+/2f4ykvqGpOc5o3Fm9fqdspFdqr/JxxNt4eWYCVxu0KNTr/b7+X7kll+vBX2TD4
-	 LL9Z994hqzKpiowsVXHtzEc6ctKl1xnsmmkVR59e/XaLsl88+mW8+5eGUO/kfklDfu
-	 ftk4n4AP3u8Dw==
-Received: by mail-lj1-f182.google.com with SMTP id o20so26642380ljp.3;
-        Mon, 03 Apr 2023 02:10:56 -0700 (PDT)
-X-Gm-Message-State: AAQBX9d072Jqu97+Zx1mE4/2en4BsrVIEpSwzd0tU6hV3GHitrE+sLsP
-	Rx3ResmFOPP6VtMx7SSvWcC2pSciN3PbltSAK08=
-X-Google-Smtp-Source: AKy350ZdPxupau2M0boOo8L/biMnTQ28Uw5714Q1j9LnHphUuB820PcFcQKHnoJuw+9n+/rHb4SXmrSpy1SeWBP4Sug=
-X-Received: by 2002:a2e:9d99:0:b0:2a5:fd80:fa6d with SMTP id
- c25-20020a2e9d99000000b002a5fd80fa6dmr7519010ljj.2.1680513054754; Mon, 03 Apr
- 2023 02:10:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8938D20F2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 09:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680513119; x=1712049119;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=ZY2iWn53XwO4iPkNYdKhxUPsIYVR1gf5Wf884UVOc/c=;
+  b=a3av7+GHffTr9oBM9IGEZGZJy49lnOMxj4NG/hEizxLELubzThPtYsYr
+   ptyjzfDL9acMOefxGLW09cFXhnUdz8yo91f10wUzrzCEWPIiAvSC8h93a
+   EpjsJ03SAz9xbd7eBUANWDVAjEA4lJciW99G7f5BjO2tTUa+IFibTizAX
+   8IX9grmxn+4rqr8QU8puGDIk4NNF+oo1mGVyTVleYuPIBAfPymTpJ7Rsb
+   6SC9zcri9863x5gAIt+mkKdszD3VXMljsmhfM+CnsYWTp1m/jPUun2UVV
+   i7Q+QnTB4wrfy8ekbPAmKcSkfLpl3tJeKdpB1nXvG6R7my0HZrLVhsh7n
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="341875276"
+X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
+   d="scan'208";a="341875276"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 02:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="718475984"
+X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
+   d="scan'208";a="718475984"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 03 Apr 2023 02:11:57 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjGEG-000O8n-2P;
+	Mon, 03 Apr 2023 09:11:56 +0000
+Date: Mon, 3 Apr 2023 17:11:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH for v6.3-rc] ASoC: SOF: ipc4-topology: Clarify bind
+ failure caused by missing fw_module
+Message-ID: <ZCqYM9z14/FLtT9U@ec83ac1404bb>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <be46d0ab-8553-4a5d-af46-6fa909c45213@kili.mountain>
- <CAMj1kXEbaWNNp98GRACR_JUt7JOowU=3BaRKs0ZoOvibnbN_LA@mail.gmail.com> <589c4ea1-95e0-4e3e-9567-a4278860d256@kili.mountain>
-In-Reply-To: <589c4ea1-95e0-4e3e-9567-a4278860d256@kili.mountain>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 3 Apr 2023 11:10:43 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEDbpwQSk1pmBR1MkeXcuiRb=ns0BSA6oh2D9UngV8OjA@mail.gmail.com>
-Message-ID: <CAMj1kXEDbpwQSk1pmBR1MkeXcuiRb=ns0BSA6oh2D9UngV8OjA@mail.gmail.com>
-Subject: Re: arch/arm64/kernel/compat_alignment.c:333 do_compat_alignment_fixup()
- error: uninitialized symbol 'tinst2'.
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230403090909.18233-1-peter.ujfalusi@linux.intel.com>
 
-On Mon, 3 Apr 2023 at 10:34, Dan Carpenter <error27@gmail.com> wrote:
->
-> On Mon, Apr 03, 2023 at 10:03:15AM +0200, Ard Biesheuvel wrote:
-> > On Mon, 3 Apr 2023 at 08:29, Dan Carpenter <error27@gmail.com> wrote:
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
-> > > commit: 3fc24ef32d3b9368f4c103dcd21d6a3f959b4870 arm64: compat: Implement misalignment fixups for multiword loads
-> > > config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230402/202304021214.gekJ8yRc-lkp@intel.com/config)
-> > > compiler: aarch64-linux-gcc (GCC) 12.1.0
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Link: https://lore.kernel.org/r/202304021214.gekJ8yRc-lkp@intel.com/
-> > >
-> > > smatch warnings:
-> > > arch/arm64/kernel/compat_alignment.c:333 do_compat_alignment_fixup() error: uninitialized symbol 'tinst2'.
-> > >
-> > > vim +/tinst2 +333 arch/arm64/kernel/compat_alignment.c
-> > >
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  310  int do_compat_alignment_fixup(unsigned long addr, struct pt_regs *regs)
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  311  {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  312   union offset_union offset;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  313   unsigned long instrptr;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  314   int (*handler)(unsigned long addr, u32 instr, struct pt_regs *regs);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  315   unsigned int type;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  316   u32 instr = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  317   u16 tinstr = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  318   int isize = 4;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  319   int thumb2_32b = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  320   int fault;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  321
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  322   instrptr = instruction_pointer(regs);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  323
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  324   if (compat_thumb_mode(regs)) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  325           __le16 __user *ptr = (__le16 __user *)(instrptr & ~1);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  326
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  327           fault = alignment_get_thumb(regs, ptr, &tinstr);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  328           if (!fault) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  329                   if (IS_T32(tinstr)) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  330                           /* Thumb-2 32-bit */
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  331                           u16 tinst2;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  332                           fault = alignment_get_thumb(regs, ptr + 1, &tinst2);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01 @333                           instr = ((u32)tinstr << 16) | tinst2;
-> > >
-> > > Smatch is complaining that there is no error checking to see if the
-> > > copy_from_user() fails in alignment_get_thumb.  Eventually the syzbot
-> > > will learn to detect this as well.
-> > >
-> >
-> > That shouldn't matter.
-> >
-> >         u16 instr = 0;
-> >         int fault;
-> >
-> >         if (user_mode(regs))
-> >                 fault = get_user(instr, ip);
-> >         else
-> >                 fault = get_kernel_nofault(instr, ip);
-> >
-> >         *inst = __mem_to_opcode_thumb16(instr);
-> >
-> > So the *inst assignment is never ambiguous here, regardless of whether
-> > get_user() fails. The value could be wrong (i.e., get_user may have
-> > failed after reading only one byte) but the value is never
-> > uninitialized. Then, the fault value is always propagated so the
-> > calling function will not succeed spuriously when this happens.
-> >
->
-> I don't know what code that is...  We are looking at different code.
-> For me on linux-next it looks like this:
->
+Hi,
 
-My bad (and this illustrates my point about not deviating from the
-original when there is a need for two copies of the code to exist in
-the same tree, only not in the way I thought)
+Thanks for your patch.
 
-So the ARM code is correct, and the arm64 version deviates from it,
-and introduces the issue you are reporting.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-I agree that initializing tinst2 to 0 is the appropriate course of action here.
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH for v6.3-rc] ASoC: SOF: ipc4-topology: Clarify bind failure caused by missing fw_module
+Link: https://lore.kernel.org/stable/20230403090909.18233-1-peter.ujfalusi%40linux.intel.com
 
-Thanks,
-Ard.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
 
-> arch/arm64/kernel/compat_alignment.c
->    297  static int alignment_get_thumb(struct pt_regs *regs, __le16 __user *ip, u16 *inst)
->    298  {
->    299          __le16 instr = 0;
->    300          int fault;
->    301
->    302          fault = get_user(instr, ip);
->    303          if (fault)
->    304                  return fault;
->
-> *inst not initialized.
->
->    305
->    306          *inst = __le16_to_cpu(instr);
->    307          return 0;
->    308  }
->    309
->    310  int do_compat_alignment_fixup(unsigned long addr, struct pt_regs *regs)
->    311  {
->    312          union offset_union offset;
->    313          unsigned long instrptr;
->    314          int (*handler)(unsigned long addr, u32 instr, struct pt_regs *regs);
->    315          unsigned int type;
->    316          u32 instr = 0;
->    317          u16 tinstr = 0;
->    318          int isize = 4;
->    319          int thumb2_32b = 0;
->    320          int fault;
->    321
->    322          instrptr = instruction_pointer(regs);
->    323
->    324          if (compat_thumb_mode(regs)) {
->    325                  __le16 __user *ptr = (__le16 __user *)(instrptr & ~1);
->    326
->    327                  fault = alignment_get_thumb(regs, ptr, &tinstr);
->    328                  if (!fault) {
->    329                          if (IS_T32(tinstr)) {
->    330                                  /* Thumb-2 32-bit */
->    331                                  u16 tinst2;
->    332                                  fault = alignment_get_thumb(regs, ptr + 1, &tinst2);
->    333                                  instr = ((u32)tinstr << 16) | tinst2;
->                                                                       ^^^^^^
-> Uninitialized variable here.
->
->    334                                  thumb2_32b = 1;
->    335                          } else {
->    336                                  isize = 2;
->    337                                  instr = thumb2arm(tinstr);
->    338                          }
->    339                  }
->    340          } else {
->
-> regards,
-> dan carpenter
->
+
