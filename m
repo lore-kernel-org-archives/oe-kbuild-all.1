@@ -1,47 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A76612E;
-	Mon,  3 Apr 2023 14:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CB66FAA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 14:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680531676; x=1712067676;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TSZZY4s/HxNN3z2RGTWKu6jFoqAp/p6Cwq9YHG0bmng=;
-  b=L1o4ri3FVgfr3rsJEzoZkHUQ52Cc0VUrcuTspInXy20xlcC+ZxjTFwXy
-   3iIOgG2zI+/b5l/+K7hre7ucMhUnrfhxRb4OurxpQsYq+/KxSwDUnL2LP
-   8nhhUFkxG2m7UIvTaKD7hVmiIwYVPQm/ymomSUTASXCuMnpPobn0LtByt
-   mM32Z0G66iX8OSechUt1E9AiTS770delVf/fgF8ekyLhekCAuTEoG166a
-   ZSbrVel2FEFN7rokqKUhab4N2pD4Vq0xyWXo28rWlnPUq+SBky+K2qAvl
-   4vjEjLY1Uc7XqLRQLQUpIxb9nTr9o+PZTt738halLz/W2fr3d8R1+gBOu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="344461728"
+  t=1680532337; x=1712068337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DtoY6cP52YP2Cu2+OF1/+fMaIeXSxtRw1d6XEdQKqaI=;
+  b=eGrWo+3dwH833FbnL/aJOJom6Y8QDmCihnjSsSEnIFdzedtDZTdn/Y5b
+   chvRaXlH8RcOvBSZQ6ypHr3V1mUfZ2iDTur4dUHltKQPikroCohRrW/ur
+   ip5kExUNz9h4vCjnACSNir4HMF9UHHxoE41QGfqQAJW3dRCDPBSGgro6O
+   AMhS2YHt5B9GWhNkcNQbujFTfcWkOCxgmtBqhi6NhhaIFPEkM7xzxRKrS
+   kxw8seOYRXPMquny+PbYNmS+kOmaBi25ec5Vem/Oe5yFgmtgbDKDZFBRw
+   RI2INVdQ9gRvM6XJqb8Z0amWqi5AFIiL2OCSW4PY1EMn/r8LaP0tQJlyS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322309313"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="344461728"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 07:21:16 -0700
+   d="scan'208";a="322309313"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 07:32:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="718559467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="860225308"
 X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="718559467"
+   d="scan'208";a="860225308"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Apr 2023 07:21:13 -0700
+  by orsmga005.jf.intel.com with ESMTP; 03 Apr 2023 07:32:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjL3Y-000OOD-0R;
-	Mon, 03 Apr 2023 14:21:12 +0000
-Date: Mon, 3 Apr 2023 22:20:56 +0800
+	id 1pjLEC-000OPj-2m;
+	Mon, 03 Apr 2023 14:32:12 +0000
+Date: Mon, 3 Apr 2023 22:31:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
-	Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.4.y 5319/9999] ld.lld: error:
- drivers/nvme/host/core.o: contains a compressed section, but zlib is not
- available
-Message-ID: <202304032219.jG1sChqf-lkp@intel.com>
+To: cem@kernel.org, hughd@google.com
+Cc: oe-kbuild-all@lists.linux.dev, jack@suse.cz, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH 5/6] shmem: quota support
+Message-ID: <202304032216.0SXl7l2X-lkp@intel.com>
+References: <20230403084759.884681-6-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,55 +47,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403084759.884681-6-cem@kernel.org>
 
-Hi Sagi,
+Hi,
 
-First bad commit (maybe != root cause):
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   09b1a76e7879184fb35d71a221cae9451b895fff
-commit: 3e9aa125f69c0006d10f101898932acedc942b59 [5319/9999] nvme-tcp: remove incorrect Kconfig dep in BLK_DEV_NVME
-config: x86_64-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230403/202304032219.jG1sChqf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc5]
+[cannot apply to akpm-mm/mm-everything next-20230403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
+patch link:    https://lore.kernel.org/r/20230403084759.884681-6-cem%40kernel.org
+patch subject: [PATCH 5/6] shmem: quota support
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230403/202304032216.0SXl7l2X-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=3e9aa125f69c0006d10f101898932acedc942b59
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.4.y
-        git checkout 3e9aa125f69c0006d10f101898932acedc942b59
+        # https://github.com/intel-lab-lkp/linux/commit/e060b9e86fd92d5e87f5b0c447e4bc610a3d3bbe
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
+        git checkout e060b9e86fd92d5e87f5b0c447e4bc610a3d3bbe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304032219.jG1sChqf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304032216.0SXl7l2X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/core.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/trace.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/nvme/host/multipath.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
+   mm/shmem.c: In function 'shmem_init':
+>> mm/shmem.c:4252:1: warning: label 'out3' defined but not used [-Wunused-label]
+    4252 | out3:
+         | ^~~~
+
+
+vim +/out3 +4252 mm/shmem.c
+
+  4224	
+  4225		error = register_filesystem(&shmem_fs_type);
+  4226		if (error) {
+  4227			pr_err("Could not register tmpfs\n");
+  4228			goto out2;
+  4229		}
+  4230	
+  4231		shm_mnt = kern_mount(&shmem_fs_type);
+  4232		if (IS_ERR(shm_mnt)) {
+  4233			error = PTR_ERR(shm_mnt);
+  4234			pr_err("Could not kern_mount tmpfs\n");
+  4235			goto out1;
+  4236		}
+  4237	
+  4238	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+  4239		if (has_transparent_hugepage() && shmem_huge > SHMEM_HUGE_DENY)
+  4240			SHMEM_SB(shm_mnt->mnt_sb)->huge = shmem_huge;
+  4241		else
+  4242			shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
+  4243	#endif
+  4244		return;
+  4245	
+  4246	out1:
+  4247		unregister_filesystem(&shmem_fs_type);
+  4248	out2:
+  4249	#ifdef CONFIG_TMPFS_QUOTA
+  4250		unregister_quota_format(&shmem_quota_format);
+  4251	#endif
+> 4252	out3:
+  4253		shmem_destroy_inodecache();
+  4254		shm_mnt = ERR_PTR(error);
+  4255	}
+  4256	
 
 -- 
 0-DAY CI Kernel Test Service
