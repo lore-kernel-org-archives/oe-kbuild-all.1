@@ -1,75 +1,163 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9C17F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:22:48 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id k17so37535298ybm.11
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Apr 2023 00:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680592967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OB8OSUN7Vvr0sVYshNaX1SO5hOSZi9YBfiFSXREOEkI=;
-        b=TWtEM95XyhvTb/wU2EpSFRep4YUtOYRIvjQWk09A/4LHnSNP+0lW+T/3cJnpqMVyUw
-         O3/6ThxemKiaCvTXxPUrHS5xXV3U9olL3TcNDiBjeWCezGph9CZLqZT2roj5P0CbYi/X
-         GpKHBlr7mo0CyxUMo5CLEXs0jzsedpGaq/k6ZMTtRwyJYOzoOOom88CT2XCuRaBSUFeh
-         nxmOc5s/o9COtu5SMBY48d2tEo2EWb7iTmTpUl0mCSgVFPqL/uzoEvEZ4SEn5S0L1ssu
-         tiFvpltlyNhLGWcCYe07WYKD0IlCmoCbcF4i+iuo6d0sSk/bRg20N3LR6PKgZF8AjvY+
-         JrKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680592967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OB8OSUN7Vvr0sVYshNaX1SO5hOSZi9YBfiFSXREOEkI=;
-        b=hKwOQdndSJr+yU+JJ+414h8MAMxXMgyNM3vkTB3JdrIdeKi6xk/A4+c/ioR/AE/T/N
-         QKKAIbwOdvY2sFSxlabicvVac+i+UX4Eheryb0ZQ+mKpxxY1Wk2JSdkuHO73vFBqeI3O
-         iTdhvNdj//x63ryzsuvlSnvJ8L0zzhI5NQkTeoXGrNot5Pxjmff1X8TgmzlW3ExAYTeS
-         63Whfh1tRm2P8UF3eF/+waTxTff5FeZqH9d64d2KtIwTdssnK8IoE/nhV2zJ+7kbQqZf
-         2Wge6LLYEbWtL/NN/AL71UG4CfuIKhXO2SAHoqaBJnzljT1fgg+dbiUFgaPAHJLZz9NO
-         zYtQ==
-X-Gm-Message-State: AAQBX9ddwJeRoZlJ5laNWTl/i0jR1KvK778SmmVTM+/XX5WKQ7D3/JHr
-	rOpbDoXRgOUH4LUFRSlFAMWacanvvs+LlV1CZvVBRbRt0Sv7CI9dnac=
-X-Google-Smtp-Source: AKy350abU+tGGnGRM5zvhWPceLnBcyt6uZGcTor/qlHy1+gIjGkIQdbLJBmC9a7TR+xzeoxBpCOPmSMebyXdmZhtt6U=
-X-Received: by 2002:a25:ca46:0:b0:b74:77fa:581d with SMTP id
- a67-20020a25ca46000000b00b7477fa581dmr1030652ybg.4.1680592967245; Tue, 04 Apr
- 2023 00:22:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3397F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680593104; x=1712129104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IPheo9y7rINbdqF5rArt0dXvhYx16zJqhbGRKqNDKJI=;
+  b=LdxLkVawSwgqVLO/a3aQLROM1RuZv9/rSFrKTARvY/qYGgyYmFe0/R1t
+   2V1qnwsE2vAlBhNOtu4Lh3+3cixB2/fnIAj08hWLMqdbDXhRnA+pDo2Pb
+   qfYTkYuS+c5IDbJ5MkDNegE3CkKEII+3zQNNR200QehVFWFBOD90ifyuQ
+   Ebf7Q9yrO2Ryz2MOcTU9OzwyT2XRYKz9YHy/rX1QSLUvwjEPHP1F05lrh
+   BbpcojFWwb9CLuvnOFL1U0bc7JzxshfDwCHLFe/5vJE+Cb09P4Ge2CdFU
+   2tj+oqV8yNgveSyjc2UsLZMQ64axde+zKCk+czEo2oSI+QgkarAHviNku
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322506092"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="322506092"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 00:25:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="718822815"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="718822815"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 04 Apr 2023 00:25:00 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjb2K-000PMR-0t;
+	Tue, 04 Apr 2023 07:25:00 +0000
+Date: Tue, 4 Apr 2023 15:24:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 02/10] drm/sched: Move schedule policy to scheduler /
+ entity
+Message-ID: <202304041537.dcZw4xgl-lkp@intel.com>
+References: <20230404002211.3611376-3-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202304040830.kPrP1Qew-lkp@intel.com>
-In-Reply-To: <202304040830.kPrP1Qew-lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 4 Apr 2023 09:22:36 +0200
-Message-ID: <CACRpkdaHRT7Gx3WZRzT+-6zsUmigHr4+56YCiUH6+T6ArV=Lhg@mail.gmail.com>
-Subject: Re: [linux-next:master 932/8744] arch/mips/ar7/gpio.c:19:19: error:
- field has incomplete type 'struct gpio_chip'
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230404002211.3611376-3-matthew.brost@intel.com>
 
-On Tue, Apr 4, 2023 at 2:58=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
+Hi Matthew,
 
-> Note: the linux-next/master HEAD 31bd35b66249699343d2416658f57e97314a433a=
- builds fine.
->       It may have been fixed somewhere.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-Yeah it is fixed somewhere:
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on linus/master v6.3-rc5 next-20230403]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-commit 424b21e01aafc98a9c086f00b3ad1874302b92fc
-Author: Arnd Bergmann <arnd@arndb.de>
-Date:   Wed Mar 8 15:52:53 2023 +0100
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Convert-drm-scheduler-to-use-a-work-queue-rather-than-kthread/20230404-082438
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230404002211.3611376-3-matthew.brost%40intel.com
+patch subject: [RFC PATCH 02/10] drm/sched: Move schedule policy to scheduler / entity
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230404/202304041537.dcZw4xgl-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/432d13aa8af1c693fa15eb5a442931332de31937
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Brost/drm-sched-Convert-drm-scheduler-to-use-a-work-queue-rather-than-kthread/20230404-082438
+        git checkout 432d13aa8af1c693fa15eb5a442931332de31937
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/dma-buf/ drivers/gpu/drm/v3d/
 
-    mips: ar7: include linux/gpio/driver.h
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041537.dcZw4xgl-lkp@intel.com/
 
-(...)
+All errors (new ones prefixed by >>):
 
-Yours,
-Linus Walleij
+   drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
+>> drivers/gpu/drm/v3d/v3d_sched.c:403:30: error: 'ULL' undeclared (first use in this function)
+     403 |                              ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+         |                              ^~~
+   drivers/gpu/drm/v3d/v3d_sched.c:403:30: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/ULL +403 drivers/gpu/drm/v3d/v3d_sched.c
+
+   381	
+   382	int
+   383	v3d_sched_init(struct v3d_dev *v3d)
+   384	{
+   385		int hw_jobs_limit = 1;
+   386		int job_hang_limit = 0;
+   387		int hang_limit_ms = 500;
+   388		int ret;
+   389	
+   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+   391				     &v3d_bin_sched_ops, NULL,
+   392				     hw_jobs_limit, job_hang_limit,
+   393				     msecs_to_jiffies(hang_limit_ms), NULL,
+   394				     NULL, "v3d_bin", DRM_SCHED_POLICY_DEFAULT,
+   395				     v3d->drm.dev);
+   396		if (ret)
+   397			return ret;
+   398	
+   399		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+   400				     &v3d_render_sched_ops, NULL,
+   401				     hw_jobs_limit, job_hang_limit,
+   402				     msecs_to_jiffies(hang_limit_ms), NULL,
+ > 403				     ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+   404				     v3d->drm.dev);
+   405		if (ret)
+   406			goto fail;
+   407	
+   408		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
+   409				     &v3d_tfu_sched_ops, NULL,
+   410				     hw_jobs_limit, job_hang_limit,
+   411				     msecs_to_jiffies(hang_limit_ms), NULL,
+   412				     NULL, "v3d_tfu", DRM_SCHED_POLICY_DEFAULT,
+   413				     v3d->drm.dev);
+   414		if (ret)
+   415			goto fail;
+   416	
+   417		if (v3d_has_csd(v3d)) {
+   418			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
+   419					     &v3d_csd_sched_ops, NULL,
+   420					     hw_jobs_limit, job_hang_limit,
+   421					     msecs_to_jiffies(hang_limit_ms), NULL,
+   422					     NULL, "v3d_csd", DRM_SCHED_POLICY_DEFAULT,
+   423					     v3d->drm.dev);
+   424			if (ret)
+   425				goto fail;
+   426	
+   427			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
+   428					     &v3d_cache_clean_sched_ops, NULL,
+   429					     hw_jobs_limit, job_hang_limit,
+   430					     msecs_to_jiffies(hang_limit_ms), NULL,
+   431					     NULL, "v3d_cache_clean",
+   432					     DRM_SCHED_POLICY_DEFAULT, v3d->drm.dev);
+   433			if (ret)
+   434				goto fail;
+   435		}
+   436	
+   437		return 0;
+   438	
+   439	fail:
+   440		v3d_sched_fini(v3d);
+   441		return ret;
+   442	}
+   443	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
