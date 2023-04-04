@@ -1,101 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D083C07
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 22:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680647818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s/FbBasFGKXho73GYLTBPrVyQLxAhNzEHS05zhrQhKI=;
-	b=EJzNiTT5nTBN1UZblHDj3Z4uZDQLGL1yaln1r8T5RMCKVTcTF9XHuivHA5grcKNTy3XBLn
-	1ODsMDk/QlrrJy68UBqbFArORPqaS4uIWkbQJNq0Mnki05farbwF2pn/JpMjyp95lntij/
-	Ycsr5U3QCvarQgU7lnRh16RbHPKM1sQ=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-blsMi7wyNpyaoB5zF-n3Eg-1; Tue, 04 Apr 2023 18:36:57 -0400
-X-MC-Unique: blsMi7wyNpyaoB5zF-n3Eg-1
-Received: by mail-yb1-f199.google.com with SMTP id g5-20020a25a485000000b009419f64f6afso33404180ybi.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Apr 2023 15:36:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680647817;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s/FbBasFGKXho73GYLTBPrVyQLxAhNzEHS05zhrQhKI=;
-        b=ZmV0ALL2eIFDvWFeKwGilLOGBfobE6vkJOVgH9KZTKBV9Bt1ZX1j+W25qzEtmHK80s
-         hPVuXPJkEJz1WhxRc+mOuEP0wNo0zEekZ8c2v4QN08TYzUeY4CP+gI+7HNUViPU75d1B
-         eoBGds6SlrJVHJrStwCT4zo+UstJq4rp3MpqVawcnXXUWKzrDvbk84eaxp6oekr4RW0x
-         RukeecST5MCN9AzSKY3mgG9a/y3c8RXJm2y5maR0RjcPm+EAF5snJJ/2EIo0dS3EmJ32
-         9Rllulp+5lM/vcOtbfYI9aUEJHl5dmZL1F00FArprZ4ykU6+z493g43hHNKOemrIMijK
-         9QOw==
-X-Gm-Message-State: AAQBX9dZqelXmQw/dKxzxnLMmm5M9GW0xvV/KIYMTUVmuS8aIpyYhXAG
-	cOX9wzoj1zq9qjqILXbjlcSkg9TXRuG0u62sGTU6O55vIrDtGInLBZMb9W/vtFBoao2sOQWDvBj
-	dfr6rDFrpBHf3TLi7epLmHapYjA==
-X-Received: by 2002:a25:5ec4:0:b0:b38:fad9:e1f4 with SMTP id s187-20020a255ec4000000b00b38fad9e1f4mr4523217ybb.27.1680647817159;
-        Tue, 04 Apr 2023 15:36:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z+Y1glYqpspXbrweNu5K2lTRooFyGui/4SyHZmHEz9m05Pv+DeGb42aYVw1FPLAl3eznsFiw==
-X-Received: by 2002:a25:5ec4:0:b0:b38:fad9:e1f4 with SMTP id s187-20020a255ec4000000b00b38fad9e1f4mr4523202ybb.27.1680647816864;
-        Tue, 04 Apr 2023 15:36:56 -0700 (PDT)
-Received: from x1 (c-73-214-169-22.hsd1.pa.comcast.net. [73.214.169.22])
-        by smtp.gmail.com with ESMTPSA id d206-20020a251dd7000000b00b7767ca748asm3633950ybd.39.2023.04.04.15.36.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 15:36:56 -0700 (PDT)
-Date: Tue, 4 Apr 2023 18:36:53 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: kernel test robot <lkp@intel.com>, jic23@kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andriy.shevchenko@linux.intel.com, trix@redhat.com, lars@metafoo.de,
-	nathan@kernel.org, ndesaulniers@google.com,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	hslester96@gmail.com
-Subject: Re: [PATCH] iio: light: tsl2772: fix reading proximity-diodes from
- device tree
-Message-ID: <ZCymhaDkRkfzk2kP@x1>
-References: <20230404011455.339454-1-bmasney@redhat.com>
- <202304041451.gj8oasQp-lkp@intel.com>
- <ZCwGP6rBLgbDGvkv@x1>
- <20230404123544.6m5juesxwf4tklkm@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AB63C07
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 23:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680650872; x=1712186872;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cZHGzr+SIRkXQLZc+6oMA0DKcFgjuL4PEhvsXwF47ag=;
+  b=je2AlgmBb9fQPtvSBiKfDRN0IxUEEsRx/5yA+BJH5fDqn75KBn0I0x+4
+   NuSO+YTmne5U+NPU6/+uVyO24zUCNIsgRwrbIl9Xes2f3MRn+o0iP87fw
+   T2Yog29/0lYaMSTvzb2dfbzoVrd7T5kowS9CdxHxuCZtq0IeykrDHMvRS
+   WhDbj5d17NyPs77+xyGSHN1ifwZm+fHSjRtkgL0qlN1IuAW71SN1Ex7YL
+   S/7wip3brkH+WkyCEVwRQGBZbieM0yrfWioPPqyQULRB1fK9ntocs8KvO
+   vlO1GZdHy6QzEbTQlWPtqcfyZjh5tWGLPZpBRWRk6gtOpeKBTFAg5gOyX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="322713018"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="322713018"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 16:27:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="751064989"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="751064989"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 04 Apr 2023 16:27:49 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjq45-000Q6Y-0I;
+	Tue, 04 Apr 2023 23:27:49 +0000
+Date: Wed, 5 Apr 2023 07:27:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 18/328] lib/kvm_util.c:990:32:
+ error: 'struct kvm_userspace_memory_region2' has no member named
+ 'restricted_fd'; did you mean 'restrictedmem_fd'?
+Message-ID: <202304050705.2Ix5Ur4v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20230404123544.6m5juesxwf4tklkm@pengutronix.de>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 04, 2023 at 02:35:44PM +0200, Uwe Kleine-König wrote:
-> Hello Brian,
-> 
-> On Tue, Apr 04, 2023 at 07:13:03AM -0400, Brian Masney wrote:
-> > This doesn't contain the code that's in iio/togreg [1], and that's why
-> > the build failed. I originally developed / built this against
-> > next-20230330. I just checked linus/master, next-20230404, iio/testing,
-> > and all have the expected code that defines prox_diode_mask.
-> > 
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/tree/drivers/iio/light/tsl2772.c?h=togreg#n593
-> 
-> You might want to make use of the --base parameter to git format-patch
-> for you next submission. With that the auto builders have a chance to
-> test on the right tree.
+Hi Sean,
 
-I'll add the --base parameter next time. However, I think the issue is
-that this compiler error is triggered by this patch [1] that's not in
-any maintainer trees. I suspect the kernel test robot still has that in
-it's local tree from a previous round of testing against this driver.
+First bad commit (maybe != root cause):
 
-[1] https://lore.kernel.org/lkml/20230327120823.1369700-1-trix@redhat.com/
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   694338d50183e3371330efb5291e044153c7c615
+commit: 543aeefcc387b12a582fd06b7d6174d13aded51d [18/328] KVM: selftests: Add support for creating private memslots
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # https://github.com/intel/tdx/commit/543aeefcc387b12a582fd06b7d6174d13aded51d
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout 543aeefcc387b12a582fd06b7d6174d13aded51d
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
-Brian
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304050705.2Ix5Ur4v-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   lib/kvm_util.c: In function 'vm_userspace_mem_region_add':
+>> lib/kvm_util.c:990:32: error: 'struct kvm_userspace_memory_region2' has no member named 'restricted_fd'; did you mean 'restrictedmem_fd'?
+     990 |                 region->region.restricted_fd = memfd_restricted(0);
+         |                                ^~~~~~~~~~~~~
+         |                                restrictedmem_fd
+>> lib/kvm_util.c:991:32: error: 'struct kvm_userspace_memory_region2' has no member named 'restricted_offset'; did you mean 'restrictedmem_offset'?
+     991 |                 region->region.restricted_offset = 0;
+         |                                ^~~~~~~~~~~~~~~~~
+         |                                restrictedmem_offset
+   In file included from lib/kvm_util.c:9:
+   lib/kvm_util.c:993:44: error: 'struct kvm_userspace_memory_region2' has no member named 'restricted_fd'; did you mean 'restrictedmem_fd'?
+     993 |                 TEST_ASSERT(region->region.restricted_fd >= 0,
+         |                                            ^~~~~~~~~~~~~
+   include/test_util.h:54:22: note: in definition of macro 'TEST_ASSERT'
+      54 |         test_assert((e), #e, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+         |                      ^
+   lib/kvm_util.c:1012:32: error: 'struct kvm_userspace_memory_region2' has no member named 'restricted_fd'; did you mean 'restrictedmem_fd'?
+    1012 |                 region->region.restricted_fd);
+         |                                ^~~~~~~~~~~~~
+   include/test_util.h:54:57: note: in definition of macro 'TEST_ASSERT'
+      54 |         test_assert((e), #e, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+         |                                                         ^~~~~~~~~~~
+   lib/kvm_util.c: At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
