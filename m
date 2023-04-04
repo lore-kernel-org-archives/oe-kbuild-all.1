@@ -1,46 +1,61 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0107B7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 01:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D807E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 02:01:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680572994; x=1712108994;
+  t=1680573711; x=1712109711;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gN+KKoPKHIZ18Kz3GcxyRGQuAOc/wMIGMeJHrc6u2Fc=;
-  b=Jm3pVbfjh3Ll6Wfb9Ly9NooJ+Tte8DD8/jnyRrlyvtKeReWXbvuD202s
-   8qTxhTSEIOhbtuT82gVHaIu4xZL4XvMn0oZKuSVY5JiTjavsRW5pRYJZi
-   GQdlS1J+KUy6FVu+A2wDsSldPHhfdL9AKk3kXPi9+vn+qKTNkQ16nducD
-   Jgl84rj1ma4z2Rg6YI7t3VvRPbugRGz8VdTq62DY41IIGTw6GlRcsElGQ
-   mfJz3QiwH+HX9mA5qw9SCSG8vSdLcPAUvAj6jaFml/uO2c9F7cgYdBFq+
-   Y/6Xq/qE1zlpx/z3q5dHt9u4xwgbKVZFMrQn2p05Xi6p2Q9RyOzRCmzmM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326081488"
+  bh=hg/2aixy2WZXbXG/sWuB7ZCAhNF9nA+BgZkN81OmlaQ=;
+  b=HXudkQf4s53aQq4pgGsXwI2B1DA8l/6qCXGiOxFkoaG3HqxwA58CLeoA
+   ICvpbIGWP5tit2mwOF4VDYU3bGHAGMmSzNjH5Q6FDzkFHV4Fa4fZwm8ta
+   MDUlixNrA8EXmuUdZTTzaO11RYPncvvb7LW9BtMyOY3IGjTOc/wqpIAl7
+   RJlhCRBApDWMfiBbh5fBCdlzuoRRVLFCjaPsVeK//lSJtcjW54Dh4ADZq
+   DsBMxZfDWhhW3abCEB1Y/BywbYJ+88tGXLHlFyOITdPFbCxyTxBCLfjUN
+   Ofmn6AIKhQ2YYPuFr2sDtPbwAf1mwC75cxDHrmrre9WHLXEo0yH23lYK9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="343767226"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="326081488"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 18:49:54 -0700
+   d="scan'208";a="343767226"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:01:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686181689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829792577"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="686181689"
+   d="scan'208";a="829792577"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 18:49:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2023 19:00:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjVnz-000P1G-2c;
-	Tue, 04 Apr 2023 01:49:51 +0000
-Date: Tue, 4 Apr 2023 09:49:51 +0800
+	id 1pjVye-000P1a-0J;
+	Tue, 04 Apr 2023 02:00:52 +0000
+Date: Tue, 4 Apr 2023 10:00:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>,
-	linux-integrity@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
-	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v4 08/13] tpm: Add full HMAC and encrypt/decrypt session
- handling code
-Message-ID: <202304040920.8D4b7ebX-lkp@intel.com>
-References: <20230403214003.32093-9-James.Bottomley@HansenPartnership.com>
+To: Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Dmitry Safonov <dima@arista.com>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Bob Gilligan <gilligan@arista.com>,
+	Dan Carpenter <error27@gmail.com>,
+	David Laight <David.Laight@aculab.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Francesco Ruggeri <fruggeri05@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+	Ivan Delalande <colona@arista.com>,
+	Leonard Crestez <cdleonard@gmail.com>,
+	Salam Noureddine <noureddine@arista.com>
+Subject: Re: [PATCH v5 09/21] net/tcp: Add TCP-AO sign to twsk
+Message-ID: <202304040904.0iYIgRHd-lkp@intel.com>
+References: <20230403213420.1576559-10-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,124 +64,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403214003.32093-9-James.Bottomley@HansenPartnership.com>
+In-Reply-To: <20230403213420.1576559-10-dima@arista.com>
 
-Hi James,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.3-rc5 next-20230403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 7e364e56293bb98cae1b55fd835f5991c4e96e7d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230404-055053
-patch link:    https://lore.kernel.org/r/20230403214003.32093-9-James.Bottomley%40HansenPartnership.com
-patch subject: [PATCH v4 08/13] tpm: Add full HMAC and encrypt/decrypt session handling code
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304040920.8D4b7ebX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
+base:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
+patch link:    https://lore.kernel.org/r/20230403213420.1576559-10-dima%40arista.com
+patch subject: [PATCH v5 09/21] net/tcp: Add TCP-AO sign to twsk
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230404/202304040904.0iYIgRHd-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2fbef78e6bdb1d5385ac75a5a5e750fed42e53e2
+        # https://github.com/intel-lab-lkp/linux/commit/6dd2eb18d51db7f4e1bfac2de38f7a5c2363ef0e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230404-055053
-        git checkout 2fbef78e6bdb1d5385ac75a5a5e750fed42e53e2
+        git fetch --no-tags linux-review Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
+        git checkout 6dd2eb18d51db7f4e1bfac2de38f7a5c2363ef0e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/char/tpm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/ipv6/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040920.8D4b7ebX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040904.0iYIgRHd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/tpm/tpm2-sessions.c:337: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * tpm_buf_append_hmac_session() append a TPM session element
+   net/ipv6/tcp_ipv6.c: In function 'tcp_v6_timewait_ack':
+>> net/ipv6/tcp_ipv6.c:1214:36: warning: variable 'rnext_key' set but not used [-Wunused-but-set-variable]
+    1214 |                 struct tcp_ao_key *rnext_key;
+         |                                    ^~~~~~~~~
 
 
-vim +337 drivers/char/tpm/tpm2-sessions.c
+vim +/rnext_key +1214 net/ipv6/tcp_ipv6.c
 
-   335	
-   336	/**
- > 337	 * tpm_buf_append_hmac_session() append a TPM session element
-   338	 * @chip: the TPM chip structure
-   339	 * @buf: The buffer to be appended
-   340	 * @attributes: The session attributes
-   341	 * @passphrase: The session authority (NULL if none)
-   342	 * @passphraselen: The length of the session authority (0 if none)
-   343	 *
-   344	 * This fills in a session structure in the TPM command buffer, except
-   345	 * for the HMAC which cannot be computed until the command buffer is
-   346	 * complete.  The type of session is controlled by the @attributes,
-   347	 * the main ones of which are TPM2_SA_CONTINUE_SESSION which means the
-   348	 * session won't terminate after tpm_buf_check_hmac_response(),
-   349	 * TPM2_SA_DECRYPT which means this buffers first parameter should be
-   350	 * encrypted with a session key and TPM2_SA_ENCRYPT, which means the
-   351	 * response buffer's first parameter needs to be decrypted (confusing,
-   352	 * but the defines are written from the point of view of the TPM).
-   353	 *
-   354	 * Any session appended by this command must be finalized by calling
-   355	 * tpm_buf_fill_hmac_session() otherwise the HMAC will be incorrect
-   356	 * and the TPM will reject the command.
-   357	 *
-   358	 * As with most tpm_buf operations, success is assumed because failure
-   359	 * will be caused by an incorrect programming model and indicated by a
-   360	 * kernel message.
-   361	 */
-   362	void tpm_buf_append_hmac_session(struct tpm_chip *chip, struct tpm_buf *buf,
-   363					 u8 attributes, u8 *passphrase,
-   364					 int passphraselen)
-   365	{
-   366		u8 nonce[SHA256_DIGEST_SIZE];
-   367		u32 len;
-   368		struct tpm2_auth *auth = chip->auth;
-   369	
-   370		/*
-   371		 * The Architecture Guide requires us to strip trailing zeros
-   372		 * before computing the HMAC
-   373		 */
-   374		while (passphrase && passphraselen > 0
-   375		       && passphrase[passphraselen - 1] == '\0')
-   376			passphraselen--;
-   377	
-   378		auth->attrs = attributes;
-   379		auth->passphraselen = passphraselen;
-   380		if (passphraselen)
-   381			memcpy(auth->passphrase, passphrase, passphraselen);
-   382	
-   383		if (auth->session != tpm_buf_length(buf)) {
-   384			/* we're not the first session */
-   385			len = get_unaligned_be32(&buf->data[auth->session]);
-   386			if (4 + len + auth->session != tpm_buf_length(buf)) {
-   387				WARN(1, "session length mismatch, cannot append");
-   388				return;
-   389			}
-   390	
-   391			/* add our new session */
-   392			len += 9 + 2 * SHA256_DIGEST_SIZE;
-   393			put_unaligned_be32(len, &buf->data[auth->session]);
-   394		} else {
-   395			tpm_buf_append_u32(buf, 9 + 2 * SHA256_DIGEST_SIZE);
-   396		}
-   397	
-   398		/* random number for our nonce */
-   399		get_random_bytes(nonce, sizeof(nonce));
-   400		memcpy(auth->our_nonce, nonce, sizeof(nonce));
-   401		tpm_buf_append_u32(buf, auth->handle);
-   402		/* our new nonce */
-   403		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
-   404		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
-   405		tpm_buf_append_u8(buf, auth->attrs);
-   406		/* and put a placeholder for the hmac */
-   407		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
-   408		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
-   409	}
-   410	EXPORT_SYMBOL(tpm_buf_append_hmac_session);
-   411	
+  1190	
+  1191	static void tcp_v6_timewait_ack(struct sock *sk, struct sk_buff *skb)
+  1192	{
+  1193		struct inet_timewait_sock *tw = inet_twsk(sk);
+  1194		struct tcp_timewait_sock *tcptw = tcp_twsk(sk);
+  1195		struct tcp_ao_key *ao_key = NULL;
+  1196		u8 *traffic_key = NULL;
+  1197		u8 rcv_next = 0;
+  1198		u32 ao_sne = 0;
+  1199	#ifdef CONFIG_TCP_AO
+  1200		struct tcp_ao_info *ao_info;
+  1201	
+  1202		/* FIXME: the segment to-be-acked is not verified yet */
+  1203		ao_info = rcu_dereference(tcptw->ao_info);
+  1204		if (ao_info) {
+  1205			const struct tcp_ao_hdr *aoh;
+  1206	
+  1207			/* Invalid TCP option size or twice included auth */
+  1208			if (tcp_parse_auth_options(tcp_hdr(skb), NULL, &aoh))
+  1209				goto out;
+  1210			if (aoh)
+  1211				ao_key = tcp_ao_established_key(ao_info, aoh->rnext_keyid, -1);
+  1212		}
+  1213		if (ao_key) {
+> 1214			struct tcp_ao_key *rnext_key;
+  1215	
+  1216			traffic_key = snd_other_key(ao_key);
+  1217			/* rcv_next switches to our rcv_next */
+  1218			rnext_key = READ_ONCE(ao_info->rnext_key);
+  1219			rcv_next = ao_info->rnext_key->rcvid;
+  1220			ao_sne = tcp_ao_compute_sne(ao_info->snd_sne,
+  1221						    ao_info->snd_sne_seq,
+  1222						    tcptw->tw_snd_nxt);
+  1223		}
+  1224	#endif
+  1225	
+  1226		tcp_v6_send_ack(sk, skb, tcptw->tw_snd_nxt, tcptw->tw_rcv_nxt,
+  1227				tcptw->tw_rcv_wnd >> tw->tw_rcv_wscale,
+  1228				tcp_time_stamp_raw() + tcptw->tw_ts_offset,
+  1229				tcptw->tw_ts_recent, tw->tw_bound_dev_if, tcp_twsk_md5_key(tcptw),
+  1230				tw->tw_tclass, cpu_to_be32(tw->tw_flowlabel), tw->tw_priority,
+  1231				tw->tw_txhash, ao_key, traffic_key, rcv_next, ao_sne);
+  1232	
 
 -- 
 0-DAY CI Kernel Test Service
