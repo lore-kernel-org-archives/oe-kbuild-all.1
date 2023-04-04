@@ -1,43 +1,53 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65567F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70147F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:56:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680593763; x=1712129763;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hIBQuVs1IK4JVrR4CDBVenh29yBNmKR6RHLMW9FXVTQ=;
-  b=Fms4w6KGdNxbecf6ai8O744lyFGF1rjp6tFuOpyvR84dZqQsEiaM5yjK
-   JaVl3/94vnNuwJCKLoou7ywK9Nq3TLwR26UNQFg02tyXe7a2iLD7xKf78
-   V00YXnql9bRYkgrO7aM2gt/F3/FzwbF5BQTJjYTluMAfdUwYLT6sileQT
-   SgDEC0ZJOR4Ez9M5ciOBtf3RK2b0crzv5QIvvW7NWMFbqLZlYDcymg91t
-   iny0ugOmdLykxz+gTaCrxwoyXOWn8sq5pkXqSh6Vdb8A3s8yrUH7VjEKA
-   JBcZ8HE1XLwWWLNjbTZAu6XLYevPA6Qq8SZpNLZV7rLHOBHU9OIThNQF0
+  t=1680594970; x=1712130970;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wQTfdNvrX3E73csQLuETu80HBtJvoIeziZTr92sVFdQ=;
+  b=dW9WZLBDSxF/9XvbCmQvq9Xg7v9lQmXxfma4ZEo56WNIEAehw1UWt8R8
+   8zNcgeYwpfhzQaOR7KEcezco+1Rh2hSYGaqyfBCVEC0YrxVAnuohSQNYL
+   n94lBuCUsBdEwkE2vvvVJlad80UIMP7jCvHr8GWDtte9RWCZke7UY3w76
+   UDkDrr3sGLTFOulC9sosHQGO/YbLcbqddtd3U7b8xGwHqES5/34x7PZ/s
+   swFNAFUfhesFmpoLx3/DVroSUYlGEyO+MFV135EzZW/S2Vt6xw9j6WccR
+   yXUvtb9eZeLr+BJI6zn0G2EJG4jXzDlahgflITKxuKsEZXTXxj72GAWJ3
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="330697420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407177935"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="330697420"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 00:36:03 -0700
+   d="scan'208";a="407177935"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 00:56:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810132304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750836790"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="810132304"
+   d="scan'208";a="750836790"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Apr 2023 00:36:02 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Apr 2023 00:56:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjbCz-000PNT-0F;
-	Tue, 04 Apr 2023 07:36:01 +0000
-Date: Tue, 4 Apr 2023 15:35:02 +0800
+	id 1pjbWN-000POZ-23;
+	Tue, 04 Apr 2023 07:56:03 +0000
+Date: Tue, 4 Apr 2023 15:55:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:virt-to-pfn-v6.3-rc3-redux 8/13]
- arch/m68k/include/asm/mcf_pgtable.h:118:26: warning: passing argument 1 of
- 'virt_to_pfn' makes pointer from integer without a cast
-Message-ID: <202304041519.tEISA7xh-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v3 10/15] drm/nouveau: fence: separate fence
+ alloc and emit
+Message-ID: <202304041506.TkTUebRU-lkp@intel.com>
+References: <20230404012741.116502-11-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,180 +56,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230404012741.116502-11-dakr@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.3-rc3-redux
-head:   7d33661b279f9c364c4f70b3fee41a450afdadd1
-commit: c0d397d78efcbc5a04a5a831f9ec5f355598ab76 [8/13] m68k/mm: Make pfn accessors static inlines
-config: m68k-randconfig-r016-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041519.tEISA7xh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Danilo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d36d68fd1925d33066d52468b7c7c6aca6521248]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+base:   d36d68fd1925d33066d52468b7c7c6aca6521248
+patch link:    https://lore.kernel.org/r/20230404012741.116502-11-dakr%40redhat.com
+patch subject: [PATCH drm-next v3 10/15] drm/nouveau: fence: separate fence alloc and emit
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304041506.TkTUebRU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=c0d397d78efcbc5a04a5a831f9ec5f355598ab76
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator virt-to-pfn-v6.3-rc3-redux
-        git checkout c0d397d78efcbc5a04a5a831f9ec5f355598ab76
+        # https://github.com/intel-lab-lkp/linux/commit/7fc592f2771fec5cc29fbbfbb9a2b524e02a0e93
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+        git checkout 7fc592f2771fec5cc29fbbfbb9a2b524e02a0e93
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash arch/m68k/mm/ mm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041519.tEISA7xh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041506.TkTUebRU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/page.h:66,
-                    from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from mm/gup.c:5:
-   mm/gup.c: In function 'follow_page_pte':
->> arch/m68k/include/asm/mcf_pgtable.h:118:26: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     118 | #define __pte_page(pte) ((unsigned long) (pte_val(pte) & PAGE_MASK))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:25: note: in expansion of macro 'virt_to_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:38: note: in expansion of macro '__pte_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                                      ^~~~~~~~~~
-   mm/gup.c:577:32: note: in expansion of macro 'pte_page'
-     577 |                         page = pte_page(pte);
-         |                                ^~~~~~~~
-   In file included from arch/m68k/include/asm/page.h:60:
-   arch/m68k/include/asm/page_mm.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
->> arch/m68k/include/asm/mcf_pgtable.h:118:26: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     118 | #define __pte_page(pte) ((unsigned long) (pte_val(pte) & PAGE_MASK))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:25: note: in expansion of macro 'virt_to_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:38: note: in expansion of macro '__pte_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                                      ^~~~~~~~~~
-   mm/gup.c:588:32: note: in expansion of macro 'pte_page'
-     588 |                         page = pte_page(pte);
-         |                                ^~~~~~~~
-   arch/m68k/include/asm/page_mm.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   mm/gup.c: In function 'get_gate_page':
->> arch/m68k/include/asm/mcf_pgtable.h:118:26: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     118 | #define __pte_page(pte) ((unsigned long) (pte_val(pte) & PAGE_MASK))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:25: note: in expansion of macro 'virt_to_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:38: note: in expansion of macro '__pte_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                                      ^~~~~~~~~~
-   mm/gup.c:869:25: note: in expansion of macro 'pte_page'
-     869 |                 *page = pte_page(*pte);
-         |                         ^~~~~~~~
-   arch/m68k/include/asm/page_mm.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
---
-   In file included from arch/m68k/include/asm/page.h:66,
-                    from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/vmalloc.h:5,
-                    from mm/vmalloc.c:11:
-   mm/vmalloc.c: In function 'vmalloc_to_page':
->> arch/m68k/include/asm/mcf_pgtable.h:118:26: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     118 | #define __pte_page(pte) ((unsigned long) (pte_val(pte) & PAGE_MASK))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          |
-         |                          long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:25: note: in expansion of macro 'virt_to_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgtable.h:138:38: note: in expansion of macro '__pte_page'
-     138 | #define pte_page(pte)   virt_to_page(__pte_page(pte))
-         |                                      ^~~~~~~~~~
-   mm/vmalloc.c:705:24: note: in expansion of macro 'pte_page'
-     705 |                 page = pte_page(pte);
-         |                        ^~~~~~~~
-   In file included from arch/m68k/include/asm/page.h:60:
-   arch/m68k/include/asm/page_mm.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
---
-   arch/m68k/mm/mcfmmu.c:36:13: warning: no previous prototype for 'paging_init' [-Wmissing-prototypes]
-      36 | void __init paging_init(void)
-         |             ^~~~~~~~~~~
-   In file included from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/m68k/mm/mcfmmu.c:13:
-   arch/m68k/mm/mcfmmu.c: In function 'paging_init':
->> arch/m68k/mm/mcfmmu.c:72:57: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-      72 |                         pte_t pte = pfn_pte(virt_to_pfn(address), PAGE_INIT);
-         |                                                         ^~~~~~~
-         |                                                         |
-         |                                                         long unsigned int
-   arch/m68k/include/asm/page.h:49:37: note: in definition of macro '__pte'
-      49 | #define __pte(x)        ((pte_t) { (x) } )
-         |                                     ^
-   arch/m68k/mm/mcfmmu.c:72:37: note: in expansion of macro 'pfn_pte'
-      72 |                         pte_t pte = pfn_pte(virt_to_pfn(address), PAGE_INIT);
-         |                                     ^~~~~~~
-   In file included from arch/m68k/include/asm/page.h:60:
-   arch/m68k/include/asm/page_mm.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   arch/m68k/mm/mcfmmu.c:41:37: warning: variable 'bootmem_end' set but not used [-Wunused-but-set-variable]
-      41 |         unsigned long next_pgtable, bootmem_end;
-         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/virt_to_pfn +118 arch/m68k/include/asm/mcf_pgtable.h
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
 
-91521c2ea6e3d5a Greg Ungerer  2011-10-14  117  
-91521c2ea6e3d5a Greg Ungerer  2011-10-14 @118  #define __pte_page(pte)	((unsigned long) (pte_val(pte) & PAGE_MASK))
-974b9b2c68f3d35 Mike Rapoport 2020-06-08  119  #define pmd_page_vaddr(pmd)	((unsigned long) (pmd_val(pmd)))
-91521c2ea6e3d5a Greg Ungerer  2011-10-14  120  
-
-:::::: The code at line 118 was first introduced by commit
-:::::: 91521c2ea6e3d5a790df40988101ad099ddbf7c8 m68k: page table support definitions and code for ColdFire MMU
-
-:::::: TO: Greg Ungerer <gerg@uclinux.org>
-:::::: CC: Greg Ungerer <gerg@uclinux.org>
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
