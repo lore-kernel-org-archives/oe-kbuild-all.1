@@ -1,54 +1,49 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFCC648;
-	Tue,  4 Apr 2023 05:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F09648
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 05:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680586213; x=1712122213;
+  t=1680586232; x=1712122232;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ve6U2A790yFZDP2NASGkDII48rORhlhHF+QczkodZ4o=;
-  b=b2yLHSxkE12i5AnmSo+1ZZEKT6XEYujnKr3AssTrBGCldMzXlYIZQQ0W
-   eiRo+eFlt/+wcjU41mBPiV+tb+TS40xk+4KTkdY/1JxvwaC9/oe3IO2YO
-   3S4fIJ2vEzKmD2zvTIR3/ezjWjWwUDvVJSL5GKZt5hZnkgNfmQvOkL0uP
-   tNL3KTnh/sohTD2yzNxb+KjomUmeGfR/NuZ5mbnnHj42ByuMxlD2aygtL
-   BFcKTVvtYpxzh/uAGf2zlbGNjlTHA0yADrRyocQkwKJwCppoep9uqeYzI
-   QspJQ8F9zUaClHGIUYGkI/I5zlyNpdJxbKLPjHAl4fWWf9yFCwUtSX6Rr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407154298"
+  bh=RdDpxGvgQ2tbcB1Q1fxF2Lua+npmQ3o86qaGHUvpBgc=;
+  b=kLoVdCxM9P3DrLpmVBeM/dDkk538VRDFk9hzjWamLKcScijiDfdpQfPt
+   SBk2gmuB6P8lfIcROSRbFdZ+d8uXIW4Cw6UTOQ71m+1VGJrq+N9gkCZ9v
+   7spSP9EgHft/VssVtyfDbKuwl8++DpUv7eIFohXw2Z40slu4NiJ6Wu0NP
+   Kq5SyKFRb95x1jNFp3FMTBg1nIRfDPeBK0+KaMtuiczuS8MI5LaK2dBeB
+   bDSF3vPNzvRqcNXEb2iruegUP6waBCRkF4YoEBTUgMVCojhFgmfO21WIF
+   eCZLvYjz67hBjluF5+ZhYm/EigTxqEe5MTdst9ervLTbk0kU5Ase4PAmw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428377416"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="407154298"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:30:12 -0700
+   d="scan'208";a="428377416"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:30:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810096875"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686242063"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="810096875"
+   d="scan'208";a="686242063"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Apr 2023 22:30:06 -0700
+  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 22:30:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjZF8-000PEc-0r;
+	id 1pjZF8-000PEe-10;
 	Tue, 04 Apr 2023 05:30:06 +0000
-Date: Tue, 4 Apr 2023 13:29:44 +0800
+Date: Tue, 4 Apr 2023 13:29:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-	christian.koenig@amd.com, bskeggs@redhat.com,
-	Liam.Howlett@oracle.com, matthew.brost@intel.com,
-	boris.brezillon@collabora.com, alexdeucher@gmail.com,
-	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-	jason@jlekstrand.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>,
-	Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <202304041336.BD0G9U85-lkp@intel.com>
-References: <20230404012741.116502-5-dakr@redhat.com>
+To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
+	hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+	dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+	kbusch@kernel.org, target-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mike Christie <michael.christie@oracle.com>
+Subject: Re: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
+Message-ID: <202304041322.SEFV29Co-lkp@intel.com>
+References: <20230324181741.13908-19-michael.christie@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,197 +52,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404012741.116502-5-dakr@redhat.com>
+In-Reply-To: <20230324181741.13908-19-michael.christie@oracle.com>
 
-Hi Danilo,
+Hi Mike,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next axboe-block/for-next linus/master v6.3-rc5 next-20230403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-base:   d36d68fd1925d33066d52468b7c7c6aca6521248
-patch link:    https://lore.kernel.org/r/20230404012741.116502-5-dakr%40redhat.com
-patch subject: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA mappings
-config: mips-randconfig-r024-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041336.BD0G9U85-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230324181741.13908-19-michael.christie%40oracle.com
+patch subject: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
+config: ia64-randconfig-s043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041322.SEFV29Co-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c25139e5a168ae8a3a3e5ca0b650c201e5f41367
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f3fe3a0cab8498044d99362b81e01f5c48da5f63
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-        git checkout c25139e5a168ae8a3a3e5ca0b650c201e5f41367
+        git fetch --no-tags linux-review Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
+        git checkout f3fe3a0cab8498044d99362b81e01f5c48da5f63
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/ drivers/iio/light/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/target/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041336.BD0G9U85-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041322.SEFV29Co-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/target/target_core_iblock.c:968:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:968:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:968:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:973:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:973:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:973:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:985:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:985:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:985:24: sparse:     got restricted sense_reason_t
+>> drivers/target/target_core_iblock.c:996:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:996:21: sparse:     expected int [assigned] ret
+   drivers/target/target_core_iblock.c:996:21: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1000:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1000:13: sparse:     expected int [assigned] ret
+   drivers/target/target_core_iblock.c:1000:13: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1035:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1035:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1035:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1040:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1040:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1040:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1044:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1044:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1044:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1049:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1049:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1049:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1055:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1055:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1055:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1059:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1059:24: sparse:     expected int
+   drivers/target/target_core_iblock.c:1059:24: sparse:     got restricted sense_reason_t
+   drivers/target/target_core_iblock.c:1062:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
+   drivers/target/target_core_iblock.c:1062:16: sparse:     expected int
+   drivers/target/target_core_iblock.c:1062:16: sparse:     got restricted sense_reason_t
+>> drivers/target/target_core_iblock.c:1075:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
+   drivers/target/target_core_iblock.c:1075:21: sparse:     expected restricted sense_reason_t [usertype] ret
+   drivers/target/target_core_iblock.c:1075:21: sparse:     got int
+   drivers/target/target_core_iblock.c:1078:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
+   drivers/target/target_core_iblock.c:1078:21: sparse:     expected restricted sense_reason_t [usertype] ret
+   drivers/target/target_core_iblock.c:1078:21: sparse:     got int
 
->> drivers/gpu/drm/drm_gpuva_mgr.c:1031:25: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-           struct drm_gpuva *va, *prev = NULL;
-                                  ^
-   1 warning generated.
+vim +968 drivers/target/target_core_iblock.c
 
-
-vim +/prev +1031 drivers/gpu/drm/drm_gpuva_mgr.c
-
+   956	
+   957	static int iblock_pr_read_keys(struct se_cmd *cmd, unsigned char *param_data)
+   958	{
+   959		struct se_device *dev = cmd->se_dev;
+   960		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
+   961		struct block_device *bdev = ib_dev->ibd_bd;
+   962		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
+   963		int i, ret, len, paths, data_offset;
+   964		struct pr_keys *keys;
+   965	
+   966		if (!ops) {
+   967			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
+ > 968			return TCM_UNSUPPORTED_SCSI_OPCODE;
+   969		}
+   970	
+   971		if (!ops->pr_read_keys) {
+   972			pr_err("Block device does not support read_keys.\n");
+   973			return TCM_UNSUPPORTED_SCSI_OPCODE;
+   974		}
+   975	
+   976		/*
+   977		 * We don't know what's under us, but dm-multipath will register every
+   978		 * path with the same key, so start off with enough space for 16 paths.
+   979		 */
+   980		paths = 16;
+   981	retry:
+   982		len = 8 * paths;
+   983		keys = kzalloc(sizeof(*keys) + len, GFP_KERNEL);
+   984		if (!keys)
+   985			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+   986	
+   987		keys->num_keys = paths;
+   988		ret = ops->pr_read_keys(bdev, keys);
+   989		if (!ret) {
+   990			if (keys->num_keys > paths) {
+   991				kfree(keys);
+   992				paths *= 2;
+   993				goto retry;
+   994			}
+   995		} else if (ret) {
+ > 996			ret = TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+   997			goto free_keys;
+   998		}
+   999	
+  1000		ret = TCM_NO_SENSE;
+  1001	
+  1002		put_unaligned_be32(keys->generation, &param_data[0]);
+  1003		if (!keys->num_keys) {
+  1004			put_unaligned_be32(0, &param_data[4]);
+  1005			goto free_keys;
+  1006		}
+  1007	
+  1008		put_unaligned_be32(8 * keys->num_keys, &param_data[4]);
+  1009	
+  1010		data_offset = 8;
+  1011		for (i = 0; i < keys->num_keys; i++) {
+  1012			if (data_offset + 8 > cmd->data_length)
+  1013				break;
+  1014	
+  1015			put_unaligned_be64(keys->keys[i], &param_data[data_offset]);
+  1016			data_offset += 8;
+  1017		}
+  1018	
+  1019	free_keys:
+  1020		kfree(keys);
+  1021		return ret;
+  1022	}
   1023	
-  1024	static int
-  1025	__drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
-  1026			   struct drm_gpuva_fn_ops *ops, void *priv,
-  1027			   u64 req_addr, u64 req_range,
-  1028			   struct drm_gem_object *req_obj, u64 req_offset)
-  1029	{
-  1030		DRM_GPUVA_ITER(it, mgr, req_addr);
-> 1031		struct drm_gpuva *va, *prev = NULL;
-  1032		u64 req_end = req_addr + req_range;
-  1033		int ret;
-  1034	
-  1035		if (unlikely(!drm_gpuva_in_mm_range(mgr, req_addr, req_range)))
-  1036			return -EINVAL;
+  1024	static int iblock_pr_read_reservation(struct se_cmd *cmd,
+  1025					      unsigned char *param_data)
+  1026	{
+  1027		struct se_device *dev = cmd->se_dev;
+  1028		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
+  1029		struct block_device *bdev = ib_dev->ibd_bd;
+  1030		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
+  1031		struct pr_held_reservation rsv = { };
+  1032	
+  1033		if (!ops) {
+  1034			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
+  1035			return TCM_UNSUPPORTED_SCSI_OPCODE;
+  1036		}
   1037	
-  1038		if (unlikely(drm_gpuva_in_kernel_node(mgr, req_addr, req_range)))
-  1039			return -EINVAL;
-  1040	
-  1041		drm_gpuva_iter_for_each_range(va, it, req_end) {
-  1042			struct drm_gem_object *obj = va->gem.obj;
-  1043			u64 offset = va->gem.offset;
-  1044			u64 addr = va->va.addr;
-  1045			u64 range = va->va.range;
-  1046			u64 end = addr + range;
-  1047			bool merge = !!va->gem.obj;
-  1048	
-  1049			if (addr == req_addr) {
-  1050				merge &= obj == req_obj &&
-  1051					 offset == req_offset;
-  1052	
-  1053				if (end == req_end) {
-  1054					ret = op_unmap_cb(ops, &it, priv, va, merge);
-  1055					if (ret)
-  1056						return ret;
-  1057					break;
-  1058				}
-  1059	
-  1060				if (end < req_end) {
-  1061					ret = op_unmap_cb(ops, &it, priv, va, merge);
-  1062					if (ret)
-  1063						return ret;
-  1064					goto next;
-  1065				}
-  1066	
-  1067				if (end > req_end) {
-  1068					struct drm_gpuva_op_map n = {
-  1069						.va.addr = req_end,
-  1070						.va.range = range - req_range,
-  1071						.gem.obj = obj,
-  1072						.gem.offset = offset + req_range,
-  1073					};
-  1074					struct drm_gpuva_op_unmap u = {
-  1075						.va = va,
-  1076						.keep = merge,
-  1077					};
-  1078	
-  1079					ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
-  1080					if (ret)
-  1081						return ret;
-  1082					break;
-  1083				}
-  1084			} else if (addr < req_addr) {
-  1085				u64 ls_range = req_addr - addr;
-  1086				struct drm_gpuva_op_map p = {
-  1087					.va.addr = addr,
-  1088					.va.range = ls_range,
-  1089					.gem.obj = obj,
-  1090					.gem.offset = offset,
-  1091				};
-  1092				struct drm_gpuva_op_unmap u = { .va = va };
-  1093	
-  1094				merge &= obj == req_obj &&
-  1095					 offset + ls_range == req_offset;
-  1096				u.keep = merge;
-  1097	
-  1098				if (end == req_end) {
-  1099					ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
-  1100					if (ret)
-  1101						return ret;
-  1102					break;
-  1103				}
-  1104	
-  1105				if (end < req_end) {
-  1106					ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
-  1107					if (ret)
-  1108						return ret;
-  1109					goto next;
-  1110				}
-  1111	
-  1112				if (end > req_end) {
-  1113					struct drm_gpuva_op_map n = {
-  1114						.va.addr = req_end,
-  1115						.va.range = end - req_end,
-  1116						.gem.obj = obj,
-  1117						.gem.offset = offset + ls_range +
-  1118							      req_range,
-  1119					};
-  1120	
-  1121					ret = op_remap_cb(ops, &it, priv, &p, &n, &u);
-  1122					if (ret)
-  1123						return ret;
-  1124					break;
-  1125				}
-  1126			} else if (addr > req_addr) {
-  1127				merge &= obj == req_obj &&
-  1128					 offset == req_offset +
-  1129						   (addr - req_addr);
-  1130	
-  1131				if (end == req_end) {
-  1132					ret = op_unmap_cb(ops, &it, priv, va, merge);
-  1133					if (ret)
-  1134						return ret;
-  1135					break;
-  1136				}
-  1137	
-  1138				if (end < req_end) {
-  1139					ret = op_unmap_cb(ops, &it, priv, va, merge);
-  1140					if (ret)
-  1141						return ret;
-  1142					goto next;
-  1143				}
-  1144	
-  1145				if (end > req_end) {
-  1146					struct drm_gpuva_op_map n = {
-  1147						.va.addr = req_end,
-  1148						.va.range = end - req_end,
-  1149						.gem.obj = obj,
-  1150						.gem.offset = offset + req_end - addr,
-  1151					};
-  1152					struct drm_gpuva_op_unmap u = {
-  1153						.va = va,
-  1154						.keep = merge,
-  1155					};
-  1156	
-  1157					ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
-  1158					if (ret)
-  1159						return ret;
-  1160					break;
-  1161				}
-  1162			}
-  1163	next:
-  1164			prev = va;
-  1165		}
-  1166	
-  1167		return op_map_cb(ops, priv,
-  1168				 req_addr, req_range,
-  1169				 req_obj, req_offset);
-  1170	}
-  1171	
+  1038		if (!ops->pr_read_reservation) {
+  1039			pr_err("Block device does not support read_keys.\n");
+  1040			return TCM_UNSUPPORTED_SCSI_OPCODE;
+  1041		}
+  1042	
+  1043		if (ops->pr_read_reservation(bdev, &rsv))
+  1044			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+  1045	
+  1046		put_unaligned_be32(rsv.generation, &param_data[0]);
+  1047		if (!block_pr_type_to_scsi(rsv.type)) {
+  1048			put_unaligned_be32(0, &param_data[4]);
+  1049			return TCM_NO_SENSE;
+  1050		}
+  1051	
+  1052		put_unaligned_be32(16, &param_data[4]);
+  1053	
+  1054		if (cmd->data_length < 16)
+> 1055			return TCM_NO_SENSE;
+  1056		put_unaligned_be64(rsv.key, &param_data[8]);
+  1057	
+  1058		if (cmd->data_length < 22)
+  1059			return TCM_NO_SENSE;
+  1060		param_data[21] = block_pr_type_to_scsi(rsv.type);
+  1061	
+  1062		return TCM_NO_SENSE;
+  1063	}
+  1064	
+  1065	static sense_reason_t iblock_execute_pr_in(struct se_cmd *cmd, u8 sa,
+  1066						   unsigned char *param_data)
+  1067	{
+  1068		sense_reason_t ret = TCM_NO_SENSE;
+  1069	
+  1070		switch (sa) {
+  1071		case PRI_REPORT_CAPABILITIES:
+  1072			iblock_pr_report_caps(param_data);
+  1073			break;
+  1074		case PRI_READ_KEYS:
+> 1075			ret = iblock_pr_read_keys(cmd, param_data);
+  1076			break;
+  1077		case PRI_READ_RESERVATION:
+  1078			ret = iblock_pr_read_reservation(cmd, param_data);
+  1079			break;
+  1080		default:
+  1081			pr_err("Unknown PERSISTENT_RESERVE_IN SA: 0x%02x\n", sa);
+  1082			return TCM_UNSUPPORTED_SCSI_OPCODE;
+  1083		}
+  1084	
+  1085		return ret;
+  1086	}
+  1087	
 
 -- 
 0-DAY CI Kernel Test Service
