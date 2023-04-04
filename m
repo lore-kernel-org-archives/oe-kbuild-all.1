@@ -1,48 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05518393
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 02:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3F87E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 02:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680574321; x=1712110321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O3LmMUztqYHW9Ro/MW5kg4lW7J5uBoJYEKMV7Bq+Dgg=;
-  b=R/5seh6BS95TzAMRPfRs1idaqptECOd+LY4K7DAHLmmgLrINw5RuLmzr
-   sYGRKyGpzeMgxReUnpepaT4ako1xAtec2qaKN4WovbDynOmYWb7Uf4yKW
-   +uV0cf3MBgD8GjlA8gq2hCApmblLrdl3Pux/ga9R+AZH2iGaQJHmNu088
-   XZOghu7Vra0AXmytRVgKDGYdnd45cty2+NkUudIp6jMNaT1eaYcXbkKSN
-   v58HjYQT3kSC0nksAjpQPfD7m49ZLnmdYEeFkSuUrd2QBsMeJrvFS1FQr
-   1C4+auja7onI0M009rDivCviyStg/eMREGsUtalvK4CBH2tBvyesduLyq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326085987"
+  t=1680574916; x=1712110916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CkFHDC8D6AvY+v6jsGYoE/Vckj5Y+DqhspwvMoFNbmo=;
+  b=G3pGVizeX1icOlw98vj7mQj6tdZkh2eIMN83B3eRvB0g87gvicZKiCEv
+   WQ9jS3Zv2KX18JbQ1RIU7OIsG0OsZWII2oP0/xv6QmnYw6o+OsFOi1+Lz
+   1seCcSAMGP7tjohMFy6sZIlAsqEfJ4+knPmCxOtsLjinLkRpAWC5t2j81
+   lMALWII5uI6BPTr5GaUQxt0bOvrvaKPi+LOe+buMTMMP5OfNYMHndXMKA
+   fpDkZU9NWWSfz9O3NmsQbfHIdL3+EV2WEM9kydNg1cUTs5OZANYxhBKq/
+   iEn4uhd3dt6Qq6SeXrK/nzTZWSwwL/gD5dR4HNm+gzS8lFdxqoCJAIaDs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340801854"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="326085987"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:12:01 -0700
+   d="scan'208";a="340801854"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:21:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686188929"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810056485"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="686188929"
+   d="scan'208";a="810056485"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 19:11:58 -0700
+  by orsmga004.jf.intel.com with ESMTP; 03 Apr 2023 19:21:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjW9I-000P2I-2L;
-	Tue, 04 Apr 2023 02:11:52 +0000
-Date: Tue, 4 Apr 2023 10:10:56 +0800
+	id 1pjWIz-000P2i-00;
+	Tue, 04 Apr 2023 02:21:53 +0000
+Date: Tue, 4 Apr 2023 10:21:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Fastabend <john.fastabend@gmail.com>, cong.wang@bytedance.com,
-	jakub@cloudflare.com, daniel@iogearbox.net, lmb@isovalent.com,
-	edumazet@google.com
-Cc: oe-kbuild-all@lists.linux.dev, john.fastabend@gmail.com,
-	bpf@vger.kernel.org, netdev@vger.kernel.org, ast@kernel.org,
-	andrii@kernel.org, will@isovalent.com
-Subject: Re: [PATCH bpf v3 01/12] bpf: sockmap, pass skb ownership through
- read_skb
-Message-ID: <202304040949.mjn0pmKV-lkp@intel.com>
-References: <20230403200138.937569-2-john.fastabend@gmail.com>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28:
+ sparse: sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202304041040.F0zUsknf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,76 +45,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403200138.937569-2-john.fastabend@gmail.com>
 
-Hi John,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Fastabend/bpf-sockmap-pass-skb-ownership-through-read_skb/20230404-040431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20230403200138.937569-2-john.fastabend%40gmail.com
-patch subject: [PATCH bpf v3 01/12] bpf: sockmap, pass skb ownership through read_skb
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230404/202304040949.mjn0pmKV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/44ddc6a14f8903f3f97d347b5303f678a8e2c3ea
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review John-Fastabend/bpf-sockmap-pass-skb-ownership-through-read_skb/20230404-040431
-        git checkout 44ddc6a14f8903f3f97d347b5303f678a8e2c3ea
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   148341f0a2f53b5e8808d093333d85170586a15d
+commit: edd4a8667355607345b76d5652adc0f300a28970 s390/boot: get rid of startup archive
+date:   11 months ago
+config: s390-randconfig-s041-20230402 (https://download.01.org/0day-ci/archive/20230404/202304041040.F0zUsknf-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=edd4a8667355607345b76d5652adc0f300a28970
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout edd4a8667355607345b76d5652adc0f300a28970
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/ipv4/ net/unix/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040949.mjn0pmKV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041040.F0zUsknf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/s390/boot/decompressor.c: note: in included file (through arch/s390/include/uapi/../../../../lib/decompress_unxz.c):
+>> arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     expected restricted __le32 const [usertype] *p
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     got unsigned int const [usertype] *
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     expected restricted __le32 const [usertype] *p
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     got unsigned int const [usertype] *
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     expected restricted __le32 const [usertype] *p
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     got unsigned int const [usertype] *
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     expected restricted __le32 const [usertype] *p
+   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     got unsigned int const [usertype] *
 
-   net/ipv4/udp.c: In function 'udp_read_skb':
->> net/ipv4/udp.c:1816:18: warning: unused variable 'copied' [-Wunused-variable]
-    1816 |         int err, copied;
-         |                  ^~~~~~
---
-   net/unix/af_unix.c: In function 'unix_read_skb':
->> net/unix/af_unix.c:2556:18: warning: unused variable 'copied' [-Wunused-variable]
-    2556 |         int err, copied;
-         |                  ^~~~~~
+vim +393 arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c
 
+24fa0402a9b6a5 Lasse Collin 2011-01-12  385  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  386  /* Decode the Stream Header field (the first 12 bytes of the .xz Stream). */
+24fa0402a9b6a5 Lasse Collin 2011-01-12  387  static enum xz_ret dec_stream_header(struct xz_dec *s)
+24fa0402a9b6a5 Lasse Collin 2011-01-12  388  {
+24fa0402a9b6a5 Lasse Collin 2011-01-12  389  	if (!memeq(s->temp.buf, HEADER_MAGIC, HEADER_MAGIC_SIZE))
+24fa0402a9b6a5 Lasse Collin 2011-01-12  390  		return XZ_FORMAT_ERROR;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  391  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  392  	if (xz_crc32(s->temp.buf + HEADER_MAGIC_SIZE, 2, 0)
+24fa0402a9b6a5 Lasse Collin 2011-01-12 @393  			!= get_le32(s->temp.buf + HEADER_MAGIC_SIZE + 2))
+24fa0402a9b6a5 Lasse Collin 2011-01-12  394  		return XZ_DATA_ERROR;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  395  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  396  	if (s->temp.buf[HEADER_MAGIC_SIZE] != 0)
+24fa0402a9b6a5 Lasse Collin 2011-01-12  397  		return XZ_OPTIONS_ERROR;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  398  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  399  	/*
+24fa0402a9b6a5 Lasse Collin 2011-01-12  400  	 * Of integrity checks, we support only none (Check ID = 0) and
+24fa0402a9b6a5 Lasse Collin 2011-01-12  401  	 * CRC32 (Check ID = 1). However, if XZ_DEC_ANY_CHECK is defined,
+24fa0402a9b6a5 Lasse Collin 2011-01-12  402  	 * we will accept other check types too, but then the check won't
+24fa0402a9b6a5 Lasse Collin 2011-01-12  403  	 * be verified and a warning (XZ_UNSUPPORTED_CHECK) will be given.
+24fa0402a9b6a5 Lasse Collin 2011-01-12  404  	 */
+4f8d7abaa413c3 Lasse Collin 2021-10-11  405  	if (s->temp.buf[HEADER_MAGIC_SIZE + 1] > XZ_CHECK_MAX)
+4f8d7abaa413c3 Lasse Collin 2021-10-11  406  		return XZ_OPTIONS_ERROR;
+4f8d7abaa413c3 Lasse Collin 2021-10-11  407  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  408  	s->check_type = s->temp.buf[HEADER_MAGIC_SIZE + 1];
+24fa0402a9b6a5 Lasse Collin 2011-01-12  409  
 
-vim +/copied +1816 net/ipv4/udp.c
+:::::: The code at line 393 was first introduced by commit
+:::::: 24fa0402a9b6a537e87e38341e78b7da86486846 decompressors: add XZ decompressor module
 
-2276f58ac5890e Paolo Abeni     2017-05-16  1812  
-965b57b469a589 Cong Wang       2022-06-15  1813  int udp_read_skb(struct sock *sk, skb_read_actor_t recv_actor)
-d7f571188ecf25 Cong Wang       2021-03-30  1814  {
-d7f571188ecf25 Cong Wang       2021-03-30  1815  	struct sk_buff *skb;
-31f1fbcb346c93 Peilin Ye       2022-09-22 @1816  	int err, copied;
-d7f571188ecf25 Cong Wang       2021-03-30  1817  
-31f1fbcb346c93 Peilin Ye       2022-09-22  1818  try_again:
-ec095263a96572 Oliver Hartkopp 2022-04-11  1819  	skb = skb_recv_udp(sk, MSG_DONTWAIT, &err);
-d7f571188ecf25 Cong Wang       2021-03-30  1820  	if (!skb)
-d7f571188ecf25 Cong Wang       2021-03-30  1821  		return err;
-099f896f498a2b Cong Wang       2021-11-14  1822  
-099f896f498a2b Cong Wang       2021-11-14  1823  	if (udp_lib_checksum_complete(skb)) {
-31f1fbcb346c93 Peilin Ye       2022-09-22  1824  		int is_udplite = IS_UDPLITE(sk);
-31f1fbcb346c93 Peilin Ye       2022-09-22  1825  		struct net *net = sock_net(sk);
-31f1fbcb346c93 Peilin Ye       2022-09-22  1826  
-31f1fbcb346c93 Peilin Ye       2022-09-22  1827  		__UDP_INC_STATS(net, UDP_MIB_CSUMERRORS, is_udplite);
-31f1fbcb346c93 Peilin Ye       2022-09-22  1828  		__UDP_INC_STATS(net, UDP_MIB_INERRORS, is_udplite);
-099f896f498a2b Cong Wang       2021-11-14  1829  		atomic_inc(&sk->sk_drops);
-099f896f498a2b Cong Wang       2021-11-14  1830  		kfree_skb(skb);
-31f1fbcb346c93 Peilin Ye       2022-09-22  1831  		goto try_again;
-099f896f498a2b Cong Wang       2021-11-14  1832  	}
-099f896f498a2b Cong Wang       2021-11-14  1833  
-db39dfdc1c3bd9 Peilin Ye       2022-09-20  1834  	WARN_ON_ONCE(!skb_set_owner_sk_safe(skb, sk));
-44ddc6a14f8903 John Fastabend  2023-04-03  1835  	return recv_actor(sk, skb);
-d7f571188ecf25 Cong Wang       2021-03-30  1836  }
-965b57b469a589 Cong Wang       2022-06-15  1837  EXPORT_SYMBOL(udp_read_skb);
-d7f571188ecf25 Cong Wang       2021-03-30  1838  
+:::::: TO: Lasse Collin <lasse.collin@tukaani.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
