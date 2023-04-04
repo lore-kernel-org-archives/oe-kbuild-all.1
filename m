@@ -1,44 +1,42 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3397F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB34380A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 07:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680593104; x=1712129104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IPheo9y7rINbdqF5rArt0dXvhYx16zJqhbGRKqNDKJI=;
-  b=LdxLkVawSwgqVLO/a3aQLROM1RuZv9/rSFrKTARvY/qYGgyYmFe0/R1t
-   2V1qnwsE2vAlBhNOtu4Lh3+3cixB2/fnIAj08hWLMqdbDXhRnA+pDo2Pb
-   qfYTkYuS+c5IDbJ5MkDNegE3CkKEII+3zQNNR200QehVFWFBOD90ifyuQ
-   Ebf7Q9yrO2Ryz2MOcTU9OzwyT2XRYKz9YHy/rX1QSLUvwjEPHP1F05lrh
-   BbpcojFWwb9CLuvnOFL1U0bc7JzxshfDwCHLFe/5vJE+Cb09P4Ge2CdFU
-   2tj+oqV8yNgveSyjc2UsLZMQ64axde+zKCk+czEo2oSI+QgkarAHviNku
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322506092"
+  t=1680593108; x=1712129108;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ei50hfIkF1zS77KBFmLmrLxFntJlZb9TrLMVJsx9vlI=;
+  b=ZN6BDtEog9GRFArHwGgq07/VmZehVnw9TS21+78ND+kQjXBKBjhD5+sj
+   uAgg2u4J8Ybyl9rAfaDi7tPWzeoltJ/pxc1lJ0i3v8KuZxqnpORGYay5Z
+   EnaTnxE1Z9vP/2Gg5gjYpuGa//cKl7WHwjaWM4Ew9moychm4PCMZsvAeH
+   63I/r7Qr6LLhQLbvRWNZytsD0eU/h0baeA8fAyAVR6YZtKpl1lzJLWi4d
+   WY8maHcWrc4DlDgoaRCJktSaqk3CkkYJvsnu0PJnc9xxwaED9Xd0/YFXH
+   kj8rfgDhaLNgY9pPB1K0QLZlP/5D+V0/T/e2ZDD0jVH6XhhHePk00GAtC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322506093"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="322506092"
+   d="scan'208";a="322506093"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 00:25:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="718822815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="718822808"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="718822815"
+   d="scan'208";a="718822808"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Apr 2023 00:25:00 -0700
+  by orsmga001.jf.intel.com with ESMTP; 04 Apr 2023 00:25:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjb2K-000PMR-0t;
+	id 1pjb2K-000PMT-0y;
 	Tue, 04 Apr 2023 07:25:00 +0000
-Date: Tue, 4 Apr 2023 15:24:16 +0800
+Date: Tue, 4 Apr 2023 15:24:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 02/10] drm/sched: Move schedule policy to scheduler /
- entity
-Message-ID: <202304041537.dcZw4xgl-lkp@intel.com>
-References: <20230404002211.3611376-3-matthew.brost@intel.com>
+Subject: [intel-tdx:guest-tpm-wip 7/7] drivers/char/tpm/tpm_tdx.c:432:9:
+ warning: ISO C90 forbids mixed declarations and code
+Message-ID: <202304041555.kHK7f6b1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,116 +45,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404002211.3611376-3-matthew.brost@intel.com>
 
-Hi Matthew,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-tip/drm-tip]
-[also build test ERROR on linus/master v6.3-rc5 next-20230403]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Convert-drm-scheduler-to-use-a-work-queue-rather-than-kthread/20230404-082438
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230404002211.3611376-3-matthew.brost%40intel.com
-patch subject: [RFC PATCH 02/10] drm/sched: Move schedule policy to scheduler / entity
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230404/202304041537.dcZw4xgl-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/tdx.git guest-tpm-wip
+head:   e2f91af6624fa658a8c4fea969584f50e46f0397
+commit: e2f91af6624fa658a8c4fea969584f50e46f0397 [7/7] [REVERTME] tpm/tdx: Add local test support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304041555.kHK7f6b1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/432d13aa8af1c693fa15eb5a442931332de31937
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthew-Brost/drm-sched-Convert-drm-scheduler-to-use-a-work-queue-rather-than-kthread/20230404-082438
-        git checkout 432d13aa8af1c693fa15eb5a442931332de31937
+        # https://github.com/intel/tdx/commit/e2f91af6624fa658a8c4fea969584f50e46f0397
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-tpm-wip
+        git checkout e2f91af6624fa658a8c4fea969584f50e46f0397
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/dma-buf/ drivers/gpu/drm/v3d/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/tpm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041537.dcZw4xgl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041555.kHK7f6b1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
->> drivers/gpu/drm/v3d/v3d_sched.c:403:30: error: 'ULL' undeclared (first use in this function)
-     403 |                              ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
-         |                              ^~~
-   drivers/gpu/drm/v3d/v3d_sched.c:403:30: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/char/tpm/tpm_tdx.c: In function 'tdx_tpm_recv':
+>> drivers/char/tpm/tpm_tdx.c:432:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     432 |         struct tpm_header *header = (struct tpm_header *)buf;
+         |         ^~~~~~
+   At top level:
+   drivers/char/tpm/tpm_tdx.c:820:32: warning: 'tdx_guest_ids' defined but not used [-Wunused-const-variable=]
+     820 | static const struct x86_cpu_id tdx_guest_ids[] = {
+         |                                ^~~~~~~~~~~~~
 
 
-vim +/ULL +403 drivers/gpu/drm/v3d/v3d_sched.c
+vim +432 drivers/char/tpm/tpm_tdx.c
 
-   381	
-   382	int
-   383	v3d_sched_init(struct v3d_dev *v3d)
-   384	{
-   385		int hw_jobs_limit = 1;
-   386		int job_hang_limit = 0;
-   387		int hang_limit_ms = 500;
-   388		int ret;
    389	
-   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
-   391				     &v3d_bin_sched_ops, NULL,
-   392				     hw_jobs_limit, job_hang_limit,
-   393				     msecs_to_jiffies(hang_limit_ms), NULL,
-   394				     NULL, "v3d_bin", DRM_SCHED_POLICY_DEFAULT,
-   395				     v3d->drm.dev);
-   396		if (ret)
-   397			return ret;
-   398	
-   399		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
-   400				     &v3d_render_sched_ops, NULL,
-   401				     hw_jobs_limit, job_hang_limit,
-   402				     msecs_to_jiffies(hang_limit_ms), NULL,
- > 403				     ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
-   404				     v3d->drm.dev);
-   405		if (ret)
-   406			goto fail;
-   407	
-   408		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
-   409				     &v3d_tfu_sched_ops, NULL,
-   410				     hw_jobs_limit, job_hang_limit,
-   411				     msecs_to_jiffies(hang_limit_ms), NULL,
-   412				     NULL, "v3d_tfu", DRM_SCHED_POLICY_DEFAULT,
-   413				     v3d->drm.dev);
-   414		if (ret)
-   415			goto fail;
-   416	
-   417		if (v3d_has_csd(v3d)) {
-   418			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
-   419					     &v3d_csd_sched_ops, NULL,
-   420					     hw_jobs_limit, job_hang_limit,
-   421					     msecs_to_jiffies(hang_limit_ms), NULL,
-   422					     NULL, "v3d_csd", DRM_SCHED_POLICY_DEFAULT,
-   423					     v3d->drm.dev);
-   424			if (ret)
-   425				goto fail;
-   426	
-   427			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
-   428					     &v3d_cache_clean_sched_ops, NULL,
-   429					     hw_jobs_limit, job_hang_limit,
-   430					     msecs_to_jiffies(hang_limit_ms), NULL,
-   431					     NULL, "v3d_cache_clean",
-   432					     DRM_SCHED_POLICY_DEFAULT, v3d->drm.dev);
-   433			if (ret)
-   434				goto fail;
-   435		}
-   436	
-   437		return 0;
-   438	
-   439	fail:
-   440		v3d_sched_fini(v3d);
-   441		return ret;
-   442	}
-   443	
+   390	static int tdx_tpm_recv(struct tpm_chip *chip, u8 *buf, size_t len)
+   391	{
+   392		struct tdx_tpm_dev *tdev = dev_get_drvdata(&chip->dev);
+   393		struct tdx_tpm_msg_req *req = tdev->recv_req;
+   394		struct tdx_tpm_msg_resp *resp = tdev->recv_resp;
+   395		struct tdx_tpm_crypto *crypto = &tdev->session.recv_crypto;
+   396		struct tdx_tpm_recv_data *app_data;
+   397		u8 *enc_data = (u8 *)&resp->app_data;
+   398		u8 *aad = (u8 *)&resp->aad;
+   399		u32 data_len;
+   400		int ret;
+   401	
+   402		dev_dbg(tdev->dev, "%s:%d enter\n", __func__, __LINE__);
+   403	
+   404		if (len > tdev->msg_len - sizeof(*req))
+   405			return -EINVAL;
+   406	
+   407		memset(req, 0, tdev->msg_len);
+   408		memset(resp, 0, tdev->msg_len);
+   409	
+   410		/* Initialize TDVMCALL header */
+   411		memcpy(req->guid, &tpm_guid, sizeof(tpm_guid));
+   412		req->buf_len = sizeof(*req) - MSG_REQ_SIZE_FROM(rsvd2);
+   413		req->service_ver = 0;
+   414		req->service_cmd = TDVMCALL_TPM_RECV_MSG;
+   415	
+   416		/* Initialize resp buf */
+   417		memcpy(resp->guid, &tpm_guid, sizeof(tpm_guid));
+   418		resp->buf_len = tdev->msg_len;
+   419		resp->service_ver = 0;
+   420		resp->service_cmd = TDVMCALL_TPM_RECV_MSG;
+   421		resp->service_cmd_status = 0;
+   422		resp->tdvmcall_status = 0;
+   423	
+   424	#ifndef SELF_TEST
+   425		ret = tdx_hcall_service((u8 *)req, (u8 *)resp,
+   426					 TDVMCALL_TPM_CMD_TIMEOUT);
+   427		if (ret) {
+   428			dev_err(tdev->dev, "Send msg TDVMCALL failed");
+   429			return ret;
+   430		}
+   431	#else
+ > 432		struct tpm_header *header = (struct tpm_header *)buf;
+   433		return be32_to_cpu(header->length);
+   434	#endif
+   435	
+   436		if (resp->tdvmcall_status || resp->service_cmd_status) {
+   437			dev_err(tdev->dev, "TDVMCALL status:%x Cmd buf status:%x\n",
+   438				resp->tdvmcall_status, resp->service_cmd_status);
+   439			return -EIO;
+   440		}
+   441	
+   442		memset(crypto->new_iv, 0, crypto->iv_len);
+   443		memset(crypto->new_iv, crypto->seq_no, sizeof(crypto->seq_no));
+   444		bitwise_xor(crypto->init_iv, crypto->new_iv, crypto->new_iv,
+   445			    crypto->iv_len);
+   446		data_len = resp->dlen + crypto->atag_len;
+   447	
 
 -- 
 0-DAY CI Kernel Test Service
