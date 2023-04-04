@@ -1,43 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33D6648
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 04:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FF3648
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 05:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680584293; x=1712120293;
+  t=1680584890; x=1712120890;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gYaPq0XDNja7Mbj6D/dkzEKJhUaad1UVnFibHQ0xd1k=;
-  b=SmvdX95ZnSffNCqpT+lD6Qy9o9qH8VLSAACiUIWuJa+ylnfqoNFoQ+sg
-   Kc6BRztWzHxgIi4RqowgAznt02pqF9aithDHfSj+e5l2eCJbJ3T7l5C7E
-   K9lmdzOs+ZfaOHchQ2u3XGo32tJSNNk2Qk+jWQvkq6RAO/2QF1QJ8Y74b
-   tsreE4oEOHGMKwULwMGUDxHpda8HY6JJfLJS//KUvIW/HlZWn2Bm+pT/f
-   d2XEF+BZPnzAhLLHnfvl6tCvOIk0R1FsR+OSPTQq36mOresBIOykisGC2
-   kF8CSYRTWeqYcx0joC2g28IYfI7UOEGH8g7EfH7YxQD4MksKLz0Qra3+M
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407148664"
+  bh=71AYZLS/StnRSkvNLO6Sh4jfOB9PpM5d3B2nSqPUxgg=;
+  b=b361rNAxmHvWTTASlMqgQbnkCA+1fxn+EIWip5l274eClJ18LAn4SUPo
+   gfzULdxz13J4rLvgLl8JSb7KObdD2MJxA0eNitEoq5U24KHwRh5Jf7b2G
+   sO/7hFSwt2yV+6lfBnM9ctWxLf3nM45hMr2kd829JuRKRFqDe25txJPWr
+   R/RETmBNRN6b9RljtMLGR1DHxjaugujgOZpU+jsUWhS782hiNQxn5wAXv
+   d27ngorPjf0DzdTbJ+Yz4NQfO5APqxBtdt008KFWc2OA2I1Ihm7Z2g+Ao
+   8ihzMSBUv7rjtNMmtt93bKUgFSleru0JAcnvg3qzCvhHUy9uxGPF/6nXL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="339577580"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="407148664"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 21:58:07 -0700
+   d="scan'208";a="339577580"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:08:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="688752631"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="679755114"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="688752631"
+   d="scan'208";a="679755114"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2023 21:58:05 -0700
+  by orsmga007.jf.intel.com with ESMTP; 03 Apr 2023 22:08:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjYk8-000PCs-0r;
-	Tue, 04 Apr 2023 04:58:04 +0000
-Date: Tue, 4 Apr 2023 12:57:13 +0800
+	id 1pjYto-000PDK-2D;
+	Tue, 04 Apr 2023 05:08:04 +0000
+Date: Tue, 4 Apr 2023 13:08:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hao Luo <haoluo@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:54:1: warning:
- no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1'
-Message-ID: <202304041254.hj58GxCB-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:regmap-maple-walk-find 10/12]
+ drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index' is used
+ uninitialized
+Message-ID: <202304041252.XM8BGUXI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,99 +47,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: 50c6b8a9aea2b8dc6c4ffb0cc502b94f7f57a0dc selftests/bpf: Add a test for btf_type_tag "percpu"
-date:   1 year, 1 month ago
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=50c6b8a9aea2b8dc6c4ffb0cc502b94f7f57a0dc
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 50c6b8a9aea2b8dc6c4ffb0cc502b94f7f57a0dc
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regmap-maple-walk-find
+head:   d60818865b0e667d65342d7aa35d0d63163f7f09
+commit: f033c26de5a5734625d2dd1dc196745fae186f1b [10/12] regmap: Add maple tree based register cache
+config: arc-randconfig-r002-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041252.XM8BGUXI-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=f033c26de5a5734625d2dd1dc196745fae186f1b
+        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
+        git fetch --no-tags broonie-ci regmap-maple-walk-find
+        git checkout f033c26de5a5734625d2dd1dc196745fae186f1b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/base/regmap/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041254.hj58GxCB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041252.XM8BGUXI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:23:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
-      23 | bpf_testmod_test_mod_kfunc(int i)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:41:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
-      41 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:49:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
-      49 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:54:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
-      54 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:59:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
-      59 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
-      63 | noinline int bpf_testmod_loop_test(int n)
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:75:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
-      75 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
-         |                              ^~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:92:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
-      92 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
-         | ^~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:128:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
-     128 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.o: warning: objtool: bpf_testmod_return_ptr()+0x15: unreachable instruction
+   drivers/base/regmap/regcache-maple.c: In function 'regcache_maple_drop':
+   drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                       ^~~~~~~~~~~
+   drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                                    ^~~~~~~~~~
+>> drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                       ^~~~~~~~~~~
+>> drivers/base/regmap/regcache-maple.c:114:36: warning: 'upper_last' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                                    ^~~~~~~~~~
 
 
-vim +/bpf_testmod_test_btf_type_tag_percpu_1 +54 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
+vim +/upper_index +114 drivers/base/regmap/regcache-maple.c
 
-    21	
-    22	noinline void
-  > 23	bpf_testmod_test_mod_kfunc(int i)
-    24	{
-    25		*(int *)this_cpu_ptr(&bpf_testmod_ksym_percpu) = i;
-    26	}
-    27	
-    28	struct bpf_testmod_btf_type_tag_1 {
-    29		int a;
-    30	};
-    31	
-    32	struct bpf_testmod_btf_type_tag_2 {
-    33		struct bpf_testmod_btf_type_tag_1 __user *p;
-    34	};
-    35	
-    36	struct bpf_testmod_btf_type_tag_3 {
-    37		struct bpf_testmod_btf_type_tag_1 __percpu *p;
-    38	};
-    39	
-    40	noinline int
-  > 41	bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
-    42		BTF_TYPE_EMIT(func_proto_typedef);
-    43		BTF_TYPE_EMIT(func_proto_typedef_nested1);
-    44		BTF_TYPE_EMIT(func_proto_typedef_nested2);
-    45		return arg->a;
-    46	}
-    47	
-    48	noinline int
-    49	bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
-    50		return arg->p->a;
-    51	}
-    52	
-    53	noinline int
-  > 54	bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
-    55		return arg->a;
-    56	}
-    57	
-    58	noinline int
-  > 59	bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
-    60		return arg->p->a;
-    61	}
-    62	
+   106	
+   107	static int regcache_maple_drop(struct regmap *map, unsigned int min,
+   108				       unsigned int max)
+   109	{
+   110		struct maple_tree *mt = map->cache;
+   111		MA_STATE(mas, mt, min, max);
+   112		unsigned long *entry, *lower, *upper;
+   113		unsigned long lower_index, lower_last;
+ > 114		unsigned long upper_index, upper_last;
+   115		int ret;
+   116	
+   117		lower = NULL;
+   118		upper = NULL;
+   119	
+   120		mas_lock(&mas);
+   121	
+   122		mas_for_each(&mas, entry, max) {
+   123			/*
+   124			 * This is safe because the regmap lock means the
+   125			 * Maple lock is redundant, but we need to take it due
+   126			 * to lockdep asserts in the maple tree code.
+   127			 */
+   128			mas_unlock(&mas);
+   129	
+   130			/* Do we need to save any of this entry? */
+   131			if (mas.index < min) {
+   132				lower_index = mas.index;
+   133				lower_last = min -1;
+   134	
+   135				lower = kmemdup(entry, ((min - mas.index) *
+   136							sizeof(unsigned long)),
+   137						GFP_KERNEL);
+   138				if (!lower) {
+   139					ret = -ENOMEM;
+   140					goto out;
+   141				}
+   142			}
+   143	
+   144			if (mas.last > max) {
+   145				upper_index = max + 1;
+   146				upper_last = mas.last;
+   147	
+   148				upper = kmemdup(&entry[max + 1],
+   149						((mas.last - max) *
+   150						 sizeof(unsigned long)),
+   151						GFP_KERNEL);
+   152				if (!upper) {
+   153					ret = -ENOMEM;
+   154					goto out;
+   155				}
+   156			}
+   157	
+   158			kfree(entry);
+   159			mas_lock(&mas);
+   160			mas_erase(&mas);
+   161	
+   162			/* Insert new nodes with the saved data */
+   163			if (lower) {
+   164				mas_set_range(&mas, lower_index, lower_last);
+   165				ret = mas_store_gfp(&mas, lower, GFP_KERNEL);
+   166				if (ret != 0)
+   167					goto out;
+   168				lower = NULL;
+   169			}
+   170	
+   171			if (upper) {
+   172				mas_set_range(&mas, upper_index, upper_last);
+   173				ret = mas_store_gfp(&mas, upper, GFP_KERNEL);
+   174				if (ret != 0)
+   175					goto out;
+   176				upper = NULL;
+   177			}
+   178		}
+   179	
+   180	out:
+   181		mas_unlock(&mas);
+   182		kfree(lower);
+   183		kfree(upper);
+   184	
+   185		return ret;
+   186	}
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
