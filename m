@@ -1,45 +1,52 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8DE648
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 04:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680582427; x=1712118427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lj5XWWDTc4taxfcqzqpVs4yKUk2XcTdv2lZpVWLffVI=;
-  b=RH6mIABbcf23ZflA82efckkB0hFcnZtJxAbhzRS1HaRQhC4Dlh9KpjQ3
-   fh2FklWfo4UJfChOaJhneder5ohvEX7JRNLBp91egu1uaqmYrDuPJLkSy
-   sdg5LMJTWv+95SF3Kml+oTeVyjDf6hK2aVzo1I+L15UQIJeVfWrN/0yay
-   SfOKTrUbujUEMy/hmq5pEpVKh4aKIUtfE49+h3jbbh9D+56d5aY06i195
-   Pq8uvC910ddxALFhqEZgcK+qvy1dzF+WZh7UXsJBroXV5QfCuBJbEp1DG
-   5SVvJaKIBdt0B5gfjbZ0qmV9qB9yEY1LzJv1gYEy0IvFNbOgkGWyXjc46
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="343785812"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="343785812"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 21:27:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="797368710"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="797368710"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2023 21:27:02 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjYG5-000PBC-1V;
-	Tue, 04 Apr 2023 04:27:01 +0000
-Date: Tue, 4 Apr 2023 12:26:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: cem@kernel.org, hughd@google.com
-Cc: oe-kbuild-all@lists.linux.dev, jack@suse.cz, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH 2/6] shmem: make shmem_get_inode() return ERR_PTR instead
- of NULL
-Message-ID: <202304041204.sEsaejmQ-lkp@intel.com>
-References: <20230403084759.884681-3-cem@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902AF378;
+	Tue,  4 Apr 2023 04:43:28 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id d17so31380877wrb.11;
+        Mon, 03 Apr 2023 21:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680583407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=re1Fu8h5d1FznhMWA0wx8m1E7VkYUirHBcrTkZUXBn4=;
+        b=aFl5ale2Po7yRZwpQCJr4wm8b4sumIJdBUe9QaGLOXqQK7GpKr4kM+Jz5Ld9wUFwzX
+         uD+gzKhCZNGNEv+H3goIM5rNGaGySlv7V+fYbp9+jUDxRfKlPLLWOi9cYV5ETlHPNPTJ
+         /fbFqjwWoxpzusR/7jZiV6ZstXe95DEEgTxhsQkmNZKguD8kn8cfniwryChugrCtW7Ih
+         cqrLaLvxunbiQFv4o1Exz0VFF1QyBETQF5sqPPmgH6lsMJF5DaaQ1Rd8ggZx65qwcSfg
+         s3xdcs6JK2CqAAOzu0jlpbKPQSz3e+V1MR5Fu790iiOkqUSslVGJT47bDzMlBMs4WZk1
+         aG+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680583407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=re1Fu8h5d1FznhMWA0wx8m1E7VkYUirHBcrTkZUXBn4=;
+        b=GNvtNj9+f6I7LBtuk0OJO2PVnidWKVZq2s0yUyVGhSKlmZGDmzYyoQ7qjVkAqKGam8
+         iC8I+qJ3Ba1TcMQ/lkm8zp6SDw9MtFmxi3LyUdymghTvgqcYg/LR09dYMZW1NFX2yVAX
+         kFdeYbZuwANNisy1rCOLLNXW0EBHcJADNw3Ts+E+z23GjyU/ps/7aJ8QUw5v0DBpmzxb
+         OC+zQAn93qtu/zyVaxnUZiFMHhDEiXjscWxDwgu9OgL7VKdKOS6Oogdkspo8avIlp9zm
+         ltDy2bAGAwti7Y+yzAkk7o64ArJ41mpF4n0LOH5yLt2fgSCKzJfMpKRjkShlJf/PN3Q9
+         b4sA==
+X-Gm-Message-State: AAQBX9cQSJcqeys/fnkgGuJk1RjNoFRLAXbB9GED2bVbvk+3NopbZnb4
+	3rTUANpW6KVCDaaaaG1FkvU=
+X-Google-Smtp-Source: AKy350bHTT9KWJOCSg3+xUE5GosQdVj9kozohOfUkVQQDkUsTng0zo8Fbkt81mlMDWtdpJCHWXogfA==
+X-Received: by 2002:adf:dc8d:0:b0:2d0:7545:a544 with SMTP id r13-20020adfdc8d000000b002d07545a544mr544878wrj.7.1680583406439;
+        Mon, 03 Apr 2023 21:43:26 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o5-20020adfcf05000000b002c592535839sm11235431wrj.17.2023.04.03.21.43.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Apr 2023 21:43:25 -0700 (PDT)
+Date: Tue, 4 Apr 2023 07:43:22 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
+ rcu_do_batch() error: uninitialized symbol 'jlimit'.
+Message-ID: <e7650b46-851f-4341-a43f-33efe47fc65d@kili.mountain>
+References: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
+ <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,134 +55,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403084759.884681-3-cem@kernel.org>
+In-Reply-To: <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
 
-Hi,
+On Mon, Apr 03, 2023 at 09:18:58PM -0700, Paul E. McKenney wrote:
+> On Tue, Apr 04, 2023 at 07:04:06AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
+> > head:   e222f9a512539c3f4093a55d16624d9da614800b
+> > commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
+> > config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
+> > compiler: or1k-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202304041113.A5sNFc2y-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
+> > 
+> > vim +/jlimit +2149 kernel/rcu/tree.c
+> > 
+> > 5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
+> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
+> > b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
+> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
+> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
+> > 4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
+> > 5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
+> > 29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
+> > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
+> > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
+> > 8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
+> > 253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
+> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
+> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
+> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
+> > 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
+> >                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > jlimit is only initialized if one of these conditions is met.
+> > 
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
+> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
+> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
+> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
+> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
+> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
+> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
+> > 344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
+> > 7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
+> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
+> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
+> > 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
+> > 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
+> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
+> > 6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
+> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
+> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
+> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
+> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
+> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
+> >                                                                                                                                                          ^^^^^^
+> > Uninitialized?
+> 
+> Except that in rcu_do_batch_check_time(), jlimit is referenced only if
+> jlimit_check is set, which it is only if jlimit is initialized.
+> 
+> I suppose that I could unconditionally initialize jlimit to (say) zero
+> to shut this up, but is there a better way to communicate the intent
+> to the tooling?
+> 
+> Or am I confused and there is a real use of the uninitialized value?
+> 
+> 							Thanx, Paul
 
-kernel test robot noticed the following build errors:
+I'm going to guess that on distro kernels they're going to automatically
+initialize stack variables to zero.  So it's not a bad option.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc5]
-[cannot apply to akpm-mm/mm-everything next-20230403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The other thing is that rcu_do_batch_check_time() is always going to be
+inlined.  So this is officially a false positive.  If it weren't inlined
+then passing uninitialized data is a bug regardless of whether or not
+it's used.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
-patch link:    https://lore.kernel.org/r/20230403084759.884681-3-cem%40kernel.org
-patch subject: [PATCH 2/6] shmem: make shmem_get_inode() return ERR_PTR instead of NULL
-config: arm-randconfig-r033-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041204.sEsaejmQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/98aa926ee22a768f6a2dc8b0b897d018fc47497e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review cem-kernel-org/shmem-make-shmem_inode_acct_block-return-error/20230403-165022
-        git checkout 98aa926ee22a768f6a2dc8b0b897d018fc47497e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+It's also totally okay to just ignore this false positive.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041204.sEsaejmQ-lkp@intel.com/
+regards,
+dan carpenter
 
-All error/warnings (new ones prefixed by >>):
-
-   mm/shmem.c: In function '__shmem_file_setup':
->> mm/shmem.c:4260:33: error: passing argument 1 of 'shmem_get_inode' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4260 |         inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-         |                                 ^~~~~~~~~~~~~~
-         |                                 |
-         |                                 struct mnt_idmap *
-   mm/shmem.c:4231:65: note: expected 'struct super_block *' but argument is of type 'struct mnt_idmap *'
-    4231 | static inline struct inode *shmem_get_inode(struct super_block *sb, struct inode *dir,
-         |                                             ~~~~~~~~~~~~~~~~~~~~^~
-   mm/shmem.c:4260:52: error: passing argument 2 of 'shmem_get_inode' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4260 |         inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-         |                                                 ~~~^~~~~~~~
-         |                                                    |
-         |                                                    struct super_block *
-   mm/shmem.c:4231:83: note: expected 'struct inode *' but argument is of type 'struct super_block *'
-    4231 | static inline struct inode *shmem_get_inode(struct super_block *sb, struct inode *dir,
-         |                                                                     ~~~~~~~~~~~~~~^~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:247,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from mm/shmem.c:24:
->> include/linux/stddef.h:8:14: warning: passing argument 3 of 'shmem_get_inode' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   mm/shmem.c:4260:62: note: in expansion of macro 'NULL'
-    4260 |         inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-         |                                                              ^~~~
-   mm/shmem.c:4232:53: note: expected 'umode_t' {aka 'short unsigned int'} but argument is of type 'void *'
-    4232 |                                             umode_t mode, dev_t dev, unsigned long flags)
-         |                                             ~~~~~~~~^~~~
->> mm/shmem.c:4260:17: error: too many arguments to function 'shmem_get_inode'
-    4260 |         inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-         |                 ^~~~~~~~~~~~~~~
-   mm/shmem.c:4231:29: note: declared here
-    4231 | static inline struct inode *shmem_get_inode(struct super_block *sb, struct inode *dir,
-         |                             ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/shmem_get_inode +4260 mm/shmem.c
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4241  
-703321b60b605b Matthew Auld      2017-10-06  4242  static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name, loff_t size,
-c7277090927a5e Eric Paris        2013-12-02  4243  				       unsigned long flags, unsigned int i_flags)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4244  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4245  	struct inode *inode;
-93dec2da7b2349 Al Viro           2018-07-08  4246  	struct file *res;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4247  
-703321b60b605b Matthew Auld      2017-10-06  4248  	if (IS_ERR(mnt))
-703321b60b605b Matthew Auld      2017-10-06  4249  		return ERR_CAST(mnt);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4250  
-285b2c4fdd69ea Hugh Dickins      2011-08-03  4251  	if (size < 0 || size > MAX_LFS_FILESIZE)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4252  		return ERR_PTR(-EINVAL);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4253  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4254  	if (shmem_acct_size(flags, size))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4255  		return ERR_PTR(-ENOMEM);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4256  
-7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4257  	if (is_idmapped_mnt(mnt))
-7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4258  		return ERR_PTR(-EINVAL);
-7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4259  
-7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20 @4260  	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-7a80e5b8c6fa7d Giuseppe Scrivano 2023-01-20  4261  				S_IFREG | S_IRWXUGO, 0, flags);
-98aa926ee22a76 Lukas Czerner     2023-04-03  4262  
-98aa926ee22a76 Lukas Czerner     2023-04-03  4263  	if (IS_ERR(inode)) {
-dac2d1f6cbfe3f Al Viro           2018-06-09  4264  		shmem_unacct_size(flags, size);
-98aa926ee22a76 Lukas Czerner     2023-04-03  4265  		return ERR_CAST(inode);
-dac2d1f6cbfe3f Al Viro           2018-06-09  4266  	}
-c7277090927a5e Eric Paris        2013-12-02  4267  	inode->i_flags |= i_flags;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4268  	inode->i_size = size;
-6d6b77f163c7ea Miklos Szeredi    2011-10-28  4269  	clear_nlink(inode);	/* It is unlinked */
-26567cdbbf1a6b Al Viro           2013-03-01  4270  	res = ERR_PTR(ramfs_nommu_expand_for_mapping(inode, size));
-93dec2da7b2349 Al Viro           2018-07-08  4271  	if (!IS_ERR(res))
-93dec2da7b2349 Al Viro           2018-07-08  4272  		res = alloc_file_pseudo(inode, mnt, name, O_RDWR,
-4b42af81f0d7f9 Al Viro           2009-08-05  4273  				&shmem_file_operations);
-6b4d0b2793337c Al Viro           2013-02-14  4274  	if (IS_ERR(res))
-93dec2da7b2349 Al Viro           2018-07-08  4275  		iput(inode);
-6b4d0b2793337c Al Viro           2013-02-14  4276  	return res;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  4277  }
-c7277090927a5e Eric Paris        2013-12-02  4278  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
