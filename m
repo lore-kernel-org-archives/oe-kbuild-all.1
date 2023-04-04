@@ -1,42 +1,46 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF71AD2F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 20:51:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB09BD2F2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 21:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680641507; x=1712177507;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=sN0sU+Z3KFvHPELOIkUyvxC/trytnuZU6N+uD76iUao=;
-  b=kCbfvFaIccIpzLTbPISaj8661BPvgLqu1Il1py0fPxVz/heSJZT56Mdx
-   VYLtpK+68CiQvccadZ2NDKSx2Tw+aYJGL1Jc20wTaFPk4meCX6ii8KGym
-   0Eo5x0cYsQQMQyV32UpIPXUF1pQk+tF3Y4WERLp/2pGffv2jdP8Ibph5X
-   q5UD40tl+lrUkOrKwXhBJWGNZYrVgbyEjlrUAUYah1aZwbZpgnu6cxj4m
-   +c0RQDO9KiUQdt2e2uH6xI7E84sPc2ClMf3jx5z52jrfA/LaU9hZPMZYv
-   Ymv1XfVdaSWXzWCdbegEBGmxaa8yPOsqi/bMvQP34geX51lIhQ8wPi4bC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344015821"
+  t=1680644090; x=1712180090;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xBfbthT2O10RSrWaI0F8gAgs3W23HLStErGIZY9eyXE=;
+  b=j3KTY9dc9xTOEt6rZDjVcniT0GxsJtiDCWce/bprs4cklyKVU5qdnpD7
+   FeT//E16eqRMJ8KixJUqu85/y//tEhymP3Jn8SGBrmaRlsiYzZaDqHPwl
+   AmuxTwuhZnBdCUEqHiFuK9sll5IHWooEgkiAlBRBObMV8KQJ/UU4c3mEc
+   CxfgYLjPazTExtB9FNhFASFNKEwuXd06wwai8OEEw9EmHvKMiTQjYC+GY
+   NUe6sAOspvTR5j4YTO3QdTMq5SEFwEnvSN5qV5Om3CQMbPr8dcdvScgYU
+   PdgANtEs9uXhBajYd8sS2IrMT5z3xVC6nm7WyfNri3l8lki8XXVlkziTj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="405083749"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="344015821"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 13:51:47 -0700
+   d="scan'208";a="405083749"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 14:34:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="775795214"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="797662666"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="775795214"
+   d="scan'208";a="797662666"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Apr 2023 13:51:46 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2023 14:34:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjnd3-000Q24-1U;
-	Tue, 04 Apr 2023 20:51:45 +0000
-Date: Wed, 5 Apr 2023 04:51:43 +0800
+	id 1pjoIg-000Q3a-1x;
+	Tue, 04 Apr 2023 21:34:46 +0000
+Date: Wed, 5 Apr 2023 05:34:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaun Tancheff <shaun.tancheff@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] memcg-v1: Enable setting memory min, low, high
-Message-ID: <ZCyN3x8n3vZNXUYh@ec83ac1404bb>
+To: Thiago Becker <tbecker@redhat.com>, sfrench@samba.org,
+	linux-cifs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pc@cjr.nz, lsahlber@redhat.com,
+	sprasad@microsoft.com, tom@talpey.com, trbecker@gmail.com,
+	samba-technical@lists.samba.org, Thiago Becker <tbecker@redhat.com>
+Subject: Re: [PATCH] cifs: sanitize paths in cifs_update_super_prepath.
+Message-ID: <202304050514.TB9sze0P-lkp@intel.com>
+References: <20230404185908.993738-1-tbecker@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +49,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404205013.31520-1-shaun.tancheff@gmail.com>
+In-Reply-To: <20230404185908.993738-1-tbecker@redhat.com>
 
-Hi,
+Hi Thiago,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on cifs/for-next]
+[also build test WARNING on linus/master v6.3-rc5 next-20230404]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH] memcg-v1: Enable setting memory min, low, high
-Link: https://lore.kernel.org/stable/20230404205013.31520-1-shaun.tancheff%40gmail.com
+url:    https://github.com/intel-lab-lkp/linux/commits/Thiago-Becker/cifs-sanitize-paths-in-cifs_update_super_prepath/20230405-030114
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20230404185908.993738-1-tbecker%40redhat.com
+patch subject: [PATCH] cifs: sanitize paths in cifs_update_super_prepath.
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230405/202304050514.TB9sze0P-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4d179c3f90c01aab96bf6a02f70cc111da39d61c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thiago-Becker/cifs-sanitize-paths-in-cifs_update_super_prepath/20230405-030114
+        git checkout 4d179c3f90c01aab96bf6a02f70cc111da39d61c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash fs/
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304050514.TB9sze0P-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/cifs/fs_context.c:448:7: warning: no previous prototype for 'sanitize_path' [-Wmissing-prototypes]
+     448 | char *sanitize_path(char *path, gfp_t gfp)
+         |       ^~~~~~~~~~~~~
+
+
+vim +/sanitize_path +448 fs/cifs/fs_context.c
+
+   438	
+   439	/*
+   440	 * Remove duplicate path delimiters. Windows is supposed to do that
+   441	 * but there are some bugs that prevent rename from working if there are
+   442	 * multiple delimiters.
+   443	 *
+   444	 * Returns a sanitized duplicate of @path. The caller is responsible for
+   445	 * cleaning up the original.
+   446	 */
+   447	#define IS_DELIM(c) ((c) == '/' || (c) == '\\')
+ > 448	char *sanitize_path(char *path, gfp_t gfp)
+   449	{
+   450		char *cursor1 = path, *cursor2 = path;
+   451	
+   452		/* skip all prepended delimiters */
+   453		while (IS_DELIM(*cursor1))
+   454			cursor1++;
+   455	
+   456		/* copy the first letter */
+   457		*cursor2 = *cursor1;
+   458	
+   459		/* copy the remainder... */
+   460		while (*(cursor1++)) {
+   461			/* ... skipping all duplicated delimiters */
+   462			if (IS_DELIM(*cursor1) && IS_DELIM(*cursor2))
+   463				continue;
+   464			*(++cursor2) = *cursor1;
+   465		}
+   466	
+   467		/* if the last character is a delimiter, skip it */
+   468		if (IS_DELIM(*(cursor2 - 1)))
+   469			cursor2--;
+   470	
+   471		*(cursor2) = '\0';
+   472		return kstrdup(path, gfp);
+   473	}
+   474	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
