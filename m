@@ -1,49 +1,46 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6579A7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 01:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0107B7E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 01:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680571194; x=1712107194;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kYfHwpabs/xCsxDXmJ9TPb9haAfcSLMo5zs7MtvWs0E=;
-  b=XUhwN1LoIZGvibPlPBWfI5MyLELH0MhPuJ9tl76QeXehvqOk+ZhrMHga
-   v/VvXvW3QsRt4+pS9qdJI6OLQCX93JYpDXUHNWm3oy71fQp1/3g11o0kl
-   OaL7ZjZEWk4Je/qDVxEnOtHjD13cW++XitSjOsoBMkjXN8jLnGjZf1xNd
-   6w1Kd5ehp6SeVyhB71WBBz+K3/sYAzqfd1cYn6eanmXuQ4D5ejSy493Id
-   rNCsXX1CYSampSfc6Y25eiIpNq5lkphvTfObaz5qAaHydEH5QwP4klZme
-   YwsRPCpfPNfIY2PnewYaPvJ1H59OXJIfnZVy/PZGkOs0C04VHkrv9pmdQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340791547"
+  t=1680572994; x=1712108994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gN+KKoPKHIZ18Kz3GcxyRGQuAOc/wMIGMeJHrc6u2Fc=;
+  b=Jm3pVbfjh3Ll6Wfb9Ly9NooJ+Tte8DD8/jnyRrlyvtKeReWXbvuD202s
+   8qTxhTSEIOhbtuT82gVHaIu4xZL4XvMn0oZKuSVY5JiTjavsRW5pRYJZi
+   GQdlS1J+KUy6FVu+A2wDsSldPHhfdL9AKk3kXPi9+vn+qKTNkQ16nducD
+   Jgl84rj1ma4z2Rg6YI7t3VvRPbugRGz8VdTq62DY41IIGTw6GlRcsElGQ
+   mfJz3QiwH+HX9mA5qw9SCSG8vSdLcPAUvAj6jaFml/uO2c9F7cgYdBFq+
+   Y/6Xq/qE1zlpx/z3q5dHt9u4xwgbKVZFMrQn2p05Xi6p2Q9RyOzRCmzmM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326081488"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="340791547"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 18:19:53 -0700
+   d="scan'208";a="326081488"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 18:49:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="775442802"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686181689"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="775442802"
+   d="scan'208";a="686181689"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2023 18:19:51 -0700
+  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 18:49:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjVKw-000Ozq-1P;
-	Tue, 04 Apr 2023 01:19:50 +0000
-Date: Tue, 4 Apr 2023 09:18:58 +0800
+	id 1pjVnz-000P1G-2c;
+	Tue, 04 Apr 2023 01:49:51 +0000
+Date: Tue, 4 Apr 2023 09:49:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Daniel Santos <daniel.santos@pobox.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [linux-stable-rc:linux-5.4.y 4610/22976]
- include/linux/compiler.h:350:45: error: call to '__compiletime_assert_253'
- declared with attribute error: FIELD_GET: mask is not constant
-Message-ID: <202304040908.quRhblEI-lkp@intel.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>,
+	linux-integrity@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
+	keyrings@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v4 08/13] tpm: Add full HMAC and encrypt/decrypt session
+ handling code
+Message-ID: <202304040920.8D4b7ebX-lkp@intel.com>
+References: <20230403214003.32093-9-James.Bottomley@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,108 +49,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403214003.32093-9-James.Bottomley@HansenPartnership.com>
 
-Hi Vegard,
+Hi James,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-head:   73330daa339307fbff4ff7f1775da1dead794691
-commit: 3910babeac1ab031f4e178042cbd1af9a9a0ec51 [4610/22976] compiler.h: fix error in BUILD_BUG_ON() reporting
-config: i386-randconfig-r015-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040908.quRhblEI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.3-rc5 next-20230403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230404-055053
+patch link:    https://lore.kernel.org/r/20230403214003.32093-9-James.Bottomley%40HansenPartnership.com
+patch subject: [PATCH v4 08/13] tpm: Add full HMAC and encrypt/decrypt session handling code
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304040920.8D4b7ebX-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=3910babeac1ab031f4e178042cbd1af9a9a0ec51
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc linux-5.4.y
-        git checkout 3910babeac1ab031f4e178042cbd1af9a9a0ec51
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/2fbef78e6bdb1d5385ac75a5a5e750fed42e53e2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review James-Bottomley/crypto-lib-implement-library-version-of-AES-in-CFB-mode/20230404-055053
+        git checkout 2fbef78e6bdb1d5385ac75a5a5e750fed42e53e2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/mediatek/mt76/mt7615/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/char/tpm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040908.quRhblEI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040920.8D4b7ebX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/export.h:42,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:8,
-                    from include/linux/skbuff.h:13,
-                    from include/linux/if_ether.h:19,
-                    from include/linux/etherdevice.h:20,
-                    from drivers/net/wireless/mediatek/mt76/mt7615/mac.c:10:
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c: In function 'to_rssi':
->> include/linux/compiler.h:350:45: error: call to '__compiletime_assert_253' declared with attribute error: FIELD_GET: mask is not constant
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
-     331 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:46:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      46 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
-      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
-      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
-         |                 ^~~~~~~~~
-   include/linux/compiler.h:350:45: error: call to '__compiletime_assert_257' declared with attribute error: BUILD_BUG_ON failed: (((field) + (1ULL << (__builtin_ffsll(field) - 1))) & (((field) + (1ULL << (__builtin_ffsll(field) - 1))) - 1)) != 0
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
-     331 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
-      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
-         |         ^~~~~~~~~~~~
-   include/linux/bitfield.h:54:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
-      54 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
-      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
-      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
-         |                 ^~~~~~~~~
+>> drivers/char/tpm/tpm2-sessions.c:337: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * tpm_buf_append_hmac_session() append a TPM session element
 
 
-vim +/__compiletime_assert_253 +350 include/linux/compiler.h
+vim +337 drivers/char/tpm/tpm2-sessions.c
 
-   336	
-   337	#define _compiletime_assert(condition, msg, prefix, suffix) \
-   338		__compiletime_assert(condition, msg, prefix, suffix)
-   339	
-   340	/**
-   341	 * compiletime_assert - break build and emit msg if condition is false
-   342	 * @condition: a compile-time constant condition to check
-   343	 * @msg:       a message to emit if condition is false
-   344	 *
-   345	 * In tradition of POSIX assert, this macro will break the build if the
-   346	 * supplied condition is *false*, emitting the supplied error message if the
-   347	 * compiler has support to do so.
-   348	 */
-   349	#define compiletime_assert(condition, msg) \
- > 350		_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   351	
+   335	
+   336	/**
+ > 337	 * tpm_buf_append_hmac_session() append a TPM session element
+   338	 * @chip: the TPM chip structure
+   339	 * @buf: The buffer to be appended
+   340	 * @attributes: The session attributes
+   341	 * @passphrase: The session authority (NULL if none)
+   342	 * @passphraselen: The length of the session authority (0 if none)
+   343	 *
+   344	 * This fills in a session structure in the TPM command buffer, except
+   345	 * for the HMAC which cannot be computed until the command buffer is
+   346	 * complete.  The type of session is controlled by the @attributes,
+   347	 * the main ones of which are TPM2_SA_CONTINUE_SESSION which means the
+   348	 * session won't terminate after tpm_buf_check_hmac_response(),
+   349	 * TPM2_SA_DECRYPT which means this buffers first parameter should be
+   350	 * encrypted with a session key and TPM2_SA_ENCRYPT, which means the
+   351	 * response buffer's first parameter needs to be decrypted (confusing,
+   352	 * but the defines are written from the point of view of the TPM).
+   353	 *
+   354	 * Any session appended by this command must be finalized by calling
+   355	 * tpm_buf_fill_hmac_session() otherwise the HMAC will be incorrect
+   356	 * and the TPM will reject the command.
+   357	 *
+   358	 * As with most tpm_buf operations, success is assumed because failure
+   359	 * will be caused by an incorrect programming model and indicated by a
+   360	 * kernel message.
+   361	 */
+   362	void tpm_buf_append_hmac_session(struct tpm_chip *chip, struct tpm_buf *buf,
+   363					 u8 attributes, u8 *passphrase,
+   364					 int passphraselen)
+   365	{
+   366		u8 nonce[SHA256_DIGEST_SIZE];
+   367		u32 len;
+   368		struct tpm2_auth *auth = chip->auth;
+   369	
+   370		/*
+   371		 * The Architecture Guide requires us to strip trailing zeros
+   372		 * before computing the HMAC
+   373		 */
+   374		while (passphrase && passphraselen > 0
+   375		       && passphrase[passphraselen - 1] == '\0')
+   376			passphraselen--;
+   377	
+   378		auth->attrs = attributes;
+   379		auth->passphraselen = passphraselen;
+   380		if (passphraselen)
+   381			memcpy(auth->passphrase, passphrase, passphraselen);
+   382	
+   383		if (auth->session != tpm_buf_length(buf)) {
+   384			/* we're not the first session */
+   385			len = get_unaligned_be32(&buf->data[auth->session]);
+   386			if (4 + len + auth->session != tpm_buf_length(buf)) {
+   387				WARN(1, "session length mismatch, cannot append");
+   388				return;
+   389			}
+   390	
+   391			/* add our new session */
+   392			len += 9 + 2 * SHA256_DIGEST_SIZE;
+   393			put_unaligned_be32(len, &buf->data[auth->session]);
+   394		} else {
+   395			tpm_buf_append_u32(buf, 9 + 2 * SHA256_DIGEST_SIZE);
+   396		}
+   397	
+   398		/* random number for our nonce */
+   399		get_random_bytes(nonce, sizeof(nonce));
+   400		memcpy(auth->our_nonce, nonce, sizeof(nonce));
+   401		tpm_buf_append_u32(buf, auth->handle);
+   402		/* our new nonce */
+   403		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
+   404		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
+   405		tpm_buf_append_u8(buf, auth->attrs);
+   406		/* and put a placeholder for the hmac */
+   407		tpm_buf_append_u16(buf, SHA256_DIGEST_SIZE);
+   408		tpm_buf_append(buf, nonce, SHA256_DIGEST_SIZE);
+   409	}
+   410	EXPORT_SYMBOL(tpm_buf_append_hmac_session);
+   411	
 
 -- 
 0-DAY CI Kernel Test Service
