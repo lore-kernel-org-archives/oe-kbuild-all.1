@@ -1,45 +1,44 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E6A7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 09:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A987E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 09:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680601754; x=1712137754;
+  t=1680601758; x=1712137758;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ve1yYpjHeIm0Q4rI2QRTslKtVoI8wRvSt0UPKwnTt58=;
-  b=K0K2HNVXO49vQp/hD+xt3WbgHVVl76gqT7Q4Mdzp7vMMbnR1YI0HUdnP
-   C7TTgFrxnaXPqnEXFTJIVYJ/uPBNm5bLVpurDEq2PhEnw7p1KFOyjpOhB
-   jPSxncglyNsODxGeBEEdidlnRNPg1nUR31ga88qhzAv9BDLPSNyEBsvZG
-   r1plTPjXPbPgByVtY8hR1L6mM1F63E7En9IVmcYDNg0XkjnXoaAQyB0DV
-   psrm0dDxbAH5fCxfLAXUobV72h4En2B/8wKLnzj5qV/VGbZyaGxTn2Lr1
-   qbmUX9EY01P+p07dw9JTrednMiFLkuYHwdChCHmtEv1AGppNuguB1SLT+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428423532"
+  bh=zG+p9kmq2G/b06BQK3zO6+xgQx7ajx9KhWLY5tlTpWA=;
+  b=I0Xh6Hvrw0QOgQpbTdbCamEjaO6DeSf+j5XwE1H27XwzHoXXqY34lCmc
+   d4KxHKQ4NGTCy2uz7g+G/Fgy+BUm6TGhxq6b2rkjNmp8zSRbHSefnmQPf
+   GjlyhJr8aTO662jAaLVnhOl9VylKDKMbeBR/ZYT8iw6OXgMbnPs715emV
+   b+5qzsbXG3NgkVwU+tv3/J99ciRuFJ9LN/VM/jHslQ3F7fvfO4GevrYtH
+   UX7B8NtTCiKwZyH/++wh802UMdjSVOWyDK1puLcbt719YKcYQtyEooBlP
+   jki6G12ZllG3QDOZzfTdbnU+uXHjwXmYKS9eKRGvdIf1EPRQFKX45k4zP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428423541"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="428423532"
+   d="scan'208";a="428423541"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 02:49:14 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 02:49:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="1016063026"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="1016063036"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="1016063026"
+   d="scan'208";a="1016063036"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Apr 2023 02:49:11 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Apr 2023 02:49:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjdHq-000PVS-2e;
+	id 1pjdHq-000PVW-2n;
 	Tue, 04 Apr 2023 09:49:10 +0000
-Date: Tue, 4 Apr 2023 17:48:13 +0800
+Date: Tue, 4 Apr 2023 17:48:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
+To: Sean Anderson <seanga2@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Filipe Manana <fdmanana@suse.com>, David Sterba <dsterba@suse.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-4.19.y 2978/9999] include/linux/pagemap.h:576: Error:
- unrecognized opcode `csrs sstatus,s1'
-Message-ID: <202304041731.34iVE75Z-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: [linux-next:master 6282/9010] arch/m68k/include/asm/irq.h:78:11:
+ error: expected ';' before 'void'
+Message-ID: <202304041748.0sQc4K4l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,77 +48,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   30baa0923a27fb9a04444a29562344e0573992e4
-commit: 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c [2978/9999] btrfs: fix potential deadlock in the search ioctl
-config: riscv-randconfig-r035-20230402 (https://download.01.org/0day-ci/archive/20230404/202304041731.34iVE75Z-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6a53bda3aaf3de5edeea27d0b1d8781d067640b6
+commit: 1ff4f42aef609757c334947f60612b4691b95c8a [6282/9010] net: sunhme: Alphabetize includes
+config: m68k-randconfig-s041-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041748.0sQc4K4l-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=1ff4f42aef609757c334947f60612b4691b95c8a
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 1ff4f42aef609757c334947f60612b4691b95c8a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/ethernet/sun/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041731.34iVE75Z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041748.0sQc4K4l-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   include/linux/pagemap.h: Assembler messages:
->> include/linux/pagemap.h:576: Error: unrecognized opcode `csrs sstatus,s1'
->> include/linux/pagemap.h:576: Error: unrecognized opcode `csrc sstatus,s1'
-   include/linux/pagemap.h:584: Error: unrecognized opcode `csrs sstatus,s1'
-   include/linux/pagemap.h:584: Error: unrecognized opcode `csrc sstatus,s1'
-   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrs sstatus,a4'
-   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrc sstatus,a4'
+   In file included from drivers/net/ethernet/sun/sunhme.c:19:
+>> arch/m68k/include/asm/irq.h:78:11: error: expected ';' before 'void'
+      78 | asmlinkage void do_IRQ(int irq, struct pt_regs *regs);
+         |           ^~~~~
+         |           ;
+>> arch/m68k/include/asm/irq.h:78:40: warning: 'struct pt_regs' declared inside parameter list will not be visible outside of this definition or declaration
+      78 | asmlinkage void do_IRQ(int irq, struct pt_regs *regs);
+         |                                        ^~~~~~~
 
 
-vim +576 include/linux/pagemap.h
+vim +78 arch/m68k/include/asm/irq.h
 
-385e1ca5f21c46 David Howells  2009-04-03  558  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  559  /*
-4bce9f6ee8f84f Al Viro        2016-09-17  560   * Fault everything in given userspace address range in.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  561   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  562  static inline int fault_in_pages_writeable(char __user *uaddr, int size)
-f56f821feb7b36 Daniel Vetter  2012-03-25  563  {
-9923777dff4543 Daniel Vetter  2012-04-14  564  	char __user *end = uaddr + size - 1;
-f56f821feb7b36 Daniel Vetter  2012-03-25  565  
-f56f821feb7b36 Daniel Vetter  2012-03-25  566  	if (unlikely(size == 0))
-e23d4159b10916 Al Viro        2016-09-20  567  		return 0;
-f56f821feb7b36 Daniel Vetter  2012-03-25  568  
-e23d4159b10916 Al Viro        2016-09-20  569  	if (unlikely(uaddr > end))
-e23d4159b10916 Al Viro        2016-09-20  570  		return -EFAULT;
-f56f821feb7b36 Daniel Vetter  2012-03-25  571  	/*
-f56f821feb7b36 Daniel Vetter  2012-03-25  572  	 * Writing zeroes into userspace here is OK, because we know that if
-f56f821feb7b36 Daniel Vetter  2012-03-25  573  	 * the zero gets there, we'll be overwriting it.
-f56f821feb7b36 Daniel Vetter  2012-03-25  574  	 */
-e23d4159b10916 Al Viro        2016-09-20  575  	do {
-e23d4159b10916 Al Viro        2016-09-20 @576  		if (unlikely(__put_user(0, uaddr) != 0))
-e23d4159b10916 Al Viro        2016-09-20  577  			return -EFAULT;
-f56f821feb7b36 Daniel Vetter  2012-03-25  578  		uaddr += PAGE_SIZE;
-e23d4159b10916 Al Viro        2016-09-20  579  	} while (uaddr <= end);
-f56f821feb7b36 Daniel Vetter  2012-03-25  580  
-f56f821feb7b36 Daniel Vetter  2012-03-25  581  	/* Check whether the range spilled into the next page. */
-f56f821feb7b36 Daniel Vetter  2012-03-25  582  	if (((unsigned long)uaddr & PAGE_MASK) ==
-f56f821feb7b36 Daniel Vetter  2012-03-25  583  			((unsigned long)end & PAGE_MASK))
-e23d4159b10916 Al Viro        2016-09-20  584  		return __put_user(0, end);
-f56f821feb7b36 Daniel Vetter  2012-03-25  585  
-e23d4159b10916 Al Viro        2016-09-20  586  	return 0;
-f56f821feb7b36 Daniel Vetter  2012-03-25  587  }
-f56f821feb7b36 Daniel Vetter  2012-03-25  588  
+3ddc7e261a990d0 Greg Ungerer       2009-06-26  77  
+739735d5fea3c39 Geert Uytterhoeven 2011-07-03 @78  asmlinkage void do_IRQ(int irq, struct pt_regs *regs);
+4936f63cb790e26 Geert Uytterhoeven 2011-04-21  79  extern atomic_t irq_err_count;
+739735d5fea3c39 Geert Uytterhoeven 2011-07-03  80  
 
-:::::: The code at line 576 was first introduced by commit
-:::::: e23d4159b109167126e5bcd7f3775c95de7fee47 fix fault_in_multipages_...() on architectures with no-op access_ok()
+:::::: The code at line 78 was first introduced by commit
+:::::: 739735d5fea3c3997b2a659068a618b07bc9a73a m68knommu: Move forward declaration of do_IRQ() from machdep.h to irq.h
 
-:::::: TO: Al Viro <viro@ZenIV.linux.org.uk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Geert Uytterhoeven <geert@linux-m68k.org>
+:::::: CC: Greg Ungerer <gerg@uclinux.org>
 
 -- 
 0-DAY CI Kernel Test Service
