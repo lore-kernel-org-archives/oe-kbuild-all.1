@@ -1,43 +1,34 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADF16AB8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 13:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680614068; x=1712150068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XdSRetoWElXYQdWSpiqZNr4pLt5PSlJiQezsiVCTVtU=;
-  b=iEDZ0GFPI2MDzeIe6yoUXMLa55roLqb72NLNQNMczENhHHej94J34zTQ
-   v1ntwij4/K8JHJcFb5aOqf++nl7noY1M8EJyuAQIkaeiQsAhDWGffAJyd
-   FnRsVT3DBdC/Gh+rvXXHIglIUVwd9YZSBCDrI5wSn8X9vIf5Rr/qsCLlr
-   DgVl1K9IWe7EWp6igiQ6W6sfxGlQdxUHkGDnzcE+XwhnDW1UwxQncypTI
-   0tTuWnzSI90TfCPunYiO67H2pd2a1MLkV7b0VS+V29bcRA/f/WCXvuBBI
-   dtIsJwYk8qVZGlXk2k+uqQFMP0EdXafZFMj+706II9qiEaOjT1ZiLFeUQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428463604"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="428463604"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 06:14:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="860588191"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="860588191"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 04 Apr 2023 06:14:26 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjgUS-000Pi6-3C;
-	Tue, 04 Apr 2023 13:14:25 +0000
-Date: Tue, 4 Apr 2023 21:14:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 12384/29325]
- drivers/staging/android/ion/ion_system_heap.c:292:5: warning: no previous
- prototype for function 'ion_system_heap_create'
-Message-ID: <202304042141.QIABbWeh-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BA76D22;
+	Tue,  4 Apr 2023 13:47:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE7CC4339B;
+	Tue,  4 Apr 2023 13:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680616039;
+	bh=s3hI1gSZ2gySWUG+iwtze6CaIbyUqzwCALU5VwazHxw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Bsf4RLy/BJ8rwdtOgTcp82pWrmVQLUyNdr85uUFTq+x41ceMQ/+1G0glp89sWKQHy
+	 AMD98qZbmcd0rOhUXgxjWBSCCewdgEHlM/sZmQVLIES6KdT0FNSq3TnHGfEhb5sm23
+	 opcg6mAl73J4To4jMrYmtcrFntI3R4m9xkDsSk+uw2OOEmEQRzVCXAWCarFNvt1nGw
+	 +eVKvRXjRWhjwOGvZc0+0/+VLlyfvTVuF9/IHNXfkLGyVIWH2bPwQT/rISV/ZYnruO
+	 GJ+dvh6z+iPDcNVRCdlSBHSrUDyVuHVgt/7o6WGSxEhe2LlmoqqaRqcRtlS7pdfZ+v
+	 1WlUAJt6En/Lw==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id BD8EC15404B4; Tue,  4 Apr 2023 06:47:18 -0700 (PDT)
+Date: Tue, 4 Apr 2023 06:47:18 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
+ rcu_do_batch() error: uninitialized symbol 'jlimit'.
+Message-ID: <acd9ff41-1242-4772-a7b3-2d29c4c31261@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
+ <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
+ <e7650b46-851f-4341-a43f-33efe47fc65d@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,159 +37,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e7650b46-851f-4341-a43f-33efe47fc65d@kili.mountain>
 
-Hi Hridya,
+On Tue, Apr 04, 2023 at 07:43:22AM +0300, Dan Carpenter wrote:
+> On Mon, Apr 03, 2023 at 09:18:58PM -0700, Paul E. McKenney wrote:
+> > On Tue, Apr 04, 2023 at 07:04:06AM +0300, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
+> > > head:   e222f9a512539c3f4093a55d16624d9da614800b
+> > > commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
+> > > config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
+> > > compiler: or1k-linux-gcc (GCC) 12.1.0
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > | Link: https://lore.kernel.org/r/202304041113.A5sNFc2y-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
+> > > 
+> > > vim +/jlimit +2149 kernel/rcu/tree.c
+> > > 
+> > > 5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
+> > > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
+> > > b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
+> > > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
+> > > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
+> > > 4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
+> > > 5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
+> > > 29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
+> > > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
+> > > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
+> > > 8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
+> > > 253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
+> > > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
+> > > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
+> > > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
+> > > 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
+> > >                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > jlimit is only initialized if one of these conditions is met.
+> > > 
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
+> > > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
+> > > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
+> > > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
+> > > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
+> > > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
+> > > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
+> > > 344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
+> > > 7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
+> > > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
+> > > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
+> > > 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
+> > > 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
+> > > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
+> > > 6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
+> > > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
+> > > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
+> > > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
+> > > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
+> > > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
+> > >                                                                                                                                                          ^^^^^^
+> > > Uninitialized?
+> > 
+> > Except that in rcu_do_batch_check_time(), jlimit is referenced only if
+> > jlimit_check is set, which it is only if jlimit is initialized.
+> > 
+> > I suppose that I could unconditionally initialize jlimit to (say) zero
+> > to shut this up, but is there a better way to communicate the intent
+> > to the tooling?
+> > 
+> > Or am I confused and there is a real use of the uninitialized value?
+> > 
+> > 							Thanx, Paul
+> 
+> I'm going to guess that on distro kernels they're going to automatically
+> initialize stack variables to zero.  So it's not a bad option.
+> 
+> The other thing is that rcu_do_batch_check_time() is always going to be
+> inlined.  So this is officially a false positive.  If it weren't inlined
+> then passing uninitialized data is a bug regardless of whether or not
+> it's used.
+> 
+> It's also totally okay to just ignore this false positive.
 
-FYI, the error/warning still remains.
+Would another approach be would to pass the address of jlimit in to
+rcu_do_batch_check_time()?  Taking the address of local variables usually
+suppresses some optimizations, though perhaps not important ones.
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   e8676808abe2a4dd79bd76700719c360d84b343d
-commit: f64a8b79c0e85440319136ed928f22ed37481742 [12384/29325] ANDROID: staging: android: ion: enable modularizing the ion driver
-config: x86_64-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230404/202304042141.QIABbWeh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout f64a8b79c0e85440319136ed928f22ed37481742
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/android/ion/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304042141.QIABbWeh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/android/ion/ion_system_heap.c:292:5: warning: no previous prototype for function 'ion_system_heap_create' [-Wmissing-prototypes]
-   int ion_system_heap_create(void)
-       ^
-   drivers/staging/android/ion/ion_system_heap.c:292:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ion_system_heap_create(void)
-   ^
-   static 
->> drivers/staging/android/ion/ion_system_heap.c:385:5: warning: no previous prototype for function 'ion_system_contig_heap_create' [-Wmissing-prototypes]
-   int ion_system_contig_heap_create(void)
-       ^
-   drivers/staging/android/ion/ion_system_heap.c:385:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ion_system_contig_heap_create(void)
-   ^
-   static 
-   2 warnings generated.
-
-
-vim +/ion_system_heap_create +292 drivers/staging/android/ion/ion_system_heap.c
-
-   291	
- > 292	int ion_system_heap_create(void)
-   293	{
-   294		struct ion_heap *heap;
-   295	
-   296		heap = __ion_system_heap_create();
-   297		if (IS_ERR(heap))
-   298			return PTR_ERR(heap);
-   299		heap->name = "ion_system_heap";
-   300	
-   301		ion_device_add_heap(heap);
-   302		return 0;
-   303	}
-   304	
-   305	static int ion_system_contig_heap_allocate(struct ion_heap *heap,
-   306						   struct ion_buffer *buffer,
-   307						   unsigned long len,
-   308						   unsigned long flags)
-   309	{
-   310		int order = get_order(len);
-   311		struct page *page;
-   312		struct sg_table *table;
-   313		unsigned long i;
-   314		int ret;
-   315	
-   316		page = alloc_pages(low_order_gfp_flags | __GFP_NOWARN, order);
-   317		if (!page)
-   318			return -ENOMEM;
-   319	
-   320		split_page(page, order);
-   321	
-   322		len = PAGE_ALIGN(len);
-   323		for (i = len >> PAGE_SHIFT; i < (1 << order); i++)
-   324			__free_page(page + i);
-   325	
-   326		table = kmalloc(sizeof(*table), GFP_KERNEL);
-   327		if (!table) {
-   328			ret = -ENOMEM;
-   329			goto free_pages;
-   330		}
-   331	
-   332		ret = sg_alloc_table(table, 1, GFP_KERNEL);
-   333		if (ret)
-   334			goto free_table;
-   335	
-   336		sg_set_page(table->sgl, page, len, 0);
-   337	
-   338		buffer->sg_table = table;
-   339	
-   340		return 0;
-   341	
-   342	free_table:
-   343		kfree(table);
-   344	free_pages:
-   345		for (i = 0; i < len >> PAGE_SHIFT; i++)
-   346			__free_page(page + i);
-   347	
-   348		return ret;
-   349	}
-   350	
-   351	static void ion_system_contig_heap_free(struct ion_buffer *buffer)
-   352	{
-   353		struct sg_table *table = buffer->sg_table;
-   354		struct page *page = sg_page(table->sgl);
-   355		unsigned long pages = PAGE_ALIGN(buffer->size) >> PAGE_SHIFT;
-   356		unsigned long i;
-   357	
-   358		for (i = 0; i < pages; i++)
-   359			__free_page(page + i);
-   360		sg_free_table(table);
-   361		kfree(table);
-   362	}
-   363	
-   364	static struct ion_heap_ops kmalloc_ops = {
-   365		.allocate = ion_system_contig_heap_allocate,
-   366		.free = ion_system_contig_heap_free,
-   367		.map_kernel = ion_heap_map_kernel,
-   368		.unmap_kernel = ion_heap_unmap_kernel,
-   369		.map_user = ion_heap_map_user,
-   370	};
-   371	
-   372	static struct ion_heap *__ion_system_contig_heap_create(void)
-   373	{
-   374		struct ion_heap *heap;
-   375	
-   376		heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-   377		if (!heap)
-   378			return ERR_PTR(-ENOMEM);
-   379		heap->ops = &kmalloc_ops;
-   380		heap->type = ION_HEAP_TYPE_SYSTEM_CONTIG;
-   381		heap->name = "ion_system_contig_heap";
-   382		return heap;
-   383	}
-   384	
- > 385	int ion_system_contig_heap_create(void)
-   386	{
-   387		struct ion_heap *heap;
-   388	
-   389		heap = __ion_system_contig_heap_create();
-   390		if (IS_ERR(heap))
-   391			return PTR_ERR(heap);
-   392	
-   393		ion_device_add_heap(heap);
-   394		return 0;
-   395	}
-   396	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+							Thanx, Paul
