@@ -1,42 +1,62 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3F87E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 02:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079AD7E;
+	Tue,  4 Apr 2023 02:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680574916; x=1712110916;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CkFHDC8D6AvY+v6jsGYoE/Vckj5Y+DqhspwvMoFNbmo=;
-  b=G3pGVizeX1icOlw98vj7mQj6tdZkh2eIMN83B3eRvB0g87gvicZKiCEv
-   WQ9jS3Zv2KX18JbQ1RIU7OIsG0OsZWII2oP0/xv6QmnYw6o+OsFOi1+Lz
-   1seCcSAMGP7tjohMFy6sZIlAsqEfJ4+knPmCxOtsLjinLkRpAWC5t2j81
-   lMALWII5uI6BPTr5GaUQxt0bOvrvaKPi+LOe+buMTMMP5OfNYMHndXMKA
-   fpDkZU9NWWSfz9O3NmsQbfHIdL3+EV2WEM9kydNg1cUTs5OZANYxhBKq/
-   iEn4uhd3dt6Qq6SeXrK/nzTZWSwwL/gD5dR4HNm+gzS8lFdxqoCJAIaDs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340801854"
+  t=1680574920; x=1712110920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S9jlvO03mnmm15rtkefUHtXNrIuNeFHbwAHrntbkPhg=;
+  b=meDCQ1v9NNmcry5e+Ximq9jKBDK+y2uQTAic1r0QRpt+bP4RElvsYn3D
+   QSWDyQJ1iwphbbxzfoJO+QP9jR/EMwWUOJaJtI80MlsROk4JFAwW+vaCM
+   X9HbKrU/yVurOrlBy+rzBkV/rdkk4pm5MbSnd/2MJtnC/4aJuGa8/imk5
+   ar80+24c9rYT2iosuJPV+FpG3h+Wf8REvP7Yqnf3ops1Xqm84j2TJy4Ds
+   pZwrmL1iSm2bAQLPv2lEMVh943XwVHayEE3Qetl3XoqFd8v3M6WuSo8na
+   uCm9QjD4ELdO4xRglD9QHkHyjV9hFs0L4TszadnhGx1dI6JmN8EVZUn4b
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340801866"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="340801854"
+   d="scan'208";a="340801866"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:21:55 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:21:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810056485"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810056483"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="810056485"
+   d="scan'208";a="810056483"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 03 Apr 2023 19:21:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjWIz-000P2i-00;
-	Tue, 04 Apr 2023 02:21:53 +0000
-Date: Tue, 4 Apr 2023 10:21:13 +0800
+	id 1pjWIy-000P2g-3A;
+	Tue, 04 Apr 2023 02:21:52 +0000
+Date: Tue, 4 Apr 2023 10:21:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202304041040.F0zUsknf-lkp@intel.com>
+To: Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Bob Gilligan <gilligan@arista.com>,
+	Dan Carpenter <error27@gmail.com>,
+	David Laight <David.Laight@aculab.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Francesco Ruggeri <fruggeri05@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+	Ivan Delalande <colona@arista.com>,
+	Leonard Crestez <cdleonard@gmail.com>,
+	Salam Noureddine <noureddine@arista.com>
+Subject: Re: [PATCH v5 01/21] [draft] net/tcp: Prepare tcp_md5sig_pool for
+ TCP-AO
+Message-ID: <202304041030.rTLITKDY-lkp@intel.com>
+References: <20230403213420.1576559-2-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,79 +65,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403213420.1576559-2-dima@arista.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: edd4a8667355607345b76d5652adc0f300a28970 s390/boot: get rid of startup archive
-date:   11 months ago
-config: s390-randconfig-s041-20230402 (https://download.01.org/0day-ci/archive/20230404/202304041040.F0zUsknf-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7e364e56293bb98cae1b55fd835f5991c4e96e7d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
+base:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
+patch link:    https://lore.kernel.org/r/20230403213420.1576559-2-dima%40arista.com
+patch subject: [PATCH v5 01/21] [draft] net/tcp: Prepare tcp_md5sig_pool for TCP-AO
+config: hexagon-randconfig-r041-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041030.rTLITKDY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=edd4a8667355607345b76d5652adc0f300a28970
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout edd4a8667355607345b76d5652adc0f300a28970
+        # https://github.com/intel-lab-lkp/linux/commit/94408bb4cf5cbcc772ab4d70eeb73bda183c6124
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
+        git checkout 94408bb4cf5cbcc772ab4d70eeb73bda183c6124
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/ipv4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041040.F0zUsknf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041030.rTLITKDY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/s390/boot/decompressor.c: note: in included file (through arch/s390/include/uapi/../../../../lib/decompress_unxz.c):
->> arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     expected restricted __le32 const [usertype] *p
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     got unsigned int const [usertype] *
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     expected restricted __le32 const [usertype] *p
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     got unsigned int const [usertype] *
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     expected restricted __le32 const [usertype] *p
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     got unsigned int const [usertype] *
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     expected restricted __le32 const [usertype] *p
-   arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     got unsigned int const [usertype] *
+All warnings (new ones prefixed by >>):
 
-vim +393 arch/s390/include/uapi/../../../../lib/xz/xz_dec_stream.c
+   In file included from net/ipv4/tcp_sigpool.c:10:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from net/ipv4/tcp_sigpool.c:10:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from net/ipv4/tcp_sigpool.c:10:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> net/ipv4/tcp_sigpool.c:63:9: warning: comparison of distinct pointer types ('typeof (size) *' (aka 'unsigned int *') and 'typeof (__scratch_size) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+           size = max(size, __scratch_size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                 ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
+                    ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   7 warnings generated.
 
-24fa0402a9b6a5 Lasse Collin 2011-01-12  385  
-24fa0402a9b6a5 Lasse Collin 2011-01-12  386  /* Decode the Stream Header field (the first 12 bytes of the .xz Stream). */
-24fa0402a9b6a5 Lasse Collin 2011-01-12  387  static enum xz_ret dec_stream_header(struct xz_dec *s)
-24fa0402a9b6a5 Lasse Collin 2011-01-12  388  {
-24fa0402a9b6a5 Lasse Collin 2011-01-12  389  	if (!memeq(s->temp.buf, HEADER_MAGIC, HEADER_MAGIC_SIZE))
-24fa0402a9b6a5 Lasse Collin 2011-01-12  390  		return XZ_FORMAT_ERROR;
-24fa0402a9b6a5 Lasse Collin 2011-01-12  391  
-24fa0402a9b6a5 Lasse Collin 2011-01-12  392  	if (xz_crc32(s->temp.buf + HEADER_MAGIC_SIZE, 2, 0)
-24fa0402a9b6a5 Lasse Collin 2011-01-12 @393  			!= get_le32(s->temp.buf + HEADER_MAGIC_SIZE + 2))
-24fa0402a9b6a5 Lasse Collin 2011-01-12  394  		return XZ_DATA_ERROR;
-24fa0402a9b6a5 Lasse Collin 2011-01-12  395  
-24fa0402a9b6a5 Lasse Collin 2011-01-12  396  	if (s->temp.buf[HEADER_MAGIC_SIZE] != 0)
-24fa0402a9b6a5 Lasse Collin 2011-01-12  397  		return XZ_OPTIONS_ERROR;
-24fa0402a9b6a5 Lasse Collin 2011-01-12  398  
-24fa0402a9b6a5 Lasse Collin 2011-01-12  399  	/*
-24fa0402a9b6a5 Lasse Collin 2011-01-12  400  	 * Of integrity checks, we support only none (Check ID = 0) and
-24fa0402a9b6a5 Lasse Collin 2011-01-12  401  	 * CRC32 (Check ID = 1). However, if XZ_DEC_ANY_CHECK is defined,
-24fa0402a9b6a5 Lasse Collin 2011-01-12  402  	 * we will accept other check types too, but then the check won't
-24fa0402a9b6a5 Lasse Collin 2011-01-12  403  	 * be verified and a warning (XZ_UNSUPPORTED_CHECK) will be given.
-24fa0402a9b6a5 Lasse Collin 2011-01-12  404  	 */
-4f8d7abaa413c3 Lasse Collin 2021-10-11  405  	if (s->temp.buf[HEADER_MAGIC_SIZE + 1] > XZ_CHECK_MAX)
-4f8d7abaa413c3 Lasse Collin 2021-10-11  406  		return XZ_OPTIONS_ERROR;
-4f8d7abaa413c3 Lasse Collin 2021-10-11  407  
-24fa0402a9b6a5 Lasse Collin 2011-01-12  408  	s->check_type = s->temp.buf[HEADER_MAGIC_SIZE + 1];
-24fa0402a9b6a5 Lasse Collin 2011-01-12  409  
 
-:::::: The code at line 393 was first introduced by commit
-:::::: 24fa0402a9b6a537e87e38341e78b7da86486846 decompressors: add XZ decompressor module
+vim +63 net/ipv4/tcp_sigpool.c
 
-:::::: TO: Lasse Collin <lasse.collin@tukaani.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    43	
+    44	/*
+    45	 * sigpool_reserve_scratch - re-allocates scratch buffer, slow-path
+    46	 * @size: request size for the scratch/temp buffer
+    47	 */
+    48	static int sigpool_reserve_scratch(size_t size)
+    49	{
+    50		struct scratches_to_free *stf;
+    51		size_t stf_sz = struct_size(stf, scratches, num_possible_cpus());
+    52		int cpu, err = 0;
+    53	
+    54		lockdep_assert_held(&cpool_mutex);
+    55		if (__scratch_size >= size)
+    56			return 0;
+    57	
+    58		stf = kmalloc(stf_sz, GFP_KERNEL);
+    59		if (!stf)
+    60			return -ENOMEM;
+    61		stf->cnt = 0;
+    62	
+  > 63		size = max(size, __scratch_size);
+    64		cpus_read_lock();
+    65		for_each_possible_cpu(cpu) {
+    66			void *scratch, *old_scratch;
+    67	
+    68			scratch = kmalloc_node(size, GFP_KERNEL, cpu_to_node(cpu));
+    69			if (!scratch) {
+    70				err = -ENOMEM;
+    71				break;
+    72			}
+    73	
+    74			old_scratch = rcu_replace_pointer(per_cpu(sigpool_scratch, cpu), scratch, lockdep_is_held(&cpool_mutex));
+    75			if (!cpu_online(cpu) || !old_scratch) {
+    76				kfree(old_scratch);
+    77				continue;
+    78			}
+    79			stf->scratches[stf->cnt++] = old_scratch;
+    80		}
+    81		cpus_read_unlock();
+    82		if (!err)
+    83			__scratch_size = size;
+    84	
+    85		call_rcu(&stf->rcu, free_old_scratches);
+    86		return err;
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
