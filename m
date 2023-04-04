@@ -1,49 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F09648
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 05:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69236648
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 05:51:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680586232; x=1712122232;
+  t=1680587475; x=1712123475;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RdDpxGvgQ2tbcB1Q1fxF2Lua+npmQ3o86qaGHUvpBgc=;
-  b=kLoVdCxM9P3DrLpmVBeM/dDkk538VRDFk9hzjWamLKcScijiDfdpQfPt
-   SBk2gmuB6P8lfIcROSRbFdZ+d8uXIW4Cw6UTOQ71m+1VGJrq+N9gkCZ9v
-   7spSP9EgHft/VssVtyfDbKuwl8++DpUv7eIFohXw2Z40slu4NiJ6Wu0NP
-   Kq5SyKFRb95x1jNFp3FMTBg1nIRfDPeBK0+KaMtuiczuS8MI5LaK2dBeB
-   bDSF3vPNzvRqcNXEb2iruegUP6waBCRkF4YoEBTUgMVCojhFgmfO21WIF
-   eCZLvYjz67hBjluF5+ZhYm/EigTxqEe5MTdst9ervLTbk0kU5Ase4PAmw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428377416"
+  bh=n3G2OuYaOWQow3ISG9SZGQT2IwS+n1euaI1EX7smRF0=;
+  b=OqUWTeNoDqJHI4xoNdyySCyWpXO/hgnT35tu2vYAnhQ1xCL7ni5bGcIN
+   1RbwObcRoBDHPQP7DO3xFic7HCQmh6j+xAlPm2+TziW513Z2HnHGmXX4D
+   bnoOo8qLoM359sSQtV2le2qGFRBz/7xel+UXoTz783zqPO8xCNYA+1Yhx
+   zjv7qvMouw7mpLyM/Bw9voQILRcgSgTLxp8nzlwAdpK3i79R7z7DFcvWV
+   bifiGSssSF5gvWN/6KD+NjOPLkJZQJhnhl5lyMG/Gc7nTNYnI198/jRJa
+   zn1PFie/iW8c1OSNlVoN80s+v52+avdeMM86D2EaDnEodPOBs4a3P2/tq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322489009"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="428377416"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:30:27 -0700
+   d="scan'208";a="322489009"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:51:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686242063"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750793445"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="686242063"
+   d="scan'208";a="750793445"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 22:30:08 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 03 Apr 2023 22:51:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjZF8-000PEe-10;
-	Tue, 04 Apr 2023 05:30:06 +0000
-Date: Tue, 4 Apr 2023 13:29:42 +0800
+	id 1pjZZT-000PG2-2l;
+	Tue, 04 Apr 2023 05:51:07 +0000
+Date: Tue, 4 Apr 2023 13:50:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
-	hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
-	dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-	kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
-Message-ID: <202304041322.SEFV29Co-lkp@intel.com>
-References: <20230324181741.13908-19-michael.christie@oracle.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw
+ ops to manage uvmm
+Message-ID: <202304041311.bWxdWPX0-lkp@intel.com>
+References: <20230404012741.116502-14-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,220 +56,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324181741.13908-19-michael.christie@oracle.com>
+In-Reply-To: <20230404012741.116502-14-dakr@redhat.com>
 
-Hi Mike,
+Hi Danilo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next axboe-block/for-next linus/master v6.3-rc5 next-20230403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230324181741.13908-19-michael.christie%40oracle.com
-patch subject: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
-config: ia64-randconfig-s043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041322.SEFV29Co-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce:
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+base:   d36d68fd1925d33066d52468b7c7c6aca6521248
+patch link:    https://lore.kernel.org/r/20230404012741.116502-14-dakr%40redhat.com
+patch subject: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+config: arc-randconfig-r043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041311.bWxdWPX0-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f3fe3a0cab8498044d99362b81e01f5c48da5f63
+        # https://github.com/intel-lab-lkp/linux/commit/ff73c969805aef784d47f6bedea6c15c8548d0bf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-        git checkout f3fe3a0cab8498044d99362b81e01f5c48da5f63
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+        git checkout ff73c969805aef784d47f6bedea6c15c8548d0bf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/target/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041322.SEFV29Co-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041311.bWxdWPX0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/target/target_core_iblock.c:968:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:968:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:968:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:973:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:973:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:973:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:985:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:985:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:985:24: sparse:     got restricted sense_reason_t
->> drivers/target/target_core_iblock.c:996:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:996:21: sparse:     expected int [assigned] ret
-   drivers/target/target_core_iblock.c:996:21: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1000:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1000:13: sparse:     expected int [assigned] ret
-   drivers/target/target_core_iblock.c:1000:13: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1035:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1035:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1035:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1040:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1040:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1040:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1044:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1044:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1044:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1049:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1049:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1049:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1055:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1055:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1055:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1059:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1059:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1059:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1062:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1062:16: sparse:     expected int
-   drivers/target/target_core_iblock.c:1062:16: sparse:     got restricted sense_reason_t
->> drivers/target/target_core_iblock.c:1075:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
-   drivers/target/target_core_iblock.c:1075:21: sparse:     expected restricted sense_reason_t [usertype] ret
-   drivers/target/target_core_iblock.c:1075:21: sparse:     got int
-   drivers/target/target_core_iblock.c:1078:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
-   drivers/target/target_core_iblock.c:1078:21: sparse:     expected restricted sense_reason_t [usertype] ret
-   drivers/target/target_core_iblock.c:1078:21: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +968 drivers/target/target_core_iblock.c
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:22:
+   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c: In function 'nvkm_uvmm_mthd_raw_map':
+>> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:422:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     422 |                               (void *)args->argv, args->argc);
+         |                               ^
+   drivers/gpu/drm/nouveau/include/nvkm/core/memory.h:66:43: note: in definition of macro 'nvkm_memory_map'
+      66 |         (p)->func->map((p),(o),(vm),(va),(av),(ac))
+         |                                           ^~
 
-   956	
-   957	static int iblock_pr_read_keys(struct se_cmd *cmd, unsigned char *param_data)
-   958	{
-   959		struct se_device *dev = cmd->se_dev;
-   960		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
-   961		struct block_device *bdev = ib_dev->ibd_bd;
-   962		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-   963		int i, ret, len, paths, data_offset;
-   964		struct pr_keys *keys;
-   965	
-   966		if (!ops) {
-   967			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
- > 968			return TCM_UNSUPPORTED_SCSI_OPCODE;
-   969		}
-   970	
-   971		if (!ops->pr_read_keys) {
-   972			pr_err("Block device does not support read_keys.\n");
-   973			return TCM_UNSUPPORTED_SCSI_OPCODE;
-   974		}
-   975	
-   976		/*
-   977		 * We don't know what's under us, but dm-multipath will register every
-   978		 * path with the same key, so start off with enough space for 16 paths.
-   979		 */
-   980		paths = 16;
-   981	retry:
-   982		len = 8 * paths;
-   983		keys = kzalloc(sizeof(*keys) + len, GFP_KERNEL);
-   984		if (!keys)
-   985			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-   986	
-   987		keys->num_keys = paths;
-   988		ret = ops->pr_read_keys(bdev, keys);
-   989		if (!ret) {
-   990			if (keys->num_keys > paths) {
-   991				kfree(keys);
-   992				paths *= 2;
-   993				goto retry;
-   994			}
-   995		} else if (ret) {
- > 996			ret = TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-   997			goto free_keys;
-   998		}
-   999	
-  1000		ret = TCM_NO_SENSE;
-  1001	
-  1002		put_unaligned_be32(keys->generation, &param_data[0]);
-  1003		if (!keys->num_keys) {
-  1004			put_unaligned_be32(0, &param_data[4]);
-  1005			goto free_keys;
-  1006		}
-  1007	
-  1008		put_unaligned_be32(8 * keys->num_keys, &param_data[4]);
-  1009	
-  1010		data_offset = 8;
-  1011		for (i = 0; i < keys->num_keys; i++) {
-  1012			if (data_offset + 8 > cmd->data_length)
-  1013				break;
-  1014	
-  1015			put_unaligned_be64(keys->keys[i], &param_data[data_offset]);
-  1016			data_offset += 8;
-  1017		}
-  1018	
-  1019	free_keys:
-  1020		kfree(keys);
-  1021		return ret;
-  1022	}
-  1023	
-  1024	static int iblock_pr_read_reservation(struct se_cmd *cmd,
-  1025					      unsigned char *param_data)
-  1026	{
-  1027		struct se_device *dev = cmd->se_dev;
-  1028		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
-  1029		struct block_device *bdev = ib_dev->ibd_bd;
-  1030		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-  1031		struct pr_held_reservation rsv = { };
-  1032	
-  1033		if (!ops) {
-  1034			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
-  1035			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1036		}
-  1037	
-  1038		if (!ops->pr_read_reservation) {
-  1039			pr_err("Block device does not support read_keys.\n");
-  1040			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1041		}
-  1042	
-  1043		if (ops->pr_read_reservation(bdev, &rsv))
-  1044			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-  1045	
-  1046		put_unaligned_be32(rsv.generation, &param_data[0]);
-  1047		if (!block_pr_type_to_scsi(rsv.type)) {
-  1048			put_unaligned_be32(0, &param_data[4]);
-  1049			return TCM_NO_SENSE;
-  1050		}
-  1051	
-  1052		put_unaligned_be32(16, &param_data[4]);
-  1053	
-  1054		if (cmd->data_length < 16)
-> 1055			return TCM_NO_SENSE;
-  1056		put_unaligned_be64(rsv.key, &param_data[8]);
-  1057	
-  1058		if (cmd->data_length < 22)
-  1059			return TCM_NO_SENSE;
-  1060		param_data[21] = block_pr_type_to_scsi(rsv.type);
-  1061	
-  1062		return TCM_NO_SENSE;
-  1063	}
-  1064	
-  1065	static sense_reason_t iblock_execute_pr_in(struct se_cmd *cmd, u8 sa,
-  1066						   unsigned char *param_data)
-  1067	{
-  1068		sense_reason_t ret = TCM_NO_SENSE;
-  1069	
-  1070		switch (sa) {
-  1071		case PRI_REPORT_CAPABILITIES:
-  1072			iblock_pr_report_caps(param_data);
-  1073			break;
-  1074		case PRI_READ_KEYS:
-> 1075			ret = iblock_pr_read_keys(cmd, param_data);
-  1076			break;
-  1077		case PRI_READ_RESERVATION:
-  1078			ret = iblock_pr_read_reservation(cmd, param_data);
-  1079			break;
-  1080		default:
-  1081			pr_err("Unknown PERSISTENT_RESERVE_IN SA: 0x%02x\n", sa);
-  1082			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1083		}
-  1084	
-  1085		return ret;
-  1086	}
-  1087	
+
+vim +422 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
+
+   388	
+   389	static int
+   390	nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
+   391	{
+   392		struct nvkm_client *client = uvmm->object.client;
+   393		struct nvkm_vmm *vmm = uvmm->vmm;
+   394		struct nvkm_vma vma = {
+   395			.addr = args->addr,
+   396			.size = args->size,
+   397			.used = true,
+   398			.mapref = false,
+   399			.no_comp = true,
+   400		};
+   401		struct nvkm_memory *memory;
+   402		u64 handle = args->memory;
+   403		u8 refd;
+   404		int ret;
+   405	
+   406		if (!nvkm_vmm_in_managed_range(vmm, args->addr, args->size))
+   407			return -EINVAL;
+   408	
+   409		ret = nvkm_uvmm_page_index(uvmm, args->size, args->shift, &refd);
+   410		if (ret)
+   411			return ret;
+   412	
+   413		vma.page = vma.refd = refd;
+   414	
+   415		memory = nvkm_umem_search(client, args->memory);
+   416		if (IS_ERR(memory)) {
+   417			VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
+   418			return PTR_ERR(memory);
+   419		}
+   420	
+   421		ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
+ > 422				      (void *)args->argv, args->argc);
+   423	
+   424		nvkm_memory_unref(&vma.memory);
+   425		nvkm_memory_unref(&memory);
+   426		return ret;
+   427	}
+   428	
 
 -- 
 0-DAY CI Kernel Test Service
