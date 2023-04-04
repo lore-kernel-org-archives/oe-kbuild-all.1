@@ -1,91 +1,204 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D97A6AB5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 12:35:54 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjft5-00085U-4q; Tue, 04 Apr 2023 14:35:47 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjft3-008v3a-DB; Tue, 04 Apr 2023 14:35:45 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjft2-00AVgL-In; Tue, 04 Apr 2023 14:35:44 +0200
-Date: Tue, 4 Apr 2023 14:35:44 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Brian Masney <bmasney@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, jic23@kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andriy.shevchenko@linux.intel.com, trix@redhat.com, lars@metafoo.de,
-	nathan@kernel.org, ndesaulniers@google.com,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	hslester96@gmail.com
-Subject: Re: [PATCH] iio: light: tsl2772: fix reading proximity-diodes from
- device tree
-Message-ID: <20230404123544.6m5juesxwf4tklkm@pengutronix.de>
-References: <20230404011455.339454-1-bmasney@redhat.com>
- <202304041451.gj8oasQp-lkp@intel.com>
- <ZCwGP6rBLgbDGvkv@x1>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADF16AB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 13:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680614068; x=1712150068;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XdSRetoWElXYQdWSpiqZNr4pLt5PSlJiQezsiVCTVtU=;
+  b=iEDZ0GFPI2MDzeIe6yoUXMLa55roLqb72NLNQNMczENhHHej94J34zTQ
+   v1ntwij4/K8JHJcFb5aOqf++nl7noY1M8EJyuAQIkaeiQsAhDWGffAJyd
+   FnRsVT3DBdC/Gh+rvXXHIglIUVwd9YZSBCDrI5wSn8X9vIf5Rr/qsCLlr
+   DgVl1K9IWe7EWp6igiQ6W6sfxGlQdxUHkGDnzcE+XwhnDW1UwxQncypTI
+   0tTuWnzSI90TfCPunYiO67H2pd2a1MLkV7b0VS+V29bcRA/f/WCXvuBBI
+   dtIsJwYk8qVZGlXk2k+uqQFMP0EdXafZFMj+706II9qiEaOjT1ZiLFeUQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428463604"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="428463604"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 06:14:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="860588191"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="860588191"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 04 Apr 2023 06:14:26 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjgUS-000Pi6-3C;
+	Tue, 04 Apr 2023 13:14:25 +0000
+Date: Tue, 4 Apr 2023 21:14:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 12384/29325]
+ drivers/staging/android/ion/ion_system_heap.c:292:5: warning: no previous
+ prototype for function 'ion_system_heap_create'
+Message-ID: <202304042141.QIABbWeh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="czfim3jbpqegyq4m"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCwGP6rBLgbDGvkv@x1>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+
+Hi Hridya,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   e8676808abe2a4dd79bd76700719c360d84b343d
+commit: f64a8b79c0e85440319136ed928f22ed37481742 [12384/29325] ANDROID: staging: android: ion: enable modularizing the ion driver
+config: x86_64-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230404/202304042141.QIABbWeh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout f64a8b79c0e85440319136ed928f22ed37481742
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/android/ion/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304042141.QIABbWeh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/android/ion/ion_system_heap.c:292:5: warning: no previous prototype for function 'ion_system_heap_create' [-Wmissing-prototypes]
+   int ion_system_heap_create(void)
+       ^
+   drivers/staging/android/ion/ion_system_heap.c:292:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ion_system_heap_create(void)
+   ^
+   static 
+>> drivers/staging/android/ion/ion_system_heap.c:385:5: warning: no previous prototype for function 'ion_system_contig_heap_create' [-Wmissing-prototypes]
+   int ion_system_contig_heap_create(void)
+       ^
+   drivers/staging/android/ion/ion_system_heap.c:385:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ion_system_contig_heap_create(void)
+   ^
+   static 
+   2 warnings generated.
 
 
---czfim3jbpqegyq4m
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +/ion_system_heap_create +292 drivers/staging/android/ion/ion_system_heap.c
 
-Hello Brian,
+   291	
+ > 292	int ion_system_heap_create(void)
+   293	{
+   294		struct ion_heap *heap;
+   295	
+   296		heap = __ion_system_heap_create();
+   297		if (IS_ERR(heap))
+   298			return PTR_ERR(heap);
+   299		heap->name = "ion_system_heap";
+   300	
+   301		ion_device_add_heap(heap);
+   302		return 0;
+   303	}
+   304	
+   305	static int ion_system_contig_heap_allocate(struct ion_heap *heap,
+   306						   struct ion_buffer *buffer,
+   307						   unsigned long len,
+   308						   unsigned long flags)
+   309	{
+   310		int order = get_order(len);
+   311		struct page *page;
+   312		struct sg_table *table;
+   313		unsigned long i;
+   314		int ret;
+   315	
+   316		page = alloc_pages(low_order_gfp_flags | __GFP_NOWARN, order);
+   317		if (!page)
+   318			return -ENOMEM;
+   319	
+   320		split_page(page, order);
+   321	
+   322		len = PAGE_ALIGN(len);
+   323		for (i = len >> PAGE_SHIFT; i < (1 << order); i++)
+   324			__free_page(page + i);
+   325	
+   326		table = kmalloc(sizeof(*table), GFP_KERNEL);
+   327		if (!table) {
+   328			ret = -ENOMEM;
+   329			goto free_pages;
+   330		}
+   331	
+   332		ret = sg_alloc_table(table, 1, GFP_KERNEL);
+   333		if (ret)
+   334			goto free_table;
+   335	
+   336		sg_set_page(table->sgl, page, len, 0);
+   337	
+   338		buffer->sg_table = table;
+   339	
+   340		return 0;
+   341	
+   342	free_table:
+   343		kfree(table);
+   344	free_pages:
+   345		for (i = 0; i < len >> PAGE_SHIFT; i++)
+   346			__free_page(page + i);
+   347	
+   348		return ret;
+   349	}
+   350	
+   351	static void ion_system_contig_heap_free(struct ion_buffer *buffer)
+   352	{
+   353		struct sg_table *table = buffer->sg_table;
+   354		struct page *page = sg_page(table->sgl);
+   355		unsigned long pages = PAGE_ALIGN(buffer->size) >> PAGE_SHIFT;
+   356		unsigned long i;
+   357	
+   358		for (i = 0; i < pages; i++)
+   359			__free_page(page + i);
+   360		sg_free_table(table);
+   361		kfree(table);
+   362	}
+   363	
+   364	static struct ion_heap_ops kmalloc_ops = {
+   365		.allocate = ion_system_contig_heap_allocate,
+   366		.free = ion_system_contig_heap_free,
+   367		.map_kernel = ion_heap_map_kernel,
+   368		.unmap_kernel = ion_heap_unmap_kernel,
+   369		.map_user = ion_heap_map_user,
+   370	};
+   371	
+   372	static struct ion_heap *__ion_system_contig_heap_create(void)
+   373	{
+   374		struct ion_heap *heap;
+   375	
+   376		heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+   377		if (!heap)
+   378			return ERR_PTR(-ENOMEM);
+   379		heap->ops = &kmalloc_ops;
+   380		heap->type = ION_HEAP_TYPE_SYSTEM_CONTIG;
+   381		heap->name = "ion_system_contig_heap";
+   382		return heap;
+   383	}
+   384	
+ > 385	int ion_system_contig_heap_create(void)
+   386	{
+   387		struct ion_heap *heap;
+   388	
+   389		heap = __ion_system_contig_heap_create();
+   390		if (IS_ERR(heap))
+   391			return PTR_ERR(heap);
+   392	
+   393		ion_device_add_heap(heap);
+   394		return 0;
+   395	}
+   396	
 
-On Tue, Apr 04, 2023 at 07:13:03AM -0400, Brian Masney wrote:
-> This doesn't contain the code that's in iio/togreg [1], and that's why
-> the build failed. I originally developed / built this against
-> next-20230330. I just checked linus/master, next-20230404, iio/testing,
-> and all have the expected code that defines prox_diode_mask.
->=20
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/tree/dr=
-ivers/iio/light/tsl2772.c?h=3Dtogreg#n593
-
-You might want to make use of the --base parameter to git format-patch
-for you next submission. With that the auto builders have a chance to
-test on the right tree.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---czfim3jbpqegyq4m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQsGZ8ACgkQj4D7WH0S
-/k61mwf/ThD/ELYPWS+2DGG+2K5E/kOiiSJCCu985Ejv52/bRiUU9GH9VVFOoPU5
-BmHaG2iqF8nbShTHifTEdA0bTCa6A+ipCx12P4ztQEI4AIgY9zoiqZ2sWbUiAM4r
-hEdEPRy2fF6b5FUarVBNN3ySxgmika/6O3+VMG+T0SGwg8tqgCRpB0jGsOLvCjKa
-V4xCW7UvkgSWz2MyIdlfI5aoea18sSMZpREWsNFjevyB9b+jZ9WC46PQS37TidUA
-4Y59J5acABYXE1Ou/8BJGWT3Qbc1cgYiKnZbjOXVRNZNFM3gSb3qlH9hKXYAgSqa
-ff4wQKOyGv1nIGJgI8WqfxqdCuflJg==
-=E1z2
------END PGP SIGNATURE-----
-
---czfim3jbpqegyq4m--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
