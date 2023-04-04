@@ -1,57 +1,43 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9459BA3E;
-	Tue,  4 Apr 2023 15:04:04 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so20306161wms.1;
-        Tue, 04 Apr 2023 08:04:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680620643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBdBtzyHFd6lc83YrQIneyeohpNPTJ/y3GLkeIJnfvo=;
-        b=gkpaUlEImekGGm0xeTEjW/sQV7ex2AWGhlLK447E4ZfuKspHi6VwBheI3NIGcQxJRm
-         wD2o1vYPxVT5hXvusr8G5O11sBeKOkAay9cpQIurpmU86sryhDrBYL17lkjWCguGZrtz
-         emLFUqUlZcoDLML3HklU6z19yXOsrh74oN9O6QsqbhILv5Xv+kKxWgZsxgBSnsczwJuM
-         pvXfOMmpwz3WbDCw2n2qfy40UD+zc3+Rv7XfNUX6kvHOvYCqMdDdgMsSH2oZqjrxyw9w
-         7cdGd4UXjjkFQDmo11zUBb6SLI0ErWduKUWK2Ac5UK/VMiVEA6P1LpLiV9h0nAmzIOD0
-         7o8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680620643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JBdBtzyHFd6lc83YrQIneyeohpNPTJ/y3GLkeIJnfvo=;
-        b=EU9O+FsX17NFkcJtSJxthvxoKsn7jdRFENXmdS+HTTTvp2h31ZisuWHZ+jQ93LXiAl
-         liIdrzmCONWuhUAz5nYXhfif2/0N5dqbztwDYOklMftiICYk7716t0xw+dc9nx/x1Idq
-         MX0IrBy6fEi80AXGoRFSIu/U2UtgHhepQE16hjVXzPxfUYkCJcw+xxvCFbP8/wJ1pHhE
-         9j4lN80gDz1GFA6pWitRKSsFUtnfbqYylWeoWKrZgSzquGDB35XYKTpZOU2DSsVtcNj9
-         rx1SVO07PAi9+x8jHIC2R2jG3wzbxD875jB8PH6jT1X0fZ5cYo+F+PuNDOZi9Ltza/GF
-         e2Yg==
-X-Gm-Message-State: AAQBX9evfURL3kMck3xOheXnYpupRrUBNgSOS+fXsPETr1PXuTTUDOpY
-	gwduHmqzqzCGIgIS3XYMDvc=
-X-Google-Smtp-Source: AKy350bNnmlpCILUHmdUFYCLAb/iqR3do08Nj32nLRxLYpqec4RmcscQRBFttmaJwosh4wJ7chwjog==
-X-Received: by 2002:a05:600c:3646:b0:3ed:9ed7:d676 with SMTP id y6-20020a05600c364600b003ed9ed7d676mr2446609wmq.13.1680620642903;
-        Tue, 04 Apr 2023 08:04:02 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o5-20020a05600c510500b003ef5bb63f13sm23180970wms.10.2023.04.04.08.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 08:04:02 -0700 (PDT)
-Date: Tue, 4 Apr 2023 18:03:58 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Philip Li <philip.li@intel.com>
-Cc: Joseph Qi <joseph.qi@linux.alibaba.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
-	Heming Zhao via Ocfs2-devel <ocfs2-devel@oss.oracle.com>,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error
- code 'status'
-Message-ID: <c6304335-9b5f-4082-b804-e754cf77ce0c@kili.mountain>
-References: <9e1d6835-34fc-49cd-869e-d99d9b546d17@kili.mountain>
- <4154b815-3be4-53de-1bc0-ca87ecb925a4@linux.alibaba.com>
- <1e7d7076-ddd6-41b3-b824-673986c35477@kili.mountain>
- <ZCw5Ucw5CS6nXosr@rli9-mobl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81769BA3E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 15:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680621453; x=1712157453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SxB/5J1aJZAHlUZcEKDGwZgoSpUk7ydySAQDIcrYsc0=;
+  b=frQJmd7VIJwKgEQ9Ct+Zd4z1zE/fMSF5oVxe/CjqNno22wn5BKYtnGrh
+   PHN4DoxVez5JszD2w+1xhqzxIhmXsE64EH7bLnpak6x7rmQO1pZGJg1kT
+   KqMEYXgNA7DzmqJ7Z7mAZa+wH5gCNX7Giz7k4BzGGfn1579ObhKCQpBJt
+   rSRwXH/RPyHeBXTq41Cl1jB/RitIL77ZU7LXB0UyOGQ3rITe2qT+2Ggoy
+   ExqvMyH/rX3LoOSBclv9Ca14jmvgZ2R6YLYfJLco5ejcHpIt6QoDZf/3u
+   31pQlF1g4y8J2LqgOt9ExhNakPE7mpM+Hyym1yoQTZ+J7S3tR+Tx8f/gz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344781529"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
+   d="scan'208";a="344781529"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 08:17:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="830018650"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
+   d="scan'208";a="830018650"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2023 08:17:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjiPa-000Pos-2g;
+	Tue, 04 Apr 2023 15:17:30 +0000
+Date: Tue, 4 Apr 2023 23:17:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: drivers/gpu/drm/i915/i915.o: warning: objtool:
+ intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x47a27
+Message-ID: <202304042310.zZd8wR1u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,19 +46,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCw5Ucw5CS6nXosr@rli9-mobl>
 
-On Tue, Apr 04, 2023 at 10:50:57PM +0800, Philip Li wrote:
-> On Mon, Apr 03, 2023 at 02:20:55PM +0300, Dan Carpenter wrote:
-> > Sorry, the kbuild bot is not supposed to send duplicate warnings.  I
-> > don't know why it was sent again...
-> 
-> Sorry about this, we should ignore this commit in the bot. Now it is configured
-> to avoid the false positive report.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   148341f0a2f53b5e8808d093333d85170586a15d
+commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
+date:   2 months ago
+config: x86_64-randconfig-r021-20230403 (https://download.01.org/0day-ci/archive/20230404/202304042310.zZd8wR1u-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c27cd083cfb9d392f304657ed00fcde1136704e7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c27cd083cfb9d392f304657ed00fcde1136704e7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
 
-Fantastic.  Thanks, Philip!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304042310.zZd8wR1u-lkp@intel.com/
 
-regards,
-dan carpenter
+All warnings (new ones prefixed by >>):
 
+>> drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x47a27
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x4db77
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x4f277
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x5ff27
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x67167
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x7bfa7
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0xb8627
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0xc2ba7
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0xcfd27
+>> drivers/gpu/drm/i915/i915.o: warning: objtool: i915_request_await_start+0x5d5: relocation to !ENDBR: .text+0xd649a
+>> drivers/gpu/drm/i915/i915.o: warning: objtool: __guc_action_self_cfg+0x1a7: relocation to !ENDBR: .text+0xf384c
+   drivers/gpu/drm/i915/i915.o: warning: objtool: ct_handle_response+0x46b: relocation to !ENDBR: ct_process_request+0x0
+   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_gt_is_wedged+0xb2: relocation to !ENDBR: .text+0x103387
+
+
+objdump-func vmlinux.o intel_gt_is_wedged:
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
