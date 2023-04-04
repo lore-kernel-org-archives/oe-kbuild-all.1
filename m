@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3D4C951;
-	Tue,  4 Apr 2023 18:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF9FC964
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 19:43:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680631343; x=1712167343;
+  t=1680637434; x=1712173434;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tg/22cCtXZi7LMFOOorcG1s2zDE8W8Ws9IZHGMkDjBg=;
-  b=MwVXeMMEtjYdAlD6EezYTdFQK75UBVAOAEBJ6v8M42oxXWEBvlYovfde
-   sxj6LdLl7Gn3v2368zQTdq+vVkQ+KiFvYOvAMK+NIgP2gj9W/MEzCx114
-   AJ7chJuCsAiHyN7qN3KuKX6gmCSBOMF5DRook42T5p+VhrHcDc1lDosTT
-   JQRs497g2jIy/YtGffCo031TsSq0eqAgIew/8k7BINJEIWz7ATL+MsmWs
-   IXqmV+FDiqBpkMbiFlOHjaCXdofq/BiI4f9/n90dYf1N5C5w3BbTgp6Gq
-   XO4p8qMQhydgDgRiAqwk+T061bYSE/5jwigu/RT7f2PIDWcwbxF4i45ZB
+  bh=rkBrlhLNUEn9VSmqzsjPakm7w1hg7dYvtd/+QtcOd04=;
+  b=SWLoQQFFo0Cc6pHFtnwSb1oQEc1VC4W9zp/QIqMej0rQfSvwZtoLc//j
+   HCE6N4OtXs4R4QeaW3HmiXpXMpZbfN8GWQgyV0ROqGAyFLnhPvF/nFUhp
+   pjOLNaC+QQVhaCNYGaLm39VNHW3MJEZDppzensZCf1wii4kkp6+znRnv8
+   Otzn5vcl+cBQbelho8S74xmcgB47DsRtn5+Avvztfjx0cd+3L1fE0zqUY
+   tYyeJCmkE9F8nf1CmOOGi4/3JkK4xfedIcmmO02tVo589M5K+JpA4Gixt
+   vacH+RLmTdA9JAaoo9616cOWXHDBib6PRBn5RkIJvXN1ln71fogqCnryI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428547949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="343997840"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="428547949"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 11:01:42 -0700
+   d="scan'208";a="343997840"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 12:43:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="636617349"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="775768598"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="636617349"
+   d="scan'208";a="775768598"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 Apr 2023 11:01:39 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Apr 2023 12:43:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjkyQ-000Py4-27;
-	Tue, 04 Apr 2023 18:01:38 +0000
-Date: Wed, 5 Apr 2023 02:01:24 +0800
+	id 1pjmZ9-000Pzm-2i;
+	Tue, 04 Apr 2023 19:43:39 +0000
+Date: Wed, 5 Apr 2023 03:42:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [cel:topic-rpc-with-tls-upcall 3/19] ERROR: modpost:
- "handshake_req_hash_lookup" [net/handshake/kunit-test.ko] undefined!
-Message-ID: <202304050102.Ux7TQge0-lkp@intel.com>
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:riscv_kvm_aia_csr_v4 18/19] arch/riscv/kvm/aia.c:66:75:
+ error: expected ')' before 'return'
+Message-ID: <202304050359.Y9W2RtDx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,34 +46,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-with-tls-upcall
-head:   6de0228981b3b408d3e4a3c69a3afa65b2c86112
-commit: 99109f219c5fa71dab2d5412d78d90487ffbcdeb [3/19] net/handshake: Add Kunit tests for the handshake consumer API
-config: x86_64-randconfig-a004-20230403 (https://download.01.org/0day-ci/archive/20230405/202304050102.Ux7TQge0-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_csr_v4
+head:   88896407b9a3a032b2901bb856db409752cd68fc
+commit: 13640395e0a8b6d2acfc177c4bdcb69ba09b6eef [18/19] RISC-V: KVM: Virtualize per-HART AIA CSRs
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230405/202304050359.Y9W2RtDx-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=99109f219c5fa71dab2d5412d78d90487ffbcdeb
-        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
-        git fetch --no-tags cel topic-rpc-with-tls-upcall
-        git checkout 99109f219c5fa71dab2d5412d78d90487ffbcdeb
+        # https://github.com/avpatel/linux/commit/13640395e0a8b6d2acfc177c4bdcb69ba09b6eef
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_kvm_aia_csr_v4
+        git checkout 13640395e0a8b6d2acfc177c4bdcb69ba09b6eef
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304050102.Ux7TQge0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304050359.Y9W2RtDx-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux.o: section mismatch in reference: handshake_exit (section: .exit.text) -> handshake_genl_net_ops (section: .init.data)
->> ERROR: modpost: "handshake_req_hash_lookup" [net/handshake/kunit-test.ko] undefined!
->> ERROR: modpost: "handshake_pernet" [net/handshake/kunit-test.ko] undefined!
->> ERROR: modpost: "handshake_req_next" [net/handshake/kunit-test.ko] undefined!
->> ERROR: modpost: "handshake_complete" [net/handshake/kunit-test.ko] undefined!
+   arch/riscv/kvm/aia.c: In function 'kvm_riscv_vcpu_aia_has_interrupts':
+>> arch/riscv/kvm/aia.c:66:75: error: expected ')' before 'return'
+      66 |             (vcpu->arch.aia_context.guest_csr.vsieh & upper_32_bits(mask))
+         |                                                                           ^
+         |                                                                           )
+      67 |                 return true;
+         |                 ~~~~~~                                                     
+   arch/riscv/kvm/aia.c:65:12: note: to match this '('
+      65 |         if (READ_ONCE(vcpu->arch.irqs_pending[1]) &
+         |            ^
+>> arch/riscv/kvm/aia.c:78:1: error: expected expression before '}' token
+      78 | }
+         | ^
+   arch/riscv/kvm/aia.c:59:23: warning: unused variable 'seip' [-Wunused-variable]
+      59 |         unsigned long seip;
+         |                       ^~~~
+   arch/riscv/kvm/aia.c:78:1: error: control reaches end of non-void function [-Werror=return-type]
+      78 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +66 arch/riscv/kvm/aia.c
+
+    56	
+    57	bool kvm_riscv_vcpu_aia_has_interrupts(struct kvm_vcpu *vcpu, u64 mask)
+    58	{
+    59		unsigned long seip;
+    60	
+    61		if (!kvm_riscv_aia_available())
+    62			return false;
+    63	
+    64	#ifdef CONFIG_32BIT
+    65		if (READ_ONCE(vcpu->arch.irqs_pending[1]) &
+  > 66		    (vcpu->arch.aia_context.guest_csr.vsieh & upper_32_bits(mask))
+    67			return true;
+    68	#endif
+    69	
+    70		seip = vcpu->arch.guest_csr.vsie;
+    71		seip &= (unsigned long)mask;
+    72		seip &= BIT(IRQ_S_EXT);
+    73	
+    74		if (!kvm_riscv_aia_initialized(vcpu->kvm) || !seip)
+    75			return false;
+    76	
+    77		return false;
+  > 78	}
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
