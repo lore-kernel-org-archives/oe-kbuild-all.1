@@ -1,45 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D807E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 02:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726717E;
+	Tue,  4 Apr 2023 02:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680573711; x=1712109711;
+  t=1680574320; x=1712110320;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hg/2aixy2WZXbXG/sWuB7ZCAhNF9nA+BgZkN81OmlaQ=;
-  b=HXudkQf4s53aQq4pgGsXwI2B1DA8l/6qCXGiOxFkoaG3HqxwA58CLeoA
-   ICvpbIGWP5tit2mwOF4VDYU3bGHAGMmSzNjH5Q6FDzkFHV4Fa4fZwm8ta
-   MDUlixNrA8EXmuUdZTTzaO11RYPncvvb7LW9BtMyOY3IGjTOc/wqpIAl7
-   RJlhCRBApDWMfiBbh5fBCdlzuoRRVLFCjaPsVeK//lSJtcjW54Dh4ADZq
-   DsBMxZfDWhhW3abCEB1Y/BywbYJ+88tGXLHlFyOITdPFbCxyTxBCLfjUN
-   Ofmn6AIKhQ2YYPuFr2sDtPbwAf1mwC75cxDHrmrre9WHLXEo0yH23lYK9
+  bh=TDGMjXEoOdfdpc8A+QvPYHDfLyIq7uSVZktWfPFiqD8=;
+  b=bWrXh4bZ4EDJuTt+64E8ouMUc3RY3Sg8YXg6ClLmwWDXqWm4+gqqjL3b
+   qB95Q5+AMN11ZyBDy9t9jCTRzxlt/WqqWWdKo5LWr1fWPcCG0TEsnG6BO
+   1W/FQjv6pmaqZBed6nVNtptfUSLRUKlQJJpsRSSEm8DFkYO8HA0emu381
+   vin9tOGg2sgIHsmjnLGRxYfBHePCTtKY4+fPLIjlEd/fyB22LD9eWJBvA
+   QcB5ACjpKEGSAzomFltVV7EzBahfN4Srv1qijURIt/ZxoELXbKxsZqDhN
+   eCaLalqy1WUKPmcYCF+cszbsXWaEhsoC9debvP93MieN/CoEE1sVGZ8Hx
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="343767226"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326085973"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="343767226"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:01:00 -0700
+   d="scan'208";a="326085973"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:11:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829792577"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686188904"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="829792577"
+   d="scan'208";a="686188904"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2023 19:00:52 -0700
+  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 19:11:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjVye-000P1a-0J;
-	Tue, 04 Apr 2023 02:00:52 +0000
-Date: Tue, 4 Apr 2023 10:00:21 +0800
+	id 1pjW9I-000P2K-2P;
+	Tue, 04 Apr 2023 02:11:52 +0000
+Date: Tue, 4 Apr 2023 10:10:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
 	David Ahern <dsahern@kernel.org>,
 	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Dmitry Safonov <dima@arista.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
 	Andy Lutomirski <luto@amacapital.net>,
 	Ard Biesheuvel <ardb@kernel.org>,
 	Bob Gilligan <gilligan@arista.com>,
@@ -53,9 +53,10 @@ Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	Ivan Delalande <colona@arista.com>,
 	Leonard Crestez <cdleonard@gmail.com>,
 	Salam Noureddine <noureddine@arista.com>
-Subject: Re: [PATCH v5 09/21] net/tcp: Add TCP-AO sign to twsk
-Message-ID: <202304040904.0iYIgRHd-lkp@intel.com>
-References: <20230403213420.1576559-10-dima@arista.com>
+Subject: Re: [PATCH v5 01/21] [draft] net/tcp: Prepare tcp_md5sig_pool for
+ TCP-AO
+Message-ID: <202304040916.I3rkyzLG-lkp@intel.com>
+References: <20230403213420.1576559-2-dima@arista.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,7 +65,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403213420.1576559-10-dima@arista.com>
+In-Reply-To: <20230403213420.1576559-2-dima@arista.com>
 
 Hi Dmitry,
 
@@ -74,79 +75,94 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
 base:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
-patch link:    https://lore.kernel.org/r/20230403213420.1576559-10-dima%40arista.com
-patch subject: [PATCH v5 09/21] net/tcp: Add TCP-AO sign to twsk
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230404/202304040904.0iYIgRHd-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+patch link:    https://lore.kernel.org/r/20230403213420.1576559-2-dima%40arista.com
+patch subject: [PATCH v5 01/21] [draft] net/tcp: Prepare tcp_md5sig_pool for TCP-AO
+config: i386-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040916.I3rkyzLG-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6dd2eb18d51db7f4e1bfac2de38f7a5c2363ef0e
+        # https://github.com/intel-lab-lkp/linux/commit/94408bb4cf5cbcc772ab4d70eeb73bda183c6124
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230404-054020
-        git checkout 6dd2eb18d51db7f4e1bfac2de38f7a5c2363ef0e
+        git checkout 94408bb4cf5cbcc772ab4d70eeb73bda183c6124
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/ipv6/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/ipv4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040904.0iYIgRHd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040916.I3rkyzLG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/ipv6/tcp_ipv6.c: In function 'tcp_v6_timewait_ack':
->> net/ipv6/tcp_ipv6.c:1214:36: warning: variable 'rnext_key' set but not used [-Wunused-but-set-variable]
-    1214 |                 struct tcp_ao_key *rnext_key;
-         |                                    ^~~~~~~~~
+>> net/ipv4/tcp_sigpool.c:63:9: warning: comparison of distinct pointer types ('typeof (size) *' (aka 'unsigned int *') and 'typeof (__scratch_size) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+           size = max(size, __scratch_size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                 ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
+                    ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/rnext_key +1214 net/ipv6/tcp_ipv6.c
+vim +63 net/ipv4/tcp_sigpool.c
 
-  1190	
-  1191	static void tcp_v6_timewait_ack(struct sock *sk, struct sk_buff *skb)
-  1192	{
-  1193		struct inet_timewait_sock *tw = inet_twsk(sk);
-  1194		struct tcp_timewait_sock *tcptw = tcp_twsk(sk);
-  1195		struct tcp_ao_key *ao_key = NULL;
-  1196		u8 *traffic_key = NULL;
-  1197		u8 rcv_next = 0;
-  1198		u32 ao_sne = 0;
-  1199	#ifdef CONFIG_TCP_AO
-  1200		struct tcp_ao_info *ao_info;
-  1201	
-  1202		/* FIXME: the segment to-be-acked is not verified yet */
-  1203		ao_info = rcu_dereference(tcptw->ao_info);
-  1204		if (ao_info) {
-  1205			const struct tcp_ao_hdr *aoh;
-  1206	
-  1207			/* Invalid TCP option size or twice included auth */
-  1208			if (tcp_parse_auth_options(tcp_hdr(skb), NULL, &aoh))
-  1209				goto out;
-  1210			if (aoh)
-  1211				ao_key = tcp_ao_established_key(ao_info, aoh->rnext_keyid, -1);
-  1212		}
-  1213		if (ao_key) {
-> 1214			struct tcp_ao_key *rnext_key;
-  1215	
-  1216			traffic_key = snd_other_key(ao_key);
-  1217			/* rcv_next switches to our rcv_next */
-  1218			rnext_key = READ_ONCE(ao_info->rnext_key);
-  1219			rcv_next = ao_info->rnext_key->rcvid;
-  1220			ao_sne = tcp_ao_compute_sne(ao_info->snd_sne,
-  1221						    ao_info->snd_sne_seq,
-  1222						    tcptw->tw_snd_nxt);
-  1223		}
-  1224	#endif
-  1225	
-  1226		tcp_v6_send_ack(sk, skb, tcptw->tw_snd_nxt, tcptw->tw_rcv_nxt,
-  1227				tcptw->tw_rcv_wnd >> tw->tw_rcv_wscale,
-  1228				tcp_time_stamp_raw() + tcptw->tw_ts_offset,
-  1229				tcptw->tw_ts_recent, tw->tw_bound_dev_if, tcp_twsk_md5_key(tcptw),
-  1230				tw->tw_tclass, cpu_to_be32(tw->tw_flowlabel), tw->tw_priority,
-  1231				tw->tw_txhash, ao_key, traffic_key, rcv_next, ao_sne);
-  1232	
+    43	
+    44	/*
+    45	 * sigpool_reserve_scratch - re-allocates scratch buffer, slow-path
+    46	 * @size: request size for the scratch/temp buffer
+    47	 */
+    48	static int sigpool_reserve_scratch(size_t size)
+    49	{
+    50		struct scratches_to_free *stf;
+    51		size_t stf_sz = struct_size(stf, scratches, num_possible_cpus());
+    52		int cpu, err = 0;
+    53	
+    54		lockdep_assert_held(&cpool_mutex);
+    55		if (__scratch_size >= size)
+    56			return 0;
+    57	
+    58		stf = kmalloc(stf_sz, GFP_KERNEL);
+    59		if (!stf)
+    60			return -ENOMEM;
+    61		stf->cnt = 0;
+    62	
+  > 63		size = max(size, __scratch_size);
+    64		cpus_read_lock();
+    65		for_each_possible_cpu(cpu) {
+    66			void *scratch, *old_scratch;
+    67	
+    68			scratch = kmalloc_node(size, GFP_KERNEL, cpu_to_node(cpu));
+    69			if (!scratch) {
+    70				err = -ENOMEM;
+    71				break;
+    72			}
+    73	
+    74			old_scratch = rcu_replace_pointer(per_cpu(sigpool_scratch, cpu), scratch, lockdep_is_held(&cpool_mutex));
+    75			if (!cpu_online(cpu) || !old_scratch) {
+    76				kfree(old_scratch);
+    77				continue;
+    78			}
+    79			stf->scratches[stf->cnt++] = old_scratch;
+    80		}
+    81		cpus_read_unlock();
+    82		if (!err)
+    83			__scratch_size = size;
+    84	
+    85		call_rcu(&stf->rcu, free_old_scratches);
+    86		return err;
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
