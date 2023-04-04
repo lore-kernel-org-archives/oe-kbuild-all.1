@@ -1,75 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73106361
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 00:23:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB75C433D2;
-	Tue,  4 Apr 2023 00:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680567838;
-	bh=7M+UGp1xmpMg/TaLWesOoegPlcZn3VND2KV/mCXHCDs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Zn7pPfWbwiONly8ezXGcUlo9GJRdfIfq7trdycfxyDJLKhlIBBP5OQ73rs0+NUVr+
-	 0WiYhKrf+usRJbmbRHH94TlJaAXcWi6efXfhPqxuExNiZxRk03ILB/i1lM5vw7K2nI
-	 DRJEzrjLNjHV4KZOkhnILkN+V9p7OCaGAZkZI8JQADjXc0UPpVGzPQCEpRUM0/UA+Y
-	 qdfiogqi//TAKftKHDK2eqhhaITitevE/X2OCVYfviw9gRoV+GLelYBb4Kj62KKrRG
-	 YXOSYAgTHPGrWugKNsLG4Xi4cXoeFlFlAW4tOya0FWtccjc6yjQLRhbLIZglojwhK/
-	 HiuhZ8HwDlbqQ==
-Message-ID: <685a52da2ff0ba632da3ad033bb8b165.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4AF7E;
+	Tue,  4 Apr 2023 00:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680569274; x=1712105274;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RXv6nnvuAvYkBkDjFqAcvYEGLIrMuHjL2t3Rp8C34WY=;
+  b=Wwplf3cJ+JRu6szOpC0G3QqbYbAVRAgdbZ0EAhU/kISz1FvxUImmgN1C
+   KaoerO5H0K3NnSoGurQuXvQYqL3IE9+oC9qyS4EPadmIww4iLZ4PjEhDF
+   8qva7v3ptxAcKPGO+5JL5sDufBgOdOc2RICKJqOfskL9E2KvVoqfmQWDW
+   uygpbp69/4lC6ACSBsy906alUuTDXSjdIQzSXptflbcBRbIio80TKFA8s
+   xg8nG+d1eS00czCiEGb06FtfhGQByubLRHkV59BoYPX0LL8AEkdsspitJ
+   MvtcRyGeqtE4/1zqgB+rEwUVdC5loxQ5lrNFAWW5gIlKL7YLQsVKpc4Hw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="321710750"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="321710750"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 17:47:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686167807"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="686167807"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 17:47:50 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjUpx-000Oyk-1l;
+	Tue, 04 Apr 2023 00:47:49 +0000
+Date: Tue, 4 Apr 2023 08:47:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] drivers: clk: Add support for versa3 clock driver
+Message-ID: <202304040800.ncpvZq1s-lkp@intel.com>
+References: <20230403103257.328954-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202304020649.QO2HlpD5-lkp@intel.com>
-References: <202304020649.QO2HlpD5-lkp@intel.com>
-Subject: Re: [clk:clk-mediatek 81/82] FATAL: modpost: drivers/clk/mediatek/clk-mt8188-imp_iic_wrap: sizeof(struct platform_device_id)=24 is not a modulo of the size of section __mod_platform__<identifier>_device_table=784.
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wenst@chromium.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Garmin.Chang <Garmin.Chang@mediatek.com>, kernel test robot <lkp@intel.com>
-Date: Mon, 03 Apr 2023 17:23:55 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230403103257.328954-3-biju.das.jz@bp.renesas.com>
 
-Quoting kernel test robot (2023-04-01 16:05:54)
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk=
--mediatek
-> head:   0d2f2cefba64729a0730ce183ad58cf3e7929b94
-> commit: 1b5e5299dd35da0dff2d454826a60870237837da [81/82] clk: mediatek: A=
-dd MT8188 imp i2c wrapper clock support
-> config: parisc-randconfig-m041-20230402 (https://download.01.org/0day-ci/=
-archive/20230402/202304020649.QO2HlpD5-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/c=
-ommit/?id=3D1b5e5299dd35da0dff2d454826a60870237837da
->         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/clk/linux.git
->         git fetch --no-tags clk clk-mediatek
->         git checkout 1b5e5299dd35da0dff2d454826a60870237837da
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc SHELL=3D/bin/bash
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304020649.QO2HlpD5-lkp@i=
-ntel.com/
->=20
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> >> FATAL: modpost: drivers/clk/mediatek/clk-mt8188-imp_iic_wrap: sizeof(s=
-truct platform_device_id)=3D24 is not a modulo of the size of section __mod=
-_platform__<identifier>_device_table=3D784.
-> Fix definition of struct platform_device_id in mod_devicetable.h
->=20
+Hi Biju,
 
-I suspect we need to include the header for mod_devicetable.h
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on next-20230403]
+[cannot apply to geert-renesas-devel/next robh/for-next linus/master v6.3-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-clock-Add-Renesas-versa3-clock-generator-bindings/20230403-183501
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230403103257.328954-3-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH v3 2/3] drivers: clk: Add support for versa3 clock driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230404/202304040800.ncpvZq1s-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bd1f4d06603f7dc65276411a65078a8ffaf5b844
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Biju-Das/dt-bindings-clock-Add-Renesas-versa3-clock-generator-bindings/20230403-183501
+        git checkout bd1f4d06603f7dc65276411a65078a8ffaf5b844
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/clk/ drivers/gpio/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040800.ncpvZq1s-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/clk/clk-versaclock3.c:263:8: warning: variable 'premul' is uninitialized when used here [-Wuninitialized]
+                           if (premul & VC3_PLL2_MDIV_DOUBLER)
+                               ^~~~~~
+   drivers/clk/clk-versaclock3.c:244:29: note: initialize the variable 'premul' to silence this warning
+           unsigned int prediv, premul;
+                                      ^
+                                       = 0
+   1 warning generated.
+
+
+vim +/premul +263 drivers/clk/clk-versaclock3.c
+
+   238	
+   239	static unsigned long vc3_pfd_recalc_rate(struct clk_hw *hw,
+   240						 unsigned long parent_rate)
+   241	{
+   242		struct vc3_hw_data *vc3 = container_of(hw, struct vc3_hw_data, hw);
+   243		const struct vc3_pfd_data *pfd = vc3->data;
+   244		unsigned int prediv, premul;
+   245		unsigned long rate;
+   246		u8 mdiv;
+   247	
+   248		regmap_read(vc3->regmap, pfd->offs, &prediv);
+   249		if (pfd->num == VC3_PFD1) {
+   250			/* The bypass_prediv is set, PLL fed from Ref_in directly. */
+   251			if (prediv & pfd->mdiv1_bitmsk) {
+   252				/* check doubler is set or not */
+   253				regmap_read(vc3->regmap, VC3_PLL1_CTRL_OUTDIV5, &premul);
+   254				if (premul & VC3_PLL1_CTRL_OUTDIV5_PLL1_MDIV_DOUBLER)
+   255					parent_rate *= 2;
+   256				return parent_rate;
+   257			}
+   258			mdiv = VC3_PLL1_M_DIV(prediv);
+   259		} else if (pfd->num == VC3_PFD2) {
+   260			/* The bypass_prediv is set, PLL fed from Ref_in directly. */
+   261			if (prediv & pfd->mdiv1_bitmsk) {
+   262				/* check doubler is set or not */
+ > 263				if (premul & VC3_PLL2_MDIV_DOUBLER)
+   264					parent_rate *= 2;
+   265				return parent_rate;
+   266			}
+   267	
+   268			mdiv = VC3_PLL2_M_DIV(prediv);
+   269		} else {
+   270			/* The bypass_prediv is set, PLL fed from Ref_in directly. */
+   271			if (prediv & pfd->mdiv1_bitmsk)
+   272				return parent_rate;
+   273	
+   274			mdiv = VC3_PLL3_M_DIV(prediv);
+   275		}
+   276	
+   277		if (prediv & pfd->mdiv2_bitmsk)
+   278			rate = parent_rate / 2;
+   279		else
+   280			rate = parent_rate / mdiv;
+   281	
+   282		return rate;
+   283	}
+   284	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
