@@ -1,44 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825373C07
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 16:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C873C07
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 16:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680625176; x=1712161176;
+  t=1680625252; x=1712161252;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vMqnjaS3oOnmmd/z4Z0Ql3WCXJt6APKdgJRhVQ7kLDw=;
-  b=T/nKbfrP4LXQZY6w7NYhvaU/d5E5TPhBaLpZ03WYK0rRq969k2JFOAF1
-   3EzTeW+bT4c/kFl2+3k/DSOjk9IdFkeXhPXOUMLpcwToGY53j2slDqp8P
-   jFxZ9NF5Ky5Wg4xgjT9XhjwqjXm59LAXPk643YpBqVg7MzrgfQJPT8L2d
-   DqdHQ08vZ/HyGwGBTEW7spE7AIrDCLvj4uQmDi5LUflCN0Kvi1l9e7mCY
-   i9vUzfNW3uGXGSblbA7zDgOA5aXO5iASdl3ihBnNYNwn2+rQ640e2ggCn
-   +Kz5K8fEBWyE9ChPDqZb9RusFEulPlSBuWg+TI4S/GIm7Oyl+esN0//UL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="343938714"
+  bh=nrK8hkkDvG2ZD7xpLCEcFzwzreDEMPoFqgJUjCMmA58=;
+  b=UjeFI/rffpTinMrVtSKK3reUCq1xMzEaXB62YHPKBGs4LX2b0J0VP+3/
+   +9azdTDGMAMC2pvXuG8A/PX8ak/JfHQTBVXfPYpTB1uPi9go7TXi4dyRK
+   cwMRMb+SrgWlVW1RL1f8NA0d7mwcE7kPFq3sNbti0J0OhajU7UMbubeLb
+   Nrl82vPUGaORiIYPacxyW1DxGCYuc3NtsTjxH6rtzPgGAOdkMmosrUYEI
+   JFU1ERpBr8mYJJyzwhOnxZF0c6qFuFtIvK3yEfD29161ZS6A6RzZzsecD
+   S5EwihU3y/nBh5vxkSpvOPacGutaer8QHzKEcdvIPexjMspJqydhVIwHj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="407305855"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="343938714"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 09:19:36 -0700
+   d="scan'208";a="407305855"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 09:19:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="718991746"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="830034481"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="718991746"
+   d="scan'208";a="830034481"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Apr 2023 09:19:34 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2023 09:19:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjjNe-000PtJ-0Q;
+	id 1pjjNe-000PtL-0W;
 	Tue, 04 Apr 2023 16:19:34 +0000
-Date: Wed, 5 Apr 2023 00:19:00 +0800
+Date: Wed, 5 Apr 2023 00:19:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: [linux-next:master 484/9010] diff:
- tools/arch/s390/include/uapi/asm/ptrace.h: No such file or directory
-Message-ID: <202304050029.38NdbQPf-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:393:28:
+ sparse: sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202304050051.J6m3zd1N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,39 +46,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6a53bda3aaf3de5edeea27d0b1d8781d067640b6
-commit: 1f265d2aea0dff1f2f9ecd41f545d601869462c5 [484/9010] selftests/bpf: Remove not used headers
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   148341f0a2f53b5e8808d093333d85170586a15d
+commit: a050910972bb25152b42ad2e544652117c5ad915 efi/libstub: implement generic EFI zboot
+date:   7 months ago
+config: arm64-randconfig-s052-20230404 (https://download.01.org/0day-ci/archive/20230405/202304050051.J6m3zd1N-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=1f265d2aea0dff1f2f9ecd41f545d601869462c5
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 1f265d2aea0dff1f2f9ecd41f545d601869462c5
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a050910972bb25152b42ad2e544652117c5ad915
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a050910972bb25152b42ad2e544652117c5ad915
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304050029.38NdbQPf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304050051.J6m3zd1N-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/firmware/efi/libstub/zboot.c: note: in included file (through drivers/firmware/efi/libstub/../../../../lib/decompress_unxz.c):
+>> drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:393:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:393:28: sparse:     got unsigned int const [usertype] *
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:427:48: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:427:48: sparse:     got unsigned int const [usertype] *
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:435:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:435:37: sparse:     got unsigned int const [usertype] *
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:459:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c:459:28: sparse:     got unsigned int const [usertype] *
+   drivers/firmware/efi/libstub/zboot.c:163:1: sparse: sparse: symbol 'efi_zboot_entry' was not declared. Should it be static?
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/in.h' differs from latest version at 'include/uapi/linux/in.h'
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/perf_event.h' differs from latest version at 'include/uapi/linux/perf_event.h'
-   Warning: Kernel ABI header at 'tools/include/linux/bits.h' differs from latest version at 'include/linux/bits.h'
-   Warning: Kernel ABI header at 'tools/include/vdso/bits.h' differs from latest version at 'include/vdso/bits.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-features.h' differs from latest version at 'arch/x86/include/asm/disabled-features.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/required-features.h' differs from latest version at 'arch/x86/include/asm/required-features.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/cpufeatures.h' differs from latest version at 'arch/x86/include/asm/cpufeatures.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/msr-index.h' differs from latest version at 'arch/x86/include/asm/msr-index.h'
-   Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/perf_regs.h' differs from latest version at 'arch/arm64/include/uapi/asm/perf_regs.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/uapi/asm/svm.h' differs from latest version at 'arch/x86/include/uapi/asm/svm.h'
->> diff: tools/arch/s390/include/uapi/asm/ptrace.h: No such file or directory
-   Warning: Kernel ABI header at 'tools/arch/s390/include/uapi/asm/ptrace.h' differs from latest version at 'arch/s390/include/uapi/asm/ptrace.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/lib/memcpy_64.S' differs from latest version at 'arch/x86/lib/memcpy_64.S'
-   Warning: Kernel ABI header at 'tools/arch/x86/lib/memset_64.S' differs from latest version at 'arch/x86/lib/memset_64.S'
-     PERF_VERSION = 6.2.g1f265d2aea0d
+vim +393 drivers/firmware/efi/libstub/../../../../lib/xz/xz_dec_stream.c
+
+24fa0402a9b6a53 Lasse Collin 2011-01-12  385  
+24fa0402a9b6a53 Lasse Collin 2011-01-12  386  /* Decode the Stream Header field (the first 12 bytes of the .xz Stream). */
+24fa0402a9b6a53 Lasse Collin 2011-01-12  387  static enum xz_ret dec_stream_header(struct xz_dec *s)
+24fa0402a9b6a53 Lasse Collin 2011-01-12  388  {
+24fa0402a9b6a53 Lasse Collin 2011-01-12  389  	if (!memeq(s->temp.buf, HEADER_MAGIC, HEADER_MAGIC_SIZE))
+24fa0402a9b6a53 Lasse Collin 2011-01-12  390  		return XZ_FORMAT_ERROR;
+24fa0402a9b6a53 Lasse Collin 2011-01-12  391  
+24fa0402a9b6a53 Lasse Collin 2011-01-12  392  	if (xz_crc32(s->temp.buf + HEADER_MAGIC_SIZE, 2, 0)
+24fa0402a9b6a53 Lasse Collin 2011-01-12 @393  			!= get_le32(s->temp.buf + HEADER_MAGIC_SIZE + 2))
+24fa0402a9b6a53 Lasse Collin 2011-01-12  394  		return XZ_DATA_ERROR;
+24fa0402a9b6a53 Lasse Collin 2011-01-12  395  
+24fa0402a9b6a53 Lasse Collin 2011-01-12  396  	if (s->temp.buf[HEADER_MAGIC_SIZE] != 0)
+24fa0402a9b6a53 Lasse Collin 2011-01-12  397  		return XZ_OPTIONS_ERROR;
+24fa0402a9b6a53 Lasse Collin 2011-01-12  398  
+24fa0402a9b6a53 Lasse Collin 2011-01-12  399  	/*
+24fa0402a9b6a53 Lasse Collin 2011-01-12  400  	 * Of integrity checks, we support only none (Check ID = 0) and
+24fa0402a9b6a53 Lasse Collin 2011-01-12  401  	 * CRC32 (Check ID = 1). However, if XZ_DEC_ANY_CHECK is defined,
+24fa0402a9b6a53 Lasse Collin 2011-01-12  402  	 * we will accept other check types too, but then the check won't
+24fa0402a9b6a53 Lasse Collin 2011-01-12  403  	 * be verified and a warning (XZ_UNSUPPORTED_CHECK) will be given.
+24fa0402a9b6a53 Lasse Collin 2011-01-12  404  	 */
+4f8d7abaa413c34 Lasse Collin 2021-10-11  405  	if (s->temp.buf[HEADER_MAGIC_SIZE + 1] > XZ_CHECK_MAX)
+4f8d7abaa413c34 Lasse Collin 2021-10-11  406  		return XZ_OPTIONS_ERROR;
+4f8d7abaa413c34 Lasse Collin 2021-10-11  407  
+24fa0402a9b6a53 Lasse Collin 2011-01-12  408  	s->check_type = s->temp.buf[HEADER_MAGIC_SIZE + 1];
+24fa0402a9b6a53 Lasse Collin 2011-01-12  409  
+
+:::::: The code at line 393 was first introduced by commit
+:::::: 24fa0402a9b6a537e87e38341e78b7da86486846 decompressors: add XZ decompressor module
+
+:::::: TO: Lasse Collin <lasse.collin@tukaani.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
