@@ -1,44 +1,49 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC297E;
-	Tue,  4 Apr 2023 00:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6579A7E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 01:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680569933; x=1712105933;
+  t=1680571194; x=1712107194;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t/8M52oZNpmJ0rYrT21nM2K3sasgaKzMUWvh/T0RiMY=;
-  b=FTVbO4hsk8Q4WxjoITwzIWvIlKhrsQ3orceohU70BbyX1+XQg8u3xyWZ
-   WL+rhws5DgvLIVbRHCRWHSTRoNAYIjTXbK7BOO13UEOvVdFf/YzU5ODkF
-   riCBZUM376MGiJOfF44VK8nFdg8O3mW8J1CnZP4LooLIHNGxhxRwHp/MI
-   da02TrD5FrmatP2wUGgI/yGW+ogju7GE28SkfLsyVQ863/B3J8I6w8PgO
-   MVv7vPVZnXESl4a683LRrQiCf39d0lsbyYBXUDGmyzZ9+HYTRVnG3iV4I
-   FM+Zu6+QueMmuK64BqBkLh6vQs5MXfHh+Ay1/J66slaBa0BS4IB/szH/+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407116884"
+  bh=kYfHwpabs/xCsxDXmJ9TPb9haAfcSLMo5zs7MtvWs0E=;
+  b=XUhwN1LoIZGvibPlPBWfI5MyLELH0MhPuJ9tl76QeXehvqOk+ZhrMHga
+   v/VvXvW3QsRt4+pS9qdJI6OLQCX93JYpDXUHNWm3oy71fQp1/3g11o0kl
+   OaL7ZjZEWk4Je/qDVxEnOtHjD13cW++XitSjOsoBMkjXN8jLnGjZf1xNd
+   6w1Kd5ehp6SeVyhB71WBBz+K3/sYAzqfd1cYn6eanmXuQ4D5ejSy493Id
+   rNCsXX1CYSampSfc6Y25eiIpNq5lkphvTfObaz5qAaHydEH5QwP4klZme
+   YwsRPCpfPNfIY2PnewYaPvJ1H59OXJIfnZVy/PZGkOs0C04VHkrv9pmdQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="340791547"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="407116884"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 17:58:52 -0700
+   d="scan'208";a="340791547"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 18:19:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="663397229"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="775442802"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="663397229"
+   d="scan'208";a="775442802"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 03 Apr 2023 17:58:50 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2023 18:19:51 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjV0b-000Oyw-2D;
-	Tue, 04 Apr 2023 00:58:49 +0000
-Date: Tue, 4 Apr 2023 08:58:15 +0800
+	id 1pjVKw-000Ozq-1P;
+	Tue, 04 Apr 2023 01:19:50 +0000
+Date: Tue, 4 Apr 2023 09:18:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [linux-next:master 932/8744] arch/mips/ar7/gpio.c:19:19: error:
- field has incomplete type 'struct gpio_chip'
-Message-ID: <202304040830.kPrP1Qew-lkp@intel.com>
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	Daniel Santos <daniel.santos@pobox.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [linux-stable-rc:linux-5.4.y 4610/22976]
+ include/linux/compiler.h:350:45: error: call to '__compiletime_assert_253'
+ declared with attribute error: FIELD_GET: mask is not constant
+Message-ID: <202304040908.quRhblEI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,116 +53,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   31bd35b66249699343d2416658f57e97314a433a
-commit: 21d9526d13b5467b0a6532e5a8b0eb04c01ce326 [932/8744] gpiolib: Make the legacy <linux/gpio.h> consumer-only
-config: mips-randconfig-r035-20230402 (https://download.01.org/0day-ci/archive/20230404/202304040830.kPrP1Qew-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+Hi Vegard,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+head:   73330daa339307fbff4ff7f1775da1dead794691
+commit: 3910babeac1ab031f4e178042cbd1af9a9a0ec51 [4610/22976] compiler.h: fix error in BUILD_BUG_ON() reporting
+config: i386-randconfig-r015-20230403 (https://download.01.org/0day-ci/archive/20230404/202304040908.quRhblEI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=21d9526d13b5467b0a6532e5a8b0eb04c01ce326
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 21d9526d13b5467b0a6532e5a8b0eb04c01ce326
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=3910babeac1ab031f4e178042cbd1af9a9a0ec51
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc linux-5.4.y
+        git checkout 3910babeac1ab031f4e178042cbd1af9a9a0ec51
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/mediatek/mt76/mt7615/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040830.kPrP1Qew-lkp@intel.com/
-
-Note: the linux-next/master HEAD 31bd35b66249699343d2416658f57e97314a433a builds fine.
-      It may have been fixed somewhere.
+| Link: https://lore.kernel.org/oe-kbuild-all/202304040908.quRhblEI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/mips/ar7/gpio.c:19:19: error: field has incomplete type 'struct gpio_chip'
-           struct gpio_chip        chip;
-                                   ^
-   arch/mips/ar7/gpio.c:19:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip        chip;
-                  ^
->> arch/mips/ar7/gpio.c:24:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
->> arch/mips/ar7/gpio.c:24:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:32:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:32:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:42:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:42:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:55:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:55:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:68:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:68:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:78:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:78:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:93:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:93:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/ar7/gpio.c:105:31: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                        ^
-   arch/mips/ar7/gpio.c:105:24: error: incompatible integer to pointer conversion initializing 'struct ar7_gpio_chip *' with an expression of type 'int' [-Wint-conversion]
-           struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-                                 ^      ~~~~~~~~~~~~~~~~~~~~~~~
->> arch/mips/ar7/gpio.c:318:8: error: call to undeclared function 'gpiochip_add_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = gpiochip_add_data(&gpch->chip, gpch);
-                 ^
-   18 errors generated.
+   In file included from include/linux/export.h:42,
+                    from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:8,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/net/wireless/mediatek/mt76/mt7615/mac.c:10:
+   drivers/net/wireless/mediatek/mt76/mt7615/mac.c: In function 'to_rssi':
+>> include/linux/compiler.h:350:45: error: call to '__compiletime_assert_253' declared with attribute error: FIELD_GET: mask is not constant
+     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
+     331 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
+     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:46:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      46 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
+      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
+      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
+         |                 ^~~~~~~~~
+   include/linux/compiler.h:350:45: error: call to '__compiletime_assert_257' declared with attribute error: BUILD_BUG_ON failed: (((field) + (1ULL << (__builtin_ffsll(field) - 1))) & (((field) + (1ULL << (__builtin_ffsll(field) - 1))) - 1)) != 0
+     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
+     331 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
+     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:54:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      54 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
+      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
+      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
+         |                 ^~~~~~~~~
 
 
-vim +19 arch/mips/ar7/gpio.c
+vim +/__compiletime_assert_253 +350 include/linux/compiler.h
 
-7ca5dc145bc7da Florian Fainelli 2009-06-24  16  
-5f3c909881d5de Florian Fainelli 2010-01-03  17  struct ar7_gpio_chip {
-5f3c909881d5de Florian Fainelli 2010-01-03  18  	void __iomem		*regs;
-5f3c909881d5de Florian Fainelli 2010-01-03 @19  	struct gpio_chip	chip;
-5f3c909881d5de Florian Fainelli 2010-01-03  20  };
-7ca5dc145bc7da Florian Fainelli 2009-06-24  21  
-5f3c909881d5de Florian Fainelli 2010-01-03  22  static int ar7_gpio_get_value(struct gpio_chip *chip, unsigned gpio)
-7ca5dc145bc7da Florian Fainelli 2009-06-24  23  {
-1b2766fb496c46 Linus Walleij    2015-12-08 @24  	struct ar7_gpio_chip *gpch = gpiochip_get_data(chip);
-5f3c909881d5de Florian Fainelli 2010-01-03  25  	void __iomem *gpio_in = gpch->regs + AR7_GPIO_INPUT;
-7ca5dc145bc7da Florian Fainelli 2009-06-24  26  
-249e573d99ab59 Linus Walleij    2015-12-22  27  	return !!(readl(gpio_in) & (1 << gpio));
-5f3c909881d5de Florian Fainelli 2010-01-03  28  }
-5f3c909881d5de Florian Fainelli 2010-01-03  29  
-
-:::::: The code at line 19 was first introduced by commit
-:::::: 5f3c909881d5deebb9a3ddc836a15937e76daefc MIPS: AR7: Implement gpiolib
-
-:::::: TO: Florian Fainelli <florian@openwrt.org>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+   336	
+   337	#define _compiletime_assert(condition, msg, prefix, suffix) \
+   338		__compiletime_assert(condition, msg, prefix, suffix)
+   339	
+   340	/**
+   341	 * compiletime_assert - break build and emit msg if condition is false
+   342	 * @condition: a compile-time constant condition to check
+   343	 * @msg:       a message to emit if condition is false
+   344	 *
+   345	 * In tradition of POSIX assert, this macro will break the build if the
+   346	 * supplied condition is *false*, emitting the supplied error message if the
+   347	 * compiler has support to do so.
+   348	 */
+   349	#define compiletime_assert(condition, msg) \
+ > 350		_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   351	
 
 -- 
 0-DAY CI Kernel Test Service
