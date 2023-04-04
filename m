@@ -1,32 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D5E7C;
-	Tue,  4 Apr 2023 04:18:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69415C433EF;
-	Tue,  4 Apr 2023 04:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680581939;
-	bh=4cgWbAl3Us899t4QoIzolyx/cqIKWym0D4kt9QNfkDI=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=hws+wDUBg0+TBvncJc3qxdOZ7ZgiY2nc6kcb6QfiGIEjDc8TQZQYGkaHxKByHi8i0
-	 wt3oY4h+tLyZIn8P5yHWja7uQB4zqy8P3l0kShj1/klZDEEf6RoX8K6C+gHuKzeqb8
-	 M/8tHvyMTV2ueG5QbrcYHXkkveGp5Aqy4r2mwywCsj8dGwYL1vymDDWCKLfQD1HQTG
-	 EeCgmMRBMqIGfxr0jQPCHzPjzrc6mKl07T7iqrpJw5SAORKVp2Hzt9CpDGh/t/KUhi
-	 v36s0U+tdJhq9xvm84jND+laGH5cIbHNl0jyki6wcfoe54DApNKJckquVFYSHr3j+q
-	 +9lBLtWpR8srg==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id F093015404B4; Mon,  3 Apr 2023 21:18:58 -0700 (PDT)
-Date: Mon, 3 Apr 2023 21:18:58 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
- rcu_do_batch() error: uninitialized symbol 'jlimit'.
-Message-ID: <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12257C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 04:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680582423; x=1712118423;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pSsqGBhc7A0Vz1s9ydbJ+eUnJOoMx1+immUxmLgKUJE=;
+  b=bAyEHpYI6qbspLb0FBPkMZxtO80WG3l0rRBUb0noVCtToTXdadq8VaUU
+   9UcvoD0tlZ5EjC7OjX3mURLkJ6Y1fZppzPriRp3GP8kjeqsEJOwXg/yE+
+   CNXn66vpmPJneHso3ObpM6yw+6eoEY2AU9KjI1hu4Q/g/C9YtUrxXa9lm
+   bC+KK7KJ5+KDg36EgRMGMHJ2JAvwVcpHKOA63I36GpK0zExqUSDgbPRdn
+   zj+qbQ5U2MqSYQXOeZTYSbDvIlsmWbCgQK5MGC7TnJRH1mCcpSMsqjixX
+   gmP6GueL7y0G/e4ypf47SYhIzhep7L2JsRZbwOmeYI7c0OwGHUXOTPNq/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="369897088"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="369897088"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 21:27:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="688744527"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="688744527"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2023 21:27:02 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjYG5-000PBL-21;
+	Tue, 04 Apr 2023 04:27:01 +0000
+Date: Tue, 4 Apr 2023 12:26:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 2/2] fs/verity/enable.c:26:9:
+ error: implicit declaration of function 'find_get_page_flags'
+Message-ID: <202304041242.uxe5ITCa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,184 +45,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
 
-On Tue, Apr 04, 2023 at 07:04:06AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
-> head:   e222f9a512539c3f4093a55d16624d9da614800b
-> commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
-> config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304041113.A5sNFc2y-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
-> 
-> vim +/jlimit +2149 kernel/rcu/tree.c
-> 
-> 5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
-> b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
-> 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
-> 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
-> 4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
-> 5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
-> 29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
-> 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
-> 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
-> 8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
-> 253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
-> b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
-> b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
-> b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
->                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> jlimit is only initialized if one of these conditions is met.
-> 
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
-> a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
-> a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
-> a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
-> a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
-> a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
-> 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
-> 344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
-> 7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
-> 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
-> 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
-> 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
-> 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
-> 6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
-> 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
-> 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
->                                                                                                                                                          ^^^^^^
-> Uninitialized?
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   e8676808abe2a4dd79bd76700719c360d84b343d
+commit: e8676808abe2a4dd79bd76700719c360d84b343d [2/2] UPSTREAM: fsverity: don't drop pagecache at end of FS_IOC_ENABLE_VERITY
+config: x86_64-randconfig-a003-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041242.uxe5ITCa-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout e8676808abe2a4dd79bd76700719c360d84b343d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/verity/
 
-Except that in rcu_do_batch_check_time(), jlimit is referenced only if
-jlimit_check is set, which it is only if jlimit is initialized.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041242.uxe5ITCa-lkp@intel.com/
 
-I suppose that I could unconditionally initialize jlimit to (say) zero
-to shut this up, but is there a better way to communicate the intent
-to the tooling?
+All error/warnings (new ones prefixed by >>):
 
-Or am I confused and there is a real use of the uninitialized value?
+>> fs/verity/enable.c:26:9: error: implicit declaration of function 'find_get_page_flags' [-Werror,-Wimplicit-function-declaration]
+           page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+                  ^
+>> fs/verity/enable.c:26:53: error: use of undeclared identifier 'FGP_ACCESSED'
+           page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+                                                              ^
+>> fs/verity/enable.c:27:16: error: implicit declaration of function 'PageUptodate' [-Werror,-Wimplicit-function-declaration]
+           if (!page || !PageUptodate(page)) {
+                         ^
+>> fs/verity/enable.c:29:4: error: implicit declaration of function 'put_page' [-Werror,-Wimplicit-function-declaration]
+                           put_page(page);
+                           ^
+>> fs/verity/enable.c:31:4: error: implicit declaration of function 'page_cache_sync_readahead' [-Werror,-Wimplicit-function-declaration]
+                           page_cache_sync_readahead(filp->f_mapping, ra, filp,
+                           ^
+>> fs/verity/enable.c:33:10: error: implicit declaration of function 'read_mapping_page' [-Werror,-Wimplicit-function-declaration]
+                   page = read_mapping_page(filp->f_mapping, index, NULL);
+                          ^
+>> fs/verity/enable.c:33:8: warning: incompatible integer to pointer conversion assigning to 'struct page *' from 'int' [-Wint-conversion]
+                   page = read_mapping_page(filp->f_mapping, index, NULL);
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/verity/enable.c:37:6: error: implicit declaration of function 'PageReadahead' [-Werror,-Wimplicit-function-declaration]
+           if (PageReadahead(page))
+               ^
+>> fs/verity/enable.c:38:3: error: implicit declaration of function 'page_cache_async_readahead' [-Werror,-Wimplicit-function-declaration]
+                   page_cache_async_readahead(filp->f_mapping, ra, filp, page,
+                   ^
+   fs/verity/enable.c:108:3: error: implicit declaration of function 'put_page' [-Werror,-Wimplicit-function-declaration]
+                   put_page(src_page);
+                   ^
+   1 warning and 9 errors generated.
 
-							Thanx, Paul
 
-> cfcdef5e30469f kernel/rcu/tree.c Eric Dumazet            2019-07-24  2150  				break;
-> a554ba288845fd kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2151  		} else {
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2152  			// In rcuc/rcuoc context, so no worries about
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2153  			// depriving other softirq vectors of CPU cycles.
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2154  			local_bh_enable();
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2155  			lockdep_assert_irqs_enabled();
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2156  			cond_resched_tasks_rcu_qs();
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2157  			lockdep_assert_irqs_enabled();
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2158  			local_bh_disable();
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2159  			// But rcuc kthreads can delay quiescent-state
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2160  			// reporting, so check time limits for them.
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2161  			if (rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING &&
-> a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2162  			    rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit)) {
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2163  				rdp->rcu_cpu_has_work = 1;
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2164  				break;
-> 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2165  			}
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2166  		}
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2167  	}
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2168  
-> 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2169  	rcu_nocb_lock_irqsave(rdp, flags);
-> e816d56fad57ba kernel/rcu/tree.c Paul E. McKenney        2020-05-01  2170  	rdp->n_cbs_invoked += count;
-> 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2171  	trace_rcu_batch_end(rcu_state.name, count, !!rcl.head, need_resched(),
-> 5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2172  			    is_idle_task(current), rcu_is_callbacks_kthread(rdp));
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2173  
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2174  	/* Update counts and requeue any remaining callbacks. */
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2175  	rcu_segcblist_insert_done_cbs(&rdp->cblist, &rcl);
-> 6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2176) 	rcu_segcblist_add_len(&rdp->cblist, -count);
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2177  
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2178  	/* Reinstate batch limit if we have worked down the excess. */
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2179  	count = rcu_segcblist_n_cbs(&rdp->cblist);
-> d5a9a8c3bc8068 kernel/rcu/tree.c Paul E. McKenney        2019-04-10  2180  	if (rdp->blimit >= DEFAULT_MAX_RCU_BLIMIT && count <= qlowmark)
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2181  		rdp->blimit = blimit;
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2182  
-> 37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2183  	/* Reset ->qlen_last_fqs_check trigger if enough CBs have drained. */
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2184  	if (count == 0 && rdp->qlen_last_fqs_check != 0) {
-> 37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2185  		rdp->qlen_last_fqs_check = 0;
-> 2431774f04d105 kernel/rcu/tree.c Paul E. McKenney        2021-07-20  2186  		rdp->n_force_qs_snap = READ_ONCE(rcu_state.n_force_qs);
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2187  	} else if (count < rdp->qlen_last_fqs_check - qhimark)
-> 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2188  		rdp->qlen_last_fqs_check = count;
-> efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2189  
-> efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2190  	/*
-> efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2191  	 * The following usually indicates a double call_rcu().  To track
-> efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2192  	 * this down, try building with CONFIG_DEBUG_OBJECTS_RCU_HEAD=y.
-> efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2193  	 */
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2194) 	empty = rcu_segcblist_empty(&rdp->cblist);
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2195) 	WARN_ON_ONCE(count == 0 && !empty);
-> d1b222c6be1f8b kernel/rcu/tree.c Paul E. McKenney        2019-07-02  2196  	WARN_ON_ONCE(!IS_ENABLED(CONFIG_RCU_NOCB_CPU) &&
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2197) 		     count != 0 && empty);
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2198) 	WARN_ON_ONCE(count == 0 && rcu_segcblist_n_segment_cbs(&rdp->cblist) != 0);
-> b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2199) 	WARN_ON_ONCE(!empty && rcu_segcblist_n_segment_cbs(&rdp->cblist) == 0);
-> 37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2200  
-> 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2201  	rcu_nocb_unlock_irqrestore(rdp, flags);
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2202  
-> 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2203  	tick_dep_clear_task(current, TICK_DEP_BIT_RCU);
-> 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2204  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
+vim +/find_get_page_flags +26 fs/verity/enable.c
+
+43005f9bdbe63b4 Eric Biggers 2019-07-22  15  
+9630eacb1ee5723 Eric Biggers 2020-01-06  16  /*
+9630eacb1ee5723 Eric Biggers 2020-01-06  17   * Read a file data page for Merkle tree construction.  Do aggressive readahead,
+9630eacb1ee5723 Eric Biggers 2020-01-06  18   * since we're sequentially reading the entire file.
+9630eacb1ee5723 Eric Biggers 2020-01-06  19   */
+9630eacb1ee5723 Eric Biggers 2020-01-06  20  static struct page *read_file_data_page(struct file *filp, pgoff_t index,
+9630eacb1ee5723 Eric Biggers 2020-01-06  21  					struct file_ra_state *ra,
+9630eacb1ee5723 Eric Biggers 2020-01-06  22  					unsigned long remaining_pages)
+9630eacb1ee5723 Eric Biggers 2020-01-06  23  {
+9630eacb1ee5723 Eric Biggers 2020-01-06  24  	struct page *page;
+9630eacb1ee5723 Eric Biggers 2020-01-06  25  
+9630eacb1ee5723 Eric Biggers 2020-01-06 @26  	page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+9630eacb1ee5723 Eric Biggers 2020-01-06 @27  	if (!page || !PageUptodate(page)) {
+9630eacb1ee5723 Eric Biggers 2020-01-06  28  		if (page)
+9630eacb1ee5723 Eric Biggers 2020-01-06 @29  			put_page(page);
+9630eacb1ee5723 Eric Biggers 2020-01-06  30  		else
+9630eacb1ee5723 Eric Biggers 2020-01-06 @31  			page_cache_sync_readahead(filp->f_mapping, ra, filp,
+9630eacb1ee5723 Eric Biggers 2020-01-06  32  						  index, remaining_pages);
+9630eacb1ee5723 Eric Biggers 2020-01-06 @33  		page = read_mapping_page(filp->f_mapping, index, NULL);
+9630eacb1ee5723 Eric Biggers 2020-01-06  34  		if (IS_ERR(page))
+9630eacb1ee5723 Eric Biggers 2020-01-06  35  			return page;
+9630eacb1ee5723 Eric Biggers 2020-01-06  36  	}
+9630eacb1ee5723 Eric Biggers 2020-01-06 @37  	if (PageReadahead(page))
+9630eacb1ee5723 Eric Biggers 2020-01-06 @38  		page_cache_async_readahead(filp->f_mapping, ra, filp, page,
+9630eacb1ee5723 Eric Biggers 2020-01-06  39  					   index, remaining_pages);
+9630eacb1ee5723 Eric Biggers 2020-01-06  40  	return page;
+9630eacb1ee5723 Eric Biggers 2020-01-06  41  }
+9630eacb1ee5723 Eric Biggers 2020-01-06  42  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: 9630eacb1ee572392628c4b96daa8031e84af56e fs-verity: implement readahead for FS_IOC_ENABLE_VERITY
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
