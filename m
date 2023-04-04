@@ -1,123 +1,75 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351B4A954
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Apr 2023 23:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680566216; x=1712102216;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iOZF2gUXcgkejuunu842XICJGYS5is/qQt593vfk5ZY=;
-  b=XAatGB39kcrbYRGuAloWFYfUFS4TRWF/oonPnCFnBQ1PGvT9VDDZa0+u
-   W6s7d0wLfMGWcdpacWbHXu9rabcShAic2payve5b7w71iMlM2qiyR78Mh
-   hTfXU+dOTIhwWDQ8mA5HyBoZUSGWei7rxTtA3jSeWT9C3QSpohGOrMO7f
-   b09Tm24AMDRx6t823mOJ+ktW6X6crIw9g+nz7JKR8GEmd8uApdZ3/gYbT
-   7+uYzqohVOtvJz79UILqlsX4AeztDFuZ2CFmrmuYJoQa/xof+Ee4y1B0K
-   S4gbpP/nusJZp4Yt0vWRo0o861C9tcKXk8VNHDVVITy+8b8jxsHyx/wat
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407105415"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="407105415"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 16:56:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="775406499"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="775406499"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2023 16:56:53 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjU2a-000Owx-0w;
-	Mon, 03 Apr 2023 23:56:48 +0000
-Date: Tue, 4 Apr 2023 07:56:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yonghong Song <yhs@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:33:1: warning:
- no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1'
-Message-ID: <202304040710.NAEyrWKF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73106361
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 00:23:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB75C433D2;
+	Tue,  4 Apr 2023 00:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680567838;
+	bh=7M+UGp1xmpMg/TaLWesOoegPlcZn3VND2KV/mCXHCDs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Zn7pPfWbwiONly8ezXGcUlo9GJRdfIfq7trdycfxyDJLKhlIBBP5OQ73rs0+NUVr+
+	 0WiYhKrf+usRJbmbRHH94TlJaAXcWi6efXfhPqxuExNiZxRk03ILB/i1lM5vw7K2nI
+	 DRJEzrjLNjHV4KZOkhnILkN+V9p7OCaGAZkZI8JQADjXc0UPpVGzPQCEpRUM0/UA+Y
+	 qdfiogqi//TAKftKHDK2eqhhaITitevE/X2OCVYfviw9gRoV+GLelYBb4Kj62KKrRG
+	 YXOSYAgTHPGrWugKNsLG4Xi4cXoeFlFlAW4tOya0FWtccjc6yjQLRhbLIZglojwhK/
+	 HiuhZ8HwDlbqQ==
+Message-ID: <685a52da2ff0ba632da3ad033bb8b165.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202304020649.QO2HlpD5-lkp@intel.com>
+References: <202304020649.QO2HlpD5-lkp@intel.com>
+Subject: Re: [clk:clk-mediatek 81/82] FATAL: modpost: drivers/clk/mediatek/clk-mt8188-imp_iic_wrap: sizeof(struct platform_device_id)=24 is not a modulo of the size of section __mod_platform__<identifier>_device_table=784.
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wenst@chromium.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Garmin.Chang <Garmin.Chang@mediatek.com>, kernel test robot <lkp@intel.com>
+Date: Mon, 03 Apr 2023 17:23:55 -0700
+User-Agent: alot/0.10
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: 696c39011538fe0124fcc0e81ebc44ff7f8623b4 selftests/bpf: add a selftest with __user tag
-date:   1 year, 2 months ago
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=696c39011538fe0124fcc0e81ebc44ff7f8623b4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 696c39011538fe0124fcc0e81ebc44ff7f8623b4
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+Quoting kernel test robot (2023-04-01 16:05:54)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk=
+-mediatek
+> head:   0d2f2cefba64729a0730ce183ad58cf3e7929b94
+> commit: 1b5e5299dd35da0dff2d454826a60870237837da [81/82] clk: mediatek: A=
+dd MT8188 imp i2c wrapper clock support
+> config: parisc-randconfig-m041-20230402 (https://download.01.org/0day-ci/=
+archive/20230402/202304020649.QO2HlpD5-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/c=
+ommit/?id=3D1b5e5299dd35da0dff2d454826a60870237837da
+>         git remote add clk https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/clk/linux.git
+>         git fetch --no-tags clk clk-mediatek
+>         git checkout 1b5e5299dd35da0dff2d454826a60870237837da
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc SHELL=3D/bin/bash
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304020649.QO2HlpD5-lkp@i=
+ntel.com/
+>=20
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> >> FATAL: modpost: drivers/clk/mediatek/clk-mt8188-imp_iic_wrap: sizeof(s=
+truct platform_device_id)=3D24 is not a modulo of the size of section __mod=
+_platform__<identifier>_device_table=3D784.
+> Fix definition of struct platform_device_id in mod_devicetable.h
+>=20
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304040710.NAEyrWKF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:19:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
-      19 | bpf_testmod_test_mod_kfunc(int i)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:33:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
-      33 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
-      38 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:42:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
-      42 | noinline int bpf_testmod_loop_test(int n)
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:54:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
-      54 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
-         |                              ^~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:71:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
-      71 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
-         | ^~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:107:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
-     107 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.o: warning: objtool: bpf_testmod_return_ptr()+0x15: unreachable instruction
-
-
-vim +/bpf_testmod_test_btf_type_tag_user_1 +33 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-
-    17	
-    18	noinline void
-  > 19	bpf_testmod_test_mod_kfunc(int i)
-    20	{
-    21		*(int *)this_cpu_ptr(&bpf_testmod_ksym_percpu) = i;
-    22	}
-    23	
-    24	struct bpf_testmod_btf_type_tag_1 {
-    25		int a;
-    26	};
-    27	
-    28	struct bpf_testmod_btf_type_tag_2 {
-    29		struct bpf_testmod_btf_type_tag_1 __user *p;
-    30	};
-    31	
-    32	noinline int
-  > 33	bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
-    34		return arg->a;
-    35	}
-    36	
-    37	noinline int
-  > 38	bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
-    39		return arg->p->a;
-    40	}
-    41	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I suspect we need to include the header for mod_devicetable.h
