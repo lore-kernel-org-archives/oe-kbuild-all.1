@@ -1,53 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7764D7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 08:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E6A7E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 09:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680597434; x=1712133434;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JGggyQzzspR9Su7ugBRfXlt0OlpXpis7bo9tgixoags=;
-  b=MwFKuLg9HMlZ3pPTmqwNWORx4wXQG7RHobcRuaKguT7QlKZ30eHImIw7
-   fWRn7BJ+eypMjT4DWZbguWS7JXPKQmMZgmd5pT9jJhDsQFWw0qUONL3qD
-   Cp8Yf9JXQ7wVf+kttnI0bVFlfRdicwkulsleY9+YQBnO4JV72yekVioZZ
-   flu0dLAllhKEzCVl9VrIRyklceGWdAqVkYZzo78WPVUKE53cLfPod0GxW
-   8lfg7STm3kU1FZ68XpIKEMMhG590ESIu05VYEbjsiGjoSlbU9xLwJPo0x
-   1IaDnFszl6BV7ZnkWw7yCnlhAOer2I5J1Ts0jp03wbtrG0EOJErWulIpV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="344687655"
+  t=1680601754; x=1712137754;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ve1yYpjHeIm0Q4rI2QRTslKtVoI8wRvSt0UPKwnTt58=;
+  b=K0K2HNVXO49vQp/hD+xt3WbgHVVl76gqT7Q4Mdzp7vMMbnR1YI0HUdnP
+   C7TTgFrxnaXPqnEXFTJIVYJ/uPBNm5bLVpurDEq2PhEnw7p1KFOyjpOhB
+   jPSxncglyNsODxGeBEEdidlnRNPg1nUR31ga88qhzAv9BDLPSNyEBsvZG
+   r1plTPjXPbPgByVtY8hR1L6mM1F63E7En9IVmcYDNg0XkjnXoaAQyB0DV
+   psrm0dDxbAH5fCxfLAXUobV72h4En2B/8wKLnzj5qV/VGbZyaGxTn2Lr1
+   qbmUX9EY01P+p07dw9JTrednMiFLkuYHwdChCHmtEv1AGppNuguB1SLT+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428423532"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="344687655"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 01:37:13 -0700
+   d="scan'208";a="428423532"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 02:49:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="810152914"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="1016063026"
 X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="810152914"
+   d="scan'208";a="1016063026"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Apr 2023 01:37:08 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Apr 2023 02:49:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjcA7-000PS8-1x;
-	Tue, 04 Apr 2023 08:37:07 +0000
-Date: Tue, 4 Apr 2023 16:36:52 +0800
+	id 1pjdHq-000PVS-2e;
+	Tue, 04 Apr 2023 09:49:10 +0000
+Date: Tue, 4 Apr 2023 17:48:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-	christian.koenig@amd.com, bskeggs@redhat.com,
-	Liam.Howlett@oracle.com, matthew.brost@intel.com,
-	boris.brezillon@collabora.com, alexdeucher@gmail.com,
-	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-	jason@jlekstrand.net
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-next v3 05/15] drm: debugfs: provide infrastructure
- to dump a DRM GPU VA space
-Message-ID: <202304041602.xJ8yUJgd-lkp@intel.com>
-References: <20230404012741.116502-6-dakr@redhat.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Filipe Manana <fdmanana@suse.com>, David Sterba <dsterba@suse.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.19.y 2978/9999] include/linux/pagemap.h:576: Error:
+ unrecognized opcode `csrs sstatus,s1'
+Message-ID: <202304041731.34iVE75Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,85 +48,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404012741.116502-6-dakr@redhat.com>
 
-Hi Danilo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-base:   d36d68fd1925d33066d52468b7c7c6aca6521248
-patch link:    https://lore.kernel.org/r/20230404012741.116502-6-dakr%40redhat.com
-patch subject: [PATCH drm-next v3 05/15] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-config: nios2-randconfig-s053-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041602.xJ8yUJgd-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   30baa0923a27fb9a04444a29562344e0573992e4
+commit: 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c [2978/9999] btrfs: fix potential deadlock in the search ioctl
+config: riscv-randconfig-r035-20230402 (https://download.01.org/0day-ci/archive/20230404/202304041731.34iVE75Z-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/97d8731cc359143f6f790b1c4755d1055a72adb9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-        git checkout 97d8731cc359143f6f790b1c4755d1055a72adb9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 7c9bf5c3ed15fd6ad777663c636a6f4a5d9edf2c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041602.xJ8yUJgd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041731.34iVE75Z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_debugfs.c:213:33: sparse: sparse: non size-preserving pointer to integer cast
+All errors (new ones prefixed by >>):
 
-vim +213 drivers/gpu/drm/drm_debugfs.c
+   include/linux/pagemap.h: Assembler messages:
+>> include/linux/pagemap.h:576: Error: unrecognized opcode `csrs sstatus,s1'
+>> include/linux/pagemap.h:576: Error: unrecognized opcode `csrc sstatus,s1'
+   include/linux/pagemap.h:584: Error: unrecognized opcode `csrs sstatus,s1'
+   include/linux/pagemap.h:584: Error: unrecognized opcode `csrc sstatus,s1'
+   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrs sstatus,a4'
+   fs/btrfs/ioctl.c:482: Error: unrecognized opcode `csrc sstatus,a4'
 
-   178	
-   179	/**
-   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-   181	 * @m: pointer to the &seq_file to write
-   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
-   183	 *
-   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
-   185	 *
-   186	 * For each DRM GPU VA space drivers should call this function from their
-   187	 * &drm_info_list's show callback.
-   188	 *
-   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
-   190	 */
-   191	int drm_debugfs_gpuva_info(struct seq_file *m,
-   192				   struct drm_gpuva_manager *mgr)
-   193	{
-   194		DRM_GPUVA_ITER(it, mgr, 0);
-   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
-   196	
-   197		if (!mgr->name)
-   198			return -ENODEV;
-   199	
-   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
-   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
-   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
-   203			   kva->va.addr, kva->va.addr + kva->va.range);
-   204		seq_puts(m, "\n");
-   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-   207		drm_gpuva_iter_for_each(va, it) {
-   208			if (unlikely(va == &mgr->kernel_alloc_node))
-   209				continue;
-   210	
-   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
- > 213				   (u64)va->gem.obj, va->gem.offset);
-   214		}
-   215	
-   216		return 0;
-   217	}
-   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
-   219	
+
+vim +576 include/linux/pagemap.h
+
+385e1ca5f21c46 David Howells  2009-04-03  558  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  559  /*
+4bce9f6ee8f84f Al Viro        2016-09-17  560   * Fault everything in given userspace address range in.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  561   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  562  static inline int fault_in_pages_writeable(char __user *uaddr, int size)
+f56f821feb7b36 Daniel Vetter  2012-03-25  563  {
+9923777dff4543 Daniel Vetter  2012-04-14  564  	char __user *end = uaddr + size - 1;
+f56f821feb7b36 Daniel Vetter  2012-03-25  565  
+f56f821feb7b36 Daniel Vetter  2012-03-25  566  	if (unlikely(size == 0))
+e23d4159b10916 Al Viro        2016-09-20  567  		return 0;
+f56f821feb7b36 Daniel Vetter  2012-03-25  568  
+e23d4159b10916 Al Viro        2016-09-20  569  	if (unlikely(uaddr > end))
+e23d4159b10916 Al Viro        2016-09-20  570  		return -EFAULT;
+f56f821feb7b36 Daniel Vetter  2012-03-25  571  	/*
+f56f821feb7b36 Daniel Vetter  2012-03-25  572  	 * Writing zeroes into userspace here is OK, because we know that if
+f56f821feb7b36 Daniel Vetter  2012-03-25  573  	 * the zero gets there, we'll be overwriting it.
+f56f821feb7b36 Daniel Vetter  2012-03-25  574  	 */
+e23d4159b10916 Al Viro        2016-09-20  575  	do {
+e23d4159b10916 Al Viro        2016-09-20 @576  		if (unlikely(__put_user(0, uaddr) != 0))
+e23d4159b10916 Al Viro        2016-09-20  577  			return -EFAULT;
+f56f821feb7b36 Daniel Vetter  2012-03-25  578  		uaddr += PAGE_SIZE;
+e23d4159b10916 Al Viro        2016-09-20  579  	} while (uaddr <= end);
+f56f821feb7b36 Daniel Vetter  2012-03-25  580  
+f56f821feb7b36 Daniel Vetter  2012-03-25  581  	/* Check whether the range spilled into the next page. */
+f56f821feb7b36 Daniel Vetter  2012-03-25  582  	if (((unsigned long)uaddr & PAGE_MASK) ==
+f56f821feb7b36 Daniel Vetter  2012-03-25  583  			((unsigned long)end & PAGE_MASK))
+e23d4159b10916 Al Viro        2016-09-20  584  		return __put_user(0, end);
+f56f821feb7b36 Daniel Vetter  2012-03-25  585  
+e23d4159b10916 Al Viro        2016-09-20  586  	return 0;
+f56f821feb7b36 Daniel Vetter  2012-03-25  587  }
+f56f821feb7b36 Daniel Vetter  2012-03-25  588  
+
+:::::: The code at line 576 was first introduced by commit
+:::::: e23d4159b109167126e5bcd7f3775c95de7fee47 fix fault_in_multipages_...() on architectures with no-op access_ok()
+
+:::::: TO: Al Viro <viro@ZenIV.linux.org.uk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
