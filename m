@@ -1,43 +1,50 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437427C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 03:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63007C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Apr 2023 03:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680578640; x=1712114640;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QeKjUcqbMiuafe2rqYJYMRjk3HN16WQxf27Ju+9sZms=;
-  b=Ixex/snYBLKdVsgYT83kRwvMieJ4nq5rs/ugw/pba4g6WP87VxiY6j3A
-   fq1oOtgyGD65fBGiV8efupyZRec0XU2X+WkulxhJS/u1rjPRsX1CZNzER
-   fqggcCZ7i/zY3Kyd2iJ+Ksx0zY4gXldy2m4kR4ZE3NmGNcZmcZH15Zyza
-   YeM5tGi4ZEzQHXKONA5nT/6lztX2xoXI6NMYUrWw8i0rMCCepEJBQzyC+
-   fN41ZZqAdyuYmN+/zks0UZTpnhlECTPhW4iz6VFiOHO3SvfrU9rGIM9uO
-   y8etUqdBeKZUBBK3GwBJCyEhdrJ/GXsaTW+0JJjLoOYSGw4ZqoPnFadv7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="343778749"
+  t=1680579243; x=1712115243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y95LcMuCpo5c7PKsq3CMbqvqoeAr4Ga5Vqhi17tTnUM=;
+  b=kY2fBT2boZxFeRa0LtSV767sI+MHX7fYre/AOqxn22W8WVqOFJW6pOBQ
+   L5trSI5cs36g5WLf5N0eeuaYLkhYwuE17eQk2zeKPj4q779D5khA9fHNl
+   B2JpV6j27iJebpbk2rlZTOD2XkXBjqjx8eIkDJiR171TUQSk4xqbQwrfg
+   gi0HHuhK3YaBoZFYfS9ZgpIUGc6S8cpEw3lH6H4XWnweO/JMHPoFQYms6
+   aBX2KDh45hK6PIhf9B+IOvuOVo2Q/dfrrGcf4dmDZ8XbtHuTMT/rs5Ups
+   f65uzTeN8Xwj1CiYJ2CRDie78RArB/oPXG7+6cgYi8nzor9epJlm02Fls
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322472773"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="343778749"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 20:23:59 -0700
+   d="scan'208";a="322472773"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 20:34:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750759864"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="755494807"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="750759864"
+   d="scan'208";a="755494807"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Apr 2023 20:23:58 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 03 Apr 2023 20:33:59 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjXH3-000P6t-2J;
-	Tue, 04 Apr 2023 03:23:57 +0000
-Date: Tue, 4 Apr 2023 11:23:03 +0800
+	id 1pjXQk-000P7Q-1I;
+	Tue, 04 Apr 2023 03:33:58 +0000
+Date: Tue, 4 Apr 2023 11:33:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 12115/29325]
- drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous prototype for
- function 'ufshcd_blk_crypto_mode_num_for_alg_dusize'
-Message-ID: <202304041135.KBeeeWHu-lkp@intel.com>
+To: Andrew Davis <afd@ti.com>, Arnd Bergmann <arnd@arndb.de>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	John Stultz <jstultz@google.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH v2] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+Message-ID: <202304041144.t5JCOGsE-lkp@intel.com>
+References: <20230403192433.26648-1-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,61 +53,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230403192433.26648-1-afd@ti.com>
 
-Hi Satya,
+Hi Andrew,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   e8676808abe2a4dd79bd76700719c360d84b343d
-commit: b01c73ea7129745ce9d94b8d3b35663b716cd95b [12115/29325] BACKPORT: FROMLIST: Update Inline Encryption from v5 to v6 of patch series
-config: x86_64-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041135.KBeeeWHu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next pza/reset/next linus/master v6.3-rc5 next-20230403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/misc-sram-Add-DMA-BUF-Heap-exporting-of-SRAM-areas/20230404-032607
+patch link:    https://lore.kernel.org/r/20230403192433.26648-1-afd%40ti.com
+patch subject: [PATCH v2] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304041144.t5JCOGsE-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout b01c73ea7129745ce9d94b8d3b35663b716cd95b
+        # https://github.com/intel-lab-lkp/linux/commit/6fcaa3c7cfbc144dd982f9abaa1c5af50dde24a8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andrew-Davis/misc-sram-Add-DMA-BUF-Heap-exporting-of-SRAM-areas/20230404-032607
+        git checkout 6fcaa3c7cfbc144dd982f9abaa1c5af50dde24a8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/scsi/ufs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041135.KBeeeWHu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041144.t5JCOGsE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous prototype for function 'ufshcd_blk_crypto_mode_num_for_alg_dusize' [-Wmissing-prototypes]
-   enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
-                            ^
-   drivers/scsi/ufs/ufshcd-crypto.c:250:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
-   ^
-   static 
-   1 warning generated.
-   drivers/scsi/ufs/ufshcd-crypto.c:272: warning: Function parameter or member 'ksm_ops' not described in 'ufshcd_hba_init_crypto_spec'
+>> drivers/misc/sram-dma-heap.c:161:17: warning: no previous prototype for 'sram_dma_heap_allocate' [-Wmissing-prototypes]
+     161 | struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ufshcd_blk_crypto_mode_num_for_alg_dusize +250 drivers/scsi/ufs/ufshcd-crypto.c
+vim +/sram_dma_heap_allocate +161 drivers/misc/sram-dma-heap.c
 
-   249	
- > 250	enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
-   251						enum ufs_crypto_alg ufs_crypto_alg,
-   252						enum ufs_crypto_key_size key_size)
-   253	{
-   254		/*
-   255		 * This is currently the only mode that UFS and blk-crypto both support.
-   256		 */
-   257		if (ufs_crypto_alg == UFS_CRYPTO_ALG_AES_XTS &&
-   258			key_size == UFS_CRYPTO_KEY_SIZE_256)
-   259			return BLK_ENCRYPTION_MODE_AES_256_XTS;
-   260	
-   261		return BLK_ENCRYPTION_MODE_INVALID;
-   262	}
-   263	
+   160	
+ > 161	struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
+   162					       unsigned long len,
+   163					       unsigned long fd_flags,
+   164					       unsigned long heap_flags)
+   165	{
+   166		struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
+   167		struct sram_dma_heap_buffer *buffer;
+   168	
+   169		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+   170		struct dma_buf *dmabuf;
+   171		int ret;
+   172	
+   173		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+   174		if (!buffer)
+   175			return ERR_PTR(-ENOMEM);
+   176		buffer->pool = sram_dma_heap->pool;
+   177		INIT_LIST_HEAD(&buffer->attachments);
+   178		mutex_init(&buffer->attachments_lock);
+   179		buffer->len = len;
+   180	
+   181		buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
+   182		if (!buffer->vaddr) {
+   183			ret = -ENOMEM;
+   184			goto free_buffer;
+   185		}
+   186	
+   187		buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
+   188		if (buffer->paddr == -1) {
+   189			ret = -ENOMEM;
+   190			goto free_pool;
+   191		}
+   192	
+   193		/* create the dmabuf */
+   194		exp_info.exp_name = dma_heap_get_name(heap);
+   195		exp_info.ops = &sram_dma_heap_buf_ops;
+   196		exp_info.size = buffer->len;
+   197		exp_info.flags = fd_flags;
+   198		exp_info.priv = buffer;
+   199		dmabuf = dma_buf_export(&exp_info);
+   200		if (IS_ERR(dmabuf)) {
+   201			ret = PTR_ERR(dmabuf);
+   202			goto free_pool;
+   203		}
+   204	
+   205		return dmabuf;
+   206	
+   207	free_pool:
+   208		gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
+   209	free_buffer:
+   210		kfree(buffer);
+   211	
+   212		return ERR_PTR(ret);
+   213	}
+   214	
 
 -- 
 0-DAY CI Kernel Test Service
