@@ -1,42 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F9F322A;
-	Wed,  5 Apr 2023 22:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAA6322A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 23:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680735210; x=1712271210;
+  t=1680735871; x=1712271871;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BrEnmERmCLE1aSlQK5TEew++7k+j2HOov65+zVlTWMQ=;
-  b=XBl39HtIsl0TTkDAhxjgUpVizQNwHrwVV9+qhHIBfSomXaoPQ5QPML4t
-   UGsKpRbApV6rv+ljGgm6fcluYAMiHbqmEkqk038P37E3bPQgMMv5R1hl0
-   RiPesyUBYUirvTyJYCexfgA4/ApCAtKMDdEuRI9SULFPWsSfuyxVPtpLY
-   HFnZZF3+LYrvNL45ykvDzgSeO9hqarY9Ml+5hojGiYYDR/mVWJM2Vlq9N
-   hoAMGkhIc0hjV7BmVVmaDrkWSlm/ARbTqgfqnIj4Mgnu9Pu1XXurqTEUE
-   C+gsD2sKhUI7FlY6geieFzmA+hie1rE1MdHVhx32duMwZdCTMgzElrtT0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345177110"
+  bh=DFp4m96fnacZ3JCiIXdl8tovzsb6+a+6LACIVJs3xME=;
+  b=TFciDEOnZWX20GHgWcDu9uirgVUL0pKJ19MTsOX6ATEKUaXlKtiS0WS1
+   niVrO9xFRI1xLc8jCOQ/o/m9uKhCFs0K3wBdEYhWa5BbEpvinVKv0Qp4P
+   PLakEUPWyzPV10uhUzmnvl5vtMDKNU3Qf13ddpekf0czy5luf+UcGAH4U
+   ciN80xgbenGek3IpKpxyhZ7mpTZC+im9s3oN0zXcTveGs0qvu8WaNWkBx
+   kzIrlAcnND/rytshAYwrMPWR0Db1QWxATYs1EnYAhDYSQS1jNRf2Cf+L2
+   Qxy6kBG3LOdSlj8viA9XX2uvyJgU6GbjXb6wpwhglshXw+Or+z1InCrui
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="405373439"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="345177110"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 15:53:30 -0700
+   d="scan'208";a="405373439"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 16:04:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="861157638"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="830538523"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="861157638"
+   d="scan'208";a="830538523"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Apr 2023 15:53:28 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2023 16:04:29 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkC0O-000Qry-0R;
-	Wed, 05 Apr 2023 22:53:28 +0000
-Date: Thu, 6 Apr 2023 06:53:09 +0800
+	id 1pkCB2-000Qsc-1w;
+	Wed, 05 Apr 2023 23:04:28 +0000
+Date: Thu, 6 Apr 2023 07:03:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:20230405-semaphore-kmod 37/39] kernel/module/main.c:2513:15:
- warning: variable 'text_size' set but not used
-Message-ID: <202304060645.MG3w5wRC-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:131:14:
+ warning: no previous prototype for 'bpf_testmod_fentry_test1'
+Message-ID: <202304060622.P2hBPE4g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,123 +47,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230405-semaphore-kmod
-head:   2325b9647badfb76f870c04a257c2e917e1dc746
-commit: b55ef46cae96876e0bdb8c057a1f9e59eb581a90 [37/39] module: add debug stats to help identify memory pressure
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230406/202304060645.MG3w5wRC-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=b55ef46cae96876e0bdb8c057a1f9e59eb581a90
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230405-semaphore-kmod
-        git checkout b55ef46cae96876e0bdb8c057a1f9e59eb581a90
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/module/
+Hi Jiri,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99ddf2254febae9eab7fb0bcc02c5322243f5c49
+commit: fee356ede980b6c2c8db612e18b25738356d6744 selftests/bpf: Add bpf_testmod_fentry_* functions
+date:   5 months ago
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fee356ede980b6c2c8db612e18b25738356d6744
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout fee356ede980b6c2c8db612e18b25738356d6744
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060645.MG3w5wRC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060622.P2hBPE4g-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/module/main.c:2513:15: warning: variable 'text_size' set but not used [-Wunused-but-set-variable]
-           unsigned int text_size = 0, total_size = 0;
-                        ^
->> kernel/module/main.c:2513:30: warning: variable 'total_size' set but not used [-Wunused-but-set-variable]
-           unsigned int text_size = 0, total_size = 0;
-                                       ^
-   2 warnings generated.
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_1' [-Wmissing-prototypes]
+      32 | bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_2' [-Wmissing-prototypes]
+      38 | bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:44:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_3' [-Wmissing-prototypes]
+      44 | bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:50:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_4' [-Wmissing-prototypes]
+      50 | bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:57:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_5' [-Wmissing-prototypes]
+      57 | bpf_testmod_test_struct_arg_5(void) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
+      63 | bpf_testmod_test_mod_kfunc(int i)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:81:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
+      81 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:89:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
+      89 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:94:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
+      94 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:99:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
+      99 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:103:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
+     103 | noinline int bpf_testmod_loop_test(int n)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:115:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
+     115 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:131:14: warning: no previous prototype for 'bpf_testmod_fentry_test1' [-Wmissing-prototypes]
+     131 | noinline int bpf_testmod_fentry_test1(int a)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:136:14: warning: no previous prototype for 'bpf_testmod_fentry_test2' [-Wmissing-prototypes]
+     136 | noinline int bpf_testmod_fentry_test2(int a, u64 b)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:141:14: warning: no previous prototype for 'bpf_testmod_fentry_test3' [-Wmissing-prototypes]
+     141 | noinline int bpf_testmod_fentry_test3(char a, int b, u64 c)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:149:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
+     149 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:200:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
+     200 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/text_size +2513 kernel/module/main.c
+vim +/bpf_testmod_fentry_test1 +131 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
 
-  2502	
-  2503	/*
-  2504	 * This is where the real work happens.
-  2505	 *
-  2506	 * Keep it uninlined to provide a reliable breakpoint target, e.g. for the gdb
-  2507	 * helper command 'lx-symbols'.
-  2508	 */
-  2509	static noinline int do_init_module(struct module *mod)
-  2510	{
-  2511		int ret = 0;
-  2512		struct mod_initfree *freeinit;
-> 2513		unsigned int text_size = 0, total_size = 0;
-  2514	
-  2515		for_each_mod_mem_type(type) {
-  2516			const struct module_memory *mod_mem = &mod->mem[type];
-  2517			if (mod_mem->size) {
-  2518				total_size += mod_mem->size;
-  2519				if (type == MOD_TEXT || type == MOD_INIT_TEXT)
-  2520					text_size += mod->mem[type].size;
-  2521			}
-  2522		}
-  2523	
-  2524		freeinit = kmalloc(sizeof(*freeinit), GFP_KERNEL);
-  2525		if (!freeinit) {
-  2526			ret = -ENOMEM;
-  2527			goto fail;
-  2528		}
-  2529		freeinit->init_text = mod->mem[MOD_INIT_TEXT].base;
-  2530		freeinit->init_data = mod->mem[MOD_INIT_DATA].base;
-  2531		freeinit->init_rodata = mod->mem[MOD_INIT_RODATA].base;
-  2532	
-  2533		do_mod_ctors(mod);
-  2534		/* Start the module */
-  2535		if (mod->init != NULL)
-  2536			ret = do_one_initcall(mod->init);
-  2537		if (ret < 0) {
-  2538			goto fail_free_freeinit;
-  2539		}
-  2540		if (ret > 0) {
-  2541			pr_warn("%s: '%s'->init suspiciously returned %d, it should "
-  2542				"follow 0/-E convention\n"
-  2543				"%s: loading module anyway...\n",
-  2544				__func__, mod->name, ret, __func__);
-  2545			dump_stack();
-  2546		}
-  2547	
-  2548		/* Now it's a first class citizen! */
-  2549		mod->state = MODULE_STATE_LIVE;
-  2550		blocking_notifier_call_chain(&module_notify_list,
-  2551					     MODULE_STATE_LIVE, mod);
-  2552	
-  2553		/* Delay uevent until module has finished its init routine */
-  2554		kobject_uevent(&mod->mkobj.kobj, KOBJ_ADD);
-  2555	
-  2556		/*
-  2557		 * We need to finish all async code before the module init sequence
-  2558		 * is done. This has potential to deadlock if synchronous module
-  2559		 * loading is requested from async (which is not allowed!).
-  2560		 *
-  2561		 * See commit 0fdff3ec6d87 ("async, kmod: warn on synchronous
-  2562		 * request_module() from async workers") for more details.
-  2563		 */
-  2564		if (!mod->async_probe_requested)
-  2565			async_synchronize_full();
-  2566	
-  2567		ftrace_free_mem(mod, mod->mem[MOD_INIT_TEXT].base,
-  2568				mod->mem[MOD_INIT_TEXT].base + mod->mem[MOD_INIT_TEXT].size);
-  2569		mutex_lock(&module_mutex);
-  2570		/* Drop initial reference. */
-  2571		module_put(mod);
-  2572		trim_init_extable(mod);
-  2573	#ifdef CONFIG_KALLSYMS
-  2574		/* Switch to core kallsyms now init is done: kallsyms may be walking! */
-  2575		rcu_assign_pointer(mod->kallsyms, &mod->core_kallsyms);
-  2576	#endif
-  2577		module_enable_ro(mod, true);
-  2578		mod_tree_remove_init(mod);
-  2579		module_arch_freeing_init(mod);
-  2580		for_class_mod_mem_type(type, init) {
-  2581			mod->mem[type].base = NULL;
-  2582			mod->mem[type].size = 0;
-  2583		}
-  2584	
+   130	
+ > 131	noinline int bpf_testmod_fentry_test1(int a)
+   132	{
+   133		return a + 1;
+   134	}
+   135	
+ > 136	noinline int bpf_testmod_fentry_test2(int a, u64 b)
+   137	{
+   138		return a + b;
+   139	}
+   140	
+ > 141	noinline int bpf_testmod_fentry_test3(char a, int b, u64 c)
+   142	{
+   143		return a + b + c;
+   144	}
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
