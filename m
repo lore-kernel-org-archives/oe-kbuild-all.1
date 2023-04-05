@@ -1,48 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2076B79E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 21:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EE279E2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 21:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680728913; x=1712264913;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kBtAlLh97wt5jwCzGnjJBSJuimQxEQuTgGnvc1uCkV8=;
-  b=MgxCFiyGPfPielyUjo9TpH1+h0v6pN9JbCSDwJU/AxBu4tqkGJZScPn+
-   5tsq4tERj3pc2KI6L7xdIY2euQR1HWJTgz6lOfCADbhwII0UOORXhIBw7
-   i4bfzIlQEvHdyhihUjjLUs3HWkeTe1Kkq2kpVzbe6uUrC+IGAuJbfmgMT
-   Qg9r/GIyXFM8blXRMl/3m2srsKanoEVIOvR3Whf3da2h3Mgb2IVCddtSQ
-   67B2m70JGTgB81ECbMlEVbNQG0ez9qVofgwCYLyOpfrOsY7vEkAa676PH
-   T8kr2nMKutmNr+WJzyT/gHVrmlTCIAfF+d+gYYIjqa3VNkIrZ8+WLFGX5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407657519"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="407657519"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 14:08:30 -0700
+  t=1680730829; x=1712266829;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Dx2twCRP25nInNvwUWDERGrCyU3Vk80PE+ggtpu5AHU=;
+  b=P4SU/BMN7i5fgf7kWOqfHSLIF46r+rI8k5NUc46jBiKufNOIg/beZi3F
+   S8kJIKHx5gU0ktZlGyoUxEJupe5NLjAN+qgzBVUo/4+a1N0udpRpMQzx1
+   8tLzeZppfhc1pynZI6BQ368+Kifed/stHqsOarcfZTDSOmN0+SnusMt09
+   B4zxAZijuCCNDpLqdkJo5XU7HNpEsEtizmsmOW2hvGwmuRG+vGsYaJSfR
+   C9KDUwswQMpzbK7uA8jeBXndvF/0zQDAlSIwDGC5bfh1T9HL0cXrio8O0
+   kbnzQaDA6Ev0R4oU42jTxW4baiKDxycld4b+3Y4/Wrgk2swosvMPcivF3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="322951557"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
+   d="scan'208";a="322951557"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 14:40:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016620276"
-X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="1016620276"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="680434667"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
+   d="scan'208";a="680434667"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Apr 2023 14:08:25 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Apr 2023 14:40:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkAMi-000Qnq-1Z;
-	Wed, 05 Apr 2023 21:08:24 +0000
-Date: Thu, 6 Apr 2023 05:07:54 +0800
+	id 1pkAri-000QpC-0l;
+	Wed, 05 Apr 2023 21:40:26 +0000
+Date: Thu, 6 Apr 2023 05:40:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: ankita@nvidia.com, jgg@nvidia.com, alex.williamson@redhat.com,
-	naoya.horiguchi@nec.com, maz@kernel.org, oliver.upton@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, aniketa@nvidia.com, cjia@nvidia.com,
-	kwankhede@nvidia.com, targupta@nvidia.com, vsethi@nvidia.com,
-	acurrid@nvidia.com, apopple@nvidia.com, jhubbard@nvidia.com,
-	danw@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 2/6] vfio/nvgpu: expose GPU device memory as BAR1
-Message-ID: <202304060424.MtQM4udq-lkp@intel.com>
-References: <20230405180134.16932-3-ankita@nvidia.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
+Subject: [lunn:v6.3-rc4-net-next-phy-leds 5/16] mdio-aspeed.c:undefined
+ reference to `devm_mdiobus_alloc_size'
+Message-ID: <202304060539.fH2z7LuF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,146 +45,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230405180134.16932-3-ankita@nvidia.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on awilliam-vfio/for-linus]
-[also build test WARNING on kvmarm/next akpm-mm/mm-everything linus/master v6.3-rc5 next-20230405]
-[cannot apply to awilliam-vfio/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ankita-nvidia-com/kvm-determine-memory-type-from-VMA/20230406-020404
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20230405180134.16932-3-ankita%40nvidia.com
-patch subject: [PATCH v3 2/6] vfio/nvgpu: expose GPU device memory as BAR1
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230406/202304060424.MtQM4udq-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/lunn/linux.git v6.3-rc4-net-next-phy-leds
+head:   e66f649f9df97b1307e234ef1fab1308d7fd3202
+commit: 6eeed9d3def0efe303e276dbbcf54794bb4abab5 [5/16] net: phy: Add a binding for PHY LEDs
+config: arm-randconfig-c041-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060539.fH2z7LuF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/09ea30fcd2fb02d13a38cab4bf3d903f902408f4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review ankita-nvidia-com/kvm-determine-memory-type-from-VMA/20230406-020404
-        git checkout 09ea30fcd2fb02d13a38cab4bf3d903f902408f4
+        # https://github.com/lunn/linux/commit/6eeed9d3def0efe303e276dbbcf54794bb4abab5
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.3-rc4-net-next-phy-leds
+        git checkout 6eeed9d3def0efe303e276dbbcf54794bb4abab5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/vfio/pci/nvgpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060424.MtQM4udq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060539.fH2z7LuF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/vfio/pci/nvgpu/main.c:57:5: warning: no previous prototype for 'nvgpu_vfio_pci_mmap' [-Wmissing-prototypes]
-      57 | int nvgpu_vfio_pci_mmap(struct vfio_device *core_vdev,
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/vfio/pci/nvgpu/main.c:100:6: warning: no previous prototype for 'nvgpu_vfio_pci_ioctl' [-Wmissing-prototypes]
-     100 | long nvgpu_vfio_pci_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
-         |      ^~~~~~~~~~~~~~~~~~~~
+   arm-linux-gnueabi-ld: drivers/net/phy/phy_device.o: in function `phy_probe':
+   phy_device.c:(.text+0x202e): undefined reference to `devm_led_classdev_register_ext'
+   arm-linux-gnueabi-ld: drivers/net/mdio/mdio-aspeed.o: in function `aspeed_mdio_probe':
+>> mdio-aspeed.c:(.text+0x1e8): undefined reference to `devm_mdiobus_alloc_size'
+   arm-linux-gnueabi-ld: drivers/net/mdio/mdio-mux-bcm6368.o: in function `bcm6368_mdiomux_probe':
+>> mdio-mux-bcm6368.c:(.text+0xd6): undefined reference to `devm_mdiobus_alloc_size'
+   arm-linux-gnueabi-ld: drivers/net/mdio/mdio-mux-bcm-iproc.o: in function `mdio_mux_iproc_probe':
+>> mdio-mux-bcm-iproc.c:(.text+0x186): undefined reference to `devm_mdiobus_alloc_size'
+   arm-linux-gnueabi-ld: drivers/net/ethernet/freescale/xgmac_mdio.o: in function `xgmac_mdio_probe':
+   xgmac_mdio.c:(.text+0x20): undefined reference to `devm_mdiobus_alloc_size'
+   arm-linux-gnueabi-ld: drivers/net/ethernet/mellanox/mlxbf_gige/mlxbf_gige_mdio.o: in function `mlxbf_gige_mdio_probe':
+>> mlxbf_gige_mdio.c:(.text+0x304): undefined reference to `devm_mdiobus_alloc_size'
+   arm-linux-gnueabi-ld: drivers/net/ethernet/xilinx/ll_temac_mdio.o:ll_temac_mdio.c:(.text+0xee): more undefined references to `devm_mdiobus_alloc_size' follow
 
-
-vim +/nvgpu_vfio_pci_mmap +57 drivers/vfio/pci/nvgpu/main.c
-
-    56	
-  > 57	int nvgpu_vfio_pci_mmap(struct vfio_device *core_vdev,
-    58				struct vm_area_struct *vma)
-    59	{
-    60		struct nvgpu_vfio_pci_core_device *nvdev = container_of(
-    61			core_vdev, struct nvgpu_vfio_pci_core_device, core_device.vdev);
-    62	
-    63		unsigned long start_pfn;
-    64		unsigned int index;
-    65		u64 req_len, pgoff;
-    66		int ret = 0;
-    67	
-    68		index = vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
-    69		if (index != nvdev->mem_prop.bar1_start_offset)
-    70			return vfio_pci_core_mmap(core_vdev, vma);
-    71	
-    72		/*
-    73		 * Request to mmap the BAR1. Map to the CPU accessible memory on the
-    74		 * GPU using the memory information gathered from the system ACPI
-    75		 * tables.
-    76		 */
-    77		start_pfn = nvdev->mem_prop.hpa >> PAGE_SHIFT;
-    78		req_len = vma->vm_end - vma->vm_start;
-    79		pgoff = vma->vm_pgoff &
-    80			((1U << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
-    81		if (pgoff >= (nvdev->mem_prop.mem_length >> PAGE_SHIFT))
-    82			return -EINVAL;
-    83	
-    84		/*
-    85		 * Perform a PFN map to the memory. The device BAR1 is backed by the
-    86		 * GPU memory now. Check that the mapping does not overflow out of
-    87		 * the GPU memory size.
-    88		 */
-    89		ret = remap_pfn_range(vma, vma->vm_start, start_pfn + pgoff,
-    90				      min(req_len, nvdev->mem_prop.mem_length - pgoff),
-    91				      vma->vm_page_prot);
-    92		if (ret)
-    93			return ret;
-    94	
-    95		vma->vm_pgoff = start_pfn + pgoff;
-    96	
-    97		return 0;
-    98	}
-    99	
- > 100	long nvgpu_vfio_pci_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
-   101				  unsigned long arg)
-   102	{
-   103		struct nvgpu_vfio_pci_core_device *nvdev = container_of(
-   104			core_vdev, struct nvgpu_vfio_pci_core_device, core_device.vdev);
-   105	
-   106		unsigned long minsz = offsetofend(struct vfio_region_info, offset);
-   107		struct vfio_region_info info;
-   108	
-   109		switch (cmd) {
-   110		case VFIO_DEVICE_GET_REGION_INFO:
-   111			if (copy_from_user(&info, (void __user *)arg, minsz))
-   112				return -EFAULT;
-   113	
-   114			if (info.argsz < minsz)
-   115				return -EINVAL;
-   116	
-   117			if (info.index == nvdev->mem_prop.bar1_start_offset) {
-   118				/*
-   119				 * Request to determine the BAR1 region information. Send the
-   120				 * GPU memory information.
-   121				 */
-   122				info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
-   123				info.size = nvdev->mem_prop.mem_length;
-   124				info.flags = VFIO_REGION_INFO_FLAG_READ |
-   125					     VFIO_REGION_INFO_FLAG_WRITE |
-   126					     VFIO_REGION_INFO_FLAG_MMAP;
-   127				return copy_to_user((void __user *)arg, &info, minsz) ?
-   128					       -EFAULT : 0;
-   129			}
-   130	
-   131			if (info.index == nvdev->mem_prop.bar1_start_offset + 1) {
-   132				/*
-   133				 * The BAR1 region is 64b. Ignore this access.
-   134				 */
-   135				info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
-   136				info.size = 0;
-   137				info.flags = 0;
-   138				return copy_to_user((void __user *)arg, &info, minsz) ?
-   139					-EFAULT : 0;
-   140			}
-   141	
-   142			return vfio_pci_core_ioctl(core_vdev, cmd, arg);
-   143	
-   144		default:
-   145			return vfio_pci_core_ioctl(core_vdev, cmd, arg);
-   146		}
-   147	}
-   148	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLIB
+   Depends on [m]: NETDEVICES [=y] && (LEDS_CLASS [=m] || LEDS_CLASS [=m]=n)
+   Selected by [y]:
+   - PHYLINK [=y] && NETDEVICES [=y]
+   - LPC_ENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && (ARCH_LPC32XX [=n] || COMPILE_TEST [=y])
+   - B44 [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && SSB_POSSIBLE [=y] && HAS_DMA [=y]
+   - BCMGENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && HAS_IOMEM [=y] && (PTP_1588_CLOCK_OPTIONAL [=y] || !ARCH_BCM2835 [=n])
+   - BGMAC_PLATFORM [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && (ARCH_BCM_IPROC [=n] || COMPILE_TEST [=y])
+   - FSL_PQ_MDIO [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
+   - FSL_XGMAC_MDIO [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && OF [=y]
+   - GIANFAR [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && HAS_DMA [=y]
+   - MLXBF_GIGE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MELLANOX [=y] && (ARM64 && ACPI || COMPILE_TEST [=y])
+   - KS8851_MLL [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICREL [=y] && HAS_IOMEM [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+   - XILINX_EMACLITE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
+   - XILINX_LL_TEMAC [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
+   Selected by [m]:
+   - OWL_EMAC [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_ACTIONS [=y]
+   - AMD_XGBE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI || PCI [=n]) && HAS_IOMEM [=y] && (X86 || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
+   - BGMAC_BCMA [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && BCMA [=y] && BCMA_HOST_SOC [=y] && (BCM47XX || ARCH_BCM_5301X [=n] || COMPILE_TEST [=y])
+   - SYSTEMPORT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && HAS_IOMEM [=y] && (NET_DSA [=n] || !NET_DSA [=n])
 
 -- 
 0-DAY CI Kernel Test Service
