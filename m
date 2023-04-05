@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F3F79D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 20:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5B879CC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 21:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680727048; x=1712263048;
+  t=1680728907; x=1712264907;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7LiV2p05INzFLuOwJPes8RCtlYA5NybZjCMRJktjbQo=;
-  b=S8yD9uCgnbFZ7HiZrESehB0fznHYUjySp+RVeIzXfOTfIfMxMXs40Tgt
-   nwT6vrVooOPv8XpQTo3fjZjiW7vI+yQhn1K/G/mYqRQn4h8Fg9ZLW0Cth
-   qjYYWNJkzYXW3O8JDoZ59Zi0e3rvuubRt4zQbKvy9mdedLuh+PBv8c7UX
-   T9vvfxCXNtVDpDhEWFAxIKEEcWAvA1Y+XWeKGpNGe5SmtP8dQf2LGLZzl
-   8QE0BpFBg2D6wp+4P0PUp78cOQTPpXQP/ybBcHcpdsdzP2o6UDvxpdu0H
-   heZ/3FTi6L8001QmbpQA88GRWC88oulIY4xQXlMZj10HdJTiw4+3jiH+3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345151484"
+  bh=eOsWoP4L1CZpFRDSe0r8HkSQs3Wjq74RuHblVPqDOhM=;
+  b=XR92AyeC07h5qZXi6VSZePiY8i1i48lRv9fQH5hg/ZBNRDgMtxnZin2+
+   WoSB7/MtrnVwCYnk4v/xOW8tSNH3cFJ9dqBIGWTO+Ya1GR4evjWbmnB01
+   YORnvXsG8rQ+aRGGGSltzXj0GI9k4fvmKKemcIoSjNw+74fvcs5dvsJft
+   4mbpm+zLD5v9uxxcSDWD9moJ8S81+6zMZjxr+br46UROo3PTLKOpp5oHA
+   n4rpPurZcffA7rTe3Z6kpR56lE0CTJAM4stZ8GDPsS5V7ca27ug/iWBWb
+   HIn9H342hR9mE+ISRYAfu+UQmRE656PoJmSc+SAy7IruLx6JxAy0H7FuE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="322942796"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="345151484"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 13:37:25 -0700
+   d="scan'208";a="322942796"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 14:08:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="664164033"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="751396763"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="664164033"
+   d="scan'208";a="751396763"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 05 Apr 2023 13:37:23 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 05 Apr 2023 14:08:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pk9sh-000Qlw-0g;
-	Wed, 05 Apr 2023 20:37:23 +0000
-Date: Thu, 6 Apr 2023 04:36:55 +0800
+	id 1pkAMi-000Qnw-21;
+	Wed, 05 Apr 2023 21:08:24 +0000
+Date: Thu, 6 Apr 2023 05:07:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14939/29326]
- kernel/power/qos.c:306:5: warning: stack frame size (32920) exceeds limit
- (8192) in 'pm_qos_update_target'
-Message-ID: <202304060442.djxLS0vV-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
+Subject: [lunn:v6.3-rc4-net-next-phy-leds 5/16]
+ phy_device.c:(.rodata.cst4+0x240): undefined reference to
+ `devm_led_classdev_register_ext'
+Message-ID: <202304060506.WByOWCGE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,114 +47,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lina,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   c1102a2e31cd2371b5f9ed2b3b5a4f8ac735cd87
-commit: 723feab600f71b3104a10de5b372bd1d9adf5943 [14939/29326] ANDROID: GKI: QoS: Enhance framework to support cpu/irq specific QoS requests
-config: x86_64-randconfig-r005-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060442.djxLS0vV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/lunn/linux.git v6.3-rc4-net-next-phy-leds
+head:   e66f649f9df97b1307e234ef1fab1308d7fd3202
+commit: 6eeed9d3def0efe303e276dbbcf54794bb4abab5 [5/16] net: phy: Add a binding for PHY LEDs
+config: parisc-buildonly-randconfig-r001-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060506.WByOWCGE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout 723feab600f71b3104a10de5b372bd1d9adf5943
+        # https://github.com/lunn/linux/commit/6eeed9d3def0efe303e276dbbcf54794bb4abab5
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.3-rc4-net-next-phy-leds
+        git checkout 6eeed9d3def0efe303e276dbbcf54794bb4abab5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/ kernel/power/ kernel/sched/ lib/ sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060442.djxLS0vV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060506.WByOWCGE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/power/qos.c:306:5: warning: stack frame size (32920) exceeds limit (8192) in 'pm_qos_update_target' [-Wframe-larger-than]
-   int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
-       ^
-   1 warning generated.
-   kernel/power/qos.c:630: warning: Function parameter or member 'new_value' not described in 'pm_qos_update_request'
-   kernel/power/qos.c:630: warning: Excess function parameter 'value' description in 'pm_qos_update_request'
+   hppa-linux-ld: hppa-linux-ld: DWARF error: could not find abbrev number 45
+   drivers/net/phy/phy_device.o: in function `.LC343':
+>> phy_device.c:(.rodata.cst4+0x240): undefined reference to `devm_led_classdev_register_ext'
 
-
-vim +/pm_qos_update_target +306 kernel/power/qos.c
-
-723feab600f71b kernel/power/qos.c     Lina Iyer           2014-05-21  294  
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  295  /**
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  296   * pm_qos_update_target - manages the constraints list and calls the notifiers
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  297   *  if needed
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  298   * @c: constraints data struct
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  299   * @node: request to add to the list, to update or to remove
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  300   * @action: action to take on the constraints list
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  301   * @value: value of the request to add or update
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  302   *
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  303   * This function returns 1 if the aggregated constraint value has changed, 0
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  304   *  otherwise.
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  305   */
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25 @306  int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  307  			 enum pm_qos_req_action action, int value)
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  308  {
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  309  	unsigned long flags;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  310  	int prev_value, curr_value, new_value;
-2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  311  	int ret;
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  312  
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  313  	spin_lock_irqsave(&pm_qos_lock, flags);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  314  	prev_value = pm_qos_get_value(c);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  315  	if (value == PM_QOS_DEFAULT_VALUE)
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  316  		new_value = c->default_value;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  317  	else
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  318  		new_value = value;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  319  
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  320  	switch (action) {
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  321  	case PM_QOS_REMOVE_REQ:
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  322  		plist_del(node, &c->list);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  323  		break;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  324  	case PM_QOS_UPDATE_REQ:
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  325  		/*
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  326  		 * to change the list, we atomically remove, reinit
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  327  		 * with new value and add, then see if the extremal
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  328  		 * changed
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  329  		 */
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  330  		plist_del(node, &c->list);
-fe43e2ce526979 kernel/power/qos.c     Gustavo A. R. Silva 2018-03-30  331  		/* fall through */
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  332  	case PM_QOS_ADD_REQ:
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  333  		plist_node_init(node, new_value);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  334  		plist_add(node, &c->list);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  335  		break;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  336  	default:
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  337  		/* no action */
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  338  		;
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  339  	}
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  340  
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  341  	curr_value = pm_qos_get_value(c);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  342  	pm_qos_set_value(c, curr_value);
-723feab600f71b kernel/power/qos.c     Lina Iyer           2014-05-21  343  	pm_qos_set_value_for_cpus(c);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  344  
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  345  	spin_unlock_irqrestore(&pm_qos_lock, flags);
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  346  
-247e9ee034b044 kernel/power/qos.c     Sahara              2013-06-21  347  	trace_pm_qos_update_target(action, prev_value, curr_value);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  348  	if (prev_value != curr_value) {
-2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  349  		ret = 1;
-2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  350  		if (c->notifiers)
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  351  			blocking_notifier_call_chain(c->notifiers,
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  352  						     (unsigned long)curr_value,
-5f279845f9d684 kernel/pm_qos_params.c James Bottomley     2010-07-19  353  						     NULL);
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  354  	} else {
-2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  355  		ret = 0;
-abe98ec2d86279 kernel/power/qos.c     Jean Pihet          2011-08-25  356  	}
-2d984ad132a87c kernel/power/qos.c     Rafael J. Wysocki   2014-02-11  357  	return ret;
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  358  }
-d82b35186eaa81 kernel/pm_qos_params.c Mark Gross          2008-02-04  359  
-
-:::::: The code at line 306 was first introduced by commit
-:::::: abe98ec2d86279fe821c9051003a0abc43444f15 PM QoS: Generalize and export constraints management code
-
-:::::: TO: Jean Pihet <j-pihet@ti.com>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLIB
+   Depends on [m]: NETDEVICES [=y] && (LEDS_CLASS [=m] || LEDS_CLASS [=m]=n)
+   Selected by [y]:
+   - PHYLINK [=y] && NETDEVICES [=y]
+   - ALTERA_TSE [=y] && NETDEVICES [=y] && ETHERNET [=y] && HAS_DMA [=y]
+   - LPC_ENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && (ARCH_LPC32XX || COMPILE_TEST [=y])
+   - ARC_EMAC_CORE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_ARC [=y] && (ARC || ARCH_ROCKCHIP || COMPILE_TEST [=y])
+   - BGMAC_PLATFORM [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && (ARCH_BCM_IPROC || COMPILE_TEST [=y])
+   - FEC [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && (M523x || M527x || M5272 || M528x || M520x || M532x || ARCH_MXC || ARCH_S32 || SOC_IMX28 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
+   - TI_DAVINCI_MDIO [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_TI [=y] && (ARCH_DAVINCI || ARCH_OMAP2PLUS || ARCH_KEYSTONE || ARCH_K3 || COMPILE_TEST [=y])
+   - OCTEON_ETHERNET [=y] && STAGING [=y] && (CAVIUM_OCTEON_SOC || COMPILE_TEST [=y]) && NETDEVICES [=y]
+   Selected by [m]:
+   - NET_XGENE [=m] && NETDEVICES [=y] && ETHERNET [=y] && (ARCH_XGENE || COMPILE_TEST [=y])
+   - ETHOC [=m] && NETDEVICES [=y] && ETHERNET [=y] && HAS_IOMEM [=y] && HAS_DMA [=y]
+   - FTGMAC100 [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FARADAY [=y] && (ARM || COMPILE_TEST [=y]) && (!64BIT [=n] || BROKEN [=n])
+   - FSL_PQ_MDIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
+   - FSL_XGMAC_MDIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && OF [=y]
+   - GIANFAR [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && HAS_DMA [=y]
+   - MLXBF_GIGE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MELLANOX [=y] && (ARM64 && ACPI || COMPILE_TEST [=y])
+   - QCOM_EMAC [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_QUALCOMM [=y] && HAS_DMA [=y] && HAS_IOMEM [=y]
+   - SH_ETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_RENESAS [=y] && (ARCH_RENESAS || SUPERH || COMPILE_TEST [=y])
+   - RAVB [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_RENESAS [=y] && (ARCH_RENESAS || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
+   - SMSC911X [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_SMSC [=y] && HAS_IOMEM [=y]
+   - SNI_AVE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_SOCIONEXT [=y] && (ARCH_UNIPHIER || COMPILE_TEST [=y]) && OF [=y] && HAS_IOMEM [=y]
+   - TI_DAVINCI_EMAC [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_TI [=y] && (ARM && (ARCH_DAVINCI || ARCH_OMAP3) || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
