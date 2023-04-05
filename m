@@ -1,42 +1,42 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B955622
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 08:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D6C7F5;
+	Wed,  5 Apr 2023 08:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680684134; x=1712220134;
+  t=1680684137; x=1712220137;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8yhhWzBJfaph7HkXBMDntsas82xoO5YD1P6rZ84JH3s=;
-  b=P91u6Yvaa3zUH5Tx1jdJ1HXZ5zw13F80t2CCv+tEorQZPykdibZHqjkW
-   BI9kUeHQawuNu7AGA2aw0jHP3UoP4S1EpFFQTYjMMQx6CHxI5UPxFqncO
-   Z9lFE41nw32o33oNVCzC4C+zYsysZ8S/xM3TeG12kTEWMZ0XbmKg8LHlR
-   P8cj1UmK5gfTXoUMXDVvMgCsySQ5ALUoK2rZYC5Xkb/ppeMaQEy0pS8BO
-   f2xLwP/1oS453DW58etX6B/KAL2A/O2xtexxP3t1voKkb75OkznKmq/s2
-   SdzLyOlOyG/MSqXEtvUg6b7i09ZZ+9dmx6rrpy/ivdvbPzdGNhKBW+iyI
+  bh=t4BaMUiTkU0pdzyvrf41Opnz45/wmLzXd9LPpa7ro0Y=;
+  b=HHPlWXLNtS1Pfno5zt29YMT/I+S/ccgNba0QXTzkUCCOCXd7cK+HdUdx
+   IewPIOyfu2GJ+jkHQFnZuyBV3n8yJjtq8wytuRYzZ5Ys1j72TRXjAjppW
+   inWCIMc57jp5mMX9VK/yydpXa7TvA5XR19gnHQfXmjafwRmYrdU9X/FJT
+   ayNJcf4lWMC478sNJJQtm6hGBeEQKLQWqvJvyMFz7ckkjtxY9UvXJT8Mh
+   G1AtysLRj7ysf21qxymckz6f+/e8BgssoX6lXnzS59/wVMZE7MKGypt4g
+   4q8MFZKBz0f1LqlmozAf/bsLxn0ELTMmYZpikaLJYlxEy4iGCIMpMvP6A
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="342419480"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="342419484"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="342419480"
+   d="scan'208";a="342419484"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 01:42:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="716957251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="716957252"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="716957251"
+   d="scan'208";a="716957252"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 05 Apr 2023 01:42:07 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjyiU-000QQY-1F;
+	id 1pjyiU-000QQa-1N;
 	Wed, 05 Apr 2023 08:42:06 +0000
-Date: Wed, 5 Apr 2023 16:42:00 +0800
+Date: Wed, 5 Apr 2023 16:42:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-debug 8/8] fs/btrfs/btrfs.o: warning: objtool:
- btrfs_unfreeze+0x3e8: btrfs_assertfail() is missing a __noreturn annotation
-Message-ID: <202304051607.xR72bEfi-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [pablo-gtp:main 5/5] drivers/net/gtp.c:1094:14: warning: variable
+ 'dst' is uninitialized when used here
+Message-ID: <202304051650.VGVowXih-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,150 +46,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-debug
-head:   261316083661e4879d4db1cc7d34efb3f3dfcbbf
-commit: 261316083661e4879d4db1cc7d34efb3f3dfcbbf [8/8] objtool: Detect missing __noreturn annotations
-config: x86_64-randconfig-r026-20230403 (https://download.01.org/0day-ci/archive/20230405/202304051607.xR72bEfi-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git main
+head:   8257a77aa7bbdcdbc7cb8bf48e4b065dccbb8ec4
+commit: 8257a77aa7bbdcdbc7cb8bf48e4b065dccbb8ec4 [5/5] gtp: add IPv6 support
+config: x86_64-randconfig-r033-20230403 (https://download.01.org/0day-ci/archive/20230405/202304051650.VGVowXih-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=261316083661e4879d4db1cc7d34efb3f3dfcbbf
-        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
-        git fetch --no-tags jpoimboe objtool-debug
-        git checkout 261316083661e4879d4db1cc7d34efb3f3dfcbbf
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git/commit/?id=8257a77aa7bbdcdbc7cb8bf48e4b065dccbb8ec4
+        git remote add pablo-gtp https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git
+        git fetch --no-tags pablo-gtp main
+        git checkout 8257a77aa7bbdcdbc7cb8bf48e4b065dccbb8ec4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304051607.xR72bEfi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304051650.VGVowXih-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_unfreeze+0x3e8: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_calc_avail_data_space+0x549: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: finish_need_commit_sem_search+0x237: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_search_slot_get_root+0x566: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: split_node+0xd26: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: balance_level+0x11f8: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: search_leaf+0x5e8: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_search_slot+0xffa: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_search_old_slot+0x5eb: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_search_forward+0x809: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_next_old_leaf+0x6b0: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_find_item+0x382: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: alloc_reserved_extent+0x14f: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: do_allocation_zoned.constprop.0+0x5a4: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_get_extent_inline_ref_type+0x1d8: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: update_inline_extent_backref+0x2b3: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: extent_data_ref_count+0x265: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: __btrfs_free_extent+0xa20: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_discard_extent+0x43b: btrfs_assertfail() is missing a __noreturn annotation
->> fs/btrfs/btrfs.o: warning: objtool: btrfs_inc_extent_ref+0xa5: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_run_delayed_refs_for_head+0x551: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: do_walk_down+0x81c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: insert_with_overflow+0x274: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: csum_size_to_bytes+0xb5: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: search_csum_tree+0x493: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_inode_set_file_extent_range+0x191: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_inode_clear_file_extent_range+0x1ac: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_lookup_bio_sums+0x7fe: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_lookup_csums_list+0x8e2: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_lookup_csums_bitmap+0x73c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_csum_one_bio+0xc62: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_del_csums+0x715: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_file_extent_end+0x1fb: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_truncate_inode_items+0xdfe: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_cleanup_bg_io+0x116: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_global_root_id.part.0+0x7c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: csum_one_extent_buffer+0x467: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: validate_extent_buffer+0x8c3: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: validate_subpage_buffer+0x25c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_read_extent_buffer+0x2f9: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_validate_metadata_buffer+0x24d: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: read_tree_block+0x11e: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_global_root_insert+0x1ab: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: backup_super_roots+0x195a: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_block_group_root+0x24e: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_read_dev_one_super+0x206: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_drop_and_free_fs_root+0x1a3: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_fs_root_commit_root+0x2c3: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_mark_buffer_dirty+0x2b5: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_cleanup_one_transaction+0x599: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: warn_about_uncommitted_trans+0x56f: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: close_ctree+0x70a: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_root_ref.part.0+0x818: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: init_tree_roots+0xa99: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: switch_commit_roots+0x488: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: commit_fs_roots+0x530: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: add_pending_snapshot+0x22c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: commit_cowonly_roots+0x65b: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_trans_release_metadata+0x208: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_wait_tree_log_extents+0x163: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: create_pending_snapshot+0x8b2: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_commit_transaction+0xe31: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: wait_subpage_spinlock+0x161: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: split_zoned_em+0xc65: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: insert_inline_extent+0x6df: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: __btrfs_del_delalloc_inode+0x33e: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_clear_delalloc_extent+0x63e: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_check_sector_csum+0x1ee: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_data_csum_ok+0x672: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_add_delayed_iput+0x29d: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: cow_file_range+0x989: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: run_delalloc_nocow+0x93a: unreachable instruction
-   fs/btrfs/btrfs.o: warning: objtool: run_delalloc_zoned+0x360: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_run_delalloc_range+0x473: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_finish_ordered_io+0x12d2: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_invalidate_folio+0x74f: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_delete_subvolume+0x970: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_evict_inode+0x81a: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_extent+0x1259: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_range_writeback+0x28e: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_assert_inode_range_clean+0x198: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_insert_replace_extent+0x935: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_zero_range+0x7ff: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_drop_pages+0x25a: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_dirty_pages+0x259: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_drop_extents+0x1381: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_punch_hole+0x8be: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_sync_file+0x5ea: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: defrag_get_extent+0x65a: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: defrag_collect_targets+0x9e4: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: defrag_one_locked_target.isra.0+0x4e4: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: defrag_one_range+0x6b9: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: mergable_maps+0x413: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: replace_extent_mapping+0x52b: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_add_extent_mapping+0xd6: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_drop_extent_map_range+0xd87: unreachable instruction
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_replace_extent_map_range+0x12c: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_sysfs_remove_device+0x163: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_sysfs_add_device+0x3aa: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_sysfs_add_qgroups+0x1c5: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_token_8+0x282: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_8+0x16f: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_token_8+0x282: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_8+0x173: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_token_16+0x455: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_16+0x2bb: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_token_16+0x475: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_16+0x2bd: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_token_32+0x491: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_32+0x2c6: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_token_32+0x4ae: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_32+0x2c9: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_token_64+0x491: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_get_64+0x2c7: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_token_64+0x4b3: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_set_64+0x2c9: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_setxattr+0x486: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_setxattr_trans+0x2c8: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_add_ordered_extent+0xb12: btrfs_assertfail() is missing a __noreturn annotation
-   fs/btrfs/btrfs.o: warning: objtool: btrfs_mark_ordered_io_finished+0x836: btrfs_assertfail() is missing a __noreturn annotation
+>> drivers/net/gtp.c:1094:14: warning: variable 'dst' is uninitialized when used here [-Wuninitialized]
+           dst_release(dst);
+                       ^~~
+   drivers/net/gtp.c:1030:23: note: initialize the variable 'dst' to silence this warning
+           struct dst_entry *dst;
+                                ^
+                                 = NULL
+   1 warning generated.
 
 
-objdump-func vmlinux.o btrfs_unfreeze:
+vim +/dst +1094 drivers/net/gtp.c
+
+  1024	
+  1025	static int gtp_build_skb_ip6(struct sk_buff *skb, struct net_device *dev,
+  1026				     struct gtp_pktinfo *pktinfo)
+  1027	{
+  1028		struct gtp_dev *gtp = netdev_priv(dev);
+  1029		struct net *net = gtp->net;
+  1030		struct dst_entry *dst;
+  1031		struct pdp_ctx *pctx;
+  1032		struct ipv6hdr *ip6h;
+  1033		struct rt6_info *rt;
+  1034		struct flowi6 fl6;
+  1035		int mtu;
+  1036	
+  1037		/* Read the IP destination address and resolve the PDP context.
+  1038		 * Prepend PDP header with TEI/TID from PDP ctx.
+  1039		 */
+  1040		ip6h = ipv6_hdr(skb);
+  1041		if (gtp->role == GTP_ROLE_SGSN)
+  1042			pctx = ipv6_pdp_find(gtp, &ip6h->saddr);
+  1043		else
+  1044			pctx = ipv6_pdp_find(gtp, &ip6h->daddr);
+  1045	
+  1046		if (!pctx) {
+  1047			netdev_dbg(dev, "no PDP ctx found for %pI6, skip\n",
+  1048				   &ip6h->daddr);
+  1049			return -ENOENT;
+  1050		}
+  1051		netdev_dbg(dev, "found PDP context %p\n", pctx);
+  1052	
+  1053		rt = ip6_route_output_gtp(net, &fl6, pctx->sk, &pctx->ip6.peer_addr,
+  1054					  &inet6_sk(pctx->sk)->saddr);
+  1055		if (IS_ERR(rt)) {
+  1056			netdev_dbg(dev, "no route to SSGN %pI6\n",
+  1057				   &pctx->ip6.peer_addr);
+  1058			dev->stats.tx_carrier_errors++;
+  1059			goto err;
+  1060		}
+  1061	
+  1062		if (rt->dst.dev == dev) {
+  1063			netdev_dbg(dev, "circular route to SSGN %pI6\n",
+  1064				   &pctx->ip6.peer_addr);
+  1065			dev->stats.collisions++;
+  1066			goto err_rt;
+  1067		}
+  1068	
+  1069		mtu = dst_mtu(&rt->dst) - dev->hard_header_len -
+  1070			sizeof(struct ipv6hdr) - sizeof(struct udphdr);
+  1071		switch (pctx->gtp_version) {
+  1072		case GTP_V0:
+  1073			mtu -= sizeof(struct gtp0_header);
+  1074			break;
+  1075		case GTP_V1:
+  1076			mtu -= sizeof(struct gtp1_header);
+  1077			break;
+  1078		}
+  1079	
+  1080		skb_dst_update_pmtu_no_confirm(skb, mtu);
+  1081	
+  1082		if ((!skb_is_gso(skb) && skb->len > mtu) ||
+  1083		    (skb_is_gso(skb) && !skb_gso_validate_network_len(skb, mtu))) {
+  1084			netdev_dbg(dev, "packet too big, fragmentation needed\n");
+  1085			icmpv6_ndo_send(skb, ICMPV6_PKT_TOOBIG, 0, mtu);
+  1086			goto err_rt;
+  1087		}
+  1088	
+  1089		gtp_set_pktinfo_ipv6(pktinfo, pctx->sk, ip6h, pctx, rt, &fl6, dev);
+  1090		gtp_push_header(skb, pktinfo);
+  1091	
+  1092		return 0;
+  1093	err_rt:
+> 1094		dst_release(dst);
+  1095	err:
+  1096		return -EBADMSG;
+  1097	}
+  1098	
 
 -- 
 0-DAY CI Kernel Test Service
