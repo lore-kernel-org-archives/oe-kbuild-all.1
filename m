@@ -1,50 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C834D624
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 03:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55763637
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 05:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680666782; x=1712202782;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xs2d4Ol2QjDYLWkGXWWGdLuKQ8sE/oI2HYq0eZOM2ck=;
-  b=abboD3Jx7g5gpdFaZa/DwZWMBhBhfO2RHjbui4vX1WYhg3oW4wOcWLjB
-   gI/wt+vrBCSAUL+dfpqF16Ru/OfT7n84imeja8b3bfc0FF5/UcTkHIqAD
-   jIgQ2kD9LUlzCkIMQ/lAw7oIKPVH3cGrq9m7hcEXUHzk7kJkvnD4hhhOU
-   GgV8yXBBSoAplmbxVxtFzae6vF5o1/Z7ki42gDQm8QNjmPVOVzkwXuxPK
-   oOnHxHPf+/md30bxM+cMAJZEpHknl3GVyf/bC05tOCG16ttBrKVXIJ5pV
-   pWb3yeq5H6y3Gi2PddpgJE7xNTxSzJdQ1wAEAYVKAaoAHacbxenkZ5rU1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344076073"
+  t=1680672902; x=1712208902;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6VSlsP+wc+3TqrJiARHmi/ShqEGme6R6SAoH84IA1wg=;
+  b=Uq6dY7dm6w33Neo8SpTzrRbtCJ0uHZPSyIU+GaemKXwa+KHpXu0vtO5t
+   BzHF19QBMxg113YRwm1kub6NXLFiaqG/hND3Zkuy5wiKQBVZgKYhCI2XZ
+   H3sde0FTnB1F7HOHRAqVlgT+o5UnVFjlisHqAfsMNHQJn0ew2iUMxiR2e
+   1K6L/SkKLZwqDDkkkTr/hfT96R5tdHVxc7ybd7h/wOsO+IVFg+aCRxrxs
+   gvpAjy2xrEwC/oxFD7CvsIib779pOqtB4JtQUjq5vdjV9rRxP/Os/T/7f
+   myYN7jk4/BTvmz0Laak106yJVdtK0sZ9+Dy5GvTClgZyDGv2o8EdBVysC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="322758469"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="344076073"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 20:53:00 -0700
+   d="scan'208";a="322758469"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 22:35:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="775892795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="830235943"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="775892795"
+   d="scan'208";a="830235943"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Apr 2023 20:52:57 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2023 22:35:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjuCe-000QHa-2f;
-	Wed, 05 Apr 2023 03:52:56 +0000
-Date: Wed, 5 Apr 2023 11:52:30 +0800
+	id 1pjvnP-000QKg-0m;
+	Wed, 05 Apr 2023 05:34:59 +0000
+Date: Wed, 5 Apr 2023 13:34:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaun Tancheff <shaun.tancheff@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Vladimir Davydov <vdavydov.dev@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shaun Tancheff <shaun.tancheff@hpe.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] memcg-v1: Enable setting memory min, low, high
-Message-ID: <202304051118.jpLmhRPu-lkp@intel.com>
-References: <20230404205013.31520-1-shaun.tancheff@gmail.com>
+To: Yonghong Song <yhs@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning:
+ no previous prototype for 'bpf_testmod_test_struct_arg_1'
+Message-ID: <202304051344.Ti1Rnzds-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,48 +46,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404205013.31520-1-shaun.tancheff@gmail.com>
 
-Hi Shaun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.3-rc5]
-[also build test ERROR on linus/master]
-[cannot apply to akpm-mm/mm-everything next-20230404]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shaun-Tancheff/memcg-v1-Enable-setting-memory-min-low-high/20230405-045143
-patch link:    https://lore.kernel.org/r/20230404205013.31520-1-shaun.tancheff%40gmail.com
-patch subject: [PATCH] memcg-v1: Enable setting memory min, low, high
-config: m68k-randconfig-r023-20230403 (https://download.01.org/0day-ci/archive/20230405/202304051118.jpLmhRPu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/180e4266c809a61c2711599c6462bd719efed76c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shaun-Tancheff/memcg-v1-Enable-setting-memory-min-low-high/20230405-045143
-        git checkout 180e4266c809a61c2711599c6462bd719efed76c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   76f598ba7d8e2bfb4855b5298caedd5af0c374a8
+commit: 1642a3945e223a922312fab2401ecdf58b3825b9 selftests/bpf: Add struct argument tests with fentry/fexit programs.
+date:   7 months ago
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1642a3945e223a922312fab2401ecdf58b3825b9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1642a3945e223a922312fab2401ecdf58b3825b9
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304051118.jpLmhRPu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304051344.Ti1Rnzds-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: m68k-linux-ld: DWARF error: could not find abbrev number 99017497
-   mm/memcontrol.o: in function `mem_cgroup_write':
->> memcontrol.c:(.text+0x4548): undefined reference to `__udivdi3'
->> m68k-linux-ld: memcontrol.c:(.text+0x45b4): undefined reference to `__udivdi3'
-   m68k-linux-ld: memcontrol.c:(.text+0x45ec): undefined reference to `__udivdi3'
->> m68k-linux-ld: mm/memcontrol.o:(.debug_addr+0x1fc): undefined reference to `__udivdi3'
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_1' [-Wmissing-prototypes]
+      32 | bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_2' [-Wmissing-prototypes]
+      38 | bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:44:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_3' [-Wmissing-prototypes]
+      44 | bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:50:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_4' [-Wmissing-prototypes]
+      50 | bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:57:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_5' [-Wmissing-prototypes]
+      57 | bpf_testmod_test_struct_arg_5(void) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
+      63 | bpf_testmod_test_mod_kfunc(int i)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:81:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
+      81 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:89:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
+      89 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:94:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
+      94 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:99:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
+      99 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:103:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
+     103 | noinline int bpf_testmod_loop_test(int n)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:115:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
+     115 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:132:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
+     132 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:176:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
+     176 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_testmod_test_struct_arg_1 +32 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
+
+    30	
+    31	noinline int
+  > 32	bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+    33		bpf_testmod_test_struct_arg_result = a.a + a.b  + b + c;
+    34		return bpf_testmod_test_struct_arg_result;
+    35	}
+    36	
+    37	noinline int
+  > 38	bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+    39		bpf_testmod_test_struct_arg_result = a + b.a + b.b + c;
+    40		return bpf_testmod_test_struct_arg_result;
+    41	}
+    42	
+    43	noinline int
+  > 44	bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+    45		bpf_testmod_test_struct_arg_result = a + b + c.a + c.b;
+    46		return bpf_testmod_test_struct_arg_result;
+    47	}
+    48	
+    49	noinline int
+  > 50	bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+    51				      int c, int d, struct bpf_testmod_struct_arg_2 e) {
+    52		bpf_testmod_test_struct_arg_result = a.a + b + c + d + e.a + e.b;
+    53		return bpf_testmod_test_struct_arg_result;
+    54	}
+    55	
+    56	noinline int
+  > 57	bpf_testmod_test_struct_arg_5(void) {
+    58		bpf_testmod_test_struct_arg_result = 1;
+    59		return bpf_testmod_test_struct_arg_result;
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
