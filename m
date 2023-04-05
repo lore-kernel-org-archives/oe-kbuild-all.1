@@ -1,51 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB613234
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 18:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B3C7494;
+	Wed,  5 Apr 2023 20:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680720867; x=1712256867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8ySDpSlY61EmOZUDP9ab+Mrr9+JW/wcfMmHmCCzcMfg=;
-  b=XuI36g29NulwfPPRqzY+2gBpr+ufcKuygwoKHHfiu9WdNGyStRimiJDA
-   OaMC5vEixmq8/sNiHCCYqkHqZxIWUoMKxLS2AEmzP6IoYUxFXKXeAwjqx
-   xugNOUG51ckyIoBSL4DqIunZSizpJxILxtiWearZFJa+j0LPscM0ZKUUy
-   UMSWS10le91mxeJjqNU+lHyvbw//wb4/mupTNeaRAFz+hsiAQccg/+CVG
-   HOmTW8e8uYZvzESuT38gBZ6jUEOGqziWkD21QY3UADr50wtEgXvJDdwEK
-   2zFRVCh4GJiHFdJd/Ub1waZbkm7K+smC9KNe2CvSqY7cQpMkuJVXrPBvh
+  t=1680727045; x=1712263045;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ahUIaEx13TeKBsFO2p9JLrbqnJ0M8kqDbOJOvvsxitM=;
+  b=ggfnwmhXceuiMw07LfAUUzJY5a/QQsb4BWo1TroNiTZbQ4mLz9tK7cAl
+   HtLU750JKlCuUr2iVZptPbnBcVmo8ditGWSWGRoL9meRziOp6MUIIq86Z
+   kaTpC6gCOKFgpn2eGDqlaEQPzlAn7UcsUUt2hzqPKQP7N5U/f6BqNsJuu
+   3rfvHj008uhQgWKisIyLhXgHGThEFiuBndMFMc2y9XN7SGdbqMl10gB/b
+   Mj0vfI9rf5jYSkITsMuluUs4danvkQ0IWPhPur5cK7ftM29UUgRSZF3EA
+   QhxhA0Pj7aN3gnby7XDI6Jg8j5wh/i/2RvASL3AE0aYoEcE1m1NSGwSeU
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="370370268"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345151485"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="370370268"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 11:54:25 -0700
+   d="scan'208";a="345151485"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 13:37:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="861099879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="664164032"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="861099879"
+   d="scan'208";a="664164032"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Apr 2023 11:54:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 05 Apr 2023 13:37:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pk8Gz-000QiU-04;
-	Wed, 05 Apr 2023 18:54:21 +0000
-Date: Thu, 6 Apr 2023 02:54:13 +0800
+	id 1pk9sh-000Qlu-0a;
+	Wed, 05 Apr 2023 20:37:23 +0000
+Date: Thu, 6 Apr 2023 04:36:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Jiri Olsa <olsajiri@gmail.com>, Stanislav Fomichev <sdf@google.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: Re: [PATCH bpf-next v5] bpf: Support 64-bit pointers to kfuncs
-Message-ID: <202304060240.OeUgnjzZ-lkp@intel.com>
-References: <20230405141407.172357-1-iii@linux.ibm.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:20230405-module-alloc-opts 38/40]
+ kernel/module/main.c:2513:15: warning: variable 'text_size' set but not used
+Message-ID: <202304060408.bPYYaQoz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,94 +45,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230405141407.172357-1-iii@linux.ibm.com>
 
-Hi Ilya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230405-221738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230405141407.172357-1-iii%40linux.ibm.com
-patch subject: [PATCH bpf-next v5] bpf: Support 64-bit pointers to kfuncs
-config: i386-randconfig-r022-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060240.OeUgnjzZ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230405-module-alloc-opts
+head:   df3d0d8eab2e52ef53c9c95e45275904397cb19a
+commit: 91f048af0cadf1b14de4c0be5481de5e34bbac2b [38/40] module: add debug stats to help identify memory pressure
+config: x86_64-randconfig-a003-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060408.bPYYaQoz-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/43119fecff7ac0771f037a6dc128ceb791917466
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230405-221738
-        git checkout 43119fecff7ac0771f037a6dc128ceb791917466
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=91f048af0cadf1b14de4c0be5481de5e34bbac2b
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof 20230405-module-alloc-opts
+        git checkout 91f048af0cadf1b14de4c0be5481de5e34bbac2b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/module/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060240.OeUgnjzZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060408.bPYYaQoz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/bpf/core.c: In function 'bpf_jit_get_func_addr':
->> kernel/bpf/core.c:1207:23: error: implicit declaration of function 'bpf_get_kfunc_addr'; did you mean 'bpf_jit_get_func_addr'? [-Werror=implicit-function-declaration]
-    1207 |                 err = bpf_get_kfunc_addr(prog, insn->imm, insn->off, &addr);
-         |                       ^~~~~~~~~~~~~~~~~~
-         |                       bpf_jit_get_func_addr
-   kernel/bpf/core.c: At top level:
-   kernel/bpf/core.c:1638:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1638 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2075:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
-    2075 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
-         |      ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/module/main.c:2513:15: warning: variable 'text_size' set but not used [-Wunused-but-set-variable]
+           unsigned int text_size = 0, total_size = 0;
+                        ^
+>> kernel/module/main.c:2513:30: warning: variable 'total_size' set but not used [-Wunused-but-set-variable]
+           unsigned int text_size = 0, total_size = 0;
+                                       ^
+   2 warnings generated.
 
 
-vim +1207 kernel/bpf/core.c
+vim +/text_size +2513 kernel/module/main.c
 
-  1182	
-  1183	int bpf_jit_get_func_addr(const struct bpf_prog *prog,
-  1184				  const struct bpf_insn *insn, bool extra_pass,
-  1185				  u64 *func_addr, bool *func_addr_fixed)
-  1186	{
-  1187		s16 off = insn->off;
-  1188		s32 imm = insn->imm;
-  1189		u8 *addr;
-  1190		int err;
-  1191	
-  1192		*func_addr_fixed = insn->src_reg != BPF_PSEUDO_CALL;
-  1193		if (!*func_addr_fixed) {
-  1194			/* Place-holder address till the last pass has collected
-  1195			 * all addresses for JITed subprograms in which case we
-  1196			 * can pick them up from prog->aux.
-  1197			 */
-  1198			if (!extra_pass)
-  1199				addr = NULL;
-  1200			else if (prog->aux->func &&
-  1201				 off >= 0 && off < prog->aux->func_cnt)
-  1202				addr = (u8 *)prog->aux->func[off]->bpf_func;
-  1203			else
-  1204				return -EINVAL;
-  1205		} else if (insn->src_reg == BPF_PSEUDO_KFUNC_CALL &&
-  1206			   bpf_jit_supports_far_kfunc_call()) {
-> 1207			err = bpf_get_kfunc_addr(prog, insn->imm, insn->off, &addr);
-  1208			if (err)
-  1209				return err;
-  1210		} else {
-  1211			/* Address of a BPF helper call. Since part of the core
-  1212			 * kernel, it's always at a fixed location. __bpf_call_base
-  1213			 * and the helper with imm relative to it are both in core
-  1214			 * kernel.
-  1215			 */
-  1216			addr = (u8 *)__bpf_call_base + imm;
-  1217		}
-  1218	
-  1219		*func_addr = (unsigned long)addr;
-  1220		return 0;
-  1221	}
-  1222	
+  2502	
+  2503	/*
+  2504	 * This is where the real work happens.
+  2505	 *
+  2506	 * Keep it uninlined to provide a reliable breakpoint target, e.g. for the gdb
+  2507	 * helper command 'lx-symbols'.
+  2508	 */
+  2509	static noinline int do_init_module(struct module *mod)
+  2510	{
+  2511		int ret = 0;
+  2512		struct mod_initfree *freeinit;
+> 2513		unsigned int text_size = 0, total_size = 0;
+  2514	
+  2515		for_each_mod_mem_type(type) {
+  2516			const struct module_memory *mod_mem = &mod->mem[type];
+  2517			if (mod_mem->size) {
+  2518				total_size += mod_mem->size;
+  2519				if (type == MOD_TEXT || type == MOD_INIT_TEXT)
+  2520					text_size += mod->mem[type].size;
+  2521			}
+  2522		}
+  2523	
+  2524		freeinit = kmalloc(sizeof(*freeinit), GFP_KERNEL);
+  2525		if (!freeinit) {
+  2526			ret = -ENOMEM;
+  2527			goto fail;
+  2528		}
+  2529		freeinit->init_text = mod->mem[MOD_INIT_TEXT].base;
+  2530		freeinit->init_data = mod->mem[MOD_INIT_DATA].base;
+  2531		freeinit->init_rodata = mod->mem[MOD_INIT_RODATA].base;
+  2532	
+  2533		do_mod_ctors(mod);
+  2534		/* Start the module */
+  2535		if (mod->init != NULL)
+  2536			ret = do_one_initcall(mod->init);
+  2537		if (ret < 0) {
+  2538			goto fail_free_freeinit;
+  2539		}
+  2540		if (ret > 0) {
+  2541			pr_warn("%s: '%s'->init suspiciously returned %d, it should "
+  2542				"follow 0/-E convention\n"
+  2543				"%s: loading module anyway...\n",
+  2544				__func__, mod->name, ret, __func__);
+  2545			dump_stack();
+  2546		}
+  2547	
+  2548		/* Now it's a first class citizen! */
+  2549		mod->state = MODULE_STATE_LIVE;
+  2550		blocking_notifier_call_chain(&module_notify_list,
+  2551					     MODULE_STATE_LIVE, mod);
+  2552	
+  2553		/* Delay uevent until module has finished its init routine */
+  2554		kobject_uevent(&mod->mkobj.kobj, KOBJ_ADD);
+  2555	
+  2556		/*
+  2557		 * We need to finish all async code before the module init sequence
+  2558		 * is done. This has potential to deadlock if synchronous module
+  2559		 * loading is requested from async (which is not allowed!).
+  2560		 *
+  2561		 * See commit 0fdff3ec6d87 ("async, kmod: warn on synchronous
+  2562		 * request_module() from async workers") for more details.
+  2563		 */
+  2564		if (!mod->async_probe_requested)
+  2565			async_synchronize_full();
+  2566	
+  2567		ftrace_free_mem(mod, mod->mem[MOD_INIT_TEXT].base,
+  2568				mod->mem[MOD_INIT_TEXT].base + mod->mem[MOD_INIT_TEXT].size);
+  2569		mutex_lock(&module_mutex);
+  2570		/* Drop initial reference. */
+  2571		module_put(mod);
+  2572		trim_init_extable(mod);
+  2573	#ifdef CONFIG_KALLSYMS
+  2574		/* Switch to core kallsyms now init is done: kallsyms may be walking! */
+  2575		rcu_assign_pointer(mod->kallsyms, &mod->core_kallsyms);
+  2576	#endif
+  2577		module_enable_ro(mod, true);
+  2578		mod_tree_remove_init(mod);
+  2579		module_arch_freeing_init(mod);
+  2580		for_class_mod_mem_type(type, init) {
+  2581			mod->mem[type].base = NULL;
+  2582			mod->mem[type].size = 0;
+  2583		}
+  2584	
 
 -- 
 0-DAY CI Kernel Test Service
