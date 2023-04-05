@@ -1,50 +1,48 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF32F7C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 02:22:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F9F36B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 02:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680661325; x=1712197325;
+  t=1680663119; x=1712199119;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=o5MUwpw0pi7Od1jbsaS8V7OYPVV0L9QmQToAaq2i768=;
-  b=KsK12XFsCbnLTHSfis5oF14seqODwxdXrMwzp0wsQxLlcONrS8wQhqit
-   ehFs7Vvlw2N26YJsSWwqjIsFnkd/FdPUaPCFMJWflWEH2eGoHzs5tCcRe
-   y1VwcjKUJXcRNc8hGednGRgc2TbJddwcLVjRGVdRkZlbp/Px0U3eM8mE/
-   mKZ9Na5q1MFzPM1yZFJk6XBgQgHNKA43yXhrFs/7kYkDQilHU1gUx+tDY
-   gqxhaHsoMlrmjIrx9WEWqHyR9kmu1BjYSf/cF0okFRyqC5Bk/XJGxrsP1
-   /sO057paPmpOem37q5miFS253s+DnUIiAIUxQzI0vkhvJr1pXVfxbAnS6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="341077333"
+  bh=4cRIj5k4QHvBFCWEt1UKzqqvkGiVg/SrV18IyE5gB1E=;
+  b=GDNhAlCcXvoX2+zV1NQV240eVrEamTeMBb58Un+c/a2ErhD0u0W16C8J
+   iXInxcciK/YTN4HwWtkQrmMOl/s/r59EtrYhUfEj24hbZX5wa+41PkkMB
+   S27Sarjn9qXaJlbGAFFOfQS1jtBJi0HU2OWO8RIVG0bVcblEN5hU7DS7N
+   ToGOQqFUhAyUUAl8X9jb3mVuLEp/rp0KuOeQYdzaLIv+OoMNIjsf+4/Rg
+   dKlKuTC/6FdcqWQuHFVXgw5R1Es1d+m2l6bUPMwK2jv4f2jUzRsWk9X1h
+   kScm/Dr9u0PsRw3r1N4N3CMhYPn3BE+n0JXuwXQcC1Q9ZCI0TK/yq90Ut
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="322017007"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="341077333"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 19:21:57 -0700
+   d="scan'208";a="322017007"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 19:51:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="860801494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="663872550"
 X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="860801494"
+   d="scan'208";a="663872550"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 04 Apr 2023 19:21:54 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Apr 2023 19:51:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjsmX-000QCs-10;
-	Wed, 05 Apr 2023 02:21:53 +0000
-Date: Wed, 5 Apr 2023 10:20:55 +0800
+	id 1pjtFZ-000QDm-2o;
+	Wed, 05 Apr 2023 02:51:53 +0000
+Date: Wed, 5 Apr 2023 10:51:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaun Tancheff <shaun.tancheff@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Vladimir Davydov <vdavydov.dev@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shaun Tancheff <shaun.tancheff@hpe.com>,
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] memcg-v1: Enable setting memory min, low, high
-Message-ID: <202304051011.6E3fABwV-lkp@intel.com>
-References: <20230404205013.31520-1-shaun.tancheff@gmail.com>
+	Ross Zwisler <zwisler@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] tracing: Fix ftrace_boot_snapshot command line logic
+Message-ID: <202304051001.dL3Fvaxd-lkp@intel.com>
+References: <20230404230308.501833715@goodmis.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,76 +51,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404205013.31520-1-shaun.tancheff@gmail.com>
+In-Reply-To: <20230404230308.501833715@goodmis.org>
 
-Hi Shaun,
+Hi Steven,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on v6.3-rc5]
-[also build test ERROR on linus/master]
-[cannot apply to akpm-mm/mm-everything next-20230404]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.3-rc5 next-20230404]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shaun-Tancheff/memcg-v1-Enable-setting-memory-min-low-high/20230405-045143
-patch link:    https://lore.kernel.org/r/20230404205013.31520-1-shaun.tancheff%40gmail.com
-patch subject: [PATCH] memcg-v1: Enable setting memory min, low, high
-config: i386-randconfig-a011-20230403 (https://download.01.org/0day-ci/archive/20230405/202304051011.6E3fABwV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-tracing_snapshot_instance_cond-write-errors-to-the-appropriate-instance/20230405-070406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230404230308.501833715%40goodmis.org
+patch subject: [PATCH 2/2] tracing: Fix ftrace_boot_snapshot command line logic
+config: arc-buildonly-randconfig-r003-20230403 (https://download.01.org/0day-ci/archive/20230405/202304051001.dL3Fvaxd-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/180e4266c809a61c2711599c6462bd719efed76c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ac5e916ec8d65b5e0c13719694efd3084105f416
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shaun-Tancheff/memcg-v1-Enable-setting-memory-min-low-high/20230405-045143
-        git checkout 180e4266c809a61c2711599c6462bd719efed76c
+        git fetch --no-tags linux-review Steven-Rostedt/tracing-Have-tracing_snapshot_instance_cond-write-errors-to-the-appropriate-instance/20230405-070406
+        git checkout ac5e916ec8d65b5e0c13719694efd3084105f416
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304051011.6E3fABwV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304051001.dL3Fvaxd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: mm/memcontrol.o: in function `mem_cgroup_v1_set_defaults':
->> mm/memcontrol.c:3878: undefined reference to `__udivdi3'
+   kernel/trace/trace.c: In function 'ftrace_boot_snapshot':
+>> kernel/trace/trace.c:10402:24: error: 'struct trace_array' has no member named 'allocated_snapshot'
+   10402 |                 if (!tr->allocated_snapshot)
+         |                        ^~
 
 
-vim +3878 mm/memcontrol.c
+vim +10402 kernel/trace/trace.c
 
-  3853	
-  3854	static inline void mem_cgroup_v1_set_defaults(struct mem_cgroup *memcg,
-  3855						       u64 nr_pages)
-  3856	{
-  3857		u64 max = (u64)(PAGE_COUNTER_MAX * PAGE_SIZE) / PAGE_SIZE;
-  3858		u64 min, low, high;
-  3859	
-  3860		if (mem_cgroup_is_root(memcg) || max == nr_pages)
-  3861			return;
-  3862	
-  3863		min = READ_ONCE(memcg->memory.min);
-  3864		low = READ_ONCE(memcg->memory.low);
-  3865		if (min || low)
-  3866			return;
-  3867	
-  3868		if (!min && memcg_v1_min_default_percent) {
-  3869			min = (nr_pages * memcg_v1_min_default_percent) / 100;
-  3870			page_counter_set_min(&memcg->memory, min);
-  3871		}
-  3872		if (!low && memcg_v1_low_default_percent) {
-  3873			low = (nr_pages * memcg_v1_low_default_percent) / 100;
-  3874			page_counter_set_low(&memcg->memory, low);
-  3875		}
-  3876		high = READ_ONCE(memcg->memory.high);
-  3877		if (high == PAGE_COUNTER_MAX && memcg_v1_high_default_percent) {
-> 3878			high = (nr_pages * memcg_v1_high_default_percent) / 100;
-  3879			page_counter_set_high(&memcg->memory, high);
-  3880		}
-  3881	}
-  3882	
+ 10393	
+ 10394	void __init ftrace_boot_snapshot(void)
+ 10395	{
+ 10396		struct trace_array *tr;
+ 10397	
+ 10398		if (!snapshot_at_boot)
+ 10399			return;
+ 10400	
+ 10401		list_for_each_entry(tr, &ftrace_trace_arrays, list) {
+ 10402			if (!tr->allocated_snapshot)
+ 10403				continue;
+ 10404	
+ 10405			tracing_snapshot_instance(tr);
+ 10406			trace_array_puts(tr, "** Boot snapshot taken **\n");
+ 10407		}
+ 10408	}
+ 10409	
 
 -- 
 0-DAY CI Kernel Test Service
