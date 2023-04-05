@@ -1,45 +1,48 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACB079CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 21:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43D879CC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 21:08:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680728910; x=1712264910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e9oIe8wuIenPs/rGU7UKuYN1mbWLQ+0XzMz9VLWQBHU=;
-  b=kq5xljfqWiYim8y+z6VDZPT7rwCvkenHQz3EVdjX7rLHnLomRMA+uFQD
-   D1iToiWg+KIg4oM0XVCh1THU5hLWvG/bhEQMB6NzPIbi+LDfaO0x5Yb2i
-   aSHNZ/EhQQFm6FDzaTRCPt1YY9q8xwbPwTb814soMzgO5q3vo2VVdqncF
-   lv7XaDnc1v7ng2MtSeyTKrPWDpHJMtGbolUwDqF1e0s1WTA1xCPNNfGYu
-   CjN1eNlkhogOHvdH5O6cn3ElZmV2DEp2aCJqR3tSpvH9K809U/XxPdNft
-   lRQc3rm/wefOf/q74JdYh5darorZp+ZV2NQu+aV72VTHzeUnxI5biwu/u
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407657501"
+  t=1680728912; x=1712264912;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=picBdeJZw61WBdGmpyZ2sgLgyFBlqMaZ7koEZZt3f8c=;
+  b=NJHsYFKu++yGxrVGkBSL4kucBQZXbRiC8InICLEJTXG7glwK3w7rfRSg
+   CRma/DpxWFhrJzlmVlh9XRdBRTb9zumZJnTcBfhXGoy64WU93KrCwlm/h
+   hIR197zg9c+ziq5ZJcjOOQgdjsKzIZxKPwfZO8lK0WlpYhRawmVDMjJAY
+   p3nLAFHKOpKXiN/4tSOD7A/CRPeUeLHj3qrrSn1evOaKrEAacvhaZ7Zr/
+   Zx+tiRkRSX+epkJlWRKyBzbu6xkHD3ChPWoElDxIPRH6MLaxgQjGSoX/3
+   zYq6zv0zVWHlSoKDxoIxcgKtHOq2Wnor6F80NreWsBz1vAmYAvuTVcIUH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="407657508"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="407657501"
+   d="scan'208";a="407657508"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 14:08:29 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 14:08:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016620274"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016620275"
 X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
-   d="scan'208";a="1016620274"
+   d="scan'208";a="1016620275"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 05 Apr 2023 14:08:25 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkAMi-000Qns-1m;
+	id 1pkAMi-000Qnu-1t;
 	Wed, 05 Apr 2023 21:08:24 +0000
-Date: Thu, 6 Apr 2023 05:07:54 +0800
+Date: Thu, 6 Apr 2023 05:07:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.10.y 7168/9999] aperf.c:58:9: warning: 'ftime' is
- deprecated: Use gettimeofday or clock_gettime instead
-Message-ID: <202304060514.ELO1BqLI-lkp@intel.com>
+To: ankita@nvidia.com, jgg@nvidia.com, alex.williamson@redhat.com,
+	naoya.horiguchi@nec.com, maz@kernel.org, oliver.upton@linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, aniketa@nvidia.com, cjia@nvidia.com,
+	kwankhede@nvidia.com, targupta@nvidia.com, vsethi@nvidia.com,
+	acurrid@nvidia.com, apopple@nvidia.com, jhubbard@nvidia.com,
+	danw@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 3/6] mm: handle poisoning of pfn without struct pages
+Message-ID: <202304060452.tpNrPK39-lkp@intel.com>
+References: <20230405180134.16932-4-ankita@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,44 +51,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230405180134.16932-4-ankita@nvidia.com>
 
-Hi Ricardo,
+Hi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   387078f9030cf336cd9fef521540db75b61615e0
-commit: b1619f0307762526949f95c878119ca80e32149d [7168/9999] selftests/intel_pstate: fix build for ARCH=x86_64
+[auto build test ERROR on awilliam-vfio/for-linus]
+[also build test ERROR on kvmarm/next akpm-mm/mm-everything linus/master v6.3-rc5]
+[cannot apply to awilliam-vfio/next next-20230405]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ankita-nvidia-com/kvm-determine-memory-type-from-VMA/20230406-020404
+base:   https://github.com/awilliam/linux-vfio.git for-linus
+patch link:    https://lore.kernel.org/r/20230405180134.16932-4-ankita%40nvidia.com
+patch subject: [PATCH v3 3/6] mm: handle poisoning of pfn without struct pages
+config: x86_64-randconfig-a015-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060452.tpNrPK39-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=b1619f0307762526949f95c878119ca80e32149d
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.10.y
-        git checkout b1619f0307762526949f95c878119ca80e32149d
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/25466c8c2fa22d39a08721a24f0cf3bc3059417b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review ankita-nvidia-com/kvm-determine-memory-type-from-VMA/20230406-020404
+        git checkout 25466c8c2fa22d39a08721a24f0cf3bc3059417b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060514.ELO1BqLI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060452.tpNrPK39-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   aperf.c: In function 'main':
->> aperf.c:58:9: warning: 'ftime' is deprecated: Use gettimeofday or clock_gettime instead [-Wdeprecated-declarations]
-      58 |         ftime(&before);
-         |         ^~~~~
-   In file included from aperf.c:9:
-   /usr/include/x86_64-linux-gnu/sys/timeb.h:29:12: note: declared here
-      29 | extern int ftime (struct timeb *__timebuf)
-         |            ^~~~~
-   aperf.c:67:9: warning: 'ftime' is deprecated: Use gettimeofday or clock_gettime instead [-Wdeprecated-declarations]
-      67 |         ftime(&after);
-         |         ^~~~~
-   In file included from aperf.c:9:
-   /usr/include/x86_64-linux-gnu/sys/timeb.h:29:12: note: declared here
-      29 | extern int ftime (struct timeb *__timebuf)
-         |            ^~~~~
+   ld: vmlinux.o: in function `memory_failure_pfn':
+>> mm/memory-failure.c:2124: undefined reference to `interval_tree_iter_first'
+>> ld: mm/memory-failure.c:2125: undefined reference to `interval_tree_iter_next'
+   ld: vmlinux.o: in function `register_pfn_address_space':
+>> mm/memory-failure.c:2087: undefined reference to `interval_tree_insert'
+   ld: vmlinux.o: in function `unregister_pfn_address_space':
+>> mm/memory-failure.c:2105: undefined reference to `interval_tree_remove'
+
+
+vim +2124 mm/memory-failure.c
+
+  2065	
+  2066	/**
+  2067	 * register_pfn_address_space - Register PA region for poison notification.
+  2068	 * @pfn_space: structure containing region range and callback function on
+  2069	 *             poison detection.
+  2070	 *
+  2071	 * This function is called by a kernel module to register a PA region and
+  2072	 * a callback function with the kernel. On detection of poison, the
+  2073	 * kernel code will go through all registered regions and call the
+  2074	 * appropriate callback function associated with the range. The kernel
+  2075	 * module is responsible for tracking the poisoned pages.
+  2076	 *
+  2077	 * Return: 0 if successfully registered,
+  2078	 *         -EBUSY if the region is already registered
+  2079	 */
+  2080	int register_pfn_address_space(struct pfn_address_space *pfn_space)
+  2081	{
+  2082		if (!request_mem_region(pfn_space->node.start << PAGE_SHIFT,
+  2083			(pfn_space->node.last - pfn_space->node.start + 1) << PAGE_SHIFT, ""))
+  2084			return -EBUSY;
+  2085	
+  2086		mutex_lock(&pfn_space_lock);
+> 2087		interval_tree_insert(&pfn_space->node, &pfn_space_itree);
+  2088		mutex_unlock(&pfn_space_lock);
+  2089	
+  2090		return 0;
+  2091	}
+  2092	EXPORT_SYMBOL_GPL(register_pfn_address_space);
+  2093	
+  2094	/**
+  2095	 * unregister_pfn_address_space - Unregister a PA region from poison
+  2096	 * notification.
+  2097	 * @pfn_space: structure containing region range to be unregistered.
+  2098	 *
+  2099	 * This function is called by a kernel module to unregister the PA region
+  2100	 * from the kernel from poison tracking.
+  2101	 */
+  2102	void unregister_pfn_address_space(struct pfn_address_space *pfn_space)
+  2103	{
+  2104		mutex_lock(&pfn_space_lock);
+> 2105		interval_tree_remove(&pfn_space->node, &pfn_space_itree);
+  2106		mutex_unlock(&pfn_space_lock);
+  2107		release_mem_region(pfn_space->node.start << PAGE_SHIFT,
+  2108			(pfn_space->node.last - pfn_space->node.start + 1) << PAGE_SHIFT);
+  2109	}
+  2110	EXPORT_SYMBOL_GPL(unregister_pfn_address_space);
+  2111	
+  2112	static int memory_failure_pfn(unsigned long pfn, int flags)
+  2113	{
+  2114		struct interval_tree_node *node;
+  2115		int rc = -EBUSY;
+  2116		LIST_HEAD(tokill);
+  2117	
+  2118		mutex_lock(&pfn_space_lock);
+  2119		/*
+  2120		 * Modules registers with MM the address space mapping to the device memory they
+  2121		 * manage. Iterate to identify exactly which address space has mapped to this
+  2122		 * failing PFN.
+  2123		 */
+> 2124		for (node = interval_tree_iter_first(&pfn_space_itree, pfn, pfn); node;
+> 2125		     node = interval_tree_iter_next(node, pfn, pfn)) {
+  2126			struct pfn_address_space *pfn_space =
+  2127				container_of(node, struct pfn_address_space, node);
+  2128			rc = 0;
+  2129	
+  2130			/*
+  2131			 * Modules managing the device memory needs to be conveyed about the
+  2132			 * memory failure so that the poisoned PFN can be tracked.
+  2133			 */
+  2134			pfn_space->ops->failure(pfn_space, pfn);
+  2135	
+  2136			collect_procs_pgoff(NULL, pfn_space->mapping, pfn, &tokill);
+  2137	
+  2138			unmap_mapping_range(pfn_space->mapping, pfn << PAGE_SHIFT,
+  2139					    PAGE_SIZE, 0);
+  2140		}
+  2141		mutex_unlock(&pfn_space_lock);
+  2142	
+  2143		/*
+  2144		 * Unlike System-RAM there is no possibility to swap in a different
+  2145		 * physical page at a given virtual address, so all userspace
+  2146		 * consumption of direct PFN memory necessitates SIGBUS (i.e.
+  2147		 * MF_MUST_KILL)
+  2148		 */
+  2149		flags |= MF_ACTION_REQUIRED | MF_MUST_KILL;
+  2150		kill_procs(&tokill, true, false, pfn, flags);
+  2151	
+  2152		pr_err("%#lx: recovery action for %s: %s\n",
+  2153				pfn, action_page_types[MF_MSG_PFN],
+  2154				action_name[rc ? MF_FAILED : MF_RECOVERED]);
+  2155	
+  2156		return rc;
+  2157	}
+  2158	
 
 -- 
 0-DAY CI Kernel Test Service
