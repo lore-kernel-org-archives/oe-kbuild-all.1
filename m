@@ -1,42 +1,30 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9812C9A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 13:58:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680703096; x=1712239096;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eJuEdZuCPzkf2E5rccabMj/lOnqJ+ewQKE2nEK2nPp4=;
-  b=DE/fK/QEgC/mWR38+RPdkWnvBxU3y3YB7CSY4A2fz5bJac7zQBZkg/PD
-   xLWjwH1XcsGtuOgA+QsA6er7q5/wdVlgQ2eM8+tOrjeU8A72QAcjwVldI
-   YgNM2pcjmGxMRP4NMefUsCh8kiHCs7ywj1BI0FEOZYaWcI+x0SYtcphdH
-   EI7y/WRV28Ew05MLSUwgp51iKjfF4ogBD/OCh0n58/4A2+gvjApkWyw37
-   KwC5Ome9yhVYLCnvL8Vf92ytnN8TlaB0lDBteOdbdYgnlJhPswyhEoZyx
-   sMN+YmfxvBaGkrRMXvAHzlG/EZTvRdSJFF2JKcfc4wjGfQzEqaz/C6HVO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="370283725"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="370283725"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 06:58:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="689305254"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="689305254"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Apr 2023 06:58:15 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pk3eQ-000QYq-25;
-	Wed, 05 Apr 2023 13:58:14 +0000
-Date: Wed, 5 Apr 2023 21:57:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:objtool/core 13/14] check.c:2460:62: error: 'struct
- reloc' has no member named 'addend'
-Message-ID: <202304052155.5deTJ0Rg-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494B73C37
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 14:23:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB48C433D2;
+	Wed,  5 Apr 2023 14:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1680704581;
+	bh=eFVVc0HdM3M5JxEjUy9/C28wGvcfcgI6LdZE7dEcCOE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1JCKRG/1QcOt+RuIeta+TVvmCYYlQRstSie7l/CoNXEo/IaNLqQoQ95V8GkqXGEVM
+	 mnMO+1kO3IPGE9qEMqM9bE7aSMER9KDSEc8teleMQc7jouqZ+z4H18osS09HjMsnxW
+	 gMOAc+5dPyvBOzLBcJ8q0DqFA2aMLkuUOIkKvYw8=
+Date: Wed, 5 Apr 2023 16:22:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pratyush Yadav <ptyadav@amazon.de>
+Cc: kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.4] cifs/smb3: Fix NULL pointer dereference in
+ smb2_query_info_compound()
+Message-ID: <2023040502-shortcut-curtly-cc96@gregkh>
+References: <ZC1fJiHvpbXcysXi@ec83ac1404bb>
+ <mafs0o7o2h7o7.fsf@amazon.de>
+ <2023040539-cherub-flattered-bcc0@gregkh>
+ <2023040528-maroon-running-0fe2@gregkh>
+ <mafs0jzyqh2sf.fsf_-_@amazon.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,41 +33,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <mafs0jzyqh2sf.fsf_-_@amazon.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git objtool/core
-head:   a4a18bcf31e2e93fd9ef558e91cdf509a519affd
-commit: 4f0c3447e1e2117bb1c3810775550c2a6769a0fc [13/14] objtool: Remove reloc::addend
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230405/202304052155.5deTJ0Rg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=4f0c3447e1e2117bb1c3810775550c2a6769a0fc
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue objtool/core
-        git checkout 4f0c3447e1e2117bb1c3810775550c2a6769a0fc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 prepare
+On Wed, Apr 05, 2023 at 03:33:20PM +0200, Pratyush Yadav wrote:
+> On Wed, Apr 05 2023, Greg KH wrote:
+> 
+> > On Wed, Apr 05, 2023 at 02:26:04PM +0200, Greg KH wrote:
+> >> On Wed, Apr 05, 2023 at 01:47:52PM +0200, Pratyush Yadav wrote:
+> >> > On Wed, Apr 05 2023, kernel test robot wrote:
+> >> >
+> >> > > Hi,
+> >> > >
+> >> > > Thanks for your patch.
+> >> > >
+> >> > > FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> >> > >
+> >> > > Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+> >> >
+> >> > I think the robot should also learn to look at the 'To:' header :-)
+> >>
+> >> Nope, the robot is correct, you submitted this incorrectly.
+> >
+> > Wait, maybe, I can't tell.
+> 
+> My point is that it does not matter much if stable@vger.kernel.org is in
+> Cc or To. It gets the email regardless. In fact, that seems quite a
+> common practice to me [0][1]. So I'd say it would be nice if the robot
+> did not needlessly complain about this.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304052155.5deTJ0Rg-lkp@intel.com/
+The robot replaces my bot (well, aguments this), and it rightfully flags
+many patches that are sent to stable that are not done so correctly, so
+that the submitter can then fix them up.  The number of "false
+positives" like this is pretty low, as hey, even I got it wrong when
+reading this "by hand".
 
-All errors (new ones prefixed by >>):
+thanks,
 
-   check.c: In function 'read_validate_unret_hints':
->> check.c:2460:62: error: 'struct reloc' has no member named 'addend'
-    2460 |                 insn = find_insn(file, reloc->sym->sec, reloc->addend);
-         |                                                              ^~
-   make[4]: *** [tools/build/Makefile.build:97: tools/objtool/check.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   make[3]: *** [Makefile:66: tools/objtool/objtool-in.o] Error 2
-   make[2]: *** [Makefile:73: objtool] Error 2
-   make[1]: *** [Makefile:1440: tools/objtool] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+greg k-h
