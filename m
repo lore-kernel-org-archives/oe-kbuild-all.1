@@ -1,45 +1,52 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3662F28
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 10:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680776931; x=1712312931;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CPQtr4AWrKHYsAM9P/I20Oa+5IJQPuFw75sL8XFtth0=;
-  b=BY2mbqh+77HqVkMST2TOlQZxnj/DaXu4XhWAnjPz9Rb59aoLX1huM6i/
-   WGfPP6O8aC8pt4PTge8gSj+8KA2qORdTNHhjk6PRw0TLotILg9U9Ajxka
-   8HvUnpT1QC238Lb05u0sTqPknpr8lxxtB90jXFTarUHhGsir2Bx5gpJGI
-   pt8dmmsnBdmEzTxf0/eHzq/M9tekdMV8oLGLB0HXPpJM3NXj3fVtvJ1gB
-   oZBDBiUrXcS0LFkG1WYxelIeVq843OloYDWzqcJHhUyoXBk23xS21eULD
-   tQmseJbg2j0sZ0n6MsdN+Dn1DXPE6SrKu2zsRW1SOlTLMZcEM/691KkJv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="405487521"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="405487521"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 03:28:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="830702523"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="830702523"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2023 03:28:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkMrI-000RJ0-04;
-	Thu, 06 Apr 2023 10:28:48 +0000
-Date: Thu, 6 Apr 2023 18:28:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [herbert-cryptodev-2.6:master 99/105]
- include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(struct crypt_ctl) != 64
-Message-ID: <202304061846.G6cpPXiQ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992E4A5F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 10:42:09 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id l12so39023493wrm.10
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Apr 2023 03:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680777728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a8Mk2+M+U9U1xk16bRh97zwUqHu1UtyYZDh+G+w+1wM=;
+        b=S9E4ffHpTrMCmTUFaoE6tY973cu3dLiVs4FDF9xvtEPlP6y883pKSM4p1hKNIINB8H
+         W277mpy9cyECkz/icqew52I6QR6v0oXp9cxrY+RvvATbHh7+qSy7A1NuHU1UNScUq8GN
+         f97pYwKU1i5QgJjUC/VQket7mFseXHQ3Y5gBe5k09g2WWWm7kL4SiqdILk+Ei2MmLAj+
+         diYVf8yPBz6lFokScHeg7RpBekWkj/eRYOrD35bH7jJDum9N+UyUfHMeux4CqRPxeToZ
+         Vudp/bfRVkm0r5zx0nZoeEDd7njEQ8COqI6Bmc4hii3jNYH2nrxkvsIg/sy1gO+KL/n4
+         ZGuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680777728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a8Mk2+M+U9U1xk16bRh97zwUqHu1UtyYZDh+G+w+1wM=;
+        b=k6jiY11i4bNjH9zNC+N26vFlPsekqtm+rH0nb2PxMapD/VADSYQap1N2+2gOzl2Igo
+         MRANfixYKcYFRNHeYlaMg0SSP9BupDxE5X6IB/Y+aLthM5os6QlirX6TQt8Tdl/VZWOT
+         DlQdVzfs6CIECZ+eOQZh55Tzp1Mh22gVKcXXoZGrkeHBIAKtw6eVWs7WeUwiXSRYYexs
+         s1QhcNEG7aogytKo4nmFSqGWShk9OJoUUsMeWdgG/UlahhCwhxy4IEUqu/gKY8l/IzmV
+         Ih8Y19PaAwCpsWGmMkmXae6S71D/H9PjJs4ZsEkRs+/iK2swfllIRd3OXBxBUKvEGTUy
+         Iv5w==
+X-Gm-Message-State: AAQBX9csOYTDGAbEhYjdJfC6iVZ2jOqLTOYywI2MK55XF9aBj1dQr5LO
+	DVL67cRM8wWk/aXJqcSRl9M=
+X-Google-Smtp-Source: AKy350aq0OJh81T/etD7LG2qv0Q1LqIijAii8+j63yC/7EHOiROcCBBivJWAFwGh4QB276iwIsbe3g==
+X-Received: by 2002:adf:ef03:0:b0:2e4:ff71:1c8e with SMTP id e3-20020adfef03000000b002e4ff711c8emr5922589wro.68.1680777727577;
+        Thu, 06 Apr 2023 03:42:07 -0700 (PDT)
+Received: from krava (cpc137424-wilm3-2-0-cust276.1-4.cable.virginm.net. [82.23.5.21])
+        by smtp.gmail.com with ESMTPSA id h7-20020a5d5487000000b002e707102a02sm1369494wrv.101.2023.04.06.03.42.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 03:42:07 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Thu, 6 Apr 2023 12:42:05 +0200
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: Re: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:131:14:
+ warning: no previous prototype for 'bpf_testmod_fentry_test1'
+Message-ID: <ZC6h/b2N/u/d4XbT@krava>
+References: <202304060622.P2hBPE4g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,78 +55,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202304060622.P2hBPE4g-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-head:   a2216e1874715a8b4a6f4da2ddbe9277e5613c49
-commit: 1bc7fdbf2677cc1866c025e5a393811ea8e25486 [99/105] crypto: ixp4xx - Move driver to drivers/crypto/intel/ixp4xx
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230406/202304061846.G6cpPXiQ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=1bc7fdbf2677cc1866c025e5a393811ea8e25486
-        git remote add herbert-cryptodev-2.6 https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
-        git fetch --no-tags herbert-cryptodev-2.6 master
-        git checkout 1bc7fdbf2677cc1866c025e5a393811ea8e25486
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/crypto/intel/ixp4xx/
+On Thu, Apr 06, 2023 at 07:03:39AM +0800, kernel test robot wrote:
+> Hi Jiri,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   99ddf2254febae9eab7fb0bcc02c5322243f5c49
+> commit: fee356ede980b6c2c8db612e18b25738356d6744 selftests/bpf: Add bpf_testmod_fentry_* functions
+> date:   5 months ago
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce:
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fee356ede980b6c2c8db612e18b25738356d6744
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout fee356ede980b6c2c8db612e18b25738356d6744
+>         make O=/tmp/kselftest headers
+>         make O=/tmp/kselftest -C tools/testing/selftests
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304060622.P2hBPE4g-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304061846.G6cpPXiQ-lkp@intel.com/
+sry I can't reproduce 
 
-All errors (new ones prefixed by >>):
+it looks like bpf_testmod is not compiled by default with -Wmissing-prototypes,
+when I add it I can see those warnings, but it does not seem to be enabled by
+default
 
-   In file included from <command-line>:
-   In function 'setup_crypt_desc',
-       inlined from 'get_crypt_desc' at drivers/crypto/intel/ixp4xx/ixp4xx_crypto.c:285:3:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct crypt_ctl) != 64
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/crypto/intel/ixp4xx/ixp4xx_crypto.c:266:9: note: in expansion of macro 'BUILD_BUG_ON'
-     266 |         BUILD_BUG_ON(sizeof(struct crypt_ctl) != 64);
-         |         ^~~~~~~~~~~~
+jirka
 
 
-vim +/__compiletime_assert_385 +397 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_1' [-Wmissing-prototypes]
+>       32 | bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_2' [-Wmissing-prototypes]
+>       38 | bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:44:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_3' [-Wmissing-prototypes]
+>       44 | bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:50:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_4' [-Wmissing-prototypes]
+>       50 | bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:57:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_5' [-Wmissing-prototypes]
+>       57 | bpf_testmod_test_struct_arg_5(void) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
+>       63 | bpf_testmod_test_mod_kfunc(int i)
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:81:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
+>       81 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:89:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
+>       89 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:94:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
+>       94 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:99:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
+>       99 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:103:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
+>      103 | noinline int bpf_testmod_loop_test(int n)
+>          |              ^~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:115:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
+>      115 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
+>          |                              ^~~~~~~~~~~~~~~~~~~~~~
+> >> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:131:14: warning: no previous prototype for 'bpf_testmod_fentry_test1' [-Wmissing-prototypes]
+>      131 | noinline int bpf_testmod_fentry_test1(int a)
+>          |              ^~~~~~~~~~~~~~~~~~~~~~~~
+> >> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:136:14: warning: no previous prototype for 'bpf_testmod_fentry_test2' [-Wmissing-prototypes]
+>      136 | noinline int bpf_testmod_fentry_test2(int a, u64 b)
+>          |              ^~~~~~~~~~~~~~~~~~~~~~~~
+> >> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:141:14: warning: no previous prototype for 'bpf_testmod_fentry_test3' [-Wmissing-prototypes]
+>      141 | noinline int bpf_testmod_fentry_test3(char a, int b, u64 c)
+>          |              ^~~~~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:149:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
+>      149 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
+>          | ^~~~~~~~~~~~~~~~~~~~~
+>    tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:200:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
+>      200 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
+>          | ^~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/bpf_testmod_fentry_test1 +131 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
+> 
+>    130	
+>  > 131	noinline int bpf_testmod_fentry_test1(int a)
+>    132	{
+>    133		return a + 1;
+>    134	}
+>    135	
+>  > 136	noinline int bpf_testmod_fentry_test2(int a, u64 b)
+>    137	{
+>    138		return a + b;
+>    139	}
+>    140	
+>  > 141	noinline int bpf_testmod_fentry_test3(char a, int b, u64 c)
+>    142	{
+>    143		return a + b + c;
+>    144	}
+>    145	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
