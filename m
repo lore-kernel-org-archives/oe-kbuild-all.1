@@ -1,69 +1,45 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4273214;
-	Thu,  6 Apr 2023 12:01:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CB63214
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 12:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680782519; x=1712318519;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y0+dFDwT+bRH/eVHXMTL+q8aR+Moi88tLPH/nkhsKhc=;
-  b=k7NMxIclscihtDfx1R66YJauVNvAwbn5Sj/5G2OhfpGlJNjuIdAPCY6r
-   kzYdY+3Mxg/sxNMqM1TKn3UsEobVgP3WtYf+QDb6f0BG90IG5OeveCCfx
-   a2Zf9n/oDkj20QKRCl2kq36iuguIuyx/4hSsvitX4DuCDoYBlH64xmjzq
-   2AWfNjZUuXWhjjmq3t+xTkrYxxUvYdESC0udbGZ57iK+0nGwbEh4VAF97
-   PGHgwfaiDfmjOmdiHPaFk4WZZzuh0ZhMAHN/w0P8qI43yHUlknRkLEoPX
-   4FzvIMuC7yPSQIAOB7Bh+BNR68tvRJDFeSUoAw28epRK4cbKyZQZ3O3mM
+  t=1680783135; x=1712319135;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZTXrXnEhkoM+Vmt5i1EvsJ5/ntJMCMiU5AlyIZi0mIE=;
+  b=hyV28nYV1iJwVbpuWI4tyd0FyyY/jfPAwKkLnH8DqZYqlp1A84UmhcvS
+   a1sM+955h9/siyGUzt/Wtbo3AvJVH/+jhvfnnPzvHUeas5rDcEATKc2UZ
+   YvyHrEaLgwOtUEjGORJr3JgTViy1nl+dtIkYTteBSPIX/wB5AlDl2sG6W
+   dbTerjmNjPgTod1tsG8po3IE6hJ7oAiTdl62P6GiH+3f1iuaMUSimmHbc
+   Bk6eytvu/iXM6O67U5EqfmKfq2TqpxW5NeL7+FsmQJQnIyUrvGWIMV1x9
+   2zd3CiTDb9/Mrv3qJ/Jw6jCq8WT0LJbRWMxPnQ4rCrU+6HDlYzc47cFsH
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="429001076"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="342726425"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="429001076"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:01:57 -0700
+   d="scan'208";a="342726425"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:11:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016843428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="689649473"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="1016843428"
+   d="scan'208";a="689649473"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2023 05:01:50 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 05:11:51 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkOJJ-000RLK-1Z;
-	Thu, 06 Apr 2023 12:01:49 +0000
-Date: Thu, 6 Apr 2023 20:00:52 +0800
+	id 1pkOSz-000RLu-2k;
+	Thu, 06 Apr 2023 12:11:49 +0000
+Date: Thu, 6 Apr 2023 20:11:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v12 2/5] fs/proc/task_mmu: Implement IOCTL to get and
- optionally clear info about PTEs
-Message-ID: <202304061924.m0OL9fIj-lkp@intel.com>
-References: <20230406074005.1784728-3-usama.anjum@collabora.com>
+To: Tze-nan Wu <Tze-nan.Wu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org
+Subject: kernel/trace/trace_events_synth.c:47:1: sparse: sparse: symbol
+ 'lastcmd_mutex' was not declared. Should it be static?
+Message-ID: <202304062033.cRStgOuP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,81 +48,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406074005.1784728-3-usama.anjum@collabora.com>
 
-Hi Muhammad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20230406]
-[cannot apply to linus/master v6.3-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230406-154314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230406074005.1784728-3-usama.anjum%40collabora.com
-patch subject: [PATCH v12 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
-config: arm-randconfig-r021-20230405 (https://download.01.org/0day-ci/archive/20230406/202304061924.m0OL9fIj-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/f13abb36f64c77913509da8ca157512d2fb9f031
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230406-154314
-        git checkout f13abb36f64c77913509da8ca157512d2fb9f031
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99ddf2254febae9eab7fb0bcc02c5322243f5c49
+commit: 4ccf11c4e8a8e051499d53a12f502196c97a758e tracing/synthetic: Fix races on freeing last_cmd
+date:   3 days ago
+config: i386-randconfig-s031-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062033.cRStgOuP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ccf11c4e8a8e051499d53a12f502196c97a758e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4ccf11c4e8a8e051499d53a12f502196c97a758e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash fs/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304061924.m0OL9fIj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304062033.cRStgOuP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> fs/proc/task_mmu.c:1965:47: error: too few arguments to function call, expected 5, have 4
-                       uffd_wp_range(vma, addr, PAGE_SIZE, true) < 0)
-                       ~~~~~~~~~~~~~                           ^
-   include/linux/userfaultfd_k.h:215:20: note: 'uffd_wp_range' declared here
-   static inline long uffd_wp_range(struct mm_struct *dst_mm,
-                      ^
-   1 error generated.
-
-
-vim +1965 fs/proc/task_mmu.c
-
-  1948	
-  1949		for (addr = start; addr < end && !ret; pte++, addr += PAGE_SIZE) {
-  1950			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-  1951	
-  1952			is_written = !is_pte_uffd_wp(*pte);
-  1953			is_file = vma->vm_file;
-  1954			is_present = pte_present(*pte);
-  1955			is_swap = is_swap_pte(*pte);
-  1956	
-  1957			pte_unmap_unlock(pte, ptl);
-  1958	
-  1959			ret = pagemap_scan_output(is_written, is_file, is_present,
-  1960						  is_swap, p, addr, 1);
-  1961			if (ret < 0)
-  1962				return ret;
-  1963	
-  1964			if (is_written && PM_SCAN_OP_IS_WP(p) &&
-> 1965			    uffd_wp_range(vma, addr, PAGE_SIZE, true) < 0)
-  1966				return -EINVAL;
-  1967		}
-  1968	
-  1969		cond_resched();
-  1970		return ret;
-  1971	}
-  1972	
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/trace_events_synth.c:47:1: sparse: sparse: symbol 'lastcmd_mutex' was not declared. Should it be static?
+   kernel/trace/trace_events_synth.c:475:68: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *unsafe_addr @@     got char *str_val @@
+   kernel/trace/trace_events_synth.c:475:68: sparse:     expected void const [noderef] __user *unsafe_addr
+   kernel/trace/trace_events_synth.c:475:68: sparse:     got char *str_val
 
 -- 
 0-DAY CI Kernel Test Service
