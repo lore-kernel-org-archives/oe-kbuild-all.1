@@ -1,143 +1,112 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73876D2F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 20:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5978D2F7;
+	Thu,  6 Apr 2023 21:07:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680813995; x=1712349995;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JkhwAkWaoNw5nijAAhhTxxf8sbcXXQAuNNpi92cu6bg=;
-  b=CEPLJCtM0Ujup3JHrLyLygp8iczgbi69c/+9iYfK16Bt3SVhqPCRUtto
-   QWrKrJJxDiqmh/P+TuSW5uo6fWO7saBTGcSUxIph1sM4WNMjbZdZCN4g/
-   +YvO0wTLEL8ZXjhgasLYcPcglKCtF6e8Z8FY3kMs1KYbCCFDgfJ9QVbfP
-   DFkaJdspd8o2oV4U3sO1fN1U1z/HSIjQdVTMDtIssOJqsjP2YLyU3Ch5I
-   Su4bJ2BWpOeu9DPNJSK440/3zraYIIxJqxXz963HE0GbYCZRU9xmo8WcI
-   pAg5EjlfEZqNg/ZV5j2JF7PLyqGUk2jkngdCCPjPx6SeVn1pRT/GrGmjh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="370674192"
+  t=1680815234; x=1712351234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z7sV9fgfh3NvaO9Y31rSyQ96j2EHREVjYSeE8EQzjR0=;
+  b=hoenU+tqlmd/gssT3oHcjilQqbue/I+wVs685ltNmdufcfcAx3+m+sAw
+   fjKtSLaLY7xWMjL2F2uN0yQC7vs0bD+YmDql3PCYlrqb9JXE7Ykx9SId0
+   BSyssQhVTkwiQZEhGXqJwzzxU2pi8rmm+Gs0oSguJTkPbp1zCGLu7tfZr
+   9H1AIH3ZnVIzUXxpBp86obpFz8hyXXVJGfZFyRTvTet6QXAUfLbxl1XOs
+   zN8wsDvEDLU8hak/SvGNEBWx+ZaH8/Xl6+m3RgwAYPzveVys7xKhoPUAO
+   a5KYAtEpf1iiI8hOjFHdtqDmnJvDukZvEo/iSw0QMmT1EvkpIhO8Zh0d9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344609889"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="370674192"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 13:46:34 -0700
+   d="scan'208";a="344609889"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 14:07:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="719832227"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="798477281"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="719832227"
+   d="scan'208";a="798477281"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 Apr 2023 13:46:11 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 06 Apr 2023 14:07:12 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkWUk-000RlC-2V;
-	Thu, 06 Apr 2023 20:46:10 +0000
-Date: Fri, 7 Apr 2023 04:45:59 +0800
+	id 1pkWp5-000RmE-1e;
+	Thu, 06 Apr 2023 21:07:11 +0000
+Date: Fri, 7 Apr 2023 05:06:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 7/7] drivers/gpu/drm/i915/gt/intel_engine_user.c:99:
- warning: "MAP" redefined
-Message-ID: <202304070447.CKOPBg1U-lkp@intel.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH bpf-next 4/5] bpf: add smc negotiator support in BPF
+ struct_ops
+Message-ID: <202304070405.Zgl8WMAW-lkp@intel.com>
+References: <1680795034-86384-5-git-send-email-alibuda@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1680795034-86384-5-git-send-email-alibuda@linux.alibaba.com>
 
-tree:   https://github.com/jimc/linux.git maph
-head:   9c0824a037ac394909bf05dddcace5fd127384bc
-commit: 9c0824a037ac394909bf05dddcace5fd127384bc [7/7] map.h: include it from dynamic_debug.h, get fallout from robots
-config: i386-randconfig-r015-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070447.CKOPBg1U-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Wythe,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/net-smc-move-smc_sock-related-structure-definition/20230406-233148
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/1680795034-86384-5-git-send-email-alibuda%40linux.alibaba.com
+patch subject: [RFC PATCH bpf-next 4/5] bpf: add smc negotiator support in BPF struct_ops
+config: i386-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070405.Zgl8WMAW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/jimc/linux/commit/9c0824a037ac394909bf05dddcace5fd127384bc
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout 9c0824a037ac394909bf05dddcace5fd127384bc
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4b65a6397e28b562750d5c411994667c30002963
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review D-Wythe/net-smc-move-smc_sock-related-structure-definition/20230406-233148
+        git checkout 4b65a6397e28b562750d5c411994667c30002963
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070447.CKOPBg1U-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304070405.Zgl8WMAW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gt/intel_engine_user.c: In function 'set_scheduler_caps':
->> drivers/gpu/drm/i915/gt/intel_engine_user.c:99: warning: "MAP" redefined
-      99 | #define MAP(x, y) { ilog2(I915_ENGINE_##x), ilog2(I915_SCHEDULER_CAP_##y) }
-         | 
-   In file included from include/linux/dynamic_debug.h:10,
-                    from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/plist.h:80,
-                    from include/linux/pm_qos.h:15,
-                    from drivers/gpu/drm/i915/i915_drv.h:35,
-                    from drivers/gpu/drm/i915/gt/intel_engine_user.c:10:
-   include/linux/map.h:46: note: this is the location of the previous definition
-      46 | #define MAP(f, ...) EVAL(MAP1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
-         | 
+   In file included from kernel/bpf/bpf_struct_ops.c:85:
+>> kernel/bpf/bpf_struct_ops_types.h:14:1: error: field has incomplete type 'struct smc_sock_negotiator_ops'
+   BPF_STRUCT_OPS_TYPE(smc_sock_negotiator_ops)
+   ^
+   kernel/bpf/bpf_struct_ops.c:83:15: note: expanded from macro 'BPF_STRUCT_OPS_TYPE'
+           struct _name data ____cacheline_aligned_in_smp;         \
+                        ^
+   include/net/smc.h:299:15: note: forward declaration of 'struct smc_sock_negotiator_ops'
+           const struct smc_sock_negotiator_ops *negotiator_ops;
+                        ^
+   1 error generated.
 
 
-vim +/MAP +99 drivers/gpu/drm/i915/gt/intel_engine_user.c
+vim +14 kernel/bpf/bpf_struct_ops_types.h
 
-750e76b4f9f63c Chris Wilson     2019-08-06   92  
-750e76b4f9f63c Chris Wilson     2019-08-06   93  static void set_scheduler_caps(struct drm_i915_private *i915)
-750e76b4f9f63c Chris Wilson     2019-08-06   94  {
-750e76b4f9f63c Chris Wilson     2019-08-06   95  	static const struct {
-750e76b4f9f63c Chris Wilson     2019-08-06   96  		u8 engine;
-750e76b4f9f63c Chris Wilson     2019-08-06   97  		u8 sched;
-750e76b4f9f63c Chris Wilson     2019-08-06   98  	} map[] = {
-750e76b4f9f63c Chris Wilson     2019-08-06  @99  #define MAP(x, y) { ilog2(I915_ENGINE_##x), ilog2(I915_SCHEDULER_CAP_##y) }
-750e76b4f9f63c Chris Wilson     2019-08-06  100  		MAP(HAS_PREEMPTION, PREEMPTION),
-750e76b4f9f63c Chris Wilson     2019-08-06  101  		MAP(HAS_SEMAPHORES, SEMAPHORES),
-750e76b4f9f63c Chris Wilson     2019-08-06  102  		MAP(SUPPORTS_STATS, ENGINE_BUSY_STATS),
-750e76b4f9f63c Chris Wilson     2019-08-06  103  #undef MAP
-750e76b4f9f63c Chris Wilson     2019-08-06  104  	};
-750e76b4f9f63c Chris Wilson     2019-08-06  105  	struct intel_engine_cs *engine;
-750e76b4f9f63c Chris Wilson     2019-08-06  106  	u32 enabled, disabled;
-750e76b4f9f63c Chris Wilson     2019-08-06  107  
-750e76b4f9f63c Chris Wilson     2019-08-06  108  	enabled = 0;
-750e76b4f9f63c Chris Wilson     2019-08-06  109  	disabled = 0;
-750e76b4f9f63c Chris Wilson     2019-08-06  110  	for_each_uabi_engine(engine, i915) { /* all engines must agree! */
-750e76b4f9f63c Chris Wilson     2019-08-06  111  		int i;
-750e76b4f9f63c Chris Wilson     2019-08-06  112  
-3f623e06cd5657 Matthew Brost    2021-06-17  113  		if (engine->sched_engine->schedule)
-750e76b4f9f63c Chris Wilson     2019-08-06  114  			enabled |= (I915_SCHEDULER_CAP_ENABLED |
-750e76b4f9f63c Chris Wilson     2019-08-06  115  				    I915_SCHEDULER_CAP_PRIORITY);
-750e76b4f9f63c Chris Wilson     2019-08-06  116  		else
-750e76b4f9f63c Chris Wilson     2019-08-06  117  			disabled |= (I915_SCHEDULER_CAP_ENABLED |
-750e76b4f9f63c Chris Wilson     2019-08-06  118  				     I915_SCHEDULER_CAP_PRIORITY);
-750e76b4f9f63c Chris Wilson     2019-08-06  119  
-c14adcbd1a9648 Michał Winiarski 2021-12-14  120  		if (intel_uc_uses_guc_submission(&to_gt(i915)->uc))
-ee242ca704d386 Matthew Brost    2021-07-26  121  			enabled |= I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP;
-ee242ca704d386 Matthew Brost    2021-07-26  122  
-750e76b4f9f63c Chris Wilson     2019-08-06  123  		for (i = 0; i < ARRAY_SIZE(map); i++) {
-750e76b4f9f63c Chris Wilson     2019-08-06  124  			if (engine->flags & BIT(map[i].engine))
-750e76b4f9f63c Chris Wilson     2019-08-06  125  				enabled |= BIT(map[i].sched);
-750e76b4f9f63c Chris Wilson     2019-08-06  126  			else
-750e76b4f9f63c Chris Wilson     2019-08-06  127  				disabled |= BIT(map[i].sched);
-750e76b4f9f63c Chris Wilson     2019-08-06  128  		}
-750e76b4f9f63c Chris Wilson     2019-08-06  129  	}
-750e76b4f9f63c Chris Wilson     2019-08-06  130  
-750e76b4f9f63c Chris Wilson     2019-08-06  131  	i915->caps.scheduler = enabled & ~disabled;
-750e76b4f9f63c Chris Wilson     2019-08-06  132  	if (!(i915->caps.scheduler & I915_SCHEDULER_CAP_ENABLED))
-750e76b4f9f63c Chris Wilson     2019-08-06  133  		i915->caps.scheduler = 0;
-750e76b4f9f63c Chris Wilson     2019-08-06  134  }
-750e76b4f9f63c Chris Wilson     2019-08-06  135  
-
-:::::: The code at line 99 was first introduced by commit
-:::::: 750e76b4f9f63c95bf4c283ccf8e2af0e258d3bb drm/i915/gt: Move the [class][inst] lookup for engines onto the GT
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+     3	
+     4	#ifdef CONFIG_BPF_JIT
+     5	#ifdef CONFIG_NET
+     6	BPF_STRUCT_OPS_TYPE(bpf_dummy_ops)
+     7	#endif
+     8	#ifdef CONFIG_INET
+     9	#include <net/tcp.h>
+    10	BPF_STRUCT_OPS_TYPE(tcp_congestion_ops)
+    11	#endif
+    12	#if IS_ENABLED(CONFIG_SMC)
+    13	#include <net/smc.h>
+  > 14	BPF_STRUCT_OPS_TYPE(smc_sock_negotiator_ops)
 
 -- 
 0-DAY CI Kernel Test Service
