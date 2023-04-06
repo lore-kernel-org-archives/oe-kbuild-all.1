@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46EA320B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 16:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35958320B;
+	Thu,  6 Apr 2023 16:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680799146; x=1712335146;
+  t=1680799156; x=1712335156;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kp5hcyRdxrReD/7Zic9IvJnFPjbjTfMEc3cu8E9UFzg=;
-  b=nfnTkB02+9yVfsICzmgyDryqRmGWGiPhLVEd9vechNnhQdPeA2lFcrmf
-   kb6dNsYh9EQlEzDEH4H3Atj4nzQsKC5+VVvn83IHzGDhvOfE67gj2/fzG
-   IbzDJ4R3T0zG+mHzHECpPpiy4Dj0UQumGff3A+wdQPwH6NjOStmbKbhHg
-   A4kIDF5k43deUNhJgamhZGqjileJnjk2OztM/Kshs087JYqyHzkchpxPc
-   vwZVotNrPGGxA4UQJJtk4qQbVLxa6vp+w17T8Ggv1f7ZsI+HR9vtAZmo7
-   /k4ypgb37iILtSG1IDIgDgCKuK1aZBUqQl7b5W+SNJ0HFVz55DqA61Owu
+  bh=RLhrMy7wRgg6njg69Hr+mSGX1C74fNM5cukPqWsViDo=;
+  b=VlZ7A+oHzqOWOhGqyXMZk5E50BsdZhMMdQlC1/IDzb1WyVC61AHV97NG
+   rlEpYoiwlRWngbO1w+gjvmDAG99nDcYGmIYz1ULZQCo6ZAEaXqkGZ05Qq
+   Aqth47PrsW3PfWYDWrCeiybiAZN2BFicJjvud8DlH11Yp4gT7tnOdMs97
+   gguSD5/EEFs3fD6/PSSccYFem6X9OAgqqAYZl0VIaJW12FJiqtUx3OB3u
+   Jnr8ttds1BNaUSA9hBMKHEG67o9MhB95E0OySmJDMyBAoV/MOEvwMWZjd
+   k2lnka4cfaceY54QegdNsTyg5t4G4jBTCR0wZbKw6R4CYogqNuK2+u4zx
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="322430933"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="429074484"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="322430933"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 09:39:06 -0700
+   d="scan'208";a="429074484"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 09:39:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="933273528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="811065658"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="933273528"
+   d="scan'208";a="811065658"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Apr 2023 09:39:04 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Apr 2023 09:39:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkSdW-000RW8-30;
+	id 1pkSdW-000RW6-2w;
 	Thu, 06 Apr 2023 16:38:58 +0000
 Date: Fri, 7 Apr 2023 00:38:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Benjamin Coddington <bcodding@redhat.com>, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anna.Schumaker@netapp.com,
-	Olga.Kornievskaia@netapp.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anna.Schumaker@netapp.com, Olga.Kornievskaia@netapp.com
 Subject: Re: [PATCH 3/6] NFS: add superblock sysfs entries
-Message-ID: <202304070050.prAZXGm5-lkp@intel.com>
+Message-ID: <202304070036.ohHbkfab-lkp@intel.com>
 References: <706fb7c1e5bfd869165a61a51663427104567c49.1680786859.git.bcodding@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,8 +63,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/NFS-r
 base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
 patch link:    https://lore.kernel.org/r/706fb7c1e5bfd869165a61a51663427104567c49.1680786859.git.bcodding%40redhat.com
 patch subject: [PATCH 3/6] NFS: add superblock sysfs entries
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230407/202304070050.prAZXGm5-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+config: i386-randconfig-a004-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070036.ohHbkfab-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -74,19 +74,19 @@ reproduce (this is a W=1 build):
         git checkout d1dbf0643a167363732daa337b0e519f44190733
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/nfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/nfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070050.prAZXGm5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304070036.ohHbkfab-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/nfs/sysfs.c: In function 'nfs_sysfs_add_server':
->> fs/nfs/sysfs.c:213:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     213 |         int ret;
-         |             ^~~
+>> fs/nfs/sysfs.c:213:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           int ret;
+               ^
+   1 warning generated.
 
 
 vim +/ret +213 fs/nfs/sysfs.c
