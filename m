@@ -1,45 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0A2F50;
-	Thu,  6 Apr 2023 10:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3662F28
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 10:28:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680775735; x=1712311735;
+  t=1680776931; x=1712312931;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AS6IF4ugLdcPyMI8SEZisJJpmDNET0nTZY9s8WqA3zA=;
-  b=n+fn8MNRf7dDFaRkQYkdFEm8DekmnLU5Bm/dZzR284mod/L9bS+5wPiT
-   Y+cl7R9Y0WDf4ldIvqjnlakSMRRMtTfEnl+gNkcMZ4Y9VxcVgRNEyoJpI
-   +O/vPZZgjxah39m1atp9VdztucFuD1Tm33UXwyZ+Uzdy15n0aTtBYKb5C
-   +KHx2D/bpdSDtKHUS+Qn1Jtz5FwCVh/x4Gsy/DPGJv75Q06rwwp/cj0Zy
-   /adi6cUNLFQ3iQYC1P7wXTSYdpAhpgousukSQGCk3QgCmSHgM8eC6UTIw
-   1ndgjZX75CIX6UEiEeb54mKWiYm1lvboCdRmcS12kriu7VZdxPrzAcZ6Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="323074871"
+  bh=CPQtr4AWrKHYsAM9P/I20Oa+5IJQPuFw75sL8XFtth0=;
+  b=BY2mbqh+77HqVkMST2TOlQZxnj/DaXu4XhWAnjPz9Rb59aoLX1huM6i/
+   WGfPP6O8aC8pt4PTge8gSj+8KA2qORdTNHhjk6PRw0TLotILg9U9Ajxka
+   8HvUnpT1QC238Lb05u0sTqPknpr8lxxtB90jXFTarUHhGsir2Bx5gpJGI
+   pt8dmmsnBdmEzTxf0/eHzq/M9tekdMV8oLGLB0HXPpJM3NXj3fVtvJ1gB
+   oZBDBiUrXcS0LFkG1WYxelIeVq843OloYDWzqcJHhUyoXBk23xS21eULD
+   tQmseJbg2j0sZ0n6MsdN+Dn1DXPE6SrKu2zsRW1SOlTLMZcEM/691KkJv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="405487521"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="323074871"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 03:08:54 -0700
+   d="scan'208";a="405487521"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 03:28:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="717399803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="830702523"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="717399803"
+   d="scan'208";a="830702523"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Apr 2023 03:08:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2023 03:28:48 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkMXv-000RI0-0r;
-	Thu, 06 Apr 2023 10:08:47 +0000
-Date: Thu, 6 Apr 2023 18:08:09 +0800
+	id 1pkMrI-000RJ0-04;
+	Thu, 06 Apr 2023 10:28:48 +0000
+Date: Thu, 6 Apr 2023 18:28:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 7065/9787] drivers/bluetooth/hci_qca.c:1894:37:
- warning: unused variable 'qca_soc_data_wcn6855'
-Message-ID: <202304061839.hi01VPl1-lkp@intel.com>
+To: Tom Zanussi <tom.zanussi@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [herbert-cryptodev-2.6:master 99/105]
+ include/linux/compiler_types.h:397:45: error: call to
+ '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(struct crypt_ctl) != 64
+Message-ID: <202304061846.G6cpPXiQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,88 +49,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e134c93f788fb93fd6a3ec3af9af850a2048c7e6
-commit: e5a3f2af003660934e660d53cdc6302c6b94a70d [7065/9787] Bluetooth: hci_qca: Add support for QTI Bluetooth chip wcn6855
-config: hexagon-randconfig-r041-20230404 (https://download.01.org/0day-ci/archive/20230406/202304061839.hi01VPl1-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   a2216e1874715a8b4a6f4da2ddbe9277e5613c49
+commit: 1bc7fdbf2677cc1866c025e5a393811ea8e25486 [99/105] crypto: ixp4xx - Move driver to drivers/crypto/intel/ixp4xx
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230406/202304061846.G6cpPXiQ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e5a3f2af003660934e660d53cdc6302c6b94a70d
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout e5a3f2af003660934e660d53cdc6302c6b94a70d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=1bc7fdbf2677cc1866c025e5a393811ea8e25486
+        git remote add herbert-cryptodev-2.6 https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+        git fetch --no-tags herbert-cryptodev-2.6 master
+        git checkout 1bc7fdbf2677cc1866c025e5a393811ea8e25486
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/crypto/intel/ixp4xx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304061839.hi01VPl1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304061846.G6cpPXiQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/bluetooth/hci_qca.c:23:
-   In file included from include/linux/devcoredump.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/bluetooth/hci_qca.c:23:
-   In file included from include/linux/devcoredump.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/bluetooth/hci_qca.c:23:
-   In file included from include/linux/devcoredump.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/bluetooth/hci_qca.c:1894:37: warning: unused variable 'qca_soc_data_wcn6855' [-Wunused-const-variable]
-   static const struct qca_device_data qca_soc_data_wcn6855 = {
-                                       ^
-   7 warnings generated.
+   In file included from <command-line>:
+   In function 'setup_crypt_desc',
+       inlined from 'get_crypt_desc' at drivers/crypto/intel/ixp4xx/ixp4xx_crypto.c:285:3:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct crypt_ctl) != 64
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/crypto/intel/ixp4xx/ixp4xx_crypto.c:266:9: note: in expansion of macro 'BUILD_BUG_ON'
+     266 |         BUILD_BUG_ON(sizeof(struct crypt_ctl) != 64);
+         |         ^~~~~~~~~~~~
 
 
-vim +/qca_soc_data_wcn6855 +1894 drivers/bluetooth/hci_qca.c
+vim +/__compiletime_assert_385 +397 include/linux/compiler_types.h
 
-  1893	
-> 1894	static const struct qca_device_data qca_soc_data_wcn6855 = {
-  1895		.soc_type = QCA_WCN6855,
-  1896		.vregs = (struct qca_vreg []) {
-  1897			{ "vddio", 5000 },
-  1898			{ "vddbtcxmx", 126000 },
-  1899			{ "vddrfacmn", 12500 },
-  1900			{ "vddrfa0p8", 102000 },
-  1901			{ "vddrfa1p7", 302000 },
-  1902			{ "vddrfa1p2", 257000 },
-  1903		},
-  1904		.num_vregs = 6,
-  1905		.capabilities = QCA_CAP_WIDEBAND_SPEECH | QCA_CAP_VALID_LE_STATES,
-  1906	};
-  1907	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
