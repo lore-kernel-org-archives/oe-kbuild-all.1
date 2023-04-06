@@ -1,153 +1,192 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86ACD533
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 21:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC5AD533
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 21:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680815235; x=1712351235;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VoLLDF9MVAIjloSkpliRlQJxsY39EfmlYAD9O1M+fD8=;
-  b=mp7vSxfpfqYx84PiFiWJT7lRXztQRcUjDjQuxOGClN45EdQ0Nsaj8Vic
-   vGrUu3t4EmMZFcvU9C0jBXZojpA9gA/yQfu1mmx/g15Zt71xm16U1Nyyg
-   gksbSBpeNvHEPHqTVCoxIx8V/C/pHgFaa7iBQxbitWoBwYzLGOAbOKXcH
-   pY45BQEJBiixd+QTB6jcE4/x3uYNq4ODmhqlrF0xJ1jIXlGBI7cBdqBJH
-   N+D3ktpfk478SU3ha7yp13h77BS+q5tiz2TDsa/MFhzJWGhU/jD6RZUm3
-   914Dmb+Esg0tOPo3YrLfCBAQ9tnOv3tphGiH49dH+icHjD6F+XMt5pF02
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="326914849"
+  t=1680817036; x=1712353036;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EZZBnSXCoI7dQg5FHS1V+evktOS/JDUrJH2PV3ZAGVw=;
+  b=IHV5i1sy47Tfykq57JQby7/eNCBYnfLU5sa1xAe3zDKY3l+7vvi2tNlW
+   otzh/FNoPjK9s6QDgpqa+xvYSB+ofaMw1zuzVY9PeSfmbUwrGlDuYGg4S
+   +nHdLTVRNS3xCWiSA6XcLywMjOYYvsBG6tzWjBxFbL8svf4fFiZgxRjd2
+   gi/3mf4+7JSA8v+8PAYOTyZy3+mkwMQlJbsFrodVINXgLkY72o9tB7COP
+   SfsR3swTRblBul7Qo09Q4A6MPPrlaFB94ymzq3UU7RA0fQLaYzPtc18vC
+   WX9GTzY1K3UUuEs/nuE+y8lQkSL5lZurqNjdMMf4P8dbGJfBxmTpOVADN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="331487511"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="326914849"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 14:07:15 -0700
+   d="scan'208";a="331487511"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 14:37:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687291433"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="719844402"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="687291433"
+   d="scan'208";a="719844402"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Apr 2023 14:07:12 -0700
+  by orsmga001.jf.intel.com with ESMTP; 06 Apr 2023 14:37:14 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkWp5-000RmG-1j;
-	Thu, 06 Apr 2023 21:07:11 +0000
-Date: Fri, 7 Apr 2023 05:06:31 +0800
+	id 1pkXI9-000Roc-1O;
+	Thu, 06 Apr 2023 21:37:13 +0000
+Date: Fri, 7 Apr 2023 05:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/vkms: add module parameter to set background color
-Message-ID: <202304070429.B1aKOT5a-lkp@intel.com>
-References: <20230406172002.124456-1-mcanal@igalia.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:maph 6/7] lib/test_map_h.c:36:2: error: call to
+ __compiletime_assert_175 declared with 'error' attribute: BUILD_BUG_ON
+ failed: __builtin_memcmp(caten, "YESNOMAYBE",
+ __builtin_strlen("YESNOMAYBE"))
+Message-ID: <202304070504.hKOR4TQf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230406172002.124456-1-mcanal@igalia.com>
 
-Hi Maíra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc5 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230406172002.124456-1-mcanal%40igalia.com
-patch subject: [PATCH] drm/vkms: add module parameter to set background color
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230407/202304070429.B1aKOT5a-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jimc/linux.git maph
+head:   9c0824a037ac394909bf05dddcace5fd127384bc
+commit: b04365691f83c87aa73ad9f5bef932b758fa90d2 [6/7] tweak-3
+config: i386-randconfig-a003-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070504.hKOR4TQf-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d725068207852d3b6a0dd795bf224422804101e1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
-        git checkout d725068207852d3b6a0dd795bf224422804101e1
+        # https://github.com/jimc/linux/commit/b04365691f83c87aa73ad9f5bef932b758fa90d2
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc maph
+        git checkout b04365691f83c87aa73ad9f5bef932b758fa90d2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/reiserfs/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070429.B1aKOT5a-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304070504.hKOR4TQf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/vkms/vkms_composer.c: In function 'blend':
->> drivers/gpu/drm/vkms/vkms_composer.c:93:59: warning: right shift count >= width of type [-Wshift-count-overflow]
-      93 |                 .r = (*vkms_dev->config->background_color >> 32) & 0xffff,
-         |                                                           ^~
+>> lib/test_map_h.c:36:2: error: call to __compiletime_assert_175 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(caten, "YESNOMAYBE", __builtin_strlen("YESNOMAYBE"))
+           BUILD_BUG_STREQ(caten, "YESNOMAYBE");
+           ^
+   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:156:1: note: expanded from here
+   __compiletime_assert_175
+   ^
+>> lib/test_map_h.c:38:2: error: call to __compiletime_assert_176 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[0], "DRMx_CORE", __builtin_strlen("DRMx_CORE"))
+           BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
+           ^
+   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
+           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
+           ^
+   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:161:1: note: expanded from here
+   __compiletime_assert_176
+   ^
+>> lib/test_map_h.c:39:2: error: call to __compiletime_assert_177 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[1], "DRMx_DRIVER", __builtin_strlen("DRMx_DRIVER"))
+           BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
+           ^
+   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
+           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
+           ^
+   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:166:1: note: expanded from here
+   __compiletime_assert_177
+   ^
+>> lib/test_map_h.c:40:2: error: call to __compiletime_assert_178 declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[2], "DRMx_KMS", __builtin_strlen("DRMx_KMS"))
+           BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
+           ^
+   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
+           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
+           ^
+   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
+           BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)))
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:171:1: note: expanded from here
+   __compiletime_assert_178
+   ^
+   4 errors generated.
 
 
-vim +93 drivers/gpu/drm/vkms/vkms_composer.c
+vim +36 lib/test_map_h.c
 
-    70	
-    71	/**
-    72	 * @wb_frame_info: The writeback frame buffer metadata
-    73	 * @crtc_state: The crtc state
-    74	 * @crc32: The crc output of the final frame
-    75	 * @output_buffer: A buffer of a row that will receive the result of the blend(s)
-    76	 * @stage_buffer: The line with the pixels from plane being blend to the output
-    77	 *
-    78	 * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-    79	 * from all planes, calculates the crc32 of the output from the former step,
-    80	 * and, if necessary, convert and store the output to the writeback buffer.
-    81	 */
-    82	static void blend(struct vkms_device *vkms_dev,
-    83			  struct vkms_writeback_job *wb,
-    84			  struct vkms_crtc_state *crtc_state,
-    85			  u32 *crc32, struct line_buffer *stage_buffer,
-    86			  struct line_buffer *output_buffer, size_t row_size)
-    87	{
-    88		struct vkms_plane_state **plane = crtc_state->active_planes;
-    89		u32 n_active_planes = crtc_state->num_active_planes;
-    90	
-    91		const struct pixel_argb_u16 background_color = {
-    92			.a =  0xffff,
-  > 93			.r = (*vkms_dev->config->background_color >> 32) & 0xffff,
-    94			.g = (*vkms_dev->config->background_color >> 16) & 0xffff,
-    95			.b = *vkms_dev->config->background_color & 0xffff,
-    96		};
-    97	
-    98		size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-    99	
-   100		for (size_t y = 0; y < crtc_y_limit; y++) {
-   101			fill_background(&background_color, output_buffer);
-   102	
-   103			/* The active planes are composed associatively in z-order. */
-   104			for (size_t i = 0; i < n_active_planes; i++) {
-   105				if (!check_y_limit(plane[i]->frame_info, y))
-   106					continue;
-   107	
-   108				plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
-   109				pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-   110						    output_buffer);
-   111			}
-   112	
-   113			*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-   114	
-   115			if (wb)
-   116				wb->wb_write(&wb->wb_frame_info, output_buffer, y);
-   117		}
-   118	}
-   119	
+214b84720f0dda Jim Cromie 2023-03-25  25  
+b04365691f83c8 Jim Cromie 2023-04-04  26  #define BUILD_BUG_STREQ(_var, ref)					\
+b04365691f83c8 Jim Cromie 2023-04-04  27  	BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)))
+b04365691f83c8 Jim Cromie 2023-04-04  28  
+214b84720f0dda Jim Cromie 2023-03-25  29  #define BUILD_BUG_STREQ_VI(_vec_, idx, ref) \
+214b84720f0dda Jim Cromie 2023-03-25  30  	BUILD_BUG_STREQ(_vec_##_names[idx], ref)
+214b84720f0dda Jim Cromie 2023-03-25  31  
+214b84720f0dda Jim Cromie 2023-03-25  32  /* force compile, even if its not called */
+214b84720f0dda Jim Cromie 2023-03-25  33  static void __used MAPH_BUILD_BUG(void)
+214b84720f0dda Jim Cromie 2023-03-25  34  {
+214b84720f0dda Jim Cromie 2023-03-25  35  	BUILD_BUG_ON(sum != 6);
+214b84720f0dda Jim Cromie 2023-03-25 @36  	BUILD_BUG_STREQ(caten, "YESNOMAYBE");
+214b84720f0dda Jim Cromie 2023-03-25  37  
+214b84720f0dda Jim Cromie 2023-03-25 @38  	BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
+214b84720f0dda Jim Cromie 2023-03-25 @39  	BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
+214b84720f0dda Jim Cromie 2023-03-25 @40  	BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
+214b84720f0dda Jim Cromie 2023-03-25  41  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: 214b84720f0ddac6fe0ce0c75b5514521c4b42b8 lib/test_map_h: add new module to test map.h macros
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
