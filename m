@@ -1,43 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257DC363
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 00:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCBD628
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 00:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680739533; x=1712275533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vb20XP8PRCz8cjO5AGV4udGkr1ITuNlRAPz1daqml8I=;
-  b=Xi6oLrxP3D9l1mBe9id7he+PepoWqJnHLx3BV5MWFXB2GILmD7KZzxHl
-   1Y1cBAi443XVVcCcf7X62TwsTGze+Iuzhr1vuO9Xp5ooaIJdEsjYdj2wO
-   rPTI+iBP8bYgnJk6C4kkvCL1UeYAzrtIOnvrIVu/DlTyLxpfpo5x1hkaI
-   j9d2KdKGQ9+ZGhlX4f/IhydIxaBP4IHlhfLua3454a2XLXC4IqXiHMKiO
-   NcIV79WKzBM2hBhFwA2EDv5xZrbji1pfa4Tdte31dRp9Wj8NCjn7TGvUU
-   3S+LIbohNqy8ZATEr0O25wPyJ+SWDxdRNIscQ3n+lUkEjsjxQtNhtBFXP
+  t=1680740795; x=1712276795;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y0HR/Gozx//xJ8/EGuGbmqITdsjjfBUtKstoI0tr++o=;
+  b=VjzFF6B1OzQa8lo74KxchAu4HRKK1wWXleac13s9+BvgWMK//UJTZY5G
+   XgSfFDzEwt4pG18duJ3vUJATFJWHUV29qas80CwThGrwZutvt5/Q5beps
+   90P/nfuSu0zO/Q2I5EnXQ534vPD+iKAECoG+7TRpabyLBjewH1/IxzGBU
+   nyIBT81ikhV7i0mOC/Po2C7Ze+f6MByxH+N3NTqC4Tdy8zdqHiQ+ICwhe
+   92T/9EJ/xk0aLpD9NhcT6ud7Y+Q4eEN0F5wL57dHn9laqO9Z/owkc3pJN
+   u9KgIepnXT0ZylLC4se+AxdxPFMrI0npUDsTP4g6nxpaCuA5ZY0BzNWIw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="331208252"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="342614796"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="331208252"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 17:05:32 -0700
+   d="scan'208";a="342614796"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 17:26:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798110597"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="810805582"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="798110597"
+   d="scan'208";a="810805582"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2023 17:05:31 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Apr 2023 17:26:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkD86-000QvW-1v;
-	Thu, 06 Apr 2023 00:05:30 +0000
-Date: Thu, 6 Apr 2023 08:04:56 +0800
+	id 1pkDSR-000Qvw-04;
+	Thu, 06 Apr 2023 00:26:31 +0000
+Date: Thu, 6 Apr 2023 08:25:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14965/29326]
- kernel/sched/stubs.c:8:5: warning: no previous prototype for function
- 'sched_isolate_cpu'
-Message-ID: <202304060720.9qnIbTPg-lkp@intel.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Jiri Olsa <olsajiri@gmail.com>, Stanislav Fomichev <sdf@google.com>,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH bpf-next v6] bpf: Support 64-bit pointers to kfuncs
+Message-ID: <202304060822.L9VsdUzS-lkp@intel.com>
+References: <20230405213453.49756-1-iii@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,86 +54,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230405213453.49756-1-iii@linux.ibm.com>
 
-Hi Quentin,
+Hi Ilya,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   c1102a2e31cd2371b5f9ed2b3b5a4f8ac735cd87
-commit: eead51495c8760858c32d9ad0332ffc94397aa82 [14965/29326] ANDROID: GKI: sched: stub sched_isolate symbols
-config: x86_64-randconfig-r005-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060720.9qnIbTPg-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230406-053713
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230405213453.49756-1-iii%40linux.ibm.com
+patch subject: [PATCH bpf-next v6] bpf: Support 64-bit pointers to kfuncs
+config: i386-randconfig-c001-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060822.L9VsdUzS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout eead51495c8760858c32d9ad0332ffc94397aa82
+        # https://github.com/intel-lab-lkp/linux/commit/2a9559efd98d24493ac5c889a3ae03dd66b0de26
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ilya-Leoshkevich/bpf-Support-64-bit-pointers-to-kfuncs/20230406-053713
+        git checkout 2a9559efd98d24493ac5c889a3ae03dd66b0de26
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/ kernel/sched/ lib/ sound/soc/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060720.9qnIbTPg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060822.L9VsdUzS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/stubs.c:8:5: warning: no previous prototype for function 'sched_isolate_cpu' [-Wmissing-prototypes]
-   int sched_isolate_cpu(int cpu)
-       ^
-   kernel/sched/stubs.c:8:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_isolate_cpu(int cpu)
-   ^
-   static 
->> kernel/sched/stubs.c:14:5: warning: no previous prototype for function 'sched_unisolate_cpu_unlocked' [-Wmissing-prototypes]
-   int sched_unisolate_cpu_unlocked(int cpu)
-       ^
-   kernel/sched/stubs.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_unisolate_cpu_unlocked(int cpu)
-   ^
-   static 
->> kernel/sched/stubs.c:20:5: warning: no previous prototype for function 'sched_unisolate_cpu' [-Wmissing-prototypes]
-   int sched_unisolate_cpu(int cpu)
-       ^
-   kernel/sched/stubs.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int sched_unisolate_cpu(int cpu)
-   ^
-   static 
->> kernel/sched/stubs.c:26:5: warning: no previous prototype for function 'set_task_boost' [-Wmissing-prototypes]
-   int set_task_boost(int boost, u64 period)
-       ^
-   kernel/sched/stubs.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int set_task_boost(int boost, u64 period)
-   ^
-   static 
-   4 warnings generated.
+   ld: kernel/bpf/core.o: in function `bpf_jit_get_func_addr':
+>> kernel/bpf/core.c:1207: undefined reference to `bpf_get_kfunc_addr'
 
 
-vim +/sched_isolate_cpu +8 kernel/sched/stubs.c
+vim +1207 kernel/bpf/core.c
 
-     7	
-   > 8	int sched_isolate_cpu(int cpu)
-     9	{
-    10		return -EINVAL;
-    11	}
-    12	EXPORT_SYMBOL_GPL(sched_isolate_cpu);
-    13	
-  > 14	int sched_unisolate_cpu_unlocked(int cpu)
-    15	{
-    16		return -EINVAL;
-    17	}
-    18	EXPORT_SYMBOL_GPL(sched_unisolate_cpu_unlocked);
-    19	
-  > 20	int sched_unisolate_cpu(int cpu)
-    21	{
-    22		return -EINVAL;
-    23	}
-    24	EXPORT_SYMBOL_GPL(sched_unisolate_cpu);
-    25	
-  > 26	int set_task_boost(int boost, u64 period)
+  1182	
+  1183	int bpf_jit_get_func_addr(const struct bpf_prog *prog,
+  1184				  const struct bpf_insn *insn, bool extra_pass,
+  1185				  u64 *func_addr, bool *func_addr_fixed)
+  1186	{
+  1187		s16 off = insn->off;
+  1188		s32 imm = insn->imm;
+  1189		u8 *addr;
+  1190		int err;
+  1191	
+  1192		*func_addr_fixed = insn->src_reg != BPF_PSEUDO_CALL;
+  1193		if (!*func_addr_fixed) {
+  1194			/* Place-holder address till the last pass has collected
+  1195			 * all addresses for JITed subprograms in which case we
+  1196			 * can pick them up from prog->aux.
+  1197			 */
+  1198			if (!extra_pass)
+  1199				addr = NULL;
+  1200			else if (prog->aux->func &&
+  1201				 off >= 0 && off < prog->aux->func_cnt)
+  1202				addr = (u8 *)prog->aux->func[off]->bpf_func;
+  1203			else
+  1204				return -EINVAL;
+  1205		} else if (insn->src_reg == BPF_PSEUDO_KFUNC_CALL &&
+  1206			   bpf_jit_supports_far_kfunc_call()) {
+> 1207			err = bpf_get_kfunc_addr(prog, insn->imm, insn->off, &addr);
+  1208			if (err)
+  1209				return err;
+  1210		} else {
+  1211			/* Address of a BPF helper call. Since part of the core
+  1212			 * kernel, it's always at a fixed location. __bpf_call_base
+  1213			 * and the helper with imm relative to it are both in core
+  1214			 * kernel.
+  1215			 */
+  1216			addr = (u8 *)__bpf_call_base + imm;
+  1217		}
+  1218	
+  1219		*func_addr = (unsigned long)addr;
+  1220		return 0;
+  1221	}
+  1222	
 
 -- 
 0-DAY CI Kernel Test Service
