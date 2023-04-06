@@ -1,53 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667A26FD0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 13:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429646FD0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 14:14:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680788273; x=1712324273;
+  t=1680790497; x=1712326497;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wcn89deEov4t8bGKdQnszOCDDOuu6H302REEEJ7Rz6I=;
-  b=cYxw2sDWHV1QB0OMkwRqzUty8liLvb9VWOfdhKkNwbCdG4KSuIMNnFhu
-   acpmi8088OP2vNTvY1GSn+JGY94pHq8jwLcA1DF9lticJFbDuISNnXGFW
-   88Xn0sSCy3DvSlbdZdU8mpOiVaHu9m6XZGAnFv+lbuugbWO1ifG6/L/9m
-   y58p7cPaK+VYTw/IJB3OyT4qVOE7fq+fgDwYldWeWtqTze08bPbg5/zM8
-   SX7KnuCyjo72LjT5Iq4ze2OXaSffkZGX69ZzX6QJ19dxiFyOWqbohGYTQ
-   bAGVNoFOqGgswoYO+dpUoYvUilkMdThGJS1bvCZ9Rqkzcd2vm1xzla0bP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="405540562"
+  bh=KNXFwfsNDeT4WqA11iXXgLWXJnFpxbYCsiWpVtQ/11s=;
+  b=FU2ohntKtNDihxnIEqPp8n5UMIbG8ukEHyps+6v1vwe0HtYknZd+joSo
+   EWYJZ8F+15NQkn2jNgKJeRbzTIph5iyoIIl4Zt0FaBdHCErihQh+D3TzO
+   quOsr4Uy97XQy8xCP0Kz44pjxq/x8ZdS2A5Z6Jvy1nMowtMtNzK5qkSxK
+   1Z4KgrQDFDHGZSkndaX/0MB10u0kRjJitGsxjookaaCrhT86NrUOdHx+Z
+   Vj8fATyAfzIPn0WshWOef3Zbe59N8+7l4+shnARh6+OtZeAIqSGP1emFr
+   ZapyZC95FaVuGHI1mmRhZKZxkyvY1y7hj5k2W0UJgU+RyRqP74rZFdrrW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="340232866"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="405540562"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 06:13:57 -0700
+   d="scan'208";a="340232866"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 07:14:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="680664054"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="1016893973"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="680664054"
+   d="scan'208";a="1016893973"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Apr 2023 06:13:52 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2023 07:14:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkPR1-000ROA-2o;
-	Thu, 06 Apr 2023 13:13:51 +0000
-Date: Thu, 6 Apr 2023 21:12:57 +0800
+	id 1pkQO6-000RQU-20;
+	Thu, 06 Apr 2023 14:14:54 +0000
+Date: Thu, 6 Apr 2023 22:14:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gautam Dawar <gautam.dawar@amd.com>, linux-net-drivers@amd.com,
-	jasowang@redhat.com, Edward Cree <ecree.xilinx@gmail.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	eperezma@redhat.com, harpreet.anand@amd.com, tanuj.kamde@amd.com,
-	koushik.dutta@amd.com, Gautam Dawar <gautam.dawar@amd.com>
-Subject: Re: [PATCH net-next v3 04/14] sfc: evaluate vdpa support based on FW
- capability CLIENT_CMD_VF_PROXY
-Message-ID: <202304062157.jUftzJPl-lkp@intel.com>
-References: <20230406065706.59664-5-gautam.dawar@amd.com>
+To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] docs: sound: kernel-api: writing-an-alsa-driver.rst:
+ polishing
+Message-ID: <202304062227.WvZq9Td4-lkp@intel.com>
+References: <20230405201220.2197863-1-oswald.buddenhagen@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,101 +48,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406065706.59664-5-gautam.dawar@amd.com>
+In-Reply-To: <20230405201220.2197863-1-oswald.buddenhagen@gmx.de>
 
-Hi Gautam,
+Hi Oswald,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on next-20230406]
+[cannot apply to tiwai-sound/for-linus linus/master v6.3-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gautam-Dawar/sfc-add-function-personality-support-for-EF100-devices/20230406-151436
-patch link:    https://lore.kernel.org/r/20230406065706.59664-5-gautam.dawar%40amd.com
-patch subject: [PATCH net-next v3 04/14] sfc: evaluate vdpa support based on FW capability CLIENT_CMD_VF_PROXY
-config: openrisc-randconfig-r025-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062157.jUftzJPl-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1648cc5a817ed0b133554de429e9516dfdc18ddf
+url:    https://github.com/intel-lab-lkp/linux/commits/Oswald-Buddenhagen/docs-sound-kernel-api-writing-an-alsa-driver-rst-polishing/20230406-042253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230405201220.2197863-1-oswald.buddenhagen%40gmx.de
+patch subject: [PATCH] docs: sound: kernel-api: writing-an-alsa-driver.rst: polishing
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/7d621283190964e9edd72b8960fe9819339d62d8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gautam-Dawar/sfc-add-function-personality-support-for-EF100-devices/20230406-151436
-        git checkout 1648cc5a817ed0b133554de429e9516dfdc18ddf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/ethernet/sfc/
+        git fetch --no-tags linux-review Oswald-Buddenhagen/docs-sound-kernel-api-writing-an-alsa-driver-rst-polishing/20230406-042253
+        git checkout 7d621283190964e9edd72b8960fe9819339d62d8
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304062157.jUftzJPl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304062227.WvZq9Td4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/sfc/ef100_nic.c: In function 'efx_ef100_init_datapath_caps':
->> drivers/net/ethernet/sfc/ef100_nic.c:211:25: error: 'struct ef100_nic_data' has no member named 'vdpa_supported'
-     211 |                 nic_data->vdpa_supported = efx->type->is_vf &&
-         |                         ^~
+>> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3992: WARNING: Literal block expected; none found.
+>> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4004: WARNING: Unexpected indentation.
 
+vim +3992 Documentation/sound/kernel-api/writing-an-alsa-driver.rst
 
-vim +211 drivers/net/ethernet/sfc/ef100_nic.c
-
-   164	
-   165	static int efx_ef100_init_datapath_caps(struct efx_nic *efx)
-   166	{
-   167		MCDI_DECLARE_BUF(outbuf, MC_CMD_GET_CAPABILITIES_V7_OUT_LEN);
-   168		struct ef100_nic_data *nic_data = efx->nic_data;
-   169		u8 vi_window_mode;
-   170		size_t outlen;
-   171		int rc;
-   172	
-   173		BUILD_BUG_ON(MC_CMD_GET_CAPABILITIES_IN_LEN != 0);
-   174	
-   175		rc = efx_mcdi_rpc(efx, MC_CMD_GET_CAPABILITIES, NULL, 0,
-   176				  outbuf, sizeof(outbuf), &outlen);
-   177		if (rc)
-   178			return rc;
-   179		if (outlen < MC_CMD_GET_CAPABILITIES_V4_OUT_LEN) {
-   180			netif_err(efx, drv, efx->net_dev,
-   181				  "unable to read datapath firmware capabilities\n");
-   182			return -EIO;
-   183		}
-   184	
-   185		nic_data->datapath_caps = MCDI_DWORD(outbuf,
-   186						     GET_CAPABILITIES_OUT_FLAGS1);
-   187		nic_data->datapath_caps2 = MCDI_DWORD(outbuf,
-   188						      GET_CAPABILITIES_V2_OUT_FLAGS2);
-   189		if (outlen < MC_CMD_GET_CAPABILITIES_V7_OUT_LEN)
-   190			nic_data->datapath_caps3 = 0;
-   191		else
-   192			nic_data->datapath_caps3 = MCDI_DWORD(outbuf,
-   193							      GET_CAPABILITIES_V7_OUT_FLAGS3);
-   194	
-   195		vi_window_mode = MCDI_BYTE(outbuf,
-   196					   GET_CAPABILITIES_V3_OUT_VI_WINDOW_MODE);
-   197		rc = efx_mcdi_window_mode_to_stride(efx, vi_window_mode);
-   198		if (rc)
-   199			return rc;
-   200	
-   201		efx->num_mac_stats = MCDI_WORD(outbuf,
-   202					       GET_CAPABILITIES_V4_OUT_MAC_STATS_NUM_STATS);
-   203		netif_dbg(efx, probe, efx->net_dev,
-   204			  "firmware reports num_mac_stats = %u\n",
-   205			  efx->num_mac_stats);
-   206	
-   207		/* Current EF100 hardware supports vDPA on VFs only, requires MCDI v2
-   208		 * and Firmware's capability to proxy MCDI commands from PF to VF
-   209		 */
-   210		if (IS_ENABLED(CONFIG_SFC_VDPA)) {
- > 211			nic_data->vdpa_supported = efx->type->is_vf &&
-   212						   (efx->type->mcdi_max_ver > 1) &&
-   213					efx_ef100_has_cap(nic_data->datapath_caps3,
-   214							  CLIENT_CMD_VF_PROXY);
-   215		}
-   216	
-   217		return 0;
-   218	}
-   219	
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3989  
+7d621283190964 Oswald Buddenhagen 2023-04-05  3990     Suppose you have a file xyz.c. Add the following two lines::
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3991  
+7ddedebb03b7ec Takashi Iwai       2016-09-29 @3992    snd-xyz-objs := xyz.o
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3993    obj-$(CONFIG_SND_XYZ) += snd-xyz.o
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3994  
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3995  2. Create the Kconfig entry
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3996  
+7d621283190964 Oswald Buddenhagen 2023-04-05  3997     Add the new entry of Kconfig for your xyz driver::
+7d621283190964 Oswald Buddenhagen 2023-04-05  3998  
+7d621283190964 Oswald Buddenhagen 2023-04-05  3999    config SND_XYZ 
+7d621283190964 Oswald Buddenhagen 2023-04-05  4000      tristate "Foobar XYZ"
+7d621283190964 Oswald Buddenhagen 2023-04-05  4001      depends on SND
+7d621283190964 Oswald Buddenhagen 2023-04-05  4002      select SND_PCM
+7d621283190964 Oswald Buddenhagen 2023-04-05  4003      help
+7d621283190964 Oswald Buddenhagen 2023-04-05 @4004        Say Y here to include support for Foobar XYZ soundcard.
+7d621283190964 Oswald Buddenhagen 2023-04-05  4005        To compile this driver as a module, choose M here:
+7d621283190964 Oswald Buddenhagen 2023-04-05  4006        the module will be called snd-xyz.
+7d621283190964 Oswald Buddenhagen 2023-04-05  4007  
 
 -- 
 0-DAY CI Kernel Test Service
