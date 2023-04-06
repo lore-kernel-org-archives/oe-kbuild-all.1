@@ -1,58 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC28322A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Apr 2023 23:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257DC363
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 00:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680736475; x=1712272475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FKhsDwBgWocxbDBm71IX9YxYgh4XGnM3GUQYRhxeNgQ=;
-  b=aH44hVKWcHMGqpaDDNa35ciWwmCvPRrv4RFYby3nVCcBMjRWuDBW6dXH
-   nCY23xzlvqJRSXBqoRt17caMdlc6wXL2BGa75VZNyY7QlMJm/e0hCl/N5
-   moit6dOkft1G4Ve1sVU3RLc1cO2REfBj8MC9iMbdnrsjbKwH/aexI4ztC
-   9lPU2SdhQyp4CM926Fa2rNMOF4rdK4imPN77iwTi+Q8CYzzmXe0odW2wx
-   5hDUKO0lDDyobVPByPXlIFao9lqFd7Z6NBQOvWsyQbK1codTxIeCWmIPF
-   WwbKu46i0gX5+hWKcIH+Xebl9MUcrYOHOD4RT2eCmtNHUoMfyvgODf6Y8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="341318987"
+  t=1680739533; x=1712275533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vb20XP8PRCz8cjO5AGV4udGkr1ITuNlRAPz1daqml8I=;
+  b=Xi6oLrxP3D9l1mBe9id7he+PepoWqJnHLx3BV5MWFXB2GILmD7KZzxHl
+   1Y1cBAi443XVVcCcf7X62TwsTGze+Iuzhr1vuO9Xp5ooaIJdEsjYdj2wO
+   rPTI+iBP8bYgnJk6C4kkvCL1UeYAzrtIOnvrIVu/DlTyLxpfpo5x1hkaI
+   j9d2KdKGQ9+ZGhlX4f/IhydIxaBP4IHlhfLua3454a2XLXC4IqXiHMKiO
+   NcIV79WKzBM2hBhFwA2EDv5xZrbji1pfa4Tdte31dRp9Wj8NCjn7TGvUU
+   3S+LIbohNqy8ZATEr0O25wPyJ+SWDxdRNIscQ3n+lUkEjsjxQtNhtBFXP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="331208252"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="341318987"
+   d="scan'208";a="331208252"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 16:14:34 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 17:05:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798099746"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="798110597"
 X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="798099746"
+   d="scan'208";a="798110597"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2023 16:14:30 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2023 17:05:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkCKj-000QtT-0M;
-	Wed, 05 Apr 2023 23:14:29 +0000
-Date: Thu, 6 Apr 2023 07:14:13 +0800
+	id 1pkD86-000QvW-1v;
+	Thu, 06 Apr 2023 00:05:30 +0000
+Date: Thu, 6 Apr 2023 08:04:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, quic_pkondeti@quicinc.com,
-	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com,
-	quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-	ahalaney@redhat.com, quic_shazhuss@quicinc.com,
-	Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: Re: [PATCH v6 2/8] usb: dwc3: core: Access XHCI address space
- temporarily to read port info
-Message-ID: <202304060712.gqBA4oqQ-lkp@intel.com>
-References: <20230405125759.4201-3-quic_kriskura@quicinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 14965/29326]
+ kernel/sched/stubs.c:8:5: warning: no previous prototype for function
+ 'sched_isolate_cpu'
+Message-ID: <202304060720.9qnIbTPg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +46,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230405125759.4201-3-quic_kriskura@quicinc.com>
 
-Hi Krishna,
+Hi Quentin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on usb/usb-linus]
-[also build test WARNING on robh/for-next linus/master v6.3-rc5 next-20230405]
-[cannot apply to usb/usb-testing usb/usb-next pza/reset/next pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/dt-bindings-usb-Add-bindings-for-multiport-properties-on-DWC3-controller/20230405-210221
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-patch link:    https://lore.kernel.org/r/20230405125759.4201-3-quic_kriskura%40quicinc.com
-patch subject: [PATCH v6 2/8] usb: dwc3: core: Access XHCI address space temporarily to read port info
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/a0de434ac81429422ecdf84fe968bd8c3f73445b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Krishna-Kurapati/dt-bindings-usb-Add-bindings-for-multiport-properties-on-DWC3-controller/20230405-210221
-        git checkout a0de434ac81429422ecdf84fe968bd8c3f73445b
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   c1102a2e31cd2371b5f9ed2b3b5a4f8ac735cd87
+commit: eead51495c8760858c32d9ad0332ffc94397aa82 [14965/29326] ANDROID: GKI: sched: stub sched_isolate symbols
+config: x86_64-randconfig-r005-20230403 (https://download.01.org/0day-ci/archive/20230406/202304060720.9qnIbTPg-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout eead51495c8760858c32d9ad0332ffc94397aa82
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/ kernel/sched/ lib/ sound/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304060712.gqBA4oqQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304060720.9qnIbTPg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./drivers/usb/dwc3/core.h:1666: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>> kernel/sched/stubs.c:8:5: warning: no previous prototype for function 'sched_isolate_cpu' [-Wmissing-prototypes]
+   int sched_isolate_cpu(int cpu)
+       ^
+   kernel/sched/stubs.c:8:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sched_isolate_cpu(int cpu)
+   ^
+   static 
+>> kernel/sched/stubs.c:14:5: warning: no previous prototype for function 'sched_unisolate_cpu_unlocked' [-Wmissing-prototypes]
+   int sched_unisolate_cpu_unlocked(int cpu)
+       ^
+   kernel/sched/stubs.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sched_unisolate_cpu_unlocked(int cpu)
+   ^
+   static 
+>> kernel/sched/stubs.c:20:5: warning: no previous prototype for function 'sched_unisolate_cpu' [-Wmissing-prototypes]
+   int sched_unisolate_cpu(int cpu)
+       ^
+   kernel/sched/stubs.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sched_unisolate_cpu(int cpu)
+   ^
+   static 
+>> kernel/sched/stubs.c:26:5: warning: no previous prototype for function 'set_task_boost' [-Wmissing-prototypes]
+   int set_task_boost(int boost, u64 period)
+       ^
+   kernel/sched/stubs.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int set_task_boost(int boost, u64 period)
+   ^
+   static 
+   4 warnings generated.
 
-vim +1666 ./drivers/usb/dwc3/core.h
 
-  1664	
-  1665	/**
-> 1666	 * Find the offset of the extended capabilities with capability ID id.
-  1667	 *
-  1668	 * @base	PCI MMIO registers base address.
-  1669	 * @start	address at which to start looking, (0 or HCC_PARAMS to start at
-  1670	 *		beginning of list)
-  1671	 * @id		Extended capability ID to search for, or 0 for the next
-  1672	 *		capability
-  1673	 *
-  1674	 * Returns the offset of the next matching extended capability structure.
-  1675	 * Some capabilities can occur several times, e.g., the XHCI_EXT_CAPS_PROTOCOL,
-  1676	 * and this provides a way to find them all.
-  1677	 */
-  1678	
+vim +/sched_isolate_cpu +8 kernel/sched/stubs.c
+
+     7	
+   > 8	int sched_isolate_cpu(int cpu)
+     9	{
+    10		return -EINVAL;
+    11	}
+    12	EXPORT_SYMBOL_GPL(sched_isolate_cpu);
+    13	
+  > 14	int sched_unisolate_cpu_unlocked(int cpu)
+    15	{
+    16		return -EINVAL;
+    17	}
+    18	EXPORT_SYMBOL_GPL(sched_unisolate_cpu_unlocked);
+    19	
+  > 20	int sched_unisolate_cpu(int cpu)
+    21	{
+    22		return -EINVAL;
+    23	}
+    24	EXPORT_SYMBOL_GPL(sched_unisolate_cpu);
+    25	
+  > 26	int set_task_boost(int boost, u64 period)
 
 -- 
 0-DAY CI Kernel Test Service
