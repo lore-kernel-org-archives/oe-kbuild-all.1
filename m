@@ -1,54 +1,50 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A784C6FD0;
-	Thu,  6 Apr 2023 14:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680791357; x=1712327357;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OpYHkeX595afcgkzZpsu41PvdqQrhRD1hTWyXGZwSZQ=;
-  b=VWpy1TuKtAlfR7W9sz2MeM9tK5QqxFZWkb80bySS2HHnxyGQROVKkUMj
-   PaW/DBN5N99HMy0x5GJCZro7pibrYLO8tT0zYel4RSN70mqdzRy2CBmak
-   W38XBeD+hfLiPmverYCsIY/nZz/3qmHKfa+tac4BPqlafMoImsDsIhU21
-   WG8WBxiRerVH7Fhq/5B9CjTv6Go31R2kLMNUL2lV/lKI1gu/vJNiwN+ly
-   HXp2w81f7cwjBbM6yG5h2CpXJi2cGBKPhamK+UsJopLxMsnkT4MfUK2+n
-   +WOv99Mw8ntksk0xPUnUFBIqUgZrskQgDG9zyVQYvgBB3Gyx1pKMJKqCg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="342754598"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="342754598"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 07:29:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="751659355"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="751659355"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Apr 2023 07:26:00 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkQYk-000RQq-2Z;
-	Thu, 06 Apr 2023 14:25:54 +0000
-Date: Thu, 6 Apr 2023 22:25:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gautam Dawar <gautam.dawar@amd.com>, linux-net-drivers@amd.com,
-	jasowang@redhat.com, Edward Cree <ecree.xilinx@gmail.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, eperezma@redhat.com, harpreet.anand@amd.com,
-	tanuj.kamde@amd.com, koushik.dutta@amd.com,
-	Gautam Dawar <gautam.dawar@amd.com>
-Subject: Re: [PATCH net-next v3 06/14] sfc: implement vDPA management device
- operations
-Message-ID: <202304062258.oIHz9siw-lkp@intel.com>
-References: <20230406065706.59664-7-gautam.dawar@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E4B8476;
+	Thu,  6 Apr 2023 15:06:43 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id jw24so2143033ejc.3;
+        Thu, 06 Apr 2023 08:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680793601; x=1683385601;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
+        b=MbjEcDCeLAt/UlAvgojRTFhyllyipM6o0/nXwU2CQnlEpiM1Df2Gc/kp4B70n9b8ph
+         xVuxnV2xiZzAjQjD8eANKrazHpAP1aiza30Qw86zYdJJtIFL5m80pwLgCW0R/vfxeRgS
+         60AfcOPvFKNQxGy2OzqewIO3YIs0GJaPypWkxGQMV1g6J21rhK0HEVBHBxIohe3zLBU3
+         bBPG+su7LiH6WBECkMSqO4R9EO7y2wSYGXPjdOYzVcdSufOlsJQTpYVTcuK9ISq/ahss
+         jknjBNMvnzpcIvOKLAx4yLhqpkspp3+v8g1RvKNCC5Tgmt27IOF4vj928T8SYfg4uv66
+         C8+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680793601; x=1683385601;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
+        b=II9sQDfs5xb/XcEdbKIyN0I39+hf5KdOoyOv/4UVQXFP6V5lVzuiXGyLQtj2zKU/dP
+         5s/1zIbBn3Z7hVibCjJTe1h13ZsY1GT8x5OWzOu23x2rKOXJbOrpFcKtwy+6ptaQpTpT
+         lFmjvQKm3XQ+Ex7wNUlItRyJdAF5BS5OuduXbb8CCiRCcTyFeyq+McWCnmQ5DiZ1JRhR
+         I+SdmhVGfst767Wn7HPj34blQxwc8u/qwig17PyzZ/cMGieAzlLsPs9MgdkumxFt2tDc
+         H1pP0unHrql9EWFo+HnHQjqigy8Q2I/emSMsDGVrzYRqqgxoCLxl6lau4Bm+yd4OxCqj
+         fV1g==
+X-Gm-Message-State: AAQBX9dmphPg6QObac2gvbxtvOrhMjICoRfvJ/LCk48Anv803GHNzNdS
+	VefF+otRAJDM2ZykZc0kE+yS3QyTb8IykA==
+X-Google-Smtp-Source: AKy350YF7/RUYmdyCg390bju08mY5ezvPSm6sjL3uS/A7+Tu2Y0TRFKbBmyPtN3P5PYRqqaVRl/HZg==
+X-Received: by 2002:a17:906:144d:b0:93f:fbe:ed17 with SMTP id q13-20020a170906144d00b0093f0fbeed17mr6551457ejc.62.1680793601226;
+        Thu, 06 Apr 2023 08:06:41 -0700 (PDT)
+Received: from localhost (h130e.n1.ips.mtn.co.ug. [41.210.147.14])
+        by smtp.gmail.com with ESMTPSA id i9-20020a1709063c4900b00947c0cecceasm896218ejg.206.2023.04.06.08.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 08:06:40 -0700 (PDT)
+Date: Thu, 6 Apr 2023 17:53:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 3/42]
+ drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error:
+ uninitialized symbol 'rc'.
+Message-ID: <e5fc1830-14b6-4e4c-8ded-0542ef601a81@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,119 +53,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406065706.59664-7-gautam.dawar@amd.com>
 
-Hi Gautam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gautam-Dawar/sfc-add-function-personality-support-for-EF100-devices/20230406-151436
-patch link:    https://lore.kernel.org/r/20230406065706.59664-7-gautam.dawar%40amd.com
-patch subject: [PATCH net-next v3 06/14] sfc: implement vDPA management device operations
-config: x86_64-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062258.oIHz9siw-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0887a40c60d1983214d417491dc9ef46191ab1ac
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gautam-Dawar/sfc-add-function-personality-support-for-EF100-devices/20230406-151436
-        git checkout 0887a40c60d1983214d417491dc9ef46191ab1ac
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/ethernet/sfc/
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
+head:   032ce679f2322b426350f8721d7a1afca1bb7aab
+commit: 06ac6c12f5cac61638684e9d6f3fee0fca1287d3 [3/42] iommufd: Add IOMMU_DEVICE_GET_HW_INFO
+config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062233.7sW2ckXj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304062258.oIHz9siw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304062233.7sW2ckXj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error: uninitialized symbol 'rc'.
+drivers/iommu/iommufd/device.c:335 iommufd_device_get_hw_info() error: 'data' dereferencing possible ERR_PTR()
 
->> drivers/net/ethernet/sfc/ef100_vdpa.c:184:12: warning: variable 'efx' is uninitialized when used here [-Wuninitialized]
-                           pci_err(efx->pci_dev, "Invalid MAC address %pM\n",
-                                   ^~~
-   include/linux/pci.h:2548:46: note: expanded from macro 'pci_err'
-   #define pci_err(pdev, fmt, arg...)      dev_err(&(pdev)->dev, fmt, ##arg)
-                                                     ^~~~
-   include/linux/dev_printk.h:144:44: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                     ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                           ^~~
-   drivers/net/ethernet/sfc/ef100_vdpa.c:179:21: note: initialize the variable 'efx' to silence this warning
-           struct efx_nic *efx;
-                              ^
-                               = NULL
-   1 warning generated.
+Old smatch warnings:
+drivers/iommu/iommufd/device.c:1151 iommufd_access_rw() error: uninitialized symbol 'rc'.
+
+vim +/rc +329 drivers/iommu/iommufd/device.c
+
+06ac6c12f5cac6 Yi Liu 2023-01-12  277  int iommufd_device_get_hw_info(struct iommufd_ucmd *ucmd)
+06ac6c12f5cac6 Yi Liu 2023-01-12  278  {
+06ac6c12f5cac6 Yi Liu 2023-01-12  279  	struct iommu_hw_info *cmd = ucmd->cmd;
+06ac6c12f5cac6 Yi Liu 2023-01-12  280  	unsigned int length, data_len;
+06ac6c12f5cac6 Yi Liu 2023-01-12  281  	struct iommufd_device *idev;
+06ac6c12f5cac6 Yi Liu 2023-01-12  282  	const struct iommu_ops *ops;
+06ac6c12f5cac6 Yi Liu 2023-01-12  283  	void *data = NULL;
+06ac6c12f5cac6 Yi Liu 2023-01-12  284  	int rc;
+06ac6c12f5cac6 Yi Liu 2023-01-12  285  
+06ac6c12f5cac6 Yi Liu 2023-01-12  286  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+06ac6c12f5cac6 Yi Liu 2023-01-12  287  		return -EOPNOTSUPP;
+06ac6c12f5cac6 Yi Liu 2023-01-12  288  
+06ac6c12f5cac6 Yi Liu 2023-01-12  289  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+06ac6c12f5cac6 Yi Liu 2023-01-12  290  	if (IS_ERR(idev))
+06ac6c12f5cac6 Yi Liu 2023-01-12  291  		return PTR_ERR(idev);
+06ac6c12f5cac6 Yi Liu 2023-01-12  292  
+06ac6c12f5cac6 Yi Liu 2023-01-12  293  	ops = dev_iommu_ops(idev->dev);
+06ac6c12f5cac6 Yi Liu 2023-01-12  294  	if (!ops->hw_info) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  295  		rc = 0;
+06ac6c12f5cac6 Yi Liu 2023-01-12  296  		length = 0;
+06ac6c12f5cac6 Yi Liu 2023-01-12  297  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  298  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  299  
+06ac6c12f5cac6 Yi Liu 2023-01-12  300  	/* driver has hw_info callback should have a unique hw_info_type */
+06ac6c12f5cac6 Yi Liu 2023-01-12  301  	if (ops->hw_info_type == IOMMU_HW_INFO_TYPE_NONE) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  302  		pr_warn_ratelimited("iommu driver set an invalid type\n");
+06ac6c12f5cac6 Yi Liu 2023-01-12  303  		rc = -ENODEV;
+06ac6c12f5cac6 Yi Liu 2023-01-12  304  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  305  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  306  
+06ac6c12f5cac6 Yi Liu 2023-01-12  307  	data = ops->hw_info(idev->dev, &data_len);
+06ac6c12f5cac6 Yi Liu 2023-01-12  308  	if (IS_ERR(data)) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  309  		rc = PTR_ERR(data);
+06ac6c12f5cac6 Yi Liu 2023-01-12  310  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  311  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  312  
+06ac6c12f5cac6 Yi Liu 2023-01-12  313  	length = min(cmd->data_len, data_len);
+06ac6c12f5cac6 Yi Liu 2023-01-12  314  	if (copy_to_user(u64_to_user_ptr(cmd->data_ptr), data, length)) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  315  		rc = -EFAULT;
+06ac6c12f5cac6 Yi Liu 2023-01-12  316  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  317  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  318  
+06ac6c12f5cac6 Yi Liu 2023-01-12  319  	/*
+06ac6c12f5cac6 Yi Liu 2023-01-12  320  	 * Zero the trailing bytes if the user buffer is bigger than the
+06ac6c12f5cac6 Yi Liu 2023-01-12  321  	 * data size kernel actually has.
+06ac6c12f5cac6 Yi Liu 2023-01-12  322  	 */
+06ac6c12f5cac6 Yi Liu 2023-01-12  323  	if (length < cmd->data_len) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  324  		rc = iommufd_zero_fill_user(cmd->data_ptr + length,
+06ac6c12f5cac6 Yi Liu 2023-01-12  325  					    cmd->data_len - length);
+06ac6c12f5cac6 Yi Liu 2023-01-12  326  	}
+
+rc not set on else path.
 
 
-vim +/efx +184 drivers/net/ethernet/sfc/ef100_vdpa.c
-
-   171	
-   172	static int ef100_vdpa_net_dev_add(struct vdpa_mgmt_dev *mgmt_dev,
-   173					  const char *name,
-   174					  const struct vdpa_dev_set_config *config)
-   175	{
-   176		struct ef100_vdpa_nic *vdpa_nic;
-   177		struct ef100_nic_data *nic_data;
-   178		const u8 *mac = NULL;
-   179		struct efx_nic *efx;
-   180		int rc, err;
-   181	
-   182		if (config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MACADDR)) {
-   183			if (!is_valid_ether_addr(config->net.mac)) {
- > 184				pci_err(efx->pci_dev, "Invalid MAC address %pM\n",
-   185					config->net.mac);
-   186				return -EINVAL;
-   187			}
-   188			mac = (const u8 *)config->net.mac;
-   189		}
-   190	
-   191		efx = pci_get_drvdata(to_pci_dev(mgmt_dev->device));
-   192		if (efx->vdpa_nic) {
-   193			pci_warn(efx->pci_dev,
-   194				 "vDPA device already exists on this VF\n");
-   195			return -EEXIST;
-   196		}
-   197	
-   198		nic_data = efx->nic_data;
-   199	
-   200		rc = efx_ef100_set_bar_config(efx, EF100_BAR_CONFIG_VDPA);
-   201		if (rc) {
-   202			pci_err(efx->pci_dev,
-   203				"set_bar_config vDPA failed, err: %d\n", rc);
-   204			goto err_set_bar_config;
-   205		}
-   206	
-   207		vdpa_nic = ef100_vdpa_create(efx, name, EF100_VDPA_CLASS_NET, mac);
-   208		if (IS_ERR(vdpa_nic)) {
-   209			pci_err(efx->pci_dev,
-   210				"vDPA device creation failed, vf: %u, err: %ld\n",
-   211				nic_data->vf_index, PTR_ERR(vdpa_nic));
-   212			rc = PTR_ERR(vdpa_nic);
-   213			goto err_set_bar_config;
-   214		} else {
-   215			pci_dbg(efx->pci_dev,
-   216				"vdpa net device created, vf: %u\n",
-   217				nic_data->vf_index);
-   218		}
-   219	
-   220		return 0;
-   221	
-   222	err_set_bar_config:
-   223		err = efx_ef100_set_bar_config(efx, EF100_BAR_CONFIG_EF100);
-   224		if (err)
-   225			pci_err(efx->pci_dev,
-   226				"set_bar_config EF100 failed, err: %d\n", err);
-   227	
-   228		return rc;
-   229	}
-   230	
+06ac6c12f5cac6 Yi Liu 2023-01-12  327  
+06ac6c12f5cac6 Yi Liu 2023-01-12  328  out:
+06ac6c12f5cac6 Yi Liu 2023-01-12 @329  	if (!rc) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  330  		cmd->out_data_type = ops->hw_info_type;
+06ac6c12f5cac6 Yi Liu 2023-01-12  331  		cmd->data_len = length;
+06ac6c12f5cac6 Yi Liu 2023-01-12  332  		rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+06ac6c12f5cac6 Yi Liu 2023-01-12  333  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  334  
+06ac6c12f5cac6 Yi Liu 2023-01-12 @335  	kfree(data);
+06ac6c12f5cac6 Yi Liu 2023-01-12  336  	iommufd_put_object(&idev->obj);
+06ac6c12f5cac6 Yi Liu 2023-01-12  337  	return rc;
+06ac6c12f5cac6 Yi Liu 2023-01-12  338  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
