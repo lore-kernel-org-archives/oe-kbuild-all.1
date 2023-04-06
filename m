@@ -1,50 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D4C1C15
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 09:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18B21C15
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 09:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680773270; x=1712309270;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=InPNIBceKrNnxNxhCo8TDxqyXGZESVT0F+BzGH5I//k=;
-  b=TNpzp+bOMyh8T1FXO5QFZvfJd0Ndcn8MMb+f44sIuetfuVnHglVqhxjc
-   o4TGFiJmvRA0pTTRXWJK3Qz3Vr460JWfFP3+gGdbXDaoffCFlAifoo86a
-   xWPQxfoxB2LFOkjiomh7uPjiGG+sWhdHWvqOV2uH0C438m+zyIpyAQOLZ
-   0ANm+e1btBUMzKfM4aB3vO5KJV4kTzUsxxyWfgmyGV+IDJPv62Ly534uT
-   VgDAMtDfTzVVjMecNwJR6D1sceTfkffP3RSsZ48oT18wHOWEKqNs7aAS1
-   SOr3uYsDtNqaDPx3g2yOyLu6rY6T/uw3vRVbxGuc5Sjj7SjBI7SQuRbDW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="345288852"
+  t=1680774468; x=1712310468;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B0uIcBS0Xbvwb4p7F2zYk4Tt+NOVAXAv7FKUljZrifY=;
+  b=Emx0iI6tYrk1FfZqP85trZKC6jhKfTKiZoR3hTp7J7by+BzgYn4CY3h/
+   ev72D1mpzvypjZzYLQjYfmx7IP3jUai2awxx+K1GT4Ed75KvlOYigvaQl
+   EAKq5a9LJ8I7N9EkSyZROZ9PC2M30X4Jj3W9/6jKyYI06bLphfb1a2NOD
+   XrJIPW8/Hse7tYlPVvMhJ+buTMI+qZLCqphcw5Nqfz7oxHoAhrk3RdERG
+   OKP8I+gf3d5mJUuDs0H9eMsbr1iiD/hVYGjEST8RfsYLufexQ241+0MrS
+   U3dvdQ8wbe/6mfjQ9LEC8jWTbm8tlSCPOf/rE0FtdHOd2Tx4qW85lRKW0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="344427685"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="345288852"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 02:27:50 -0700
+   d="scan'208";a="344427685"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 02:47:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016809916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="689605098"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="1016809916"
+   d="scan'208";a="689605098"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2023 02:27:46 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 02:47:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkLuE-000RGg-0I;
-	Thu, 06 Apr 2023 09:27:46 +0000
-Date: Thu, 6 Apr 2023 17:26:48 +0800
+	id 1pkMDa-000RH8-20;
+	Thu, 06 Apr 2023 09:47:46 +0000
+Date: Thu, 6 Apr 2023 17:47:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Badhri Jagan Sridharan <badhri@google.com>, gregkh@linuxfoundation.org,
-	stern@rowland.harvard.edu, colin.i.king@gmail.com,
-	xuetao09@huawei.com, quic_eserrao@quicinc.com,
-	water.zhangjiantao@huawei.com, peter.chen@freescale.com,
-	balbi@ti.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Badhri Jagan Sridharan <badhri@google.com>
-Subject: Re: [PATCH v2 1/2] usb: gadget: udc: core: Invoke usb_gadget_connect
- only when started
-Message-ID: <202304061758.Tz5RJDZU-lkp@intel.com>
-References: <20230406062549.2461917-1-badhri@google.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:iov-sendpage 4/56]
+ drivers/net/ethernet/google/gve/gve_main.c:1271:23: error: 'struct
+ page_frag_cache' has no member named 'va'
+Message-ID: <202304061759.TvhZ8Xbx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,141 +46,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406062549.2461917-1-badhri@google.com>
 
-Hi Badhri,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d629c0e221cd99198b843d8351a0a9bfec6c0423]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Badhri-Jagan-Sridharan/usb-gadget-udc-core-Prevent-redundant-calls-to-pullup/20230406-142708
-base:   d629c0e221cd99198b843d8351a0a9bfec6c0423
-patch link:    https://lore.kernel.org/r/20230406062549.2461917-1-badhri%40google.com
-patch subject: [PATCH v2 1/2] usb: gadget: udc: core: Invoke usb_gadget_connect only when started
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230406/202304061758.Tz5RJDZU-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-sendpage
+head:   68abe677de847ca05213a704176a7b8a14b02738
+commit: c6a6836d1903ed2dae863aeffe775f91b4d2d596 [4/56] mm: Make the page_frag_cache allocator use multipage folios
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230406/202304061759.TvhZ8Xbx-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2f12e8b0c9bf3d25df88c73b614c3e8d84bd7338
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Badhri-Jagan-Sridharan/usb-gadget-udc-core-Prevent-redundant-calls-to-pullup/20230406-142708
-        git checkout 2f12e8b0c9bf3d25df88c73b614c3e8d84bd7338
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?id=c6a6836d1903ed2dae863aeffe775f91b4d2d596
+        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
+        git fetch --no-tags dhowells-fs iov-sendpage
+        git checkout c6a6836d1903ed2dae863aeffe775f91b4d2d596
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/usb/gadget/udc/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304061758.Tz5RJDZU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304061759.TvhZ8Xbx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/usb/gadget/udc/core.c:696:5: warning: no previous prototype for 'usb_gadget_connect_locked' [-Wmissing-prototypes]
-     696 | int usb_gadget_connect_locked(struct usb_gadget *gadget)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/gadget/udc/core.c:749:5: warning: no previous prototype for 'usb_gadget_disconnect_locked' [-Wmissing-prototypes]
-     749 | int usb_gadget_disconnect_locked(struct usb_gadget *gadget)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_main.c: In function 'gve_drain_page_cache':
+>> drivers/net/ethernet/google/gve/gve_main.c:1271:23: error: 'struct page_frag_cache' has no member named 'va'
+    1271 |                 if (nc->va) {
+         |                       ^~
+   In file included from arch/x86/include/asm/page.h:85,
+                    from arch/x86/include/asm/processor.h:20,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/ktime.h:24,
+                    from include/linux/timer.h:6,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:10,
+                    from drivers/net/ethernet/google/gve/gve_main.c:7:
+   drivers/net/ethernet/google/gve/gve_main.c:1272:64: error: 'struct page_frag_cache' has no member named 'va'
+    1272 |                         __page_frag_cache_drain(virt_to_page(nc->va),
+         |                                                                ^~
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   arch/x86/include/asm/page.h:68:45: note: in expansion of macro '__pa'
+      68 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                             ^~~~
+   drivers/net/ethernet/google/gve/gve_main.c:1272:49: note: in expansion of macro 'virt_to_page'
+    1272 |                         __page_frag_cache_drain(virt_to_page(nc->va),
+         |                                                 ^~~~~~~~~~~~
+   drivers/net/ethernet/google/gve/gve_main.c:1274:27: error: 'struct page_frag_cache' has no member named 'va'
+    1274 |                         nc->va = NULL;
+         |                           ^~
 
 
-vim +/usb_gadget_connect_locked +696 drivers/usb/gadget/udc/core.c
+vim +1271 drivers/net/ethernet/google/gve/gve_main.c
 
-   694	
-   695	/* Internal version of usb_gadget_connect needs to be called with udc_connect_control_lock held. */
- > 696	int usb_gadget_connect_locked(struct usb_gadget *gadget)
-   697	{
-   698		int ret = 0;
-   699	
-   700		if (!gadget->ops->pullup) {
-   701			ret = -EOPNOTSUPP;
-   702			goto out;
-   703		}
-   704	
-   705		if (gadget->deactivated || !gadget->udc->started) {
-   706			/*
-   707			 * If gadget is deactivated we only save new state.
-   708			 * Gadget will be connected automatically after activation.
-   709			 *
-   710			 * udc first needs to be started before gadget can be pulled up.
-   711			 */
-   712			gadget->connected = true;
-   713			goto out;
-   714		}
-   715	
-   716		ret = gadget->ops->pullup(gadget, 1);
-   717		if (!ret)
-   718			gadget->connected = 1;
-   719	
-   720	out:
-   721		trace_usb_gadget_connect(gadget, ret);
-   722	
-   723		return ret;
-   724	}
-   725	
-   726	/**
-   727	 * usb_gadget_connect - software-controlled connect to USB host
-   728	 * @gadget:the peripheral being connected
-   729	 *
-   730	 * Enables the D+ (or potentially D-) pullup.  The host will start
-   731	 * enumerating this gadget when the pullup is active and a VBUS session
-   732	 * is active (the link is powered).
-   733	 *
-   734	 * Returns zero on success, else negative errno.
-   735	 */
-   736	int usb_gadget_connect(struct usb_gadget *gadget)
-   737	{
-   738		int ret;
-   739	
-   740		mutex_lock(&gadget->udc->connect_lock);
-   741		ret = usb_gadget_connect_locked(gadget);
-   742		mutex_unlock(&gadget->udc->connect_lock);
-   743	
-   744		return ret;
-   745	}
-   746	EXPORT_SYMBOL_GPL(usb_gadget_connect);
-   747	
-   748	/* Internal version of usb_gadget_disconnect needs to be called with udc->connect_lock held. */
- > 749	int usb_gadget_disconnect_locked(struct usb_gadget *gadget)
-   750	{
-   751		int ret = 0;
-   752	
-   753		if (!gadget->ops->pullup) {
-   754			ret = -EOPNOTSUPP;
-   755			goto out;
-   756		}
-   757	
-   758		if (!gadget->connected)
-   759			goto out;
-   760	
-   761		if (gadget->deactivated || !gadget->udc->started) {
-   762			/*
-   763			 * If gadget is deactivated we only save new state.
-   764			 * Gadget will stay disconnected after activation.
-   765			 *
-   766			 * udc should have been started before gadget being pulled down.
-   767			 */
-   768			gadget->connected = false;
-   769			goto out;
-   770		}
-   771	
-   772		ret = gadget->ops->pullup(gadget, 0);
-   773		if (!ret)
-   774			gadget->connected = 0;
-   775	
-   776		mutex_lock(&udc_lock);
-   777		if (gadget->udc->driver)
-   778			gadget->udc->driver->disconnect(gadget);
-   779		mutex_unlock(&udc_lock);
-   780	
-   781	out:
-   782		trace_usb_gadget_disconnect(gadget, ret);
-   783	
-   784		return ret;
-   785	}
-   786	
+75eaae158b1b7d Praveen Kaligineedi 2023-03-15  1263  
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1264  static void gve_drain_page_cache(struct gve_priv *priv)
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1265  {
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1266  	struct page_frag_cache *nc;
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1267  	int i;
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1268  
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1269  	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1270  		nc = &priv->rx[i].page_cache;
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15 @1271  		if (nc->va) {
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1272  			__page_frag_cache_drain(virt_to_page(nc->va),
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1273  						nc->pagecnt_bias);
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1274  			nc->va = NULL;
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1275  		}
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1276  	}
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1277  }
+39a7f4aa3e4a79 Praveen Kaligineedi 2023-03-15  1278  
+
+:::::: The code at line 1271 was first introduced by commit
+:::::: 39a7f4aa3e4a7947614cf1d5c27abba3300adb1e gve: Add XDP REDIRECT support for GQI-QPL format
+
+:::::: TO: Praveen Kaligineedi <pkaligineedi@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
