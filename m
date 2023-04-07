@@ -1,41 +1,42 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3D92582;
-	Fri,  7 Apr 2023 21:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7902AFDE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 21:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680901747; x=1712437747;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=vI5hyg2nZUIAdwPZ62JpGCRbd1qveFnCNFPE4G+dbzs=;
-  b=Vdt1KqPcqIta2aLROr2aFdn/C3RVBcBIfyfPdOiWPvyx5rF30yIubWvM
-   PYwDm8s2v02OLGBCGq9P39t5OmcEzbdfJAV+pLDpNY9WlLTrVbf+iKsWf
-   ye/Ec8Y4JF19NVcr+B8xSP1UEh7atbq9uwOqCEC828dT6bCG0XWbv5jrd
-   LGqy/cZb8Af/7ROUrXXHl3n3yXSQdTbS7jckaXQEvcxFqKIPf4u0F83Uc
-   dBm5I3Vxq6eKPi3w4nGzKfVz2AiZgGEw7vqAjkyAFZQOIWF5AMVK53RsM
-   y2zaBjXPnAdoJLuhc/2LkzztTdR2ISFfsIUTZmn1o2/QMGxX6/OW3rs9N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405890958"
+  t=1680901749; x=1712437749;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O1T1DQJpBhSSTBUqDzN9lE8R+GixKlaeoeJHWaLPxw4=;
+  b=LNJn2IvRsYFaWdeJQDpGXkfGv48UPUEimFFXl4aQXy7HDHAYvMhyGaBy
+   A/hZrUgxECGLqNqU20X+ektS+sWmAV6UrtmmiPu3+9Tga8EbOLoN72nTw
+   jdNt84uaQ+LltLrWjlVXfghu84Vm00/m8E8z2kxn7sxRIKuScW4e7l0rw
+   ucwO3d5TQQu6R3Bkna5FEiNCChkbExXWndG99/ChRPgJf282MGMLklPD3
+   2dYLrFsDUJFjzEmJvFsxinIDByz0P8MZd/oLp42O92jbppNehCRghRcDX
+   HR8mej833nz8CfFNpeIKJZv3rpqyFNxf282N1LqVyPW688zW1ZeExzIc7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405890959"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="405890958"
+   d="scan'208";a="405890959"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 14:09:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="1017369897"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="1017369898"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="1017369897"
+   d="scan'208";a="1017369898"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2023 14:09:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pktKT-000StA-1i;
+	id 1pktKT-000StD-1n;
 	Fri, 07 Apr 2023 21:09:05 +0000
 Date: Sat, 8 Apr 2023 05:08:11 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [tip:objtool/core 22/23] kernel/sched/build_policy.o: warning:
- objtool: do_idle() falls through to next function cpu_startup_entry()
-Message-ID: <202304080536.WJdtDBwF-lkp@intel.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-5.10.y-cicd 15345/22735]
+ drivers/usb/typec/tps6598x.c:441:6: warning: variable 'ret' set but not used
+Message-ID: <202304080536.V4VdGKUf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,34 +46,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+Hi Aswath,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
-head:   fb799447ae2974a07907906dff5bd4b9e47b7123
-commit: 071c44e4278156f18a6a56958617223b6bffa6ab [22/23] sched/idle: Mark arch_cpu_idle_dead() __noreturn
-config: x86_64-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080536.WJdtDBwF-lkp@intel.com/config)
+FYI, the error/warning still remains.
+
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
+head:   e6bb059e69c106b73bfe2a10e729dbe5a5820916
+commit: f29b24e22ea9fd8b14b3c02f0bb6d40791fcd93b [15345/22735] usb: typec: tps6598x: Add support for polling interrupts status when interrupt line is not connected
+config: x86_64-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080536.V4VdGKUf-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=071c44e4278156f18a6a56958617223b6bffa6ab
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip objtool/core
-        git checkout 071c44e4278156f18a6a56958617223b6bffa6ab
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
+        git checkout f29b24e22ea9fd8b14b3c02f0bb6d40791fcd93b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/typec/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080536.WJdtDBwF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080536.V4VdGKUf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/build_policy.o: warning: objtool: do_idle() falls through to next function cpu_startup_entry()
+>> drivers/usb/typec/tps6598x.c:441:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           int ret;
+               ^
+   drivers/usb/typec/tps6598x.c:160:19: warning: unused function 'tps6598x_write16' [-Wunused-function]
+   static inline int tps6598x_write16(struct tps6598x *tps, u8 reg, u16 val)
+                     ^
+   drivers/usb/typec/tps6598x.c:165:19: warning: unused function 'tps6598x_write32' [-Wunused-function]
+   static inline int tps6598x_write32(struct tps6598x *tps, u8 reg, u32 val)
+                     ^
+   3 warnings generated.
+
+
+vim +/ret +441 drivers/usb/typec/tps6598x.c
+
+   437	
+   438	static irqreturn_t tps6598x_interrupt(int irq, void *data)
+   439	{
+   440		struct tps6598x *tps = data;
+ > 441		int ret;
+   442	
+   443		ret = tps6598x_handle_interrupt_status(tps);
+   444		return IRQ_HANDLED;
+   445	}
+   446	
 
 -- 
 0-DAY CI Kernel Test Service
