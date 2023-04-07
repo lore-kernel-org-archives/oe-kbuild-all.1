@@ -1,202 +1,55 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434356FBD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 17:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680888607; x=1712424607;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CYXKLadMU6YmZuv3O6s2W7HbQyKFPZXnKCtATk9B7q0=;
-  b=aBwXEjZUBkeJLaO2x4WMLegVFVkq4ohs5kUhS/7hk1v7KjxLo2euJKWa
-   hRbbY3CQNhltq9v9sdAtEJfaFBE6UnjB170DsrWy6TcofKJCZNC1OBCi7
-   CHZR9g3c+cnMzWWFOUI04DSkSE9MMYHWnt1mpZOQX/RcigXSwJG1wo4f5
-   up0H1vbTQAT97uVBpu1PUTSVG1HMSYzOzrq98eo5vRxaE2/uOC06C12MH
-   me4mrLY88PqIa32lFRw5nf+I1L4yQgEeUIxQEq6Y8EWdjNWSb6SQpILU4
-   3D2ISC1GcvK7A68SXOns/G8EyOVoyKxT51blKLJQMpwCD7Xo1TU9CRBbh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="340523054"
-X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="340523054"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:29:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690125363"
-X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="690125363"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 10:29:57 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkpuO-000Sji-1Y;
-	Fri, 07 Apr 2023 17:29:56 +0000
-Date: Sat, 8 Apr 2023 01:29:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jingbo Xu <jefflexu@linux.alibaba.com>, xiang@kernel.org,
-	chao@kernel.org, huyue2@coolpad.com, linux-erofs@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] erofs: enable long extended attribute name prefixes
-Message-ID: <202304080101.D8cyKOoF-lkp@intel.com>
-References: <20230407141710.113882-8-jefflexu@linux.alibaba.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAC66FBD;
+	Fri,  7 Apr 2023 17:32:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC94FC433EF;
+	Fri,  7 Apr 2023 17:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680888760;
+	bh=kOfFnNfCPJ2IKnu4CAEDUJyTJhJFhtY3VZ5zn9VGgUg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=etHf2zGGbcdq9TBhybRQK2jWK3DjVKQiiBpvcQVAnPtInhBYGIWPp9LoBlq6JyBMF
+	 7zDWjr2YssoDpHtzKqaLELcbCXAE4SCYnHl3BqDRGT4fvdaEB9VPQZIQ4vuamteb7d
+	 eH+reR3taH20rFQ1VyZVYv3Ngxv557mPKkbjGojiKbHbeF5DWyfELeax8GvfydSB2x
+	 SL2AyhPXttInijDbWam5u9JR/8tVG0il7GkjfY1y6zhnf7RJjvu+cE/U9GDF5FEdhB
+	 SHLBMSR7aLttZbO5I2K7Ba9l2X9rJ84z4NxAif8ABCx1pTUUiIw8zG+98aHV11j/Ox
+	 rwVvbHer6oYVw==
+Message-ID: <de9f8156-9c68-a237-2f03-e9fe41c04beb@kernel.org>
+Date: Fri, 7 Apr 2023 19:32:20 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407141710.113882-8-jefflexu@linux.alibaba.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] vdpa: solidrun: constify pointers to hwmon_channel_info
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <20230407150130.79917-1-krzysztof.kozlowski@linaro.org>
+ <202304080108.n5D0MIBE-lkp@intel.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <202304080108.n5D0MIBE-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jingbo,
+On 07/04/2023 19:18, kernel test robot wrote:
+> Hi Krzysztof,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.3-rc5 next-20230406]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-kernel test robot noticed the following build errors:
+Dependency is provided as link to lore, as typical in all submissions.
+The --base does not make much sense since dependency is only on the lists.
 
-[auto build test ERROR on xiang-erofs/dev-test]
-[also build test ERROR on xiang-erofs/dev]
-[cannot apply to xiang-erofs/fixes linus/master v6.3-rc5 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Krzysztof
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbo-Xu/erofs-keep-meta-inode-into-erofs_buf/20230407-221839
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20230407141710.113882-8-jefflexu%40linux.alibaba.com
-patch subject: [PATCH 7/7] erofs: enable long extended attribute name prefixes
-config: alpha-randconfig-r026-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080101.D8cyKOoF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8cd5bbc6f857d54388099c30c3e3a48fdb15c283
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jingbo-Xu/erofs-keep-meta-inode-into-erofs_buf/20230407-221839
-        git checkout 8cd5bbc6f857d54388099c30c3e3a48fdb15c283
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash fs/erofs/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080101.D8cyKOoF-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   fs/erofs/super.c: In function 'erofs_read_superblock':
->> fs/erofs/super.c:394:12: error: 'struct erofs_sb_info' has no member named 'xattr_prefix_start'
-     394 |         sbi->xattr_prefix_start = le32_to_cpu(dsb->xattr_prefix_start);
-         |            ^~
->> fs/erofs/super.c:395:12: error: 'struct erofs_sb_info' has no member named 'xattr_prefix_count'
-     395 |         sbi->xattr_prefix_count = dsb->xattr_prefix_count;
-         |            ^~
-
-
-vim +394 fs/erofs/super.c
-
-   333	
-   334	static int erofs_read_superblock(struct super_block *sb)
-   335	{
-   336		struct erofs_sb_info *sbi;
-   337		struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
-   338		struct erofs_super_block *dsb;
-   339		void *data;
-   340		int ret;
-   341	
-   342		data = erofs_read_metabuf(&buf, sb, 0, EROFS_KMAP);
-   343		if (IS_ERR(data)) {
-   344			erofs_err(sb, "cannot read erofs superblock");
-   345			return PTR_ERR(data);
-   346		}
-   347	
-   348		sbi = EROFS_SB(sb);
-   349		dsb = (struct erofs_super_block *)(data + EROFS_SUPER_OFFSET);
-   350	
-   351		ret = -EINVAL;
-   352		if (le32_to_cpu(dsb->magic) != EROFS_SUPER_MAGIC_V1) {
-   353			erofs_err(sb, "cannot find valid erofs superblock");
-   354			goto out;
-   355		}
-   356	
-   357		sbi->blkszbits  = dsb->blkszbits;
-   358		if (sbi->blkszbits < 9 || sbi->blkszbits > PAGE_SHIFT) {
-   359			erofs_err(sb, "blkszbits %u isn't supported", sbi->blkszbits);
-   360			goto out;
-   361		}
-   362		if (dsb->dirblkbits) {
-   363			erofs_err(sb, "dirblkbits %u isn't supported", dsb->dirblkbits);
-   364			goto out;
-   365		}
-   366	
-   367		sbi->feature_compat = le32_to_cpu(dsb->feature_compat);
-   368		if (erofs_sb_has_sb_chksum(sbi)) {
-   369			ret = erofs_superblock_csum_verify(sb, data);
-   370			if (ret)
-   371				goto out;
-   372		}
-   373	
-   374		ret = -EINVAL;
-   375		if (!check_layout_compatibility(sb, dsb))
-   376			goto out;
-   377	
-   378		sbi->sb_size = 128 + dsb->sb_extslots * EROFS_SB_EXTSLOT_SIZE;
-   379		if (sbi->sb_size > PAGE_SIZE - EROFS_SUPER_OFFSET) {
-   380			erofs_err(sb, "invalid sb_extslots %u (more than a fs block)",
-   381				  sbi->sb_size);
-   382			goto out;
-   383		}
-   384		sbi->primarydevice_blocks = le32_to_cpu(dsb->blocks);
-   385		sbi->meta_blkaddr = le32_to_cpu(dsb->meta_blkaddr);
-   386	#ifdef CONFIG_EROFS_FS_XATTR
-   387		sbi->xattr_blkaddr = le32_to_cpu(dsb->xattr_blkaddr);
-   388	#endif
-   389		sbi->islotbits = ilog2(sizeof(struct erofs_inode_compact));
-   390		sbi->root_nid = le16_to_cpu(dsb->root_nid);
-   391		sbi->packed_nid = le64_to_cpu(dsb->packed_nid);
-   392		sbi->inos = le64_to_cpu(dsb->inos);
-   393	
- > 394		sbi->xattr_prefix_start = le32_to_cpu(dsb->xattr_prefix_start);
- > 395		sbi->xattr_prefix_count = dsb->xattr_prefix_count;
-   396	
-   397		sbi->build_time = le64_to_cpu(dsb->build_time);
-   398		sbi->build_time_nsec = le32_to_cpu(dsb->build_time_nsec);
-   399	
-   400		memcpy(&sb->s_uuid, dsb->uuid, sizeof(dsb->uuid));
-   401	
-   402		ret = strscpy(sbi->volume_name, dsb->volume_name,
-   403			      sizeof(dsb->volume_name));
-   404		if (ret < 0) {	/* -E2BIG */
-   405			erofs_err(sb, "bad volume name without NIL terminator");
-   406			ret = -EFSCORRUPTED;
-   407			goto out;
-   408		}
-   409	
-   410		/* parse on-disk compression configurations */
-   411		if (erofs_sb_has_compr_cfgs(sbi))
-   412			ret = erofs_load_compr_cfgs(sb, dsb);
-   413		else
-   414			ret = z_erofs_load_lz4_config(sb, dsb, NULL, 0);
-   415		if (ret < 0)
-   416			goto out;
-   417	
-   418		/* handle multiple devices */
-   419		ret = erofs_scan_devices(sb, dsb);
-   420	
-   421		if (erofs_sb_has_ztailpacking(sbi))
-   422			erofs_info(sb, "EXPERIMENTAL compressed inline data feature in use. Use at your own risk!");
-   423		if (erofs_is_fscache_mode(sb))
-   424			erofs_info(sb, "EXPERIMENTAL fscache-based on-demand read feature in use. Use at your own risk!");
-   425		if (erofs_sb_has_fragments(sbi))
-   426			erofs_info(sb, "EXPERIMENTAL compressed fragments feature in use. Use at your own risk!");
-   427		if (erofs_sb_has_dedupe(sbi))
-   428			erofs_info(sb, "EXPERIMENTAL global deduplication feature in use. Use at your own risk!");
-   429	out:
-   430		erofs_put_metabuf(&buf);
-   431		return ret;
-   432	}
-   433	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
