@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E0DE4DB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Apr 2023 23:30:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814177B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 00:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680823820; x=1712359820;
+  t=1680826280; x=1712362280;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VAgTwQvsxO1SnXPSPPbHvJnrKouST1yDE7gVS/gJI4k=;
-  b=O+EQUaZEuxOYDQIteslTTKxSiXr92bRBZcR4R2n8LIcPucF5yJsjJslL
-   t7Dxy92Z8+2VPO+vdH2SmshKlQzUmrl5PSi2pdqqquAJ8G3rGUBwksGhs
-   1yKvHTmr9fqTGKgExnGA5QuzN4wu89NcgYi+nRd8jnJEmeou0OofEzoMw
-   hCTld1F+6O/yVrcsj7z/Fxioyc5gML91q1qkQ/6l9+fXlcsLO13TX2W4A
-   nJ30YAKkWVenEYLsfRPXwcfIsThZlSPuWD22PF7n6nXzs5R2HCjgBw++R
-   qCkPm5Dy0FSwL8xP3ozBvceqwGQuNonEh1OVmxm/fqiTDk+mx4HbGU9bE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="370703639"
+  bh=MWKewg8jkt3TiLZqTQsNhiG3Xjjts9EzpYsY2CBbNVQ=;
+  b=QX+Q6R9mf/3IaujnYdtO56FTz59rkbp0FkV0d6O3PUAkhdb105ryuzAh
+   BhC18aN5+lNbr3ynXXihKUHmegTRBelEeXj8Jk5BLxl02CFFAK50vxSf7
+   P0T1UeFVllT5tZ8DYLrN9+TafqE3KOa3jCpYlv58725nz9nGUV/cfpdGt
+   5t7S65uXLso6bw722aqzDdSHMecM46zOtvB3ZJHTlaxJERK/ICMoGoawu
+   XWS0kqBSUDTObq05FF41uTzslsVb2uiFzGHIztp0umFI8lh58A1F6sO9F
+   Su59T82lQTvQ15X+MrvfdF7AdZgKzBuS217zw0R/T1KulxpbTU70i7qQe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="323247029"
 X-IronPort-AV: E=Sophos;i="5.98,324,1673942400"; 
-   d="scan'208";a="370703639"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 16:30:19 -0700
+   d="scan'208";a="323247029"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 17:11:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="719879220"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="756517223"
 X-IronPort-AV: E=Sophos;i="5.98,324,1673942400"; 
-   d="scan'208";a="719879220"
+   d="scan'208";a="756517223"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 Apr 2023 16:30:18 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 06 Apr 2023 17:11:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkZ3Z-000RuA-1N;
-	Thu, 06 Apr 2023 23:30:17 +0000
-Date: Fri, 7 Apr 2023 07:29:44 +0800
+	id 1pkZhG-000RvH-0O;
+	Fri, 07 Apr 2023 00:11:18 +0000
+Date: Fri, 7 Apr 2023 08:10:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Kim <ckkim@hardkernel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>,
-	Olliver Schinagl <oliver@schinagl.nl>
-Subject: [tobetter:odroid-6.1.y 20/90] drivers/pwm/pwm-gpio.c:60:22: warning:
- no previous prototype for 'gpio_pwm_timer'
-Message-ID: <202304070726.uXLFYERM-lkp@intel.com>
+To: ckkim <changkon12@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.1.y 22/90]
+ drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for
+ 'odroid_card_reset'
+Message-ID: <202304070827.ni03LPBk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,90 +49,96 @@ Content-Disposition: inline
 
 tree:   https://github.com/tobetter/linux odroid-6.1.y
 head:   3a163dc2f239e1dbfed4cdb9ee515ef542684d1f
-commit: 459931baf254b27d2ec9a732b41bf2bff9e1c1d2 [20/90] ODROID-COMMON: pwm: gpio: Add a generic gpio based PWM driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230407/202304070726.uXLFYERM-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+commit: 3aecc1cd0e4093eda45e6a35ec7023b3ef3d8037 [22/90] ODROID-COMMON: power:reset: Add odroid support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230407/202304070827.ni03LPBk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/tobetter/linux/commit/459931baf254b27d2ec9a732b41bf2bff9e1c1d2
+        # https://github.com/tobetter/linux/commit/3aecc1cd0e4093eda45e6a35ec7023b3ef3d8037
         git remote add tobetter https://github.com/tobetter/linux
         git fetch --no-tags tobetter odroid-6.1.y
-        git checkout 459931baf254b27d2ec9a732b41bf2bff9e1c1d2
+        git checkout 3aecc1cd0e4093eda45e6a35ec7023b3ef3d8037
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/pwm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/char/ drivers/power/reset/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070726.uXLFYERM-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304070827.ni03LPBk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pwm/pwm-gpio.c:60:22: warning: no previous prototype for 'gpio_pwm_timer' [-Wmissing-prototypes]
-      60 | enum hrtimer_restart gpio_pwm_timer(struct hrtimer *timer)
-         |                      ^~~~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:138:10: error: 'const struct pwm_ops' has no member named 'config'
-     138 |         .config = gpio_pwm_config,
-         |          ^~~~~~
-   drivers/pwm/pwm-gpio.c:138:19: error: initialization of 'int (*)(struct pwm_chip *, struct pwm_device *)' from incompatible pointer type 'int (*)(struct pwm_chip *, struct pwm_device *, int,  int)' [-Werror=incompatible-pointer-types]
-     138 |         .config = gpio_pwm_config,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:138:19: note: (near initialization for 'gpio_pwm_ops.request')
-   drivers/pwm/pwm-gpio.c:139:10: error: 'const struct pwm_ops' has no member named 'set_polarity'
-     139 |         .set_polarity = gpio_pwm_set_polarity,
-         |          ^~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:139:25: error: initialization of 'void (*)(struct pwm_chip *, struct pwm_device *)' from incompatible pointer type 'int (*)(struct pwm_chip *, struct pwm_device *, enum pwm_polarity)' [-Werror=incompatible-pointer-types]
-     139 |         .set_polarity = gpio_pwm_set_polarity,
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:139:25: note: (near initialization for 'gpio_pwm_ops.free')
-   drivers/pwm/pwm-gpio.c:140:10: error: 'const struct pwm_ops' has no member named 'enable'
-     140 |         .enable = gpio_pwm_enable,
-         |          ^~~~~~
-   drivers/pwm/pwm-gpio.c:140:19: error: initialization of 'int (*)(struct pwm_chip *, struct pwm_device *, struct pwm_capture *, long unsigned int)' from incompatible pointer type 'int (*)(struct pwm_chip *, struct pwm_device *)' [-Werror=incompatible-pointer-types]
-     140 |         .enable = gpio_pwm_enable,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:140:19: note: (near initialization for 'gpio_pwm_ops.capture')
-   drivers/pwm/pwm-gpio.c:141:10: error: 'const struct pwm_ops' has no member named 'disable'
-     141 |         .disable = gpio_pwm_disable,
-         |          ^~~~~~~
-   drivers/pwm/pwm-gpio.c:141:20: error: initialization of 'int (*)(struct pwm_chip *, struct pwm_device *, const struct pwm_state *)' from incompatible pointer type 'void (*)(struct pwm_chip *, struct pwm_device *)' [-Werror=incompatible-pointer-types]
-     141 |         .disable = gpio_pwm_disable,
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-gpio.c:141:20: note: (near initialization for 'gpio_pwm_ops.apply')
-   cc1: some warnings being treated as errors
+>> drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
+      63 | void odroid_card_reset(void)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
+   drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function); did you mean 'alarm_restart'?
+     141 |                 arm_pm_restart = do_odroid_restart;
+         |                 ^~~~~~~~~~~~~~
+         |                 alarm_restart
+   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/gpio_pwm_timer +60 drivers/pwm/pwm-gpio.c
+vim +/odroid_card_reset +63 drivers/power/reset/odroid-reboot.c
 
-    59	
-  > 60	enum hrtimer_restart gpio_pwm_timer(struct hrtimer *timer)
-    61	{
-    62		struct gpio_pwm_data *gpio_data = container_of(timer,
-    63							      struct gpio_pwm_data,
-    64							      timer);
-    65		if (!gpio_data->run) {
-    66			gpio_pwm_off(gpio_data);
-    67			gpio_data->pin_on = false;
-    68			return HRTIMER_NORESTART;
-    69		}
-    70	
-    71		if (!gpio_data->pin_on) {
-    72			hrtimer_forward_now(&gpio_data->timer,
-    73					    ns_to_ktime(gpio_data->on_time));
-    74			gpio_pwm_on(gpio_data);
-    75			gpio_data->pin_on = true;
-    76		} else {
-    77			hrtimer_forward_now(&gpio_data->timer,
-    78					    ns_to_ktime(gpio_data->off_time));
-    79			gpio_pwm_off(gpio_data);
-    80			gpio_data->pin_on = false;
-    81		}
-    82	
-    83		return HRTIMER_RESTART;
-    84	}
-    85	
+    62	
+  > 63	void odroid_card_reset(void)
+    64	{
+    65		int ret = 0;
+    66	
+    67		if ((sd_vqsw == 0) && (sd_vmmc == 0))
+    68			return;
+    69	
+    70		if (sd_vqen == 0) {
+    71			gpio_free(sd_vqsw);
+    72			gpio_free(sd_vmmc);
+    73			ret = gpio_request_one(sd_vqsw,
+    74					GPIOF_OUT_INIT_LOW, "REBOOT");
+    75			CHECK_RET(ret);
+    76			mdelay(10);
+    77			ret = gpio_direction_output(sd_vqsw, 1);
+    78			CHECK_RET(ret);
+    79			ret = gpio_request_one(sd_vmmc,
+    80					GPIOF_OUT_INIT_LOW, "REBOOT");
+    81			CHECK_RET(ret);
+    82			mdelay(10);
+    83			ret = gpio_direction_output(sd_vqsw, 0);
+    84			CHECK_RET(ret);
+    85			ret = gpio_direction_output(sd_vmmc, 1);
+    86			CHECK_RET(ret);
+    87			mdelay(5);
+    88			gpio_free(sd_vqsw);
+    89			gpio_free(sd_vmmc);
+    90		} else {
+    91			gpio_free(sd_vqsw);
+    92			gpio_free(sd_vqen);
+    93			gpio_free(sd_vmmc);
+    94	
+    95			ret = gpio_request_one(sd_vqsw,
+    96					GPIOF_OUT_INIT_LOW, "REBOOT");
+    97			CHECK_RET(ret);
+    98			ret = gpio_request_one(sd_vqen,
+    99					GPIOF_OUT_INIT_LOW, "REBOOT");
+   100			CHECK_RET(ret);
+   101			ret = gpio_request_one(sd_vmmc,
+   102					GPIOF_OUT_INIT_LOW, "REBOOT");
+   103			CHECK_RET(ret);
+   104			mdelay(100);
+   105			ret = gpio_direction_input(sd_vqen);
+   106			CHECK_RET(ret);
+   107			ret = gpio_direction_input(sd_vmmc);
+   108			CHECK_RET(ret);
+   109			ret = gpio_direction_input(sd_vqsw);
+   110			CHECK_RET(ret);
+   111			mdelay(5);
+   112			gpio_free(sd_vqen);
+   113			gpio_free(sd_vmmc);
+   114			gpio_free(sd_vqsw);
+   115		}
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
