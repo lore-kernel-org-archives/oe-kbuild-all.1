@@ -1,43 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910D72582
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 21:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F20AFE7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 22:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680902349; x=1712438349;
+  t=1680905410; x=1712441410;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FdIw7BOKsAFqhvkAR/laTcmM9g+qgDHYW9oZNi2xqqg=;
-  b=AIHVdd2eJQLdyvJgffgusmnJpMWrm39kHutn8IMGwC+f6PQRvohx1VYR
-   LoF4ZjD6YpO3L7Dj5/12YnVwYTF7+tom5MkCHfR/cPIZx0lKrLJIxZ78B
-   A4A5IWiVnn4624QQviXocz1TPHNXx9bu8zfxm8K7gtJSjyXlQ0b01UEDf
-   FZyggOdqGIiinqgK+pmDJKP2DBtQcIIZHCAmUHpt4rEV29BVrS1zTcKoF
-   vyn3otfEP85WgDzEmBPSepz3nDoRkE8B4VvFGgolkGLxuGYB36qQy2uaj
-   eVSxVi8+cLINcMPLewv1fnoWqXD4Wsoyu+z9yFvWtG1eQLfNpjcmaRest
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="370905862"
+  bh=ZU+/42SdgKqSNZGFs9yoyGJjv3U2WLSuldRgwUvPwH4=;
+  b=Yw8UsUwjuTGlpcpL2ydEN+L+qu+sqAT1SFDUsx9V5Gn5RxsvZKok6L5f
+   faNQITUQILiDg4UIgucwGl7UQpCJgZPVZvgQ3QkiWFUDvZXFGdWg/7PIu
+   fLBUYEd3q7I4cF5RETN/InlpuBbZ19gg8kkovGyA9DKgWCqlwxz9qbb4s
+   ERUqyBhGZJ9aCjnwL6230ZmO/PvRgzeOHfeIwOIjIbY58gngjsTh1wiCe
+   Kva41XMwEOTMnuDV2XGD3SDvEeaNe5Osz7mM/fnLJLYKbtzbYKyAWZtJq
+   3b49CE3SGmzJgHP1+Ubc2NtWJiBXfWcgBsr8p0E/5Ezpg1SKpcx92CNIw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="340564077"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="370905862"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 14:19:08 -0700
+   d="scan'208";a="340564077"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 15:10:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="811516496"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="798828246"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="811516496"
+   d="scan'208";a="798828246"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Apr 2023 14:19:06 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2023 15:10:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pktU9-000Stm-2z;
-	Fri, 07 Apr 2023 21:19:05 +0000
-Date: Sat, 8 Apr 2023 05:18:35 +0800
+	id 1pkuHX-000Sva-2b;
+	Fri, 07 Apr 2023 22:10:07 +0000
+Date: Sat, 8 Apr 2023 06:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>, Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: vmlinux.o: warning: objtool: xen_hypercall_iret+0x0: RET before
- UNTRAIN
-Message-ID: <202304080538.j5G6h1AB-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.4-2.3.x-imx 7680/28754] versioncheck:
+ ./drivers/mxc/xuvi/ppm.c: 60 linux/version.h not needed.
+Message-ID: <202304080644.Lom6JP4u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +46,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Peter,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2afccfefe7be1f7346564fe619277110d341f9b
-commit: a09a6e2399ba0595c3042b3164f3ca68a3cff33e objtool: Add entry UNRET validation
-date:   10 months ago
-config: x86_64-randconfig-a012-20221205 (https://download.01.org/0day-ci/archive/20230408/202304080538.j5G6h1AB-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a09a6e2399ba0595c3042b3164f3ca68a3cff33e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a09a6e2399ba0595c3042b3164f3ca68a3cff33e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
+head:   33630781929731d93d24c944689add3da38c8e93
+commit: dd1846596f768619863bd6c3a50092efd93706f2 [7680/28754] MLK-23394-2: XUVI/PPM: driver initial version.
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080538.j5G6h1AB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080644.Lom6JP4u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   vmlinux.o: warning: objtool: cdce925_regmap_i2c_write+0xdb: stack state mismatch: cfa1=4+120 cfa2=5+40
->> vmlinux.o: warning: objtool: xen_hypercall_iret+0x0: RET before UNTRAIN
-
-
-objdump-func vmlinux.o xen_hypercall_iret:
-0000 00000000000002e0 <xen_hypercall_iret>:
-0000      2e0:	c3                   	ret
-0001      2e1:	cc                   	int3
-0002      2e2:	cc                   	int3
-0003      2e3:	cc                   	int3
-0004      2e4:	cc                   	int3
-0005      2e5:	cc                   	int3
-0006      2e6:	cc                   	int3
-0007      2e7:	cc                   	int3
-0008      2e8:	cc                   	int3
-0009      2e9:	cc                   	int3
-000a      2ea:	cc                   	int3
-000b      2eb:	cc                   	int3
-000c      2ec:	cc                   	int3
-000d      2ed:	cc                   	int3
-000e      2ee:	cc                   	int3
-000f      2ef:	cc                   	int3
-0010      2f0:	cc                   	int3
-0011      2f1:	cc                   	int3
-0012      2f2:	cc                   	int3
-0013      2f3:	cc                   	int3
-0014      2f4:	cc                   	int3
-0015      2f5:	cc                   	int3
-0016      2f6:	cc                   	int3
-0017      2f7:	cc                   	int3
-0018      2f8:	cc                   	int3
-0019      2f9:	cc                   	int3
-001a      2fa:	cc                   	int3
-001b      2fb:	cc                   	int3
-001c      2fc:	cc                   	int3
-001d      2fd:	cc                   	int3
-001e      2fe:	cc                   	int3
-001f      2ff:	cc                   	int3
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
+   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 17717: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4802: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 200: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 605: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 552: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1389: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 876: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 611: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 608: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 176: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2673: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1462: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 869: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7498: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 450: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1856: need linux/version.h
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_b0.c: 6934: need linux/version.h
+   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
+>> ./drivers/mxc/xuvi/ppm.c: 60 linux/version.h not needed.
+>> ./drivers/mxc/xuvi/xuvi_mu.h: 23 linux/version.h not needed.
+>> ./drivers/mxc/xuvi/xuvi_pm.h: 23 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+   ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
