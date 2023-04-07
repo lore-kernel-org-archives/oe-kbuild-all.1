@@ -1,203 +1,236 @@
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C435C2CD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 09:39:04 +0000 (UTC)
-Received: from loongson.cn (unknown [112.20.110.113])
-	by gateway (Coremail) with SMTP id _____8BxONmv5C9kxc8XAA--.36888S3;
-	Fri, 07 Apr 2023 17:38:55 +0800 (CST)
-Received: from chenhuacai$loongson.cn ( [112.20.110.113] ) by
- ajax-webmail-localhost.localdomain (Coremail) ; Fri, 7 Apr 2023 17:38:51
- +0800 (GMT+08:00)
-X-Originating-IP: [112.20.110.113]
-Date: Fri, 7 Apr 2023 17:38:51 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?6ZmI5Y2O5omN?= <chenhuacai@loongson.cn>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	"WANG Xuerui" <git@xen0n.name>, "Jianmin Lv" <lvjianmin@loongson.cn>
-Subject: Re: drivers/ata/pata_serverworks.c:443 serverworks_init_one() warn:
- inconsistent indenting
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220411(feba7c69)
- Copyright (c) 2002-2023 www.mailtech.cn .loongson.cn
-In-Reply-To: <202304062027.6Epjw4qc-lkp@intel.com>
-References: <202304062027.6Epjw4qc-lkp@intel.com>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: 2vVStGZvb3Rlcl90eHQ9NzUwNjo2MTI=
-Content-Type: text/plain; charset=UTF-8
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663CC2578
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 10:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680863269; x=1712399269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7edVbc99053vvbrnLS4HCEABW1YsZFGYJKqGCy78KsM=;
+  b=Ir61D+ZsB/aoUnY37iE637rIXCbQns9/0UznUpN38x5NBMM/TH5bYoQn
+   uYL31jRiR+QrocubTl8CWd8fv0ExoQ/a987aQeXBbxyocoS2P6CE+SUUD
+   LLTAZkqHmyKsCXzeF7oAXJ2NNtPS3eFJ56StjzzeEWH+hgJRF3wkQLOTu
+   5/ZqxGWVD8rBaXvHz5LQYRaMab5wu6QnO9Us8CahzciwQz7DNfJ3xVqDC
+   qx4v2zc59lrrE0reTM+QdDBHFh6bWGSlR05gh3k2UnDMxUrACT8HzT/4H
+   8uEtahhf4DBFiS1F+cRCuvgaGo4P/kY4GTLL3bNe6Iayy+wICoRrB1KVT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344734401"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
+   d="scan'208";a="344734401"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 03:27:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="756679889"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
+   d="scan'208";a="756679889"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 07 Apr 2023 03:27:40 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pkjJj-000SNG-12;
+	Fri, 07 Apr 2023 10:27:39 +0000
+Date: Fri, 7 Apr 2023 18:26:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Puyou Lu <puyou.lu@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Zhaoyang Huang <zhaoyang.huang@unisoc.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Liam Howlett <liam.howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Sander Vanheule <sander@svanheule.net>,
+	Eric Biggers <ebiggers@google.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 6/9] fortify: Split reporting and avoid passing string
+ pointer
+Message-ID: <202304071824.648116sH-lkp@intel.com>
+References: <20230406000212.3442647-6-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <563ade95.30c85.1875b153f85.Coremail.chenhuacai@loongson.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:AQAAf8Bxrr6s5C9kgzQYAA--.4163W
-X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/1tbiAQAOBmQutngZSQAAsd
-X-Coremail-Antispam: 1Uk129KBjvJXoW3JFWftw4DurWUurWrGFW8Xrb_yoWxZF1fpr
-	W5uaykJFykJr1rAasFyayxG3sFq3sxKa42vrs5Aw1jqry7uFsYkFn3trW5Kr17Jr12ya45
-	J3Z3tw1fKw1Ik3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-	bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-	1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-	wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
-	x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
-	kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFcxC0VAYjxAxZF0Ew4CEw7xC0w
-	ACY4xI67k04243AVC20s07MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-	AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-	cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-	80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE64xvF2IEb7IF0Fy7
-	YxBIdaVFxhVjvjDU0xZFpf9x07jbOz3UUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230406000212.3442647-6-keescook@chromium.org>
 
-CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAia2VybmVsIHRlc3Qgcm9i
-b3QiIDxsa3BAaW50ZWwuY29tPgo+IOWPkemAgeaXtumXtDoyMDIzLTA0LTA2IDIwOjQxOjU0ICjm
-mJ/mnJ/lm5spCj4g5pS25Lu25Lq6OiAiSHVhY2FpIENoZW4iIDxjaGVuaHVhY2FpQGxvb25nc29u
-LmNuPgo+IOaKhOmAgTogb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYsIGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmcsICJXQU5HIFh1ZXJ1aSIgPGdpdEB4ZW4wbi5uYW1lPiwgIkppYW5t
-aW4gTHYiIDxsdmppYW5taW5AbG9vbmdzb24uY24+Cj4g5Li76aKYOiBkcml2ZXJzL2F0YS9wYXRh
-X3NlcnZlcndvcmtzLmM6NDQzIHNlcnZlcndvcmtzX2luaXRfb25lKCkgd2FybjogaW5jb25zaXN0
-ZW50IGluZGVudGluZwo+IAo+IEhpIEh1YWNhaSwKPiAKPiBGaXJzdCBiYWQgY29tbWl0IChtYXli
-ZSAhPSByb290IGNhdXNlKToKRW1tLCB0aGlzIHNlZW1zIG5vdCB0aGUgcm9vdCBjYXVzZSwganVz
-dCBiZWNhdXNlIHRoYXQgY29tbWl0IGVuYWJsZSB0aGUgYnVpbGQgb2YgdGhlc2UgZmlsZXMuCgpI
-dWFjYWkKCj4gCj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgv
-a2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQgbWFzdGVyCj4gaGVhZDogICA5OWRkZjIyNTRm
-ZWJhZTllYWI3ZmIwYmNjMDJjNTMyMjI0M2Y1YzQ5Cj4gY29tbWl0OiA1N2ZjNzMyM2E4ZTdjMmU3
-YzFkNTc5NWFiNjNjYjNmZmVhM2NmZGZiIExvb25nQXJjaDogQWRkIFBDSSBjb250cm9sbGVyIHN1
-cHBvcnQKPiBkYXRlOiAgIDggbW9udGhzIGFnbwo+IGNvbmZpZzogbG9vbmdhcmNoLXJhbmRjb25m
-aWctbTA0MS0yMDIzMDQwNiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZl
-LzIwMjMwNDA2LzIwMjMwNDA2MjAyNy42RXBqdzRxYy1sa3BAaW50ZWwuY29tL2NvbmZpZykKPiBj
-b21waWxlcjogbG9vbmdhcmNoNjQtbGludXgtZ2NjIChHQ0MpIDEyLjEuMAo+IAo+IElmIHlvdSBm
-aXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQo+
-IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+IHwgTGlu
-azogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDIzMDQwNjIwMjcuNkVw
-anc0cWMtbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVycy9hdGEv
-cGF0YV9zZXJ2ZXJ3b3Jrcy5jOjQ0MyBzZXJ2ZXJ3b3Jrc19pbml0X29uZSgpIHdhcm46IGluY29u
-c2lzdGVudCBpbmRlbnRpbmcKPiBkcml2ZXJzL2F0YS9hdGFfcGlpeC5jOjEzODIgcGlpeF9pbml0
-X3NhdGFfbWFwKCkgZXJyb3I6IGJ1ZmZlciBvdmVyZmxvdyAnbWFwJyA0IDw9IDQKPiAKPiB2aW0g
-KzQ0MyBkcml2ZXJzL2F0YS9wYXRhX3NlcnZlcndvcmtzLmMKPiAKPiA2NjlhNWRiNDExZDg1YSBK
-ZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDM4NSAgCj4gNjY5YTVkYjQxMWQ4
-NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzODYgIHN0YXRpYyBpbnQg
-c2VydmVyd29ya3NfaW5pdF9vbmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVjdCBw
-Y2lfZGV2aWNlX2lkICppZCkKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAg
-ICAgIDIwMDYtMDgtMjkgIDM4NyAgewo+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAg
-ICAgICAgICAgMjAwNy0wNS0wNCAgMzg4ICAJc3RhdGljIGNvbnN0IHN0cnVjdCBhdGFfcG9ydF9p
-bmZvIGluZm9bNF0gPSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAg
-ICAyMDA2LTA4LTI5ICAzODkgIAkJeyAvKiBPU0I0ICovCj4gMWQyODA4ZmQzZDJkNWQgSmVmZiBH
-YXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA1LTI4ICAzOTAgIAkJCS5mbGFncyA9IEFUQV9GTEFH
-X1NMQVZFX1BPU1MsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdlIEJvbHPDuCAgICAgICAgICAg
-MjAwOS0wMy0xNCAgMzkxICAJCQkucGlvX21hc2sgPSBBVEFfUElPNCwKPiAxNGJkZWY5ODJjYWVk
-YSBFcmlrIEluZ2UgQm9sc8O4ICAgICAgICAgICAyMDA5LTAzLTE0ICAzOTIgIAkJCS5td2RtYV9t
-YXNrID0gQVRBX01XRE1BMiwKPiAxNGJkZWY5ODJjYWVkYSBFcmlrIEluZ2UgQm9sc8O4ICAgICAg
-ICAgICAyMDA5LTAzLTE0ICAzOTMgIAkJCS51ZG1hX21hc2sgPSBBVEFfVURNQTIsCj4gNjY5YTVk
-YjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzOTQgIAkJCS5w
-b3J0X29wcyA9ICZzZXJ2ZXJ3b3Jrc19vc2I0X3BvcnRfb3BzCj4gNjY5YTVkYjQxMWQ4NWEgSmVm
-ZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzOTUgIAkJfSwgeyAvKiBPU0I0IG5v
-IFVETUEgKi8KPiAxZDI4MDhmZDNkMmQ1ZCBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDct
-MDUtMjggIDM5NiAgCQkJLmZsYWdzID0gQVRBX0ZMQUdfU0xBVkVfUE9TUywKPiAxNGJkZWY5ODJj
-YWVkYSBFcmlrIEluZ2UgQm9sc8O4ICAgICAgICAgICAyMDA5LTAzLTE0ICAzOTcgIAkJCS5waW9f
-bWFzayA9IEFUQV9QSU80LAo+IDE0YmRlZjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAg
-ICAgIDIwMDktMDMtMTQgIDM5OCAgCQkJLm13ZG1hX21hc2sgPSBBVEFfTVdETUEyLAo+IDE0YmRl
-Zjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQgIDM5OSAgCQkJ
-LyogTm8gVURNQSAqLwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAg
-MjAwNi0wOC0yOSAgNDAwICAJCQkucG9ydF9vcHMgPSAmc2VydmVyd29ya3Nfb3NiNF9wb3J0X29w
-cwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAg
-NDAxICAJCX0sIHsgLyogQ1NCNSAqLwo+IDFkMjgwOGZkM2QyZDVkIEplZmYgR2FyemlrICAgICAg
-ICAgICAgICAgMjAwNy0wNS0yOCAgNDAyICAJCQkuZmxhZ3MgPSBBVEFfRkxBR19TTEFWRV9QT1NT
-LAo+IDE0YmRlZjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQg
-IDQwMyAgCQkJLnBpb19tYXNrID0gQVRBX1BJTzQsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdl
-IEJvbHPDuCAgICAgICAgICAgMjAwOS0wMy0xNCAgNDA0ICAJCQkubXdkbWFfbWFzayA9IEFUQV9N
-V0RNQTIsCj4gYmY2MjYzYTg1M2M5YzEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA3
-LTA5ICA0MDUgIAkJCS51ZG1hX21hc2sgPSBBVEFfVURNQTQsCj4gNjY5YTVkYjQxMWQ4NWEgSmVm
-ZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MDYgIAkJCS5wb3J0X29wcyA9ICZz
-ZXJ2ZXJ3b3Jrc19jc2JfcG9ydF9vcHMKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAg
-ICAgICAgICAgIDIwMDYtMDgtMjkgIDQwNyAgCQl9LCB7IC8qIENTQjUgLSBsYXRlciByZXZpc2lv
-bnMqLwo+IDFkMjgwOGZkM2QyZDVkIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNy0wNS0y
-OCAgNDA4ICAJCQkuZmxhZ3MgPSBBVEFfRkxBR19TTEFWRV9QT1NTLAo+IDE0YmRlZjk4MmNhZWRh
-IEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQgIDQwOSAgCQkJLnBpb19tYXNr
-ID0gQVRBX1BJTzQsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdlIEJvbHPDuCAgICAgICAgICAg
-MjAwOS0wMy0xNCAgNDEwICAJCQkubXdkbWFfbWFzayA9IEFUQV9NV0RNQTIsCj4gYmY2MjYzYTg1
-M2M5YzEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA3LTA5ICA0MTEgIAkJCS51ZG1h
-X21hc2sgPSBBVEFfVURNQTUsCj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAg
-ICAgICAyMDA2LTA4LTI5ICA0MTIgIAkJCS5wb3J0X29wcyA9ICZzZXJ2ZXJ3b3Jrc19jc2JfcG9y
-dF9vcHMKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgt
-MjkgIDQxMyAgCQl9Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAy
-MDA2LTA4LTI5ICA0MTQgIAl9Owo+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAg
-ICAgICAgMjAwNy0wNS0wNCAgNDE1ICAJY29uc3Qgc3RydWN0IGF0YV9wb3J0X2luZm8gKnBwaVtd
-ID0geyAmaW5mb1tpZC0+ZHJpdmVyX2RhdGFdLCBOVUxMIH07Cj4gMzcwMTdhYzY4NDllNzcgU2Nv
-dHQgQ2FydGVyICAgICAgICAgICAgICAyMDE0LTA5LTI0ICA0MTYgIAlzdHJ1Y3Qgc2NzaV9ob3N0
-X3RlbXBsYXRlICpzaHQgPSAmc2VydmVyd29ya3NfY3NiX3NodDsKPiBmMDgwNDhlOTQ1NjRkMCBU
-ZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQxNyAgCWludCByYzsKPiBmMDgw
-NDhlOTQ1NjRkMCBUZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQxOCAgCj4g
-ZjA4MDQ4ZTk0NTY0ZDAgVGVqdW4gSGVvICAgICAgICAgICAgICAgICAyMDA4LTAzLTI1ICA0MTkg
-IAlyYyA9IHBjaW1fZW5hYmxlX2RldmljZShwZGV2KTsKPiBmMDgwNDhlOTQ1NjRkMCBUZWp1biBI
-ZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQyMCAgCWlmIChyYykKPiBmMDgwNDhlOTQ1
-NjRkMCBUZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQyMSAgCQlyZXR1cm4g
-cmM7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5
-ICA0MjIgIAo+IGQ5MTJiZTJmM2IzMzUzIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogMjAxMS0x
-MC0xMSAgNDIzICAJcmMgPSBzZXJ2ZXJ3b3Jrc19maXh1cChwZGV2KTsKPiA2NjlhNWRiNDExZDg1
-YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQyNCAgCj4gNjY5YTVkYjQx
-MWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MjUgIAkvKiBPU0I0
-IDogU291dGggQnJpZGdlIGFuZCBJREUgKi8KPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAg
-ICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQyNiAgCWlmIChwZGV2LT5kZXZpY2UgPT0gUENJX0RF
-VklDRV9JRF9TRVJWRVJXT1JLU19PU0I0SURFKSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6
-aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MjcgIAkJLyogU2VsZWN0IG5vbiBVRE1BIGNh
-cGFibGUgT1NCNCBpZiB3ZSBjYW4ndCBkbyBmaXh1cHMgKi8KPiBkOTEyYmUyZjNiMzM1MyBCYXJ0
-bG9taWVqIFpvbG5pZXJraWV3aWN6IDIwMTEtMTAtMTEgIDQyOCAgCQlpZiAocmMgPCAwKQo+IDE2
-MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAgICAgICAgMjAwNy0wNS0wNCAgNDI5ICAJ
-CQlwcGlbMF0gPSAmaW5mb1sxXTsKPiAzNzAxN2FjNjg0OWU3NyBTY290dCBDYXJ0ZXIgICAgICAg
-ICAgICAgIDIwMTQtMDktMjQgIDQzMCAgCQlzaHQgPSAmc2VydmVyd29ya3Nfb3NiNF9zaHQ7Cj4g
-NjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzEg
-IAl9Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5
-ICA0MzIgIAkvKiBzZXR1cCBDU0I1L0NTQjYgOiBTb3V0aCBCcmlkZ2UgYW5kIElERSBvcHRpb24g
-UkFJRCAqLwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0w
-OC0yOSAgNDMzICAJZWxzZSBpZiAoKHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX1NFUlZF
-UldPUktTX0NTQjVJREUpIHx8Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAg
-ICAgICAyMDA2LTA4LTI5ICA0MzQgIAkJIChwZGV2LT5kZXZpY2UgPT0gUENJX0RFVklDRV9JRF9T
-RVJWRVJXT1JLU19DU0I2SURFKSB8fAo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAg
-ICAgICAgICAgMjAwNi0wOC0yOSAgNDM1ICAJCSAocGRldi0+ZGV2aWNlID09IFBDSV9ERVZJQ0Vf
-SURfU0VSVkVSV09SS1NfQ1NCNklERTIpKSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsg
-ICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzYgIAo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2Fy
-emlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAgNDM3ICAJCSAvKiBJZiB0aGUgcmV0dXJuZWQg
-YnRyIGlzIHRoZSBuZXdlciByZXZpc2lvbiB0aGVuCj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6
-aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzggIAkJICAgIHNlbGVjdCB0aGUgcmlnaHQg
-aW5mbyBibG9jayAqLwo+IGQ5MTJiZTJmM2IzMzUzIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3og
-MjAxMS0xMC0xMSAgNDM5ICAJCSBpZiAocmMgPT0gMykKPiAxNjI2YWViODgxMjM2YyBUZWp1biBI
-ZW8gICAgICAgICAgICAgICAgIDIwMDctMDUtMDQgIDQ0MCAgCQkgCXBwaVswXSA9ICZpbmZvWzNd
-Owo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAg
-NDQxICAKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgt
-MjkgIDQ0MiAgCQkvKiBJcyB0aGlzIHRoZSAzcmQgY2hhbm5lbCBDU0I2IElERSA/ICovCj4gNjY5
-YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5IEA0NDMgIAkJ
-aWYgKHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX1NFUlZFUldPUktTX0NTQjZJREUyKQo+
-IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAgICAgICAgMjAwNy0wNS0wNCAgNDQ0
-ICAJCQlwcGlbMV0gPSAmYXRhX2R1bW15X3BvcnRfaW5mbzsKPiA2NjlhNWRiNDExZDg1YSBKZWZm
-IEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0NSAgCX0KPiA2NjlhNWRiNDExZDg1
-YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0NiAgCj4gMzcwMTdhYzY4
-NDllNzcgU2NvdHQgQ2FydGVyICAgICAgICAgICAgICAyMDE0LTA5LTI0ICA0NDcgIAlyZXR1cm4g
-YXRhX3BjaV9ibWRtYV9pbml0X29uZShwZGV2LCBwcGksIHNodCwgTlVMTCwgMCk7Cj4gNjY5YTVk
-YjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0NDggIH0KPiA2
-NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0OSAg
-Cj4gCj4gOjo6Ojo6IFRoZSBjb2RlIGF0IGxpbmUgNDQzIHdhcyBmaXJzdCBpbnRyb2R1Y2VkIGJ5
-IGNvbW1pdAo+IDo6Ojo6OiA2NjlhNWRiNDExZDg1YTE0Zjg2Y2Q5MmJjMTZiZjdhYjViOGFhMjM1
-IFtsaWJhdGFdIEFkZCBhIGJ1bmNoIG9mIFBBVEEgZHJpdmVycy4KPiAKPiA6Ojo6OjogVE86IEpl
-ZmYgR2FyemlrIDxqZWZmQGdhcnppay5vcmc+Cj4gOjo6Ojo6IENDOiBKZWZmIEdhcnppayA8amVm
-ZkBnYXJ6aWsub3JnPgo+IAo+IC0tIAo+IDAtREFZIENJIEtlcm5lbCBUZXN0IFNlcnZpY2UKPiBo
-dHRwczovL2dpdGh1Yi5jb20vaW50ZWwvbGtwLXRlc3RzCg0KDQrmnKzpgq7ku7blj4rlhbbpmYTk
-u7blkKvmnInpvpnoiq/kuK3np5HnmoTllYbkuJrnp5jlr4bkv6Hmga/vvIzku4XpmZDkuo7lj5Hp
-gIHnu5nkuIrpnaLlnLDlnYDkuK3liJflh7rnmoTkuKrkurrmiJbnvqTnu4TjgILnpoHmraLku7vk
-vZXlhbbku5bkurrku6Xku7vkvZXlvaLlvI/kvb/nlKjvvIjljIXmi6zkvYbkuI3pmZDkuo7lhajp
-g6jmiJbpg6jliIblnLDms4TpnLLjgIHlpI3liLbmiJbmlaPlj5HvvInmnKzpgq7ku7blj4rlhbbp
-mYTku7bkuK3nmoTkv6Hmga/jgILlpoLmnpzmgqjplJnmlLbmnKzpgq7ku7bvvIzor7fmgqjnq4vl
-jbPnlLXor53miJbpgq7ku7bpgJrnn6Xlj5Hku7bkurrlubbliKDpmaTmnKzpgq7ku7bjgIIgDQpU
-aGlzIGVtYWlsIGFuZCBpdHMgYXR0YWNobWVudHMgY29udGFpbiBjb25maWRlbnRpYWwgaW5mb3Jt
-YXRpb24gZnJvbSBMb29uZ3NvbiBUZWNobm9sb2d5ICwgd2hpY2ggaXMgaW50ZW5kZWQgb25seSBm
-b3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQgYWJvdmUuIEFu
-eSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55IHdheSAoaW5j
-bHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlzY2xvc3VyZSwg
-cmVwcm9kdWN0aW9uIG9yIGRpc3NlbWluYXRpb24pIGJ5IHBlcnNvbnMgb3RoZXIgdGhhbiB0aGUg
-aW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHByb2hpYml0ZWQuIElmIHlvdSByZWNlaXZlIHRoaXMg
-ZW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBieSBwaG9uZSBvciBlbWFp
-bCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0LiA=
+Hi Kees,
 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kees/for-next/hardening]
+[also build test WARNING on kees/for-next/pstore kees/for-next/kspp akpm-mm/mm-everything linus/master v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230406-081014
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
+patch link:    https://lore.kernel.org/r/20230406000212.3442647-6-keescook%40chromium.org
+patch subject: [PATCH 6/9] fortify: Split reporting and avoid passing string pointer
+config: arm64-randconfig-s053-20230406 (https://download.01.org/0day-ci/archive/20230407/202304071824.648116sH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/4fd520e6ee549e1ffe8859e26e57ea64b48e78ea
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230406-081014
+        git checkout 4fd520e6ee549e1ffe8859e26e57ea64b48e78ea
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071824.648116sH-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   lib/string_helpers.c:1030:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strncpy'
+   lib/string_helpers.c:1033:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strnlen'
+   lib/string_helpers.c:1036:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strlen'
+   lib/string_helpers.c:1039:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strlcpy'
+   lib/string_helpers.c:1042:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strscpy'
+   lib/string_helpers.c:1045:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strlcat'
+   lib/string_helpers.c:1048:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strcat'
+   lib/string_helpers.c:1051:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strncat'
+   lib/string_helpers.c:1054:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memset'
+   lib/string_helpers.c:1057:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memcpy'
+   lib/string_helpers.c:1060:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memmove'
+   lib/string_helpers.c:1063:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memscan'
+   lib/string_helpers.c:1066:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memcmp'
+   lib/string_helpers.c:1069:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memchr'
+   lib/string_helpers.c:1072:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_memchr_inv'
+   lib/string_helpers.c:1075:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_kmemdup'
+   lib/string_helpers.c:1078:14: sparse: sparse: undefined identifier 'FORTIFY_FUNC_strcpy'
+>> lib/string_helpers.c:1030:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1033:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1036:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1039:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1042:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1045:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1048:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1051:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1054:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1057:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1060:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1063:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1066:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1069:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1072:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1075:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1078:14: sparse: sparse: incompatible types for 'case' statement
+   lib/string_helpers.c:1030:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1033:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1036:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1039:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1042:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1045:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1048:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1051:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1054:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1057:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1060:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1063:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1066:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1069:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1072:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1075:14: sparse: sparse: Expected constant expression in case statement
+   lib/string_helpers.c:1078:14: sparse: sparse: Expected constant expression in case statement
+
+vim +/case +1030 lib/string_helpers.c
+
+  1023	
+  1024	void __fortify_report(u8 reason)
+  1025	{
+  1026		const char *name;
+  1027		const bool write = !!(reason & 0x1);
+  1028	
+  1029		switch (reason >> 1) {
+> 1030		case FORTIFY_FUNC_strncpy:
+  1031			name = "strncpy";
+  1032			break;
+  1033		case FORTIFY_FUNC_strnlen:
+  1034			name = "strnlen";
+  1035			break;
+  1036		case FORTIFY_FUNC_strlen:
+  1037			name = "strlen";
+  1038			break;
+  1039		case FORTIFY_FUNC_strlcpy:
+  1040			name = "strlcpy";
+  1041			break;
+  1042		case FORTIFY_FUNC_strscpy:
+  1043			name = "strscpy";
+  1044			break;
+  1045		case FORTIFY_FUNC_strlcat:
+  1046			name = "strlcat";
+  1047			break;
+  1048		case FORTIFY_FUNC_strcat:
+  1049			name = "strcat";
+  1050			break;
+  1051		case FORTIFY_FUNC_strncat:
+  1052			name = "strncat";
+  1053			break;
+> 1054		case FORTIFY_FUNC_memset:
+  1055			name = "memset";
+  1056			break;
+  1057		case FORTIFY_FUNC_memcpy:
+  1058			name = "memcpy";
+  1059			break;
+  1060		case FORTIFY_FUNC_memmove:
+  1061			name = "memmove";
+  1062			break;
+  1063		case FORTIFY_FUNC_memscan:
+  1064			name = "memscan";
+  1065			break;
+  1066		case FORTIFY_FUNC_memcmp:
+  1067			name = "memcmp";
+  1068			break;
+  1069		case FORTIFY_FUNC_memchr:
+  1070			name = "memchr";
+  1071			break;
+  1072		case FORTIFY_FUNC_memchr_inv:
+  1073			name = "memchr_inv";
+  1074			break;
+  1075		case FORTIFY_FUNC_kmemdup:
+  1076			name = "kmemdup";
+  1077			break;
+  1078		case FORTIFY_FUNC_strcpy:
+  1079			name = "strcpy";
+  1080			break;
+  1081		default:
+  1082			name = "unknown";
+  1083		}
+  1084		WARN(1, "%s: detected buffer %s overflow\n", name, write ? "write" : "read");
+  1085	}
+  1086	EXPORT_SYMBOL(__fortify_report);
+  1087	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
