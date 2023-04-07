@@ -1,120 +1,75 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF6DAD22
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 19:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B080EAD22
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 19:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680896235; x=1712432235;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=vVqk4wrE+WzCpq0bGRG7VYPj6MHANHb13tM6sCBNdp0=;
-  b=Bs0E6/XAiEGwzeQZoIefHRB4x3Bi2R3u9oKpEOgHqgI/LUjYE0R1XQZH
-   c9X9Ix5VbpHokvhHlPOwcQYkwLeYDnugMk5UpVdrOS/hSGT+1opWi+Scf
-   QfHU/qpdMv4Khs6RpC+Jc3k05VSCbd+LJ70I+dFNZ4y8i8AMQxJ9IHgK+
-   Nrin1o4gpD7wJ7E2xLd5YDmP0M/ThV/UTmApPIVG3LC67ViVv6LBALn3R
-   gxZEWRhPTSOSiperV8mpIM5AXkFWpIWvAc7rV/RABYvvDL095X1xFc1ps
-   G3TVPaolgcpc5Cdeg3aEfPTHxYGRdFa+AYsdNkQqy/aRRXqGhzsQNsgWM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="343062039"
+  t=1680896764; x=1712432764;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WROnxILt1nc33yvsReY7LVwpzf2HXR0+0Yv+93x2kA0=;
+  b=DfWKXg21ZimfhIceqN9HcU6DUnsFrQUtTeO4xRfOFXoEF2tdbN0lSZ3i
+   ioyjVEJjYJ6c8lCVL4gS14DNkNdaMrzVezsnVH34oa+1SV0o5aVNlCuta
+   jDbYzz/qxJj7Ns4eu5a6ltNLjm+bs7Di1roxgISQJ6alEIWCG/S8cDKB9
+   k7+4LmJxKF/ZuUu3cz/gXoaMGQ85jRi+Gl/ukXssK8bOZlXgZLuAWNcm9
+   0wQl/9p7UI6vBvYLYsx1j1xd9OmRVIjBxKrl4xZ1B2gxBxZbVNsLZ/OME
+   EfYoumgVdlLrjChWmChyLNysn6tYMUN7uKUkHm9ZzmXUrjfOChuL9u1I4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="345709706"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="343062039"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:37:05 -0700
+   d="scan'208";a="345709706"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:46:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="687610815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="637805784"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="687610815"
-Received: from tcolquit-mobl.amr.corp.intel.com (HELO bjcleere-mobl2.amr.corp.intel.com) ([10.212.83.122])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:37:04 -0700
-Message-ID: <ea6af9d99b6c2ff70ca127e4bb6784e6c3032838.camel@linux.intel.com>
-Subject: Re: [herbert-cryptodev-2.6:master 99/105]
- include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(struct crypt_ctl) != 64
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org, Herbert Xu
-	 <herbert@gondor.apana.org.au>
-Date: Fri, 07 Apr 2023 14:37:03 -0500
-In-Reply-To: <202304061846.G6cpPXiQ-lkp@intel.com>
-References: <202304061846.G6cpPXiQ-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.1-0ubuntu1 
+   d="scan'208";a="637805784"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Apr 2023 12:46:03 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pks26-000SpO-1o;
+	Fri, 07 Apr 2023 19:46:02 +0000
+Date: Sat, 8 Apr 2023 03:45:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dcui-tdx:decui/michaelv7dda/tdx/v4 9/11] ivm.c:undefined reference
+ to `__tdx_hypercall_ret'
+Message-ID: <202304080321.yb9ABBv8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gVGh1LCAyMDIzLTA0LTA2IGF0IDE4OjI4ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToKPiB0cmVlOsKgwqAKPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
-bmVsL2dpdC9oZXJiZXJ0L2NyeXB0b2Rldi0yLjYuZ2l0Cj4gwqBtYXN0ZXIKPiBoZWFkOsKgwqAg
-YTIyMTZlMTg3NDcxNWE4YjRhNmY0ZGEyZGRiZTkyNzdlNTYxM2M0OQo+IGNvbW1pdDogMWJjN2Zk
-YmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4NiBbOTkvMTA1XSBjcnlwdG86Cj4gaXhw
-NHh4IC0gTW92ZSBkcml2ZXIgdG8gZHJpdmVycy9jcnlwdG8vaW50ZWwvaXhwNHh4Cj4gY29uZmln
-OiByaXNjdi1hbGxtb2Rjb25maWcKPiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
-cmNoaXZlLzIwMjMwNDA2LzIwMjMwNDA2MTg0Ni5HNmNwUFgKPiBpUS1sa3BAaW50ZWwuY29tL2Nv
-bmZpZykKPiBjb21waWxlcjogcmlzY3Y2NC1saW51eC1nY2MgKEdDQykgMTIuMS4wCj4gcmVwcm9k
-dWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKToKPiDCoMKgwqDCoMKgwqDCoCB3Z2V0Cj4gaHR0cHM6
-Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ludGVsL2xrcC10ZXN0cy9tYXN0ZXIvc2Jpbi9t
-YWtlLmNyb3NzCj4gwqAtTyB+L2Jpbi9tYWtlLmNyb3NzCj4gwqDCoMKgwqDCoMKgwqAgY2htb2Qg
-K3ggfi9iaW4vbWFrZS5jcm9zcwo+IMKgwqDCoMKgwqDCoMKgICMKPiBodHRwczovL2dpdC5rZXJu
-ZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9oZXJiZXJ0L2NyeXB0b2Rldi0yLjYuZ2l0
-L2NvbW1pdC8/aWQ9MWJjN2ZkYmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4Ngo+IMKg
-wqDCoMKgwqDCoMKgIGdpdCByZW1vdGUgYWRkIGhlcmJlcnQtY3J5cHRvZGV2LTIuNgo+IGh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2hlcmJlcnQvY3J5cHRv
-ZGV2LTIuNi5naXQKPiDCoMKgwqDCoMKgwqDCoCBnaXQgZmV0Y2ggLS1uby10YWdzIGhlcmJlcnQt
-Y3J5cHRvZGV2LTIuNiBtYXN0ZXIKPiDCoMKgwqDCoMKgwqDCoCBnaXQgY2hlY2tvdXQgMWJjN2Zk
-YmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4Ngo+IMKgwqDCoMKgwqDCoMKgICMgc2F2
-ZSB0aGUgY29uZmlnIGZpbGUKPiDCoMKgwqDCoMKgwqDCoCBta2RpciBidWlsZF9kaXIgJiYgY3Ag
-Y29uZmlnIGJ1aWxkX2Rpci8uY29uZmlnCj4gwqDCoMKgwqDCoMKgwqAgQ09NUElMRVJfSU5TVEFM
-TF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEuMAo+IG1ha2UuY3Jvc3MgVz0xIE89
-YnVpbGRfZGlyIEFSQ0g9cmlzY3Ygb2xkZGVmY29uZmlnCj4gwqDCoMKgwqDCoMKgwqAgQ09NUElM
-RVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEuMAo+IG1ha2UuY3Jv
-c3MgVz0xIE89YnVpbGRfZGlyIEFSQ0g9cmlzY3YgU0hFTEw9L2Jpbi9iYXNoCj4gZHJpdmVycy9j
-cnlwdG8vaW50ZWwvaXhwNHh4Lwo+IAo+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRk
-IGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQo+ID4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0
-ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+ID4gTGluazoKPiA+IGh0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL29lLWtidWlsZC1hbGwvMjAyMzA0MDYxODQ2Lkc2Y3BQWGlRLWxrcEBpbnRlbC5jb20v
-Cj4gCj4gQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgo+IAo+IMKgwqAgSW4g
-ZmlsZSBpbmNsdWRlZCBmcm9tIDxjb21tYW5kLWxpbmU+Ogo+IMKgwqAgSW4gZnVuY3Rpb24gJ3Nl
-dHVwX2NyeXB0X2Rlc2MnLAo+IMKgwqDCoMKgwqDCoCBpbmxpbmVkIGZyb20gJ2dldF9jcnlwdF9k
-ZXNjJyBhdAo+IGRyaXZlcnMvY3J5cHRvL2ludGVsL2l4cDR4eC9peHA0eHhfY3J5cHRvLmM6Mjg1
-OjM6Cj4gPiA+IGluY2x1ZGUvbGludXgvY29tcGlsZXJfdHlwZXMuaDozOTc6NDU6IGVycm9yOiBj
-YWxsIHRvCj4gPiA+ICdfX2NvbXBpbGV0aW1lX2Fzc2VydF8zODUnIGRlY2xhcmVkIHdpdGggYXR0
-cmlidXRlIGVycm9yOgo+ID4gPiBCVUlMRF9CVUdfT04gZmFpbGVkOiBzaXplb2Yoc3RydWN0IGNy
-eXB0X2N0bCkgIT0gNjQKPiDCoMKgwqDCoCAzOTcgfMKgwqDCoMKgwqDCoMKgwqAgX2NvbXBpbGV0
-aW1lX2Fzc2VydChjb25kaXRpb24sIG1zZywKPiBfX2NvbXBpbGV0aW1lX2Fzc2VydF8sIF9fQ09V
-TlRFUl9fKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgXgo+IMKgwqAgaW5jbHVkZS9saW51eC9jb21waWxlcl90eXBlcy5oOjM3ODoyNTogbm90ZTog
-aW4gZGVmaW5pdGlvbiBvZgo+IG1hY3JvICdfX2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKgwqDC
-oCAzNzggfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBw
-cmVmaXggIyMKPiBzdWZmaXgoKTvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4gwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF5+fn5+fgo+IMKgwqAgaW5jbHVkZS9s
-aW51eC9jb21waWxlcl90eXBlcy5oOjM5Nzo5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8K
-PiAnX2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKgwqDCoCAzOTcgfMKgwqDCoMKgwqDCoMKgwqAg
-X2NvbXBpbGV0aW1lX2Fzc2VydChjb25kaXRpb24sIG1zZywKPiBfX2NvbXBpbGV0aW1lX2Fzc2Vy
-dF8sIF9fQ09VTlRFUl9fKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqAgXn5+
-fn5+fn5+fn5+fn5+fn5+fgo+IMKgwqAgaW5jbHVkZS9saW51eC9idWlsZF9idWcuaDozOTozNzog
-bm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvCj4gJ2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKg
-wqDCoMKgIDM5IHwgI2RlZmluZSBCVUlMRF9CVUdfT05fTVNHKGNvbmQsIG1zZykKPiBjb21waWxl
-dGltZV9hc3NlcnQoIShjb25kKSwgbXNnKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBefn5+fn5+fn5+fn5+fn5+fn4KPiDCoMKgIGluY2x1ZGUvbGludXgvYnVpbGRfYnVnLmg6
-NTA6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvCj4gJ0JVSUxEX0JVR19PTl9NU0cnCj4g
-wqDCoMKgwqDCoCA1MCB8wqDCoMKgwqDCoMKgwqDCoCBCVUlMRF9CVUdfT05fTVNHKGNvbmRpdGlv
-biwgIkJVSUxEX0JVR19PTiBmYWlsZWQ6Cj4gIiAjY29uZGl0aW9uKQo+IMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqDCoMKgwqDCoMKgwqAgXn5+fn5+fn5+fn5+fn5+fgo+IMKgwqAgZHJpdmVycy9jcnlw
-dG8vaW50ZWwvaXhwNHh4L2l4cDR4eF9jcnlwdG8uYzoyNjY6OTogbm90ZTogaW4KPiBleHBhbnNp
-b24gb2YgbWFjcm8gJ0JVSUxEX0JVR19PTicKPiDCoMKgwqDCoCAyNjYgfMKgwqDCoMKgwqDCoMKg
-wqAgQlVJTERfQlVHX09OKHNpemVvZihzdHJ1Y3QgY3J5cHRfY3RsKSAhPSA2NCk7Cj4gwqDCoMKg
-wqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoCBefn5+fn5+fn5+fn4KPiAKPiAKClRoaXMgaGFw
-cGVuZWQgYmVjYXVzZSBJIGFkZGVkIENPTVBJTEVfVEVTVCBhcyBhIGRlcGVuZGVuY3kgYW5kCm9i
-dmlvdXNseSBzaG91bGRuJ3QgaGF2ZS4KCldpbGwgc2VuZCBhIHBhdGNoIHRvIHJlbW92ZSBpdC4K
-ClRvbSAKCgoK
+tree:   https://github.com/dcui/tdx decui/michaelv7dda/tdx/v4
+head:   1d92fca91fe3723a3a86bb54b4d427c9fcb803e9
+commit: 54aa56c2db98cb287a268cd954d4c8cc8919cec9 [9/11] x86/hyperv: Support hypercalls for TDX guests
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080321.yb9ABBv8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/dcui/tdx/commit/54aa56c2db98cb287a268cd954d4c8cc8919cec9
+        git remote add dcui-tdx https://github.com/dcui/tdx
+        git fetch --no-tags dcui-tdx decui/michaelv7dda/tdx/v4
+        git checkout 54aa56c2db98cb287a268cd954d4c8cc8919cec9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080321.yb9ABBv8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: arch/x86/hyperv/ivm.o: in function `hv_tdx_hypercall':
+>> ivm.c:(.text+0x76): undefined reference to `__tdx_hypercall_ret'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
