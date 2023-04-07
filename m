@@ -1,42 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1B5538B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 14:14:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8162F4E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 14:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680876890; x=1712412890;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=fQUUjArGrTeRO61RilSrwNGYJLqpH0+7VYi7Yyn5YUQ=;
-  b=OzoJWK2JXODoxQf0GtMdDTCWywPmnTTgflCtrViT1H1Slw73gL/oWEei
-   RT5YQSNBuAdJsSnlgv67kSNErrK5DK3WgKYNxcanXI7Xll31HLLHxGUA7
-   bfYwu5D/ZfW05Xu5q5G18VtilFXyBLOArosBLAKX1V4JSUmDbFhIHiAGy
-   hJkLuF3MEPrMvTHuoMnCYg4+tUHg/q+4fh+mmb91214+6MsgrlxGcVro/
-   njAlwmVzQdl8Pr1dxo9UYw1ODpcE2QIcbmk42M5MN6oymdFaJKi5gOklL
-   E9SoYvg2m3kj13YhH1QV6+GRfUVwNtWkH5EP3LhqLLj/u9CGEW6if4CWg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="322633131"
+  t=1680879300; x=1712415300;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CpPUlkbQWp5TAKd82vsiEH5UFsjB6g8IjXOHRPZglpM=;
+  b=OAehJE64FjOsRMcKoaW9uEJaTCUd1sKf/dPxxh9+SojGhU15kVTHeip7
+   sjl2DYhr2XDr98IZJqlUa6bbAABdxitj7vpkcIEyJqdB/410YX4hNDMpc
+   niZY2wYShV91bMiKeUXqlNVg2UzOiQn0uKNRRYGMWQOBPAuGupXQSgkVt
+   hRidcmdfdN7zLVdfEOLf5roB0rlLZSon8Mh4SO79d0SJWMXPOOZJonvDQ
+   uGxFNZ8ttMlQ+HfdZuUu8xbz4lIaxGrkM9X44eNclOHc9V4hZfEQey+dM
+   xyCiYA/MKQHm07vLHxyCTVw/GwSgvayayNM6hXGz2+S6MxnKK/ErHHGYY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="370835973"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="322633131"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 07:14:50 -0700
+   d="scan'208";a="370835973"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 07:54:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="861790043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="811412804"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="861790043"
+   d="scan'208";a="811412804"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Apr 2023 07:14:48 -0700
+  by orsmga004.jf.intel.com with ESMTP; 07 Apr 2023 07:54:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkmrX-000Sa1-2R;
-	Fri, 07 Apr 2023 14:14:47 +0000
-Date: Fri, 7 Apr 2023 22:13:54 +0800
+	id 1pknUH-000Sbn-11;
+	Fri, 07 Apr 2023 14:54:49 +0000
+Date: Fri, 7 Apr 2023 22:54:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-linux-5.10.y-cicd 15656/22025]
- drivers/media/v4l2-core/v4l2-subdev.c:917:17: error: implicit declaration of
- function '__v4l2_subdev_state_alloc'
-Message-ID: <202304072232.p6L2AkQm-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.4-2.3.x-imx 398/28754] versioncheck:
+ ./drivers/mxc/vpu_malone/vpu_b0.c: 6663: need linux/version.h
+Message-ID: <202304072209.aTV2upkv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,66 +46,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tomi,
-
-FYI, the error/warning still remains.
-
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y-cicd
-head:   991c5ce91e43cb620f534dc9fe7b0ad21f4f4388
-commit: 6aadd6b6f27234516b19f8d6d4d102184d70d394 [15656/22025] media: subdev: add active state to struct v4l2_subdev
-config: nios2-randconfig-r035-20230403 (https://download.01.org/0day-ci/archive/20230407/202304072232.p6L2AkQm-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-linux-5.10.y-cicd
-        git checkout 6aadd6b6f27234516b19f8d6d4d102184d70d394
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/media/v4l2-core/
+tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
+head:   33630781929731d93d24c944689add3da38c8e93
+commit: 68a85f98231b66058e9be7f3ebe89bab5d9fe232 [398/28754] vpu: malone decoder: enable mailbox and unify code
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304072232.p6L2AkQm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304072209.aTV2upkv-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_init_finalize':
->> drivers/media/v4l2-core/v4l2-subdev.c:917:17: error: implicit declaration of function '__v4l2_subdev_state_alloc' [-Werror=implicit-function-declaration]
-     917 |         state = __v4l2_subdev_state_alloc(sd);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/v4l2-core/v4l2-subdev.c:917:15: warning: assignment to 'struct v4l2_subdev_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     917 |         state = __v4l2_subdev_state_alloc(sd);
-         |               ^
-   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_cleanup':
->> drivers/media/v4l2-core/v4l2-subdev.c:929:9: error: implicit declaration of function '__v4l2_subdev_state_free' [-Werror=implicit-function-declaration]
-     929 |         __v4l2_subdev_state_free(sd->state);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/__v4l2_subdev_state_alloc +917 drivers/media/v4l2-core/v4l2-subdev.c
-
-   912	
-   913	int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
-   914	{
-   915		struct v4l2_subdev_state *state;
-   916	
- > 917		state = __v4l2_subdev_state_alloc(sd);
-   918		if (IS_ERR(state))
-   919			return PTR_ERR(state);
-   920	
-   921		sd->state = state;
-   922	
-   923		return 0;
-   924	}
-   925	EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
-   926	
-   927	void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
-   928	{
- > 929		__v4l2_subdev_state_free(sd->state);
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+>> ./drivers/mxc/vpu_malone/vpu_b0.c: 6663: need linux/version.h
+>> ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
+>> ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
+>> ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
