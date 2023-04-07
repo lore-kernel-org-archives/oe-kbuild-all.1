@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99818831
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 18:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F79EBB;
+	Fri,  7 Apr 2023 18:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680892382; x=1712428382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x6Rsy8KIsIxzZklVaFd61JBwvQtgs6ViK3ZVBEc8ttI=;
-  b=PH5mW9neSjs+bw+eKeXgQmdcnPc/v2ADxpKVBtmBMfslMm/Cd3hShxey
-   88lQrhuBazXvpEpVpVuk6wKipymPeZuSfAfbhAoH8HGETYM8RzJYMB0Qn
-   dSdvX2WkiAOiw90gAaKbzlchcnky+dysk0A9+xFI3tG0BX1bwYfNW9Ldu
-   6e3rFiSFi7ohnhmiEGaQ+nwFwK8I84fxRd0/LvsdH+AyWdFkWEcKNCy8/
-   s7lGUwmcF2KDxD4hmZI1Nkza0WddOk2oIG6w4qKNFOyA8IIvzlsI+YfIo
-   CEwXDoVukGLyaRSA9Zjn+kxmMUkpwByrOiuAzExu4zSUTmJj8ptAYZCRU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405866276"
+  t=1680893712; x=1712429712;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YRDW/3c39Y4Apz2YwfbrTAOT8+ASxIluO8tBINPJSg4=;
+  b=UKYihnZcsLJL7YjMz43SirvlppxjYdTZ127waqBvjtBBYfee/O5lmitP
+   jjzBvzLACePIQXn3LQHq69ikUPewrItEY0vFJrBjnYviF+ORDGJBqKBIm
+   Tx8QaF63SsqTzeLuNvy1h3Q//Q+Av1uT0dnnt2zMVN6LBRCi6za8cFtYc
+   s+/ZQTa91Hpp0cJ6sLzpC5ah4JX0okHm9hQyxxAKb+jaDSaIPcLj0whOl
+   a92B5Xx6I7HUSkwmBJ3m+N/hZ9O9x3CQ5AarB277bq/F1Yg4fONfUpDpB
+   pA2/ixvL4hd8ECeTZOFbPjNnE0FpYprgkTJs4Mh5oa2p7REpFsk5pGhkj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341798880"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="405866276"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 11:33:00 -0700
+   d="scan'208";a="341798880"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 11:55:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="752115536"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690143083"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="752115536"
+   d="scan'208";a="690143083"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Apr 2023 11:32:59 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 11:55:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkqtO-000Sn9-14;
-	Fri, 07 Apr 2023 18:32:58 +0000
-Date: Sat, 8 Apr 2023 02:32:46 +0800
+	id 1pkrEj-000Snm-20;
+	Fri, 07 Apr 2023 18:55:01 +0000
+Date: Sat, 8 Apr 2023 02:54:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-5.10.y-cicd 20967/22735]
- drivers/media/i2c/ov2312.c:206:44: warning: variable 'routing' set but not
- used
-Message-ID: <202304080213.tG0q2FGi-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/4] rtc: ds3232: constify pointers to hwmon_channel_info
+Message-ID: <202304080221.QFDtWIL3-lkp@intel.com>
+References: <20230407150306.80141-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,90 +46,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407150306.80141-2-krzysztof.kozlowski@linaro.org>
 
-Hi Jai,
+Hi Krzysztof,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-5.10.y-cicd
-head:   e6bb059e69c106b73bfe2a10e729dbe5a5820916
-commit: 29a91ea625ab96f02f66b5533af1847edc3483af [20967/22735] media: i2c: ov2312: add Omnivison OV2312 driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080213.tG0q2FGi-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on linus/master v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/rtc-ds3232-constify-pointers-to-hwmon_channel_info/20230407-231346
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20230407150306.80141-2-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH 2/4] rtc: ds3232: constify pointers to hwmon_channel_info
+config: hexagon-buildonly-randconfig-r001-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080221.QFDtWIL3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-5.10.y-cicd
-        git checkout 29a91ea625ab96f02f66b5533af1847edc3483af
+        # https://github.com/intel-lab-lkp/linux/commit/7c7bc663edb897df5d42a8e592d15312959d2fae
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Krzysztof-Kozlowski/rtc-ds3232-constify-pointers-to-hwmon_channel_info/20230407-231346
+        git checkout 7c7bc663edb897df5d42a8e592d15312959d2fae
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/rtc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080213.tG0q2FGi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080221.QFDtWIL3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/ov2312.c: In function 'ov2312_get_frame_desc':
->> drivers/media/i2c/ov2312.c:206:44: warning: variable 'routing' set but not used [-Wunused-but-set-variable]
-     206 |         const struct v4l2_subdev_krouting *routing;
-         |                                            ^~~~~~~
+   In file included from drivers/rtc/rtc-ds3232.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/rtc/rtc-ds3232.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/rtc/rtc-ds3232.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/rtc/rtc-ds3232.c:375:10: error: initializing 'const struct hwmon_channel_info **' with an expression of type 'const struct hwmon_channel_info *const[3]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           .info = ds3232_hwmon_info,
+                   ^~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
 
 
-vim +/routing +206 drivers/media/i2c/ov2312.c
+vim +375 drivers/rtc/rtc-ds3232.c
 
-   200	
-   201	static int ov2312_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-   202					 struct v4l2_mbus_frame_desc *fd)
-   203	{
-   204		struct v4l2_subdev_state *state;
-   205		struct v4l2_mbus_framefmt *fmt;
- > 206		const struct v4l2_subdev_krouting *routing;
-   207		u32 bpp;
-   208		int ret = 0;
-   209		unsigned int i;
-   210	
-   211		if (pad != 0)
-   212			return -EINVAL;
-   213	
-   214		state = v4l2_subdev_lock_active_state(sd);
-   215		routing = &state->routing;
-   216	
-   217		fmt = v4l2_state_get_stream_format(state, 0, 0);
-   218		if (!fmt) {
-   219			ret = -EPIPE;
-   220			goto out;
-   221		}
-   222	
-   223		memset(fd, 0, sizeof(*fd));
-   224	
-   225		fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-   226	
-   227		/* pixel stream - 2 virtual channels */
-   228	
-   229		bpp = 10;
-   230	
-   231		for (i = 0; i < 2; ++i) {
-   232			fd->entry[fd->num_entries].stream = i;
-   233	
-   234			fd->entry[fd->num_entries].flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
-   235			fd->entry[fd->num_entries].length = fmt->width * fmt->height * bpp / 8;
-   236			fd->entry[fd->num_entries].pixelcode = fmt->code;
-   237			fd->entry[fd->num_entries].bus.csi2.vc = i;
-   238			fd->entry[fd->num_entries].bus.csi2.dt = 0x2b; /* RAW10 */
-   239	
-   240			fd->num_entries++;
-   241		}
-   242	
-   243	out:
-   244		v4l2_subdev_unlock_state(state);
-   245	
-   246		return ret;
-   247	}
-   248	
+c35c4195f919a0 Kirill Esipov 2017-06-28  372  
+c35c4195f919a0 Kirill Esipov 2017-06-28  373  static const struct hwmon_chip_info ds3232_hwmon_chip_info = {
+c35c4195f919a0 Kirill Esipov 2017-06-28  374  	.ops = &ds3232_hwmon_hwmon_ops,
+c35c4195f919a0 Kirill Esipov 2017-06-28 @375  	.info = ds3232_hwmon_info,
+c35c4195f919a0 Kirill Esipov 2017-06-28  376  };
+c35c4195f919a0 Kirill Esipov 2017-06-28  377  
 
 -- 
 0-DAY CI Kernel Test Service
