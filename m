@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22323882E;
-	Fri,  7 Apr 2023 18:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38F6EBB;
+	Fri,  7 Apr 2023 18:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680891787; x=1712427787;
+  t=1680892380; x=1712428380;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DydUZtz/GhGz8ydOChRYHR+rrl4V0bkzfHEu5HgIPzI=;
-  b=BwlYuv5da+h+R7GCPZ9xKKxr736YZOzNMRhIOTcy/RgLRIuKKpuTGRNu
-   75U76QKy852ru2U+HXL2GbBc/W9MyQ0KJRqEUHZ40XizRhCnEf2kzW24Q
-   X/jR+atO2vh8RwykawHLHrXEe42BbNpILdZg72PmoG9CefyndguRDtLE5
-   CTRphjkAUTPsIrDTEK587nKJij+PvKKcFfv/aIvWOvq2/T6+eaPq3myX2
-   UWGV31S0g+76381yO0AxpMCuUjB//agiRLAdiNC/HR07jLnl6q/aBNPyn
-   OtxSxADyRUHIuZFX/LgDJ3K98qMqcIM9eJnrj6FvkQP95bJPBQ5TFX/Ah
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="343050182"
+  bh=EKsUJCCK+H/Ed10MLDkPQH/dhfD6Rm/Ff5ulgTEFnZY=;
+  b=HHMKmHF2J0XZU3GWF5qd3E3Rz1jLqO0zdhE9NpeU57p5eS728LxXsqco
+   IuWkL5rhirH8LOhzyQU9pKutOCmyCDDc9znY96wX1zftbA5qGInn41nL0
+   SnGpPpj4p4PbK42cMtq1tIgrBE8lWXtC+LPNsAaFWWpCpa1fXHcpZ5b7I
+   qS40+jEStYoZplqjabcq5s0mtZ3jLV7kHcGKp8tmXCuoDNnPcjJ7ub0mu
+   E6TTtjfZ9vxgyzy1A8q6k/J1+LMOB9NsLp3LIqk1Xocsr3fB3p8zyB2qQ
+   OHQ7ZZHhe9rcn7lxwMuABeUffl5YtndA/7h+EboXCY1i/T9kZ18I0XypP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405866275"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="343050182"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 11:23:06 -0700
+   d="scan'208";a="405866275"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 11:33:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="756803347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690139197"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="756803347"
+   d="scan'208";a="690139197"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Apr 2023 11:23:04 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 11:32:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkqji-000Smc-0R;
-	Fri, 07 Apr 2023 18:22:58 +0000
-Date: Sat, 8 Apr 2023 02:22:15 +0800
+	id 1pkqtO-000Sn4-0u;
+	Fri, 07 Apr 2023 18:32:58 +0000
+Date: Sat, 8 Apr 2023 02:32:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingbo Xu <jefflexu@linux.alibaba.com>, xiang@kernel.org,
-	chao@kernel.org, huyue2@coolpad.com, linux-erofs@lists.ozlabs.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] erofs: enable long extended attribute name prefixes
-Message-ID: <202304080206.t45iYSop-lkp@intel.com>
-References: <20230407141710.113882-8-jefflexu@linux.alibaba.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] power: supply: hwmon: constify pointers to
+ hwmon_channel_info
+Message-ID: <202304080217.3MDH0o8U-lkp@intel.com>
+References: <20230407150326.80183-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,155 +47,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407141710.113882-8-jefflexu@linux.alibaba.com>
+In-Reply-To: <20230407150326.80183-1-krzysztof.kozlowski@linaro.org>
 
-Hi Jingbo,
+Hi Krzysztof,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on xiang-erofs/dev-test]
-[also build test ERROR on xiang-erofs/dev]
-[cannot apply to xiang-erofs/fixes linus/master v6.3-rc5 next-20230406]
+[auto build test ERROR on sre-power-supply/for-next]
+[also build test ERROR on linus/master v6.3-rc5 next-20230406]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbo-Xu/erofs-keep-meta-inode-into-erofs_buf/20230407-221839
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20230407141710.113882-8-jefflexu%40linux.alibaba.com
-patch subject: [PATCH 7/7] erofs: enable long extended attribute name prefixes
-config: x86_64-randconfig-a005-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080206.t45iYSop-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/power-supply-hwmon-constify-pointers-to-hwmon_channel_info/20230407-231258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20230407150326.80183-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH] power: supply: hwmon: constify pointers to hwmon_channel_info
+config: x86_64-randconfig-a003-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080217.3MDH0o8U-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8cd5bbc6f857d54388099c30c3e3a48fdb15c283
+        # https://github.com/intel-lab-lkp/linux/commit/54a815cb7128a140e1a6e18ef6bbafa22b98aadf
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jingbo-Xu/erofs-keep-meta-inode-into-erofs_buf/20230407-221839
-        git checkout 8cd5bbc6f857d54388099c30c3e3a48fdb15c283
+        git fetch --no-tags linux-review Krzysztof-Kozlowski/power-supply-hwmon-constify-pointers-to-hwmon_channel_info/20230407-231258
+        git checkout 54a815cb7128a140e1a6e18ef6bbafa22b98aadf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080206.t45iYSop-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080217.3MDH0o8U-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/erofs/super.c:394:7: error: no member named 'xattr_prefix_start' in 'struct erofs_sb_info'
-           sbi->xattr_prefix_start = le32_to_cpu(dsb->xattr_prefix_start);
-           ~~~  ^
->> fs/erofs/super.c:395:7: error: no member named 'xattr_prefix_count' in 'struct erofs_sb_info'
-           sbi->xattr_prefix_count = dsb->xattr_prefix_count;
-           ~~~  ^
-   2 errors generated.
+>> drivers/power/supply/power_supply_hwmon.c:324:10: error: initializing 'const struct hwmon_channel_info **' with an expression of type 'const struct hwmon_channel_info *const[4]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           .info = power_supply_hwmon_info,
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +394 fs/erofs/super.c
+vim +324 drivers/power/supply/power_supply_hwmon.c
 
-   333	
-   334	static int erofs_read_superblock(struct super_block *sb)
-   335	{
-   336		struct erofs_sb_info *sbi;
-   337		struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
-   338		struct erofs_super_block *dsb;
-   339		void *data;
-   340		int ret;
-   341	
-   342		data = erofs_read_metabuf(&buf, sb, 0, EROFS_KMAP);
-   343		if (IS_ERR(data)) {
-   344			erofs_err(sb, "cannot read erofs superblock");
-   345			return PTR_ERR(data);
-   346		}
-   347	
-   348		sbi = EROFS_SB(sb);
-   349		dsb = (struct erofs_super_block *)(data + EROFS_SUPER_OFFSET);
-   350	
-   351		ret = -EINVAL;
-   352		if (le32_to_cpu(dsb->magic) != EROFS_SUPER_MAGIC_V1) {
-   353			erofs_err(sb, "cannot find valid erofs superblock");
-   354			goto out;
-   355		}
-   356	
-   357		sbi->blkszbits  = dsb->blkszbits;
-   358		if (sbi->blkszbits < 9 || sbi->blkszbits > PAGE_SHIFT) {
-   359			erofs_err(sb, "blkszbits %u isn't supported", sbi->blkszbits);
-   360			goto out;
-   361		}
-   362		if (dsb->dirblkbits) {
-   363			erofs_err(sb, "dirblkbits %u isn't supported", dsb->dirblkbits);
-   364			goto out;
-   365		}
-   366	
-   367		sbi->feature_compat = le32_to_cpu(dsb->feature_compat);
-   368		if (erofs_sb_has_sb_chksum(sbi)) {
-   369			ret = erofs_superblock_csum_verify(sb, data);
-   370			if (ret)
-   371				goto out;
-   372		}
-   373	
-   374		ret = -EINVAL;
-   375		if (!check_layout_compatibility(sb, dsb))
-   376			goto out;
-   377	
-   378		sbi->sb_size = 128 + dsb->sb_extslots * EROFS_SB_EXTSLOT_SIZE;
-   379		if (sbi->sb_size > PAGE_SIZE - EROFS_SUPER_OFFSET) {
-   380			erofs_err(sb, "invalid sb_extslots %u (more than a fs block)",
-   381				  sbi->sb_size);
-   382			goto out;
-   383		}
-   384		sbi->primarydevice_blocks = le32_to_cpu(dsb->blocks);
-   385		sbi->meta_blkaddr = le32_to_cpu(dsb->meta_blkaddr);
-   386	#ifdef CONFIG_EROFS_FS_XATTR
-   387		sbi->xattr_blkaddr = le32_to_cpu(dsb->xattr_blkaddr);
-   388	#endif
-   389		sbi->islotbits = ilog2(sizeof(struct erofs_inode_compact));
-   390		sbi->root_nid = le16_to_cpu(dsb->root_nid);
-   391		sbi->packed_nid = le64_to_cpu(dsb->packed_nid);
-   392		sbi->inos = le64_to_cpu(dsb->inos);
-   393	
- > 394		sbi->xattr_prefix_start = le32_to_cpu(dsb->xattr_prefix_start);
- > 395		sbi->xattr_prefix_count = dsb->xattr_prefix_count;
-   396	
-   397		sbi->build_time = le64_to_cpu(dsb->build_time);
-   398		sbi->build_time_nsec = le32_to_cpu(dsb->build_time_nsec);
-   399	
-   400		memcpy(&sb->s_uuid, dsb->uuid, sizeof(dsb->uuid));
-   401	
-   402		ret = strscpy(sbi->volume_name, dsb->volume_name,
-   403			      sizeof(dsb->volume_name));
-   404		if (ret < 0) {	/* -E2BIG */
-   405			erofs_err(sb, "bad volume name without NIL terminator");
-   406			ret = -EFSCORRUPTED;
-   407			goto out;
-   408		}
-   409	
-   410		/* parse on-disk compression configurations */
-   411		if (erofs_sb_has_compr_cfgs(sbi))
-   412			ret = erofs_load_compr_cfgs(sb, dsb);
-   413		else
-   414			ret = z_erofs_load_lz4_config(sb, dsb, NULL, 0);
-   415		if (ret < 0)
-   416			goto out;
-   417	
-   418		/* handle multiple devices */
-   419		ret = erofs_scan_devices(sb, dsb);
-   420	
-   421		if (erofs_sb_has_ztailpacking(sbi))
-   422			erofs_info(sb, "EXPERIMENTAL compressed inline data feature in use. Use at your own risk!");
-   423		if (erofs_is_fscache_mode(sb))
-   424			erofs_info(sb, "EXPERIMENTAL fscache-based on-demand read feature in use. Use at your own risk!");
-   425		if (erofs_sb_has_fragments(sbi))
-   426			erofs_info(sb, "EXPERIMENTAL compressed fragments feature in use. Use at your own risk!");
-   427		if (erofs_sb_has_dedupe(sbi))
-   428			erofs_info(sb, "EXPERIMENTAL global deduplication feature in use. Use at your own risk!");
-   429	out:
-   430		erofs_put_metabuf(&buf);
-   431		return ret;
-   432	}
-   433	
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12  321  
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12  322  static const struct hwmon_chip_info power_supply_hwmon_chip_info = {
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12  323  	.ops = &power_supply_hwmon_ops,
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12 @324  	.info = power_supply_hwmon_info,
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12  325  };
+e67d4dfc9ff19d Andrey Smirnov 2019-06-12  326  
 
 -- 
 0-DAY CI Kernel Test Service
