@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F79D7B;
-	Fri,  7 Apr 2023 06:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540D1A2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 06:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680847897; x=1712383897;
+  t=1680850354; x=1712386354;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qzAlK0ivIggH2wn9zvrYSrovXixKAq2wiQzJo8CUZUU=;
-  b=AL2USQF6pXIAtwJhf6n04f+iIhikypkHhNnv/5Xm6F+Im2qhcHdbqyUZ
-   O3TYNIShXGt96Yt+62bSan2P0nk7X/7Tq0Z2OfjyvbvAVb/vKn7ScnZIJ
-   bGxAiJaanhVWlbpvG4SjUdf/ynCiRnn/bHdzjD0Vf0dZkEzZ1ujRXkMHe
-   vH+W/Jmp+FVIqi06MMgWKDaAqkis23pPDYqriswwjPw4X32M/NNwiNLGD
-   QEEsmNUVgfvo2oNyBWoF9cyKACBc8RaQpeeJk+CKqRETYnAthDOZUSwMO
-   kU8ZBx4Azi4jVK6ahspkYMlWYYHVfobKHXXqQgDQqvm+N+T4Lc8Xfu138
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="429220904"
+  bh=XRRH3W5OAxOYkt+cFX2cDAy8WQS0KZcRpKYoryfW0o0=;
+  b=bgXwra8RBgUelSOofJ75gdGmmBsXBWIJhifr+H+XXLe27AVBMzsUZkAx
+   WnOgkAppnGXixlk98Ue9fDzkfDIjF6Aw8QnPGYink6tqOw12uGGavG2YN
+   G4bQNlqFJZSi/JXMxOTUzrG2plJD4CVV7tdIv8T6mYVT+C5vacWC4M+k0
+   vaDVtaKDu40OzkCQUqs2fF6lkwGefKwHNDU+xt/LQstA5acb4LtxXSFpv
+   Vs6zrtc7mTT4sLAwBQylzMy1Y34QUxqvJzejQeP7yiezMDRQJITGzIiJS
+   2EcDOW3J0wM/5HExEKztvU2HritLDuQFQVMCxhQjtBCD97Dj1H8XXTImt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="342945247"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="429220904"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 23:11:37 -0700
+   d="scan'208";a="342945247"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 23:52:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="689962882"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687435131"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="689962882"
+   d="scan'208";a="687435131"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 23:11:35 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Apr 2023 23:52:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkfJq-000SBS-0p;
-	Fri, 07 Apr 2023 06:11:30 +0000
-Date: Fri, 7 Apr 2023 14:11:12 +0800
+	id 1pkfxX-000SCy-1H;
+	Fri, 07 Apr 2023 06:52:31 +0000
+Date: Fri, 7 Apr 2023 14:52:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:hotplug 24/43] kernel/cpu.c:1296:2: error: call to
- undeclared function 'cpuhp_bp_sync_dead'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202304071432.tXvtpDvx-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:block-for-next 6/13] block/blk-mq.c:1445:38: sparse:
+ sparse: dereference of noderef expression
+Message-ID: <202304071429.AqGkABnt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,95 +46,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hotplug
-head:   3675258f0132b4f3fd39917e9d5a53f5e23094b5
-commit: ff7f55f1e7002f73f7f233062dca4e5f1f47c931 [24/43] cpu/hotplug: Add CPU state tracking and synchronization
-config: riscv-randconfig-r012-20230406 (https://download.01.org/0day-ci/archive/20230407/202304071432.tXvtpDvx-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+tree:   https://github.com/bvanassche/linux block-for-next
+head:   aa3a56b35f7420ada52515e9815855ed43da6726
+commit: 41087062c7374352a6c618bde0afe946dfd13637 [6/13] block: One requeue list per hctx
+config: alpha-randconfig-s042-20230403 (https://download.01.org/0day-ci/archive/20230407/202304071429.AqGkABnt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=ff7f55f1e7002f73f7f233062dca4e5f1f47c931
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel hotplug
-        git checkout ff7f55f1e7002f73f7f233062dca4e5f1f47c931
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/bvanassche/linux/commit/41087062c7374352a6c618bde0afe946dfd13637
+        git remote add bvanassche https://github.com/bvanassche/linux
+        git fetch --no-tags bvanassche block-for-next
+        git checkout 41087062c7374352a6c618bde0afe946dfd13637
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304071432.tXvtpDvx-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071429.AqGkABnt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-mq.c:1445:38: sparse: sparse: dereference of noderef expression
 
->> kernel/cpu.c:1296:2: error: call to undeclared function 'cpuhp_bp_sync_dead'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cpuhp_bp_sync_dead(cpu);
-           ^
-   kernel/cpu.c:1296:2: note: did you mean 'cpuhp_bp_sync_alive'?
-   kernel/cpu.c:452:19: note: 'cpuhp_bp_sync_alive' declared here
-   static inline int cpuhp_bp_sync_alive(unsigned int cpu) { return 0; }
-                     ^
-   1 error generated.
+vim +1445 block/blk-mq.c
 
-
-vim +/cpuhp_bp_sync_dead +1296 kernel/cpu.c
-
-  1251	
-  1252	static int takedown_cpu(unsigned int cpu)
-  1253	{
-  1254		struct cpuhp_cpu_state *st = per_cpu_ptr(&cpuhp_state, cpu);
-  1255		int err;
-  1256	
-  1257		/* Park the smpboot threads */
-  1258		kthread_park(st->thread);
-  1259	
-  1260		/*
-  1261		 * Prevent irq alloc/free while the dying cpu reorganizes the
-  1262		 * interrupt affinities.
-  1263		 */
-  1264		irq_lock_sparse();
-  1265	
-  1266		/*
-  1267		 * So now all preempt/rcu users must observe !cpu_active().
-  1268		 */
-  1269		err = stop_machine_cpuslocked(take_cpu_down, NULL, cpumask_of(cpu));
-  1270		if (err) {
-  1271			/* CPU refused to die */
-  1272			irq_unlock_sparse();
-  1273			/* Unpark the hotplug thread so we can rollback there */
-  1274			kthread_unpark(st->thread);
-  1275			return err;
-  1276		}
-  1277		BUG_ON(cpu_online(cpu));
-  1278	
-  1279		/*
-  1280		 * The teardown callback for CPUHP_AP_SCHED_STARTING will have removed
-  1281		 * all runnable tasks from the CPU, there's only the idle task left now
-  1282		 * that the migration thread is done doing the stop_machine thing.
-  1283		 *
-  1284		 * Wait for the stop thread to go away.
-  1285		 */
-  1286		wait_for_ap_thread(st, false);
-  1287		BUG_ON(st->state != CPUHP_AP_IDLE_DEAD);
-  1288	
-  1289		/* Interrupts are moved away from the dying cpu, reenable alloc/free */
-  1290		irq_unlock_sparse();
-  1291	
-  1292		hotplug_cpu__broadcast_tick_pull(cpu);
-  1293		/* This actually kills the CPU. */
-  1294		__cpu_die(cpu);
-  1295	
-> 1296		cpuhp_bp_sync_dead(cpu);
-  1297	
-  1298		tick_cleanup_dead_cpu(cpu);
-  1299		rcutree_migrate_callbacks(cpu);
-  1300		return 0;
-  1301	}
-  1302	
+  1439	
+  1440	void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
+  1441					bool kick_requeue_list)
+  1442	{
+  1443		struct request_queue *q = rq->q;
+  1444		struct blk_mq_hw_ctx *hctx = rq->mq_hctx ? :
+> 1445			q->queue_ctx[0].hctxs[HCTX_TYPE_DEFAULT];
+  1446		unsigned long flags;
+  1447	
+  1448		/*
+  1449		 * We abuse this flag that is otherwise used by the I/O scheduler to
+  1450		 * request head insertion from the workqueue.
+  1451		 */
+  1452		BUG_ON(rq->rq_flags & RQF_SOFTBARRIER);
+  1453	
+  1454		spin_lock_irqsave(&hctx->requeue_lock, flags);
+  1455		if (at_head) {
+  1456			rq->rq_flags |= RQF_SOFTBARRIER;
+  1457			list_add(&rq->queuelist, &hctx->requeue_list);
+  1458		} else {
+  1459			list_add_tail(&rq->queuelist, &hctx->requeue_list);
+  1460		}
+  1461		spin_unlock_irqrestore(&hctx->requeue_lock, flags);
+  1462	
+  1463		if (kick_requeue_list)
+  1464			blk_mq_kick_requeue_list(q);
+  1465	}
+  1466	
 
 -- 
 0-DAY CI Kernel Test Service
