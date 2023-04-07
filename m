@@ -1,111 +1,120 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08B5AD22
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 19:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF6DAD22
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 19:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680895564; x=1712431564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zk4LjEo5RLrCFSs2d+qKt0ZHeE+M/hlai/b8s21UsGU=;
-  b=T3G8mUnmV4IqzedS+rxfMKSecqB+pisVytHuAD04JzaRp5MegX7264/6
-   id9LYVisdWlZ6A1Azb5lxtmDB6ukolneB4zDijW7WKPQfVHxZkLLrVsSG
-   f8dykNANsmkjQ3FaTfnspbBK25C1ScsDJV2edDtFUav7ezaWg+A0yCEU0
-   uOAYJkVRCiCEVaG15ssBOQOT+H7vLGU8IQsnw30LlFBqDAPwhAin96TxU
-   etBNI1KWFPMY4bXekWLCoUE4driQNExx/7Tw97dzMWfnHuaqjlNsv0dpf
-   jyDKzvdksffkAbtrtA/SbJeMZAgnJQkKfUg1Rqk/VlNVSCXTR8X7bRmrp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="327141757"
+  t=1680896235; x=1712432235;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=vVqk4wrE+WzCpq0bGRG7VYPj6MHANHb13tM6sCBNdp0=;
+  b=Bs0E6/XAiEGwzeQZoIefHRB4x3Bi2R3u9oKpEOgHqgI/LUjYE0R1XQZH
+   c9X9Ix5VbpHokvhHlPOwcQYkwLeYDnugMk5UpVdrOS/hSGT+1opWi+Scf
+   QfHU/qpdMv4Khs6RpC+Jc3k05VSCbd+LJ70I+dFNZ4y8i8AMQxJ9IHgK+
+   Nrin1o4gpD7wJ7E2xLd5YDmP0M/ThV/UTmApPIVG3LC67ViVv6LBALn3R
+   gxZEWRhPTSOSiperV8mpIM5AXkFWpIWvAc7rV/RABYvvDL095X1xFc1ps
+   G3TVPaolgcpc5Cdeg3aEfPTHxYGRdFa+AYsdNkQqy/aRRXqGhzsQNsgWM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="343062039"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="327141757"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:26:04 -0700
+   d="scan'208";a="343062039"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:37:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690150003"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="687610815"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="690150003"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 12:26:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkrik-000Sp0-17;
-	Fri, 07 Apr 2023 19:26:02 +0000
-Date: Sat, 8 Apr 2023 03:25:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 312/335]
- arch/x86/kvm/mmu/mmu.c:713:5: sparse: sparse: symbol
- 'kvm_mmu_topup_memory_cache_for_split' was not declared. Should it be
- static?
-Message-ID: <202304080328.9zGgpWHJ-lkp@intel.com>
+   d="scan'208";a="687610815"
+Received: from tcolquit-mobl.amr.corp.intel.com (HELO bjcleere-mobl2.amr.corp.intel.com) ([10.212.83.122])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 12:37:04 -0700
+Message-ID: <ea6af9d99b6c2ff70ca127e4bb6784e6c3032838.camel@linux.intel.com>
+Subject: Re: [herbert-cryptodev-2.6:master 99/105]
+ include/linux/compiler_types.h:397:45: error: call to
+ '__compiletime_assert_385' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(struct crypt_ctl) != 64
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org, Herbert Xu
+	 <herbert@gondor.apana.org.au>
+Date: Fri, 07 Apr 2023 14:37:03 -0500
+In-Reply-To: <202304061846.G6cpPXiQ-lkp@intel.com>
+References: <202304061846.G6cpPXiQ-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.1-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   3e6762343e0ddcb90b2e49af3a341051541d1a3a
-commit: 1acfebc5dc9575d565744fb6484ea615c0b27db0 [312/335] [REVERTME] KVM: TDX, x86/tdp_mmu: Protect Secure-EPT page
-config: x86_64-randconfig-s023-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080328.9zGgpWHJ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel/tdx/commit/1acfebc5dc9575d565744fb6484ea615c0b27db0
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 1acfebc5dc9575d565744fb6484ea615c0b27db0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+T24gVGh1LCAyMDIzLTA0LTA2IGF0IDE4OjI4ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToKPiB0cmVlOsKgwqAKPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
+bmVsL2dpdC9oZXJiZXJ0L2NyeXB0b2Rldi0yLjYuZ2l0Cj4gwqBtYXN0ZXIKPiBoZWFkOsKgwqAg
+YTIyMTZlMTg3NDcxNWE4YjRhNmY0ZGEyZGRiZTkyNzdlNTYxM2M0OQo+IGNvbW1pdDogMWJjN2Zk
+YmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4NiBbOTkvMTA1XSBjcnlwdG86Cj4gaXhw
+NHh4IC0gTW92ZSBkcml2ZXIgdG8gZHJpdmVycy9jcnlwdG8vaW50ZWwvaXhwNHh4Cj4gY29uZmln
+OiByaXNjdi1hbGxtb2Rjb25maWcKPiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
+cmNoaXZlLzIwMjMwNDA2LzIwMjMwNDA2MTg0Ni5HNmNwUFgKPiBpUS1sa3BAaW50ZWwuY29tL2Nv
+bmZpZykKPiBjb21waWxlcjogcmlzY3Y2NC1saW51eC1nY2MgKEdDQykgMTIuMS4wCj4gcmVwcm9k
+dWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKToKPiDCoMKgwqDCoMKgwqDCoCB3Z2V0Cj4gaHR0cHM6
+Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ludGVsL2xrcC10ZXN0cy9tYXN0ZXIvc2Jpbi9t
+YWtlLmNyb3NzCj4gwqAtTyB+L2Jpbi9tYWtlLmNyb3NzCj4gwqDCoMKgwqDCoMKgwqAgY2htb2Qg
+K3ggfi9iaW4vbWFrZS5jcm9zcwo+IMKgwqDCoMKgwqDCoMKgICMKPiBodHRwczovL2dpdC5rZXJu
+ZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9oZXJiZXJ0L2NyeXB0b2Rldi0yLjYuZ2l0
+L2NvbW1pdC8/aWQ9MWJjN2ZkYmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4Ngo+IMKg
+wqDCoMKgwqDCoMKgIGdpdCByZW1vdGUgYWRkIGhlcmJlcnQtY3J5cHRvZGV2LTIuNgo+IGh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2hlcmJlcnQvY3J5cHRv
+ZGV2LTIuNi5naXQKPiDCoMKgwqDCoMKgwqDCoCBnaXQgZmV0Y2ggLS1uby10YWdzIGhlcmJlcnQt
+Y3J5cHRvZGV2LTIuNiBtYXN0ZXIKPiDCoMKgwqDCoMKgwqDCoCBnaXQgY2hlY2tvdXQgMWJjN2Zk
+YmYyNjc3Y2MxODY2YzAyNWU1YTM5MzgxMWVhOGUyNTQ4Ngo+IMKgwqDCoMKgwqDCoMKgICMgc2F2
+ZSB0aGUgY29uZmlnIGZpbGUKPiDCoMKgwqDCoMKgwqDCoCBta2RpciBidWlsZF9kaXIgJiYgY3Ag
+Y29uZmlnIGJ1aWxkX2Rpci8uY29uZmlnCj4gwqDCoMKgwqDCoMKgwqAgQ09NUElMRVJfSU5TVEFM
+TF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEuMAo+IG1ha2UuY3Jvc3MgVz0xIE89
+YnVpbGRfZGlyIEFSQ0g9cmlzY3Ygb2xkZGVmY29uZmlnCj4gwqDCoMKgwqDCoMKgwqAgQ09NUElM
+RVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2NjLTEyLjEuMAo+IG1ha2UuY3Jv
+c3MgVz0xIE89YnVpbGRfZGlyIEFSQ0g9cmlzY3YgU0hFTEw9L2Jpbi9iYXNoCj4gZHJpdmVycy9j
+cnlwdG8vaW50ZWwvaXhwNHh4Lwo+IAo+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRk
+IGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQo+ID4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0
+ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+ID4gTGluazoKPiA+IGh0dHBzOi8vbG9yZS5rZXJu
+ZWwub3JnL29lLWtidWlsZC1hbGwvMjAyMzA0MDYxODQ2Lkc2Y3BQWGlRLWxrcEBpbnRlbC5jb20v
+Cj4gCj4gQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgo+IAo+IMKgwqAgSW4g
+ZmlsZSBpbmNsdWRlZCBmcm9tIDxjb21tYW5kLWxpbmU+Ogo+IMKgwqAgSW4gZnVuY3Rpb24gJ3Nl
+dHVwX2NyeXB0X2Rlc2MnLAo+IMKgwqDCoMKgwqDCoCBpbmxpbmVkIGZyb20gJ2dldF9jcnlwdF9k
+ZXNjJyBhdAo+IGRyaXZlcnMvY3J5cHRvL2ludGVsL2l4cDR4eC9peHA0eHhfY3J5cHRvLmM6Mjg1
+OjM6Cj4gPiA+IGluY2x1ZGUvbGludXgvY29tcGlsZXJfdHlwZXMuaDozOTc6NDU6IGVycm9yOiBj
+YWxsIHRvCj4gPiA+ICdfX2NvbXBpbGV0aW1lX2Fzc2VydF8zODUnIGRlY2xhcmVkIHdpdGggYXR0
+cmlidXRlIGVycm9yOgo+ID4gPiBCVUlMRF9CVUdfT04gZmFpbGVkOiBzaXplb2Yoc3RydWN0IGNy
+eXB0X2N0bCkgIT0gNjQKPiDCoMKgwqDCoCAzOTcgfMKgwqDCoMKgwqDCoMKgwqAgX2NvbXBpbGV0
+aW1lX2Fzc2VydChjb25kaXRpb24sIG1zZywKPiBfX2NvbXBpbGV0aW1lX2Fzc2VydF8sIF9fQ09V
+TlRFUl9fKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgXgo+IMKgwqAgaW5jbHVkZS9saW51eC9jb21waWxlcl90eXBlcy5oOjM3ODoyNTogbm90ZTog
+aW4gZGVmaW5pdGlvbiBvZgo+IG1hY3JvICdfX2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKgwqDC
+oCAzNzggfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBw
+cmVmaXggIyMKPiBzdWZmaXgoKTvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4gwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF5+fn5+fgo+IMKgwqAgaW5jbHVkZS9s
+aW51eC9jb21waWxlcl90eXBlcy5oOjM5Nzo5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8K
+PiAnX2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKgwqDCoCAzOTcgfMKgwqDCoMKgwqDCoMKgwqAg
+X2NvbXBpbGV0aW1lX2Fzc2VydChjb25kaXRpb24sIG1zZywKPiBfX2NvbXBpbGV0aW1lX2Fzc2Vy
+dF8sIF9fQ09VTlRFUl9fKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqAgXn5+
+fn5+fn5+fn5+fn5+fn5+fgo+IMKgwqAgaW5jbHVkZS9saW51eC9idWlsZF9idWcuaDozOTozNzog
+bm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvCj4gJ2NvbXBpbGV0aW1lX2Fzc2VydCcKPiDCoMKg
+wqDCoMKgIDM5IHwgI2RlZmluZSBCVUlMRF9CVUdfT05fTVNHKGNvbmQsIG1zZykKPiBjb21waWxl
+dGltZV9hc3NlcnQoIShjb25kKSwgbXNnKQo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBefn5+fn5+fn5+fn5+fn5+fn4KPiDCoMKgIGluY2x1ZGUvbGludXgvYnVpbGRfYnVnLmg6
+NTA6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvCj4gJ0JVSUxEX0JVR19PTl9NU0cnCj4g
+wqDCoMKgwqDCoCA1MCB8wqDCoMKgwqDCoMKgwqDCoCBCVUlMRF9CVUdfT05fTVNHKGNvbmRpdGlv
+biwgIkJVSUxEX0JVR19PTiBmYWlsZWQ6Cj4gIiAjY29uZGl0aW9uKQo+IMKgwqDCoMKgwqDCoMKg
+wqAgfMKgwqDCoMKgwqDCoMKgwqAgXn5+fn5+fn5+fn5+fn5+fgo+IMKgwqAgZHJpdmVycy9jcnlw
+dG8vaW50ZWwvaXhwNHh4L2l4cDR4eF9jcnlwdG8uYzoyNjY6OTogbm90ZTogaW4KPiBleHBhbnNp
+b24gb2YgbWFjcm8gJ0JVSUxEX0JVR19PTicKPiDCoMKgwqDCoCAyNjYgfMKgwqDCoMKgwqDCoMKg
+wqAgQlVJTERfQlVHX09OKHNpemVvZihzdHJ1Y3QgY3J5cHRfY3RsKSAhPSA2NCk7Cj4gwqDCoMKg
+wqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoCBefn5+fn5+fn5+fn4KPiAKPiAKClRoaXMgaGFw
+cGVuZWQgYmVjYXVzZSBJIGFkZGVkIENPTVBJTEVfVEVTVCBhcyBhIGRlcGVuZGVuY3kgYW5kCm9i
+dmlvdXNseSBzaG91bGRuJ3QgaGF2ZS4KCldpbGwgc2VuZCBhIHBhdGNoIHRvIHJlbW92ZSBpdC4K
+ClRvbSAKCgoK
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080328.9zGgpWHJ-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/mmu.c:713:5: sparse: sparse: symbol 'kvm_mmu_topup_memory_cache_for_split' was not declared. Should it be static?
-   arch/x86/kvm/mmu/mmu.c:646:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_begin' - wrong count at exit
-   arch/x86/kvm/mmu/mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, arch/x86/kvm/irq.h):
-   include/linux/rcupdate.h:804:9: sparse: sparse: context imbalance in 'walk_shadow_page_lockless_end' - unexpected unlock
-   arch/x86/kvm/mmu/mmu.c:3006:9: sparse: sparse: context imbalance in 'mmu_try_to_unsync_pages' - different lock contexts for basic block
-   arch/x86/kvm/mmu/mmu.c: note: in included file:
-   arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
-   arch/x86/kvm/mmu/paging_tmpl.h:426:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
-   arch/x86/kvm/mmu/mmu.c:5494:57: sparse: sparse: cast truncates bits from constant value (ffffff33 becomes 33)
-   arch/x86/kvm/mmu/mmu.c:5496:56: sparse: sparse: cast truncates bits from constant value (ffffff0f becomes f)
-   arch/x86/kvm/mmu/mmu.c:5498:57: sparse: sparse: cast truncates bits from constant value (ffffff55 becomes 55)
-
-vim +/kvm_mmu_topup_memory_cache_for_split +713 arch/x86/kvm/mmu/mmu.c
-
-   712	
- > 713	int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   714	{
-   715		int r = 0;
-   716	#ifdef CONFIG_INTEL_TDX_HOST_DEBUG_MEMORY_CORRUPT
-   717		struct kvm_mmu_memory_cache *mc;
-   718		int start, end, i;
-   719	
-   720		mutex_lock(&kvm->arch.private_spt_for_split_lock);
-   721		mc = &kvm->arch.private_spt_for_split_cache;
-   722		start = kvm_mmu_memory_cache_nr_free_objects(mc);
-   723		r = kvm_mmu_topup_memory_cache(mc, KVM_MAX_HUGEPAGE_LEVEL *
-   724					       kvm->created_vcpus);
-   725		end = kvm_mmu_memory_cache_nr_free_objects(mc);
-   726		for (i = start; i < end; i++)
-   727			kvm_mmu_split_direct_map(virt_to_page(mc->objects[i]));
-   728		mutex_unlock(&kvm->arch.private_spt_for_split_lock);
-   729	#endif
-   730		return r;
-   731	}
-   732	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
