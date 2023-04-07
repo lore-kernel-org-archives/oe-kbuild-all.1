@@ -1,43 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B1F847C;
-	Fri,  7 Apr 2023 17:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282C88482
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 18:01:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680889861; x=1712425861;
+  t=1680890481; x=1712426481;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Wvdh74Ze/lO9z8MlCW8OYB17q39BBQMGmPBzQpjSwF4=;
-  b=IulllKJVlSXEbTLG8Qf3r/R/oLYaH/9zdZiyzR8tHDDyIEw3RmYWOZ44
-   VckOTI2kJjzZSHZknskxser6PDgLp+7U2nx9xR/TQD9OwJmV5AgdwXLop
-   HXlxfk3EE5QUiZ2u3q1qgi0wgN41KQ4+0drkGtBlwX2dlkkXD52Y+01Wr
-   +SBbi2FT/4Yb3jHyPlTRVKqiIV3Hlel527wcLRNBeXnUtyQZiIYWgSFZ/
-   JLR2LbiVfiaus4YHd7L3FinMrLW2HWdR1lldlhlsI7fDfB4AXhkSqblPs
-   fBNPYHb2QUteoNwYgHUmr/onFV/YcGog2/g00b9MjUFySJ7haQXTmlzc8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405859431"
+  bh=urwSxCX2ZwmlBGzogjwOTlb3kNDcwEr94clQuXQTKcY=;
+  b=IrwmhdO/m6nNTjaTpYYc7ZXARSrgWIAQPYGIpZ/toTERCa66kfzcVrCJ
+   tYAw1EQjawMgQSbSwy2927qV5/k7k2M3NmAnMgxSBGIJnUXDekUk0bS/R
+   7bD94pgMv330JvDbQrkLYeJeleoLWxbzcryW7XgbnFT9FOUnvDrKYivq9
+   MbP3NIERhtPejNFKjGGwTaJZ2jv9QhKgivjsbCn1gTZnCnVoKNEEBZEom
+   YHiOEe1SIEQVczr3/Wah3XlzYn+PfjR/pzDJmC1uHJmSwiC7T8PZitig7
+   DkvDPLHqupfvbhfHDwNm23to3Y89P39RsDpa8OomLWawQAAB/BHWaHx2M
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="429326234"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="405859431"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:50:59 -0700
+   d="scan'208";a="429326234"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 11:01:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="717911679"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="664972488"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="717911679"
+   d="scan'208";a="664972488"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2023 10:50:57 -0700
+  by orsmga006.jf.intel.com with ESMTP; 07 Apr 2023 11:00:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkqEj-000Skb-08;
-	Fri, 07 Apr 2023 17:50:57 +0000
-Date: Sat, 8 Apr 2023 01:50:21 +0800
+	id 1pkqOP-000SlC-0z;
+	Fri, 07 Apr 2023 18:00:57 +0000
+Date: Sat, 8 Apr 2023 02:00:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/4] rtc: ab-eoz9: constify pointers to hwmon_channel_info
-Message-ID: <202304080110.v5LLFwT4-lkp@intel.com>
-References: <20230407150306.80141-1-krzysztof.kozlowski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 4/8] net: phy: bcm54140: constify pointers to
+ hwmon_channel_info
+Message-ID: <202304080140.ipzShrZB-lkp@intel.com>
+References: <20230407145911.79642-4-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,107 +47,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407150306.80141-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230407145911.79642-4-krzysztof.kozlowski@linaro.org>
 
 Hi Krzysztof,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on linus/master v6.3-rc5 next-20230406]
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main horms-ipvs/master linus/master v6.3-rc5 next-20230406]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/rtc-ds3232-constify-pointers-to-hwmon_channel_info/20230407-231346
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20230407150306.80141-1-krzysztof.kozlowski%40linaro.org
-patch subject: [PATCH 1/4] rtc: ab-eoz9: constify pointers to hwmon_channel_info
-config: hexagon-buildonly-randconfig-r001-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080110.v5LLFwT4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/net-aquantia-constify-pointers-to-hwmon_channel_info/20230407-230419
+patch link:    https://lore.kernel.org/r/20230407145911.79642-4-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH 4/8] net: phy: bcm54140: constify pointers to hwmon_channel_info
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080140.ipzShrZB-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2b39e4ff9f9bbc04c31fa2819e09754ca5001669
+        # https://github.com/intel-lab-lkp/linux/commit/2f0810b511fe86325ce86827102c4cdfa7ad0189
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Krzysztof-Kozlowski/rtc-ds3232-constify-pointers-to-hwmon_channel_info/20230407-231346
-        git checkout 2b39e4ff9f9bbc04c31fa2819e09754ca5001669
+        git fetch --no-tags linux-review Krzysztof-Kozlowski/net-aquantia-constify-pointers-to-hwmon_channel_info/20230407-230419
+        git checkout 2f0810b511fe86325ce86827102c4cdfa7ad0189
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/rtc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/phy/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080110.v5LLFwT4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080140.ipzShrZB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/rtc/rtc-ab-eoz9.c:9:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/rtc/rtc-ab-eoz9.c:9:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/rtc/rtc-ab-eoz9.c:9:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/rtc/rtc-ab-eoz9.c:471:10: error: initializing 'const struct hwmon_channel_info **' with an expression of type 'const struct hwmon_channel_info *const[3]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           .info = abeoz9_info,
-                   ^~~~~~~~~~~
-   6 warnings and 1 error generated.
+>> drivers/net/phy/bcm54140.c:388:17: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     388 |         .info = bcm54140_hwmon_info,
+         |                 ^~~~~~~~~~~~~~~~~~~
 
 
-vim +471 drivers/rtc/rtc-ab-eoz9.c
+vim +/const +388 drivers/net/phy/bcm54140.c
 
-67075b63cce26c Artem Panfilov 2019-02-17  468  
-67075b63cce26c Artem Panfilov 2019-02-17  469  static const struct hwmon_chip_info abeoz9_chip_info = {
-67075b63cce26c Artem Panfilov 2019-02-17  470  	.ops = &abeoz9_hwmon_ops,
-67075b63cce26c Artem Panfilov 2019-02-17 @471  	.info = abeoz9_info,
-67075b63cce26c Artem Panfilov 2019-02-17  472  };
-67075b63cce26c Artem Panfilov 2019-02-17  473  
+6937602ed3f9eb Michael Walle 2020-04-20  385  
+4406d36dfdf1fb Michael Walle 2020-04-20  386  static const struct hwmon_chip_info bcm54140_chip_info = {
+4406d36dfdf1fb Michael Walle 2020-04-20  387  	.ops = &bcm54140_hwmon_ops,
+4406d36dfdf1fb Michael Walle 2020-04-20 @388  	.info = bcm54140_hwmon_info,
+4406d36dfdf1fb Michael Walle 2020-04-20  389  };
+4406d36dfdf1fb Michael Walle 2020-04-20  390  
 
 -- 
 0-DAY CI Kernel Test Service
