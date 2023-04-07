@@ -1,42 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540D1A2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 06:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C838E110E;
+	Fri,  7 Apr 2023 06:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680850354; x=1712386354;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XRRH3W5OAxOYkt+cFX2cDAy8WQS0KZcRpKYoryfW0o0=;
-  b=bgXwra8RBgUelSOofJ75gdGmmBsXBWIJhifr+H+XXLe27AVBMzsUZkAx
-   WnOgkAppnGXixlk98Ue9fDzkfDIjF6Aw8QnPGYink6tqOw12uGGavG2YN
-   G4bQNlqFJZSi/JXMxOTUzrG2plJD4CVV7tdIv8T6mYVT+C5vacWC4M+k0
-   vaDVtaKDu40OzkCQUqs2fF6lkwGefKwHNDU+xt/LQstA5acb4LtxXSFpv
-   Vs6zrtc7mTT4sLAwBQylzMy1Y34QUxqvJzejQeP7yiezMDRQJITGzIiJS
-   2EcDOW3J0wM/5HExEKztvU2HritLDuQFQVMCxhQjtBCD97Dj1H8XXTImt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="342945247"
+  t=1680850356; x=1712386356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=avlNllpfBNmaoPYrWuLFtuBkbN+pnFsMxdE+AmyQJEA=;
+  b=Zds+Rat5HuEZDYx86UsAApao2Cc2lQfOjn2mQqtCoA46oynQ82oO0Wl3
+   2bymItz9ZL281ND6dbxYwKv19zhaaX23rkkVqZybKKq2De/YeUQiWStbq
+   F7bYsyKNV+Bx91gpUz2l9xs+qhkcVsYc0wsoLUotlVgTVZ6up87uPlG4a
+   f0K6/BUuvwWvyGN6R7zSAzBjQjrlVA/5Kyrj4qMBoRGC2FcHnXnZ1BXuK
+   tn+o3dEv7xWOlUx5BHwC0exggcb/y9nrW9MpiOuJdApevx3RgucScFYoB
+   Kh315iZXv6ciwW3JD3GeMw2uTzxFFjAwBq5k8gawkIkVBLFIzOiTGKxQC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="342945249"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="342945247"
+   d="scan'208";a="342945249"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 23:52:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687435131"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="687435135"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="687435131"
+   d="scan'208";a="687435135"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 06 Apr 2023 23:52:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkfxX-000SCy-1H;
+	id 1pkfxX-000SDC-1f;
 	Fri, 07 Apr 2023 06:52:31 +0000
-Date: Fri, 7 Apr 2023 14:52:04 +0800
+Date: Fri, 7 Apr 2023 14:51:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:block-for-next 6/13] block/blk-mq.c:1445:38: sparse:
- sparse: dereference of noderef expression
-Message-ID: <202304071429.AqGkABnt-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 15/16] zram: fix synchronous reads
+Message-ID: <202304071443.4xWaXjV6-lkp@intel.com>
+References: <20230406144102.149231-16-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,63 +46,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230406144102.149231-16-hch@lst.de>
 
-tree:   https://github.com/bvanassche/linux block-for-next
-head:   aa3a56b35f7420ada52515e9815855ed43da6726
-commit: 41087062c7374352a6c618bde0afe946dfd13637 [6/13] block: One requeue list per hctx
-config: alpha-randconfig-s042-20230403 (https://download.01.org/0day-ci/archive/20230407/202304071429.AqGkABnt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Christoph,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/zram-make-zram_bio_discard-more-self-contained/20230406-234133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230406144102.149231-16-hch%40lst.de
+patch subject: [PATCH 15/16] zram: fix synchronous reads
+config: hexagon-randconfig-r024-20230405 (https://download.01.org/0day-ci/archive/20230407/202304071443.4xWaXjV6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/bvanassche/linux/commit/41087062c7374352a6c618bde0afe946dfd13637
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche block-for-next
-        git checkout 41087062c7374352a6c618bde0afe946dfd13637
+        # https://github.com/intel-lab-lkp/linux/commit/e4596d7c2cf157f5b3d566cb2cc0769c9232a728
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christoph-Hellwig/zram-make-zram_bio_discard-more-self-contained/20230406-234133
+        git checkout e4596d7c2cf157f5b3d566cb2cc0769c9232a728
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/block/zram/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304071429.AqGkABnt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071443.4xWaXjV6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> block/blk-mq.c:1445:38: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +1445 block/blk-mq.c
+   In file included from drivers/block/zram/zram_drv.c:20:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/block/zram/zram_drv.c:20:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/block/zram/zram_drv.c:20:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/block/zram/zram_drv.c:778:18: error: variable has incomplete type 'struct bio_bvec'
+           struct bio_bvec bv;
+                           ^
+   drivers/block/zram/zram_drv.c:778:9: note: forward declaration of 'struct bio_bvec'
+           struct bio_bvec bv;
+                  ^
+   6 warnings and 1 error generated.
 
-  1439	
-  1440	void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
-  1441					bool kick_requeue_list)
-  1442	{
-  1443		struct request_queue *q = rq->q;
-  1444		struct blk_mq_hw_ctx *hctx = rq->mq_hctx ? :
-> 1445			q->queue_ctx[0].hctxs[HCTX_TYPE_DEFAULT];
-  1446		unsigned long flags;
-  1447	
-  1448		/*
-  1449		 * We abuse this flag that is otherwise used by the I/O scheduler to
-  1450		 * request head insertion from the workqueue.
-  1451		 */
-  1452		BUG_ON(rq->rq_flags & RQF_SOFTBARRIER);
-  1453	
-  1454		spin_lock_irqsave(&hctx->requeue_lock, flags);
-  1455		if (at_head) {
-  1456			rq->rq_flags |= RQF_SOFTBARRIER;
-  1457			list_add(&rq->queuelist, &hctx->requeue_list);
-  1458		} else {
-  1459			list_add_tail(&rq->queuelist, &hctx->requeue_list);
-  1460		}
-  1461		spin_unlock_irqrestore(&hctx->requeue_lock, flags);
-  1462	
-  1463		if (kick_requeue_list)
-  1464			blk_mq_kick_requeue_list(q);
-  1465	}
-  1466	
+
+vim +778 drivers/block/zram/zram_drv.c
+
+   774	
+   775	static void zram_sync_read(struct work_struct *work)
+   776	{
+   777		struct zram_work *zw = container_of(work, struct zram_work, work);
+ > 778		struct bio_bvec bv;
+   779		struct bio bio;
+   780	
+   781		bio_init(&bio, zw->zram->bdev, &bv, 1, REQ_OP_READ);
+   782		bio.bi_iter.bi_sector = zw->entry * (PAGE_SIZE >> 9);
+   783		__bio_add_page(&bio, zw->page, PAGE_SIZE, 0);
+   784		submit_bio_wait(&bio);
+   785	}
+   786	
 
 -- 
 0-DAY CI Kernel Test Service
