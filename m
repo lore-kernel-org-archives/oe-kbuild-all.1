@@ -1,90 +1,100 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A44EA2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 02:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039E2EA8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 02:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680833089; x=1712369089;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=o+lKEA2i849Ia9WRvmNdVJ/OW0t436Xt6yXpPXK7v/o=;
-  b=ZDYXcBoVFX2JkDRLSj2WnCrl03c69k3rRO8G4eHgcFuaU0/bpdc3gVDI
-   /wBO6RAt8/SnFus2nayqXwiysbNFmOzn6LS7EaVpmEbZLdsBKQ7/Tv+Os
-   lyCgfprIkLcVeehsWbg3xUzMwZ3ZoZyq5pbXvaYWdiUS0W6rU/4kiQRav
-   KtPaUk6+P2r9totQTa8yZHHuy6Ik8IibSRai5VBGAUh09Mg/liRK7/+7A
-   wEKEOo4nIcnqeX/naohfP/LVG8Fp1lN8eSb7RgKX90u1DkjKtYT4y9elX
-   TsscGAHwdAa2L5RB6xXzt2HeAxklyG51+dmYoJvftBRY8E1eT4SBW0dUr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344669187"
+  t=1680834327; x=1712370327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bNRTf5VevjRN0XbHfH8eOBHC6+X8veeqcUyhMzYcIxU=;
+  b=LV6KjHkDRNuceL633/yfBJfBkf80JE68lkozqjcxWjEZFZLd/biHrwqM
+   aZtdPUW8OFHUNpnOu2Y5qsm2b2bb/YmvTGCfCz5zd6Yw9mCdQOJY8rUL+
+   x6oESo95Nh/RwpZqob/PB0rcne8FY45AM7K6hnAJQ3AyAMmZPRZkIH9fp
+   UL7tiRGNJnSVHc96obSZYZA1OUL48BDJtegrWUjnwH1pxOBUWXccuP7pb
+   Qy1G2nf7TSpNkEu7sgZtyftW+vE7bZsMpls3sfBn5rl5iwvbNnxZm06FI
+   aMpiCiuLtwt76tNTECbY7PThCYFRJtSW+/F3ed3MGuE3S9rGvYV7qnxGc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344676385"
 X-IronPort-AV: E=Sophos;i="5.98,324,1673942400"; 
-   d="scan'208";a="344669187"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 19:04:24 -0700
+   d="scan'208";a="344676385"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 19:25:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="719923596"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="689907845"
 X-IronPort-AV: E=Sophos;i="5.98,324,1673942400"; 
-   d="scan'208";a="719923596"
+   d="scan'208";a="689907845"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 Apr 2023 19:04:24 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 19:25:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkbSh-000S1G-0K;
-	Fri, 07 Apr 2023 02:04:23 +0000
-Date: Fri, 7 Apr 2023 10:04:19 +0800
+	id 1pkbn1-000S2g-2R;
+	Fri, 07 Apr 2023 02:25:23 +0000
+Date: Fri, 7 Apr 2023 10:25:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next RFC v4 4/5] net: Let the active time stamping
- layer be selectable.
-Message-ID: <202304070931.RDEjx8Aa-lkp@intel.com>
-References: <20230406173308.401924-5-kory.maincent@bootlin.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>,
+	Peter Gonda <pgonda@google.com>
+Subject: [sean-jc:x86/sev_selftests_for_peter 5/8] lib/kvm_util.c:1322:28:
+ warning: implicit declaration of function '_vm_phy_pages_alloc'; did you
+ mean 'vm_phy_pages_alloc'?
+Message-ID: <202304071011.cKVNSMMd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230406173308.401924-5-kory.maincent@bootlin.com>
 
-Hi Köry,
+Hi Michael,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230407-013517
-patch link:    https://lore.kernel.org/r/20230406173308.401924-5-kory.maincent%40bootlin.com
-patch subject: [PATCH net-next RFC v4 4/5] net: Let the active time stamping layer be selectable.
-config: riscv-randconfig-r042-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070931.RDEjx8Aa-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/33059abec2b9e9f064c3a8ac681fc91bf857d888
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230407-013517
-        git checkout 33059abec2b9e9f064c3a8ac681fc91bf857d888
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+tree:   https://github.com/sean-jc/linux x86/sev_selftests_for_peter
+head:   d379d4355a226bc2fdbce995a5bd05b96cd21778
+commit: f38f34c440d70139caba733fef36ec07aab6cb02 [5/8] KVM: selftests: add support for protected vm_vaddr_* allocations
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # https://github.com/sean-jc/linux/commit/f38f34c440d70139caba733fef36ec07aab6cb02
+        git remote add sean-jc https://github.com/sean-jc/linux
+        git fetch --no-tags sean-jc x86/sev_selftests_for_peter
+        git checkout f38f34c440d70139caba733fef36ec07aab6cb02
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304070931.RDEjx8Aa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071011.cKVNSMMd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   riscv64-linux-ld: net/core/dev_ioctl.o: in function `.L4':
->> dev_ioctl.c:(.text+0xaa): undefined reference to `phy_do_ioctl'
->> riscv64-linux-ld: dev_ioctl.c:(.text+0xae): undefined reference to `phy_do_ioctl'
-   riscv64-linux-ld: net/core/dev_ioctl.o: in function `.L5':
-   dev_ioctl.c:(.text+0x13e): undefined reference to `phy_mii_ioctl'
+   In file included from lib/kvm_util.c:9:
+   lib/kvm_util.c: In function '____vm_create':
+   lib/kvm_util.c:223:46: error: 'nr_pages' undeclared (first use in this function)
+     223 |                  vm_guest_mode_string(mode), nr_pages);
+         |                                              ^~~~~~~~
+   include/test_util.h:28:34: note: in definition of macro 'pr_debug'
+      28 | #define pr_debug(...) _no_printf(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~
+   lib/kvm_util.c:223:46: note: each undeclared identifier is reported only once for each function it appears in
+     223 |                  vm_guest_mode_string(mode), nr_pages);
+         |                                              ^~~~~~~~
+   include/test_util.h:28:34: note: in definition of macro 'pr_debug'
+      28 | #define pr_debug(...) _no_printf(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~
+   lib/kvm_util.c: In function '____vm_vaddr_alloc':
+>> lib/kvm_util.c:1322:28: warning: implicit declaration of function '_vm_phy_pages_alloc'; did you mean 'vm_phy_pages_alloc'? [-Wimplicit-function-declaration]
+    1322 |         vm_paddr_t paddr = _vm_phy_pages_alloc(vm, pages,
+         |                            ^~~~~~~~~~~~~~~~~~~
+         |                            vm_phy_pages_alloc
+   lib/kvm_util.c: In function 'addr_gpa2hva':
+   lib/kvm_util.c:1477:32: error: 'gpa_tagged' undeclared (first use in this function)
+    1477 |         gpa = vm_untag_gpa(vm, gpa_tagged);
+         |                                ^~~~~~~~~~
+   lib/kvm_util.c: At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
 -- 
 0-DAY CI Kernel Test Service
