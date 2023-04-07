@@ -1,43 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B676ADB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 16:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF223C4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 16:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680883697; x=1712419697;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=toHVNJh+Wk2fOELLXpzcBNXlMTFUr08bATV4PuSLBuw=;
-  b=GMW2Tl/gymOPfGMIA0BhYusunp/PtznIsOXNte6bXXILmjKjhbwCXk9n
-   1MomvQSpFNNZEkKuQ0pmuqHvChDA7Du1v4ldhmBPJuQxnV4goaPiIX3wc
-   LbYsn3xTvBi4+NLh8CXuIQZSQUwb4q78Wrg4IDFV6FxS5V24Y4tqLjccS
-   a9acmfOA7kBLZC3kfI/kA/H/y56PofED/PCt11Y1E/MXg7wSz2G0rwsbN
-   9GtQydSbBw734O+OdQ17RHCxj6lbxu4fiRBqKch+ezm0ettepT4NH1QUs
-   EtTVhAq8MOEtMwO9V3wUn8mVah86zHvGYZxp0AdGItJ8CJuBhdcII9NbH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="408149567"
+  t=1680886678; x=1712422678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pmpluUeZ8/OvMfQJcqWQb8Sb4H7ogTTPKOH6/R8Rlbk=;
+  b=iUuUnszZlATFTclljLWcNrWDJa9s/tY2X6rjWE2IJ0UMjPu+8u9I8fhP
+   TZQXGxfqcxiCimddlQ0u0dLWjw01hc07Y8tSGA1Jsp6iCqEmUGmUWmd1N
+   6n6CWUuKkM3BjU+0nRB5cL1WEUQw11mboWj7ck4Tm7w1W/BgbjmrzF+Bi
+   XqBLB2Vt6mGP1VOj1wZZ4rmWFZE20f729Sea8Iyh/FOezfo66Eq2MK1Xr
+   x53ztGz57MxaU949k4pn27Tpc6JsdlmsHRr+fXrHkYDxqRJS5VsQSmQmr
+   Z8w85y1DWWRJp+zIzXgZisBtPXUmL5aVhXFxUdjVc5bdeqWi3e+6JPxdu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="340515946"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="408149567"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 09:06:55 -0700
+   d="scan'208";a="340515946"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 09:57:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="752082420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="811452136"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="752082420"
+   d="scan'208";a="811452136"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Apr 2023 09:06:54 -0700
+  by orsmga004.jf.intel.com with ESMTP; 07 Apr 2023 09:57:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkoc1-000SfL-15;
-	Fri, 07 Apr 2023 16:06:53 +0000
-Date: Sat, 8 Apr 2023 00:06:04 +0800
+	id 1pkpPP-000Shl-1P;
+	Fri, 07 Apr 2023 16:57:55 +0000
+Date: Sat, 8 Apr 2023 00:57:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.4-2.3.x-imx 3192/28754] versioncheck:
- ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39
- linux/version.h not needed.
-Message-ID: <202304080025.AjgfGMWc-lkp@intel.com>
+Subject: Re: [PATCH] nvme: host: hwmon: constify pointers to
+ hwmon_channel_info
+Message-ID: <202304080031.JzoLJ7pI-lkp@intel.com>
+References: <20230407145845.79557-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,123 +47,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407145845.79557-1-krzysztof.kozlowski@linaro.org>
 
-tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
-head:   33630781929731d93d24c944689add3da38c8e93
-commit: 60bb3db8cf5f6273e826cae6c2c8c3940729f33f [3192/28754] fmd: SDK DPAA 1.x FMan driver
-reproduce:
-        make versioncheck
+Hi Krzysztof,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on axboe-block/for-next linus/master v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/nvme-host-hwmon-constify-pointers-to-hwmon_channel_info/20230407-230001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230407145845.79557-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH] nvme: host: hwmon: constify pointers to hwmon_channel_info
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080031.JzoLJ7pI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a92019809fb469cc9c9f751cee4cfaad054ddb48
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Krzysztof-Kozlowski/nvme-host-hwmon-constify-pointers-to-hwmon_channel_info/20230407-230001
+        git checkout a92019809fb469cc9c9f751cee4cfaad054ddb48
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080025.AjgfGMWc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080031.JzoLJ7pI-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
-   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 17712: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4743: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 605: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 552: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1389: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 876: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 611: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 608: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 176: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2314: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1462: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 858: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7494: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 450: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1838: need linux/version.h
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_b0.c: 6693: need linux/version.h
-   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/host/hwmon.c:221:19: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     221 |         .info   = nvme_hwmon_info,
+         |                   ^~~~~~~~~~~~~~~
+
+
+vim +/const +221 drivers/nvme/host/hwmon.c
+
+400b6a7b13a3fd Guenter Roeck 2019-11-06  218  
+400b6a7b13a3fd Guenter Roeck 2019-11-06  219  static const struct hwmon_chip_info nvme_hwmon_chip_info = {
+400b6a7b13a3fd Guenter Roeck 2019-11-06  220  	.ops	= &nvme_hwmon_ops,
+400b6a7b13a3fd Guenter Roeck 2019-11-06 @221  	.info	= nvme_hwmon_info,
+400b6a7b13a3fd Guenter Roeck 2019-11-06  222  };
+400b6a7b13a3fd Guenter Roeck 2019-11-06  223  
 
 -- 
 0-DAY CI Kernel Test Service
