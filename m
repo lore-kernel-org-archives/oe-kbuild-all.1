@@ -1,364 +1,203 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98821FD7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 09:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680858343; x=1712394343;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=53eAPxhKUOr9T0316IshFTpxJyUyB3VxKWat77i0d5Y=;
-  b=d5bQAfI6IZTeRgF0AxAeFJ5m6oEWD2ZIZp2fm4CGpq4dfWY3VaBJ/Vmb
-   oIdfCYVF5jbK3jaNloZlWlWA05m8/m25xGZSmGTMgf6O87j2OKyQqrLJb
-   4IQFkjFtxU7ENZ+F+jydLqC1p609E8fOh5yD/7jdFQQAwDLLGTyAv5IN+
-   41KHRWQeokZXvRFj+NuuZ471Zq/XeoMxZVx3ZdwbVZyxVJvcMDfP+yrS7
-   vEoo7/G2QYAS1x4RzZAwJP9BfgoKaAcvZC6qRDD8w16cEl4jnnBpWhx9d
-   bxyXdsqER26D5F1qDtfjHB7dum5T7OosvNrBPYtV4K+fwT6r+xmc1sQ4G
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="340445567"
-X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="340445567"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 02:05:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="690003997"
-X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="690003997"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 02:05:41 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pki2K-000SIE-12;
-	Fri, 07 Apr 2023 09:05:36 +0000
-Date: Fri, 7 Apr 2023 17:05:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Gonda <pgonda@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
-Subject: [sean-jc:x86/sev_selftests_for_peter 6/8]
- lib/x86_64/processor.c:1048:52: error: 'X86_PROPERTY_SEV_C_BIT' undeclared
-Message-ID: <202304071721.Dit4CnZd-lkp@intel.com>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C435C2CD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 09:39:04 +0000 (UTC)
+Received: from loongson.cn (unknown [112.20.110.113])
+	by gateway (Coremail) with SMTP id _____8BxONmv5C9kxc8XAA--.36888S3;
+	Fri, 07 Apr 2023 17:38:55 +0800 (CST)
+Received: from chenhuacai$loongson.cn ( [112.20.110.113] ) by
+ ajax-webmail-localhost.localdomain (Coremail) ; Fri, 7 Apr 2023 17:38:51
+ +0800 (GMT+08:00)
+X-Originating-IP: [112.20.110.113]
+Date: Fri, 7 Apr 2023 17:38:51 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6ZmI5Y2O5omN?= <chenhuacai@loongson.cn>
+To: "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	"WANG Xuerui" <git@xen0n.name>, "Jianmin Lv" <lvjianmin@loongson.cn>
+Subject: Re: drivers/ata/pata_serverworks.c:443 serverworks_init_one() warn:
+ inconsistent indenting
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220411(feba7c69)
+ Copyright (c) 2002-2023 www.mailtech.cn .loongson.cn
+In-Reply-To: <202304062027.6Epjw4qc-lkp@intel.com>
+References: <202304062027.6Epjw4qc-lkp@intel.com>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: 2vVStGZvb3Rlcl90eHQ9NzUwNjo2MTI=
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <563ade95.30c85.1875b153f85.Coremail.chenhuacai@loongson.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:AQAAf8Bxrr6s5C9kgzQYAA--.4163W
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/1tbiAQAOBmQutngZSQAAsd
+X-Coremail-Antispam: 1Uk129KBjvJXoW3JFWftw4DurWUurWrGFW8Xrb_yoWxZF1fpr
+	W5uaykJFykJr1rAasFyayxG3sFq3sxKa42vrs5Aw1jqry7uFsYkFn3trW5Kr17Jr12ya45
+	J3Z3tw1fKw1Ik3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+	1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+	x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+	kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFcxC0VAYjxAxZF0Ew4CEw7xC0w
+	ACY4xI67k04243AVC20s07MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+	AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+	cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+	80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE64xvF2IEb7IF0Fy7
+	YxBIdaVFxhVjvjDU0xZFpf9x07jbOz3UUUUU=
 
-tree:   https://github.com/sean-jc/linux x86/sev_selftests_for_peter
-head:   d379d4355a226bc2fdbce995a5bd05b96cd21778
-commit: 071c0892df6ce14b83b6e6c9a251d85fb7046bcd [6/8] KVM: selftests: add library for creating/interacting with SEV guests
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # https://github.com/sean-jc/linux/commit/071c0892df6ce14b83b6e6c9a251d85fb7046bcd
-        git remote add sean-jc https://github.com/sean-jc/linux
-        git fetch --no-tags sean-jc x86/sev_selftests_for_peter
-        git checkout 071c0892df6ce14b83b6e6c9a251d85fb7046bcd
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAia2VybmVsIHRlc3Qgcm9i
+b3QiIDxsa3BAaW50ZWwuY29tPgo+IOWPkemAgeaXtumXtDoyMDIzLTA0LTA2IDIwOjQxOjU0ICjm
+mJ/mnJ/lm5spCj4g5pS25Lu25Lq6OiAiSHVhY2FpIENoZW4iIDxjaGVuaHVhY2FpQGxvb25nc29u
+LmNuPgo+IOaKhOmAgTogb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYsIGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmcsICJXQU5HIFh1ZXJ1aSIgPGdpdEB4ZW4wbi5uYW1lPiwgIkppYW5t
+aW4gTHYiIDxsdmppYW5taW5AbG9vbmdzb24uY24+Cj4g5Li76aKYOiBkcml2ZXJzL2F0YS9wYXRh
+X3NlcnZlcndvcmtzLmM6NDQzIHNlcnZlcndvcmtzX2luaXRfb25lKCkgd2FybjogaW5jb25zaXN0
+ZW50IGluZGVudGluZwo+IAo+IEhpIEh1YWNhaSwKPiAKPiBGaXJzdCBiYWQgY29tbWl0IChtYXli
+ZSAhPSByb290IGNhdXNlKToKRW1tLCB0aGlzIHNlZW1zIG5vdCB0aGUgcm9vdCBjYXVzZSwganVz
+dCBiZWNhdXNlIHRoYXQgY29tbWl0IGVuYWJsZSB0aGUgYnVpbGQgb2YgdGhlc2UgZmlsZXMuCgpI
+dWFjYWkKCj4gCj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgv
+a2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQgbWFzdGVyCj4gaGVhZDogICA5OWRkZjIyNTRm
+ZWJhZTllYWI3ZmIwYmNjMDJjNTMyMjI0M2Y1YzQ5Cj4gY29tbWl0OiA1N2ZjNzMyM2E4ZTdjMmU3
+YzFkNTc5NWFiNjNjYjNmZmVhM2NmZGZiIExvb25nQXJjaDogQWRkIFBDSSBjb250cm9sbGVyIHN1
+cHBvcnQKPiBkYXRlOiAgIDggbW9udGhzIGFnbwo+IGNvbmZpZzogbG9vbmdhcmNoLXJhbmRjb25m
+aWctbTA0MS0yMDIzMDQwNiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZl
+LzIwMjMwNDA2LzIwMjMwNDA2MjAyNy42RXBqdzRxYy1sa3BAaW50ZWwuY29tL2NvbmZpZykKPiBj
+b21waWxlcjogbG9vbmdhcmNoNjQtbGludXgtZ2NjIChHQ0MpIDEyLjEuMAo+IAo+IElmIHlvdSBm
+aXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQo+
+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+IHwgTGlu
+azogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDIzMDQwNjIwMjcuNkVw
+anc0cWMtbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVycy9hdGEv
+cGF0YV9zZXJ2ZXJ3b3Jrcy5jOjQ0MyBzZXJ2ZXJ3b3Jrc19pbml0X29uZSgpIHdhcm46IGluY29u
+c2lzdGVudCBpbmRlbnRpbmcKPiBkcml2ZXJzL2F0YS9hdGFfcGlpeC5jOjEzODIgcGlpeF9pbml0
+X3NhdGFfbWFwKCkgZXJyb3I6IGJ1ZmZlciBvdmVyZmxvdyAnbWFwJyA0IDw9IDQKPiAKPiB2aW0g
+KzQ0MyBkcml2ZXJzL2F0YS9wYXRhX3NlcnZlcndvcmtzLmMKPiAKPiA2NjlhNWRiNDExZDg1YSBK
+ZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDM4NSAgCj4gNjY5YTVkYjQxMWQ4
+NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzODYgIHN0YXRpYyBpbnQg
+c2VydmVyd29ya3NfaW5pdF9vbmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVjdCBw
+Y2lfZGV2aWNlX2lkICppZCkKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAg
+ICAgIDIwMDYtMDgtMjkgIDM4NyAgewo+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAg
+ICAgICAgICAgMjAwNy0wNS0wNCAgMzg4ICAJc3RhdGljIGNvbnN0IHN0cnVjdCBhdGFfcG9ydF9p
+bmZvIGluZm9bNF0gPSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAg
+ICAyMDA2LTA4LTI5ICAzODkgIAkJeyAvKiBPU0I0ICovCj4gMWQyODA4ZmQzZDJkNWQgSmVmZiBH
+YXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA1LTI4ICAzOTAgIAkJCS5mbGFncyA9IEFUQV9GTEFH
+X1NMQVZFX1BPU1MsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdlIEJvbHPDuCAgICAgICAgICAg
+MjAwOS0wMy0xNCAgMzkxICAJCQkucGlvX21hc2sgPSBBVEFfUElPNCwKPiAxNGJkZWY5ODJjYWVk
+YSBFcmlrIEluZ2UgQm9sc8O4ICAgICAgICAgICAyMDA5LTAzLTE0ICAzOTIgIAkJCS5td2RtYV9t
+YXNrID0gQVRBX01XRE1BMiwKPiAxNGJkZWY5ODJjYWVkYSBFcmlrIEluZ2UgQm9sc8O4ICAgICAg
+ICAgICAyMDA5LTAzLTE0ICAzOTMgIAkJCS51ZG1hX21hc2sgPSBBVEFfVURNQTIsCj4gNjY5YTVk
+YjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzOTQgIAkJCS5w
+b3J0X29wcyA9ICZzZXJ2ZXJ3b3Jrc19vc2I0X3BvcnRfb3BzCj4gNjY5YTVkYjQxMWQ4NWEgSmVm
+ZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICAzOTUgIAkJfSwgeyAvKiBPU0I0IG5v
+IFVETUEgKi8KPiAxZDI4MDhmZDNkMmQ1ZCBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDct
+MDUtMjggIDM5NiAgCQkJLmZsYWdzID0gQVRBX0ZMQUdfU0xBVkVfUE9TUywKPiAxNGJkZWY5ODJj
+YWVkYSBFcmlrIEluZ2UgQm9sc8O4ICAgICAgICAgICAyMDA5LTAzLTE0ICAzOTcgIAkJCS5waW9f
+bWFzayA9IEFUQV9QSU80LAo+IDE0YmRlZjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAg
+ICAgIDIwMDktMDMtMTQgIDM5OCAgCQkJLm13ZG1hX21hc2sgPSBBVEFfTVdETUEyLAo+IDE0YmRl
+Zjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQgIDM5OSAgCQkJ
+LyogTm8gVURNQSAqLwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAg
+MjAwNi0wOC0yOSAgNDAwICAJCQkucG9ydF9vcHMgPSAmc2VydmVyd29ya3Nfb3NiNF9wb3J0X29w
+cwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAg
+NDAxICAJCX0sIHsgLyogQ1NCNSAqLwo+IDFkMjgwOGZkM2QyZDVkIEplZmYgR2FyemlrICAgICAg
+ICAgICAgICAgMjAwNy0wNS0yOCAgNDAyICAJCQkuZmxhZ3MgPSBBVEFfRkxBR19TTEFWRV9QT1NT
+LAo+IDE0YmRlZjk4MmNhZWRhIEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQg
+IDQwMyAgCQkJLnBpb19tYXNrID0gQVRBX1BJTzQsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdl
+IEJvbHPDuCAgICAgICAgICAgMjAwOS0wMy0xNCAgNDA0ICAJCQkubXdkbWFfbWFzayA9IEFUQV9N
+V0RNQTIsCj4gYmY2MjYzYTg1M2M5YzEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA3
+LTA5ICA0MDUgIAkJCS51ZG1hX21hc2sgPSBBVEFfVURNQTQsCj4gNjY5YTVkYjQxMWQ4NWEgSmVm
+ZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MDYgIAkJCS5wb3J0X29wcyA9ICZz
+ZXJ2ZXJ3b3Jrc19jc2JfcG9ydF9vcHMKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAg
+ICAgICAgICAgIDIwMDYtMDgtMjkgIDQwNyAgCQl9LCB7IC8qIENTQjUgLSBsYXRlciByZXZpc2lv
+bnMqLwo+IDFkMjgwOGZkM2QyZDVkIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNy0wNS0y
+OCAgNDA4ICAJCQkuZmxhZ3MgPSBBVEFfRkxBR19TTEFWRV9QT1NTLAo+IDE0YmRlZjk4MmNhZWRh
+IEVyaWsgSW5nZSBCb2xzw7ggICAgICAgICAgIDIwMDktMDMtMTQgIDQwOSAgCQkJLnBpb19tYXNr
+ID0gQVRBX1BJTzQsCj4gMTRiZGVmOTgyY2FlZGEgRXJpayBJbmdlIEJvbHPDuCAgICAgICAgICAg
+MjAwOS0wMy0xNCAgNDEwICAJCQkubXdkbWFfbWFzayA9IEFUQV9NV0RNQTIsCj4gYmY2MjYzYTg1
+M2M5YzEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA3LTA3LTA5ICA0MTEgIAkJCS51ZG1h
+X21hc2sgPSBBVEFfVURNQTUsCj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAg
+ICAgICAyMDA2LTA4LTI5ICA0MTIgIAkJCS5wb3J0X29wcyA9ICZzZXJ2ZXJ3b3Jrc19jc2JfcG9y
+dF9vcHMKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgt
+MjkgIDQxMyAgCQl9Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAy
+MDA2LTA4LTI5ICA0MTQgIAl9Owo+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAg
+ICAgICAgMjAwNy0wNS0wNCAgNDE1ICAJY29uc3Qgc3RydWN0IGF0YV9wb3J0X2luZm8gKnBwaVtd
+ID0geyAmaW5mb1tpZC0+ZHJpdmVyX2RhdGFdLCBOVUxMIH07Cj4gMzcwMTdhYzY4NDllNzcgU2Nv
+dHQgQ2FydGVyICAgICAgICAgICAgICAyMDE0LTA5LTI0ICA0MTYgIAlzdHJ1Y3Qgc2NzaV9ob3N0
+X3RlbXBsYXRlICpzaHQgPSAmc2VydmVyd29ya3NfY3NiX3NodDsKPiBmMDgwNDhlOTQ1NjRkMCBU
+ZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQxNyAgCWludCByYzsKPiBmMDgw
+NDhlOTQ1NjRkMCBUZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQxOCAgCj4g
+ZjA4MDQ4ZTk0NTY0ZDAgVGVqdW4gSGVvICAgICAgICAgICAgICAgICAyMDA4LTAzLTI1ICA0MTkg
+IAlyYyA9IHBjaW1fZW5hYmxlX2RldmljZShwZGV2KTsKPiBmMDgwNDhlOTQ1NjRkMCBUZWp1biBI
+ZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQyMCAgCWlmIChyYykKPiBmMDgwNDhlOTQ1
+NjRkMCBUZWp1biBIZW8gICAgICAgICAgICAgICAgIDIwMDgtMDMtMjUgIDQyMSAgCQlyZXR1cm4g
+cmM7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5
+ICA0MjIgIAo+IGQ5MTJiZTJmM2IzMzUzIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogMjAxMS0x
+MC0xMSAgNDIzICAJcmMgPSBzZXJ2ZXJ3b3Jrc19maXh1cChwZGV2KTsKPiA2NjlhNWRiNDExZDg1
+YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQyNCAgCj4gNjY5YTVkYjQx
+MWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MjUgIAkvKiBPU0I0
+IDogU291dGggQnJpZGdlIGFuZCBJREUgKi8KPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAg
+ICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQyNiAgCWlmIChwZGV2LT5kZXZpY2UgPT0gUENJX0RF
+VklDRV9JRF9TRVJWRVJXT1JLU19PU0I0SURFKSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6
+aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MjcgIAkJLyogU2VsZWN0IG5vbiBVRE1BIGNh
+cGFibGUgT1NCNCBpZiB3ZSBjYW4ndCBkbyBmaXh1cHMgKi8KPiBkOTEyYmUyZjNiMzM1MyBCYXJ0
+bG9taWVqIFpvbG5pZXJraWV3aWN6IDIwMTEtMTAtMTEgIDQyOCAgCQlpZiAocmMgPCAwKQo+IDE2
+MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAgICAgICAgMjAwNy0wNS0wNCAgNDI5ICAJ
+CQlwcGlbMF0gPSAmaW5mb1sxXTsKPiAzNzAxN2FjNjg0OWU3NyBTY290dCBDYXJ0ZXIgICAgICAg
+ICAgICAgIDIwMTQtMDktMjQgIDQzMCAgCQlzaHQgPSAmc2VydmVyd29ya3Nfb3NiNF9zaHQ7Cj4g
+NjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzEg
+IAl9Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5
+ICA0MzIgIAkvKiBzZXR1cCBDU0I1L0NTQjYgOiBTb3V0aCBCcmlkZ2UgYW5kIElERSBvcHRpb24g
+UkFJRCAqLwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0w
+OC0yOSAgNDMzICAJZWxzZSBpZiAoKHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX1NFUlZF
+UldPUktTX0NTQjVJREUpIHx8Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAg
+ICAgICAyMDA2LTA4LTI5ICA0MzQgIAkJIChwZGV2LT5kZXZpY2UgPT0gUENJX0RFVklDRV9JRF9T
+RVJWRVJXT1JLU19DU0I2SURFKSB8fAo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAg
+ICAgICAgICAgMjAwNi0wOC0yOSAgNDM1ICAJCSAocGRldi0+ZGV2aWNlID09IFBDSV9ERVZJQ0Vf
+SURfU0VSVkVSV09SS1NfQ1NCNklERTIpKSB7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsg
+ICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzYgIAo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2Fy
+emlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAgNDM3ICAJCSAvKiBJZiB0aGUgcmV0dXJuZWQg
+YnRyIGlzIHRoZSBuZXdlciByZXZpc2lvbiB0aGVuCj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6
+aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0MzggIAkJICAgIHNlbGVjdCB0aGUgcmlnaHQg
+aW5mbyBibG9jayAqLwo+IGQ5MTJiZTJmM2IzMzUzIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3og
+MjAxMS0xMC0xMSAgNDM5ICAJCSBpZiAocmMgPT0gMykKPiAxNjI2YWViODgxMjM2YyBUZWp1biBI
+ZW8gICAgICAgICAgICAgICAgIDIwMDctMDUtMDQgIDQ0MCAgCQkgCXBwaVswXSA9ICZpbmZvWzNd
+Owo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAgICAgICAgICAgMjAwNi0wOC0yOSAg
+NDQxICAKPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgt
+MjkgIDQ0MiAgCQkvKiBJcyB0aGlzIHRoZSAzcmQgY2hhbm5lbCBDU0I2IElERSA/ICovCj4gNjY5
+YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5IEA0NDMgIAkJ
+aWYgKHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX1NFUlZFUldPUktTX0NTQjZJREUyKQo+
+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAgICAgICAgICAgMjAwNy0wNS0wNCAgNDQ0
+ICAJCQlwcGlbMV0gPSAmYXRhX2R1bW15X3BvcnRfaW5mbzsKPiA2NjlhNWRiNDExZDg1YSBKZWZm
+IEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0NSAgCX0KPiA2NjlhNWRiNDExZDg1
+YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0NiAgCj4gMzcwMTdhYzY4
+NDllNzcgU2NvdHQgQ2FydGVyICAgICAgICAgICAgICAyMDE0LTA5LTI0ICA0NDcgIAlyZXR1cm4g
+YXRhX3BjaV9ibWRtYV9pbml0X29uZShwZGV2LCBwcGksIHNodCwgTlVMTCwgMCk7Cj4gNjY5YTVk
+YjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgICAgICAgICAgICAyMDA2LTA4LTI5ICA0NDggIH0KPiA2
+NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgICAgICAgICAgIDIwMDYtMDgtMjkgIDQ0OSAg
+Cj4gCj4gOjo6Ojo6IFRoZSBjb2RlIGF0IGxpbmUgNDQzIHdhcyBmaXJzdCBpbnRyb2R1Y2VkIGJ5
+IGNvbW1pdAo+IDo6Ojo6OiA2NjlhNWRiNDExZDg1YTE0Zjg2Y2Q5MmJjMTZiZjdhYjViOGFhMjM1
+IFtsaWJhdGFdIEFkZCBhIGJ1bmNoIG9mIFBBVEEgZHJpdmVycy4KPiAKPiA6Ojo6OjogVE86IEpl
+ZmYgR2FyemlrIDxqZWZmQGdhcnppay5vcmc+Cj4gOjo6Ojo6IENDOiBKZWZmIEdhcnppayA8amVm
+ZkBnYXJ6aWsub3JnPgo+IAo+IC0tIAo+IDAtREFZIENJIEtlcm5lbCBUZXN0IFNlcnZpY2UKPiBo
+dHRwczovL2dpdGh1Yi5jb20vaW50ZWwvbGtwLXRlc3RzCg0KDQrmnKzpgq7ku7blj4rlhbbpmYTk
+u7blkKvmnInpvpnoiq/kuK3np5HnmoTllYbkuJrnp5jlr4bkv6Hmga/vvIzku4XpmZDkuo7lj5Hp
+gIHnu5nkuIrpnaLlnLDlnYDkuK3liJflh7rnmoTkuKrkurrmiJbnvqTnu4TjgILnpoHmraLku7vk
+vZXlhbbku5bkurrku6Xku7vkvZXlvaLlvI/kvb/nlKjvvIjljIXmi6zkvYbkuI3pmZDkuo7lhajp
+g6jmiJbpg6jliIblnLDms4TpnLLjgIHlpI3liLbmiJbmlaPlj5HvvInmnKzpgq7ku7blj4rlhbbp
+mYTku7bkuK3nmoTkv6Hmga/jgILlpoLmnpzmgqjplJnmlLbmnKzpgq7ku7bvvIzor7fmgqjnq4vl
+jbPnlLXor53miJbpgq7ku7bpgJrnn6Xlj5Hku7bkurrlubbliKDpmaTmnKzpgq7ku7bjgIIgDQpU
+aGlzIGVtYWlsIGFuZCBpdHMgYXR0YWNobWVudHMgY29udGFpbiBjb25maWRlbnRpYWwgaW5mb3Jt
+YXRpb24gZnJvbSBMb29uZ3NvbiBUZWNobm9sb2d5ICwgd2hpY2ggaXMgaW50ZW5kZWQgb25seSBm
+b3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQgYWJvdmUuIEFu
+eSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55IHdheSAoaW5j
+bHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlzY2xvc3VyZSwg
+cmVwcm9kdWN0aW9uIG9yIGRpc3NlbWluYXRpb24pIGJ5IHBlcnNvbnMgb3RoZXIgdGhhbiB0aGUg
+aW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHByb2hpYml0ZWQuIElmIHlvdSByZWNlaXZlIHRoaXMg
+ZW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBieSBwaG9uZSBvciBlbWFp
+bCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0LiA=
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304071721.Dit4CnZd-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-libbpf: failed to find '.BTF' ELF section in vmlinux
->> Error: failed to load BTF from vmlinux: No data available
---
->> ERROR: modpost: "bpf_fentry_test1" [tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.ko] undefined!
---
-Warning: Kernel ABI header at 'tools/include/uapi/linux/in.h' differs from latest version at 'include/uapi/linux/in.h'
-Warning: Kernel ABI header at 'tools/arch/x86/include/asm/cpufeatures.h' differs from latest version at 'arch/x86/include/asm/cpufeatures.h'
-Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/perf_regs.h' differs from latest version at 'arch/arm64/include/uapi/asm/perf_regs.h'
-Warning: Kernel ABI header at 'tools/include/linux/coresight-pmu.h' differs from latest version at 'include/linux/coresight-pmu.h'
-PERF_VERSION = 6.3.rc2.g071c0892df6c
-util/pmu-bison.c: In function 'perf_pmu_parse':
->> util/pmu-bison.c:875:3: error: 'YYST' undeclared (first use in this function)
-875 |   YYSTYPE yyval;
-|   ^~~~
-util/pmu-bison.c:875:3: note: each undeclared identifier is reported only once for each function it appears in
->> util/pmu-bison.c:875:7: error: expected ';' at end of input
-875 |   YYSTYPE yyval;
-|       ^
-|       ;
-876 |
-|
->> util/pmu-bison.c:875:3: error: expected declaration or statement at end of input
-875 |   YYSTYPE yyval;
-|   ^~~~
->> util/pmu-bison.c:872:19: error: unused variable 'yytoken' [-Werror=unused-variable]
-872 |   yysymbol_kind_t yytoken = YYSYMBOL_YYEMPTY;
-|                   ^~~~~~~
->> util/pmu-bison.c:870:7: error: unused variable 'yyresult' [-Werror=unused-variable]
-870 |   int yyresult;
-|       ^~~~~~~~
->> util/pmu-bison.c:868:7: error: unused variable 'yyn' [-Werror=unused-variable]
-868 |   int yyn;
-|       ^~~
->> util/pmu-bison.c:866:14: error: unused variable 'yyvsp' [-Werror=unused-variable]
-866 |     YYSTYPE *yyvsp = yyvs;
-|              ^~~~~
->> util/pmu-bison.c:861:17: error: unused variable 'yyssp' [-Werror=unused-variable]
-861 |     yy_state_t *yyssp = yyss;
-|                 ^~~~~
->> util/pmu-bison.c:856:17: error: unused variable 'yystacksize' [-Werror=unused-variable]
-856 |     YYPTRDIFF_T yystacksize = YYINITDEPTH;
-|                 ^~~~~~~~~~~
->> util/pmu-bison.c:850:9: error: unused variable 'yyerrstatus' [-Werror=unused-variable]
-850 |     int yyerrstatus = 0;
-|         ^~~~~~~~~~~
->> util/pmu-bison.c:848:21: error: unused variable 'yystate' [-Werror=unused-variable]
-848 |     yy_state_fast_t yystate = 0;
-|                     ^~~~~~~
-util/pmu-bison.c:876: error: control reaches end of non-void function [-Werror=return-type]
-876 |
-|
-At top level:
->> util/pmu-bison.c:814:1: error: 'yydestruct' defined but not used [-Werror=unused-function]
-814 | yydestruct (const char *yymsg,
-| ^~~~~~~~~~
->> util/pmu-bison.c:618:26: error: 'yyr2' defined but not used [-Werror=unused-const-variable=]
-618 | static const yytype_int8 yyr2[] =
-|                          ^~~~
->> util/pmu-bison.c:612:26: error: 'yyr1' defined but not used [-Werror=unused-const-variable=]
-612 | static const yytype_int8 yyr1[] =
-|                          ^~~~
->> util/pmu-bison.c:605:26: error: 'yystos' defined but not used [-Werror=unused-const-variable=]
-605 | static const yytype_int8 yystos[] =
-|                          ^~~~~~
->> util/pmu-bison.c:597:26: error: 'yycheck' defined but not used [-Werror=unused-const-variable=]
-597 | static const yytype_int8 yycheck[] =
-|                          ^~~~~~~
->> util/pmu-bison.c:591:26: error: 'yytable' defined but not used [-Werror=unused-const-variable=]
-591 | static const yytype_int8 yytable[] =
-|                          ^~~~~~~
->> util/pmu-bison.c:583:26: error: 'yydefgoto' defined but not used [-Werror=unused-const-variable=]
-583 | static const yytype_int8 yydefgoto[] =
-|                          ^~~~~~~~~
->> util/pmu-bison.c:577:26: error: 'yypgoto' defined but not used [-Werror=unused-const-variable=]
-577 | static const yytype_int8 yypgoto[] =
-|                          ^~~~~~~
->> util/pmu-bison.c:570:26: error: 'yydefact' defined but not used [-Werror=unused-const-variable=]
-570 | static const yytype_int8 yydefact[] =
-|                          ^~~~~~~~
-util/pmu-bison.c:561:26: error: 'yypact' defined but not used [-Werror=unused-const-variable=]
-561 | static const yytype_int8 yypact[] =
-|                          ^~~~~~
-util/pmu-bison.c:486:26: error: 'yytranslate' defined but not used [-Werror=unused-const-variable=]
-486 | static const yytype_int8 yytranslate[] =
-|                          ^~~~~~~~~~~
-cc1: note: unrecognized command-line option '-Wno-unknown-warning-option' may have been intended to silence earlier diagnostics
-cc1: all warnings being treated as errors
-make[6]: *** [tools/build/Makefile.build:98: tools/perf/util/pmu-bison.o] Error 1
-make[6]: *** Waiting for unfinished jobs....
-make[5]: *** [tools/build/Makefile.build:140: util] Error 2
-make[4]: *** [Makefile.perf:673: tools/perf/perf-in.o] Error 2
-make[4]: *** Waiting for unfinished jobs....
-make[3]: *** [Makefile.perf:236: sub-make] Error 2
-make[2]: *** [Makefile:70: all] Error 2
---
-libbpf: failed to find '.BTF' ELF section in vmlinux
->> Error: failed to load BTF from vmlinux: No data available
-make[3]: *** [Makefile:208: tools/bpf/bpftool/vmlinux.h] Error 195
-make[3]: *** Deleting file 'tools/bpf/bpftool/vmlinux.h'
-make[3]: *** Waiting for unfinished jobs....
-make[2]: *** [Makefile:113: bpftool] Error 2
-make[2]: *** Waiting for unfinished jobs....
-libbpf: failed to find '.BTF' ELF section in vmlinux
->> Error: failed to load BTF from vmlinux: No data available
-make[3]: *** [Makefile:78: tools/bpf/runqslower//vmlinux.h] Error 195
-make[3]: *** Deleting file 'tools/bpf/runqslower//vmlinux.h'
-make[2]: *** [Makefile:122: runqslower] Error 2
---
-In file included from thermal_nl.c:9:
->> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
-6 | #include <netlink/netlink.h>
-|          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[4]: *** [tools/build/Makefile.build:98: tools/lib/thermal/thermal_nl.o] Error 1
-make[4]: *** Waiting for unfinished jobs....
-In file included from sampling.c:9:
->> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
-6 | #include <netlink/netlink.h>
-|          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[4]: *** [tools/build/Makefile.build:98: tools/lib/thermal/sampling.o] Error 1
-In file included from commands.c:10:
->> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
-6 | #include <netlink/netlink.h>
-|          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[4]: *** [tools/build/Makefile.build:98: tools/lib/thermal/commands.o] Error 1
-In file included from thermal.c:6:
->> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
-6 | #include <netlink/netlink.h>
-|          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[4]: *** [tools/build/Makefile.build:98: tools/lib/thermal/thermal.o] Error 1
-In file included from events.c:10:
->> thermal_nl.h:6:10: fatal error: netlink/netlink.h: No such file or directory
-6 | #include <netlink/netlink.h>
-|          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[4]: *** [tools/build/Makefile.build:98: tools/lib/thermal/events.o] Error 1
-make[3]: *** [Makefile:105: tools/lib/thermal/libthermal-in.o] Error 2
-make[2]: *** [Makefile:120: all] Error 2
---
->> thermometer.c:21:10: fatal error: libconfig.h: No such file or directory
-21 | #include <libconfig.h>
-|          ^~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [Makefile:23: thermometer] Error 1
---
->> Makefile:77: *** Cannot find a vmlinux for VMLINUX_BTF at any of "vmlinux vmlinux ../../../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-0.bpo.2-amd64".  Stop.
-make[1]: *** [Makefile:230: kselftest/kvm/lib/x86_64/sev.o] Error 1
-make[1]: *** [Makefile:230: kselftest/kvm/lib/x86_64/processor.o] Error 1
-make[1]: *** [Makefile:230: kselftest/kvm/lib/kvm_util.o] Error 1
-make[1]: Target 'all' not remade because of errors.
---
-In file included from lib/kvm_util.c:9:
-lib/kvm_util.c: In function '____vm_create':
-<< In file included from lib/kvm_util.c:9:
->> lib/kvm_util.c:223:46: error: 'nr_pages' undeclared (first use in this function)
-223 |                  vm_guest_mode_string(mode), nr_pages);
-|                                              ^~~~~~~~
-include/test_util.h:28:34: note: in definition of macro 'pr_debug'
-28 | #define pr_debug(...) _no_printf(__VA_ARGS__)
-|                                  ^~~~~~~~~~~
-lib/kvm_util.c:223:46: note: each undeclared identifier is reported only once for each function it appears in
-223 |                  vm_guest_mode_string(mode), nr_pages);
-|                                              ^~~~~~~~
-include/test_util.h:28:34: note: in definition of macro 'pr_debug'
-28 | #define pr_debug(...) _no_printf(__VA_ARGS__)
-|                                  ^~~~~~~~~~~
-lib/kvm_util.c: In function '____vm_vaddr_alloc':
-lib/kvm_util.c:1323:28: warning: implicit declaration of function '_vm_phy_pages_alloc'; did you mean 'vm_phy_pages_alloc'? [-Wimplicit-function-declaration]
-1323 |         vm_paddr_t paddr = _vm_phy_pages_alloc(vm, pages,
-|                            ^~~~~~~~~~~~~~~~~~~
-|                            vm_phy_pages_alloc
-lib/kvm_util.c: In function 'addr_gpa2hva':
-<< In file included from lib/kvm_util.c:9:
->> lib/kvm_util.c:1478:32: error: 'gpa_tagged' undeclared (first use in this function)
-1478 |         gpa = vm_untag_gpa(vm, gpa_tagged);
-|                                ^~~~~~~~~~
-lib/kvm_util.c: At top level:
-cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
---
-lib/x86_64/processor.c: In function 'kvm_init_vm_address_properties':
->> lib/x86_64/processor.c:1048:52: error: 'X86_PROPERTY_SEV_C_BIT' undeclared (first use in this function)
-1048 |                 vm->arch.c_bit = this_cpu_property(X86_PROPERTY_SEV_C_BIT);
-|                                                    ^~~~~~~~~~~~~~~~~~~~~~
-lib/x86_64/processor.c:1048:52: note: each undeclared identifier is reported only once for each function it appears in
-lib/x86_64/processor.c: At top level:
-cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
---
-lib/x86_64/sev.c: In function 'sev_ioctl':
->> lib/x86_64/sev.c:25:34: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-25 |         struct sev_issue_cmd arg {
-|                                  ^
->> lib/x86_64/sev.c:26:17: error: expected expression before '.' token
-26 |                 .cmd = cmd,
-|                 ^
->> lib/x86_64/sev.c:26:27: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-26 |                 .cmd = cmd,
-|                           ^
-lib/x86_64/sev.c:27:44: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-27 |                 .data = (unsigned long)data,
-|                                            ^
-In file included from include/kvm_util.h:10,
-from lib/x86_64/sev.c:6:
->> lib/x86_64/sev.c:30:43: error: 'arg' undeclared (first use in this function)
-30 |         kvm_ioctl(sev_fd, SEV_ISSUE_CMD, &arg);
-|                                           ^~~
-include/kvm_util_base.h:36:60: note: in definition of macro '__kvm_static_assert'
-36 | #define __kvm_static_assert(expr, msg, ...) _Static_assert(expr, msg)
-|                                                            ^~~~
-include/kvm_util_base.h:267:9: note: in expansion of macro 'kvm_static_assert'
-267 |         kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));            |         ^~~~~~~~~~~~~~~~~
-include/kvm_util_base.h:272:9: note: in expansion of macro 'kvm_do_ioctl'
-272 |         kvm_do_ioctl(kvm_fd, cmd, arg)
-|         ^~~~~~~~~~~~
-include/kvm_util_base.h:277:19: note: in expansion of macro '__kvm_ioctl'
-277 |         int ret = __kvm_ioctl(kvm_fd, cmd, arg);                         |                   ^~~~~~~~~~~
-include/kvm_util_base.h:283:9: note: in expansion of macro '_kvm_ioctl'
-283 |         _kvm_ioctl(kvm_fd, cmd, #cmd, arg)
-|         ^~~~~~~~~~
-lib/x86_64/sev.c:30:9: note: in expansion of macro 'kvm_ioctl'
-30 |         kvm_ioctl(sev_fd, SEV_ISSUE_CMD, &arg);
-|         ^~~~~~~~~
-lib/x86_64/sev.c:30:43: note: each undeclared identifier is reported only once for each function it appears in
-30 |         kvm_ioctl(sev_fd, SEV_ISSUE_CMD, &arg);
-|                                           ^~~
-include/kvm_util_base.h:36:60: note: in definition of macro '__kvm_static_assert'
-36 | #define __kvm_static_assert(expr, msg, ...) _Static_assert(expr, msg)
-|                                                            ^~~~
-include/kvm_util_base.h:267:9: note: in expansion of macro 'kvm_static_assert'
-267 |         kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));            |         ^~~~~~~~~~~~~~~~~
-include/kvm_util_base.h:272:9: note: in expansion of macro 'kvm_do_ioctl'
-272 |         kvm_do_ioctl(kvm_fd, cmd, arg)
-|         ^~~~~~~~~~~~
-include/kvm_util_base.h:277:19: note: in expansion of macro '__kvm_ioctl'
-277 |         int ret = __kvm_ioctl(kvm_fd, cmd, arg);                         |                   ^~~~~~~~~~~
-include/kvm_util_base.h:283:9: note: in expansion of macro '_kvm_ioctl'
-283 |         _kvm_ioctl(kvm_fd, cmd, #cmd, arg)
-|         ^~~~~~~~~~
-lib/x86_64/sev.c:30:9: note: in expansion of macro 'kvm_ioctl'
-30 |         kvm_ioctl(sev_fd, SEV_ISSUE_CMD, &arg);
-|         ^~~~~~~~~
->> include/kvm_util_base.h:267:27: error: expression in static assertion is not an integer
-267 |         kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));            |                           ^
-include/kvm_util_base.h:36:60: note: in definition of macro '__kvm_static_assert'
-36 | #define __kvm_static_assert(expr, msg, ...) _Static_assert(expr, msg)
-|                                                            ^~~~
-include/kvm_util_base.h:267:9: note: in expansion of macro 'kvm_static_assert'
-267 |         kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));            |         ^~~~~~~~~~~~~~~~~
-include/kvm_util_base.h:272:9: note: in expansion of macro 'kvm_do_ioctl'
-272 |         kvm_do_ioctl(kvm_fd, cmd, arg)
-|         ^~~~~~~~~~~~
-include/kvm_util_base.h:277:19: note: in expansion of macro '__kvm_ioctl'
-277 |         int ret = __kvm_ioctl(kvm_fd, cmd, arg);                         |                   ^~~~~~~~~~~
-include/kvm_util_base.h:283:9: note: in expansion of macro '_kvm_ioctl'
-283 |         _kvm_ioctl(kvm_fd, cmd, #cmd, arg)
-|         ^~~~~~~~~~
-lib/x86_64/sev.c:30:9: note: in expansion of macro 'kvm_ioctl'
-30 |         kvm_ioctl(sev_fd, SEV_ISSUE_CMD, &arg);
-|         ^~~~~~~~~
-lib/x86_64/sev.c: In function 'kvm_sev_ioctl':
->> lib/x86_64/sev.c:38:29: error: 'struct kvm_vm' has no member named 'sev_fd'
-38 |                 .sev_fd = vm->sev_fd,
-|                             ^~
-In file included from include/kvm_util.h:10,
-from lib/x86_64/sev.c:6:
->> include/kvm_util_base.h:36:45: error: static assertion failed: "!_IOC_SIZE((((2U|1U) << (((0+8)+8)+14)) | (((0xAE)) << (0+8)) | (((0xba)) << 0) | ((((sizeof(unsigned long)))) << ((0+8)+8)))) || sizeof(*&sev_cmd) == _IOC_SIZE((((2U|1U) << (((0+8)+8)+14)) | (((0xAE)) << (0+8)) | (((0xba)) << 0) | ((((sizeof(unsigned long)))) << ((0+8)+8))))"
-36 | #define __kvm_static_assert(expr, msg, ...) _Static_assert(expr, msg)
-|                                             ^~~~~~~~~~~~~~
-include/kvm_util_base.h:37:38: note: in expansion of macro '__kvm_static_assert'
-37 | #define kvm_static_assert(expr, ...) __kvm_static_assert(expr, ##__VA_ARGS__, #expr)
-|                                      ^~~~~~~~~~~~~~~~~~~
-include/kvm_util_base.h:267:9: note: in expansion of macro 'kvm_static_assert'
-267 |         kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));            |         ^~~~~~~~~~~~~~~~~
-include/kvm_util_base.h:290:9: note: in expansion of macro 'kvm_do_ioctl'
-290 |         kvm_do_ioctl((vm)->fd, cmd, arg);                                |         ^~~~~~~~~~~~
-include/kvm_util_base.h:295:19: note: in expansion of macro '__vm_ioctl'
-295 |         int ret = __vm_ioctl(vm, cmd, arg);                              |                   ^~~~~~~~~~
-include/kvm_util_base.h:301:9: note: in expansion of macro '_vm_ioctl'
-301 |         _vm_ioctl(vm, cmd, #cmd, arg)
-|         ^~~~~~~~~
-lib/x86_64/sev.c:42:9: note: in expansion of macro 'vm_ioctl'
-42 |         vm_ioctl(vm, KVM_MEMORY_ENCRYPT_OP, &sev_cmd);
-|         ^~~~~~~~
-lib/x86_64/sev.c: In function 'encrypt_region':
->> lib/x86_64/sev.c:87:9: warning: implicit declaration of function 'sev_register_user_region' [-Wimplicit-function-declaration]
-87 |         sev_register_user_region(vm, region);
-|         ^~~~~~~~~~~~~~~~~~~~~~~~
-At top level:
-lib/x86_64/sev.c:45:13: warning: 'sev_register_encrypted_memory' defined but not used [-Wunused-function]
-45 | static void sev_register_encrypted_memory(struct kvm_vm *vm,
-|             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
