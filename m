@@ -1,43 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15E92F33;
-	Fri,  7 Apr 2023 11:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758972F33
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 11:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680865667; x=1712401667;
+  t=1680866265; x=1712402265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KVCXfhw1zDj7376xpqJwLkfww4Vdi8YGdqQSaX7hiGc=;
-  b=eL/s54j2Csfq64o+EJ0zNJ6lkk4ZDfQKCs+1EzKsTAqTZei7MjWWnS7t
-   kyyVsfQiZ0GHxTpd28cilociY2GomzcdxoHelC3nAq+LF81hDF85KOuSm
-   Hrbf5FEnXh041XzXwlo5dHTNQ+1QN9n2GeIYK0+SLt0uHbMQdx3gMEmmD
-   rNoykSXpJW5rLUmVyNfGGktdybSsjH5rlVPmfstsDGG5nhhoaUZFKatuN
-   U18Qk1rgN5W+F1W6LanXIHCHLyy+1rCsAWoRBJP82oQfe/YMs0lfkVOwq
-   lNelVipLZ/k8hMAt1/cJPgTZV1V43Ux1H41kzXwXetm3cnmvEEKutcJ9w
+  bh=zgLoVyltjAEkdKEqQH2JECykdlVTUZ5aps3fmtoMQa0=;
+  b=dA6xqrAjnpN5kYC1v8d7kcMgvBOXbQxM8cqZY9nYAcgI/5A4TQMLhtVw
+   5LIK7ZnCRErETob5Lud1Itw62X2Og+OWC0wGZNnheoi00eZUK+WYALZFy
+   vowdi1YiURvHs1+XQLyDy6if2iwIS0wPdMRDi4mAWVjHbfTnalyDfgfqn
+   ju39V5pBbqCnd+SHVRAss/fuPyASKizrJu9UjE3repDidw+tsECyYQnHu
+   voB8BeaMuni0k0HfQcItCfYtHSsbiRknT6gbtSfyPYBuv0ZGEQB4PynGj
+   +eX+qBSlX+HgFBGheZrPxS7kU8wfx0ZzZ3FTW68pShPSlHuCM4ri7OYjQ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="341721025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="345618331"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="341721025"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 04:07:43 -0700
+   d="scan'208";a="345618331"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 04:17:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="756686509"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="933567764"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="756686509"
+   d="scan'208";a="933567764"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Apr 2023 04:07:42 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 07 Apr 2023 04:17:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkjwT-000SQ2-2k;
-	Fri, 07 Apr 2023 11:07:41 +0000
-Date: Fri, 7 Apr 2023 19:07:33 +0800
+	id 1pkk6A-000SR4-22;
+	Fri, 07 Apr 2023 11:17:42 +0000
+Date: Fri, 7 Apr 2023 19:17:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:hotplug 32/43] arch/riscv/kernel/cpu-hotplug.c:75:2:
- error: call to undeclared function 'cpuhp_ap_report_death'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202304071802.QnfMJdbf-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.4-2.3.x-imx 391/28754] versioncheck:
+ ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+Message-ID: <202304071939.xvNFrS93-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,62 +46,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hotplug
-head:   ddd73f1b6ab5c834f6d98521dcedd9ddd56a9659
-commit: 71622e99f16217b2be66e87b63b7521c8ec697af [32/43] riscv: Switch to hotplug core state synchronization
-config: riscv-randconfig-r012-20230406 (https://download.01.org/0day-ci/archive/20230407/202304071802.QnfMJdbf-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=71622e99f16217b2be66e87b63b7521c8ec697af
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel hotplug
-        git checkout 71622e99f16217b2be66e87b63b7521c8ec697af
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
+head:   33630781929731d93d24c944689add3da38c8e93
+commit: 4602d72fc0537096e3b2bad985b3a55b18919618 [391/28754] vpu: hantro: add decoder for imx845
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304071802.QnfMJdbf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071939.xvNFrS93-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/riscv/kernel/cpu-hotplug.c:55:6: error: redefinition of 'arch_cpuhp_cleanup_dead_cpu'
-   void arch_cpuhp_cleanup_dead_cpu(unsigned int cpu)
-        ^
-   include/linux/cpuhotplug.h:531:20: note: previous definition is here
-   static inline void arch_cpuhp_cleanup_dead_cpu(unsigned int cpu) { }
-                      ^
->> arch/riscv/kernel/cpu-hotplug.c:75:2: error: call to undeclared function 'cpuhp_ap_report_death'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cpuhp_ap_report_death();
-           ^
-   arch/riscv/kernel/cpu-hotplug.c:75:2: note: did you mean 'cpuhp_ap_report_dead'?
-   include/linux/cpuhotplug.h:530:20: note: 'cpuhp_ap_report_dead' declared here
-   static inline void cpuhp_ap_report_dead(void) { }
-                      ^
-   2 errors generated.
-
-
-vim +/cpuhp_ap_report_death +75 arch/riscv/kernel/cpu-hotplug.c
-
-    67	
-    68	/*
-    69	 * Called from the idle thread for the CPU which has been shutdown.
-    70	 */
-    71	void arch_cpu_idle_dead(void)
-    72	{
-    73		idle_task_exit();
-    74	
-  > 75		cpuhp_ap_report_death();
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+>> ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
