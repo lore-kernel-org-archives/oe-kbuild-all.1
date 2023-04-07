@@ -1,43 +1,43 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0F37B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 06:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F79D7B;
+	Fri,  7 Apr 2023 06:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680847892; x=1712383892;
+  t=1680847897; x=1712383897;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DfMmKtS0qOsb3OlFgZVAzD+HtildH3WqcF4pKwz2FAE=;
-  b=nHjLp8SpNUPFYLD2hBYj1q73//909EBXQrV3bQd0mODR0kjpLDba7bLU
-   qfXNosDIWXPKFEm8pr6jwkUMi9Gz/Y8DSzw8hnQ/VfkpBWVNoF01RQQXC
-   NsnTKzOPhZJntkgzP/qgH3QTkz9b1TUj9DJzwl1Qgo2aK8AGj45YZECn9
-   3O1rJsjaL/OqmGrhBGdwrlsYPkzRHe/+Y6jaNz85trI2hp04tMzCGdYzu
-   VerSN35ZLeb/E6jF8s3GbCGntnDuJmrGY6+rJd4j+gzc9I9Vpr73QplmO
-   0sjVvy5TLvsi5JZBCkEf+gJYFghifFYhiZQPEBs0WcegpSGBN7uVivGH9
+  bh=qzAlK0ivIggH2wn9zvrYSrovXixKAq2wiQzJo8CUZUU=;
+  b=AL2USQF6pXIAtwJhf6n04f+iIhikypkHhNnv/5Xm6F+Im2qhcHdbqyUZ
+   O3TYNIShXGt96Yt+62bSan2P0nk7X/7Tq0Z2OfjyvbvAVb/vKn7ScnZIJ
+   bGxAiJaanhVWlbpvG4SjUdf/ynCiRnn/bHdzjD0Vf0dZkEzZ1ujRXkMHe
+   vH+W/Jmp+FVIqi06MMgWKDaAqkis23pPDYqriswwjPw4X32M/NNwiNLGD
+   QEEsmNUVgfvo2oNyBWoF9cyKACBc8RaQpeeJk+CKqRETYnAthDOZUSwMO
+   kU8ZBx4Azi4jVK6ahspkYMlWYYHVfobKHXXqQgDQqvm+N+T4Lc8Xfu138
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="429220895"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="429220904"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="429220895"
+   d="scan'208";a="429220904"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 23:11:31 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 23:11:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="689962878"
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="689962882"
 X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
-   d="scan'208";a="689962878"
+   d="scan'208";a="689962882"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 23:11:31 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Apr 2023 23:11:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkfJq-000SBO-0d;
+	id 1pkfJq-000SBS-0p;
 	Fri, 07 Apr 2023 06:11:30 +0000
-Date: Fri, 7 Apr 2023 14:11:13 +0800
+Date: Fri, 7 Apr 2023 14:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.4-2.3.x-imx 341/28754] versioncheck:
- ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 18549: need
- linux/version.h
-Message-ID: <202304071419.g6fo941z-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:hotplug 24/43] kernel/cpu.c:1296:2: error: call to
+ undeclared function 'cpuhp_bp_sync_dead'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202304071432.tXvtpDvx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,107 +47,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
-head:   33630781929731d93d24c944689add3da38c8e93
-commit: 30638182fdab7cfef20e76c935c3b56d5f84416a [341/28754] MGS-4530-1 add 6.2.4.p4 gpu driver for L4.19
-reproduce:
-        make versioncheck
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hotplug
+head:   3675258f0132b4f3fd39917e9d5a53f5e23094b5
+commit: ff7f55f1e7002f73f7f233062dca4e5f1f47c931 [24/43] cpu/hotplug: Add CPU state tracking and synchronization
+config: riscv-randconfig-r012-20230406 (https://download.01.org/0day-ci/archive/20230407/202304071432.tXvtpDvx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=ff7f55f1e7002f73f7f233062dca4e5f1f47c931
+        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
+        git fetch --no-tags tglx-devel hotplug
+        git checkout ff7f55f1e7002f73f7f233062dca4e5f1f47c931
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304071419.g6fo941z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304071432.tXvtpDvx-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
->> ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 18549: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 3590: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 604: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 546: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1153: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 511: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 854: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 603: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 572: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 151: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2331: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1331: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 856: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 250: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7821: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
->> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1642: need linux/version.h
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+>> kernel/cpu.c:1296:2: error: call to undeclared function 'cpuhp_bp_sync_dead'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           cpuhp_bp_sync_dead(cpu);
+           ^
+   kernel/cpu.c:1296:2: note: did you mean 'cpuhp_bp_sync_alive'?
+   kernel/cpu.c:452:19: note: 'cpuhp_bp_sync_alive' declared here
+   static inline int cpuhp_bp_sync_alive(unsigned int cpu) { return 0; }
+                     ^
+   1 error generated.
+
+
+vim +/cpuhp_bp_sync_dead +1296 kernel/cpu.c
+
+  1251	
+  1252	static int takedown_cpu(unsigned int cpu)
+  1253	{
+  1254		struct cpuhp_cpu_state *st = per_cpu_ptr(&cpuhp_state, cpu);
+  1255		int err;
+  1256	
+  1257		/* Park the smpboot threads */
+  1258		kthread_park(st->thread);
+  1259	
+  1260		/*
+  1261		 * Prevent irq alloc/free while the dying cpu reorganizes the
+  1262		 * interrupt affinities.
+  1263		 */
+  1264		irq_lock_sparse();
+  1265	
+  1266		/*
+  1267		 * So now all preempt/rcu users must observe !cpu_active().
+  1268		 */
+  1269		err = stop_machine_cpuslocked(take_cpu_down, NULL, cpumask_of(cpu));
+  1270		if (err) {
+  1271			/* CPU refused to die */
+  1272			irq_unlock_sparse();
+  1273			/* Unpark the hotplug thread so we can rollback there */
+  1274			kthread_unpark(st->thread);
+  1275			return err;
+  1276		}
+  1277		BUG_ON(cpu_online(cpu));
+  1278	
+  1279		/*
+  1280		 * The teardown callback for CPUHP_AP_SCHED_STARTING will have removed
+  1281		 * all runnable tasks from the CPU, there's only the idle task left now
+  1282		 * that the migration thread is done doing the stop_machine thing.
+  1283		 *
+  1284		 * Wait for the stop thread to go away.
+  1285		 */
+  1286		wait_for_ap_thread(st, false);
+  1287		BUG_ON(st->state != CPUHP_AP_IDLE_DEAD);
+  1288	
+  1289		/* Interrupts are moved away from the dying cpu, reenable alloc/free */
+  1290		irq_unlock_sparse();
+  1291	
+  1292		hotplug_cpu__broadcast_tick_pull(cpu);
+  1293		/* This actually kills the CPU. */
+  1294		__cpu_die(cpu);
+  1295	
+> 1296		cpuhp_bp_sync_dead(cpu);
+  1297	
+  1298		tick_cleanup_dead_cpu(cpu);
+  1299		rcutree_migrate_callbacks(cpu);
+  1300		return 0;
+  1301	}
+  1302	
 
 -- 
 0-DAY CI Kernel Test Service
