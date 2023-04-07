@@ -1,43 +1,43 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1486D847C;
-	Fri,  7 Apr 2023 17:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A43F847C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 17:50:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680889199; x=1712425199;
+  t=1680889859; x=1712425859;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sVmvD+c+qiDCUBkB7ICKdefv+FiLhFKVnBX7iQ02glg=;
-  b=RGyEPw3pNtq+03A72Cn0tW8X1eizhnnx7hLQFUQ64CjUqwI3gb/QgrL/
-   EaaiJyaabSV62injVCMc7HLAyIQxg84nep3DkJOj40PJjKh+DP9KtD95K
-   xVU86Iy0fUsuuaQ7Yd147VHKmwhK6gRyuAH6QDV0A8IkFNBEzPcjnyH1t
-   k1jZd0whu6CBBA9SxYn2yeq/Eyk/vD0D6d4RYQvZNbq7D63FeEFap7w4d
-   qgCU2olld77TwZJquYxyEZQmPZREe/z6rKAqbBzHQjZcSLTn1pt/r6PSe
-   yBHOKgTNzLlvHH2tJvHA2XJTz/sKbEDmCPXF7Q1+jICk33XCYvPAVRFr1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405857432"
+  bh=L31FGdUq5M3cKIkaUD6zibfML9sVlCv15gSx92+vGtY=;
+  b=UO9pAtlTmtF2zz3SK0PrkOJP4X3WXXPDXYZ5dm33V3swZZu4Qli+VIbL
+   oBf5NTNwnVU+2gAs26aacuIxnftgbmkD4fBTM72ds4oQGdOhUCXTiImHB
+   1gOC0XquHCn0a2FXp7hLDpAeBvdfBSoW7L6ygSTgBD2AOQtB+bcq7yAgy
+   9wWL3Tkl7vINgYyWDYx6lE0bB/UeCWMRhzGxs+g2HqNssreLpGes6S2mV
+   uI1JP1j3pkDTwRoUvm5Bla2Tw6E3zhjG87ds8xvvUngWUoY7BquAMJYlk
+   LZlpmVUVT0v05D9ZIL5b72qL41R91ECZfZv+gkhDyIbfGyWA2K70XdMXH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405859428"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="405857432"
+   d="scan'208";a="405859428"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:39:58 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:50:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="717909755"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="717911678"
 X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="717909755"
+   d="scan'208";a="717911678"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2023 10:39:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2023 10:50:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkq44-000Sk6-29;
-	Fri, 07 Apr 2023 17:39:56 +0000
-Date: Sat, 8 Apr 2023 01:39:51 +0800
+	id 1pkqEi-000SkY-3C;
+	Fri, 07 Apr 2023 17:50:56 +0000
+Date: Sat, 8 Apr 2023 01:50:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] fpga: dfl-fme: constify pointers to hwmon_channel_info
-Message-ID: <202304080159.eAU0ksuS-lkp@intel.com>
-References: <20230407150112.79854-1-krzysztof.kozlowski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ufs: hwmon: constify pointers to hwmon_channel_info
+Message-ID: <202304080101.U6AkrSrf-lkp@intel.com>
+References: <20230407150137.79947-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,58 +46,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407150112.79854-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230407150137.79947-1-krzysztof.kozlowski@linaro.org>
 
 Hi Krzysztof,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc5 next-20230406]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.3-rc5 next-20230406]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/fpga-dfl-fme-constify-pointers-to-hwmon_channel_info/20230407-230805
-patch link:    https://lore.kernel.org/r/20230407150112.79854-1-krzysztof.kozlowski%40linaro.org
-patch subject: [PATCH] fpga: dfl-fme: constify pointers to hwmon_channel_info
-config: i386-randconfig-a001-20230403 (https://download.01.org/0day-ci/archive/20230408/202304080159.eAU0ksuS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/ufs-hwmon-constify-pointers-to-hwmon_channel_info/20230407-231053
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230407150137.79947-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH] ufs: hwmon: constify pointers to hwmon_channel_info
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080101.U6AkrSrf-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5b9bcef28b40b20ec5539bacbe0a8ae6e063bfa8
+        # https://github.com/intel-lab-lkp/linux/commit/7697d4619c62de396a373d422e59846af320e552
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Krzysztof-Kozlowski/fpga-dfl-fme-constify-pointers-to-hwmon_channel_info/20230407-230805
-        git checkout 5b9bcef28b40b20ec5539bacbe0a8ae6e063bfa8
+        git fetch --no-tags linux-review Krzysztof-Kozlowski/ufs-hwmon-constify-pointers-to-hwmon_channel_info/20230407-231053
+        git checkout 7697d4619c62de396a373d422e59846af320e552
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/fpga/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/ufs/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080159.eAU0ksuS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080101.U6AkrSrf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/fpga/dfl-fme-main.c:277:10: error: initializing 'const struct hwmon_channel_info **' with an expression of type 'const struct hwmon_channel_info *const[2]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           .info = thermal_hwmon_info,
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/fpga/dfl-fme-main.c:477:10: error: initializing 'const struct hwmon_channel_info **' with an expression of type 'const struct hwmon_channel_info *const[2]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           .info = power_hwmon_info,
-                   ^~~~~~~~~~~~~~~~
-   2 errors generated.
+>> drivers/ufs/core/ufs-hwmon.c:162:19: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     162 |         .info   = ufs_hwmon_info,
+         |                   ^~~~~~~~~~~~~~
 
 
-vim +277 drivers/fpga/dfl-fme-main.c
+vim +/const +162 drivers/ufs/core/ufs-hwmon.c
 
-4284c65a9fda9d Wu Hao 2019-10-14  274  
-4284c65a9fda9d Wu Hao 2019-10-14  275  static const struct hwmon_chip_info thermal_hwmon_chip_info = {
-4284c65a9fda9d Wu Hao 2019-10-14  276  	.ops = &thermal_hwmon_ops,
-4284c65a9fda9d Wu Hao 2019-10-14 @277  	.info = thermal_hwmon_info,
-4284c65a9fda9d Wu Hao 2019-10-14  278  };
-4284c65a9fda9d Wu Hao 2019-10-14  279  
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15  159  
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15  160  static const struct hwmon_chip_info ufs_hwmon_hba_info = {
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15  161  	.ops	= &ufs_hwmon_ops,
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15 @162  	.info	= ufs_hwmon_info,
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15  163  };
+e88e2d32200a17 drivers/scsi/ufs/ufs-hwmon.c Avri Altman 2021-09-15  164  
 
 -- 
 0-DAY CI Kernel Test Service
