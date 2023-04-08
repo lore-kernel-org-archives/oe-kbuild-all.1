@@ -1,48 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785511841;
-	Sat,  8 Apr 2023 09:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A5FC2ED
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 09:17:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680944805; x=1712480805;
+  t=1680945464; x=1712481464;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hpnpvx6xos6iUlaCPN6kP4RigNaZ4dPMBCtAmVawsAM=;
-  b=Gt5SHoKiQ9r5WHoykxi5GCJizfp0zsHwDJmyegzHIunFtXYTXkaqngMW
-   CYysAKK0m4tNf1JBCMmOLCgCVyLSKehqMT9tgTddLdBhNiDzTCA6JmLQT
-   z0X4xJfydsZsdW2ugpHtPYPO/YCF9vNyaDCU7bRtFK1GFfkTOjC75qGFU
-   RYkeAf7gMuQaJHRCo/IvJC+Xpo2tCyDRySpLtS/nzTRwwDO+QJO9CzgmL
-   +ylIPuwC9PgTdI3jovP6tz/2lLv74EyKDfjjVXLed64ihWjH7UURWQwAK
-   hLGWfqo2iXdNC7xvFF6UYI8ncfBT4gWuOgBRxptjCNEvLE0BRB5gKDjl8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="408263406"
+  bh=WnoPyAsNrwxIm2c5LPePy+LwhcAQ4DSb1TUhlMpZDOw=;
+  b=V5Eeg1DSqTX1GMw3k5D83JXTWwkP+iTe3TNoi5GhUl9DiUofz42vHcA6
+   HvXNNTGfpbCT32r/vdaXvjn+Ec/E+OBCw/OXCZjLqPVek0gxOXfBsTdW0
+   QqP3jylXwlY8ui46/tVIC60KFikszGofoQiewDWvP6v6z7TporbOlOKBT
+   JeZFIH4378o6EWQlpT7bk1zmsuYXLv1BgRKqR5V//K4Fzoy55CP7zb3/A
+   yzhbw2I4FIVN9CarguU2+/yMRFAYAAVk3csh0Ayfd8EiQNOAx4lSc0hGA
+   gKMBsJN85c77Gx8XiaFCmMfsXC8lW4pUE5sM3DCD699gs1tPtPdCDm1Z2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405951342"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="408263406"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 02:06:44 -0700
+   d="scan'208";a="405951342"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 02:17:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="681244371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690272176"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="681244371"
+   d="scan'208";a="690272176"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 02:06:42 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 08 Apr 2023 02:17:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl4Wv-000TZt-25;
-	Sat, 08 Apr 2023 09:06:41 +0000
-Date: Sat, 8 Apr 2023 17:06:20 +0800
+	id 1pl4hZ-000TaL-2w;
+	Sat, 08 Apr 2023 09:17:41 +0000
+Date: Sat, 8 Apr 2023 17:16:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: error: call to
- undeclared function 'LOCHNAGAR1_'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202304081740.35UVR4Ai-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-mailbox 6/10]
+ drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function
+ 'FIELD_PREP'
+Message-ID: <202304081747.gOkMzhWB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,121 +47,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aa318c48808c0aa73216bd94c54c4553d3663add
-commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=gnu11
-date:   1 year, 1 month ago
-config: mips-randconfig-r001-20230408 (https://download.01.org/0day-ci/archive/20230408/202304081740.35UVR4Ai-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+tree:   https://github.com/AsahiLinux/linux bits/010-mailbox
+head:   4cadfe6eccffb8a2972ee06381d3eb82702daec6
+commit: fd4e8ef7e986e392f40dbdc08837a8e7b0379e84 [6/10] soc: apple: mailbox: Add ASC/M3 mailbox driver
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230408/202304081747.gOkMzhWB-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e8c07082a810fbb9db303a2b66b66b8d7e588b53
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # https://github.com/AsahiLinux/linux/commit/fd4e8ef7e986e392f40dbdc08837a8e7b0379e84
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/010-mailbox
+        git checkout fd4e8ef7e986e392f40dbdc08837a8e7b0379e84
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/pinctrl/cirrus/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/soc/apple/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081740.35UVR4Ai-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081747.gOkMzhWB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: error: pasting formed 'LOCHNAGAR1_(', an invalid preprocessing token
-   LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-   ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:2: note: expanded from macro 'LN1_PIN_GPIO'
-           LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-           ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:63: note: expanded from macro 'LN_PIN_GPIO'
-           .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-                                                                        ^
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: error: call to undeclared function 'LOCHNAGAR1_'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:2: note: expanded from macro 'LN1_PIN_GPIO'
-           LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-           ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:46: note: expanded from macro 'LN_PIN_GPIO'
-           .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-                                                       ^
-   <scratch space>:139:1: note: expanded from here
-   LOCHNAGAR1_
-   ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: error: initializer element is not a compile-time constant
-   LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:2: note: expanded from macro 'LN1_PIN_GPIO'
-           LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:46: note: expanded from macro 'LN_PIN_GPIO'
-           .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-                                                       ^~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:139:1: note: expanded from here
-   LOCHNAGAR1_
-   ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:201:1: error: pasting formed 'LOCHNAGAR1_(', an invalid preprocessing token
-   LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-   ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:2: note: expanded from macro 'LN1_PIN_GPIO'
-           LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-           ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:63: note: expanded from macro 'LN_PIN_GPIO'
-           .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-                                                                        ^
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:201:1: error: initializer element is not a compile-time constant
-   LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:2: note: expanded from macro 'LN1_PIN_GPIO'
-           LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:46: note: expanded from macro 'LN_PIN_GPIO'
-           .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-                                                       ^~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:150:1: note: expanded from here
-   LOCHNAGAR1_
-   ^
-   5 errors generated.
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
+>> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |                        ^~~~~~~~~~
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
+>> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     188 |                 msg.msg1 = FIELD_GET(
+         |                            ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/LOCHNAGAR1_ +200 drivers/pinctrl/cirrus/pinctrl-lochnagar.c
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
 
-0548448b719ac7 Charles Keepax 2019-03-19  199  
-0548448b719ac7 Charles Keepax 2019-03-19 @200  LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-0548448b719ac7 Charles Keepax 2019-03-19  201  LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-0548448b719ac7 Charles Keepax 2019-03-19  202  LN1_PIN_GPIO(CDC_CIF1MODE, "codec-cif1mode", I2C_CTRL, CDC_CIF_MODE, 0);
-0548448b719ac7 Charles Keepax 2019-03-19  203  LN1_PIN_MUX(GF_GPIO2,      "gf-gpio2");
-0548448b719ac7 Charles Keepax 2019-03-19  204  LN1_PIN_MUX(GF_GPIO3,      "gf-gpio3");
-0548448b719ac7 Charles Keepax 2019-03-19  205  LN1_PIN_MUX(GF_GPIO7,      "gf-gpio7");
-0548448b719ac7 Charles Keepax 2019-03-19  206  LN1_PIN_MUX(LED1,          "led1");
-0548448b719ac7 Charles Keepax 2019-03-19  207  LN1_PIN_MUX(LED2,          "led2");
-0548448b719ac7 Charles Keepax 2019-03-19  208  LN1_PIN_AIF(CDC_AIF1);
-0548448b719ac7 Charles Keepax 2019-03-19  209  LN1_PIN_AIF(CDC_AIF2);
-0548448b719ac7 Charles Keepax 2019-03-19  210  LN1_PIN_AIF(CDC_AIF3);
-0548448b719ac7 Charles Keepax 2019-03-19  211  LN1_PIN_AIF(DSP_AIF1);
-0548448b719ac7 Charles Keepax 2019-03-19  212  LN1_PIN_AIF(DSP_AIF2);
-0548448b719ac7 Charles Keepax 2019-03-19  213  LN1_PIN_AIF(PSIA1);
-0548448b719ac7 Charles Keepax 2019-03-19  214  LN1_PIN_AIF(PSIA2);
-0548448b719ac7 Charles Keepax 2019-03-19  215  LN1_PIN_AIF(SPDIF_AIF);
-0548448b719ac7 Charles Keepax 2019-03-19  216  LN1_PIN_AIF(GF_AIF1);
-0548448b719ac7 Charles Keepax 2019-03-19  217  LN1_PIN_AIF(GF_AIF2);
-0548448b719ac7 Charles Keepax 2019-03-19  218  LN1_PIN_AIF(GF_AIF3);
-0548448b719ac7 Charles Keepax 2019-03-19  219  LN1_PIN_AIF(GF_AIF4);
-0548448b719ac7 Charles Keepax 2019-03-19  220  
-
-:::::: The code at line 200 was first introduced by commit
-:::::: 0548448b719ac78fa18fdbcd03856952ba6cc7dc pinctrl: lochnagar: Add support for the Cirrus Logic Lochnagar
-
-:::::: TO: Charles Keepax <ckeepax@opensource.cirrus.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+    95	
+    96	int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+    97			    bool atomic)
+    98	{
+    99		unsigned long flags;
+   100		int ret;
+   101		u32 mbox_ctrl;
+   102		long t;
+   103	
+   104		spin_lock_irqsave(&mbox->tx_lock, flags);
+   105		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   106	
+   107		while (mbox_ctrl & mbox->hw->control_full) {
+   108			if (atomic) {
+   109				ret = readl_poll_timeout_atomic(
+   110					mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+   111					!(mbox_ctrl & mbox->hw->control_full), 100,
+   112					APPLE_MBOX_TX_TIMEOUT * 1000);
+   113	
+   114				if (ret) {
+   115					spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   116					return ret;
+   117				}
+   118	
+   119				break;
+   120			}
+   121			/*
+   122			 * The interrupt is level triggered and will keep firing as long as the
+   123			 * FIFO is empty. It will also keep firing if the FIFO was empty
+   124			 * at any point in the past until it has been acknowledged at the
+   125			 * mailbox level. By acknowledging it here we can ensure that we will
+   126			 * only get the interrupt once the FIFO has been cleared again.
+   127			 * If the FIFO is already empty before the ack it will fire again
+   128			 * immediately after the ack.
+   129			 */
+   130			if (mbox->hw->has_irq_controls) {
+   131				writel_relaxed(mbox->hw->irq_bit_send_empty,
+   132					       mbox->regs + mbox->hw->irq_ack);
+   133			}
+   134			enable_irq(mbox->irq_send_empty);
+   135			reinit_completion(&mbox->tx_empty);
+   136			spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   137	
+   138			t = wait_for_completion_interruptible_timeout(
+   139				&mbox->tx_empty,
+   140				msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+   141			if (t < 0)
+   142				return t;
+   143			else if (t == 0)
+   144				return -ETIMEDOUT;
+   145	
+   146			spin_lock_irqsave(&mbox->tx_lock, flags);
+   147			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   148		}
+   149	
+   150		writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+ > 151		writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+   152			       mbox->regs + mbox->hw->a2i_send1);
+   153	
+   154		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   155	
+   156		return 0;
+   157	}
+   158	EXPORT_SYMBOL(apple_mbox_send);
+   159	
+   160	static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+   161	{
+   162		struct apple_mbox *mbox = data;
+   163	
+   164		/*
+   165		 * We don't need to acknowledge the interrupt at the mailbox level
+   166		 * here even if supported by the hardware. It will keep firing but that
+   167		 * doesn't matter since it's disabled at the main interrupt controller.
+   168		 * apple_mbox_send will acknowledge it before enabling
+   169		 * it at the main controller again.
+   170		 */
+   171		spin_lock(&mbox->tx_lock);
+   172		disable_irq_nosync(mbox->irq_send_empty);
+   173		complete(&mbox->tx_empty);
+   174		spin_unlock(&mbox->tx_lock);
+   175	
+   176		return IRQ_HANDLED;
+   177	}
+   178	
+   179	static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+   180	{
+   181		struct apple_mbox_msg msg;
+   182		int ret = 0;
+   183	
+   184		u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   185	
+   186		while (!(mbox_ctrl & mbox->hw->control_empty)) {
+   187			msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+ > 188			msg.msg1 = FIELD_GET(
+   189				APPLE_MBOX_MSG1_MSG,
+   190				readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+   191	
+   192			mbox->rx(mbox, msg, mbox->cookie);
+   193			ret++;
+   194			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   195		}
+   196	
+   197		/*
+   198		 * The interrupt will keep firing even if there are no more messages
+   199		 * unless we also acknowledge it at the mailbox level here.
+   200		 * There's no race if a message comes in between the check in the while
+   201		 * loop above and the ack below: If a new messages arrives inbetween
+   202		 * those two the interrupt will just fire again immediately after the
+   203		 * ack since it's level triggered.
+   204		 */
+   205		if (mbox->hw->has_irq_controls) {
+   206			writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+   207				       mbox->regs + mbox->hw->irq_ack);
+   208		}
+   209	
+   210		return ret;
+   211	}
+   212	
 
 -- 
 0-DAY CI Kernel Test Service
