@@ -1,44 +1,51 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726A917C0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 05:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D481841;
+	Sat,  8 Apr 2023 06:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680932560; x=1712468560;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6aiTNuOeWTPufPREoRt81/JgYSRZ45aDeWocvtnkG3c=;
-  b=X+Edxjpv1JkAW3avZJiDGKaInN0GJdsN7q43K8zcu7EtiRDKCUr6+3Kh
-   /+T+pz09rpcfIYEUm3iB6fLMXzbIFFhP0kr6YzBf5tLFgw57bS8lHIGHr
-   qszgw35faHDwlemQYIn9x5H42Px2WhswvFk5g9A88gq4PVP1t3pJjzt93
-   gO2/GRygLDFikBp2PVfbYMNzgeYpW/LIpaEpWSDRKr7Uc/z4UITZ5HM+3
-   8SrTw14ZukfnvKs9I7NpQAeAZ9Qv7ld4Pmrieo6wYUZdoQC/DVQkJ2Uyg
-   MrXi6BB8IEsQiyt+Igd0I82DJqQhUAD9IOVpDtxRIPGI65J1C0SNWNlib
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="327207867"
+  t=1680934418; x=1712470418;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3pSwex2GTRoIwzE9M/rgXMQbLMvVYq457TO/GzodD5c=;
+  b=dQMdUbUfNiQeM9FSn1M5uF4RUwI7Ao1sDincxhmrhUOwY+YVqEInD2aI
+   GQXNBY/ms530RiwRobh6ZCRjXsGHl0kA4yOAkhiiI7yybVzwr0nttg+FR
+   WhcVW35jyTn7h5QVC65uc1wWbptoKtOJPHFJ8AWp2KCniJsE8Jnd0pLTi
+   U96yuVJ2EKDS1rd3Nu5aNc9Sy3CLU1eYgl/wN1c3GpInY5jn+n5huBf2g
+   /SuIXQmYZBOef0v9LyoHVn77XNxP9tUKxxea82sc/G6Yamj71geJ+no+l
+   zn8l+DC4EiI5+8an5v0GXQC5x6E15Q7tcZ3HX5fJg2/UDMt+x3TqtMONO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341867455"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="327207867"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 22:42:39 -0700
+   d="scan'208";a="341867455"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 23:13:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690239376"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="861970833"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="690239376"
+   d="scan'208";a="861970833"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 22:42:38 -0700
+  by orsmga005.jf.intel.com with ESMTP; 07 Apr 2023 23:13:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl1LN-000TNz-08;
-	Sat, 08 Apr 2023 05:42:33 +0000
-Date: Sat, 8 Apr 2023 13:41:53 +0800
+	id 1pl1pN-000TPJ-2u;
+	Sat, 08 Apr 2023 06:13:33 +0000
+Date: Sat, 8 Apr 2023 14:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 7/11]
- arch/x86/include/asm/kvm_host.h:1964:34: error: section attribute cannot be
- specified for local variables
-Message-ID: <202304081345.XT9kgmG0-lkp@intel.com>
+To: Keguang Zhang <keguang.zhang@gmail.com>, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Yang Ling <gnaygnil@gmail.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>
+Subject: Re: [PATCH 2/2] watchdog: loongson1_wdt: Add DT support
+Message-ID: <202304081301.6Ukja1z0-lkp@intel.com>
+References: <20230407110025.516405-3-keguang.zhang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +54,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407110025.516405-3-keguang.zhang@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   8e114d01de2541e2ff88224962e90c8d9fea62f3
-commit: 001bd6a2a006eb835b0e02a59afbca84c8cd9a9b [7/11] BACKPORT: FROMLIST: kvm/x86: add kvm_arch_test_clear_young()
-config: i386-randconfig-a012-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081345.XT9kgmG0-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Keguang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cf3be7e82b129ed34f811f116f2b113f6299d449]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang/dt-bindings-watchdog-Add-Loongson-1-watchdog/20230407-190222
+base:   cf3be7e82b129ed34f811f116f2b113f6299d449
+patch link:    https://lore.kernel.org/r/20230407110025.516405-3-keguang.zhang%40gmail.com
+patch subject: [PATCH 2/2] watchdog: loongson1_wdt: Add DT support
+config: mips-loongson1c_defconfig (https://download.01.org/0day-ci/archive/20230408/202304081301.6Ukja1z0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.15
-        git checkout 001bd6a2a006eb835b0e02a59afbca84c8cd9a9b
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/26b8fbfd577b41f39d6af516ef7c49cbffa05117
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Keguang-Zhang/dt-bindings-watchdog-Add-Loongson-1-watchdog/20230407-190222
+        git checkout 26b8fbfd577b41f39d6af516ef7c49cbffa05117
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081345.XT9kgmG0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081301.6Ukja1z0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kvm_host.h:41,
-                    from drivers/gpu/drm/i915/gvt/gvt.h:37,
-                    from <command-line>:
-   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_has_test_clear_young':
->> arch/x86/include/asm/kvm_host.h:1964:34: error: section attribute cannot be specified for local variables
-    1964 |         extern u64 __read_mostly shadow_accessed_mask;
-         |                                  ^~~~~~~~~~~~~~~~~~~~
+>> drivers/watchdog/loongson1_wdt.c:158:21: error: use of undeclared identifier 'ls1x_wdt_dt_ids'
+                   .of_match_table = ls1x_wdt_dt_ids,
+                                     ^
+   1 error generated.
 
 
-vim +1964 arch/x86/include/asm/kvm_host.h
+vim +/ls1x_wdt_dt_ids +158 drivers/watchdog/loongson1_wdt.c
 
-  1959	
-  1960	/* see the comments on the generic kvm_arch_has_test_clear_young() */
-  1961	#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
-  1962	static inline bool kvm_arch_has_test_clear_young(void)
-  1963	{
-> 1964		extern u64 __read_mostly shadow_accessed_mask;
-  1965	
-  1966		return IS_ENABLED(CONFIG_KVM) && IS_ENABLED(CONFIG_X86_64) &&
-  1967		       (!IS_REACHABLE(CONFIG_KVM) || (tdp_enabled && shadow_accessed_mask));
-  1968	}
-  1969	
+   153	
+   154	static struct platform_driver ls1x_wdt_driver = {
+   155		.probe = ls1x_wdt_probe,
+   156		.driver = {
+   157			.name = "ls1x-wdt",
+ > 158			.of_match_table = ls1x_wdt_dt_ids,
+   159		},
+   160	};
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
