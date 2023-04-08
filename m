@@ -1,33 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFB21FA5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 15:50:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB87C433D2;
-	Sat,  8 Apr 2023 15:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680969040;
-	bh=Y7aLsdu9wZV8LzZW/CITM6rQS9K9lgkKwj5eYz4H5w4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f+cEIvG4AOjoZSAndl42B/X0PojYAsoJ4h3OLkr6fdIgkYjZyMKzAOoFYYpNFUSfg
-	 XGyX7mR9VHaIkIZgv6Tb5yf6GXY/vO6Mu+fefd7MgcvfI/wEPx3iH4aNjI6t0vO4it
-	 vjPLkXs/XUFIhuS4x35FHcn8fR6evQnPZzHf6x9yfsmwjouJ3J1R4FIEU4nBF6XpA0
-	 fKGT7y3BEAKL9LuAZLW8Kgoaxk1Rnb2A7i3ljcsxAwN2syYO8PdoDOUeAIqutjJOoe
-	 zKlo9NGlE3Uf8MXYhE+rR4ViN8oBGklitBKL5++uInRxmZfoeV9b0BSyq2E57/i1E2
-	 riQP9xxOOUPmA==
-Received: by pali.im (Postfix)
-	id 7255D7B7; Sat,  8 Apr 2023 17:50:37 +0200 (CEST)
-Date: Sat, 8 Apr 2023 17:50:37 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nicholas Piggin <npiggin@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/8] powerpc/fsl_uli1575: Misc cleanup
-Message-ID: <20230408155037.hxcxanfetm7mzcik@pali>
-References: <20230408132151.8902-2-pali@kernel.org>
- <202304082352.xhNWS4WV-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50711FB8;
+	Sat,  8 Apr 2023 17:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680974828; x=1712510828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=20Gp8Ob9sY0l7Q3kLwGChvRjnxAHs9YuVEd44YUhsWE=;
+  b=KwT1e59dSzu6B5HHy8L27MPtJ+dPtxm8ocGOf3c6zFtJ7F/pgJPRsKPn
+   Y4YIjXwnh35ofbD7IHDopoTDgMvdUSYq3NAw32r0YeiSQCLEcVox7jfxz
+   GF9xX/pUedsw3vgdQ85lBgu5jdA40pGnlNX8kwW7TW+ExjjnJBrEwZ9VS
+   v1iGnlzzxpT4JlCBKvNLqsF2P/HUcRCmJcFR8E+F8ifK7iTqUFbD/g1fE
+   5UN7s+Th8Xp5ZmgwNSCnMuhr52gkhLfjHVFmbpQNxG151s0WvToYsyIjI
+   OtIzAJPdxDaaI+j7EauQCWG3l4p1GbOk25HiH8gjJst+L4kuX8aUzyizF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="322789167"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
+   d="scan'208";a="322789167"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 10:27:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="681311839"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
+   d="scan'208";a="681311839"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 10:27:04 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1plCLA-000Twb-01;
+	Sat, 08 Apr 2023 17:27:04 +0000
+Date: Sun, 9 Apr 2023 01:26:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: fbtft-bus.c added params
+Message-ID: <202304090139.b8XZpHpu-lkp@intel.com>
+References: <20230408081817.81562-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -36,67 +49,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202304082352.xhNWS4WV-lkp@intel.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20230408081817.81562-1-kartikey406@gmail.com>
 
-On Saturday 08 April 2023 23:24:07 kernel test robot wrote:
-> Hi Pali,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on powerpc/next]
-> [also build test ERROR on powerpc/fixes linus/master v6.3-rc5 next-20230406]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Pali-Roh-r/powerpc-fsl_uli1575-Misc-cleanup/20230408-212610
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> patch link:    https://lore.kernel.org/r/20230408132151.8902-2-pali%40kernel.org
-> patch subject: [PATCH 1/8] powerpc/fsl_uli1575: Misc cleanup
-> config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230408/202304082352.xhNWS4WV-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/4d3f86e2ae53d180d2cbbe556355ff5b03d4251b
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Pali-Roh-r/powerpc-fsl_uli1575-Misc-cleanup/20230408-212610
->         git checkout 4d3f86e2ae53d180d2cbbe556355ff5b03d4251b
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304082352.xhNWS4WV-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/powerpc/kernel/sys_ppc32.c:56:
->    arch/powerpc/include/asm/ppc-pci.h:71:45: error: 'struct pci_controller' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
->       71 | static inline int uli_exclude_device(struct pci_controller *hose, u_char bus, u_char devfn) { return PCIBIOS_SUCCESSFUL; }
->          |                                             ^~~~~~~~~~~~~~
->    arch/powerpc/include/asm/ppc-pci.h: In function 'uli_exclude_device':
-> >> arch/powerpc/include/asm/ppc-pci.h:71:102: error: 'PCIBIOS_SUCCESSFUL' undeclared (first use in this function)
->       71 | static inline int uli_exclude_device(struct pci_controller *hose, u_char bus, u_char devfn) { return PCIBIOS_SUCCESSFUL; }
->          |                                                                                                      ^~~~~~~~~~~~~~~~~~
->    arch/powerpc/include/asm/ppc-pci.h:71:102: note: each undeclared identifier is reported only once for each function it appears in
->    cc1: all warnings being treated as errors
-> 
-> 
-> vim +/PCIBIOS_SUCCESSFUL +71 arch/powerpc/include/asm/ppc-pci.h
-> 
->     69	
->     70	#if !defined(CONFIG_PCI) || !defined(CONFIG_FSL_ULI1575)
->   > 71	static inline int uli_exclude_device(struct pci_controller *hose, u_char bus, u_char devfn) { return PCIBIOS_SUCCESSFUL; }
->     72	#endif /* !defined(CONFIG_PCI) || !defined(CONFIG_FSL_ULI1575) */
->     73	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+Hi Deepanshu,
 
-Fixed in V2:
-https://lore.kernel.org/linuxppc-dev/20230408154814.10400-1-pali@kernel.org/T/#t
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
+patch link:    https://lore.kernel.org/r/20230408081817.81562-1-kartikey406%40gmail.com
+patch subject: [PATCH] staging: fbtft: fbtft-bus.c added params
+config: i386-randconfig-s001-20230403 (https://download.01.org/0day-ci/archive/20230409/202304090139.b8XZpHpu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/038bedbb2c34ffc5e5ce77d5f49811778be8d631
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
+        git checkout 038bedbb2c34ffc5e5ce77d5f49811778be8d631
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/fbtft/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304090139.b8XZpHpu-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+
+vim +65 drivers/staging/fbtft/fbtft-bus.c
+
+    64	
+  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, cpu_to_be16);
+    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16);
+    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, cpu_to_be16);
+    68	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
