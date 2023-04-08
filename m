@@ -1,51 +1,45 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843661841;
-	Sat,  8 Apr 2023 08:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47814C2DC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 08:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680942944; x=1712478944;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lxkkBZdI9k/nHA+MzzcXBFUD0IJeMAc31c2hhqC60EQ=;
-  b=OoE2s60dmCPnLta+MCTZtXGK+2I2+G+XON/kKOu2kL7wxnqNfUIG8M6Y
-   16f4rH4WQLPy/m9zmd9nkqI52QiGra948IWZhNeIRUuk1sNWZIBrWV3v0
-   exC3QQIPXOmChzAVP5oZfNMgBgqBXSR6U4xuNf8EWq11mAtbjLOzpsw9u
-   7UoPusx8UTLTGeTGGOCJDAng9hW0OkB36COOhPFNmJHf/o8O7ckgORCPr
-   5/eKDckGHf98xajY/fffE8sd28g5L2dFSFPnsXqIei+A3St+z1gqp83hL
-   yGGAHO0B+87k3TnGj6HD7gIdzJ0hG4sXNGQlFB/KQ0S+3x0Rh401C1i0E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="331785182"
+  t=1680944203; x=1712480203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pDb6r1vpCiRf4dfBI9fpyY1N6hETDmmpPas+jfL2ArE=;
+  b=Vy+zjsbnMH/Dg/VJ5OTUi8AOuSN93jmZVdtt2OWmCymb71xV5TjvcFDp
+   9BJlbvgA2xYQHF0ybroUPH0aXyi+u61S/ZtADegnIGGIFXzYRbP6dBSUd
+   8A08sFFwbqmAzz/cesHMrJRRwwD01ENe5D2aWcMTz3GOrQ2pL0F2IyFYY
+   1MPWTK/aNgj0HXLVcsLlvun982yjt+SVNOB1WNuCE0gLoB8xudMPuf6Mc
+   DBVZENk4b+GeXEXIiJOknGZ5l85t/VIAqmeqxfUK9laRD3GwVBUR8SUl0
+   VB9D4GS+SHLoRcXxX2tFGVt0Y96NbADirz8J1GAJYA4r42NUwjljmckh6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="408262786"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="331785182"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 01:35:44 -0700
+   d="scan'208";a="408262786"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 01:56:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="752249577"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="681242415"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="752249577"
+   d="scan'208";a="681242415"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2023 01:35:40 -0700
+  by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 01:56:41 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl42t-000TXp-20;
-	Sat, 08 Apr 2023 08:35:39 +0000
-Date: Sat, 8 Apr 2023 16:35:25 +0800
+	id 1pl4NE-000TZJ-1n;
+	Sat, 08 Apr 2023 08:56:40 +0000
+Date: Sat, 8 Apr 2023 16:55:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tze-nan Wu <Tze-nan.Wu@mediatek.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bobule.chang@mediatek.com, wsd_upstream@mediatek.com,
-	Tze-nan.Wu@mediatek.com, stable@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] ring-buffer: Prevent inconsistent operation on
- cpu_buffer->resize_disabled
-Message-ID: <202304081615.eiaqpbV8-lkp@intel.com>
-References: <20230408052226.25268-1-Tze-nan.Wu@mediatek.com>
+To: Viktor Malik <vmalik@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 3167/9787]
+ tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:271:14: warning: no
+ previous prototype for 'bpf_fentry_shadow_test'
+Message-ID: <202304081653.o4NLO6MQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,93 +48,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408052226.25268-1-Tze-nan.Wu@mediatek.com>
 
-Hi Tze-nan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on rostedt-trace/for-next v6.3-rc5 next-20230406]
-[cannot apply to rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tze-nan-Wu/ring-buffer-Prevent-inconsistent-operation-on-cpu_buffer-resize_disabled/20230408-132502
-patch link:    https://lore.kernel.org/r/20230408052226.25268-1-Tze-nan.Wu%40mediatek.com
-patch subject: [PATCH] ring-buffer: Prevent inconsistent operation on cpu_buffer->resize_disabled
-config: x86_64-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081615.eiaqpbV8-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d404bc0af0a4bde3aa20704642d69a78bdc154f8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tze-nan-Wu/ring-buffer-Prevent-inconsistent-operation-on-cpu_buffer-resize_disabled/20230408-132502
-        git checkout d404bc0af0a4bde3aa20704642d69a78bdc154f8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e134c93f788fb93fd6a3ec3af9af850a2048c7e6
+commit: aa3d65de4b9004d799f97700751a86d3ebd7d5f9 [3167/9787] bpf/selftests: Test fentry attachment to shadowed functions
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=aa3d65de4b9004d799f97700751a86d3ebd7d5f9
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout aa3d65de4b9004d799f97700751a86d3ebd7d5f9
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081615.eiaqpbV8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081653.o4NLO6MQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/trace/ring_buffer.c:5359:15: warning: variable 'reset_online_mask' is uninitialized when used here [-Wuninitialized]
-           cpumask_copy(reset_online_mask, cpu_online_mask);
-                        ^~~~~~~~~~~~~~~~~
-   kernel/trace/ring_buffer.c:5353:33: note: initialize the variable 'reset_online_mask' to silence this warning
-           cpumask_var_t reset_online_mask;
-                                          ^
-                                           = NULL
-   1 warning generated.
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_1' [-Wmissing-prototypes]
+      32 | bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_2' [-Wmissing-prototypes]
+      38 | bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:44:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_3' [-Wmissing-prototypes]
+      44 | bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:50:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_4' [-Wmissing-prototypes]
+      50 | bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:57:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_5' [-Wmissing-prototypes]
+      57 | bpf_testmod_test_struct_arg_5(void) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
+      63 | bpf_testmod_test_mod_kfunc(int i)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:68:17: warning: no previous prototype for 'bpf_iter_testmod_seq_new' [-Wmissing-prototypes]
+      68 | __bpf_kfunc int bpf_iter_testmod_seq_new(struct bpf_iter_testmod_seq *it, s64 value, int cnt)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:81:18: warning: no previous prototype for 'bpf_iter_testmod_seq_next' [-Wmissing-prototypes]
+      81 | __bpf_kfunc s64 *bpf_iter_testmod_seq_next(struct bpf_iter_testmod_seq* it)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:91:18: warning: no previous prototype for 'bpf_iter_testmod_seq_destroy' [-Wmissing-prototypes]
+      91 | __bpf_kfunc void bpf_iter_testmod_seq_destroy(struct bpf_iter_testmod_seq *it)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:109:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
+     109 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:117:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
+     117 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:122:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
+     122 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:127:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
+     127 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:131:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
+     131 | noinline int bpf_testmod_loop_test(int n)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:143:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
+     143 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:159:14: warning: no previous prototype for 'bpf_testmod_fentry_test1' [-Wmissing-prototypes]
+     159 | noinline int bpf_testmod_fentry_test1(int a)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:164:14: warning: no previous prototype for 'bpf_testmod_fentry_test2' [-Wmissing-prototypes]
+     164 | noinline int bpf_testmod_fentry_test2(int a, u64 b)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:169:14: warning: no previous prototype for 'bpf_testmod_fentry_test3' [-Wmissing-prototypes]
+     169 | noinline int bpf_testmod_fentry_test3(char a, int b, u64 c)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:177:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
+     177 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:228:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
+     228 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:271:14: warning: no previous prototype for 'bpf_fentry_shadow_test' [-Wmissing-prototypes]
+     271 | noinline int bpf_fentry_shadow_test(int a)
+         |              ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/reset_online_mask +5359 kernel/trace/ring_buffer.c
+vim +/bpf_fentry_shadow_test +271 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
 
-  5344	
-  5345	/**
-  5346	 * ring_buffer_reset_online_cpus - reset a ring buffer per CPU buffer
-  5347	 * @buffer: The ring buffer to reset a per cpu buffer of
-  5348	 * @cpu: The CPU buffer to be reset
-  5349	 */
-  5350	void ring_buffer_reset_online_cpus(struct trace_buffer *buffer)
-  5351	{
-  5352		struct ring_buffer_per_cpu *cpu_buffer;
-  5353		cpumask_var_t reset_online_mask;
-  5354		int cpu;
-  5355	
-  5356		/* prevent another thread from changing buffer sizes */
-  5357		mutex_lock(&buffer->mutex);
-  5358	
-> 5359		cpumask_copy(reset_online_mask, cpu_online_mask);
-  5360	
-  5361		for_each_cpu_and(cpu, buffer->cpumask, reset_online_mask) {
-  5362			cpu_buffer = buffer->buffers[cpu];
-  5363	
-  5364			atomic_inc(&cpu_buffer->resize_disabled);
-  5365			atomic_inc(&cpu_buffer->record_disabled);
-  5366		}
-  5367	
-  5368		/* Make sure all commits have finished */
-  5369		synchronize_rcu();
-  5370	
-  5371		for_each_cpu_and(cpu, buffer->cpumask, reset_online_mask) {
-  5372			cpu_buffer = buffer->buffers[cpu];
-  5373	
-  5374			reset_disabled_cpu_buffer(cpu_buffer);
-  5375	
-  5376			atomic_dec(&cpu_buffer->record_disabled);
-  5377			atomic_dec(&cpu_buffer->resize_disabled);
-  5378		}
-  5379	
-  5380		mutex_unlock(&buffer->mutex);
-  5381	}
-  5382	
+   270	
+ > 271	noinline int bpf_fentry_shadow_test(int a)
+   272	{
+   273		return a + 2;
+   274	}
+   275	EXPORT_SYMBOL_GPL(bpf_fentry_shadow_test);
+   276	
 
 -- 
 0-DAY CI Kernel Test Service
