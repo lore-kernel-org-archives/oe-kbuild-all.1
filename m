@@ -1,51 +1,47 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D481841;
-	Sat,  8 Apr 2023 06:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47A0C2DA;
+	Sat,  8 Apr 2023 06:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680934418; x=1712470418;
+  t=1680935017; x=1712471017;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3pSwex2GTRoIwzE9M/rgXMQbLMvVYq457TO/GzodD5c=;
-  b=dQMdUbUfNiQeM9FSn1M5uF4RUwI7Ao1sDincxhmrhUOwY+YVqEInD2aI
-   GQXNBY/ms530RiwRobh6ZCRjXsGHl0kA4yOAkhiiI7yybVzwr0nttg+FR
-   WhcVW35jyTn7h5QVC65uc1wWbptoKtOJPHFJ8AWp2KCniJsE8Jnd0pLTi
-   U96yuVJ2EKDS1rd3Nu5aNc9Sy3CLU1eYgl/wN1c3GpInY5jn+n5huBf2g
-   /SuIXQmYZBOef0v9LyoHVn77XNxP9tUKxxea82sc/G6Yamj71geJ+no+l
-   zn8l+DC4EiI5+8an5v0GXQC5x6E15Q7tcZ3HX5fJg2/UDMt+x3TqtMONO
+  bh=ffIcKF6JLzI/Q34ihMZs5pPTke+VOLtLE4gbl3XwRis=;
+  b=M0MnsuOruNjzvu3pvMnSWZkNLlOmbH+Ss62pWJhvWINp19YmJ/VyacV8
+   Ez/cyGm+QGYqkN1QYSC9+2LN9iv2YcevDwz82uHPyrz7AngKrpvwiUoY3
+   lcjM81by8CLHRVXmIYOFZxN5p4L/biAiROmoUnXdQ46rm6pwHxGHF5Znw
+   S/S7crnROkNnGlk9h3k4Ak1M2Vf9HBMjc0aqi0l9l3bYaz6uaGpH/Urrb
+   QlI6hQsVboHJsoWTcFTkgOTXgDQUvkxOFD7dVc2zS4wEWUQb/f4b7rZau
+   TLJxWIS9Pff+qz7oLz/kUui/abkGVVmhvHsR+8JjesB9AiT/Ut8d5JqbD
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341867455"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405942104"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="341867455"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 23:13:38 -0700
+   d="scan'208";a="405942104"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 23:23:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="861970833"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="831384611"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="861970833"
+   d="scan'208";a="831384611"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Apr 2023 23:13:35 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2023 23:23:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl1pN-000TPJ-2u;
-	Sat, 08 Apr 2023 06:13:33 +0000
-Date: Sat, 8 Apr 2023 14:12:35 +0800
+	id 1pl1z4-000TPp-0w;
+	Sat, 08 Apr 2023 06:23:34 +0000
+Date: Sat, 8 Apr 2023 14:23:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keguang Zhang <keguang.zhang@gmail.com>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Yang Ling <gnaygnil@gmail.com>,
-	Keguang Zhang <keguang.zhang@gmail.com>
-Subject: Re: [PATCH 2/2] watchdog: loongson1_wdt: Add DT support
-Message-ID: <202304081301.6Ukja1z0-lkp@intel.com>
-References: <20230407110025.516405-3-keguang.zhang@gmail.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
+ parenthesis issue
+Message-ID: <202304081417.MgYKE9jj-lkp@intel.com>
+References: <20230408050323.70919-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,57 +50,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407110025.516405-3-keguang.zhang@gmail.com>
+In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
 
-Hi Keguang,
+Hi Deepanshu,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on cf3be7e82b129ed34f811f116f2b113f6299d449]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang/dt-bindings-watchdog-Add-Loongson-1-watchdog/20230407-190222
-base:   cf3be7e82b129ed34f811f116f2b113f6299d449
-patch link:    https://lore.kernel.org/r/20230407110025.516405-3-keguang.zhang%40gmail.com
-patch subject: [PATCH 2/2] watchdog: loongson1_wdt: Add DT support
-config: mips-loongson1c_defconfig (https://download.01.org/0day-ci/archive/20230408/202304081301.6Ukja1z0-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
+patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
+patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304081417.MgYKE9jj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/26b8fbfd577b41f39d6af516ef7c49cbffa05117
+        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Keguang-Zhang/dt-bindings-watchdog-Add-Loongson-1-watchdog/20230407-190222
-        git checkout 26b8fbfd577b41f39d6af516ef7c49cbffa05117
+        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
+        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081301.6Ukja1z0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081417.MgYKE9jj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/watchdog/loongson1_wdt.c:158:21: error: use of undeclared identifier 'ls1x_wdt_dt_ids'
-                   .of_match_table = ls1x_wdt_dt_ids,
-                                     ^
-   1 error generated.
+>> drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
+      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+         |                                                     ^
+   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
+      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+         | 
+>> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
+      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+         |                       ^
+         |                       ;
+   drivers/staging/fbtft/fbtft-bus.c:67:57: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
+      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+         |                                                         ^
+   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
+      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+         | 
+   drivers/staging/fbtft/fbtft-bus.c:67:23: error: expected ';' before 'void'
+      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+         |                       ^
+         |                       ;
+      68 | 
+      69 | void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+         | ~~~~                   
 
 
-vim +/ls1x_wdt_dt_ids +158 drivers/watchdog/loongson1_wdt.c
+vim +/define_fbtft_write_reg +65 drivers/staging/fbtft/fbtft-bus.c
 
-   153	
-   154	static struct platform_driver ls1x_wdt_driver = {
-   155		.probe = ls1x_wdt_probe,
-   156		.driver = {
-   157			.name = "ls1x-wdt",
- > 158			.of_match_table = ls1x_wdt_dt_ids,
-   159		},
-   160	};
-   161	
+    64	
+  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
