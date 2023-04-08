@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6464A29B0;
-	Sat,  8 Apr 2023 21:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7A279C2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680990196; x=1712526196;
+  t=1680991396; x=1712527396;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2hRuw1rGU9RrBXVSKV+O7FyJjjrRQFTbJwVNqiJ7gy0=;
-  b=BqlXVl466lLBMA6xRMRbz3bXb99BZKN7iiBksRo5PdwWAnBOx+2EUgj3
-   6LUpNEw1+iCRQ9EyTFbuxJ3sXUqd8U4tjuunJxs2EYIYnYXU3uM4Ei8nm
-   ehQGCEsZvdeQfH0DABh3dgyKPKaCAsebzbNxwscj1Ho0FH93RAk9bJ1r2
-   kkBAzWaoZZk6LmwMnLcgm4/kGjo7/wf4QqUl4pfT3At6T4b07h2y+zDkJ
-   RumHe3zWix9FYOauSRUGtffOYVNhqtZzF88jLgOaXFiJyHCWJ8Hnoy8Mz
-   pCsXhxKkKDM6Y+OIf67+Cd37BfLmxNpLWO2XFA5xb1zSC+HEqc+lnSzBs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="345827425"
+  bh=z3SF3+TBGfZAp8jidJTsBrmxQCXNlQ3ZTZrpn1Mz+U8=;
+  b=FQ3Usye7CMD78gSec4J0FSbPknE3Kw3MAyThSRoGw3VtN5LChsGlBo5u
+   bP0IW9uBXfu5rQeeciotxq+Ox0D/vAQZUcAwrZMemwdzit+iHQZWgpgQY
+   ACCyx6b000jU8dcS3W+Szi+LReq+UgeR5GlZ5fnGIpcNvdMztybmvtG+g
+   GwCj2rgjN+mqPrrYIp5jPlonPalXItGCymOUOVfC5okwKuWkSLqQq1Xcz
+   CZvvSoL/WUcNLhKwa3RpJ3bgjV7lW9FVC7iGF/TXSe7/8s0bm3QYaNehP
+   XSEtbTAvpo5n43st+eknKwGh+MbtzwMgQ9x9CvxdFUZq0h3cxCIlH+Hgd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="327259167"
 X-IronPort-AV: E=Sophos;i="5.98,330,1673942400"; 
-   d="scan'208";a="345827425"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 14:43:15 -0700
+   d="scan'208";a="327259167"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 15:03:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="811728040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="690373743"
 X-IronPort-AV: E=Sophos;i="5.98,330,1673942400"; 
-   d="scan'208";a="811728040"
+   d="scan'208";a="690373743"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 08 Apr 2023 14:43:14 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 08 Apr 2023 15:03:14 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plGL3-000U8B-0R;
-	Sat, 08 Apr 2023 21:43:13 +0000
-Date: Sun, 9 Apr 2023 05:42:19 +0800
+	id 1plGeP-000U9B-28;
+	Sat, 08 Apr 2023 22:03:13 +0000
+Date: Sun, 9 Apr 2023 06:02:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dexuan Cui <decui@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [dcui-tdx:decui/michaelv7dda/tdx/v4-dda 4/14]
- drivers/hv/vmbus_drv.c:2178:74: warning: format specifies type 'unsigned
- long long' but the argument has type 'resource_size_t' (aka 'unsigned int')
-Message-ID: <202304090541.rEuF2bHr-lkp@intel.com>
+ drivers/hv/vmbus_drv.c:2178:24: warning: format '%llx' expects argument of
+ type 'long long unsigned int', but argument 2 has type 'resource_size_t'
+ {aka 'unsigned int'}
+Message-ID: <202304090552.qRSoSAQz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,113 +51,279 @@ Content-Disposition: inline
 tree:   https://github.com/dcui/tdx decui/michaelv7dda/tdx/v4-dda
 head:   ee475770ca8b9c70a2f41ec136e5d6124fd82ae9
 commit: f2590983760f15765fd05ee1cfc9ec63a5bea359 [4/14] [Workaround for DDA]: hardcode MMIO _CRS in vmbus_walk_resources() for now
-config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230409/202304090541.rEuF2bHr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230409/202304090552.qRSoSAQz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/dcui/tdx/commit/f2590983760f15765fd05ee1cfc9ec63a5bea359
         git remote add dcui-tdx https://github.com/dcui/tdx
         git fetch --no-tags dcui-tdx decui/michaelv7dda/tdx/v4-dda
         git checkout f2590983760f15765fd05ee1cfc9ec63a5bea359
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304090541.rEuF2bHr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304090552.qRSoSAQz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/vmbus_drv.c:2178:74: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
-                                                             ~~~~           ^~~~~
-                                                             %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2178:81: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
-                                                                   ~~~~            ^~~
-                                                                   %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2181:76: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
-                                                               ~~~~           ^~~~~
-                                                               %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2181:83: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
-                                                                     ~~~~            ^~~
-                                                                     %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2187:74: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
-                                                             ~~~~           ^~~~~
-                                                             %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2187:81: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
-                                                                   ~~~~            ^~~
-                                                                   %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2190:76: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
-                                                               ~~~~           ^~~~~
-                                                               %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2190:83: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                   printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
-                                                                     ~~~~            ^~~
-                                                                     %x
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
->> drivers/hv/vmbus_drv.c:2188:25: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68182605824 to 3758096384 [-Wconstant-conversion]
-                   start = 0xfe0000000;
-                         ~ ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2189:23: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
-                   end = 0xfffffffff;
-                       ~ ^~~~~~~~~~~
-   10 warnings generated.
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c: In function 'vmbus_walk_resources':
+>> drivers/hv/vmbus_drv.c:2178:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+         |                                                                          |
+         |                                                                          resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2178:17: note: in expansion of macro 'printk'
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2178:62: note: format string is defined here
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                                                           ~~~^
+         |                                                              |
+         |                                                              long long unsigned int
+         |                                                           %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2178:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~
+         |                                                                                 |
+         |                                                                                 resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2178:17: note: in expansion of macro 'printk'
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2178:68: note: format string is defined here
+    2178 |                 printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+         |                                                                 ~~~^
+         |                                                                    |
+         |                                                                    long long unsigned int
+         |                                                                 %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2181:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+         |                                                                            |
+         |                                                                            resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2181:17: note: in expansion of macro 'printk'
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2181:64: note: format string is defined here
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                                                             ~~~^
+         |                                                                |
+         |                                                                long long unsigned int
+         |                                                             %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2181:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~
+         |                                                                                   |
+         |                                                                                   resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2181:17: note: in expansion of macro 'printk'
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2181:70: note: format string is defined here
+    2181 |                 printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+         |                                                                   ~~~^
+         |                                                                      |
+         |                                                                      long long unsigned int
+         |                                                                   %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2187:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+         |                                                                          |
+         |                                                                          resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2187:17: note: in expansion of macro 'printk'
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2187:62: note: format string is defined here
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                                                           ~~~^
+         |                                                              |
+         |                                                              long long unsigned int
+         |                                                           %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2187:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~
+         |                                                                                 |
+         |                                                                                 resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2187:17: note: in expansion of macro 'printk'
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2187:68: note: format string is defined here
+    2187 |                 printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+         |                                                                 ~~~^
+         |                                                                    |
+         |                                                                    long long unsigned int
+         |                                                                 %x
+>> drivers/hv/vmbus_drv.c:2188:25: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68182605824' to '3758096384' [-Woverflow]
+    2188 |                 start = 0xfe0000000;
+         |                         ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2189:23: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68719476735' to '4294967295' [-Woverflow]
+    2189 |                 end = 0xfffffffff;
+         |                       ^~~~~~~~~~~
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2190:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+         |                                                                            |
+         |                                                                            resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2190:17: note: in expansion of macro 'printk'
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2190:64: note: format string is defined here
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                                                             ~~~^
+         |                                                                |
+         |                                                                long long unsigned int
+         |                                                             %x
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hv/vmbus_drv.c:13:
+   drivers/hv/vmbus_drv.c:2190:24: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~
+         |                                                                                   |
+         |                                                                                   resource_size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   drivers/hv/vmbus_drv.c:2190:17: note: in expansion of macro 'printk'
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                 ^~~~~~
+   drivers/hv/vmbus_drv.c:2190:70: note: format string is defined here
+    2190 |                 printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+         |                                                                   ~~~^
+         |                                                                      |
+         |                                                                      long long unsigned int
+         |                                                                   %x
 
 
 vim +2178 drivers/hv/vmbus_drv.c
