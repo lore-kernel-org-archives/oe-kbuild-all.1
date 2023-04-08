@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CA06ADB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Apr 2023 23:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E161173
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 00:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680909673; x=1712445673;
+  t=1680912135; x=1712448135;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SMo0tLVc245lyPshYdLWZ0u23w2jDRUI2/+IHBHEMTM=;
-  b=Z58MJc69i2t9icyokVd66DjAlMnrxdBDPRaZ64YkRMwz3nJR4PrcCOI6
-   vhwCwLHaY/C/IMXuuTPq2YmnIkYg3oiEcBOyOBz0roMGKdI/5PxLpnB+t
-   6yiWM0U4y+qD/hYOOHXZsAQcyRUB3OemGOa8U99QwkeNFht4Gs31SUdoc
-   AN991zSQirPY4kT9lUJNv+uzvZ4IpkggfNDv+4fqjH4tQHkO5pM9u94cg
-   D3ukpRgGaiiJ9q80tYFowej4WiSHMlDqd8XSx0b24UUAsgsquHspJbTit
-   XLqZ215HcKZvsX+KnthEMl/I9f73hoWPXQYQwaA7v3BkZre7kfqBr4wy0
+  bh=vI+1gdneaOcXG4G/SUHIU0kNC2E0dYGuegy5BAfxmP4=;
+  b=f19waCpllBiAoNA2XNdX6zk97znTxV7gzDPWxUmuLq5WlZbnNT4YBFAw
+   ECYSnDKWYKCeZWzYtvdViDM8ez6PU1fv8Isdpd/792CwIiv7yFilEdAGJ
+   y4dTwGlRvlJ4ZVJ6Ln9wwb5l1ULpzuM4Pe/sLNbh/+MzoiPXe6JUIGXxQ
+   +ufD/B/Yz9AQysYrSVVXgRBLq1wzEBqfpU0MLz/nwKndIGK/IWq8I7yRt
+   3DnJTjtHN5VjkzxxDxlsKcxHI60MsvwfvgZ6KrXDls2gJmmMjUI8xyf/M
+   LGrru7vWqB54o8O3W8cyeHj3Ku2Qf28Y5TANn1yB7FMqUC4IiyeCEhwCB
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="345741064"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="370924164"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="345741064"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 16:21:13 -0700
+   d="scan'208";a="370924164"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 17:02:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="811543167"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="717984091"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="811543167"
+   d="scan'208";a="717984091"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Apr 2023 16:21:11 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2023 17:02:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkvOJ-000Szq-0q;
-	Fri, 07 Apr 2023 23:21:11 +0000
-Date: Sat, 8 Apr 2023 07:21:00 +0800
+	id 1pkw20-000T18-0n;
+	Sat, 08 Apr 2023 00:02:12 +0000
+Date: Sat, 8 Apr 2023 08:01:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.4-2.3.x-imx 9167/28754] versioncheck:
- ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_cfg80211.c: 4505:
- need linux/version.h
-Message-ID: <202304080717.Ms7BMdS3-lkp@intel.com>
+To: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 169/213]
+ drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c:851:33: error: implicit
+ declaration of function 'u64_stats_fetch_begin_irq'; did you mean
+ 'u64_stats_fetch_begin'?
+Message-ID: <202304080707.s3lya01t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,152 +48,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
-head:   33630781929731d93d24c944689add3da38c8e93
-commit: 688b67b2c7220b01521ffe560da7eee33042c7bd [9167/28754] MLK-23806-01 net: wireless: nxp: mxm_wifiex: add initial MxM wifi driver
-reproduce:
-        make versioncheck
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   4921e3af7003ec7365b16a51252a8318739753e7
+commit: 3919c6c183e52f26bc6c2067f94dc561e69542f4 [169/213] Merge branch 'ti-linux-6.1.y-cicd' of git://git.ti.com/ti-linux-kernel/ti-linux-kernel into ti-rt-linux-6.1.y-cicd
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080707.s3lya01t-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 3919c6c183e52f26bc6c2067f94dc561e69542f4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080717.Ms7BMdS3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080707.s3lya01t-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
-   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 17717: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4802: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 200: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 605: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 552: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1389: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 876: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 611: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 608: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 176: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2673: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1462: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 869: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7498: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 450: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1856: need linux/version.h
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_b0.c: 6994: need linux/version.h
-   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/xuvi/ppm.c: 60 linux/version.h not needed.
-   ./drivers/mxc/xuvi/xuvi_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/xuvi/xuvi_pm.h: 23 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_cfg80211.c: 4505: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_cfg80211.h: 482: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_cfg80211_util.c: 4036: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_cfg80211_util.h: 763: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_debug.c: 1430: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_eth_ioctl.c: 16360: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_eth_ioctl.h: 586: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_init.c: 2337: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_ioctl.c: 6541: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_main.c: 9357: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_pcie.c: 2383: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_priv.h: 773: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_proc.c: 885: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_sdio_mmc.c: 2109: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_shim.c: 3234: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_sta_cfg80211.c: 7728: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_uap.c: 4494: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_uap.h: 561: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_uap_cfg80211.c: 3303: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_uap_wext.c: 1922: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_usb.c: 2054: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_wext.c: 3230: need linux/version.h
->> ./drivers/net/wireless/nxp/mxm_wifiex/wlan_src/mlinux/moal_wext.h: 52: need linux/version.h
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c: In function 'virt_cpsw_nuss_ndo_get_stats':
+>> drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c:851:33: error: implicit declaration of function 'u64_stats_fetch_begin_irq'; did you mean 'u64_stats_fetch_begin'? [-Werror=implicit-function-declaration]
+     851 |                         start = u64_stats_fetch_begin_irq(&cpu_stats->syncp);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 u64_stats_fetch_begin
+>> drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c:856:26: error: implicit declaration of function 'u64_stats_fetch_retry_irq'; did you mean 'u64_stats_fetch_retry'? [-Werror=implicit-function-declaration]
+     856 |                 } while (u64_stats_fetch_retry_irq(&cpu_stats->syncp, start));
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                          u64_stats_fetch_retry
+   cc1: some warnings being treated as errors
+
+
+vim +851 drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c
+
+3fed924f0c664f Grygorii Strashko 2023-03-28  834  
+3fed924f0c664f Grygorii Strashko 2023-03-28  835  static void virt_cpsw_nuss_ndo_get_stats(struct net_device *dev,
+3fed924f0c664f Grygorii Strashko 2023-03-28  836  					 struct rtnl_link_stats64 *stats)
+3fed924f0c664f Grygorii Strashko 2023-03-28  837  {
+3fed924f0c664f Grygorii Strashko 2023-03-28  838  	struct virt_cpsw_ndev_priv *ndev_priv = netdev_priv(dev);
+3fed924f0c664f Grygorii Strashko 2023-03-28  839  	unsigned int start;
+3fed924f0c664f Grygorii Strashko 2023-03-28  840  	int cpu;
+3fed924f0c664f Grygorii Strashko 2023-03-28  841  
+3fed924f0c664f Grygorii Strashko 2023-03-28  842  	for_each_possible_cpu(cpu) {
+3fed924f0c664f Grygorii Strashko 2023-03-28  843  		struct virt_cpsw_ndev_stats *cpu_stats;
+3fed924f0c664f Grygorii Strashko 2023-03-28  844  		u64 rx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  845  		u64 rx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28  846  		u64 tx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  847  		u64 tx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28  848  
+3fed924f0c664f Grygorii Strashko 2023-03-28  849  		cpu_stats = per_cpu_ptr(ndev_priv->stats, cpu);
+3fed924f0c664f Grygorii Strashko 2023-03-28  850  		do {
+3fed924f0c664f Grygorii Strashko 2023-03-28 @851  			start = u64_stats_fetch_begin_irq(&cpu_stats->syncp);
+3fed924f0c664f Grygorii Strashko 2023-03-28  852  			rx_packets = cpu_stats->rx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  853  			rx_bytes   = cpu_stats->rx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28  854  			tx_packets = cpu_stats->tx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  855  			tx_bytes   = cpu_stats->tx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28 @856  		} while (u64_stats_fetch_retry_irq(&cpu_stats->syncp, start));
+3fed924f0c664f Grygorii Strashko 2023-03-28  857  
+3fed924f0c664f Grygorii Strashko 2023-03-28  858  		stats->rx_packets += rx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  859  		stats->rx_bytes   += rx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28  860  		stats->tx_packets += tx_packets;
+3fed924f0c664f Grygorii Strashko 2023-03-28  861  		stats->tx_bytes   += tx_bytes;
+3fed924f0c664f Grygorii Strashko 2023-03-28  862  	}
+3fed924f0c664f Grygorii Strashko 2023-03-28  863  
+3fed924f0c664f Grygorii Strashko 2023-03-28  864  	stats->rx_errors	= dev->stats.rx_errors;
+3fed924f0c664f Grygorii Strashko 2023-03-28  865  	stats->rx_dropped	= dev->stats.rx_dropped;
+3fed924f0c664f Grygorii Strashko 2023-03-28  866  	stats->tx_dropped	= dev->stats.tx_dropped;
+3fed924f0c664f Grygorii Strashko 2023-03-28  867  }
+3fed924f0c664f Grygorii Strashko 2023-03-28  868  
+
+:::::: The code at line 851 was first introduced by commit
+:::::: 3fed924f0c664f5f28d3eae9f62d20d773f0a87c net: ethernet: ti: introduce j721e virt cpsw-nuss mac driver
+
+:::::: TO: Grygorii Strashko <grygorii.strashko@ti.com>
+:::::: CC: Vignesh Raghavendra <vigneshr@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
