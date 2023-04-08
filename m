@@ -1,70 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978F3136F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 02:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEDC10E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 03:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680920849; x=1712456849;
+  t=1680923907; x=1712459907;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8jePMQVInnFDg91u5cV3zE5KaByy9eUAydIBN3Z3FVc=;
-  b=NM+uYoBFeABFkewNPlF8vRg+X4DwC277AH1aPAcFs7FejNdg+vMLNVUH
-   4d9kttde4//lAuF4rUy+Y/VPFr6YXTvn7L3eFQUwNB+PWBsuunqzd2rBg
-   SXP53gxYJkD/WOJ+F068hBO3ElskqX+qIIVU4X1II5mFxFSlvimcPU1ZZ
-   dVbKoNbdB/LfUPx0wWXhC5be98BUZikyUil2BQf2ijgWx9KH3VvBimkmX
-   fS7Cq+1suR3kTojUPKvYLOrOtciCcCq7WXY4qBqbiD7nsy++tSRuenZ8T
-   DNAWK1uzYeF/GwoKg1yQkzzXa+fVM3us2Kud9N3lqIt2c4ippsYuTCUpV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="327193489"
+  bh=wT0iIUtDPnf2JAtyEAeYhgrmL6MtXRd5LCQJ6D/oIsE=;
+  b=M4RPz3IFo1eR7Gbrm4mTC7SzzICuWXdDfDHpOgPCl1H2rnZZD3UGxVqx
+   kMrG7Oyxvjpa8el/uFv3TjIoow3ZkKie3L0H4z5oBaaS6Db2rapATfGCX
+   aWZ2A/SHeAtqV6kU/X8G+0yxp/kvVI3QZGp5QNZArx7dXXDXFVWPnOWUp
+   j79WGVNWfD7WDfzVE6LGEpQgIz1BVu2shuxmHFnRMZLsYcxiXrn+3ux9a
+   4Rk3lG91wZ/OYaf6bIFXqSkliOB+nZk7RCqQ8ZlSCU/Sj/BOEYqaUJWuw
+   YZhCquhhQ3JOeGJC5CkyVrT+OffcxJKaOCzcJeXxjPhtxzxokaz4EFyLo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="331765141"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="327193489"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 19:27:29 -0700
+   d="scan'208";a="331765141"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 20:18:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="637879072"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690221818"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="637879072"
+   d="scan'208";a="690221818"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 07 Apr 2023 19:27:22 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 20:18:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkyIT-000TBa-0e;
-	Sat, 08 Apr 2023 02:27:21 +0000
-Date: Sat, 8 Apr 2023 10:26:40 +0800
+	id 1pkz5t-000TF5-1A;
+	Sat, 08 Apr 2023 03:18:25 +0000
+Date: Sat, 8 Apr 2023 11:17:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Puyou Lu <puyou.lu@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Zhaoyang Huang <zhaoyang.huang@unisoc.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Liam Howlett <liam.howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Sander Vanheule <sander@svanheule.net>,
-	Eric Biggers <ebiggers@google.com>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>
-Subject: Re: [PATCH v2 07/10] fortify: Split reporting and avoid passing
- string pointer
-Message-ID: <202304081026.0GjsJGNP-lkp@intel.com>
-References: <20230407192717.636137-7-keescook@chromium.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 11/12] block: mq-deadline: Fix a race condition related
+ to zoned writes
+Message-ID: <202304081128.OL6BHqTs-lkp@intel.com>
+References: <20230407001710.104169-12-bvanassche@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,91 +47,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407192717.636137-7-keescook@chromium.org>
+In-Reply-To: <20230407001710.104169-12-bvanassche@acm.org>
 
-Hi Kees,
+Hi Bart,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kees/for-next/hardening]
-[also build test WARNING on kees/for-next/pstore kees/for-next/kspp linus/master tip/x86/core v6.3-rc5 next-20230406]
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.3-rc5 next-20230406]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230408-032959
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-patch link:    https://lore.kernel.org/r/20230407192717.636137-7-keescook%40chromium.org
-patch subject: [PATCH v2 07/10] fortify: Split reporting and avoid passing string pointer
-config: arm-randconfig-r046-20230404 (https://download.01.org/0day-ci/archive/20230408/202304081026.0GjsJGNP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/block-Send-zoned-writes-to-the-I-O-scheduler/20230407-081846
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230407001710.104169-12-bvanassche%40acm.org
+patch subject: [PATCH 11/12] block: mq-deadline: Fix a race condition related to zoned writes
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230408/202304081128.OL6BHqTs-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/124d051177d6812a0b5bd445a9f89e0694d56f2d
+        # https://github.com/intel-lab-lkp/linux/commit/10abd923538d71bd2d53f8d8ec2f7bbfe746e6cb
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230408-032959
-        git checkout 124d051177d6812a0b5bd445a9f89e0694d56f2d
+        git fetch --no-tags linux-review Bart-Van-Assche/block-Send-zoned-writes-to-the-I-O-scheduler/20230407-081846
+        git checkout 10abd923538d71bd2d53f8d8ec2f7bbfe746e6cb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081026.0GjsJGNP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081128.OL6BHqTs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm/boot/compressed/misc.c:129:17: warning: no previous prototype for '__div0' [-Wmissing-prototypes]
-     129 | asmlinkage void __div0(void)
-         |                 ^~~~~~
-   arch/arm/boot/compressed/misc.c:138:1: warning: no previous prototype for 'decompress_kernel' [-Wmissing-prototypes]
-     138 | decompress_kernel(unsigned long output_start, unsigned long free_mem_ptr_p,
-         | ^~~~~~~~~~~~~~~~~
->> arch/arm/boot/compressed/misc.c:163:6: warning: no previous prototype for '__fortify_panic' [-Wmissing-prototypes]
-     163 | void __fortify_panic(const u8 reason)
-         |      ^~~~~~~~~~~~~~~
+   block/mq-deadline.c: In function 'deadline_next_request':
+>> block/mq-deadline.c:392:36: error: implicit declaration of function 'blk_rq_zone_no'; did you mean 'bdev_zone_no'? [-Werror=implicit-function-declaration]
+     392 |                 unsigned int zno = blk_rq_zone_no(rq);
+         |                                    ^~~~~~~~~~~~~~
+         |                                    bdev_zone_no
+   cc1: some warnings being treated as errors
 
 
-vim +/__fortify_panic +163 arch/arm/boot/compressed/misc.c
+vim +392 block/mq-deadline.c
 
-   128	
- > 129	asmlinkage void __div0(void)
-   130	{
-   131		error("Attempting division by 0!");
-   132	}
-   133	
-   134	extern int do_decompress(u8 *input, int len, u8 *output, void (*error)(char *x));
-   135	
-   136	
-   137	void
-   138	decompress_kernel(unsigned long output_start, unsigned long free_mem_ptr_p,
-   139			unsigned long free_mem_ptr_end_p,
-   140			int arch_id)
-   141	{
-   142		int ret;
-   143	
-   144		output_data		= (unsigned char *)output_start;
-   145		free_mem_ptr		= free_mem_ptr_p;
-   146		free_mem_end_ptr	= free_mem_ptr_end_p;
-   147		__machine_arch_type	= arch_id;
-   148	
-   149	#ifdef CONFIG_ARCH_EP93XX
-   150		ep93xx_decomp_setup();
-   151	#endif
-   152		arch_decomp_setup();
-   153	
-   154		putstr("Uncompressing Linux...");
-   155		ret = do_decompress(input_data, input_data_end - input_data,
-   156				    output_data, error);
-   157		if (ret)
-   158			error("decompressor returned an error");
-   159		else
-   160			putstr(" done, booting the kernel.\n");
-   161	}
-   162	
- > 163	void __fortify_panic(const u8 reason)
+   362	
+   363	/*
+   364	 * For the specified data direction, return the next request to
+   365	 * dispatch using sector position sorted lists.
+   366	 */
+   367	static struct request *
+   368	deadline_next_request(struct deadline_data *dd, struct dd_per_prio *per_prio,
+   369			      enum dd_data_dir data_dir)
+   370	{
+   371		struct request_queue *q;
+   372		struct request *rq;
+   373		unsigned long flags;
+   374	
+   375		rq = per_prio->next_rq[data_dir];
+   376		if (!rq)
+   377			return NULL;
+   378	
+   379		q = rq->q;
+   380		if (data_dir == DD_READ || !blk_queue_is_zoned(q))
+   381			return rq;
+   382	
+   383		/*
+   384		 * Look for a write request that can be dispatched, that is one with
+   385		 * an unlocked target zone. For some HDDs, breaking a sequential
+   386		 * write stream can lead to lower throughput, so make sure to preserve
+   387		 * sequential write streams, even if that stream crosses into the next
+   388		 * zones and these zones are unlocked.
+   389		 */
+   390		spin_lock_irqsave(&dd->zone_lock, flags);
+   391		while (rq) {
+ > 392			unsigned int zno = blk_rq_zone_no(rq);
+   393	
+   394			if (blk_req_can_dispatch_to_zone(rq))
+   395				break;
+   396	
+   397			WARN_ON_ONCE(!blk_queue_is_zoned(q));
+   398	
+   399			if (!blk_queue_nonrot(q)) {
+   400				rq = deadline_skip_seq_writes(dd, rq);
+   401				if (!rq)
+   402					break;
+   403				rq = deadline_earlier_request(rq);
+   404				if (WARN_ON_ONCE(!rq))
+   405					break;
+   406			}
+   407	
+   408			/*
+   409			 * Skip all other write requests for the zone with zone number
+   410			 * 'zno'. This prevents that this function selects a zoned write
+   411			 * that is not the first write for a given zone.
+   412			 */
+   413			while ((rq = deadline_latter_request(rq)) &&
+   414			       blk_rq_zone_no(rq) == zno)
+   415				;
+   416		}
+   417		spin_unlock_irqrestore(&dd->zone_lock, flags);
+   418	
+   419		return rq;
+   420	}
+   421	
 
 -- 
 0-DAY CI Kernel Test Service
