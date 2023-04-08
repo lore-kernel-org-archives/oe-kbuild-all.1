@@ -1,43 +1,70 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EB2EDE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 00:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08BC10EB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 00:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680913998; x=1712449998;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Iyp0JwkFp92l+zkcGuSWIMrzdiErap7Rt4KrKvRqo4w=;
-  b=UGapIoCwTZa2G60ETwNzRybG1TyCpNW05MyHzEWOIsw1OMr6ATm8BVQ1
-   qlKgdI3uFU5EOXcyxiLALIFifG8DgkGkJHyNyILT3Pi7oY2mqvbXsp4lO
-   7K7lw7zPoduG3y6PWHkMJ3R+yoFslYXkMIgCvi5/LxSbMScE4ZaVEztrp
-   m2wH0IkzpDwvyikoh6aiffhj32VdIMTB0LvoLhvfMjcgbKEfK9dN3QvtS
-   d4XiARGyGcko94XqukLCVHc45GjmHlpU3sf8AnkoxNODMX5XS+1fcKfGS
-   0IAPqD0cxvtVhexLzlTKeU/NoEILOLlkUXFsnC4JFph/OyUqDBnKkHXLK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="343099541"
+  t=1680914003; x=1712450003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+4kq+ByesKZ4cTl2OIrt3sTsul9XMQzu+dHP9ObqPHM=;
+  b=Yn3Oj40ZxTbZB2rrDM+wTxQrjs6kzyQY3Mh/gMaFsAkgemtDplktvG7D
+   fXdhcLZgdz/OSYUcYuiMBXawxh6A82ZjlYkF6PpaHPck7Qk+C8GmlffEt
+   UgjbY2vhl7rXnoa1XErbgSUabnSUm66/6nXUGEFf9e9DHMWhdvpRpFjNG
+   N9dKSNbUyGwzKtEmW5vtxgdgnlaVBjqvsrGy9sf4MGTYz53t1NNxD5qWr
+   iLWK+9LaRkzJnctLif0+kps+6aewlsBlpRE1AGnXUc9lgPJPyYfIDPLVR
+   wOeLhDzUV+qJrAFOUR1H8ZSnDT9I38o/6/i3k8lXxX+jlMzklckLlB3hW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="345749417"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="343099541"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 17:33:17 -0700
+   d="scan'208";a="345749417"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 17:33:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="811556913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="717987704"
 X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="811556913"
+   d="scan'208";a="717987704"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Apr 2023 17:33:16 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Apr 2023 17:33:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pkwW3-000T4V-02;
-	Sat, 08 Apr 2023 00:33:15 +0000
-Date: Sat, 8 Apr 2023 08:33:13 +0800
+	id 1pkwW2-000T4T-3C;
+	Sat, 08 Apr 2023 00:33:14 +0000
+Date: Sat, 8 Apr 2023 08:33:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:maph 6/6] lib/test_map_h.c:36:2: error: call to
- '__compiletime_assert_234' declared with 'error' attribute: BUILD_BUG_ON
- failed: __builtin_memcmp(caten, "YESNOMAYBE", sizeof("YESNOMAYBE"))
-Message-ID: <202304080811.n4mMgTeU-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Puyou Lu <puyou.lu@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Zhaoyang Huang <zhaoyang.huang@unisoc.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Liam Howlett <liam.howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Sander Vanheule <sander@svanheule.net>,
+	Eric Biggers <ebiggers@google.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Subject: Re: [PATCH v2 09/10] fortify: Add KUnit tests for runtime overflows
+Message-ID: <202304080811.nYP4KpPZ-lkp@intel.com>
+References: <20230407192717.636137-9-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,148 +73,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407192717.636137-9-keescook@chromium.org>
 
-tree:   https://github.com/jimc/linux.git maph
-head:   5c311844cfe6a3e81b52123b60fe8b1b2ca6218d
-commit: 5c311844cfe6a3e81b52123b60fe8b1b2ca6218d [6/6] drop -i386 avoid, test w sizeof - strlen didnt work?
-config: mips-randconfig-r031-20230404 (https://download.01.org/0day-ci/archive/20230408/202304080811.n4mMgTeU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+Hi Kees,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kees/for-next/hardening]
+[also build test WARNING on kees/for-next/pstore kees/for-next/kspp linus/master tip/x86/core v6.3-rc5 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230408-032959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
+patch link:    https://lore.kernel.org/r/20230407192717.636137-9-keescook%40chromium.org
+patch subject: [PATCH v2 09/10] fortify: Add KUnit tests for runtime overflows
+config: openrisc-randconfig-r034-20230405 (https://download.01.org/0day-ci/archive/20230408/202304080811.nYP4KpPZ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/jimc/linux/commit/5c311844cfe6a3e81b52123b60fe8b1b2ca6218d
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc maph
-        git checkout 5c311844cfe6a3e81b52123b60fe8b1b2ca6218d
+        # https://github.com/intel-lab-lkp/linux/commit/d212962ef7682ee160bf38fa455475558f031759
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kees-Cook/kunit-tool-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230408-032959
+        git checkout d212962ef7682ee160bf38fa455475558f031759
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304080811.n4mMgTeU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080811.nYP4KpPZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/test_map_h.c:36:2: error: call to '__compiletime_assert_234' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(caten, "YESNOMAYBE", sizeof("YESNOMAYBE"))
-           BUILD_BUG_STREQ(caten, "YESNOMAYBE");
-           ^
-   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:159:1: note: expanded from here
-   __compiletime_assert_234
-   ^
->> lib/test_map_h.c:38:2: error: call to '__compiletime_assert_235' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[0], "DRMx_CORE", sizeof("DRMx_CORE"))
-           BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
-           ^
-   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:164:1: note: expanded from here
-   __compiletime_assert_235
-   ^
->> lib/test_map_h.c:39:2: error: call to '__compiletime_assert_236' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[1], "DRMx_DRIVER", sizeof("DRMx_DRIVER"))
-           BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
-           ^
-   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:169:1: note: expanded from here
-   __compiletime_assert_236
-   ^
->> lib/test_map_h.c:40:2: error: call to '__compiletime_assert_237' declared with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cats_names[2], "DRMx_KMS", sizeof("DRMx_KMS"))
-           BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
-           ^
-   lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
-           BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-           ^
-   lib/test_map_h.c:27:2: note: expanded from macro 'BUILD_BUG_STREQ'
-           BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)))
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:174:1: note: expanded from here
-   __compiletime_assert_237
-   ^
-   4 errors generated.
+   In file included from lib/fortify_kunit.c:28:
+   lib/fortify_kunit.c: In function 'strnlen_test':
+>> lib/fortify_kunit.c:412:31: warning: 'strnlen' specified bound 33 exceeds source size 32 [-Wstringop-overread]
+     412 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
+   include/kunit/test.h:584:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     584 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:776:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     776 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:773:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     773 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   lib/fortify_kunit.c:412:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     412 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
+         |         ^~~~~~~~~~~~~~~
+   lib/fortify_kunit.c:359:14: note: source object allocated here
+     359 |         char buf[32];
+         |              ^~~
+   lib/fortify_kunit.c:414:31: warning: 'strnlen' specified bound 34 exceeds source size 32 [-Wstringop-overread]
+     414 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
+   include/kunit/test.h:584:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     584 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:776:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     776 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:773:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     773 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   lib/fortify_kunit.c:414:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     414 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
+         |         ^~~~~~~~~~~~~~~
+   lib/fortify_kunit.c:359:14: note: source object allocated here
+     359 |         char buf[32];
+         |              ^~~
 
 
-vim +36 lib/test_map_h.c
+vim +/strnlen +412 lib/fortify_kunit.c
 
-3bac16c296ba61 Jim Cromie 2023-03-25  25  
-5c311844cfe6a3 Jim Cromie 2023-04-04  26  #define BUILD_BUG_STREQ(_var, ref)					\
-5c311844cfe6a3 Jim Cromie 2023-04-04  27  	BUILD_BUG_ON(__builtin_memcmp(_var, ref, sizeof(ref)))
-5c311844cfe6a3 Jim Cromie 2023-04-04  28  
-3bac16c296ba61 Jim Cromie 2023-03-25  29  #define BUILD_BUG_STREQ_VI(_vec_, idx, ref) \
-3bac16c296ba61 Jim Cromie 2023-03-25  30  	BUILD_BUG_STREQ(_vec_##_names[idx], ref)
-3bac16c296ba61 Jim Cromie 2023-03-25  31  
-3bac16c296ba61 Jim Cromie 2023-03-25  32  /* force compile, even if its not called */
-3bac16c296ba61 Jim Cromie 2023-03-25  33  static void __used MAPH_BUILD_BUG(void)
-3bac16c296ba61 Jim Cromie 2023-03-25  34  {
-3bac16c296ba61 Jim Cromie 2023-03-25  35  	BUILD_BUG_ON(sum != 6);
-3bac16c296ba61 Jim Cromie 2023-03-25 @36  	BUILD_BUG_STREQ(caten, "YESNOMAYBE");
-3bac16c296ba61 Jim Cromie 2023-03-25  37  
-3bac16c296ba61 Jim Cromie 2023-03-25 @38  	BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
-3bac16c296ba61 Jim Cromie 2023-03-25 @39  	BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
-3bac16c296ba61 Jim Cromie 2023-03-25 @40  	BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
-3bac16c296ba61 Jim Cromie 2023-03-25  41  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: 3bac16c296ba613271c37d0e5cc106aa66b405b4 lib/test_map_h: add new module to test map.h macros
-
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Jim Cromie <jim.cromie@gmail.com>
+   387	
+   388	static void strnlen_test(struct kunit *test)
+   389	{
+   390		struct fortify_padding pad = { };
+   391		int i, end = sizeof(pad.buf) - 1;
+   392	
+   393		/* Fill 31 bytes with valid characters. */
+   394		for (i = 0; i < sizeof(pad.buf) - 1; i++)
+   395			pad.buf[i] = i + '0';
+   396		/* Trailing bytes are still %NUL. */
+   397		KUNIT_EXPECT_EQ(test, pad.buf[end], '\0');
+   398		KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+   399	
+   400		/* String is terminated, so strnlen() is valid. */
+   401		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, sizeof(pad.buf)), end);
+   402		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+   403		/* A truncated strnlen() will be safe, too. */
+   404		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, sizeof(pad.buf) / 2),
+   405						sizeof(pad.buf) / 2);
+   406		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+   407	
+   408		/* Make string unterminated, and recount. */
+   409		pad.buf[end] = 'A';
+   410		end = sizeof(pad.buf);
+   411		/* Reading beyond with strncpy() will fail. */
+ > 412		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
+   413		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 1);
+   414		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
+   415		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
+   416	
+   417		/* Early-truncated is safe still, though. */
+   418		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end), end);
+   419		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
+   420	
+   421		end = sizeof(pad.buf) / 2;
+   422		KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end), end);
+   423		KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
+   424	}
+   425	
 
 -- 
 0-DAY CI Kernel Test Service
