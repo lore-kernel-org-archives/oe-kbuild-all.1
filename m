@@ -1,47 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47A0C2DA;
-	Sat,  8 Apr 2023 06:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F39110A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 07:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680935017; x=1712471017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ffIcKF6JLzI/Q34ihMZs5pPTke+VOLtLE4gbl3XwRis=;
-  b=M0MnsuOruNjzvu3pvMnSWZkNLlOmbH+Ss62pWJhvWINp19YmJ/VyacV8
-   Ez/cyGm+QGYqkN1QYSC9+2LN9iv2YcevDwz82uHPyrz7AngKrpvwiUoY3
-   lcjM81by8CLHRVXmIYOFZxN5p4L/biAiROmoUnXdQ46rm6pwHxGHF5Znw
-   S/S7crnROkNnGlk9h3k4Ak1M2Vf9HBMjc0aqi0l9l3bYaz6uaGpH/Urrb
-   QlI6hQsVboHJsoWTcFTkgOTXgDQUvkxOFD7dVc2zS4wEWUQb/f4b7rZau
-   TLJxWIS9Pff+qz7oLz/kUui/abkGVVmhvHsR+8JjesB9AiT/Ut8d5JqbD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="405942104"
+  t=1680937478; x=1712473478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6L6LLCe6dSgPgcaXqmkyjHNyDe8VEpVc4p44iM4iVUU=;
+  b=NStgqho6N2K+B7PFnAn3p25TfXryAfGjZnKx1RCCQuYXkc9S2LuGrrn3
+   AeD00+Xmj72eU6twBJA8qIyj+nPHEuODIm/MHAmA/JzNYt6RqhKtMYchx
+   VzZh3IuIYV2Rvey//Lj4BwxZy5o7uLTBmXII4rWZLLSWDBxOWIBQElMf2
+   PEhAMLGBKznc98ebQ9iixmd2Ika0bxdgeZmu6ZFbNautZhb0tVFReXT6p
+   JNqhHZhnyULcfBSmrOnhD4YHpGkH3hf7OnubVdiYQiEgXyjN5C2cHQnEz
+   ZILiqTdb4qaCa1FDJI907a5v4FOU5W6hc7zWp/wO5YNavw8oftQTjPV0W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341869741"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="405942104"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 23:23:37 -0700
+   d="scan'208";a="341869741"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 00:04:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="831384611"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="718050799"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="831384611"
+   d="scan'208";a="718050799"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2023 23:23:34 -0700
+  by orsmga008.jf.intel.com with ESMTP; 08 Apr 2023 00:04:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl1z4-000TPp-0w;
-	Sat, 08 Apr 2023 06:23:34 +0000
-Date: Sat, 8 Apr 2023 14:23:10 +0800
+	id 1pl2cl-000TRf-1c;
+	Sat, 08 Apr 2023 07:04:35 +0000
+Date: Sat, 8 Apr 2023 15:04:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
- parenthesis issue
-Message-ID: <202304081417.MgYKE9jj-lkp@intel.com>
-References: <20230408050323.70919-1-kartikey406@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 36/76]
+ sound/soc/mediatek/mt8188/mt8188-dai-pcm.c:230:16: error: 'struct
+ snd_soc_dai' has no member named 'playback_widget'
+Message-ID: <202304081532.msNCjBQH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,69 +47,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
 
-Hi Deepanshu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
-patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304081417.MgYKE9jj-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   ba182faf669dff6e8eaef91b0df486c9056c3fcd
+commit: 8a36b84b6e32a265ee281b1b44a7c952008d2ced [36/76] UPSTREAM: ASoC: mediatek: mt8188: support audio clock control
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230408/202304081532.msNCjBQH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 8a36b84b6e32a265ee281b1b44a7c952008d2ced
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/soc/mediatek/mt8188/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081417.MgYKE9jj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081532.msNCjBQH-lkp@intel.com/
+
+Note: the chrome-os/chromeos-6.1 HEAD ba182faf669dff6e8eaef91b0df486c9056c3fcd builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                                                     ^
-   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         | 
->> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                       ^
-         |                       ;
-   drivers/staging/fbtft/fbtft-bus.c:67:57: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
-      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-         |                                                         ^
-   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         | 
-   drivers/staging/fbtft/fbtft-bus.c:67:23: error: expected ';' before 'void'
-      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-         |                       ^
-         |                       ;
-      68 | 
-      69 | void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-         | ~~~~                   
+   sound/soc/mediatek/mt8188/mt8188-dai-pcm.c: In function 'mtk_dai_pcm_prepare':
+>> sound/soc/mediatek/mt8188/mt8188-dai-pcm.c:230:16: error: 'struct snd_soc_dai' has no member named 'playback_widget'
+     230 |         if (dai->playback_widget->active || dai->capture_widget->active)
+         |                ^~
+>> sound/soc/mediatek/mt8188/mt8188-dai-pcm.c:230:48: error: 'struct snd_soc_dai' has no member named 'capture_widget'
+     230 |         if (dai->playback_widget->active || dai->capture_widget->active)
+         |                                                ^~
 
 
-vim +/define_fbtft_write_reg +65 drivers/staging/fbtft/fbtft-bus.c
+vim +230 sound/soc/mediatek/mt8188/mt8188-dai-pcm.c
 
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-    68	
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  225  
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  226  /* dai ops */
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  227  static int mtk_dai_pcm_prepare(struct snd_pcm_substream *substream,
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  228  			       struct snd_soc_dai *dai)
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  229  {
+7d1ef9cacaeb81 Trevor Wu 2023-01-16 @230  	if (dai->playback_widget->active || dai->capture_widget->active)
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  231  		return 0;
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  232  
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  233  	return mtk_dai_pcm_configure(substream, dai);
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  234  }
+7d1ef9cacaeb81 Trevor Wu 2023-01-16  235  
+
+:::::: The code at line 230 was first introduced by commit
+:::::: 7d1ef9cacaeb81d3f1eea7026afe8f6778fef88b UPSTREAM: ASoC: mediatek: mt8188: support pcmif in platform driver
+
+:::::: TO: Trevor Wu <trevor.wu@mediatek.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
