@@ -1,42 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A498FC2E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 08:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A9C1841;
+	Sat,  8 Apr 2023 08:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680942101; x=1712478101;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=l5zOmKSasWp+UDAYYwdi8VG1R8gRltk44Tg4eO4wgtk=;
-  b=VR0Uv5XAL9hBQS1SgSsSWbtA7jGYE/JBG/S0QnF0wzS1K1jnCHWhHoiT
-   THhz2VEMdzloQP7+8fwciIdOWHXngqPEVHb/qZcnkbfh2g5EEmZMhY4vn
-   Y754/xrxaeRWqutG1u+o+It+N7DaNjTu1MsFBMAjn1RKjeyUzfBKN5yXE
-   fAUJTn5bT9QWPavrl40gmwrgkK9I8UzkhuBj8SCfJP+aHd6R1cbk6M40K
-   zhvsnB5z88hoWDjMd/euJHlzp6isLuFYhj7W3iXXhmiLMuY5KQg2y8cCW
-   cbdBCW/YIIHK9XTSYebO9gx27k3X7r8yMElQw6pwxBNsDy509IGV2g9+i
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341874552"
+  t=1680942342; x=1712478342;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o1DRq7kqC2jvoWeSrbac6WuauaPY+WHIJ9UJQP2UEQE=;
+  b=SqFK7SRklDCcNTrJV/YA5FpROH1xw8o95PKUTzjH7eco6/bz5eld1MAk
+   zEakhrZbav9Y7i+Kc4fWC6Itc9SXsdqgr/vEIBdoWM9zT6syGBr4DyYJp
+   5jHXnJ7ppsfVUjvfLSYvWlQlZL1LmXWoVg9gOMXqUlt7u8AYdsqpVlk49
+   EXdughkLrYElc7WnCab+v2ycKgB1lE9D1QFIy1rT+7JJ86n0+C/RJ/SDQ
+   ZX1Bhk1DX5GECZ4sAgKsJnly8HwkZc0K3E6KHoLk4ZLnqYzFnzlAF4fv1
+   6vbigFE31Ij0RCeTRP4+N2XhvFgzcZJq0v6XKf0b7r1opQiMYIxDrKaP8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="343129450"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="341874552"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 01:21:40 -0700
+   d="scan'208";a="343129450"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 01:25:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="681237997"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="687745246"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="681237997"
+   d="scan'208";a="687745246"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 01:21:39 -0700
+  by orsmga002.jf.intel.com with ESMTP; 08 Apr 2023 01:25:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl3pK-000TWb-2s;
-	Sat, 08 Apr 2023 08:21:38 +0000
-Date: Sat, 8 Apr 2023 16:21:29 +0800
+	id 1pl3tD-000TWv-0B;
+	Sat, 08 Apr 2023 08:25:39 +0000
+Date: Sat, 8 Apr 2023 16:25:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Aotian <chenaotian2@163.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATH wpan v2] ieee802154: hwsim: Fix possible memory leaks
-Message-ID: <ZDEkCaqKjTbvk93O@ec83ac1404bb>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dcui-tdx:decui/michaelv7dda/tdx/v4-dda 3/14]
+ kernel/dma/swiotlb.c:218:6: warning: variable 'rc' is uninitialized when
+ used here
+Message-ID: <202304081641.C8lyXUZX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +46,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408081934.54002-1-chenaotian2@163.com>
 
-Hi,
+tree:   https://github.com/dcui/tdx decui/michaelv7dda/tdx/v4-dda
+head:   bd34cfc6af2bd56b3f4bf2fe22aa6f293ae223cd
+commit: 736345bba3e33ac9ea55c13f4dbfd765b70dffb1 [3/14] swiotlb: check set_memory_decrypted()'s return value
+config: x86_64-randconfig-a003-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081641.C8lyXUZX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/dcui/tdx/commit/736345bba3e33ac9ea55c13f4dbfd765b70dffb1
+        git remote add dcui-tdx https://github.com/dcui/tdx
+        git fetch --no-tags dcui-tdx decui/michaelv7dda/tdx/v4-dda
+        git checkout 736345bba3e33ac9ea55c13f4dbfd765b70dffb1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/dma/
 
-Thanks for your patch.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081641.C8lyXUZX-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATH wpan v2] ieee802154: hwsim: Fix possible memory leaks
-Link: https://lore.kernel.org/stable/20230408081934.54002-1-chenaotian2%40163.com
+>> kernel/dma/swiotlb.c:218:6: warning: variable 'rc' is uninitialized when used here [-Wuninitialized]
+           if (rc) {
+               ^~
+   kernel/dma/swiotlb.c:212:8: note: initialize the variable 'rc' to silence this warning
+           int rc;
+                 ^
+                  = 0
+   1 warning generated.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+
+vim +/rc +218 kernel/dma/swiotlb.c
+
+   201	
+   202	/*
+   203	 * Early SWIOTLB allocation may be too early to allow an architecture to
+   204	 * perform the desired operations.  This function allows the architecture to
+   205	 * call SWIOTLB when the operations are possible.  It needs to be called
+   206	 * before the SWIOTLB memory is used.
+   207	 */
+   208	void __init swiotlb_update_mem_attributes(void)
+   209	{
+   210		struct io_tlb_mem *mem = &io_tlb_default_mem;
+   211		unsigned long bytes;
+   212		int rc;
+   213	
+   214		if (!mem->nslabs || mem->late_alloc)
+   215			return;
+   216		bytes = PAGE_ALIGN(mem->nslabs << IO_TLB_SHIFT);
+   217		set_memory_decrypted((unsigned long)mem->vaddr, bytes >> PAGE_SHIFT);
+ > 218		if (rc) {
+   219			pr_err("Failed to decrypt swiotlb buffer (%d): disabling swiotlb!\n",
+   220			       rc);
+   221			mem->nslabs = 0;
+   222			return;
+   223		}
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
