@@ -1,47 +1,43 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DAE1847;
-	Sat,  8 Apr 2023 10:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71998C2EA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Apr 2023 10:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680950333; x=1712486333;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tj/ggpYw50HfAyBFPq7ICd0Kc7tgKVtlkma/BblHx2Y=;
-  b=fMteUlNDmv2Nw3G7d1z29TVFGCYd9nkcKlO/H1x12yPOjhxxrsWQcsqZ
-   ZJtwifZjeIna+48tGVBvmXVGnUe+44oBAjo/q+014Bn6ONhJTyQwGbE6d
-   n0TssVJzTwhEX4PCQ05EKCZK1dhUYzskFKGALKvuz9Mt792bY5tMj5P0i
-   kcb9bQ3MCW1RgfYl7wiOCeNgsiDvH94cCh1jLmKwjw3CExcHGYJ9VFs0w
-   54phoF2883NiGMiYpyRO0hoWnQUPVW0Pd+SU6pfFxPPWMbtxg0o3pKUFP
-   qhe/uaKQr+R1wFsxUI9xfzFYIuWXaw+z8gnb2JEiFPzEwPwgI7pCaqQfD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="344911163"
+  t=1680950987; x=1712486987;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O854vmKVM+eaSCtYFhZXcoJZ+d6x0FyYu+TkdZBcJVk=;
+  b=XVIZ3/ChHrIpH8qdOZCoDHuapy3VTcb6ORnBvzE5sddcnXk8yGwNxBYw
+   C3pur4NntNv6ZcXEjf0iz5043xPqStcteobve6OeyFtrSBJvM8cYi3eLr
+   W3MHtqBQvp4EGSr5B5b0xfEtEaoI/v3OOOnHBVULdwvs7fBZMsCaDYx16
+   kknRLlvJVe6fnuyGv8Ydd5ua1PeADDCb3goq/krSgeSSFXaSzaEHnF3kb
+   PeFdpnT4ujLpSCmRrSoxDqM4WWjnWenXf9y2bznIPCUasNHI+JRejbaIB
+   GR330m7ZkVqoNg8WotONmH6WoNvx0lfjVjhjpB3a8YNzZJXWogQLE0Lgs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="344911640"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="344911163"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 03:38:52 -0700
+   d="scan'208";a="344911640"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 03:49:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="665149579"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690290712"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="665149579"
+   d="scan'208";a="690290712"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 Apr 2023 03:38:48 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 08 Apr 2023 03:49:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl5y0-000Tdf-0b;
-	Sat, 08 Apr 2023 10:38:44 +0000
-Date: Sat, 8 Apr 2023 18:38:33 +0800
+	id 1pl68e-000TeD-1X;
+	Sat, 08 Apr 2023 10:49:44 +0000
+Date: Sat, 8 Apr 2023 18:49:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
- parenthesis issue
-Message-ID: <202304081830.7kKqUkLL-lkp@intel.com>
-References: <20230408050323.70919-1-kartikey406@gmail.com>
+To: Hari Nagalla <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-linux-5.10.y-cicd 21840/22025]
+ drivers/remoteproc/ti_k3_m4_remoteproc.c:916:13: warning: variable 'ret' set
+ but not used
+Message-ID: <202304081820.y7mXpgzq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,116 +46,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
 
-Hi Deepanshu,
+Hi Hari,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
-patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
-config: i386-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081830.7kKqUkLL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y-cicd
+head:   991c5ce91e43cb620f534dc9fe7b0ad21f4f4388
+commit: 88b05e58d3dee101d9d403948a03c31c39266457 [21840/22025] remoteproc: k3-m4: Introduce PM suspend/resume handlers
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304081820.y7mXpgzq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-linux-5.10.y-cicd
+        git checkout 88b05e58d3dee101d9d403948a03c31c39266457
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081830.7kKqUkLL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081820.y7mXpgzq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/fbtft/fbtft-bus.c:65:53: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-                                                       ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
->> drivers/staging/fbtft/fbtft-bus.c:65:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-   ^
-   drivers/staging/fbtft/fbtft-bus.c:67:57: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-                                                           ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
-   drivers/staging/fbtft/fbtft-bus.c:67:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-   ^
->> drivers/staging/fbtft/fbtft-bus.c:86:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   drivers/staging/fbtft/fbtft-bus.c:109:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   6 errors generated.
+   drivers/remoteproc/ti_k3_m4_remoteproc.c: In function 'k3_m4_rproc_start':
+   drivers/remoteproc/ti_k3_m4_remoteproc.c:333:13: warning: variable 'boot_addr' set but not used [-Wunused-but-set-variable]
+     333 |         u32 boot_addr;
+         |             ^~~~~~~~~
+   drivers/remoteproc/ti_k3_m4_remoteproc.c: In function 'k3_m4_rproc_stop':
+   drivers/remoteproc/ti_k3_m4_remoteproc.c:379:46: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     379 |         ret = mbox_send_message(kproc->mbox, (void *)msg);
+         |                                              ^
+   drivers/remoteproc/ti_k3_m4_remoteproc.c: In function 'k3_m4_rproc_resume':
+>> drivers/remoteproc/ti_k3_m4_remoteproc.c:916:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     916 |         int ret = 0;
+         |             ^~~
 
 
-vim +65 drivers/staging/fbtft/fbtft-bus.c
+vim +/ret +916 drivers/remoteproc/ti_k3_m4_remoteproc.c
 
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-  > 67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-    68	
-    69	void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-    70	{
-    71		va_list args;
-    72		int i, ret;
-    73		int pad = 0;
-    74		u16 *buf = (u16 *)par->buf;
-    75	
-    76		if (unlikely(par->debug & DEBUG_WRITE_REGISTER)) {
-    77			va_start(args, len);
-    78			for (i = 0; i < len; i++)
-    79				*(((u8 *)buf) + i) = (u8)va_arg(args, unsigned int);
-    80			va_end(args);
-    81			fbtft_par_dbg_hex(DEBUG_WRITE_REGISTER, par,
-    82					  par->info->device, u8, buf, len, "%s: ",
-    83					  __func__);
-    84		}
-    85		if (len <= 0)
-  > 86			return;
-    87	
-    88		if (par->spi && (par->spi->bits_per_word == 8)) {
-    89			/* we're emulating 9-bit, pad start of buffer with no-ops
-    90			 * (assuming here that zero is a no-op)
-    91			 */
-    92			pad = (len % 4) ? 4 - (len % 4) : 0;
-    93			for (i = 0; i < pad; i++)
-    94				*buf++ = 0x000;
-    95		}
-    96	
-    97		va_start(args, len);
-    98		*buf++ = (u8)va_arg(args, unsigned int);
-    99		i = len - 1;
-   100		while (i--) {
-   101			*buf = (u8)va_arg(args, unsigned int);
-   102			*buf++ |= 0x100; /* dc=1 */
-   103		}
-   104		va_end(args);
-   105		ret = par->fbtftops.write(par, par->buf, (len + pad) * sizeof(u16));
-   106		if (ret < 0) {
-   107			dev_err(par->info->device,
-   108				"write() failed and returned %d\n", ret);
-   109			return;
-   110		}
-   111	}
-   112	EXPORT_SYMBOL(fbtft_write_reg8_bus9);
-   113	
+   911	
+   912	static int __maybe_unused k3_m4_rproc_resume(struct device *dev)
+   913	{
+   914		struct platform_device *pdev = to_platform_device(dev);
+   915		struct k3_m4_rproc *kproc = platform_get_drvdata(pdev);
+ > 916		int ret = 0;
+   917	
+   918		if (kproc->rproc->state == RPROC_OFFLINE)
+   919			goto out;
+   920	
+   921		if (kproc->rproc->state != RPROC_SUSPENDED) {
+   922			ret = -EBUSY;
+   923			goto out;
+   924		}
+   925	
+   926		rproc_boot(kproc->rproc);
+   927		kproc->rproc->state = RPROC_RUNNING;
+   928	out:
+   929		return 0;
+   930	}
+   931	
 
 -- 
 0-DAY CI Kernel Test Service
