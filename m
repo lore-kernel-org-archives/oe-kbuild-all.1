@@ -1,48 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EF5C2F1;
-	Sat,  8 Apr 2023 09:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8D81841;
+	Sat,  8 Apr 2023 10:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680947868; x=1712483868;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yVhRaml7AsllbdxM7IiG7fKmnog0vHKgWdc+YYx0oMQ=;
-  b=PWKHUBG08ZNP+7uBcR/7PfFioiISN1ZZ8M2bR8oDyLbUjb3NEq19Ij5i
-   mG3ix+zulARYACYCUPen0eIErQr4beB9/FF/zSqMq6mOy9nJQTomJvthp
-   2czrLagZEmdN58oVD2FkUrjs75s1HPVr7fnd9MyX+eyeNKK3ZvxJVQl4R
-   qHZCPXpHYYRS3dk+XUaDl3pWOJBpmpqYXHxQWMoCuMN9reVyqnviHpRgl
-   BtzbEMyxGT8XtKq68xt9mY834tAzX+2ifwRl7dakikB+Mnn0eGaNhRCpt
-   Q/WSX8QCOOdggArIRLG6lSqH6ivEIKFh1ZP4iZ8c1O14bP+SpvAhME3tk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="429414072"
+  t=1680949727; x=1712485727;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=emUaPXjolatX/naX88XTVOBBru240o6qprtoaBZ73nk=;
+  b=hcNsSeLrd7Cau6wtVwqSRmp+7uT+GRgPfH9waxMR96eYSgKrY3lXs15S
+   sZTMx8vuJYP/NMJw7K11t47put1xVx9wM0sY721Rc+jiinlQAKDAeBFtg
+   AvAb42zQCf680biXWG+6nLb4smTKsCyTS/3YKum2GYJu0o0V5iX8zh+Vk
+   LKSOTr0VbiLnHlvuh7PYw2g0LoXX/cHaLNB2+xu78R9RcekVPInfkQpRQ
+   xQDXZj2n0CBMnGio8kVdoXFk8WLhwnXtgmQNcw7VYQWD2GRfIFz28HDL1
+   l+LioCQvxWu0HlPwwJtwuwQwz25hPY3JFT/SqXRDawmz4Gndp7nT47lRJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="408266623"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="429414072"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 02:57:47 -0700
+   d="scan'208";a="408266623"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 03:28:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="756952505"
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="687764609"
 X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="756952505"
+   d="scan'208";a="687764609"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Apr 2023 02:57:43 -0700
+  by orsmga002.jf.intel.com with ESMTP; 08 Apr 2023 03:28:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pl5KJ-000Tbr-0L;
-	Sat, 08 Apr 2023 09:57:43 +0000
-Date: Sat, 8 Apr 2023 17:57:29 +0800
+	id 1pl5oK-000TdR-04;
+	Sat, 08 Apr 2023 10:28:44 +0000
+Date: Sat, 8 Apr 2023 18:28:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Aotian <chenaotian2@163.com>, alex.aring@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	stefan@datenfreihafen.org, miquel.raynal@bootlin.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Chen Aotian <chenaotian2@163.com>
-Subject: Re: [PATH wpan v2] ieee802154: hwsim: Fix possible memory leaks
-Message-ID: <202304081742.rOfPXJln-lkp@intel.com>
-References: <20230408081934.54002-1-chenaotian2@163.com>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dcui-tdx:decui/michaelv7dda/tdx/v4-dda 4/14]
+ drivers/hv/vmbus_drv.c:2178:74: warning: format specifies type 'unsigned
+ long long' but the argument has type 'resource_size_t' (aka 'unsigned int')
+Message-ID: <202304081846.o784t1UW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,185 +46,242 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408081934.54002-1-chenaotian2@163.com>
 
-Hi Chen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.3-rc5 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Aotian/ieee802154-hwsim-Fix-possible-memory-leaks/20230408-162130
-patch link:    https://lore.kernel.org/r/20230408081934.54002-1-chenaotian2%40163.com
-patch subject: [PATH wpan v2] ieee802154: hwsim: Fix possible memory leaks
-config: hexagon-randconfig-r015-20230406 (https://download.01.org/0day-ci/archive/20230408/202304081742.rOfPXJln-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+tree:   https://github.com/dcui/tdx decui/michaelv7dda/tdx/v4-dda
+head:   bd34cfc6af2bd56b3f4bf2fe22aa6f293ae223cd
+commit: 4435a855896b597991789663945665c8a59a1316 [4/14] [Workaround for DDA]: hardcode MMIO _CRS in vmbus_walk_resources() for now
+config: i386-randconfig-a004-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081846.o784t1UW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1a9fcf2d1438f9603039670041da5ed90471a4e5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chen-Aotian/ieee802154-hwsim-Fix-possible-memory-leaks/20230408-162130
-        git checkout 1a9fcf2d1438f9603039670041da5ed90471a4e5
+        # https://github.com/dcui/tdx/commit/4435a855896b597991789663945665c8a59a1316
+        git remote add dcui-tdx https://github.com/dcui/tdx
+        git fetch --no-tags dcui-tdx decui/michaelv7dda/tdx/v4-dda
+        git checkout 4435a855896b597991789663945665c8a59a1316
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/ieee802154/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081742.rOfPXJln-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304081846.o784t1UW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ieee802154/mac802154_hwsim.c:17:
-   In file included from include/linux/rtnetlink.h:7:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/net/ieee802154/mac802154_hwsim.c:17:
-   In file included from include/linux/rtnetlink.h:7:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/net/ieee802154/mac802154_hwsim.c:17:
-   In file included from include/linux/rtnetlink.h:7:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/net/ieee802154/mac802154_hwsim.c:727:21: error: incompatible pointer types passing 'struct mutex *' to parameter of type 'const struct lockdep_map *' [-Werror,-Wincompatible-pointer-types]
-                                                           lock_is_held(&hwsim_phys_lock));
-                                                                        ^~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:542:60: note: expanded from macro 'rcu_replace_pointer'
-           typeof(ptr) __tmp = rcu_dereference_protected((rcu_ptr), (c));  \
-                                                                     ^
-   include/linux/rcupdate.h:673:54: note: expanded from macro 'rcu_dereference_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-                                                               ^
-   include/linux/rcupdate.h:469:21: note: expanded from macro '__rcu_dereference_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-                              ^
-   include/linux/rcupdate.h:389:39: note: expanded from macro 'RCU_LOCKDEP_WARN'
-                   if (debug_lockdep_rcu_enabled() && (c) &&               \
-                                                       ^
-   include/linux/lockdep.h:281:58: note: passing argument to parameter 'lock' here
-   static inline int lock_is_held(const struct lockdep_map *lock)
-                                                            ^
-   6 warnings and 1 error generated.
+>> drivers/hv/vmbus_drv.c:2178:74: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+                                                             ~~~~           ^~~~~
+                                                             %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2178:81: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+                                                                   ~~~~            ^~~
+                                                                   %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2181:76: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+                                                               ~~~~           ^~~~~
+                                                               %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2181:83: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+                                                                     ~~~~            ^~~
+                                                                     %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2187:74: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+                                                             ~~~~           ^~~~~
+                                                             %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2187:81: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+                                                                   ~~~~            ^~~
+                                                                   %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2190:76: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+                                                               ~~~~           ^~~~~
+                                                               %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2190:83: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                   printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+                                                                     ~~~~            ^~~
+                                                                     %x
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+>> drivers/hv/vmbus_drv.c:2188:25: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68182605824 to 3758096384 [-Wconstant-conversion]
+                   start = 0xfe0000000;
+                         ~ ^~~~~~~~~~~
+   drivers/hv/vmbus_drv.c:2189:23: warning: implicit conversion from 'long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
+                   end = 0xfffffffff;
+                       ~ ^~~~~~~~~~~
+   10 warnings generated.
 
 
-vim +727 drivers/net/ieee802154/mac802154_hwsim.c
+vim +2178 drivers/hv/vmbus_drv.c
 
-   684	
-   685	static int hwsim_set_edge_lqi(struct sk_buff *msg, struct genl_info *info)
-   686	{
-   687		struct nlattr *edge_attrs[MAC802154_HWSIM_EDGE_ATTR_MAX + 1];
-   688		struct hwsim_edge_info *einfo, *einfo_old;
-   689		struct hwsim_phy *phy_v0;
-   690		struct hwsim_edge *e;
-   691		u32 v0, v1;
-   692		u8 lqi;
-   693	
-   694		if (!info->attrs[MAC802154_HWSIM_ATTR_RADIO_ID] ||
-   695		    !info->attrs[MAC802154_HWSIM_ATTR_RADIO_EDGE])
-   696			return -EINVAL;
-   697	
-   698		if (nla_parse_nested_deprecated(edge_attrs, MAC802154_HWSIM_EDGE_ATTR_MAX, info->attrs[MAC802154_HWSIM_ATTR_RADIO_EDGE], hwsim_edge_policy, NULL))
-   699			return -EINVAL;
-   700	
-   701		if (!edge_attrs[MAC802154_HWSIM_EDGE_ATTR_ENDPOINT_ID] ||
-   702		    !edge_attrs[MAC802154_HWSIM_EDGE_ATTR_LQI])
-   703			return -EINVAL;
-   704	
-   705		v0 = nla_get_u32(info->attrs[MAC802154_HWSIM_ATTR_RADIO_ID]);
-   706		v1 = nla_get_u32(edge_attrs[MAC802154_HWSIM_EDGE_ATTR_ENDPOINT_ID]);
-   707		lqi = nla_get_u8(edge_attrs[MAC802154_HWSIM_EDGE_ATTR_LQI]);
-   708	
-   709		mutex_lock(&hwsim_phys_lock);
-   710		phy_v0 = hwsim_get_radio_by_id(v0);
-   711		if (!phy_v0) {
-   712			mutex_unlock(&hwsim_phys_lock);
-   713			return -ENOENT;
-   714		}
-   715	
-   716		einfo = kzalloc(sizeof(*einfo), GFP_KERNEL);
-   717		if (!einfo) {
-   718			mutex_unlock(&hwsim_phys_lock);
-   719			return -ENOMEM;
-   720		}
-   721	
-   722		rcu_read_lock();
-   723		list_for_each_entry_rcu(e, &phy_v0->edges, list) {
-   724			if (e->endpoint->idx == v1) {
-   725				einfo->lqi = lqi;
-   726				einfo_old = rcu_replace_pointer(e->info, einfo,
- > 727								lock_is_held(&hwsim_phys_lock));
-   728				rcu_read_unlock();
-   729				kfree_rcu(einfo_old, rcu);
-   730				mutex_unlock(&hwsim_phys_lock);
-   731				return 0;
-   732			}
-   733		}
-   734		rcu_read_unlock();
-   735	
-   736		kfree(einfo);
-   737		mutex_unlock(&hwsim_phys_lock);
-   738	
-   739		return -ENOENT;
-   740	}
-   741	
+  2153	
+  2154	
+  2155	/*
+  2156	 * VMBUS is an acpi enumerated device. Get the information we
+  2157	 * need from DSDT.
+  2158	 */
+  2159	static acpi_status vmbus_walk_resources(struct acpi_resource *res, void *ctx)
+  2160	{
+  2161		resource_size_t start = 0;
+  2162		resource_size_t end = 0;
+  2163		struct resource *new_res;
+  2164		struct resource **old_res = &hyperv_mmio;
+  2165		struct resource **prev_res = NULL;
+  2166		struct resource r;
+  2167	
+  2168		switch (res->type) {
+  2169	
+  2170		/*
+  2171		 * "Address" descriptors are for bus windows. Ignore
+  2172		 * "memory" descriptors, which are for registers on
+  2173		 * devices.
+  2174		 */
+  2175		case ACPI_RESOURCE_TYPE_ADDRESS32:
+  2176			start = res->data.address32.address.minimum;
+  2177			end = res->data.address32.address.maximum;
+> 2178	                printk("cdx: vmbus_walk_resources: mem32: %llx, %llx\n", start, end);
+  2179	                start = 0xf8000000;
+  2180	                end = 0xffffffff;
+  2181	                printk("cdx: vmbus_walk_resources: mem32-2: %llx, %llx\n", start, end);
+  2182			break;
+  2183	
+  2184		case ACPI_RESOURCE_TYPE_ADDRESS64:
+  2185			start = res->data.address64.address.minimum;
+  2186			end = res->data.address64.address.maximum;
+  2187	                printk("cdx: vmbus_walk_resources: mem64: %llx, %llx\n", start, end);
+> 2188	                start = 0xfe0000000;
+  2189	                end = 0xfffffffff;
+  2190	                printk("cdx: vmbus_walk_resources: mem64-2: %llx, %llx\n", start, end);
+  2191			break;
+  2192	
+  2193		/*
+  2194		 * The IRQ information is needed only on ARM64, which Hyper-V
+  2195		 * sets up in the extended format. IRQ information is present
+  2196		 * on x86/x64 in the non-extended format but it is not used by
+  2197		 * Linux. So don't bother checking for the non-extended format.
+  2198		 */
+  2199		case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
+  2200			if (!acpi_dev_resource_interrupt(res, 0, &r)) {
+  2201				pr_err("Unable to parse Hyper-V ACPI interrupt\n");
+  2202				return AE_ERROR;
+  2203			}
+  2204			/* ARM64 INTID for VMbus */
+  2205			vmbus_interrupt = res->data.extended_irq.interrupts[0];
+  2206			/* Linux IRQ number */
+  2207			vmbus_irq = r.start;
+  2208	               printk("cdx: vmbus_walk_resources: irq=%d\n", vmbus_irq);
+  2209			return AE_OK;
+  2210	
+  2211		default:
+  2212			/* Unused resource type */
+  2213	               printk("cdx: vmbus_walk_resources: default type=%d\n", res->type);
+  2214			return AE_OK;
+  2215	
+  2216		}
+  2217		/*
+  2218		 * Ignore ranges that are below 1MB, as they're not
+  2219		 * necessary or useful here.
+  2220		 */
+  2221		if (end < 0x100000)
+  2222			return AE_OK;
+  2223	
+  2224		new_res = kzalloc(sizeof(*new_res), GFP_ATOMIC);
+  2225		if (!new_res)
+  2226			return AE_NO_MEMORY;
+  2227	
+  2228		/* If this range overlaps the virtual TPM, truncate it. */
+  2229		if (end > VTPM_BASE_ADDRESS && start < VTPM_BASE_ADDRESS)
+  2230			end = VTPM_BASE_ADDRESS;
+  2231	
+  2232		new_res->name = "hyperv mmio";
+  2233		new_res->flags = IORESOURCE_MEM;
+  2234		new_res->start = start;
+  2235		new_res->end = end;
+  2236	
+  2237		/*
+  2238		 * If two ranges are adjacent, merge them.
+  2239		 */
+  2240		do {
+  2241			if (!*old_res) {
+  2242				*old_res = new_res;
+  2243				break;
+  2244			}
+  2245	
+  2246			if (((*old_res)->end + 1) == new_res->start) {
+  2247				(*old_res)->end = new_res->end;
+  2248				kfree(new_res);
+  2249				break;
+  2250			}
+  2251	
+  2252			if ((*old_res)->start == new_res->end + 1) {
+  2253				(*old_res)->start = new_res->start;
+  2254				kfree(new_res);
+  2255				break;
+  2256			}
+  2257	
+  2258			if ((*old_res)->start > new_res->end) {
+  2259				new_res->sibling = *old_res;
+  2260				if (prev_res)
+  2261					(*prev_res)->sibling = new_res;
+  2262				*old_res = new_res;
+  2263				break;
+  2264			}
+  2265	
+  2266			prev_res = old_res;
+  2267			old_res = &(*old_res)->sibling;
+  2268	
+  2269		} while (1);
+  2270	
+  2271		return AE_OK;
+  2272	}
+  2273	
 
 -- 
 0-DAY CI Kernel Test Service
