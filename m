@@ -1,51 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C19A1FAE;
-	Sun,  9 Apr 2023 09:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB381FA5;
+	Sun,  9 Apr 2023 10:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681032993; x=1712568993;
+  t=1681036110; x=1712572110;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KR3OB1bN1xOPenjENINMC1U5px4J2IzqB6I4Fi/cpek=;
-  b=CRpovn4IEhsQ5HP5dexfAz49rLYk12izAaz5EDXBgmwzsR9rUBvtEIVE
-   XtNz2ukb8Ij+PSR4Ws5iZfO/IsW0nCHxkKmKxT7GZtdSErfl931XnJP2q
-   qq5GY/JoVPqkt6Dw05OVBSnqSxOiPxtuWSn6opj2LeQjY/QhLFnYqWHKX
-   TBaPa8F/D1wLbzCH+bG/buVJOelo9xC+jcbNLnkusIdO1TKqtie2tkNtX
-   tIYu6R9B2QUErkyFv1m4F+FS3RM3LHJH5Ypwq9RIs7hXibyLZT2GphH/0
-   bAjAn31t48jbAwh5mKQPXAPzqS5LSddQ7wfwcv/AR7gWQygLQ/EWlRfC0
+  bh=KhUdK/JCLi5O0q5+rXzywZethSVgIl1MPo2BWSWnKpg=;
+  b=K50pXK9TesfobuFsjNHsYg+bieheVrZt8tr19p6R45375ZDPldNw6oK+
+   gCe7e3IQk1NYnZHf1ap/D7aYFuiwN+T9m0bpZbhkEL5QFjT69Jsn67jF/
+   4ZYGZIAGZ6Mp2BtNAU7O1Cx4ceEDRhKZ2XxOsJceSrfgUG3Q0jUVX4qRS
+   1NlAO5f/xzUCCyjeLnaselLbR3+BJuW97B1el9kcF0OjzKHykc3t1KC+1
+   Z8RJeOoG+t95Kgu14GAk+n+yGMugAxgjd6xrx8ABvA68Oe8sHfXmQf6qR
+   X+sWhOcQDYrlbL1aTErjWXDPmifWItP4rHkIGNnL9XVW4U5qHIOWrA+mi
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="408345048"
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="343215823"
 X-IronPort-AV: E=Sophos;i="5.98,331,1673942400"; 
-   d="scan'208";a="408345048"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 02:36:32 -0700
+   d="scan'208";a="343215823"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 03:28:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="1017701223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="718304032"
 X-IronPort-AV: E=Sophos;i="5.98,331,1673942400"; 
-   d="scan'208";a="1017701223"
+   d="scan'208";a="718304032"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Apr 2023 02:36:28 -0700
+  by orsmga008.jf.intel.com with ESMTP; 09 Apr 2023 03:28:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plRTH-000UST-1Q;
-	Sun, 09 Apr 2023 09:36:27 +0000
-Date: Sun, 9 Apr 2023 17:36:02 +0800
+	id 1plSHb-000UT7-2h;
+	Sun, 09 Apr 2023 10:28:27 +0000
+Date: Sun, 9 Apr 2023 18:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Koller <ricarkol@google.com>, pbonzini@redhat.com,
-	maz@kernel.org, oupton@google.com, yuzenghui@huawei.com,
-	dmatlack@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev, qperret@google.com, catalin.marinas@arm.com,
-	andrew.jones@linux.dev, seanjc@google.com, alexandru.elisei@arm.com,
-	suzuki.poulose@arm.com, eric.auger@redhat.com, gshan@redhat.com,
-	reijiw@google.com, rananta@google.com, bgardon@google.com,
-	ricarkol@gmail.com, Ricardo Koller <ricarkol@google.com>,
-	Shaoqin Huang <shahuang@redhat.com>
-Subject: Re: [PATCH v7 04/12] KVM: arm64: Add kvm_pgtable_stage2_split()
-Message-ID: <202304091707.ALABRVCG-lkp@intel.com>
-References: <20230409063000.3559991-6-ricarkol@google.com>
+To: Michael Riesch via B4 Relay <devnull+michael.riesch.wolfvision.net@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/4] media: v4l2-ctrls: add lens group status
+ controls for zoom and focus
+Message-ID: <202304091844.U8qwkT3d-lkp@intel.com>
+References: <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,164 +47,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230409063000.3559991-6-ricarkol@google.com>
+In-Reply-To: <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
 
-Hi Ricardo,
+Hi Michael,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on mst-vhost/linux-next linus/master v6.3-rc5 next-20230406]
-[cannot apply to kvmarm/next kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on fe15c26ee26efa11741a7b632e9f23b01aca4cc6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Koller/KVM-arm64-Rename-free_removed-to-free_unlinked/20230409-143229
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230409063000.3559991-6-ricarkol%40google.com
-patch subject: [PATCH v7 04/12] KVM: arm64: Add kvm_pgtable_stage2_split()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230409/202304091707.ALABRVCG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch-via-B4-Relay/media-v4l2-ctrls-add-lens-group-status-controls-for-zoom-and-focus/20230406-223922
+base:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+patch link:    https://lore.kernel.org/r/20230406-feature-controls-lens-v1-1-543189a680de%40wolfvision.net
+patch subject: [PATCH RFC 1/4] media: v4l2-ctrls: add lens group status controls for zoom and focus
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230409/202304091844.U8qwkT3d-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c94328e3e8b2d2d873503360ea730c87f4a03301
+        # https://github.com/intel-lab-lkp/linux/commit/c1630c0aaed9c37193a2b0f4ada0f4e5da4c641e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ricardo-Koller/KVM-arm64-Rename-free_removed-to-free_unlinked/20230409-143229
-        git checkout c94328e3e8b2d2d873503360ea730c87f4a03301
+        git fetch --no-tags linux-review Michael-Riesch-via-B4-Relay/media-v4l2-ctrls-add-lens-group-status-controls-for-zoom-and-focus/20230406-223922
+        git checkout c1630c0aaed9c37193a2b0f4ada0f4e5da4c641e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/media/atomisp/ kernel/module/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304091707.ALABRVCG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304091844.U8qwkT3d-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/hyp/pgtable.c:10:
-   arch/arm64/kvm/hyp/pgtable.c: In function 'stage2_split_walker':
->> include/linux/container_of.h:20:54: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:247,
-                    from include/linux/build_bug.h:5:
->> include/linux/stddef.h:16:33: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
+   In file included from drivers/staging/media/atomisp/pci/atomisp_cmd.c:37:
+   In file included from drivers/staging/media/atomisp//pci/atomisp_cmd.h:24:
+>> drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp.h:1072:9: warning: 'V4L2_CID_FOCUS_STATUS' macro redefined [-Wmacro-redefined]
+   #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+           ^
+   include/uapi/linux/v4l2-controls.h:1006:9: note: previous definition is here
+   #define V4L2_CID_FOCUS_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 37)
+           ^
+   1 warning generated.
 --
-   In file included from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/hyp/nvhe/../pgtable.c:10:
-   arch/arm64/kvm/hyp/nvhe/../pgtable.c: In function 'stage2_split_walker':
->> include/linux/container_of.h:20:54: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:247,
-                    from include/linux/build_bug.h:5:
->> include/linux/stddef.h:16:33: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
-    1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
-         |               ^~~~~~~~~~~~
+   In file included from drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:28:
+   In file included from drivers/staging/media/atomisp//pci/atomisp_compat.h:22:
+   In file included from drivers/staging/media/atomisp//pci/atomisp_compat_css20.h:24:
+   In file included from drivers/staging/media/atomisp//pci/ia_css.h:30:
+   In file included from drivers/staging/media/atomisp//pci/ia_css_dvs.h:26:
+   In file included from drivers/staging/media/atomisp//pci/ia_css_stream_public.h:26:
+   In file included from drivers/staging/media/atomisp//pci/ia_css_metadata.h:25:
+   In file included from drivers/staging/media/atomisp//pci/ia_css_stream_format.h:24:
+   In file included from drivers/staging/media/atomisp//pci/hive_isp_css_common/host/../../../include/linux/atomisp_platform.h:26:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_common/host/../../../include/linux/atomisp.h:1072:9: warning: 'V4L2_CID_FOCUS_STATUS' macro redefined [-Wmacro-redefined]
+   #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+           ^
+   include/uapi/linux/v4l2-controls.h:1006:9: note: previous definition is here
+   #define V4L2_CID_FOCUS_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 37)
+           ^
+   1 warning generated.
+--
+   In file included from drivers/staging/media/atomisp/pci/sh_css_version.c:17:
+   In file included from drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp_platform.h:25:
+   In file included from include/media/v4l2-subdev.h:12:
+   In file included from include/uapi/linux/v4l2-subdev.h:18:
+   In file included from include/uapi/linux/v4l2-mediabus.h:13:
+   In file included from include/linux/videodev2.h:61:
+   In file included from include/uapi/linux/videodev2.h:67:
+>> include/uapi/linux/v4l2-controls.h:1006:9: warning: 'V4L2_CID_FOCUS_STATUS' macro redefined [-Wmacro-redefined]
+   #define V4L2_CID_FOCUS_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 37)
+           ^
+   drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp.h:1072:9: note: previous definition is here
+   #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+           ^
+   1 warning generated.
+--
+   In file included from drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c:33:
+   In file included from drivers/staging/media/atomisp/i2c/../include/linux/atomisp_gmin_platform.h:19:
+   In file included from drivers/staging/media/atomisp/i2c/../include/linux/atomisp_platform.h:26:
+>> drivers/staging/media/atomisp/i2c/../include/linux/atomisp.h:1072:9: warning: 'V4L2_CID_FOCUS_STATUS' macro redefined [-Wmacro-redefined]
+   #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+           ^
+   include/uapi/linux/v4l2-controls.h:1006:9: note: previous definition is here
+   #define V4L2_CID_FOCUS_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 37)
+           ^
+   1 warning generated.
+--
+   In file included from drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c:35:
+   In file included from drivers/staging/media/atomisp/i2c/ov5693/../../include/linux/atomisp_gmin_platform.h:19:
+   In file included from drivers/staging/media/atomisp/i2c/ov5693/../../include/linux/atomisp_platform.h:26:
+>> drivers/staging/media/atomisp/i2c/ov5693/../../include/linux/atomisp.h:1072:9: warning: 'V4L2_CID_FOCUS_STATUS' macro redefined [-Wmacro-redefined]
+   #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+           ^
+   include/uapi/linux/v4l2-controls.h:1006:9: note: previous definition is here
+   #define V4L2_CID_FOCUS_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 37)
+           ^
+   1 warning generated.
 
 
-vim +20 include/linux/container_of.h
+vim +/V4L2_CID_FOCUS_STATUS +1072 drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp.h
 
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
-7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
-e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
-e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
-d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  1070  
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  1071  /* Query Focus Status */
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19 @1072  #define V4L2_CID_FOCUS_STATUS              (V4L2_CID_CAMERA_LASTP1 + 14)
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  1073  
 
 -- 
 0-DAY CI Kernel Test Service
