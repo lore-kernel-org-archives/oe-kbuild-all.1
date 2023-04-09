@@ -1,43 +1,47 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895AF28FE;
-	Sun,  9 Apr 2023 21:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4874A28FE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Apr 2023 22:22:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681075307; x=1712611307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mneTxEsItf49WuZHJnzJOEcKmBrdQLASPlzic94ixcE=;
-  b=R2PeEvxsw4asuzBx7RQHwo+H3hwn0y6Z8g6kBWLWRg24+4jhhCYxwz6k
-   dc+GM7ykYjS/MoNU59F3VyHWpGvoCnuBcJr7CI3m4Abm1s+M4VvyGebbF
-   jJz5eqfhMb3fzC9HVfDnmyW0Y2KZxV7o9bQQFCysQUN/b4W13l/oB+nqY
-   nBbqSzvDibFHst4W+TiSChQ8rFdNjeDiC62m2s2hxIWJdROremDRz2Gei
-   78dYaGYDBpoi9y+24aonjBa091qaWAFAEclhZ1oT5rTMfvkmJ5YPf06qM
-   pGiMqQzrjYyHOVkIQ1NdY3K0GPxh4RDf2YM50yhCFCSzLxJH2+XfaOPyK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="408388605"
+  t=1681078971; x=1712614971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5+MDRnDjJbwiwiiJOJfybKSPji2eRvgyyEX8Q8KlvxI=;
+  b=jV+avZiTWBcB1EMd6Yief3unTfUM2W3zEUT+98zRPepY51LN8snxJCSE
+   i0UvpAzt33o2bJ6SLkY7tMn2GD9Om3UdrxRqeezRHLLqKB7upAYCExcC5
+   Kvc/O3+IrWAbzYWSXJWsW9H2Ry+dApsPHTf/C7N2IvONz65Q8KmuWJGe0
+   VAcUJcFeFfP8rk52zhbAr3hcN6eukUCYBY5ttjjcXctbiXBIp9WlJVApy
+   uMRwUkxnMt90zWg+9wNfAmwiYuocd5QnA/E37EEQQWy2sEGwDdmClXU44
+   FiW8ytPu5LEynUoTQfDrRLmSUb8ugJRgfU3nB0TUhk8EcQmaOYbItMprM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="406080056"
 X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="408388605"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 14:21:47 -0700
+   d="scan'208";a="406080056"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 15:22:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="862304548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="688078327"
 X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="862304548"
+   d="scan'208";a="688078327"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 09 Apr 2023 14:21:45 -0700
+  by orsmga002.jf.intel.com with ESMTP; 09 Apr 2023 15:22:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plcTo-000Umb-30;
-	Sun, 09 Apr 2023 21:21:44 +0000
-Date: Mon, 10 Apr 2023 05:21:07 +0800
+	id 1pldQs-000Uoj-1R;
+	Sun, 09 Apr 2023 22:22:46 +0000
+Date: Mon, 10 Apr 2023 06:22:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/210-gpu 54/105] rust/helpers.c:317:9: error:
- implicit declaration of function 'of_node_is_root' is invalid in C99
-Message-ID: <202304100508.DHKOOj5g-lkp@intel.com>
+To: Nikunj Kela <quic_nkela@quicinc.com>, sudeep.holla@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, cristian.marussi@arm.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nikunj Kela <quic_nkela@quicinc.com>
+Subject: Re: [PATCH 2/2] firmware: arm_scmi: Augment SMC/HVC to allow
+ optional parameters
+Message-ID: <202304100606.kUjhsRYf-lkp@intel.com>
+References: <20230409181918.29270-3-quic_nkela@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +50,357 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230409181918.29270-3-quic_nkela@quicinc.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/210-gpu
-head:   b77ed23d7d093f7ce5d31c84b70282467321abe8
-commit: 5b8395000accfb8d1399550c47328dad23b1066b [54/105] rust: kernel: platform: Add Device.set_dma_masks()
-config: x86_64-randconfig-r033-20230410 (https://download.01.org/0day-ci/archive/20230410/202304100508.DHKOOj5g-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Nikunj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.3-rc6 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-Kela/dt-bindings-firmware-arm-scmi-support-parameter-passing-in-smc-hvc/20230410-022129
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230409181918.29270-3-quic_nkela%40quicinc.com
+patch subject: [PATCH 2/2] firmware: arm_scmi: Augment SMC/HVC to allow optional parameters
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230410/202304100606.kUjhsRYf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/5b8395000accfb8d1399550c47328dad23b1066b
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/210-gpu
-        git checkout 5b8395000accfb8d1399550c47328dad23b1066b
+        # https://github.com/intel-lab-lkp/linux/commit/9c34de66aa243da9824e8bbe749b24e36b0db483
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nikunj-Kela/dt-bindings-firmware-arm-scmi-support-parameter-passing-in-smc-hvc/20230410-022129
+        git checkout 9c34de66aa243da9824e8bbe749b24e36b0db483
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304100508.DHKOOj5g-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304100606.kUjhsRYf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> rust/helpers.c:317:9: error: implicit declaration of function 'of_node_is_root' is invalid in C99 [-Wimplicit-function-declaration]
->> rust/helpers.c:317:9: error: implicit declaration of function 'of_node_is_root' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   thread 'main' panicked at 'Unable to generate bindings: ()', /opt/cross/rustc-1.66.0-bindgen-0.56.0/cargo/registry/src/github.com-1ecc6299db9ec823/bindgen-0.56.0/src/main.rs:54:36
-   note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-   make[2]: *** [rust/Makefile:303: rust/bindings/bindings_helpers_generated.rs] Error 1
-   make[2]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   make[2]: Target 'rust/' not remade because of errors.
-   make[1]: *** [Makefile:1292: prepare] Error 2
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from drivers/firmware/arm_scmi/smc.c:9:
+   drivers/firmware/arm_scmi/smc.c: In function 'smc_send_message':
+>> include/linux/arm-smccc.h:436:29: error: register specified for 'arg1' isn't suitable for data type
+     436 |         register typeof(a1) arg1 asm("r1") = __a1;                      \
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:518:33: note: in expansion of macro '__arm_smccc_1_1'
+     518 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:552:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     552 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:438:29: error: register specified for 'arg3' isn't suitable for data type
+     438 |         register typeof(a3) arg3 asm("r3") = __a3
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:518:33: note: in expansion of macro '__arm_smccc_1_1'
+     518 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:552:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     552 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:448:29: error: register specified for 'arg5' isn't suitable for data type
+     448 |         register typeof(a5) arg5 asm("r5") = __a5
+         |                             ^~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:518:33: note: in expansion of macro '__arm_smccc_1_1'
+     518 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:552:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     552 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:436:29: error: register specified for 'arg1' isn't suitable for data type
+     436 |         register typeof(a1) arg1 asm("r1") = __a1;                      \
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:502:33: note: in expansion of macro '__arm_smccc_1_1'
+     502 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:555:25: note: in expansion of macro 'arm_smccc_1_1_smc'
+     555 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:438:29: error: register specified for 'arg3' isn't suitable for data type
+     438 |         register typeof(a3) arg3 asm("r3") = __a3
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:502:33: note: in expansion of macro '__arm_smccc_1_1'
+     502 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:555:25: note: in expansion of macro 'arm_smccc_1_1_smc'
+     555 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:448:29: error: register specified for 'arg5' isn't suitable for data type
+     448 |         register typeof(a5) arg5 asm("r5") = __a5
+         |                             ^~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:17: note: in expansion of macro '__declare_args'
+     479 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:502:33: note: in expansion of macro '__arm_smccc_1_1'
+     502 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:555:25: note: in expansion of macro 'arm_smccc_1_1_smc'
+     555 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:436:29: error: register specified for 'arg1' isn't suitable for data type
+     436 |         register typeof(a1) arg1 asm("r1") = __a1;                      \
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:527:17: note: in expansion of macro '__declare_args'
+     527 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:558:25: note: in expansion of macro '__fail_smccc_1_1'
+     558 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:438:29: error: register specified for 'arg3' isn't suitable for data type
+     438 |         register typeof(a3) arg3 asm("r3") = __a3
+         |                             ^~~~
+   include/linux/arm-smccc.h:442:9: note: in expansion of macro '__declare_arg_3'
+     442 |         __declare_arg_3(a0, a1, a2, a3, res);                           \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:447:9: note: in expansion of macro '__declare_arg_4'
+     447 |         __declare_arg_4(a0, a1, a2, a3, a4, res);                       \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:527:17: note: in expansion of macro '__declare_args'
+     527 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:558:25: note: in expansion of macro '__fail_smccc_1_1'
+     558 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/arm-smccc.h:448:29: error: register specified for 'arg5' isn't suitable for data type
+     448 |         register typeof(a5) arg5 asm("r5") = __a5
+         |                             ^~~~
+   include/linux/arm-smccc.h:452:9: note: in expansion of macro '__declare_arg_5'
+     452 |         __declare_arg_5(a0, a1, a2, a3, a4, a5, res);                   \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:457:9: note: in expansion of macro '__declare_arg_6'
+     457 |         __declare_arg_6(a0, a1, a2, a3, a4, a5, a6, res);               \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:460:37: note: in expansion of macro '__declare_arg_7'
+     460 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:461:37: note: in expansion of macro '___declare_args'
+     461 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:527:17: note: in expansion of macro '__declare_args'
+     527 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:558:25: note: in expansion of macro '__fail_smccc_1_1'
+     558 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:250:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+     250 |                 arm_smccc_1_1_invoke(scmi_info->func_id, p[0].x, p[1].x, p[2].x,
+         |                 ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/of_node_is_root +317 rust/helpers.c
+vim +436 include/linux/arm-smccc.h
 
-88eac78b70c9d4 Asahi Lina 2023-02-16  314  
-80be5b6eb36e96 Asahi Lina 2022-10-22  315  bool rust_helper_of_node_is_root(const struct device_node *np)
-80be5b6eb36e96 Asahi Lina 2022-10-22  316  {
-80be5b6eb36e96 Asahi Lina 2022-10-22 @317  	return of_node_is_root(np);
-80be5b6eb36e96 Asahi Lina 2022-10-22  318  }
-80be5b6eb36e96 Asahi Lina 2022-10-22  319  EXPORT_SYMBOL_GPL(rust_helper_of_node_is_root);
-80be5b6eb36e96 Asahi Lina 2022-10-22  320  
-
-:::::: The code at line 317 was first introduced by commit
-:::::: 80be5b6eb36e962112cd4b2aae73ef6a640bf927 rust: of: Add OF node abstraction
-
-:::::: TO: Asahi Lina <lina@asahilina.net>
-:::::: CC: Hector Martin <marcan@marcan.st>
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  411  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  412  #define __declare_arg_0(a0, res)					\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  413  	struct arm_smccc_res   *___res = res;				\
+0794a974d74dc7 Andrew Scull 2020-09-15  414  	register unsigned long arg0 asm("r0") = (u32)a0
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  415  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  416  #define __declare_arg_1(a0, a1, res)					\
+755a8bf5579d22 Marc Zyngier 2018-08-24  417  	typeof(a1) __a1 = a1;						\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  418  	struct arm_smccc_res   *___res = res;				\
+0794a974d74dc7 Andrew Scull 2020-09-15  419  	register unsigned long arg0 asm("r0") = (u32)a0;			\
+0794a974d74dc7 Andrew Scull 2020-09-15  420  	register typeof(a1) arg1 asm("r1") = __a1
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  421  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  422  #define __declare_arg_2(a0, a1, a2, res)				\
+755a8bf5579d22 Marc Zyngier 2018-08-24  423  	typeof(a1) __a1 = a1;						\
+755a8bf5579d22 Marc Zyngier 2018-08-24  424  	typeof(a2) __a2 = a2;						\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  425  	struct arm_smccc_res   *___res = res;				\
+0794a974d74dc7 Andrew Scull 2020-09-15  426  	register unsigned long arg0 asm("r0") = (u32)a0;			\
+0794a974d74dc7 Andrew Scull 2020-09-15  427  	register typeof(a1) arg1 asm("r1") = __a1;			\
+0794a974d74dc7 Andrew Scull 2020-09-15  428  	register typeof(a2) arg2 asm("r2") = __a2
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  429  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  430  #define __declare_arg_3(a0, a1, a2, a3, res)				\
+755a8bf5579d22 Marc Zyngier 2018-08-24  431  	typeof(a1) __a1 = a1;						\
+755a8bf5579d22 Marc Zyngier 2018-08-24  432  	typeof(a2) __a2 = a2;						\
+755a8bf5579d22 Marc Zyngier 2018-08-24  433  	typeof(a3) __a3 = a3;						\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  434  	struct arm_smccc_res   *___res = res;				\
+0794a974d74dc7 Andrew Scull 2020-09-15  435  	register unsigned long arg0 asm("r0") = (u32)a0;			\
+0794a974d74dc7 Andrew Scull 2020-09-15 @436  	register typeof(a1) arg1 asm("r1") = __a1;			\
+0794a974d74dc7 Andrew Scull 2020-09-15  437  	register typeof(a2) arg2 asm("r2") = __a2;			\
+0794a974d74dc7 Andrew Scull 2020-09-15 @438  	register typeof(a3) arg3 asm("r3") = __a3
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  439  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  440  #define __declare_arg_4(a0, a1, a2, a3, a4, res)			\
+755a8bf5579d22 Marc Zyngier 2018-08-24  441  	typeof(a4) __a4 = a4;						\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  442  	__declare_arg_3(a0, a1, a2, a3, res);				\
+0794a974d74dc7 Andrew Scull 2020-09-15  443  	register typeof(a4) arg4 asm("r4") = __a4
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  444  
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  445  #define __declare_arg_5(a0, a1, a2, a3, a4, a5, res)			\
+755a8bf5579d22 Marc Zyngier 2018-08-24  446  	typeof(a5) __a5 = a5;						\
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  447  	__declare_arg_4(a0, a1, a2, a3, a4, res);			\
+0794a974d74dc7 Andrew Scull 2020-09-15 @448  	register typeof(a5) arg5 asm("r5") = __a5
+f2d3b2e8759a58 Marc Zyngier 2018-02-06  449  
 
 -- 
 0-DAY CI Kernel Test Service
