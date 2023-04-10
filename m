@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FB45246
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 18:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BC35246
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 19:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681152638; x=1712688638;
+  t=1681155639; x=1712691639;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IMbdhZCGER1S9AmrQ+HlZR8mgvfxKpZ4g0Ekzw+dzq0=;
-  b=mdH2TAT7W50tvK5hNearMmG9wCcC6U+Q8NN4pSxipyWKkJBn/5GcDxwG
-   KWdoUpF2MkbxCpu9qx5npeptVsKjxKYDwRY9pFIQEyBkFNh/IKQ2zeN84
-   tYbt9G3wICLKnTH0E3DNJvgNPOphCaO1UAf/QCju6k8/gnTSzBOjy+HNo
-   hZu1NoKmhdu/I47BqNooZUcezYcaUTK5dz46eDYg02h7lV9W8Y15Dg2ZC
-   D/fWFY5qpAJZ1jCcYEBrfGOsOtdrKyu65n094GV2AuvLZws9LFTgVW2D5
-   oNvzLaYYdYV8R55tRxf3fOGSB9vjw7X3Cmg34403JURYD4edF5QahOy5f
+  bh=X0n8nwcp+JLAyJ2/FOYRZx/siUCTym1dMMoEjvhXYw8=;
+  b=eJYmyXqQO88FEQbBvBe8LLwTqbBtPZrLuVl7yOTxveeaVvOfObv09UF7
+   xFtzhxBXpTGlcBzGJ2Woq4AR8NCJw7fUKwUD4GKSs4uqDflMK/FOOZo0c
+   WKumBtuuUZb+CaCZ8JfBHNpOCYbKnxF79rf/oM2q0Y+8V+1B71UNXvIRs
+   TvtPDLzfxrmJKnk7YI0Kv7rBAM3gN8/ZwvAcLW5It/fo9/MRfn1vEopq9
+   8B/jGJhi1tozc4S08p1kN+uUGscv4FepZRskvmhfker7UxyteZkQ5BJw2
+   8xc7jj19rVWKRlqw39kgSQb1l+m+DjVvdn/A2ib5VeYdNuIu4IMvVgBTX
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323064434"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="340926650"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="323064434"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 11:50:37 -0700
+   d="scan'208";a="340926650"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 12:40:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="690882415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="799605253"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="690882415"
+   d="scan'208";a="799605253"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Apr 2023 11:50:36 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2023 12:40:38 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plwb5-000Vb3-33;
-	Mon, 10 Apr 2023 18:50:35 +0000
-Date: Tue, 11 Apr 2023 02:49:39 +0800
+	id 1plxNV-000Vd1-0r;
+	Mon, 10 Apr 2023 19:40:37 +0000
+Date: Tue, 11 Apr 2023 03:40:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:report_group_id 3/4]
- drivers/s390/crypto/vfio_ap_ops.c:1757:9: error: 'ret' undeclared; did you
- mean 'net'?
-Message-ID: <202304110242.lPmMNLqX-lkp@intel.com>
+Subject: [jic23-iio:testing 65/65]
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:14: error: implicit
+ declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'?
+Message-ID: <202304110301.A3AHN43T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,71 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git report_group_id
-head:   57cbf428d04231ccaf608b7b2f9eb1d8a77e1ac9
-commit: ff4b8bee90761961041126305183a9a7e0f0542d [3/4] vfio: Report group_id to user
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230411/202304110242.lPmMNLqX-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   4c3b188facb2011e9edcdaaf71f2f553e9c230df
+commit: 4c3b188facb2011e9edcdaaf71f2f553e9c230df [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230411/202304110301.A3AHN43T-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/yiliu1765/iommufd/commit/ff4b8bee90761961041126305183a9a7e0f0542d
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd report_group_id
-        git checkout ff4b8bee90761961041126305183a9a7e0f0542d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=4c3b188facb2011e9edcdaaf71f2f553e9c230df
+        git remote add jic23-iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
+        git fetch --no-tags jic23-iio testing
+        git checkout 4c3b188facb2011e9edcdaaf71f2f553e9c230df
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/s390/crypto/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/iio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110242.lPmMNLqX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110301.A3AHN43T-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/s390/crypto/vfio_ap_ops.c: In function 'vfio_ap_mdev_get_device_info':
->> drivers/s390/crypto/vfio_ap_ops.c:1757:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-    1757 |         ret =vfio_device_info_add_group_cap(vdev, &caps);
-         |         ^~~
-         |         net
-   drivers/s390/crypto/vfio_ap_ops.c:1757:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c: In function 'lsm6dsx_get_acpi_mount_matrix':
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Werror=implicit-function-declaration]
+    2641 |         if (!acpi_has_method(adev->handle, "ROTM"))
+         |              ^~~~~~~~~~~~~~~
+         |              acpi_has_watchdog
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:34: error: invalid use of undefined type 'struct acpi_device'
+    2641 |         if (!acpi_has_method(adev->handle, "ROTM"))
+         |                                  ^~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2644:43: error: invalid use of undefined type 'struct acpi_device'
+    2644 |         status = acpi_evaluate_object(adev->handle, "ROTM", NULL, &buffer);
+         |                                           ^~
+   cc1: some warnings being treated as errors
 
 
-vim +1757 drivers/s390/crypto/vfio_ap_ops.c
+vim +2641 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-  1737	
-  1738	static int vfio_ap_mdev_get_device_info(struct vfio_device *vdev,
-  1739						unsigned long arg)
-  1740	{
-  1741		struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
-  1742		unsigned long minsz;
-  1743		struct vfio_device_info info;
-  1744	
-  1745		minsz = offsetofend(struct vfio_device_info, num_irqs);
-  1746	
-  1747		if (copy_from_user(&info, (void __user *)arg, minsz))
-  1748			return -EFAULT;
-  1749	
-  1750		if (info.argsz < minsz)
-  1751			return -EINVAL;
-  1752	
-  1753		info.flags = VFIO_DEVICE_FLAGS_AP | VFIO_DEVICE_FLAGS_RESET;
-  1754		info.num_regions = 0;
-  1755		info.num_irqs = 0;
-  1756	
-> 1757		ret =vfio_device_info_add_group_cap(vdev, &caps);
-  1758		if (ret)
-  1759			return ret;
-  1760	
-  1761		ret = vfio_device_info_copy_caps(&info, &caps,
-  1762						 (struct vfio_device_info __user *)arg);
-  1763		if (ret)
-  1764			return ret;
-  1765	
-  1766		return copy_to_user((void __user *)arg, &info, minsz) ? -EFAULT : 0;
-  1767	}
-  1768	
+  2627	
+  2628	static bool lsm6dsx_get_acpi_mount_matrix(struct device *dev,
+  2629						  struct iio_mount_matrix *orientation)
+  2630	{
+  2631		struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+  2632		struct acpi_device *adev = ACPI_COMPANION(dev);
+  2633		union acpi_object *obj, *elements;
+  2634		acpi_status status;
+  2635		int i, j, val[3];
+  2636		char *str;
+  2637	
+  2638		if (!has_acpi_companion(dev))
+  2639			return -EINVAL;
+  2640	
+> 2641		if (!acpi_has_method(adev->handle, "ROTM"))
+  2642			return -EINVAL;
+  2643	
+  2644		status = acpi_evaluate_object(adev->handle, "ROTM", NULL, &buffer);
+  2645		if (ACPI_FAILURE(status)) {
+  2646			dev_warn(dev, "Failed to get ACPI mount matrix: %d\n", status);
+  2647			return -EINVAL;
+  2648		}
+  2649	
+  2650		obj = buffer.pointer;
+  2651		if (obj->type != ACPI_TYPE_PACKAGE || obj->package.count != 3)
+  2652			goto unknown_format;
+  2653	
+  2654		elements = obj->package.elements;
+  2655		for (i = 0; i < 3; i++) {
+  2656			if (elements[i].type != ACPI_TYPE_STRING)
+  2657				goto unknown_format;
+  2658	
+  2659			str = elements[i].string.pointer;
+  2660			if (sscanf(str, "%d %d %d", &val[0], &val[1], &val[2]) != 3)
+  2661				goto unknown_format;
+  2662	
+  2663			for (j = 0; j < 3; j++) {
+  2664				switch (val[j]) {
+  2665				case -1: str = "-1"; break;
+  2666				case 0:  str = "0";  break;
+  2667				case 1:  str = "1";  break;
+  2668				default: goto unknown_format;
+  2669				}
+  2670				orientation->rotation[i * 3 + j] = str;
+  2671			}
+  2672		}
+  2673	
+  2674		kfree(buffer.pointer);
+  2675		return 0;
+  2676	
+  2677	unknown_format:
+  2678		dev_warn(dev, "Unknown ACPI mount matrix format, ignoring\n");
+  2679		kfree(buffer.pointer);
+  2680		return -EINVAL;
+  2681	}
+  2682	
 
 -- 
 0-DAY CI Kernel Test Service
