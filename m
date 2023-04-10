@@ -1,43 +1,54 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347F63C04
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 16:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E473C04;
+	Mon, 10 Apr 2023 16:25:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681143359; x=1712679359;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/A2Vg6dnhGabBtSmfLtAxg9qMdduwygDAFAzO+LflAM=;
-  b=DOnK+pQnrb03hBc8QJQMQVWcgyIwpgjs+RDCuBlRLKdzbeCtSECG353o
-   Xw+/+0qLEyG5L6bSa9uKKId4z9h90CaMiuFHD2w0oYxNzaG+asrtrsJLI
-   +Q2VwM6GEMyTdnS/MI7KFNL966RiAZmFloxaN1FjNpTlmWud8r+z3jX7Z
-   sj0TiD8QkZ6NFkTp+H2xMRiSJCZO5VqtXqpXw1azXD40FZmynj9OK5n8s
-   tGJ/rGmSu2WRe1K+R8rcUtAZiAaqJcSxtoGxcgPI81K1MvaJRzN+zQlLo
-   LfNPDn8BulIPEhl0eW2y5axo4hpvXPQ1Vu7gnxgHCCArPJkBSMw4mYxr6
+  t=1681143940; x=1712679940;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lbhk0L0CrBS6dQ4+A5wBYzm+KcA4M5qf6qZwh3rIz+E=;
+  b=kobcw9UfNSYNQs3T8siPir9Ea6RxbZew4I4gIo+1wC6P6ZayGOvzsuha
+   GlZnA3g1MLdGLP7LAIbWI2NPQabzNZoXWIR7fcWJIH8dDjh3Jt+ynI1Rb
+   2zA2ZO0l4vNYdA6eXuDhkC5gjN3f0AasK45IlhuWr2PBMQsVOpQ1/et8K
+   DbsBkgZC4ykNBWqFTCYDdguMcsf15lr5XO/sTFAZIOnaw+xuHXBeyqRU7
+   2tlXyTOQSMhC7+yRmwRNOAUbA2O+TMc+PFLynDaa8Ns2NNErfP8clJRId
+   dAwNuHDg6CrPUMlB5W2mAX21j+vyU+2zg2CbfSvOFCILODme+CDAV4PqF
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323025258"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323755186"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="323025258"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 09:15:30 -0700
+   d="scan'208";a="323755186"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 09:25:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="1018026269"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="720886084"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="1018026269"
+   d="scan'208";a="720886084"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Apr 2023 09:15:29 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Apr 2023 09:25:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pluAy-000VTp-2p;
-	Mon, 10 Apr 2023 16:15:28 +0000
-Date: Tue, 11 Apr 2023 00:14:52 +0800
+	id 1pluKf-000VUL-0b;
+	Mon, 10 Apr 2023 16:25:29 +0000
+Date: Tue, 11 Apr 2023 00:25:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:t602x/bringup 114/125]
- drivers/iommu/io-pgtable-dart.c:531:21: warning: variable 'ptep' set but not
- used
-Message-ID: <202304110033.xO3FumNZ-lkp@intel.com>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>, maxime@cerno.tech
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, airlied@gmail.com,
+	andrzej.hajda@intel.com, daniel@ffwll.ch,
+	dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, jagan@amarulasolutions.com,
+	jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+	linux-amarula@amarulasolutions.com,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com, marex@denx.de,
+	neil.armstrong@linaro.org, rfoss@kernel.org, robh+dt@kernel.org,
+	sam@ravnborg.org, samuel@sholland.org, tzimmermann@suse.de,
+	wens@csie.org, Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Subject: Re: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and
+ poweroff
+Message-ID: <202304110053.n5nu03YZ-lkp@intel.com>
+References: <20230410084750.164016-2-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +57,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230410084750.164016-2-fusibrandon13@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux t602x/bringup
-head:   595f97705c505e843b8e264e9daa5710474237dc
-commit: 1fd505339e7b4e6e5b6019c98f4978c459a3d5a9 [114/125] iommu: io-pgtable: Add 4-level page table support
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230411/202304110033.xO3FumNZ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+Hi Brandon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.3-rc6 next-20230406]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20230410084750.164016-2-fusibrandon13%40gmail.com
+patch subject: [PATCH 1/2] drm: sun4i/dsi: factor out DSI PHY poweron and poweroff
+config: arm64-randconfig-r002-20230410 (https://download.01.org/0day-ci/archive/20230411/202304110053.n5nu03YZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/1fd505339e7b4e6e5b6019c98f4978c459a3d5a9
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux t602x/bringup
-        git checkout 1fd505339e7b4e6e5b6019c98f4978c459a3d5a9
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/afa9cb6821e4527f07c10a777ea44e380b524858
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Brandon-Cheo-Fusi/drm-sun4i-dsi-factor-out-DSI-PHY-poweron-and-poweroff/20230410-165257
+        git checkout afa9cb6821e4527f07c10a777ea44e380b524858
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/iommu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/sun4i/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110033.xO3FumNZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110053.n5nu03YZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/io-pgtable-dart.c:16:
-   drivers/iommu/io-pgtable-dart.c: In function 'dart_install_table':
-   include/linux/atomic/atomic-arch-fallback.h:60:32: error: implicit declaration of function 'arch_cmpxchg64'; did you mean 'arch_cmpxchg'? [-Werror=implicit-function-declaration]
-      60 | #define arch_cmpxchg64_relaxed arch_cmpxchg64
-         |                                ^~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:1968:9: note: in expansion of macro 'arch_cmpxchg64_relaxed'
-    1968 |         arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-dart.c:173:15: note: in expansion of macro 'cmpxchg64_relaxed'
-     173 |         old = cmpxchg64_relaxed(ptep, curr, new);
-         |               ^~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-dart.c: In function 'apple_dart_free_pgtable':
->> drivers/iommu/io-pgtable-dart.c:531:21: warning: variable 'ptep' set but not used [-Wunused-but-set-variable]
-     531 |         dart_iopte *ptep;
-         |                     ^~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:843:13: error: incompatible function pointer types initializing 'void (*)(struct drm_encoder *)' with an expression of type 'void (struct drm_encoder *, struct drm_atomic_state *)' [-Wincompatible-function-pointer-types]
+           .enable         = sun6i_dsi_encoder_enable,
+                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/ptep +531 drivers/iommu/io-pgtable-dart.c
+vim +843 drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
 
-   526	
-   527	static void apple_dart_free_pgtable(struct io_pgtable *iop)
-   528	{
-   529		struct io_pgtable_cfg *cfg = &iop->cfg;
-   530		struct dart_io_pgtable *data = io_pgtable_to_data(iop);
- > 531		dart_iopte *ptep;
-   532		int i;
-   533	
-   534	        if (cfg->quirks & IO_PGTABLE_QUIRK_APPLE_LOCKED) {
-   535			kfree(data);
-   536			return;
-   537		}
-   538	
-   539		for (i = 0; i < (1 << data->tbl_bits) && data->pgd[i]; ++i) {
-   540			ptep = data->pgd[i];
-   541			apple_dart_free_pgtables(data, data->pgd[i], data->levels - 1);
-   542		}
-   543	
-   544		kfree(data);
-   545	}
-   546	
+133add5b5ad42b Maxime Ripard 2018-04-04  841  
+133add5b5ad42b Maxime Ripard 2018-04-04  842  static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+133add5b5ad42b Maxime Ripard 2018-04-04 @843  	.enable		= sun6i_dsi_encoder_enable,
+133add5b5ad42b Maxime Ripard 2018-04-04  844  };
+133add5b5ad42b Maxime Ripard 2018-04-04  845  
 
 -- 
 0-DAY CI Kernel Test Service
