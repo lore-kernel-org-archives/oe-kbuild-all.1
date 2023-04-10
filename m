@@ -1,32 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F273217;
-	Mon, 10 Apr 2023 17:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D1BC433D2;
-	Mon, 10 Apr 2023 17:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681147035;
-	bh=XAbXp0EbRQZU1hXmWf09pKmM5RRXeqSnlu79jGDc+YI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AIV8YXyDQ4JVDBq/e3QArmrKEAnskczTds6tSmGj9kFCn6gW/WHpcR7NCW3Prg4oA
-	 ugHxTDACEIzProTD+TACLVfL5BswAgUYLzs+AZvu+eUQTRvnEviniTOxqFQUMDCavN
-	 Qmkgb9HvV48y1qHrNS3YPDx/JibaFwd5+et6w9Jv3Vm5sjSqws8nlayvF1+Dx4g1zL
-	 HfIn7GNSK8vuC+SJPC9vWXkkYFZcQOKqSNy9SPegWbjyw9MiGujG8EwMdsNUq097d2
-	 m7fWT8/pj+KS+1vKQRH3o5U+RFTz8PtWkcBezNCOxic6puAaG5QVsVO9eVebcYS5OO
-	 nSQrh5+7kpW9w==
-Date: Mon, 10 Apr 2023 10:17:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2D23D92
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 17:40:21 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1a2104d8b00so339815ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 10:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1681148421; x=1683740421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmS3g7a9fA+IzlthKOru22XUKTZ8ieK1g9PJz+KuvzU=;
+        b=X7NovNLqlnVzsEYlVLQjIKU0SdWNeJrMv3EsVB3BZ/ZeCNUKoGM6h9eTLlEUcCYtRO
+         kPnrOc32ByUnaSbtiIJVrehZuvOpp4HASi5EDJqlugnGkM/hbxvH70YstORCFy6DbSqC
+         kwhzABb95hTiC/Jz2RTDxrW2yEhKtpa8JNx4yK/gIBEuGRsU8RzULC38flPWlk/0Ycq6
+         N6g+KXxFoF817e/H6fWPj3enXg/EmkfF74bwsH0+p2ZulCiWLFIb/f65QOxoNx+TNN/u
+         ZanpsNz4fHtTfWCRFCa57hJR9+1+IF0PMzzZUPXgRcBAFZ0nnJQL4gLKPeT0ga3V99WD
+         KHTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681148421; x=1683740421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BmS3g7a9fA+IzlthKOru22XUKTZ8ieK1g9PJz+KuvzU=;
+        b=tIiEoTIuV8vtSRle75aDubn/p4nwZ/dgnYUb7LCkBLROQMEzHVbxfP6EPeBsar7cQ+
+         Dy5ZqAN/DxAQPD/kigo+oUF2wZsXqpjwomidOkpZOn7PUm9GZVM+m2Ub/JPx/RhOZBJy
+         xaitI8isrMta/GgsHgsuUpZ/Hv3tj+1+YsKz9zsaVvfRTCcU2l7eGA1lXmYfVF5jrNz2
+         bzNCURswcsIjXsFyAD6eOp7+2h3zI9ryY47it550n136cJGpltvx/1VcE+vpiK4HtwZl
+         kbiqwX/6RTL50Ki2/OC7rrGTNU2kPhAnE4yiCx5Ct4uGf2JvcCeebwviAL0EWW1MPTx3
+         y5MQ==
+X-Gm-Message-State: AAQBX9fCmU6KyHW/QrOT76Q2v8Ii5Yh9S4IxjKHT1mO0PNeTrPwVORto
+	g+Cg5xK+731bpdmGrA7jEI7niQ==
+X-Google-Smtp-Source: AKy350bveW6How+9YYxTFmPlbhU9btR1uHIB4KV+Sar+uR+fI43+QRhezAgEI0cdxchXrF3bptj6gA==
+X-Received: by 2002:a17:902:9b83:b0:19b:c61:2867 with SMTP id y3-20020a1709029b8300b0019b0c612867mr489338plp.15.1681148420705;
+        Mon, 10 Apr 2023 10:40:20 -0700 (PDT)
+Received: from google.com (220.181.82.34.bc.googleusercontent.com. [34.82.181.220])
+        by smtp.gmail.com with ESMTPSA id x9-20020a1709028ec900b0019a773419a6sm8063433plo.170.2023.04.10.10.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Apr 2023 10:40:20 -0700 (PDT)
+Date: Mon, 10 Apr 2023 10:40:16 -0700
+From: Ricardo Koller <ricarkol@google.com>
 To: kernel test robot <lkp@intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Tom Rini <trini@konsulko.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
-Message-ID: <20230410171712.GA177836@dev-arch.thelio-3990X>
-References: <20230409145358.2538266-1-masahiroy@kernel.org>
- <202304100319.Wfcfuyqz-lkp@intel.com>
+Cc: pbonzini@redhat.com, maz@kernel.org, oupton@google.com,
+	yuzenghui@huawei.com, dmatlack@google.com,
+	oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev, qperret@google.com, catalin.marinas@arm.com,
+	andrew.jones@linux.dev, seanjc@google.com, alexandru.elisei@arm.com,
+	suzuki.poulose@arm.com, eric.auger@redhat.com, gshan@redhat.com,
+	reijiw@google.com, rananta@google.com, bgardon@google.com,
+	ricarkol@gmail.com, Shaoqin Huang <shahuang@redhat.com>
+Subject: Re: [PATCH v7 04/12] KVM: arm64: Add kvm_pgtable_stage2_split()
+Message-ID: <ZDRKAIKQsOdIQlPn@google.com>
+References: <20230409063000.3559991-6-ricarkol@google.com>
+ <202304091707.ALABRVCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,75 +60,188 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202304100319.Wfcfuyqz-lkp@intel.com>
+In-Reply-To: <202304091707.ALABRVCG-lkp@intel.com>
 
-On Mon, Apr 10, 2023 at 04:09:37AM +0800, kernel test robot wrote:
-> Hi Masahiro,
+On Sun, Apr 09, 2023 at 05:36:02PM +0800, kernel test robot wrote:
+> Hi Ricardo,
 > 
-> kernel test robot noticed the following build warnings:
+> kernel test robot noticed the following build errors:
 > 
-> [auto build test WARNING on masahiroy-kbuild/for-next]
-> [also build test WARNING on masahiroy-kbuild/fixes linus/master v6.3-rc6 next-20230406]
+> [auto build test ERROR on kvm/queue]
+> [also build test ERROR on mst-vhost/linux-next linus/master v6.3-rc5 next-20230406]
+> [cannot apply to kvmarm/next kvm/linux-next]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-add-CLANG_CFLAGS-to-KBUILD_CPPFLAGS/20230409-225441
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-> patch link:    https://lore.kernel.org/r/20230409145358.2538266-1-masahiroy%40kernel.org
-> patch subject: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
-> config: mips-ip22_defconfig (https://download.01.org/0day-ci/archive/20230410/202304100319.Wfcfuyqz-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Koller/KVM-arm64-Rename-free_removed-to-free_unlinked/20230409-143229
+> base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+> patch link:    https://lore.kernel.org/r/20230409063000.3559991-6-ricarkol%40google.com
+> patch subject: [PATCH v7 04/12] KVM: arm64: Add kvm_pgtable_stage2_split()
+> config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230409/202304091707.ALABRVCG-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.1.0
 > reproduce (this is a W=1 build):
 >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
 >         chmod +x ~/bin/make.cross
->         # install mips cross compiling tool for clang build
->         # apt-get install binutils-mips-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/4a97e93c7f8c2aaf7bcca67a061264a1126d0e25
+>         # https://github.com/intel-lab-lkp/linux/commit/c94328e3e8b2d2d873503360ea730c87f4a03301
 >         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-add-CLANG_CFLAGS-to-KBUILD_CPPFLAGS/20230409-225441
->         git checkout 4a97e93c7f8c2aaf7bcca67a061264a1126d0e25
+>         git fetch --no-tags linux-review Ricardo-Koller/KVM-arm64-Rename-free_removed-to-free_unlinked/20230409-143229
+>         git checkout c94328e3e8b2d2d873503360ea730c87f4a03301
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
 > 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304100319.Wfcfuyqz-lkp@intel.com/
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304091707.ALABRVCG-lkp@intel.com/
 > 
-> All warnings (new ones prefixed by >>):
+> All errors (new ones prefixed by >>):
 > 
-> >> clang: warning: argument unused during compilation: '-mno-check-zero-division' [-Wunused-command-line-argument]
->    clang: warning: argument unused during compilation: '-mabi=32' [-Wunused-command-line-argument]
-> >> clang: warning: argument unused during compilation: '-G 0' [-Wunused-command-line-argument]
-> >> clang: warning: argument unused during compilation: '-mno-abicalls' [-Wunused-command-line-argument]
->    error: unknown target CPU 'r5000'
->    note: valid target CPU values are: nocona, core2, penryn, bonnell, atom, silvermont, slm, goldmont, goldmont-plus, tremont, nehalem, corei7, westmere, sandybridge, corei7-avx, ivybridge, core-avx-i, haswell, core-avx2, broadwell, skylake, skylake-avx512, skx, cascadelake, cooperlake, cannonlake, icelake-client, rocketlake, icelake-server, tigerlake, sapphirerapids, alderlake, raptorlake, meteorlake, sierraforest, grandridge, graniterapids, emeraldrapids, knl, knm, k8, athlon64, athlon-fx, opteron, k8-sse3, athlon64-sse3, opteron-sse3, amdfam10, barcelona, btver1, btver2, bdver1, bdver2, bdver3, bdver4, znver1, znver2, znver3, znver4, x86-64, x86-64-v2, x86-64-v3, x86-64-v4
-
-While r5000 is not a valid MIPS CPU for LLVM (as you can see from the
-values below), the note here seems to imply that there is a place where
-KBUILD_{A,C}FLAGS is used without KBUILD_CPPFLAGS because we are
-dropping '--target'. V=1 does not make it obvious where that is
-happening though, as I see the error right after syncing the
-configuration (is it coming from Kconfig internally?). I can see the
-same issue with 32r2_defconfig, which uses an LLVM supported CPU value.
-
->    scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
->    scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
->    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->    error: unknown target CPU 'r5000'
->    note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
->    make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
->    error: unknown target CPU 'r5000'
->    note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
->    make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
->    make[2]: Target 'scripts/mod/' not remade because of errors.
->    make[1]: *** [Makefile:1285: prepare0] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:226: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
+>    In file included from include/linux/bitfield.h:10,
+>                     from arch/arm64/kvm/hyp/pgtable.c:10:
+>    arch/arm64/kvm/hyp/pgtable.c: In function 'stage2_split_walker':
+> >> include/linux/container_of.h:20:54: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                                                      ^~
+>    include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+>       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |         ^~~~~~~~~~~~~
+>    include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                       ^~~~~~~~~~~
+>    arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+>    include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+>      338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+>          |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+>       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |         ^~~~~~~~~~~~~
+>    include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                       ^~~~~~~~~~~
+>    arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+>    In file included from include/uapi/linux/posix_types.h:5,
+>                     from include/uapi/linux/types.h:14,
+>                     from include/linux/types.h:6,
+>                     from include/linux/kasan-checks.h:5,
+>                     from include/asm-generic/rwonce.h:26,
+>                     from arch/arm64/include/asm/rwonce.h:71,
+>                     from include/linux/compiler.h:247,
+>                     from include/linux/build_bug.h:5:
+> >> include/linux/stddef.h:16:33: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
+>       16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+>          |                                 ^~~~~~~~~~~~~~~~~~
+>    include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+>       23 |         ((type *)(__mptr - offsetof(type, member))); })
+>          |                            ^~~~~~~~
+>    arch/arm64/kvm/hyp/pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+> --
+>    In file included from include/linux/bitfield.h:10,
+>                     from arch/arm64/kvm/hyp/nvhe/../pgtable.c:10:
+>    arch/arm64/kvm/hyp/nvhe/../pgtable.c: In function 'stage2_split_walker':
+> >> include/linux/container_of.h:20:54: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                                                      ^~
+>    include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+>       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |         ^~~~~~~~~~~~~
+>    include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                       ^~~~~~~~~~~
+>    arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+>    include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+>      338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+>          |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+>       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |         ^~~~~~~~~~~~~
+>    include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+>          |                       ^~~~~~~~~~~
+>    arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+>    In file included from include/uapi/linux/posix_types.h:5,
+>                     from include/uapi/linux/types.h:14,
+>                     from include/linux/types.h:6,
+>                     from include/linux/kasan-checks.h:5,
+>                     from include/asm-generic/rwonce.h:26,
+>                     from arch/arm64/include/asm/rwonce.h:71,
+>                     from include/linux/compiler.h:247,
+>                     from include/linux/build_bug.h:5:
+> >> include/linux/stddef.h:16:33: error: 'struct kvm_s2_mmu' has no member named 'split_page_cache'
+>       16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+>          |                                 ^~~~~~~~~~~~~~~~~~
+>    include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+>       23 |         ((type *)(__mptr - offsetof(type, member))); })
+>          |                            ^~~~~~~~
+>    arch/arm64/kvm/hyp/nvhe/../pgtable.c:1340:15: note: in expansion of macro 'container_of'
+>     1340 |         mmu = container_of(mc, struct kvm_s2_mmu, split_page_cache);
+>          |               ^~~~~~~~~~~~
+> 
+> 
+> vim +20 include/linux/container_of.h
+> 
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
+> 7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
+> e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
+> e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
+> d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests
+> 
+
+Hi,
+
+The fix is to move the commit introducing KVM_CAP_ARM_EAGER_SPLIT_CHUNK_SIZE
+right before this one, like this:
+
+	KVM: arm64: Rename free_removed to free_unlinked
+	KVM: arm64: Add KVM_PGTABLE_WALK flags for skipping CMOs and BBM TLBIs
+	KVM: arm64: Add helper for creating unlinked stage2 subtrees
+KVM: arm64: Export kvm_are_all_memslots_empty()
+KVM: arm64: Add KVM_CAP_ARM_EAGER_SPLIT_CHUNK_SIZE
+	KVM: arm64: Add kvm_pgtable_stage2_split()
+	KVM: arm64: Refactor kvm_arch_commit_memory_region()
+	KVM: arm64: Add kvm_uninit_stage2_mmu()
+	KVM: arm64: Split huge pages when dirty logging is enabled
+	KVM: arm64: Open-code kvm_mmu_write_protect_pt_masked()
+	KVM: arm64: Split huge pages during KVM_CLEAR_DIRTY_LOG
+	KVM: arm64: Use local TLBI on permission relaxation
+
+Thanks,
+Ricardo
