@@ -1,46 +1,54 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF6C2F3F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 21:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB8B6FB4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 22:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681160563; x=1712696563;
+  t=1681164227; x=1712700227;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/iFIhWoDac+UT40gLNkBeOwuDo3E6+5ZVwgNZZpo0ak=;
-  b=cJsUjj8mqUXhTBnWzlhw91jfHbqpp/FJSKE4eikEDWUJwCTqAAE8XP+C
-   qmYuFGss5Fpy58qBxRMG2E+7FmyhXkMJDuYBbB/9LdfWABm/Rs4EIJeQU
-   tosjdc/8adimk/ekX8or8tHohC+kmSAVn+ktMfzIv+coyQ0vdqLwrU9XR
-   QdOHZNb6EBJEXT0FmJ+4COz0uvibCKWbSvrHldQ5/vZwKVwIVQuIfIyX/
-   N6mVNsMpKXPCyi2MVOQcfT4UrfHXtE+lN3NxAC9hOhAURhS4imnAsvCL0
-   GY3bOW1jeu+VwJCeoJ5m7MaGXy3oynvo5D82O9dVF1FoGZcz8GjEpnq5d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="345240688"
+  bh=4W4Pk2ES5/ySuHySu5gOKD4o31qkgpk+oubIxxD38hs=;
+  b=RMEperFEAUjFE5f7xnUCQSNtEKznhG76nQHgGhPL8LEryEbWY+whrU/K
+   wxWq3uLwQuaplWAKgGXy6Ber9AZoJM+ZziFHFr0or5Jp96ApN/hax14VL
+   5OTK4zH+HEeskYGk/PEvdQQoIDC/6dNzEGVcBzQ/wLYpfWlKSlmJmgBTH
+   HjL7louyVR1qMUnJOzr6+uT8xpLY7dSLjdkd2v3yidvA4mbSCt0sHXAUg
+   kFCVXMVpNOYOEHOozh5xDrymOV9dRzm9hVBVZCcCsE4YTKHfXqmm5O4zD
+   RxU6eLSa1hj/iljEfhWJouBndw/UOxB5OXdWF697/JVeVvguc0gaW2VAg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="371307985"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="345240688"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 14:02:42 -0700
+   d="scan'208";a="371307985"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 15:03:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832096656"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="681854260"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="832096656"
+   d="scan'208";a="681854260"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2023 14:02:39 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Apr 2023 15:03:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plyes-000VfZ-2X;
-	Mon, 10 Apr 2023 21:02:38 +0000
-Date: Tue, 11 Apr 2023 05:02:22 +0800
+	id 1plzbv-000Vgj-1i;
+	Mon, 10 Apr 2023 22:03:39 +0000
+Date: Tue, 11 Apr 2023 06:03:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	axboe@kernel.dk, hch@lst.de
-Cc: oe-kbuild-all@lists.linux.dev, sagi@grimberg.me, joshi.k@samsung.com,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
-Message-ID: <202304110443.e026C3nq-lkp@intel.com>
-References: <20230407191636.2631046-3-kbusch@meta.com>
+To: sean.wang@mediatek.com, nbd@nbd.name, lorenzo.bianconi@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, sean.wang@mediatek.com,
+	Soul.Huang@mediatek.com, Leon.Yen@mediatek.com,
+	Eric-SY.Chang@mediatek.com, Deren.Wu@mediatek.com,
+	km.lin@mediatek.com, jenhao.yang@mediatek.com,
+	robin.chiu@mediatek.com, Eddie.Chen@mediatek.com,
+	ch.yeh@mediatek.com, ted.huang@mediatek.com,
+	Stella.Chang@mediatek.com, Tom.Chou@mediatek.com,
+	steve.lee@mediatek.com, jsiuda@google.com, arowa@google.org,
+	frankgor@google.com, kuabhs@google.com, druth@google.com,
+	abhishekpandit@google.com, shawnku@google.com,
+	linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] mt76: mt7921: fix kernel panic by accessing unallocated
+ eeprom.data
+Message-ID: <202304110556.xbu5H3ka-lkp@intel.com>
+References: <c9e2a44da4daa00166c802a8c10527359358219d.1681158440.git.objelf@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,73 +57,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407191636.2631046-3-kbusch@meta.com>
+In-Reply-To: <c9e2a44da4daa00166c802a8c10527359358219d.1681158440.git.objelf@gmail.com>
 
-Hi Keith,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20230406]
-[cannot apply to linus/master v6.3-rc6]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.3-rc6 next-20230406]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-add-request-polling-helper/20230408-031926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230407191636.2631046-3-kbusch%40meta.com
-patch subject: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230411/202304110443.e026C3nq-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-mediatek-com/mt76-mt7921-fix-kernel-panic-by-accessing-unallocated-eeprom-data/20230411-043801
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/c9e2a44da4daa00166c802a8c10527359358219d.1681158440.git.objelf%40gmail.com
+patch subject: [PATCH] mt76: mt7921: fix kernel panic by accessing unallocated eeprom.data
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230411/202304110556.xbu5H3ka-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9825ad75cf770d2a15f7008eca476121b9b3d794
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Keith-Busch/block-add-request-polling-helper/20230408-031926
-        git checkout 9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        git fetch --no-tags linux-review sean-wang-mediatek-com/mt76-mt7921-fix-kernel-panic-by-accessing-unallocated-eeprom-data/20230411-043801
+        git checkout 9825ad75cf770d2a15f7008eca476121b9b3d794
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/wireless/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110443.e026C3nq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110556.xbu5H3ka-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/nvme/host/ioctl.c: In function 'nvme_submit_user_cmd':
-   drivers/nvme/host/ioctl.c:232:21: warning: variable 'bio' set but not used [-Wunused-but-set-variable]
-     232 |         struct bio *bio;
-         |                     ^~~
-   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_end_io_meta':
->> drivers/nvme/host/ioctl.c:528:36: warning: unused variable 'pdu' [-Wunused-variable]
-     528 |         struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
-         |                                    ^~~
+   drivers/net/wireless/mediatek/mt76/mt7921/mcu.c: In function 'mt7921_mcu_parse_eeprom':
+>> drivers/net/wireless/mediatek/mt76/mt7921/mcu.c:22:40: warning: variable 'res' set but not used [-Wunused-but-set-variable]
+      22 |         struct mt7921_mcu_eeprom_info *res;
+         |                                        ^~~
 
 
-vim +/pdu +528 drivers/nvme/host/ioctl.c
+vim +/res +22 drivers/net/wireless/mediatek/mt76/mt7921/mcu.c
 
-c0a7ba77e81b84 Jens Axboe    2022-09-21  523  
-c0a7ba77e81b84 Jens Axboe    2022-09-21  524  static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req,
-c0a7ba77e81b84 Jens Axboe    2022-09-21  525  						     blk_status_t err)
-c0a7ba77e81b84 Jens Axboe    2022-09-21  526  {
-c0a7ba77e81b84 Jens Axboe    2022-09-21  527  	struct io_uring_cmd *ioucmd = req->end_io_data;
-c0a7ba77e81b84 Jens Axboe    2022-09-21 @528  	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  529  	void *cookie = READ_ONCE(ioucmd->cookie);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  530  
-c0a7ba77e81b84 Jens Axboe    2022-09-21  531  	/*
-c0a7ba77e81b84 Jens Axboe    2022-09-21  532  	 * For iopoll, complete it directly.
-c0a7ba77e81b84 Jens Axboe    2022-09-21  533  	 * Otherwise, move the completion to task work.
-c0a7ba77e81b84 Jens Axboe    2022-09-21  534  	 */
-c0a7ba77e81b84 Jens Axboe    2022-09-21  535  	if (cookie != NULL && blk_rq_is_poll(req))
-9d2789ac9d60c0 Jens Axboe    2023-03-20  536  		nvme_uring_task_meta_cb(ioucmd, IO_URING_F_UNLOCKED);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  537  	else
-c0a7ba77e81b84 Jens Axboe    2022-09-21  538  		io_uring_cmd_complete_in_task(ioucmd, nvme_uring_task_meta_cb);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  539  
-de671d6116b521 Jens Axboe    2022-09-21  540  	return RQ_END_IO_NONE;
-456cba386e94f2 Kanchan Joshi 2022-05-11  541  }
-456cba386e94f2 Kanchan Joshi 2022-05-11  542  
+23bdc5d8cadfc9 Ming Yen Hsieh   2022-09-07  18  
+1c099ab44727c8 Sean Wang        2021-01-28  19  static int
+1c099ab44727c8 Sean Wang        2021-01-28  20  mt7921_mcu_parse_eeprom(struct mt76_dev *dev, struct sk_buff *skb)
+1c099ab44727c8 Sean Wang        2021-01-28  21  {
+1c099ab44727c8 Sean Wang        2021-01-28 @22  	struct mt7921_mcu_eeprom_info *res;
+1c099ab44727c8 Sean Wang        2021-01-28  23  
+1c099ab44727c8 Sean Wang        2021-01-28  24  	if (!skb)
+1c099ab44727c8 Sean Wang        2021-01-28  25  		return -EINVAL;
+1c099ab44727c8 Sean Wang        2021-01-28  26  
+fc6ee71a2a8f2d Lorenzo Bianconi 2022-06-20  27  	skb_pull(skb, sizeof(struct mt76_connac2_mcu_rxd));
+1c099ab44727c8 Sean Wang        2021-01-28  28  
+1c099ab44727c8 Sean Wang        2021-01-28  29  	res = (struct mt7921_mcu_eeprom_info *)skb->data;
+1c099ab44727c8 Sean Wang        2021-01-28  30  
+1c099ab44727c8 Sean Wang        2021-01-28  31  	return 0;
+1c099ab44727c8 Sean Wang        2021-01-28  32  }
+1c099ab44727c8 Sean Wang        2021-01-28  33  
 
 -- 
 0-DAY CI Kernel Test Service
