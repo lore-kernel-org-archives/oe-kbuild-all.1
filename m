@@ -1,42 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2520923D0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 23:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49A823D0;
+	Mon, 10 Apr 2023 23:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681167885; x=1712703885;
+  t=1681170360; x=1712706360;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CJ4/BURU1eP5T7HtcjAAiw6MaAfsVE2NlM6rY+8J4W4=;
-  b=Kqmc0nYmdeHIob1aGd/MRLeoVZ63fDrYex4ycs9YSaujOwUJ7MZC70PK
-   h+CIXXwWOJZ51fmEDG5Dy2135Sw/feCI6a6p0NyX7G3jde8gOaVdi1dbc
-   dlQkYqikVG2xvwYxnjkm2mYLtyo6v6bAfQgsd/xJxN+zY9CQsXqV5D42o
-   4+VphHvXtNdAOm3ib397t5wAthrFd8XcuJx6enV3Sw2pROPnYvEd0bwMa
-   mhl+4rZ4yAsUjsypClt+sYhaPq7sU92pd3VsvD+c085etiR1EIBxD1IlB
-   L3SmOiB20FNZaVg5P/KwUVGVS7NThCBuC++pgoRQ/OjKACZoTcd7R+B8O
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323834497"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="323834497"
+  bh=2gL9AIsy+pMSDwwh5kMQmzlYzHqgWRNk+FUARdbuWJM=;
+  b=lmJUvXMejXH8HsMUcc7Hvb5lDjY4/b7TOQEAaR6ZKdI8AZmIxa45/NfR
+   5nAM8bXv7q2ciI29Ju8zS06ykRvIuq4NTNCi8SDKQPOYys+wGLncKz2fU
+   efYFalxEvnBYUFhh9DNHm3xf+N/VrG4yl3AqmwOyEQRVJbiNULexC7VI+
+   /UpoqBuF2XooprvR/0Ha1YrRinLgl7S1Mzj9TWmyvmmxqdASUp6fuTU/E
+   ZIXRYZTWXRhOU58pZVyMkgHrQk4iTYEBpwI7PxAScWgJ253LmgiayT1zT
+   1Nl62W7s6+0kYd0DMEMr4cPwweGG4CEi5lnvcRJA2snzXLzCmgk1s13bA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="406310841"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
+   d="scan'208";a="406310841"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:04:44 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:45:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="934501592"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="934501592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="934512815"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
+   d="scan'208";a="934512815"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Apr 2023 16:04:43 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 10 Apr 2023 16:45:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pm0Z0-000Vif-27;
-	Mon, 10 Apr 2023 23:04:42 +0000
-Date: Tue, 11 Apr 2023 07:04:33 +0800
+	id 1pm1Ch-000VjV-0D;
+	Mon, 10 Apr 2023 23:45:43 +0000
+Date: Tue, 11 Apr 2023 07:45:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.14-stable 2/2] fs/verity/enable.c:33:8:
- warning: assignment makes pointer from integer without a cast
-Message-ID: <202304110649.juNq5n1s-lkp@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:testing 65/65]
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:7: error: call to
+ undeclared function 'acpi_has_method'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202304110756.69aPebZE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,84 +48,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-4.14-stable
-head:   285fc83a087180f0bc30b75285d4bc2cdcceae06
-commit: 285fc83a087180f0bc30b75285d4bc2cdcceae06 [2/2] BACKPORT: fsverity: don't drop pagecache at end of FS_IOC_ENABLE_VERITY
-config: arm64-randconfig-r036-20230410 (https://download.01.org/0day-ci/archive/20230411/202304110649.juNq5n1s-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   4c3b188facb2011e9edcdaaf71f2f553e9c230df
+commit: 4c3b188facb2011e9edcdaaf71f2f553e9c230df [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
+config: hexagon-randconfig-r045-20230410 (https://download.01.org/0day-ci/archive/20230411/202304110756.69aPebZE-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.14-stable
-        git checkout 285fc83a087180f0bc30b75285d4bc2cdcceae06
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=4c3b188facb2011e9edcdaaf71f2f553e9c230df
+        git remote add jic23-iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
+        git fetch --no-tags jic23-iio testing
+        git checkout 4c3b188facb2011e9edcdaaf71f2f553e9c230df
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash fs/verity/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iio/imu/st_lsm6dsx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110649.juNq5n1s-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110756.69aPebZE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/verity/enable.c: In function 'read_file_data_page':
-   fs/verity/enable.c:26:9: error: implicit declaration of function 'find_get_page_flags'; did you mean 'find_dev_pagemap'? [-Werror=implicit-function-declaration]
-     page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
-            ^~~~~~~~~~~~~~~~~~~
-            find_dev_pagemap
-   fs/verity/enable.c:26:53: error: 'FGP_ACCESSED' undeclared (first use in this function); did you mean 'FL_ACCESS'?
-     page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
-                                                        ^~~~~~~~~~~~
-                                                        FL_ACCESS
-   fs/verity/enable.c:26:53: note: each undeclared identifier is reported only once for each function it appears in
-   fs/verity/enable.c:33:10: error: implicit declaration of function 'read_mapping_page'; did you mean 'unmap_mapping_range'? [-Werror=implicit-function-declaration]
-      page = read_mapping_page(filp->f_mapping, index, NULL);
-             ^~~~~~~~~~~~~~~~~
-             unmap_mapping_range
->> fs/verity/enable.c:33:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      page = read_mapping_page(filp->f_mapping, index, NULL);
-           ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:7: error: call to undeclared function 'acpi_has_method'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (!acpi_has_method(adev->handle, "ROTM"))
+                ^
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:7: note: did you mean 'acpi_has_watchdog'?
+   include/linux/acpi.h:1442:20: note: 'acpi_has_watchdog' declared here
+   static inline bool acpi_has_watchdog(void) { return false; }
+                      ^
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2641:27: error: incomplete definition of type 'struct acpi_device'
+           if (!acpi_has_method(adev->handle, "ROTM"))
+                                ~~~~^
+   include/linux/acpi.h:798:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2644:36: error: incomplete definition of type 'struct acpi_device'
+           status = acpi_evaluate_object(adev->handle, "ROTM", NULL, &buffer);
+                                         ~~~~^
+   include/linux/acpi.h:798:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   6 warnings and 3 errors generated.
 
 
-vim +33 fs/verity/enable.c
+vim +/acpi_has_method +2641 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-46af35239934d8 Eric Biggers 2019-07-22  15  
-693ad1e5b397bb Eric Biggers 2020-01-06  16  /*
-693ad1e5b397bb Eric Biggers 2020-01-06  17   * Read a file data page for Merkle tree construction.  Do aggressive readahead,
-693ad1e5b397bb Eric Biggers 2020-01-06  18   * since we're sequentially reading the entire file.
-693ad1e5b397bb Eric Biggers 2020-01-06  19   */
-693ad1e5b397bb Eric Biggers 2020-01-06  20  static struct page *read_file_data_page(struct file *filp, pgoff_t index,
-693ad1e5b397bb Eric Biggers 2020-01-06  21  					struct file_ra_state *ra,
-693ad1e5b397bb Eric Biggers 2020-01-06  22  					unsigned long remaining_pages)
-693ad1e5b397bb Eric Biggers 2020-01-06  23  {
-693ad1e5b397bb Eric Biggers 2020-01-06  24  	struct page *page;
-693ad1e5b397bb Eric Biggers 2020-01-06  25  
-693ad1e5b397bb Eric Biggers 2020-01-06  26  	page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
-693ad1e5b397bb Eric Biggers 2020-01-06  27  	if (!page || !PageUptodate(page)) {
-693ad1e5b397bb Eric Biggers 2020-01-06  28  		if (page)
-693ad1e5b397bb Eric Biggers 2020-01-06  29  			put_page(page);
-693ad1e5b397bb Eric Biggers 2020-01-06  30  		else
-693ad1e5b397bb Eric Biggers 2020-01-06  31  			page_cache_sync_readahead(filp->f_mapping, ra, filp,
-693ad1e5b397bb Eric Biggers 2020-01-06  32  						  index, remaining_pages);
-693ad1e5b397bb Eric Biggers 2020-01-06 @33  		page = read_mapping_page(filp->f_mapping, index, NULL);
-693ad1e5b397bb Eric Biggers 2020-01-06  34  		if (IS_ERR(page))
-693ad1e5b397bb Eric Biggers 2020-01-06  35  			return page;
-693ad1e5b397bb Eric Biggers 2020-01-06  36  	}
-693ad1e5b397bb Eric Biggers 2020-01-06  37  	if (PageReadahead(page))
-693ad1e5b397bb Eric Biggers 2020-01-06  38  		page_cache_async_readahead(filp->f_mapping, ra, filp, page,
-693ad1e5b397bb Eric Biggers 2020-01-06  39  					   index, remaining_pages);
-693ad1e5b397bb Eric Biggers 2020-01-06  40  	return page;
-693ad1e5b397bb Eric Biggers 2020-01-06  41  }
-693ad1e5b397bb Eric Biggers 2020-01-06  42  
-
-:::::: The code at line 33 was first introduced by commit
-:::::: 693ad1e5b397bbc6c7fb971c8406426a5f21c8c1 fs-verity: implement readahead for FS_IOC_ENABLE_VERITY
-
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@google.com>
+  2627	
+  2628	static bool lsm6dsx_get_acpi_mount_matrix(struct device *dev,
+  2629						  struct iio_mount_matrix *orientation)
+  2630	{
+  2631		struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+  2632		struct acpi_device *adev = ACPI_COMPANION(dev);
+  2633		union acpi_object *obj, *elements;
+  2634		acpi_status status;
+  2635		int i, j, val[3];
+  2636		char *str;
+  2637	
+  2638		if (!has_acpi_companion(dev))
+  2639			return -EINVAL;
+  2640	
+> 2641		if (!acpi_has_method(adev->handle, "ROTM"))
+  2642			return -EINVAL;
+  2643	
+  2644		status = acpi_evaluate_object(adev->handle, "ROTM", NULL, &buffer);
+  2645		if (ACPI_FAILURE(status)) {
+  2646			dev_warn(dev, "Failed to get ACPI mount matrix: %d\n", status);
+  2647			return -EINVAL;
+  2648		}
+  2649	
+  2650		obj = buffer.pointer;
+  2651		if (obj->type != ACPI_TYPE_PACKAGE || obj->package.count != 3)
+  2652			goto unknown_format;
+  2653	
+  2654		elements = obj->package.elements;
+  2655		for (i = 0; i < 3; i++) {
+  2656			if (elements[i].type != ACPI_TYPE_STRING)
+  2657				goto unknown_format;
+  2658	
+  2659			str = elements[i].string.pointer;
+  2660			if (sscanf(str, "%d %d %d", &val[0], &val[1], &val[2]) != 3)
+  2661				goto unknown_format;
+  2662	
+  2663			for (j = 0; j < 3; j++) {
+  2664				switch (val[j]) {
+  2665				case -1: str = "-1"; break;
+  2666				case 0:  str = "0";  break;
+  2667				case 1:  str = "1";  break;
+  2668				default: goto unknown_format;
+  2669				}
+  2670				orientation->rotation[i * 3 + j] = str;
+  2671			}
+  2672		}
+  2673	
+  2674		kfree(buffer.pointer);
+  2675		return 0;
+  2676	
+  2677	unknown_format:
+  2678		dev_warn(dev, "Unknown ACPI mount matrix format, ignoring\n");
+  2679		kfree(buffer.pointer);
+  2680		return -EINVAL;
+  2681	}
+  2682	
 
 -- 
 0-DAY CI Kernel Test Service
