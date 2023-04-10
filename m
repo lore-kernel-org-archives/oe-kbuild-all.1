@@ -1,42 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC4B3217
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 18:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FB45246
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 18:50:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681150132; x=1712686132;
+  t=1681152638; x=1712688638;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aRAiifI4ZZkHlGMbD5DcdUDmnY+ieOjegozrR5b4WfI=;
-  b=NHrlTmcH6lT/+uZXBJQxYPwLrBjqizKu6SfbojwY/t/a0WQFhy6ExlJR
-   ZgJiEn3UcEb9lv3d6+hcTN1TG3vXkKd8oPYBKo6WDe4AhqslaAE4pGyBy
-   Y7Vw4Hd8yVnyscarM0ZkblrNuC0tgCoNVKZ+rcu/YXS5IgTky2RcTr8Xf
-   ALnPhPURY3Ko7WnJJub1MqO1QFBoyc+2PDzpwwH4rw7oHp5SEvFOcwuzY
-   y/PTGlgR5yfzs7JmAwmZTowXj0NMBV4qMgaUa77T1CHH6MHRH2+rsI5hJ
-   djF90C0EW6JqWdKxu7z6zhm+Mq9DR5yZLq2D2LbRzC++V7iWWofejmo9j
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="408558201"
+  bh=IMbdhZCGER1S9AmrQ+HlZR8mgvfxKpZ4g0Ekzw+dzq0=;
+  b=mdH2TAT7W50tvK5hNearMmG9wCcC6U+Q8NN4pSxipyWKkJBn/5GcDxwG
+   KWdoUpF2MkbxCpu9qx5npeptVsKjxKYDwRY9pFIQEyBkFNh/IKQ2zeN84
+   tYbt9G3wICLKnTH0E3DNJvgNPOphCaO1UAf/QCju6k8/gnTSzBOjy+HNo
+   hZu1NoKmhdu/I47BqNooZUcezYcaUTK5dz46eDYg02h7lV9W8Y15Dg2ZC
+   D/fWFY5qpAJZ1jCcYEBrfGOsOtdrKyu65n094GV2AuvLZws9LFTgVW2D5
+   oNvzLaYYdYV8R55tRxf3fOGSB9vjw7X3Cmg34403JURYD4edF5QahOy5f
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323064434"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="408558201"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 11:08:35 -0700
+   d="scan'208";a="323064434"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 11:50:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="799582798"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="690882415"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="799582798"
+   d="scan'208";a="690882415"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2023 11:08:34 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 10 Apr 2023 11:50:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plvwP-000VZN-17;
-	Mon, 10 Apr 2023 18:08:33 +0000
-Date: Tue, 11 Apr 2023 02:07:49 +0800
+	id 1plwb5-000Vb3-33;
+	Mon, 10 Apr 2023 18:50:35 +0000
+Date: Tue, 11 Apr 2023 02:49:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/wireless/intersil/hostap/hostap_ap.c:575:36: warning:
- 'prism2_ap_proc_seqops' defined but not used
-Message-ID: <202304110247.1u15zaZc-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:report_group_id 3/4]
+ drivers/s390/crypto/vfio_ap_ops.c:1757:9: error: 'ret' undeclared; did you
+ mean 'net'?
+Message-ID: <202304110242.lPmMNLqX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,94 +47,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   09a9639e56c01c7a00d6c0ca63f4c7c41abe075d
-commit: d51269592c327fcfe8ec80fd169a84f8dc0de73b hostap: switch to proc_create_{seq,single}_data
-date:   4 years, 11 months ago
-config: i386-buildonly-randconfig-r006-20230410 (https://download.01.org/0day-ci/archive/20230411/202304110247.1u15zaZc-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/yiliu1765/iommufd.git report_group_id
+head:   57cbf428d04231ccaf608b7b2f9eb1d8a77e1ac9
+commit: ff4b8bee90761961041126305183a9a7e0f0542d [3/4] vfio: Report group_id to user
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230411/202304110242.lPmMNLqX-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d51269592c327fcfe8ec80fd169a84f8dc0de73b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d51269592c327fcfe8ec80fd169a84f8dc0de73b
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/yiliu1765/iommufd/commit/ff4b8bee90761961041126305183a9a7e0f0542d
+        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
+        git fetch --no-tags yiliu1765-iommufd report_group_id
+        git checkout ff4b8bee90761961041126305183a9a7e0f0542d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash M=drivers/net/wireless/intersil/hostap
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/s390/crypto/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110247.1u15zaZc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110242.lPmMNLqX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/intersil/hostap/hostap_ap.c: In function 'handle_assoc':
-   drivers/net/wireless/intersil/hostap/hostap_ap.c:1507:15: warning: variable 'txt' set but not used [-Wunused-but-set-variable]
-    1507 |         char *txt = "";
-         |               ^~~
-   At top level:
-   drivers/net/wireless/intersil/hostap/hostap_ap.c:994:12: warning: 'prism2_sta_proc_show' defined but not used [-Wunused-function]
-     994 | static int prism2_sta_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intersil/hostap/hostap_ap.c:575:36: warning: 'prism2_ap_proc_seqops' defined but not used [-Wunused-const-variable=]
-     575 | static const struct seq_operations prism2_ap_proc_seqops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intersil/hostap/hostap_ap.c:373:36: warning: 'ap_control_proc_seqops' defined but not used [-Wunused-const-variable=]
-     373 | static const struct seq_operations ap_control_proc_seqops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_ap.c:70:12: warning: 'ap_debug_proc_show' defined but not used [-Wunused-function]
-      70 | static int ap_debug_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~
---
->> drivers/net/wireless/intersil/hostap/hostap_proc.c:346:36: warning: 'prism2_scan_results_proc_seqops' defined but not used [-Wunused-const-variable=]
-     346 | static const struct seq_operations prism2_scan_results_proc_seqops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_proc.c:224:37: warning: 'prism2_aux_dump_proc_fops' defined but not used [-Wunused-const-variable=]
-     224 | static const struct file_operations prism2_aux_dump_proc_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_proc.c:212:37: warning: 'prism2_pda_proc_fops' defined but not used [-Wunused-const-variable=]
-     212 | static const struct file_operations prism2_pda_proc_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_proc.c:177:12: warning: 'prism2_crypt_proc_show' defined but not used [-Wunused-function]
-     177 | static int prism2_crypt_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intersil/hostap/hostap_proc.c:170:36: warning: 'prism2_bss_list_proc_seqops' defined but not used [-Wunused-const-variable=]
-     170 | static const struct seq_operations prism2_bss_list_proc_seqops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intersil/hostap/hostap_proc.c:117:36: warning: 'prism2_wds_proc_seqops' defined but not used [-Wunused-const-variable=]
-     117 | static const struct seq_operations prism2_wds_proc_seqops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_proc.c:49:12: warning: 'prism2_stats_proc_show' defined but not used [-Wunused-function]
-      49 | static int prism2_stats_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intersil/hostap/hostap_proc.c:16:12: warning: 'prism2_debug_proc_show' defined but not used [-Wunused-function]
-      16 | static int prism2_debug_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireless/intersil/hostap/hostap_proc.c:10:
-   drivers/net/wireless/intersil/hostap/hostap.h:11:19: warning: 'freq_list' defined but not used [-Wunused-const-variable=]
-      11 | static const long freq_list[] = { 2412, 2417, 2422, 2427, 2432, 2437, 2442,
-         |                   ^~~~~~~~~
+   drivers/s390/crypto/vfio_ap_ops.c: In function 'vfio_ap_mdev_get_device_info':
+>> drivers/s390/crypto/vfio_ap_ops.c:1757:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+    1757 |         ret =vfio_device_info_add_group_cap(vdev, &caps);
+         |         ^~~
+         |         net
+   drivers/s390/crypto/vfio_ap_ops.c:1757:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/prism2_ap_proc_seqops +575 drivers/net/wireless/intersil/hostap/hostap_ap.c
+vim +1757 drivers/s390/crypto/vfio_ap_ops.c
 
-ff1d2767d5a43c drivers/net/wireless/hostap/hostap_ap.c Jouni Malinen 2005-05-12  574  
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10 @575  static const struct seq_operations prism2_ap_proc_seqops = {
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10  576  	.start	= prism2_ap_proc_start,
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10  577  	.next	= prism2_ap_proc_next,
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10  578  	.stop	= prism2_ap_proc_stop,
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10  579  	.show	= prism2_ap_proc_show,
-6bbefe86796c07 drivers/net/wireless/hostap/hostap_ap.c David Howells 2013-04-10  580  };
-ff1d2767d5a43c drivers/net/wireless/hostap/hostap_ap.c Jouni Malinen 2005-05-12  581  #endif /* PRISM2_NO_KERNEL_IEEE80211_MGMT */
-ff1d2767d5a43c drivers/net/wireless/hostap/hostap_ap.c Jouni Malinen 2005-05-12  582  
-ff1d2767d5a43c drivers/net/wireless/hostap/hostap_ap.c Jouni Malinen 2005-05-12  583  
-
-:::::: The code at line 575 was first introduced by commit
-:::::: 6bbefe86796c07fb8a6d28114f1e3f770586ba05 hostap: Don't use create_proc_read_entry()
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1737	
+  1738	static int vfio_ap_mdev_get_device_info(struct vfio_device *vdev,
+  1739						unsigned long arg)
+  1740	{
+  1741		struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
+  1742		unsigned long minsz;
+  1743		struct vfio_device_info info;
+  1744	
+  1745		minsz = offsetofend(struct vfio_device_info, num_irqs);
+  1746	
+  1747		if (copy_from_user(&info, (void __user *)arg, minsz))
+  1748			return -EFAULT;
+  1749	
+  1750		if (info.argsz < minsz)
+  1751			return -EINVAL;
+  1752	
+  1753		info.flags = VFIO_DEVICE_FLAGS_AP | VFIO_DEVICE_FLAGS_RESET;
+  1754		info.num_regions = 0;
+  1755		info.num_irqs = 0;
+  1756	
+> 1757		ret =vfio_device_info_add_group_cap(vdev, &caps);
+  1758		if (ret)
+  1759			return ret;
+  1760	
+  1761		ret = vfio_device_info_copy_caps(&info, &caps,
+  1762						 (struct vfio_device_info __user *)arg);
+  1763		if (ret)
+  1764			return ret;
+  1765	
+  1766		return copy_to_user((void __user *)arg, &info, minsz) ? -EFAULT : 0;
+  1767	}
+  1768	
 
 -- 
 0-DAY CI Kernel Test Service
