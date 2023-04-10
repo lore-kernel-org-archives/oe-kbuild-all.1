@@ -1,45 +1,46 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201865254
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 19:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF6C2F3F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Apr 2023 21:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681155640; x=1712691640;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=laXGmhMf7cZZE1oIv4n1OUjX2M6cnYMAGIDyZh+V4cs=;
-  b=XLijjEP6RBOdsFjH4N0FouISt8sLN33ADv+1RZr51JMxugS2r6Y4r32i
-   DClYwL22otdfYsjS8VuNzI41Y2+oDCPkLfz/cRLRBeEzcKVxSGUJLE6Yw
-   RXiNaOr6lhxosFGaXn6kTV9YS2IkwimX+kfY6VcN8rOcDqVWO+YykM34R
-   GcbuMmLQugbi+DjfDB+l6q65pSxSzN2QZ1scrKOhz1jXqPzHFz4GgPEmw
-   akyeGB2PnZMuEnHZF65qjn2IzR3NNbVqmnXbr+yZNRCZ8Z56g2LvftIns
-   zb09niaz2qL66X1feGN8KTqCWayVndcLvYqljDTZi7WrHPKQV1I36QWPz
+  t=1681160563; x=1712696563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/iFIhWoDac+UT40gLNkBeOwuDo3E6+5ZVwgNZZpo0ak=;
+  b=cJsUjj8mqUXhTBnWzlhw91jfHbqpp/FJSKE4eikEDWUJwCTqAAE8XP+C
+   qmYuFGss5Fpy58qBxRMG2E+7FmyhXkMJDuYBbB/9LdfWABm/Rs4EIJeQU
+   tosjdc/8adimk/ekX8or8tHohC+kmSAVn+ktMfzIv+coyQ0vdqLwrU9XR
+   QdOHZNb6EBJEXT0FmJ+4COz0uvibCKWbSvrHldQ5/vZwKVwIVQuIfIyX/
+   N6mVNsMpKXPCyi2MVOQcfT4UrfHXtE+lN3NxAC9hOhAURhS4imnAsvCL0
+   GY3bOW1jeu+VwJCeoJ5m7MaGXy3oynvo5D82O9dVF1FoGZcz8GjEpnq5d
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="343446212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="345240688"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="343446212"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 12:40:39 -0700
+   d="scan'208";a="345240688"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 14:02:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="1018102629"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832096656"
 X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="1018102629"
+   d="scan'208";a="832096656"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Apr 2023 12:40:37 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2023 14:02:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1plxNV-000Vcz-0l;
-	Mon, 10 Apr 2023 19:40:37 +0000
-Date: Tue, 11 Apr 2023 03:40:33 +0800
+	id 1plyes-000VfZ-2X;
+	Mon, 10 Apr 2023 21:02:38 +0000
+Date: Tue, 11 Apr 2023 05:02:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Rahul T R <r-ravikumar@ti.com>
-Subject: [ti:ti-linux-5.10.y-cicd 20321/22025] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-srggi10 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202304110303.2W27i0E0-lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de
+Cc: oe-kbuild-all@lists.linux.dev, sagi@grimberg.me, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
+Message-ID: <202304110443.e026C3nq-lkp@intel.com>
+References: <20230407191636.2631046-3-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,38 +49,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407191636.2631046-3-kbusch@meta.com>
 
-Hi Jai,
+Hi Keith,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.10.y-cicd
-head:   991c5ce91e43cb620f534dc9fe7b0ad21f4f4388
-commit: fa80761ddb51ee69efb493838865b1afd7b58afa [20321/22025] media: v4l: Add 10-bit RGBIr formats
-reproduce:
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-linux-5.10.y-cicd
-        git checkout fa80761ddb51ee69efb493838865b1afd7b58afa
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20230406]
+[cannot apply to linus/master v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-add-request-polling-helper/20230408-031926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230407191636.2631046-3-kbusch%40meta.com
+patch subject: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230411/202304110443.e026C3nq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Keith-Busch/block-add-request-polling-helper/20230408-031926
+        git checkout 9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110303.2W27i0E0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304110443.e026C3nq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-srggi10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgrig10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sbggi10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgbig10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgirg10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-siggr10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-sgibg10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-siggb10 (if the link has no caption the label must precede a section header)
+   drivers/nvme/host/ioctl.c: In function 'nvme_submit_user_cmd':
+   drivers/nvme/host/ioctl.c:232:21: warning: variable 'bio' set but not used [-Wunused-but-set-variable]
+     232 |         struct bio *bio;
+         |                     ^~~
+   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_end_io_meta':
+>> drivers/nvme/host/ioctl.c:528:36: warning: unused variable 'pdu' [-Wunused-variable]
+     528 |         struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+         |                                    ^~~
 
-vim +6 Documentation/output/videodev2.h.rst
+
+vim +/pdu +528 drivers/nvme/host/ioctl.c
+
+c0a7ba77e81b84 Jens Axboe    2022-09-21  523  
+c0a7ba77e81b84 Jens Axboe    2022-09-21  524  static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req,
+c0a7ba77e81b84 Jens Axboe    2022-09-21  525  						     blk_status_t err)
+c0a7ba77e81b84 Jens Axboe    2022-09-21  526  {
+c0a7ba77e81b84 Jens Axboe    2022-09-21  527  	struct io_uring_cmd *ioucmd = req->end_io_data;
+c0a7ba77e81b84 Jens Axboe    2022-09-21 @528  	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+c0a7ba77e81b84 Jens Axboe    2022-09-21  529  	void *cookie = READ_ONCE(ioucmd->cookie);
+c0a7ba77e81b84 Jens Axboe    2022-09-21  530  
+c0a7ba77e81b84 Jens Axboe    2022-09-21  531  	/*
+c0a7ba77e81b84 Jens Axboe    2022-09-21  532  	 * For iopoll, complete it directly.
+c0a7ba77e81b84 Jens Axboe    2022-09-21  533  	 * Otherwise, move the completion to task work.
+c0a7ba77e81b84 Jens Axboe    2022-09-21  534  	 */
+c0a7ba77e81b84 Jens Axboe    2022-09-21  535  	if (cookie != NULL && blk_rq_is_poll(req))
+9d2789ac9d60c0 Jens Axboe    2023-03-20  536  		nvme_uring_task_meta_cb(ioucmd, IO_URING_F_UNLOCKED);
+c0a7ba77e81b84 Jens Axboe    2022-09-21  537  	else
+c0a7ba77e81b84 Jens Axboe    2022-09-21  538  		io_uring_cmd_complete_in_task(ioucmd, nvme_uring_task_meta_cb);
+c0a7ba77e81b84 Jens Axboe    2022-09-21  539  
+de671d6116b521 Jens Axboe    2022-09-21  540  	return RQ_END_IO_NONE;
+456cba386e94f2 Kanchan Joshi 2022-05-11  541  }
+456cba386e94f2 Kanchan Joshi 2022-05-11  542  
 
 -- 
 0-DAY CI Kernel Test Service
