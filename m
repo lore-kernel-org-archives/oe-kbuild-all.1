@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0301C28EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 15:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8D48F4D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 15:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681225775; x=1712761775;
+  t=1681226957; x=1712762957;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3OfE8LZYaidiRnsR47FVeG9AtUrWZHKX8WBBuHra3QI=;
-  b=FeySDAO+O7AObpd8y5sVvpCIKoHE4VN9F7BJQBAJpGtlq4WXvLuD4cjz
-   Ku+u9se3RsLnaqH5pJmnyWvqx+Eb19O0gSHzIDFdHW68sxr0fUVDITidZ
-   TSoQxlgw7fnyJKGYI5AOEN+JaAYcHlpbx1Pp2+iheIZTB8VPijbhrS4c8
-   WXKUr/KdT5QNo//5iWjxwmtboLIXQoIB2DWrz761hb8sfxrqgpbx6mVvU
-   XA3QyWlYi61QH5R2WpoJYijGtR2Auju0HHLoR4otgAIi+uDlofDP8IpYo
-   uFsxVOGN0UcZx6TcMZPaRxpLIf0jGnppVYW8nQkyM4CDPa1YayHFBXCc8
+  bh=BpMGCmQzPcYzMIbRUelch1RgDdkoegCvJK2sL/cMMvM=;
+  b=KH0Bq9Om+llN23iGpcX5c6MROzo0PtJdlbRdLONR0GyswXLe/ZM59v2y
+   zv1hXBr4vnjNxupnm9FcoykU8fdXGRc3HXwmjhXd3ChucymaXT/6kSSB4
+   qJg5ZQu2pGwfeHTrK+bjI/dwTOFi6cT1nLClJ6xvYLbtizs1/VE0XksNe
+   0w7LSKN7vHIjwTXX45y26ZSRk0wx60bMXQA+4sG3K7vQkwYcu9y9/wKBk
+   wW/X3TxNTgPMf/jqicx9y4nLd+TYgrucnbwQt2BF1Ouqt2UyvAHM1jtjs
+   +VjTpZNaxYk7v1irIXQ3NaSA4OJSlvjW6ta5jN/ibjDqtELt5e0ht5aPs
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="323275923"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346320997"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="323275923"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:09:16 -0700
+   d="scan'208";a="346320997"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:29:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="718990083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="666024095"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="718990083"
+   d="scan'208";a="666024095"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 11 Apr 2023 08:09:14 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 Apr 2023 08:29:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmFcQ-000WQ5-0T;
-	Tue, 11 Apr 2023 15:09:14 +0000
-Date: Tue, 11 Apr 2023 23:08:18 +0800
+	id 1pmFvm-000WRL-2n;
+	Tue, 11 Apr 2023 15:29:14 +0000
+Date: Tue, 11 Apr 2023 23:28:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, Xiang Gao <xiang@kernel.org>,
-	linux-erofs@lists.ozlabs.org
-Subject: [xiang-erofs:dev-test 17/17] fs/erofs/inode.c:296: undefined
- reference to `z_erofs_aops'
-Message-ID: <202304112232.IFr8fsS7-lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [hverkuil-media-tree:for-v6.4l 10/14]
+ drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:621:1:
+ warning: the frame size of 1080 bytes is larger than 1024 bytes
+Message-ID: <202304112306.wIQMEpNy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,106 +47,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-head:   64be79d41fc0aefc57b4127f949e9995e739398e
-commit: 64be79d41fc0aefc57b4127f949e9995e739398e [17/17] erofs: get rid of z_erofs_fill_inode()
-config: powerpc-randconfig-r022-20230410 (https://download.01.org/0day-ci/archive/20230411/202304112232.IFr8fsS7-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   git://linuxtv.org/hverkuil/media_tree.git for-v6.4l
+head:   957636875b6f098e9a62660c1f7ab68ddf0c2d8a
+commit: b44bc9dec4222a111de5eb05af83839ef2c7a2da [10/14] media: verisilicon: Add Rockchip AV1 decoder
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230411/202304112306.wIQMEpNy-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git/commit/?id=64be79d41fc0aefc57b4127f949e9995e739398e
-        git remote add xiang-erofs https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git
-        git fetch --no-tags xiang-erofs dev-test
-        git checkout 64be79d41fc0aefc57b4127f949e9995e739398e
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
+        git fetch --no-tags hverkuil-media-tree for-v6.4l
+        git checkout b44bc9dec4222a111de5eb05af83839ef2c7a2da
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/platform/verisilicon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304112232.IFr8fsS7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304112306.wIQMEpNy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: fs/erofs/inode.o: in function `erofs_fill_inode':
->> fs/erofs/inode.c:296: undefined reference to `z_erofs_aops'
->> powerpc-linux-ld: fs/erofs/inode.c:296: undefined reference to `z_erofs_aops'
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:320:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_exit' [-Wmissing-prototypes]
+     320 | void rockchip_vpu981_av1_dec_exit(struct hantro_ctx *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:356:5: warning: no previous prototype for 'rockchip_vpu981_av1_dec_init' [-Wmissing-prototypes]
+     356 | int rockchip_vpu981_av1_dec_init(struct hantro_ctx *ctx)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1143:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_done' [-Wmissing-prototypes]
+    1143 | void rockchip_vpu981_av1_dec_done(struct hantro_ctx *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1890:5: warning: no previous prototype for 'rockchip_vpu981_av1_dec_run' [-Wmissing-prototypes]
+    1890 | int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_tile_info':
+>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:621:1: warning: the frame size of 1080 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     621 | }
+         | ^
 
 
-vim +296 fs/erofs/inode.c
+vim +621 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
 
-   245	
-   246	static int erofs_fill_inode(struct inode *inode)
-   247	{
-   248		struct erofs_inode *vi = EROFS_I(inode);
-   249		struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
-   250		void *kaddr;
-   251		unsigned int ofs;
-   252		int err = 0;
-   253	
-   254		trace_erofs_fill_inode(inode);
-   255	
-   256		/* read inode base data from disk */
-   257		kaddr = erofs_read_inode(&buf, inode, &ofs);
-   258		if (IS_ERR(kaddr))
-   259			return PTR_ERR(kaddr);
-   260	
-   261		/* setup the new inode */
-   262		switch (inode->i_mode & S_IFMT) {
-   263		case S_IFREG:
-   264			inode->i_op = &erofs_generic_iops;
-   265			if (erofs_inode_is_data_compressed(vi->datalayout))
-   266				inode->i_fop = &generic_ro_fops;
-   267			else
-   268				inode->i_fop = &erofs_file_fops;
-   269			break;
-   270		case S_IFDIR:
-   271			inode->i_op = &erofs_dir_iops;
-   272			inode->i_fop = &erofs_dir_fops;
-   273			inode_nohighmem(inode);
-   274			break;
-   275		case S_IFLNK:
-   276			err = erofs_fill_symlink(inode, kaddr, ofs);
-   277			if (err)
-   278				goto out_unlock;
-   279			inode_nohighmem(inode);
-   280			break;
-   281		case S_IFCHR:
-   282		case S_IFBLK:
-   283		case S_IFIFO:
-   284		case S_IFSOCK:
-   285			inode->i_op = &erofs_generic_iops;
-   286			init_special_inode(inode, inode->i_mode, inode->i_rdev);
-   287			goto out_unlock;
-   288		default:
-   289			err = -EFSCORRUPTED;
-   290			goto out_unlock;
-   291		}
-   292	
-   293		if (erofs_inode_is_data_compressed(vi->datalayout)) {
-   294			if (!erofs_is_fscache_mode(inode->i_sb) &&
-   295			    inode->i_sb->s_blocksize_bits == PAGE_SHIFT) {
- > 296				inode->i_mapping->a_ops = &z_erofs_aops;
-   297				err = 0;
-   298			} else {
-   299				err = -EOPNOTSUPP;
-   300			}
-   301			goto out_unlock;
-   302		}
-   303		inode->i_mapping->a_ops = &erofs_raw_access_aops;
-   304		mapping_set_large_folios(inode->i_mapping);
-   305	#ifdef CONFIG_EROFS_FS_ONDEMAND
-   306		if (erofs_is_fscache_mode(inode->i_sb))
-   307			inode->i_mapping->a_ops = &erofs_fscache_access_aops;
-   308	#endif
-   309	
-   310	out_unlock:
-   311		erofs_put_metabuf(&buf);
-   312		return err;
-   313	}
-   314	
+   551	
+   552	static void rockchip_vpu981_av1_dec_set_tile_info(struct hantro_ctx *ctx)
+   553	{
+   554		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
+   555		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
+   556		struct v4l2_av1_tile_info tile_info = ctrls->frame->tile_info;
+   557		const struct v4l2_ctrl_av1_tile_group_entry *group_entry =
+   558		    ctrls->tile_group_entry;
+   559		int context_update_y =
+   560		    tile_info.context_update_tile_id / tile_info.tile_cols;
+   561		int context_update_x =
+   562		    tile_info.context_update_tile_id % tile_info.tile_cols;
+   563		int context_update_tile_id =
+   564		    context_update_x * tile_info.tile_rows + context_update_y;
+   565		u8 *dst = av1_dec->tile_info.cpu;
+   566		struct hantro_dev *vpu = ctx->dev;
+   567		int tile0, tile1;
+   568	
+   569		memset(dst, 0, av1_dec->tile_info.size);
+   570	
+   571		for (tile0 = 0; tile0 < tile_info.tile_cols; tile0++) {
+   572			for (tile1 = 0; tile1 < tile_info.tile_rows; tile1++) {
+   573				int tile_id = tile1 * tile_info.tile_cols + tile0;
+   574				u32 start, end;
+   575				u32 y0 =
+   576				    tile_info.height_in_sbs_minus_1[tile1] + 1;
+   577				u32 x0 = tile_info.width_in_sbs_minus_1[tile0] + 1;
+   578	
+   579				// tile size in SB units (width,height)
+   580				*dst++ = x0;
+   581				*dst++ = 0;
+   582				*dst++ = 0;
+   583				*dst++ = 0;
+   584				*dst++ = y0;
+   585				*dst++ = 0;
+   586				*dst++ = 0;
+   587				*dst++ = 0;
+   588	
+   589				// tile start position
+   590				start = group_entry[tile_id].tile_offset - group_entry[0].tile_offset;
+   591				*dst++ = start & 255;
+   592				*dst++ = (start >> 8) & 255;
+   593				*dst++ = (start >> 16) & 255;
+   594				*dst++ = (start >> 24) & 255;
+   595	
+   596				// # of bytes in tile data
+   597				end = start + group_entry[tile_id].tile_size;
+   598				*dst++ = end & 255;
+   599				*dst++ = (end >> 8) & 255;
+   600				*dst++ = (end >> 16) & 255;
+   601				*dst++ = (end >> 24) & 255;
+   602			}
+   603		}
+   604	
+   605		hantro_reg_write(vpu, &av1_multicore_expect_context_update,
+   606				 !!(context_update_x == 0));
+   607		hantro_reg_write(vpu, &av1_tile_enable,
+   608				 !!((tile_info.tile_cols > 1) || (tile_info.tile_rows > 1)));
+   609		hantro_reg_write(vpu, &av1_num_tile_cols_8k, tile_info.tile_cols);
+   610		hantro_reg_write(vpu, &av1_num_tile_rows_8k, tile_info.tile_rows);
+   611		hantro_reg_write(vpu, &av1_context_update_tile_id,
+   612				 context_update_tile_id);
+   613		hantro_reg_write(vpu, &av1_tile_transpose, 1);
+   614		if (rockchip_vpu981_av1_tile_log2(tile_info.tile_cols) ||
+   615		    rockchip_vpu981_av1_tile_log2(tile_info.tile_rows))
+   616			hantro_reg_write(vpu, &av1_dec_tile_size_mag, tile_info.tile_size_bytes - 1);
+   617		else
+   618			hantro_reg_write(vpu, &av1_dec_tile_size_mag, 3);
+   619	
+   620		hantro_write_addr(vpu, AV1_TILE_BASE, av1_dec->tile_info.dma);
+ > 621	}
+   622	
 
 -- 
 0-DAY CI Kernel Test Service
