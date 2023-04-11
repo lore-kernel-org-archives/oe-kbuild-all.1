@@ -1,57 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3BA20F0;
-	Tue, 11 Apr 2023 05:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A7220F0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 05:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681189505; x=1712725505;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mcESEGx++s2OAhRhlRIbrr37ZoLPPyWFTrdbJYKRMKI=;
-  b=QNfVpmmA2sf1+GLXw6WZGQklIo1ovL7XkAGwNY0ezIAhUB2T3oSzvsyl
-   qaNIkthMuTPdmXuz0/dAaRvay4whKFjDVQ5+8hxuOeBOlts3KdZTq1+6G
-   Y+Zg6ko0zbpPDYqgYqnOZg0Nrn8DUiRjZ4SM6ZOLHBYtDuZvIhXQUccHo
-   ki2gYTZTfuH1C3tcrb4o1fnL+/DbDdwmbAh6WodUYTn/LSwhp7lOJQIA9
-   WionmsVIx+y4NGKOQ9bwJV8gErTCjV/v4bTOKiCC7FYhlyzzW5qwrDssE
-   Fu3nPWIVdccyhT6ujGLMfXRPDJVJS5ljqv7SaDfTH1F8TQOXTHbRjNW79
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="323159665"
+  t=1681190096; x=1712726096;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XIarlKR1osAtjvxJhKqoW9Rn3D9sflbHwYwESIJiDVw=;
+  b=dPJ+5Uxfa+9YOq4HIThNi8hZeFgB4JZOJg9siKUn9lGVYX+WfO9qEhFM
+   pslaS6xKPe1ReGrtmNmTaugP+YJ1VLlKOLUNpWVyPpyQhLvnW/5dGTvQJ
+   IFihh5RG2nQGbikQEEpvFn7+GVx5sMlLrUxfBqDl0y8fgB+l9p/EE6czM
+   GChW4Do+vWe+uWcH4bHIfeOXI4vZSFQuq0gTKRbICxkWXGCFITTAJVGGA
+   6O7rCWkwZ+okRoRuDy/jElMmoQ4DsIfqugcu45ptg+WAaQJo3rPIHavUW
+   NlaH1oElCiAwCzR7hbVu3xVJX0xdakfE112ZRJU3c91XYOfWedeBiGYfd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="406354679"
 X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="323159665"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 22:05:05 -0700
+   d="scan'208";a="406354679"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 22:14:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="681944081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="753009212"
 X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="681944081"
+   d="scan'208";a="753009212"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 10 Apr 2023 22:04:59 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 10 Apr 2023 22:14:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pm6BZ-000Vxu-2C;
-	Tue, 11 Apr 2023 05:04:53 +0000
-Date: Tue, 11 Apr 2023 13:04:34 +0800
+	id 1pm6LF-000VyJ-2t;
+	Tue, 11 Apr 2023 05:14:53 +0000
+Date: Tue, 11 Apr 2023 13:14:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mao Jinlong <quic_jinlmao@quicinc.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mao Jinlong <quic_jinlmao@quicinc.com>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-msm@vger.kernel.org,
-	Tingwei Zhang <quic_tingweiz@quicinc.com>,
-	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-	Tao Zhang <quic_taozha@quicinc.com>,
-	Hao Zhang <quic_hazha@quicinc.com>
-Subject: Re: [PATCH] coresight: Add support of setting trace id
-Message-ID: <202304111249.6nPH3yAY-lkp@intel.com>
-References: <20230410133930.30519-1-quic_jinlmao@quicinc.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tzungbi-chrome-platform:for-next 4/4]
+ drivers/platform/chrome/cros_ec_debugfs.c:404: warning: This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202304111306.f3AWxKuA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,85 +47,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230410133930.30519-1-quic_jinlmao@quicinc.com>
 
-Hi Mao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on soc/for-next linus/master v6.3-rc6 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mao-Jinlong/coresight-Add-support-of-setting-trace-id/20230410-214246
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20230410133930.30519-1-quic_jinlmao%40quicinc.com
-patch subject: [PATCH] coresight: Add support of setting trace id
-config: arm-randconfig-r024-20230410 (https://download.01.org/0day-ci/archive/20230411/202304111249.6nPH3yAY-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git for-next
+head:   4696f24c5655dafc277c778bc7c20812bd72d44b
+commit: 4696f24c5655dafc277c778bc7c20812bd72d44b [4/4] platform/chrome: cros_ec: Separate logic for getting panic info
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230411/202304111306.f3AWxKuA-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/f92c27be62a6b3cef125e80682d265773e65cd13
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mao-Jinlong/coresight-Add-support-of-setting-trace-id/20230410-214246
-        git checkout f92c27be62a6b3cef125e80682d265773e65cd13
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git/commit/?id=4696f24c5655dafc277c778bc7c20812bd72d44b
+        git remote add tzungbi-chrome-platform https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git
+        git fetch --no-tags tzungbi-chrome-platform for-next
+        git checkout 4696f24c5655dafc277c778bc7c20812bd72d44b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwtracing/coresight/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/platform/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304111249.6nPH3yAY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304111306.f3AWxKuA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-tpda.c:36:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                   if (traceid < 0)
-                       ^~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-tpda.c:43:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/hwtracing/coresight/coresight-tpda.c:36:3: note: remove the 'if' if its condition is always true
-                   if (traceid < 0)
-                   ^~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-tpda.c:26:18: note: initialize the variable 'ret' to silence this warning
-           int traceid, ret;
-                           ^
-                            = 0
-   1 warning generated.
+>> drivers/platform/chrome/cros_ec_debugfs.c:404: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Returns the size of the panicinfo data fetched from the EC
 
 
-vim +36 drivers/hwtracing/coresight/coresight-tpda.c
+vim +404 drivers/platform/chrome/cros_ec_debugfs.c
 
-    23	
-    24	static int tpda_configure_trace_id(struct tpda_drvdata *drvdata)
-    25	{
-    26		int traceid, ret;
-    27		/*
-    28		 * TPDA must has a unique atid. This atid can uniquely
-    29		 * identify the TPDM trace source connected to the TPDA.
-    30		 * The TPDMs which are connected to same TPDA share the
-    31		 * same trace-id. When TPDA does packetization, different
-    32		 * port will have unique channel number for decoding.
-    33		 */
-    34		if (!drvdata->traceid) {
-    35			traceid = coresight_trace_id_get_system_id();
-  > 36			if (traceid < 0)
-    37				return traceid;
-    38	
-    39			drvdata->traceid = traceid;
-    40		} else
-    41			ret = coresight_trace_id_set_system_id(drvdata->traceid);
-    42	
-    43		return ret;
-    44	}
-    45	
+   402	
+   403	/**
+ > 404	 * Returns the size of the panicinfo data fetched from the EC
+   405	 */
+   406	static int cros_ec_get_panicinfo(struct cros_ec_device *ec_dev, uint8_t *data,
+   407					 int data_size)
+   408	{
+   409		int ret;
+   410		struct cros_ec_command *msg;
+   411	
+   412		if (!data || data_size <= 0 || data_size > ec_dev->max_response)
+   413			return -EINVAL;
+   414	
+   415		msg = kzalloc(sizeof(*msg) + data_size, GFP_KERNEL);
+   416		if (!msg)
+   417			return -ENOMEM;
+   418	
+   419		msg->command = EC_CMD_GET_PANIC_INFO;
+   420		msg->insize = data_size;
+   421	
+   422		ret = cros_ec_cmd_xfer_status(ec_dev, msg);
+   423		if (ret < 0)
+   424			goto free;
+   425	
+   426		memcpy(data, msg->data, data_size);
+   427	
+   428	free:
+   429		kfree(msg);
+   430		return ret;
+   431	}
+   432	
 
 -- 
 0-DAY CI Kernel Test Service
