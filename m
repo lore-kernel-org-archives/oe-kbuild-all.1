@@ -1,47 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DF98F4D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 15:30:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A538F4D;
+	Tue, 11 Apr 2023 15:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681227018; x=1712763018;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iCU05kOa0hP4lNhLGaO67JgMKC63jRez+AStJP4kUsQ=;
-  b=LZdn6aS/lQTGIcf3GGfJOR9qlcEzP3F72BrQu/0YujfpGQPOGM2Gaqxo
-   UPUHb45wtRTmHuHXOECRCZ2ZL8zM7TTrZDNPbl6BxfLWs+WX/0RAaBduL
-   CnOQnBMmmdo4bha/oryVRXt5rsJFZdtKwA3oFeNztPqeOzgsFIqhtmOYb
-   EW7tsXMEc0psv+1YOW2Me7kh92EmcdulbU7h9/N7XU/wZ6161zY2l+on3
-   SLWWo+xlct2w7EfTOkIeKr3xQJxXr4I/iW2LMxgUUvnAz0qTa6ETW1VvE
-   0wojPnpict2tFnQNWeippJgo0bfd/f6cCkvqL4ibmgIZJi8n+PNuGBHtQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="408788672"
+  t=1681228218; x=1712764218;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/xR4Z2+vj/MHKnsKv8/M5WTZq4akLnY/oPBIaizEMxQ=;
+  b=Ip8pSoCV2y0WpQzCFCp6K0ijqDfK1q3OycUlVXkpKPwawg+LalcXAtdR
+   7kqvi2YApao/kM0XzPyzcMP5saUZ8IFTWkqx1DGOfisPLSUOkZCz4CRo9
+   uP5UnCxfbrwrw0Ngv0/Qd2+tQXTQs1vHr+VuupjueA4Ph0OKnTYzjJjsi
+   qkpjisF5QVBf+RVf0h4wWdeGyfa3M5wxv601efXjiVOp8+CTW9T7085qr
+   x/q6E/TJ78WigfID6PVGwvjqFixPYaoG/mkMVdmvBUWHQh5PFTiQ3PHKY
+   koWZIaP0Y9R9TP5dyFEUEc/YpkzkSjNDpDF+CcVMooxrOEW61rWzg7WD7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="341144255"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="408788672"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:29:48 -0700
+   d="scan'208";a="341144255"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="799959667"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="777966844"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="799959667"
+   d="scan'208";a="777966844"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2023 08:29:15 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2023 08:50:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmFvm-000WRN-2q;
-	Tue, 11 Apr 2023 15:29:14 +0000
-Date: Tue, 11 Apr 2023 23:28:57 +0800
+	id 1pmGG7-000WRn-0i;
+	Tue, 11 Apr 2023 15:50:15 +0000
+Date: Tue, 11 Apr 2023 23:49:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: benjamin@sipsolutions.net, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Benjamin Berg <benjamin.berg@intel.com>
-Subject: Re: [PATCH 2/3] kunit: add ability to register a simple cleanup
- function
-Message-ID: <202304112307.LAyTVYon-lkp@intel.com>
-References: <20230329172311.71861-2-benjamin@sipsolutions.net>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Xiang Gao <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
+Subject: [xiang-erofs:dev-test 17/17] ld.lld: error: undefined symbol:
+ z_erofs_aops
+Message-ID: <202304112351.TOHeKtRR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,62 +46,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329172311.71861-2-benjamin@sipsolutions.net>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.3-rc6 next-20230411]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/benjamin-sipsolutions-net/kunit-add-ability-to-register-a-simple-cleanup-function/20230330-012515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230329172311.71861-2-benjamin%40sipsolutions.net
-patch subject: [PATCH 2/3] kunit: add ability to register a simple cleanup function
-config: arc-randconfig-m031-20230410 (https://download.01.org/0day-ci/archive/20230411/202304112307.LAyTVYon-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+head:   64be79d41fc0aefc57b4127f949e9995e739398e
+commit: 64be79d41fc0aefc57b4127f949e9995e739398e [17/17] erofs: get rid of z_erofs_fill_inode()
+config: hexagon-randconfig-r041-20230409 (https://download.01.org/0day-ci/archive/20230411/202304112351.TOHeKtRR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git/commit/?id=64be79d41fc0aefc57b4127f949e9995e739398e
+        git remote add xiang-erofs https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git
+        git fetch --no-tags xiang-erofs dev-test
+        git checkout 64be79d41fc0aefc57b4127f949e9995e739398e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304112307.LAyTVYon-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304112351.TOHeKtRR-lkp@intel.com/
 
-New smatch warnings:
-lib/kunit/test.c:750 kunit_add_cleanup() error: potential null dereference 'res'.  (kzalloc returns null)
-lib/kunit/test.c:750 kunit_add_cleanup() error: we previously assumed 'res' could be null (see line 745)
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-lib/kunit/test.c:293 kunit_abort() warn: ignoring unreachable code.
-
-vim +/res +750 lib/kunit/test.c
-
-   735	
-   736	void kunit_add_cleanup(struct kunit *test, kunit_cleanup_t cleanup_func,
-   737			       const void *data, gfp_t internal_gfp)
-   738	{
-   739		struct kunit_auto_cleanup *res;
-   740	
-   741		KUNIT_ASSERT_NOT_NULL_MSG(test, cleanup_func,
-   742					  "Cleanup function must not be NULL");
-   743	
-   744		res = kzalloc(sizeof(*res), internal_gfp);
- > 745		if (!res) {
-   746			cleanup_func(data);
-   747			KUNIT_ASSERT_FAILURE(test, "Could not allocate resource for cleanup");
-   748		}
-   749	
- > 750		res->cleanup_func = cleanup_func;
-   751		res->resource.should_kfree = true;
-   752	
-   753		/* Cannot fail as init is NULL */
-   754		__kunit_add_resource(test, NULL, kunit_auto_cleanup_free,
-   755				     &res->resource, (void *)data);
-   756	}
-   757	EXPORT_SYMBOL_GPL(kunit_add_cleanup);
-   758	
+>> ld.lld: error: undefined symbol: z_erofs_aops
+   >>> referenced by inode.c
+   >>>               fs/erofs/inode.o:(erofs_iget) in archive vmlinux.a
+   >>> referenced by inode.c
+   >>>               fs/erofs/inode.o:(erofs_iget) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
