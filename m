@@ -1,44 +1,54 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E622116
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 06:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B3C23A3;
+	Tue, 11 Apr 2023 06:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681195022; x=1712731022;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+oaXs8ADlquWzga6eR4Z2xnBHi0wzLCQP0dykEF7SQM=;
-  b=lJsl26DdmrTCx5xl8BG2TJq7+ihnd0nyGOL7DCs7GlYWqfRcmjDUAbYv
-   yqxwFl+lO5BWLyy5eV19KCVJgbl6WWZnF7GmvKI1Ptmj1J1kfModfsu8f
-   efHHMqFvPZXUIfzEqillMc4Z/BfjwPftjscXgauJD8ZaYNjnkeRCETvHk
-   l5g/Q+SZen3ZzuKzrvG3PQmT2k+FBuTKHDT+TTNtQNi2B+KTS5n+9qEjd
-   1D+IkMD5seB8oOmwQh16KPzE4qiY86WfSje65Z5ibPnYBe06B35LaDcV3
-   Lbr0CwGC5V9P53giBv6JIc/l/l4k/6KcoAjc8WewtOeD2YM9YEpFkgo2Q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="429827205"
+  t=1681195684; x=1712731684;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P4YMBXScVBBglfEFkiGOeQasVcTNDpoblfuqLiEFJNE=;
+  b=ISTridHaKGmCP/skxCTS7NxATQQ74/Uvu2+eHsiQjv/4xUOMFNtFEzmY
+   +/g7oN+z/vxsfU2/KoHrosH/Tvl88DHAhJSdzHt2n0Uwf+xw278uQ18fB
+   XJkOP0JDJ6ZHY0QIyJLdxBUnROBZ+ow+y1R8Xze1vcmO84i0s8aSF+I7I
+   +4bxxVpI6zgbEJocpLCBjNpfKqpg93pZ6sfXINPvpvjyMr1TnG84ga1wM
+   wKd+Kg97nmQvpwt3WEOQ4MPlQvTgo7mNLIYZsUFUPasEIbQikTnN/Yar0
+   tUAPhAtv+I1hUwV1qA0fECLON8dEpM5YQAgUigIsZJu4TwoTtpqQlJ34l
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="429828721"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="429827205"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 23:36:59 -0700
+   d="scan'208";a="429828721"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 23:48:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="757703199"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="721082322"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="757703199"
+   d="scan'208";a="721082322"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Apr 2023 23:36:57 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Apr 2023 23:47:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pm7ce-000W2f-39;
-	Tue, 11 Apr 2023 06:36:56 +0000
-Date: Tue, 11 Apr 2023 14:36:29 +0800
+	id 1pm7nJ-000W3G-10;
+	Tue, 11 Apr 2023 06:47:57 +0000
+Date: Tue, 11 Apr 2023 14:47:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Greg Ungerer <gerg@linux-m68k.org>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.4.y 384/8053] drivers/scsi/BusLogic.c:2005:47:
- error: 'DMA_MODE_CASCADE' undeclared; did you mean 'DMA_MODE_READ'?
-Message-ID: <202304111443.hB6grejl-lkp@intel.com>
+To: Jing Zhang <jingzhangos@google.com>, KVM <kvm@vger.kernel.org>,
+	KVMARM <kvmarm@lists.linux.dev>,
+	ARMLinux <linux-arm-kernel@lists.infradead.org>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	James Morse <james.morse@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Fuad Tabba <tabba@google.com>, Reiji Watanabe <reijiw@google.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Jing Zhang <jingzhangos@google.com>
+Subject: Re: [PATCH v6 4/6] KVM: arm64: Use per guest ID register for
+ ID_AA64DFR0_EL1.PMUVer
+Message-ID: <202304111418.tQGXPpze-lkp@intel.com>
+References: <20230404035344.4043856-5-jingzhangos@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,147 +57,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230404035344.4043856-5-jingzhangos@google.com>
 
-Hi Arnd,
+Hi Jing,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   32bea3bac5ca484c6f7e302c8c96fc686f62e7b4
-commit: 53a72858bcae7eaa7df8d167dbf60682d70f82a6 [384/8053] m68knommu: only set CONFIG_ISA_DMA_API for ColdFire sub-arch
-config: m68k-randconfig-r035-20230410 (https://download.01.org/0day-ci/archive/20230411/202304111443.hB6grejl-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on 7e364e56293bb98cae1b55fd835f5991c4e96e7d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230404-115612
+base:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
+patch link:    https://lore.kernel.org/r/20230404035344.4043856-5-jingzhangos%40google.com
+patch subject: [PATCH v6 4/6] KVM: arm64: Use per guest ID register for ID_AA64DFR0_EL1.PMUVer
+config: arm64-randconfig-r031-20230410 (https://download.01.org/0day-ci/archive/20230411/202304111418.tQGXPpze-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=53a72858bcae7eaa7df8d167dbf60682d70f82a6
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.4.y
-        git checkout 53a72858bcae7eaa7df8d167dbf60682d70f82a6
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/66ece3020c02ab1206bb9478e8cb0172e125bbfc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230404-115612
+        git checkout 66ece3020c02ab1206bb9478e8cb0172e125bbfc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304111443.hB6grejl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304111418.tQGXPpze-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:9,
-                    from drivers/scsi/BusLogic.c:25:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
-     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
-         |                                                  ^~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |         ^~~~~~
-   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |                 ^~~~~~~~~~~~~~~
-   In file included from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:10:
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
-     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
-         |                                                  ^~
-   include/asm-generic/bug.h:182:32: note: in definition of macro 'WARN_ON'
-     182 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/dma-mapping.h:355:13: note: in expansion of macro 'WARN_ON_ONCE'
-     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |             ^~~~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:170:33: note: in expansion of macro 'virt_addr_valid'
-     170 | #define pfn_valid(pfn)          virt_addr_valid(pfn_to_virt(pfn))
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:355:26: note: in expansion of macro 'pfn_valid'
-     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |                          ^~~~~~~~~
-   drivers/scsi/BusLogic.c: In function 'blogic_rdconfig':
->> drivers/scsi/BusLogic.c:1734:46: warning: ordered comparison of pointer with null pointer [-Wextra]
-    1734 |                         (void *) high_memory > (void *) MAX_DMA_ADDRESS)
-         |                                              ^
-   drivers/scsi/BusLogic.c:1747:46: warning: ordered comparison of pointer with null pointer [-Wextra]
-    1747 |                         (void *) high_memory > (void *) MAX_DMA_ADDRESS)
-         |                                              ^
-   drivers/scsi/BusLogic.c: In function 'blogic_getres':
->> drivers/scsi/BusLogic.c:2005:47: error: 'DMA_MODE_CASCADE' undeclared (first use in this function); did you mean 'DMA_MODE_READ'?
-    2005 |                 set_dma_mode(adapter->dma_ch, DMA_MODE_CASCADE);
-         |                                               ^~~~~~~~~~~~~~~~
-         |                                               DMA_MODE_READ
-   drivers/scsi/BusLogic.c:2005:47: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/scsi/BusLogic.c: In function 'blogic_msg':
-   drivers/scsi/BusLogic.c:3589:9: warning: function 'blogic_msg' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    3589 |         len = vsprintf(buf, fmt, args);
-         |         ^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=n] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+>> arch/arm64/kvm/id_regs.c:261:31: error: no member named 'config_lock' in 'struct kvm_arch'
+                   mutex_lock(&vcpu->kvm->arch.config_lock);
+                               ~~~~~~~~~~~~~~~ ^
+   include/linux/mutex.h:187:44: note: expanded from macro 'mutex_lock'
+   #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+                                              ^~~~
+   arch/arm64/kvm/id_regs.c:269:33: error: no member named 'config_lock' in 'struct kvm_arch'
+                   mutex_unlock(&vcpu->kvm->arch.config_lock);
+                                 ~~~~~~~~~~~~~~~ ^
+   arch/arm64/kvm/id_regs.c:311:31: error: no member named 'config_lock' in 'struct kvm_arch'
+                   mutex_lock(&vcpu->kvm->arch.config_lock);
+                               ~~~~~~~~~~~~~~~ ^
+   include/linux/mutex.h:187:44: note: expanded from macro 'mutex_lock'
+   #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+                                              ^~~~
+   arch/arm64/kvm/id_regs.c:318:33: error: no member named 'config_lock' in 'struct kvm_arch'
+                   mutex_unlock(&vcpu->kvm->arch.config_lock);
+                                 ~~~~~~~~~~~~~~~ ^
+   4 errors generated.
 
 
-vim +2005 drivers/scsi/BusLogic.c
+vim +261 arch/arm64/kvm/id_regs.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1979  
-839cb99e8f7483 Khalid Aziz    2013-05-16  1980  static bool __init blogic_getres(struct blogic_adapter *adapter)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1981  {
-839cb99e8f7483 Khalid Aziz    2013-05-16  1982  	if (adapter->irq_ch == 0) {
-839cb99e8f7483 Khalid Aziz    2013-05-16  1983  		blogic_err("NO LEGAL INTERRUPT CHANNEL ASSIGNED - DETACHING\n",
-839cb99e8f7483 Khalid Aziz    2013-05-16  1984  				adapter);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1985  		return false;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1986  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1987  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1988  	   Acquire shared access to the IRQ Channel.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1989  	 */
-839cb99e8f7483 Khalid Aziz    2013-05-16  1990  	if (request_irq(adapter->irq_ch, blogic_inthandler, IRQF_SHARED,
-839cb99e8f7483 Khalid Aziz    2013-05-16  1991  				adapter->full_model, adapter) < 0) {
-839cb99e8f7483 Khalid Aziz    2013-05-16  1992  		blogic_err("UNABLE TO ACQUIRE IRQ CHANNEL %d - DETACHING\n",
-839cb99e8f7483 Khalid Aziz    2013-05-16  1993  				adapter, adapter->irq_ch);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1994  		return false;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1995  	}
-839cb99e8f7483 Khalid Aziz    2013-05-16  1996  	adapter->irq_acquired = true;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1997  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1998  	   Acquire exclusive access to the DMA Channel.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1999  	 */
-839cb99e8f7483 Khalid Aziz    2013-05-16  2000  	if (adapter->dma_ch > 0) {
-839cb99e8f7483 Khalid Aziz    2013-05-16  2001  		if (request_dma(adapter->dma_ch, adapter->full_model) < 0) {
-839cb99e8f7483 Khalid Aziz    2013-05-16  2002  			blogic_err("UNABLE TO ACQUIRE DMA CHANNEL %d - DETACHING\n", adapter, adapter->dma_ch);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2003  			return false;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2004  		}
-839cb99e8f7483 Khalid Aziz    2013-05-16 @2005  		set_dma_mode(adapter->dma_ch, DMA_MODE_CASCADE);
-839cb99e8f7483 Khalid Aziz    2013-05-16  2006  		enable_dma(adapter->dma_ch);
-839cb99e8f7483 Khalid Aziz    2013-05-16  2007  		adapter->dma_chan_acquired = true;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2008  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2009  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2010  	   Indicate the System Resource Acquisition completed successfully,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2011  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2012  	return true;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2013  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2014  
-
-:::::: The code at line 2005 was first introduced by commit
-:::::: 839cb99e8f748391059d10388c8aea48a88c142c [SCSI] BusLogic: Fix style issues
-
-:::::: TO: Khalid Aziz <khalid.aziz@oracle.com>
-:::::: CC: James Bottomley <JBottomley@Parallels.com>
+   228	
+   229	static int set_id_aa64dfr0_el1(struct kvm_vcpu *vcpu,
+   230				       const struct sys_reg_desc *rd,
+   231				       u64 val)
+   232	{
+   233		u8 pmuver, host_pmuver;
+   234		bool valid_pmu;
+   235	
+   236		host_pmuver = kvm_arm_pmu_get_pmuver_limit();
+   237	
+   238		/*
+   239		 * Allow AA64DFR0_EL1.PMUver to be set from userspace as long
+   240		 * as it doesn't promise more than what the HW gives us. We
+   241		 * allow an IMPDEF PMU though, only if no PMU is supported
+   242		 * (KVM backward compatibility handling).
+   243		 */
+   244		pmuver = FIELD_GET(ARM64_FEATURE_MASK(ID_AA64DFR0_EL1_PMUVer), val);
+   245		if ((pmuver != ID_AA64DFR0_EL1_PMUVer_IMP_DEF && pmuver > host_pmuver))
+   246			return -EINVAL;
+   247	
+   248		valid_pmu = (pmuver != 0 && pmuver != ID_AA64DFR0_EL1_PMUVer_IMP_DEF);
+   249	
+   250		/* Make sure view register and PMU support do match */
+   251		if (kvm_vcpu_has_pmu(vcpu) != valid_pmu)
+   252			return -EINVAL;
+   253	
+   254		/* We can only differ with PMUver, and anything else is an error */
+   255		val ^= read_id_reg(vcpu, rd);
+   256		val &= ~ARM64_FEATURE_MASK(ID_AA64DFR0_EL1_PMUVer);
+   257		if (val)
+   258			return -EINVAL;
+   259	
+   260		if (valid_pmu) {
+ > 261			mutex_lock(&vcpu->kvm->arch.config_lock);
+   262			IDREG(vcpu->kvm, SYS_ID_AA64DFR0_EL1) &= ~ID_AA64DFR0_EL1_PMUVer_MASK;
+   263			IDREG(vcpu->kvm, SYS_ID_AA64DFR0_EL1) |= FIELD_PREP(ID_AA64DFR0_EL1_PMUVer_MASK,
+   264									    pmuver);
+   265	
+   266			IDREG(vcpu->kvm, SYS_ID_DFR0_EL1) &= ~ID_DFR0_EL1_PerfMon_MASK;
+   267			IDREG(vcpu->kvm, SYS_ID_DFR0_EL1) |= FIELD_PREP(ID_DFR0_EL1_PerfMon_MASK,
+   268									pmuver_to_perfmon(pmuver));
+   269			mutex_unlock(&vcpu->kvm->arch.config_lock);
+   270		} else {
+   271			assign_bit(KVM_ARCH_FLAG_VCPU_HAS_IMP_DEF_PMU, &vcpu->kvm->arch.flags,
+   272				   pmuver == ID_AA64DFR0_EL1_PMUVer_IMP_DEF);
+   273		}
+   274	
+   275		return 0;
+   276	}
+   277	
 
 -- 
 0-DAY CI Kernel Test Service
