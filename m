@@ -1,44 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFF18F4D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 15:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DF98F4D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 15:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681226960; x=1712762960;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bB6vsOiDcv3CS9vf/cuHxFzwAprNPQaMOAJGGScUbT4=;
-  b=dfpATny2nRvQVeC0hMPSeld0OvWg3QpX4aYSOJZskY9yceOJmMVTNbj1
-   T5lqdo0b7zm/YsuRFBEPSPC+wS5p8fQ0Vg4BQphvte9djuejcqslaHTc8
-   6WU2iZPcCM6iety6IZ48qHklm+YBaKFizpodKy6qn4ldOagXlC8VQYCdM
-   RExVVauUaVXNF5aifo1VG4McUWjxkH5zf7snRu+hSOyBgf2hrssClikkz
-   rLfKpmBJB/Lf4217uoj56IvRx9uPGZtHdkVogu8xK7/MmQ9stGJvL6Q96
-   K67s3bckyd+oMvhvODPfD0Lngf5h4UwqGecpRr29erVUQkq9yFP1rHWDV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346321001"
+  t=1681227018; x=1712763018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iCU05kOa0hP4lNhLGaO67JgMKC63jRez+AStJP4kUsQ=;
+  b=LZdn6aS/lQTGIcf3GGfJOR9qlcEzP3F72BrQu/0YujfpGQPOGM2Gaqxo
+   UPUHb45wtRTmHuHXOECRCZ2ZL8zM7TTrZDNPbl6BxfLWs+WX/0RAaBduL
+   CnOQnBMmmdo4bha/oryVRXt5rsJFZdtKwA3oFeNztPqeOzgsFIqhtmOYb
+   EW7tsXMEc0psv+1YOW2Me7kh92EmcdulbU7h9/N7XU/wZ6161zY2l+on3
+   SLWWo+xlct2w7EfTOkIeKr3xQJxXr4I/iW2LMxgUUvnAz0qTa6ETW1VvE
+   0wojPnpict2tFnQNWeippJgo0bfd/f6cCkvqL4ibmgIZJi8n+PNuGBHtQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="408788672"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="346321001"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:29:18 -0700
+   d="scan'208";a="408788672"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 08:29:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="666024097"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="799959667"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="666024097"
+   d="scan'208";a="799959667"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 Apr 2023 08:29:16 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2023 08:29:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmFvm-000WRJ-2j;
+	id 1pmFvm-000WRN-2q;
 	Tue, 11 Apr 2023 15:29:14 +0000
-Date: Tue, 11 Apr 2023 23:28:58 +0800
+Date: Tue, 11 Apr 2023 23:28:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: benjamin@sipsolutions.net, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/fsfa3 17/22] arch/sparc/mm/init_64.c:3057:31:
- error: array subscript -1 is outside array bounds of 'char[]'
-Message-ID: <202304112345.Pn0e4esE-lkp@intel.com>
+	Johannes Berg <johannes@sipsolutions.net>,
+	Benjamin Berg <benjamin.berg@intel.com>
+Subject: Re: [PATCH 2/3] kunit: add ability to register a simple cleanup
+ function
+Message-ID: <202304112307.LAyTVYon-lkp@intel.com>
+References: <20230329172311.71861-2-benjamin@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +50,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230329172311.71861-2-benjamin@sipsolutions.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fsfa3
-head:   f33754bc67ff9f8377288f8795bf8ee536f6f16b
-commit: 2226ddb6a576f7f89a8a06a3f89b68f5109ded53 [17/22] Makefile: Enable -Wstringop-overflow and -Warray-bounds
-config: sparc64-buildonly-randconfig-r006-20230411 (https://download.01.org/0day-ci/archive/20230411/202304112345.Pn0e4esE-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=2226ddb6a576f7f89a8a06a3f89b68f5109ded53
-        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
-        git fetch --no-tags gustavoars testing/fsfa3
-        git checkout 2226ddb6a576f7f89a8a06a3f89b68f5109ded53
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc64 SHELL=/bin/bash arch/sparc/mm/
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.3-rc6 next-20230411]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/benjamin-sipsolutions-net/kunit-add-ability-to-register-a-simple-cleanup-function/20230330-012515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230329172311.71861-2-benjamin%40sipsolutions.net
+patch subject: [PATCH 2/3] kunit: add ability to register a simple cleanup function
+config: arc-randconfig-m031-20230410 (https://download.01.org/0day-ci/archive/20230411/202304112307.LAyTVYon-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304112345.Pn0e4esE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304112307.LAyTVYon-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+lib/kunit/test.c:750 kunit_add_cleanup() error: potential null dereference 'res'.  (kzalloc returns null)
+lib/kunit/test.c:750 kunit_add_cleanup() error: we previously assumed 'res' could be null (see line 745)
 
-   arch/sparc/mm/init_64.c: In function 'sun4v_linear_pte_xor_finalize':
-   arch/sparc/mm/init_64.c:2206:23: error: variable 'pagecv_flag' set but not used [-Werror=unused-but-set-variable]
-    2206 |         unsigned long pagecv_flag;
-         |                       ^~~~~~~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3069:2:
->> arch/sparc/mm/init_64.c:3057:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3057 |         code_resource.end   = compute_kern_paddr(_etext - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/sections.h:6,
-                    from include/linux/interrupt.h:21,
-                    from include/linux/kernel_stat.h:9,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/hugetlb.h:10,
-                    from arch/sparc/mm/init_64.c:16:
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:35:32: note: at offset -1 into object '_etext' of size [0, 9223372036854775807]
-      35 | extern char _text[], _stext[], _etext[];
-         |                                ^~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3069:2:
-   arch/sparc/mm/init_64.c:3059:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3059 |         data_resource.end   = compute_kern_paddr(_edata - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:36:32: note: at offset -1 into object '_edata' of size [0, 9223372036854775807]
-      36 | extern char _data[], _sdata[], _edata[];
-         |                                ^~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3069:2:
-   arch/sparc/mm/init_64.c:3061:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3061 |         bss_resource.end    = compute_kern_paddr(_end - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:41:13: note: at offset -1 into object '_end' of size [0, 9223372036854775807]
-      41 | extern char _end[];
-         |             ^~~~
-   cc1: all warnings being treated as errors
+Old smatch warnings:
+lib/kunit/test.c:293 kunit_abort() warn: ignoring unreachable code.
 
+vim +/res +750 lib/kunit/test.c
 
-vim +3057 arch/sparc/mm/init_64.c
-
-f6d4fb5cc0475c bob picco 2014-03-03  3053  
-f6d4fb5cc0475c bob picco 2014-03-03  3054  static void __init kernel_lds_init(void)
-f6d4fb5cc0475c bob picco 2014-03-03  3055  {
-f6d4fb5cc0475c bob picco 2014-03-03  3056  	code_resource.start = compute_kern_paddr(_text);
-f6d4fb5cc0475c bob picco 2014-03-03 @3057  	code_resource.end   = compute_kern_paddr(_etext - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3058  	data_resource.start = compute_kern_paddr(_etext);
-f6d4fb5cc0475c bob picco 2014-03-03  3059  	data_resource.end   = compute_kern_paddr(_edata - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3060  	bss_resource.start  = compute_kern_paddr(__bss_start);
-f6d4fb5cc0475c bob picco 2014-03-03  3061  	bss_resource.end    = compute_kern_paddr(_end - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3062  }
-f6d4fb5cc0475c bob picco 2014-03-03  3063  
-
-:::::: The code at line 3057 was first introduced by commit
-:::::: f6d4fb5cc0475c36437a618db31cbb7f2bf7c282 sparc64 - add mem to iomem resource
-
-:::::: TO: bob picco <bpicco@meloft.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   735	
+   736	void kunit_add_cleanup(struct kunit *test, kunit_cleanup_t cleanup_func,
+   737			       const void *data, gfp_t internal_gfp)
+   738	{
+   739		struct kunit_auto_cleanup *res;
+   740	
+   741		KUNIT_ASSERT_NOT_NULL_MSG(test, cleanup_func,
+   742					  "Cleanup function must not be NULL");
+   743	
+   744		res = kzalloc(sizeof(*res), internal_gfp);
+ > 745		if (!res) {
+   746			cleanup_func(data);
+   747			KUNIT_ASSERT_FAILURE(test, "Could not allocate resource for cleanup");
+   748		}
+   749	
+ > 750		res->cleanup_func = cleanup_func;
+   751		res->resource.should_kfree = true;
+   752	
+   753		/* Cannot fail as init is NULL */
+   754		__kunit_add_resource(test, NULL, kunit_auto_cleanup_free,
+   755				     &res->resource, (void *)data);
+   756	}
+   757	EXPORT_SYMBOL_GPL(kunit_add_cleanup);
+   758	
 
 -- 
 0-DAY CI Kernel Test Service
