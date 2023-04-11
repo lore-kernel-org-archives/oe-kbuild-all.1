@@ -1,50 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389D217DB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 23:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F5017DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 23:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681255177; x=1712791177;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5lWfbaukBY0AMGMSMLq4CSRNcNltmmEQeJtpDY+cJQU=;
-  b=TD7i/8QXGQ3mBDYE+Zkv39pUmaJtBhPGky8XKFN6z0XQGefw4GSLNmji
-   9ecW5Z3Wrl1HRZEKsTDPwXq2twUFBb7AmzOrwFFOWILvVmvyL6HYSDTNw
-   ENHLkuP6yEDGiapto1Raz84w5JSPlIyd0qAka1EQQUnAWZLTw56Cl+lTW
-   X9xSrjIrHnlV55l2+Cl6hPI7Gdmu/KRSDlzZVHalk8f3sEt9K2gzqSJyb
-   cT3GnUI/W7JZ0e5l07lkGnD+adbBgQwN8guWLqoKWGTuD9TjqyBhwC+py
-   HmQKeTIczJ83aCbUFWivcnutIstrbVB1UE5JBxnJKv7fn0vBaRHn4ALNU
+  t=1681255834; x=1712791834;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=17DSHfO+a7l1aT8Erip//1ZjO27TPmM67AQ2Lt2eR+8=;
+  b=RuhqfsEFolVErzxK+vhhybXRppb19L7a5V24Ct1ZZovUjFExLbZGmWYZ
+   lnL38mSgM/hPS8czct4ZURvZuOjkZXNazgtzKu7FePsKT/6oAedNL9C+e
+   bh49NbKFjMATiLPygknqoQxJdGtDhb5TaIbij6DZ2mBihDUeNSKYHHtGd
+   dK4TpmA42GHURtQo0taI7hIW3sdSXbeT+wMF3Q5GpoM5TDztWhljKMduF
+   9UriWUN98Bvgoip74uILB8x15jMFyZECvxG8kNaEuIO3buSZTAkHyLF3m
+   AJQUsSegR1nzsz5LAHhHWHayihjKV4EHFXKWPFoj83kS5I5um9lvwmNrR
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="343761856"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327862835"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="343761856"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 16:19:36 -0700
+   d="scan'208";a="327862835"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 16:30:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="721362136"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="1018544718"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="721362136"
+   d="scan'208";a="1018544718"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Apr 2023 16:19:32 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2023 16:30:33 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmNGt-000Wo1-2Y;
-	Tue, 11 Apr 2023 23:19:31 +0000
-Date: Wed, 12 Apr 2023 07:19:31 +0800
+	id 1pmNRY-000WoP-0N;
+	Tue, 11 Apr 2023 23:30:32 +0000
+Date: Wed, 12 Apr 2023 07:30:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, seanpaul@chromium.org,
-	suraj.kandpal@intel.com, dianders@chromium.org,
-	dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@intel.com>,
-	Mark Yacoub <markyacoub@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 04/10] drm/hdcp: Expand HDCP helper library for
- enable/disable/check
-Message-ID: <202304120709.oF7BKZuf-lkp@intel.com>
-References: <20230411192134.508113-5-markyacoub@google.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:sendpage-1 18/18] ERROR: modpost:
+ "skb_splice_from_iter" [net/unix/unix.ko] undefined!
+Message-ID: <202304120754.136ChTTG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,67 +45,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411192134.508113-5-markyacoub@google.com>
 
-Hi Mark,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next-fixes]
-[also build test WARNING on drm/drm-next linus/master v6.3-rc6 next-20230411]
-[cannot apply to drm-tip/drm-tip drm-misc/drm-misc-next drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230411192134.508113-5-markyacoub%40google.com
-patch subject: [PATCH v9 04/10] drm/hdcp: Expand HDCP helper library for enable/disable/check
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304120709.oF7BKZuf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git sendpage-1
+head:   bba6f6c58ac9c8f61b66951059e4060b61cbd46b
+commit: bba6f6c58ac9c8f61b66951059e4060b61cbd46b [18/18] af_unix: Support MSG_SPLICE_PAGES
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230412/202304120754.136ChTTG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/972a98f65fb56b3be4370593c2b81f1283750db7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-        git checkout 972a98f65fb56b3be4370593c2b81f1283750db7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?id=bba6f6c58ac9c8f61b66951059e4060b61cbd46b
+        git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
+        git fetch --no-tags dhowells-fs sendpage-1
+        git checkout bba6f6c58ac9c8f61b66951059e4060b61cbd46b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/display/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120709.oF7BKZuf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120754.136ChTTG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/display/drm_hdcp_helper.c:675:5: warning: no previous prototype for 'drm_hdcp_helper_hdcp1_capable_dp' [-Wmissing-prototypes]
-     675 | int drm_hdcp_helper_hdcp1_capable_dp(struct drm_hdcp_helper_data *data,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/display/drm_hdcp_helper.c:1325:5: warning: no previous prototype for 'drm_hdcp_hdcp1_check_link_registers_dp' [-Wmissing-prototypes]
-    1325 | int drm_hdcp_hdcp1_check_link_registers_dp(struct drm_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/drm_hdcp_helper_hdcp1_capable_dp +675 drivers/gpu/drm/display/drm_hdcp_helper.c
-
-   674	
- > 675	int drm_hdcp_helper_hdcp1_capable_dp(struct drm_hdcp_helper_data *data,
-   676					     bool *capable)
-   677	{
-   678		int ret;
-   679		u8 bcaps;
-   680	
-   681		ret = data->display_type_funcs->remote_read(
-   682			data, data->hdcp1_lut->bcaps, &bcaps, 1);
-   683		*capable = !ret && (bcaps & DP_BCAPS_HDCP_CAPABLE);
-   684	
-   685		return 0;
-   686	}
-   687	
+>> ERROR: modpost: "skb_splice_from_iter" [net/unix/unix.ko] undefined!
+ERROR: modpost: "skb_splice_from_iter" [net/ipv6/ipv6.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
