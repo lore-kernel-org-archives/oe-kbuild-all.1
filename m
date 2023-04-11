@@ -1,45 +1,43 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090CC2F21;
-	Tue, 11 Apr 2023 21:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E022F21
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 21:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681248523; x=1712784523;
+  t=1681249725; x=1712785725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OkRr9n7IN5+gCLzREGqrv5EnTWHGCQySCekSUKKWj9g=;
-  b=VQG6SNAEDcG6kGi9RwbOoFvNSGLpspj8u8xsl5LIB9jTWCU0VuWA8LNS
-   /0lATwarcA/zTJDA492NjPYjknobLzyaLvCOWgVdZVWfF4A8hyNeacpD+
-   73DzctLr3rJy+3/aQdTtykbsOxgN+jREgYTLMwLqVqr8YUwuIR0W9bDhm
-   Dl06ud6qdF+FN9sqHv+OIm/SQjUEHs61pj53Tb56UiQhpIwZLdtvjwrJM
-   bwUBnB5F3SctXNwE/SaQv9t1FyZWJjvMEb+E4IDxUMznEYr9IAbKYPMYp
-   ro79Iljgc7GHPc9zivZh2e3i9pSufqoPxQj6Frj8TCHfWS3YqK7GJMZWN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327843445"
+  bh=DldaJ4R/Ybs+8WPeZq27udgyU1y/WOXKMsqwL5Rr7Lk=;
+  b=joKmDRLjXWyVKWUeqdPj2dmkWCW/mxL2onAXUesMNOMImoKBtmp7nhzP
+   1HHUwa6usaf6S1b/Qu4O/JdNpEcwujk9eNZWzWnMWsxCLsRcV1SdMB1Oe
+   ZT7iNCNZ+Q920byhImPu9jHW/HJWlvwcymaxFMTBRXGyMshS4skGoDQzb
+   K0ayyAvorWw1EpqJh6tCPBzRoN/xzB4DQ3/G2uFSOvLRc3U8RwGWIDi6S
+   NcwhInvMcJDDSU0hu7Pp7vema7bMDNOCh5yW4OcQmiUYfBlwk9kTXlqJx
+   QLS9ORVjHYJ+Kz5fAFdqXWF0/geXT3rVws/eAFgUi49StG+AigY4reT3u
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327846859"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="327843445"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 14:28:31 -0700
+   d="scan'208";a="327846859"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 14:48:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="832481841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="688726698"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="832481841"
+   d="scan'208";a="688726698"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2023 14:28:29 -0700
+  by orsmga002.jf.intel.com with ESMTP; 11 Apr 2023 14:48:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmLXQ-000Win-1d;
-	Tue, 11 Apr 2023 21:28:28 +0000
-Date: Wed, 12 Apr 2023 05:27:36 +0800
+	id 1pmLqn-000Wk8-0y;
+	Tue, 11 Apr 2023 21:48:29 +0000
+Date: Wed, 12 Apr 2023 05:48:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Graham Sider <Graham.Sider@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_int_process_v11.c:282:38:
- warning: variable 'sq_int_priv' set but not used
-Message-ID: <202304120540.sOOb5SKi-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/1]
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype
+ for '__pkvm_host_set_stage2_memattr'
+Message-ID: <202304120528.CxxugDJA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,155 +47,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Graham,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0d3eb744aed40ffce820cded61d7eac515199165
-commit: 664883ddde67971d59764f2dda855183ecf8bc46 drm/amdkfd: fix dropped interrupt in kfd_int_process_v11
-date:   7 months ago
-config: arm64-randconfig-r003-20230409 (https://download.01.org/0day-ci/archive/20230412/202304120540.sOOb5SKi-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   18c78ecd82b4d8522fcd2a2459af5f27f06fe9b2
+commit: 18c78ecd82b4d8522fcd2a2459af5f27f06fe9b2 [1/1] ANDROID: arm64: Implement hypervisor workaround for SoCs with DMA beyond the PoC
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230412/202304120528.CxxugDJA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=664883ddde67971d59764f2dda855183ecf8bc46
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 664883ddde67971d59764f2dda855183ecf8bc46
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 18c78ecd82b4d8522fcd2a2459af5f27f06fe9b2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120540.sOOb5SKi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120528.CxxugDJA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_int_process_v11.c:282:38: warning: variable 'sq_int_priv' set but not used [-Wunused-but-set-variable]
-           uint8_t sq_int_enc, sq_int_errtype, sq_int_priv;
-                                               ^
-   1 warning generated.
+>> arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype for '__pkvm_host_set_stage2_memattr' [-Wmissing-prototypes]
+     635 | int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/sq_int_priv +282 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_int_process_v11.c
+vim +/__pkvm_host_set_stage2_memattr +635 arch/arm64/kvm/hyp/nvhe/mem_protect.c
 
-cc009e613de656 Mukul Joshi  2022-04-26  276  
-cc009e613de656 Mukul Joshi  2022-04-26  277  static void event_interrupt_wq_v11(struct kfd_dev *dev,
-cc009e613de656 Mukul Joshi  2022-04-26  278  					const uint32_t *ih_ring_entry)
-cc009e613de656 Mukul Joshi  2022-04-26  279  {
-cc009e613de656 Mukul Joshi  2022-04-26  280  	uint16_t source_id, client_id, ring_id, pasid, vmid;
-cc009e613de656 Mukul Joshi  2022-04-26  281  	uint32_t context_id0, context_id1;
-cc009e613de656 Mukul Joshi  2022-04-26 @282  	uint8_t sq_int_enc, sq_int_errtype, sq_int_priv;
-cc009e613de656 Mukul Joshi  2022-04-26  283  	struct kfd_vm_fault_info info = {0};
-cc009e613de656 Mukul Joshi  2022-04-26  284  	struct kfd_hsa_memory_exception_data exception_data;
-cc009e613de656 Mukul Joshi  2022-04-26  285  
-cc009e613de656 Mukul Joshi  2022-04-26  286  	source_id = SOC15_SOURCE_ID_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  287  	client_id = SOC15_CLIENT_ID_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  288  	ring_id = SOC15_RING_ID_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  289  	pasid = SOC15_PASID_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  290  	vmid = SOC15_VMID_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  291  	context_id0 = SOC15_CONTEXT_ID0_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  292  	context_id1 = SOC15_CONTEXT_ID1_FROM_IH_ENTRY(ih_ring_entry);
-cc009e613de656 Mukul Joshi  2022-04-26  293  
-cc009e613de656 Mukul Joshi  2022-04-26  294  	/* VMC, UTCL2 */
-cc009e613de656 Mukul Joshi  2022-04-26  295  	if (client_id == SOC21_IH_CLIENTID_VMC ||
-cc009e613de656 Mukul Joshi  2022-04-26  296  	     ((client_id == SOC21_IH_CLIENTID_GFX) &&
-cc009e613de656 Mukul Joshi  2022-04-26  297  	     (source_id == UTCL2_1_0__SRCID__FAULT))) {
-cc009e613de656 Mukul Joshi  2022-04-26  298  
-cc009e613de656 Mukul Joshi  2022-04-26  299  		info.vmid = vmid;
-cc009e613de656 Mukul Joshi  2022-04-26  300  		info.mc_id = client_id;
-cc009e613de656 Mukul Joshi  2022-04-26  301  		info.page_addr = ih_ring_entry[4] |
-cc009e613de656 Mukul Joshi  2022-04-26  302  			(uint64_t)(ih_ring_entry[5] & 0xf) << 32;
-cc009e613de656 Mukul Joshi  2022-04-26  303  		info.prot_valid = ring_id & 0x08;
-cc009e613de656 Mukul Joshi  2022-04-26  304  		info.prot_read  = ring_id & 0x10;
-cc009e613de656 Mukul Joshi  2022-04-26  305  		info.prot_write = ring_id & 0x20;
-cc009e613de656 Mukul Joshi  2022-04-26  306  
-cc009e613de656 Mukul Joshi  2022-04-26  307  		memset(&exception_data, 0, sizeof(exception_data));
-cc009e613de656 Mukul Joshi  2022-04-26  308  		exception_data.gpu_id = dev->id;
-cc009e613de656 Mukul Joshi  2022-04-26  309  		exception_data.va = (info.page_addr) << PAGE_SHIFT;
-cc009e613de656 Mukul Joshi  2022-04-26  310  		exception_data.failure.NotPresent = info.prot_valid ? 1 : 0;
-cc009e613de656 Mukul Joshi  2022-04-26  311  		exception_data.failure.NoExecute = info.prot_exec ? 1 : 0;
-cc009e613de656 Mukul Joshi  2022-04-26  312  		exception_data.failure.ReadOnly = info.prot_write ? 1 : 0;
-cc009e613de656 Mukul Joshi  2022-04-26  313  		exception_data.failure.imprecise = 0;
-cc009e613de656 Mukul Joshi  2022-04-26  314  
-cc009e613de656 Mukul Joshi  2022-04-26  315  		/*kfd_set_dbg_ev_from_interrupt(dev, pasid, -1,
-cc009e613de656 Mukul Joshi  2022-04-26  316  					      KFD_EC_MASK(EC_DEVICE_MEMORY_VIOLATION),
-cc009e613de656 Mukul Joshi  2022-04-26  317  					      &exception_data, sizeof(exception_data));*/
-cc009e613de656 Mukul Joshi  2022-04-26  318  		kfd_smi_event_update_vmfault(dev, pasid);
-cc009e613de656 Mukul Joshi  2022-04-26  319  
-cc009e613de656 Mukul Joshi  2022-04-26  320  	/* GRBM, SDMA, SE, PMM */
-cc009e613de656 Mukul Joshi  2022-04-26  321  	} else if (client_id == SOC21_IH_CLIENTID_GRBM_CP ||
-cc009e613de656 Mukul Joshi  2022-04-26  322  		   client_id == SOC21_IH_CLIENTID_GFX) {
-cc009e613de656 Mukul Joshi  2022-04-26  323  
-cc009e613de656 Mukul Joshi  2022-04-26  324  		/* CP */
-cc009e613de656 Mukul Joshi  2022-04-26  325  		if (source_id == SOC15_INTSRC_CP_END_OF_PIPE)
-cc009e613de656 Mukul Joshi  2022-04-26  326  			kfd_signal_event_interrupt(pasid, context_id0, 32);
-cc009e613de656 Mukul Joshi  2022-04-26  327  		/*else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE)
-cc009e613de656 Mukul Joshi  2022-04-26  328  			kfd_set_dbg_ev_from_interrupt(dev, pasid,
-cc009e613de656 Mukul Joshi  2022-04-26  329  				KFD_CTXID0_DOORBELL_ID(context_id0),
-cc009e613de656 Mukul Joshi  2022-04-26  330  				KFD_EC_MASK(KFD_CTXID0_CP_BAD_OP_ECODE(context_id0)),
-cc009e613de656 Mukul Joshi  2022-04-26  331  				NULL, 0);*/
-cc009e613de656 Mukul Joshi  2022-04-26  332  
-cc009e613de656 Mukul Joshi  2022-04-26  333  		/* SDMA */
-cc009e613de656 Mukul Joshi  2022-04-26  334  		else if (source_id == SOC21_INTSRC_SDMA_TRAP)
-cc009e613de656 Mukul Joshi  2022-04-26  335  			kfd_signal_event_interrupt(pasid, context_id0 & 0xfffffff, 28);
-cc009e613de656 Mukul Joshi  2022-04-26  336  		else if (source_id == SOC21_INTSRC_SDMA_ECC) {
-cc009e613de656 Mukul Joshi  2022-04-26  337  			event_interrupt_poison_consumption_v11(dev, pasid, source_id);
-cc009e613de656 Mukul Joshi  2022-04-26  338  			return;
-cc009e613de656 Mukul Joshi  2022-04-26  339  		}
-cc009e613de656 Mukul Joshi  2022-04-26  340  
-cc009e613de656 Mukul Joshi  2022-04-26  341  		/* SQ */
-cc009e613de656 Mukul Joshi  2022-04-26  342  		else if (source_id == SOC15_INTSRC_SQ_INTERRUPT_MSG) {
-cc009e613de656 Mukul Joshi  2022-04-26  343  			sq_int_enc = REG_GET_FIELD(context_id1,
-cc009e613de656 Mukul Joshi  2022-04-26  344  					SQ_INTERRUPT_WORD_WAVE_CTXID1, ENCODING);
-cc009e613de656 Mukul Joshi  2022-04-26  345  			switch (sq_int_enc) {
-cc009e613de656 Mukul Joshi  2022-04-26  346  			case SQ_INTERRUPT_WORD_ENCODING_AUTO:
-cc009e613de656 Mukul Joshi  2022-04-26  347  				print_sq_intr_info_auto(context_id0, context_id1);
-cc009e613de656 Mukul Joshi  2022-04-26  348  				break;
-cc009e613de656 Mukul Joshi  2022-04-26  349  			case SQ_INTERRUPT_WORD_ENCODING_INST:
-cc009e613de656 Mukul Joshi  2022-04-26  350  				print_sq_intr_info_inst(context_id0, context_id1);
-cc009e613de656 Mukul Joshi  2022-04-26  351  				sq_int_priv = REG_GET_FIELD(context_id0,
-cc009e613de656 Mukul Joshi  2022-04-26  352  						SQ_INTERRUPT_WORD_WAVE_CTXID0, PRIV);
-664883ddde6797 Graham Sider 2022-09-23  353  				/*if (sq_int_priv && (kfd_set_dbg_ev_from_interrupt(dev, pasid,
-cc009e613de656 Mukul Joshi  2022-04-26  354  						KFD_CTXID0_DOORBELL_ID(context_id0),
-cc009e613de656 Mukul Joshi  2022-04-26  355  						KFD_CTXID0_TRAP_CODE(context_id0),
-664883ddde6797 Graham Sider 2022-09-23  356  						NULL, 0)))
-664883ddde6797 Graham Sider 2022-09-23  357  					return;*/
-cc009e613de656 Mukul Joshi  2022-04-26  358  				break;
-cc009e613de656 Mukul Joshi  2022-04-26  359  			case SQ_INTERRUPT_WORD_ENCODING_ERROR:
-cc009e613de656 Mukul Joshi  2022-04-26  360  				print_sq_intr_info_error(context_id0, context_id1);
-cc009e613de656 Mukul Joshi  2022-04-26  361  				sq_int_errtype = REG_GET_FIELD(context_id0,
-cc009e613de656 Mukul Joshi  2022-04-26  362  						SQ_INTERRUPT_WORD_ERROR_CTXID0, TYPE);
-cc009e613de656 Mukul Joshi  2022-04-26  363  				if (sq_int_errtype != SQ_INTERRUPT_ERROR_TYPE_ILLEGAL_INST &&
-cc009e613de656 Mukul Joshi  2022-04-26  364  				    sq_int_errtype != SQ_INTERRUPT_ERROR_TYPE_MEMVIOL) {
-cc009e613de656 Mukul Joshi  2022-04-26  365  					event_interrupt_poison_consumption_v11(
-cc009e613de656 Mukul Joshi  2022-04-26  366  							dev, pasid, source_id);
-cc009e613de656 Mukul Joshi  2022-04-26  367  					return;
-cc009e613de656 Mukul Joshi  2022-04-26  368  				}
-cc009e613de656 Mukul Joshi  2022-04-26  369  				break;
-cc009e613de656 Mukul Joshi  2022-04-26  370  			default:
-cc009e613de656 Mukul Joshi  2022-04-26  371  				break;
-cc009e613de656 Mukul Joshi  2022-04-26  372  			}
-cc009e613de656 Mukul Joshi  2022-04-26  373  			kfd_signal_event_interrupt(pasid, context_id0 & 0xffffff, 24);
-cc009e613de656 Mukul Joshi  2022-04-26  374  		}
-cc009e613de656 Mukul Joshi  2022-04-26  375  
-cc009e613de656 Mukul Joshi  2022-04-26  376  	/*} else if (KFD_IRQ_IS_FENCE(client_id, source_id)) {
-cc009e613de656 Mukul Joshi  2022-04-26  377  		kfd_process_close_interrupt_drain(pasid);*/
-cc009e613de656 Mukul Joshi  2022-04-26  378  	}
-cc009e613de656 Mukul Joshi  2022-04-26  379  }
-cc009e613de656 Mukul Joshi  2022-04-26  380  
-
-:::::: The code at line 282 was first introduced by commit
-:::::: cc009e613de6560eb499f8bc92c80a737752cb30 drm/amdkfd: Add KFD support for soc21 v3
-
-:::::: TO: Mukul Joshi <mukul.joshi@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   634	
+ > 635	int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+   636	{
+   637		kvm_pte_t pte;
+   638		int ret = 0;
+   639	
+   640		if (!static_branch_unlikely(&pkvm_force_nc))
+   641			return -ENOENT;
+   642	
+   643		phys = ALIGN_DOWN(phys, PAGE_SIZE);
+   644		hyp_spin_lock(&host_mmu.lock);
+   645	
+   646		ret = kvm_pgtable_get_leaf(&host_mmu.pgt, phys, &pte, NULL);
+   647		if (ret)
+   648			goto unlock;
+   649	
+   650		if (!addr_is_memory(phys)) {
+   651			ret = -EIO;
+   652			goto unlock;
+   653		}
+   654	
+   655		if (!kvm_pte_valid(pte) && pte) {
+   656			switch (pte) {
+   657			case DEFERRED_MEMATTR_NOTE:
+   658				break;
+   659			default:
+   660				ret = -EPERM;
+   661			}
+   662		} else if (host_get_page_state(pte, phys) != PKVM_PAGE_OWNED) {
+   663			ret = -EPERM;
+   664		}
+   665	
+   666		if (ret)
+   667			goto unlock;
+   668	
+   669		if (force_nc) {
+   670			ret = host_stage2_idmap_locked(phys, PAGE_SIZE,
+   671						       PKVM_HOST_MEM_PROT |
+   672						       KVM_PGTABLE_PROT_NC,
+   673						       false);
+   674			if (ret)
+   675				goto unlock;
+   676	
+   677			kvm_flush_dcache_to_poc(hyp_fixmap_map_nc(phys), PAGE_SIZE);
+   678			hyp_fixmap_unmap();
+   679		} else {
+   680			ret = kvm_pgtable_stage2_annotate(&host_mmu.pgt, phys,
+   681							  PAGE_SIZE, &host_s2_pool,
+   682							  DEFERRED_MEMATTR_NOTE);
+   683		}
+   684	unlock:
+   685		hyp_spin_unlock(&host_mmu.lock);
+   686		return ret;
+   687	}
+   688	
 
 -- 
 0-DAY CI Kernel Test Service
