@@ -1,50 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE6A8F6C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 17:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C713C8F6C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 17:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681232485; x=1712768485;
+  t=1681234350; x=1712770350;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=djm8bQ+Qt9WvMFf87Ox1tbM+gNLQTqi3MwetRSRW8Fk=;
-  b=EL+IzrnLSXQOBWMzelkuSHmYvQKKlTYK/qG5fTeuAJgqgdNtXjRhr1T1
-   Ogw9v1Y/94ywpvezvb+SwpTS+uGIHmRp29OGfic30rA3X2KK6Un9Z0OB2
-   NFyaydnOZl4MWpABjbenx8LMLsakeYHtZFokwH9rX1FoWQkI0WXPu1wqT
-   CHd7hlWzwAVMrJ9pd2Cwa6HNPIi4wKbSrG4DnKGZ1OGmPm13t0g9p2sS8
-   on9niai/xAAQB5QLfsTK03Y67DDwuvqbbYgYeaqO522BT71zEn8wdxCnj
-   1KrJn8NWb9ecK28WyTnTbDXmVKgu/q+cxqUwF8Pnazk98/F2t6OcG/4VX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="323305934"
+  bh=IYu2VOdyLChmKOsBaksULDPYyAcnFIA61rGyIqo32/E=;
+  b=VyDkC8je7Qo1Y0tPWZX0tdBRjaf2fkyFmrPFaoHvbalECYHfmwpN2POZ
+   2OSVTdk8nh4DD7D5cQdWyqnIPLylFpKDMx3l501/7Sorik2g3IY1YLr2A
+   tEqSz2bruk3RSA86TC3WIv1wAA+RMg7G3dxgbPlHxB/yEAELJk329QS+m
+   4tabZFJoy9nr/LBd0sCVhUyvOTcjBJ2o5WSWI/tEsCjHE+G1GVRmrbdDx
+   D8jYtZn3DyuH7EKHHJKghLOVMRGh7+afdMVvbQ03JRLrwys7Gbpw1E6B/
+   my61ywAJyaNoJ7eqRk9BWK07vsT6F13q99m9vvON7y90znHFPvmrGGYHZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="343692752"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="323305934"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 10:01:23 -0700
+   d="scan'208";a="343692752"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 10:32:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="638898583"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="832409212"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="638898583"
+   d="scan'208";a="832409212"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 11 Apr 2023 10:01:20 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2023 10:32:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmHMt-000WVv-0s;
-	Tue, 11 Apr 2023 17:01:19 +0000
-Date: Wed, 12 Apr 2023 01:01:16 +0800
+	id 1pmHqu-000WXz-1f;
+	Tue, 11 Apr 2023 17:32:20 +0000
+Date: Wed, 12 Apr 2023 01:31:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	linux-ide@vger.kernel.org, linux-um@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3] UML: pata_cs5536: fix build for X86_32 UML with
- TRACEPOINTS
-Message-ID: <202304120048.v4uqUq9Q-lkp@intel.com>
-References: <20230410011325.26850-1-rdunlap@infradead.org>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, gaurav.jain@nxp.com,
+	sahil.malhotra@nxp.com, aisheng.dong@nxp.com, V.Sethi@nxp.com
+Cc: oe-kbuild-all@lists.linux.dev, Pankaj Gupta <pankaj.gupta@nxp.com>
+Subject: Re: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
+Message-ID: <202304120141.95PmXzH6-lkp@intel.com>
+References: <20230411162536.30604-7-pankaj.gupta@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,75 +50,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230410011325.26850-1-rdunlap@infradead.org>
+In-Reply-To: <20230411162536.30604-7-pankaj.gupta@nxp.com>
 
-Hi Randy,
+Hi Pankaj,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on uml/next]
-[also build test WARNING on uml/fixes wireless-next/main wireless/main linus/master v6.3-rc6 next-20230411]
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on robh/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next soc/for-next linus/master v6.3-rc6 next-20230411]
+[cannot apply to xilinx-xlnx/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Randy-Dunlap/UML-pata_cs5536-fix-build-for-X86_32-UML-with-TRACEPOINTS/20230410-091733
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
-patch link:    https://lore.kernel.org/r/20230410011325.26850-1-rdunlap%40infradead.org
-patch subject: [PATCH v3] UML: pata_cs5536: fix build for X86_32 UML with TRACEPOINTS
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230412/202304120048.v4uqUq9Q-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230411162536.30604-7-pankaj.gupta%40nxp.com
+patch subject: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304120141.95PmXzH6-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/2782ce24954318f1698ec910691250f4d287d817
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Randy-Dunlap/UML-pata_cs5536-fix-build-for-X86_32-UML-with-TRACEPOINTS/20230410-091733
-        git checkout 2782ce24954318f1698ec910691250f4d287d817
+        git fetch --no-tags linux-review Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
+        git checkout 80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/firmware/imx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120048.v4uqUq9Q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120141.95PmXzH6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/um/../lib/msr.c:30: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Read an MSR with error handling
-   arch/x86/um/../lib/msr.c:52: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Write an MSR with error handling
-   arch/x86/um/../lib/msr.c:91: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set @bit in a MSR @msr.
-   arch/x86/um/../lib/msr.c:104: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Clear @bit in a MSR @msr.
+   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_read':
+>> drivers/firmware/imx/ele_mu.c:408:23: warning: variable 'header' set but not used [-Wunused-but-set-variable]
+     408 |         struct mu_hdr header;
+         |                       ^~~~~~
+   drivers/firmware/imx/ele_mu.c:404:29: warning: unused variable 'ele_mu_priv' [-Wunused-variable]
+     404 |         struct ele_mu_priv *ele_mu_priv = dev_ctx->priv;
+         |                             ^~~~~~~~~~~
 
 
-vim +30 arch/x86/um/../lib/msr.c
+vim +/header +408 drivers/firmware/imx/ele_mu.c
 
-22085a66c2fab6 Borislav Petkov 2014-03-09  28  
-22085a66c2fab6 Borislav Petkov 2014-03-09  29  /**
-22085a66c2fab6 Borislav Petkov 2014-03-09 @30   * Read an MSR with error handling
-22085a66c2fab6 Borislav Petkov 2014-03-09  31   *
-22085a66c2fab6 Borislav Petkov 2014-03-09  32   * @msr: MSR to read
-22085a66c2fab6 Borislav Petkov 2014-03-09  33   * @m: value to read into
-22085a66c2fab6 Borislav Petkov 2014-03-09  34   *
-22085a66c2fab6 Borislav Petkov 2014-03-09  35   * It returns read data only on success, otherwise it doesn't change the output
-22085a66c2fab6 Borislav Petkov 2014-03-09  36   * argument @m.
-22085a66c2fab6 Borislav Petkov 2014-03-09  37   *
-22085a66c2fab6 Borislav Petkov 2014-03-09  38   */
-3e7bbe15ed84e3 Zhao Xuehui     2021-04-08  39  static int msr_read(u32 msr, struct msr *m)
-22085a66c2fab6 Borislav Petkov 2014-03-09  40  {
-22085a66c2fab6 Borislav Petkov 2014-03-09  41  	int err;
-22085a66c2fab6 Borislav Petkov 2014-03-09  42  	u64 val;
-22085a66c2fab6 Borislav Petkov 2014-03-09  43  
-22085a66c2fab6 Borislav Petkov 2014-03-09  44  	err = rdmsrl_safe(msr, &val);
-22085a66c2fab6 Borislav Petkov 2014-03-09  45  	if (!err)
-22085a66c2fab6 Borislav Petkov 2014-03-09  46  		m->q = val;
-22085a66c2fab6 Borislav Petkov 2014-03-09  47  
-22085a66c2fab6 Borislav Petkov 2014-03-09  48  	return err;
-22085a66c2fab6 Borislav Petkov 2014-03-09  49  }
-22085a66c2fab6 Borislav Petkov 2014-03-09  50  
+   392	
+   393	/*
+   394	 * Read a message from the MU.
+   395	 * Blocking until a message is available.
+   396	 */
+   397	static ssize_t ele_mu_fops_read(struct file *fp, char __user *buf,
+   398					 size_t size, loff_t *ppos)
+   399	{
+   400		struct ele_mu_device_ctx *dev_ctx
+   401			= container_of(fp->private_data,
+   402				       struct ele_mu_device_ctx,
+   403				       miscdev);
+   404		struct ele_mu_priv *ele_mu_priv = dev_ctx->priv;
+   405		u32 data_size = 0, size_to_copy = 0;
+   406		struct ele_obuf_desc *b_desc;
+   407		int err;
+ > 408		struct mu_hdr header;
+   409	
+   410		devctx_dbg(dev_ctx, "read to buf %p(%ld), ppos=%lld\n", buf, size,
+   411			   ((ppos) ? *ppos : 0));
+   412	
+   413		if (down_interruptible(&dev_ctx->fops_lock))
+   414			return -EBUSY;
+   415	
+   416		if (dev_ctx->status != MU_OPENED) {
+   417			err = -EINVAL;
+   418			goto exit;
+   419		}
+   420	
+   421		/* Wait until the complete message is received on the MU. */
+   422		err = wait_event_interruptible(dev_ctx->wq, dev_ctx->pending_hdr != 0);
+   423		if (err) {
+   424			devctx_err(dev_ctx, "Err[0x%x]:Interrupted by signal.\n", err);
+   425			goto exit;
+   426		}
+   427	
+   428		devctx_dbg(dev_ctx, "%s %s\n", __func__,
+   429			   "message received, start transmit to user");
+   430	
+   431		/* Check that the size passed as argument is larger than
+   432		 * the one carried in the message.
+   433		 */
+   434		data_size = dev_ctx->temp_resp_size * sizeof(u32);
+   435		size_to_copy = data_size;
+   436		if (size_to_copy > size) {
+   437			devctx_dbg(dev_ctx, "User buffer too small (%ld < %d)\n",
+   438				   size, size_to_copy);
+   439			size_to_copy = size;
+   440		}
+   441	
+   442		/* We may need to copy the output data to user before
+   443		 * delivering the completion message.
+   444		 */
+   445		while (!list_empty(&dev_ctx->pending_out)) {
+   446			b_desc = list_first_entry_or_null(&dev_ctx->pending_out,
+   447							  struct ele_obuf_desc,
+   448							  link);
+   449			if (b_desc->out_usr_ptr && b_desc->out_ptr) {
+   450				devctx_dbg(dev_ctx, "Copy output data to user\n");
+   451				err = (int)copy_to_user(b_desc->out_usr_ptr,
+   452							b_desc->out_ptr,
+   453							b_desc->out_size);
+   454				if (err) {
+   455					devctx_err(dev_ctx,
+   456						   "Failure copying output data to user.");
+   457					err = -EFAULT;
+   458					goto exit;
+   459				}
+   460			}
+   461			__list_del_entry(&b_desc->link);
+   462			devm_kfree(dev_ctx->dev, b_desc);
+   463		}
+   464	
+   465		header = *((struct mu_hdr *) (&dev_ctx->temp_resp[0]));
+   466	
+   467		/* Copy data from the buffer */
+   468		print_hex_dump_debug("to user ", DUMP_PREFIX_OFFSET, 4, 4,
+   469				     dev_ctx->temp_resp, size_to_copy, false);
+   470		err = (int)copy_to_user(buf, dev_ctx->temp_resp, size_to_copy);
+   471		if (err) {
+   472			devctx_err(dev_ctx, "Failed to copy to user\n");
+   473			err = -EFAULT;
+   474			goto exit;
+   475		}
+   476	
+   477		err = size_to_copy;
+   478	
+   479		/* free memory allocated on the shared buffers. */
+   480		dev_ctx->secure_mem.pos = 0;
+   481		dev_ctx->non_secure_mem.pos = 0;
+   482	
+   483		dev_ctx->pending_hdr = 0;
+   484	
+   485	exit:
+   486	
+   487		up(&dev_ctx->fops_lock);
+   488		return err;
+   489	}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
