@@ -1,42 +1,46 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC09946D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 20:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942B02F21;
+	Tue, 11 Apr 2023 21:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681243589; x=1712779589;
+  t=1681247251; x=1712783251;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UfOUvuJHeut6EmXf3sCGrtWFR0/2VDiA1r8P3zkV+VE=;
-  b=WX89HjTg9z/q19XT842Nn3DH+mNdyf2zo5JEdo+KwF61+eWxMl6DBAjJ
-   i1GKS/N2xCEGwXcQfteRHhg56es6zCBfxJVWpxpGI6Xk/L8Si82TP7ls5
-   j84we0NvHUBdbvJRSigVlmysAM9nR9fp9pbybuTeA2uaPtHawtBaSldUg
-   unzfHJPJTvRhsbDpR11yPKE7lvTGQ6m6ozO2EGkB68Ewbmrh0Cmd7+OTt
-   KePx+PdFVE2Ji7qX//0sMjt6qylL51LgOiVuMMRtGAbviZzgtNAU+DFV2
-   KR7fXcFl1NVDSzYLpJbtDQPNCNVNNCU2wYTE3JNCmmp/o2fLvRm3cwQJh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="345515127"
+  bh=L0YpiPfGZgI3gQUZ+5L6kYqGodIvHw6EHvQ0ghaVqm4=;
+  b=RLWoL+zKPt/zI+TLN5PKoV6kyNg7yFVTWJDHUS8BavTp7qwnmVwFH+A5
+   1zdja36gbeZ8NIpPuLbqkgJC7xL1nmCQe2UYKSGbgCE5eyShvvPIFDa2g
+   1M2r40304lN/xGtTaWSJcSIrYUIay3c9NiQ8XTWigzWMBfyXTedozc+bx
+   sanrBQ75/t8BFGYuxGMgG479cRVvaiVz3pFqFnTwtCpkMy0AKPgHvJV1v
+   IZKLQYknFESwwRzhrW+gGcrPouGQEn42pEfbWzpkhzYhK4uDQpV+AGplp
+   3ol8rf4WtlhFGTGgO7oOBLNn8xioRscMTT0KiO4v7P5wsG5oIQTABUP2b
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346411392"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="345515127"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 13:06:28 -0700
+   d="scan'208";a="346411392"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 14:07:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="934848010"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="691303955"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="934848010"
+   d="scan'208";a="691303955"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Apr 2023 13:06:27 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Apr 2023 14:07:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmKG2-000WfZ-0i;
-	Tue, 11 Apr 2023 20:06:26 +0000
-Date: Wed, 12 Apr 2023 04:05:31 +0800
+	id 1pmLD5-000Whl-2A;
+	Tue, 11 Apr 2023 21:07:27 +0000
+Date: Wed, 12 Apr 2023 05:07:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-versatile/versatile.c:56:14: warning: no previous
- prototype for 'mmc_status'
-Message-ID: <202304120307.rabOWgH9-lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [pci:controller/qcom 17/27]
+ drivers/pci/controller/dwc/pcie-qcom.c:247:1: error: type name requires a
+ specifier or qualifier
+Message-ID: <202304120557.LijMReu1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +50,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0d3eb744aed40ffce820cded61d7eac515199165
-commit: 7036440eab3e2d47a775d4616909f8235488d714 ARM: omap1: enable multiplatform
-date:   10 months ago
-config: arm-randconfig-r023-20230411 (https://download.01.org/0day-ci/archive/20230412/202304120307.rabOWgH9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/qcom
+head:   dc8d33452b3643f4b4c33fd4492aa7ae4e8e00d6
+commit: ca0e2aad27202b971def5a3dfeffb23d80ebe350 [17/27] PCI: qcom: Add support for system suspend and resume
+config: riscv-randconfig-r036-20230409 (https://download.01.org/0day-ci/archive/20230412/202304120557.LijMReu1-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7036440eab3e2d47a775d4616909f8235488d714
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7036440eab3e2d47a775d4616909f8235488d714
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?id=ca0e2aad27202b971def5a3dfeffb23d80ebe350
+        git remote add pci https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
+        git fetch --no-tags pci controller/qcom
+        git checkout ca0e2aad27202b971def5a3dfeffb23d80ebe350
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/pci/controller/dwc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120307.rabOWgH9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120557.LijMReu1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm/mach-versatile/versatile.c:56:14: warning: no previous prototype for 'mmc_status' [-Wmissing-prototypes]
-      56 | unsigned int mmc_status(struct device *dev)
-         |              ^~~~~~~~~~
---
->> arch/arm/mach-spear/pl080.c:30:5: warning: no previous prototype for 'pl080_get_signal' [-Wmissing-prototypes]
-      30 | int pl080_get_signal(const struct pl08x_channel_data *cd)
-         |     ^~~~~~~~~~~~~~~~
->> arch/arm/mach-spear/pl080.c:65:6: warning: no previous prototype for 'pl080_put_signal' [-Wmissing-prototypes]
-      65 | void pl080_put_signal(const struct pl08x_channel_data *cd, int signal)
-         |      ^~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-qcom.c:247:1: error: type name requires a specifier or qualifier
+   +       bool suspended;
+   ^
+>> drivers/pci/controller/dwc/pcie-qcom.c:247:1: error: expected member name or ';' after declaration specifiers
+>> drivers/pci/controller/dwc/pcie-qcom.c:246:25: error: expected ';' at end of declaration list
+           struct dentry *debugfs;
+                                  ^
+                                  ;
+>> drivers/pci/controller/dwc/pcie-qcom.c:1574:9: error: no member named 'suspended' in 'struct qcom_pcie'
+                   pcie->suspended = true;
+                   ~~~~  ^
+   drivers/pci/controller/dwc/pcie-qcom.c:1585:12: error: no member named 'suspended' in 'struct qcom_pcie'
+           if (pcie->suspended) {
+               ~~~~  ^
+   drivers/pci/controller/dwc/pcie-qcom.c:1590:9: error: no member named 'suspended' in 'struct qcom_pcie'
+                   pcie->suspended = false;
+                   ~~~~  ^
+   6 errors generated.
 
 
-vim +/mmc_status +56 arch/arm/mach-versatile/versatile.c
+vim +247 drivers/pci/controller/dwc/pcie-qcom.c
 
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  55  
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08 @56  unsigned int mmc_status(struct device *dev)
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  57  {
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  58  	struct amba_device *adev = container_of(dev, struct amba_device, dev);
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  59  	u32 mask;
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  60  
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  61  	if (adev->res.start == VERSATILE_MMCI0_BASE)
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  62  		mask = 1;
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  63  	else
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  64  		mask = 2;
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  65  
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  66  	return readl(versatile_sys_base + VERSATILE_SYS_MCI_OFFSET) & mask;
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  67  }
-a7096789211193 arch/arm/mach-versatile/versatile_dt.c Rob Herring 2015-12-08  68  
-
-:::::: The code at line 56 was first introduced by commit
-:::::: a70967892111934e292485ce84f1bab38cc55380 ARM: versatile: merge mach code into a single file
-
-:::::: TO: Rob Herring <robh@kernel.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+   235	
+   236	struct qcom_pcie {
+   237		struct dw_pcie *pci;
+   238		void __iomem *parf;			/* DT parf */
+   239		void __iomem *elbi;			/* DT elbi */
+   240		void __iomem *mhi;
+   241		union qcom_pcie_resources res;
+   242		struct phy *phy;
+   243		struct gpio_desc *reset;
+   244		struct icc_path *icc_mem;
+   245		const struct qcom_pcie_cfg *cfg;
+ > 246		struct dentry *debugfs;
+ > 247	+	bool suspended;
+   248	};
+   249	
 
 -- 
 0-DAY CI Kernel Test Service
