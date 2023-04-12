@@ -1,47 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F00B6FD2;
-	Wed, 12 Apr 2023 17:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF596FD2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 17:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681320334; x=1712856334;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fg6uGIM3FM+B+1guXhrCn+MxDSVjY3zwLFWXWk63VL8=;
-  b=WYeIXId79zIONIxrd/gCFzBill4yoQlhKMTdVIY3kCPZs4byApOl5W0I
-   eLj0bT9WrHCiDjQXC9ywgPJxAfovpZjoI3zTUsUqJWV5bryv+AD/m/l14
-   N6Bm7z4AA3GhbH0VQWrP/J3mgX1h0Myt4vwmx2XFpSerrFN9+Z7byO5qF
-   xxXOEMmRmRhHBU96gISfuVEuNK0tRLUMKdcBoI03D4/ERuSUSGl+mKuG9
-   hTCmvMoKwXGsM6QeU5gkPKooe/YVfexTqQmgYzEoR2q3z6EgSjuNwVP5c
-   a+NiNPCrB6//QAabJQmRIwMMtQdIkEyQ5dyFYGoHdvTrn5w5qV/d97mES
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406794194"
+  t=1681320923; x=1712856923;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dna8GvTJPEiAW1iZuy/MM8UtsPMCLVQRzDmOYqSLUEc=;
+  b=joluwVJHMe3QgYClER94KVvPlJhQqK16tV7xmzfOTfgNjeqRR5+8Yh9a
+   EPhyaynZw60eobhJJ3ojpPn3NmxqTQHp55G8cRQqDl4MRkhE0rihiZ9Cj
+   byPNZEgo7Qi3DxmEVJY3k8eWfHDWw0IHgfvpKWqJK41rGM/sJC/EVZ8gX
+   u1zJCGBnyrZM3m04SZAGSSOaBtqg5h9PaIhF5m8x2ZQSTTC05+wxgvh69
+   uEIL6TbqGJpqET4pdzJrX4cXTVs30DvPBptUBY2Vx7BNqvcu+yZpwImYN
+   r2GFcsx6tMHqRI0OmLAU01AanqaQ44uC7Ii26zwjZ1vRdetyuJzyVxbBV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="409109876"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="406794194"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 10:25:24 -0700
+   d="scan'208";a="409109876"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 10:35:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="719468741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800423953"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="719468741"
+   d="scan'208";a="800423953"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 12 Apr 2023 10:25:20 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 Apr 2023 10:35:20 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmeDf-000XwN-0G;
-	Wed, 12 Apr 2023 17:25:19 +0000
-Date: Thu, 13 Apr 2023 01:24:41 +0800
+	id 1pmeNL-000Xwx-1q;
+	Wed, 12 Apr 2023 17:35:19 +0000
+Date: Thu, 13 Apr 2023 01:35:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baokun Li <libaokun1@huawei.com>, linux-ext4@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tytso@mit.edu,
-	adilger.kernel@dilger.ca, jack@suse.cz, ritesh.list@gmail.com,
-	linux-kernel@vger.kernel.org, yi.zhang@huawei.com,
-	yangerkun@huawei.com, yukuai3@huawei.com, libaokun1@huawei.com
-Subject: Re: [PATCH v3 6/8] ext4: make ext4_es_insert_delayed_block return
- void
-Message-ID: <202304130044.d3iOG59z-lkp@intel.com>
-References: <20230412124126.2286716-7-libaokun1@huawei.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [xilinx-xlnx:master 12090/14520] drivers/fpga/zynq-afi.c:27:
+ warning: expecting prototype for struct afi_fpga. Prototype was for struct
+ zynq_afi_fpga instead
+Message-ID: <202304130139.lWZSndko-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,112 +48,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412124126.2286716-7-libaokun1@huawei.com>
 
-Hi Baokun,
+Hi Mauro,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baokun-Li/ext4-only-update-i_reserved_data_blocks-on-successful-block-allocation/20230412-204407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230412124126.2286716-7-libaokun1%40huawei.com
-patch subject: [PATCH v3 6/8] ext4: make ext4_es_insert_delayed_block return void
-config: x86_64-randconfig-a002-20230410 (https://download.01.org/0day-ci/archive/20230413/202304130044.d3iOG59z-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
+commit: 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c [12090/14520] scripts: kernel-doc: validate kernel-doc markup with the actual names
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304130139.lWZSndko-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/87f992eeab9cd894894e27c3c6ff322cbd473ebf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Baokun-Li/ext4-only-update-i_reserved_data_blocks-on-successful-block-allocation/20230412-204407
-        git checkout 87f992eeab9cd894894e27c3c6ff322cbd473ebf
+        # https://github.com/Xilinx/linux-xlnx/commit/57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/xilinx/ drivers/fpga/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130044.d3iOG59z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130139.lWZSndko-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ext4/inode.c:1640:7: warning: variable 'reserved' set but not used [-Wunused-but-set-variable]
-           bool reserved = false;
-                ^
-   1 warning generated.
+>> drivers/fpga/zynq-afi.c:27: warning: expecting prototype for struct afi_fpga. Prototype was for struct zynq_afi_fpga instead
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHY_MTK_HDMI
+   Depends on [n]: ARCH_MEDIATEK [=n] && OF [=y]
+   Selected by [y]:
+   - DRM_MEDIATEK_HDMI [=y] && HAS_IOMEM [=y] && DRM_MEDIATEK [=y]
+   WARNING: unmet direct dependencies detected for MXC_CLK_SCU
+   Depends on [n]: COMMON_CLK [=y] && ARCH_MXC [=n] && IMX_SCU [=y] && HAVE_ARM_SMCCC [=y]
+   Selected by [y]:
+   - CLK_IMX8QXP [=y] && COMMON_CLK [=y] && (ARCH_MXC [=n] && ARM64 || COMPILE_TEST [=y]) && IMX_SCU [=y] && HAVE_ARM_SMCCC [=y]
 
 
-vim +/reserved +1640 fs/ext4/inode.c
+vim +27 drivers/fpga/zynq-afi.c
 
-df22291ff0fde0 Aneesh Kumar K.V 2008-09-08  1623  
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1624  /*
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1625   * ext4_insert_delayed_block - adds a delayed block to the extents status
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1626   *                             tree, incrementing the reserved cluster/block
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1627   *                             count or making a pending reservation
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1628   *                             where needed
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1629   *
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1630   * @inode - file containing the newly added block
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1631   * @lblk - logical block to be added
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1632   *
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1633   * Returns 0 on success, negative error code on failure.
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1634   */
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1635  static int ext4_insert_delayed_block(struct inode *inode, ext4_lblk_t lblk)
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1636  {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1637  	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
-87f992eeab9cd8 Baokun Li        2023-04-12  1638  	int ret = 0;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1639  	bool allocated = false;
-6fed83957f21ef Jeffle Xu        2021-08-23 @1640  	bool reserved = false;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1641  
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1642  	/*
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1643  	 * If the cluster containing lblk is shared with a delayed,
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1644  	 * written, or unwritten extent in a bigalloc file system, it's
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1645  	 * already been accounted for and does not need to be reserved.
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1646  	 * A pending reservation must be made for the cluster if it's
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1647  	 * shared with a written or unwritten extent and doesn't already
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1648  	 * have one.  Written and unwritten extents can be purged from the
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1649  	 * extents status tree if the system is under memory pressure, so
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1650  	 * it's necessary to examine the extent tree if a search of the
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1651  	 * extents status tree doesn't get a match.
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1652  	 */
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1653  	if (sbi->s_cluster_ratio == 1) {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1654  		ret = ext4_da_reserve_space(inode);
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1655  		if (ret != 0)   /* ENOSPC */
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1656  			goto errout;
-6fed83957f21ef Jeffle Xu        2021-08-23  1657  		reserved = true;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1658  	} else {   /* bigalloc */
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1659  		if (!ext4_es_scan_clu(inode, &ext4_es_is_delonly, lblk)) {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1660  			if (!ext4_es_scan_clu(inode,
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1661  					      &ext4_es_is_mapped, lblk)) {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1662  				ret = ext4_clu_mapped(inode,
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1663  						      EXT4_B2C(sbi, lblk));
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1664  				if (ret < 0)
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1665  					goto errout;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1666  				if (ret == 0) {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1667  					ret = ext4_da_reserve_space(inode);
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1668  					if (ret != 0)   /* ENOSPC */
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1669  						goto errout;
-6fed83957f21ef Jeffle Xu        2021-08-23  1670  					reserved = true;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1671  				} else {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1672  					allocated = true;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1673  				}
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1674  			} else {
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1675  				allocated = true;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1676  			}
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1677  		}
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1678  	}
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1679  
-87f992eeab9cd8 Baokun Li        2023-04-12  1680  	ext4_es_insert_delayed_block(inode, lblk, allocated);
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1681  errout:
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1682  	return ret;
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1683  }
-0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1684  
+503049b870e6b7 Nava kishore Manne 2018-07-31  18  
+503049b870e6b7 Nava kishore Manne 2018-07-31  19  /**
+503049b870e6b7 Nava kishore Manne 2018-07-31  20   * struct afi_fpga - AFI register description
+503049b870e6b7 Nava kishore Manne 2018-07-31  21   * @membase:	pointer to register struct
+503049b870e6b7 Nava kishore Manne 2018-07-31  22   * @afi_width:	AFI bus width to be written
+503049b870e6b7 Nava kishore Manne 2018-07-31  23   */
+503049b870e6b7 Nava kishore Manne 2018-07-31  24  struct zynq_afi_fpga {
+503049b870e6b7 Nava kishore Manne 2018-07-31  25  	void __iomem	*membase;
+503049b870e6b7 Nava kishore Manne 2018-07-31  26  	u32		afi_width;
+503049b870e6b7 Nava kishore Manne 2018-07-31 @27  };
+503049b870e6b7 Nava kishore Manne 2018-07-31  28  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: 503049b870e6b79cff0512dd0cd8456d7bde7afa fpga: zynq: Add AFI config driver
+
+:::::: TO: Nava kishore Manne <nava.manne@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@xilinx.com>
 
 -- 
 0-DAY CI Kernel Test Service
