@@ -1,191 +1,151 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE783D78
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 13:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681304915; x=1712840915;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aJFqgPnvnHlmAV8dUx/CcFUmgJFdKl8XP3e5dzH/RDs=;
-  b=CWzpJBzmttSGvFA/O9Ql+7TuyyKkX4UfWYK7NuhdGZSyd42Ifrwbhb0w
-   sy3AT+aQ28K2VwALRgdOqFZqiCMTZULjhMcErOxQULclUKhFhYSefX68c
-   KFEsLmLYrkqdzWL7SmcxPe202SHYiMT6ruhVbYxV2JEt67YriBPE671AA
-   EG8JvYQnEYE+Zb+GaETkDEgvTqK+0CXz1LJr/3BJFdYPb6HJkim49DuWE
-   qHrNw26uEwjMiWf1T5ZwHnQnt4ok4tRBDViP5FFPmpCoE8PyQLcxu1vYA
-   Y8R9nIqzm3WP3ECEEBdX1sMgGeDYhhxUBzwfCw5Ot/3DZcR9mPlZvBqV2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="409027792"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="409027792"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 06:07:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="863300100"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="863300100"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Apr 2023 06:07:10 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pmaBp-000Xjz-2m;
-	Wed, 12 Apr 2023 13:07:09 +0000
-Date: Wed, 12 Apr 2023 21:06:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:t602x/bringup 130/139]
- drivers/gpu/drm/apple/iomfb.c:150:6: warning: no previous prototype for
- 'dcp_push'
-Message-ID: <202304122004.LY6BuWQx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB985660
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 13:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1681305705; x=1712841705;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=W1YWd/ajlgzCQjykkjTTvd7zscEqaBR3mrcxNHNa3BY=;
+  b=B0GQ94V6m6F9iVidMsHd9J+5MMou9Y65FwKcH+6yVlR3xHaZUIyqR2MD
+   BYqQ1P5PHyNVCGkJRxJz8SVPXFIFGUAJaLAdhun6ilyOyMliKeJS+U/oB
+   jR+LKD6ClDVsro/iHOWQzpjeIsYCkhIGQRf0kZTmkUvurEt8pi2/T5yYU
+   A=;
+X-IronPort-AV: E=Sophos;i="5.98,339,1673913600"; 
+   d="scan'208";a="317513665"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-d23e07e8.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 13:21:39 +0000
+Received: from EX19MTAUEB002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1d-m6i4x-d23e07e8.us-east-1.amazon.com (Postfix) with ESMTPS id 4D32780F25;
+	Wed, 12 Apr 2023 13:21:37 +0000 (UTC)
+Received: from EX19MTAUEA001.ant.amazon.com (10.252.134.203) by
+ EX19MTAUEB002.ant.amazon.com (10.252.135.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 12 Apr 2023 13:21:36 +0000
+Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
+ by mail-relay.amazon.com (10.252.134.102) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 12 Apr 2023 13:21:36 +0000
+Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id E04EA20D22; Wed, 12 Apr 2023 15:21:34 +0200 (CEST)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Yujie Liu <yujie.liu@intel.com>
+CC: Greg KH <gregkh@linuxfoundation.org>, kernel test robot <lkp@intel.com>,
+	<stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH 5.4] cifs/smb3: Fix NULL pointer dereference in
+ smb2_query_info_compound()
+References: <ZC1fJiHvpbXcysXi@ec83ac1404bb> <mafs0o7o2h7o7.fsf@amazon.de>
+	<2023040539-cherub-flattered-bcc0@gregkh>
+	<2023040528-maroon-running-0fe2@gregkh> <mafs0jzyqh2sf.fsf_-_@amazon.de>
+	<2023040502-shortcut-curtly-cc96@gregkh> <ZDZh+7jJgg4DR+IA@yujie-X299>
+Date: Wed, 12 Apr 2023 15:21:34 +0200
+In-Reply-To: <ZDZh+7jJgg4DR+IA@yujie-X299> (Yujie Liu's message of "Wed, 12
+	Apr 2023 15:47:07 +0800")
+Message-ID: <mafs0h6tlb5i9.fsf_-_@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://github.com/AsahiLinux/linux t602x/bringup
-head:   c0f58e1efe55af08259ff8b5d7f1ee77e858ee2c
-commit: f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2 [130/139] drm/apple: Add support for the macOS 13.2 DCP firmware
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304122004.LY6BuWQx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux t602x/bringup
-        git checkout f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/apple/
+On Wed, Apr 12 2023, Yujie Liu wrote:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304122004.LY6BuWQx-lkp@intel.com/
+> Hi Greg, Hi Pratyush,
+>
+> On Wed, Apr 05, 2023 at 04:22:58PM +0200, Greg KH wrote:
+>> On Wed, Apr 05, 2023 at 03:33:20PM +0200, Pratyush Yadav wrote:
+>> > On Wed, Apr 05 2023, Greg KH wrote:
+>> >
+>> > > On Wed, Apr 05, 2023 at 02:26:04PM +0200, Greg KH wrote:
+>> > >> On Wed, Apr 05, 2023 at 01:47:52PM +0200, Pratyush Yadav wrote:
+>> > >> > On Wed, Apr 05 2023, kernel test robot wrote:
+>> > >> >
+>> > >> > > Hi,
+>> > >> > >
+>> > >> > > Thanks for your patch.
+>> > >> > >
+>> > >> > > FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>> > >> > >
+>> > >> > > Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+>
+> Sorry the info at here is not accurate enough. We will improve the
+> wording.
+>
+>> > >> >
+>> > >> > I think the robot should also learn to look at the 'To:' header :-)
+>> > >>
+>> > >> Nope, the robot is correct, you submitted this incorrectly.
+>> > >
+>> > > Wait, maybe, I can't tell.
+>> >
+>> > My point is that it does not matter much if stable@vger.kernel.org is in
+>> > Cc or To. It gets the email regardless. In fact, that seems quite a
+>> > common practice to me [0][1]. So I'd say it would be nice if the robot
+>> > did not needlessly complain about this.
+>> >
+>> > [0] https://lore.kernel.org/stable/20230403140414.236685532@linuxfoundation.org/
+>> > [1] https://lore.kernel.org/stable/20230403140415.140110769@linuxfoundation.org/
+>> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=87f93d82e0952da18af4d978e7d887b4c5326c0b
+>
+> This warning is not caused by "stable@vger.kernel.org is in To or Cc".
+>
+> The document at [3] gives three options for sending patches to stable,
+> and seems option 3 should apply on this patch:
+>
+> [3] https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+>
+> Option 3
+>
+> Send the patch, after verifying that it follows the above rules, to stable@vger.kernel.org. You must note the upstream commit ID in the changelog of your submission, as well as the kernel version you wish it to be applied to.
+>
+> The examples in link [0][1] have "upstream commit" in the changelog, but
+> this patch doesn't, so the robot flags a warning.
 
-All warnings (new ones prefixed by >>):
+It is entirely possible for a patch for a stable tree to not have an
+upstream commit. For example, I sent a patch recently [0] that was
+caused by a buggy backport. The patch to fix it of course would not have
+an upstream commit since upstream was correct from the get-go. The bot
+should not complain about such patches.
 
->> drivers/gpu/drm/apple/iomfb.c:150:6: warning: no previous prototype for 'dcp_push' [-Wmissing-prototypes]
-     150 | void dcp_push(struct apple_dcp *dcp, bool oob, const struct dcp_method_entry *call,
-         |      ^~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:192:5: warning: no previous prototype for 'dcp_parse_tag' [-Wmissing-prototypes]
-     192 | int dcp_parse_tag(char tag[4])
-         |     ^~~~~~~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:211:6: warning: no previous prototype for 'dcp_ack' [-Wmissing-prototypes]
-     211 | void dcp_ack(struct apple_dcp *dcp, enum dcp_context_id context)
-         |      ^~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:220:6: warning: no previous prototype for 'dcp_sleep' [-Wmissing-prototypes]
-     220 | void dcp_sleep(struct apple_dcp *dcp)
-         |      ^~~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:394:17: warning: no previous prototype for 'drm_to_dcp_rect' [-Wmissing-prototypes]
-     394 | struct dcp_rect drm_to_dcp_rect(struct drm_rect *rect)
-         |                 ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:402:5: warning: no previous prototype for 'drm_format_to_dcp' [-Wmissing-prototypes]
-     402 | u32 drm_format_to_dcp(u32 drm)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:448:26: warning: no previous prototype for 'lookup_mode' [-Wmissing-prototypes]
-     448 | struct dcp_display_mode *lookup_mode(struct apple_dcp *dcp,
-         |                          ^~~~~~~~~~~
->> drivers/gpu/drm/apple/iomfb.c:517:6: warning: no previous prototype for 'iomfb_start' [-Wmissing-prototypes]
-     517 | void iomfb_start(struct apple_dcp *dcp)
-         |      ^~~~~~~~~~~
+Funnily enough the bot did not complain there even though that patch
+also does not have an upstream commit hash. But it puts
+stable@vger.kernel.org in Cc instead of To.
 
+[0] https://lore.kernel.org/all/20230411130210.113555-1-ptyadav@amazon.de/
 
-vim +/dcp_push +150 drivers/gpu/drm/apple/iomfb.c
-
-   148	
-   149	/* Call a DCP function given by a tag */
- > 150	void dcp_push(struct apple_dcp *dcp, bool oob, const struct dcp_method_entry *call,
-   151			     u32 in_len, u32 out_len, void *data, dcp_callback_t cb,
-   152			     void *cookie)
-   153	{
-   154		enum dcp_context_id context = dcp_call_context(dcp, oob);
-   155		struct dcp_channel *ch = dcp_get_channel(dcp, context);
-   156	
-   157		struct dcp_packet_header header = {
-   158			.in_len = in_len,
-   159			.out_len = out_len,
-   160	
-   161			/* Tag is reversed due to endianness of the fourcc */
-   162			.tag[0] = call->tag[3],
-   163			.tag[1] = call->tag[2],
-   164			.tag[2] = call->tag[1],
-   165			.tag[3] = call->tag[0],
-   166		};
-   167	
-   168		u8 depth = dcp_push_depth(&ch->depth);
-   169		u16 offset = dcp_packet_start(ch, depth);
-   170	
-   171		void *out = dcp->shmem + dcp_tx_offset(context) + offset;
-   172		void *out_data = out + sizeof(header);
-   173		size_t data_len = sizeof(header) + in_len + out_len;
-   174	
-   175		memcpy(out, &header, sizeof(header));
-   176	
-   177		if (in_len > 0)
-   178			memcpy(out_data, data, in_len);
-   179	
-   180		trace_iomfb_push(dcp, call, context, offset, depth);
-   181	
-   182		ch->callbacks[depth] = cb;
-   183		ch->cookies[depth] = cookie;
-   184		ch->output[depth] = out + sizeof(header) + in_len;
-   185		ch->end[depth] = offset + ALIGN(data_len, DCP_PACKET_ALIGNMENT);
-   186	
-   187		dcp_send_message(dcp, IOMFB_ENDPOINT,
-   188				 dcpep_msg(context, data_len, offset));
-   189	}
-   190	
-   191	/* Parse a callback tag "D123" into the ID 123. Returns -EINVAL on failure. */
- > 192	int dcp_parse_tag(char tag[4])
-   193	{
-   194		u32 d[3];
-   195		int i;
-   196	
-   197		if (tag[3] != 'D')
-   198			return -EINVAL;
-   199	
-   200		for (i = 0; i < 3; ++i) {
-   201			d[i] = (u32)(tag[i] - '0');
-   202	
-   203			if (d[i] > 9)
-   204				return -EINVAL;
-   205		}
-   206	
-   207		return d[0] + (d[1] * 10) + (d[2] * 100);
-   208	}
-   209	
-   210	/* Ack a callback from the DCP */
- > 211	void dcp_ack(struct apple_dcp *dcp, enum dcp_context_id context)
-   212	{
-   213		struct dcp_channel *ch = dcp_get_channel(dcp, context);
-   214	
-   215		dcp_pop_depth(&ch->depth);
-   216		dcp_send_message(dcp, IOMFB_ENDPOINT,
-   217				 dcpep_ack(context));
-   218	}
-   219	
- > 220	void dcp_sleep(struct apple_dcp *dcp)
-   221	{
-   222		switch (dcp->fw_compat) {
-   223		case DCP_FIRMWARE_V_12_3:
-   224			iomfb_sleep_v12_3(dcp);
-   225			break;
-   226		case DCP_FIRMWARE_V_13_2:
-   227			iomfb_sleep_v13_2(dcp);
-   228			break;
-   229		default:
-   230			WARN_ONCE(true, "Unexpected firmware version: %u\n", dcp->fw_compat);
-   231			break;
-   232		}
-   233	}
-   234	
+>
+>> The robot replaces my bot (well, aguments this), and it rightfully flags
+>> many patches that are sent to stable that are not done so correctly, so
+>> that the submitter can then fix them up.  The number of "false
+>> positives" like this is pretty low, as hey, even I got it wrong when
+>> reading this "by hand".
+>
+> Thanks for the affirmation of our robot. Could you help give some
+> suggestions so we can further improve the robot to reduce "false
+> positives"? Do we still need to check "upstream commit" in changelog for
+> similar cases?
+>
+> --
+> Best Regards,
+> Yujie
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+Pratyush Yadav
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
