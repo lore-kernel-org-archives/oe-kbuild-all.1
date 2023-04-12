@@ -1,45 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9502C6FD2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 17:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD02A746F;
+	Wed, 12 Apr 2023 17:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681321594; x=1712857594;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mIg/PdOWqRtz6YIfoWbbfNd8QfS4uRg4EPBlGFTu+pE=;
-  b=hk9B0eJqs7PNYIPLBkR/0Z/oIcbsny18LBJSt+cng5f92wBhM/91hW+k
-   Jz2Zd4F7SqqPNpZBLwORj0xKFCXVxZnCpI1R8njNyuO1HeO8D6n8lPhcW
-   MzmvwE9jht2x3oRqIvTeoF1YYnEo4dWZfB9P3+aBjsG7o6UCi59XqGDgW
-   IGqFzPW79iEz77S+qr2PbRfU/aAtejy1hbAqPbDf00n6WWZOdUuf/zauT
-   vOUfNyPmgxzvKUkF69dYTsp96fWpMcvC/reveiZLXlTdQ7i+nHpX0Ri8M
-   l0w1uZu3dDCzu1rikQtLezOHaSzV6oj9ZYU9AzVr657EvvLhKcmnh7to0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406803187"
+  t=1681322183; x=1712858183;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pAPZ3pDjDhNlH6yRAG+mFXvd29vCvZ6e5uUFg1nTgew=;
+  b=Mm4m22/fH+UgiTlOlDdGzVrcPqx+0WG7ifGT8UBqnVd3B3N5kYqWcip5
+   8i4FlfRl0OL5ydXnmdpuZg9MIB+YOYcoPg5WjCz6b39veNh5Dmuc7R9hd
+   d6rdotOVyvllxcrQSdELVjzdunjcYRGN3nS9i+GQw3F8yBx+tTv0+/Dkp
+   2QC8kbhwHYn8qOIG6OCLxyTEe5LiJErMToDGGuA5ZJfzRMIecnZXWGiJp
+   +JHnr8dIdW7OQXrJhGtgqiVNaGSUMqM9D/XQ1MN/tQ6PEis7xD+hTL0ri
+   WKm9gVBVljlDy9sEHe5twdVL2E/qnCmvjqZ74qRTfYrQnpgD4NHC09fAd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="332676724"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="406803187"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 10:46:23 -0700
+   d="scan'208";a="332676724"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 10:56:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="682574205"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813080856"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="682574205"
+   d="scan'208";a="813080856"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Apr 2023 10:46:20 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Apr 2023 10:56:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmeY0-000XxZ-0A;
-	Wed, 12 Apr 2023 17:46:20 +0000
-Date: Thu, 13 Apr 2023 01:45:43 +0800
+	id 1pmehg-000Xxx-0j;
+	Wed, 12 Apr 2023 17:56:20 +0000
+Date: Thu, 13 Apr 2023 01:56:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kemeng Shi <shikemeng@huaweicloud.com>, tytso@mit.edu,
-	adilger.kernel@dilger.ca, ojaswin@linux.ibm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shikemeng@huaweicloud.com
-Subject: Re: [PATCH v2 18/19] ext4: add some kunit stub for mballoc kunit test
-Message-ID: <202304130140.2kslXTgi-lkp@intel.com>
-References: <20230412172833.2317696-19-shikemeng@huaweicloud.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:master 946/1117] drivers/spi/spi-zynqmp-gqspi.c:229:6:
+ warning: no previous prototype for function 'zynqmp_gqspi_update_stripe'
+Message-ID: <202304130122.DoBs1fgx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,168 +47,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412172833.2317696-19-shikemeng@huaweicloud.com>
 
-Hi Kemeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on next-20230412]
-[cannot apply to linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230412172833.2317696-19-shikemeng%40huaweicloud.com
-patch subject: [PATCH v2 18/19] ext4: add some kunit stub for mballoc kunit test
-config: loongarch-randconfig-r004-20230409 (https://download.01.org/0day-ci/archive/20230413/202304130140.2kslXTgi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
+commit: 754602bf2ee623dc6274c971e7e84058b70450aa [946/1117] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
+config: x86_64-randconfig-a006-20230410 (https://download.01.org/0day-ci/archive/20230413/202304130122.DoBs1fgx-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/357d528a1ead868fa038c4bfe426744ac7c34ea6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
-        git checkout 357d528a1ead868fa038c4bfe426744ac7c34ea6
+        # https://github.com/Xilinx/linux-xlnx/commit/754602bf2ee623dc6274c971e7e84058b70450aa
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 754602bf2ee623dc6274c971e7e84058b70450aa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130140.2kslXTgi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130122.DoBs1fgx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/mballoc.c: In function 'ext4_mb_mark_group_bb':
->> fs/ext4/mballoc.c:3752:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3752 |         handle_t *handle = mc->handle;
-         |         ^~~~~~~~
---
-   fs/ext4/balloc.c: In function 'ext4_get_group_desc':
->> fs/ext4/balloc.c:275:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     275 |         unsigned int group_desc;
-         |         ^~~~~~~~
-   fs/ext4/balloc.c: In function 'ext4_read_block_bitmap_nowait':
-   fs/ext4/balloc.c:435:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     435 |         struct ext4_group_desc *desc;
-         |         ^~~~~~
-   fs/ext4/balloc.c: In function 'ext4_wait_block_bitmap':
-   fs/ext4/balloc.c:538:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     538 |         struct ext4_group_desc *desc;
-         |         ^~~~~~
+   In file included from drivers/spi/spi-zynqmp-gqspi.c:26:
+   In file included from include/linux/mtd/spi-nor.h:10:
+   include/linux/mtd/cfi.h:62:2: warning: No CONFIG_MTD_CFI_Ix selected. No NOR chip support can work. [-W#warnings]
+   #warning No CONFIG_MTD_CFI_Ix selected. No NOR chip support can work.
+    ^
+>> drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for function 'zynqmp_gqspi_update_stripe' [-Wmissing-prototypes]
+   bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+        ^
+   drivers/spi/spi-zynqmp-gqspi.c:229:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+   ^
+   static 
+   In file included from drivers/spi/spi-zynqmp-gqspi.c:13:
+   include/linux/firmware/xlnx-zynqmp.h:1249:12: warning: unused function 'zynqmp_pm_sec_read_reg' [-Wunused-function]
+   static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
+              ^
+   include/linux/firmware/xlnx-zynqmp.h:1254:12: warning: unused function 'zynqmp_pm_sec_mask_write_reg' [-Wunused-function]
+   static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
+              ^
+   include/linux/firmware/xlnx-zynqmp.h:1324:12: warning: unused function 'zynqmp_pm_fpga_get_version' [-Wunused-function]
+   static int zynqmp_pm_fpga_get_version(u32 *value)
+              ^
+   include/linux/firmware/xlnx-zynqmp.h:1329:12: warning: unused function 'zynqmp_pm_fpga_get_feature_list' [-Wunused-function]
+   static int zynqmp_pm_fpga_get_feature_list(u32 *value)
+              ^
+   include/linux/firmware/xlnx-zynqmp.h:1334:12: warning: unused function 'versal_pm_sha_hash' [-Wunused-function]
+   static int versal_pm_sha_hash(const u64 src, const u64 dst, const u32 size)
+              ^
+   7 warnings generated.
 
 
-vim +3752 fs/ext4/mballoc.c
+vim +/zynqmp_gqspi_update_stripe +229 drivers/spi/spi-zynqmp-gqspi.c
 
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3743  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3744  static int
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3745  ext4_mb_mark_group_bb(struct ext4_mark_context *mc, ext4_group_t group,
-a760807c4967d7 Kemeng Shi 2023-04-13  3746  		      ext4_grpblk_t blkoff, ext4_grpblk_t len, int flags)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3747  {
-357d528a1ead86 Kemeng Shi 2023-04-13  3748  #ifdef CONFIG_EXT4_KUNIT_TESTS
-357d528a1ead86 Kemeng Shi 2023-04-13  3749  	KUNIT_STATIC_STUB_REDIRECT(ext4_mb_mark_group_bb,
-357d528a1ead86 Kemeng Shi 2023-04-13  3750  				   mc, group, blkoff, len, flags);
-357d528a1ead86 Kemeng Shi 2023-04-13  3751  #endif
-a760807c4967d7 Kemeng Shi 2023-04-13 @3752  	handle_t *handle = mc->handle;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3753  	struct super_block *sb = mc->sb;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3754  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3755  	struct buffer_head *bitmap_bh = NULL;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3756  	struct ext4_group_desc *gdp;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3757  	struct buffer_head *gdp_bh;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3758  	int err;
-a760807c4967d7 Kemeng Shi 2023-04-13  3759  	unsigned int i, already, changed = len;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3760  
-a760807c4967d7 Kemeng Shi 2023-04-13  3761  	mc->changed = 0;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3762  	bitmap_bh = ext4_read_block_bitmap(sb, group);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3763  	if (IS_ERR(bitmap_bh))
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3764  		return PTR_ERR(bitmap_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3765  
-a760807c4967d7 Kemeng Shi 2023-04-13  3766  	if (handle) {
-a760807c4967d7 Kemeng Shi 2023-04-13  3767  		BUFFER_TRACE(bitmap_bh, "getting write access");
-a760807c4967d7 Kemeng Shi 2023-04-13  3768  		err = ext4_journal_get_write_access(handle, sb, bitmap_bh,
-a760807c4967d7 Kemeng Shi 2023-04-13  3769  						    EXT4_JTR_NONE);
-a760807c4967d7 Kemeng Shi 2023-04-13  3770  		if (err)
-a760807c4967d7 Kemeng Shi 2023-04-13  3771  			goto out_err;
-a760807c4967d7 Kemeng Shi 2023-04-13  3772  	}
-a760807c4967d7 Kemeng Shi 2023-04-13  3773  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3774  	err = -EIO;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3775  	gdp = ext4_get_group_desc(sb, group, &gdp_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3776  	if (!gdp)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3777  		goto out_err;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3778  
-a760807c4967d7 Kemeng Shi 2023-04-13  3779  	if (handle) {
-a760807c4967d7 Kemeng Shi 2023-04-13  3780  		BUFFER_TRACE(gdp_bh, "get_write_access");
-a760807c4967d7 Kemeng Shi 2023-04-13  3781  		err = ext4_journal_get_write_access(handle, sb, gdp_bh,
-a760807c4967d7 Kemeng Shi 2023-04-13  3782  						    EXT4_JTR_NONE);
-a760807c4967d7 Kemeng Shi 2023-04-13  3783  		if (err)
-a760807c4967d7 Kemeng Shi 2023-04-13  3784  			goto out_err;
-a760807c4967d7 Kemeng Shi 2023-04-13  3785  	}
-a760807c4967d7 Kemeng Shi 2023-04-13  3786  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3787  	ext4_lock_group(sb, group);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3788  	if (ext4_has_group_desc_csum(sb) &&
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3789  	    (gdp->bg_flags & cpu_to_le16(EXT4_BG_BLOCK_UNINIT))) {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3790  		gdp->bg_flags &= cpu_to_le16(~EXT4_BG_BLOCK_UNINIT);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3791  		ext4_free_group_clusters_set(sb, gdp,
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3792  			ext4_free_clusters_after_init(sb, group, gdp));
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3793  	}
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3794  
-a760807c4967d7 Kemeng Shi 2023-04-13  3795  	if (flags & EXT4_MB_BITMAP_MARKED_CHECK) {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3796  		already = 0;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3797  		for (i = 0; i < len; i++)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3798  			if (mb_test_bit(blkoff + i, bitmap_bh->b_data) ==
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3799  					mc->state)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3800  				already++;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3801  		changed = len - already;
-a760807c4967d7 Kemeng Shi 2023-04-13  3802  	}
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3803  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3804  	if (mc->state) {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3805  		mb_set_bits(bitmap_bh->b_data, blkoff, len);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3806  		ext4_free_group_clusters_set(sb, gdp,
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3807  			ext4_free_group_clusters(sb, gdp) - changed);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3808  	} else {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3809  		mb_clear_bits(bitmap_bh->b_data, blkoff, len);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3810  		ext4_free_group_clusters_set(sb, gdp,
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3811  			ext4_free_group_clusters(sb, gdp) + changed);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3812  	}
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3813  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3814  	ext4_block_bitmap_csum_set(sb, gdp, bitmap_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3815  	ext4_group_desc_csum_set(sb, group, gdp);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3816  	ext4_unlock_group(sb, group);
-a760807c4967d7 Kemeng Shi 2023-04-13  3817  	mc->changed = changed;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3818  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3819  	if (sbi->s_log_groups_per_flex) {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3820  		ext4_group_t flex_group = ext4_flex_group(sbi, group);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3821  		struct flex_groups *fg = sbi_array_rcu_deref(sbi,
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3822  					   s_flex_groups, flex_group);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3823  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3824  		if (mc->state)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3825  			atomic64_sub(changed, &fg->free_clusters);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3826  		else
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3827  			atomic64_add(changed, &fg->free_clusters);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3828  	}
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3829  
-a760807c4967d7 Kemeng Shi 2023-04-13  3830  	err = ext4_handle_dirty_metadata(handle, NULL, bitmap_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3831  	if (err)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3832  		goto out_err;
-a760807c4967d7 Kemeng Shi 2023-04-13  3833  	err = ext4_handle_dirty_metadata(handle, NULL, gdp_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3834  	if (err)
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3835  		goto out_err;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3836  
-a760807c4967d7 Kemeng Shi 2023-04-13  3837  	if (flags & EXT4_MB_SYNC_UPDATE) {
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3838  		sync_dirty_buffer(bitmap_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3839  		sync_dirty_buffer(gdp_bh);
-a760807c4967d7 Kemeng Shi 2023-04-13  3840  	}
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3841  
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3842  out_err:
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3843  	brelse(bitmap_bh);
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3844  	return err;
-80cb2f14af5f5f Kemeng Shi 2023-04-13  3845  }
-c9de560ded61fa Alex Tomas 2008-01-29  3846  
+   221	
+   222	/**
+   223	 * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
+   224	 * @op:	Pointer to mem ops
+   225	 * Return:      Status of the data stripe
+   226	 *
+   227	 * Returns true if data stripe need to be enabled, else returns false
+   228	 */
+ > 229	bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+   230	{
+   231		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
+   232		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
+   233		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
+   234		    op->cmd.opcode ==  SPINOR_OP_SE ||
+   235		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
+   236		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
+   237		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
+   238		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
+   239		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
+   240		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
+   241			return false;
+   242	
+   243		return true;
+   244	}
+   245	
 
 -- 
 0-DAY CI Kernel Test Service
