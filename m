@@ -1,201 +1,191 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DCD3C02
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 12:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE783D78
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 13:08:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681302202; x=1712838202;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=1EJex8x8ciCNp6uon3in+03iC1ntdxjeD1v/t4PwYFs=;
-  b=hU9NH5QCkHNXxd7++Rwr68VMb/LRd5WDm5DxXopdB0cNwRsW1YySGdYe
-   j0ixD81aUAhH5XoG2FQv5WHZLxg/UqVnjvueQJ0VJeFotFRwVN8sKxOG5
-   CTafD8QtgjimGEuwc6KipLH9IhApOiM0d9zZfdGioSr75G3FDQ8s+G33w
-   rvplFD6zW3W9IH5TBnxBSdrS3b3X69DxCfpSfrFld+HG1LM/bChqe7Kus
-   DPs+dsNCcVcrhf8sh0WBH62WK028JTzX1Q4P9C7kY2inw/Kpt3QI6B6AL
-   qPymxSWZYI70M9ArrocupuuRNR2U40PM7/RJ4vl88epTM+ZzpNE78zQ10
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="343881923"
+  t=1681304915; x=1712840915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aJFqgPnvnHlmAV8dUx/CcFUmgJFdKl8XP3e5dzH/RDs=;
+  b=CWzpJBzmttSGvFA/O9Ql+7TuyyKkX4UfWYK7NuhdGZSyd42Ifrwbhb0w
+   sy3AT+aQ28K2VwALRgdOqFZqiCMTZULjhMcErOxQULclUKhFhYSefX68c
+   KFEsLmLYrkqdzWL7SmcxPe202SHYiMT6ruhVbYxV2JEt67YriBPE671AA
+   EG8JvYQnEYE+Zb+GaETkDEgvTqK+0CXz1LJr/3BJFdYPb6HJkim49DuWE
+   qHrNw26uEwjMiWf1T5ZwHnQnt4ok4tRBDViP5FFPmpCoE8PyQLcxu1vYA
+   Y8R9nIqzm3WP3ECEEBdX1sMgGeDYhhxUBzwfCw5Ot/3DZcR9mPlZvBqV2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="409027792"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="343881923"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 05:23:20 -0700
+   d="scan'208";a="409027792"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 06:07:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="666327763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="863300100"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="666327763"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga006.jf.intel.com with ESMTP; 12 Apr 2023 05:23:19 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 12 Apr 2023 05:23:19 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 12 Apr 2023 05:23:19 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 12 Apr 2023 05:23:19 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 12 Apr 2023 05:23:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sc544GK9iwjBPn0RtRcywvMEXQCOcoKapr2qIx3V73kA2ypP+qxRqpgTtQO1UBeZXydAiJcX4Ri7QZQy1VxIpj155ZwM1zVPTo9a4t4FOZ1ml3s4tk30mS1z03hxU9KIXtIS1drP5BJ3odtjcocPmMxOGuLH4BJNa0/enGA+cNvqZUjLuJnxJ4G3hGBG95c934FFrStcRE7rS4F6T0pKVVxluVtMMvWxi4DV8Vc9XvvfMs7ejhDOVveJUar57rS03AJuAfTgPhHZKC+G1NiuvBl3aQWKM4BIUAEuxzE8W4R5h/5mqx8p3JeBW6JC79sZqOXRJ3X1PePfIiX10TslHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XmwAMKJI189SwBwavBjreB7HEQzxmfRpCTPAsLjix1o=;
- b=K+X7txivV2SLBvrz/TaLDuUG3nnX5cezF0T3w9o3+om/eY3/pEM4j1AfyAAQ740UZ3Q6iV4X3z0DlVel/iJNtWISOfWvrEOKEW14b/v0lBQES3KMinBW8FwsDms9TV/iL+OOzrM9xbVWPHF/qRI/tzBAEotzpQVB1mx0XAbooap/VhIDY2sk8CiQdgyjK/3l2jNZaI4zg/L8HviiSkT4YIZOPWTbOFN9aqRGrnWWXEDEG/ntqPNSJChOWyxkBVHpSwwHxiGcGVuDWN23YhThgnkUJ6+qvPgdKpiuL1bxbnie27+49cdgNRCaSaiMURbRUVAHkpRnP2TNBB1/pZOOrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by SN7PR11MB6850.namprd11.prod.outlook.com (2603:10b6:806:2a2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.36; Wed, 12 Apr
- 2023 12:23:16 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::b4ed:b620:b6f7:f1a7]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::b4ed:b620:b6f7:f1a7%6]) with mapi id 15.20.6277.038; Wed, 12 Apr 2023
- 12:23:16 +0000
-Date: Wed, 12 Apr 2023 20:23:05 +0800
-From: Philip Li <philip.li@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <x86@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>
-Subject: Re: [tip:locking/rcuref 2/2]
- arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates
- bits from constant value (ffffffffe0000000 becomes 0)
-Message-ID: <ZDaiqQ/6cFIr3Rnt@rli9-mobl>
-References: <202304121909.hsRwqwP8-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202304121909.hsRwqwP8-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="863300100"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 12 Apr 2023 06:07:10 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pmaBp-000Xjz-2m;
+	Wed, 12 Apr 2023 13:07:09 +0000
+Date: Wed, 12 Apr 2023 21:06:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:t602x/bringup 130/139]
+ drivers/gpu/drm/apple/iomfb.c:150:6: warning: no previous prototype for
+ 'dcp_push'
+Message-ID: <202304122004.LY6BuWQx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB6850:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad7ac49e-f32b-4d58-d44b-08db3b50b0c9
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: flY7kRAXpg3H7caCr3+TpBdEDgU+MI+q3MWH6mAZ21vIh3jhhMZgZ+026yAyS5B+cA1hYRVyMqw28wna2gr3eynzPrlUcVJb6u0nhVjApyh2O/vgMI6UxWqlc59IHrqMFNK8VuuX6iUtYfk+bDtbhlcTaWF9nsy2R1u8C3jO9GBOT3FHpLsh1ajTBnfW5uMznUj45OLdIJfk7fl/9bldP/mb/oDiXeEwZvuNfVtfTw6usRwwqetw5irYV7CAdiIUK+SsQvuGgXRrkbbeZ+QroDFBtxZCTWW8XqITOG9sCVW8MB3HhuhXsb6HSm6+KtKLupyDghDPsBhLHV7VMRbvaljaMV2fenOdGXUvFDrQ0li7An2GtRxdNc7JvHtKNGsI22EeSRMebSn32j2UqcjhyvzG08xZ5E0oC1Ditnrmn6yYA5pMWy4xIcTwANUKHfsIBm0tH6sNs5oeLqXBn9WH7qAnojoSgZauz9IoR2J0yZ26oEElfHdZgEnWTMvlo8SdowlprDx4t+kgVreTY7Yw+guI4nZ85p9pVM6aw/u0rs5Hg57aHjNvtp0cr1iH6xBZAXj2XyM64pqeZN2yVrOrzA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(136003)(396003)(376002)(346002)(39860400002)(366004)(451199021)(6486002)(478600001)(6666004)(6636002)(4326008)(66476007)(966005)(54906003)(66556008)(66946007)(41300700001)(316002)(86362001)(6512007)(26005)(6506007)(9686003)(6862004)(44832011)(8936002)(8676002)(33716001)(5660300002)(38100700002)(2906002)(186003)(82960400001)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KJO4SfK4c+1dWu39KBSBIBAjwycF5M7sDXUO2WAs1CnLdGtwoQpXuOPBtekb?=
- =?us-ascii?Q?mD4A5ZzyGQpHVsfXRWgg7gc3EK1io0Lj3NBhypJTMhU7cX4LuBL9jxd94Dr6?=
- =?us-ascii?Q?JBlmlPDxhNAuaoQfaqw2loYKLCzNQw45CH/mbV+jgZXJ4NLcT9aF4OC9gglc?=
- =?us-ascii?Q?CSSs4NbYkQ4YDJOBdC1CXTa+g0PvIllrUm+S+R0Wp2nfLv4b4Tlt6cbAdQT+?=
- =?us-ascii?Q?MdpwrpE5y/L+pWb2GJRS87R/acO6PEohOA7wenodJiVTgdS7ST21orur2FFi?=
- =?us-ascii?Q?x38ctFNQxZmtnD5dmW1IZ7T22t9Ie4BUyw6gGEeFLMlFoOW1jTOy90opOYrz?=
- =?us-ascii?Q?lc8Cwor4RVbJG/sc0eHAAHnPPEqraz29AZTtoIihph5PXA2Y261GB0wKqlEv?=
- =?us-ascii?Q?T4BVqwcWQtcJspdXT5r7HqQ/nsBZxfp5/0Qv9sP7sBWObl0IijEDPeemGYta?=
- =?us-ascii?Q?FX+EfplvOhXPlppv65wgH4YIvdmyNTEj8ES2HzIA7jEozuDLvZuVzULouMZh?=
- =?us-ascii?Q?1MyG1F5uNF9TBOGj1b0wkmCGbH6MSaSiKb49Uhm6hARgIkJvWXaw0XzYdCOl?=
- =?us-ascii?Q?bpT6ZePQKGiohOWD1uEbzC/VmKd8RVfI5d2T+OEHHdORe3wg+IVmcGHIy5lK?=
- =?us-ascii?Q?LgdEdpNtDUcDd8XRkJwsjmavtPJNtsErLLmytJViX4yPcZ/UkTzpZ5IC1zJJ?=
- =?us-ascii?Q?LukxsrU6nER8zF2EUnfIL2A4upfcmyYXZDEhvD19ptqoPmeRJtP0HWAOc3S3?=
- =?us-ascii?Q?uU9JSeThYQQUlcu1KGRiIJfFTilnnrWso/crW6pxF6Tmh5KTjsBkdSUvOZ+v?=
- =?us-ascii?Q?G4b+KjlMNiSm1NBg+dZI+k2Yr3mMOWyaRuxurQDrP67Pkll57z5UIjostRT5?=
- =?us-ascii?Q?ULL2bxQEcjiXPlUaI4l2XogFe9lxlPhcWb7wnqlktwOXxLl8JYW4vSb92Akb?=
- =?us-ascii?Q?owLfRdidwWsfp210XTyQGVFVW3Fqq2zEYoUuQfosDvY6hVibIcj33wWkj3Et?=
- =?us-ascii?Q?kCPBxiBxhgjtsdkM2PnTfJAf2ILLKrGd0x0R1ZLou4kjjsoxQyIAJkBnzKuy?=
- =?us-ascii?Q?TsnniVUB2qY9fGNpzca0dTFhtCRt+jZCcImYwMd+x1lqYNcXipWXbDXfNEor?=
- =?us-ascii?Q?dE7Ew44WqeqFe5OLkZ7+qCgX4n0PHMvzQfzvk+sa/jwioVmfBtQeRrQSPcRx?=
- =?us-ascii?Q?xhKOhn1SrS0mtgalQoXZ6MeW3SY9oukbl+9YhC0YMXMPIXubfOa2x59+DrbB?=
- =?us-ascii?Q?HtjeH6h8Ly7le2i/menCmI9Rko7XTQln4V+iGWXePNmey2G8uxgabqMfPD3N?=
- =?us-ascii?Q?Qm6rRZ6r0vPR+5ocwVRx+lzbXRpTEO31HbK+leELmSJZHMfec9yIxoz0itI4?=
- =?us-ascii?Q?lYK6WkK4hiE+8vc5gTsX5B3SQU4lAonpyQR5hyEspIIIS9ggEPXEGgzWb9ev?=
- =?us-ascii?Q?I6QzHf4PlS5cfcks/quxJBE0tLQrfNRHUpVzX7JqsE51bZyl6MFIxm8IItFG?=
- =?us-ascii?Q?HN39kJhmx7utl3YQYvdTNjHk/uWnIu9b1/INUvIOzW5rnP3jeY858JHJmCH3?=
- =?us-ascii?Q?FsWMZhhIBr7wnMxGQ073wh8eSn1clurorX8XDL6b?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad7ac49e-f32b-4d58-d44b-08db3b50b0c9
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 12:23:15.6241
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 73PVbntsGxKG+36W8zm/qIXXIi7HTQQSepnSRp06+xf850ZTdaRCxiGRygPpG1XiLr604p5MJ1fVQLf/LApNIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6850
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Apr 12, 2023 at 07:54:59PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/rcuref
-> head:   ee1ee6db07795d9637bc5e8993a8ddcf886541ef
-> commit: ee1ee6db07795d9637bc5e8993a8ddcf886541ef [2/2] atomics: Provide rcuref - scalable reference counting
-> config: sparc-randconfig-s053-20230409 (https://download.01.org/0day-ci/archive/20230412/202304121909.hsRwqwP8-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 12.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=ee1ee6db07795d9637bc5e8993a8ddcf886541ef
->         git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
->         git fetch --no-tags tip locking/rcuref
->         git checkout ee1ee6db07795d9637bc5e8993a8ddcf886541ef
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304121909.hsRwqwP8-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    lib/rcuref.c: note: in included file (through arch/sparc/include/asm/cmpxchg.h, arch/sparc/include/asm/atomic_64.h, arch/sparc/include/asm/atomic.h, ...):
-> >> arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates bits from constant value (ffffffffe0000000 becomes 0)
+tree:   https://github.com/AsahiLinux/linux t602x/bringup
+head:   c0f58e1efe55af08259ff8b5d7f1ee77e858ee2c
+commit: f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2 [130/139] drm/apple: Add support for the macOS 13.2 DCP firmware
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304122004.LY6BuWQx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux t602x/bringup
+        git checkout f0208e6a49f9796ccb04b0c49f4e3d61a22e9ad2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/apple/
 
-Kindly ignore this, which is a duplication to the input at https://lore.kernel.org/oe-kbuild-all/87k000kuca.ffs@tglx/.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304122004.LY6BuWQx-lkp@intel.com/
 
-We will update the robot to avoid sending the report against this change.
+All warnings (new ones prefixed by >>):
 
-Thanks
+>> drivers/gpu/drm/apple/iomfb.c:150:6: warning: no previous prototype for 'dcp_push' [-Wmissing-prototypes]
+     150 | void dcp_push(struct apple_dcp *dcp, bool oob, const struct dcp_method_entry *call,
+         |      ^~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:192:5: warning: no previous prototype for 'dcp_parse_tag' [-Wmissing-prototypes]
+     192 | int dcp_parse_tag(char tag[4])
+         |     ^~~~~~~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:211:6: warning: no previous prototype for 'dcp_ack' [-Wmissing-prototypes]
+     211 | void dcp_ack(struct apple_dcp *dcp, enum dcp_context_id context)
+         |      ^~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:220:6: warning: no previous prototype for 'dcp_sleep' [-Wmissing-prototypes]
+     220 | void dcp_sleep(struct apple_dcp *dcp)
+         |      ^~~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:394:17: warning: no previous prototype for 'drm_to_dcp_rect' [-Wmissing-prototypes]
+     394 | struct dcp_rect drm_to_dcp_rect(struct drm_rect *rect)
+         |                 ^~~~~~~~~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:402:5: warning: no previous prototype for 'drm_format_to_dcp' [-Wmissing-prototypes]
+     402 | u32 drm_format_to_dcp(u32 drm)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:448:26: warning: no previous prototype for 'lookup_mode' [-Wmissing-prototypes]
+     448 | struct dcp_display_mode *lookup_mode(struct apple_dcp *dcp,
+         |                          ^~~~~~~~~~~
+>> drivers/gpu/drm/apple/iomfb.c:517:6: warning: no previous prototype for 'iomfb_start' [-Wmissing-prototypes]
+     517 | void iomfb_start(struct apple_dcp *dcp)
+         |      ^~~~~~~~~~~
 
-> 
-> vim +161 arch/sparc/include/asm/cmpxchg_64.h
-> 
-> d550bbd40c0e10 David Howells 2012-03-28  155  
-> d550bbd40c0e10 David Howells 2012-03-28  156  static inline unsigned long
-> d550bbd40c0e10 David Howells 2012-03-28  157  __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
-> d550bbd40c0e10 David Howells 2012-03-28  158  {
-> d550bbd40c0e10 David Howells 2012-03-28  159  	switch (size) {
-> a12ee2349312d7 Babu Moger    2017-05-24  160  		case 1:
-> a12ee2349312d7 Babu Moger    2017-05-24 @161  			return __cmpxchg_u8(ptr, old, new);
-> d550bbd40c0e10 David Howells 2012-03-28  162  		case 4:
-> d550bbd40c0e10 David Howells 2012-03-28  163  			return __cmpxchg_u32(ptr, old, new);
-> d550bbd40c0e10 David Howells 2012-03-28  164  		case 8:
-> d550bbd40c0e10 David Howells 2012-03-28  165  			return __cmpxchg_u64(ptr, old, new);
-> d550bbd40c0e10 David Howells 2012-03-28  166  	}
-> d550bbd40c0e10 David Howells 2012-03-28  167  	__cmpxchg_called_with_bad_pointer();
-> d550bbd40c0e10 David Howells 2012-03-28  168  	return old;
-> d550bbd40c0e10 David Howells 2012-03-28  169  }
-> d550bbd40c0e10 David Howells 2012-03-28  170  
-> 
-> :::::: The code at line 161 was first introduced by commit
-> :::::: a12ee2349312d7112b9b7c6ac2e70c5ec2ca334e arch/sparc: Introduce cmpxchg_u8 SPARC
-> 
-> :::::: TO: Babu Moger <babu.moger@oracle.com>
-> :::::: CC: David S. Miller <davem@davemloft.net>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
+
+vim +/dcp_push +150 drivers/gpu/drm/apple/iomfb.c
+
+   148	
+   149	/* Call a DCP function given by a tag */
+ > 150	void dcp_push(struct apple_dcp *dcp, bool oob, const struct dcp_method_entry *call,
+   151			     u32 in_len, u32 out_len, void *data, dcp_callback_t cb,
+   152			     void *cookie)
+   153	{
+   154		enum dcp_context_id context = dcp_call_context(dcp, oob);
+   155		struct dcp_channel *ch = dcp_get_channel(dcp, context);
+   156	
+   157		struct dcp_packet_header header = {
+   158			.in_len = in_len,
+   159			.out_len = out_len,
+   160	
+   161			/* Tag is reversed due to endianness of the fourcc */
+   162			.tag[0] = call->tag[3],
+   163			.tag[1] = call->tag[2],
+   164			.tag[2] = call->tag[1],
+   165			.tag[3] = call->tag[0],
+   166		};
+   167	
+   168		u8 depth = dcp_push_depth(&ch->depth);
+   169		u16 offset = dcp_packet_start(ch, depth);
+   170	
+   171		void *out = dcp->shmem + dcp_tx_offset(context) + offset;
+   172		void *out_data = out + sizeof(header);
+   173		size_t data_len = sizeof(header) + in_len + out_len;
+   174	
+   175		memcpy(out, &header, sizeof(header));
+   176	
+   177		if (in_len > 0)
+   178			memcpy(out_data, data, in_len);
+   179	
+   180		trace_iomfb_push(dcp, call, context, offset, depth);
+   181	
+   182		ch->callbacks[depth] = cb;
+   183		ch->cookies[depth] = cookie;
+   184		ch->output[depth] = out + sizeof(header) + in_len;
+   185		ch->end[depth] = offset + ALIGN(data_len, DCP_PACKET_ALIGNMENT);
+   186	
+   187		dcp_send_message(dcp, IOMFB_ENDPOINT,
+   188				 dcpep_msg(context, data_len, offset));
+   189	}
+   190	
+   191	/* Parse a callback tag "D123" into the ID 123. Returns -EINVAL on failure. */
+ > 192	int dcp_parse_tag(char tag[4])
+   193	{
+   194		u32 d[3];
+   195		int i;
+   196	
+   197		if (tag[3] != 'D')
+   198			return -EINVAL;
+   199	
+   200		for (i = 0; i < 3; ++i) {
+   201			d[i] = (u32)(tag[i] - '0');
+   202	
+   203			if (d[i] > 9)
+   204				return -EINVAL;
+   205		}
+   206	
+   207		return d[0] + (d[1] * 10) + (d[2] * 100);
+   208	}
+   209	
+   210	/* Ack a callback from the DCP */
+ > 211	void dcp_ack(struct apple_dcp *dcp, enum dcp_context_id context)
+   212	{
+   213		struct dcp_channel *ch = dcp_get_channel(dcp, context);
+   214	
+   215		dcp_pop_depth(&ch->depth);
+   216		dcp_send_message(dcp, IOMFB_ENDPOINT,
+   217				 dcpep_ack(context));
+   218	}
+   219	
+ > 220	void dcp_sleep(struct apple_dcp *dcp)
+   221	{
+   222		switch (dcp->fw_compat) {
+   223		case DCP_FIRMWARE_V_12_3:
+   224			iomfb_sleep_v12_3(dcp);
+   225			break;
+   226		case DCP_FIRMWARE_V_13_2:
+   227			iomfb_sleep_v13_2(dcp);
+   228			break;
+   229		default:
+   230			WARN_ONCE(true, "Unexpected firmware version: %u\n", dcp->fw_compat);
+   231			break;
+   232		}
+   233	}
+   234	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
