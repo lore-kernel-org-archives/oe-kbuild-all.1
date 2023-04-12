@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6B52F2C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 08:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD36F2F3B;
+	Wed, 12 Apr 2023 09:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681289470; x=1712825470;
+  t=1681291326; x=1712827326;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZNSKIOsv4303HQo6iEcKD4yg+O+v+kZTlY6YIryqc1s=;
-  b=WKK04hbZTPWe0oj7YltYhLW3RryP0sm5XFSz2TlzsklqUtvbs00p4X0y
-   RNrtjuhxym/l+Up3gQhL+vQ3tdyJqwYytKTOWgKv7R6sA78CB6iT6EoeA
-   UYQFAiiEt60JKThmGXuc5t8wdlVBtvPy7ajgrt/13X03njVXPWabQPNdy
-   5XV720tggsppT+zN3nHC5QVunhMAVc3D0KT4zJYWxq5HdybMyMczTuqDf
-   Wk7EkyMb8OgDeRqu8EAMR/9zVkSBLM7Zet0aXL21LKR6FhiCa8TZgfRBh
-   3XvgAWE9p2BimaBxyfpw9+7Cfm8Gc6Hkyu3d93QM1sZ+SA/68K1p3KD9C
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="343844529"
+  bh=/xKC0AyKqSaEA1Jo4VwswA9FjS+DTm7d4BwjdoKcnBw=;
+  b=BtOS3UsaQn9IZQQypkm3gbDA6XEUkNTwlkY9ge7K6pJRtpXylmaS+ou6
+   sMTdBebUfOAyJ2kjZX9xPlwaVjTD3Z3lvPMZmXsNOVVttNhUmB1kDJi+L
+   erohJTcPKSwbqlIpKMJd2eNQ4hsi5pyOWFlvVjCbPUlLIz364iR7xtOn4
+   +in0HwgHz9ioj5viB1SwzqOyGIldMsjZFjEwq0AuctaGXNYnW/tlsNMHE
+   vIJ8NQeVtworJOy1VRWd2LYwsFG3U0i29SgPGqbkQRJTPAkNzKQS6pfTm
+   L8IV/25ul7hQGgvUuNjv8LxP61B0Oi+89aBFzwylPdKa6EN98qnqiYLxt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327956616"
 X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
-   d="scan'208";a="343844529"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 01:51:10 -0700
+   d="scan'208";a="327956616"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 02:22:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="691478203"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="721499792"
 X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
-   d="scan'208";a="691478203"
+   d="scan'208";a="721499792"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Apr 2023 01:51:08 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Apr 2023 02:22:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmWBy-000XXf-3A;
-	Wed, 12 Apr 2023 08:51:02 +0000
-Date: Wed, 12 Apr 2023 16:50:33 +0800
+	id 1pmWfz-000XZD-2b;
+	Wed, 12 Apr 2023 09:22:03 +0000
+Date: Wed, 12 Apr 2023 17:21:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 10400/10976] arch/arm/vfp/entry.S:27: undefined
- reference to `vfp_entry'
-Message-ID: <202304121606.ltRFyuij-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 10168/10976]
+ drivers/tty/serial/samsung_tty.c:2034:10: error: implicit declaration of
+ function 'of_device_get_match_data' is invalid in C99
+Message-ID: <202304121702.bav49HFN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,47 +50,59 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   7d8214bba44c1aa6a75921a09a691945d26a8d43
-commit: 62fa0c124d5ff1d1b1fab988ed4ef0e82e3ece16 [10400/10976] ARM: 9294/1: vfp: Fix broken softirq handling with instrumentation enabled
-config: arm-keystone_defconfig (https://download.01.org/0day-ci/archive/20230412/202304121606.ltRFyuij-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+commit: 6f2db1788a53dcdbe6fe5639583e871e017f7167 [10168/10976] cpufreq: Adjust includes to remove of_device.h
+config: i386-buildonly-randconfig-r004-20230410 (https://download.01.org/0day-ci/archive/20230412/202304121702.bav49HFN-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=62fa0c124d5ff1d1b1fab988ed4ef0e82e3ece16
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6f2db1788a53dcdbe6fe5639583e871e017f7167
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout 62fa0c124d5ff1d1b1fab988ed4ef0e82e3ece16
+        git checkout 6f2db1788a53dcdbe6fe5639583e871e017f7167
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304121606.ltRFyuij-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304121702.bav49HFN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: arch/arm/vfp/entry.o: in function `do_vfp':
->> arch/arm/vfp/entry.S:27: undefined reference to `vfp_entry'
+>> drivers/tty/serial/samsung_tty.c:2034:10: error: implicit declaration of function 'of_device_get_match_data' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   return of_device_get_match_data(&pdev->dev);
+                          ^
+   drivers/tty/serial/samsung_tty.c:2034:10: note: did you mean 'device_get_match_data'?
+   include/linux/property.h:396:13: note: 'device_get_match_data' declared here
+   const void *device_get_match_data(const struct device *dev);
+               ^
+>> drivers/tty/serial/samsung_tty.c:2034:10: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'const struct s3c24xx_serial_drv_data *' [-Wint-conversion]
+                   return of_device_get_match_data(&pdev->dev);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +27 arch/arm/vfp/entry.S
+vim +/of_device_get_match_data +2034 drivers/tty/serial/samsung_tty.c
 
-    14	
-    15	@ VFP entry point.
-    16	@
-    17	@  r0  = instruction opcode (32-bit ARM or two 16-bit Thumb)
-    18	@  r2  = PC value to resume execution after successful emulation
-    19	@  r9  = normal "successful" return address
-    20	@  r10 = this threads thread_info structure
-    21	@  lr  = unrecognised instruction return address
-    22	@  IRQs enabled.
-    23	@
-    24	ENTRY(do_vfp)
-    25		mov	r1, r10
-    26		mov	r3, r9
-  > 27		b	vfp_entry
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  2029  
+97a6cfe8115b04 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08  2030  static inline const struct s3c24xx_serial_drv_data *
+695b847b247cff drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2020-06-17  2031  s3c24xx_get_driver_data(struct platform_device *pdev)
+26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2032  {
+f25fbd5b1ef377 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08  2033  	if (dev_of_node(&pdev->dev))
+f25fbd5b1ef377 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08 @2034  		return of_device_get_match_data(&pdev->dev);
+9fe0d41ffd39cb drivers/tty/serial/samsung_tty.c Greg Kroah-Hartman  2019-12-10  2035  
+26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2036  	return (struct s3c24xx_serial_drv_data *)
+26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2037  			platform_get_device_id(pdev)->driver_data;
+26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2038  }
+26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2039  
+
+:::::: The code at line 2034 was first introduced by commit
+:::::: f25fbd5b1ef3773bd975135f8a017dc2251626cc tty: serial: samsung: simplify getting OF match data
+
+:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
