@@ -1,62 +1,386 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BBAA92E;
-	Wed, 12 Apr 2023 21:06:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D2DC433EF;
-	Wed, 12 Apr 2023 21:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1681333562;
-	bh=tBuKzWjSMLs8UvYBdSDGzOLgtVGDJL5zVZa/hiwcI7Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rmhB919gqmisPXX6gHRY+oQZFyU/szgZjbTc0ox+RrAHTyBXZ1JHeV66GM0B+wVeR
-	 1lzvypLhE5gOdWeXFCWLKqc0jPTeaeQ686SAQcyxCRsikU2PGYnz6buDKNXfKZGgOr
-	 OYuwzUfjWWBIpqdwtFXrI3k8H7wmiOxuaUxuDIwM=
-Date: Wed, 12 Apr 2023 14:06:01 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexander Potapenko <glider@google.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, urezki@gmail.com, hch@infradead.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, elver@google.com,
- dvyukov@google.com, kasan-dev@googlegroups.com, Dipanjan Das
- <mail.dipanjan.das@gmail.com>
-Subject: Re: [PATCH 1/2] mm: kmsan: handle alloc failures in
- kmsan_vmap_pages_range_noflush()
-Message-Id: <20230412140601.9308b871e38acb842c119478@linux-foundation.org>
-In-Reply-To: <202304130223.epEIvA1E-lkp@intel.com>
-References: <20230412145300.3651840-1-glider@google.com>
-	<202304130223.epEIvA1E-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA252A92E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 21:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681334558; x=1712870558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1MvpBXIyMeqHj3KqGSpbuw82FTvNtTxYwfbFxPCfXIo=;
+  b=kxmJf0VEOn5Xc3pCDq0Mc5g5GJZE6zi+UZhOrCGqQowzoESsNMUgSQLo
+   2J8al1iQIkLaEZ2QTz4ptTr5YsexR9HgEwlmlC/2fxpPXZsPY03efQJAp
+   HMU+Vy+jGhvMTSbzOpa5Gu7nMxAEbRTEVOks8pIU+LvqlOj8fhiH7dVaq
+   GjGAFFVd0W31Bm8wxgpb/VWAbeGusnoFq0Epbkw+ywfo2KHtMcqxDOrlW
+   jYDWhLWsQOGU6zRnJtv/Hwj1+kFUbpVrWKwHbi8Cj+vbmh2gKXfJyFlNX
+   4jt/L/9POcl2vo+tJaJ88rrNWOxfSTvYpujcgAATZ7n+gEl/DiAeniHMB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406858836"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="406858836"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 14:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="719549372"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="719549372"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 12 Apr 2023 14:22:24 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pmhv5-000Y3j-1N;
+	Wed, 12 Apr 2023 21:22:23 +0000
+Date: Thu, 13 Apr 2023 05:21:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radheys@xilinx.com>
+Subject: [xilinx-xlnx:master 635/1117] drivers/dma/xilinx/vdmatest.c:329:57:
+ warning: implicit conversion from 'enum dma_transfer_direction' to 'enum
+ dma_data_direction'
+Message-ID: <202304130546.rTZyUNcf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 13 Apr 2023 02:27:19 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Appana,
 
-> Hi Alexander,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on akpm-mm/mm-everything]
-> 
-> >> include/linux/kmsan.h:291:1: error: non-void function does not return a value [-Werror,-Wreturn-type]
+FYI, the error/warning still remains.
 
-Thanks, I'll do this:
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
+commit: 7912dbb84c007b3886d0d04b6a2b6551cf3dc73d [635/1117] dmaengine: xilinx: Add vdmatest test client code
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304130546.rTZyUNcf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Xilinx/linux-xlnx/commit/7912dbb84c007b3886d0d04b6a2b6551cf3dc73d
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 7912dbb84c007b3886d0d04b6a2b6551cf3dc73d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/xilinx/
 
---- a/include/linux/kmsan.h~mm-kmsan-handle-alloc-failures-in-kmsan_ioremap_page_range-fix
-+++ a/include/linux/kmsan.h
-@@ -289,6 +289,7 @@ static inline int kmsan_vmap_pages_range
- 						 struct page **pages,
- 						 unsigned int page_shift)
- {
-+	return 0;
- }
- 
- static inline void kmsan_vunmap_range_noflush(unsigned long start,
-_
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130546.rTZyUNcf-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/dma/xilinx_dma.h:11,
+                    from drivers/dma/xilinx/vdmatest.c:21:
+   drivers/dma/xilinx/vdmatest.c: In function 'xilinx_vdmatest_slave_func':
+>> drivers/dma/xilinx/vdmatest.c:329:57: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     329 |                                                         DMA_DEV_TO_MEM);
+         |                                                         ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:411:66: note: in definition of macro 'dma_map_single'
+     411 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
+         |                                                                  ^
+   drivers/dma/xilinx/vdmatest.c:350:57: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     350 |                                                         DMA_MEM_TO_DEV);
+         |                                                         ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:411:66: note: in definition of macro 'dma_map_single'
+     411 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
+         |                                                                  ^
+   drivers/dma/xilinx/vdmatest.c:370:49: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     370 |                                                 DMA_MEM_TO_DEV);
+         |                                                 ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:412:70: note: in definition of macro 'dma_unmap_single'
+     412 | #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
+         |                                                                      ^
+   drivers/dma/xilinx/vdmatest.c:374:49: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     374 |                                                 DMA_DEV_TO_MEM);
+         |                                                 ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:412:70: note: in definition of macro 'dma_unmap_single'
+     412 | #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
+         |                                                                      ^
+   drivers/dma/xilinx/vdmatest.c:446:57: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     446 |                                          test_buf_size, DMA_DEV_TO_MEM);
+         |                                                         ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:412:70: note: in definition of macro 'dma_unmap_single'
+     412 | #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
+         |                                                                      ^
+--
+>> drivers/dma/xilinx/vdmatest.c:89: warning: expecting prototype for struct vdmatest_slave_thread. Prototype was for struct xilinx_vdmatest_slave_thread instead
+>> drivers/dma/xilinx/vdmatest.c:101: warning: expecting prototype for struct vdmatest_chan. Prototype was for struct xilinx_vdmatest_chan instead
+
+
+vim +329 drivers/dma/xilinx/vdmatest.c
+
+   233	
+   234	/*
+   235	 * Function for slave transfers
+   236	 * Each thread requires 2 channels, one for transmit, and one for receive
+   237	 */
+   238	static int xilinx_vdmatest_slave_func(void *data)
+   239	{
+   240		struct xilinx_vdmatest_slave_thread *thread = data;
+   241		struct dma_chan *tx_chan, *rx_chan;
+   242		const char *thread_name;
+   243		unsigned int len, error_count;
+   244		unsigned int failed_tests = 0, total_tests = 0;
+   245		dma_cookie_t tx_cookie = 0, rx_cookie = 0;
+   246		enum dma_status status;
+   247		enum dma_ctrl_flags flags;
+   248		int ret = -ENOMEM, i;
+   249		struct xilinx_vdma_config config;
+   250	
+   251		thread_name = current->comm;
+   252	
+   253		/* Limit testing scope here */
+   254		test_buf_size = hsize * vsize;
+   255	
+   256		/* This barrier ensures 'thread' is initialized and
+   257		 * we get valid DMA channels
+   258		 */
+   259		smp_rmb();
+   260		tx_chan = thread->tx_chan;
+   261		rx_chan = thread->rx_chan;
+   262	
+   263		thread->srcs = kcalloc(frm_cnt+1, sizeof(u8 *), GFP_KERNEL);
+   264		if (!thread->srcs)
+   265			goto err_srcs;
+   266		for (i = 0; i < frm_cnt; i++) {
+   267			thread->srcs[i] = kmalloc(test_buf_size, GFP_KERNEL);
+   268			if (!thread->srcs[i])
+   269				goto err_srcbuf;
+   270		}
+   271	
+   272		thread->dsts = kcalloc(frm_cnt+1, sizeof(u8 *), GFP_KERNEL);
+   273		if (!thread->dsts)
+   274			goto err_dsts;
+   275		for (i = 0; i < frm_cnt; i++) {
+   276			thread->dsts[i] = kmalloc(test_buf_size, GFP_KERNEL);
+   277			if (!thread->dsts[i])
+   278				goto err_dstbuf;
+   279		}
+   280	
+   281		set_user_nice(current, 10);
+   282	
+   283		flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
+   284	
+   285		while (!kthread_should_stop()
+   286			&& !(iterations && total_tests >= iterations)) {
+   287			struct dma_device *tx_dev = tx_chan->device;
+   288			struct dma_device *rx_dev = rx_chan->device;
+   289			struct dma_async_tx_descriptor *txd = NULL;
+   290			struct dma_async_tx_descriptor *rxd = NULL;
+   291			struct completion rx_cmp, tx_cmp;
+   292			unsigned long rx_tmo =
+   293					msecs_to_jiffies(30000); /* RX takes longer */
+   294			unsigned long tx_tmo = msecs_to_jiffies(30000);
+   295			u8 align = 0;
+   296	
+   297			total_tests++;
+   298	
+   299			/* honor larger alignment restrictions */
+   300			align = tx_dev->copy_align;
+   301			if (rx_dev->copy_align > align)
+   302				align = rx_dev->copy_align;
+   303	
+   304			if (1 << align > test_buf_size) {
+   305				pr_err("%u-byte buffer too small for %d-byte alignment\n",
+   306				       test_buf_size, 1 << align);
+   307				break;
+   308			}
+   309	
+   310			len = test_buf_size;
+   311			xilinx_vdmatest_init_srcs(thread->srcs, 0, len);
+   312			xilinx_vdmatest_init_dsts(thread->dsts, 0, len);
+   313	
+   314			/* Zero out configuration */
+   315			memset(&config, 0, sizeof(struct xilinx_vdma_config));
+   316	
+   317			/* Set up hardware configuration information */
+   318			config.frm_cnt_en = 1;
+   319			config.coalesc = frm_cnt * 10;
+   320			config.park = 1;
+   321			xilinx_vdma_channel_set_config(tx_chan, &config);
+   322	
+   323			xilinx_vdma_channel_set_config(rx_chan, &config);
+   324	
+   325			for (i = 0; i < frm_cnt; i++) {
+   326				dma_dsts[i] = dma_map_single(rx_dev->dev,
+   327								thread->dsts[i],
+   328								test_buf_size,
+ > 329								DMA_DEV_TO_MEM);
+   330	
+   331				if (dma_mapping_error(rx_dev->dev, dma_dsts[i])) {
+   332					failed_tests++;
+   333					continue;
+   334				}
+   335				xt.dst_start = dma_dsts[i];
+   336				xt.dir = DMA_DEV_TO_MEM;
+   337				xt.numf = vsize;
+   338				xt.sgl[0].size = hsize;
+   339				xt.sgl[0].icg = 0;
+   340				xt.frame_size = 1;
+   341				rxd = rx_dev->device_prep_interleaved_dma(rx_chan,
+   342									  &xt, flags);
+   343				rx_cookie = rxd->tx_submit(rxd);
+   344			}
+   345	
+   346			for (i = 0; i < frm_cnt; i++) {
+   347				u8 *buf = thread->srcs[i];
+   348	
+   349				dma_srcs[i] = dma_map_single(tx_dev->dev, buf, len,
+   350								DMA_MEM_TO_DEV);
+   351	
+   352				if (dma_mapping_error(tx_dev->dev, dma_srcs[i])) {
+   353					failed_tests++;
+   354					continue;
+   355				}
+   356				xt.src_start = dma_srcs[i];
+   357				xt.dir = DMA_MEM_TO_DEV;
+   358				xt.numf = vsize;
+   359				xt.sgl[0].size = hsize;
+   360				xt.sgl[0].icg = 0;
+   361				xt.frame_size = 1;
+   362				txd = tx_dev->device_prep_interleaved_dma(tx_chan,
+   363									  &xt, flags);
+   364				tx_cookie = txd->tx_submit(txd);
+   365			}
+   366	
+   367			if (!rxd || !txd) {
+   368				for (i = 0; i < frm_cnt; i++)
+   369					dma_unmap_single(tx_dev->dev, dma_srcs[i], len,
+   370							DMA_MEM_TO_DEV);
+   371				for (i = 0; i < frm_cnt; i++)
+   372					dma_unmap_single(rx_dev->dev, dma_dsts[i],
+   373							test_buf_size,
+   374							DMA_DEV_TO_MEM);
+   375				pr_warn("%s: #%u: prep error with len=0x%x ",
+   376						thread_name, total_tests - 1, len);
+   377				msleep(100);
+   378				failed_tests++;
+   379				continue;
+   380			}
+   381	
+   382			init_completion(&rx_cmp);
+   383			rxd->callback = xilinx_vdmatest_slave_rx_callback;
+   384			rxd->callback_param = &rx_cmp;
+   385	
+   386			init_completion(&tx_cmp);
+   387			txd->callback = xilinx_vdmatest_slave_tx_callback;
+   388			txd->callback_param = &tx_cmp;
+   389	
+   390			if (dma_submit_error(rx_cookie) ||
+   391					dma_submit_error(tx_cookie)) {
+   392				pr_warn("%s: #%u: submit error %d/%d with len=0x%x ",
+   393						thread_name, total_tests - 1,
+   394						rx_cookie, tx_cookie, len);
+   395				msleep(100);
+   396				failed_tests++;
+   397				continue;
+   398			}
+   399			dma_async_issue_pending(tx_chan);
+   400			dma_async_issue_pending(rx_chan);
+   401	
+   402			tx_tmo = wait_for_completion_timeout(&tx_cmp, tx_tmo);
+   403	
+   404			status = dma_async_is_tx_complete(tx_chan, tx_cookie,
+   405								NULL, NULL);
+   406	
+   407			if (tx_tmo == 0) {
+   408				pr_warn("%s: #%u: tx test timed out\n",
+   409						thread_name, total_tests - 1);
+   410				failed_tests++;
+   411				continue;
+   412			} else if (status != DMA_COMPLETE) {
+   413				pr_warn(
+   414				"%s: #%u: tx got completion callback, ",
+   415					   thread_name, total_tests - 1);
+   416				pr_warn("but status is \'%s\'\n",
+   417					   status == DMA_ERROR ? "error" :
+   418								"in progress");
+   419				failed_tests++;
+   420				continue;
+   421			}
+   422	
+   423			rx_tmo = wait_for_completion_timeout(&rx_cmp, rx_tmo);
+   424			status = dma_async_is_tx_complete(rx_chan, rx_cookie,
+   425								NULL, NULL);
+   426	
+   427			if (rx_tmo == 0) {
+   428				pr_warn("%s: #%u: rx test timed out\n",
+   429						thread_name, total_tests - 1);
+   430				failed_tests++;
+   431				continue;
+   432			} else if (status != DMA_COMPLETE) {
+   433				pr_warn(
+   434				"%s: #%u: rx got completion callback, ",
+   435						thread_name, total_tests - 1);
+   436				pr_warn("but status is \'%s\'\n",
+   437						status == DMA_ERROR ? "error" :
+   438								"in progress");
+   439				failed_tests++;
+   440				continue;
+   441			}
+   442	
+   443			/* Unmap by myself */
+   444			for (i = 0; i < frm_cnt; i++)
+   445				dma_unmap_single(rx_dev->dev, dma_dsts[i],
+   446						 test_buf_size, DMA_DEV_TO_MEM);
+   447	
+   448			error_count = 0;
+   449	
+   450			pr_debug("%s: verifying source buffer...\n", thread_name);
+   451			error_count += xilinx_vdmatest_verify(thread->srcs, 0, 0,
+   452					0, PATTERN_SRC, true);
+   453			error_count += xilinx_vdmatest_verify(thread->srcs, 0,
+   454					len, 0, PATTERN_SRC | PATTERN_COPY, true);
+   455			error_count += xilinx_vdmatest_verify(thread->srcs, len,
+   456					test_buf_size, len, PATTERN_SRC, true);
+   457	
+   458			pr_debug("%s: verifying dest buffer...\n",
+   459					thread->task->comm);
+   460			error_count += xilinx_vdmatest_verify(thread->dsts, 0, 0,
+   461					0, PATTERN_DST, false);
+   462			error_count += xilinx_vdmatest_verify(thread->dsts, 0,
+   463					len, 0, PATTERN_SRC | PATTERN_COPY, false);
+   464			error_count += xilinx_vdmatest_verify(thread->dsts, len,
+   465					test_buf_size, len, PATTERN_DST, false);
+   466	
+   467			if (error_count) {
+   468				pr_warn("%s: #%u: %u errors with len=0x%x\n",
+   469					thread_name, total_tests - 1, error_count, len);
+   470				failed_tests++;
+   471			} else {
+   472				pr_debug("%s: #%u: No errors with len=0x%x\n",
+   473					thread_name, total_tests - 1, len);
+   474			}
+   475		}
+   476	
+   477		ret = 0;
+   478		for (i = 0; thread->dsts[i]; i++)
+   479			kfree(thread->dsts[i]);
+   480	err_dstbuf:
+   481		kfree(thread->dsts);
+   482	err_dsts:
+   483		for (i = 0; thread->srcs[i]; i++)
+   484			kfree(thread->srcs[i]);
+   485	err_srcbuf:
+   486		kfree(thread->srcs);
+   487	err_srcs:
+   488		pr_notice("%s: terminating after %u tests, %u failures (status %d)\n",
+   489				thread_name, total_tests, failed_tests, ret);
+   490	
+   491		thread->done = true;
+   492		wake_up(&thread_wait);
+   493	
+   494		return ret;
+   495	}
+   496	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
