@@ -1,43 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542B917DB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Apr 2023 23:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BC37D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 01:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681256435; x=1712792435;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pSCgmqS/Z6XFyHh43t6hIFk//A3K12nEAMRXWmmQhVk=;
-  b=Ywyijv8kYXnAXiPA5eCnHLI5STJYXGVbYQnBatTNZQZd3Tgo/PfUeLpa
-   l+2RuC0xZXhyzS9OWK81HGR9+MOHiIBjxtm9LfBogmyhYICP8InePDoRX
-   rVObTikMT23Ly/dcx3o9IjC/Glr5qOe2IlcPGw5c7C+DtELuFdztq61Pz
-   hPCPP9qpFYj7+F43E9wQjoURkW02X0JumU79qTc8fioEhnGopoVN1JLYB
-   APOZ2JPdxtMVtW4LzM+ikDHJmi8g6Rotzk3YCS1qFRVtAtF/vGhm0NGCB
-   hNkPk1lKLkMFO9JeJ5AYCSRVzeRKhEW1IWKl0ncFFzZZmMCIRzhwMX9XL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327864364"
+  t=1681261901; x=1712797901;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ygX0J2yls6M2rJhV8GWWjRszSuOk6QXDwu4jmtDY+TE=;
+  b=dvVH+7400YCxhYfSnaXd3sljECPCyS3iYA/q/hqPe5dx/n3R+UsMxG/V
+   hcTlZLsIInb16vMUcBbq+rVffs6mMvc2aih0hygu652V4rHDNA0No+WLl
+   jhV+3Ax+Azhw9dvXz79N3j+ngLXUwetQP821amQYKDxpgVfFNczpRxWk+
+   SCb7+m0Ay7BMUn2CaV7UNjkiSGr+UpnJJJxoluBpxDlDrqoGcU+YxUdlA
+   C4YviS413Cg3QFZH+KGSU2l3340EM4utNqPXf5QOfQrXWZEBrKSvoI9Zj
+   RrdgYHRIZrWe5H2ZH9olmXVdO8y9iA9YQPiJyeXvjzb7B6DBq4gJVVAD0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="430059115"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="327864364"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 16:40:34 -0700
+   d="scan'208";a="430059115"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 18:11:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="1018547508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753334468"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="1018547508"
+   d="scan'208";a="753334468"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2023 16:40:34 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Apr 2023 18:11:36 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmNbE-000Wox-2G;
-	Tue, 11 Apr 2023 23:40:32 +0000
-Date: Wed, 12 Apr 2023 07:40:16 +0800
+	id 1pmP1L-000Wtq-2r;
+	Wed, 12 Apr 2023 01:11:35 +0000
+Date: Wed, 12 Apr 2023 09:11:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:vectorized-scrub 434/511] fs/xfs/xfs_bmap_item.c:371:38:
- error: implicit declaration of function 'xfs_rtgroup_intent_get'; did you
- mean 'xfs_rtgroup_intent_rele'?
-Message-ID: <202304120712.11BT9i3k-lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, gaurav.jain@nxp.com,
+	sahil.malhotra@nxp.com, aisheng.dong@nxp.com, V.Sethi@nxp.com
+Cc: oe-kbuild-all@lists.linux.dev, Pankaj Gupta <pankaj.gupta@nxp.com>
+Subject: Re: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
+Message-ID: <202304120902.bP52A56z-lkp@intel.com>
+References: <20230411162536.30604-7-pankaj.gupta@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,127 +50,241 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230411162536.30604-7-pankaj.gupta@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
-head:   954ad3ce89f15b7e9eab0e81f1371fb8ef38ec25
-commit: bd29054970459ac635ab764effbe7baaf668c6ac [434/511] xfs: allow queued realtime intents to drain before scrubbing
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230412/202304120712.11BT9i3k-lkp@intel.com/config)
+Hi Pankaj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on robh/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next soc/for-next linus/master v6.3-rc6 next-20230411]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230411162536.30604-7-pankaj.gupta%40nxp.com
+patch subject: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304120902.bP52A56z-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=bd29054970459ac635ab764effbe7baaf668c6ac
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout bd29054970459ac635ab764effbe7baaf668c6ac
+        # https://github.com/intel-lab-lkp/linux/commit/80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
+        git checkout 80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/xfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/firmware/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120712.11BT9i3k-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120902.bP52A56z-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_bmap_item.c: In function 'xfs_bmap_update_get_group':
->> fs/xfs/xfs_bmap_item.c:371:38: error: implicit declaration of function 'xfs_rtgroup_intent_get'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     371 |                         bi->bi_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                                      xfs_rtgroup_intent_rele
->> fs/xfs/xfs_bmap_item.c:371:36: warning: assignment to 'struct xfs_rtgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     371 |                         bi->bi_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                                    ^
-   fs/xfs/xfs_bmap_item.c: In function 'xfs_bmap_update_put_group':
->> fs/xfs/xfs_bmap_item.c:398:25: error: implicit declaration of function 'xfs_rtgroup_intent_put'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     398 |                         xfs_rtgroup_intent_put(bi->bi_rtg);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         xfs_rtgroup_intent_rele
-   cc1: some warnings being treated as errors
---
-   fs/xfs/xfs_extfree_item.c: In function 'xfs_extent_free_get_group':
->> fs/xfs/xfs_extfree_item.c:493:34: error: implicit declaration of function 'xfs_rtgroup_intent_get'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     493 |                 xefi->xefi_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-         |                                  xfs_rtgroup_intent_rele
->> fs/xfs/xfs_extfree_item.c:493:32: warning: assignment to 'struct xfs_rtgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     493 |                 xefi->xefi_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                                ^
-   fs/xfs/xfs_extfree_item.c: In function 'xfs_extent_free_put_group':
->> fs/xfs/xfs_extfree_item.c:507:17: error: implicit declaration of function 'xfs_rtgroup_intent_put'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     507 |                 xfs_rtgroup_intent_put(xefi->xefi_rtg);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 xfs_rtgroup_intent_rele
-   cc1: some warnings being treated as errors
---
-   fs/xfs/xfs_rmap_item.c: In function 'xfs_rmap_update_get_group':
->> fs/xfs/xfs_rmap_item.c:402:30: error: implicit declaration of function 'xfs_rtgroup_intent_get'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     402 |                 ri->ri_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~
-         |                              xfs_rtgroup_intent_rele
->> fs/xfs/xfs_rmap_item.c:402:28: warning: assignment to 'struct xfs_rtgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     402 |                 ri->ri_rtg = xfs_rtgroup_intent_get(mp, rgno);
-         |                            ^
-   fs/xfs/xfs_rmap_item.c: In function 'xfs_rmap_update_put_group':
->> fs/xfs/xfs_rmap_item.c:416:17: error: implicit declaration of function 'xfs_rtgroup_intent_put'; did you mean 'xfs_rtgroup_intent_rele'? [-Werror=implicit-function-declaration]
-     416 |                 xfs_rtgroup_intent_put(ri->ri_rtg);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 xfs_rtgroup_intent_rele
-   cc1: some warnings being treated as errors
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:7,
+                    from drivers/firmware/imx/ele_mu.c:6:
+   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_write':
+>> drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
+      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:303:9: note: in expansion of macro 'devctx_dbg'
+     303 |         devctx_dbg(dev_ctx, "write from buf (%p)%ld, ppos=%lld\n", buf, size,
+         |         ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:31:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
+      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:315:17: note: in expansion of macro 'devctx_err'
+     315 |                 devctx_err(dev_ctx, "User buffer too small(%ld < %x)\n",
+         |                 ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:31:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
+      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:322:17: note: in expansion of macro 'devctx_err'
+     322 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
+         |                 ^~~~~~~~~~
+>> drivers/firmware/imx/ele_mu.h:31:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
+      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
+      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:322:17: note: in expansion of macro 'devctx_err'
+     322 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
+         |                 ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_read':
+>> drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
+      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:410:9: note: in expansion of macro 'devctx_dbg'
+     410 |         devctx_dbg(dev_ctx, "read to buf %p(%ld), ppos=%lld\n", buf, size,
+         |         ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
+      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
+      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:437:17: note: in expansion of macro 'devctx_dbg'
+     437 |                 devctx_dbg(dev_ctx, "User buffer too small (%ld < %d)\n",
+         |                 ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:408:23: warning: variable 'header' set but not used [-Wunused-but-set-variable]
+     408 |         struct mu_hdr header;
+         |                       ^~~~~~
+   drivers/firmware/imx/ele_mu.c:404:29: warning: unused variable 'ele_mu_priv' [-Wunused-variable]
+     404 |         struct ele_mu_priv *ele_mu_priv = dev_ctx->priv;
+         |                             ^~~~~~~~~~~
 
 
-vim +371 fs/xfs/xfs_bmap_item.c
+vim +17 drivers/firmware/imx/ele_mu.h
 
-   357	
-   358	/* Take a passive ref to the AG containing the space we're mapping. */
-   359	void
-   360	xfs_bmap_update_get_group(
-   361		struct xfs_mount	*mp,
-   362		struct xfs_bmap_intent	*bi)
-   363	{
-   364		xfs_agnumber_t		agno;
-   365	
-   366		if (xfs_ifork_is_realtime(bi->bi_owner, bi->bi_whichfork)) {
-   367			if (xfs_has_rtgroups(mp)) {
-   368				xfs_rgnumber_t	rgno;
-   369	
-   370				rgno = xfs_rtb_to_rgno(mp, bi->bi_bmap.br_startblock);
- > 371				bi->bi_rtg = xfs_rtgroup_intent_get(mp, rgno);
-   372			} else {
-   373				bi->bi_rtg = NULL;
-   374			}
-   375	
-   376			return;
-   377		}
-   378	
-   379		agno = XFS_FSB_TO_AGNO(mp, bi->bi_bmap.br_startblock);
-   380	
-   381		/*
-   382		 * Bump the intent count on behalf of the deferred rmap and refcount
-   383		 * intent items that that we can queue when we finish this bmap work.
-   384		 * This new intent item will bump the intent count before the bmap
-   385		 * intent drops the intent count, ensuring that the intent count
-   386		 * remains nonzero across the transaction roll.
-   387		 */
-   388		bi->bi_pag = xfs_perag_intent_get(mp, agno);
-   389	}
-   390	
-   391	/* Release a passive AG ref after finishing mapping work. */
-   392	static inline void
-   393	xfs_bmap_update_put_group(
-   394		struct xfs_bmap_intent	*bi)
-   395	{
-   396		if (xfs_ifork_is_realtime(bi->bi_owner, bi->bi_whichfork)) {
-   397			if (xfs_has_rtgroups(bi->bi_owner->i_mount)) {
- > 398				xfs_rtgroup_intent_put(bi->bi_rtg);
-   399			}
-   400			return;
-   401		}
-   402	
-   403		xfs_perag_intent_put(bi->bi_pag);
-   404	}
-   405	
+    12	
+    13	/* macro to log operation of a misc device */
+    14	#define miscdev_dbg(p_miscdev, fmt, va_args...)                                \
+    15		({                                                                     \
+    16			struct miscdevice *_p_miscdev = p_miscdev;                     \
+  > 17			dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+    18			##va_args);                                                    \
+    19		})
+    20	
+    21	#define miscdev_info(p_miscdev, fmt, va_args...)                               \
+    22		({                                                                     \
+    23			struct miscdevice *_p_miscdev = p_miscdev;                     \
+    24			dev_info((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name, \
+    25			##va_args);                                                    \
+    26		})
+    27	
+    28	#define miscdev_err(p_miscdev, fmt, va_args...)                                \
+    29		({                                                                     \
+    30			struct miscdevice *_p_miscdev = p_miscdev;                     \
+  > 31			dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+    32			##va_args);                                                    \
+    33		})
+    34	/* macro to log operation of a device context */
+    35	#define devctx_dbg(p_devctx, fmt, va_args...) \
+    36		miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+    37	#define devctx_info(p_devctx, fmt, va_args...) \
+    38		miscdev_info(&((p_devctx)->miscdev), fmt, ##va_args)
+    39	#define devctx_err(p_devctx, fmt, va_args...) \
+    40		miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
