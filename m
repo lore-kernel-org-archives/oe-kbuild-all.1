@@ -1,47 +1,47 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BC37D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 01:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F2F364
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 01:32:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681261901; x=1712797901;
+  t=1681263162; x=1712799162;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ygX0J2yls6M2rJhV8GWWjRszSuOk6QXDwu4jmtDY+TE=;
-  b=dvVH+7400YCxhYfSnaXd3sljECPCyS3iYA/q/hqPe5dx/n3R+UsMxG/V
-   hcTlZLsIInb16vMUcBbq+rVffs6mMvc2aih0hygu652V4rHDNA0No+WLl
-   jhV+3Ax+Azhw9dvXz79N3j+ngLXUwetQP821amQYKDxpgVfFNczpRxWk+
-   SCb7+m0Ay7BMUn2CaV7UNjkiSGr+UpnJJJxoluBpxDlDrqoGcU+YxUdlA
-   C4YviS413Cg3QFZH+KGSU2l3340EM4utNqPXf5QOfQrXWZEBrKSvoI9Zj
-   RrdgYHRIZrWe5H2ZH9olmXVdO8y9iA9YQPiJyeXvjzb7B6DBq4gJVVAD0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="430059115"
+  bh=NpHSJadvgON+Y54a3OFsI9t8u2jTudA5HtPGaVo/gvg=;
+  b=nyIaRmCmgn1fPrIAaCb1pY7uYYiCZqpqEc66o/vEhIV9fF72E5qxXhXw
+   x8onCJ3xsNZq5HeLvfiFeW/DKzgUh3TNNeQCNHxjBcz8WXRSYReRpJ5uj
+   8PZuWlh7fbGJv2XgUPCvUj3efdmqfYiZLUv2PEK++jyEWobs3BSy461JJ
+   D5kzEbJiMShC1zHMN+cpgRajzHo7qSLFGU5i20wwXUQS6EwupH4dMDkCJ
+   hTMB2TvLXnvMvOfvm3XDJCO+NNes1IO1Tv9QYgz8GF7MbtHImhaXwnrfb
+   ufFcuOvCZOywmLyLt29xso7c+zRwA7NU4OxwYoVUYOXIgHW7oyESn2ilE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="345565039"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="430059115"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 18:11:40 -0700
+   d="scan'208";a="345565039"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 18:32:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753334468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="1018571587"
 X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="753334468"
+   d="scan'208";a="1018571587"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Apr 2023 18:11:36 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2023 18:32:38 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmP1L-000Wtq-2r;
-	Wed, 12 Apr 2023 01:11:35 +0000
-Date: Wed, 12 Apr 2023 09:11:29 +0800
+	id 1pmPLh-000Ww5-0j;
+	Wed, 12 Apr 2023 01:32:37 +0000
+Date: Wed, 12 Apr 2023 09:32:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, gaurav.jain@nxp.com,
-	sahil.malhotra@nxp.com, aisheng.dong@nxp.com, V.Sethi@nxp.com
-Cc: oe-kbuild-all@lists.linux.dev, Pankaj Gupta <pankaj.gupta@nxp.com>
-Subject: Re: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
-Message-ID: <202304120902.bP52A56z-lkp@intel.com>
-References: <20230411162536.30604-7-pankaj.gupta@nxp.com>
+To: Terry Bowman <terry.bowman@amd.com>, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com, bwidawsk@kernel.org,
+	dan.j.williams@intel.com, dave.jiang@intel.com,
+	Jonathan.Cameron@huawei.com, linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, terry.bowman@amd.com, rrichter@amd.com,
+	linux-kernel@vger.kernel.org, bhelgaas@google.com
+Subject: Re: [PATCH v3 4/6] cxl/pci: Add RCH downstream port error logging
+Message-ID: <202304120926.dekDF6um-lkp@intel.com>
+References: <20230411180302.2678736-5-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,241 +50,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411162536.30604-7-pankaj.gupta@nxp.com>
+In-Reply-To: <20230411180302.2678736-5-terry.bowman@amd.com>
 
-Hi Pankaj,
+Hi Terry,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on robh/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next soc/for-next linus/master v6.3-rc6 next-20230411]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on ca712e47054678c5ce93a0e0f686353ad5561195]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230411162536.30604-7-pankaj.gupta%40nxp.com
-patch subject: [NXP ELE-MUAP 6/7] firmware: imx: add ELE MU driver support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304120902.bP52A56z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230412-020957
+base:   ca712e47054678c5ce93a0e0f686353ad5561195
+patch link:    https://lore.kernel.org/r/20230411180302.2678736-5-terry.bowman%40amd.com
+patch subject: [PATCH v3 4/6] cxl/pci: Add RCH downstream port error logging
+config: loongarch-buildonly-randconfig-r004-20230409 (https://download.01.org/0day-ci/archive/20230412/202304120926.dekDF6um-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
+        # https://github.com/intel-lab-lkp/linux/commit/7f1c5cefb1e75bd709dc35c7f5e3e29dd5df65e1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Pankaj-Gupta/doc-device-tree-binding-addition-for-ele-MU/20230411-231913
-        git checkout 80f6b85e97e7f7eb4b5d59c638adb2bdbe6d48d1
+        git fetch --no-tags linux-review Terry-Bowman/cxl-pci-Add-RCH-downstream-port-AER-and-RAS-register-discovery/20230412-020957
+        git checkout 7f1c5cefb1e75bd709dc35c7f5e3e29dd5df65e1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/firmware/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304120902.bP52A56z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304120926.dekDF6um-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/firmware/imx/ele_mu.c:6:
-   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_write':
->> drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
-      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:303:9: note: in expansion of macro 'devctx_dbg'
-     303 |         devctx_dbg(dev_ctx, "write from buf (%p)%ld, ppos=%lld\n", buf, size,
-         |         ^~~~~~~~~~
-   drivers/firmware/imx/ele_mu.h:31:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
-      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:315:17: note: in expansion of macro 'devctx_err'
-     315 |                 devctx_err(dev_ctx, "User buffer too small(%ld < %x)\n",
-         |                 ^~~~~~~~~~
-   drivers/firmware/imx/ele_mu.h:31:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
-      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:322:17: note: in expansion of macro 'devctx_err'
-     322 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
-         |                 ^~~~~~~~~~
->> drivers/firmware/imx/ele_mu.h:31:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:31:17: note: in expansion of macro 'dev_err'
-      31 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:40:9: note: in expansion of macro 'miscdev_err'
-      40 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:322:17: note: in expansion of macro 'devctx_err'
-     322 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
-         |                 ^~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_read':
->> drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
-      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:410:9: note: in expansion of macro 'devctx_dbg'
-     410 |         devctx_dbg(dev_ctx, "read to buf %p(%ld), ppos=%lld\n", buf, size,
-         |         ^~~~~~~~~~
-   drivers/firmware/imx/ele_mu.h:17:47: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                                               ^~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:17:17: note: in expansion of macro 'dev_dbg'
-      17 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-         |                 ^~~~~~~
-   drivers/firmware/imx/ele_mu.h:36:9: note: in expansion of macro 'miscdev_dbg'
-      36 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-         |         ^~~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:437:17: note: in expansion of macro 'devctx_dbg'
-     437 |                 devctx_dbg(dev_ctx, "User buffer too small (%ld < %d)\n",
-         |                 ^~~~~~~~~~
-   drivers/firmware/imx/ele_mu.c:408:23: warning: variable 'header' set but not used [-Wunused-but-set-variable]
-     408 |         struct mu_hdr header;
-         |                       ^~~~~~
-   drivers/firmware/imx/ele_mu.c:404:29: warning: unused variable 'ele_mu_priv' [-Wunused-variable]
-     404 |         struct ele_mu_priv *ele_mu_priv = dev_ctx->priv;
-         |                             ^~~~~~~~~~~
-
-
-vim +17 drivers/firmware/imx/ele_mu.h
-
-    12	
-    13	/* macro to log operation of a misc device */
-    14	#define miscdev_dbg(p_miscdev, fmt, va_args...)                                \
-    15		({                                                                     \
-    16			struct miscdevice *_p_miscdev = p_miscdev;                     \
-  > 17			dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-    18			##va_args);                                                    \
-    19		})
-    20	
-    21	#define miscdev_info(p_miscdev, fmt, va_args...)                               \
-    22		({                                                                     \
-    23			struct miscdevice *_p_miscdev = p_miscdev;                     \
-    24			dev_info((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name, \
-    25			##va_args);                                                    \
-    26		})
-    27	
-    28	#define miscdev_err(p_miscdev, fmt, va_args...)                                \
-    29		({                                                                     \
-    30			struct miscdevice *_p_miscdev = p_miscdev;                     \
-  > 31			dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
-    32			##va_args);                                                    \
-    33		})
-    34	/* macro to log operation of a device context */
-    35	#define devctx_dbg(p_devctx, fmt, va_args...) \
-    36		miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
-    37	#define devctx_info(p_devctx, fmt, va_args...) \
-    38		miscdev_info(&((p_devctx)->miscdev), fmt, ##va_args)
-    39	#define devctx_err(p_devctx, fmt, va_args...) \
-    40		miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
-    41	
+   loongarch64-linux-ld: drivers/cxl/core/pci.o: in function `cxl_rch_log_error':
+   drivers/cxl/core/pci.c:768: undefined reference to `cper_print_aer'
+>> loongarch64-linux-ld: drivers/cxl/core/pci.c:768: undefined reference to `cper_print_aer'
+>> loongarch64-linux-ld: drivers/cxl/core/pci.c:768: undefined reference to `cper_print_aer'
 
 -- 
 0-DAY CI Kernel Test Service
