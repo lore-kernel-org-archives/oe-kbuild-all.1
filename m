@@ -1,43 +1,46 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2AE3C02
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 18:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2BF3C02
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 18:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681324704; x=1712860704;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mWCuMOwjsh9VKcTkOg6aweqtEBFDLUD7NtkriPOG+1w=;
-  b=mzZ9DvDR3UvZkdK9ej9fK1PJW3mZCOkRu7XJCfj5ZDTkT4CXiDhg/tm4
-   CWdtp+F2ZJdlr06wjOgZHz1Wk8A0masQOQ069HVDk4VcA6vWIGKIPn3Q7
-   QxLH3IcwGVwrT+QZ2pa6YVL1wUiaOxqch5iTt3qhFMoAeW/+U0ZhCmsRE
-   H4LVzs/8z+OXJnyVonzA0ZhR3l00il92NAUFLDDBqMh5Y7o7bI4yNC/Km
-   zTKebsp5a3+XUmofbuzwMN2KAM7eWiP5dtnBxFRGpZECdj/wjwSHJobEd
-   B0IJ1eHtHUCWlIXXdOVyE0wKa4wFIYUmZilfNo1LMOsB4B6SqmZk+gFHA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323611640"
+  t=1681325905; x=1712861905;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cOvRvmdOcjKTKaPRHIwZSdM4gnUfgayLyPINRcDqfls=;
+  b=LARafzlRaK9Q1TENV8zTNzKJg2HrA+A/qnIQ4duhqbGkGlkawTqSAENL
+   jJ7cGq1mqAB6CmxbR9BTHtjHP9rBQn/UJ+cSPHamqQvULSt9wqte5b70E
+   cEa7hqzblGF/pyTkv/+9APbm7Lhf1VoFWLtvBRPDnPlFiPMTlEI8z1u3O
+   Hx0pAT9/5gkBo2Bp0Fwq4Vxkh8Bl8n3bQqltNW0zc6ZqSSUMV/brnAPgY
+   k8VjLwWFAwJuvShMsyWfth07ys8hvx/3dlv1Jz6DSX95L1ZvjSkwWiIM/
+   JPsMrHwRCYEPVopmUIEsojW3OmCwvvjtgmA3Mx4a8xE/SS3tJt1obdzjO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="346671143"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="323611640"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 11:38:23 -0700
+   d="scan'208";a="346671143"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 11:58:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="689011633"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="721702816"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="689011633"
+   d="scan'208";a="721702816"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 12 Apr 2023 11:38:21 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Apr 2023 11:58:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmfMK-000XzH-2v;
-	Wed, 12 Apr 2023 18:38:20 +0000
-Date: Thu, 13 Apr 2023 02:37:43 +0800
+	id 1pmffh-000Xzr-0p;
+	Wed, 12 Apr 2023 18:58:21 +0000
+Date: Thu, 13 Apr 2023 02:58:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dhaval Shah <dhaval.r.shah@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:master 13338/14520] algif_aead.c:undefined reference to
- `af_alg_pull_tsgl'
-Message-ID: <202304130250.xsGCeZP0-lkp@intel.com>
+To: Kemeng Shi <shikemeng@huaweicloud.com>, tytso@mit.edu,
+	adilger.kernel@dilger.ca, ojaswin@linux.ibm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org, shikemeng@huaweicloud.com
+Subject: Re: [PATCH v2 19/19] ext4: add first unit test for
+ ext4_mb_new_blocks_simple in mballoc
+Message-ID: <202304130200.eNNpj54h-lkp@intel.com>
+References: <20230412172833.2317696-20-shikemeng@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,105 +49,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230412172833.2317696-20-shikemeng@huaweicloud.com>
 
-Hi Dhaval,
+Hi Kemeng,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
-commit: b5823a600d05ca886cfea66e926d74f1c143484f [13338/14520] crypto: xilinx: select AES GCM fallback and userspace kernel config
-config: arm-randconfig-r032-20230410 (https://download.01.org/0day-ci/archive/20230413/202304130250.xsGCeZP0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on next-20230412]
+[cannot apply to linus/master v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230412172833.2317696-20-shikemeng%40huaweicloud.com
+patch subject: [PATCH v2 19/19] ext4: add first unit test for ext4_mb_new_blocks_simple in mballoc
+config: loongarch-randconfig-r004-20230409 (https://download.01.org/0day-ci/archive/20230413/202304130200.eNNpj54h-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/b5823a600d05ca886cfea66e926d74f1c143484f
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx master
-        git checkout b5823a600d05ca886cfea66e926d74f1c143484f
+        # https://github.com/intel-lab-lkp/linux/commit/3ceb1daf83fdf578c28ede1a10e55f05ef7642d5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
+        git checkout 3ceb1daf83fdf578c28ede1a10e55f05ef7642d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130250.xsGCeZP0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130200.eNNpj54h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_sock_destruct':
->> algif_aead.c:(.text+0xa2): undefined reference to `af_alg_pull_tsgl'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0xac): undefined reference to `sock_kzfree_s'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0xb6): undefined reference to `sock_kfree_s'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_accept_parent_nokey':
->> algif_aead.c:(.text+0xd8): undefined reference to `sock_kmalloc'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0xf2): undefined reference to `sock_kmalloc'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x100): undefined reference to `sock_kfree_s'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `_aead_recvmsg.constprop.0':
->> algif_aead.c:(.text+0x234): undefined reference to `af_alg_wait_for_data'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x26c): undefined reference to `af_alg_alloc_areq'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x294): undefined reference to `af_alg_get_rsgl'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x29e): undefined reference to `af_alg_free_resources'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x2ba): undefined reference to `af_alg_free_resources'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x32a): undefined reference to `af_alg_pull_tsgl'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x3e2): undefined reference to `sk_free'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x3e8): undefined reference to `af_alg_free_resources'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x3f6): undefined reference to `af_alg_free_resources'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x422): undefined reference to `af_alg_count_tsgl'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x440): undefined reference to `sock_kmalloc'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x44c): undefined reference to `af_alg_free_resources'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x468): undefined reference to `af_alg_pull_tsgl'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x4bc): undefined reference to `af_alg_async_cb'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_recvmsg':
->> algif_aead.c:(.text+0x548): undefined reference to `lock_sock_nested'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x578): undefined reference to `af_alg_wmem_wakeup'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x57e): undefined reference to `release_sock'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_check_key':
-   algif_aead.c:(.text+0x5b0): undefined reference to `lock_sock_nested'
->> arm-linux-gnueabi-ld: algif_aead.c:(.text+0x5c6): undefined reference to `lock_sock_nested'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x5f4): undefined reference to `release_sock'
-   arm-linux-gnueabi-ld: algif_aead.c:(.text+0x5fa): undefined reference to `release_sock'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_sendmsg':
->> algif_aead.c:(.text+0x7a): undefined reference to `af_alg_sendmsg'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_sock_destruct':
->> algif_aead.c:(.text+0xc0): undefined reference to `af_alg_release_parent'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `aead_sendpage_nokey':
->> algif_aead.c:(.text+0x62e): undefined reference to `af_alg_sendpage'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x8): undefined reference to `af_alg_release'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0xc): undefined reference to `sock_no_bind'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x10): undefined reference to `sock_no_connect'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x14): undefined reference to `sock_no_socketpair'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x18): undefined reference to `sock_no_accept'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x1c): undefined reference to `sock_no_getname'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x20): undefined reference to `af_alg_poll'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x24): undefined reference to `sock_no_ioctl'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x2c): undefined reference to `sock_no_listen'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x30): undefined reference to `sock_no_shutdown'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x48): undefined reference to `sock_no_mmap'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x74): undefined reference to `af_alg_release'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x78): undefined reference to `sock_no_bind'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x7c): undefined reference to `sock_no_connect'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x80): undefined reference to `sock_no_socketpair'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x84): undefined reference to `sock_no_accept'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x88): undefined reference to `sock_no_getname'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x8c): undefined reference to `af_alg_poll'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x90): undefined reference to `sock_no_ioctl'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x98): undefined reference to `sock_no_listen'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0x9c): undefined reference to `sock_no_shutdown'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0xb4): undefined reference to `sock_no_mmap'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o:(.data+0xb8): undefined reference to `af_alg_sendpage'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `algif_aead_exit':
-   algif_aead.c:(.exit.text+0x4): undefined reference to `af_alg_unregister_type'
-   arm-linux-gnueabi-ld: crypto/algif_aead.o: in function `algif_aead_init':
-   algif_aead.c:(.init.text+0x2): undefined reference to `af_alg_register_type'
+   fs/ext4/mballoc.c: In function 'ext4_mb_mark_group_bb':
+   fs/ext4/mballoc.c:3752:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3752 |         handle_t *handle = mc->handle;
+         |         ^~~~~~~~
+   In file included from fs/ext4/mballoc.c:6523:
+   fs/ext4/mballoc-test.c: At top level:
+>> fs/ext4/mballoc-test.c:153:1: warning: no previous prototype for 'ext4_read_block_bitmap_nowait_stub' [-Wmissing-prototypes]
+     153 | ext4_read_block_bitmap_nowait_stub(struct super_block *sb, ext4_group_t block_group,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ext4/mballoc-test.c:162:5: warning: no previous prototype for 'ext4_wait_block_bitmap_stub' [-Wmissing-prototypes]
+     162 | int ext4_wait_block_bitmap_stub(struct super_block *sb,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ext4/mballoc-test.c:169:25: warning: no previous prototype for 'ext4_get_group_desc_stub' [-Wmissing-prototypes]
+     169 | struct ext4_group_desc *ext4_get_group_desc_stub(struct super_block *sb,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ext4/mballoc-test.c:181:5: warning: no previous prototype for 'ext4_mb_mark_group_bb_stub' [-Wmissing-prototypes]
+     181 | int ext4_mb_mark_group_bb_stub(struct ext4_mark_context *mc,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_USER_API_AEAD
-   Depends on [n]: CRYPTO [=y] && NET [=n]
-   Selected by [y]:
-   - CRYPTO_DEV_ZYNQMP_AES [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=n] || COMPILE_TEST [=y])
+
+vim +/ext4_read_block_bitmap_nowait_stub +153 fs/ext4/mballoc-test.c
+
+   151	
+   152	struct buffer_head *
+ > 153	ext4_read_block_bitmap_nowait_stub(struct super_block *sb, ext4_group_t block_group,
+   154					   bool ignore_locked)
+   155	{
+   156		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(sb, block_group);
+   157	
+   158		get_bh(&grp_ctx->bitmap_bh);
+   159		return &grp_ctx->bitmap_bh;
+   160	}
+   161	
+ > 162	int ext4_wait_block_bitmap_stub(struct super_block *sb,
+   163					ext4_group_t block_group,
+   164					struct buffer_head *bh)
+   165	{
+   166		return 0;
+   167	}
+   168	
+ > 169	struct ext4_group_desc *ext4_get_group_desc_stub(struct super_block *sb,
+   170						     ext4_group_t block_group,
+   171						     struct buffer_head **bh)
+   172	{
+   173		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(sb, block_group);
+   174	
+   175		if (bh != NULL)
+   176			*bh = &grp_ctx->gd_bh;
+   177	
+   178		return &grp_ctx->desc;
+   179	}
+   180	
+ > 181	int ext4_mb_mark_group_bb_stub(struct ext4_mark_context *mc,
+   182				       ext4_group_t group, ext4_grpblk_t blkoff,
+   183				       ext4_grpblk_t len, int flags)
+   184	{
+   185		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(mc->sb, group);
+   186		struct buffer_head *bitmap_bh = &grp_ctx->bitmap_bh;
+   187	
+   188		if (mc->state)
+   189			mb_set_bits(bitmap_bh->b_data, blkoff, len);
+   190		else
+   191			mb_clear_bits(bitmap_bh->b_data, blkoff, len);
+   192	
+   193		return 0;
+   194	}
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
