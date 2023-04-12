@@ -1,44 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD36F2F3B;
-	Wed, 12 Apr 2023 09:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1555A2F3B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 09:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681291326; x=1712827326;
+  t=1681291332; x=1712827332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/xKC0AyKqSaEA1Jo4VwswA9FjS+DTm7d4BwjdoKcnBw=;
-  b=BtOS3UsaQn9IZQQypkm3gbDA6XEUkNTwlkY9ge7K6pJRtpXylmaS+ou6
-   sMTdBebUfOAyJ2kjZX9xPlwaVjTD3Z3lvPMZmXsNOVVttNhUmB1kDJi+L
-   erohJTcPKSwbqlIpKMJd2eNQ4hsi5pyOWFlvVjCbPUlLIz364iR7xtOn4
-   +in0HwgHz9ioj5viB1SwzqOyGIldMsjZFjEwq0AuctaGXNYnW/tlsNMHE
-   vIJ8NQeVtworJOy1VRWd2LYwsFG3U0i29SgPGqbkQRJTPAkNzKQS6pfTm
-   L8IV/25ul7hQGgvUuNjv8LxP61B0Oi+89aBFzwylPdKa6EN98qnqiYLxt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="327956616"
+  bh=Bdp+oIiPK0heG2qZMSswWQmpe4VigV/KezzACSDdhuo=;
+  b=Sv3OGv/UIugDnn+9j6UiKDuIAz85unUGTJVJhvM1KyE0KzPOvRkj4JZc
+   ajb1DNKsIiWjmyyxKD5uqvq5WNrHZEH7DuY6fryjgvq0oAGGs08eoXQHk
+   /V/Bi+DmquTvA7t9R0Bvja9vXgRRVgnp5qSyhzMERIj/sawtEPPCEu2Vi
+   S6fOyW6ep3wdjXkrohHAsNYaYNoLwEBqJXYq+UcN7Z8NmwDwRdD31PrkK
+   jZl6Ssq7Dbn2XxijBddXZ5nqQJoxgxR8DKxzaY0UEzTN446rs6UdrdlTR
+   6rRcZxDd3sVe8Lc3/7mmo+G+d8SWoIWZhFVWDbDLkrq2JqEPjlPQKvQDX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="341335351"
 X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
-   d="scan'208";a="327956616"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 02:22:06 -0700
+   d="scan'208";a="341335351"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 02:22:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="721499792"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="682422859"
 X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
-   d="scan'208";a="721499792"
+   d="scan'208";a="682422859"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Apr 2023 02:22:04 -0700
+  by orsmga007.jf.intel.com with ESMTP; 12 Apr 2023 02:22:09 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmWfz-000XZD-2b;
+	id 1pmWfz-000XZF-2h;
 	Wed, 12 Apr 2023 09:22:03 +0000
-Date: Wed, 12 Apr 2023 17:21:19 +0800
+Date: Wed, 12 Apr 2023 17:21:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 10168/10976]
- drivers/tty/serial/samsung_tty.c:2034:10: error: implicit declaration of
- function 'of_device_get_match_data' is invalid in C99
-Message-ID: <202304121702.bav49HFN-lkp@intel.com>
+To: Evgeniy Baskov <baskov@ispras.ru>
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Subject: [ardb:tmp-crypto-x86-local-labels 5/52]
+ arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for
+ 'ident_split_large_pmd'
+Message-ID: <202304121737.BDRxFRv5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,61 +47,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7d8214bba44c1aa6a75921a09a691945d26a8d43
-commit: 6f2db1788a53dcdbe6fe5639583e871e017f7167 [10168/10976] cpufreq: Adjust includes to remove of_device.h
-config: i386-buildonly-randconfig-r004-20230410 (https://download.01.org/0day-ci/archive/20230412/202304121702.bav49HFN-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git tmp-crypto-x86-local-labels
+head:   05c1b94d2afb1f4e0b2ce8bd48a8097df4288166
+commit: c448fe451e6a81717f1f5593498d062f2deeeb98 [5/52] x86/boot: Support 4KB pages for identity mapping
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304121737.BDRxFRv5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6f2db1788a53dcdbe6fe5639583e871e017f7167
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6f2db1788a53dcdbe6fe5639583e871e017f7167
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=c448fe451e6a81717f1f5593498d062f2deeeb98
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb tmp-crypto-x86-local-labels
+        git checkout c448fe451e6a81717f1f5593498d062f2deeeb98
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/tty/serial/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304121702.bav49HFN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304121737.BDRxFRv5-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/tty/serial/samsung_tty.c:2034:10: error: implicit declaration of function 'of_device_get_match_data' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   return of_device_get_match_data(&pdev->dev);
-                          ^
-   drivers/tty/serial/samsung_tty.c:2034:10: note: did you mean 'device_get_match_data'?
-   include/linux/property.h:396:13: note: 'device_get_match_data' declared here
-   const void *device_get_match_data(const struct device *dev);
-               ^
->> drivers/tty/serial/samsung_tty.c:2034:10: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'const struct s3c24xx_serial_drv_data *' [-Wint-conversion]
-                   return of_device_get_match_data(&pdev->dev);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+   In file included from arch/x86/mm/init_64.c:61:
+>> arch/x86/mm/ident_map.c:19:8: warning: no previous prototype for 'ident_split_large_pmd' [-Wmissing-prototypes]
+      19 | pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/mm/ident_map.c:102:8: warning: no previous prototype for 'ident_split_large_pud' [-Wmissing-prototypes]
+     102 | pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+         |        ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/of_device_get_match_data +2034 drivers/tty/serial/samsung_tty.c
+vim +/ident_split_large_pmd +19 arch/x86/mm/ident_map.c
 
-b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  2029  
-97a6cfe8115b04 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08  2030  static inline const struct s3c24xx_serial_drv_data *
-695b847b247cff drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2020-06-17  2031  s3c24xx_get_driver_data(struct platform_device *pdev)
-26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2032  {
-f25fbd5b1ef377 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08  2033  	if (dev_of_node(&pdev->dev))
-f25fbd5b1ef377 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08 @2034  		return of_device_get_match_data(&pdev->dev);
-9fe0d41ffd39cb drivers/tty/serial/samsung_tty.c Greg Kroah-Hartman  2019-12-10  2035  
-26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2036  	return (struct s3c24xx_serial_drv_data *)
-26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2037  			platform_get_device_id(pdev)->driver_data;
-26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2038  }
-26c919e1d3f4df drivers/tty/serial/samsung.c     Thomas Abraham      2011-11-06  2039  
-
-:::::: The code at line 2034 was first introduced by commit
-:::::: f25fbd5b1ef3773bd975135f8a017dc2251626cc tty: serial: samsung: simplify getting OF match data
-
-:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    18	
+  > 19	pte_t *ident_split_large_pmd(struct x86_mapping_info *info,
+    20				     pmd_t *pmdp, unsigned long page_addr)
+    21	{
+    22		unsigned long pmd_addr, page_flags;
+    23		pte_t *pte;
+    24	
+    25		pte = (pte_t *)info->alloc_pgt_page(info->context);
+    26		if (!pte)
+    27			return NULL;
+    28	
+    29		pmd_addr = page_addr & PMD_MASK;
+    30	
+    31		/* Not a large page - clear PSE flag */
+    32		page_flags = pmd_flags(*pmdp) & ~_PSE;
+    33		ident_pte_init(info, pte, pmd_addr, pmd_addr + PMD_SIZE, page_flags);
+    34	
+    35		return pte;
+    36	}
+    37	
+    38	static int ident_pmd_init(struct x86_mapping_info *info, pmd_t *pmd_page,
+    39				  unsigned long addr, unsigned long end,
+    40				  unsigned long flags)
+    41	{
+    42		unsigned long next;
+    43		bool new_table = 0;
+    44	
+    45		for (; addr < end; addr = next) {
+    46			pmd_t *pmd = pmd_page + pmd_index(addr);
+    47			pte_t *pte;
+    48	
+    49			next = (addr & PMD_MASK) + PMD_SIZE;
+    50			if (next > end)
+    51				next = end;
+    52	
+    53			/*
+    54			 * Use 2M pages if 4k pages are not allowed or
+    55			 * we are not mapping extra, i.e. address and size are aligned.
+    56			 */
+    57	
+    58			if (!info->allow_4kpages ||
+    59			    (!(addr & ~PMD_MASK) && next == addr + PMD_SIZE)) {
+    60	
+    61				pmd_t pmdval;
+    62	
+    63				addr &= PMD_MASK;
+    64				pmdval = __pmd((addr - info->offset) | flags | _PSE);
+    65				set_pmd(pmd, pmdval);
+    66				continue;
+    67			}
+    68	
+    69			/*
+    70			 * If currently mapped page is large, we need to split it.
+    71			 * The case when we don't can remap 2M page to 2M page
+    72			 * with different flags is already covered above.
+    73			 *
+    74			 * If there's nothing mapped to desired address,
+    75			 * we need to allocate new page table.
+    76			 */
+    77	
+    78			if (pmd_large(*pmd)) {
+    79				pte = ident_split_large_pmd(info, pmd, addr);
+    80				new_table = 1;
+    81			} else if (!pmd_present(*pmd)) {
+    82				pte = (pte_t *)info->alloc_pgt_page(info->context);
+    83				new_table = 1;
+    84			} else {
+    85				pte = pte_offset_kernel(pmd, 0);
+    86				new_table = 0;
+    87			}
+    88	
+    89			if (!pte)
+    90				return -ENOMEM;
+    91	
+    92			ident_pte_init(info, pte, addr, next, flags);
+    93	
+    94			if (new_table)
+    95				set_pmd(pmd, __pmd(__pa(pte) | info->kernpg_flag));
+    96		}
+    97	
+    98		return 0;
+    99	}
+   100	
+   101	
+ > 102	pmd_t *ident_split_large_pud(struct x86_mapping_info *info,
+   103				     pud_t *pudp, unsigned long page_addr)
+   104	{
+   105		unsigned long pud_addr, page_flags;
+   106		pmd_t *pmd;
+   107	
+   108		pmd = (pmd_t *)info->alloc_pgt_page(info->context);
+   109		if (!pmd)
+   110			return NULL;
+   111	
+   112		pud_addr = page_addr & PUD_MASK;
+   113	
+   114		/* Not a large page - clear PSE flag */
+   115		page_flags = pud_flags(*pudp) & ~_PSE;
+   116		ident_pmd_init(info, pmd, pud_addr, pud_addr + PUD_SIZE, page_flags);
+   117	
+   118		return pmd;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
