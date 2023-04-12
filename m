@@ -1,46 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2BF3C02
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Apr 2023 18:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE763C02;
+	Wed, 12 Apr 2023 19:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681325905; x=1712861905;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cOvRvmdOcjKTKaPRHIwZSdM4gnUfgayLyPINRcDqfls=;
-  b=LARafzlRaK9Q1TENV8zTNzKJg2HrA+A/qnIQ4duhqbGkGlkawTqSAENL
-   jJ7cGq1mqAB6CmxbR9BTHtjHP9rBQn/UJ+cSPHamqQvULSt9wqte5b70E
-   cEa7hqzblGF/pyTkv/+9APbm7Lhf1VoFWLtvBRPDnPlFiPMTlEI8z1u3O
-   Hx0pAT9/5gkBo2Bp0Fwq4Vxkh8Bl8n3bQqltNW0zc6ZqSSUMV/brnAPgY
-   k8VjLwWFAwJuvShMsyWfth07ys8hvx/3dlv1Jz6DSX95L1ZvjSkwWiIM/
-   JPsMrHwRCYEPVopmUIEsojW3OmCwvvjtgmA3Mx4a8xE/SS3tJt1obdzjO
+  t=1681326565; x=1712862565;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ffpx6BIgKzZteyb//gSQO/b401PrP2Mpz/F5h/jfzBc=;
+  b=eMpEKPGYSE6hH9HwmW/XZ+KZKp6tyxWnkqc8px/KHRTGnqqWFL1sXSv+
+   4+zWSwldj8HYGEd98vpPFHtWeQ4GittkyAKAmfvfs0goWFMb0c69dfGKt
+   3uWniTzlJJ77LOENDKlyQYU1TxSh0U3QoZl+Jia/ny+/6q56xxWVPdP4s
+   2sxklvA8YURfsNSb0vHdnjgskgWE4I0728H3vTSV4p98JqtkwKTLxzjjJ
+   NoBCyqagRLs2XA2RVjU5+8pOQb8bbaHyzCpCYyI6fD6EWL3E/9sNMskGN
+   Ji53O1L1lZtVgHSu5D+mzkwDK6l8sZgVlFS0f3xq229U6/4Em7TScTfjx
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="346671143"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323618594"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="346671143"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 11:58:24 -0700
+   d="scan'208";a="323618594"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 12:09:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="721702816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="758355965"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="721702816"
+   d="scan'208";a="758355965"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Apr 2023 11:58:22 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 12 Apr 2023 12:09:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmffh-000Xzr-0p;
-	Wed, 12 Apr 2023 18:58:21 +0000
-Date: Thu, 13 Apr 2023 02:58:09 +0800
+	id 1pmfqL-000Y0N-1h;
+	Wed, 12 Apr 2023 19:09:21 +0000
+Date: Thu, 13 Apr 2023 03:08:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kemeng Shi <shikemeng@huaweicloud.com>, tytso@mit.edu,
-	adilger.kernel@dilger.ca, ojaswin@linux.ibm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shikemeng@huaweicloud.com
-Subject: Re: [PATCH v2 19/19] ext4: add first unit test for
- ext4_mb_new_blocks_simple in mballoc
-Message-ID: <202304130200.eNNpj54h-lkp@intel.com>
-References: <20230412172833.2317696-20-shikemeng@huaweicloud.com>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vinod Koul <vkoul@kernel.org>, Kishon <kishon@ti.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [phy:next 72/77] drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6:
+ warning: variable 'ret' is uninitialized when used here
+Message-ID: <202304130304.gMtrUdbd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,110 +47,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412172833.2317696-20-shikemeng@huaweicloud.com>
 
-Hi Kemeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on next-20230412]
-[cannot apply to linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230412172833.2317696-20-shikemeng%40huaweicloud.com
-patch subject: [PATCH v2 19/19] ext4: add first unit test for ext4_mb_new_blocks_simple in mballoc
-config: loongarch-randconfig-r004-20230409 (https://download.01.org/0day-ci/archive/20230413/202304130200.eNNpj54h-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   45810d486bb44bd60213d5f09a713df81b987972
+commit: 45810d486bb44bd60213d5f09a713df81b987972 [72/77] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+config: arm64-buildonly-randconfig-r005-20230409 (https://download.01.org/0day-ci/archive/20230413/202304130304.gMtrUdbd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3ceb1daf83fdf578c28ede1a10e55f05ef7642d5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kemeng-Shi/ext4-fix-wrong-unit-use-in-ext4_mb_normalize_request/20230412-172757
-        git checkout 3ceb1daf83fdf578c28ede1a10e55f05ef7642d5
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/commit/?id=45810d486bb44bd60213d5f09a713df81b987972
+        git remote add phy https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git
+        git fetch --no-tags phy next
+        git checkout 45810d486bb44bd60213d5f09a713df81b987972
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/phy/mediatek/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130200.eNNpj54h-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130304.gMtrUdbd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/mballoc.c: In function 'ext4_mb_mark_group_bb':
-   fs/ext4/mballoc.c:3752:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3752 |         handle_t *handle = mc->handle;
-         |         ^~~~~~~~
-   In file included from fs/ext4/mballoc.c:6523:
-   fs/ext4/mballoc-test.c: At top level:
->> fs/ext4/mballoc-test.c:153:1: warning: no previous prototype for 'ext4_read_block_bitmap_nowait_stub' [-Wmissing-prototypes]
-     153 | ext4_read_block_bitmap_nowait_stub(struct super_block *sb, ext4_group_t block_group,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/ext4/mballoc-test.c:162:5: warning: no previous prototype for 'ext4_wait_block_bitmap_stub' [-Wmissing-prototypes]
-     162 | int ext4_wait_block_bitmap_stub(struct super_block *sb,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/ext4/mballoc-test.c:169:25: warning: no previous prototype for 'ext4_get_group_desc_stub' [-Wmissing-prototypes]
-     169 | struct ext4_group_desc *ext4_get_group_desc_stub(struct super_block *sb,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
->> fs/ext4/mballoc-test.c:181:5: warning: no previous prototype for 'ext4_mb_mark_group_bb_stub' [-Wmissing-prototypes]
-     181 | int ext4_mb_mark_group_bb_stub(struct ext4_mark_context *mc,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+           if (ret)
+               ^~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:216:12: note: initialize the variable 'ret' to silence this warning
+           int i, ret;
+                     ^
+                      = 0
+   1 warning generated.
 
 
-vim +/ext4_read_block_bitmap_nowait_stub +153 fs/ext4/mballoc-test.c
+vim +/ret +298 drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
 
-   151	
-   152	struct buffer_head *
- > 153	ext4_read_block_bitmap_nowait_stub(struct super_block *sb, ext4_group_t block_group,
-   154					   bool ignore_locked)
-   155	{
-   156		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(sb, block_group);
-   157	
-   158		get_bh(&grp_ctx->bitmap_bh);
-   159		return &grp_ctx->bitmap_bh;
-   160	}
-   161	
- > 162	int ext4_wait_block_bitmap_stub(struct super_block *sb,
-   163					ext4_group_t block_group,
-   164					struct buffer_head *bh)
-   165	{
-   166		return 0;
-   167	}
-   168	
- > 169	struct ext4_group_desc *ext4_get_group_desc_stub(struct super_block *sb,
-   170						     ext4_group_t block_group,
-   171						     struct buffer_head **bh)
-   172	{
-   173		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(sb, block_group);
-   174	
-   175		if (bh != NULL)
-   176			*bh = &grp_ctx->gd_bh;
-   177	
-   178		return &grp_ctx->desc;
-   179	}
-   180	
- > 181	int ext4_mb_mark_group_bb_stub(struct ext4_mark_context *mc,
-   182				       ext4_group_t group, ext4_grpblk_t blkoff,
-   183				       ext4_grpblk_t len, int flags)
-   184	{
-   185		struct mb_grp_ctx *grp_ctx = MB_GRP_CTX(mc->sb, group);
-   186		struct buffer_head *bitmap_bh = &grp_ctx->bitmap_bh;
-   187	
-   188		if (mc->state)
-   189			mb_set_bits(bitmap_bh->b_data, blkoff, len);
-   190		else
-   191			mb_clear_bits(bitmap_bh->b_data, blkoff, len);
-   192	
-   193		return 0;
-   194	}
-   195	
+   208	
+   209	static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+   210				     unsigned long rate, unsigned long parent_rate)
+   211	{
+   212		u8 digital_div, txprediv, txposdiv, fbkdiv_high, posdiv1, posdiv2;
+   213		u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
+   214		u8 txpredivs[4] = { 2, 4, 6, 12 };
+   215		u32 fbkdiv_low;
+   216		int i, ret;
+   217	
+   218		pixel_clk = rate;
+   219		tmds_clk = pixel_clk;
+   220	
+   221		if (tmds_clk < 25 * MEGA || tmds_clk > 594 * MEGA)
+   222			return -EINVAL;
+   223	
+   224		if (tmds_clk >= 340 * MEGA)
+   225			hdmi_phy->tmds_over_340M = true;
+   226		else
+   227			hdmi_phy->tmds_over_340M = false;
+   228	
+   229		/* in Hz */
+   230		da_hdmitx21_ref_ck = 26 * MEGA;
+   231	
+   232		/*  TXPOSDIV stage treatment:
+   233		 *	0M  <  TMDS clk  < 54M		  /8
+   234		 *	54M <= TMDS clk  < 148.35M    /4
+   235		 *	148.35M <=TMDS clk < 296.7M   /2
+   236		 *	296.7 <=TMDS clk <= 594M	  /1
+   237		 */
+   238		if (tmds_clk < 54 * MEGA)
+   239			txposdiv = 8;
+   240		else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
+   241			txposdiv = 4;
+   242		else if (tmds_clk >= 148.35 * MEGA && tmds_clk < 296.7 * MEGA)
+   243			txposdiv = 2;
+   244		else if (tmds_clk >= 296.7 * MEGA && tmds_clk <= 594 * MEGA)
+   245			txposdiv = 1;
+   246		else
+   247			return -EINVAL;
+   248	
+   249		/* calculate txprediv: can be 2, 4, 6, 12
+   250		 * ICO clk = 5*TMDS_CLK*TXPOSDIV*TXPREDIV
+   251		 * ICO clk constraint: 5G =< ICO clk <= 12G
+   252		 */
+   253		for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
+   254			ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
+   255			if (ns_hdmipll_ck >= 5 * GIGA &&
+   256			    ns_hdmipll_ck <= 1 * GIGA)
+   257				break;
+   258		}
+   259		if (i == (ARRAY_SIZE(txpredivs) - 1) &&
+   260		    (ns_hdmipll_ck < 5 * GIGA || ns_hdmipll_ck > 12 * GIGA)) {
+   261			return -EINVAL;
+   262		}
+   263		if (i == ARRAY_SIZE(txpredivs))
+   264			return -EINVAL;
+   265	
+   266		txprediv = txpredivs[i];
+   267	
+   268		/* PCW calculation: FBKDIV
+   269		 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
+   270		 * RG_HDMITXPLL_FBKDIV[32:0]:
+   271		 * [32,24] 9bit integer, [23,0]:24bit fraction
+   272		 */
+   273		pcw = div_u64(((u64)ns_hdmipll_ck) << PCW_DECIMAL_WIDTH,
+   274			      da_hdmitx21_ref_ck / PLL_FBKDIV_HS3);
+   275	
+   276		if (pcw > GENMASK_ULL(32, 0))
+   277			return -EINVAL;
+   278	
+   279		fbkdiv_high = FIELD_GET(GENMASK_ULL(63, 32), pcw);
+   280		fbkdiv_low = FIELD_GET(GENMASK(31, 0), pcw);
+   281	
+   282		/* posdiv1:
+   283		 * posdiv1 stage treatment according to color_depth:
+   284		 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
+   285		 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
+   286		 */
+   287		posdiv1 = 10;
+   288		posdiv2 = 1;
+   289	
+   290		/* Digital clk divider, max /32 */
+   291		digital_div = div_u64((u64)ns_hdmipll_ck, posdiv1 / posdiv2 / pixel_clk);
+   292		if (!(digital_div <= 32 && digital_div >= 1))
+   293			return -EINVAL;
+   294	
+   295		mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+   296				    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
+   297				    txposdiv, digital_div);
+ > 298		if (ret)
+   299			return -EINVAL;
+   300	
+   301		return 0;
+   302	}
+   303	
 
 -- 
 0-DAY CI Kernel Test Service
