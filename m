@@ -1,139 +1,155 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2119.outbound.protection.outlook.com [40.107.113.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3F67E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 07:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681370503; x=1712906503;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tvNhPE0t7voaI/US5EnRox6YwK/qRcmhXZHg8nqL25M=;
-  b=Hug97+ryYfXGe4PJJrNH8A2L7L0NFIch5NTYJN3+ecYHI4D3dOyu6USF
-   sdZShBKMjgvks5rj+NAPOPRJu9cuVtZdHp7Gna9rXdC+QvES0iYHX5spl
-   v28Fs1sDloleoj3+FJpvnHaarcit/0BD0NtNFMivxqFDzBa05d+MrlJ1K
-   Gx8mBMCi6zrlbBVux1Vu5BPwbjMIUeot6KyOnAmmaqLEH8aSzd5wSusNS
-   dKngGj0wegetxlpeAQ2qn+5s8K3mEapuvQo+JZexgGFECdSQgPbTrbK4k
-   S0qnOZRL6O70CgzV5RTtgvnqOAMVjwnmP6pflG54Uy50l3tyhnXkG816I
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="345901345"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="345901345"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 00:21:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813340401"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="813340401"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Apr 2023 00:21:40 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pmrH1-000YTt-1t;
-	Thu, 13 Apr 2023 07:21:39 +0000
-Date: Thu, 13 Apr 2023 15:21:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anirudha Sarangi <anirudha.sarangi@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 627/1065]
- drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro
- "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-Message-ID: <202304131510.VLNlpJU7-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF407E;
+	Thu, 13 Apr 2023 07:22:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MEv4I1pNmAOKV2rwCdZJlwayKUJaOPLe2Mqg9cH3sMMDxCM8A3F04bV1X1Z3dW+D83z9mgW2MDhGaUrmWMv9UnJOlq1o5VckaFs3YLy4mUnbkjgpOMNGc4JaZ1dkP//KYP9qY3TXo1cb9cmMscfFZvVQLBtMWqeml02id+NQzNxWr6tcaRfBj/wfl46d43ryLGuSzQdoGpnrpX57fwJevAqsGzEKDPUGAt2/sxlQFy/Sp1uWVDqjwCMuZ0EYpYRt+45Kw1n2XeYkdj2RX6gupbHOzGg4PVUCxx8uHjIoKF+9fuAVCcYb3lHj9pxTskozPZdmU4+LYdBIuIXh67iqzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YJB+WJNY+4iKrT6dS0jnYNH4vH1Yy+LimSo06+nY5q8=;
+ b=KfOKznWZYGn0/IpsbfGUe7D+fsJ29wnWBtCgGKiW0CZ9Ld958hMzdASkmio8xBIMCdwQp5+SBUnMCLGYX7CcfSuZkNRTDMqX9zaxEcz0tPvMn5AUu9IPCU795ei0UbBzHKEUj9KRczr1rjYxGT0E4sEaCahYVjTb234GyjFplja7mJPqU9cIDwhK85re/eI40Dzyk6UfeFFiCCaaOECWU2a7szEQ9kRMXMGfknKjBKZIQuNXHn4Bt6x9N65+co/Y3bJ0bEhWiTNDcFHmQngB4eVetGlL9LVY2aXcR7eTnwntiz7f8njGmJSsJLJK//N6f3N0O2BsFWBNhQL0eEBJvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJB+WJNY+4iKrT6dS0jnYNH4vH1Yy+LimSo06+nY5q8=;
+ b=IU/uK5L+vYayFevIUaehhl56mflcsx1l3YmFd8JyMWgU16Kl5Mb6Dhz9U7OZ48V4LiO4BfEbzyGqsAIO9oGdBBkkuj6d8mdcEnTJPdY1I95xgJTbSI+9sMvJR8EpHxPYaW1fy1YPi38o4WsW7gNx4ZCnw8i6rSTYY13E9JalUVw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY3PR01MB11483.jpnprd01.prod.outlook.com (2603:1096:400:3dd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.28; Thu, 13 Apr
+ 2023 07:22:41 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%5]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
+ 07:22:39 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Dan Carpenter <error27@gmail.com>
+CC: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "lkp@intel.com"
+	<lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
+Thread-Topic: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
+Thread-Index: AQHZZtUKenNCkns3JkyXtPHgRXRPcK8lz4CAgABvYgCAAnnzAIAAKVDA
+Date: Thu, 13 Apr 2023 07:22:39 +0000
+Message-ID:
+ <OS0PR01MB5922C0F4AD089E6E015B34AB86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230404090823.148226-3-biju.das.jz@bp.renesas.com>
+ <7351b44c-f577-4df3-a01e-e9b1039fa928@kili.mountain>
+ <OS0PR01MB5922390F504FC1F51F3B4025869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <dcae7c28-89b5-4f3f-b13b-1a1dc5779d1c@kili.mountain>
+In-Reply-To: <dcae7c28-89b5-4f3f-b13b-1a1dc5779d1c@kili.mountain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB11483:EE_
+x-ms-office365-filtering-correlation-id: fcee6d30-ab09-4919-fc0d-08db3befdcf3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ BC9Lmx4kbtk7ecXzEL2CfuMHn2x6M/pHNa/zMsUVfz6jkhiLf2KJU+22oBGmrRG3yPYlljQjq+sdb/XOxhSCrXdZAMcRyd2AO8L9wrgKwf5KiW+oFEcHOX6Ff3P0UJwYlMyveK9G3VuNT3cPzusJYDpzYK+QqaQIE2053gEQ8QlyBJNdc7yeyPcSwsZRJTgGE53MwgYp8x8GP2/gfDzf/pFzHTC0RGljdalmYg3sk0lw99vbJpaIl2W5P4Io7bi+OJP8kvzGnOReY2+cY1u/vcw0g8Gd+779BWqWIz8MHxSCpuWeTLMtBswK4xP9s7c0o7PVgOgT3hLU6UOsM8WgzwAf3l9tml87UJH/ofrs6jKC/a+PMW++ZZcWbF4DbumCwW2KSoi+S3J7du2QCaUsUPOSbHjKeocIQpzPRrjzuFApjwHxTTGAmgDkBDSWEHjQbrSn0MxyzItKzCxbcin73LvS35NhKLXtBUTPiQbWElrYS4zAWjVvotYjQwilqnzFNzEDT/VHWh2nI3JqV9SxpDCyjTkE4kySS/hVQlYpxVSPaulQSAXrAkJf2Fklb/vsSRrgH/2ODcL0grGkj2MghBmGcRaYhr8+Nr66v3cOUkk=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(136003)(39860400002)(396003)(346002)(451199021)(5660300002)(38100700002)(2906002)(38070700005)(52536014)(316002)(55016003)(86362001)(8676002)(8936002)(4326008)(66476007)(66446008)(122000001)(66556008)(41300700001)(6916009)(64756008)(33656002)(66946007)(966005)(76116006)(83380400001)(54906003)(186003)(26005)(6506007)(53546011)(9686003)(478600001)(7696005)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?yrHSj8yjPmJWcBumtjjgKEtfi5Z0VBsWpWrVEYeHS7E8yN6gzABiL/MSScrQ?=
+ =?us-ascii?Q?ppdFkS+X64BIKEg0PhaInedI/62l3sfvOxk+mhsnF4VeW47QWq1bQzOK1Yva?=
+ =?us-ascii?Q?otGv8LQeQuElm0teWbT6fOCGBMccWTD+OFaBdaPblL3k60W7rRZr49iQfr9J?=
+ =?us-ascii?Q?txWsIr0ZKMVTNmk4rCiJNRMaIJTRfg4k7LWMyBzHxRTRn7/96L8xZwuOjKUX?=
+ =?us-ascii?Q?sXlGa3nUH47bl/q5jJFX03StxAtXYEZUcA48UVBNCWSXuYvDPFW9yH11CapP?=
+ =?us-ascii?Q?47WCVu3Mt2B+eq9Iw0dNLrPw6RPoGTXO8DAr5pPY8zoCF98NzdJSZ0jtdNwg?=
+ =?us-ascii?Q?Cw3VNX7LHtc/rNNNg4t1vy6SUzc+uuz8E4/crP4DEyavlUGSYgDVM+Y5qKqv?=
+ =?us-ascii?Q?R7Fng9wfgIZXM3rVrof9EMNsKxJkU2g7IsyQincWiwJKiOQW9bY5J1thKiYd?=
+ =?us-ascii?Q?kxbLNung/tmSBSp1QxXQGRif3SuYrogYDOM2antzHQI50DrkR59kByz1GNg8?=
+ =?us-ascii?Q?sTBrJYCxwKUtIjzcGxOKim0amutdLcMwQMjsPy4u9Ptp1UD85yHPjQ0Z64XG?=
+ =?us-ascii?Q?bbEbmAA8gBPCnxEMfXRRimR/fOuCi0TLDyWHdnFCzPrB/QX2RvqXnXbbQQrS?=
+ =?us-ascii?Q?Mv4qR9n6qxQFUlAifBFp5NGxN0kcLO3oYjtqzLeCiZeM/vd/rE+FwskmHweZ?=
+ =?us-ascii?Q?No6xnEWnmlsae5G9k4ito4basdjleAD67OrKDb+I/Oon3vepcZzfgwAlZ6eJ?=
+ =?us-ascii?Q?r4ZRQAGGXxTmiC66JkI098quHM/iPtQXsYv8G4n3GIJCAoGS2SUbYik1m2TQ?=
+ =?us-ascii?Q?jcb4HY9kmPhHVkgVDF/rRUag3QHuhEscYJq+pxvroP3/xH4ji7q0CX9WOspA?=
+ =?us-ascii?Q?wuNCbXxYIebOkzC+Z+FEq0+bo+bJrxMG+LhU43J6v/1B6uq76FdP+e1qbdfr?=
+ =?us-ascii?Q?QcPYZOzlLcIYoDoP3gZmBo3BvyhOgcILu2gQyYoPUNydzXO33dx0v2rWhR5y?=
+ =?us-ascii?Q?TR58GPOeazydAc4hO//EktVua4JY6F9wcPyvXvr2AOG1LbuGrGICtDPOJXpq?=
+ =?us-ascii?Q?OwxC9CYt+05ZwLRKAEF2teIgSWBCN9ScC9auNM0Xy5B+u6E4spqd6IP8R2AY?=
+ =?us-ascii?Q?v5tIzfK8XDhZbG9Pom67dK9JeX7la+BlhYl5xhAbQcSazlD2DKCz38vM5fg0?=
+ =?us-ascii?Q?MFmFCNQSST9WS1PSrItkh3i2Zrz/nxmwfQNbQlhI60Emf9+0AIlM2PJSIZW+?=
+ =?us-ascii?Q?UkyjAidw5TqtNnVTLq/L6VjWc+t+w0MAkGSH5IfxQ21kndtRhEq59l6ap/4N?=
+ =?us-ascii?Q?8OIyPSek/f7b8jP52WTA25GxhF+Lsff54SBc8huTBq8FPJ3AD6/CwXIul/rx?=
+ =?us-ascii?Q?8AusfouxIk+CroM05Mt+0jrnjTy5j2OCzmYEa+fhRYAPmj25aoXwAFPX/5Rl?=
+ =?us-ascii?Q?1pZZWRRblFL8uBsXpre71TSkttFo05ubIcTk4tlFtsz1wbwJaf9ZBLPVXuV+?=
+ =?us-ascii?Q?ncP7DcMTH/b8s3wiX+nR0jPLBnddju7dG7Mp1CUkj1ia2DIY0TNy4lmMvOGp?=
+ =?us-ascii?Q?Ab4U8VIm581bFb/AeO0PxKjhHcEGsfYSxJhTEeJx?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcee6d30-ab09-4919-fc0d-08db3befdcf3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2023 07:22:39.2678
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nP0u3BAILgO0AVeM4nHcFMaPlzm98dlZQrXmeDCjk/9QTnixf6ierbjvwTDU0SFSfMkt13NMwQ/jhFYzu4DF417aV10t1Xb2eaVjqQHKPrQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11483
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   e5753363b5e03fc0a3055d5476c6cca93e9ea28b
-commit: d57a0ce28405d21558291942fc17979408936244 [627/1065] irqchip: xilinx: Add support to remove Xilinx INTC irqchip driver module
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230413/202304131510.VLNlpJU7-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/d57a0ce28405d21558291942fc17979408936244
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v6.1_LTS
-        git checkout d57a0ce28405d21558291942fc17979408936244
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+Hi Dan Carpenter,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304131510.VLNlpJU7-lkp@intel.com/
+Thanks for the feedback.
 
-All errors (new ones prefixed by >>):
+> -----Original Message-----
+> From: Dan Carpenter <error27@gmail.com>
+> Sent: Thursday, April 13, 2023 5:49 AM
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: oe-kbuild@lists.linux.dev; Michael Turquette <mturquette@baylibre.com=
+>;
+> Stephen Boyd <sboyd@kernel.org>; lkp@intel.com; oe-kbuild-
+> all@lists.linux.dev; linux-clk@vger.kernel.org; Geert Uytterhoeven
+> <geert+renesas@glider.be>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
+> Subject: Re: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock
+> driver
+>=20
+> The divide makes sense in context then...  Thanks for the explanation.
+>=20
+> This check seemed like a useful thing and found a couple bugs but it turn=
+s
+> out that condition divides can be the most readable thing in context.  So=
+ it
+> maybe has a too high false positive rate.
 
->> drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         |                                                             ^
-   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
-   include/linux/irqchip.h:68: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
-      68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
-         | 
->> drivers/irqchip/irq-imx-mu-msi.c:448:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
-     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/module.h:22,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/acpi.h:15,
-                    from include/linux/irqchip.h:14:
->> include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
-      24 |         static const char __UNIQUE_ID(name)[]                             \
-         |         ^~~~~~
-   include/linux/module.h:165:32: note: in expansion of macro '__MODULE_INFO'
-     165 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
-         |                                ^~~~~~~~~~~~~
-   include/linux/module.h:235:32: note: in expansion of macro 'MODULE_INFO'
-     235 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
-         |                                ^~~~~~~~~~~
-   drivers/irqchip/irq-imx-mu-msi.c:451:1: note: in expansion of macro 'MODULE_AUTHOR'
-     451 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
-         | ^~~~~~~~~~~~~
-   include/linux/irqchip.h:45:69: note: to match this '{'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                                                     ^
-   drivers/irqchip/irq-imx-mu-msi.c:444:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-imx-mu-msi.c:444:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
-     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         |                               ^~~~~~~~~~
-   include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                  ^~~~~~~~
-   drivers/irqchip/irq-imx-mu-msi.c:421:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
-     421 | static const struct dev_pm_ops imx_mu_pm_ops = {
-         |                                ^~~~~~~~~~~~~
+From the execution point of view the code suggested by you is faster.
+So I would like to use that.
 
+For readability point. I will put a comment like below in next version.
 
-vim +/IRQCHIP_PLATFORM_DRIVER_END +448 drivers/irqchip/irq-imx-mu-msi.c
+/* The below check is equivalent to req->best_parent_rate / req->rate */
+if (req->best_parent_rate >=3D req->rate)
 
-70afdab904d2d1 Frank Li 2022-09-22  443  
-70afdab904d2d1 Frank Li 2022-09-22  444  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-70afdab904d2d1 Frank Li 2022-09-22  445  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  446  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  447  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22 @448  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-70afdab904d2d1 Frank Li 2022-09-22  449  
-70afdab904d2d1 Frank Li 2022-09-22  450  
+Apart from this I need to send some change in next version based on [1],
+as some of mux missing determine_rate.
 
-:::::: The code at line 448 was first introduced by commit
-:::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
+[1] https://lore.kernel.org/linux-renesas-soc/20221018-clk-range-checks-fix=
+es-v3-0-9a1358472d52@cerno.tech/T/#t
 
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Cheers,
+Biju
