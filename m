@@ -1,46 +1,63 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0F16AB4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 12:53:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255D26AB4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 12:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681390433; x=1712926433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GvvJOp8D3No7OEz8DTlxlB6wkgvdvUkllXz1rK0B7N4=;
-  b=PSiKDQaEMNvTFmMVulu4ifmhmpI2Jo0jz3KrV+a2gHTTsG1NmmS9bboK
-   3sus9xuDgr/mND5W7kKuOnWTzqxdAZzSVLDhJHuOHujuydy/ng678O3G2
-   wxONTrgjcD0MGwqAjy04epeTSx6RxswzqVAs6eCM/9YTclNfoxw44GjAT
-   HcNZC54G8fWBfFD3scAaXmCEHxCYqI2awLgFAEf0QAdKmumd2mJ3IFWu/
-   ukc0ke3tg0xivS4yvPikGQ8Qbbk8dZluuhhpqAX1r01rl+5oZOtNtWKvv
-   3d6qAH2u9etIm2ZqZ7ONIJzA71JVCNs5DXcwal1XieQ+4NbXJYqy75WVv
+  t=1681390437; x=1712926437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=woywNa07nUXeMZ3aoFcG1W2ohwilu7egfj29eLpEe74=;
+  b=EdpnTsAKYR3syeD3mrc9jQMbjezPKqpW5bLvtMgoMGBNXh01iB+qcBMw
+   cHsPoFir9pvQvKFk+BIgy8y1y9wdEUjse2R8zMIZzg0hhE6BrIqi8cQ8a
+   /sV98+CjTtJ/jCuNkBzGIWnO6js7FV8daNpGLxWZDsTuLxtNQ/XkjmK/c
+   +uEup8ucVCdI/dsa43LZk/zdEbry6Ja2QUVttMj47lJL302djFo55QjBX
+   NIFsGwdif5XfUjIxC5Oi4Z8dqIsZZnrqK20L4SW3kLvW4FdaZ0xu6eGbW
+   JqtqQn+01x1L/atfNbOpRROd1CjBBsRgIVCTNUEWc70BFDrxFUxiHYQcV
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="346858742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="345965533"
 X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="346858742"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 05:53:52 -0700
+   d="scan'208";a="345965533"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 05:53:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="813443053"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="666777303"
 X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="813443053"
+   d="scan'208";a="666777303"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Apr 2023 05:53:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Apr 2023 05:53:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmwST-000Yh5-02;
-	Thu, 13 Apr 2023 12:53:49 +0000
-Date: Thu, 13 Apr 2023 20:53:05 +0800
+	id 1pmwSS-000Yh3-3B;
+	Thu, 13 Apr 2023 12:53:48 +0000
+Date: Thu, 13 Apr 2023 20:53:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Harini Katakam <harini.katakam@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 637/1065]
- drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c:46:16: error: implicit
- declaration of function 'in_be32'
-Message-ID: <202304132039.DL11YImH-lkp@intel.com>
+To: Yi-De Wu <yi-de.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Jades Shih <jades.shih@mediatek.com>,
+	Miles Chen <miles.chen@mediatek.com>,
+	Ivan Tseng <ivan.tseng@mediatek.com>,
+	My Chuang <my.chuang@mediatek.com>,
+	Shawn Hsiao <shawn.hsiao@mediatek.com>,
+	PeiLun Suei <peilun.suei@mediatek.com>,
+	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+	Liju Chen <liju-clr.chen@mediatek.com>,
+	Yi-De Wu <yi-de.wu@mediatek.com>
+Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
+ GenieZone hypervisor support
+Message-ID: <202304132053.o6E89lC6-lkp@intel.com>
+References: <20230413090735.4182-4-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,66 +66,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230413090735.4182-4-yi-de.wu@mediatek.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   e5753363b5e03fc0a3055d5476c6cca93e9ea28b
-commit: 03252b346d787210f709c33dc420d2e1bcb0f10a [637/1065] staging: net: xilinx: add Xilinx TSN driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230413/202304132039.DL11YImH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+Hi Yi-De,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on krzk-dt/for-next arm64/for-next/core lwn/docs-next linus/master v6.3-rc6 next-20230412]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230413090735.4182-4-yi-de.wu%40mediatek.com
+patch subject: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce GenieZone hypervisor support
+config: x86_64-randconfig-a014-20230410 (https://download.01.org/0day-ci/archive/20230413/202304132053.o6E89lC6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/03252b346d787210f709c33dc420d2e1bcb0f10a
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v6.1_LTS
-        git checkout 03252b346d787210f709c33dc420d2e1bcb0f10a
+        # https://github.com/intel-lab-lkp/linux/commit/2d01949ddd48b1bc2cc9849154afe60781068f39
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
+        git checkout 2d01949ddd48b1bc2cc9849154afe60781068f39
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304132039.DL11YImH-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304132053.o6E89lC6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c: In function 'xlnx_tod_read':
->> drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c:46:16: error: implicit declaration of function 'in_be32' [-Werror=implicit-function-declaration]
-      46 |         nsec = in_be32(timer->baseaddr + XTIMER1588_CURRENT_RTC_NS);
-         |                ^~~~~~~
-   drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c: In function 'xlnx_rtc_offset_write':
->> drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c:58:9: error: implicit declaration of function 'out_be32' [-Werror=implicit-function-declaration]
-      58 |         out_be32((timer->baseaddr + XTIMER1588_RTC_OFFSET_SEC_H), 0);
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/in_be32 +46 drivers/staging/xilinx-tsn/xilinx_tsn_ptp_clock.c
-
-    41	
-    42	static void xlnx_tod_read(struct xlnx_ptp_timer *timer, struct timespec64 *ts)
-    43	{
-    44		u32 sec, nsec;
-    45	
-  > 46		nsec = in_be32(timer->baseaddr + XTIMER1588_CURRENT_RTC_NS);
-    47		sec = in_be32(timer->baseaddr + XTIMER1588_CURRENT_RTC_SEC_L);
-    48	
-    49		ts->tv_sec = sec;
-    50		ts->tv_nsec = nsec;
-    51	}
-    52	
-    53	static void xlnx_rtc_offset_write(struct xlnx_ptp_timer *timer,
-    54					  const struct timespec64 *ts)
-    55	{
-    56		pr_debug("%s: sec: %lld nsec: %ld\n", __func__, ts->tv_sec, ts->tv_nsec);
-    57	
-  > 58		out_be32((timer->baseaddr + XTIMER1588_RTC_OFFSET_SEC_H), 0);
-    59		out_be32((timer->baseaddr + XTIMER1588_RTC_OFFSET_SEC_L),
-    60			 (ts->tv_sec));
-    61		out_be32((timer->baseaddr + XTIMER1588_RTC_OFFSET_NS), ts->tv_nsec);
-    62	}
-    63	
+>> usr/include/linux/gzvm_common.h:15: included file 'asm-x86/gzvm_arch.h' is not exported
 
 -- 
 0-DAY CI Kernel Test Service
