@@ -1,156 +1,295 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5971262F;
-	Thu, 13 Apr 2023 04:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A1136A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 04:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681359341; x=1712895341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Hud/tEH/bO4ykSDB5vwIzW+i0/5nC8j5l6CjYVfUw8w=;
-  b=VGx1BflOdGoAqLNxc5jgyPNY1mkFT7S+FaTloPX+lkhFLpFEXvGouXtD
-   6rNF8b8CIe7oHl8HHQJbHs8O57SxWO/xnU4j863aa2Bgiflar8BcKLlLP
-   6pAamFfNMIQfJMXyegBraYV9IA71zQVVkLc9l+zSSMkLgeiv+tn5clt8q
-   ClHoRVO6eJn1ckN/0YMUTpeGEySFzp/haRpjtIw+adnU8cOphBk/qJH8w
-   KSftDcCPX3m4Rei0hu49wRCj4XkTt+SW5tdjYnUY2zNJ5sEgGK77kj4sO
-   nUUPaiiIeXY7dg/AnqH6L8cvxwauVeF6I6cbB6rGSYekNNhYcK46qmAFS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406919609"
+  t=1681360597; x=1712896597;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9N+xqRWgYucnqL6vYrJaCK65ML9CW0+yGs9Q4s0tQ5E=;
+  b=WHRLlbDbXv0EbKuHpH2pg7OoAICpeVeG4vYKuTTpPxtLTp5azLqOJWci
+   U0H3wVP0KoYwGcGHrFd0qu5vxs5hJ24AusbNhFL+33kBdOQV8sJHUpTBg
+   FjkjzepxjHOZEvkAwrjmbSdQgZI29XQdXt6l/ziDo5gjCk/cpKJ36jdmJ
+   RuU4OUyJkeLauaoonDR8REo63NklWHXZEyMyEVdjVwAWoXdzIS3Fyk2IZ
+   /D9kLYOFMZiw1xg1JM8rHwi5IQlCb/L3Sri+ZxyVGQnJYoe2HVUIByE6x
+   zphXhCbobeRjlm/gtzg2gld55YJFAnO9wlreXpu85Wk6SaxsFHCB60x2v
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="430372749"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="406919609"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 21:15:40 -0700
+   d="scan'208";a="430372749"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 21:36:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="682736293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800614999"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="682736293"
+   d="scan'208";a="800614999"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Apr 2023 21:15:34 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 Apr 2023 21:36:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmoMv-000YKr-2w;
-	Thu, 13 Apr 2023 04:15:33 +0000
-Date: Thu, 13 Apr 2023 12:15:09 +0800
+	id 1pmohG-000YLV-0z;
+	Thu, 13 Apr 2023 04:36:34 +0000
+Date: Thu, 13 Apr 2023 12:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	David Airlie <airlied@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fbdev@vger.kernel.org, lvc-project@linuxtesting.org,
-	dri-devel@lists.freedesktop.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Helge Deller <deller@gmx.de>, amd-gfx@lists.freedesktop.org,
-	Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] video/hdmi: minor fixes for *_infoframe_init functions
-Message-ID: <202304131234.hT3mzkju-lkp@intel.com>
-References: <20230412152910.9486-1-n.zhandarovich@fintech.ru>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [linux-next:master 9709/10976] drivers/bluetooth/btnxpuart.c:681:23:
+ sparse: sparse: restricted __le16 degrades to integer
+Message-ID: <202304131223.GJIL0iyK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230412152910.9486-1-n.zhandarovich@fintech.ru>
 
-Hi Nikita,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on tegra/for-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Zhandarovich/video-hdmi-minor-fixes-for-_infoframe_init-functions/20230412-232947
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230412152910.9486-1-n.zhandarovich%40fintech.ru
-patch subject: [PATCH] video/hdmi: minor fixes for *_infoframe_init functions
-config: x86_64-randconfig-a005-20230410 (https://download.01.org/0day-ci/archive/20230413/202304131234.hT3mzkju-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7d8214bba44c1aa6a75921a09a691945d26a8d43
+commit: 2e9632009158054bcb6c1766c6748476db0561a0 [9709/10976] Bluetooth: NXP: Add protocol support for NXP Bluetooth chipsets
+config: nios2-randconfig-s032-20230413 (https://download.01.org/0day-ci/archive/20230413/202304131223.GJIL0iyK-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/36210f5b0ac3046f4c1c1d0c6e392eab40811699
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nikita-Zhandarovich/video-hdmi-minor-fixes-for-_infoframe_init-functions/20230412-232947
-        git checkout 36210f5b0ac3046f4c1c1d0c6e392eab40811699
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=2e9632009158054bcb6c1766c6748476db0561a0
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 2e9632009158054bcb6c1766c6748476db0561a0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304131234.hT3mzkju-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304131223.GJIL0iyK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/bluetooth/btnxpuart.c:681:23: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/bluetooth/btnxpuart.c:690:82: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:690:82: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:690:82: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:694:84: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:694:84: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:694:84: sparse:     got restricted __le16 [usertype] len
+>> drivers/bluetooth/btnxpuart.c:708:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] requested_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:708:23: sparse:     expected unsigned int [usertype] requested_len
+   drivers/bluetooth/btnxpuart.c:708:23: sparse:     got restricted __le16 [usertype] len
+>> drivers/bluetooth/btnxpuart.c:787:78: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] chipid @@     got restricted __le16 [usertype] chip_id @@
+   drivers/bluetooth/btnxpuart.c:787:78: sparse:     expected unsigned short [usertype] chipid
+   drivers/bluetooth/btnxpuart.c:787:78: sparse:     got restricted __le16 [usertype] chip_id
+   drivers/bluetooth/btnxpuart.c:810:74: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:810:74: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:810:74: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c:815:76: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:815:76: sparse:     expected unsigned short [usertype] req_len
+   drivers/bluetooth/btnxpuart.c:815:76: sparse:     got restricted __le16 [usertype] len
+>> drivers/bluetooth/btnxpuart.c:834:16: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bluetooth/btnxpuart.c:843:55: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/bluetooth/btnxpuart.c:844:36: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] @@     got restricted __le16 [usertype] len @@
+   drivers/bluetooth/btnxpuart.c:844:36: sparse:     expected unsigned int [usertype]
+   drivers/bluetooth/btnxpuart.c:844:36: sparse:     got restricted __le16 [usertype] len
+   drivers/bluetooth/btnxpuart.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
 
->> drivers/gpu/drm/i915/display/intel_hdmi.c:769:37: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
-           if (drm_WARN_ON(encoder->base.dev, ret))
-                                              ^~~
-   include/drm/drm_print.h:630:19: note: expanded from macro 'drm_WARN_ON'
-           drm_WARN((drm), (x), "%s",                                      \
-                            ^
-   include/drm/drm_print.h:620:7: note: expanded from macro 'drm_WARN'
-           WARN(condition, "%s %s: " format,                               \
-                ^~~~~~~~~
-   include/asm-generic/bug.h:131:25: note: expanded from macro 'WARN'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_hdmi.c:756:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 error generated.
+vim +681 drivers/bluetooth/btnxpuart.c
 
-
-vim +/ret +769 drivers/gpu/drm/i915/display/intel_hdmi.c
-
-b055c8f3ef9f7b drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-07-08  748  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  749  static bool
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  750  intel_hdmi_compute_spd_infoframe(struct intel_encoder *encoder,
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  751  				 struct intel_crtc_state *crtc_state,
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  752  				 struct drm_connector_state *conn_state)
-c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  753  {
-7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  754  	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  755  	struct hdmi_spd_infoframe *frame = &crtc_state->infoframes.spd.spd;
-5adaea799c1c2c drivers/gpu/drm/i915/intel_hdmi.c         Damien Lespiau      2013-08-06  756  	int ret;
-5adaea799c1c2c drivers/gpu/drm/i915/intel_hdmi.c         Damien Lespiau      2013-08-06  757  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  758  	if (!crtc_state->has_infoframe)
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  759  		return true;
-c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  760  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  761  	crtc_state->infoframes.enable |=
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  762  		intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_SPD);
-c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  763  
-7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  764  	if (IS_DGFX(i915))
-36210f5b0ac304 drivers/gpu/drm/i915/display/intel_hdmi.c Nikita Zhandarovich 2023-04-12  765  		hdmi_spd_infoframe_init(frame, "Intel", "Discrete gfx");
-7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  766  	else
-36210f5b0ac304 drivers/gpu/drm/i915/display/intel_hdmi.c Nikita Zhandarovich 2023-04-12  767  		hdmi_spd_infoframe_init(frame, "Intel", "Integrated gfx");
-7d1675dcb5a16c drivers/gpu/drm/i915/display/intel_hdmi.c Taylor, Clinton A   2022-11-29  768  
-3a47ae201e0749 drivers/gpu/drm/i915/display/intel_hdmi.c Pankaj Bharadiya    2020-01-15 @769  	if (drm_WARN_ON(encoder->base.dev, ret))
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  770  		return false;
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  771  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  772  	frame->sdi = HDMI_SPD_SDI_PC;
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  773  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  774  	ret = hdmi_spd_infoframe_check(frame);
-3a47ae201e0749 drivers/gpu/drm/i915/display/intel_hdmi.c Pankaj Bharadiya    2020-01-15  775  	if (drm_WARN_ON(encoder->base.dev, ret))
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  776  		return false;
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  777  
-fbf08556ed4344 drivers/gpu/drm/i915/intel_hdmi.c         Ville Syrjälä       2019-02-25  778  	return true;
-c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  779  }
-c0864cb39c6869 drivers/gpu/drm/i915/intel_hdmi.c         Jesse Barnes        2011-08-03  780  
+   665	
+   666	/* for legacy chipsets with V1 bootloader */
+   667	static int nxp_recv_fw_req_v1(struct hci_dev *hdev, struct sk_buff *skb)
+   668	{
+   669		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   670		struct btnxpuart_data *nxp_data = nxpdev->nxp_data;
+   671		struct v1_data_req *req;
+   672		u32 requested_len;
+   673	
+   674		if (!process_boot_signature(nxpdev))
+   675			goto free_skb;
+   676	
+   677		req = (struct v1_data_req *)skb_pull_data(skb, sizeof(struct v1_data_req));
+   678		if (!req)
+   679			goto free_skb;
+   680	
+ > 681		if ((req->len ^ req->len_comp) != 0xffff) {
+   682			bt_dev_dbg(hdev, "ERR: Send NAK");
+   683			nxp_send_ack(NXP_NAK_V1, hdev);
+   684			goto free_skb;
+   685		}
+   686		nxp_send_ack(NXP_ACK_V1, hdev);
+   687	
+   688		if (nxp_data->fw_download_3M_baudrate) {
+   689			if (!nxpdev->timeout_changed) {
+ > 690				nxpdev->timeout_changed = nxp_fw_change_timeout(hdev, req->len);
+   691				goto free_skb;
+   692			}
+   693			if (!nxpdev->baudrate_changed) {
+   694				nxpdev->baudrate_changed = nxp_fw_change_baudrate(hdev, req->len);
+   695				if (nxpdev->baudrate_changed) {
+   696					serdev_device_set_baudrate(nxpdev->serdev,
+   697								   HCI_NXP_SEC_BAUDRATE);
+   698					serdev_device_set_flow_control(nxpdev->serdev, 1);
+   699					nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
+   700				}
+   701				goto free_skb;
+   702			}
+   703		}
+   704	
+   705		if (nxp_request_firmware(hdev, nxp_data->fw_name))
+   706			goto free_skb;
+   707	
+ > 708		requested_len = req->len;
+   709		if (requested_len == 0) {
+   710			bt_dev_dbg(hdev, "FW Downloaded Successfully: %zu bytes", nxpdev->fw->size);
+   711			clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+   712			wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
+   713			goto free_skb;
+   714		}
+   715		if (requested_len & 0x01) {
+   716			/* The CRC did not match at the other end.
+   717			 * Simply send the same bytes again.
+   718			 */
+   719			requested_len = nxpdev->fw_v1_sent_bytes;
+   720			bt_dev_dbg(hdev, "CRC error. Resend %d bytes of FW.", requested_len);
+   721		} else {
+   722			nxpdev->fw_dnld_v1_offset += nxpdev->fw_v1_sent_bytes;
+   723	
+   724			/* The FW bin file is made up of many blocks of
+   725			 * 16 byte header and payload data chunks. If the
+   726			 * FW has requested a header, read the payload length
+   727			 * info from the header, before sending the header.
+   728			 * In the next iteration, the FW should request the
+   729			 * payload data chunk, which should be equal to the
+   730			 * payload length read from header. If there is a
+   731			 * mismatch, clearly the driver and FW are out of sync,
+   732			 * and we need to re-send the previous header again.
+   733			 */
+   734			if (requested_len == nxpdev->fw_v1_expected_len) {
+   735				if (requested_len == HDR_LEN)
+   736					nxpdev->fw_v1_expected_len = nxp_get_data_len(nxpdev->fw->data +
+   737										nxpdev->fw_dnld_v1_offset);
+   738				else
+   739					nxpdev->fw_v1_expected_len = HDR_LEN;
+   740			} else if (requested_len == HDR_LEN) {
+   741				/* FW download out of sync. Send previous chunk again */
+   742				nxpdev->fw_dnld_v1_offset -= nxpdev->fw_v1_sent_bytes;
+   743				nxpdev->fw_v1_expected_len = HDR_LEN;
+   744			}
+   745		}
+   746	
+   747		if (nxpdev->fw_dnld_v1_offset + requested_len <= nxpdev->fw->size)
+   748			serdev_device_write_buf(nxpdev->serdev,
+   749						nxpdev->fw->data + nxpdev->fw_dnld_v1_offset,
+   750						requested_len);
+   751		nxpdev->fw_v1_sent_bytes = requested_len;
+   752	
+   753	free_skb:
+   754		kfree_skb(skb);
+   755		return 0;
+   756	}
+   757	
+   758	static char *nxp_get_fw_name_from_chipid(struct hci_dev *hdev, u16 chipid)
+   759	{
+   760		char *fw_name = NULL;
+   761	
+   762		switch (chipid) {
+   763		case CHIP_ID_W9098:
+   764			fw_name = FIRMWARE_W9098;
+   765			break;
+   766		case CHIP_ID_IW416:
+   767			fw_name = FIRMWARE_IW416;
+   768			break;
+   769		case CHIP_ID_IW612:
+   770			fw_name = FIRMWARE_IW612;
+   771			break;
+   772		default:
+   773			bt_dev_err(hdev, "Unknown chip signature %04x", chipid);
+   774			break;
+   775		}
+   776		return fw_name;
+   777	}
+   778	
+   779	static int nxp_recv_chip_ver_v3(struct hci_dev *hdev, struct sk_buff *skb)
+   780	{
+   781		struct v3_start_ind *req = skb_pull_data(skb, sizeof(struct v3_start_ind));
+   782		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   783	
+   784		if (!process_boot_signature(nxpdev))
+   785			goto free_skb;
+   786	
+ > 787		if (!nxp_request_firmware(hdev, nxp_get_fw_name_from_chipid(hdev, req->chip_id)))
+   788			nxp_send_ack(NXP_ACK_V3, hdev);
+   789	
+   790	free_skb:
+   791		kfree_skb(skb);
+   792		return 0;
+   793	}
+   794	
+   795	static int nxp_recv_fw_req_v3(struct hci_dev *hdev, struct sk_buff *skb)
+   796	{
+   797		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   798		struct v3_data_req *req;
+   799	
+   800		if (!process_boot_signature(nxpdev))
+   801			goto free_skb;
+   802	
+   803		req = (struct v3_data_req *)skb_pull_data(skb, sizeof(struct v3_data_req));
+   804		if (!req || !nxpdev->fw)
+   805			goto free_skb;
+   806	
+   807		nxp_send_ack(NXP_ACK_V3, hdev);
+   808	
+   809		if (!nxpdev->timeout_changed) {
+   810			nxpdev->timeout_changed = nxp_fw_change_timeout(hdev, req->len);
+   811			goto free_skb;
+   812		}
+   813	
+   814		if (!nxpdev->baudrate_changed) {
+   815			nxpdev->baudrate_changed = nxp_fw_change_baudrate(hdev, req->len);
+   816			if (nxpdev->baudrate_changed) {
+   817				serdev_device_set_baudrate(nxpdev->serdev,
+   818							   HCI_NXP_SEC_BAUDRATE);
+   819				serdev_device_set_flow_control(nxpdev->serdev, 1);
+   820				nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
+   821			}
+   822			goto free_skb;
+   823		}
+   824	
+   825		if (req->len == 0) {
+   826			bt_dev_dbg(hdev, "FW Downloaded Successfully: %zu bytes", nxpdev->fw->size);
+   827			clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+   828			wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
+   829			goto free_skb;
+   830		}
+   831		if (req->error)
+   832			bt_dev_dbg(hdev, "FW Download received err 0x%02x from chip", req->error);
+   833	
+ > 834		if (req->offset < nxpdev->fw_v3_offset_correction) {
+   835			/* This scenario should ideally never occur. But if it ever does,
+   836			 * FW is out of sync and needs a power cycle.
+   837			 */
+   838			bt_dev_err(hdev, "Something went wrong during FW download. Please power cycle and try again");
+   839			goto free_skb;
+   840		}
+   841	
+   842		serdev_device_write_buf(nxpdev->serdev,
+   843					nxpdev->fw->data + req->offset - nxpdev->fw_v3_offset_correction,
+ > 844					req->len);
+   845	
+   846	free_skb:
+   847		kfree_skb(skb);
+   848		return 0;
+   849	}
+   850	
 
 -- 
 0-DAY CI Kernel Test Service
