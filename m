@@ -1,161 +1,163 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF4662E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 02:54:00 +0000 (UTC)
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PxkC53w8xznc0Q;
-	Thu, 13 Apr 2023 10:33:05 +0800 (CST)
-Received: from [10.174.177.174] (10.174.177.174) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 13 Apr 2023 10:36:40 +0800
-Message-ID: <8c7984b9-b4b9-0af3-73a1-2bbd10c928ba@huawei.com>
-Date: Thu, 13 Apr 2023 10:36:40 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B467062F;
+	Thu, 13 Apr 2023 03:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681355016; x=1712891016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z0UNzeJ1Sjtro1S5OH3iNmoeTLZclN9Vh/bmGudCp+g=;
+  b=XBNolx0tTXr0M0lZz0tthhe5Gg8tMrMsDYJx5+gRbKqAvL/qhr4woPom
+   Xe/O3A6goF2UOkWfoRMMlN9f1Bg1FhMMsyTBQrdQTWca8x2YFrFHCOd8E
+   DmpY1GpXHU6V8bCK+kfo1rJbvvRDby2WXUSmA3otknZLw3x5yghwd2EMp
+   L5p15/iCHfpiYTc3IV6bGeW1ULOkGXLk94xShChJd0Zlz4sBl6m8zWxBE
+   YT7Ncs6Qs5OT2g+i2R+OCZDEl5lqp6RiziBaJavzWXEmaaJY4tsv9WWM+
+   v/Mu8rT1SMB35iOlwPvTnWzxSSq+Dcxhn3g27rcrDr01CfSKWu92uVdSy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="324431957"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="324431957"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 20:03:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="778526667"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="778526667"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2023 20:03:33 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pmnFE-000YHp-0V;
+	Thu, 13 Apr 2023 03:03:32 +0000
+Date: Thu, 13 Apr 2023 11:03:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>,
+	johannes@sipsolutions.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, quic_jjohnson@quicinc.com,
+	Kieran Frewen <kieran.frewen@morsemicro.com>,
+	Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>
+Subject: Re: [PATCH v4 1/2] wifi: cfg80211: Add short_beacon_tail/head/period
+Message-ID: <202304131044.Y2mHsqp7-lkp@intel.com>
+References: <20230412231241.1587517-1-gilad.itzkovitch@virscient.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v3 6/8] ext4: make ext4_es_insert_delayed_block return
- void
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, <linux-ext4@vger.kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <jack@suse.cz>, <ritesh.list@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <yi.zhang@huawei.com>,
-	<yangerkun@huawei.com>, <yukuai3@huawei.com>, Baokun Li
-	<libaokun1@huawei.com>
-References: <20230412124126.2286716-7-libaokun1@huawei.com>
- <202304122234.3Meeshf9-lkp@intel.com>
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <202304122234.3Meeshf9-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500021.china.huawei.com (7.185.36.21)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412231241.1587517-1-gilad.itzkovitch@virscient.com>
 
-On 2023/4/12 22:19, kernel test robot wrote:
-> Hi Baokun,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on tytso-ext4/dev]
-> [also build test WARNING on linus/master v6.3-rc6 next-20230412]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baokun-Li/ext4-only-update-i_reserved_data_blocks-on-successful-block-allocation/20230412-204407
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> patch link:    https://lore.kernel.org/r/20230412124126.2286716-7-libaokun1%40huawei.com
-> patch subject: [PATCH v3 6/8] ext4: make ext4_es_insert_delayed_block return void
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230412/202304122234.3Meeshf9-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/87f992eeab9cd894894e27c3c6ff322cbd473ebf
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Baokun-Li/ext4-only-update-i_reserved_data_blocks-on-successful-block-allocation/20230412-204407
->          git checkout 87f992eeab9cd894894e27c3c6ff322cbd473ebf
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/ext4/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304122234.3Meeshf9-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     fs/ext4/inode.c: In function 'ext4_insert_delayed_block':
->>> fs/ext4/inode.c:1640:14: warning: variable 'reserved' set but not used [-Wunused-but-set-variable]
->      1640 |         bool reserved = false;
->           |              ^~~~~~~~
+Hi Gilad,
 
-Thank you very much for testing, I will fix this issue in the next 
-version of the patch.
+kernel test robot noticed the following build warnings:
 
-I checked with make W=2 to see if it would introduce a compile warning 
-before sending,
-but it did not check for the problem. When I saw this email I checked 
-again with W=1,
-and this checked the problem instead. This is strange, doesn't it seem 
-to me that a high
-rank warning check should include a low rank warning check?
-Am I misunderstanding or is this a bug?
+[auto build test WARNING on aa2aa818cd1198cfa2498116d57cd9f13fea80e4]
 
->
-> vim +/reserved +1640 fs/ext4/inode.c
->
-> df22291ff0fde0 Aneesh Kumar K.V 2008-09-08  1623
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1624  /*
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1625   * ext4_insert_delayed_block - adds a delayed block to the extents status
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1626   *                             tree, incrementing the reserved cluster/block
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1627   *                             count or making a pending reservation
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1628   *                             where needed
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1629   *
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1630   * @inode - file containing the newly added block
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1631   * @lblk - logical block to be added
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1632   *
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1633   * Returns 0 on success, negative error code on failure.
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1634   */
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1635  static int ext4_insert_delayed_block(struct inode *inode, ext4_lblk_t lblk)
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1636  {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1637  	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
-> 87f992eeab9cd8 Baokun Li        2023-04-12  1638  	int ret = 0;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1639  	bool allocated = false;
-> 6fed83957f21ef Jeffle Xu        2021-08-23 @1640  	bool reserved = false;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1641
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1642  	/*
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1643  	 * If the cluster containing lblk is shared with a delayed,
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1644  	 * written, or unwritten extent in a bigalloc file system, it's
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1645  	 * already been accounted for and does not need to be reserved.
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1646  	 * A pending reservation must be made for the cluster if it's
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1647  	 * shared with a written or unwritten extent and doesn't already
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1648  	 * have one.  Written and unwritten extents can be purged from the
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1649  	 * extents status tree if the system is under memory pressure, so
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1650  	 * it's necessary to examine the extent tree if a search of the
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1651  	 * extents status tree doesn't get a match.
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1652  	 */
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1653  	if (sbi->s_cluster_ratio == 1) {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1654  		ret = ext4_da_reserve_space(inode);
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1655  		if (ret != 0)   /* ENOSPC */
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1656  			goto errout;
-> 6fed83957f21ef Jeffle Xu        2021-08-23  1657  		reserved = true;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1658  	} else {   /* bigalloc */
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1659  		if (!ext4_es_scan_clu(inode, &ext4_es_is_delonly, lblk)) {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1660  			if (!ext4_es_scan_clu(inode,
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1661  					      &ext4_es_is_mapped, lblk)) {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1662  				ret = ext4_clu_mapped(inode,
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1663  						      EXT4_B2C(sbi, lblk));
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1664  				if (ret < 0)
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1665  					goto errout;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1666  				if (ret == 0) {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1667  					ret = ext4_da_reserve_space(inode);
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1668  					if (ret != 0)   /* ENOSPC */
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1669  						goto errout;
-> 6fed83957f21ef Jeffle Xu        2021-08-23  1670  					reserved = true;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1671  				} else {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1672  					allocated = true;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1673  				}
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1674  			} else {
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1675  				allocated = true;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1676  			}
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1677  		}
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1678  	}
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1679
-> 87f992eeab9cd8 Baokun Li        2023-04-12  1680  	ext4_es_insert_delayed_block(inode, lblk, allocated);
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1681  errout:
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1682  	return ret;
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1683  }
-> 0b02f4c0d6d9e2 Eric Whitney     2018-10-01  1684
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Itzkovitch/wifi-mac80211-S1G-beacon-short-beacon-support/20230413-071340
+base:   aa2aa818cd1198cfa2498116d57cd9f13fea80e4
+patch link:    https://lore.kernel.org/r/20230412231241.1587517-1-gilad.itzkovitch%40virscient.com
+patch subject: [PATCH v4 1/2] wifi: cfg80211: Add short_beacon_tail/head/period
+config: i386-randconfig-a005-20230410 (https://download.01.org/0day-ci/archive/20230413/202304131044.Y2mHsqp7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0559af4e4729ccb2c2f378b51d5ccc1e35bb18f3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gilad-Itzkovitch/wifi-mac80211-S1G-beacon-short-beacon-support/20230413-071340
+        git checkout 0559af4e4729ccb2c2f378b51d5ccc1e35bb18f3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/wireless/
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304131044.Y2mHsqp7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> net/wireless/nl80211.c:236:6: warning: variable 's1g_short_bcn' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (len < offsetofend(typeof(*mgmt), frame_control))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/nl80211.c:272:6: note: uninitialized use occurs here
+           if (s1g_short_bcn)
+               ^~~~~~~~~~~~~
+   net/wireless/nl80211.c:236:2: note: remove the 'if' if its condition is always false
+           if (len < offsetofend(typeof(*mgmt), frame_control))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/nl80211.c:234:20: note: initialize the variable 's1g_short_bcn' to silence this warning
+           bool s1g_short_bcn;
+                             ^
+                              = 0
+   1 warning generated.
+
+
+vim +236 net/wireless/nl80211.c
+
+a9455408b09395 Johannes Berg   2012-06-15  224  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  225  static int validate_beacon_head(const struct nlattr *attr,
+f88eb7c0d002a6 Johannes Berg   2019-09-20  226  				struct netlink_ext_ack *extack)
+f88eb7c0d002a6 Johannes Berg   2019-09-20  227  {
+f88eb7c0d002a6 Johannes Berg   2019-09-20  228  	const u8 *data = nla_data(attr);
+f88eb7c0d002a6 Johannes Berg   2019-09-20  229  	unsigned int len = nla_len(attr);
+f88eb7c0d002a6 Johannes Berg   2019-09-20  230  	const struct element *elem;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  231  	const struct ieee80211_mgmt *mgmt = (void *)data;
+1d47f1198d5811 Thomas Pedersen 2020-09-08  232  	unsigned int fixedlen, hdrlen;
+9a6847ba174785 Johannes Berg   2021-04-08  233  	bool s1g_bcn;
+0559af4e4729cc Kieran Frewen   2023-04-13  234  	bool s1g_short_bcn;
+1d47f1198d5811 Thomas Pedersen 2020-09-08  235  
+9a6847ba174785 Johannes Berg   2021-04-08 @236  	if (len < offsetofend(typeof(*mgmt), frame_control))
+9a6847ba174785 Johannes Berg   2021-04-08  237  		goto err;
+9a6847ba174785 Johannes Berg   2021-04-08  238  
+9a6847ba174785 Johannes Berg   2021-04-08  239  	s1g_bcn = ieee80211_is_s1g_beacon(mgmt->frame_control);
+0559af4e4729cc Kieran Frewen   2023-04-13  240  	s1g_short_bcn = ieee80211_is_s1g_short_beacon(mgmt->frame_control);
+0559af4e4729cc Kieran Frewen   2023-04-13  241  	if (s1g_short_bcn) {
+0559af4e4729cc Kieran Frewen   2023-04-13  242  		fixedlen = offsetof(struct ieee80211_ext,
+0559af4e4729cc Kieran Frewen   2023-04-13  243  				    u.s1g_short_beacon.variable);
+0559af4e4729cc Kieran Frewen   2023-04-13  244  		hdrlen = offsetof(struct ieee80211_ext, u.s1g_short_beacon);
+0559af4e4729cc Kieran Frewen   2023-04-13  245  	} else if (s1g_bcn) {
+1d47f1198d5811 Thomas Pedersen 2020-09-08  246  		fixedlen = offsetof(struct ieee80211_ext,
+1d47f1198d5811 Thomas Pedersen 2020-09-08  247  				    u.s1g_beacon.variable);
+1d47f1198d5811 Thomas Pedersen 2020-09-08  248  		hdrlen = offsetof(struct ieee80211_ext, u.s1g_beacon);
+1d47f1198d5811 Thomas Pedersen 2020-09-08  249  	} else {
+1d47f1198d5811 Thomas Pedersen 2020-09-08  250  		fixedlen = offsetof(struct ieee80211_mgmt,
+f88eb7c0d002a6 Johannes Berg   2019-09-20  251  				    u.beacon.variable);
+1d47f1198d5811 Thomas Pedersen 2020-09-08  252  		hdrlen = offsetof(struct ieee80211_mgmt, u.beacon);
+1d47f1198d5811 Thomas Pedersen 2020-09-08  253  	}
+f88eb7c0d002a6 Johannes Berg   2019-09-20  254  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  255  	if (len < fixedlen)
+f88eb7c0d002a6 Johannes Berg   2019-09-20  256  		goto err;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  257  
+1d47f1198d5811 Thomas Pedersen 2020-09-08  258  	if (ieee80211_hdrlen(mgmt->frame_control) != hdrlen)
+f88eb7c0d002a6 Johannes Berg   2019-09-20  259  		goto err;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  260  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  261  	data += fixedlen;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  262  	len -= fixedlen;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  263  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  264  	for_each_element(elem, data, len) {
+f88eb7c0d002a6 Johannes Berg   2019-09-20  265  		/* nothing */
+f88eb7c0d002a6 Johannes Berg   2019-09-20  266  	}
+f88eb7c0d002a6 Johannes Berg   2019-09-20  267  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  268  	if (for_each_element_completed(elem, data, len))
+f88eb7c0d002a6 Johannes Berg   2019-09-20  269  		return 0;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  270  
+f88eb7c0d002a6 Johannes Berg   2019-09-20  271  err:
+0559af4e4729cc Kieran Frewen   2023-04-13  272  	if (s1g_short_bcn)
+0559af4e4729cc Kieran Frewen   2023-04-13  273  		NL_SET_ERR_MSG_ATTR(extack, attr, "malformed S1G short beacon head");
+0559af4e4729cc Kieran Frewen   2023-04-13  274  	else if (s1g_bcn)
+0559af4e4729cc Kieran Frewen   2023-04-13  275  		NL_SET_ERR_MSG_ATTR(extack, attr, "malformed S1G beacon head");
+0559af4e4729cc Kieran Frewen   2023-04-13  276  	else
+f88eb7c0d002a6 Johannes Berg   2019-09-20  277  		NL_SET_ERR_MSG_ATTR(extack, attr, "malformed beacon head");
+f88eb7c0d002a6 Johannes Berg   2019-09-20  278  	return -EINVAL;
+f88eb7c0d002a6 Johannes Berg   2019-09-20  279  }
+f88eb7c0d002a6 Johannes Berg   2019-09-20  280  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
