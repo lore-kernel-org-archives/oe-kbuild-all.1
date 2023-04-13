@@ -1,114 +1,136 @@
-Received: from xry111.site (xry111.site [89.208.246.23])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865BA374;
-	Thu, 13 Apr 2023 08:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-	s=default; t=1681374801;
-	bh=SD8a8KFvnCSwbVV6zTztQabyB1P9t20ITTiwlQmT/kI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=mMPkg7kd9d75I9RqubzvixZuTjV6gCBc24cVfdissGsaD546SzMl6lHKKk97MVXY5
-	 arvvJFZE2+2piTELSwG6ZBV1DkuEVUCc2DKc0j+J9gj7LBWUK6Z8sGFRvYUzstmWX3
-	 d+Vs220AH4XoU20omhJFRsciXnyPUKhuCS76xOX0=
-Received: from [192.168.124.11] (unknown [113.140.11.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-	(Client did not present a certificate)
-	(Authenticated sender: xry111@xry111.site)
-	by xry111.site (Postfix) with ESMTPSA id 772AE65C44;
-	Thu, 13 Apr 2023 04:33:18 -0400 (EDT)
-Message-ID: <ee3b287c78d9fbbbc996a787053b4c37fe365c2c.camel@xry111.site>
-Subject: Re: [PATCH v6 29/30] LoongArch: KVM: Enable kvm config and add the
- makefile
-From: Xi Ruoyao <xry111@xry111.site>
-To: kernel test robot <lkp@intel.com>, Tianrui Zhao
- <zhaotianrui@loongson.cn>,  Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Huacai Chen <chenhuacai@kernel.org>, WANG
- Xuerui <kernel@xen0n.name>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  loongarch@lists.linux.dev,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org,  Jens Axboe
- <axboe@kernel.dk>, Mark Brown <broonie@kernel.org>, Alex Deucher
- <alexander.deucher@amd.com>,  Oliver Upton <oliver.upton@linux.dev>,
- maobibo@loongson.cn
-Date: Thu, 13 Apr 2023 16:33:10 +0800
-In-Reply-To: <202304131526.iXfLaVZc-lkp@intel.com>
-References: <20230412083023.1693910-30-zhaotianrui@loongson.cn>
-	 <202304131526.iXfLaVZc-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.0 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D5E28F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 08:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681376159; x=1712912159;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WmTiimmWPFfCSOXkY4Z/VAHCChf8ShaHbegH+pOdm1U=;
+  b=jsZQNvo+DPw1eYpO33EKlmiPAohMsMS1sQtBbwUoW5dLuttTl6XV8Utk
+   L4ZZpLckRiEvcYMm1Rv1DFwnIewQqR/THp4Lg93NI5UB7gp5oCEj88Pbx
+   p7kjSzZ8BLk1oPg2q7L4kSHVl98PWikFtHxcjr9gyqGibzmgyxt9FdyIp
+   Vkup/iaRr/as6OOANyn5/TwD42eNFBmscnTtO4g7YD4oOVrBp3pkPzSce
+   ilbyNSDq3DhG1ThlEGNTE7ZuQIYrgSCRJAJlSkckJ9wDOXXkjC/xzzQPf
+   tBlOGmsAqxuyXwwg+EDg1NMETQCIqj0NMbx3cMCMw1b2o/2e9R4HKPaMY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="332836306"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; 
+   d="scan'208";a="332836306"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 01:55:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="721963493"
+X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; 
+   d="scan'208";a="721963493"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 13 Apr 2023 01:55:44 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pmsk3-000YYi-2e;
+	Thu, 13 Apr 2023 08:55:43 +0000
+Date: Thu, 13 Apr 2023 16:55:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>,
+	Fuad Tabba <tabba@google.com>
+Subject: [sean-jc:x86/upm_base_support 15/30]
+ arch/x86/kvm/../../../virt/kvm/kvm_main.c:811:9: error: expected ';' before
+ 'kvm'
+Message-ID: <202304131606.CIoLumxX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2023-04-13 at 15:32 +0800, kernel test robot wrote:
+tree:   https://github.com/sean-jc/linux x86/upm_base_support
+head:   9c985077b313ff50af5393d0b2268486b8ac63af
+commit: da9b31a7c2b32653d4a27cb5ffedca130d23ad40 [15/30] KVM: Use gfn instead of hva for mmu_notifier_retry
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230413/202304131606.CIoLumxX-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/sean-jc/linux/commit/da9b31a7c2b32653d4a27cb5ffedca130d23ad40
+        git remote add sean-jc https://github.com/sean-jc/linux
+        git fetch --no-tags sean-jc x86/upm_base_support
+        git checkout da9b31a7c2b32653d4a27cb5ffedca130d23ad40
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-> vim +/asm +244 arch/loongarch/include/asm/loongarch.h
->=20
-> f2ac457a61389b Huacai Chen=C2=A0 2022-05-31=C2=A0 238=C2=A0=20
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 239=C2=A0 /* GCSR */
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 240=C2=A0 static inline u64 =
-gcsr_read(u32 reg)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304131606.CIoLumxX-lkp@intel.com/
 
-Try __always_inline instead of inline because this "function" will
-definitely break up if it's not inlined.
+All errors (new ones prefixed by >>):
 
-And I guess we should have something like:
+   In file included from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:256,
+                    from arch/x86/include/asm/string_64.h:6,
+                    from arch/x86/include/asm/string.h:5,
+                    from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kvm_types.h:22,
+                    from include/kvm/iodev.h:6,
+                    from arch/x86/kvm/../../../virt/kvm/kvm_main.c:16:
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_mmu_invalidate_end':
+   include/asm-generic/bug.h:110:41: error: expected expression before ')' token
+     110 |         int __ret_warn_on = !!(condition);                      \
+         |                                         ^
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:804:9: note: in expansion of macro 'WARN_ON_ONCE'
+     804 |         WARN_ON_ONCE()
+         |         ^~~~~~~~~~~~
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:811:9: error: expected ';' before 'kvm'
+     811 |         kvm->mmu_invalidate_seq++;
+         |         ^~~
 
-extern u64 __compiletime_error("gcsr_read parameter is not a constant")=20
-__gcsr_read_non_const(void);
 
-static __always_inline u64 gcsr_read(u32 reg)
-{
-	u64 val =3D 0;
+vim +811 arch/x86/kvm/../../../virt/kvm/kvm_main.c
 
-	if (!__builtin_constant_p(reg))
-		return __gcsr_read_non_const();
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  801  
+da9b31a7c2b326 Chao Peng           2022-12-02  802  void kvm_mmu_invalidate_end(struct kvm *kvm)
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  803  {
+da9b31a7c2b326 Chao Peng           2022-12-02  804  	WARN_ON_ONCE()
+da9b31a7c2b326 Chao Peng           2022-12-02  805  
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  806  	/*
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  807  	 * This sequence increase will notify the kvm page fault that
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  808  	 * the page that is going to be mapped in the spte could have
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  809  	 * been freed.
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  810  	 */
+20ec3ebd707c77 Chao Peng           2022-08-16 @811  	kvm->mmu_invalidate_seq++;
+a355aa54f1d25d Paul Mackerras      2011-12-12  812  	smp_wmb();
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  813  	/*
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  814  	 * The above sequence increase must be visible before the
+a355aa54f1d25d Paul Mackerras      2011-12-12  815  	 * below count decrease, which is ensured by the smp_wmb above
+20ec3ebd707c77 Chao Peng           2022-08-16  816  	 * in conjunction with the smp_rmb in mmu_invalidate_retry().
+e930bffe95e1e8 Andrea Arcangeli    2008-07-25  817  	 */
+20ec3ebd707c77 Chao Peng           2022-08-16  818  	kvm->mmu_invalidate_in_progress--;
+da9b31a7c2b326 Chao Peng           2022-12-02  819  
+da9b31a7c2b326 Chao Peng           2022-12-02  820  	/*
+da9b31a7c2b326 Chao Peng           2022-12-02  821  	 * Assert that at least one range must be added between start() and
+da9b31a7c2b326 Chao Peng           2022-12-02  822  	 * end().  Not adding a range isn't fatal, but it is a KVM bug.
+da9b31a7c2b326 Chao Peng           2022-12-02  823  	 */
+da9b31a7c2b326 Chao Peng           2022-12-02  824  	WARN_ON_ONCE(kvm->mmu_invalidate_in_progress &&
+da9b31a7c2b326 Chao Peng           2022-12-02  825  		     kvm->mmu_invalidate_range_start == INVALID_GPA);
+f922bd9bf33bd5 Sean Christopherson 2021-04-01  826  }
+f922bd9bf33bd5 Sean Christopherson 2021-04-01  827  
 
-	asm volatile (
-... ...
+:::::: The code at line 811 was first introduced by commit
+:::::: 20ec3ebd707c77fb9b11b37193449193d4649f33 KVM: Rename mmu_notifier_* to mmu_invalidate_*
 
-Or perhaps we should just rewrite gcsr_read to a macro.
+:::::: TO: Chao Peng <chao.p.peng@linux.intel.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 241=C2=A0 {
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 242=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0u64 val =3D 0;
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 243=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0/* Instructions will be available in binutils later */
-> 2c87b678639d25 Tianrui Zhao 2023-04-12 @244=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-asm volatile (
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 245=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"parse_r __reg, %[val=
-]\n\t"
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 246=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 247=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * read val from gues=
-t csr register %[reg]
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 248=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * gcsrrd %[val], %[r=
-eg]
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 249=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 250=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0".word 0x5 << 24 | %[=
-reg] << 10 | 0 << 5 | __reg\n\t"
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 251=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0: [val] "+r" (val)
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 252=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0: [reg] "i" (reg)
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 253=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0: "memory");
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 254=C2=A0=20
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 255=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0return val;
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 256=C2=A0 }
-> 2c87b678639d25 Tianrui Zhao 2023-04-12=C2=A0 257=C2=A0=20
->=20
-
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
