@@ -1,47 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537707E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 00:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B95C361
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 00:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681345651; x=1712881651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=91ps9yc2BHF8OTu7wTRMHp/SHeLcXz0RITidFgNOBe8=;
-  b=VyhHedk361fRRuCamWpL3YDNrBQpm+1gMMlqHjBe/A4decLEgCTrYEpX
-   ilXwQCcAzQtyV6+rVIlgLuhCo1ShzadVL7tBbvfO5ItcY+0Z0H++ycQlg
-   ei0j1EXTDP4Vhu4XJHhJnNzVnKFJIgrp+QjgiHurGIuWDbf3o3djwDrMv
-   XsAaqsIIy4oZffoBRxENSlkwYyH4uPx+2RWfI6dJkqe7uefLZJtR12/JB
-   AXVoY0nqF3HFED5vvl/s2VvCvwhKarhEjrUhlvMysSO8GiLwryjQlosQI
-   fXKXqERWiSMKRY9UfSzBtD3lkgI5ftSYpTD+Auib1Jb4gk2e6q8o5i7hh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323676687"
+  t=1681347576; x=1712883576;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xzBJZwGJT0V2v4gMI4Ir7aLJQ//s/fLmiy9Vi1z23Ds=;
+  b=HY5LXynuuMdBlIgpPhmlTh+eCzNRZswqfyeYn1IJ496irj7MQCJEv2Us
+   fRLWgYrmsBILbBbdJpkv9vVeFLGKG6Z+8E9Q7JzMMBv3vLwTAaeIbBdD8
+   PZUtcJ38yJ0Rx4vkAzwQNC1W4h2SmRkJToGfyTNucieMfvs7aIwvnkrml
+   mICwPYHXgGup4yxFZM9YEusz/x4Zly510SbaKfI4eM0sgOshUh+ZDOmAo
+   qxfqRyIcjbl0TO3NhUWVPUNzm/+LjCWxUa5b8WExr8/uVeW6l+25Z0+Ze
+   4jJ0DG2yPNSbwLAsPpbMd/i9nESSwKWcRC+1Z7RKT8g2nSIOi5yd9iFD/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406893497"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="323676687"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 17:27:30 -0700
+   d="scan'208";a="406893497"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 17:59:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="721784440"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813188126"
 X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="721784440"
+   d="scan'208";a="813188126"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Apr 2023 17:27:28 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Apr 2023 17:59:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmkoB-000YAh-14;
-	Thu, 13 Apr 2023 00:27:27 +0000
-Date: Thu, 13 Apr 2023 08:27:25 +0800
+	id 1pmlJA-000YBd-27;
+	Thu, 13 Apr 2023 00:59:28 +0000
+Date: Thu, 13 Apr 2023 08:58:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: mail@mariushoch.de, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
-	Marius Hoch <mail@mariushoch.de>
-Subject: Re: [PATCH] iio: st_sensors: Add ACPI support for lsm303d to the
- LSM9DS0 IMU driver
-Message-ID: <202304130858.DbtHpwcV-lkp@intel.com>
-References: <20230412223627.442963-5-mail@mariushoch.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:epoll-min_ts.2 10/10] or1k-linux-ld:
+ arch/openrisc/kernel/sys_call_table.o:undefined reference to
+ `sys_epoll_pwait3'
+Message-ID: <202304130824.2l7O3wqk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,62 +46,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412223627.442963-5-mail@mariushoch.de>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mail-mariushoch-de/iio-st_sensors-Add-ACPI-support-for-lsm303d-to-the-LSM9DS0-IMU-driver/20230413-064417
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20230412223627.442963-5-mail%40mariushoch.de
-patch subject: [PATCH] iio: st_sensors: Add ACPI support for lsm303d to the LSM9DS0 IMU driver
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230413/202304130858.DbtHpwcV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/ec35631841a31e357cf4f6781b4c8f78a468a4ef
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review mail-mariushoch-de/iio-st_sensors-Add-ACPI-support-for-lsm303d-to-the-LSM9DS0-IMU-driver/20230413-064417
-        git checkout ec35631841a31e357cf4f6781b4c8f78a468a4ef
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git epoll-min_ts.2
+head:   b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b
+commit: b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b [10/10] eventpoll: wire up epoll_pwait3() syscall
+config: openrisc-randconfig-s031-20230409 (https://download.01.org/0day-ci/archive/20230413/202304130824.2l7O3wqk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/commit/?id=b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+        git fetch --no-tags axboe-block epoll-min_ts.2
+        git checkout b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130858.DbtHpwcV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130824.2l7O3wqk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_i2c.c:38:38: error: 'LSM303D_IMU_DEV_NAME' undeclared here (not in a function); did you mean 'LSM9DS0_IMU_DEV_NAME'?
-      38 |         {"ACCL0001", (kernel_ulong_t)LSM303D_IMU_DEV_NAME},
-         |                                      ^~~~~~~~~~~~~~~~~~~~
-         |                                      LSM9DS0_IMU_DEV_NAME
---
->> drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:38:38: error: 'LSM303D_IMU_DEV_NAME' undeclared here (not in a function); did you mean 'LSM9DS0_IMU_DEV_NAME'?
-      38 |         {"ACCL0001", (kernel_ulong_t)LSM303D_IMU_DEV_NAME},
-         |                                      ^~~~~~~~~~~~~~~~~~~~
-         |                                      LSM9DS0_IMU_DEV_NAME
-
-
-vim +38 drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_i2c.c
-
-    35	
-    36	#ifdef CONFIG_ACPI
-    37	static const struct acpi_device_id st_lsm9ds0_acpi_match[] = {
-  > 38		{"ACCL0001", (kernel_ulong_t)LSM303D_IMU_DEV_NAME},
-    39		{ },
-    40	};
-    41	MODULE_DEVICE_TABLE(acpi, st_lsm9ds0_acpi_match);
-    42	#endif
-    43	
+>> or1k-linux-ld: arch/openrisc/kernel/sys_call_table.o:(.data+0x70c): undefined reference to `sys_epoll_pwait3'
 
 -- 
 0-DAY CI Kernel Test Service
