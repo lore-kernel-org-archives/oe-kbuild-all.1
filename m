@@ -1,44 +1,55 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3CD2C9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 18:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DFF2C9C;
+	Thu, 13 Apr 2023 18:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681410964; x=1712946964;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tQxY8y8ghcVRsOh0i59qrl7q/US9ew4SDk+5oZI9poA=;
-  b=DZJaaHa7iymsnt8O+hyyrJwMLULGlit+SoqCdZFKUiIo+oO05xvErvgo
-   oaSHroCoiJqjhZYJqLiGDnMrse+rQaZfaXtQli62MKkxZLQ8DQqT8cyQb
-   H3YWV6Z8s3ou+YevY2Vxs/EMQW4VTkkA9XhOmNFSSqcY/cB4mKfxDtofD
-   pcjvUP4JT02u3oz0ycJILPGDnrDoyP8cmONdEXMQIIXqI9KfO92nRVBkL
-   Vwf55wbG0FzZncXyFLVwFDUP8a5JYQE77PTC94lxw0zuZtAcaRjMDRYeA
-   QVBuV571Z71BpJ2+uWKmgBAXuM8uM1PPsctBmc2l4IBR9+k4ytIXkPdVy
+  t=1681410971; x=1712946971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r97ETdLe83X1qhr3CYIugk6zwVDKsPmPWxIRW6Sbhmw=;
+  b=OnIrChrrF8Kgza2FRaYiTkJcsT5lWQu7nlxIS8DkCzN+vnhHiLQDDvpc
+   gOquhVSEJpKUBA6x/xLtwf5BpF5Kc84dgxfZNUgmTr8GHZKTXry2B+zdh
+   PFqIkEoZhmJis3gnumJ4wP/711ZBchDEVS5z+q2+Bb9Ah+AmTxFJhrzz/
+   JwupX31R9DJ0lNTuMutszEZgD5UenJ6Hqn9UEZjjOBHgZiXrU8U6LyPBJ
+   1COCMg+zG+t8078nXibqvDCxDrwy1a8iYGYZBVf4yGp1dxJekGNBxIwyg
+   efXpQuxCUJ+ydOyQRnZ/0DGcuIV4YxCQtSnvcfzuDOzB1beAbEsa6oqO9
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="328411493"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="328411525"
 X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; 
-   d="scan'208";a="328411493"
+   d="scan'208";a="328411525"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 11:36:01 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 11:36:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="800906371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="800906389"
 X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; 
-   d="scan'208";a="800906371"
+   d="scan'208";a="800906389"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 11:36:00 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 11:36:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pn1nb-000YsQ-1C;
+	id 1pn1nb-000YsN-19;
 	Thu, 13 Apr 2023 18:35:59 +0000
-Date: Fri, 14 Apr 2023 02:35:38 +0800
+Date: Fri, 14 Apr 2023 02:35:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1 894/1065]
- drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for
- 'zynqmp_gqspi_update_stripe'
-Message-ID: <202304140258.cAQcxGXL-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	WANG Xuerui <kernel@xen0n.name>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-rtc@vger.kernel.org, linux-mips@vger.kernel.org,
+	loongarch@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
+	Qing Zhang <zhangqing@loongson.cn>,
+	zhaoxiao <zhaoxiao@uniontech.com>, keguang.zhang@gmail.com,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: Re: [PATCH V3 2/7] rtc: Add support for the Loongson-2K/LS7A RTC
+Message-ID: <202304140202.URh2nrLx-lkp@intel.com>
+References: <09f381f445cfbcf857845f61d10238452037b2e8.1681370153.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +58,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <09f381f445cfbcf857845f61d10238452037b2e8.1681370153.git.zhoubinbin@loongson.cn>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1
-head:   bbf25ceb15a43c9047e14ab46a1d25c8ae6b67b4
-commit: 6f819749a70b1dfaf7ab06422e342c6d26d2863a [894/1065] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230414/202304140258.cAQcxGXL-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+Hi Binbin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on robh/for-next linus/master v6.3-rc6 next-20230412]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-rtc-Subdivision-of-LS2X-RTC-compatible/20230413-155906
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/09f381f445cfbcf857845f61d10238452037b2e8.1681370153.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH V3 2/7] rtc: Add support for the Loongson-2K/LS7A RTC
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230414/202304140202.URh2nrLx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/6f819749a70b1dfaf7ab06422e342c6d26d2863a
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v6.1
-        git checkout 6f819749a70b1dfaf7ab06422e342c6d26d2863a
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/30ef4691d0ab95241315bf9ba7cf20b7d549b071
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Binbin-Zhou/dt-bindings-rtc-Subdivision-of-LS2X-RTC-compatible/20230413-155906
+        git checkout 30ef4691d0ab95241315bf9ba7cf20b7d549b071
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/spi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/rtc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304140258.cAQcxGXL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304140202.URh2nrLx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for 'zynqmp_gqspi_update_stripe' [-Wmissing-prototypes]
-     229 | bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/spi/spi-zynqmp-gqspi.c:13:
-   include/linux/firmware/xlnx-zynqmp.h:1334:12: warning: 'versal_pm_sha_hash' defined but not used [-Wunused-function]
-    1334 | static int versal_pm_sha_hash(const u64 src, const u64 dst, const u32 size)
-         |            ^~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1329:12: warning: 'zynqmp_pm_fpga_get_feature_list' defined but not used [-Wunused-function]
-    1329 | static int zynqmp_pm_fpga_get_feature_list(u32 *value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1324:12: warning: 'zynqmp_pm_fpga_get_version' defined but not used [-Wunused-function]
-    1324 | static int zynqmp_pm_fpga_get_version(u32 *value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1254:12: warning: 'zynqmp_pm_sec_mask_write_reg' defined but not used [-Wunused-function]
-    1254 | static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1249:12: warning: 'zynqmp_pm_sec_read_reg' defined but not used [-Wunused-function]
-    1249 | static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-ls2x.c:276:25: warning: cast to smaller integer type 'enum ls2x_pm_offset' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+           priv->pm_base = regs - (enum ls2x_pm_offset)device_get_match_data(dev);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/zynqmp_gqspi_update_stripe +229 drivers/spi/spi-zynqmp-gqspi.c
+vim +276 drivers/rtc/rtc-ls2x.c
 
-   221	
-   222	/**
-   223	 * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
-   224	 * @op:	Pointer to mem ops
-   225	 * Return:      Status of the data stripe
-   226	 *
-   227	 * Returns true if data stripe need to be enabled, else returns false
-   228	 */
- > 229	bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-   230	{
-   231		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
-   232		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
-   233		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
-   234		    op->cmd.opcode ==  SPINOR_OP_SE ||
-   235		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
-   236		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
-   237		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
-   238		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
-   239		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
-   240		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
-   241			return false;
-   242	
-   243		return true;
-   244	}
-   245	
+   249	
+   250	static int ls2x_rtc_probe(struct platform_device *pdev)
+   251	{
+   252		int ret;
+   253		void __iomem *regs;
+   254		struct ls2x_rtc_priv *priv;
+   255		struct device *dev = &pdev->dev;
+   256	
+   257		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   258		if (!priv)
+   259			return -ENOMEM;
+   260	
+   261		regs = devm_platform_ioremap_resource(pdev, 0);
+   262		if (IS_ERR(regs))
+   263			return dev_err_probe(dev, PTR_ERR(regs),
+   264					     "devm_platform_ioremap_resource failed\n");
+   265	
+   266		priv->regmap = devm_regmap_init_mmio(dev, regs,
+   267						     &ls2x_rtc_regmap_config);
+   268		if (IS_ERR(priv->regmap))
+   269			return dev_err_probe(dev, PTR_ERR(priv->regmap),
+   270					     "devm_regmap_init_mmio failed\n");
+   271	
+   272		device_init_wakeup(dev, 1);
+   273		spin_lock_init(&priv->lock);
+   274		platform_set_drvdata(pdev, priv);
+   275	
+ > 276		priv->pm_base = regs - (enum ls2x_pm_offset)device_get_match_data(dev);
+   277	
+   278		if (has_acpi_companion(dev))
+   279			acpi_install_fixed_event_handler(ACPI_EVENT_RTC,
+   280							 ls2x_rtc_handler, priv);
+   281	
+   282		priv->rtcdev = devm_rtc_allocate_device(dev);
+   283		if (IS_ERR(priv->rtcdev))
+   284			return dev_err_probe(dev, PTR_ERR(priv->rtcdev),
+   285					     "devm_rtc_allocate_device failed\n");
+   286	
+   287		priv->rtcdev->ops = &ls2x_rtc_ops;
+   288		priv->rtcdev->range_min = RTC_TIMESTAMP_BEGIN_2000;
+   289		priv->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
+   290	
+   291		priv->irq = platform_get_irq(pdev, 0);
+   292		if (priv->irq < 0)
+   293			return dev_err_probe(dev, priv->irq, "platform_get_irq failed\n");
+   294	
+   295		ret = devm_request_irq(dev, priv->irq, ls2x_rtc_isr,
+   296				       IRQF_TRIGGER_RISING, "ls2x-alarm", priv);
+   297		if (ret < 0)
+   298			return dev_err_probe(dev, ret, "Unable to request irq %d\n",
+   299					     priv->irq);
+   300	
+   301		return devm_rtc_register_device(priv->rtcdev);
+   302	}
+   303	
 
 -- 
 0-DAY CI Kernel Test Service
