@@ -1,47 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A38F2C9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 11:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1232C9C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 11:39:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681385407; x=1712921407;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TW7DZwYAngC5+Nm9WQMS/VJ5iDejPiTfG0ly/S2pe0M=;
-  b=XQQfglETywWaeWcdJ1k4gCj/HywDdiuRz3p+WQWf94E8DBZ8y64DHTg/
-   tcLf18SN1F2RBPg9DST6kbbAvjRiRbyoF5VeIq+RFyBCuUc/G/gVJoP+C
-   iXpUeAUlAACOICCwAiaYfHLqJoFRnC098HyftizU/xoh+rE0oWrYUeDiN
-   ra6526pw7ah0MsR/kx9ykX8TQnh5sbkhijgRKZs+vUzE7q1VyBjvyfx/g
-   ImKpwY5P9vWSZ2DxK08lQell8wYrsFq2AS8T1kQwj+HKtOHz0nI2nyIyk
-   x8e+2YFyGCsyYNB4u4XUAHqASj6rIKjXtYqoV9AOgTvDOuv4sp2UH8En1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323781271"
+  t=1681385989; x=1712921989;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gaGjiT+v+ghKfYSqeNze/+mE+Wp4oGkF+auybGrR00Y=;
+  b=LcxPsC6fAhXJ2EXD1FmoVQoVjdWCUMS/X0EbA0fliNuoxB1mfHwYbCp6
+   FS8HHmw7vZJ0ejgnWxs/8VnsIRjHMVC0MDBDNL9b9sv7GYJnfvunTG2Ml
+   Tn4O0pjhsqQQTRHMKmZbXoDDMACuUKa+BJh+0rrpnGCMd8nNj2LBXfQoK
+   IBYoC2yyOO8rLbgWvJiocvBUc3/1W5trFXG8+7I++mFaXBf/0Tg/nJdSo
+   v/iHkh71rA/H+8YBkfD7DXxWeaVsfj14E7OkVM7ukvGXVcz6i1F+w6VKh
+   /IvRtxF4FHkLsMUQjSbPyEofCu+88PJhiEbPskWMEfgUc1FASuQGA3+Sm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="372011621"
 X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; 
-   d="scan'208";a="323781271"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 04:29:51 -0700
+   d="scan'208";a="372011621"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 04:39:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="935562139"
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="863744257"
 X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; 
-   d="scan'208";a="935562139"
+   d="scan'208";a="863744257"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Apr 2023 04:29:47 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Apr 2023 04:39:48 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmv98-000Ydt-2z;
-	Thu, 13 Apr 2023 11:29:46 +0000
-Date: Thu, 13 Apr 2023 19:29:03 +0800
+	id 1pmvIp-000Ye1-02;
+	Thu, 13 Apr 2023 11:39:47 +0000
+Date: Thu, 13 Apr 2023 19:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
-	ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
-	jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
-	wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-Message-ID: <202304131935.9BjNzso4-lkp@intel.com>
-References: <20230412145206.2483-3-christian.koenig@amd.com>
+Subject: [axboe-block:epoll-min_ts.2 9/10]
+ ./usr/include/linux/eventpoll.h:111:9: error: unknown type name 'sigset_t'
+Message-ID: <202304131945.1zymZHK6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +45,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412145206.2483-3-christian.koenig@amd.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes tegra/for-next linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230412145206.2483-3-christian.koenig%40amd.com
-patch subject: [PATCH 2/5] drm/debugfs: rework debugfs directory creation v3
-config: arc-randconfig-r043-20230413 (https://download.01.org/0day-ci/archive/20230413/202304131935.9BjNzso4-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git epoll-min_ts.2
+head:   b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b
+commit: 343353f60bfa9ffcf17dee8189972f43575bbe5e [9/10] eventpoll: add epoll_pwait3()
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304131945.1zymZHK6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/92a7a4f0fd59d427c5827c323692b76095f90efc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-debugfs-rework-debugfs-directory-creation-v3/20230412-235231
-        git checkout 92a7a4f0fd59d427c5827c323692b76095f90efc
+        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/commit/?id=343353f60bfa9ffcf17dee8189972f43575bbe5e
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+        git fetch --no-tags axboe-block epoll-min_ts.2
+        git checkout 343353f60bfa9ffcf17dee8189972f43575bbe5e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304131935.9BjNzso4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304131945.1zymZHK6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_unregister':
->> drivers/gpu/drm/drm_drv.c:1011:9: error: implicit declaration of function 'drm_debugfs_dev_fini'; did you mean 'drm_debugfs_dev_init'? [-Werror=implicit-function-declaration]
-    1011 |         drm_debugfs_dev_fini(dev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         drm_debugfs_dev_init
-   cc1: some warnings being treated as errors
-
-
-vim +1011 drivers/gpu/drm/drm_drv.c
-
-   974	
-   975	/**
-   976	 * drm_dev_unregister - Unregister DRM device
-   977	 * @dev: Device to unregister
-   978	 *
-   979	 * Unregister the DRM device from the system. This does the reverse of
-   980	 * drm_dev_register() but does not deallocate the device. The caller must call
-   981	 * drm_dev_put() to drop their final reference.
-   982	 *
-   983	 * A special form of unregistering for hotpluggable devices is drm_dev_unplug(),
-   984	 * which can be called while there are still open users of @dev.
-   985	 *
-   986	 * This should be called first in the device teardown code to make sure
-   987	 * userspace can't access the device instance any more.
-   988	 */
-   989	void drm_dev_unregister(struct drm_device *dev)
-   990	{
-   991		if (drm_core_check_feature(dev, DRIVER_LEGACY))
-   992			drm_lastclose(dev);
-   993	
-   994		dev->registered = false;
-   995	
-   996		drm_client_dev_unregister(dev);
-   997	
-   998		if (drm_core_check_feature(dev, DRIVER_MODESET))
-   999			drm_modeset_unregister_all(dev);
-  1000	
-  1001		if (dev->driver->unload)
-  1002			dev->driver->unload(dev);
-  1003	
-  1004		drm_legacy_pci_agp_destroy(dev);
-  1005		drm_legacy_rmmaps(dev);
-  1006	
-  1007		remove_compat_control_link(dev);
-  1008		drm_minor_unregister(dev, DRM_MINOR_ACCEL);
-  1009		drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
-  1010		drm_minor_unregister(dev, DRM_MINOR_RENDER);
-> 1011		drm_debugfs_dev_fini(dev);
-  1012	}
-  1013	EXPORT_SYMBOL(drm_dev_unregister);
-  1014	
+   In file included from <command-line>:
+>> ./usr/include/linux/eventpoll.h:107:41: error: field 'timeout' has incomplete type
+     107 |         struct __kernel_timespec        timeout;
+         |                                         ^~~~~~~
+>> ./usr/include/linux/eventpoll.h:111:9: error: unknown type name 'sigset_t'
+     111 |         sigset_t                        sigmask;
+         |         ^~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
