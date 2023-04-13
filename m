@@ -1,63 +1,47 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD46B2F23
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 12:43:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6037A6AB5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 12:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681389779; x=1712925779;
+  t=1681390433; x=1712926433;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AUmRE/yebNXpdkid5N0KqFC4R4ByzvArot+xXbENuPM=;
-  b=G5WkMOUjdpL23MjMI+gX0zVf4Y5L39/1y8Q0aSkiX0Dp75dBnCeyiUkM
-   ivT2VSIXgVLm8M4xg3f8omu3Gp/XuiCD4UHKIAGoz6CQDY6fzr76mKiDb
-   LqrqjKpb9JOEdmZf42DoDGbo/ajS59XcVmc1oKfGZOUvMHWIkA6QoDOp6
-   NL7OCXLmIt3s4zMLa7S/fZIWbtAwlYXVh+WYa+wJISkYKdS5UGlg8ASMw
-   ZM2axZFyAIWO4tbycpnDVlw+Uu/sf3Ofn/ZQnrbldTAlhNsySsVZe2StF
-   8s4GKnC3/jMZUaxzKqjmiJyuDrfGs6XFxXBMmcqdGyAOHJpwROIeWtG3S
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="342916936"
+  bh=cf9nlwl8d3niwKx0D4zeoXeEDtv7hftLRRYw4QHd3Cw=;
+  b=YKq2xVt0sAui03CT8ZvQYCaP7SyBCUiyiJTrs4kLUgDrhG+3yF+v++Lh
+   8UUii21S2Nn9JZ2l78GB1q9iT0BZcP4DOaJNOHrhlEW33J7CZbzIcMAfM
+   ya32l7er251KCJ2gLtlaSFuCggGzkKavhITWgwRyRKduRulursgjm17pr
+   EmbhjaWyVNCrRBzr9CLJST/iXHArzNqmPHkXxftaU5cQkbOopk2qOsf7z
+   WXOo4Q2WTJ5+2bE0s2oI4j4T4IN9LkI4VyBRbwmkbZ9QfvJ1Qgn+lwe26
+   zhxLqDHIdrhvqiBWKwq6AIl6mB+iYioBJX3MlMDeHfdeurF7jaFyquzFU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="345965513"
 X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="342916936"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 05:42:58 -0700
+   d="scan'208";a="345965513"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 05:53:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800801980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="666777301"
 X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="800801980"
+   d="scan'208";a="666777301"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 05:42:54 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Apr 2023 05:53:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmwHo-000YgZ-2M;
-	Thu, 13 Apr 2023 12:42:48 +0000
-Date: Thu, 13 Apr 2023 20:42:27 +0800
+	id 1pmwST-000Yh7-06;
+	Thu, 13 Apr 2023 12:53:49 +0000
+Date: Thu, 13 Apr 2023 20:53:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Jades Shih <jades.shih@mediatek.com>,
-	Miles Chen <miles.chen@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>,
-	Yi-De Wu <yi-de.wu@mediatek.com>
-Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
- GenieZone hypervisor support
-Message-ID: <202304132051.wGFK08qz-lkp@intel.com>
-References: <20230413090735.4182-4-yi-de.wu@mediatek.com>
+To: Li Feng <fengli@smartx.com>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lifeng1519@gmail.com,
+	Li Feng <fengli@smartx.com>
+Subject: Re: [PATCH] nvme/tcp: Add support to set the tcp worker cpu affinity
+Message-ID: <202304132042.jQcDkblz-lkp@intel.com>
+References: <20230413063317.2455680-1-fengli@smartx.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,84 +50,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230413090735.4182-4-yi-de.wu@mediatek.com>
+In-Reply-To: <20230413063317.2455680-1-fengli@smartx.com>
 
-Hi Yi-De,
+Hi Li,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next arm64/for-next/core lwn/docs-next linus/master v6.3-rc6 next-20230412]
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.3-rc6 next-20230412]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230413090735.4182-4-yi-de.wu%40mediatek.com
-patch subject: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce GenieZone hypervisor support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304132051.wGFK08qz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2d01949ddd48b1bc2cc9849154afe60781068f39
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Feng/nvme-tcp-Add-support-to-set-the-tcp-worker-cpu-affinity/20230413-143611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230413063317.2455680-1-fengli%40smartx.com
+patch subject: [PATCH] nvme/tcp: Add support to set the tcp worker cpu affinity
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230413/202304132042.jQcDkblz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/e5a036c113d5ce43375a6aafedcf705ef8c3acb1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
-        git checkout 2d01949ddd48b1bc2cc9849154afe60781068f39
+        git fetch --no-tags linux-review Li-Feng/nvme-tcp-Add-support-to-set-the-tcp-worker-cpu-affinity/20230413-143611
+        git checkout e5a036c113d5ce43375a6aafedcf705ef8c3acb1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/soc/mediatek/virt/geniezone/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304132051.wGFK08qz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304132042.jQcDkblz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/soc/mediatek/virt/geniezone/gzvm_vm.c:31:5: warning: no previous prototype for 'gzvm_gfn_to_pfn_memslot' [-Wmissing-prototypes]
-      31 | int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *pfn)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/gzvm_gfn_to_pfn_memslot +31 drivers/soc/mediatek/virt/geniezone/gzvm_vm.c
-
-    19	
-    20	
-    21	/**
-    22	 * @brief Translate gfn (guest ipa) to pfn (host pa), result is in @pfn
-    23	 *
-    24	 * Leverage KVM's `gfn_to_pfn_memslot`. Because `gfn_to_pfn_memslot` needs
-    25	 * kvm_memory_slot as parameter, this function populates necessary fileds
-    26	 * for calling `gfn_to_pfn_memslot`.
-    27	 *
-    28	 * @retval 0 succeed
-    29	 * @retval -EFAULT failed to convert
-    30	 */
-  > 31	int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *pfn)
-    32	{
-    33		hfn_t __pfn;
-    34		struct kvm_memory_slot kvm_slot = {0};
-    35	
-    36		kvm_slot.base_gfn = memslot->base_gfn;
-    37		kvm_slot.npages = memslot->npages;
-    38		kvm_slot.dirty_bitmap = NULL;
-    39		kvm_slot.userspace_addr = memslot->userspace_addr;
-    40		kvm_slot.flags = memslot->flags;
-    41		kvm_slot.id = memslot->slot_id;
-    42		kvm_slot.as_id = 0;
-    43	
-    44		__pfn = gfn_to_pfn_memslot(&kvm_slot, gfn);
-    45		if (is_error_noslot_pfn(__pfn)) {
-    46			*pfn = 0;
-    47			return -EFAULT;
-    48		}
-    49	
-    50		*pfn = __pfn;
-    51		return 0;
-    52	}
-    53	
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/tcp.c:44:16: sparse: sparse: symbol 'cpu_affinity_mask' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
