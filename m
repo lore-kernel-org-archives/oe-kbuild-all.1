@@ -1,43 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09880620
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 06:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5EB7F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 07:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681455023; x=1712991023;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EIJ2cONUWGz14cS4gW7Km3A2DSxFJ7dGzfLi+9HjxCQ=;
-  b=Cwv848JaPumM0YjLM7tUdb9NHvdErHUAS5mkVRe7bJGprIZsr4eX3NfI
-   ySAW/856MpPXCcI1CZGCGJyYEsAZB7v/jyOphWG8NgqNJNDIxZYxYLTpX
-   araYjd84WMHbwfCLMtKswnMUxO9BNFs+pfzo95/Msq2qUS21cpDoA7KMh
-   ZUgnWE3c1eK0ISp3rHnxlHCiNrXijdEz78yrHOT7+mUeReWvLnq0FR1V3
-   ABPnN9RHtAZxpMza3W9f0ZgoINZHqtmgANwr8iOI44OdL8eeLuWED1us0
-   iB94k/i7w9NwPxLK+5wNM/dyaspM9Gl0JWdYdYfBr08aG8zjdVOtuhAEE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="344395571"
+  t=1681456286; x=1712992286;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TYSbSR6Fs9QW0UHSn/kSupaAR7Jqpb04MF8TYGHB5ec=;
+  b=FhHR0u7K9i3X6JC0+iUhUWQk+d115wzNV2ApDv2YJc5GRYQIl8L6GVt4
+   +p2/Fk3KEl19I41SHRFCF6P3ktwe74HyamU8BUo3tN2taCo3jYZw0pQBa
+   aoRHckoRa6d0iKUn3Q0vuPKKuZziPHd6wKGQkHWlvKURq98gfVziUy2Q3
+   Fe7bH5/ZwtzsvWBGJquPPAgdHI5HNE+mE7LhOLwljEbxPjEdIt92l4eL4
+   +xCr3mVIFJkHTalId3DpqVy0TfjKTSOiYX4gY5x3grBrROI0peGjBehku
+   DNtM0UCj2ij+/mozTJKMjmExAsvEn5NPDEsyPiAMUiI41v3hXURt+gH6p
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="347117151"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="344395571"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 23:50:22 -0700
+   d="scan'208";a="347117151"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 00:11:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="683229363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="833437354"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="683229363"
+   d="scan'208";a="833437354"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 13 Apr 2023 23:50:20 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2023 00:11:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnDGF-000ZJP-2g;
-	Fri, 14 Apr 2023 06:50:19 +0000
-Date: Fri, 14 Apr 2023 14:49:59 +0800
+	id 1pnDaa-000ZJr-13;
+	Fri, 14 Apr 2023 07:11:20 +0000
+Date: Fri, 14 Apr 2023 15:10:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:20230413-module-alloc-opts 117/118]
- kernel/module/dups.c:108:6: warning: no previous prototype for
- 'kmod_dup_request_exists_wait'
-Message-ID: <202304141440.DYO4NAzp-lkp@intel.com>
+To: "songrui.771" <songrui.771@bytedance.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"songrui.771" <songrui.771@bytedance.com>
+Subject: Re: [PATCH] libbpf: correct the macro KERNEL_VERSION for old kernel
+Message-ID: <202304141549.j09aWR6q-lkp@intel.com>
+References: <20230414045204.9748-1-songrui.771@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,142 +51,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230414045204.9748-1-songrui.771@bytedance.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230413-module-alloc-opts
-head:   b40c1a39dfb04b688a41f60434d18da848d02cf3
-commit: 1b8e410f70b73e3d7bee508036b1f79410c593f3 [117/118] module: add debugging auto-load duplicate module support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230414/202304141440.DYO4NAzp-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=1b8e410f70b73e3d7bee508036b1f79410c593f3
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
-        git fetch --no-tags mcgrof 20230413-module-alloc-opts
-        git checkout 1b8e410f70b73e3d7bee508036b1f79410c593f3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash kernel/module/
+Hi songrui.771,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master v6.3-rc6 next-20230413]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/songrui-771/libbpf-correct-the-macro-KERNEL_VERSION-for-old-kernel/20230414-125238
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230414045204.9748-1-songrui.771%40bytedance.com
+patch subject: [PATCH] libbpf: correct the macro KERNEL_VERSION for old kernel
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141440.DYO4NAzp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141549.j09aWR6q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/module/dups.c:108:6: warning: no previous prototype for 'kmod_dup_request_exists_wait' [-Wmissing-prototypes]
-     108 | bool kmod_dup_request_exists_wait(char *module_name, bool wait, int *dup_ret)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/module/dups.c:208:6: warning: no previous prototype for 'kmod_dup_request_announce' [-Wmissing-prototypes]
-     208 | void kmod_dup_request_announce(char *module_name, int ret)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/kmod_dup_request_exists_wait +108 kernel/module/dups.c
-
-   107	
- > 108	bool kmod_dup_request_exists_wait(char *module_name, bool wait, int *dup_ret)
-   109	{
-   110		struct kmod_dup_req *kmod_req, *new_kmod_req;
-   111		int ret;
-   112	
-   113		/*
-   114		 * Pre-allocate the entry in case we have to use it later
-   115		 * to avoid contention with the mutex.
-   116		 */
-   117		new_kmod_req = kzalloc(sizeof(*new_kmod_req), GFP_KERNEL);
-   118		if (!new_kmod_req)
-   119			return false;
-   120	
-   121		memcpy(new_kmod_req->name, module_name, strlen(module_name));
-   122		INIT_WORK(&new_kmod_req->complete_work, kmod_dup_request_complete);
-   123		INIT_DELAYED_WORK(&new_kmod_req->delete_work, kmod_dup_request_delete);
-   124		init_completion(&new_kmod_req->first_req_done);
-   125	
-   126		mutex_lock(&kmod_dup_mutex);
-   127	
-   128		kmod_req = kmod_dup_request_lookup(module_name);
-   129		if (!kmod_req) {
-   130			/*
-   131			 * If the first request that came through for a module
-   132			 * was with request_module_nowait() we cannot wait for it
-   133			 * and share its return value with other users which may
-   134			 * have used request_module() and need a proper return value
-   135			 * so just skip using them as an anchor.
-   136			 *
-   137			 * If a prior request to this one came through with
-   138			 * request_module() though, then a request_module_nowait()
-   139			 * would benefit from duplicate detection.
-   140			 */
-   141			if (!wait) {
-   142				kfree(new_kmod_req);
-   143				pr_warn("New request_module_nowait() for %s -- cannot track duplicates for this request\n", module_name);
-   144				mutex_unlock(&kmod_dup_mutex);
-   145				return false;
-   146			}
-   147	
-   148			/*
-   149			 * There was no duplicate, just add the request so we can
-   150			 * keep tab on duplicates later.
-   151			 */
-   152			pr_info("New request_module() for %s\n", module_name);
-   153			list_add_rcu(&new_kmod_req->list, &dup_kmod_reqs);
-   154			mutex_unlock(&kmod_dup_mutex);
-   155			return false;
-   156		}
-   157		mutex_unlock(&kmod_dup_mutex);
-   158	
-   159		/* We are dealing with a duplicate request now */
-   160	
-   161		kfree(new_kmod_req);
-   162	
-   163		/*
-   164		 * To fix these try to use try_then_request_module() instead as that
-   165		 * will check if the component you are looking for is present or not.
-   166		 * You could also just queue a single request to load the module once,
-   167		 * instead of having each and everything you need try to request for
-   168		 * the module.
-   169		 *
-   170		 * Duplicate request_module() calls  can cause quite a bit of wasted
-   171		 * vmalloc() space when racing with userspace.
-   172		 */
-   173		WARN(1, "module-autoload: duplicate request for module %s\n", module_name);
-   174	
-   175		if (!wait) {
-   176			/*
-   177			 * If request_module_nowait() was used then the user just
-   178			 * wanted to issue the request and if another module request
-   179			 * was already its way with the same name we don't care for
-   180			 * the return value either. Let duplicate request_module_nowait()
-   181			 * calls bail out right away.
-   182			 */
-   183			*dup_ret = 0;
-   184			return true;
-   185		}
-   186	
-   187		/*
-   188		 * If a duplicate request_module() was used they *may* care for
-   189		 * the return value, so we have no other option but to wait for
-   190		 * the first caller to complete. If the first caller used
-   191		 * the request_module_nowait() call, subsquent callers will
-   192		 * deal with the comprmise of getting a successful call with this
-   193		 * optimization enabled ...
-   194		 */
-   195		ret = wait_for_completion_state(&kmod_req->first_req_done,
-   196						TASK_UNINTERRUPTIBLE | TASK_KILLABLE);
-   197		if (ret) {
-   198			*dup_ret = ret;
-   199			return true;
-   200		}
-   201	
-   202		/* Now the duplicate request has the same exact return value as the first request */
-   203		*dup_ret = kmod_req->dup_ret;
-   204	
-   205		return true;
-   206	}
-   207	
- > 208	void kmod_dup_request_announce(char *module_name, int ret)
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 294: need linux/version.h
+>> ./tools/lib/bpf/libbpf_probes.c: 450: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
