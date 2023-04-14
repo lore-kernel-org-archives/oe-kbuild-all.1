@@ -1,46 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182BABA4E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Apr 2023 23:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED8F369
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 00:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681430175; x=1712966175;
+  t=1681432646; x=1712968646;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TofPAdTImotCpwdQOwbr9GpUqnrKLaBSBx07tJg4QRY=;
-  b=cRPtTgrpMypD6JlG29iv04+kJOqEVC5LpJhocEftyLdagBJpvNBAZfcJ
-   t6gU9yTxp6sfCmFbUTPqisRV4r9KGriKHPm4JwUL5+pWw2y9eg0Gu138q
-   JLk2+2yiaJp/MQfVJDzHO18e6AmRh51Z/7GAsGKF9qhy7F0NkDBAKLFZM
-   a/V546zZdaVH3Dmy3bK2OvczN6nYOSr0m32JJOAK1qIXBd5NZG466pDBw
-   fGrpZMPQTkGC5ipwVHsX30LnJZYEt8v4jVZtavn74ugPX6q7VzsCMJN73
-   /l42DLEFOSxD31uPENo63RvjPeNW3u7eSrXV8/eqApEpDo75bVTAfjDYr
+  bh=YLP+qPKJUGlqc186nuQhuNtRyVAMYtQ0d6ukiAczwoo=;
+  b=UuI57dOsvyx5oFEB4wUzrQHDLkOhnrNhOWObZ9aJ4N55YLK8ztU/foYD
+   uxWFD/Rd3JNmr6GrzTerLwy7raoeh4yTwWRVqyUMODrAFGqRSo25MupV8
+   u9Av4MrEevh9H+nZrgDUS8poCkZCDBW7PzEmsbs/045ymQLxRmhOE69B9
+   mzesWIVqRc5dahcnyOTn37rla7m9ypbFIJbtu/pa9okKpNBSXWsp3lj+I
+   VSiva0o+LJSxDkr/zm2zyGhKeZ3wDlhC2CLU3Oswk3CC+NKZXFFLyWb23
+   jGzBB73QDOiwIeOa09VBH5nlkzr1gqRjQBNk/6MvZXAcKy/Lvvx7MPXlh
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="323965095"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324696727"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="323965095"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 16:56:14 -0700
+   d="scan'208";a="324696727"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 17:37:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="689581258"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="692175327"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="689581258"
+   d="scan'208";a="692175327"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Apr 2023 16:56:12 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Apr 2023 17:37:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pn6nO-000Z2p-2V;
-	Thu, 13 Apr 2023 23:56:06 +0000
-Date: Fri, 14 Apr 2023 07:55:33 +0800
+	id 1pn7R5-000Z4L-2E;
+	Fri, 14 Apr 2023 00:37:07 +0000
+Date: Fri, 14 Apr 2023 08:37:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 10810/11447]
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:240: undefined reference to
- `__floatundidf'
-Message-ID: <202304140732.NZcq7RdC-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 15/32] include/linux/kern_levels.h:5:25:
+ warning: format '%zu' expects argument of type 'size_t', but argument 5 has
+ type 'uint32_t' {aka 'unsigned int'}
+Message-ID: <202304140809.J8VJGDdT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,137 +48,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3342532ecd39bbd9c2ab5b9001cec1589bc37e9
-commit: 45810d486bb44bd60213d5f09a713df81b987972 [10810/11447] phy: mediatek: add support for phy-mtk-hdmi-mt8195
-config: loongarch-randconfig-r016-20230410 (https://download.01.org/0day-ci/archive/20230414/202304140732.NZcq7RdC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Shardul,
+
+FYI, the error/warning still remains.
+
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   212c75dd522f6c26e83be4156d5e0a7e8a933530
+commit: 010702724c2a774af44ba9d1a9f531ef9a4bea62 [15/32] CHROMIUM: msm: camera: isp: Fix OOB access due to underflow
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230414/202304140809.J8VJGDdT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=45810d486bb44bd60213d5f09a713df81b987972
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 45810d486bb44bd60213d5f09a713df81b987972
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 010702724c2a774af44ba9d1a9f531ef9a4bea62
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/platform/camx/cam_isp/isp_hw_mgr/ drivers/media/platform/camx/cam_jpeg/jpeg_hw/ drivers/media/platform/camx/cam_lrme/lrme_hw_mgr/lrme_hw/ drivers/media/platform/camx/cam_req_mgr/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304140732.NZcq7RdC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304140809.J8VJGDdT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.o: in function `mtk_hdmi_pll_calc':
->> drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:240: undefined reference to `__floatundidf'
->> loongarch64-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:240: undefined reference to `__ltdf2'
->> loongarch64-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:242: undefined reference to `__gedf2'
-   loongarch64-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:242: undefined reference to `__ltdf2'
-   loongarch64-linux-ld: drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:244: undefined reference to `__gedf2'
-   pahole: .tmp_vmlinux.btf: Invalid argument
-   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from drivers/media/platform/camx/cam_isp/isp_hw_mgr/cam_ife_hw_mgr.c:14:
+   drivers/media/platform/camx/cam_isp/isp_hw_mgr/cam_ife_hw_mgr.c: In function 'cam_ife_mgr_dump':
+>> include/linux/kern_levels.h:5:25: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'uint32_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:422:25: note: in definition of macro 'printk_index_wrap'
+     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:493:9: note: in expansion of macro 'printk'
+     493 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:493:16: note: in expansion of macro 'KERN_ERR'
+     493 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/media/platform/camx/cam_utils/cam_debug_util.h:88:9: note: in expansion of macro 'pr_err'
+      88 |         pr_err("CAM_ERR: %s: %s: %d " fmt "\n",                     \
+         |         ^~~~~~
+   drivers/media/platform/camx/cam_isp/isp_hw_mgr/cam_ife_hw_mgr.c:4678:17: note: in expansion of macro 'CAM_ERR'
+    4678 |                 CAM_ERR(CAM_ISP,
+         |                 ^~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from arch/arm64/include/asm/cpufeature.h:19,
+                    from arch/arm64/include/asm/ptrace.h:11,
+                    from arch/arm64/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:16,
+                    from include/linux/rcupdate.h:26,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/uaccess.h:8,
+                    from drivers/media/platform/camx/cam_jpeg/jpeg_hw/cam_jpeg_hw_mgr.c:14:
+   drivers/media/platform/camx/cam_jpeg/jpeg_hw/cam_jpeg_hw_mgr.c: In function 'cam_jpeg_mgr_hw_dump':
+>> include/linux/kern_levels.h:5:25: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'int32_t' {aka 'int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:422:25: note: in definition of macro 'printk_index_wrap'
+     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:503:9: note: in expansion of macro 'printk'
+     503 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:503:16: note: in expansion of macro 'KERN_WARNING'
+     503 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/media/platform/camx/cam_utils/cam_debug_util.h:99:9: note: in expansion of macro 'pr_warn'
+      99 |         pr_warn("CAM_WARN: %s: %s: %d " fmt "\n",                     \
+         |         ^~~~~~~
+   drivers/media/platform/camx/cam_jpeg/jpeg_hw/cam_jpeg_hw_mgr.c:1117:17: note: in expansion of macro 'CAM_WARN'
+    1117 |                 CAM_WARN(CAM_JPEG, "dump offset overshoot len %zu offset %zu",
+         |                 ^~~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from arch/arm64/include/asm/cpufeature.h:19,
+                    from arch/arm64/include/asm/hwcap.h:9,
+                    from arch/arm64/include/asm/arch_timer.h:12,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/ktime.h:24,
+                    from include/linux/timer.h:6,
+                    from drivers/media/platform/camx/cam_lrme/lrme_hw_mgr/lrme_hw/cam_lrme_hw_core.c:14:
+   drivers/media/platform/camx/cam_lrme/lrme_hw_mgr/lrme_hw/cam_lrme_hw_core.c: In function 'cam_lrme_hw_dump':
+>> include/linux/kern_levels.h:5:25: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:422:25: note: in definition of macro 'printk_index_wrap'
+     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:503:9: note: in expansion of macro 'printk'
+     503 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:503:16: note: in expansion of macro 'KERN_WARNING'
+     503 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/media/platform/camx/cam_utils/cam_debug_util.h:99:9: note: in expansion of macro 'pr_warn'
+      99 |         pr_warn("CAM_WARN: %s: %s: %d " fmt "\n",                     \
+         |         ^~~~~~~
+   drivers/media/platform/camx/cam_lrme/lrme_hw_mgr/lrme_hw/cam_lrme_hw_core.c:129:17: note: in expansion of macro 'CAM_WARN'
+     129 |                 CAM_WARN(CAM_LRME, "dump buffer overshoot len %zu offset %zu",
+         |                 ^~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_VIDEO
+   Depends on [n]: ACPI [=y] && X86 && BACKLIGHT_CLASS_DEVICE [=y] && INPUT [=y] && (ACPI_WMI [=n] || !X86)
+   Selected by [y]:
+   - DRM_RADEON [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (AGP [=n] || !AGP [=n]) && ACPI [=y]
+   - DRM_AMDGPU [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && ACPI [=y]
 
 
-vim +240 drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+vim +5 include/linux/kern_levels.h
 
-   208	
-   209	static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
-   210				     unsigned long rate, unsigned long parent_rate)
-   211	{
-   212		u8 digital_div, txprediv, txposdiv, fbkdiv_high, posdiv1, posdiv2;
-   213		u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
-   214		u8 txpredivs[4] = { 2, 4, 6, 12 };
-   215		u32 fbkdiv_low;
-   216		int i, ret;
-   217	
-   218		pixel_clk = rate;
-   219		tmds_clk = pixel_clk;
-   220	
-   221		if (tmds_clk < 25 * MEGA || tmds_clk > 594 * MEGA)
-   222			return -EINVAL;
-   223	
-   224		if (tmds_clk >= 340 * MEGA)
-   225			hdmi_phy->tmds_over_340M = true;
-   226		else
-   227			hdmi_phy->tmds_over_340M = false;
-   228	
-   229		/* in Hz */
-   230		da_hdmitx21_ref_ck = 26 * MEGA;
-   231	
-   232		/*  TXPOSDIV stage treatment:
-   233		 *	0M  <  TMDS clk  < 54M		  /8
-   234		 *	54M <= TMDS clk  < 148.35M    /4
-   235		 *	148.35M <=TMDS clk < 296.7M   /2
-   236		 *	296.7 <=TMDS clk <= 594M	  /1
-   237		 */
-   238		if (tmds_clk < 54 * MEGA)
-   239			txposdiv = 8;
- > 240		else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
-   241			txposdiv = 4;
- > 242		else if (tmds_clk >= 148.35 * MEGA && tmds_clk < 296.7 * MEGA)
-   243			txposdiv = 2;
-   244		else if (tmds_clk >= 296.7 * MEGA && tmds_clk <= 594 * MEGA)
-   245			txposdiv = 1;
-   246		else
-   247			return -EINVAL;
-   248	
-   249		/* calculate txprediv: can be 2, 4, 6, 12
-   250		 * ICO clk = 5*TMDS_CLK*TXPOSDIV*TXPREDIV
-   251		 * ICO clk constraint: 5G =< ICO clk <= 12G
-   252		 */
-   253		for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
-   254			ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
-   255			if (ns_hdmipll_ck >= 5 * GIGA &&
-   256			    ns_hdmipll_ck <= 1 * GIGA)
-   257				break;
-   258		}
-   259		if (i == (ARRAY_SIZE(txpredivs) - 1) &&
-   260		    (ns_hdmipll_ck < 5 * GIGA || ns_hdmipll_ck > 12 * GIGA)) {
-   261			return -EINVAL;
-   262		}
-   263		if (i == ARRAY_SIZE(txpredivs))
-   264			return -EINVAL;
-   265	
-   266		txprediv = txpredivs[i];
-   267	
-   268		/* PCW calculation: FBKDIV
-   269		 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
-   270		 * RG_HDMITXPLL_FBKDIV[32:0]:
-   271		 * [32,24] 9bit integer, [23,0]:24bit fraction
-   272		 */
-   273		pcw = div_u64(((u64)ns_hdmipll_ck) << PCW_DECIMAL_WIDTH,
-   274			      da_hdmitx21_ref_ck / PLL_FBKDIV_HS3);
-   275	
-   276		if (pcw > GENMASK_ULL(32, 0))
-   277			return -EINVAL;
-   278	
-   279		fbkdiv_high = FIELD_GET(GENMASK_ULL(63, 32), pcw);
-   280		fbkdiv_low = FIELD_GET(GENMASK(31, 0), pcw);
-   281	
-   282		/* posdiv1:
-   283		 * posdiv1 stage treatment according to color_depth:
-   284		 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
-   285		 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
-   286		 */
-   287		posdiv1 = 10;
-   288		posdiv2 = 1;
-   289	
-   290		/* Digital clk divider, max /32 */
-   291		digital_div = div_u64((u64)ns_hdmipll_ck, posdiv1 / posdiv2 / pixel_clk);
-   292		if (!(digital_div <= 32 && digital_div >= 1))
-   293			return -EINVAL;
-   294	
-   295		mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
-   296				    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
-   297				    txposdiv, digital_div);
-   298		if (ret)
-   299			return -EINVAL;
-   300	
-   301		return 0;
-   302	}
-   303	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
