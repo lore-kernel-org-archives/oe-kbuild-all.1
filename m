@@ -1,49 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9ECA5B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 11:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4627C;
+	Fri, 14 Apr 2023 11:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1681471111; x=1713007111;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s2ahMarainzU0kJG0iKnmW59QKgo1hk/9wbUQKqrvKs=;
-  b=U2exyNn2jGQujboydX/El/nMt8LKjS2NuHxqLuM17w37P9SJAvKhoOFC
-   TtbgPtapjumBMZzBz3YQ2SlBReIRU4R+KAe/xeDiPLYJN0j7j5oK2duaZ
-   Cr8KZ+LMHfVDlqRAOgiZ8n2UJYZl8P95J5h8QGliMQ4UNg0vYnqAyOhdL
-   XZyqdKdKqLShfrciBPzrmhm2AAfBzLDnxANHp0lJdrZFw5Y5DNZAZFU5l
-   vA8AqfBUZa8WMt+gKTJIERKMKqMuxL8RucGLt72fBNu5JhD5t5iMj0+lO
-   aDbdrDKDIPGndilYaQX5MVas2fSnanop24BmOTJ3x//3FQ5CgN6ku+jMN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409640704"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gdHq+NrxA5QnPfv/7dYFhkLl1betOdrkY6HhFy5LWRc=;
+  b=H4R437JNSQWcnuK4d3Ai2ralsrtxbaocpwBpomMTZZGM7UrAWJMHn4c3
+   dbo91x0m80caHm+rOsyBCnHTMHSZafcaxUj6MoyNcsA8O6J1urYv1Mk1c
+   O22h8TPbQRcDyjuxH3jGHMcfYxUqWAOsOYFBgI9z5ah3AVh0oa1gbJgMM
+   iwnjgKOPD5q3W4O5hoj8WD8yncFZG/CM1R9pCfyTp85WFiZSWrRE3JWPa
+   kF+pMNcnSeR2ra3Nzk+dttX2jTfIWlVY8m2ZUOZWK7apaxm1eVLINTzHx
+   anIruCAlVvUncxoDFzx+rsqCz3g+9UpfnRt3b3X6Oj5x5Aln1P+OVJTps
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="430733835"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="409640704"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:18:30 -0700
+   d="scan'208";a="430733835"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:18:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="754422074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="935984359"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="754422074"
+   d="scan'208";a="935984359"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Apr 2023 04:18:27 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 04:18:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnHRi-000ZTZ-1X;
+	id 1pnHRi-000ZTb-1d;
 	Fri, 14 Apr 2023 11:18:26 +0000
-Date: Fri, 14 Apr 2023 19:17:46 +0800
+Date: Fri, 14 Apr 2023 19:17:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "songrui.771" <songrui.771@bytedance.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"songrui.771" <songrui.771@bytedance.com>
-Subject: Re: [PATCH v2] libbpf: correct the macro KERNEL_VERSION for old
- kernel
-Message-ID: <202304141932.JnvYvgv5-lkp@intel.com>
-References: <20230414084353.36545-1-songrui.771@bytedance.com>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lee Jones <lee.jones@linaro.org>, Lee Jones <lee@kernel.org>
+Subject: [lee-mfd:for-mfd-next 15/78] drivers/mfd/qcom-pm8008.c:143:21:
+ error: incompatible function pointer types initializing 'int (*)(unsigned
+ int **, unsigned int, const struct regmap_irq *, int)' with an expression of
+ type 'int (unsigned int **, unsigned int, const struct regmap_irq *, i...
+Message-ID: <202304141907.9MEPUN9w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,56 +48,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414084353.36545-1-songrui.771@bytedance.com>
 
-Hi songrui.771,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master linus/master v6.3-rc6 next-20230413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/songrui-771/libbpf-correct-the-macro-KERNEL_VERSION-for-old-kernel/20230414-164547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230414084353.36545-1-songrui.771%40bytedance.com
-patch subject: [PATCH v2] libbpf: correct the macro KERNEL_VERSION for old kernel
-reproduce:
-        make versioncheck
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   9d8d0d98885abba451d7ffc4885236d14ead3c9a
+commit: 540eee4708487d16d7f9d1ddadd679ce3e0b9d69 [15/78] mfd: qcom-pm8008: Convert irq chip to config regs
+config: hexagon-randconfig-r024-20230410 (https://download.01.org/0day-ci/archive/20230414/202304141907.9MEPUN9w-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/commit/?id=540eee4708487d16d7f9d1ddadd679ce3e0b9d69
+        git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+        git fetch --no-tags lee-mfd for-mfd-next
+        git checkout 540eee4708487d16d7f9d1ddadd679ce3e0b9d69
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/mfd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141932.JnvYvgv5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141907.9MEPUN9w-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 294: need linux/version.h
->> ./tools/lib/bpf/libbpf_probes.c: 15 linux/version.h not needed.
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/mfd/qcom-pm8008.c:7:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/mfd/qcom-pm8008.c:7:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/mfd/qcom-pm8008.c:7:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/mfd/qcom-pm8008.c:143:21: error: incompatible function pointer types initializing 'int (*)(unsigned int **, unsigned int, const struct regmap_irq *, int)' with an expression of type 'int (unsigned int **, unsigned int, const struct regmap_irq *, int, void *)' [-Wincompatible-function-pointer-types]
+           .set_type_config        = pm8008_set_type_config,
+                                     ^~~~~~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+
+
+vim +143 drivers/mfd/qcom-pm8008.c
+
+   125	
+   126	static struct regmap_irq_chip pm8008_irq_chip = {
+   127		.name			= "pm8008_irq",
+   128		.main_status		= I2C_INTR_STATUS_BASE,
+   129		.num_main_regs		= 1,
+   130		.irqs			= pm8008_irqs,
+   131		.num_irqs		= ARRAY_SIZE(pm8008_irqs),
+   132		.num_regs		= PM8008_NUM_PERIPHS,
+   133		.not_fixed_stride	= true,
+   134		.sub_reg_offsets	= pm8008_sub_reg_offsets,
+   135		.status_base		= PM8008_STATUS_BASE,
+   136		.mask_base		= PM8008_MASK_BASE,
+   137		.unmask_base		= PM8008_UNMASK_BASE,
+   138		.mask_unmask_non_inverted = true,
+   139		.ack_base		= PM8008_ACK_BASE,
+   140		.config_base		= pm8008_config_regs,
+   141		.num_config_bases	= ARRAY_SIZE(pm8008_config_regs),
+   142		.num_config_regs	= PM8008_NUM_PERIPHS,
+ > 143		.set_type_config	= pm8008_set_type_config,
+   144	};
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
