@@ -1,151 +1,118 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5C87491
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 23:41:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9267491
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 23:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1681515701; x=1713051701;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=4s0cn5iO9/1/jbPWTmbOIS9nenMAvfSHVOtfSXGFkp0=;
-  b=HmQsAnSp8+vnETyUt0utl7qj2MIAcQk/u2EPx1thG+LZ1MaTsDWDZ7cf
-   PalcLZ12ohQCygjHzRLcgjWsyKpFXjjysWo1kYXjObw42TxTMEszjd0cE
-   T6Sk+3+SVP37xbRPdmRXKHkfgkokP5c+XrvoGDBzkQ+JoKh88aMz7X6pr
-   r3R4vainDRaByu07UFaZCcsmhcmjWE8AzdbZOHR8rPsKLFWj986sY7PiA
-   f/AOyB1thfR/izBrctwqe3rgvoDy+ea1/bcTFU+8yzhQr4L/gthasOh3A
-   dp0C2FNAsXnr37H1pYA9mqKarzW0ni5malBdAr2421pIzzetVmz/VHDTI
-   g==;
-X-IronPort-AV: E=Sophos;i="5.99,198,1677567600"; 
-   d="scan'208";a="206610413"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 Apr 2023 16:41:39 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 14 Apr 2023 16:41:13 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 14 Apr 2023 16:41:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OUGGC123GBSdI20ivg9SdxtzjPwYfeAEzQi3i/yr8FjUO1n/x7RWerHyQVD3mqcA9Sh8048Wf94V26eUsBPtO68U22eWV18TE9fETDzyhuZIVd07B2cAfvyGOzIGtWz8ZDPqPZy4lB0tUcWQ80uWDggKzxpk8cvGXi7iQzL2rfk2dUY+t/uXi1hQlRgxIwiI/23QXbk0tn22bNAmF3TTrV2Z+yOV8cdepqiZ/1NsN6jbCVjONy6WHaw+fsbcgJl3BY0/+reAJ736JIDFgPcwVdOJr/jJuXdZ7NBJh/dbm9JfmOwhXcX7mODpc7eZ9dFhBFEH94Y1QXLwhiGBXpUdqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4s0cn5iO9/1/jbPWTmbOIS9nenMAvfSHVOtfSXGFkp0=;
- b=BoosrNAC4oxxN/lkmZ2vD3qIoZa4RmGa23KLVgbvM6vtxIuvY7Pw2DFn8IiHQEB9ZKNB/Cnz3E4R0euLzRKddt74xKAV8KrXnnKL5lCLgh9WMGMhWjmPjCcq9CKDlm1D6xFfgpiA4KcKV8KV74hvn4rh4qUp/tX5ompVk5/tfQ2nC4UVPDIjdlPEnGRZB7tiZxIdCWTg1RqytknwvPfe6Hp2seTsINXIot4hdw7uV30bRAlwtXJ07FjhqRsySsIjldXNzCbxaFBgXRgWHFANEPHjrrTfS6ZgTnfeyIWncgDRnX8486mRgieBkpxyCNAUDTqtKuMBJr2Z6iw5LJ1zGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4s0cn5iO9/1/jbPWTmbOIS9nenMAvfSHVOtfSXGFkp0=;
- b=bUHawwWPYuHVUhrRcS/q1JIy+W0ZtbVI1Zvj7f0Y1iJr1C5z0IbW0D8JsWHwvLKURAvVqEwj3IVIDu3Lg2pRZTRqyyw1PaseuNogDF6RCQZxzxoQh+eTKmyDe2axPwidAmaPd28vkxJthYUSOIpFGTmzXihRKTK/hh4UuoT6A80=
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
- by SJ0PR11MB5167.namprd11.prod.outlook.com (2603:10b6:a03:2d9::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 23:41:10 +0000
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::1374:62eb:6071:86]) by CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::1374:62eb:6071:86%6]) with mapi id 15.20.6298.028; Fri, 14 Apr 2023
- 23:41:10 +0000
-From: <Conor.Dooley@microchip.com>
-To: <hal.feng@starfivetech.com>, <lkp@intel.com>
-CC: <paul@pgazz.com>, <fazilyildiran@gmail.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-mm@kvack.org>,
-	<emil.renner.berthing@canonical.com>
-Subject: Re: [linux-next:master 8653/11447] kismet: WARNING: unmet direct
- dependencies detected for RESET_STARFIVE_JH7110 when selected by
- CLK_STARFIVE_JH7110_SYS
-Thread-Topic: [linux-next:master 8653/11447] kismet: WARNING: unmet direct
- dependencies detected for RESET_STARFIVE_JH7110 when selected by
- CLK_STARFIVE_JH7110_SYS
-Thread-Index: AQHZbmONNdBMw05nx0iJciHnaxisHq8rd8q7gAAAnIA=
-Date: Fri, 14 Apr 2023 23:41:10 +0000
-Message-ID: <d7969bc5-d72c-3425-1510-57b8fe7e0f6b@microchip.com>
-References: <202304140706.aOBNhUj2-lkp@intel.com>
- <20230414-spiritism-nape-b5c340dfb4e7@wendy>
- <d5d7ec22-dcba-7289-d572-39eaad8b0c83@starfivetech.com>
-In-Reply-To: <d5d7ec22-dcba-7289-d572-39eaad8b0c83@starfivetech.com>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR11MB5154:EE_|SJ0PR11MB5167:EE_
-x-ms-office365-filtering-correlation-id: 96fb5d84-eff8-4d25-3bf2-08db3d41b9e6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I3LTSNeiZFASXoC5gMqkkinwCGX4BXoN+fOrocaJdSsrkoe8lAGBFhSE43V+KKuTJhDMGee0/doYaC+eL8bX1rq+zM50a08yz/qdyFqKCanl+S33fCrW1F5ttP9pWaN/Q8XmR+EtId2UFdIfSbdR+JmciXRLWWlBU/jQLxobBbTxQuTe4G0FyrT87VYDG6xzvURBMmtDMS7AsHpdeNprGzOf9PKYeI8ENhvJSxyAuo0inRG2a/IeAjhDhmEJ7y9RhBeSTdms1k6ugRJd0Ks9WD8BtVWDPKRROTYj6Nn4+Rrz/jKd3fpPkL2cTUbUQ3AIOChefpthEvBuKBDpbsS/jjnMfbXs+nJGwoSVYbOJCt8GhgwdQGBiXEzLH+YsxOTWHbSl1Rohh83LpWPr6nCV+l9/nBdwEd20zLeZvZcZb+qD669buKZrxkj8ONhz1E7qf8HXRYJKFRd/sz3xp52dwzJVSlQystbYkkAXvG0iiZgXCV9YQwwNb0GwVW3z3IEjKp9+a2bdsLkkcDzABq4XJwIg2PyAQSrP3v3RMCaZgqPp9u9l/iTUiFSt4BZtycYgbXM3hV8gWqzzPJfkRKKkJ5jLnk0EsCXFPnlkkL4cxwlBJ0SsdJpdWttP3pIQnjPznqX8qQLXEK2rAs7jpZiiS1+uZMsDxgC6o9xJYHKEXsZ+dYqqwQoYV2/7zbC0Mmk5
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5154.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199021)(110136005)(53546011)(31686004)(6512007)(6506007)(26005)(54906003)(186003)(2616005)(71200400001)(6486002)(5660300002)(41300700001)(316002)(8936002)(8676002)(38100700002)(478600001)(38070700005)(86362001)(122000001)(31696002)(4326008)(66946007)(64756008)(91956017)(36756003)(66446008)(76116006)(66556008)(66476007)(2906002)(558084003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cExSQUNwYVUvSGFSL0JCbWdiOGpKc25Fb1doanprYVpndmQvTFhuMHJYZDEz?=
- =?utf-8?B?ZU9yNXNxTklicmo1V3ZLT3UrUG42czVnaWZOaXp2U3hjbFAwYXM2RDR5Q1U5?=
- =?utf-8?B?TEc3TFhyQURtdS9UR0ZuMWZiNzQ0cml6VFhLdDBmZlFLeGpUVWlxcEp1UHhZ?=
- =?utf-8?B?WE8rMVB2cXM1RGFUUklUSDRqTkgwNGhPbUpjSTVLcktRNnNTMlRWTXRidGE0?=
- =?utf-8?B?czlGS21OelNoNVJmZEV1M3JGQ2RYRXhROUpwNmgwZ3AzRWpwYVFYWVNPalVy?=
- =?utf-8?B?Q3Q5TnFHb2lrV1JqU0pHWmN0RytuQXNTbWY3dVNsRDVUR3hSYVFCNEp5TWpq?=
- =?utf-8?B?OTVhNlk5Y0l2YzRiQWFFK3dNQWdHdjFtbW1KOTRMMzBEQThTaEt5VHhBQ0I0?=
- =?utf-8?B?NWI0S0Z4djkrMlE3YjRTRysvVWZRUlVqK0V0REdnSUhlbVNPd2RPVkNOYWxp?=
- =?utf-8?B?Q1VEZm9KbUNuMjZmYVNoeWRzamlyQnZxZmgxVndmMW9NL2JDTFNmRGhqcDZk?=
- =?utf-8?B?ekMwb2UwVFI2MFovZy9yV1BadTV1a0pWbkc4VGVwdldiQkY5dU51blFBVmpJ?=
- =?utf-8?B?c21LakVKb3RpWXdick1DQXFuTFRZVFV4dWpXWnZzbjdGaHNLYUhHSmYwN29O?=
- =?utf-8?B?RTVDcVhhSXhWejlTNzVDZVh4VDRsNFJ1K05yWEYwanV6clh0eTAxRTRsdEph?=
- =?utf-8?B?TndRL215elgya2dtMFVFVXpVa29KM2VwMnZFSHRzY3ZJS2p0MzNZZjdzdEty?=
- =?utf-8?B?bndaeWRtSng4LzBYWmlJdzlHMENldStFdHVFQ1VnSVlYZmlRMHVMSUtyNHJC?=
- =?utf-8?B?bXJScGJEUGdBTXpkK1J3T0RVMkJEY0ljNzdYZnlZc09NM2tucGpsWDMrdmhD?=
- =?utf-8?B?T2E0RitUekVXL252STloamg3eUhEWStMbjExUllnRFdFOUk1bUYyQXkzYmNw?=
- =?utf-8?B?S1lsS1ZqRzRmWjJuL3ZrUEhPNFo5bFJFdnFQSmtLRitRRUFxamZFc2N6UW9a?=
- =?utf-8?B?VzlPN0ZUOGRyTEFPRkNRcUx5MGluaW80TExRS1JmRkFQbjBGTG9TRUZlcnZ6?=
- =?utf-8?B?U3I2RnFCUW9Kek54ck5GQzVoM0gxYjFVOGEvRzMzZFh4SjVrZ3NvU3VlTGxD?=
- =?utf-8?B?bGJVWTZtS25WUldkdkRKck1zMkJVZGRNbnYvbXRGbjJnRlZ1b3FlYUdxQ0Ry?=
- =?utf-8?B?UTFxTkdpQ3QzbUd2N2xEZVRWekJaUFlBTzRwdmNyTVV1ZFl2MUNpamdGSUJq?=
- =?utf-8?B?M29jV1YveXZ1Vlg1M1lrak54ZVd0Z1ZnMmg4aWphRm9JNUNyeGZBTnYzZmh2?=
- =?utf-8?B?a2ozS1NjaXdkN1JEcFZ5dStyc0tMSHduSEp6L29nWS9ndzZKbDdNT0w1SS9z?=
- =?utf-8?B?MGo1UklhTzV6NXNwWUNCaE50MTlEcFRYeVpHUEdrNUNySDU5V0h4K2ZicDAy?=
- =?utf-8?B?M1Zkb0gyM2lWeVRna2h6b0txNElrc2ZNL01QcnVaTUpGVEZ0OVlzN0lRWEsw?=
- =?utf-8?B?TDcza01mUFFmTzA5ZzdFMzI1a09wSEhSSEtVaFMrTGpESkg5RW5rMlBGeDZX?=
- =?utf-8?B?bTV5S2kvYXAxODVVM0hsMkJ5ZS9DajlJQTkwUW9BTkFySHJhb1d0cnVxYVlN?=
- =?utf-8?B?ZGJkdS8rMVRCbnBhNDJNMk1kRVhsSm1pNW91UEo3TEhDTDIvLzI0L2dBZTNv?=
- =?utf-8?B?Y2JhcFlMNmhBa3VmemdZdmRCSjBjb0IweVBvbzNoRHB1azlWbzdINXAvOCsv?=
- =?utf-8?B?b01haVZmam91ZFg4MERxMHJ4cE5QdU9DVWlDMXYydkxac1hSOHpOaEdyWHh3?=
- =?utf-8?B?VHlCTGZEb2ZmZnE1V0pmOVJ1cEN6dTRWNGIzQU1BQnlCTFZMd1hrWm8xRnQ1?=
- =?utf-8?B?UjRlalAvOEV0VWtianBBTDJySzBjaTNYdHhuL1IwV0JOaDF6b1dmbFZPWTFT?=
- =?utf-8?B?WVRnazlLcDhiTWlLb1VpN0VoZ3RyTkhBZVB6d0htTGNwbCtkUzU2dEpDalNN?=
- =?utf-8?B?d3haY1dhQndsb2x4ZCtRVzVUa0krTlRSU2h0UXYyQXlSeE00Y085UXM3THAy?=
- =?utf-8?B?WHpUSFp1SXgvbEpMRVUvcDdvVlNveGtRUDRicUxEd3FXZTNHSEUrK2g2WGNy?=
- =?utf-8?Q?A6PH7CZP8MMns4c5v8iU1rqTi?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <12386624EF6A7E4C9820D28161445A0D@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681515719; x=1713051719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dseqkK42OOI4791IhkpsbcJIfVeyYu9RtjstkuNMQrk=;
+  b=KJFFr+2LHv22rBwLhuMBo92W2IFttuF7oGVhGUNV+SAaJLhj+unR98Yh
+   v9SbIqUQt3C/HrD4bP0odrVulhxxzuZOIJ1Uwu/5ArnaoL2ko558zHBKq
+   aV8J4Vd7sAXovoSGYtXxjfC+Xd0t21r+xX3nL9POWlOySemi5r9KC7XD8
+   NoJgZlk08G7N5bLOwHlOZAbUu5ntqA9z+ZNJ6KqKAcEtm8zFWBIDNnDni
+   Sq1ZXBKklEDKgQLODUwEYoMO02hMYhTy+r89vTzcDJxSNh7f/jbqucLrX
+   KlKBj2bqj/+da/12z7+upmdAm8gJppomXhZD2fA4mW3keOZ9gVQtpnq4r
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="372464762"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
+   d="scan'208";a="372464762"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 16:41:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="864373098"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
+   d="scan'208";a="864373098"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 14 Apr 2023 16:41:57 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pnT3F-000a83-0C;
+	Fri, 14 Apr 2023 23:41:57 +0000
+Date: Sat, 15 Apr 2023 07:41:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/629 3291/9838] versioncheck:
+ ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7127:
+ need linux/version.h
+Message-ID: <202304150741.3VvnWZDU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96fb5d84-eff8-4d25-3bf2-08db3d41b9e6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2023 23:41:10.3540
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NhugKd6GKrN3X/KyY2zAu2dn8pN4eEU0fEYIfrNn3rUeROUAoUdO6BWlgGMbu3WUXtsjRG3H1Qouo5v5eK+7fq0lfGI8WF4qDLoXZfNQvQI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5167
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gMTUvMDQvMjAyMyAwMDozOCwgSGFsIEZlbmcgd3JvdGU6DQoNCj4gT24gRnJpLCAxNCBBcHIg
-MjAyMyAwNzoyMjo0OSArMDEwMCwgQ29ub3IgRG9vbGV5IHdyb3RlOg0KDQo+PiBDb3VsZCB5b3Ug
-cGxlYXNlIHN1Ym1pdCBhIGZpeCBmb3IgdGhpcz8NCg0KPiBObyBwcm9ibGVtLiBDYW4gSSBzdWJt
-aXQgaXQgYXJvdW5kIHRvbW9ycm93IGV2ZW5pbmc/DQoNCk9mIGNvdXJzZSENCg0K
+tree:   https://github.com/Freescale/linux-fslc pr/629
+head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
+commit: 43b5d1d2e76fc7ad295029b12ae13904c242565a [3291/9838] Update to 6.4.11 gpu driver version.
+reproduce:
+        make versioncheck
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150741.3VvnWZDU-lkp@intel.com/
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware_func.c: 7127: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 5731: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4939: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 209: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 618: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 484: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1159: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 540: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 984: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 669: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 253: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 175: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 104: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3176: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1371: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 153: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7368: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_parameter.h: 480: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 374: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 145: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 1058: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2055: need linux/version.h
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
