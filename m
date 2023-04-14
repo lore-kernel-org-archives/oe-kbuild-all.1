@@ -1,48 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1816920F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 20:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320B20F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 20:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681504710; x=1713040710;
+  t=1681505871; x=1713041871;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=seTmvdxyU5r5IgDSV1g02RcOFOje8YC+JhrPRrIw2cM=;
-  b=UW/0Z7DAhPM/7VuKZIU9hpeROcI/d8h/qY89RIPOEasO9YgzQpprEQGJ
-   0LNdTFRqZE9nGSkGwkBciRuVJ7fnWXm/Qrws9w4h9F7LWsHasjn8MI6MR
-   11W0URWGYvUX0gEwhggPIUUaexsW1xdpHZWwSlDwp9r/CxOL2H7K3oSSG
-   rSUGtwN2fjxfSQ+cKxfPgqvO1ZR3bk3N2ZWG8MQycB4A2T3LEYf0gHWr6
-   j8JOvRRd9nAB8u60kkI6DC8qo9rg0GsMDexSbbHI6Uk4RqWgbnPlX1sgL
-   3GqE9e3DX4qnoPWLB82bSREqmwefqMunWn/L4Kwl7WKeoycYJ8YTWbmcI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="328722001"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="328722001"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 13:36:52 -0700
+  bh=FpLEvXZETND8jVwBczkUp3oFDGif5VCTbBwttpxgKDU=;
+  b=HMFY1hiTIC4BVj9L8AajFrVueJtgF8kCkCpMxBjod/h3ZD4BXsU5fbf2
+   hQPEFlESz09tHiGU2JRr3c06xv0Q6kP13XVfbO7j20m6LzBp9aFHA9eOD
+   1EowPaOuVm3OHhM2mRR5HsiGrfDEmV2F9JmLHYQV3fsY5SptFtVA6SzPz
+   nBMC+ruXHjUk0YOu6+Ib2DSrw8WCesUlG9o6CknU5GgMkYbhp78aLq0po
+   SfnMHPdLeUFgFod2PqHPPSI2K1aLvkoziGP16cXMPp+IxF/EI04pToPKD
+   uBWb/kKjlYYdqr87NwkBOx4vQCR67MNJHLvuAO0dL/3kYlDamdWa3viWt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324917326"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
+   d="scan'208";a="324917326"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 13:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="779324715"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="779324715"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="754583155"
+X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
+   d="scan'208";a="754583155"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Apr 2023 13:36:49 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 14 Apr 2023 13:57:50 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnQA4-000ZwL-1g;
-	Fri, 14 Apr 2023 20:36:48 +0000
-Date: Sat, 15 Apr 2023 04:36:20 +0800
+	id 1pnQUP-000Zxr-17;
+	Fri, 14 Apr 2023 20:57:49 +0000
+Date: Sat, 15 Apr 2023 04:57:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Levinsky <ben.levinsky@xilinx.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Wendy Liang <wendy.liang@xilinx.com>,
-	Ed Mooring <ed.mooring@xilinx.com>, Jason Wu <j.wu@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.10 73/1981] kismet: WARNING: unmet
- direct dependencies detected for ZYNQMP_IPI_MBOX when selected by
- ZYNQMP_R5_REMOTEPROC
-Message-ID: <202304150415.xcDtGOqJ-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/629 254/9838] versioncheck:
+ ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
+ needed.
+Message-ID: <202304150423.yShXoTfx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,34 +47,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.10
-head:   87ec9a2d98a7a7dfc98b57348a0ec310fd170e4b
-commit: f044d7cb1b51c86ffce14094ef414cb83e09b242 [73/1981] remoteproc: Add initial zynqmp R5 remoteproc driver
-config: arm64-kismet-CONFIG_ZYNQMP_IPI_MBOX-CONFIG_ZYNQMP_R5_REMOTEPROC-0-0 (https://download.01.org/0day-ci/archive/20230415/202304150415.xcDtGOqJ-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc pr/629
+head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
+commit: 09be5179f636b3550c8df61201be53a58e5b05dd [254/9838] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
 reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/f044d7cb1b51c86ffce14094ef414cb83e09b242
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.10
-        git checkout f044d7cb1b51c86ffce14094ef414cb83e09b242
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_ZYNQMP_IPI_MBOX --selectors CONFIG_ZYNQMP_R5_REMOTEPROC -a=arm64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=arm64 olddefconfig
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150415.xcDtGOqJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150423.yShXoTfx-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ZYNQMP_IPI_MBOX when selected by ZYNQMP_R5_REMOTEPROC
-   
-   WARNING: unmet direct dependencies detected for ZYNQMP_IPI_MBOX
-     Depends on [n]: MAILBOX [=n] && ARCH_ZYNQMP [=y] && OF [=y]
-     Selected by [y]:
-     - ZYNQMP_R5_REMOTEPROC [=y] && REMOTEPROC [=y] && PM [=y] && ARCH_ZYNQMP [=y]
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
