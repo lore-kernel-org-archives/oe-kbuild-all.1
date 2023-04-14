@@ -1,44 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DB5630
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 03:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92EF630;
+	Fri, 14 Apr 2023 03:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681442535; x=1712978535;
+  t=1681443195; x=1712979195;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q5Ibw2FngF2YUSfjjWDM0GHcL85te3irCjtxTaLGbYY=;
-  b=kfr0dmTTpOZvSBIEARdjOxXkWzYokVMtkeZyMR31YHh9CsfXg3XCrG2D
-   Cow2FgElfbfAFGyX210SERhx8B+/FfN6Q6xQReIoHhZuMG1cmctTK2HUR
-   NQgyx8UqMMVRvxb6tR66rbcain8Kqj0lMmlaVav9+w8uIkwZeZfBiAhX7
-   Ei3BRldKDbCkpg8DOKLSHXpMTknhnwLKc51wFj/d6SrE/ZEaTKcZq8Bna
-   +UIg27G0KFTClNwIrI5xpBxZJxyHs0XQgnfS5FSJp/1rkV5H9lqDmA+oB
-   BmfYb2hNwY1mpahOmeVVKJEII/vPyCND5KgS92PI+epiG+VObX1gagdhk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="341871399"
+  bh=8+H3Yn8mCHIQZVndb2RJ/hjT1NxIw/Q1dkpG63g8Tf8=;
+  b=TmQbypAXhk8vQ18V3GsGOY5+IVdyngRYPteq7XrGGDE+ZXE9ZK5Ccngb
+   nsC0Y8GkPuG6XtyLVwl+mRzhAKuIr+LIShLytYWVBLnt4yLXmEusVw37v
+   Jz3ER5s+XBYbQCIe+UC9bdRD2IXuGuj/ac1MgOVJXPXJiayjZNmpsQYLy
+   MDApj89wyv35nTaHz5UQpToK0Ae53y3bHFM+rhpcLX5QSRz9/nXoLNzDj
+   y6D/aSHeC1EV4AYdGW4qYXexxd2PPe559F8+3ltfp//7V2eQ2xBZCxAR5
+   ftOcWNWAr+6Ch1KiGwzroYcbKx4PUbqxE3MEDo1Ds7XbGd+9yUsHJu0xh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="343134142"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="341871399"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 20:22:15 -0700
+   d="scan'208";a="343134142"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 20:33:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="801028511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="722308925"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="801028511"
+   d="scan'208";a="722308925"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 20:22:13 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Apr 2023 20:33:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnA0q-000ZBJ-1R;
-	Fri, 14 Apr 2023 03:22:12 +0000
-Date: Fri, 14 Apr 2023 11:21:59 +0800
+	id 1pnABU-000ZBj-2E;
+	Fri, 14 Apr 2023 03:33:12 +0000
+Date: Fri, 14 Apr 2023 11:32:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
-Subject: Re: [PATCH v2 1/2] net: extend drop reasons for multiple subsystems
-Message-ID: <202304141104.ixaAlfxh-lkp@intel.com>
-References: <20230330212227.928595-1-johannes@sipsolutions.net>
+To: Bobby Eshleman <bobby.eshleman@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC net-next v2 3/4] vsock: Add lockless sendmsg() support
+Message-ID: <202304141112.r8VWcDK5-lkp@intel.com>
+References: <20230413-b4-vsock-dgram-v2-3-079cc7cee62e@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,56 +46,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330212227.928595-1-johannes@sipsolutions.net>
+In-Reply-To: <20230413-b4-vsock-dgram-v2-3-079cc7cee62e@bytedance.com>
 
-Hi Johannes,
+Hi Bobby,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main horms-ipvs/master net/main net-next/main linus/master v6.3-rc6 next-20230413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ed72bd5a6790a0c3747cb32b0427f921bd03bb71]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230331-052445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230330212227.928595-1-johannes%40sipsolutions.net
-patch subject: [PATCH v2 1/2] net: extend drop reasons for multiple subsystems
-config: m68k-randconfig-s042-20230413 (https://download.01.org/0day-ci/archive/20230414/202304141104.ixaAlfxh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/virtio-vsock-support-dgram/20230414-082831
+base:   ed72bd5a6790a0c3747cb32b0427f921bd03bb71
+patch link:    https://lore.kernel.org/r/20230413-b4-vsock-dgram-v2-3-079cc7cee62e%40bytedance.com
+patch subject: [PATCH RFC net-next v2 3/4] vsock: Add lockless sendmsg() support
+config: i386-randconfig-a003-20230410 (https://download.01.org/0day-ci/archive/20230414/202304141112.r8VWcDK5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/64925179be74db98280d706236e37e05bf7b5cca
+        # https://github.com/intel-lab-lkp/linux/commit/de4d5e13dd5c747996abbc4e9ce38eeb3093ea01
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Johannes-Berg/mac80211-use-the-new-drop-reasons-infrastructure/20230331-052445
-        git checkout 64925179be74db98280d706236e37e05bf7b5cca
+        git fetch --no-tags linux-review Bobby-Eshleman/virtio-vsock-support-dgram/20230414-082831
+        git checkout de4d5e13dd5c747996abbc4e9ce38eeb3093ea01
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/vmw_vsock/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141104.ixaAlfxh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141112.r8VWcDK5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/skbuff.c:138:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct drop_reason_list const [noderef] __rcu * @@     got struct drop_reason_list const * @@
-   net/core/skbuff.c:138:42: sparse:     expected struct drop_reason_list const [noderef] __rcu *
-   net/core/skbuff.c:138:42: sparse:     got struct drop_reason_list const *
+All warnings (new ones prefixed by >>):
 
-vim +138 net/core/skbuff.c
+>> net/vmw_vsock/af_vsock.c:247:5: warning: no previous prototype for function 'vsock_remote_addr_update' [-Wmissing-prototypes]
+   int vsock_remote_addr_update(struct vsock_sock *vsk, struct sockaddr_vm *src)
+       ^
+   net/vmw_vsock/af_vsock.c:247:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int vsock_remote_addr_update(struct vsock_sock *vsk, struct sockaddr_vm *src)
+   ^
+   static 
+   1 warning generated.
+--
+>> net/vmw_vsock/virtio_transport_common.c:1174:7: warning: variable 'skerr' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+                   if (err)
+                       ^~~
+   net/vmw_vsock/virtio_transport_common.c:1194:15: note: uninitialized use occurs here
+           sk->sk_err = skerr;
+                        ^~~~~
+   net/vmw_vsock/virtio_transport_common.c:1174:3: note: remove the 'if' if its condition is always false
+                   if (err)
+                   ^~~~~~~~
+   net/vmw_vsock/virtio_transport_common.c:1166:11: note: initialize the variable 'skerr' to silence this warning
+           int skerr;
+                    ^
+                     = 0
+   1 warning generated.
 
-   135	
-   136	const struct drop_reason_list __rcu *
-   137	drop_reasons_by_subsys[SKB_DROP_REASON_SUBSYS_NUM] = {
- > 138		[SKB_DROP_REASON_SUBSYS_CORE] = &drop_reasons_core,
-   139	};
-   140	EXPORT_SYMBOL(drop_reasons_by_subsys);
-   141	
+
+vim +/vsock_remote_addr_update +247 net/vmw_vsock/af_vsock.c
+
+   245	
+   246	/* The socket lock must be held by the caller */
+ > 247	int vsock_remote_addr_update(struct vsock_sock *vsk, struct sockaddr_vm *src)
+   248	{
+   249		struct sockaddr_vm_rcu *old, *new;
+   250	
+   251		new = kmalloc(sizeof(*new), GFP_KERNEL);
+   252		if (!new)
+   253			return -ENOMEM;
+   254	
+   255		memcpy(&new->addr, src, sizeof(new->addr));
+   256		old = rcu_replace_pointer(vsk->remote_addr, new, lockdep_sock_is_held(sk_vsock(vsk)));
+   257		kfree_rcu(old, rcu);
+   258	
+   259		return 0;
+   260	}
+   261	
 
 -- 
 0-DAY CI Kernel Test Service
