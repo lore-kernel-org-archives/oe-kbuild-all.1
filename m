@@ -1,43 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC47B7C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 04:56:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B057C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 05:27:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681448190; x=1712984190;
+  t=1681450038; x=1712986038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=25are1nBw+sCN7DMjjdg1PWJpLr9rzer5Ke92O4Kb7Y=;
-  b=ibdPU0bxFMA2HuuhJ9AbuCKp+FClkK0JnZ5xa/b24fuvUEv7k0mBhdyZ
-   wMwAbtNhsKwhV5f10QzS/5usAC7Ypf6QpctlLAehs+yCT5ZmpoxhePQHt
-   r3ma272bhEle5/NOXTeVD2z2C2EXPGkfG5h8pMaSoiE459/W4fScnwU04
-   ykj0HQn3pZq7VSSHOuR6z/atrvtm0jKEN58iNgyto8kqTtrc6thC+ImY8
-   uAgWOovYZC0F++5JzfJl9XlEThdwPhR8H4Cq9aoyDpqpPAOducStjySB1
-   GEyTUeS6IXa75JzhEiFSzKqELp04878NkCeZGDdapr3t+HnGD6igjSpJ/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324736279"
+  bh=Jfi8niM3A2seSeB+1t+phNhF2j+W/B03BTrXTg9obHo=;
+  b=FLkuFEK7opwtCr4RFdY3cJaIBcJp65Vbe+EqvXk/Kof9cMAf6XWMXaLc
+   Gxviout3EkpMNkh+FGFKeAF1p58fOvi6BVOCb9vuUO7V2BKSWsndwtZZI
+   X6JyAa1pYhfFrOKnSvmDepqMP1T4qyWOxcOlY49XI4rLmmUmIlbM87GZf
+   cp3y6VLE+cH68SGy1VKCFt2H/zNJeCttBdSDG8rovXGOK7Tm/5cf/1AfP
+   7pIgA73fdTkpqG4PJjf/LaLbmftRBTXcwP5grFOd1ZblBy//GxrnT0zbs
+   vehs0dFLs2I4LBc4D7Zh4A1WJoUNi6h6SsPsSM0KZqY+nKD/VW0qtCkFg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409585997"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="324736279"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 21:56:30 -0700
+   d="scan'208";a="409585997"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 22:27:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="801042910"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="779055684"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="801042910"
+   d="scan'208";a="779055684"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 21:56:15 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2023 22:27:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnBTq-000ZEv-3B;
-	Fri, 14 Apr 2023 04:56:14 +0000
-Date: Fri, 14 Apr 2023 12:55:20 +0800
+	id 1pnBxs-000ZGd-0T;
+	Fri, 14 Apr 2023 05:27:16 +0000
+Date: Fri, 14 Apr 2023 13:26:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajnesh Kanwal <rkanwal@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <Atish.Patra@wdc.com>,
-	Atish Patra <atishp@rivosinc.com>
-Subject: [atishp04:cove_integeration_v2 1/50]
- arch/sparc/include/asm/io_64.h:434:58: error: 'X' undeclared
-Message-ID: <202304141243.9BlAy9zh-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:tmp-x86-pie 38/38] arch/x86/kernel/head64.c:598:13: error:
+ conflicting types for 'startup_64_setup_env'; have 'void(void)'
+Message-ID: <202304141354.ooowtC0H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,63 +46,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/atishp04/linux cove_integeration_v2
-head:   94c0fb847a505a21d11c0de2e0acefc2e9965311
-commit: e32ab24e32712babc0a3116f5271a0a26e619395 [1/50] asm/io.h: Add iounmap_driver_hardened
-config: sparc-randconfig-r014-20230409 (https://download.01.org/0day-ci/archive/20230414/202304141243.9BlAy9zh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git tmp-x86-pie
+head:   783e21545a8277f8d308e7db80d1eb45e32289d0
+commit: 783e21545a8277f8d308e7db80d1eb45e32289d0 [38/38] x86/head64: Replace pointer fixups with PIE codegen
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230414/202304141354.ooowtC0H-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/e32ab24e32712babc0a3116f5271a0a26e619395
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 cove_integeration_v2
-        git checkout e32ab24e32712babc0a3116f5271a0a26e619395
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=783e21545a8277f8d308e7db80d1eb45e32289d0
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb tmp-x86-pie
+        git checkout 783e21545a8277f8d308e7db80d1eb45e32289d0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141243.9BlAy9zh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141354.ooowtC0H-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/io.h:5,
-                    from include/linux/io.h:13,
-                    from include/linux/pci.h:39,
-                    from lib/devres.c:3:
-   lib/devres.c: In function 'devm_ioremap_release':
->> arch/sparc/include/asm/io_64.h:434:58: error: 'X' undeclared (first use in this function)
-     434 | #define iounmap_driver_hardened                 iounmap((X))
-         |                                                          ^
-   lib/devres.c:19:17: note: in expansion of macro 'iounmap_driver_hardened'
-      19 |                 iounmap_driver_hardened(*(void __iomem **)res);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/asm/io_64.h:434:58: note: each undeclared identifier is reported only once for each function it appears in
-     434 | #define iounmap_driver_hardened                 iounmap((X))
-         |                                                          ^
-   lib/devres.c:19:17: note: in expansion of macro 'iounmap_driver_hardened'
-      19 |                 iounmap_driver_hardened(*(void __iomem **)res);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/head64.c:598:13: error: conflicting types for 'startup_64_setup_env'; have 'void(void)'
+     598 | void __init startup_64_setup_env(void)
+         |             ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/head64.c:28:
+   arch/x86/include/asm/setup.h:53:13: note: previous declaration of 'startup_64_setup_env' with type 'void(long unsigned int)'
+      53 | extern void startup_64_setup_env(unsigned long physbase);
+         |             ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/X +434 arch/sparc/include/asm/io_64.h
+vim +598 arch/x86/kernel/head64.c
 
-   425	
-   426	#define ioremap_uc(X,Y)			ioremap((X),(Y))
-   427	#define ioremap_wc(X,Y)			ioremap((X),(Y))
-   428	#define ioremap_wt(X,Y)			ioremap((X),(Y))
-   429	/* Share memory with host in confidential guest platforms */
-   430	#define ioremap_driver_hardened(X, Y)	ioremap((X), (Y))
-   431	/* Share memory with host in confidential guest platforms (WB version) */
-   432	#define ioremap_cache_shared(X, Y)	ioremap((X), (Y))
-   433	/* Unmap memory shared with the host in confidential guest platforms */
- > 434	#define iounmap_driver_hardened			iounmap((X))
-   435	#define ioremap_driver_hardened_uc(X, Y)	ioremap_uc((X), (Y))
-   436	#define ioremap_driver_hardened_wc(X, Y)	ioremap_wc((X), (Y))
-   437	
+   594	
+   595	/*
+   596	 * Setup boot CPU state needed before kernel switches to virtual addresses.
+   597	 */
+ > 598	void __init startup_64_setup_env(void)
 
 -- 
 0-DAY CI Kernel Test Service
