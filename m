@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6651463DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 20:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289F263DC;
+	Fri, 14 Apr 2023 20:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681502689; x=1713038689;
+  t=1681503372; x=1713039372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r55N4da7jP3EK8v9Fzf/0DvHGCRnjniMaj5HX0V3M3Q=;
-  b=dk2WjsfrBcgDGDG5g8BdVjKvATUfKKDWKjujfl8MFBeWIjCt64fAenQk
-   I1E2Fl42JGsH5En1hj35YLJw1LzaJXNckzksSAIbuWdEr+x3tNsZLIhuO
-   E2Y190dmBIlw3ZYFiCpITBf/BH9JPECuqwK7WEe+wSqetqd58XQW6i421
-   GoUL7UDCx9NVDplyGvmVcNbqY4XUhLSVN9+mdUds4KGCSKaAozkQInJ6B
-   ZpsJOiW4aGCpuY0OvgoCU4ekLVIQnAmg+eFHpHe71hpYS5ct0Q8qkrCiY
-   nYRWQy6OtMxHnPvl00UVBxrUPvly0veA4lKqERVwpjh87gsdkNAfMn6uE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="328714850"
+  bh=QJnIbU+555sjDhir4kYwr+Pnn4S1ezPNx+nzAlJyneY=;
+  b=CxZBcsK1l7Jhg84SP1gMpqsH/uwN1ggrrHFCB6rc2ScxEXaWtVbQNPhB
+   aEsDyPru7hq5lBuu5wSGnmZwNsVdT1Wt/+Wyeyhxqo9gXCTaTrC3ykIuP
+   EuG6R+0L4wclMTjD8UEWS7dBqC2E70OGCF8x2AhjXtS1XW+NFc228WY20
+   h5t80xV0ksAtRHvDai8Td45TbxHdjghX1m2fwwQgSQQIvatZY9xMw9dDb
+   xMIC4l1z6vnHy+Zfm8LQ+p9jEjtd2VBLqKJluxkejx4NyNd3pOpJlqjj/
+   PYZoVFnXhQP3urym8jn39uEhWqBv06jNdDpRzg15nxabTL/8yCvEAEVZd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="407445567"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="328714850"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 13:04:48 -0700
+   d="scan'208";a="407445567"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 13:15:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="640216288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="814016916"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="640216288"
+   d="scan'208";a="814016916"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 14 Apr 2023 13:04:47 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Apr 2023 13:15:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnPf4-000ZtP-0U;
-	Fri, 14 Apr 2023 20:04:46 +0000
-Date: Sat, 15 Apr 2023 04:04:37 +0800
+	id 1pnPpi-000ZuF-24;
+	Fri, 14 Apr 2023 20:15:46 +0000
+Date: Sat, 15 Apr 2023 04:15:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
-Subject: [lunn:v6.3-rc2-net-next-phy-leds 5/16] include/linux/phy.h:458:
- undefined reference to `devm_mdiobus_alloc_size'
-Message-ID: <202304150308.FSWiFBMl-lkp@intel.com>
+To: David Lin <CTLIN0@nuvoton.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-sound:for-next 440/441] sound/soc/codecs/nau8825.c:2826:31:
+ warning: overlapping comparisons always evaluate to false
+Message-ID: <202304150432.zdu6MCpg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,79 +47,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lunn/linux.git v6.3-rc2-net-next-phy-leds
-head:   885b4a813cb9f8cdfbdc3f86cc46babcf13dc3d9
-commit: 4569c1dde9a66ee4688e546e2b03f693e2e99fb2 [5/16] net: phy: Add a binding for PHY LEDs
-config: nios2-buildonly-randconfig-r002-20230410 (https://download.01.org/0day-ci/archive/20230415/202304150308.FSWiFBMl-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   813cca73b7c2b3cbb6ff4b2b6d515035318d690a
+commit: fc0b096c92918c2ba4d76411ea763fdeb2ef6b0d [440/441] ASoC: nau8825: Add delay control for input path
+config: arm-randconfig-r046-20230412 (https://download.01.org/0day-ci/archive/20230415/202304150432.zdu6MCpg-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/lunn/linux/commit/4569c1dde9a66ee4688e546e2b03f693e2e99fb2
-        git remote add lunn https://github.com/lunn/linux.git
-        git fetch --no-tags lunn v6.3-rc2-net-next-phy-leds
-        git checkout 4569c1dde9a66ee4688e546e2b03f693e2e99fb2
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?id=fc0b096c92918c2ba4d76411ea763fdeb2ef6b0d
+        git remote add broonie-sound https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+        git fetch --no-tags broonie-sound for-next
+        git checkout fc0b096c92918c2ba4d76411ea763fdeb2ef6b0d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash sound/soc/codecs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150308.FSWiFBMl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150432.zdu6MCpg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/net/phy/phy_device.o: in function `of_phy_led':
-   drivers/net/phy/phy_device.c:3026: undefined reference to `devm_led_classdev_register_ext'
-   drivers/net/phy/phy_device.c:3026:(.text+0x3534): relocation truncated to fit: R_NIOS2_CALL26 against `devm_led_classdev_register_ext'
-   nios2-linux-ld: drivers/net/ethernet/xilinx/ll_temac_mdio.o: in function `devm_mdiobus_alloc':
->> include/linux/phy.h:458: undefined reference to `devm_mdiobus_alloc_size'
-   include/linux/phy.h:458:(.text+0x218): relocation truncated to fit: R_NIOS2_CALL26 against `devm_mdiobus_alloc_size'
->> nios2-linux-ld: include/linux/phy.h:458: undefined reference to `devm_mdiobus_alloc_size'
-   include/linux/phy.h:458:(.text+0x34c): relocation truncated to fit: R_NIOS2_CALL26 against `devm_mdiobus_alloc_size'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLIB
-   Depends on [m]: NETDEVICES [=y] && (LEDS_CLASS [=m] || LEDS_CLASS [=m]=n)
-   Selected by [y]:
-   - PHYLINK [=y] && NETDEVICES [=y]
-   - ETHOC [=y] && NETDEVICES [=y] && ETHERNET [=y] && HAS_IOMEM [=y] && HAS_DMA [=y]
-   - XILINX_LL_TEMAC [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
-   - USB_LAN78XX [=y] && NETDEVICES [=y] && USB_NET_DRIVERS [=y]
-   - USB_NET_SMSC95XX [=y] && NETDEVICES [=y] && USB_NET_DRIVERS [=y] && USB_USBNET [=y]
-   Selected by [m]:
-   - ALTERA_TSE [=m] && NETDEVICES [=y] && ETHERNET [=y] && HAS_DMA [=y]
-   - SYSTEMPORT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && HAS_IOMEM [=y] && (NET_DSA [=m] || !NET_DSA [=m])
-   - KS8851_MLL [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICREL [=y] && HAS_IOMEM [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
-   - XILINX_EMACLITE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
-   - USB_NET_AX88179_178A [=m] && NETDEVICES [=y] && USB_NET_DRIVERS [=y] && USB_USBNET [=y]
+>> sound/soc/codecs/nau8825.c:2826:31: warning: overlapping comparisons always evaluate to false [-Wtautological-overlap-compare]
+           if (nau8825->adc_delay < 125 && nau8825->adc_delay > 500)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +458 include/linux/phy.h
+vim +2826 sound/soc/codecs/nau8825.c
 
-eb8a54a78e974e Timur Tabi          2012-01-12  445  
-3e3aaf64941698 Russell King        2015-09-24  446  int __mdiobus_register(struct mii_bus *bus, struct module *owner);
-ac3a68d56651c3 Bartosz Golaszewski 2020-06-29  447  int __devm_mdiobus_register(struct device *dev, struct mii_bus *bus,
-ac3a68d56651c3 Bartosz Golaszewski 2020-06-29  448  			    struct module *owner);
-3e3aaf64941698 Russell King        2015-09-24  449  #define mdiobus_register(bus) __mdiobus_register(bus, THIS_MODULE)
-ac3a68d56651c3 Bartosz Golaszewski 2020-06-29  450  #define devm_mdiobus_register(dev, bus) \
-ac3a68d56651c3 Bartosz Golaszewski 2020-06-29  451  		__devm_mdiobus_register(dev, bus, THIS_MODULE)
-38f961e744840d Heiner Kallweit     2020-04-20  452  
-2e888103295f47 Lennert Buytenhek   2008-09-29  453  void mdiobus_unregister(struct mii_bus *bus);
-2e888103295f47 Lennert Buytenhek   2008-09-29  454  void mdiobus_free(struct mii_bus *bus);
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30  455  struct mii_bus *devm_mdiobus_alloc_size(struct device *dev, int sizeof_priv);
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30  456  static inline struct mii_bus *devm_mdiobus_alloc(struct device *dev)
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30  457  {
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30 @458  	return devm_mdiobus_alloc_size(dev, 0);
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30  459  }
-6d48f44b7b2af6 Grygorii Strashko   2014-04-30  460  
-
-:::::: The code at line 458 was first introduced by commit
-:::::: 6d48f44b7b2af67b33c1ae5994b8f642685c8bc8 mdio_bus: implement devm_mdiobus_alloc/devm_mdiobus_free
-
-:::::: TO: Grygorii Strashko <grygorii.strashko@ti.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+  2757	
+  2758	static int nau8825_read_device_properties(struct device *dev,
+  2759		struct nau8825 *nau8825) {
+  2760		int ret;
+  2761	
+  2762		nau8825->jkdet_enable = device_property_read_bool(dev,
+  2763			"nuvoton,jkdet-enable");
+  2764		nau8825->jkdet_pull_enable = device_property_read_bool(dev,
+  2765			"nuvoton,jkdet-pull-enable");
+  2766		nau8825->jkdet_pull_up = device_property_read_bool(dev,
+  2767			"nuvoton,jkdet-pull-up");
+  2768		ret = device_property_read_u32(dev, "nuvoton,jkdet-polarity",
+  2769			&nau8825->jkdet_polarity);
+  2770		if (ret)
+  2771			nau8825->jkdet_polarity = 1;
+  2772		ret = device_property_read_u32(dev, "nuvoton,micbias-voltage",
+  2773			&nau8825->micbias_voltage);
+  2774		if (ret)
+  2775			nau8825->micbias_voltage = 6;
+  2776		ret = device_property_read_u32(dev, "nuvoton,vref-impedance",
+  2777			&nau8825->vref_impedance);
+  2778		if (ret)
+  2779			nau8825->vref_impedance = 2;
+  2780		ret = device_property_read_u32(dev, "nuvoton,sar-threshold-num",
+  2781			&nau8825->sar_threshold_num);
+  2782		if (ret)
+  2783			nau8825->sar_threshold_num = 4;
+  2784		ret = device_property_read_u32_array(dev, "nuvoton,sar-threshold",
+  2785			nau8825->sar_threshold, nau8825->sar_threshold_num);
+  2786		if (ret) {
+  2787			nau8825->sar_threshold[0] = 0x08;
+  2788			nau8825->sar_threshold[1] = 0x12;
+  2789			nau8825->sar_threshold[2] = 0x26;
+  2790			nau8825->sar_threshold[3] = 0x73;
+  2791		}
+  2792		ret = device_property_read_u32(dev, "nuvoton,sar-hysteresis",
+  2793			&nau8825->sar_hysteresis);
+  2794		if (ret)
+  2795			nau8825->sar_hysteresis = 0;
+  2796		ret = device_property_read_u32(dev, "nuvoton,sar-voltage",
+  2797			&nau8825->sar_voltage);
+  2798		if (ret)
+  2799			nau8825->sar_voltage = 6;
+  2800		ret = device_property_read_u32(dev, "nuvoton,sar-compare-time",
+  2801			&nau8825->sar_compare_time);
+  2802		if (ret)
+  2803			nau8825->sar_compare_time = 1;
+  2804		ret = device_property_read_u32(dev, "nuvoton,sar-sampling-time",
+  2805			&nau8825->sar_sampling_time);
+  2806		if (ret)
+  2807			nau8825->sar_sampling_time = 1;
+  2808		ret = device_property_read_u32(dev, "nuvoton,short-key-debounce",
+  2809			&nau8825->key_debounce);
+  2810		if (ret)
+  2811			nau8825->key_debounce = 3;
+  2812		ret = device_property_read_u32(dev, "nuvoton,jack-insert-debounce",
+  2813			&nau8825->jack_insert_debounce);
+  2814		if (ret)
+  2815			nau8825->jack_insert_debounce = 7;
+  2816		ret = device_property_read_u32(dev, "nuvoton,jack-eject-debounce",
+  2817			&nau8825->jack_eject_debounce);
+  2818		if (ret)
+  2819			nau8825->jack_eject_debounce = 0;
+  2820		nau8825->xtalk_enable = device_property_read_bool(dev,
+  2821			"nuvoton,crosstalk-enable");
+  2822		nau8825->adcout_ds = device_property_read_bool(dev, "nuvoton,adcout-drive-strong");
+  2823		ret = device_property_read_u32(dev, "nuvoton,adc-delay-ms", &nau8825->adc_delay);
+  2824		if (ret)
+  2825			nau8825->adc_delay = 125;
+> 2826		if (nau8825->adc_delay < 125 && nau8825->adc_delay > 500)
+  2827			dev_warn(dev, "Please set the suitable delay time!\n");
+  2828	
+  2829		nau8825->mclk = devm_clk_get(dev, "mclk");
+  2830		if (PTR_ERR(nau8825->mclk) == -EPROBE_DEFER) {
+  2831			return -EPROBE_DEFER;
+  2832		} else if (PTR_ERR(nau8825->mclk) == -ENOENT) {
+  2833			/* The MCLK is managed externally or not used at all */
+  2834			nau8825->mclk = NULL;
+  2835			dev_info(dev, "No 'mclk' clock found, assume MCLK is managed externally");
+  2836		} else if (IS_ERR(nau8825->mclk)) {
+  2837			return -EINVAL;
+  2838		}
+  2839	
+  2840		return 0;
+  2841	}
+  2842	
 
 -- 
 0-DAY CI Kernel Test Service
