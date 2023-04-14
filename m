@@ -1,52 +1,44 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AD17C;
-	Fri, 14 Apr 2023 16:33:34 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id q23so37541327ejz.3;
-        Fri, 14 Apr 2023 09:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681490012; x=1684082012;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x9UGFfR9XzGT0N9Pt0NWw2qMZUnEalV9PygfxkGsIJs=;
-        b=hqfY++6C67ZwEJIb12vT5qmncCG0l+mWpeVA4Vy+BqvQ+NnLy8/IecyYTrUYfw0po2
-         Ih0Uv6DC0iZQfy3mY2dM7sFGWLHMt5iVsrAyRGsRjTQplTruY2l6goiIcofgINtQq4tn
-         YtTLJLUHeNSemgWKsdkBRxFpNJ7VDVOghnbLowQuHUiuKWzsv2yeAb4VZjdrLqt8nB0X
-         bwxsE3GceHx+DJePwbYEifoqKySAKmrCSUSDDsqAqmAKxsK4jgK2vLmKJGyN0a8I6/Pq
-         wxqTcbCa6bJO1Nf53iZ6Ekp4RWG9+GAYdzVyFWVA3XgdjfTG3HepHdjMOkwgzMJ6Bmj8
-         d5jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681490012; x=1684082012;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9UGFfR9XzGT0N9Pt0NWw2qMZUnEalV9PygfxkGsIJs=;
-        b=TYUGvsqdhKPXNswvnsLGMKYjHGWa0X60k/JavsNcrlX13MgulgA4oypYImMSCZpGje
-         /ORItDQd0nj1UDVJm5F1IVicu/Nxnzmp0FYZEXue2ELxDVH9LcocETHBoPg0BQ4Z7jH8
-         LiqtgFhs7aJRKAHJUoAl86ZVYX5xQ0yXHHNAR0dDwijCTvLJyPTUVkKV0R037PlwFyqZ
-         yK2IM6GWXLtaTev+h00jhFrtKIKXYgwo7QAJPXP8VKP41Fzm4/lhLj8KjWCZY3ftgp+0
-         KpFTvgPNPAzGautsalkdvu+rDFCYUXQ8gOd2m0FTejoaDyBRjxT38Qggr0LqYTP70D0C
-         ZVaw==
-X-Gm-Message-State: AAQBX9fF0cMJH9xGo2dODsYupXPU7MtXUn2W30oN6qmM0zfm/pJfjwDp
-	azgLMUV+NyOQxotW7i1bG2g1m2Y7agk=
-X-Google-Smtp-Source: AKy350bCZ57T3rFmBGJFSz55ZW9N7QkTp4DRBV90olFLcERGZPvycLMagAjuo4YKXiY13uCwc+bN/Q==
-X-Received: by 2002:a17:906:f2d8:b0:94e:c43f:316b with SMTP id gz24-20020a170906f2d800b0094ec43f316bmr4442815ejb.19.1681490012048;
-        Fri, 14 Apr 2023 09:33:32 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w27-20020a17090633db00b0094a512b0972sm2592174eja.117.2023.04.14.09.33.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 09:33:31 -0700 (PDT)
-Date: Fri, 14 Apr 2023 19:33:27 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Atish Patra <Atish.Patra@wdc.com>,
-	Rajnesh Kanwal <rkanwal@rivosinc.com>
-Subject: [atishp04:cove_integeration_v2 75/136] drivers/base/da_firmware.c:67
- pci_parse_devices() warn: Please consider using kcalloc instead of
- kmalloc_array
-Message-ID: <ee0228b8-ed7d-4ed2-91e2-0294595097e1@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038757C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 16:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681490453; x=1713026453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WQy0telDgCadi0YQv9CqPNLPz/Bs1Jmwt5uVTnql7ZE=;
+  b=dMvwxSW8uI/Yd8u2bYgbF9hmcUzQiwHnJNgKpsPsKS9xr1NjbMAD3oV9
+   iarM+NC0KeEzg5FLQofnS95PrHyrraRw274TQiz0rcfdDlU8LIZDsEZbx
+   WLs9tfm0eZ0y0oi5RsTmDXrtDRvO9k/hf6qWvoSU+hJNNusYmUZ8hdC7E
+   QQwDnyvKOB1xXiIIZQPngQh+wHKFYuJVgThwtr3seHXKH1SDtkPetRXzG
+   NkRjCS0TOJyr4nwk6Ce1/XkwhnP5UUadR2CLH82V51+mSA7OdJLb4gERW
+   0nqPxhyZCxyyqczQ9LwayiJuGIwjWgrFd/P4yesoYD1YMw5mb2NWmRE5H
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="347226864"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="347226864"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 09:40:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="936069984"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="936069984"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 09:40:39 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pnMTW-000Zj1-1M;
+	Fri, 14 Apr 2023 16:40:38 +0000
+Date: Sat, 15 Apr 2023 00:39:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST"
+ redefined
+Message-ID: <202304150059.bHUyuriy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,44 +48,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/atishp04/linux cove_integeration_v2
-head:   94c0fb847a505a21d11c0de2e0acefc2e9965311
-commit: 896621978781d8378b4f51a9e33c33846439695d [75/136] driver core: Add support to parse device authorize firmware
-config: csky-randconfig-m031-20230411 (https://download.01.org/0day-ci/archive/20230414/202304141419.mRARWHGd-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Mauro,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44149752e9987a9eac5ad78e6d3a20934b5e018d
+commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
+date:   1 year, 1 month ago
+config: mips-buildonly-randconfig-r002-20230414 (https://download.01.org/0day-ci/archive/20230415/202304150059.bHUyuriy-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/renesas/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304141419.mRARWHGd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150059.bHUyuriy-lkp@intel.com/
 
-smatch warnings:
-drivers/base/da_firmware.c:67 pci_parse_devices() warn: Please consider using kcalloc instead of kmalloc_array
+All warnings (new ones prefixed by >>):
 
-vim +67 drivers/base/da_firmware.c
+>> drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST" redefined
+      77 | #define RST     0xd0
+         | 
+   In file included from arch/mips/include/asm/mach-rc32434/irq.h:8,
+                    from arch/mips/include/asm/irq.h:17,
+                    from include/linux/irq.h:23,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/mips/include/asm/hardirq.h:16,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/media/platform/renesas/rcar_jpu.c:20:
+   arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+      13 | #define RST             (1 << 15)
+         | 
 
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  61  static size_t pci_parse_devices(struct da_bus_node *node, void *data)
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  62  {
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  63  	struct da_pci_device_id *da_id = data;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  64  	struct pci_device_id *ids;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  65  	unsigned int i;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  66  
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22 @67  	ids = kmalloc_array(node->count, sizeof(*ids), GFP_KERNEL | __GFP_ZERO);
-                                                                                                                            ^^^^^^^^^^
-If you want zeroed memory the traditional way is to use kcalloc().
 
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  68  	if (!ids)
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  69  		return 0;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  70  
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  71  	for (i = 0; i < node->count; i++)
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  72  		memcpy(&ids[i], &da_id[i], sizeof(*da_id));
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  73  
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  74  	node->dev_ids = ids;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  75  
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  76  	return sizeof(*da_id) * node->count;
-896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  77  }
+vim +/RST +77 drivers/media/platform/renesas/rcar_jpu.c
+
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  73  
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  74  /* JPEG markers */
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  75  #define TEM	0x01
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  76  #define SOF0	0xc0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22 @77  #define RST	0xd0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  78  #define SOI	0xd8
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  79  #define EOI	0xd9
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  80  #define DHP	0xde
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  81  #define DHT	0xc4
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  82  #define COM	0xfe
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  83  #define DQT	0xdb
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  84  #define DRI	0xdd
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  85  #define APP0	0xe0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  86  
+
+:::::: The code at line 77 was first introduced by commit
+:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add Renesas R-Car JPEG codec driver
+
+:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
