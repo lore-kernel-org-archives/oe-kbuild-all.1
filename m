@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEB220F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 14:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2E02115;
+	Fri, 14 Apr 2023 14:46:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681481152; x=1713017152;
+  t=1681483596; x=1713019596;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6lTGDwa/dVxTN2bkmln63P8uLP/UxkQ/lUx1f/lnviM=;
-  b=DYvcKt9ReYp0KXwtc+AgFVmlXBnfChAQc+tH+176wc8tecjHvBl0PIXG
-   3I4+e0vHXff+mZyA8QvqzgZpjHwg54jLMgd/5z5JwtFA2tgVdgi42EN8Y
-   kx2/gsypVSCafEJM5NW83bbn0Gi5r1nvNUzHvXgIzcV2CdUlnInpFzB0Z
-   tWYfmdh7wgtnrHvWDLieZkxQLyypfB813VGX4c8UkpFMGIP9UJvbUY/r1
-   jowfh2Qe0PvD/g0q0xR/xwesyMrFDEMs/zDgYrVfpQhYB88hlMNZMDoii
-   +wOsveuKGTLcg7fv9lS2aWPqdx3mdzwl/OG0sIRGu2zkKNxvIW9j/NnL1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="344471402"
+  bh=xvRFyU7Q5GbLoC/wl79wT+pTU2smeSgowIVO+Wxyg54=;
+  b=bdrXqKWAw3KvIm9172cf8yEOIaho6asxGMvzoUzA9+5+W5OvoRo4ptLN
+   w1ld7H02uYuYzRxNyjXRt1qyigotNOWYoyl7u9nI55w4hIC3Rmg+lHvDd
+   wUKD016/Nw6xuK4CsEMqG6XSlCL9PX8uwM0isTWmb2Zq/Ip8In1z83Rsh
+   MD+xb29AOx5qjPasUSaWhKur8fP1mA+2WWFLiaItMtxvm3vmtMavozlJe
+   NOj7LmZI2jDNVHDYfvNY2ia0bqOyp5VStXFNMnypNS+7Mzw+xETe3lSTS
+   mf7iefaoS6eXbSe9y9QTeW5bgUXKamS7PdhHJ/IEJHbsuHrzyhZmkavt+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="372345935"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="344471402"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 07:05:40 -0700
+   d="scan'208";a="372345935"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 07:46:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="813888190"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="1019614440"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="813888190"
+   d="scan'208";a="1019614440"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 14 Apr 2023 07:05:38 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 14 Apr 2023 07:46:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnK3R-000ZbR-03;
-	Fri, 14 Apr 2023 14:05:33 +0000
-Date: Fri, 14 Apr 2023 22:04:34 +0800
+	id 1pnKh8-000Zd6-0N;
+	Fri, 14 Apr 2023 14:46:34 +0000
+Date: Fri, 14 Apr 2023 22:45:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC 2/4] buffer: add alloc_folio_buffers() helper
-Message-ID: <202304142125.IA2eKPjg-lkp@intel.com>
+Message-ID: <202304142218.zs2r13hQ-lkp@intel.com>
 References: <20230414110821.21548-3-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,29 +63,36 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Raghav/buffer-add-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
 patch link:    https://lore.kernel.org/r/20230414110821.21548-3-p.raghav%40samsung.com
 patch subject: [RFC 2/4] buffer: add alloc_folio_buffers() helper
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230414/202304142125.IA2eKPjg-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+config: powerpc-kilauea_defconfig (https://download.01.org/0day-ci/archive/20230414/202304142218.zs2r13hQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/a5c44e7a616f7a972e4570437b81778c20c15137
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Pankaj-Raghav/buffer-add-alloc_folio_buffers-helper/20230414-200852
         git checkout a5c44e7a616f7a972e4570437b81778c20c15137
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304142125.IA2eKPjg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304142218.zs2r13hQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/buffer.c:913:21: warning: no previous prototype for 'alloc_folio_buffers' [-Wmissing-prototypes]
-     913 | struct buffer_head *alloc_folio_buffers(struct folio *folio, unsigned long size,
-         |                     ^~~~~~~~~~~~~~~~~~~
+>> fs/buffer.c:913:21: warning: no previous prototype for function 'alloc_folio_buffers' [-Wmissing-prototypes]
+   struct buffer_head *alloc_folio_buffers(struct folio *folio, unsigned long size,
+                       ^
+   fs/buffer.c:913:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct buffer_head *alloc_folio_buffers(struct folio *folio, unsigned long size,
+   ^
+   static 
+   1 warning generated.
 
 
 vim +/alloc_folio_buffers +913 fs/buffer.c
