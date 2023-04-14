@@ -1,43 +1,45 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F676647
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 08:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BE8A45
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 09:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681461274; x=1712997274;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hv77nyjtD7mUd9lCv9AwM1N9q9e6utZvAOqrGRR3kPs=;
-  b=gPvs2yAHvrCWvO9t+Dsbf0f0rbdCVUdOowzS0SmxHUK60gntWRvM4Wel
-   Xif6Og3qOBAw1d67rjOYQyr8yHRBgG/tmXq9itpsQiUNy8dKljahaKsVI
-   5kQ6YyRbzdUx1R5NvYPv3zPo1cH6qaiz426iuUWyOOQ69cetVzTGVFxvh
-   Gjp1vzJw7qKEv1MEgHn0F6oS9A/nkiGRBO95Xt0ftyMObHVTEhaBQFTID
-   zi+gWHRMMtfPP/+a+t8Ho1cq05cPRDwIVeYQItKxdDsxHJCSM6+MJ8WcH
-   RsVtjlEtG3MnmBL5+kKNzdOTHj+QPYjAe2YwqT1pQ3JZhbL5QGYsyDiJu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="430710130"
+  t=1681464926; x=1713000926;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lJECwI/xn3ND7L3KX71lz22fTErWwZkFR/Ik3G/h9lc=;
+  b=fimQxAgfeBLdHbu96rlR2vpUiqQmau98e4rSbEwfdOAuOFjkBr8Xme9x
+   i/Jhqfie/FxJaAnLU7gsAjDUN3P/vXJyMyM1NriK5KUtswQ3V1YZ24hst
+   nCtTTeShnC95NvL1YD5k3GH6YRlU/lgKJNqj6T5CBYzzo4qaSJ+c3Uamc
+   my79zMUHHBRZfBBU8IgvXPUxS8w+/bB8mELBJalHxjHbnbh16l8vbIhg6
+   s72Wvn3ed7LOg9xcvvwB8j4/TPI+XM9IeUcrjCmDFO/FMO74napXEDeR4
+   nAIT1KQp6/BMWL8dP+WcHvbcRZX3A5FAWFL1ESDa3m7wG792HlkRTsMHQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409625823"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="430710130"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 01:34:24 -0700
+   d="scan'208";a="409625823"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 02:35:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="683269853"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="759055966"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="683269853"
+   d="scan'208";a="759055966"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 14 Apr 2023 01:34:23 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 14 Apr 2023 02:35:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnEsw-000ZMd-0a;
-	Fri, 14 Apr 2023 08:34:22 +0000
-Date: Fri, 14 Apr 2023 16:33:22 +0800
+	id 1pnFpz-000ZP5-1w;
+	Fri, 14 Apr 2023 09:35:23 +0000
+Date: Fri, 14 Apr 2023 17:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+	intel-gfx@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:retain-zoned-write-order 7/13]
- drivers/s390/block/scm_blk.c:246:9: error: too few arguments to function
- 'blk_mq_run_hw_queues'
-Message-ID: <202304141657.NMSUopwu-lkp@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: PCH display HPD IRQ is not
+ detected with default filter value
+Message-ID: <202304141732.MFJIclz0-lkp@intel.com>
+References: <20230414072345.1041605-1-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +48,188 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230414072345.1041605-1-suraj.kandpal@intel.com>
 
-tree:   https://github.com/bvanassche/linux retain-zoned-write-order
-head:   8cae04cb2e2d0cc34383777ec2d884dd8333d63d
-commit: 9ad6fbbfdfd8abca53a4491e32dc2876210675b9 [7/13] block: Remove blk_mq_kick_requeue_list() and blk_mq_delay_kick_requeue_list()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230414/202304141657.NMSUopwu-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Suraj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-display-PCH-display-HPD-IRQ-is-not-detected-with-default-filter-value/20230414-152733
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230414072345.1041605-1-suraj.kandpal%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/display: PCH display HPD IRQ is not detected with default filter value
+config: x86_64-randconfig-a016-20230410 (https://download.01.org/0day-ci/archive/20230414/202304141732.MFJIclz0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/bvanassche/linux/commit/9ad6fbbfdfd8abca53a4491e32dc2876210675b9
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche retain-zoned-write-order
-        git checkout 9ad6fbbfdfd8abca53a4491e32dc2876210675b9
+        # https://github.com/intel-lab-lkp/linux/commit/bf0d69db2e4066bb221d69355d2a1b27cb3a0f57
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Suraj-Kandpal/drm-i915-display-PCH-display-HPD-IRQ-is-not-detected-with-default-filter-value/20230414-152733
+        git checkout bf0d69db2e4066bb221d69355d2a1b27cb3a0f57
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/s390/block/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141657.NMSUopwu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141732.MFJIclz0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/s390/block/scm_blk.c: In function 'scm_request_requeue':
->> drivers/s390/block/scm_blk.c:246:9: error: too few arguments to function 'blk_mq_run_hw_queues'
-     246 |         blk_mq_run_hw_queues(bdev->rq);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/s390/block/scm_blk.c:17:
-   include/linux/blk-mq.h:888:6: note: declared here
-     888 | void blk_mq_run_hw_queues(struct request_queue *q, bool async);
-         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_dp.c: In function 'intel_dp_detect':
+>> drivers/gpu/drm/i915/display/intel_dp.c:4856:30: error: 'PANEL_POWER_ON' undeclared (first use in this function); did you mean 'MIPI_SEQ_POWER_ON'?
+    4856 |                         pp = PANEL_POWER_ON;
+         |                              ^~~~~~~~~~~~~~
+         |                              MIPI_SEQ_POWER_ON
+   drivers/gpu/drm/i915/display/intel_dp.c:4856:30: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/gpu/drm/i915/display/g4x_dp.h:11,
+                    from drivers/gpu/drm/i915/display/intel_dp.c:46:
+>> drivers/gpu/drm/i915/display/intel_dp.c:4860:46: error: 'PCH_PPS_BASE' undeclared (first use in this function); did you mean 'PCI_IO_BASE'?
+    4860 |                 intel_de_rmw(dev_priv, _MMIO(PCH_PPS_BASE + 4), 1, pp);
+         |                                              ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_reg_defs.h:162:47: note: in definition of macro '_MMIO'
+     162 | #define _MMIO(r) ((const i915_reg_t){ .reg = (r) })
+         |                                               ^
 
 
-vim +/blk_mq_run_hw_queues +246 drivers/s390/block/scm_blk.c
+vim +4856 drivers/gpu/drm/i915/display/intel_dp.c
 
-   235	
-   236	static void scm_request_requeue(struct scm_request *scmrq)
-   237	{
-   238		struct scm_blk_dev *bdev = scmrq->bdev;
-   239		int i;
-   240	
-   241		for (i = 0; i < nr_requests_per_io && scmrq->request[i]; i++)
-   242			blk_mq_requeue_request(scmrq->request[i], false);
-   243	
-   244		atomic_dec(&bdev->queued_reqs);
-   245		scm_request_done(scmrq);
- > 246		blk_mq_run_hw_queues(bdev->rq);
-   247	}
-   248	
+  4732	
+  4733	static int
+  4734	intel_dp_detect(struct drm_connector *connector,
+  4735			struct drm_modeset_acquire_ctx *ctx,
+  4736			bool force)
+  4737	{
+  4738		struct drm_i915_private *dev_priv = to_i915(connector->dev);
+  4739		struct intel_dp *intel_dp = intel_attached_dp(to_intel_connector(connector));
+  4740		struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+  4741		struct intel_encoder *encoder = &dig_port->base;
+  4742		enum drm_connector_status status;
+  4743		int32_t pp;
+  4744	
+  4745		drm_dbg_kms(&dev_priv->drm, "[CONNECTOR:%d:%s]\n",
+  4746			    connector->base.id, connector->name);
+  4747		drm_WARN_ON(&dev_priv->drm,
+  4748			    !drm_modeset_is_locked(&dev_priv->drm.mode_config.connection_mutex));
+  4749	
+  4750		if (!INTEL_DISPLAY_ENABLED(dev_priv))
+  4751			return connector_status_disconnected;
+  4752	
+  4753		/* Can't disconnect eDP */
+  4754		if (intel_dp_is_edp(intel_dp))
+  4755			status = edp_detect(intel_dp);
+  4756		else if (intel_digital_port_connected(encoder))
+  4757			status = intel_dp_detect_dpcd(intel_dp);
+  4758		else
+  4759			status = connector_status_disconnected;
+  4760	
+  4761		if (status == connector_status_disconnected) {
+  4762			memset(&intel_dp->compliance, 0, sizeof(intel_dp->compliance));
+  4763			memset(intel_dp->dsc_dpcd, 0, sizeof(intel_dp->dsc_dpcd));
+  4764	
+  4765			if (intel_dp->is_mst) {
+  4766				drm_dbg_kms(&dev_priv->drm,
+  4767					    "MST device may have disappeared %d vs %d\n",
+  4768					    intel_dp->is_mst,
+  4769					    intel_dp->mst_mgr.mst_state);
+  4770				intel_dp->is_mst = false;
+  4771				drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
+  4772								intel_dp->is_mst);
+  4773			}
+  4774	
+  4775			goto out;
+  4776		}
+  4777	
+  4778		/* Read DP Sink DSC Cap DPCD regs for DP v1.4 */
+  4779		if (HAS_DSC(dev_priv))
+  4780			intel_dp_get_dsc_sink_cap(intel_dp);
+  4781	
+  4782		intel_dp_configure_mst(intel_dp);
+  4783	
+  4784		/*
+  4785		 * TODO: Reset link params when switching to MST mode, until MST
+  4786		 * supports link training fallback params.
+  4787		 */
+  4788		if (intel_dp->reset_link_params || intel_dp->is_mst) {
+  4789			intel_dp_reset_max_link_params(intel_dp);
+  4790			intel_dp->reset_link_params = false;
+  4791		}
+  4792	
+  4793		intel_dp_print_rates(intel_dp);
+  4794	
+  4795		if (intel_dp->is_mst) {
+  4796			/*
+  4797			 * If we are in MST mode then this connector
+  4798			 * won't appear connected or have anything
+  4799			 * with EDID on it
+  4800			 */
+  4801			status = connector_status_disconnected;
+  4802			goto out;
+  4803		}
+  4804	
+  4805		/*
+  4806		 * Some external monitors do not signal loss of link synchronization
+  4807		 * with an IRQ_HPD, so force a link status check.
+  4808		 */
+  4809		if (!intel_dp_is_edp(intel_dp)) {
+  4810			int ret;
+  4811	
+  4812			ret = intel_dp_retrain_link(encoder, ctx);
+  4813			if (ret)
+  4814				return ret;
+  4815		}
+  4816	
+  4817		/*
+  4818		 * Clearing NACK and defer counts to get their exact values
+  4819		 * while reading EDID which are required by Compliance tests
+  4820		 * 4.2.2.4 and 4.2.2.5
+  4821		 */
+  4822		intel_dp->aux.i2c_nack_count = 0;
+  4823		intel_dp->aux.i2c_defer_count = 0;
+  4824	
+  4825		intel_dp_set_edid(intel_dp);
+  4826		if (intel_dp_is_edp(intel_dp) ||
+  4827		    to_intel_connector(connector)->detect_edid)
+  4828			status = connector_status_connected;
+  4829	
+  4830		intel_dp_check_device_service_irq(intel_dp);
+  4831	
+  4832	out:
+  4833		if (status != connector_status_connected && !intel_dp->is_mst)
+  4834			intel_dp_unset_edid(intel_dp);
+  4835	
+  4836		/*
+  4837		 * Make sure the refs for power wells enabled during detect are
+  4838		 * dropped to avoid a new detect cycle triggered by HPD polling.
+  4839		 */
+  4840		intel_display_power_flush_work(dev_priv);
+  4841	
+  4842		if (!intel_dp_is_edp(intel_dp))
+  4843			drm_dp_set_subconnector_property(connector,
+  4844							 status,
+  4845							 intel_dp->dpcd,
+  4846							 intel_dp->downstream_ports);
+  4847	
+  4848		/*
+  4849		 * WA_150879661:adls
+  4850		 * Driver shall enable this WA when external display is connected
+  4851		 * and remove WA when display is unplugged
+  4852		 */
+  4853		if (IS_ALDERLAKE_S(dev_priv)) {
+  4854			if (status == connector_status_connected &&
+  4855			    !dev_priv->edp_present)
+> 4856				pp = PANEL_POWER_ON;
+  4857			else if (status == connector_status_disconnected)
+  4858				pp = 0;
+  4859	
+> 4860			intel_de_rmw(dev_priv, _MMIO(PCH_PPS_BASE + 4), 1, pp);
+  4861		}
+  4862	
+  4863		return status;
+  4864	}
+  4865	
 
 -- 
 0-DAY CI Kernel Test Service
