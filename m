@@ -1,107 +1,94 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C00F630
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 23:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681514459; x=1713050459;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iahJUXaGfWWxQ92qu30K5ILJEmoOROi4XcxJsU5Bv9E=;
-  b=mOIOgAiR6nYCHuINBrTrNh9TQr3qNBENCFtO73feN13LwXWKXW7Erudr
-   NxaGWcGKBEgI65pfJF2AO1bo6Vpwyr/RN85aPIk+eYNHdGzpMJpe7H7cq
-   GL5GrdDKiBrudJth8RBxByP+LGT6bPQzDn4AwNQzx0s3rI19gP2aHxtVg
-   OQcEZEM7pRHng4HB8z5xw0iJhpOO9+L+GKt9eygf2YBMOPR0WewXgNs4Q
-   KBCKp0BHUAWXImQyoSan72lc/cqYD2eAD/UaXBtM9p2vWEHFUf6PlbXPp
-   CNT7zIgPWlVTrvFPS+spELZ1tq59vNkhtN6fx9IhD5zew0Z+2o1iEOTla
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="328747475"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="328747475"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 16:20:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="864367481"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="864367481"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 14 Apr 2023 16:20:56 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pnSiu-000a6p-0X;
-	Fri, 14 Apr 2023 23:20:56 +0000
-Date: Sat, 15 Apr 2023 07:20:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/629 3979/9838] drivers/base/power/domain.c:260:6:
- warning: no previous prototype for 'pm_genpd_disable_clks'
-Message-ID: <202304150740.vZzotljZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1D57491
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 23:38:31 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 9991224DB83;
+	Sat, 15 Apr 2023 07:38:29 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 15 Apr
+ 2023 07:38:29 +0800
+Received: from [192.168.0.6] (113.102.16.222) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 15 Apr
+ 2023 07:38:28 +0800
+Message-ID: <d5d7ec22-dcba-7289-d572-39eaad8b0c83@starfivetech.com>
+Date: Sat, 15 Apr 2023 07:38:27 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [linux-next:master 8653/11447] kismet: WARNING: unmet direct
+ dependencies detected for RESET_STARFIVE_JH7110 when selected by
+ CLK_STARFIVE_JH7110_SYS
+Content-Language: en-US
+To: Conor Dooley <conor.dooley@microchip.com>, kernel test robot
+	<lkp@intel.com>
+CC: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+	<fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>, "Linux Memory
+ Management List" <linux-mm@kvack.org>, Emil Renner Berthing
+	<emil.renner.berthing@canonical.com>
+References: <202304140706.aOBNhUj2-lkp@intel.com>
+ <20230414-spiritism-nape-b5c340dfb4e7@wendy>
+From: Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <20230414-spiritism-nape-b5c340dfb4e7@wendy>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [113.102.16.222]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
 
-tree:   https://github.com/Freescale/linux-fslc pr/629
-head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
-commit: 01a19a7ad755e54def65a81ac23b93fa5a77cc4d [3979/9838] LF-4713-1 PM: domains: add pm domain clocks support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230415/202304150740.vZzotljZ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/01a19a7ad755e54def65a81ac23b93fa5a77cc4d
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/629
-        git checkout 01a19a7ad755e54def65a81ac23b93fa5a77cc4d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/base/power/ drivers/firmware/imx/ drivers/gpu/drm/bridge/ drivers/mailbox/ drivers/media/platform/ drivers/net/ drivers/pwm/ drivers/regulator/ drivers/soc/imx/ drivers/staging/ drivers/video/backlight/ drivers/video/fbdev/ sound/soc/fsl/ sound/soc/sof/amd/ sound/soc/sof/imx/ sound/soc/sof/intel/ sound/soc/sof/mediatek/mt8186/ sound/soc/sof/mediatek/mt8195/
+On Fri, 14 Apr 2023 07:22:49 +0100, Conor Dooley wrote:
+> Hal,
+> 
+> Could you please submit a fix for this?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150740.vZzotljZ-lkp@intel.com/
+No problem. Can I submit it around tomorrow evening?
+I have left my office at the moment.
 
-All warnings (new ones prefixed by >>):
+Best regards,
+Hal
 
->> drivers/base/power/domain.c:260:6: warning: no previous prototype for 'pm_genpd_disable_clks' [-Wmissing-prototypes]
-     260 | void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/base/power/domain.c:266:5: warning: no previous prototype for 'pm_genpd_enable_clks' [-Wmissing-prototypes]
-     266 | int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
-         |     ^~~~~~~~~~~~~~~~~~~~
+> 
+> On Fri, Apr 14, 2023 at 07:55:32AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   e3342532ecd39bbd9c2ab5b9001cec1589bc37e9
+>> commit: 82327b127d4117e5b867cca945f97a5074aef786 [8653/11447] reset: starfive: Add StarFive JH7110 reset driver
+>> config: csky-kismet-CONFIG_RESET_STARFIVE_JH7110-CONFIG_CLK_STARFIVE_JH7110_SYS-0-0 (https://download.01.org/0day-ci/archive/20230414/202304140706.aOBNhUj2-lkp@intel.com/config)
+>> reproduce:
+>>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=82327b127d4117e5b867cca945f97a5074aef786
+>>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>>         git fetch --no-tags linux-next master
+>>         git checkout 82327b127d4117e5b867cca945f97a5074aef786
+>>         # 1. reproduce by kismet
+>>            # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+>>            kismet --linux-ksrc=linux --selectees CONFIG_RESET_STARFIVE_JH7110 --selectors CONFIG_CLK_STARFIVE_JH7110_SYS -a=csky
+>>         # 2. reproduce by make
+>>            # save the config file to linux source tree
+>>            cd linux
+>>            make ARCH=csky olddefconfig
+>> 
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Link: https://lore.kernel.org/oe-kbuild-all/202304140706.aOBNhUj2-lkp@intel.com/
+>> 
+>> kismet warnings: (new ones prefixed by >>)
+>> >> kismet: WARNING: unmet direct dependencies detected for RESET_STARFIVE_JH7110 when selected by CLK_STARFIVE_JH7110_SYS
+>>    .config:4526:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+>>    
+>>    WARNING: unmet direct dependencies detected for RESET_STARFIVE_JH7110
+>>      Depends on [n]: RESET_CONTROLLER [=n] && AUXILIARY_BUS [=y] && CLK_STARFIVE_JH7110_SYS [=y]
+>>      Selected by [y]:
+>>      - CLK_STARFIVE_JH7110_SYS [=y] && COMMON_CLK [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
+>> 
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests
 
-
-vim +/pm_genpd_disable_clks +260 drivers/base/power/domain.c
-
-   259	
- > 260	void pm_genpd_disable_clks(struct generic_pm_domain *genpd)
-   261	{
-   262		if (genpd->flags & GENPD_FLAG_PM_PD_CLK && genpd->num_clks > 0)
-   263			clk_bulk_disable_unprepare(genpd->num_clks, genpd->clks);
-   264	}
-   265	
- > 266	int pm_genpd_enable_clks(struct generic_pm_domain *genpd)
-   267	{
-   268		int ret;
-   269	
-   270		if (genpd->flags & GENPD_FLAG_PM_PD_CLK && genpd->num_clks > 0) {
-   271			ret = clk_bulk_prepare_enable(genpd->num_clks, genpd->clks);
-   272			if (ret) {
-   273				dev_err(&genpd->dev, "failed to enable clocks\n");
-   274				return ret;
-   275			}
-   276		}
-   277	
-   278		return 0;
-   279	}
-   280	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
