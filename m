@@ -1,89 +1,126 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B057C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 05:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAB97C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 06:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681450038; x=1712986038;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jfi8niM3A2seSeB+1t+phNhF2j+W/B03BTrXTg9obHo=;
-  b=FLkuFEK7opwtCr4RFdY3cJaIBcJp65Vbe+EqvXk/Kof9cMAf6XWMXaLc
-   Gxviout3EkpMNkh+FGFKeAF1p58fOvi6BVOCb9vuUO7V2BKSWsndwtZZI
-   X6JyAa1pYhfFrOKnSvmDepqMP1T4qyWOxcOlY49XI4rLmmUmIlbM87GZf
-   cp3y6VLE+cH68SGy1VKCFt2H/zNJeCttBdSDG8rovXGOK7Tm/5cf/1AfP
-   7pIgA73fdTkpqG4PJjf/LaLbmftRBTXcwP5grFOd1ZblBy//GxrnT0zbs
-   vehs0dFLs2I4LBc4D7Zh4A1WJoUNi6h6SsPsSM0KZqY+nKD/VW0qtCkFg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409585997"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="409585997"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 22:27:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="779055684"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="779055684"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2023 22:27:16 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pnBxs-000ZGd-0T;
-	Fri, 14 Apr 2023 05:27:16 +0000
-Date: Fri, 14 Apr 2023 13:26:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:tmp-x86-pie 38/38] arch/x86/kernel/head64.c:598:13: error:
- conflicting types for 'startup_64_setup_env'; have 'void(void)'
-Message-ID: <202304141354.ooowtC0H-lkp@intel.com>
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1681453398; x=1712989398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5wSlteKHrySkQy3JYosn2+6VaLPgFPsoqMhsH4nLPm0=;
+  b=FH+5Thtz9pwfVNe20b47SEsve1K8XVD+Z/t6pW9SF71iEqT4B6LnmiME
+   YLUkbt5vLAmsqqaVD7G9Js9iyP6uC+uNVpO1W9PT23hroZ1TqAdwxYMQ6
+   Y6lCiSeuS2ErcYv+dN6iECsebF9+IdrYH1CgchoSRhGXhqMB2kT/UWDZs
+   0Ov0pcNDcFXuJeAWMpvyoqTXyg+24DOMp6fYlsiB88frvLVWZz/TsH8YP
+   /gM9uGcq9JBxH7OdvFjpshKWXAkvljF1e0+wbBBFA5Q/AIgdcCm4U0vxX
+   yomZyYrQNy7/fnxb0WBiVYnDBmmSSY1vc7INAbuMBI5+mn4gdLAwQz2b3
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.99,195,1677567600"; 
+   d="asc'?scan'208";a="206486706"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2023 23:23:07 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 13 Apr 2023 23:23:07 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 13 Apr 2023 23:23:05 -0700
+Date: Fri, 14 Apr 2023 07:22:49 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: kernel test robot <lkp@intel.com>
+CC: Hal Feng <hal.feng@starfivetech.com>, Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	<oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
+	<linux-mm@kvack.org>, Emil Renner Berthing
+	<emil.renner.berthing@canonical.com>
+Subject: Re: [linux-next:master 8653/11447] kismet: WARNING: unmet direct
+ dependencies detected for RESET_STARFIVE_JH7110 when selected by
+ CLK_STARFIVE_JH7110_SYS
+Message-ID: <20230414-spiritism-nape-b5c340dfb4e7@wendy>
+References: <202304140706.aOBNhUj2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="KZDiyHx948qHsreG"
+Content-Disposition: inline
+In-Reply-To: <202304140706.aOBNhUj2-lkp@intel.com>
+
+--KZDiyHx948qHsreG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git tmp-x86-pie
-head:   783e21545a8277f8d308e7db80d1eb45e32289d0
-commit: 783e21545a8277f8d308e7db80d1eb45e32289d0 [38/38] x86/head64: Replace pointer fixups with PIE codegen
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230414/202304141354.ooowtC0H-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=783e21545a8277f8d308e7db80d1eb45e32289d0
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb tmp-x86-pie
-        git checkout 783e21545a8277f8d308e7db80d1eb45e32289d0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/
+Hal,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141354.ooowtC0H-lkp@intel.com/
+Could you please submit a fix for this?
 
-All errors (new ones prefixed by >>):
+Cheers,
+Conor.
 
->> arch/x86/kernel/head64.c:598:13: error: conflicting types for 'startup_64_setup_env'; have 'void(void)'
-     598 | void __init startup_64_setup_env(void)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/head64.c:28:
-   arch/x86/include/asm/setup.h:53:13: note: previous declaration of 'startup_64_setup_env' with type 'void(long unsigned int)'
-      53 | extern void startup_64_setup_env(unsigned long physbase);
-         |             ^~~~~~~~~~~~~~~~~~~~
+On Fri, Apr 14, 2023 at 07:55:32AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   e3342532ecd39bbd9c2ab5b9001cec1589bc37e9
+> commit: 82327b127d4117e5b867cca945f97a5074aef786 [8653/11447] reset: star=
+five: Add StarFive JH7110 reset driver
+> config: csky-kismet-CONFIG_RESET_STARFIVE_JH7110-CONFIG_CLK_STARFIVE_JH71=
+10_SYS-0-0 (https://download.01.org/0day-ci/archive/20230414/202304140706.a=
+OBNhUj2-lkp@intel.com/config)
+> reproduce:
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+=2Egit/commit/?id=3D82327b127d4117e5b867cca945f97a5074aef786
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 82327b127d4117e5b867cca945f97a5074aef786
+>         # 1. reproduce by kismet
+>            # install kmax per https://github.com/paulgazz/kmax/blob/maste=
+r/README.md
+>            kismet --linux-ksrc=3Dlinux --selectees CONFIG_RESET_STARFIVE_=
+JH7110 --selectors CONFIG_CLK_STARFIVE_JH7110_SYS -a=3Dcsky
+>         # 2. reproduce by make
+>            # save the config file to linux source tree
+>            cd linux
+>            make ARCH=3Dcsky olddefconfig
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304140706.aOBNhUj2-lkp@i=
+ntel.com/
+>=20
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for RESET_STARFIVE=
+_JH7110 when selected by CLK_STARFIVE_JH7110_SYS
+>    .config:4526:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' inval=
+id for ARCH_MMAP_RND_BITS
+>   =20
+>    WARNING: unmet direct dependencies detected for RESET_STARFIVE_JH7110
+>      Depends on [n]: RESET_CONTROLLER [=3Dn] && AUXILIARY_BUS [=3Dy] && C=
+LK_STARFIVE_JH7110_SYS [=3Dy]
+>      Selected by [y]:
+>      - CLK_STARFIVE_JH7110_SYS [=3Dy] && COMMON_CLK [=3Dy] && (ARCH_STARF=
+IVE || COMPILE_TEST [=3Dy])
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
+--KZDiyHx948qHsreG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +598 arch/x86/kernel/head64.c
+-----BEGIN PGP SIGNATURE-----
 
-   594	
-   595	/*
-   596	 * Setup boot CPU state needed before kernel switches to virtual addresses.
-   597	 */
- > 598	void __init startup_64_setup_env(void)
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZDjxNQAKCRB4tDGHoIJi
+0jnfAQCsZbKP9zdjglaSnEXnPDMmSwynESOkCjdAJ9j0vD0dbgD+PV33vQeYCppQ
+wSZy90DhVc7GHSuJZFnp+sJCEJ+sPQI=
+=Tt01
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--KZDiyHx948qHsreG--
