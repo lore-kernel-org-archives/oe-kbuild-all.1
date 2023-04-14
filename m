@@ -1,48 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5EB7F1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 07:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C6F7F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 07:21:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681456286; x=1712992286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TYSbSR6Fs9QW0UHSn/kSupaAR7Jqpb04MF8TYGHB5ec=;
-  b=FhHR0u7K9i3X6JC0+iUhUWQk+d115wzNV2ApDv2YJc5GRYQIl8L6GVt4
-   +p2/Fk3KEl19I41SHRFCF6P3ktwe74HyamU8BUo3tN2taCo3jYZw0pQBa
-   aoRHckoRa6d0iKUn3Q0vuPKKuZziPHd6wKGQkHWlvKURq98gfVziUy2Q3
-   Fe7bH5/ZwtzsvWBGJquPPAgdHI5HNE+mE7LhOLwljEbxPjEdIt92l4eL4
-   +xCr3mVIFJkHTalId3DpqVy0TfjKTSOiYX4gY5x3grBrROI0peGjBehku
-   DNtM0UCj2ij+/mozTJKMjmExAsvEn5NPDEsyPiAMUiI41v3hXURt+gH6p
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="347117151"
+  t=1681456882; x=1712992882;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LjCNsqubrHH9XLw2fFZaVfhq8Vpy4LPYCYoY6BVBSQc=;
+  b=dHh/pUIhcfp3MhVH/UNW4rGYmugTJPacav6bru9EkMhA0mkmlcRkluVU
+   AT7os5v69fHw+nFIoH90exKxS/BoQJQIwOTSnLPb4O+xaALX42YO4QGX1
+   x/C0I038ToGBDK7rVofBgtOLkB2lsETQzxjKc3u6S823ce65HU1bbEiPR
+   J/jIj4ADt7lPNKI4JnIuJySp1CveF0Rk5I+UvIByIHQ6LdIOezq6ET9OE
+   MAumbrJ3ehNU8GBh7UaNn35LwHJVNzqDtv3R+GUzNZBlEVU09xlE3UEKJ
+   OtCXVWKF8YScsiOUFCjbi4hVyd8apEY5QfXkoSV05tpK/oXdVjwffjUGF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="346233502"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="347117151"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 00:11:24 -0700
+   d="scan'208";a="346233502"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 00:21:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="833437354"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="667077200"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="833437354"
+   d="scan'208";a="667077200"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2023 00:11:21 -0700
+  by orsmga006.jf.intel.com with ESMTP; 14 Apr 2023 00:21:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnDaa-000ZJr-13;
-	Fri, 14 Apr 2023 07:11:20 +0000
-Date: Fri, 14 Apr 2023 15:10:27 +0800
+	id 1pnDkG-000ZKN-1y;
+	Fri, 14 Apr 2023 07:21:20 +0000
+Date: Fri, 14 Apr 2023 15:21:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "songrui.771" <songrui.771@bytedance.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"songrui.771" <songrui.771@bytedance.com>
-Subject: Re: [PATCH] libbpf: correct the macro KERNEL_VERSION for old kernel
-Message-ID: <202304141549.j09aWR6q-lkp@intel.com>
-References: <20230414045204.9748-1-songrui.771@bytedance.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:20230413-module-alloc-opts 118/118]
+ fs/kernel_read_file.c:278:6: warning: no previous prototype for
+ 'kread_dup_request_announce'
+Message-ID: <202304141516.kdRQkvK7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,56 +46,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414045204.9748-1-songrui.771@bytedance.com>
 
-Hi songrui.771,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master linus/master v6.3-rc6 next-20230413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/songrui-771/libbpf-correct-the-macro-KERNEL_VERSION-for-old-kernel/20230414-125238
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230414045204.9748-1-songrui.771%40bytedance.com
-patch subject: [PATCH] libbpf: correct the macro KERNEL_VERSION for old kernel
-reproduce:
-        make versioncheck
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230413-module-alloc-opts
+head:   b40c1a39dfb04b688a41f60434d18da848d02cf3
+commit: b40c1a39dfb04b688a41f60434d18da848d02cf3 [118/118] kread: avoid duplicates
+config: i386-randconfig-a011-20230410 (https://download.01.org/0day-ci/archive/20230414/202304141516.kdRQkvK7-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=b40c1a39dfb04b688a41f60434d18da848d02cf3
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof 20230413-module-alloc-opts
+        git checkout b40c1a39dfb04b688a41f60434d18da848d02cf3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141549.j09aWR6q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141516.kdRQkvK7-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 294: need linux/version.h
->> ./tools/lib/bpf/libbpf_probes.c: 450: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> fs/kernel_read_file.c:278:6: warning: no previous prototype for 'kread_dup_request_announce' [-Wmissing-prototypes]
+     278 | void kread_dup_request_announce(char *name, int ret)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/kread_dup_request_announce +278 fs/kernel_read_file.c
+
+   277	
+ > 278	void kread_dup_request_announce(char *name, int ret)
+   279	{
+   280		struct kread_dup_req *kread_req;
+   281	
+   282		mutex_lock(&kread_dup_mutex);
+   283	
+   284		kread_req = kread_dup_request_lookup(name);
+   285		if (!kread_req)
+   286			goto out;
+   287	
+   288		kread_req->dup_ret = ret;
+   289	
+   290		/*
+   291		 * If we complete() here we may allow duplicate threads
+   292		 * to continue before the first one that submitted the
+   293		 * request. We're in no rush but avoid boot delays caused
+   294		 * by these threads waiting too long.
+   295		 */
+   296		queue_work(system_wq, &kread_req->complete_work);
+   297	
+   298	out:
+   299		mutex_unlock(&kread_dup_mutex);
+   300	}
+   301	
 
 -- 
 0-DAY CI Kernel Test Service
