@@ -1,43 +1,49 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF58F7C;
-	Fri, 14 Apr 2023 11:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9ECA5B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 11:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681471109; x=1713007109;
+  t=1681471111; x=1713007111;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l4qNLKTj9QPpHS6kKM/BJm4nUevcTnmASIXPMvkuWmw=;
-  b=KeotX9sfjx6GqDBd/rsp9X38wY1tsS9mxE/TiXt3EakCT27LPJdPAd0B
-   wOSuwVY+kF1Wkcuy92ZegytFrT1hS8m4COFH8EgDM0DWS1R9eOj0AZGIr
-   h10/a9veOPjbzOj003KBezYg3Rtebz197uRI955+k0mMNHjNQtI5KZUDM
-   iDFPbI0VAjwcu3j9z1Na/o3Q/Jckmzw9uL0iHQFwldhRDgeHKVovFxdM7
-   fbnTl0vGmFi0vWOfZhRbUg7yTiTssmyzbhM2Ic7WxnusG1ki+sfdK/GZa
-   OvImY8Vt8Vw4gxfHly5YIF0Pj+HEUjqTSPd5eNoogh2UmZx748NBVMQz6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="430733833"
+  bh=s2ahMarainzU0kJG0iKnmW59QKgo1hk/9wbUQKqrvKs=;
+  b=U2exyNn2jGQujboydX/El/nMt8LKjS2NuHxqLuM17w37P9SJAvKhoOFC
+   TtbgPtapjumBMZzBz3YQ2SlBReIRU4R+KAe/xeDiPLYJN0j7j5oK2duaZ
+   Cr8KZ+LMHfVDlqRAOgiZ8n2UJYZl8P95J5h8QGliMQ4UNg0vYnqAyOhdL
+   XZyqdKdKqLShfrciBPzrmhm2AAfBzLDnxANHp0lJdrZFw5Y5DNZAZFU5l
+   vA8AqfBUZa8WMt+gKTJIERKMKqMuxL8RucGLt72fBNu5JhD5t5iMj0+lO
+   aDbdrDKDIPGndilYaQX5MVas2fSnanop24BmOTJ3x//3FQ5CgN6ku+jMN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409640704"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="430733833"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:18:28 -0700
+   d="scan'208";a="409640704"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:18:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="935984364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="754422074"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="935984364"
+   d="scan'208";a="754422074"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 04:18:27 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 14 Apr 2023 04:18:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnHRi-000ZTX-1P;
+	id 1pnHRi-000ZTZ-1X;
 	Fri, 14 Apr 2023 11:18:26 +0000
-Date: Fri, 14 Apr 2023 19:17:47 +0800
+Date: Fri, 14 Apr 2023 19:17:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 2/5] perf: Add fork to the sideband ioctl
-Message-ID: <202304141902.2MeBvBcO-lkp@intel.com>
-References: <20230414082300.34798-3-adrian.hunter@intel.com>
+To: "songrui.771" <songrui.771@bytedance.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"songrui.771" <songrui.771@bytedance.com>
+Subject: Re: [PATCH v2] libbpf: correct the macro KERNEL_VERSION for old
+ kernel
+Message-ID: <202304141932.JnvYvgv5-lkp@intel.com>
+References: <20230414084353.36545-1-songrui.771@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,63 +52,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414082300.34798-3-adrian.hunter@intel.com>
+In-Reply-To: <20230414084353.36545-1-songrui.771@bytedance.com>
 
-Hi Adrian,
+Hi songrui.771,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on acme/perf/core]
-[also build test WARNING on tip/perf/core tip/master tip/auto-latest linus/master v6.3-rc6 next-20230413]
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master v6.3-rc6 next-20230413]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Hunter/perf-Add-ioctl-to-emit-sideband-events/20230414-162719
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git perf/core
-patch link:    https://lore.kernel.org/r/20230414082300.34798-3-adrian.hunter%40intel.com
-patch subject: [PATCH RFC 2/5] perf: Add fork to the sideband ioctl
-config: i386-randconfig-a002-20230410 (https://download.01.org/0day-ci/archive/20230414/202304141902.2MeBvBcO-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/48bf5fef7be6160c89995b4f98ffed4312999e96
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Adrian-Hunter/perf-Add-ioctl-to-emit-sideband-events/20230414-162719
-        git checkout 48bf5fef7be6160c89995b4f98ffed4312999e96
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/events/
+url:    https://github.com/intel-lab-lkp/linux/commits/songrui-771/libbpf-correct-the-macro-KERNEL_VERSION-for-old-kernel/20230414-164547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230414084353.36545-1-songrui.771%40bytedance.com
+patch subject: [PATCH v2] libbpf: correct the macro KERNEL_VERSION for old kernel
+reproduce:
+        make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141902.2MeBvBcO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141932.JnvYvgv5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/events/core.c:7975:6: warning: no previous prototype for function 'perf_output_f_wrapper' [-Wmissing-prototypes]
-   void perf_output_f_wrapper(struct perf_event *event, void *data)
-        ^
-   kernel/events/core.c:7975:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void perf_output_f_wrapper(struct perf_event *event, void *data)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/perf_output_f_wrapper +7975 kernel/events/core.c
-
-  7974	
-> 7975	void perf_output_f_wrapper(struct perf_event *event, void *data)
-  7976	{
-  7977		struct perf_output_f_data *f_data = data;
-  7978	
-  7979		f_data->func(event, f_data->data);
-  7980	}
-  7981	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 294: need linux/version.h
+>> ./tools/lib/bpf/libbpf_probes.c: 15 linux/version.h not needed.
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
