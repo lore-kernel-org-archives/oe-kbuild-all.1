@@ -1,45 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ACA7C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 11:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1877C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Apr 2023 12:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681471709; x=1713007709;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4ZUTjtv6GAgrkBy9HgIlEhH9rxLwVT9WpBYyCNBoW8=;
-  b=fGcNatM8nZ+n8n0YQ/IinO5gUHaZmTkRb2Nz1T1LGYT52ZMk5lwhjpM5
-   WZzJSkp8b4fjcUZz14jX8uJiBvMQwslQH1JjTcHITeHNw5hszv4ebAvhE
-   hTy932XuWheTKIZ8JpHgcrTWTKXtmbL1cdo7QWN/kCSnH0E0u6oARphQB
-   sFIVWnHr1ssOrA9Lj5hKr/Q/AEFQafmx2M4n1regswWWJrZHOvi/et4j5
-   vMlc60keqe7LWvQkQPeN1pj7+sS9NuwjS84XPvMYc/kIKRBymyyyxFn8Y
-   ckgp9F0x6t8nH5GuslpxTjsNOTacyV5Su2635YkO5HM1bDzqDMQK2KrlP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="333214727"
+  t=1681474292; x=1713010292;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A0eeXLFD9sqKBVMxuU8mmDibzCsYair7XrQuY3Akt+Q=;
+  b=Vv+aC29xvRhL0lK3THUIjrM2PlOONxkLwb14nT6+oc2R3HMiuP/R8/ZA
+   srw42/vDpJhj1dDDb/AE44b0UEdmFNNiC9EytiXYsFzLcGSEjiEK+hNDt
+   L15G44yAQe25sOEj4asAiHnl8ZLlBCtK3tzJtuhMwAtdehEaetcby58vr
+   tM5R+2A+7pkzy/x3ib0R9l2AQ5p7+sLvP8ec3hFJYDVDe5mgIITCZEZSJ
+   XigZzn77L/PNgl+a2SU16CT4v4P2dehH941voXNoVawytosH5cVEiHn31
+   Uq5/43/3V/lK5OLz8ldXqAkaSa0Zpb/krMyG0Wdm2eWsfKnIyJBr15/yp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324077348"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="333214727"
+   d="scan'208";a="324077348"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:28:28 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 05:11:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="720262079"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="720269206"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="720262079"
+   d="scan'208";a="720269206"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 14 Apr 2023 04:28:27 -0700
+  by orsmga008.jf.intel.com with ESMTP; 14 Apr 2023 05:11:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnHbO-000ZUF-2c;
-	Fri, 14 Apr 2023 11:28:26 +0000
-Date: Fri, 14 Apr 2023 19:28:11 +0800
+	id 1pnIH1-000ZVf-2M;
+	Fri, 14 Apr 2023 12:11:27 +0000
+Date: Fri, 14 Apr 2023 20:11:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee.jones@linaro.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [lee-mfd:for-mfd-next 15/78] drivers/mfd/qcom-pm8008.c:143:35:
- error: initialization of 'int (*)(unsigned int **, unsigned int,  const
- struct regmap_irq *, int)' from incompatible pointer type 'int (*)(unsigned
- int **, unsigned int,  const struct regmap_irq *, int,  void *)'
-Message-ID: <202304141926.cSoD7Vgw-lkp@intel.com>
+To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [v10] media: mediatek: vcodec: support stateless AV1 decoder
+Message-ID: <202304141955.Rywv1cXY-lkp@intel.com>
+References: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,60 +46,647 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-head:   9d8d0d98885abba451d7ffc4885236d14ead3c9a
-commit: 540eee4708487d16d7f9d1ddadd679ce3e0b9d69 [15/78] mfd: qcom-pm8008: Convert irq chip to config regs
-config: arc-randconfig-r043-20230412 (https://download.01.org/0day-ci/archive/20230414/202304141926.cSoD7Vgw-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+Hi Xiaoyong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.3-rc6 next-20230413]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyong-Lu/media-mediatek-vcodec-support-stateless-AV1-decoder/20230414-163725
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230414083020.22219-1-xiaoyong.lu%40mediatek.com
+patch subject: [v10] media: mediatek: vcodec: support stateless AV1 decoder
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230414/202304141955.Rywv1cXY-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/commit/?id=540eee4708487d16d7f9d1ddadd679ce3e0b9d69
-        git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-        git fetch --no-tags lee-mfd for-mfd-next
-        git checkout 540eee4708487d16d7f9d1ddadd679ce3e0b9d69
+        # https://github.com/intel-lab-lkp/linux/commit/a2f78eab626ee9b1c17fbe7399d007277463ed80
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xiaoyong-Lu/media-mediatek-vcodec-support-stateless-AV1-decoder/20230414-163725
+        git checkout a2f78eab626ee9b1c17fbe7399d007277463ed80
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/mfd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304141926.cSoD7Vgw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304141955.Rywv1cXY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mfd/qcom-pm8008.c:143:35: error: initialization of 'int (*)(unsigned int **, unsigned int,  const struct regmap_irq *, int)' from incompatible pointer type 'int (*)(unsigned int **, unsigned int,  const struct regmap_irq *, int,  void *)' [-Werror=incompatible-pointer-types]
-     143 |         .set_type_config        = pm8008_set_type_config,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/mfd/qcom-pm8008.c:143:35: note: (near initialization for 'pm8008_irq_chip.set_type_config')
-   cc1: some warnings being treated as errors
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:188:23: error: 'V4L2_AV1_MAX_TILE_COUNT' undeclared here (not in a function)
+     188 |         u32 tile_size[V4L2_AV1_MAX_TILE_COUNT];
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:268:26: error: 'V4L2_AV1_MAX_SEGMENTS' undeclared here (not in a function)
+     268 |         int feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX];
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:268:49: error: 'V4L2_AV1_SEG_LVL_MAX' undeclared here (not in a function); did you mean 'V4L2_VP9_SEG_LVL_MAX'?
+     268 |         int feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX];
+         |                                                 ^~~~~~~~~~~~~~~~~~~~
+         |                                                 V4L2_VP9_SEG_LVL_MAX
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:336:35: error: 'V4L2_AV1_NUM_PLANES_MAX' undeclared here (not in a function)
+     336 |         u8 frame_restoration_type[V4L2_AV1_NUM_PLANES_MAX];
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:356:36: error: 'V4L2_AV1_TOTAL_REFS_PER_FRAME' undeclared here (not in a function)
+     356 |         int loop_filter_ref_deltas[V4L2_AV1_TOTAL_REFS_PER_FRAME];
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:406:27: error: 'V4L2_AV1_MAX_TILE_COLS' undeclared here (not in a function)
+     406 |         int mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:407:27: error: 'V4L2_AV1_MAX_TILE_ROWS' undeclared here (not in a function)
+     407 |         int mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:559:25: error: 'V4L2_AV1_REFS_PER_FRAME' undeclared here (not in a function)
+     559 |         u32 order_hints[V4L2_AV1_REFS_PER_FRAME];
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:874:49: warning: 'struct v4l2_ctrl_av1_frame' declared inside parameter list will not be visible outside of this definition or declaration
+     874 |                                          struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_cleanup_slots':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:890:36: error: invalid use of undefined type 'struct v4l2_ctrl_av1_frame'
+     890 |                         if (ctrl_fh->reference_frame_ts[ref_id] == timestamp) {
+         |                                    ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:903:46: warning: 'struct v4l2_ctrl_av1_frame' declared inside parameter list will not be visible outside of this definition or declaration
+     903 |                                       struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_slot':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:910:64: error: passing argument 3 of 'vdec_av1_slice_cleanup_slots' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     910 |         vdec_av1_slice_cleanup_slots(&vsi->slots, &vsi->frame, ctrl_fh);
+         |                                                                ^~~~~~~
+         |                                                                |
+         |                                                                struct v4l2_ctrl_av1_frame *
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:874:70: note: expected 'struct v4l2_ctrl_av1_frame *' but argument is of type 'struct v4l2_ctrl_av1_frame *'
+     874 |                                          struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:933:28: error: invalid use of undefined type 'struct v4l2_ctrl_av1_frame'
+     933 |                 if (ctrl_fh->reference_frame_ts[ref_id] == timestamp)
+         |                            ^~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:7:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_free_working_buffer':
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:55:59: note: in expansion of macro '__must_be_array'
+      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1027:25: note: in expansion of macro 'ARRAY_SIZE'
+    1027 |         for (i = 0; i < ARRAY_SIZE(instance->mv); i++)
+         |                         ^~~~~~~~~~
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:55:59: note: in expansion of macro '__must_be_array'
+      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1030:25: note: in expansion of macro 'ARRAY_SIZE'
+    1030 |         for (i = 0; i < ARRAY_SIZE(instance->seg); i++)
+         |                         ^~~~~~~~~~
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:55:59: note: in expansion of macro '__must_be_array'
+      55 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1033:25: note: in expansion of macro 'ARRAY_SIZE'
+    1033 |         for (i = 0; i < ARRAY_SIZE(instance->cdf); i++)
+         |                         ^~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1130:44: warning: 'struct v4l2_av1_global_motion' declared inside parameter list will not be visible outside of this definition or declaration
+    1130 |                                     struct v4l2_av1_global_motion *ctrl_gm)
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_gm':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1135:39: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1135 |                 gm[i].wmtype = ctrl_gm->type[i];
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1137:49: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1137 |                         gm[i].wmmat[j] = ctrl_gm->params[i][j];
+         |                                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1139:43: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1139 |                 gm[i].invalid = !!(ctrl_gm->invalid & BIT(i));
+         |                                           ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1144:37: error: 'V4L2_AV1_WARP_MODEL_AFFINE' undeclared (first use in this function)
+    1144 |                 if (gm[i].wmtype <= V4L2_AV1_WARP_MODEL_AFFINE)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1144:37: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1150:45: warning: 'struct v4l2_av1_segmentation' declared inside parameter list will not be visible outside of this definition or declaration
+    1150 |                                      struct v4l2_av1_segmentation *ctrl_seg)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_seg':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1154:37: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1154 |         seg->segmentation_enabled = SEGMENTATION_FLAG(ctrl_seg, ENABLED);
+         |                                     ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_ENABLED' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_ENABLED'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1154:37: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1154 |         seg->segmentation_enabled = SEGMENTATION_FLAG(ctrl_seg, ENABLED);
+         |                                     ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1155:40: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1155 |         seg->segmentation_update_map = SEGMENTATION_FLAG(ctrl_seg, UPDATE_MAP);
+         |                                        ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1155:40: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1155 |         seg->segmentation_update_map = SEGMENTATION_FLAG(ctrl_seg, UPDATE_MAP);
+         |                                        ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1156:45: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1156 |         seg->segmentation_temporal_update = SEGMENTATION_FLAG(ctrl_seg, TEMPORAL_UPDATE);
+         |                                             ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1156:45: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1156 |         seg->segmentation_temporal_update = SEGMENTATION_FLAG(ctrl_seg, TEMPORAL_UPDATE);
+         |                                             ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1157:41: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1157 |         seg->segmentation_update_data = SEGMENTATION_FLAG(ctrl_seg, UPDATE_DATA);
+         |                                         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_UPDATE_DATA' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1157:41: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1157 |         seg->segmentation_update_data = SEGMENTATION_FLAG(ctrl_seg, UPDATE_DATA);
+         |                                         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1158:30: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1158 |         seg->segid_preskip = SEGMENTATION_FLAG(ctrl_seg, SEG_ID_PRE_SKIP);
+         |                              ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_SEG_ID_PRE_SKIP' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1158:30: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1158 |         seg->segid_preskip = SEGMENTATION_FLAG(ctrl_seg, SEG_ID_PRE_SKIP);
+         |                              ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1159:42: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+    1159 |         seg->last_active_segid = ctrl_seg->last_active_seg_id;
+         |                                          ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1162:56: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+    1162 |                 seg->feature_enabled_mask[i] = ctrl_seg->feature_enabled[i];
+         |                                                        ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1164:59: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+    1164 |                         seg->feature_data[i][j] = ctrl_seg->feature_data[i][j];
+         |                                                           ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1169:47: warning: 'struct v4l2_av1_quantization' declared inside parameter list will not be visible outside of this definition or declaration
+    1169 |                                        struct v4l2_av1_quantization *ctrl_quant)
+         |                                               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_quant':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1171:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1171 |         quant->base_q_idx = ctrl_quant->base_q_idx;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1172:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1172 |         quant->delta_qydc = ctrl_quant->delta_q_y_dc;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1173:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1173 |         quant->delta_qudc = ctrl_quant->delta_q_u_dc;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1174:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1174 |         quant->delta_quac = ctrl_quant->delta_q_u_ac;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1175:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1175 |         quant->delta_qvdc = ctrl_quant->delta_q_v_dc;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1176:39: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1176 |         quant->delta_qvac = ctrl_quant->delta_q_v_ac;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1177:33: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1177 |         quant->qm_y = ctrl_quant->qm_y;
+         |                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1178:33: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1178 |         quant->qm_u = ctrl_quant->qm_u;
+         |                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1179:33: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+    1179 |         quant->qm_v = ctrl_quant->qm_v;
+         |                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:46:48: error: invalid use of undefined type 'struct v4l2_av1_quantization'
+      46 | #define QUANT_FLAG(x, name)             (!!((x)->flags & V4L2_AV1_QUANTIZATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1180:32: note: in expansion of macro 'QUANT_FLAG'
+    1180 |         quant->using_qmatrix = QUANT_FLAG(ctrl_quant, USING_QMATRIX);
+         |                                ^~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:46:58: error: 'V4L2_AV1_QUANTIZATION_FLAG_USING_QMATRIX' undeclared (first use in this function)
+      46 | #define QUANT_FLAG(x, name)             (!!((x)->flags & V4L2_AV1_QUANTIZATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1180:32: note: in expansion of macro 'QUANT_FLAG'
+    1180 |         quant->using_qmatrix = QUANT_FLAG(ctrl_quant, USING_QMATRIX);
+         |                                ^~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_get_qindex':
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1184:42: warning: parameter 'segmentation_id' set but not used [-Wunused-but-set-parameter]
+    1184 |                                      int segmentation_id)
+         |                                      ~~~~^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1201:44: warning: 'struct v4l2_av1_loop_restoration' declared inside parameter list will not be visible outside of this definition or declaration
+    1201 |                                     struct v4l2_av1_loop_restoration  *ctrl_lr)
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_lr':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1208:56: error: invalid use of undefined type 'struct v4l2_av1_loop_restoration'
+    1208 |                 lr->frame_restoration_type[i] = ctrl_lr->frame_restoration_type[i];
+         |                                                        ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1209:55: error: invalid use of undefined type 'struct v4l2_av1_loop_restoration'
+    1209 |                 lr->loop_restoration_size[i] = ctrl_lr->loop_restoration_size[i];
+         |                                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1219:44: warning: 'struct v4l2_av1_loop_filter' declared inside parameter list will not be visible outside of this definition or declaration
+    1219 |                                     struct v4l2_av1_loop_filter *ctrl_lf)
+         |                                            ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_lf':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1224:51: error: invalid use of undefined type 'struct v4l2_av1_loop_filter'
+    1224 |                 lf->loop_filter_level[i] = ctrl_lf->level[i];
+         |                                                   ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1227:56: error: invalid use of undefined type 'struct v4l2_av1_loop_filter'
+    1227 |                 lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
+         |                                                        ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1230:57: error: invalid use of undefined type 'struct v4l2_av1_loop_filter'
+    1230 |                 lf->loop_filter_mode_deltas[i] = ctrl_lf->mode_deltas[i];
+         |                                                         ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1232:44: error: invalid use of undefined type 'struct v4l2_av1_loop_filter'
+    1232 |         lf->loop_filter_sharpness = ctrl_lf->sharpness;
+         |                                            ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:44:48: error: invalid use of undefined type 'struct v4l2_av1_loop_filter'
+      44 | #define BIT_FLAG(x, bit)                (!!((x)->flags & (bit)))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1234:20: note: in expansion of macro 'BIT_FLAG'
+    1234 |                    BIT_FLAG(ctrl_lf, V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
+         |                    ^~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1234:38: error: 'V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED' undeclared (first use in this function); did you mean 'V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED'?
+    1234 |                    BIT_FLAG(ctrl_lf, V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:44:59: note: in definition of macro 'BIT_FLAG'
+      44 | #define BIT_FLAG(x, bit)                (!!((x)->flags & (bit)))
+         |                                                           ^~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1238:46: warning: 'struct v4l2_av1_cdef' declared inside parameter list will not be visible outside of this definition or declaration
+    1238 |                                       struct v4l2_av1_cdef *ctrl_cdef)
+         |                                              ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_cdef':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1242:39: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1242 |         cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1243:36: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1243 |         cdef->cdef_bits = ctrl_cdef->bits;
+         |                                    ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1245:25: error: 'V4L2_AV1_CDEF_MAX' undeclared (first use in this function)
+    1245 |         for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1246:30: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1246 |                 if (ctrl_cdef->y_sec_strength[i] == 4)
+         |                              ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1247:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1247 |                         ctrl_cdef->y_sec_strength[i] -= 1;
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1249:30: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1249 |                 if (ctrl_cdef->uv_sec_strength[i] == 4)
+         |                              ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1250:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1250 |                         ctrl_cdef->uv_sec_strength[i] -= 1;
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1253:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1253 |                         ctrl_cdef->y_pri_strength[i] << SECONDARY_FILTER_STRENGTH_NUM_BITS |
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1254:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1254 |                         ctrl_cdef->y_sec_strength[i];
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1256:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1256 |                         ctrl_cdef->uv_pri_strength[i] << SECONDARY_FILTER_STRENGTH_NUM_BITS |
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1257:34: error: invalid use of undefined type 'struct v4l2_av1_cdef'
+    1257 |                         ctrl_cdef->uv_sec_strength[i];
+         |                                  ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1262:45: warning: 'struct v4l2_ctrl_av1_sequence' declared inside parameter list will not be visible outside of this definition or declaration
+    1262 |                                      struct v4l2_ctrl_av1_sequence *ctrl_seq)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_seq':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1264:33: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+    1264 |         seq->bitdepth = ctrl_seq->bit_depth;
+         |                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1265:40: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+    1265 |         seq->max_frame_width = ctrl_seq->max_frame_width_minus_1 + 1;
+         |                                        ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1266:41: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+    1266 |         seq->max_frame_height = ctrl_seq->max_frame_height_minus_1 + 1;
+         |                                         ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1267:32: note: in expansion of macro 'SEQUENCE_FLAG'
+    1267 |         seq->enable_superres = SEQUENCE_FLAG(ctrl_seq, ENABLE_SUPERRES);
+         |                                ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1267:32: note: in expansion of macro 'SEQUENCE_FLAG'
+    1267 |         seq->enable_superres = SEQUENCE_FLAG(ctrl_seq, ENABLE_SUPERRES);
+         |                                ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1268:36: note: in expansion of macro 'SEQUENCE_FLAG'
+    1268 |         seq->enable_filter_intra = SEQUENCE_FLAG(ctrl_seq, ENABLE_FILTER_INTRA);
+         |                                    ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1268:36: note: in expansion of macro 'SEQUENCE_FLAG'
+    1268 |         seq->enable_filter_intra = SEQUENCE_FLAG(ctrl_seq, ENABLE_FILTER_INTRA);
+         |                                    ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1269:41: note: in expansion of macro 'SEQUENCE_FLAG'
+    1269 |         seq->enable_intra_edge_filter = SEQUENCE_FLAG(ctrl_seq, ENABLE_INTRA_EDGE_FILTER);
+         |                                         ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1269:41: note: in expansion of macro 'SEQUENCE_FLAG'
+    1269 |         seq->enable_intra_edge_filter = SEQUENCE_FLAG(ctrl_seq, ENABLE_INTRA_EDGE_FILTER);
+         |                                         ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1270:43: note: in expansion of macro 'SEQUENCE_FLAG'
+    1270 |         seq->enable_interintra_compound = SEQUENCE_FLAG(ctrl_seq, ENABLE_INTERINTRA_COMPOUND);
+         |                                           ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1270:43: note: in expansion of macro 'SEQUENCE_FLAG'
+    1270 |         seq->enable_interintra_compound = SEQUENCE_FLAG(ctrl_seq, ENABLE_INTERINTRA_COMPOUND);
+         |                                           ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1271:39: note: in expansion of macro 'SEQUENCE_FLAG'
+    1271 |         seq->enable_masked_compound = SEQUENCE_FLAG(ctrl_seq, ENABLE_MASKED_COMPOUND);
+         |                                       ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1271:39: note: in expansion of macro 'SEQUENCE_FLAG'
+    1271 |         seq->enable_masked_compound = SEQUENCE_FLAG(ctrl_seq, ENABLE_MASKED_COMPOUND);
+         |                                       ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1272:35: note: in expansion of macro 'SEQUENCE_FLAG'
+    1272 |         seq->enable_dual_filter = SEQUENCE_FLAG(ctrl_seq, ENABLE_DUAL_FILTER);
+         |                                   ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1272:35: note: in expansion of macro 'SEQUENCE_FLAG'
+    1272 |         seq->enable_dual_filter = SEQUENCE_FLAG(ctrl_seq, ENABLE_DUAL_FILTER);
+         |                                   ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1273:32: note: in expansion of macro 'SEQUENCE_FLAG'
+    1273 |         seq->enable_jnt_comp = SEQUENCE_FLAG(ctrl_seq, ENABLE_JNT_COMP);
+         |                                ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1273:32: note: in expansion of macro 'SEQUENCE_FLAG'
+    1273 |         seq->enable_jnt_comp = SEQUENCE_FLAG(ctrl_seq, ENABLE_JNT_COMP);
+         |                                ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1274:28: note: in expansion of macro 'SEQUENCE_FLAG'
+    1274 |         seq->mono_chrome = SEQUENCE_FLAG(ctrl_seq, MONO_CHROME);
+         |                            ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1274:28: note: in expansion of macro 'SEQUENCE_FLAG'
+    1274 |         seq->mono_chrome = SEQUENCE_FLAG(ctrl_seq, MONO_CHROME);
+         |                            ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1275:34: note: in expansion of macro 'SEQUENCE_FLAG'
+    1275 |         seq->enable_order_hint = SEQUENCE_FLAG(ctrl_seq, ENABLE_ORDER_HINT);
+         |                                  ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1275:34: note: in expansion of macro 'SEQUENCE_FLAG'
+    1275 |         seq->enable_order_hint = SEQUENCE_FLAG(ctrl_seq, ENABLE_ORDER_HINT);
+         |                                  ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1276:40: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+    1276 |         seq->order_hint_bits = ctrl_seq->order_hint_bits;
+         |                                        ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1277:39: note: in expansion of macro 'SEQUENCE_FLAG'
+    1277 |         seq->use_128x128_superblock = SEQUENCE_FLAG(ctrl_seq, USE_128X128_SUPERBLOCK);
+         |                                       ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1277:39: note: in expansion of macro 'SEQUENCE_FLAG'
+    1277 |         seq->use_128x128_superblock = SEQUENCE_FLAG(ctrl_seq, USE_128X128_SUPERBLOCK);
+         |                                       ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1278:30: note: in expansion of macro 'SEQUENCE_FLAG'
+    1278 |         seq->subsampling_x = SEQUENCE_FLAG(ctrl_seq, SUBSAMPLING_X);
+         |                              ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1278:30: note: in expansion of macro 'SEQUENCE_FLAG'
+    1278 |         seq->subsampling_x = SEQUENCE_FLAG(ctrl_seq, SUBSAMPLING_X);
+         |                              ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:48: error: invalid use of undefined type 'struct v4l2_ctrl_av1_sequence'
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1279:30: note: in expansion of macro 'SEQUENCE_FLAG'
+    1279 |         seq->subsampling_y = SEQUENCE_FLAG(ctrl_seq, SUBSAMPLING_Y);
+         |                              ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:47:58: error: 'V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y' undeclared (first use in this function)
+      47 | #define SEQUENCE_FLAG(x, name)          (!!((x)->flags & V4L2_AV1_SEQUENCE_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1279:30: note: in expansion of macro 'SEQUENCE_FLAG'
+    1279 |         seq->subsampling_y = SEQUENCE_FLAG(ctrl_seq, SUBSAMPLING_Y);
+         |                              ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1283:46: warning: 'struct v4l2_av1_tile_info' declared inside parameter list will not be visible outside of this definition or declaration
+    1283 |                                       struct v4l2_av1_tile_info *ctrl_tile)
+         |                                              ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_tile':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1290:36: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1290 |         tile->tile_cols = ctrl_tile->tile_cols;
+         |                                    ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1291:36: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1291 |         tile->tile_rows = ctrl_tile->tile_rows;
+         |                                    ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1292:49: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1292 |         tile->context_update_tile_id = ctrl_tile->context_update_tile_id;
+         |                                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:44:48: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+      44 | #define BIT_FLAG(x, bit)                (!!((x)->flags & (bit)))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1294:17: note: in expansion of macro 'BIT_FLAG'
+    1294 |                 BIT_FLAG(ctrl_tile, V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING);
+         |                 ^~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1294:37: error: 'V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING' undeclared (first use in this function)
+    1294 |                 BIT_FLAG(ctrl_tile, V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING);
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:44:59: note: in definition of macro 'BIT_FLAG'
+      44 | #define BIT_FLAG(x, bit)                (!!((x)->flags & (bit)))
+         |                                                           ^~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/list.h:9:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:44: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                            ^
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:25: note: in expansion of macro 'ALIGN'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:25: note: in expansion of macro 'ALIGN'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1298:25: note: in expansion of macro 'ALIGN'
+    1298 |                         ALIGN(ctrl_tile->mi_col_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:44: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                            ^
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:25: note: in expansion of macro 'ALIGN'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:25: note: in expansion of macro 'ALIGN'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:40: error: invalid use of undefined type 'struct v4l2_av1_tile_info'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                                        ^~
+   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1302:25: note: in expansion of macro 'ALIGN'
+    1302 |                         ALIGN(ctrl_tile->mi_row_starts[i], BIT(mib_size_log2)) >> mib_size_log2;
+         |                         ^~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+..
 
 
-vim +143 drivers/mfd/qcom-pm8008.c
+vim +874 drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
 
-   125	
-   126	static struct regmap_irq_chip pm8008_irq_chip = {
-   127		.name			= "pm8008_irq",
-   128		.main_status		= I2C_INTR_STATUS_BASE,
-   129		.num_main_regs		= 1,
-   130		.irqs			= pm8008_irqs,
-   131		.num_irqs		= ARRAY_SIZE(pm8008_irqs),
-   132		.num_regs		= PM8008_NUM_PERIPHS,
-   133		.not_fixed_stride	= true,
-   134		.sub_reg_offsets	= pm8008_sub_reg_offsets,
-   135		.status_base		= PM8008_STATUS_BASE,
-   136		.mask_base		= PM8008_MASK_BASE,
-   137		.unmask_base		= PM8008_UNMASK_BASE,
-   138		.mask_unmask_non_inverted = true,
-   139		.ack_base		= PM8008_ACK_BASE,
-   140		.config_base		= pm8008_config_regs,
-   141		.num_config_bases	= ARRAY_SIZE(pm8008_config_regs),
-   142		.num_config_regs	= PM8008_NUM_PERIPHS,
- > 143		.set_type_config	= pm8008_set_type_config,
-   144	};
-   145	
+   871	
+   872	static void vdec_av1_slice_cleanup_slots(struct vdec_av1_slice_slot *slots,
+   873						 struct vdec_av1_slice_frame *frame,
+ > 874						 struct v4l2_ctrl_av1_frame *ctrl_fh)
+   875	{
+   876		int slot_id, ref_id;
+   877	
+   878		for (ref_id = 0; ref_id < V4L2_AV1_TOTAL_REFS_PER_FRAME; ref_id++)
+   879			frame->ref_frame_map[ref_id] = AV1_INVALID_IDX;
+   880	
+   881		for (slot_id = 0; slot_id < AV1_MAX_FRAME_BUF_COUNT; slot_id++) {
+   882			u64 timestamp = slots->timestamp[slot_id];
+   883			bool ref_used = false;
+   884	
+   885			/* ignored unused slots */
+   886			if (slots->frame_info[slot_id].ref_count == 0)
+   887				continue;
+   888	
+   889			for (ref_id = 0; ref_id < V4L2_AV1_TOTAL_REFS_PER_FRAME; ref_id++) {
+   890				if (ctrl_fh->reference_frame_ts[ref_id] == timestamp) {
+   891					frame->ref_frame_map[ref_id] = slot_id;
+   892					ref_used = true;
+   893				}
+   894			}
+   895	
+   896			if (!ref_used)
+   897				vdec_av1_slice_decrease_ref_count(slots, slot_id);
+   898		}
+   899	}
+   900	
 
 -- 
 0-DAY CI Kernel Test Service
