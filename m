@@ -1,42 +1,42 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EABED5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 08:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3949D10E8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 08:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681545635; x=1713081635;
+  t=1681545636; x=1713081636;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rsmj2BcoU2L1en6vu2zhyJc+34WHbF/MH5Uddgdi96s=;
-  b=gpbyhrJawtvreMQiXsS1nU0YBqVRVmmb3Ar9QRfwM8vGMi0l4SysVDx/
-   m2Isk5DvK/L3fj9GzxiDQr8bbb6FThd20prG6hPfIWZ+JXUJpZrz/zKT0
-   YpuzySju8Egs2QLHGlUSJazL0ASighJVZH0bS6zFiz2tmUuJ4gwRJGD+s
-   kzEhCD/1MPrdK+HfjnJoIeYJo9US+mgOY5j792scdnhq0s7v1NOZ6/xTv
-   9loko4rRkPGF3OGsWNKBL+tjpsCTynTISdOQ5avTMWpiBEkhBz8B4P8bb
-   5oU3mgGid8lc5KxzoD70FdBcStakXui4RdeH2+a+XJrEhm+mYiHdbRf4U
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324974760"
+  bh=CA3uenHMu6R2IauDCoZbYSz/bQv3vZxsRlsXEKWZZ6c=;
+  b=V+K5JeHLhRdLZjBMc2wq/pT+0gryqh+ZF5rSH7VgrYoY4Xkmhh65wx20
+   2XMWi1vtZZ97ihDtlw9YL2m4sapdoQx0NnP+BVKPyOnwV9nvznTHRqJ9R
+   AW3k2AtY48mUZUsZlaESS/F24dGueeuM1XkAz5r/B4+HxA/7QPRY/7SQi
+   A4IoqTzLzFLEFolb5AYwd9iAZXYnrgDC6Bv8doWKpNAjTgGl4+zLx3X64
+   lnVyivZOaRu57wXtrSuXHCbGTkwJ4eLpWta7d2e9TWoFrM2IsXHDa4Wxj
+   2/tHrIc3HatGX/bxXzo467f3rBTEyDG0NYMf+y6JpSnLBVKdf3mBjzXZU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324974763"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="324974760"
+   d="scan'208";a="324974763"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 01:00:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722744300"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722744301"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="722744300"
+   d="scan'208";a="722744301"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 15 Apr 2023 01:00:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnapZ-000aic-2I;
+	id 1pnapZ-000aiZ-2E;
 	Sat, 15 Apr 2023 08:00:21 +0000
-Date: Sat, 15 Apr 2023 15:59:29 +0800
+Date: Sat, 15 Apr 2023 15:59:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:ctime 1/4] fs/stat.c:38: undefined reference to
- `__aarch64_ldset8_relax'
-Message-ID: <202304151541.Wo60cfLD-lkp@intel.com>
+Subject: [freescale-fslc:pr/629 420/9838]
+ ./usr/include/linux/mxc_v4l2.h:52:9: error: unknown type name 'uint32_t'
+Message-ID: <202304151507.80Ynnpbf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +46,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git ctime
-head:   10fbc119ad14c9f58d85f8a7acececc9213ba069
-commit: d30ff83ee9d572a87e5b09fe1734fba3dc7afbf2 [1/4] fs: add infrastructure for opportunistic high-res ctime/mtime updates
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230415/202304151541.Wo60cfLD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc pr/629
+head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
+commit: 317b1cf90ab94b50bef4c49148f8726aa1e42ea1 [420/9838] media: capture: add mxc v4l2 capture driver
+config: x86_64-randconfig-a014-20230410 (https://download.01.org/0day-ci/archive/20230415/202304151507.80Ynnpbf-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/commit/?id=d30ff83ee9d572a87e5b09fe1734fba3dc7afbf2
-        git remote add jlayton https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git
-        git fetch --no-tags jlayton ctime
-        git checkout d30ff83ee9d572a87e5b09fe1734fba3dc7afbf2
+        # https://github.com/Freescale/linux-fslc/commit/317b1cf90ab94b50bef4c49148f8726aa1e42ea1
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/629
+        git checkout 317b1cf90ab94b50bef4c49148f8726aa1e42ea1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304151541.Wo60cfLD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304151507.80Ynnpbf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: fs/stat.o: in function `generic_fill_ctime':
->> fs/stat.c:38: undefined reference to `__aarch64_ldset8_relax'
-   aarch64-linux-ld: fs/inode.o: in function `current_ctime':
->> fs/inode.c:2085: undefined reference to `__aarch64_ldclr8_relax'
-
-
-vim +38 fs/stat.c
-
-    28	
-    29	/* FIXME: seqlock? */
-    30	void generic_fill_ctime(struct inode *inode, struct kstat *stat)
-    31	{
-    32		stat->ctime = inode->i_ctime;
-    33		if (is_hires_ctime(inode)) {
-    34			/*
-    35			 * Atomically set the QUERIED flag and fetch the new value with
-    36			 * the flag masked.
-    37			 */
-  > 38			stat->ctime.tv_nsec = __atomic_or_fetch(&inode->i_ctime.tv_nsec,
-    39								I_CTIME_QUERIED,
-    40								__ATOMIC_RELAXED) &
-    41						      ~I_CTIME_QUERIED;
-    42		}
-    43	}
-    44	EXPORT_SYMBOL(generic_fill_ctime);
-    45	
+   In file included from <command-line>:
+>> ./usr/include/linux/mxc_v4l2.h:52:9: error: unknown type name 'uint32_t'
+      52 |         uint32_t u_offset;
+         |         ^~~~~~~~
+   ./usr/include/linux/mxc_v4l2.h:53:9: error: unknown type name 'uint32_t'
+      53 |         uint32_t v_offset;
+         |         ^~~~~~~~
+>> ./usr/include/linux/mxc_v4l2.h:57:9: error: unknown type name '__u32'
+      57 |         __u32                   type;   /* enum v4l2_buf_type */
+         |         ^~~~~
 
 -- 
 0-DAY CI Kernel Test Service
