@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513FD813
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 21:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5266A79E0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 21:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681592876; x=1713128876;
+  t=1681594737; x=1713130737;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P6N/NauGz7J3a8qd/4olLvjJ2ICzOzpLxebebXMPtqI=;
-  b=kA1l7UsEgGOfq9/u/BycsLRRQ+TZBfBYswXoRBgAvaDPRlXHjp8A0xzM
-   23hXBizkfrHX22OHSwpWwNqal+u7Mmie+iOi5sfZfK2xF9mBKNwLM6dlh
-   7WLQWIH9o+qIaL3oPKPxvZfpb/YQDMhQOoIPOlMyscd00DAJni0ORVYjS
-   n9/ttfgNndWPiCjrSarBka/R9lO4T9pRdRg2SI5EEnchNXFWtbxAurX3Y
-   Z+taRcCYh3szqNGq1YaFV6QE0S5g8/7/PJ2oUgXeC1TEJdjrn9DRPPNwP
-   p0JY8J9AM2GUwIfzId2TThJ8kUgJZS+grlHvkpzzKaCrH1UwOtzDRW3j7
+  bh=D/c39fyIu0qirJAE28j5niB+ycZ9BoX9+IJWDL8114U=;
+  b=FhNO2FYZV3m6D8HIc2NHpsknRsFZFQySdFnk70qyOvY++CDfrB8pecVA
+   E443Lhz2B7tp2xy7eV0G//ptOhnx11/uuuuGCTkIm4EHrQgpgju0O1F08
+   bE2aQATYHV8FOdBrSc09Q6jwGg2/pOkX+vT1JuSqW7c742AVqn8Y8t+8E
+   rxJFr9+ZmW33kDk9HPQQDychwT19vG+NcLcxEdUeNAHXgVi9lBkWDoSpY
+   4sEtNew4vXR83aFO2Jr0nNWaKTK6GWg1mQRJoOlpGvl3h+6nivxHpus+H
+   tlT3K3wRzEkiaM/7BfPRuBqQmvZv5W3O187KhRd2V+fCp2NQc9pEe8A8z
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="347409813"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="325026332"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="347409813"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 14:07:55 -0700
+   d="scan'208";a="325026332"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 14:38:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="692831468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="814324012"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="692831468"
+   d="scan'208";a="814324012"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2023 14:07:53 -0700
+  by orsmga004.jf.intel.com with ESMTP; 15 Apr 2023 14:38:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnn7h-000bLh-1V;
-	Sat, 15 Apr 2023 21:07:53 +0000
-Date: Sun, 16 Apr 2023 05:07:03 +0800
+	id 1pnnbh-000bMm-3C;
+	Sat, 15 Apr 2023 21:38:53 +0000
+Date: Sun, 16 Apr 2023 05:38:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Peter Ujfalusi <peter.ujfalusi@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/629 4877/9838] drivers/pwm/pwm-adp5585.c:213:25:
- error: 'adp5585_of_match' undeclared here (not in a function); did you mean
- 'adp5585_pwm_of_match'?
-Message-ID: <202304160515.bEA1zbSg-lkp@intel.com>
+Subject: [omap-audio:peter/linux-next-wip 14/48]
+ sound/soc/soc-utils.c:243:34: warning: 'soc_dummy_ids' defined but not used
+Message-ID: <202304160509.oMbuoMEt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,69 +46,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/629
-head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
-commit: b2a8faf2b13f5346016ac80c42173ac714536584 [4877/9838] Merge branch 'pwm/next' into next
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230416/202304160515.bEA1zbSg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
+head:   81cfa47ce512c163ac0f26afd1b161d7f69b92f0
+commit: b4e0343e19f09995f6db80eee41e67211d334674 [14/48] ASoC: soc-utils: HACK: DT binding for snd-soc-dummy
+config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230416/202304160509.oMbuoMEt-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/b2a8faf2b13f5346016ac80c42173ac714536584
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/629
-        git checkout b2a8faf2b13f5346016ac80c42173ac714536584
+        # https://github.com/omap-audio/linux-audio/commit/b4e0343e19f09995f6db80eee41e67211d334674
+        git remote add omap-audio https://github.com/omap-audio/linux-audio
+        git fetch --no-tags omap-audio peter/linux-next-wip
+        git checkout b4e0343e19f09995f6db80eee41e67211d334674
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/pwm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160515.bEA1zbSg-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160509.oMbuoMEt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pwm/pwm-adp5585.c:12:
->> drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here (not in a function); did you mean 'adp5585_pwm_of_match'?
-     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
-         |                         ^~~~~~~~~~~~~~~~
-   include/linux/module.h:243:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:243:21: error: '__mod_of__adp5585_of_match_device_table' aliased to undefined symbol 'adp5585_of_match'
-     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/pwm/pwm-adp5585.c:213:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
-         | ^~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for RPMSG_VIRTIO
-   Depends on [n]: HAS_DMA [=n]
-   Selected by [m]:
-   - HAVE_IMX_RPMSG [=y] && IMX_MBOX [=m]
-   WARNING: unmet direct dependencies detected for UIO
-   Depends on [n]: MMU [=n]
-   Selected by [m]:
-   - FEC_UIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
+>> sound/soc/soc-utils.c:243:34: warning: 'soc_dummy_ids' defined but not used [-Wunused-const-variable=]
+     243 | static const struct of_device_id soc_dummy_ids[] = {
+         |                                  ^~~~~~~~~~~~~
 
 
-vim +213 drivers/pwm/pwm-adp5585.c
+vim +/soc_dummy_ids +243 sound/soc/soc-utils.c
 
-92c8b45586c149 Clark Wang 2022-03-16  208  
-92c8b45586c149 Clark Wang 2022-03-16  209  static const struct of_device_id adp5585_pwm_of_match[] = {
-92c8b45586c149 Clark Wang 2022-03-16  210  	{.compatible = "adp5585-pwm", },
-92c8b45586c149 Clark Wang 2022-03-16  211  	{ /* sentinel */ }
-92c8b45586c149 Clark Wang 2022-03-16  212  };
-92c8b45586c149 Clark Wang 2022-03-16 @213  MODULE_DEVICE_TABLE(of, adp5585_of_match);
-92c8b45586c149 Clark Wang 2022-03-16  214  
-
-:::::: The code at line 213 was first introduced by commit
-:::::: 92c8b45586c149160a8a29356d97cdd721d9717a MLK-25922-1 pwm: adp5585: add adp5585 PWM support
-
-:::::: TO: Clark Wang <xiaoning.wang@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+   242	
+ > 243	static const struct of_device_id soc_dummy_ids[] = {
+   244		{ .compatible = "linux,snd-soc-dummy", },
+   245		{ }
+   246	};
+   247	MODULE_DEVICE_TABLE(of, soc_dummy_ids);
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
