@@ -1,84 +1,116 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB976813
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 20:40:58 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-3e699254ac4so8634441cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 13:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1681591258; x=1684183258;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K5ZpJOS2H9PgGp4Q72WdTfSs9gPQF5dEYfpY40h9OUQ=;
-        b=UzU//76cztdU1LgexNLanS+PonvEY1gfbmf2XiwBHWabM0B+HR+5mkKYMsJklwCCn/
-         D5bcRCSYS143FhZdjgcNigSfttd9A+nUNaSO8oI9FcIbEQcL+e5M6JLXwQJ36h5j4cWw
-         9Y87Z871/OiG5GP0uPnJxCGb0J1Q3je9mvsT5eLZICyaQaXJFk38RCH6wZI6fMyCoA03
-         ig/CUVoT4ZH8CnNByrhBkIojoU+mZC+T/3OV1nMOMHShB6czLciDHtzBzG6WajheDuS0
-         mpGwt9J6iuTLkiRY8Nv8/67dpQ4L1Q51NpHQLMMqBDZGgRUPlFtGugqsj/pi8PLZ9Rgm
-         NeTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681591258; x=1684183258;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K5ZpJOS2H9PgGp4Q72WdTfSs9gPQF5dEYfpY40h9OUQ=;
-        b=ayAwA7bfAGNEJtph+xjZ1y3Hk/yTKc8allDbV0l8qoYFEMwdt9xdZJEYFTEjbgQkD9
-         2FNq4uu5/qN0CYkWoMYuJ2suGP2ucPqvIugClQ7I09UL4VEL3LTZoKC/xMygUaFYWcsq
-         bWsYOEZEMEo4X3g4HVB7Qm5aLQCm6tS7pwAQyNLCFEOFwZFpFvuGkb6e1dlCRQVLrZwG
-         U8/ZGT74cO9WtJlYMdjSkVwxGnaLN8jni1Tv3rFiqW4JpeBbsYzihUMCDtDGkHV+p/mx
-         8S9fjXrtfEDMcXVnJnp1uYx5kOMEZLhijAyY6bwSsL2QQkFWCLXn2ob2Ju/rUQqu849x
-         aXXA==
-X-Gm-Message-State: AAQBX9eJZyBjFt25FFydyCaGku1HJ9v9w7mLOrxi6QWd0KuV4/xEVvl6
-	0iEPw2UfWsWz8AYe+lRjB++tHQ==
-X-Google-Smtp-Source: AKy350b7Jgq/iFYYGf1L3SXkiJAspR6o8DYiL85urxLnUkV+LsBU0p8W38LeUr7ZJa9KfcGW8yLuuw==
-X-Received: by 2002:a05:6214:3011:b0:5ef:5132:7ad7 with SMTP id ke17-20020a056214301100b005ef51327ad7mr9930130qvb.2.1681591257782;
-        Sat, 15 Apr 2023 13:40:57 -0700 (PDT)
-Received: from [127.0.0.1] ([216.250.210.6])
-        by smtp.gmail.com with ESMTPSA id pp26-20020a056214139a00b005dd8b934571sm1996244qvb.9.2023.04.15.13.40.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 13:40:57 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: lkp@intel.com, linux-block@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, shinichiro.kawasaki@wdc.com, 
- chaitanyak@nvidia.com, akpm@linux-foundation.org, hch@infradead.org
-In-Reply-To: <20230415125705.180426-1-akinobu.mita@gmail.com>
-References: <202304150025.K0hczLR4-lkp@intel.com>
- <20230415125705.180426-1-akinobu.mita@gmail.com>
-Subject: Re: [PATCH -block] fault-inject: fix build error when
- FAULT_INJECTION_CONFIGFS=y and CONFIGFS_FS=m
-Message-Id: <168159125392.9478.18069985091201670556.b4-ty@kernel.dk>
-Date: Sat, 15 Apr 2023 14:40:53 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513FD813
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 21:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681592876; x=1713128876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P6N/NauGz7J3a8qd/4olLvjJ2ICzOzpLxebebXMPtqI=;
+  b=kA1l7UsEgGOfq9/u/BycsLRRQ+TZBfBYswXoRBgAvaDPRlXHjp8A0xzM
+   23hXBizkfrHX22OHSwpWwNqal+u7Mmie+iOi5sfZfK2xF9mBKNwLM6dlh
+   7WLQWIH9o+qIaL3oPKPxvZfpb/YQDMhQOoIPOlMyscd00DAJni0ORVYjS
+   n9/ttfgNndWPiCjrSarBka/R9lO4T9pRdRg2SI5EEnchNXFWtbxAurX3Y
+   Z+taRcCYh3szqNGq1YaFV6QE0S5g8/7/PJ2oUgXeC1TEJdjrn9DRPPNwP
+   p0JY8J9AM2GUwIfzId2TThJ8kUgJZS+grlHvkpzzKaCrH1UwOtzDRW3j7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="347409813"
+X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
+   d="scan'208";a="347409813"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 14:07:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="692831468"
+X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
+   d="scan'208";a="692831468"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2023 14:07:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pnn7h-000bLh-1V;
+	Sat, 15 Apr 2023 21:07:53 +0000
+Date: Sun, 16 Apr 2023 05:07:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/629 4877/9838] drivers/pwm/pwm-adp5585.c:213:25:
+ error: 'adp5585_of_match' undeclared here (not in a function); did you mean
+ 'adp5585_pwm_of_match'?
+Message-ID: <202304160515.bEA1zbSg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-00303
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/Freescale/linux-fslc pr/629
+head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
+commit: b2a8faf2b13f5346016ac80c42173ac714536584 [4877/9838] Merge branch 'pwm/next' into next
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230416/202304160515.bEA1zbSg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/b2a8faf2b13f5346016ac80c42173ac714536584
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc pr/629
+        git checkout b2a8faf2b13f5346016ac80c42173ac714536584
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/pwm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160515.bEA1zbSg-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/pwm/pwm-adp5585.c:12:
+>> drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here (not in a function); did you mean 'adp5585_pwm_of_match'?
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         |                         ^~~~~~~~~~~~~~~~
+   include/linux/module.h:243:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:243:21: error: '__mod_of__adp5585_of_match_device_table' aliased to undefined symbol 'adp5585_of_match'
+     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/pwm/pwm-adp5585.c:213:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         | ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RPMSG_VIRTIO
+   Depends on [n]: HAS_DMA [=n]
+   Selected by [m]:
+   - HAVE_IMX_RPMSG [=y] && IMX_MBOX [=m]
+   WARNING: unmet direct dependencies detected for UIO
+   Depends on [n]: MMU [=n]
+   Selected by [m]:
+   - FEC_UIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
 
 
-On Sat, 15 Apr 2023 21:57:05 +0900, Akinobu Mita wrote:
-> This fixes a build error when CONFIG_FAULT_INJECTION_CONFIGFS=y and
-> CONFIG_CONFIGFS_FS=m.
-> 
-> Since the fault-injection library cannot built as a module, avoid building
-> configfs as a module.
-> 
-> 
-> [...]
+vim +213 drivers/pwm/pwm-adp5585.c
 
-Applied, thanks!
+92c8b45586c149 Clark Wang 2022-03-16  208  
+92c8b45586c149 Clark Wang 2022-03-16  209  static const struct of_device_id adp5585_pwm_of_match[] = {
+92c8b45586c149 Clark Wang 2022-03-16  210  	{.compatible = "adp5585-pwm", },
+92c8b45586c149 Clark Wang 2022-03-16  211  	{ /* sentinel */ }
+92c8b45586c149 Clark Wang 2022-03-16  212  };
+92c8b45586c149 Clark Wang 2022-03-16 @213  MODULE_DEVICE_TABLE(of, adp5585_of_match);
+92c8b45586c149 Clark Wang 2022-03-16  214  
 
-[1/1] fault-inject: fix build error when FAULT_INJECTION_CONFIGFS=y and CONFIGFS_FS=m
-      commit: 5347c9321845e5a94be19ea951746d4f2b8b194f
+:::::: The code at line 213 was first introduced by commit
+:::::: 92c8b45586c149160a8a29356d97cdd721d9717a MLK-25922-1 pwm: adp5585: add adp5585 PWM support
 
-Best regards,
+:::::: TO: Clark Wang <xiaoning.wang@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
 -- 
-Jens Axboe
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
