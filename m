@@ -1,45 +1,46 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65B47EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 00:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C137EA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 00:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681518784; x=1713054784;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6P7E7NKEe41OzyBVirlyoWHp+A1sk8HOKEYg38W59q4=;
-  b=FbKTyZQ4H4m14BQnDgjTo582MDtfFSkNSaM/Hx6s8cm9DHW1sOxr5tGe
-   /nM7fkOdfWaUBCZ6f/uMHJVjy0dEE7VayD41Cnb9y6PlBZwF6OMuOOnv/
-   9zFJquNygW/v+YxKAth0jg783nPTx+sONSoDo+8/DcGZ/9ZH03QLRl0AZ
-   nAy193VhwfXmnjl3R4ppuEr9e5vvnX6OOF8+2DAu8bKMpMN2pwgc86Z1D
-   vlsqpH7pK2+4xjtF/LPFelg3NOImvaGQ4sV4B9p4WG4cUMiZ4qZHkPbSw
-   s5BJqgFcaft5n5qg7HJT8Vo4R0y0nuwByKoiMlYO3sBoUvR4vFhE7lmv9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="430891688"
+  t=1681519443; x=1713055443;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jCLFTLOebVlzDuDzKEMueePnCMxdgluHyRkS/WevcxQ=;
+  b=GCYYjMutBFfdrm5AQFRtqgEnQESm5MfY4vGmNvwcV+pqsYU4yWOdCbPe
+   R2YwphIep73jgmdTB+nEifYTQesMUEtP0THpvXJW9jdpIAVOH6/LILfbT
+   kF4eWhLNN9KkGtdw1R4LqsKBRW55FhScefFK0R8rQfsTly3hXNqJmb0xH
+   iRw/tpj+3jBhBgwbdZhTxjNqwR4CR03hmYc7F7QhXpISQR8YL01ZstELs
+   m8bfv2zJL+VWGoVfKm03M2+ESLxBTCRTpekKIS7W5oML2XhkJZPu0ohGD
+   SKb1l7+BrhXv1pHDWRMNqZvq9UcG+hd33TMs5U9wrqi8mhQ3efhD6Vg4N
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="344595910"
 X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="430891688"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 17:33:01 -0700
+   d="scan'208";a="344595910"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 17:44:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="667380242"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="692620221"
 X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="667380242"
+   d="scan'208";a="692620221"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 14 Apr 2023 17:32:59 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 14 Apr 2023 17:44:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnTqc-000aAN-1V;
-	Sat, 15 Apr 2023 00:32:58 +0000
-Date: Sat, 15 Apr 2023 08:32:21 +0800
+	id 1pnU1H-000aB9-2J;
+	Sat, 15 Apr 2023 00:43:59 +0000
+Date: Sat, 15 Apr 2023 08:43:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	edumazet@google.com, pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>, pablo@netfilter.org, fw@strlen.de
-Subject: Re: [PATCH net-next 5/5] net: skbuff: hide nf_trace and ipvs_property
-Message-ID: <202304150856.ZcdKTZna-lkp@intel.com>
-References: <20230414160105.172125-6-kuba@kernel.org>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Juri Lelli <juri.lelli@arm.com>,
+	Chris Redpath <chris.redpath@arm.com>
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 1440/9999]
+ kernel/sched/fair.c:3581:5: warning: no previous declaration for
+ 'update_rt_rq_load_avg'
+Message-ID: <202304150849.oxU9QXjx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,77 +49,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414160105.172125-6-kuba@kernel.org>
 
-Hi Jakub,
+Hi Guenter,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/net-skbuff-hide-wifi_acked-when-CONFIG_WIRELESS-not-set/20230415-000750
-patch link:    https://lore.kernel.org/r/20230414160105.172125-6-kuba%40kernel.org
-patch subject: [PATCH net-next 5/5] net: skbuff: hide nf_trace and ipvs_property
-config: ia64-randconfig-r031-20230409 (https://download.01.org/0day-ci/archive/20230415/202304150856.ZcdKTZna-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: e284a318713dc92d96569658af16bddb9c17cd7d [1440/9999] FROMLIST: sched/rt: add utilization tracking
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230415/202304150849.oxU9QXjx-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e2a92e33e41fe773b7c4a32a75db87340855387a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jakub-Kicinski/net-skbuff-hide-wifi_acked-when-CONFIG_WIRELESS-not-set/20230415-000750
-        git checkout e2a92e33e41fe773b7c4a32a75db87340855387a
+        # https://github.com/jsarha/linux/commit/e284a318713dc92d96569658af16bddb9c17cd7d
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
+        git checkout e284a318713dc92d96569658af16bddb9c17cd7d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash net/netfilter/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash LDFLAGS=-z max-page-size=0x200000  drivers/gpu/drm/ kernel/sched/ lib/lzo/ net/ipv6/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150856.ZcdKTZna-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150849.oxU9QXjx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/netfilter/nf_tables_core.c: In function 'nft_trace_packet':
->> net/netfilter/nf_tables_core.c:64:42: error: 'struct sk_buff' has no member named 'nf_trace'
-      64 |                 info->nf_trace = pkt->skb->nf_trace;
-         |                                          ^~
-   net/netfilter/nf_tables_core.c: In function 'nft_trace_copy_nftrace':
-   net/netfilter/nf_tables_core.c:75:50: error: 'struct sk_buff' has no member named 'nf_trace'
-      75 |                         info->nf_trace = pkt->skb->nf_trace;
-         |                                                  ^~
-   net/netfilter/nf_tables_core.c: In function '__nft_trace_verdict':
-   net/netfilter/nf_tables_core.c:132:56: error: 'struct sk_buff' has no member named 'nf_trace'
-     132 |                         info->nf_trace = info->pkt->skb->nf_trace;
-         |                                                        ^~
---
-   net/netfilter/nf_tables_trace.c: In function 'nft_trace_init':
->> net/netfilter/nf_tables_trace.c:284:34: error: 'struct sk_buff' has no member named 'nf_trace'
-     284 |         info->nf_trace = pkt->skb->nf_trace;
-         |                                  ^~
---
-   net/netfilter/nft_meta.c: In function 'nft_meta_set_eval':
->> net/netfilter/nft_meta.c:446:20: error: 'struct sk_buff' has no member named 'nf_trace'
-     446 |                 skb->nf_trace = !!value8;
-         |                    ^~
+>> kernel/sched/fair.c:3581:5: warning: no previous declaration for 'update_rt_rq_load_avg' [-Wmissing-declarations]
+    int update_rt_rq_load_avg(u64 now, int cpu, struct rt_rq *rt_rq, int running)
+        ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +64 net/netfilter/nf_tables_core.c
+vim +/update_rt_rq_load_avg +3581 kernel/sched/fair.c
 
-01ef16c2dd2e9a Patrick McHardy   2015-03-03  56  
-399a14ec7993d6 Florian Westphal  2022-08-04  57  static inline void nft_trace_packet(const struct nft_pktinfo *pkt,
-399a14ec7993d6 Florian Westphal  2022-08-04  58  				    struct nft_traceinfo *info,
-01ef16c2dd2e9a Patrick McHardy   2015-03-03  59  				    const struct nft_chain *chain,
-2c865a8a28a10e Pablo Neira Ayuso 2022-01-09  60  				    const struct nft_rule_dp *rule,
-33d5a7b14bfd02 Florian Westphal  2015-11-28  61  				    enum nft_trace_types type)
-01ef16c2dd2e9a Patrick McHardy   2015-03-03  62  {
-e639f7ab079b52 Florian Westphal  2015-11-28  63  	if (static_branch_unlikely(&nft_trace_enabled)) {
-e34b9ed96ce3b0 Florian Westphal  2022-06-22 @64  		info->nf_trace = pkt->skb->nf_trace;
-33d5a7b14bfd02 Florian Westphal  2015-11-28  65  		info->rule = rule;
-e65eebec9c67df Florian Westphal  2018-05-11  66  		__nft_trace_packet(info, chain, type);
-33d5a7b14bfd02 Florian Westphal  2015-11-28  67  	}
-01ef16c2dd2e9a Patrick McHardy   2015-03-03  68  }
-01ef16c2dd2e9a Patrick McHardy   2015-03-03  69  
+  3580	
+> 3581	int update_rt_rq_load_avg(u64 now, int cpu, struct rt_rq *rt_rq, int running)
+  3582	{
+  3583		return 0;
+  3584	}
+  3585	
 
 -- 
 0-DAY CI Kernel Test Service
