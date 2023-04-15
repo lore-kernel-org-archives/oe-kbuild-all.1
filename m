@@ -1,44 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A031D2F39
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 23:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DE52F39
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 23:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681601579; x=1713137579;
+  t=1681602239; x=1713138239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rxQhQUHhLrNy6wWSGsrSPXjmYd09ktQXd++O0f+Gg48=;
-  b=HZwrc49olhbLZ5SPuN/9rpmNba9kE7H8T3AP6L83aBsa/sPFanT3nC3F
-   gZ+0yrpjN0/iKBggcZ/yHEqqh/B2lsGtMHFSm/zqXU6k4gjl6nxIIxWrL
-   qQgpzaE5XAKD/NSRxuirE/zaLrrx7YvuYqEh2vEfqZk8/sQ8mvaGa38p3
-   xLb3xjr7WM5sqOdSMiqqsESFyfviQ4IAZ4V7maiocfAi475mnV/2fn/Vc
-   60Nkn50ftp/+xsg958wTa7taGFgxR5Zi2XzP4/RcgShsa4A8cX8uGlGMn
-   /dl7e+FpWia30bdml7kk7QgMl0UlzPyckEFM4RSne7qTfWhiIQIiD5068
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="347416484"
+  bh=d2yLVlR7qhVVEFLttrxJwzP8s3vf1aTSOcEoQFFIiAM=;
+  b=UUy0WZrdswsnWQ7bbtoy0/gaPTdpFiEokry4bxhWUv6gc+cB4mrGT7nQ
+   8Z9le/oZT3HYMY1C4jNU/QYHPfjzuTKrr3B6AbwBT7EkhH1MMdb4Jjyux
+   d53lwcNZl5IWpiULfTkSBCbl3xgkFA0AlrQoGfTUExgQb4PCDdq8rJSMP
+   ahBjzongEdEK6CJ3yhwjql3bYpMazCbrFDBNeSpNHQCquE1nXj7fk45to
+   /nzYcYWciJjeAXZot/1cu/Ze0KSvBITJsJUQek+7q21nXFaEAF9t2rtHw
+   5GuNALNE7ntxZrMM8U9NeO8eWJgjhEUb1jRC6uoC5ETxL1RNuxiMelHfJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="328843922"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="347416484"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 16:32:58 -0700
+   d="scan'208";a="328843922"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 16:43:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="864590521"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="779641934"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="864590521"
+   d="scan'208";a="779641934"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Apr 2023 16:32:56 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Apr 2023 16:43:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnpO3-000bPb-2m;
-	Sat, 15 Apr 2023 23:32:55 +0000
-Date: Sun, 16 Apr 2023 07:32:02 +0800
+	id 1pnpYi-000bPx-0j;
+	Sat, 15 Apr 2023 23:43:56 +0000
+Date: Sun, 16 Apr 2023 07:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [bluetooth-next:master 33/71] drivers/bluetooth/btnxpuart.c:844:36:
- sparse: sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202304160736.Tsa0zTBU-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: [tip:irq/urgent 1/1] drivers/pci/msi/msi.c:763:25: error: 'nvec'
+ undeclared; did you mean 'nvev'?
+Message-ID: <202304160752.QJiM8zR3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,115 +47,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-head:   492cf2b505d66b2bc0b50dae1d5e5921978f4802
-commit: 2e9632009158054bcb6c1766c6748476db0561a0 [33/71] Bluetooth: NXP: Add protocol support for NXP Bluetooth chipsets
-config: riscv-randconfig-s053-20230416 (https://download.01.org/0day-ci/archive/20230416/202304160736.Tsa0zTBU-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/urgent
+head:   84d9651e13fb9820041d19262a55906851524c0f
+commit: 84d9651e13fb9820041d19262a55906851524c0f [1/1] PCI/MSI: Remove over-zealous hardware size check in pci_msix_validate_entries()
+config: ia64-randconfig-r002-20230416 (https://download.01.org/0day-ci/archive/20230416/202304160752.QJiM8zR3-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git/commit/?id=2e9632009158054bcb6c1766c6748476db0561a0
-        git remote add bluetooth-next https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git
-        git fetch --no-tags bluetooth-next master
-        git checkout 2e9632009158054bcb6c1766c6748476db0561a0
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=84d9651e13fb9820041d19262a55906851524c0f
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip irq/urgent
+        git checkout 84d9651e13fb9820041d19262a55906851524c0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash drivers/bluetooth/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/pci/msi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160736.Tsa0zTBU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160752.QJiM8zR3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
-   drivers/bluetooth/btnxpuart.c:681:23: sparse: sparse: restricted __le16 degrades to integer
-   drivers/bluetooth/btnxpuart.c:690:82: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:690:82: sparse:     expected unsigned short [usertype] req_len
-   drivers/bluetooth/btnxpuart.c:690:82: sparse:     got restricted __le16 [usertype] len
-   drivers/bluetooth/btnxpuart.c:694:84: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:694:84: sparse:     expected unsigned short [usertype] req_len
-   drivers/bluetooth/btnxpuart.c:694:84: sparse:     got restricted __le16 [usertype] len
-   drivers/bluetooth/btnxpuart.c:708:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] requested_len @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:708:23: sparse:     expected unsigned int [usertype] requested_len
-   drivers/bluetooth/btnxpuart.c:708:23: sparse:     got restricted __le16 [usertype] len
-   drivers/bluetooth/btnxpuart.c:787:78: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] chipid @@     got restricted __le16 [usertype] chip_id @@
-   drivers/bluetooth/btnxpuart.c:787:78: sparse:     expected unsigned short [usertype] chipid
-   drivers/bluetooth/btnxpuart.c:787:78: sparse:     got restricted __le16 [usertype] chip_id
-   drivers/bluetooth/btnxpuart.c:810:74: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:810:74: sparse:     expected unsigned short [usertype] req_len
-   drivers/bluetooth/btnxpuart.c:810:74: sparse:     got restricted __le16 [usertype] len
-   drivers/bluetooth/btnxpuart.c:815:76: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] req_len @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:815:76: sparse:     expected unsigned short [usertype] req_len
-   drivers/bluetooth/btnxpuart.c:815:76: sparse:     got restricted __le16 [usertype] len
-   drivers/bluetooth/btnxpuart.c:834:16: sparse: sparse: restricted __le32 degrades to integer
-   drivers/bluetooth/btnxpuart.c:843:55: sparse: sparse: restricted __le32 degrades to integer
->> drivers/bluetooth/btnxpuart.c:844:36: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] @@     got restricted __le16 [usertype] len @@
-   drivers/bluetooth/btnxpuart.c:844:36: sparse:     expected unsigned long [usertype]
-   drivers/bluetooth/btnxpuart.c:844:36: sparse:     got restricted __le16 [usertype] len
+All errors (new ones prefixed by >>):
 
-vim +844 drivers/bluetooth/btnxpuart.c
+   drivers/pci/msi/msi.c: In function 'pci_msix_validate_entries':
+>> drivers/pci/msi/msi.c:763:25: error: 'nvec' undeclared (first use in this function); did you mean 'nvev'?
+     763 |         for (i = 0; i < nvec; i++) {
+         |                         ^~~~
+         |                         nvev
+   drivers/pci/msi/msi.c:763:25: note: each undeclared identifier is reported only once for each function it appears in
 
-   794	
-   795	static int nxp_recv_fw_req_v3(struct hci_dev *hdev, struct sk_buff *skb)
-   796	{
-   797		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
-   798		struct v3_data_req *req;
-   799	
-   800		if (!process_boot_signature(nxpdev))
-   801			goto free_skb;
-   802	
-   803		req = (struct v3_data_req *)skb_pull_data(skb, sizeof(struct v3_data_req));
-   804		if (!req || !nxpdev->fw)
-   805			goto free_skb;
-   806	
-   807		nxp_send_ack(NXP_ACK_V3, hdev);
-   808	
-   809		if (!nxpdev->timeout_changed) {
-   810			nxpdev->timeout_changed = nxp_fw_change_timeout(hdev, req->len);
-   811			goto free_skb;
-   812		}
-   813	
-   814		if (!nxpdev->baudrate_changed) {
-   815			nxpdev->baudrate_changed = nxp_fw_change_baudrate(hdev, req->len);
-   816			if (nxpdev->baudrate_changed) {
-   817				serdev_device_set_baudrate(nxpdev->serdev,
-   818							   HCI_NXP_SEC_BAUDRATE);
-   819				serdev_device_set_flow_control(nxpdev->serdev, 1);
-   820				nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
-   821			}
-   822			goto free_skb;
-   823		}
-   824	
-   825		if (req->len == 0) {
-   826			bt_dev_dbg(hdev, "FW Downloaded Successfully: %zu bytes", nxpdev->fw->size);
-   827			clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
-   828			wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
-   829			goto free_skb;
-   830		}
-   831		if (req->error)
-   832			bt_dev_dbg(hdev, "FW Download received err 0x%02x from chip", req->error);
-   833	
-   834		if (req->offset < nxpdev->fw_v3_offset_correction) {
-   835			/* This scenario should ideally never occur. But if it ever does,
-   836			 * FW is out of sync and needs a power cycle.
-   837			 */
-   838			bt_dev_err(hdev, "Something went wrong during FW download. Please power cycle and try again");
-   839			goto free_skb;
-   840		}
-   841	
-   842		serdev_device_write_buf(nxpdev->serdev,
-   843					nxpdev->fw->data + req->offset - nxpdev->fw_v3_offset_correction,
- > 844					req->len);
-   845	
-   846	free_skb:
-   847		kfree_skb(skb);
-   848		return 0;
-   849	}
-   850	
+
+vim +763 drivers/pci/msi/msi.c
+
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  752  
+84d9651e13fb98 drivers/pci/msi/msi.c Thomas Gleixner   2023-04-10  753  static bool pci_msix_validate_entries(struct pci_dev *dev, struct msix_entry *entries, int nvev)
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  754  {
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  755  	bool nogap;
+ded86d8d37736d drivers/pci/msi.c     Eric W. Biederman 2007-01-28  756  	int i, j;
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  757  
+bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  758  	if (!entries)
+bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  759  		return true;
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  760  
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  761  	nogap = pci_msi_domain_supports(dev, MSI_FLAG_MSIX_CONTIGUOUS, DENY_LEGACY);
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  762  
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16 @763  	for (i = 0; i < nvec; i++) {
+bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  764  		/* Check for duplicate entries */
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  765  		for (j = i + 1; j < nvec; j++) {
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  766  			if (entries[i].entry == entries[j].entry)
+bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  767  				return false;
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  768  		}
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  769  		/* Check for unsupported gaps */
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  770  		if (nogap && entries[i].entry != i)
+4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  771  			return false;
+^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  772  	}
+bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  773  	return true;
+3ac020e0ca8bef drivers/pci/msi.c     Christoph Hellwig 2016-07-12  774  }
+7bd007e480672c drivers/pci/msi.c     Eric W. Biederman 2006-10-04  775  
+
+:::::: The code at line 763 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
