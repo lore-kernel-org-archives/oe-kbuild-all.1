@@ -1,42 +1,50 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1443A1868
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 11:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681558596; x=1713094596;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fh1WBQnJOCzYW8qZMQ9gn7wt6ZNXpmmkmv4iiIeCQe4=;
-  b=IkQbVEXdejFCT4Pdqug/ZlIfUmTRmR1Yp2Mlj/Mvkvjxip4Pq9rHEodf
-   LEvUdy3OlZWdTm1rtcMLquYMfWs6IicpVimSm1pumuRyOm15ylsCLsNv8
-   pgQOTQFXVTcd0qvq439MgAVB56sZ5FoiCZEg/+FvR7GuO8Gda9kP+swpI
-   m8hGcIqrreGJCvV4fq72DXoq0WAdnkKCsVviLRruW1uoO5OXsWFGlO3wi
-   mci+CDyZG9dHDcnvN9LdidjnaGaY01DlDvA/1bGuEfgqQux2fCSc2+ygL
-   KY6mJTxb/33QfpQAHljyDXeCsy3uRjVCePZUc2giIkW76xcXhDSRxm5WI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="430931417"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="430931417"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 04:36:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="690132360"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="690132360"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 15 Apr 2023 04:36:34 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pneCn-000axC-1q;
-	Sat, 15 Apr 2023 11:36:33 +0000
-Date: Sat, 15 Apr 2023 19:36:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/629 4851/9838] alpha-linux-gcc: error:
- unrecognized command-line option '-march=armv7-a'
-Message-ID: <202304151941.RhHfhBIQ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47B41868;
+	Sat, 15 Apr 2023 11:37:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id xi5so52048232ejb.13;
+        Sat, 15 Apr 2023 04:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681558668; x=1684150668;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
+        b=gha1QMoUmDF6WDoTY0G7NEzu7WdheZvXRT+g956hiOcIV+qJpMdUoPhtz2od7CKPpK
+         llXwAccMshWROOkI0yVsi+uqpdtKXwpBKOJQVz0TGNDPvZxMJGbAS1GSpbngUtbNd06x
+         Rt5LBvgQVttZaog9RqsKcXUx84cI0T5ZXxh4fhS6O8/5XSHo8GnP5INA57ZIBDlqJZ2y
+         fRr777T2JTY7FN+ftSlsA5ufOSoI8K0q0rpnqOJHrWTwc/OEA809xhTYA6GmMk5HSRQu
+         H4lCM1j1xmvEWuCiXA4twTLS36vw2bDLe6MMB2yDF0HO7LTNcnL0w6cuQ8y6VWt18jJo
+         PiNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681558668; x=1684150668;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
+        b=Fi43EZPmpL9vWDXEV7X2QKvwTFqhCXpG479lWUaOp4I5pdo3Ag6kHl8s8Eh6Rjjofa
+         zetpePVHFyma4IQfp5uL00M0iiOcatyc2cH1NTEV1d4ZBiu7ERI49gDi3f6HGxXwLqs6
+         S4Q5SMJEeHSFR5PBEhS0RnUZbbgaeDY1TlGtEukR7UspjafqM8CuAvJNEvsHQ4F/ztmg
+         QIhHipi4qfN/n3SDpitAFLM3jQoVE35+2NFHPsKpgMDycO5p6IUkTDVEa4E8sfgqJwIB
+         cGu8eyGBMOJpxPpvlGV6KySBoCbV3ae9d5tmVvzb/hn+XkrpRhsbV5H89Cj3LS81vUQ0
+         j6lg==
+X-Gm-Message-State: AAQBX9c3YEJDXDzfSkecY7kUGYBiLXfYrPRdwmETxpD7LXpdmg6UBqLJ
+	SiMwlRbtPADUh1o8cc6d16i3qhpa9tM=
+X-Google-Smtp-Source: AKy350bsAWqhR1gZ3XJlBAT2ROvJsdzGaBHGX+jdvZ8Sb0wK5EVIhDUMDasH7H6buMeD/8QNBqlBNA==
+X-Received: by 2002:a17:906:5e1a:b0:926:fce:c080 with SMTP id n26-20020a1709065e1a00b009260fcec080mr1616983eju.17.1681558667569;
+        Sat, 15 Apr 2023 04:37:47 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gv35-20020a1709072be300b0094f07545d43sm1162521ejc.188.2023.04.15.04.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 04:37:46 -0700 (PDT)
+Date: Sat, 15 Apr 2023 14:37:42 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Manikanta Pubbisetty <quic_mpubbise@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kalle Valo <quic_kvalo@quicinc.com>
+Subject: drivers/net/wireless/ath/ath11k/core.c:1309
+ ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
+Message-ID: <b559bd3c-c7c2-409e-ab36-455236572fe5@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,33 +54,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/629
-head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
-commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4851/9838] Merge branch 'mxc/next' into next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230415/202304151941.RhHfhBIQ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/629
-        git checkout 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
+commit: 33b67a4b4e64275b6f2cbc4318f1596c70659111 ath11k: Update WBM idle ring HP after FW mode on
+config: openrisc-randconfig-m041-20230414 (https://download.01.org/0day-ci/archive/20230415/202304151955.oqAetVFd-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304151941.RhHfhBIQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304151955.oqAetVFd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/wireless/ath/ath11k/core.c:1309 ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
 
->> alpha-linux-gcc: error: unrecognized command-line option '-march=armv7-a'
->> alpha-linux-gcc: error: unrecognized command-line option '-mfpu=neon'
->> alpha-linux-gcc: error: unrecognized command-line option '-mfloat-abi=softfp'
+vim +1309 drivers/net/wireless/ath/ath11k/core.c
+
+d5c65159f28953 Kalle Valo                2019-11-23  1276  int ath11k_core_qmi_firmware_ready(struct ath11k_base *ab)
+d5c65159f28953 Kalle Valo                2019-11-23  1277  {
+d5c65159f28953 Kalle Valo                2019-11-23  1278  	int ret;
+d5c65159f28953 Kalle Valo                2019-11-23  1279  
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1280  	ret = ath11k_core_start_firmware(ab, ATH11K_FIRMWARE_MODE_NORMAL);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1281  	if (ret) {
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1282  		ath11k_err(ab, "failed to start firmware: %d\n", ret);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1283  		return ret;
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1284  	}
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1285  
+d5c65159f28953 Kalle Valo                2019-11-23  1286  	ret = ath11k_ce_init_pipes(ab);
+d5c65159f28953 Kalle Valo                2019-11-23  1287  	if (ret) {
+d5c65159f28953 Kalle Valo                2019-11-23  1288  		ath11k_err(ab, "failed to initialize CE: %d\n", ret);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1289  		goto err_firmware_stop;
+d5c65159f28953 Kalle Valo                2019-11-23  1290  	}
+d5c65159f28953 Kalle Valo                2019-11-23  1291  
+d5c65159f28953 Kalle Valo                2019-11-23  1292  	ret = ath11k_dp_alloc(ab);
+d5c65159f28953 Kalle Valo                2019-11-23  1293  	if (ret) {
+d5c65159f28953 Kalle Valo                2019-11-23  1294  		ath11k_err(ab, "failed to init DP: %d\n", ret);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1295  		goto err_firmware_stop;
+d5c65159f28953 Kalle Valo                2019-11-23  1296  	}
+d5c65159f28953 Kalle Valo                2019-11-23  1297  
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1298  	switch (ath11k_crypto_mode) {
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1299  	case ATH11K_CRYPT_MODE_SW:
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1300  		set_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1301  		set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1302  		break;
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1303  	case ATH11K_CRYPT_MODE_HW:
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1304  		clear_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1305  		clear_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1306  		break;
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1307  	default:
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1308  		ath11k_info(ab, "invalid crypto_mode: %d\n", ath11k_crypto_mode);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08 @1309  		return -EINVAL;
+
+	ret = -EINVAL;
+	goto err_dp_free;
+
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1310  	}
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1311  
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1312  	if (ath11k_frame_mode == ATH11K_HW_TXRX_RAW)
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1313  		set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1314  
+d5c65159f28953 Kalle Valo                2019-11-23  1315  	mutex_lock(&ab->core_lock);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1316  	ret = ath11k_core_start(ab);
+d5c65159f28953 Kalle Valo                2019-11-23  1317  	if (ret) {
+d5c65159f28953 Kalle Valo                2019-11-23  1318  		ath11k_err(ab, "failed to start core: %d\n", ret);
+d5c65159f28953 Kalle Valo                2019-11-23  1319  		goto err_dp_free;
+d5c65159f28953 Kalle Valo                2019-11-23  1320  	}
+d5c65159f28953 Kalle Valo                2019-11-23  1321  
+d5c65159f28953 Kalle Valo                2019-11-23  1322  	ret = ath11k_core_pdev_create(ab);
+d5c65159f28953 Kalle Valo                2019-11-23  1323  	if (ret) {
+d5c65159f28953 Kalle Valo                2019-11-23  1324  		ath11k_err(ab, "failed to create pdev core: %d\n", ret);
+d5c65159f28953 Kalle Valo                2019-11-23  1325  		goto err_core_stop;
+d5c65159f28953 Kalle Valo                2019-11-23  1326  	}
+31858805f91ac7 Govind Singh              2020-05-08  1327  	ath11k_hif_irq_enable(ab);
+ec038c6127fa77 Wen Gong                  2021-12-20  1328  
+ec038c6127fa77 Wen Gong                  2021-12-20  1329  	ret = ath11k_core_rfkill_config(ab);
+ec038c6127fa77 Wen Gong                  2021-12-20  1330  	if (ret && ret != -EOPNOTSUPP) {
+ec038c6127fa77 Wen Gong                  2021-12-20  1331  		ath11k_err(ab, "failed to config rfkill: %d\n", ret);
+ec038c6127fa77 Wen Gong                  2021-12-20  1332  		goto err_core_stop;
+ec038c6127fa77 Wen Gong                  2021-12-20  1333  	}
+ec038c6127fa77 Wen Gong                  2021-12-20  1334  
+d5c65159f28953 Kalle Valo                2019-11-23  1335  	mutex_unlock(&ab->core_lock);
+d5c65159f28953 Kalle Valo                2019-11-23  1336  
+d5c65159f28953 Kalle Valo                2019-11-23  1337  	return 0;
+d5c65159f28953 Kalle Valo                2019-11-23  1338  
+d5c65159f28953 Kalle Valo                2019-11-23  1339  err_core_stop:
+d5c65159f28953 Kalle Valo                2019-11-23  1340  	ath11k_core_stop(ab);
+0366f42640a410 Vasanthakumar Thiagarajan 2019-11-28  1341  	ath11k_mac_destroy(ab);
+d5c65159f28953 Kalle Valo                2019-11-23  1342  err_dp_free:
+d5c65159f28953 Kalle Valo                2019-11-23  1343  	ath11k_dp_free(ab);
+ba47923974fb67 Govindaraj Saminathan     2019-11-27  1344  	mutex_unlock(&ab->core_lock);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1345  err_firmware_stop:
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1346  	ath11k_qmi_firmware_stop(ab);
+33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1347  
+d5c65159f28953 Kalle Valo                2019-11-23  1348  	return ret;
+d5c65159f28953 Kalle Valo                2019-11-23  1349  }
+d5c65159f28953 Kalle Valo                2019-11-23  1350  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
