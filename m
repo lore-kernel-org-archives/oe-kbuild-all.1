@@ -1,43 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525691868
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 19:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D3B1868;
+	Sat, 15 Apr 2023 19:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681587296; x=1713123296;
+  t=1681588495; x=1713124495;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dm2NHjVSZnQ2togS/GZWB+jxj55ZvES3LYC+N1qWwRw=;
-  b=DkeZjoFkcvz0PueVRC3TJ0kRK1ze2Fefure7eQySKVdQNVbQV64LlGsD
-   SvEifmp5rM2cq4wIqau9YZxw18YUnHpddST/PQjjlxZBdBDH8fvg3opmc
-   2g1UeGOet0hUSvWZCNURaosh6fEAwFot18DJJhcfbLMiK/MGrBlsXf88X
-   9IhiN6/0duZKAke+Bt/0W9noj9XC6m/E9DGVllJUqfc+Mw5YX3whR6lWD
-   0rTokgvQaa/HoCkCAhYzbvD5ujFO3bvXYEZyLRSWdQO5Nf/1MhkiFEk5N
-   AT0cEqy0DmCX7xkRhHyksk2/agOMlyJcUCI2yvAN32BL8TCzikjduaiLG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="430967134"
+  bh=ibQYgOzgU83XerxDcPwp14yJzRTqyflYwNRm4kZiRhk=;
+  b=BXNs0VwRHnNPPtw5YA58+WxqHfI1LrJ5356et/ly+G+i9BYdek1LBpnZ
+   aded+3GXTGnkzVfz8/LFkloUm70xjjSoFiYcWLXazUXfxyS4m3P83aniP
+   S8OgXf3yutsPTO4u+YiZrg3QlBNHkwPsif/It0Rz3pGW8h/bInzJ92mYi
+   Fif8F1nj3m1Kkj+sizF7EigHbXcJ3/rinI2i0mzq9ArMxSyMNEHJq+dwv
+   BgszFIqyw2Q2M7F+CjFChXgLTJHUsQ08cFHcFJaeX6re4l4ThgCXigKh7
+   aVqpEeyPrQeG/i4S43AZz4ZIPkxmoYqupnr4AkHn8pCrFO/tMdUD0OW4A
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="328832118"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="430967134"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 12:34:53 -0700
+   d="scan'208";a="328832118"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 12:54:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="814310303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="690202399"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="814310303"
+   d="scan'208";a="690202399"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Apr 2023 12:34:52 -0700
+  by orsmga002.jf.intel.com with ESMTP; 15 Apr 2023 12:54:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnlff-000bIR-1y;
-	Sat, 15 Apr 2023 19:34:51 +0000
-Date: Sun, 16 Apr 2023 03:34:03 +0800
+	id 1pnlz1-000bJ9-39;
+	Sat, 15 Apr 2023 19:54:51 +0000
+Date: Sun, 16 Apr 2023 03:54:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/629 4863/9838]
- drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state'
- undeclared
-Message-ID: <202304160350.PP8hTqMo-lkp@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: arch/arm/mach-sa1100/assabet.c:746:13: warning: no previous
+ prototype for function 'assabet_init_irq'
+Message-ID: <202304160350.FfJdKRPG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +48,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
+Hi Nathan,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://github.com/Freescale/linux-fslc pr/629
-head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
-commit: d76441df9683065e8b622bc0cdf725ba3b2db0fd [4863/9838] Merge branch 'rpmsg/next' into next
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230416/202304160350.PP8hTqMo-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
+commit: 5eb6e280432ddc9b755193552f3a070da8d7455c ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer
+date:   2 months ago
+config: arm-neponset_defconfig (https://download.01.org/0day-ci/archive/20230416/202304160350.FfJdKRPG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/d76441df9683065e8b622bc0cdf725ba3b2db0fd
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/629
-        git checkout d76441df9683065e8b622bc0cdf725ba3b2db0fd
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5eb6e280432ddc9b755193552f3a070da8d7455c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 5eb6e280432ddc9b755193552f3a070da8d7455c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/pwm/ drivers/soc/imx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/common/ arch/arm/mach-sa1100/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160350.PP8hTqMo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160350.FfJdKRPG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/soc/imx/rpmsg_life_cycle.c: In function 'rpmsg_lifecycle_pm_notify':
->> drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state' undeclared (first use in this function)
-     126 |         if (pm_suspend_target_state != PM_SUSPEND_MEM)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/imx/rpmsg_life_cycle.c:126:13: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/arm/mach-sa1100/assabet.c:746:13: warning: no previous prototype for function 'assabet_init_irq' [-Wmissing-prototypes]
+   void __init assabet_init_irq(void)
+               ^
+   arch/arm/mach-sa1100/assabet.c:746:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init assabet_init_irq(void)
+   ^
+   static 
+   1 warning generated.
+--
+>> arch/arm/common/sa1111.c:699:1: warning: no previous prototype for function 'sa1111_configure_smc' [-Wmissing-prototypes]
+   sa1111_configure_smc(struct sa1111 *sachip, int sdram, unsigned int drac,
+   ^
+   arch/arm/common/sa1111.c:698:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void
+   ^
+   static 
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for RPMSG_VIRTIO
-   Depends on [n]: HAS_DMA [=n]
-   Selected by [m]:
-   - HAVE_IMX_RPMSG [=y] && IMX_MBOX [=m]
-   WARNING: unmet direct dependencies detected for UIO
-   Depends on [n]: MMU [=n]
-   Selected by [m]:
-   - FEC_UIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
 
+vim +/assabet_init_irq +746 arch/arm/mach-sa1100/assabet.c
 
-vim +/pm_suspend_target_state +126 drivers/soc/imx/rpmsg_life_cycle.c
+^1da177e4c3f41 Linus Torvalds 2005-04-16  745  
+b955153bfa68d7 Russell King   2016-08-31 @746  void __init assabet_init_irq(void)
+b955153bfa68d7 Russell King   2016-08-31  747  {
+b955153bfa68d7 Russell King   2016-08-31  748  	u32 def_val;
+b955153bfa68d7 Russell King   2016-08-31  749  
+b955153bfa68d7 Russell King   2016-08-31  750  	sa1100_init_irq();
+b955153bfa68d7 Russell King   2016-08-31  751  
+b955153bfa68d7 Russell King   2016-08-31  752  	if (machine_has_neponset())
+b955153bfa68d7 Russell King   2016-08-31  753  		def_val = ASSABET_BCR_DB1111;
+b955153bfa68d7 Russell King   2016-08-31  754  	else
+b955153bfa68d7 Russell King   2016-08-31  755  		def_val = ASSABET_BCR_DB1110;
+b955153bfa68d7 Russell King   2016-08-31  756  
+b955153bfa68d7 Russell King   2016-08-31  757  	/*
+b955153bfa68d7 Russell King   2016-08-31  758  	 * Angel sets this, but other bootloaders may not.
+b955153bfa68d7 Russell King   2016-08-31  759  	 *
+b955153bfa68d7 Russell King   2016-08-31  760  	 * This must precede any driver calls to BCR_set() or BCR_clear().
+b955153bfa68d7 Russell King   2016-08-31  761  	 */
+20a451f8db4a81 Linus Walleij  2021-07-20  762  	assabet_init_gpio((void *)&ASSABET_BCR, def_val);
+b955153bfa68d7 Russell King   2016-08-31  763  }
+b955153bfa68d7 Russell King   2016-08-31  764  
 
-ef6386e70ae4cf Jacky Bai 2021-09-23  119  
-fb9fd020919b41 Jacky Bai 2021-10-18  120  static int __maybe_unused rpmsg_lifecycle_pm_notify(bool enter)
-fb9fd020919b41 Jacky Bai 2021-10-18  121  {
-fb9fd020919b41 Jacky Bai 2021-10-18  122  	struct pm_rpmsg_data msg = {};
-fb9fd020919b41 Jacky Bai 2021-10-18  123  	int ret;
-fb9fd020919b41 Jacky Bai 2021-10-18  124  
-fb9fd020919b41 Jacky Bai 2021-10-18  125  	/* Only need to do lifecycle notify when APD enter mem(HW PD) mode */
-fb9fd020919b41 Jacky Bai 2021-10-18 @126  	if (pm_suspend_target_state != PM_SUSPEND_MEM)
-fb9fd020919b41 Jacky Bai 2021-10-18  127  		return 0;
-fb9fd020919b41 Jacky Bai 2021-10-18  128  
-fb9fd020919b41 Jacky Bai 2021-10-18  129  	msg.data = enter ? PM_RPMSG_SUSPEND : PM_RPMSG_ACTIVE;
-fb9fd020919b41 Jacky Bai 2021-10-18  130  	msg.header.cate = IMX_RMPSG_LIFECYCLE;
-fb9fd020919b41 Jacky Bai 2021-10-18  131  	msg.header.major = IMX_RMPSG_MAJOR;
-fb9fd020919b41 Jacky Bai 2021-10-18  132  	msg.header.minor = IMX_RMPSG_MINOR;
-fb9fd020919b41 Jacky Bai 2021-10-18  133  	msg.header.type = PM_RPMSG_TYPE;
-fb9fd020919b41 Jacky Bai 2021-10-18  134  	msg.header.cmd = PM_RPMSG_MODE;
-fb9fd020919b41 Jacky Bai 2021-10-18  135  
-fb9fd020919b41 Jacky Bai 2021-10-18  136  	reinit_completion(&cmd_complete);
-fb9fd020919b41 Jacky Bai 2021-10-18  137  
-fb9fd020919b41 Jacky Bai 2021-10-18  138  	ret = rpmsg_send(life_cycle_rpdev->ept, &msg, sizeof(struct pm_rpmsg_data));
-fb9fd020919b41 Jacky Bai 2021-10-18  139  	if (ret) {
-fb9fd020919b41 Jacky Bai 2021-10-18  140  		dev_err(&life_cycle_rpdev->dev, "rpmsg send failed:%d\n", ret);
-fb9fd020919b41 Jacky Bai 2021-10-18  141  		return ret;
-fb9fd020919b41 Jacky Bai 2021-10-18  142  	}
-fb9fd020919b41 Jacky Bai 2021-10-18  143  
-fb9fd020919b41 Jacky Bai 2021-10-18  144  	ret = wait_for_completion_timeout(&cmd_complete,
-fb9fd020919b41 Jacky Bai 2021-10-18  145  					msecs_to_jiffies(RPMSG_TIMEOUT));
-fb9fd020919b41 Jacky Bai 2021-10-18  146  	if (!ret) {
-fb9fd020919b41 Jacky Bai 2021-10-18  147  		dev_err(&life_cycle_rpdev->dev, "rpmsg_send timeout!\n");
-fb9fd020919b41 Jacky Bai 2021-10-18  148  		return -ETIMEDOUT;
-fb9fd020919b41 Jacky Bai 2021-10-18  149  	}
-fb9fd020919b41 Jacky Bai 2021-10-18  150  
-fb9fd020919b41 Jacky Bai 2021-10-18  151  	return 0;
-fb9fd020919b41 Jacky Bai 2021-10-18  152  }
-fb9fd020919b41 Jacky Bai 2021-10-18  153  
+:::::: The code at line 746 was first introduced by commit
+:::::: b955153bfa68d7a9fa2be40bb606cf9578b66511 ARM: sa1100/assabet: add BCR/BSR GPIO driver
 
-:::::: The code at line 126 was first introduced by commit
-:::::: fb9fd020919b41006aab5e892c5c2cb804071cb0 LF-6607-01 soc: imx: Add suspend/resume lifecycle sync support on imx8ulp
-
-:::::: TO: Jacky Bai <ping.bai@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
