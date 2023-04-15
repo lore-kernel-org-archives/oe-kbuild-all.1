@@ -1,42 +1,46 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3949D10E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 08:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3686D7EF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 08:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681545636; x=1713081636;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CA3uenHMu6R2IauDCoZbYSz/bQv3vZxsRlsXEKWZZ6c=;
-  b=V+K5JeHLhRdLZjBMc2wq/pT+0gryqh+ZF5rSH7VgrYoY4Xkmhh65wx20
-   2XMWi1vtZZ97ihDtlw9YL2m4sapdoQx0NnP+BVKPyOnwV9nvznTHRqJ9R
-   AW3k2AtY48mUZUsZlaESS/F24dGueeuM1XkAz5r/B4+HxA/7QPRY/7SQi
-   A4IoqTzLzFLEFolb5AYwd9iAZXYnrgDC6Bv8doWKpNAjTgGl4+zLx3X64
-   lnVyivZOaRu57wXtrSuXHCbGTkwJ4eLpWta7d2e9TWoFrM2IsXHDa4Wxj
-   2/tHrIc3HatGX/bxXzo467f3rBTEyDG0NYMf+y6JpSnLBVKdf3mBjzXZU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324974763"
+  t=1681547486; x=1713083486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bt+KZdRCXHcYjBL+CJ4plANJoXCVg/BAm9vKQVmi004=;
+  b=QIG0JjEuN3t0FB0SPVBLHCm3XFJUjLfjQWZHyV4P/P6wK6wPKYgNKvXz
+   10TIq2z4WbY2AUwAw3d1C+2I44Vf82X8rkOQux4BNK/ivY2gQPfWIU5AS
+   8xLtGNi9dl3VFrxPzXpOEuYuvfMNHkYJ6dQGSrLiaxFwgHXrex50yPK7L
+   dMIj/SLY2VmmUzlsIBj+3V0ExHsyOlNDoVdiRSyFVUgwKXLN/vVevkZuq
+   V2+s2xLxkAHYPRK6bu6BSoR+oBx2YTEV1L2ZKEiyuRzeqIbxkWNNY1UlO
+   lVkebqPQpMHiUXA0oNSYU7pzQroU2Qf53bWKnXNY24DUBFj8Zune6FXjo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="346470703"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="324974763"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 01:00:23 -0700
+   d="scan'208";a="346470703"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 01:31:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722744301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="692720900"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="722744301"
+   d="scan'208";a="692720900"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 15 Apr 2023 01:00:22 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2023 01:31:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnapZ-000aiZ-2E;
-	Sat, 15 Apr 2023 08:00:21 +0000
-Date: Sat, 15 Apr 2023 15:59:28 +0800
+	id 1pnbJa-000ajf-0s;
+	Sat, 15 Apr 2023 08:31:22 +0000
+Date: Sat, 15 Apr 2023 16:30:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/629 420/9838]
- ./usr/include/linux/mxc_v4l2.h:52:9: error: unknown type name 'uint32_t'
-Message-ID: <202304151507.80Ynnpbf-lkp@intel.com>
+To: Kim Seer Paller <kimseer.paller@analog.com>, lars@metafoo.de,
+	jic23@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kimseer.paller@analog.com
+Subject: Re: [PATCH 1/2] dt-bindings:iio:adc: add max14001 bindings
+Message-ID: <202304151615.k0j79iDf-lkp@intel.com>
+References: <20230414102844.21579-1-kimseer.paller@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,38 +49,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230414102844.21579-1-kimseer.paller@analog.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/629
-head:   d1033c2e51746dfdb7179c82e38b03ba7de39c63
-commit: 317b1cf90ab94b50bef4c49148f8726aa1e42ea1 [420/9838] media: capture: add mxc v4l2 capture driver
-config: x86_64-randconfig-a014-20230410 (https://download.01.org/0day-ci/archive/20230415/202304151507.80Ynnpbf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/Freescale/linux-fslc/commit/317b1cf90ab94b50bef4c49148f8726aa1e42ea1
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/629
-        git checkout 317b1cf90ab94b50bef4c49148f8726aa1e42ea1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Hi Kim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Seer-Paller/iio-adc-add-max14001-support/20230414-183416
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230414102844.21579-1-kimseer.paller%40analog.com
+patch subject: [PATCH 1/2] dt-bindings:iio:adc: add max14001 bindings
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/8e4267ba9a592dc820ad029c5e602098ec981159
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kim-Seer-Paller/iio-adc-add-max14001-support/20230414-183416
+        git checkout 8e4267ba9a592dc820ad029c5e602098ec981159
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304151507.80Ynnpbf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304151615.k0j79iDf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/mxc_v4l2.h:52:9: error: unknown type name 'uint32_t'
-      52 |         uint32_t u_offset;
-         |         ^~~~~~~~
-   ./usr/include/linux/mxc_v4l2.h:53:9: error: unknown type name 'uint32_t'
-      53 |         uint32_t v_offset;
-         |         ^~~~~~~~
->> ./usr/include/linux/mxc_v4l2.h:57:9: error: unknown type name '__u32'
-      57 |         __u32                   type;   /* enum v4l2_buf_type */
-         |         ^~~~~
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/iio/dac/adi,max14001.yaml
 
 -- 
 0-DAY CI Kernel Test Service
