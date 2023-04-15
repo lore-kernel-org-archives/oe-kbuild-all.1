@@ -1,44 +1,43 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7EB7EA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 06:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E60EA3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 06:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681541119; x=1713077119;
+  t=1681541121; x=1713077121;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8jq2WECQ2oaqdz/nj/RNc82Kzb1caH1O0gQzuQI82ts=;
-  b=dT0aZZWVF/qI43fN80ROcot232iG9VQ90XwZuCmIBHmJsg3wGOVdLTdM
-   MA7RaxDjkevZeMSSjqw+IsiY/YWA1L4RM7puU3AQf+q3qrWkl/uV24VyP
-   dsjT1XgW+6xSvMviuhu7qcyBQAq1fDfnUx0P7YYqlurkj4rh91tfkgTEH
-   DPwilkta9a8IVjAokIYSJ0nyoy8g0/qn6699ur4nK0EkSDYhNViLb4CZc
-   AZrlacAANZOJ5/8LWxmimyz9W+SFHkd3YJwfrua3Taby2vBgW/bxdNYY2
-   QR7+iDJhehknSAfaaMC2Nu+6gxEq7qsyZssakBgWH3xaj1mX8ST71GI9H
+  bh=K3P+pYyUtqeycPDBVmalyAIlj8cXFHBqkbSiNl0WWzA=;
+  b=J3uTt/M23vnLG/R6SIz7kXrIpAQFAFHfijNtyx7ugLHLYjg1bM1mdNcb
+   FF7v96gYyJYq1lBKsTff83xzYCqnU2AsATqkirpm2ruSWc+tTa02P56NJ
+   hzJY/pKwGTNkMQUdPIIv7p2m/QD8GFS0gmAdDhLxmoWUEn6JsoyOi1ZIA
+   Pe2mMJ4tMvGg8t+KF2LSPoh/ud7oZV/Tu3ocmF36Kzj54CWHLyBkFxoW4
+   YCwhWOkiDjWbP+Py/MPPEJeAvJz+63ChGaxpylXOtsMZAi/GbeyHRwjpF
+   yqXVxgWsxD/rKGF1hz5w8h9/skQzAtSx0lHvteNk2Kt9e3bPyBHqRYQxn
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="346465105"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="346465107"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="346465105"
+   d="scan'208";a="346465107"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 23:45:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722724082"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="722724083"
 X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="722724082"
+   d="scan'208";a="722724083"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 14 Apr 2023 23:45:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnZev-000ac5-26;
+	id 1pnZev-000acH-2N;
 	Sat, 15 Apr 2023 06:45:17 +0000
-Date: Sat, 15 Apr 2023 14:45:09 +0800
+Date: Sat, 15 Apr 2023 14:45:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [spandruvada:intel_tpmi_uncore 62/65]
- drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c:331:27:
- error: initialization of 'void (*)(struct auxiliary_device *)' from
- incompatible pointer type 'int (*)(struct auxiliary_device *)'
-Message-ID: <202304151445.2aHiym7P-lkp@intel.com>
+Subject: [jpoimboe:objtool-debug 8/8] arch/x86/kernel/head64.o: warning:
+ objtool: x86_64_start_reservations() falls through to next function
+ clear_bss()
+Message-ID: <202304151401.OyrjZ9en-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +47,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/spandruvada/linux-kernel intel_tpmi_uncore
-head:   86f738b1487c199ca6066ed10af09667e684180e
-commit: 1f86cedfe5d33dd44555736521d63812ce3e19ea [62/65] platform/x86/intel-uncore-freq: Uncore frequency control via TPMI
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230415/202304151445.2aHiym7P-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-debug
+head:   e98151beddae6d081bff7091b31f5a31c1b89b02
+commit: e98151beddae6d081bff7091b31f5a31c1b89b02 [8/8] objtool: Move list of noreturn functions to separate file
+config: x86_64-randconfig-a014-20230410 (https://download.01.org/0day-ci/archive/20230415/202304151401.OyrjZ9en-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/spandruvada/linux-kernel/commit/1f86cedfe5d33dd44555736521d63812ce3e19ea
-        git remote add spandruvada https://github.com/spandruvada/linux-kernel
-        git fetch --no-tags spandruvada intel_tpmi_uncore
-        git checkout 1f86cedfe5d33dd44555736521d63812ce3e19ea
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=e98151beddae6d081bff7091b31f5a31c1b89b02
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe objtool-debug
+        git checkout e98151beddae6d081bff7091b31f5a31c1b89b02
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/ crypto// drivers/ fs/ init// io_uring// kernel// lib// sound/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304151445.2aHiym7P-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304151401.OyrjZ9en-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c:331:27: error: initialization of 'void (*)(struct auxiliary_device *)' from incompatible pointer type 'int (*)(struct auxiliary_device *)' [-Werror=incompatible-pointer-types]
-     331 |         .remove         = uncore_remove,
-         |                           ^~~~~~~~~~~~~
-   drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c:331:27: note: (near initialization for 'intel_uncore_aux_driver.remove')
-   cc1: some warnings being treated as errors
-
-
-vim +331 drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c
-
-   328	
-   329	static struct auxiliary_driver intel_uncore_aux_driver = {
-   330		.id_table       = intel_uncore_id_table,
- > 331		.remove         = uncore_remove,
-   332		.probe          = uncore_probe,
-   333	};
-   334	
+>> drivers/tty/sysrq.o: warning: objtool: sysrq_handle_crash() falls through to next function sysrq_connect()
+--
+>> fs/cifs/connect.o: warning: objtool: cifs_demultiplex_thread() falls through to next function cifs_match_ipaddr()
+--
+>> drivers/staging/rts5208/rtsx.o: warning: objtool: rtsx_scan_thread() falls through to next function rtsx_control_thread()
+>> drivers/staging/rts5208/rtsx.o: warning: objtool: rtsx_control_thread() falls through to next function slave_configure()
+--
+>> arch/x86/kernel/traps.o: warning: objtool: exc_double_fault() falls through to next function exc_bounds()
+--
+>> arch/x86/kernel/reboot.o: warning: objtool: native_machine_halt() falls through to next function native_machine_restart()
+--
+>> arch/x86/kernel/head64.o: warning: objtool: x86_64_start_reservations() falls through to next function clear_bss()
+--
+>> arch/x86/mm/init_64.o: warning: objtool: mem_init() falls through to next function set_memory_block_size_order()
+--
+>> sound/core/init.o: warning: objtool: snd_disconnect_release() falls through to next function snd_card_set_id()
 
 -- 
 0-DAY CI Kernel Test Service
