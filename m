@@ -1,42 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5266A79E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325AB813
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 21:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1681594737; x=1713130737;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D/c39fyIu0qirJAE28j5niB+ycZ9BoX9+IJWDL8114U=;
-  b=FhNO2FYZV3m6D8HIc2NHpsknRsFZFQySdFnk70qyOvY++CDfrB8pecVA
-   E443Lhz2B7tp2xy7eV0G//ptOhnx11/uuuuGCTkIm4EHrQgpgju0O1F08
-   bE2aQATYHV8FOdBrSc09Q6jwGg2/pOkX+vT1JuSqW7c742AVqn8Y8t+8E
-   rxJFr9+ZmW33kDk9HPQQDychwT19vG+NcLcxEdUeNAHXgVi9lBkWDoSpY
-   4sEtNew4vXR83aFO2Jr0nNWaKTK6GWg1mQRJoOlpGvl3h+6nivxHpus+H
-   tlT3K3wRzEkiaM/7BfPRuBqQmvZv5W3O187KhRd2V+fCp2NQc9pEe8A8z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="325026332"
+  bh=MSQtiTQc5LSLFrYuJwyn6aNZzp3YlTusNyRJcf2RVk0=;
+  b=WJEbpze3T4B2wd6Afc3XPpdo5ovPGIEHf4O7izIMhA5twrT8sI5qyOM5
+   xBBr7kr/qZR9TEcWv1yhbPj+Jdgf8dZC3xBsTRoMhPb5aIn+jy5V1xEv1
+   Yvt6CyunVMAn1bOHomnCn5hAmxl6HYtnanloU3NDXm7OGG2eYSix9UIXX
+   L3r4ublzNaq5ipknHziPdVAHOzkc6o0WueBG0W/yqnjdU/pBkv/Fatvgw
+   LV+LfhWG69cJJG1ei/Aos6AUNseyzubRSNmCAffoKa4ihTeoSsPEG8gTO
+   U71eI4k+jU3YqOt53EuFdb6xIrj1B9EZqhj0jZcWcdxE9iwsNpzG68CT1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="346525815"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="325026332"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 14:38:56 -0700
+   d="scan'208";a="346525815"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 14:38:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="814324012"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="864575956"
 X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="814324012"
+   d="scan'208";a="864575956"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Apr 2023 14:38:55 -0700
+  by orsmga005.jf.intel.com with ESMTP; 15 Apr 2023 14:38:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnnbh-000bMm-3C;
+	id 1pnnbh-000bMj-39;
 	Sat, 15 Apr 2023 21:38:53 +0000
-Date: Sun, 16 Apr 2023 05:38:24 +0800
+Date: Sun, 16 Apr 2023 05:38:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [omap-audio:peter/linux-next-wip 14/48]
- sound/soc/soc-utils.c:243:34: warning: 'soc_dummy_ids' defined but not used
-Message-ID: <202304160509.oMbuoMEt-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-stable-rc:queue/5.10 68/68]
+ drivers/gpu/drm/i915/display/icl_dsi.c:283:13: error: implicit declaration
+ of function 'DISPLAY_VER'; did you mean 'DISPLAYID_EXT'?
+Message-ID: <202304160515.FNtykEJ1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,41 +49,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
-head:   81cfa47ce512c163ac0f26afd1b161d7f69b92f0
-commit: b4e0343e19f09995f6db80eee41e67211d334674 [14/48] ASoC: soc-utils: HACK: DT binding for snd-soc-dummy
-config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230416/202304160509.oMbuoMEt-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.10
+head:   a0049fd9c865939ea0cf399d2440d1f5fc1c72c0
+commit: a0049fd9c865939ea0cf399d2440d1f5fc1c72c0 [68/68] drm/i915/dsi: fix DSS CTL register offsets for TGL+
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230416/202304160515.FNtykEJ1-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/omap-audio/linux-audio/commit/b4e0343e19f09995f6db80eee41e67211d334674
-        git remote add omap-audio https://github.com/omap-audio/linux-audio
-        git fetch --no-tags omap-audio peter/linux-next-wip
-        git checkout b4e0343e19f09995f6db80eee41e67211d334674
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=a0049fd9c865939ea0cf399d2440d1f5fc1c72c0
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/5.10
+        git checkout a0049fd9c865939ea0cf399d2440d1f5fc1c72c0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160509.oMbuoMEt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160515.FNtykEJ1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/soc-utils.c:243:34: warning: 'soc_dummy_ids' defined but not used [-Wunused-const-variable=]
-     243 | static const struct of_device_id soc_dummy_ids[] = {
-         |                                  ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/icl_dsi.c: In function 'configure_dual_link_mode':
+>> drivers/gpu/drm/i915/display/icl_dsi.c:283:13: error: implicit declaration of function 'DISPLAY_VER'; did you mean 'DISPLAYID_EXT'? [-Werror=implicit-function-declaration]
+     283 |         if (DISPLAY_VER(dev_priv) >= 12) {
+         |             ^~~~~~~~~~~
+         |             DISPLAYID_EXT
+   cc1: all warnings being treated as errors
 
 
-vim +/soc_dummy_ids +243 sound/soc/soc-utils.c
+vim +283 drivers/gpu/drm/i915/display/icl_dsi.c
 
-   242	
- > 243	static const struct of_device_id soc_dummy_ids[] = {
-   244		{ .compatible = "linux,snd-soc-dummy", },
-   245		{ }
-   246	};
-   247	MODULE_DEVICE_TABLE(of, soc_dummy_ids);
-   248	
+   273	
+   274	static void configure_dual_link_mode(struct intel_encoder *encoder,
+   275					     const struct intel_crtc_state *pipe_config)
+   276	{
+   277		struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+   278		struct intel_dsi *intel_dsi = enc_to_intel_dsi(encoder);
+   279		i915_reg_t dss_ctl1_reg, dss_ctl2_reg;
+   280		u32 dss_ctl1;
+   281	
+   282		/* FIXME: Move all DSS handling to intel_vdsc.c */
+ > 283		if (DISPLAY_VER(dev_priv) >= 12) {
+   284			struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+   285	
+   286			dss_ctl1_reg = ICL_PIPE_DSS_CTL1(crtc->pipe);
+   287			dss_ctl2_reg = ICL_PIPE_DSS_CTL2(crtc->pipe);
+   288		} else {
+   289			dss_ctl1_reg = DSS_CTL1;
+   290			dss_ctl2_reg = DSS_CTL2;
+   291		}
+   292	
+   293		dss_ctl1 = intel_de_read(dev_priv, dss_ctl1_reg);
+   294		dss_ctl1 |= SPLITTER_ENABLE;
+   295		dss_ctl1 &= ~OVERLAP_PIXELS_MASK;
+   296		dss_ctl1 |= OVERLAP_PIXELS(intel_dsi->pixel_overlap);
+   297	
+   298		if (intel_dsi->dual_link == DSI_DUAL_LINK_FRONT_BACK) {
+   299			const struct drm_display_mode *adjusted_mode =
+   300						&pipe_config->hw.adjusted_mode;
+   301			u32 dss_ctl2;
+   302			u16 hactive = adjusted_mode->crtc_hdisplay;
+   303			u16 dl_buffer_depth;
+   304	
+   305			dss_ctl1 &= ~DUAL_LINK_MODE_INTERLEAVE;
+   306			dl_buffer_depth = hactive / 2 + intel_dsi->pixel_overlap;
+   307	
+   308			if (dl_buffer_depth > MAX_DL_BUFFER_TARGET_DEPTH)
+   309				drm_err(&dev_priv->drm,
+   310					"DL buffer depth exceed max value\n");
+   311	
+   312			dss_ctl1 &= ~LEFT_DL_BUF_TARGET_DEPTH_MASK;
+   313			dss_ctl1 |= LEFT_DL_BUF_TARGET_DEPTH(dl_buffer_depth);
+   314			dss_ctl2 = intel_de_read(dev_priv, dss_ctl2_reg);
+   315			dss_ctl2 &= ~RIGHT_DL_BUF_TARGET_DEPTH_MASK;
+   316			dss_ctl2 |= RIGHT_DL_BUF_TARGET_DEPTH(dl_buffer_depth);
+   317			intel_de_write(dev_priv, dss_ctl2_reg, dss_ctl2);
+   318		} else {
+   319			/* Interleave */
+   320			dss_ctl1 |= DUAL_LINK_MODE_INTERLEAVE;
+   321		}
+   322	
+   323		intel_de_write(dev_priv, dss_ctl1_reg, dss_ctl1);
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
