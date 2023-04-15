@@ -1,95 +1,84 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D133D813;
-	Sat, 15 Apr 2023 20:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681591017; x=1713127017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9iZGajGkwfSEo9OapwAQBNWHmJAD3OotwdQ+yG7ORnU=;
-  b=EPfiBzVW1SnqzvMOn11S6YD3qG+AjVr3KnjuW43WolpwGcSIwYahvPZP
-   8JsTyBuroBDgRC+NggQLfmSgTMDwoScCaRfTV5anUcymVsE1/xx5ociK/
-   PERsbfNMaSxLfTmRc2Lu7BOFNVxG8m7+6lgHXQHkFFlEBqD8iudMoMm/d
-   SRxvVBd23VCti0iL5XiRqhWxnueKHPIVRaWkFsM7ugl/VSQ3bAPkO3fLO
-   XmQaq7e6eDRSXLuuyVHnHBjGhZj6ZbFJ/hAz7SukJlPDxa/YH8qJlb+4e
-   Edo4Gg4ZodG52eBIlcYnBu2Lvcixb3txAGmKWjP0bbYU/DOuuQFIJuMkz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="333466734"
-X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="333466734"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 13:36:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="720690216"
-X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="720690216"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 Apr 2023 13:36:53 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pnmdh-000bLD-0S;
-	Sat, 15 Apr 2023 20:36:53 +0000
-Date: Sun, 16 Apr 2023 04:36:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan McDowell <noodles@earth.li>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
-Message-ID: <202304160423.TaGIRb5X-lkp@intel.com>
-References: <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB976813
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 20:40:58 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-3e699254ac4so8634441cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Apr 2023 13:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1681591258; x=1684183258;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K5ZpJOS2H9PgGp4Q72WdTfSs9gPQF5dEYfpY40h9OUQ=;
+        b=UzU//76cztdU1LgexNLanS+PonvEY1gfbmf2XiwBHWabM0B+HR+5mkKYMsJklwCCn/
+         D5bcRCSYS143FhZdjgcNigSfttd9A+nUNaSO8oI9FcIbEQcL+e5M6JLXwQJ36h5j4cWw
+         9Y87Z871/OiG5GP0uPnJxCGb0J1Q3je9mvsT5eLZICyaQaXJFk38RCH6wZI6fMyCoA03
+         ig/CUVoT4ZH8CnNByrhBkIojoU+mZC+T/3OV1nMOMHShB6czLciDHtzBzG6WajheDuS0
+         mpGwt9J6iuTLkiRY8Nv8/67dpQ4L1Q51NpHQLMMqBDZGgRUPlFtGugqsj/pi8PLZ9Rgm
+         NeTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681591258; x=1684183258;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K5ZpJOS2H9PgGp4Q72WdTfSs9gPQF5dEYfpY40h9OUQ=;
+        b=ayAwA7bfAGNEJtph+xjZ1y3Hk/yTKc8allDbV0l8qoYFEMwdt9xdZJEYFTEjbgQkD9
+         2FNq4uu5/qN0CYkWoMYuJ2suGP2ucPqvIugClQ7I09UL4VEL3LTZoKC/xMygUaFYWcsq
+         bWsYOEZEMEo4X3g4HVB7Qm5aLQCm6tS7pwAQyNLCFEOFwZFpFvuGkb6e1dlCRQVLrZwG
+         U8/ZGT74cO9WtJlYMdjSkVwxGnaLN8jni1Tv3rFiqW4JpeBbsYzihUMCDtDGkHV+p/mx
+         8S9fjXrtfEDMcXVnJnp1uYx5kOMEZLhijAyY6bwSsL2QQkFWCLXn2ob2Ju/rUQqu849x
+         aXXA==
+X-Gm-Message-State: AAQBX9eJZyBjFt25FFydyCaGku1HJ9v9w7mLOrxi6QWd0KuV4/xEVvl6
+	0iEPw2UfWsWz8AYe+lRjB++tHQ==
+X-Google-Smtp-Source: AKy350b7Jgq/iFYYGf1L3SXkiJAspR6o8DYiL85urxLnUkV+LsBU0p8W38LeUr7ZJa9KfcGW8yLuuw==
+X-Received: by 2002:a05:6214:3011:b0:5ef:5132:7ad7 with SMTP id ke17-20020a056214301100b005ef51327ad7mr9930130qvb.2.1681591257782;
+        Sat, 15 Apr 2023 13:40:57 -0700 (PDT)
+Received: from [127.0.0.1] ([216.250.210.6])
+        by smtp.gmail.com with ESMTPSA id pp26-20020a056214139a00b005dd8b934571sm1996244qvb.9.2023.04.15.13.40.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 13:40:57 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: lkp@intel.com, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, shinichiro.kawasaki@wdc.com, 
+ chaitanyak@nvidia.com, akpm@linux-foundation.org, hch@infradead.org
+In-Reply-To: <20230415125705.180426-1-akinobu.mita@gmail.com>
+References: <202304150025.K0hczLR4-lkp@intel.com>
+ <20230415125705.180426-1-akinobu.mita@gmail.com>
+Subject: Re: [PATCH -block] fault-inject: fix build error when
+ FAULT_INJECTION_CONFIGFS=y and CONFIGFS_FS=m
+Message-Id: <168159125392.9478.18069985091201670556.b4-ty@kernel.dk>
+Date: Sat, 15 Apr 2023 14:40:53 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-00303
 
-Hi Jonathan,
 
-kernel test robot noticed the following build errors:
+On Sat, 15 Apr 2023 21:57:05 +0900, Akinobu Mita wrote:
+> This fixes a build error when CONFIG_FAULT_INJECTION_CONFIGFS=y and
+> CONFIG_CONFIGFS_FS=m.
+> 
+> Since the fault-injection library cannot built as a module, avoid building
+> configfs as a module.
+> 
+> 
+> [...]
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Applied, thanks!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-McDowell/ARM-dts-sun5i-chip-Enable-bluetooth/20230416-014856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles%40earth.li
-patch subject: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230416/202304160423.TaGIRb5X-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7eb91ccc0e287519d5df2e97e81c3bee553e3535
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-McDowell/ARM-dts-sun5i-chip-Enable-bluetooth/20230416-014856
-        git checkout 7eb91ccc0e287519d5df2e97e81c3bee553e3535
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+[1/1] fault-inject: fix build error when FAULT_INJECTION_CONFIGFS=y and CONFIGFS_FS=m
+      commit: 5347c9321845e5a94be19ea951746d4f2b8b194f
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160423.TaGIRb5X-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm/boot/dts/sun5i-r8-chip.dts:262.1-2 syntax error
-   FATAL ERROR: Unable to parse input tree
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Jens Axboe
+
+
+
