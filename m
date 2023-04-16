@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619057B;
-	Sun, 16 Apr 2023 00:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C926A40
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Apr 2023 01:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681604100; x=1713140100;
+  t=1681607220; x=1713143220;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aLG3LVTA7bxucq+WjXH8rOi7AHL4o8HgjGHC/Ra5xpk=;
-  b=EqmHRLCtUXmFxIqIgIUauxRPbPFNTPL2mAHU7aqSo9oMo/JOHPzsSwlq
-   vw9AD8545fxPlx6aojGTpgR3VBuhbrCFHaXmoWg/JLJjDg4/3BNrVGjPO
-   C7ngLuwlEye1BOF4VteZf8BO0fUnFcE78XL45mak3vHL+S5iC0LZGZwLx
-   8wJUFxXpLCq44sDb/ri6I5e8FfM7GMbkpQqzTo6U5DQzinMT7DgDq+jO6
-   O+l72seoZ8bswKgG6SLkkPdTYxxV/985PoAidJVtWya2JDX8HlWEvsyMw
-   0w7RkHY2Rn+avdU5/3rxKATwCSF/iG26T3Vw9i1h6Gp4rUA/vazxrWRMj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="347418970"
+  bh=c4nRC9M3DTUA+TfGP/E7/osftEaD3NYcWW8mvdzYS24=;
+  b=lG0V46y68fUBQri+U0n5hfsxlu7qbDU5uZ59AoQQ+JAM+gue1YYCv/uB
+   18yDp0EuHHZc5VA4YIiM/Pa8dL62RRl4rzXOQqMWSi83/nLGdcGui711E
+   QD2UG8i5sU/jhfKOOYCVW5uMWK5PKuRtdsQEfz1tOcdXGKzE2ggecs9Ql
+   Yj84j+ilKQ25UzNOEWb8D0bo6w8wdQp/n3MgLTyjnjMNI3N4zKpOGLG2e
+   haFsL5nD0K3IU2vXqf20GkeBHVZxcT1mWr5TIHuHOTY2sP9yUFnvQmKbr
+   LNZWqKnRoV8ArTe+++tkCz9sAfHWV4ivmFIN4BA2tBeUuYCQzEzuAcQfa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="372567931"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="347418970"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 17:14:59 -0700
+   d="scan'208";a="372567931"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 18:06:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="754888043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="1020000743"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="754888043"
+   d="scan'208";a="1020000743"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Apr 2023 17:14:57 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 15 Apr 2023 18:06:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnq2i-000bQl-37;
-	Sun, 16 Apr 2023 00:14:56 +0000
-Date: Sun, 16 Apr 2023 08:14:30 +0800
+	id 1pnqr3-000bS5-2i;
+	Sun, 16 Apr 2023 01:06:57 +0000
+Date: Sun, 16 Apr 2023 09:06:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [tip:irq/urgent 1/1] drivers/pci/msi/msi.c:763:18: error: use of
- undeclared identifier 'nvec'; did you mean 'nvev'?
-Message-ID: <202304160844.cCgXqLn2-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.4 42/55] drivers/clk/sprd/common.c:54:24:
+ error: implicit declaration of function
+ 'devm_platform_get_and_ioremap_resource'; did you mean
+ 'devm_platform_ioremap_resource'?
+Message-ID: <202304160824.N3uneI0H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,140 +48,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/urgent
-head:   84d9651e13fb9820041d19262a55906851524c0f
-commit: 84d9651e13fb9820041d19262a55906851524c0f [1/1] PCI/MSI: Remove over-zealous hardware size check in pci_msix_validate_entries()
-config: s390-randconfig-r035-20230416 (https://download.01.org/0day-ci/archive/20230416/202304160844.cCgXqLn2-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
+head:   f1644c8e3a228f45290da7c56e23b0f10baf3565
+commit: b9c86282636aa2fc71680d65461885767f41b0bb [42/55] clk: sprd: set max_register according to mapping range
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230416/202304160824.N3uneI0H-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=84d9651e13fb9820041d19262a55906851524c0f
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip irq/urgent
-        git checkout 84d9651e13fb9820041d19262a55906851524c0f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=b9c86282636aa2fc71680d65461885767f41b0bb
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-5.4
+        git checkout b9c86282636aa2fc71680d65461885767f41b0bb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/pci/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/sprd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160844.cCgXqLn2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304160824.N3uneI0H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/msi/msi.c:11:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/pci/msi/msi.c:11:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/pci/msi/msi.c:11:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/pci/msi/msi.c:763:18: error: use of undeclared identifier 'nvec'; did you mean 'nvev'?
-           for (i = 0; i < nvec; i++) {
-                           ^~~~
-                           nvev
-   drivers/pci/msi/msi.c:753:92: note: 'nvev' declared here
-   static bool pci_msix_validate_entries(struct pci_dev *dev, struct msix_entry *entries, int nvev)
-                                                                                              ^
-   drivers/pci/msi/msi.c:765:23: error: use of undeclared identifier 'nvec'; did you mean 'nvev'?
-                   for (j = i + 1; j < nvec; j++) {
-                                       ^~~~
-                                       nvev
-   drivers/pci/msi/msi.c:753:92: note: 'nvev' declared here
-   static bool pci_msix_validate_entries(struct pci_dev *dev, struct msix_entry *entries, int nvev)
-                                                                                              ^
-   12 warnings and 2 errors generated.
+   drivers/clk/sprd/common.c: In function 'sprd_clk_regmap_init':
+>> drivers/clk/sprd/common.c:54:24: error: implicit declaration of function 'devm_platform_get_and_ioremap_resource'; did you mean 'devm_platform_ioremap_resource'? [-Werror=implicit-function-declaration]
+      54 |                 base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                        devm_platform_ioremap_resource
+>> drivers/clk/sprd/common.c:54:22: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      54 |                 base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+         |                      ^
+   cc1: some warnings being treated as errors
 
 
-vim +763 drivers/pci/msi/msi.c
+vim +54 drivers/clk/sprd/common.c
 
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  752  
-84d9651e13fb98 drivers/pci/msi/msi.c Thomas Gleixner   2023-04-10  753  static bool pci_msix_validate_entries(struct pci_dev *dev, struct msix_entry *entries, int nvev)
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  754  {
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  755  	bool nogap;
-ded86d8d37736d drivers/pci/msi.c     Eric W. Biederman 2007-01-28  756  	int i, j;
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  757  
-bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  758  	if (!entries)
-bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  759  		return true;
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  760  
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  761  	nogap = pci_msi_domain_supports(dev, MSI_FLAG_MSIX_CONTIGUOUS, DENY_LEGACY);
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  762  
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16 @763  	for (i = 0; i < nvec; i++) {
-bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  764  		/* Check for duplicate entries */
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  765  		for (j = i + 1; j < nvec; j++) {
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  766  			if (entries[i].entry == entries[j].entry)
-bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  767  				return false;
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  768  		}
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  769  		/* Check for unsupported gaps */
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  770  		if (nogap && entries[i].entry != i)
-4644d22eb673f1 drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  771  			return false;
-^1da177e4c3f41 drivers/pci/msi.c     Linus Torvalds    2005-04-16  772  	}
-bab65e48cb064d drivers/pci/msi/msi.c Thomas Gleixner   2022-11-11  773  	return true;
-3ac020e0ca8bef drivers/pci/msi.c     Christoph Hellwig 2016-07-12  774  }
-7bd007e480672c drivers/pci/msi.c     Eric W. Biederman 2006-10-04  775  
-
-:::::: The code at line 763 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    37	
+    38	int sprd_clk_regmap_init(struct platform_device *pdev,
+    39				 const struct sprd_clk_desc *desc)
+    40	{
+    41		void __iomem *base;
+    42		struct device_node *node = pdev->dev.of_node;
+    43		struct regmap *regmap;
+    44		struct resource *res;
+    45		struct regmap_config reg_config = sprdclk_regmap_config;
+    46	
+    47		if (of_find_property(node, "sprd,syscon", NULL)) {
+    48			regmap = syscon_regmap_lookup_by_phandle(node, "sprd,syscon");
+    49			if (IS_ERR(regmap)) {
+    50				pr_err("%s: failed to get syscon regmap\n", __func__);
+    51				return PTR_ERR(regmap);
+    52			}
+    53		} else {
+  > 54			base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+    55			if (IS_ERR(base))
+    56				return PTR_ERR(base);
+    57	
+    58			reg_config.max_register = resource_size(res) - reg_config.reg_stride;
+    59	
+    60			regmap = devm_regmap_init_mmio(&pdev->dev, base,
+    61						       &reg_config);
+    62			if (IS_ERR(regmap)) {
+    63				pr_err("failed to init regmap\n");
+    64				return PTR_ERR(regmap);
+    65			}
+    66		}
+    67	
+    68		sprd_clk_set_regmap(desc, regmap);
+    69	
+    70		return 0;
+    71	}
+    72	EXPORT_SYMBOL_GPL(sprd_clk_regmap_init);
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
