@@ -1,43 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C068E4C79
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Apr 2023 20:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96145383
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Apr 2023 20:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681675877; x=1713211877;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IWA/kl2lEi3P4hvy6QNDsKRgT8+/hgOYV/Ka+sKbZnk=;
-  b=Yc8S6wdomsbjvcYacQ+r9kd5PnEKSg725Q9PejZmaW+dpcjL9dsCsnjT
-   xZFX6Vw3g8Jh4pqo1bUODu4ogZVFRuWTxDrEXUsC6lkhkIortiy8G/vxM
-   gWC83l/rEPmak8HjHCB+goh3ZdOcp4fnudHn9yzHp4dTrFMFKmdA2Bt+k
-   GBmATmpIkt2RWuLgAp+wN/WjjBD7Xt9RtpDZiSv0v61nrywgPGLNhiVBl
-   suo6YzxYfMbo8GIVaUGprij8CnjtYnIF0zrqlmRvlkK19JjpKdKt4G1R6
-   +QCf9B+ZPxnL8eXKl/YaFjtvYAf2uzeG1pqROjka4BWHIGYOZLUxE0rio
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="344759896"
+  t=1681675880; x=1713211880;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4LSU7F5ebPSrVIc75UbNBTEwz24sI0VT5yFYJOaO0ng=;
+  b=FThFmfhg633Kp9IFVZoAE9nz9zxfFX3wvJfZjtzDb0i3tpbIqwP9ddny
+   raV7QMqcmuKwaD5xv+k7ZXYwKSAPSLyCHygxqvZubNbNPIj7oaJMPXdUI
+   RATuKJGZdMjsKrmKHIPdfRk2xjRLdL6LM9Y7r5gimk6rgIniNcMeRnnMq
+   d3u4JwRw/k2b94vlZqfZ+HMplcSsiHJG+LPq7n7b994j/EGrJQuXhp2rA
+   4NymG7Ru5/7KYuRl4jbEGbzE1qCKXikQRBHa75hVMS16NK6PgSCscMPb1
+   EsRl8XHkxFd2U5CqXOxTsARmzeGN34vVJHWN07NBkuXpZRRPXY+VQobV6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="344759898"
 X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; 
-   d="scan'208";a="344759896"
+   d="scan'208";a="344759898"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2023 13:11:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="640737609"
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="640737615"
 X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; 
-   d="scan'208";a="640737609"
+   d="scan'208";a="640737615"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 16 Apr 2023 13:11:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1po8iQ-000bpD-1I;
+	id 1po8iQ-000bpH-1R;
 	Sun, 16 Apr 2023 20:11:14 +0000
-Date: Mon, 17 Apr 2023 04:10:35 +0800
+Date: Mon, 17 Apr 2023 04:10:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
+To: bingbu.cao@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:track/next 202/203]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_dccg.c:277:6:
- warning: no previous prototype for 'dccg314_init'
-Message-ID: <202304170447.Z8pu0ZsG-lkp@intel.com>
+Subject: Re: [RFC PATCH 12/14] media: add Kconfig and Makefile for IPU6
+Message-ID: <202304170317.nncIh6Gk-lkp@intel.com>
+References: <20230413100429.919622-13-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,74 +46,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230413100429.919622-13-bingbu.cao@intel.com>
 
-Hi Mark,
+Hi,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/krzk/linux track/next
-head:   d3f2cd24819158bb70701c3549e586f9df9cee67
-commit: ab7cc86660bf41380bfa9cc79bf9103b91b16b13 [202/203] drm: Fix up merge issue
-config: arm64-randconfig-r033-20230417 (https://download.01.org/0day-ci/archive/20230417/202304170447.Z8pu0ZsG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master sailus-media-tree/streams v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-intel-ipu6-add-Intel-IPU6-PCI-device-driver/20230413-175746
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230413100429.919622-13-bingbu.cao%40intel.com
+patch subject: [RFC PATCH 12/14] media: add Kconfig and Makefile for IPU6
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230417/202304170317.nncIh6Gk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/ab7cc86660bf41380bfa9cc79bf9103b91b16b13
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github track/next
-        git checkout ab7cc86660bf41380bfa9cc79bf9103b91b16b13
+        # https://github.com/intel-lab-lkp/linux/commit/845e01f6490aadbb154545367590d2dc73e08014
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review bingbu-cao-intel-com/media-intel-ipu6-add-Intel-IPU6-PCI-device-driver/20230413-175746
+        git checkout 845e01f6490aadbb154545367590d2dc73e08014
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
+        make W=1 O=build_dir ARCH=um olddefconfig
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304170447.Z8pu0ZsG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304170317.nncIh6Gk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_dccg.c:277:6: warning: no previous prototype for 'dccg314_init' [-Wmissing-prototypes]
-     277 | void dccg314_init(struct dccg *dccg)
-         |      ^~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-fw-isys.c: In function 'ipu6_fw_isys_complex_cmd':
+>> drivers/media/pci/intel/ipu6/ipu6-fw-isys.c:185:17: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
+     185 |                 clflush_cache_range(cpu_mapped_buf, size);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 flush_cache_range
+   cc1: some warnings being treated as errors
+--
+   drivers/media/pci/intel/ipu6/ipu6-dma.c: In function '__dma_clear_buffer':
+>> drivers/media/pci/intel/ipu6/ipu6-dma.c:55:17: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
+      55 |                 clflush_cache_range(ptr, size);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 flush_cache_range
+   cc1: some warnings being treated as errors
+--
+   drivers/media/pci/intel/ipu6/ipu6-mmu.c: In function 'l2_map':
+>> drivers/media/pci/intel/ipu6/ipu6-mmu.c:280:17: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
+     280 |                 clflush_cache_range(&mmu_info->l1_pt[l1_idx],
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 flush_cache_range
+   cc1: some warnings being treated as errors
 
 
-vim +/dccg314_init +277 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_dccg.c
+vim +185 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
 
-3cffeffe051a96 Roman Li      2022-06-28  276  
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21 @277  void dccg314_init(struct dccg *dccg)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  278  {
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  279  	int otg_inst;
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  280  
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  281  	/* Set HPO stream encoder to use refclk to avoid case where PHY is
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  282  	 * disabled and SYMCLK32 for HPO SE is sourced from PHYD32CLK which
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  283  	 * will cause DCN to hang.
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  284  	 */
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  285  	for (otg_inst = 0; otg_inst < 4; otg_inst++)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  286  		dccg31_disable_symclk32_se(dccg, otg_inst);
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  287  
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  288  	if (dccg->ctx->dc->debug.root_clock_optimization.bits.symclk32_le)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  289  		for (otg_inst = 0; otg_inst < 2; otg_inst++)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  290  			dccg31_disable_symclk32_le(dccg, otg_inst);
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  291  
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  292  	if (dccg->ctx->dc->debug.root_clock_optimization.bits.dpstream)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  293  		for (otg_inst = 0; otg_inst < 4; otg_inst++)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  294  			dccg314_set_dpstreamclk(dccg, REFCLK, otg_inst,
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  295  						otg_inst);
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  296  
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  297  	if (dccg->ctx->dc->debug.root_clock_optimization.bits.physymclk)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  298  		for (otg_inst = 0; otg_inst < 5; otg_inst++)
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  299  			dccg31_set_physymclk(dccg, otg_inst,
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  300  					     PHYSYMCLK_FORCE_SRC_SYMCLK, false);
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  301  }
-6f6869dcf415f7 Hamza Mahfooz 2023-03-21  302  
-
-:::::: The code at line 277 was first introduced by commit
-:::::: 6f6869dcf415f7c222057a3f07c23667e1758585 drm/amd/display: prep work for root clock optimization enablement for DCN314
-
-:::::: TO: Hamza Mahfooz <hamza.mahfooz@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+25a1e8d166c011 Bingbu Cao 2023-04-13  164  
+25a1e8d166c011 Bingbu Cao 2023-04-13  165  int ipu6_fw_isys_complex_cmd(struct ipu6_isys *isys,
+25a1e8d166c011 Bingbu Cao 2023-04-13  166  			     const unsigned int stream_handle,
+25a1e8d166c011 Bingbu Cao 2023-04-13  167  			     void *cpu_mapped_buf,
+25a1e8d166c011 Bingbu Cao 2023-04-13  168  			     dma_addr_t dma_mapped_buf,
+25a1e8d166c011 Bingbu Cao 2023-04-13  169  			     size_t size, u16 send_type)
+25a1e8d166c011 Bingbu Cao 2023-04-13  170  {
+25a1e8d166c011 Bingbu Cao 2023-04-13  171  	struct ipu6_fw_com_context *ctx = isys->fwcom;
+25a1e8d166c011 Bingbu Cao 2023-04-13  172  	struct ipu6_fw_send_queue_token *token;
+25a1e8d166c011 Bingbu Cao 2023-04-13  173  
+25a1e8d166c011 Bingbu Cao 2023-04-13  174  	if (send_type >= N_IPU6_FW_ISYS_SEND_TYPE)
+25a1e8d166c011 Bingbu Cao 2023-04-13  175  		return -EINVAL;
+25a1e8d166c011 Bingbu Cao 2023-04-13  176  
+25a1e8d166c011 Bingbu Cao 2023-04-13  177  	dev_dbg(&isys->adev->dev, "send_token: %s\n",
+25a1e8d166c011 Bingbu Cao 2023-04-13  178  		send_msg_types[send_type]);
+25a1e8d166c011 Bingbu Cao 2023-04-13  179  
+25a1e8d166c011 Bingbu Cao 2023-04-13  180  	/*
+25a1e8d166c011 Bingbu Cao 2023-04-13  181  	 * Time to flush cache in case we have some payload. Not all messages
+25a1e8d166c011 Bingbu Cao 2023-04-13  182  	 * have that
+25a1e8d166c011 Bingbu Cao 2023-04-13  183  	 */
+25a1e8d166c011 Bingbu Cao 2023-04-13  184  	if (cpu_mapped_buf)
+25a1e8d166c011 Bingbu Cao 2023-04-13 @185  		clflush_cache_range(cpu_mapped_buf, size);
+25a1e8d166c011 Bingbu Cao 2023-04-13  186  
+25a1e8d166c011 Bingbu Cao 2023-04-13  187  	token = ipu6_send_get_token(ctx,
+25a1e8d166c011 Bingbu Cao 2023-04-13  188  				    stream_handle + IPU6_BASE_MSG_SEND_QUEUES);
+25a1e8d166c011 Bingbu Cao 2023-04-13  189  	if (!token)
+25a1e8d166c011 Bingbu Cao 2023-04-13  190  		return -EBUSY;
+25a1e8d166c011 Bingbu Cao 2023-04-13  191  
+25a1e8d166c011 Bingbu Cao 2023-04-13  192  	token->payload = dma_mapped_buf;
+25a1e8d166c011 Bingbu Cao 2023-04-13  193  	token->buf_handle = (unsigned long)cpu_mapped_buf;
+25a1e8d166c011 Bingbu Cao 2023-04-13  194  	token->send_type = send_type;
+25a1e8d166c011 Bingbu Cao 2023-04-13  195  
+25a1e8d166c011 Bingbu Cao 2023-04-13  196  	ipu6_send_put_token(ctx, stream_handle + IPU6_BASE_MSG_SEND_QUEUES);
+25a1e8d166c011 Bingbu Cao 2023-04-13  197  
+25a1e8d166c011 Bingbu Cao 2023-04-13  198  	return 0;
+25a1e8d166c011 Bingbu Cao 2023-04-13  199  }
+25a1e8d166c011 Bingbu Cao 2023-04-13  200  
 
 -- 
 0-DAY CI Kernel Test Service
