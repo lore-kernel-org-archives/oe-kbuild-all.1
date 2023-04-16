@@ -1,88 +1,140 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41C07B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Apr 2023 10:55:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id A36E95C00CC;
-	Sun, 16 Apr 2023 06:55:55 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Sun, 16 Apr 2023 06:55:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681642555; x=1681728955; bh=fk
-	scw5C6UtGOyo2XCy0gMeqYDqdOiGFASGsf+zxWwSQ=; b=lqGpep3svdshIMgyWG
-	GEeCCPzSYF54z0m8AcOjIOOLY04FaFHhgHlOXRFFoyNVftlkUKO70Bc7jY5p5VVG
-	ZDEi+u7WTnL38V3LYZdFJHdNKVL0rqVGWBjPvwfcXdXd/Gn22ZmomB9nvYDD/7H0
-	AXklvYDCUxaNH/Z9lP3mbDLqyhgLKvjIuAhI2imDwUq8HhbdSZRguqwiN3Q2fyUZ
-	Ggsdbn/HMkgmbZccgk4FbjXqIyoU9Xl7Nehpmz6YReA0xglON+6BvV6DEUswX7sk
-	c/wO6a58oItrT7LURtUG9TtqjIdu/YKqOhlb28wAthJ73m6bemGMVjXRfn9oamD1
-	ar0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681642555; x=1681728955; bh=fkscw5C6UtGOy
-	o2XCy0gMeqYDqdOiGFASGsf+zxWwSQ=; b=dAnNhM18ULa8Q1Ka9OhSBawufZCBN
-	XMEDAYXOBUB9vxhWXv+fDsmGchb4s0/EA0tvTWi1o3wOiTZivw6WeKK0ctFRNbzD
-	+xDG/4IwpnRktsc0qVdOoMDr4Atl13inEr5IUWG5uVtacvfaav+DTWYG6BGIWatw
-	oqWtCG/WMqR3mAtWJHpqej5+XO1I0U5JdqvyBL8EuvX4UCZPEZsNyfNZte+//k06
-	Dlutn8rEZL2Xgyx4Radf2nTFztwn9va1K2vsLJ4k1Sd/dx2kQdxNh218HePQ5BLA
-	34ro/9AaH4LxIKpvdCP61lwMSOchahPapJOldkiCG35hnz7rdqzEUI+LA==
-X-ME-Sender: <xms:OtQ7ZJKjwmuSKnZPPtjLChuAtmWISIVuNsLENqQlQfv2FSJTWniQZg>
-    <xme:OtQ7ZFLtYm_-Wut0XO2z2LT_2GTreKSvmsaDPoxF2E58jj67C9RK1Cew5pZJU860U
-    PnEVH9V3FzADm-O5xA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdelgedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:OtQ7ZBsQTympyZmpEVHpW8CrF4VKH7qqz0PH9sMpHTOOXBI1VzRg1g>
-    <xmx:OtQ7ZKaJ6SZozcXCFRWZUfftFbWf8dFUR4CM5Ev7qGv3hNrJJofChQ>
-    <xmx:OtQ7ZAaEZnidplmVP7RIHukjp80UMbxzSPgbX3CQBTHr2wNIP3tx-g>
-    <xmx:O9Q7ZGM1Hr8aQ-XbiMTPNnaoN-uA8vPH6ItE9GMUtORXdnUqBKB_kA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 66DDEB60086; Sun, 16 Apr 2023 06:55:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-334-g8c072af647-fm-20230330.001-g8c072af6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7447B;
+	Sun, 16 Apr 2023 11:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681644489; x=1713180489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V7cq3vwlaU5o2aHO5qYDngl0tcAa0hST12vNzEC//hw=;
+  b=VALkfF9EHzBlK6cbj3fNpbu3G9RB88A2SCrIXVjmpZqRqz4551LaSRBs
+   RRcIRIdqJxvOfGOic6MpXp+jX4rHz7brkcW6LJxHe+F9H2TNtYAoLwc91
+   2nwldB1OU2ZkaDR5c3o/pJgKVkieHlfSoUAvvYTkd0UgIJQyaFzjDiKwg
+   s+ELiub8CPnGVLACaFSGxELVSHWgWYWqx3lPtNHMPla4q2oAl+iQw5Ioc
+   RITk6F2gt01Fib7rLWlNHH4m5lzaqdxdnMXt54bMvBVJ0Rt/l8466M/aN
+   xzNdglFFM/7WioxASUdIiQTVcvpKVLUCJItCxL7uNCwgNzlSjoJRTPmbC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="407613377"
+X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; 
+   d="scan'208";a="407613377"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2023 04:28:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="1020107690"
+X-IronPort-AV: E=Sophos;i="5.99,202,1677571200"; 
+   d="scan'208";a="1020107690"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 16 Apr 2023 04:28:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1po0YA-000bel-1Y;
+	Sun, 16 Apr 2023 11:28:06 +0000
+Date: Sun, 16 Apr 2023 19:27:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:t602x/bringup 127/147]
+ drivers/pci/controller/pcie-apple.c:468:19: error: call to undeclared
+ function 'FIELD_PREP'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202304161936.Mpkc9lVa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <6785a18a-1df3-433c-a5e5-70179dab7908@app.fastmail.com>
-In-Reply-To: 
- <CAMuHMdWNQRgXzaEsb1M=SGm683dTOU2gLyjD2UuoD8qy+Ex74Q@mail.gmail.com>
-References: <202304150025.K0hczLR4-lkp@intel.com>
- <20230415125705.180426-1-akinobu.mita@gmail.com>
- <CAMuHMdWNQRgXzaEsb1M=SGm683dTOU2gLyjD2UuoD8qy+Ex74Q@mail.gmail.com>
-Date: Sun, 16 Apr 2023 12:55:35 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Akinobu Mita" <akinobu.mita@gmail.com>
-Cc: "kernel test robot" <lkp@intel.com>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Jens Axboe" <axboe@kernel.dk>,
- oe-kbuild-all@lists.linux.dev, shinichiro.kawasaki@wdc.com,
- chaitanyak@nvidia.com, "Andrew Morton" <akpm@linux-foundation.org>,
- "Christoph Hellwig" <hch@infradead.org>
-Subject: Re: [PATCH -block] fault-inject: fix build error when
- FAULT_INJECTION_CONFIGFS=y and CONFIGFS_FS=m
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Apr 16, 2023, at 11:53, Geert Uytterhoeven wrote:
->
-> -       depends on FAULT_INJECTION && CONFIGFS_FS
-> +       depends on FAULT_INJECTION && (CONFIGFS_FS=y ||
-> CONFIGFS_FS=FAULT_INJECTION)
+tree:   https://github.com/AsahiLinux/linux t602x/bringup
+head:   38a78ea027af8fa8ea016a1b902d08f7797c7346
+commit: 33680a713291ebc4d379818d65af88b0b47ea6dc [127/147] PCIE: apple: Add T602x PCIe support
+config: powerpc-randconfig-r031-20230416 (https://download.01.org/0day-ci/archive/20230416/202304161936.Mpkc9lVa-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/AsahiLinux/linux/commit/33680a713291ebc4d379818d65af88b0b47ea6dc
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux t602x/bringup
+        git checkout 33680a713291ebc4d379818d65af88b0b47ea6dc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/pci/controller/
 
-FAULT_INJECTION is a bool symbol, so the last part is not
-needed here.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304161936.Mpkc9lVa-lkp@intel.com/
 
-     Arnd
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/controller/pcie-apple.c:468:19: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
+                                          ^
+   1 error generated.
+
+
+vim +/FIELD_PREP +468 drivers/pci/controller/pcie-apple.c
+
+   430	
+   431	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
+   432	{
+   433		struct fwnode_handle *fwnode = &port->np->fwnode;
+   434		struct apple_pcie *pcie = port->pcie;
+   435		unsigned int irq;
+   436	
+   437		/* FIXME: consider moving each interrupt under each port */
+   438		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
+   439					   port->idx);
+   440		if (!irq)
+   441			return -ENXIO;
+   442	
+   443		port->domain = irq_domain_create_linear(fwnode, 32,
+   444							&apple_port_irq_domain_ops,
+   445							port);
+   446		if (!port->domain)
+   447			return -ENOMEM;
+   448	
+   449		/* Disable all interrupts */
+   450		writel_relaxed(~0, port->base + PORT_INTMSK);
+   451		writel_relaxed(~0, port->base + PORT_INTSTAT);
+   452		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
+   453	
+   454		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
+   455	
+   456		/* Configure MSI base address */
+   457		BUG_ON(upper_32_bits(DOORBELL_ADDR));
+   458		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
+   459			       port->base + pcie->hw->port_msiaddr);
+   460		if (pcie->hw->port_msiaddr_hi)
+   461			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
+   462	
+   463		/* Enable MSIs, shared between all ports */
+   464		if (pcie->hw->port_msimap) {
+   465			int i;
+   466	
+   467			for (i = 0; i < pcie->nvecs; i++) {
+ > 468				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
+   469					       PORT_MSIMAP_ENABLE,
+   470					       port->base + pcie->hw->port_msimap + 4 * i);
+   471			}
+   472	
+   473			writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
+   474		} else {
+   475			writel_relaxed(0, port->base + PORT_MSIBASE);
+   476			writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
+   477				PORT_MSICFG_EN, port->base + PORT_MSICFG);
+   478		}
+   479	
+   480		return 0;
+   481	}
+   482	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
