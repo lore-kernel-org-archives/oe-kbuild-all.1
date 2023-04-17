@@ -1,139 +1,185 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C058C8465;
-	Mon, 17 Apr 2023 14:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681741073; x=1713277073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6+IWgC8Bon0J7vBYLs+uH4i2nmSl2ZjVNXYdDXAbBmE=;
-  b=TOmUZDchlRqwUNEnIH0UfWaMZHCNfTJRBIBRcu9uW1Ve4PKbvp8/4iO7
-   Q7lGI9QX/3h57YSWJqczjvwkoHfX2p7dO59qLNZhXLqTJO+JA7dku40xy
-   iyTGIpATDOHTM0oUEEILZ8Sh3a771P/VFZR5p+o47ZVcr8MkV7Uklh8em
-   wuYv2hsF/umK21BC5PXB2SOckF3l7n8msvidpXEXPIDeg0hh/NXF12NjH
-   9/NQ1gxEa3goXO7hmBFVNYOwNvzddybfEDFPHDZNXEQ6aJaMQe4+p0XMC
-   ZoYnWg8aGhEOJyedALhtbWsEKK8epSE9/3rEtT89Xd9duq0kmR2ti/+t9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="372779494"
-X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="372779494"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:17:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723260296"
-X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="723260296"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Apr 2023 07:17:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1poPfv-000cRJ-1C;
-	Mon, 17 Apr 2023 14:17:47 +0000
-Date: Mon, 17 Apr 2023 22:16:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>, Eric Dumazet <edumazet@google.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Arun Ramadoss <arun.ramadoss@microchip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-	UNGLinuxDriver@microchip.com
-Subject: Re: [PATCH net-next v1 2/2] net: dsa: microchip: Add partial ACL
- support for ksz9477 switches
-Message-ID: <202304172250.WOCLE8lZ-lkp@intel.com>
-References: <20230411172456.3003003-3-o.rempel@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768618460;
+	Mon, 17 Apr 2023 14:40:52 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33HBTAAW025150;
+	Mon, 17 Apr 2023 14:40:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=qcppdkim1;
+ bh=b1lGdYC6uUdXFinAGG6xvhPiid8KqvqvXLdg6rBqGzM=;
+ b=J2+vy0CyZA+2plhmuP1wrn/uQ0jHPd6x2UWoaTop7suBdSjrdiDorSYGQBiXhHKo+WOk
+ gdSLsFgYx5Ctrt8Ke9cFQxZgtIpq86tvcqfBrlreUREHPn2h5QycoDQvTq2Qs+SMgtcM
+ qS3hw9tRim729yHAb3iSXFoYeBiC8t6du09mSIxTeeqE8cLsLDvaWbyqjVf0yVxrbQD+
+ nhLEV2zJBUq5SYzyjpDgvTQnMzVW/rXgncWE79hx2v/q/RoeecljmiIVO+b3JRw96z7v
+ 3q7Z/qmyv7h2faJnc77wF9TEzCSk2heVrvhfe/zB/LqInpGQyZrcllAoWNKCUUbyYzC0 6w== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q12strt8s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Apr 2023 14:40:40 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33HEeexu007537
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Apr 2023 14:40:40 GMT
+Received: from kvalo10 (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
+ 2023 07:40:37 -0700
+From: Kalle Valo <quic_kvalo@quicinc.com>
+To: Dan Carpenter <error27@gmail.com>
+CC: <oe-kbuild@lists.linux.dev>,
+        Manikanta Pubbisetty
+	<quic_mpubbise@quicinc.com>, <lkp@intel.com>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <ath11k@lists.infradead.org>
+Subject: Re: drivers/net/wireless/ath/ath11k/core.c:1309
+ ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
+References: <b559bd3c-c7c2-409e-ab36-455236572fe5@kili.mountain>
+Date: Mon, 17 Apr 2023 17:40:35 +0300
+In-Reply-To: <b559bd3c-c7c2-409e-ab36-455236572fe5@kili.mountain> (Dan
+	Carpenter's message of "Sat, 15 Apr 2023 14:37:42 +0300")
+Message-ID: <87sfcy4lng.fsf@kvalo10.eu.qualcomm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411172456.3003003-3-o.rempel@pengutronix.de>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: W_8UUP8aHYrY_1l6QBkfy38_89PmIFmj
+X-Proofpoint-ORIG-GUID: W_8UUP8aHYrY_1l6QBkfy38_89PmIFmj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-17_09,2023-04-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=684 phishscore=0 clxscore=1011 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304170131
 
-Hi Oleksij,
++ ath11k list
 
-kernel test robot noticed the following build warnings:
+Including the full report below.
 
-[auto build test WARNING on net-next/main]
+Kalle
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-dsa-microchip-rework-ksz_prmw8/20230412-012709
-patch link:    https://lore.kernel.org/r/20230411172456.3003003-3-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v1 2/2] net: dsa: microchip: Add partial ACL support for ksz9477 switches
-config: x86_64-randconfig-a011-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172250.WOCLE8lZ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a25d395c637a31cbf5c2188bf8f8475d4bdeeee8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Oleksij-Rempel/net-dsa-microchip-rework-ksz_prmw8/20230412-012709
-        git checkout a25d395c637a31cbf5c2188bf8f8475d4bdeeee8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/dsa/microchip/
+Dan Carpenter <error27@gmail.com> writes:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304172250.WOCLE8lZ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/dsa/microchip/ksz9477_acl.c:622:27: warning: no previous prototype for function 'ksz9477_acl_get_init_entry' [-Wmissing-prototypes]
-   struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
-                             ^
-   drivers/net/dsa/microchip/ksz9477_acl.c:622:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
-   ^
-   static 
->> drivers/net/dsa/microchip/ksz9477_acl.c:887:28: warning: variable 'entry' set but not used [-Wunused-but-set-variable]
-           struct ksz9477_acl_entry *entry;
-                                     ^
-   2 warnings generated.
-
-
-vim +/ksz9477_acl_get_init_entry +622 drivers/net/dsa/microchip/ksz9477_acl.c
-
-   609	
-   610	/**
-   611	 * ksz9477_acl_get_init_entry - Get a new uninitialized entry for a specified
-   612	 *				port on a ksz_device.
-   613	 * @dev: The ksz_device instance.
-   614	 * @port: The port number to get the uninitialized entry for.
-   615	 *
-   616	 * This function retrieves the next available ACL entry for the specified port,
-   617	 * clears all access flags, and associates it with the current cookie.
-   618	 *
-   619	 * Returns: A pointer to the new uninitialized ACL entry.
-   620	 */
-   621	
- > 622	struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
-   623							     int port)
-   624	{
-   625		struct ksz9477_acl_priv *acl = dev->ports[port].acl_priv;
-   626		struct ksz9477_acl_entries *acles = &acl->acles;
-   627		struct ksz9477_acl_entry *entry;
-   628	
-   629		entry = &acles->entries[acles->entries_count];
-   630		entry->cookie = acl->current_cookie;
-   631	
-   632		/* clear all access flags */
-   633		entry->entry[KSZ9477_ACL_PORT_ACCESS_10] = 0;
-   634		entry->entry[KSZ9477_ACL_PORT_ACCESS_11] = 0;
-   635	
-   636		return entry;
-   637	}
-   638	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
+> commit: 33b67a4b4e64275b6f2cbc4318f1596c70659111 ath11k: Update WBM idle ring HP after FW mode on
+> config: openrisc-randconfig-m041-20230414
+> (https://download.01.org/0day-ci/archive/20230415/202304151955.oqAetVFd-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 12.1.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202304151955.oqAetVFd-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/net/wireless/ath/ath11k/core.c:1309 ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
+>
+> vim +1309 drivers/net/wireless/ath/ath11k/core.c
+>
+> d5c65159f28953 Kalle Valo 2019-11-23 1276 int
+> ath11k_core_qmi_firmware_ready(struct ath11k_base *ab)
+> d5c65159f28953 Kalle Valo                2019-11-23  1277  {
+> d5c65159f28953 Kalle Valo                2019-11-23  1278  	int ret;
+> d5c65159f28953 Kalle Valo                2019-11-23  1279  
+> 33b67a4b4e6427 Manikanta Pubbisetty 2022-04-06 1280 ret =
+> ath11k_core_start_firmware(ab, ATH11K_FIRMWARE_MODE_NORMAL);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1281  	if (ret) {
+> 33b67a4b4e6427 Manikanta Pubbisetty 2022-04-06 1282 ath11k_err(ab,
+> "failed to start firmware: %d\n", ret);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1283  		return ret;
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1284  	}
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1285  
+> d5c65159f28953 Kalle Valo                2019-11-23  1286  	ret = ath11k_ce_init_pipes(ab);
+> d5c65159f28953 Kalle Valo                2019-11-23  1287  	if (ret) {
+> d5c65159f28953 Kalle Valo 2019-11-23 1288 ath11k_err(ab, "failed to
+> initialize CE: %d\n", ret);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1289  		goto err_firmware_stop;
+> d5c65159f28953 Kalle Valo                2019-11-23  1290  	}
+> d5c65159f28953 Kalle Valo                2019-11-23  1291  
+> d5c65159f28953 Kalle Valo                2019-11-23  1292  	ret = ath11k_dp_alloc(ab);
+> d5c65159f28953 Kalle Valo                2019-11-23  1293  	if (ret) {
+> d5c65159f28953 Kalle Valo 2019-11-23 1294 ath11k_err(ab, "failed to
+> init DP: %d\n", ret);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1295  		goto err_firmware_stop;
+> d5c65159f28953 Kalle Valo                2019-11-23  1296  	}
+> d5c65159f28953 Kalle Valo                2019-11-23  1297  
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1298  	switch (ath11k_crypto_mode) {
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1299  	case ATH11K_CRYPT_MODE_SW:
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1300
+> set_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1301
+> set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1302  		break;
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1303  	case ATH11K_CRYPT_MODE_HW:
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1304
+> clear_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1305
+> clear_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1306  		break;
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1307  	default:
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1308
+> ath11k_info(ab, "invalid crypto_mode: %d\n", ath11k_crypto_mode);
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08 @1309  		return -EINVAL;
+>
+> 	ret = -EINVAL;
+> 	goto err_dp_free;
+>
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1310  	}
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1311  
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1312  	if (ath11k_frame_mode == ATH11K_HW_TXRX_RAW)
+> aa2092a9bab3f8 Venkateswara Naralasetty 2020-09-08 1313
+> set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
+> aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1314  
+> d5c65159f28953 Kalle Valo                2019-11-23  1315  	mutex_lock(&ab->core_lock);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1316  	ret = ath11k_core_start(ab);
+> d5c65159f28953 Kalle Valo                2019-11-23  1317  	if (ret) {
+> d5c65159f28953 Kalle Valo 2019-11-23 1318 ath11k_err(ab, "failed to
+> start core: %d\n", ret);
+> d5c65159f28953 Kalle Valo                2019-11-23  1319  		goto err_dp_free;
+> d5c65159f28953 Kalle Valo                2019-11-23  1320  	}
+> d5c65159f28953 Kalle Valo                2019-11-23  1321  
+> d5c65159f28953 Kalle Valo                2019-11-23  1322  	ret = ath11k_core_pdev_create(ab);
+> d5c65159f28953 Kalle Valo                2019-11-23  1323  	if (ret) {
+> d5c65159f28953 Kalle Valo 2019-11-23 1324 ath11k_err(ab, "failed to
+> create pdev core: %d\n", ret);
+> d5c65159f28953 Kalle Valo                2019-11-23  1325  		goto err_core_stop;
+> d5c65159f28953 Kalle Valo                2019-11-23  1326  	}
+> 31858805f91ac7 Govind Singh              2020-05-08  1327  	ath11k_hif_irq_enable(ab);
+> ec038c6127fa77 Wen Gong                  2021-12-20  1328  
+> ec038c6127fa77 Wen Gong                  2021-12-20  1329  	ret = ath11k_core_rfkill_config(ab);
+> ec038c6127fa77 Wen Gong                  2021-12-20  1330  	if (ret && ret != -EOPNOTSUPP) {
+> ec038c6127fa77 Wen Gong 2021-12-20 1331 ath11k_err(ab, "failed to
+> config rfkill: %d\n", ret);
+> ec038c6127fa77 Wen Gong                  2021-12-20  1332  		goto err_core_stop;
+> ec038c6127fa77 Wen Gong                  2021-12-20  1333  	}
+> ec038c6127fa77 Wen Gong                  2021-12-20  1334  
+> d5c65159f28953 Kalle Valo                2019-11-23  1335  	mutex_unlock(&ab->core_lock);
+> d5c65159f28953 Kalle Valo                2019-11-23  1336  
+> d5c65159f28953 Kalle Valo                2019-11-23  1337  	return 0;
+> d5c65159f28953 Kalle Valo                2019-11-23  1338  
+> d5c65159f28953 Kalle Valo                2019-11-23  1339  err_core_stop:
+> d5c65159f28953 Kalle Valo                2019-11-23  1340  	ath11k_core_stop(ab);
+> 0366f42640a410 Vasanthakumar Thiagarajan 2019-11-28  1341  	ath11k_mac_destroy(ab);
+> d5c65159f28953 Kalle Valo                2019-11-23  1342  err_dp_free:
+> d5c65159f28953 Kalle Valo                2019-11-23  1343  	ath11k_dp_free(ab);
+> ba47923974fb67 Govindaraj Saminathan     2019-11-27  1344  	mutex_unlock(&ab->core_lock);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1345  err_firmware_stop:
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1346  	ath11k_qmi_firmware_stop(ab);
+> 33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1347  
+> d5c65159f28953 Kalle Valo                2019-11-23  1348  	return ret;
+> d5c65159f28953 Kalle Valo                2019-11-23  1349  }
+> d5c65159f28953 Kalle Valo                2019-11-23  1350  
