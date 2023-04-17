@@ -1,52 +1,54 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6706E8465
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 14:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C058C8465;
+	Mon, 17 Apr 2023 14:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681740633; x=1713276633;
+  t=1681741073; x=1713277073;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YXao0Y1mlgkXgxIiX0P3t1OzKW+v0FkIvOH0kfXVX2Y=;
-  b=UgPpwqXUQhOtRQn7XGzIIIRxXemLUyIwMnJ0Xzs2rIbdzKck+jPeAT0u
-   u2A2OHO7HAiJaLnqrFhxh+le/tBUysxk/EfUslJx81mDgj5o0gNATNRuy
-   TJBfqLBV7x74F192c4V2jlWtezRrIexwTbUpdsWd+QxzpN1Aw8qZBPw6c
-   yL97M5pb5X38cW2p0dr4w+CjKdLqHdbzXBHgoDk1DcbGcYFnLa0L7INhv
-   IpAjysprbQvKkIq7H420EXEcDAeU3d4Qim/4SK7HLbQQW6bbqeMX6RjL5
-   n1d5lu32FFvdE3u9cSWPbLRGrBPk0i3nYWXryLR02fFt0ViI9Lsmst+Gi
+  bh=6+IWgC8Bon0J7vBYLs+uH4i2nmSl2ZjVNXYdDXAbBmE=;
+  b=TOmUZDchlRqwUNEnIH0UfWaMZHCNfTJRBIBRcu9uW1Ve4PKbvp8/4iO7
+   Q7lGI9QX/3h57YSWJqczjvwkoHfX2p7dO59qLNZhXLqTJO+JA7dku40xy
+   iyTGIpATDOHTM0oUEEILZ8Sh3a771P/VFZR5p+o47ZVcr8MkV7Uklh8em
+   wuYv2hsF/umK21BC5PXB2SOckF3l7n8msvidpXEXPIDeg0hh/NXF12NjH
+   9/NQ1gxEa3goXO7hmBFVNYOwNvzddybfEDFPHDZNXEQ6aJaMQe4+p0XMC
+   ZoYnWg8aGhEOJyedALhtbWsEKK8epSE9/3rEtT89Xd9duq0kmR2ti/+t9
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="344898567"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="372779494"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="344898567"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:06:56 -0700
+   d="scan'208";a="372779494"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:17:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="640965833"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723260296"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="640965833"
+   d="scan'208";a="723260296"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 17 Apr 2023 07:06:52 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Apr 2023 07:17:48 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poPVG-000cQH-2A;
-	Mon, 17 Apr 2023 14:06:46 +0000
-Date: Mon, 17 Apr 2023 22:06:21 +0800
+	id 1poPfv-000cRJ-1C;
+	Mon, 17 Apr 2023 14:17:47 +0000
+Date: Mon, 17 Apr 2023 22:16:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Yacoub <markyacoub@chromium.org>,
-	intel-gfx@lists.freedesktop.org, dianders@chromium.org,
-	dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
-	seanpaul@chromium.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v9 10/10] drm/msm: Implement HDCP 1.x using
- the new drm HDCP helpers
-Message-ID: <202304172130.pXI8PgGX-lkp@intel.com>
-References: <20230411192134.508113-11-markyacoub@google.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew@lunn.ch>, Eric Dumazet <edumazet@google.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	Arun Ramadoss <arun.ramadoss@microchip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH net-next v1 2/2] net: dsa: microchip: Add partial ACL
+ support for ksz9477 switches
+Message-ID: <202304172250.WOCLE8lZ-lkp@intel.com>
+References: <20230411172456.3003003-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,58 +57,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411192134.508113-11-markyacoub@google.com>
+In-Reply-To: <20230411172456.3003003-3-o.rempel@pengutronix.de>
 
-Hi Mark,
+Hi Oleksij,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-intel/for-linux-next-fixes]
-[also build test ERROR on linus/master v6.3-rc7]
-[cannot apply to drm-tip/drm-tip drm-misc/drm-misc-next drm-intel/for-linux-next drm/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230411192134.508113-11-markyacoub%40google.com
-patch subject: [Intel-gfx] [PATCH v9 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
-config: loongarch-randconfig-r015-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172130.pXI8PgGX-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-dsa-microchip-rework-ksz_prmw8/20230412-012709
+patch link:    https://lore.kernel.org/r/20230411172456.3003003-3-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v1 2/2] net: dsa: microchip: Add partial ACL support for ksz9477 switches
+config: x86_64-randconfig-a011-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172250.WOCLE8lZ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/93651da28f1a578d2edab2d2b47d9935145d675f
+        # https://github.com/intel-lab-lkp/linux/commit/a25d395c637a31cbf5c2188bf8f8475d4bdeeee8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230412-032412
-        git checkout 93651da28f1a578d2edab2d2b47d9935145d675f
+        git fetch --no-tags linux-review Oleksij-Rempel/net-dsa-microchip-rework-ksz_prmw8/20230412-012709
+        git checkout a25d395c637a31cbf5c2188bf8f8475d4bdeeee8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/gpu/drm/msm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/dsa/microchip/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304172130.pXI8PgGX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172250.WOCLE8lZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/msm_atomic.c:12:10: fatal error: dp_drm.h: No such file or directory
-      12 | #include "dp_drm.h"
-         |          ^~~~~~~~~~
-   compilation terminated.
+>> drivers/net/dsa/microchip/ksz9477_acl.c:622:27: warning: no previous prototype for function 'ksz9477_acl_get_init_entry' [-Wmissing-prototypes]
+   struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
+                             ^
+   drivers/net/dsa/microchip/ksz9477_acl.c:622:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
+   ^
+   static 
+>> drivers/net/dsa/microchip/ksz9477_acl.c:887:28: warning: variable 'entry' set but not used [-Wunused-but-set-variable]
+           struct ksz9477_acl_entry *entry;
+                                     ^
+   2 warnings generated.
 
 
-vim +12 drivers/gpu/drm/msm/msm_atomic.c
+vim +/ksz9477_acl_get_init_entry +622 drivers/net/dsa/microchip/ksz9477_acl.c
 
-    11	
-  > 12	#include "dp_drm.h"
-    13	#include "msm_atomic_trace.h"
-    14	#include "msm_drv.h"
-    15	#include "msm_gem.h"
-    16	#include "msm_kms.h"
-    17	
+   609	
+   610	/**
+   611	 * ksz9477_acl_get_init_entry - Get a new uninitialized entry for a specified
+   612	 *				port on a ksz_device.
+   613	 * @dev: The ksz_device instance.
+   614	 * @port: The port number to get the uninitialized entry for.
+   615	 *
+   616	 * This function retrieves the next available ACL entry for the specified port,
+   617	 * clears all access flags, and associates it with the current cookie.
+   618	 *
+   619	 * Returns: A pointer to the new uninitialized ACL entry.
+   620	 */
+   621	
+ > 622	struct ksz9477_acl_entry *ksz9477_acl_get_init_entry(struct ksz_device *dev,
+   623							     int port)
+   624	{
+   625		struct ksz9477_acl_priv *acl = dev->ports[port].acl_priv;
+   626		struct ksz9477_acl_entries *acles = &acl->acles;
+   627		struct ksz9477_acl_entry *entry;
+   628	
+   629		entry = &acles->entries[acles->entries_count];
+   630		entry->cookie = acl->current_cookie;
+   631	
+   632		/* clear all access flags */
+   633		entry->entry[KSZ9477_ACL_PORT_ACCESS_10] = 0;
+   634		entry->entry[KSZ9477_ACL_PORT_ACCESS_11] = 0;
+   635	
+   636		return entry;
+   637	}
+   638	
 
 -- 
 0-DAY CI Kernel Test Service
