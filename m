@@ -1,88 +1,109 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F071848
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 07:43:55 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id 38B5424E083;
-	Mon, 17 Apr 2023 15:41:18 +0800 (CST)
-Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 17 Apr
- 2023 15:41:18 +0800
-Received: from ubuntu.localdomain (183.27.97.249) by EXMBX172.cuchost.com
- (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 17 Apr
- 2023 15:41:17 +0800
-From: Hal Feng <hal.feng@starfivetech.com>
-To: <linux-clk@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-mm@kvack.org>
-CC: Stephen Boyd <sboyd@kernel.org>, Michael Turquette
-	<mturquette@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, "Paul
- Gazzillo" <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>, Hal Feng
-	<hal.feng@starfivetech.com>, Xingyu Wu <xingyu.wu@starfivetech.com>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] clk: starfive: Delete the redundant dev_set_drvdata() in JH7110 clock drivers
-Date: Mon, 17 Apr 2023 15:41:15 +0800
-Message-ID: <20230417074115.30786-3-hal.feng@starfivetech.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230417074115.30786-1-hal.feng@starfivetech.com>
-References: <20230417074115.30786-1-hal.feng@starfivetech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC976C2E4;
+	Mon, 17 Apr 2023 07:53:42 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f16b99b936so6461555e9.3;
+        Mon, 17 Apr 2023 00:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681718020; x=1684310020;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=erph9EYHqt1MM1Op80BFXZ+Z8QjUsK6NGG+TevBKnRk=;
+        b=C0Gru8YGphp5zJUgJdd63GtTcBcd6KRldsEi89RkaZtUWhQUJK5GXd08OOzHmf06vh
+         CttLKSL5XmQ2byfoMxVtyMtJFLI1K93F0nkXw1FMfEnI0hb6TGr8uypD4SWcR1e+dmO7
+         LRxo7Dr0ivXhhi/x7zbNJJZmYKWYfE1rY6hxNTSo5HCxHzBrRkmld3ZjVhxKDq+hdWBf
+         aG1pv+LSlcdL8PjXEQZteA7U2Gay/vhQYg9cH52NdDJWxIZtpdrV3BpK0+heP/RSNKhm
+         8KI1/LVGVr/a7zCdbb4oJKT3WPt1ha5wl+cVll6S5rJXG869Oo0baiZ5s7ajnwZ92mpr
+         bZTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681718020; x=1684310020;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=erph9EYHqt1MM1Op80BFXZ+Z8QjUsK6NGG+TevBKnRk=;
+        b=hYP3GvP8Yp20kJ7Sd5cC18gdtDW1h4/rbnJEKhQBVnxlq+4+AgpMCPQaNh0ddNGZlx
+         SBBK5wLxr9KlkS+mkl1hylSUHWw53EWaLHtMYeD5hqlxcMwUXPyBfQ5efSRuDU55N+gr
+         I/PutrKEDG1sFJFo1B7CZdryXaAuCB2AONCXm4Owhw3b2/H7hZcnoyC/lKKgt8dubSCC
+         yhX5+iYjBTwE9uHs8DNP8QzKk5By7EQcLkYIbi55iEYGOVgtSEDgfOwWLmSQsR9GNEKi
+         rJTXlLZl4eOQAjyXr2pTJH1BxaaTlJSKWAwbJvcBxXGEBBpgDf0RcAYnoHLzwQQkRaR/
+         jHTQ==
+X-Gm-Message-State: AAQBX9fek2kQydnSO2t0Jp2k3UDNmWGMdZ8WIMhhBlVipmPxj9WMyIUS
+	f/e4F0vZ/mvNxiaIi9665xHNDl++s0k=
+X-Google-Smtp-Source: AKy350b2U+ErpNRVWmiNUAuh3pFFVyIrR8ePaaFBER5mMEtfAPKK99zBFSe2wmg8sxnW7NtRHzvQUQ==
+X-Received: by 2002:a5d:564c:0:b0:2f9:e211:e869 with SMTP id j12-20020a5d564c000000b002f9e211e869mr2502323wrw.43.1681718020662;
+        Mon, 17 Apr 2023 00:53:40 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p11-20020a5d458b000000b002efb31d3c24sm9810774wrq.32.2023.04.17.00.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 00:53:40 -0700 (PDT)
+Date: Mon, 17 Apr 2023 10:53:37 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_unmount 5/5] fs/notify/fanotify/fanotify.c:624
+ fanotify_alloc_fid_event() warn: variable dereferenced before check 'hash'
+ (see line 618)
+Message-ID: <3417fce1-7954-4078-917f-24fd6cfb1761@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [183.27.97.249]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX172.cuchost.com
- (172.16.6.92)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The dev_set_drvdata() is no longer needed after we used a wrapper
-struct to get the data in auxiliary driver.
+tree:   https://github.com/amir73il/linux fan_unmount
+head:   efaac6f096e1da1a16d690c1c2d344b2dc2c2665
+commit: 2da6209964005a9817160559de6021b13cc66860 [5/5] fanotify: add support for FAN_UNMOUNT event
+config: csky-randconfig-m031-20230411 (https://download.01.org/0day-ci/archive/20230414/202304142243.TY4tlJXX-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
-Cc: Xingyu Wu <xingyu.wu@starfivetech.com>
-Fixes: d1aae0663023 ("clk: starfive: Avoid casting iomem pointers")
-Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
----
- drivers/clk/starfive/clk-starfive-jh7110-aon.c | 2 --
- drivers/clk/starfive/clk-starfive-jh7110-sys.c | 2 --
- 2 files changed, 4 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304142243.TY4tlJXX-lkp@intel.com/
 
-diff --git a/drivers/clk/starfive/clk-starfive-jh7110-aon.c b/drivers/clk=
-/starfive/clk-starfive-jh7110-aon.c
-index a2799fe8a234..62954eb7b50a 100644
---- a/drivers/clk/starfive/clk-starfive-jh7110-aon.c
-+++ b/drivers/clk/starfive/clk-starfive-jh7110-aon.c
-@@ -83,8 +83,6 @@ static int jh7110_aoncrg_probe(struct platform_device *=
-pdev)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
-=20
--	dev_set_drvdata(priv->dev, (void *)(&priv->base));
--
- 	for (idx =3D 0; idx < JH7110_AONCLK_END; idx++) {
- 		u32 max =3D jh7110_aonclk_data[idx].max;
- 		struct clk_parent_data parents[4] =3D {};
-diff --git a/drivers/clk/starfive/clk-starfive-jh7110-sys.c b/drivers/clk=
-/starfive/clk-starfive-jh7110-sys.c
-index 851b93d0f371..e6031345ef05 100644
---- a/drivers/clk/starfive/clk-starfive-jh7110-sys.c
-+++ b/drivers/clk/starfive/clk-starfive-jh7110-sys.c
-@@ -402,8 +402,6 @@ static int __init jh7110_syscrg_probe(struct platform=
-_device *pdev)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
-=20
--	dev_set_drvdata(priv->dev, (void *)(&priv->base));
--
- 	/*
- 	 * These PLL clocks are not actually fixed factor clocks and can be
- 	 * controlled by the syscon registers of JH7110. They will be dropped
---=20
-2.38.1
+smatch warnings:
+fs/notify/fanotify/fanotify.c:624 fanotify_alloc_fid_event() warn: variable dereferenced before check 'hash' (see line 618)
+
+vim +/hash +624 fs/notify/fanotify/fanotify.c
+
+9c61f3b560f5dd Amir Goldstein 2020-03-30  603  static struct fanotify_event *fanotify_alloc_fid_event(struct inode *id,
+9c61f3b560f5dd Amir Goldstein 2020-03-30  604  						       __kernel_fsid_t *fsid,
+2da6209964005a Amir Goldstein 2023-04-09  605  						       struct mount *mnt,
+7e3e5c69439949 Amir Goldstein 2021-03-04  606  						       unsigned int *hash,
+9c61f3b560f5dd Amir Goldstein 2020-03-30  607  						       gfp_t gfp)
+9c61f3b560f5dd Amir Goldstein 2020-03-30  608  {
+2da6209964005a Amir Goldstein 2023-04-09  609  	unsigned int fh_len = fanotify_encode_fh_len(id);
+9c61f3b560f5dd Amir Goldstein 2020-03-30  610  	struct fanotify_fid_event *ffe;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  611  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  612  	ffe = kmem_cache_alloc(fanotify_fid_event_cachep, gfp);
+9c61f3b560f5dd Amir Goldstein 2020-03-30  613  	if (!ffe)
+9c61f3b560f5dd Amir Goldstein 2020-03-30  614  		return NULL;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  615  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  616  	ffe->fae.type = FANOTIFY_EVENT_TYPE_FID;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  617  	ffe->fsid = *fsid;
+7e3e5c69439949 Amir Goldstein 2021-03-04 @618  	*hash ^= fanotify_hash_fsid(fsid);
+
+Unchecked dereference
+
+2da6209964005a Amir Goldstein 2023-04-09  619  	fanotify_encode_fh(&ffe->object_fh, id, fh_len, hash, gfp);
+2da6209964005a Amir Goldstein 2023-04-09  620  	/* Store mntid in fid_event with fsid and null fh */
+2da6209964005a Amir Goldstein 2023-04-09  621  	if (mnt && !WARN_ON_ONCE(!fh_len)) {
+2da6209964005a Amir Goldstein 2023-04-09  622  		ffe->mnt_id = mnt->mnt_id;
+2da6209964005a Amir Goldstein 2023-04-09  623  		ffe->object_fh.flags = FANOTIFY_FH_FLAG_MNT_ID;
+2da6209964005a Amir Goldstein 2023-04-09 @624  		if (hash)
+
+Checked too late.
+
+2da6209964005a Amir Goldstein 2023-04-09  625  			*hash ^= fanotify_hash_mntid(mnt->mnt_id);
+2da6209964005a Amir Goldstein 2023-04-09  626  	}
+9c61f3b560f5dd Amir Goldstein 2020-03-30  627  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  628  	return &ffe->fae;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  629  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
