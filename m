@@ -1,43 +1,69 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11DD8460;
-	Mon, 17 Apr 2023 15:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C89F8460
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 15:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681744735; x=1713280735;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ny/0OZOOh9P8XtNvVLJ20jvrKNtHeiIzPvU98FJV3YM=;
-  b=WX4NmWoWnjHbERb1J6WJU+I6JHT40tZYIHdnLCKKLGZv2xgelXtbU/o0
-   P58c+rsEKDZhs/1yJLnKF+u1hzKVmB9C73dt0tCbjEQTvFXEIKz8jzu+C
-   Xx6H0Ov3arSEFKBpOj+3ncNeJpNnwBHWluNmyF3ag/C6w5jjOkPm52c0/
-   a5bvC4vVaKpwsWi0BlZo63PufWjY/UDgOYzHrqJkecpid3EzRbXfosIXF
-   F2+6Jd/6qnThHqBzDA/FbCHc4VF+jRnuTyHdtAfm9jC9VzNNphnKsA1bc
-   reMuPoPFgDsLw9C1zlXdsoYPiRAk+Ue4URIF21E6hiLmVMDdRDJgWZ73A
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="333716951"
+  t=1681745352; x=1713281352;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mETGBZwVEG/Xrc1N4yHAc/0CcMbvk6722ZuBpaiz+VI=;
+  b=G/1H8Ylp3ryhRonDtqQHy6+Z+K9kAP48szsa4pH/GUrSmtolrULsRArs
+   fbgIUgxbVguLGwkjMdVidHgpH4UhxOc2pDYFECdi/07fMFyMEu84BJL5l
+   kPvIaZsMi0C7fJ7E05B5Jlig5jzYo/wz5wW5/yUwOVWXwt1+XAf5TG1NW
+   YFwVvf8v2OqLlveAwuS4rNhFBUBWwPtCNVqnR3cN7beQK5zgHRBoJwdU1
+   GGcTyfAYDL3yubKOE/Q1P3T8IhLYikOt04uDKcUm1l2Jz426VVc9KaGiU
+   HdMeJp60LjOgZVKJtOMKCdmlUMmI9UnUoWbF3y4VWSver2yRmpZwRgV6k
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347665464"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="333716951"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 08:18:54 -0700
+   d="scan'208";a="347665464"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 08:29:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="640977973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="684193562"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="640977973"
+   d="scan'208";a="684193562"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 17 Apr 2023 08:18:52 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Apr 2023 08:28:54 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poQd1-000cWh-2o;
-	Mon, 17 Apr 2023 15:18:51 +0000
-Date: Mon, 17 Apr 2023 23:18:15 +0800
+	id 1poQmi-000cXN-1I;
+	Mon, 17 Apr 2023 15:28:52 +0000
+Date: Mon, 17 Apr 2023 23:28:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jic23-iio:testings 65/65]
- drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2690:14: error: expected ';'
- after return statement
-Message-ID: <202304172312.pFvZ0sxn-lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v13 2/5] fs/proc/task_mmu: Implement IOCTL to get and
+ optionally clear info about PTEs
+Message-ID: <202304172319.CjlksY4s-lkp@intel.com>
+References: <20230417125630.1146906-3-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,97 +72,247 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230417125630.1146906-3-usama.anjum@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testings
-head:   4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
-commit: 4c7e876ff00d0fc0501fd5811bd1328cfc5d8408 [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
-config: hexagon-randconfig-r045-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172312.pFvZ0sxn-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+Hi Muhammad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[cannot apply to linus/master v6.3-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230417-210005
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230417125630.1146906-3-usama.anjum%40collabora.com
+patch subject: [PATCH v13 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
+config: i386-randconfig-a003-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172319.CjlksY4s-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
-        git remote add jic23-iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
-        git fetch --no-tags jic23-iio testings
-        git checkout 4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
+        # https://github.com/intel-lab-lkp/linux/commit/2e7e6f5bd3b9c28493f9871282fe8f14e2263962
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230417-210005
+        git checkout 2e7e6f5bd3b9c28493f9871282fe8f14e2263962
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iio/imu/st_lsm6dsx/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/proc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304172312.pFvZ0sxn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172319.CjlksY4s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
-   In file included from include/linux/iio/triggered_buffer.h:6:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
-   In file included from include/linux/iio/triggered_buffer.h:6:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:64:
-   In file included from include/linux/iio/triggered_buffer.h:6:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2690:14: error: expected ';' after return statement
-           return false
-                       ^
-                       ;
-   6 warnings and 1 error generated.
+   fs/proc/task_mmu.c: In function 'pagemap_scan_pte_hole':
+   fs/proc/task_mmu.c:2059:14: error: invalid use of undefined type 'struct pagemap_scan_private'
+    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
+         |              ^~
+   fs/proc/task_mmu.c:2059:30: error: invalid use of undefined type 'struct pagemap_scan_private'
+    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
+         |                              ^~
+   fs/proc/task_mmu.c:2059:57: error: invalid use of undefined type 'struct pagemap_scan_private'
+    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
+         |                                                         ^~
+   fs/proc/task_mmu.c:2060:28: error: invalid use of undefined type 'struct pagemap_scan_private'
+    2060 |                 n_pages = p->max_pages - p->found_pages;
+         |                            ^~
+   fs/proc/task_mmu.c:2060:43: error: invalid use of undefined type 'struct pagemap_scan_private'
+    2060 |                 n_pages = p->max_pages - p->found_pages;
+         |                                           ^~
+   fs/proc/task_mmu.c:2062:15: error: implicit declaration of function 'pagemap_scan_output' [-Werror=implicit-function-declaration]
+    2062 |         ret = pagemap_scan_output(false, vma->vm_file, false, false, p, addr,
+         |               ^~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c: At top level:
+   fs/proc/task_mmu.c:2068:22: error: 'pagemap_scan_test_walk' undeclared here (not in a function); did you mean 'pagemap_scan_pte_hole'?
+    2068 |         .test_walk = pagemap_scan_test_walk,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                      pagemap_scan_pte_hole
+   fs/proc/task_mmu.c:2069:22: error: 'pagemap_scan_pmd_entry' undeclared here (not in a function); did you mean 'pagemap_scan_pte_hole'?
+    2069 |         .pmd_entry = pagemap_scan_pmd_entry,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                      pagemap_scan_pte_hole
+   fs/proc/task_mmu.c: In function 'pagemap_scan_args_valid':
+   fs/proc/task_mmu.c:2080:27: error: 'PM_SCAN_OPS' undeclared (first use in this function); did you mean 'PM_SCAN_OP_WP'?
+    2080 |         if (arg->flags & ~PM_SCAN_OPS)
+         |                           ^~~~~~~~~~~
+         |                           PM_SCAN_OP_WP
+   fs/proc/task_mmu.c:2080:27: note: each undeclared identifier is reported only once for each function it appears in
+   fs/proc/task_mmu.c:2085:35: error: 'PM_SCAN_BITS_ALL' undeclared (first use in this function); did you mean 'CPU_BITS_ALL'?
+    2085 |              arg->return_mask) & ~PM_SCAN_BITS_ALL)
+         |                                   ^~~~~~~~~~~~~~~~
+         |                                   CPU_BITS_ALL
+   fs/proc/task_mmu.c:2106:14: error: implicit declaration of function 'PM_SCAN_DO_UFFD_WP'; did you mean 'PM_SCAN_OP_WP'? [-Werror=implicit-function-declaration]
+    2106 |         if (!PM_SCAN_DO_UFFD_WP(arg))
+         |              ^~~~~~~~~~~~~~~~~~
+         |              PM_SCAN_OP_WP
+   fs/proc/task_mmu.c: In function 'do_pagemap_scan':
+   fs/proc/task_mmu.c:2123:37: error: storage size of 'p' isn't known
+    2123 |         struct pagemap_scan_private p;
+         |                                     ^
+   fs/proc/task_mmu.c:2148:21: error: 'PAGEMAP_WALK_SIZE' undeclared (first use in this function); did you mean 'PAGE_TABLE_SIZE'?
+    2148 |         p.vec_len = PAGEMAP_WALK_SIZE >> PAGE_SHIFT;
+         |                     ^~~~~~~~~~~~~~~~~
+         |                     PAGE_TABLE_SIZE
+   In file included from include/linux/kernel.h:27,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/pagewalk.h:5,
+                    from fs/proc/task_mmu.c:2:
+   include/linux/minmax.h:36:9: error: first argument to '__builtin_choose_expr' not a constant
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~
+   fs/proc/task_mmu.c:2173:29: note: in expansion of macro 'min'
+    2173 |                 p.vec_len = min(p.vec_len, empty_slots);
+         |                             ^~~
+   fs/proc/task_mmu.c:2175:63: error: 'PAGEMAP_WALK_MASK' undeclared (first use in this function)
+    2175 |                 walk_end = (walk_start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
+         |                                                               ^~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:2186:53: error: 'PM_SCAN_FOUND_MAX_PAGES' undeclared (first use in this function)
+    2186 |                 if (ret && ret != -ENOSPC && ret != PM_SCAN_FOUND_MAX_PAGES)
+         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/proc/task_mmu.c:2123:37: warning: unused variable 'p' [-Wunused-variable]
+    2123 |         struct pagemap_scan_private p;
+         |                                     ^
+   fs/proc/task_mmu.c: At top level:
+   fs/proc/task_mmu.c:2240:27: error: 'pagemap_read' undeclared here (not in a function); did you mean 'filemap_read'?
+    2240 |         .read           = pagemap_read,
+         |                           ^~~~~~~~~~~~
+         |                           filemap_read
+   fs/proc/task_mmu.c:2241:27: error: 'pagemap_open' undeclared here (not in a function); did you mean 'pid_maps_open'?
+    2241 |         .open           = pagemap_open,
+         |                           ^~~~~~~~~~~~
+         |                           pid_maps_open
+   fs/proc/task_mmu.c:2242:27: error: 'pagemap_release' undeclared here (not in a function); did you mean 'proc_map_release'?
+    2242 |         .release        = pagemap_release,
+         |                           ^~~~~~~~~~~~~~~
+         |                           proc_map_release
+   fs/proc/task_mmu.c:2246:2: error: #endif without #if
+    2246 | #endif /* CONFIG_PROC_PAGE_MONITOR */
+         |  ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2690 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+vim +/p +2123 fs/proc/task_mmu.c
 
-  2686	
-  2687	static int lsm6dsx_get_acpi_mount_matrix(struct device *dev,
-  2688						  struct iio_mount_matrix *orientation)
-  2689	{
-> 2690		return false
-  2691	}
-  2692	
+  2115	
+  2116	static long do_pagemap_scan(struct mm_struct *mm,
+  2117				   struct pm_scan_arg __user *uarg)
+  2118	{
+  2119		unsigned long start, end, walk_start, walk_end;
+  2120		unsigned long empty_slots, vec_index = 0;
+  2121		struct mmu_notifier_range range;
+  2122		struct page_region __user *vec;
+> 2123		struct pagemap_scan_private p;
+  2124		struct pm_scan_arg arg;
+  2125		int ret = 0;
+  2126	
+  2127		if (copy_from_user(&arg, uarg, sizeof(arg)))
+  2128			return -EFAULT;
+  2129	
+  2130		start = untagged_addr((unsigned long)arg.start);
+  2131		vec = (struct page_region *)untagged_addr((unsigned long)arg.vec);
+  2132	
+  2133		ret = pagemap_scan_args_valid(&arg, start, vec);
+  2134		if (ret)
+  2135			return ret;
+  2136	
+  2137		end = start + arg.len;
+  2138		p.max_pages = arg.max_pages;
+  2139		p.found_pages = 0;
+  2140		p.flags = arg.flags;
+  2141		p.required_mask = arg.required_mask;
+  2142		p.anyof_mask = arg.anyof_mask;
+  2143		p.excluded_mask = arg.excluded_mask;
+  2144		p.return_mask = arg.return_mask;
+  2145		p.cur.len = 0;
+  2146		p.cur.start = 0;
+  2147		p.vec = NULL;
+  2148		p.vec_len = PAGEMAP_WALK_SIZE >> PAGE_SHIFT;
+  2149	
+  2150		/*
+  2151		 * Allocate smaller buffer to get output from inside the page walk
+  2152		 * functions and walk page range in PAGEMAP_WALK_SIZE size chunks. As
+  2153		 * we want to return output to user in compact form where no two
+  2154		 * consecutive regions should be continuous and have the same flags.
+  2155		 * So store the latest element in p.cur between different walks and
+  2156		 * store the p.cur at the end of the walk to the user buffer.
+  2157		 */
+  2158		p.vec = kmalloc_array(p.vec_len, sizeof(*p.vec), GFP_KERNEL);
+  2159		if (!p.vec)
+  2160			return -ENOMEM;
+  2161	
+  2162		if (p.flags & PM_SCAN_OP_WP) {
+  2163			mmu_notifier_range_init(&range, MMU_NOTIFY_PROTECTION_VMA, 0,
+  2164						vma->vm_mm, start, end);
+  2165			mmu_notifier_invalidate_range_start(&range);
+  2166		}
+  2167	
+  2168		walk_start = walk_end = start;
+  2169		while (walk_end < end && !ret) {
+  2170			p.vec_index = 0;
+  2171	
+  2172			empty_slots = arg.vec_len - vec_index;
+  2173			p.vec_len = min(p.vec_len, empty_slots);
+  2174	
+  2175			walk_end = (walk_start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
+  2176			if (walk_end > end)
+  2177				walk_end = end;
+  2178	
+  2179			ret = mmap_read_lock_killable(mm);
+  2180			if (ret)
+  2181				goto free_data;
+  2182			ret = walk_page_range(mm, walk_start, walk_end,
+  2183					      &pagemap_scan_ops, &p);
+  2184			mmap_read_unlock(mm);
+  2185	
+  2186			if (ret && ret != -ENOSPC && ret != PM_SCAN_FOUND_MAX_PAGES)
+  2187				goto free_data;
+  2188	
+  2189			walk_start = walk_end;
+  2190			if (p.vec_index) {
+  2191				if (copy_to_user(&vec[vec_index], p.vec,
+  2192						 p.vec_index * sizeof(*p.vec))) {
+  2193					/*
+  2194					 * Return error even though the OP succeeded
+  2195					 */
+  2196					ret = -EFAULT;
+  2197					goto free_data;
+  2198				}
+  2199				vec_index += p.vec_index;
+  2200			}
+  2201		}
+  2202	
+  2203		if (p.flags & PM_SCAN_OP_WP) {
+  2204			mmu_notifier_invalidate_range_end(&range);
+  2205			flush_tlb_mm_range(mm, start, end, PAGE_SHIFT, false);
+  2206		}
+  2207	
+  2208		if (p.cur.len) {
+  2209			if (copy_to_user(&vec[vec_index], &p.cur, sizeof(*p.vec))) {
+  2210				ret = -EFAULT;
+  2211				goto free_data;
+  2212			}
+  2213			vec_index++;
+  2214		}
+  2215	
+  2216		ret = vec_index;
+  2217	
+  2218	free_data:
+  2219		kfree(p.vec);
+  2220		return ret;
+  2221	}
+  2222	
 
 -- 
 0-DAY CI Kernel Test Service
