@@ -1,46 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273458460;
-	Mon, 17 Apr 2023 14:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3772B8460
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 15:09:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681742875; x=1713278875;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IErMJSxlbjeVZMyODKXty2E2HhnlM8oazVPdgH+Zb2I=;
-  b=LQA8sawsH+jldxdtCsze8HC3dFdRz37v5vv9eNm0MzDvFpqd9i0nrPdF
-   GtS2LWQ7P+kvTOWqGRv77mtS7JatAUwVgy8IqUo+I5g8cBEr2u1WKgG5u
-   IdXfX4gWktaI2k2VJxebfFwCvhmY2tFd7ZBgnvx8cATi9CPFjuVBeCFJa
-   KpqoVl4Q4KzGbR6w38HZQc6KqP5Jv/XzX0c/4NU9iEjIhpakWCe3DvXen
-   Rbbck7oWCmlXSWciugD19Q1hIgj9b/AxcIU284uvXur3U2lVLmVhcz2ni
-   m0IAqQVCRU6AMovkV9tpj0fZturvErU4IoCJfywqYxPDaxVwXCMy2Jhcd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="325251498"
+  t=1681744158; x=1713280158;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ddIPBOINECCTr/nljvfr0git9+3TxIPl1o7/wmKu2lg=;
+  b=Ze/yQgls8JDeTP7SRbkZSowMr/5glVzEfDEte0YyfjEByk/eCcBQ0RNa
+   +JZ0ImC5ucqy/dL9sR9Q59DSv7VcDfWyCeUIPeZICng1d4nnLhWcADjzU
+   P0N5nfMkyWFQvWfxWApiDlPRGd6wYvFDJz67mAYVGcV3n0r/udDFdLWtu
+   9rVj5SxSZpb5Op9+mq4BIlaO9YnEd8jnI7YeZJ+VS4XgZOlj25t7QuXZg
+   CA1cdxWZen/y4F+ppn/i20avdHHKFvlvudpCxTBXLVz4qN3MLeY83QGOb
+   5265vJI0ADzjVvA7j0IOQ8I7gLUxiY/WN8mgWLSpMETQJ7qCUGMPVfew5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="343668358"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="325251498"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:47:54 -0700
+   d="scan'208";a="343668358"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 08:08:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="755337281"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="834466170"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="755337281"
+   d="scan'208";a="834466170"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Apr 2023 07:47:51 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2023 08:08:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poQ90-000cUd-2B;
-	Mon, 17 Apr 2023 14:47:50 +0000
-Date: Mon, 17 Apr 2023 22:47:27 +0800
+	id 1poQTL-000cWR-2N;
+	Mon, 17 Apr 2023 15:08:51 +0000
+Date: Mon, 17 Apr 2023 23:08:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>, netdev@vger.kernel.org,
-	linux@armlinux.org.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-	mengyuanlou@net-swift.com, Jiawen Wu <jiawenwu@trustnetic.com>
-Subject: Re: [PATCH net-next v2 5/6] net: txgbe: Implement phylink pcs
-Message-ID: <202304172223.PoHEDYCs-lkp@intel.com>
-References: <20230411092725.104992-6-jiawenwu@trustnetic.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:testings 65/65]
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2690:21: error: expected ';'
+ before '}' token
+Message-ID: <202304172343.aQwJiRlH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,126 +46,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411092725.104992-6-jiawenwu@trustnetic.com>
 
-Hi Jiawen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-txgbe-Add-software-nodes-to-support-phylink/20230411-173314
-patch link:    https://lore.kernel.org/r/20230411092725.104992-6-jiawenwu%40trustnetic.com
-patch subject: [PATCH net-next v2 5/6] net: txgbe: Implement phylink pcs
-config: riscv-randconfig-r042-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172223.PoHEDYCs-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testings
+head:   4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
+commit: 4c7e876ff00d0fc0501fd5811bd1328cfc5d8408 [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
+config: arc-randconfig-r043-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172343.aQwJiRlH-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/5903347a21d42b4f2d632e08e04890d7f638a947
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiawen-Wu/net-txgbe-Add-software-nodes-to-support-phylink/20230411-173314
-        git checkout 5903347a21d42b4f2d632e08e04890d7f638a947
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
+        git remote add jic23-iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
+        git fetch --no-tags jic23-iio testings
+        git checkout 4c7e876ff00d0fc0501fd5811bd1328cfc5d8408
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/ethernet/wangxun/txgbe/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/iio/imu/st_lsm6dsx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304172223.PoHEDYCs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172343.aQwJiRlH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:269:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (interface == txgbe->interface)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:325:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:269:2: note: remove the 'if' if its condition is always false
-           if (interface == txgbe->interface)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:267:9: note: initialize the variable 'ret' to silence this warning
-           int ret, val;
-                  ^
-                   = 0
-   1 warning generated.
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c: In function 'lsm6dsx_get_acpi_mount_matrix':
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2690:21: error: expected ';' before '}' token
+    2690 |         return false
+         |                     ^
+         |                     ;
+    2691 | }
+         | ~                    
 
 
-vim +269 drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c
+vim +2690 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-   259	
-   260	static int txgbe_pcs_config(struct phylink_pcs *pcs, unsigned int mode,
-   261				    phy_interface_t interface,
-   262				    const unsigned long *advertising,
-   263				    bool permit_pause_to_mac)
-   264	{
-   265		struct txgbe *txgbe = container_of(pcs, struct txgbe, pcs);
-   266		struct wx *wx = txgbe->wx;
-   267		int ret, val;
-   268	
- > 269		if (interface == txgbe->interface)
-   270			goto out;
-   271	
-   272		/* Wait xpcs power-up good */
-   273		ret = read_poll_timeout(pcs_read, val,
-   274					(val & TXGBE_PCS_DIG_STS_PSEQ_ST) ==
-   275					TXGBE_PCS_DIG_STS_PSEQ_ST_GOOD,
-   276					10000, 1000000, false,
-   277					txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_STS);
-   278		if (ret < 0) {
-   279			wx_err(wx, "xpcs power-up timeout.\n");
-   280			return ret;
-   281		}
-   282	
-   283		/* Disable xpcs AN-73 */
-   284		pcs_write(txgbe, MDIO_MMD_AN, MDIO_CTRL1, 0);
-   285	
-   286		/* Disable PHY MPLLA for eth mode change(after ECO) */
-   287		txgbe_ephy_write(txgbe, TXGBE_SUP_DIG_MPLLA_OVRD_IN_0, 0x243A);
-   288		WX_WRITE_FLUSH(wx);
-   289		usleep_range(1000, 2000);
-   290	
-   291		/* Set the eth change_mode bit first in mis_rst register
-   292		 * for corresponding LAN port
-   293		 */
-   294		wr32(wx, TXGBE_MIS_RST, TXGBE_MIS_RST_LAN_ETH_MODE(wx->bus.func));
-   295	
-   296		switch (interface) {
-   297		case PHY_INTERFACE_MODE_10GBASER:
-   298			txgbe_pma_config_10gbaser(txgbe);
-   299			break;
-   300		case PHY_INTERFACE_MODE_1000BASEX:
-   301			txgbe_pma_config_1000basex(txgbe);
-   302			break;
-   303		default:
-   304			break;
-   305		}
-   306	
-   307		pcs_write(txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_CTRL1,
-   308			  TXGBE_PCS_DIG_CTRL1_VR_RST | TXGBE_PCS_DIG_CTRL1_EN_VSMMD1);
-   309		/* wait phy initialization done */
-   310		ret = read_poll_timeout(pcs_read, val,
-   311					!(val & TXGBE_PCS_DIG_CTRL1_VR_RST),
-   312					100000, 10000000, false,
-   313					txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_CTRL1);
-   314		if (ret < 0)
-   315			wx_err(wx, "PHY initialization timeout.\n");
-   316	
-   317		txgbe->interface = interface;
-   318	
-   319	out:
-   320		if (interface == PHY_INTERFACE_MODE_1000BASEX) {
-   321			txgbe_setup_adv(txgbe, interface, advertising);
-   322			txgbe_set_an37_ability(txgbe);
-   323		}
-   324	
-   325		return ret;
-   326	}
-   327	
+  2686	
+  2687	static int lsm6dsx_get_acpi_mount_matrix(struct device *dev,
+  2688						  struct iio_mount_matrix *orientation)
+  2689	{
+> 2690		return false
+  2691	}
+  2692	
 
 -- 
 0-DAY CI Kernel Test Service
