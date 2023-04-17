@@ -1,53 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74059848E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 18:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A9429B0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 18:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681754586; x=1713290586;
+  t=1681757645; x=1713293645;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NiywolP3IeUIa8VfpIaUT5vTVN52GkeINXKV5c29gCM=;
-  b=YPMZLyJwFIeYu0so3eVup4eky2T7JZLGMDIvh2HP+2nnH0wS7DiLL/fr
-   HU3qO9VHh2MsVFSMujHUetokPlHWSkGaXRap2wDy4JLMmpMtYt9pCXoiZ
-   zSq+Be9eMBTAwGJMLwYyxzD3bGYNWjCl0kRzWWtgh5qasS/phupyfl7no
-   PYoaVlRBCvYIn1m6S4HiDnqwE1ZOqwtXtRK1RgOxgY+4epRopuKP6pmyU
-   vGOIRVrKv8dms6TDQ3f32quofI5+xYhzBunc0UHELY7Cm4eu7/U+sa8QH
-   lbCHxNI369ADn1OmgVN/mimApX7htnQQ3Ls09Ap9QVCZtmuy2oc+dtVoN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="372844406"
+  bh=M69RrZcvdueoFuT2kpAZU2B366vMBCc0JV5qRiQowmI=;
+  b=lyRjE0WckvJARQBsOL2B5CrDx72SI2svumsuss+P0KoQPkUOmKinTrwo
+   64CjgD3pCcWCXiZHy9DIJaBp/Gql3T26WRZLBgvXJtLN/+Plkva3b3oil
+   hwqErHUZl7QMBM5ccZQtcm0Ukpm99/2qsXnrohHKAzvOShpua5su/Xxzc
+   muQ8j0bORjUezhEYf+XSfZLoza27Bk8U+7TLIwecjJbqRvfCp8KBfSUvn
+   USIssUn9Fw/C/KZisLVBMXtOpa8lN/PKvVGLDU4nlvq9svDkWuDNU/KGa
+   Yf+xfvV8lJttWtK1EMmNEdGT+ZTI8h6v5B0Uwc5R8SCo8NHlJKsrTPOaO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="344979776"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="372844406"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 11:03:05 -0700
+   d="scan'208";a="344979776"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 11:54:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="865078950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668199152"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="865078950"
+   d="scan'208";a="668199152"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 17 Apr 2023 11:03:01 -0700
+  by orsmga006.jf.intel.com with ESMTP; 17 Apr 2023 11:54:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poTBs-000ccB-2O;
-	Mon, 17 Apr 2023 18:03:00 +0000
-Date: Tue, 18 Apr 2023 02:02:35 +0800
+	id 1poTzF-000cdD-2a;
+	Mon, 17 Apr 2023 18:54:01 +0000
+Date: Tue, 18 Apr 2023 02:53:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, Sibi Sankar <quic_sibis@quicinc.com>,
-	Rajendra Nayak <quic_rjendra@quicinc.com>,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Subject: Re: [PATCH V4 2/3] soc: qcom: boot_stat: Add Driver Support for Boot
- Stats
-Message-ID: <202304180101.Wxf2Jbjq-lkp@intel.com>
-References: <2ef76ce292c059c144e559123a9a54201ae2d0cf.1681742910.git.quic_schowdhu@quicinc.com>
+To: Joanne Koong <joannelkoong@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, Joanne Koong <joannelkoong@gmail.com>
+Subject: Re: [PATCH v1 bpf-next 4/5] bpf: Add bpf_dynptr_clone
+Message-ID: <202304180233.Hk6WZE5M-lkp@intel.com>
+References: <20230409033431.3992432-5-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,58 +47,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2ef76ce292c059c144e559123a9a54201ae2d0cf.1681742910.git.quic_schowdhu@quicinc.com>
+In-Reply-To: <20230409033431.3992432-5-joannelkoong@gmail.com>
 
-Hi Souradeep,
+Hi Joanne,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next linus/master v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230417-231510
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/2ef76ce292c059c144e559123a9a54201ae2d0cf.1681742910.git.quic_schowdhu%40quicinc.com
-patch subject: [PATCH V4 2/3] soc: qcom: boot_stat: Add Driver Support for Boot Stats
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230418/202304180101.Wxf2Jbjq-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/bpf-Add-bpf_dynptr_trim-and-bpf_dynptr_advance/20230409-113652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230409033431.3992432-5-joannelkoong%40gmail.com
+patch subject: [PATCH v1 bpf-next 4/5] bpf: Add bpf_dynptr_clone
+config: m68k-randconfig-s032-20230416 (https://download.01.org/0day-ci/archive/20230418/202304180233.Hk6WZE5M-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4c8808184261e004f0b258e469415e4eea9c5ad9
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/d7830addcc26375f56b68655ddbfb44116b3e7f6
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230417-231510
-        git checkout 4c8808184261e004f0b258e469415e4eea9c5ad9
+        git fetch --no-tags linux-review Joanne-Koong/bpf-Add-bpf_dynptr_trim-and-bpf_dynptr_advance/20230409-113652
+        git checkout d7830addcc26375f56b68655ddbfb44116b3e7f6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/soc/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash kernel/bpf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304180101.Wxf2Jbjq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304180233.Hk6WZE5M-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/verifier.c:7020:41: sparse: sparse: mixing different enum types:
+>> kernel/bpf/verifier.c:7020:41: sparse:    unsigned int enum bpf_arg_type
+>> kernel/bpf/verifier.c:7020:41: sparse:    unsigned int enum bpf_type_flag
+   kernel/bpf/verifier.c:18042:38: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
 
->> drivers/soc/qcom/boot_stats.c:76:6: warning: no previous prototype for 'boot_stats_remove' [-Wmissing-prototypes]
-      76 | void boot_stats_remove(struct platform_device *pdev)
-         |      ^~~~~~~~~~~~~~~~~
+vim +7020 kernel/bpf/verifier.c
 
-
-vim +/boot_stats_remove +76 drivers/soc/qcom/boot_stats.c
-
-    75	
-  > 76	void boot_stats_remove(struct platform_device *pdev)
-    77	{
-    78		struct bs_data *drvdata = platform_get_drvdata(pdev);
-    79	
-    80		debugfs_remove_recursive(drvdata->dbg_dir);
-    81		iounmap(drvdata->b_stats);
-    82	}
-    83	
+  7006	
+  7007	static int handle_dynptr_clone(struct bpf_verifier_env *env, enum bpf_arg_type arg_type,
+  7008				       int regno, int insn_idx, struct bpf_kfunc_call_arg_meta *meta)
+  7009	{
+  7010		struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
+  7011		struct bpf_reg_state *first_reg_state, *second_reg_state;
+  7012		struct bpf_func_state *state = func(env, reg);
+  7013		enum bpf_dynptr_type dynptr_type = meta->initialized_dynptr.type;
+  7014		int err, spi, ref_obj_id;
+  7015	
+  7016		if (!dynptr_type) {
+  7017			verbose(env, "verifier internal error: no dynptr type for bpf_dynptr_clone\n");
+  7018			return -EFAULT;
+  7019		}
+> 7020		arg_type |= get_dynptr_type_flag(dynptr_type);
+  7021	
+  7022		err = process_dynptr_func(env, regno, insn_idx, arg_type);
+  7023		if (err < 0)
+  7024			return err;
+  7025	
+  7026		spi = dynptr_get_spi(env, reg);
+  7027		if (spi < 0)
+  7028			return spi;
+  7029	
+  7030		first_reg_state = &state->stack[spi].spilled_ptr;
+  7031		second_reg_state = &state->stack[spi - 1].spilled_ptr;
+  7032		ref_obj_id = first_reg_state->ref_obj_id;
+  7033	
+  7034		/* reassign the clone the same dynptr id as the original */
+  7035		__mark_dynptr_reg(first_reg_state, dynptr_type, true, meta->initialized_dynptr.id);
+  7036		__mark_dynptr_reg(second_reg_state, dynptr_type, false, meta->initialized_dynptr.id);
+  7037	
+  7038		if (meta->initialized_dynptr.ref_obj_id) {
+  7039			/* release the new ref obj id assigned during process_dynptr_func */
+  7040			err = release_reference_state(cur_func(env), ref_obj_id);
+  7041			if (err)
+  7042				return err;
+  7043			/* reassign the clone the same ref obj id as the original */
+  7044			first_reg_state->ref_obj_id = meta->initialized_dynptr.ref_obj_id;
+  7045			second_reg_state->ref_obj_id = meta->initialized_dynptr.ref_obj_id;
+  7046		}
+  7047	
+  7048		return 0;
+  7049	}
+  7050	
 
 -- 
 0-DAY CI Kernel Test Service
