@@ -1,43 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF20B3FC2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 12:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AAC3FC2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 12:44:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681734713; x=1713270713;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=7MPELE/lPnfBgKyq4qF9xCj8deh//hL0fCNJp2u6BrQ=;
-  b=anFJfrnk5bJIsXg8weysxRFTD2hR0WjpO7BATF02PyjohnMS2lMF74s/
-   4BGytaLIoJmSZ+BNXUqlzSZkrcySRUnfeggHCXerlUcBEBW/X6X2LjflI
-   SzieEa3cwwdnI+z57c17GV0XqLgEvTWlbohi7UtgY+zcEluB6HF/XSXbh
-   IQbzH/ikdsHCANbeKeQqdQwVYgbyE0MaAnzGQVmKp2EGiSqg3u9SeEyx5
-   PH8aTWqlQyF4R8FsG6tNcmQ2MWqaUXXqdG9y0CtOevDaXosfeUPR5JA5K
-   NI3Q1BAJtQW3BwDwxdpweskIb2XmKZXVQY6eQxCH1AfgLBDOcefOlZsTu
+  t=1681735489; x=1713271489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y/esuIhc93Jp7lxKz3B0zEndGBlU9SQYN2Zc+WRiBI4=;
+  b=aC3W/gRrGmSM4EGAfg9/g+CnS21TGwon1u2GEwboDuwTsGz8hYGSI1Eq
+   P0u0A0mF41stSrsq83TfsXlKiwF1mpVyx7RJRgfCFjVV21qeO4iRdaAKi
+   0m8Q6LVsfMtHHDs27sDZlze5myeEYWqJrAfM6PF94ibZboZWIr95CMC2o
+   Cp0H01xXhRnoIFixuDvX64nK2MJjafIAT9Q5OgxSAH2i/FAdDWAt0Nirs
+   k8HCcIA4rpgvFIEMNdzy8SYnI1MHlObCArlFEr4VGGLWUfsdEMF/sHC1b
+   MBkXbzelpps66rf3y5COkhCbttA9a4X8Zk8FSeMXPxb3Mc0TKvZCgVDaH
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="410092214"
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="346729372"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="410092214"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 05:31:50 -0700
+   d="scan'208";a="346729372"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 05:44:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="864978547"
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="834407213"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="864978547"
+   d="scan'208";a="834407213"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 17 Apr 2023 05:31:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2023 05:44:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poO1H-000cLN-27;
-	Mon, 17 Apr 2023 12:31:43 +0000
-Date: Mon, 17 Apr 2023 20:31:03 +0800
+	id 1poODs-000cMF-0V;
+	Mon, 17 Apr 2023 12:44:44 +0000
+Date: Mon, 17 Apr 2023 20:44:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anders Roxell <anders.roxell@linaro.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [backport PATCH 1/2] tools perf: Fix compilation error with new
- binutils
-Message-ID: <ZD08B1j+Ps5D/pkd@96b608206aa4>
+To: wenyang.linux@foxmail.com, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Wen Yang <wenyang.linux@foxmail.com>,
+	Christoph Hellwig <hch@lst.de>, Dylan Yudaken <dylany@fb.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Paolo Bonzini <pbonzini@redhat.com>, Fu Wei <wefu@redhat.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] eventfd: support delayed wakeup for non-semaphore
+ eventfd to reduce cpu utilization
+Message-ID: <202304172058.piI49JCE-lkp@intel.com>
+References: <tencent_AF886EF226FD9F39D28FE4D9A94A95FA2605@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +53,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230417122943.2155502-2-anders.roxell@linaro.org>
+In-Reply-To: <tencent_AF886EF226FD9F39D28FE4D9A94A95FA2605@qq.com>
 
 Hi,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on vfs-idmapping/for-next]
+[also build test WARNING on linus/master v6.3-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [backport PATCH 1/2] tools perf: Fix compilation error with new binutils
-Link: https://lore.kernel.org/stable/20230417122943.2155502-2-anders.roxell%40linaro.org
+url:    https://github.com/intel-lab-lkp/linux/commits/wenyang-linux-foxmail-com/eventfd-support-delayed-wakeup-for-non-semaphore-eventfd-to-reduce-cpu-utilization/20230416-193353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/tencent_AF886EF226FD9F39D28FE4D9A94A95FA2605%40qq.com
+patch subject: [PATCH] eventfd: support delayed wakeup for non-semaphore eventfd to reduce cpu utilization
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/ea9214e265bae223a795f144d6ddcac65e8e2084
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review wenyang-linux-foxmail-com/eventfd-support-delayed-wakeup-for-non-semaphore-eventfd-to-reduce-cpu-utilization/20230416-193353
+        git checkout ea9214e265bae223a795f144d6ddcac65e8e2084
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172058.piI49JCE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/admin-guide/sysctl/fs.rst:74: WARNING: Title underline too short.
+
+vim +74 Documentation/admin-guide/sysctl/fs.rst
+
+    72	
+    73	eventfd_wakeup_delay_msec
+  > 74	------------------
+    75	Frequent writing of an eventfd can also lead to frequent wakeup of the peer
+    76	read process, resulting in significant cpu overhead.
+    77	How ever for the NON SEMAPHORE eventfd, if it's counter has a nonzero value,
+    78	then a read(2) returns 8 bytes containing that value, and the counter's value
+    79	is reset to zero.
+    80	So it coule be optimized as follows: N event_writes vs ONE event_read.
+    81	By adding a configurable delay after eventfd_write, these unnecessary wakeup
+    82	operations are avoided.
+    83	The max value is 100 ms.
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
