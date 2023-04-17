@@ -1,135 +1,175 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B7C8460;
-	Mon, 17 Apr 2023 14:43:02 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33HCtV7Z007267;
-	Mon, 17 Apr 2023 14:42:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : references : date : in-reply-to : message-id : mime-version :
- content-type; s=qcppdkim1;
- bh=5qzd+c0AETChtvpI0vuLSbl7U7FbPzJnd0FfoOEhIaE=;
- b=d83kJ4LEVgpDwRbJIfScjM0ci2P9l7VFJg8STkWtX1Vk3RhnMg62DLAte+wcJjjZFwSK
- hpSsm6R9SirIQawc0FyNmpR2dqj/AfCB+IlEOlukxyt/pHw5VLULAc3tfvUdChjHlC2c
- ITR9VKacjAJ2zNVsl58jupmLNDC7p45UCZ88Pgr97wkplcGVXEy7dBi30E/iPtowZYUa
- 7lg9FVQX+mpQKjsyca6+WYXrWD1K5YUmMd3pYM4wwmLs301Jnbc0yCr8D5BiWxb2icOM
- a50Wbo2dPAZtv0/Zxdy2yUwKnfPQeaZ2POWtcH/iSPuUCwEcKzPnzQwBU45j516VpQsz UQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q11er8y0v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Apr 2023 14:42:51 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33HEgnI2002301
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Apr 2023 14:42:50 GMT
-Received: from kvalo10 (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
- 2023 07:42:41 -0700
-From: Kalle Valo <quic_kvalo@quicinc.com>
-To: Dan Carpenter <error27@gmail.com>
-CC: <oe-kbuild@lists.linux.dev>, <lkp@intel.com>,
-        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <ath11k@lists.infradead.org>
-Subject: Re: drivers/net/wireless/ath/ath11k/debugfs.c:1009
- ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
-References: <278dae1d-0cc2-4963-b7f0-5d611a5b31a4@kili.mountain>
-Date: Mon, 17 Apr 2023 17:42:38 +0300
-In-Reply-To: <278dae1d-0cc2-4963-b7f0-5d611a5b31a4@kili.mountain> (Dan
-	Carpenter's message of "Sat, 15 Apr 2023 16:15:07 +0300")
-Message-ID: <87o7nm4lk1.fsf@kvalo10.eu.qualcomm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273458460;
+	Mon, 17 Apr 2023 14:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681742875; x=1713278875;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IErMJSxlbjeVZMyODKXty2E2HhnlM8oazVPdgH+Zb2I=;
+  b=LQA8sawsH+jldxdtCsze8HC3dFdRz37v5vv9eNm0MzDvFpqd9i0nrPdF
+   GtS2LWQ7P+kvTOWqGRv77mtS7JatAUwVgy8IqUo+I5g8cBEr2u1WKgG5u
+   IdXfX4gWktaI2k2VJxebfFwCvhmY2tFd7ZBgnvx8cATi9CPFjuVBeCFJa
+   KpqoVl4Q4KzGbR6w38HZQc6KqP5Jv/XzX0c/4NU9iEjIhpakWCe3DvXen
+   Rbbck7oWCmlXSWciugD19Q1hIgj9b/AxcIU284uvXur3U2lVLmVhcz2ni
+   m0IAqQVCRU6AMovkV9tpj0fZturvErU4IoCJfywqYxPDaxVwXCMy2Jhcd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="325251498"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
+   d="scan'208";a="325251498"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:47:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="755337281"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
+   d="scan'208";a="755337281"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Apr 2023 07:47:51 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1poQ90-000cUd-2B;
+	Mon, 17 Apr 2023 14:47:50 +0000
+Date: Mon, 17 Apr 2023 22:47:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>, netdev@vger.kernel.org,
+	linux@armlinux.org.uk
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
+	mengyuanlou@net-swift.com, Jiawen Wu <jiawenwu@trustnetic.com>
+Subject: Re: [PATCH net-next v2 5/6] net: txgbe: Implement phylink pcs
+Message-ID: <202304172223.PoHEDYCs-lkp@intel.com>
+References: <20230411092725.104992-6-jiawenwu@trustnetic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: H9A4xvmLo5N9w1APDOkTIhTehPqH1_oK
-X-Proofpoint-ORIG-GUID: H9A4xvmLo5N9w1APDOkTIhTehPqH1_oK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-17_08,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=429
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304170131
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230411092725.104992-6-jiawenwu@trustnetic.com>
 
-+ ath11k list
+Hi Jiawen,
 
-Including the full report below.
+kernel test robot noticed the following build warnings:
 
-Kalle
+[auto build test WARNING on net-next/main]
 
-Dan Carpenter <error27@gmail.com> writes:
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-txgbe-Add-software-nodes-to-support-phylink/20230411-173314
+patch link:    https://lore.kernel.org/r/20230411092725.104992-6-jiawenwu%40trustnetic.com
+patch subject: [PATCH net-next v2 5/6] net: txgbe: Implement phylink pcs
+config: riscv-randconfig-r042-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172223.PoHEDYCs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/5903347a21d42b4f2d632e08e04890d7f638a947
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jiawen-Wu/net-txgbe-Add-software-nodes-to-support-phylink/20230411-173314
+        git checkout 5903347a21d42b4f2d632e08e04890d7f638a947
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/ethernet/wangxun/txgbe/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
-> commit: 323d91d4684d238f6bc3693fed93caf795378fe0 wifi: ath11k: debugfs: fix to work with multiple PCI devices
-> config: openrisc-randconfig-m041-20230414
-> (https://download.01.org/0day-ci/archive/20230415/202304152142.ssXYxFdQ-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304152142.ssXYxFdQ-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/net/wireless/ath/ath11k/debugfs.c:1009 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
->
-> Old smatch warnings:
-> drivers/net/wireless/ath/ath11k/debugfs.c:1022 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
->
-> vim +/PTR_ERR +1009 drivers/net/wireless/ath/ath11k/debugfs.c
->
-> cb4e57db2ff0c8 Kalle Valo 2020-09-16   998  int ath11k_debugfs_soc_create(struct ath11k_base *ab)
-> da3a9d3c15769b Kalle Valo 2020-09-16   999  {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1000  	struct dentry *root;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1001  	bool dput_needed;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1002  	char name[64];
-> 323d91d4684d23 Kalle Valo 2022-12-22  1003  	int ret;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1004  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1005  	root = debugfs_lookup("ath11k", NULL);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1006  	if (!root) {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1007  		root = debugfs_create_dir("ath11k", NULL);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1008  		if (IS_ERR_OR_NULL(root))
-> 323d91d4684d23 Kalle Valo 2022-12-22 @1009  			return PTR_ERR(root);
->
-> Debugfs used to return a mix of error pointers and NULL but we changed
-> the NULL return to an error pointer to encourage people to just delete
-> all debugfs error handling code.
->
-> 323d91d4684d23 Kalle Valo 2022-12-22  1010  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1011  		dput_needed = false;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1012  	} else {
-> 323d91d4684d23 Kalle Valo 2022-12-22 1013 /* a dentry from lookup()
-> needs dput() after we don't use it */
-> 323d91d4684d23 Kalle Valo 2022-12-22  1014  		dput_needed = true;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1015  	}
-> 323d91d4684d23 Kalle Valo 2022-12-22  1016  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1017  	scnprintf(name, sizeof(name), "%s-%s", ath11k_bus_str(ab->hif.bus),
-> 323d91d4684d23 Kalle Valo 2022-12-22  1018  		  dev_name(ab->dev));
-> da3a9d3c15769b Kalle Valo 2020-09-16  1019  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1020  	ab->debugfs_soc = debugfs_create_dir(name, root);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1021  	if (IS_ERR_OR_NULL(ab->debugfs_soc)) {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1022  		ret = PTR_ERR(ab->debugfs_soc);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1023  		goto out;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1024  	}
-> 323d91d4684d23 Kalle Valo 2022-12-22  1025  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1026  	ret = 0;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1027  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1028  out:
-> 323d91d4684d23 Kalle Valo 2022-12-22  1029  	if (dput_needed)
-> 323d91d4684d23 Kalle Valo 2022-12-22  1030  		dput(root);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1031  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1032  	return ret;
-> da3a9d3c15769b Kalle Valo 2020-09-16  1033  }
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172223.PoHEDYCs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:269:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (interface == txgbe->interface)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:325:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:269:2: note: remove the 'if' if its condition is always false
+           if (interface == txgbe->interface)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:267:9: note: initialize the variable 'ret' to silence this warning
+           int ret, val;
+                  ^
+                   = 0
+   1 warning generated.
+
+
+vim +269 drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c
+
+   259	
+   260	static int txgbe_pcs_config(struct phylink_pcs *pcs, unsigned int mode,
+   261				    phy_interface_t interface,
+   262				    const unsigned long *advertising,
+   263				    bool permit_pause_to_mac)
+   264	{
+   265		struct txgbe *txgbe = container_of(pcs, struct txgbe, pcs);
+   266		struct wx *wx = txgbe->wx;
+   267		int ret, val;
+   268	
+ > 269		if (interface == txgbe->interface)
+   270			goto out;
+   271	
+   272		/* Wait xpcs power-up good */
+   273		ret = read_poll_timeout(pcs_read, val,
+   274					(val & TXGBE_PCS_DIG_STS_PSEQ_ST) ==
+   275					TXGBE_PCS_DIG_STS_PSEQ_ST_GOOD,
+   276					10000, 1000000, false,
+   277					txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_STS);
+   278		if (ret < 0) {
+   279			wx_err(wx, "xpcs power-up timeout.\n");
+   280			return ret;
+   281		}
+   282	
+   283		/* Disable xpcs AN-73 */
+   284		pcs_write(txgbe, MDIO_MMD_AN, MDIO_CTRL1, 0);
+   285	
+   286		/* Disable PHY MPLLA for eth mode change(after ECO) */
+   287		txgbe_ephy_write(txgbe, TXGBE_SUP_DIG_MPLLA_OVRD_IN_0, 0x243A);
+   288		WX_WRITE_FLUSH(wx);
+   289		usleep_range(1000, 2000);
+   290	
+   291		/* Set the eth change_mode bit first in mis_rst register
+   292		 * for corresponding LAN port
+   293		 */
+   294		wr32(wx, TXGBE_MIS_RST, TXGBE_MIS_RST_LAN_ETH_MODE(wx->bus.func));
+   295	
+   296		switch (interface) {
+   297		case PHY_INTERFACE_MODE_10GBASER:
+   298			txgbe_pma_config_10gbaser(txgbe);
+   299			break;
+   300		case PHY_INTERFACE_MODE_1000BASEX:
+   301			txgbe_pma_config_1000basex(txgbe);
+   302			break;
+   303		default:
+   304			break;
+   305		}
+   306	
+   307		pcs_write(txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_CTRL1,
+   308			  TXGBE_PCS_DIG_CTRL1_VR_RST | TXGBE_PCS_DIG_CTRL1_EN_VSMMD1);
+   309		/* wait phy initialization done */
+   310		ret = read_poll_timeout(pcs_read, val,
+   311					!(val & TXGBE_PCS_DIG_CTRL1_VR_RST),
+   312					100000, 10000000, false,
+   313					txgbe, MDIO_MMD_PCS, TXGBE_PCS_DIG_CTRL1);
+   314		if (ret < 0)
+   315			wx_err(wx, "PHY initialization timeout.\n");
+   316	
+   317		txgbe->interface = interface;
+   318	
+   319	out:
+   320		if (interface == PHY_INTERFACE_MODE_1000BASEX) {
+   321			txgbe_setup_adv(txgbe, interface, advertising);
+   322			txgbe_set_an37_ability(txgbe);
+   323		}
+   324	
+   325		return ret;
+   326	}
+   327	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
