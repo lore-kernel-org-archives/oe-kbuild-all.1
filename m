@@ -1,69 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C89F8460
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 15:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C14B8460;
+	Mon, 17 Apr 2023 15:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681745352; x=1713281352;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mETGBZwVEG/Xrc1N4yHAc/0CcMbvk6722ZuBpaiz+VI=;
-  b=G/1H8Ylp3ryhRonDtqQHy6+Z+K9kAP48szsa4pH/GUrSmtolrULsRArs
-   fbgIUgxbVguLGwkjMdVidHgpH4UhxOc2pDYFECdi/07fMFyMEu84BJL5l
-   kPvIaZsMi0C7fJ7E05B5Jlig5jzYo/wz5wW5/yUwOVWXwt1+XAf5TG1NW
-   YFwVvf8v2OqLlveAwuS4rNhFBUBWwPtCNVqnR3cN7beQK5zgHRBoJwdU1
-   GGcTyfAYDL3yubKOE/Q1P3T8IhLYikOt04uDKcUm1l2Jz426VVc9KaGiU
-   HdMeJp60LjOgZVKJtOMKCdmlUMmI9UnUoWbF3y4VWSver2yRmpZwRgV6k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347665464"
+  t=1681746602; x=1713282602;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VBbS1N6dbiPjtnVybBSFAVAsY8snSznOY+lsSVR+vS8=;
+  b=NGsEbgRc2Hqb34IQbblC/cj93aFKujPWWoGDlB5uYoh+7CofAiVdLngd
+   soA8JR0RmzMnLsvYuZvWwZRe2zHPy3UcWcDSf8orIoTTDATi1+FX441JC
+   KBZUW1qDztYFa/LyJWFMrr9gL/ANcPkqZt1VhBNGYz/fMxG9q8OVDbWmI
+   YmSXm5tAKY2sdlwRAy1eB6GPEeOfRNlPQtPAS9e67seZzqPNCKDwCLiba
+   q7CTGChHr1BNlXUqAqhYzw+exH5sieIl58cR580H+/wabLg1x1tZpCSMK
+   4Ag7RURohwJDU1njhmCAaPEqeDTokFZEgnmtbz9vGrfyth9yHb0TGzDez
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="410139662"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="347665464"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 08:29:11 -0700
+   d="scan'208";a="410139662"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 08:50:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="684193562"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="759997297"
 X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
-   d="scan'208";a="684193562"
+   d="scan'208";a="759997297"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Apr 2023 08:28:54 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 17 Apr 2023 08:49:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poQmi-000cXN-1I;
-	Mon, 17 Apr 2023 15:28:52 +0000
-Date: Mon, 17 Apr 2023 23:28:46 +0800
+	id 1poR78-000cYZ-0g;
+	Mon, 17 Apr 2023 15:49:58 +0000
+Date: Mon, 17 Apr 2023 23:49:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Yun Zhou <yun.zhou@windriver.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v13 2/5] fs/proc/task_mmu: Implement IOCTL to get and
- optionally clear info about PTEs
-Message-ID: <202304172319.CjlksY4s-lkp@intel.com>
-References: <20230417125630.1146906-3-usama.anjum@collabora.com>
+To: Xiubo Li <xiubli@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ceph-devel@vger.kernel.org
+Subject: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1866:6: warning:
+ variable 'iputs' is used uninitialized whenever 'if' condition is false
+Message-ID: <202304172343.2ToBO5ag-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,247 +46,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230417125630.1146906-3-usama.anjum@collabora.com>
 
-Hi Muhammad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[cannot apply to linus/master v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230417-210005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230417125630.1146906-3-usama.anjum%40collabora.com
-patch subject: [PATCH v13 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
-config: i386-randconfig-a003-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172319.CjlksY4s-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
+config: x86_64-randconfig-a011-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172343.2ToBO5ag-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/2e7e6f5bd3b9c28493f9871282fe8f14e2263962
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230417-210005
-        git checkout 2e7e6f5bd3b9c28493f9871282fe8f14e2263962
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ceph/ceph-client/commit/3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+        git remote add ceph-client https://github.com/ceph/ceph-client.git
+        git fetch --no-tags ceph-client testing
+        git checkout 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/proc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ceph/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304172319.CjlksY4s-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304172343.2ToBO5ag-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'pagemap_scan_pte_hole':
-   fs/proc/task_mmu.c:2059:14: error: invalid use of undefined type 'struct pagemap_scan_private'
-    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
-         |              ^~
-   fs/proc/task_mmu.c:2059:30: error: invalid use of undefined type 'struct pagemap_scan_private'
-    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
-         |                              ^~
-   fs/proc/task_mmu.c:2059:57: error: invalid use of undefined type 'struct pagemap_scan_private'
-    2059 |         if (p->max_pages && p->found_pages + n_pages > p->max_pages)
-         |                                                         ^~
-   fs/proc/task_mmu.c:2060:28: error: invalid use of undefined type 'struct pagemap_scan_private'
-    2060 |                 n_pages = p->max_pages - p->found_pages;
-         |                            ^~
-   fs/proc/task_mmu.c:2060:43: error: invalid use of undefined type 'struct pagemap_scan_private'
-    2060 |                 n_pages = p->max_pages - p->found_pages;
-         |                                           ^~
-   fs/proc/task_mmu.c:2062:15: error: implicit declaration of function 'pagemap_scan_output' [-Werror=implicit-function-declaration]
-    2062 |         ret = pagemap_scan_output(false, vma->vm_file, false, false, p, addr,
-         |               ^~~~~~~~~~~~~~~~~~~
-   fs/proc/task_mmu.c: At top level:
-   fs/proc/task_mmu.c:2068:22: error: 'pagemap_scan_test_walk' undeclared here (not in a function); did you mean 'pagemap_scan_pte_hole'?
-    2068 |         .test_walk = pagemap_scan_test_walk,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      pagemap_scan_pte_hole
-   fs/proc/task_mmu.c:2069:22: error: 'pagemap_scan_pmd_entry' undeclared here (not in a function); did you mean 'pagemap_scan_pte_hole'?
-    2069 |         .pmd_entry = pagemap_scan_pmd_entry,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      pagemap_scan_pte_hole
-   fs/proc/task_mmu.c: In function 'pagemap_scan_args_valid':
-   fs/proc/task_mmu.c:2080:27: error: 'PM_SCAN_OPS' undeclared (first use in this function); did you mean 'PM_SCAN_OP_WP'?
-    2080 |         if (arg->flags & ~PM_SCAN_OPS)
-         |                           ^~~~~~~~~~~
-         |                           PM_SCAN_OP_WP
-   fs/proc/task_mmu.c:2080:27: note: each undeclared identifier is reported only once for each function it appears in
-   fs/proc/task_mmu.c:2085:35: error: 'PM_SCAN_BITS_ALL' undeclared (first use in this function); did you mean 'CPU_BITS_ALL'?
-    2085 |              arg->return_mask) & ~PM_SCAN_BITS_ALL)
-         |                                   ^~~~~~~~~~~~~~~~
-         |                                   CPU_BITS_ALL
-   fs/proc/task_mmu.c:2106:14: error: implicit declaration of function 'PM_SCAN_DO_UFFD_WP'; did you mean 'PM_SCAN_OP_WP'? [-Werror=implicit-function-declaration]
-    2106 |         if (!PM_SCAN_DO_UFFD_WP(arg))
-         |              ^~~~~~~~~~~~~~~~~~
-         |              PM_SCAN_OP_WP
-   fs/proc/task_mmu.c: In function 'do_pagemap_scan':
-   fs/proc/task_mmu.c:2123:37: error: storage size of 'p' isn't known
-    2123 |         struct pagemap_scan_private p;
-         |                                     ^
-   fs/proc/task_mmu.c:2148:21: error: 'PAGEMAP_WALK_SIZE' undeclared (first use in this function); did you mean 'PAGE_TABLE_SIZE'?
-    2148 |         p.vec_len = PAGEMAP_WALK_SIZE >> PAGE_SHIFT;
-         |                     ^~~~~~~~~~~~~~~~~
-         |                     PAGE_TABLE_SIZE
-   In file included from include/linux/kernel.h:27,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/pagewalk.h:5,
-                    from fs/proc/task_mmu.c:2:
-   include/linux/minmax.h:36:9: error: first argument to '__builtin_choose_expr' not a constant
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   fs/proc/task_mmu.c:2173:29: note: in expansion of macro 'min'
-    2173 |                 p.vec_len = min(p.vec_len, empty_slots);
-         |                             ^~~
-   fs/proc/task_mmu.c:2175:63: error: 'PAGEMAP_WALK_MASK' undeclared (first use in this function)
-    2175 |                 walk_end = (walk_start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
-         |                                                               ^~~~~~~~~~~~~~~~~
-   fs/proc/task_mmu.c:2186:53: error: 'PM_SCAN_FOUND_MAX_PAGES' undeclared (first use in this function)
-    2186 |                 if (ret && ret != -ENOSPC && ret != PM_SCAN_FOUND_MAX_PAGES)
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~
->> fs/proc/task_mmu.c:2123:37: warning: unused variable 'p' [-Wunused-variable]
-    2123 |         struct pagemap_scan_private p;
-         |                                     ^
-   fs/proc/task_mmu.c: At top level:
-   fs/proc/task_mmu.c:2240:27: error: 'pagemap_read' undeclared here (not in a function); did you mean 'filemap_read'?
-    2240 |         .read           = pagemap_read,
-         |                           ^~~~~~~~~~~~
-         |                           filemap_read
-   fs/proc/task_mmu.c:2241:27: error: 'pagemap_open' undeclared here (not in a function); did you mean 'pid_maps_open'?
-    2241 |         .open           = pagemap_open,
-         |                           ^~~~~~~~~~~~
-         |                           pid_maps_open
-   fs/proc/task_mmu.c:2242:27: error: 'pagemap_release' undeclared here (not in a function); did you mean 'proc_map_release'?
-    2242 |         .release        = pagemap_release,
-         |                           ^~~~~~~~~~~~~~~
-         |                           proc_map_release
-   fs/proc/task_mmu.c:2246:2: error: #endif without #if
-    2246 | #endif /* CONFIG_PROC_PAGE_MONITOR */
-         |  ^~~~~
-   cc1: some warnings being treated as errors
+>> fs/ceph/mds_client.c:1866:6: warning: variable 'iputs' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (cap) {
+               ^~~
+   fs/ceph/mds_client.c:1877:9: note: uninitialized use occurs here
+           while (iputs--)
+                  ^~~~~
+   fs/ceph/mds_client.c:1866:2: note: remove the 'if' if its condition is always true
+           if (cap) {
+           ^~~~~~~~~
+   fs/ceph/mds_client.c:1862:11: note: initialize the variable 'iputs' to silence this warning
+           int iputs;
+                    ^
+                     = 0
+>> fs/ceph/mds_client.c:1957:7: warning: variable 'cap' is uninitialized when used here [-Wuninitialized]
+                   if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+                       ^~~
+   fs/ceph/mds_client.c:1949:22: note: initialize the variable 'cap' to silence this warning
+           struct ceph_cap *cap;
+                               ^
+                                = NULL
+   2 warnings generated.
 
 
-vim +/p +2123 fs/proc/task_mmu.c
+vim +1866 fs/ceph/mds_client.c
 
-  2115	
-  2116	static long do_pagemap_scan(struct mm_struct *mm,
-  2117				   struct pm_scan_arg __user *uarg)
-  2118	{
-  2119		unsigned long start, end, walk_start, walk_end;
-  2120		unsigned long empty_slots, vec_index = 0;
-  2121		struct mmu_notifier_range range;
-  2122		struct page_region __user *vec;
-> 2123		struct pagemap_scan_private p;
-  2124		struct pm_scan_arg arg;
-  2125		int ret = 0;
-  2126	
-  2127		if (copy_from_user(&arg, uarg, sizeof(arg)))
-  2128			return -EFAULT;
-  2129	
-  2130		start = untagged_addr((unsigned long)arg.start);
-  2131		vec = (struct page_region *)untagged_addr((unsigned long)arg.vec);
-  2132	
-  2133		ret = pagemap_scan_args_valid(&arg, start, vec);
-  2134		if (ret)
-  2135			return ret;
-  2136	
-  2137		end = start + arg.len;
-  2138		p.max_pages = arg.max_pages;
-  2139		p.found_pages = 0;
-  2140		p.flags = arg.flags;
-  2141		p.required_mask = arg.required_mask;
-  2142		p.anyof_mask = arg.anyof_mask;
-  2143		p.excluded_mask = arg.excluded_mask;
-  2144		p.return_mask = arg.return_mask;
-  2145		p.cur.len = 0;
-  2146		p.cur.start = 0;
-  2147		p.vec = NULL;
-  2148		p.vec_len = PAGEMAP_WALK_SIZE >> PAGE_SHIFT;
-  2149	
-  2150		/*
-  2151		 * Allocate smaller buffer to get output from inside the page walk
-  2152		 * functions and walk page range in PAGEMAP_WALK_SIZE size chunks. As
-  2153		 * we want to return output to user in compact form where no two
-  2154		 * consecutive regions should be continuous and have the same flags.
-  2155		 * So store the latest element in p.cur between different walks and
-  2156		 * store the p.cur at the end of the walk to the user buffer.
-  2157		 */
-  2158		p.vec = kmalloc_array(p.vec_len, sizeof(*p.vec), GFP_KERNEL);
-  2159		if (!p.vec)
-  2160			return -ENOMEM;
-  2161	
-  2162		if (p.flags & PM_SCAN_OP_WP) {
-  2163			mmu_notifier_range_init(&range, MMU_NOTIFY_PROTECTION_VMA, 0,
-  2164						vma->vm_mm, start, end);
-  2165			mmu_notifier_invalidate_range_start(&range);
-  2166		}
-  2167	
-  2168		walk_start = walk_end = start;
-  2169		while (walk_end < end && !ret) {
-  2170			p.vec_index = 0;
-  2171	
-  2172			empty_slots = arg.vec_len - vec_index;
-  2173			p.vec_len = min(p.vec_len, empty_slots);
-  2174	
-  2175			walk_end = (walk_start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
-  2176			if (walk_end > end)
-  2177				walk_end = end;
-  2178	
-  2179			ret = mmap_read_lock_killable(mm);
-  2180			if (ret)
-  2181				goto free_data;
-  2182			ret = walk_page_range(mm, walk_start, walk_end,
-  2183					      &pagemap_scan_ops, &p);
-  2184			mmap_read_unlock(mm);
-  2185	
-  2186			if (ret && ret != -ENOSPC && ret != PM_SCAN_FOUND_MAX_PAGES)
-  2187				goto free_data;
-  2188	
-  2189			walk_start = walk_end;
-  2190			if (p.vec_index) {
-  2191				if (copy_to_user(&vec[vec_index], p.vec,
-  2192						 p.vec_index * sizeof(*p.vec))) {
-  2193					/*
-  2194					 * Return error even though the OP succeeded
-  2195					 */
-  2196					ret = -EFAULT;
-  2197					goto free_data;
-  2198				}
-  2199				vec_index += p.vec_index;
-  2200			}
-  2201		}
-  2202	
-  2203		if (p.flags & PM_SCAN_OP_WP) {
-  2204			mmu_notifier_invalidate_range_end(&range);
-  2205			flush_tlb_mm_range(mm, start, end, PAGE_SHIFT, false);
-  2206		}
-  2207	
-  2208		if (p.cur.len) {
-  2209			if (copy_to_user(&vec[vec_index], &p.cur, sizeof(*p.vec))) {
-  2210				ret = -EFAULT;
-  2211				goto free_data;
-  2212			}
-  2213			vec_index++;
-  2214		}
-  2215	
-  2216		ret = vec_index;
-  2217	
-  2218	free_data:
-  2219		kfree(p.vec);
-  2220		return ret;
-  2221	}
-  2222	
+  1855	
+  1856	static int remove_session_caps_cb(struct inode *inode, struct rb_node *ci_node,
+  1857					  void *arg)
+  1858	{
+  1859		struct ceph_inode_info *ci = ceph_inode(inode);
+  1860		bool invalidate = false;
+  1861		struct ceph_cap *cap;
+  1862		int iputs;
+  1863	
+  1864		spin_lock(&ci->i_ceph_lock);
+  1865		cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+> 1866		if (cap) {
+  1867			dout(" removing cap %p, ci is %p, inode is %p\n",
+  1868			     cap, ci, &ci->netfs.inode);
+  1869	
+  1870			iputs = ceph_purge_inode_cap(inode, cap, &invalidate);
+  1871		}
+  1872		spin_unlock(&ci->i_ceph_lock);
+  1873	
+  1874		wake_up_all(&ci->i_cap_wq);
+  1875		if (invalidate)
+  1876			ceph_queue_invalidate(inode);
+  1877		while (iputs--)
+  1878			iput(inode);
+  1879		return 0;
+  1880	}
+  1881	
+  1882	/*
+  1883	 * caller must hold session s_mutex
+  1884	 */
+  1885	static void remove_session_caps(struct ceph_mds_session *session)
+  1886	{
+  1887		struct ceph_fs_client *fsc = session->s_mdsc->fsc;
+  1888		struct super_block *sb = fsc->sb;
+  1889		LIST_HEAD(dispose);
+  1890	
+  1891		dout("remove_session_caps on %p\n", session);
+  1892		ceph_iterate_session_caps(session, remove_session_caps_cb, fsc);
+  1893	
+  1894		wake_up_all(&fsc->mdsc->cap_flushing_wq);
+  1895	
+  1896		spin_lock(&session->s_cap_lock);
+  1897		if (session->s_nr_caps > 0) {
+  1898			struct inode *inode;
+  1899			struct ceph_cap *cap, *prev = NULL;
+  1900			struct ceph_vino vino;
+  1901			/*
+  1902			 * iterate_session_caps() skips inodes that are being
+  1903			 * deleted, we need to wait until deletions are complete.
+  1904			 * __wait_on_freeing_inode() is designed for the job,
+  1905			 * but it is not exported, so use lookup inode function
+  1906			 * to access it.
+  1907			 */
+  1908			while (!list_empty(&session->s_caps)) {
+  1909				cap = list_entry(session->s_caps.next,
+  1910						 struct ceph_cap, session_caps);
+  1911				if (cap == prev)
+  1912					break;
+  1913				prev = cap;
+  1914				vino = cap->ci->i_vino;
+  1915				spin_unlock(&session->s_cap_lock);
+  1916	
+  1917				inode = ceph_find_inode(sb, vino);
+  1918				iput(inode);
+  1919	
+  1920				spin_lock(&session->s_cap_lock);
+  1921			}
+  1922		}
+  1923	
+  1924		// drop cap expires and unlock s_cap_lock
+  1925		detach_cap_releases(session, &dispose);
+  1926	
+  1927		BUG_ON(session->s_nr_caps > 0);
+  1928		BUG_ON(!list_empty(&session->s_cap_flushing));
+  1929		spin_unlock(&session->s_cap_lock);
+  1930		dispose_cap_releases(session->s_mdsc, &dispose);
+  1931	}
+  1932	
+  1933	enum {
+  1934		RECONNECT,
+  1935		RENEWCAPS,
+  1936		FORCE_RO,
+  1937	};
+  1938	
+  1939	/*
+  1940	 * wake up any threads waiting on this session's caps.  if the cap is
+  1941	 * old (didn't get renewed on the client reconnect), remove it now.
+  1942	 *
+  1943	 * caller must hold s_mutex.
+  1944	 */
+  1945	static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
+  1946	{
+  1947		struct ceph_inode_info *ci = ceph_inode(inode);
+  1948		unsigned long ev = (unsigned long)arg;
+  1949		struct ceph_cap *cap;
+  1950	
+  1951		if (ev == RECONNECT) {
+  1952			spin_lock(&ci->i_ceph_lock);
+  1953			ci->i_wanted_max_size = 0;
+  1954			ci->i_requested_max_size = 0;
+  1955			spin_unlock(&ci->i_ceph_lock);
+  1956		} else if (ev == RENEWCAPS) {
+> 1957			if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+  1958				/* mds did not re-issue stale cap */
+  1959				spin_lock(&ci->i_ceph_lock);
+  1960				cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+  1961				if (cap)
+  1962					cap->issued = cap->implemented = CEPH_CAP_PIN;
+  1963				spin_unlock(&ci->i_ceph_lock);
+  1964			}
+  1965		} else if (ev == FORCE_RO) {
+  1966		}
+  1967		wake_up_all(&ci->i_cap_wq);
+  1968		return 0;
+  1969	}
+  1970	
 
 -- 
 0-DAY CI Kernel Test Service
