@@ -1,45 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E007A10F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 01:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861A2C433D2;
-	Tue, 18 Apr 2023 01:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681780403;
-	bh=RGVB4b1Ma/kemnqMd6QFYrPQXvJkDZYWawFz3hC5t4U=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=YhM43pLMLnpYrnHFd76107gj08QmgTS0Ai+eBSvLbgEpRRrFHrEmOtKeE49msoN/Q
-	 obhPiDUu4YHgVI+ySsqvuBipzkyP2mfvNYqIlmlyq5wBULGLcy0P+O9uy2B1/o5l+t
-	 0xVEKpea/pgs51J1U7SQpRFSPAIWf/Ug1+dEizqUxVY8mMB1NBNzVhhyg/FydcSR+X
-	 E/G+iTeNTM6GUFAMBngWr+ucey82v02X/yXiQ//axBfyuCkKl4mypJ5Dy+lZM/fP4W
-	 X+c3Qzz5ECjGbGNdzIMfsInrDoEGZHcnvKYkDvgN4yUIJi38lG3k01amdZbMmtO3uZ
-	 ZOyU2T+OZTqmg==
-Message-ID: <cb922046c9e9ae2359b7f22fa7436e2c.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BFB10F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 01:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681780991; x=1713316991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LWn0vujcf3JF3bxamB5pP7E2NaiFZSYnUufettAR/jg=;
+  b=FaLRLYCF/TrTN82+zvEBFSIbTLhLFu+QVCf7U9UF5rJHSj0UbxZaVaGF
+   fHZx49Tm4CTuIWlbTsbzCV/QyFIp8SFkBLd+O4oQhJ9ZSkGUeez2PLHMI
+   2SuKZULmOw/Dm6jbm0TybwbjcbOcAlZB+bQ2541wWkTUXMKzu0sEDBzxO
+   uEp8ZaSACY8HsKR8q7k9U/ECKYJ8j+ulMLGFOKw34ObnlxiG6JTWz2N68
+   sOQ8OodfGVO1f+iDm0DUjnm5x03Dm7L7BxVbojuRcPOpxsp50iGHV9/5E
+   Ujl/+wYH1hlNPK6nTPHgv3mfsDbvqkgAs3UtaRybL1/lriV7UqeNs1KXa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="410264148"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
+   d="scan'208";a="410264148"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 18:23:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668298837"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
+   d="scan'208";a="668298837"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 17 Apr 2023 18:23:10 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1poa3p-000co5-1x;
+	Tue, 18 Apr 2023 01:23:09 +0000
+Date: Tue, 18 Apr 2023 09:22:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2022-12 23043/23276]
+ drivers/dma-buf/dma-buf-sysfs-stats.c:142:9: error: static assertion failed:
+ "kobject is smaller than work_struct"
+Message-ID: <202304180931.mfu5ACjH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230417074115.30786-3-hal.feng@starfivetech.com>
-References: <20230417074115.30786-1-hal.feng@starfivetech.com> <20230417074115.30786-3-hal.feng@starfivetech.com>
-Subject: Re: [PATCH v1 2/2] clk: starfive: Delete the redundant dev_set_drvdata() in JH7110 clock drivers
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, Emil Renner Berthing <emil.renner.berthing@canonical.com>, Hal Feng <hal.feng@starfivetech.com>, Xingyu Wu <xingyu.wu@starfivetech.com>, linux-kernel@vger.kernel.org
-To: Hal Feng <hal.feng@starfivetech.com>, linux-clk@vger.kernel.org, linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev
-Date: Mon, 17 Apr 2023 18:13:21 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Quoting Hal Feng (2023-04-17 00:41:15)
-> The dev_set_drvdata() is no longer needed after we used a wrapper
-> struct to get the data in auxiliary driver.
->=20
-> Cc: Xingyu Wu <xingyu.wu@starfivetech.com>
-> Fixes: d1aae0663023 ("clk: starfive: Avoid casting iomem pointers")
-> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
-> ---
+Hi Mercier,
 
-Applied to clk-next
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2022-12
+head:   230976ad916b89fd73f8ef67ef701a3d37ada7b3
+commit: 5aec776ef8c9319df4938fa87e8f2df018426960 [23043/23276] BACKPORT: ANDROID: dma-buf: Move sysfs work out of DMA-BUF export path
+config: arm64-randconfig-r033-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180931.mfu5ACjH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.10-2022-12
+        git checkout 5aec776ef8c9319df4938fa87e8f2df018426960
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/dma-buf/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304180931.mfu5ACjH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/dma-buf/dma-buf-sysfs-stats.c: In function 'sysfs_add_workfn':
+>> drivers/dma-buf/dma-buf-sysfs-stats.c:142:9: error: static assertion failed: "kobject is smaller than work_struct"
+     142 |         _Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+         |         ^~~~~~~~~~~~~~
+
+
+vim +142 drivers/dma-buf/dma-buf-sysfs-stats.c
+
+   138	
+   139	static void sysfs_add_workfn(struct work_struct *work)
+   140	{
+   141		/* The ABI would have to change for this to be false, but let's be paranoid. */
+ > 142		_Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+   143			"kobject is smaller than work_struct");
+   144	
+   145		struct dma_buf_sysfs_entry *sysfs_entry =
+   146			container_of((struct kobject *)work, struct dma_buf_sysfs_entry, kobj);
+   147		struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+   148	
+   149		/*
+   150		 * A dmabuf is ref-counted via its file member. If this handler holds the only
+   151		 * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+   152		 * optimization and a race; when the reference count drops to 1 immediately after
+   153		 * this check it is not harmful as the sysfs entry will still get cleaned up in
+   154		 * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+   155		 * is released, and that can't happen until the end of this function.
+   156		 */
+   157		if (file_count(dmabuf->file) > 1) {
+   158			/*
+   159			 * kobject_init_and_add expects kobject to be zero-filled, but we have populated it
+   160			 * to trigger this work function.
+   161			 */
+   162			memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysfs_entry->kobj));
+   163			dmabuf->sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
+   164			if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma_buf_ktype, NULL,
+   165							"%lu", file_inode(dmabuf->file)->i_ino)) {
+   166				kobject_put(&dmabuf->sysfs_entry->kobj);
+   167				dmabuf->sysfs_entry = NULL;
+   168			}
+   169		} else {
+   170			/*
+   171			 * Free the sysfs_entry and reset the pointer so dma_buf_stats_teardown doesn't
+   172			 * attempt to operate on it.
+   173			 */
+   174			kfree(dmabuf->sysfs_entry);
+   175			dmabuf->sysfs_entry = NULL;
+   176		}
+   177		dma_buf_put(dmabuf);
+   178	}
+   179	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
