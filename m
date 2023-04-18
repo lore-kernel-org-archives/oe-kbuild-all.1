@@ -1,108 +1,129 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A4210E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 06:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1681799534; x=1713335534;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jnwKOCRsuLnztB+KT1haBu8YKUI0iN96QK5cHgHZ3Ck=;
-  b=DuhVmvraxKyx+yyZdVfc+GXu4G3LtbikAAHci7WikVRCyCdxN1WUaonP
-   hlrIUO8OyJUqWGfEZK4uDWwPYmbAwosOCoYlQbnOGf15ZKxeldN6OPUjM
-   Bqbec8n7rbKzjixNBlzvka/ik/bg7Bl3R+UYhmvRPE/5NKFR6JQ33vXSR
-   AXsVRvthP3cnAKU15lHb+yzrnz6c0djzbg02PoN8jQRhwmPCRC3Q61YeL
-   P7Q5tjKsl5q+k8wFvICvFD485pibWZlj347+p/iAcFO/J7SU+G/2qifz5
-   WcrjHEwlRENALZpZM1oueCKXqxuZ4FdPd/jb+R7cGfMtso0qsMh9eGJoA
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.99,206,1677567600"; 
-   d="asc'?scan'208";a="210010487"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 17 Apr 2023 23:32:07 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 17 Apr 2023 23:32:06 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Mon, 17 Apr 2023 23:32:04 -0700
-Date: Tue, 18 Apr 2023 07:31:47 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Hal Feng <hal.feng@starfivetech.com>
-CC: Stephen Boyd <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-mm@kvack.org>, Michael Turquette
-	<mturquette@baylibre.com>, Paul Gazzillo <paul@pgazz.com>, Necip Fazil
- Yildiran <fazilyildiran@gmail.com>, Emil Renner Berthing
-	<emil.renner.berthing@canonical.com>, Xingyu Wu <xingyu.wu@starfivetech.com>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 1/2] clk: starfive: Fix RESET_STARFIVE_JH7110 can't be
- selected in a specified case
-Message-ID: <20230418-caliber-clavicle-e8c1beb3fb75@wendy>
-References: <20230417074115.30786-1-hal.feng@starfivetech.com>
- <20230417074115.30786-2-hal.feng@starfivetech.com>
- <20230417-buckwheat-wilt-92a4e85a5ca0@wendy>
- <83c5a35a-c646-cbc7-83f9-c02fcb24e069@starfivetech.com>
- <20230417-bolster-vitality-89d279146497@wendy>
- <0fe42faa3b34f82cc2fb73ae61460bf2.sboyd@kernel.org>
- <be049959-423e-6cd6-1f11-9bfa72665803@starfivetech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FAE10E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 06:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1681799919;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
+	b=baS4EeWJ1PghixGPRVBK1zL7QDRI77dk+ahHOfU7CwIN8DtAN8w6jnwCWOS05jIszpBZxC
+	r1V9C5cMTazDKlVYzYhssfcsiqEwn157MZHE3HyyfWd9b1PW7h3DtuhSWg91mZGWk5C/Fs
+	c83mtH2LaCScQB4BsWlFxpIneRg5u+o=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-159-NwHa70_fPSOPYJ8MPEORdA-1; Tue, 18 Apr 2023 02:38:36 -0400
+X-MC-Unique: NwHa70_fPSOPYJ8MPEORdA-1
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-63b81520de5so1248334b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 23:38:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681799915; x=1684391915;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
+        b=LEDEVZ60AS/sZGD7czPeXBwr0JGJgi3Csu8Vzms5y/YjyHXw8P43YdAFyCltSKdBfB
+         mWW3aH4ezPPBonNtVQg92dq4ooQJeLLEWU2yzNMZzAeuHWetKAv0R2J5in4/E5NM9pWX
+         ISDeRtmBGP5H2BWRqTl77+j4mW7rE8foYZysoyAwc8YZV/my3SXNAVH00DpcX8W02Kbk
+         R5NWhiYIFBZ8AyY+ccRAXipbjLuRtrCU8AZZd+/kZjwS/1BpLxRQ2PS3avEM+NwylTfO
+         8obNufufkEnxyq0l3HDk1nOtaeO/v8OpcwYYGfv9a5a8IuU5CZMmCbLEn6xYTo5oOghA
+         cFUA==
+X-Gm-Message-State: AAQBX9fTWLGwM0gGMYxLRQOtpCjDPKXNwQ3L+1cas13z2lCl9/N8AcaH
+	fA4v7OivrfLXqv1N8YlbQGYbzcLpI31qfCXW3LKL59kWFsvx6hWvapmfm7/Wwatq59aahkLeCOq
+	W/QQDnmU8lVchwMSjPsmCFolOBg==
+X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656926pfg.13.1681799914930;
+        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZNbXSNUUYsBhTQbe9GMU0xrqcf8HbI9WS2+Jfi5zGuFwjotUORgVkX4FbdGyl/MFe3tdOccg==
+X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656912pfg.13.1681799914607;
+        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
+Received: from [10.72.12.132] ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78546000000b0063d238b1e4bsm2576855pfn.160.2023.04.17.23.38.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
+Message-ID: <447bea60-537d-5872-bfad-37caf97ccc43@redhat.com>
+Date: Tue, 18 Apr 2023 14:38:28 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Auc3gasTttW5e2PO"
-Content-Disposition: inline
-In-Reply-To: <be049959-423e-6cd6-1f11-9bfa72665803@starfivetech.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1957
+ wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+References: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
+From: Xiubo Li <xiubli@redhat.com>
+In-Reply-To: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---Auc3gasTttW5e2PO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Dan,
 
-On Tue, Apr 18, 2023 at 10:14:06AM +0800, Hal Feng wrote:
-> On Mon, 17 Apr 2023 17:22:01 -0700, Stephen Boyd wrote:
-> > Quoting Conor Dooley (2023-04-17 03:18:35)
+Thanks for reporting.
 
-> >> Aye, just the explicit dependency seems like it'd be less fragile and
-> >> more obvious in the future.
-> >=20
-> > Agreed. Be explicit so we don't have to hunt down select dependencies.
->=20
-> With further consideration, on the other hand, if we set `if ARCH_STARFIV=
-E`
-> here, it can point out that we need the reset driver to boot up JH7110
-> besides the clock drivers, and the reset driver is not a necessary option
-> for compilation test. So the reset driver is independent to the clock
-> drivers when you doing a compilation test.
+This has been fixed already.
 
-If ARCH_STARFIVE is enabled, both options (RESET_CONTROLLER &
-RESET_STARFIVE_JH7110) will be selected & you don't need to worry about
-people not realising this. Try it out & look at the option in
-menuconfig.
+- Xiubo
 
-> If we set `if RESET_CONTROLLER` here, the reset driver will be compiled
-> automatically when (ARCH_STARFIVE [=3Dn] && COMPILE_TEST [=3Dy] &&=20
-> RESET_CONTROLLER [=3Dy] && CLK_STARFIVE_JH7110_SYS [=3Dy]).
+On 4/18/23 12:25, Dan Carpenter wrote:
+> tree:   https://github.com/ceph/ceph-client.git testing
+> head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+> commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
+> config: i386-randconfig-m021-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180424.Dok2kyeU-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202304180424.Dok2kyeU-lkp@intel.com/
+>
+> New smatch warnings:
+> fs/ceph/mds_client.c:1957 wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
+>
+> Old smatch warnings:
+> fs/ceph/mds_client.c:219 parse_reply_info_in() warn: missing unwind goto?
+>
+> vim +/cap +1957 fs/ceph/mds_client.c
+>
+> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1945  static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
+> 2f2dc053404feb Sage Weil   2009-10-06  1946  {
+> 0dc2570fab222a Sage Weil   2009-11-20  1947  	struct ceph_inode_info *ci = ceph_inode(inode);
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1948  	unsigned long ev = (unsigned long)arg;
+> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1949  	struct ceph_cap *cap;
+> 0dc2570fab222a Sage Weil   2009-11-20  1950
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1951  	if (ev == RECONNECT) {
+> be655596b3de58 Sage Weil   2011-11-30  1952  		spin_lock(&ci->i_ceph_lock);
+> 0dc2570fab222a Sage Weil   2009-11-20  1953  		ci->i_wanted_max_size = 0;
+> 0dc2570fab222a Sage Weil   2009-11-20  1954  		ci->i_requested_max_size = 0;
+> be655596b3de58 Sage Weil   2011-11-30  1955  		spin_unlock(&ci->i_ceph_lock);
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1956  	} else if (ev == RENEWCAPS) {
+> 52d60f8e18b855 Jeff Layton 2021-06-04 @1957  		if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+>                                                              ^^^^^^^^^^^^               ^^^^^^^^^^^^^
+>
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1958  			/* mds did not re-issue stale cap */
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1959  			spin_lock(&ci->i_ceph_lock);
+> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1960  			cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+>                                                                  ^^^^^^^^^^^^^^
+> Initialized too late.
+>
+> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1961  			if (cap)
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1962  				cap->issued = cap->implemented = CEPH_CAP_PIN;
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1963  			spin_unlock(&ci->i_ceph_lock);
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1964  		}
+> d2f8bb27c87945 Yan, Zheng  2018-12-10  1965  	} else if (ev == FORCE_RO) {
+> 0dc2570fab222a Sage Weil   2009-11-20  1966  	}
+> e536030934aebf Yan, Zheng  2016-05-19  1967  	wake_up_all(&ci->i_cap_wq);
+> 2f2dc053404feb Sage Weil   2009-10-06  1968  	return 0;
+> 2f2dc053404feb Sage Weil   2009-10-06  1969  }
+>
 
-This is what we want, right? The more often it gets built by randconfig
-etc the better, especially for archs that are not RISC-V.
-
-Cheers,
-Conor.
-
---Auc3gasTttW5e2PO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZD45UAAKCRB4tDGHoIJi
-0gqZAP4zWJAbqDGJL6zo/fU0NWtQyqwb3ZmwLp+AV2ApCUFX4wEAqOy+AkXU9CQ1
-b1QFGJkfN94a1mIqoBT5EPv8nfrnYwA=
-=J1Iw
------END PGP SIGNATURE-----
-
---Auc3gasTttW5e2PO--
