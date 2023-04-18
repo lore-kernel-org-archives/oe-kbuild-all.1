@@ -1,43 +1,69 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DC3AFED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 19:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78195AFED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 20:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681847647; x=1713383647;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UqJKL8np1RtDaJgXxGurUtXUjOENIv/xaYt5risaf30=;
-  b=RBIx3maORwjB0etQgfJ7zVJQIxQm36cws+F8uyq8KA5csPFV2GHP6ggz
-   rvmjGxGUQdgKXczMdAMFKXIDtUyThJS1orKPXvbyJEk7n8YIzhG2kRqrv
-   ISVv+/nV6BEok6TfVbFpLfHaPNU+yAZI1Z0YgKWw+STy6Dpy2+j9+c5Iv
-   N/Vw29OkfrzESVsffC3a9KpL/wX2IFn4gd8/QZRFePUxjhaa2g40qKHIM
-   lsPJ0VQxh4MVHXO09SkjxxeMLqViy/afzJ7et5E7SvW28dTGMqSN6ORjd
-   4caKXklbzyafdfLSzEcnP1RJOzC92Om0kLx86GQZPLTXo4Jm7A9vqOkjv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347124446"
+  t=1681848314; x=1713384314;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MESHOGE+6HB9L0+Pxz2Yf8K9mFxsBzR+eoMqR4IqWFE=;
+  b=DOEvAulM6XMvBVa2yWRE0tnzDL72XwND8mFCqIubQ4OPsiOfvuMf+DZ6
+   8dWTIrAF8dZYIkfLTOWFxQZVdT3yoP68oei4UZZrUVIxaocgF7v2IaeXU
+   QB11emoP2s/VjhD52cIOR+UqufWFwPPRK2ZjM0dVDzMZJryq3CqcWWfoQ
+   IVNSEcrBTDFD3yqXHoGi8DwsNAURKm3QMac0fOnVYhvXpgic/uDwSG2qO
+   YcG2uUcz4ABuDMkpUJebAXgZVuoZtRBvgL+0isfgDEDTJE8oYVDAGRDuf
+   cE6gItV1knfLXnMmRXmowxm48oiHBnPLY5wiP6fGhvva0jhPYdydfsEa2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="344024378"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="347124446"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 12:54:06 -0700
+   d="scan'208";a="344024378"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 13:05:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="668684462"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="780609861"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="668684462"
+   d="scan'208";a="780609861"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Apr 2023 12:54:05 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2023 13:05:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1porOu-000dyt-2s;
-	Tue, 18 Apr 2023 19:54:04 +0000
-Date: Wed, 19 Apr 2023 03:53:41 +0800
+	id 1porZZ-000dzb-10;
+	Tue, 18 Apr 2023 20:05:05 +0000
+Date: Wed, 19 Apr 2023 04:04:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.2/prjc 284/390] kernel/sched/alt_sched.h:481:42: warning:
- 'struct cpuidle_state' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202304190335.AQD9PbWj-lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v14 2/5] fs/proc/task_mmu: Implement IOCTL to get and
+ optionally clear info about PTEs
+Message-ID: <202304190331.VR44lj9J-lkp@intel.com>
+References: <20230418062008.1434826-3-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,116 +72,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230418062008.1434826-3-usama.anjum@collabora.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
-head:   e1fa9ea876458eade5717e6e00b375bff8d86c98
-commit: 2f71a7687db0896451980a290f1fa0a9f5c47e3d [284/390] sched/alt: Headers cleanup
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304190335.AQD9PbWj-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Muhammad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20230417]
+[cannot apply to linus/master v6.3-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230418-142225
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230418062008.1434826-3-usama.anjum%40collabora.com
+patch subject: [PATCH v14 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230419/202304190331.VR44lj9J-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/2f71a7687db0896451980a290f1fa0a9f5c47e3d
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.2/prjc
-        git checkout 2f71a7687db0896451980a290f1fa0a9f5c47e3d
+        # https://github.com/intel-lab-lkp/linux/commit/4fe2396ba406868e01de910812e7e3c719ba11be
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230418-142225
+        git checkout 4fe2396ba406868e01de910812e7e3c719ba11be
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash fs/proc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190335.AQD9PbWj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190331.VR44lj9J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/alt_core.c:42:
->> kernel/sched/alt_sched.h:481:42: warning: 'struct cpuidle_state' declared inside parameter list will not be visible outside of this definition or declaration
-     481 |                                   struct cpuidle_state *idle_state)
-         |                                          ^~~~~~~~~~~~~
-   kernel/sched/alt_core.c:46:10: fatal error: ../../fs/io-wq.h: No such file or directory
-      46 | #include "../../fs/io-wq.h"
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/alt_debug.c:9:
->> kernel/sched/alt_sched.h:481:42: warning: 'struct cpuidle_state' declared inside parameter list will not be visible outside of this definition or declaration
-     481 |                                   struct cpuidle_state *idle_state)
-         |                                          ^~~~~~~~~~~~~
->> kernel/sched/alt_debug.c:23:6: warning: no previous prototype for 'proc_sched_show_task' [-Wmissing-prototypes]
-      23 | void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/alt_debug.c:30:6: warning: no previous prototype for 'proc_sched_set_task' [-Wmissing-prototypes]
-      30 | void proc_sched_set_task(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~~~
---
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/build_utility.c:53:
->> kernel/sched/alt_sched.h:481:42: warning: 'struct cpuidle_state' declared inside parameter list will not be visible outside of this definition or declaration
-     481 |                                   struct cpuidle_state *idle_state)
-         |                                          ^~~~~~~~~~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/smp.h:12,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/build_utility.c:12:
-   kernel/sched/stats.c: In function '__update_stats_enqueue_sleeper':
-   kernel/sched/stats.c:100:38: error: 'prof_on' undeclared (first use in this function)
-     100 |                         if (unlikely(prof_on == SLEEP_PROFILING)) {
-         |                                      ^~~~~~~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   kernel/sched/stats.c:100:38: note: each undeclared identifier is reported only once for each function it appears in
-     100 |                         if (unlikely(prof_on == SLEEP_PROFILING)) {
-         |                                      ^~~~~~~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   kernel/sched/stats.c:100:49: error: 'SLEEP_PROFILING' undeclared (first use in this function)
-     100 |                         if (unlikely(prof_on == SLEEP_PROFILING)) {
-         |                                                 ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from kernel/sched/build_utility.c:77:
-   kernel/sched/stats.c:101:33: error: implicit declaration of function 'profile_hits'; did you mean 'profile_pc'? [-Werror=implicit-function-declaration]
-     101 |                                 profile_hits(SLEEP_PROFILING,
-         |                                 ^~~~~~~~~~~~
-         |                                 profile_pc
-   In file included from kernel/sched/build_utility.c:99:
-   kernel/sched/psi.c: In function 'psi_cgroup_restart':
-   kernel/sched/psi.c:1202:17: error: implicit declaration of function 'rq_lock_irq'; did you mean 'rq_unlock_irq'? [-Werror=implicit-function-declaration]
-    1202 |                 rq_lock_irq(rq, &rf);
-         |                 ^~~~~~~~~~~
-         |                 rq_unlock_irq
+   fs/proc/task_mmu.c: In function 'do_pagemap_scan':
+   fs/proc/task_mmu.c:2205:17: error: implicit declaration of function 'flush_tlb_mm_range'; did you mean 'flush_tlb_range'? [-Werror=implicit-function-declaration]
+    2205 |                 flush_tlb_mm_range(mm, start, end, PAGE_SHIFT, false);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 flush_tlb_range
+   In file included from include/linux/highmem.h:14,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:22,
+                    from include/linux/swap.h:9,
+                    from include/linux/mm_inline.h:7,
+                    from fs/proc/task_mmu.c:3:
+   include/linux/highmem-internal.h: In function 'pagemap_scan_pmd_entry':
+>> include/linux/highmem-internal.h:271:9: warning: 'orig_pte' is used uninitialized [-Wuninitialized]
+     271 |         __kunmap_atomic(__addr);                                \
+         |         ^~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:1934:22: note: 'orig_pte' was declared here
+    1934 |         pte_t *pte, *orig_pte;
+         |                      ^~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +481 kernel/sched/alt_sched.h
+vim +/orig_pte +271 include/linux/highmem-internal.h
 
-8b025fc742d760 Alfred Chen 2019-08-19  473  
-8b025fc742d760 Alfred Chen 2019-08-19  474  static inline struct cpuidle_state *idle_get_state(struct rq *rq)
-8b025fc742d760 Alfred Chen 2019-08-19  475  {
-8b025fc742d760 Alfred Chen 2019-08-19  476  	WARN_ON(!rcu_read_lock_held());
-8b025fc742d760 Alfred Chen 2019-08-19  477  	return rq->idle_state;
-8b025fc742d760 Alfred Chen 2019-08-19  478  }
-8b025fc742d760 Alfred Chen 2019-08-19  479  #else
-8b025fc742d760 Alfred Chen 2019-08-19  480  static inline void idle_set_state(struct rq *rq,
-8b025fc742d760 Alfred Chen 2019-08-19 @481  				  struct cpuidle_state *idle_state)
-8b025fc742d760 Alfred Chen 2019-08-19  482  {
-8b025fc742d760 Alfred Chen 2019-08-19  483  }
-8b025fc742d760 Alfred Chen 2019-08-19  484  
-
-:::::: The code at line 481 was first introduced by commit
-:::::: 8b025fc742d76091232a7404a7ad09c8cad61492 Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  251  
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  252  /**
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  253   * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic() - deprecated!
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  254   * @__addr:       Virtual address to be unmapped
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  255   *
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  256   * Unmaps an address previously mapped by kmap_atomic() and re-enables
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  257   * pagefaults. Depending on PREEMP_RT configuration, re-enables also
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  258   * migration and preemption. Users should not count on these side effects.
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  259   *
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  260   * Mappings should be unmapped in the reverse order that they were mapped.
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  261   * See kmap_local_page() for details on nesting.
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  262   *
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  263   * @__addr can be any address within the mapped page, so there is no need
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  264   * to subtract any offset that has been added. In contrast to kunmap(),
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  265   * this function takes the address returned from kmap_atomic(), not the
+e7392b4eca84e8 Fabio M. De Francesco 2022-05-13  266   * page passed to it. The compiler will warn you if you pass the page.
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  267   */
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  268  #define kunmap_atomic(__addr)					\
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  269  do {								\
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  270  	BUILD_BUG_ON(__same_type((__addr), struct page *));	\
+13f876ba77ebd5 Thomas Gleixner       2020-11-03 @271  	__kunmap_atomic(__addr);				\
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  272  } while (0)
+13f876ba77ebd5 Thomas Gleixner       2020-11-03  273  
 
 -- 
 0-DAY CI Kernel Test Service
