@@ -1,164 +1,246 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2B410EA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 00:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681777884; x=1713313884;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=//EJMZxRId8akbAyPz6jjbtkHwbtJ5CNzJM0j+LkP4M=;
-  b=Nly1QLI3xxO/ymbZw/to4aFc1hwwXROINYfUCyzKqgF+m/CnalSeolQW
-   DLV1TimOZ4Y9GMGVe8Fm9bsBUNx5BOamS9ld4FHNSflsTLNYpK099TCx4
-   UEcWm04yDcRZBS9pzdzk4owtMMOBRx+DNLiNRLDrVdrVatFfb847j9K8V
-   FXpi6kTn6I0366j6fzi03630nsji/MQE1WzWZw0ZMlzCGQM2LmwvvrsH0
-   SRgqloNgQ/ilkLMpxcoqmpphhnjSAknQ/SJvUChVcJncW9IkKG5wOt9Gv
-   cAmlfZiJZLf8NQQCm71c8eyVGujBmZlGm/L8MXM4Tp3B/A4XlsHxDCmkM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="345037592"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="345037592"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 17:31:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723436521"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="723436521"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Apr 2023 17:31:08 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1poZFU-000cm3-0M;
-	Tue, 18 Apr 2023 00:31:08 +0000
-Date: Tue, 18 Apr 2023 08:30:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:rlist 8/28] kernel/dma/direct.c:677:5: warning: no
- previous prototype for 'dma_direct_map_rlist_slow'
-Message-ID: <202304180814.enJWS2It-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECD410F2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 00:52:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1681779170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vxNMMYZBFaGylaCyhmPo/cDBuISFxEFhh8rFLgcN6xQ=;
+	b=CMs+DsXu1J1SfH0gAO/x0u/cMosEjvjbmf2bxGUaBXnur41oruis3i5dTbtRvu7mTYGZ3P
+	T9EyXWUbBeKs5KyTVd/fYIh/hiN+XglF7oBjdP6T3rZFHufyCmlT2AgHDrlNuFkO6qH5h2
+	wrqKpAuwNViPbzGc/4c+wjDdlvlJCCw=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-21-997s90_1MB2YfPK5T0k1vw-1; Mon, 17 Apr 2023 20:52:49 -0400
+X-MC-Unique: 997s90_1MB2YfPK5T0k1vw-1
+Received: by mail-pg1-f199.google.com with SMTP id 16-20020a630510000000b0051b5d41b0dcso5371512pgf.18
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 17:52:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681779168; x=1684371168;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vxNMMYZBFaGylaCyhmPo/cDBuISFxEFhh8rFLgcN6xQ=;
+        b=M5L5ac+zASJqjpHDs+GmhgUoP6f0jrQqL/IAGpZkmfqGGuwmM5EXmzvhu3coH5qXsa
+         NYivs8ft8rGoedMgzQZq1qmfwR3iatpMu2L+H6WwKV1sa7qRkreM13TQdpZhIE+gpsPn
+         qHNxlBnHUOmbSmObngy/ZVUUtjpQwmelOakeULAjJpCSlc+rQYrSbei8nKY/wpmxROMu
+         ILD0LM2DNe+OZs+r71zwrN7Jc1TDa5bRCmKkZOV4uASrpvwxNTzOI8agwEXSlxTjhAT9
+         /zVGQExQgTAyobZYlcZbBU+D/uGVw/+yifY0sfTdOBv73QlVUfVspyEEYewMLKnjU+Up
+         jMdg==
+X-Gm-Message-State: AAQBX9cve6dQxgBIiKKKGhDcl6mc97iAlszHmvHYY9EBPI6v06frz6HC
+	C/05BkqNZuYD2poNIHM4jVvP0IQhQj1br7wm0VXCZFMsYUAtctWH0hSFbmExRKKhAah5lzDxwR/
+	l0uezw5nDruFMFc33olMKUAq4Bg==
+X-Received: by 2002:a05:6a20:be25:b0:d9:6650:ef14 with SMTP id ge37-20020a056a20be2500b000d96650ef14mr15952099pzb.31.1681779168033;
+        Mon, 17 Apr 2023 17:52:48 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ap8k33HMoluyvRPZLnf8raP2nYht2Qx0IjN+y1Awiiqz0Ps0Yi/7Rdx59GAsjf309cZtGfcQ==
+X-Received: by 2002:a05:6a20:be25:b0:d9:6650:ef14 with SMTP id ge37-20020a056a20be2500b000d96650ef14mr15952085pzb.31.1681779167655;
+        Mon, 17 Apr 2023 17:52:47 -0700 (PDT)
+Received: from [10.72.12.132] ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id w30-20020a63161e000000b00517f165d0a6sm7601420pgl.4.2023.04.17.17.52.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 17:52:47 -0700 (PDT)
+Message-ID: <e3bc12ad-4e38-9206-bc75-e394bb2e600c@redhat.com>
+Date: Tue, 18 Apr 2023 08:52:42 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://github.com/jgunthorpe/linux rlist
-head:   a7cd9881872ca2566ca744155c307ca414341e04
-commit: c065bc60b255f1829a9c562593730015c4e314df [8/28] dma: Add DMA direct support for rlist mapping
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230418/202304180814.enJWS2It-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/jgunthorpe/linux/commit/c065bc60b255f1829a9c562593730015c4e314df
-        git remote add jgunthorpe https://github.com/jgunthorpe/linux
-        git fetch --no-tags jgunthorpe rlist
-        git checkout c065bc60b255f1829a9c562593730015c4e314df
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/dma/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304180814.enJWS2It-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/dma/direct.c:20:
-   kernel/dma/direct.h: In function 'dma_direct_unmap_rlist':
-   kernel/dma/direct.h:80:1: error: no return statement in function returning non-void [-Werror=return-type]
-      80 | }
-         | ^
-   kernel/dma/direct.c: At top level:
->> kernel/dma/direct.c:677:5: warning: no previous prototype for 'dma_direct_map_rlist_slow' [-Wmissing-prototypes]
-     677 | int dma_direct_map_rlist_slow(struct device *dev, struct rlist_cpu *rcpu,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1866:6: warning:
+ variable 'iputs' is used uninitialized whenever 'if' condition is false
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ ceph-devel@vger.kernel.org
+References: <202304172343.2ToBO5ag-lkp@intel.com>
+From: Xiubo Li <xiubli@redhat.com>
+In-Reply-To: <202304172343.2ToBO5ag-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-vim +/dma_direct_map_rlist_slow +677 kernel/dma/direct.c
+On 4/17/23 23:49, kernel test robot wrote:
+> tree:   https://github.com/ceph/ceph-client.git testing
+> head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+> commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
+> config: x86_64-randconfig-a011-20230417 (https://download.01.org/0day-ci/archive/20230417/202304172343.2ToBO5ag-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/ceph/ceph-client/commit/3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+>          git remote add ceph-client https://github.com/ceph/ceph-client.git
+>          git fetch --no-tags ceph-client testing
+>          git checkout 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ceph/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304172343.2ToBO5ag-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> fs/ceph/mds_client.c:1866:6: warning: variable 'iputs' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>             if (cap) {
+>                 ^~~
+>     fs/ceph/mds_client.c:1877:9: note: uninitialized use occurs here
+>             while (iputs--)
+>                    ^~~~~
+>     fs/ceph/mds_client.c:1866:2: note: remove the 'if' if its condition is always true
+>             if (cap) {
+>             ^~~~~~~~~
+>     fs/ceph/mds_client.c:1862:11: note: initialize the variable 'iputs' to silence this warning
+>             int iputs;
+>                      ^
+>                       = 0
+>>> fs/ceph/mds_client.c:1957:7: warning: variable 'cap' is uninitialized when used here [-Wuninitialized]
+>                     if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+>                         ^~~
+>     fs/ceph/mds_client.c:1949:22: note: initialize the variable 'cap' to silence this warning
+>             struct ceph_cap *cap;
+>                                 ^
+>                                  = NULL
+>     2 warnings generated.
+>
+>
+> vim +1866 fs/ceph/mds_client.c
 
-   676	
- > 677	int dma_direct_map_rlist_slow(struct device *dev, struct rlist_cpu *rcpu,
-   678				      struct rlist_dma *rdma,
-   679				      const struct rlist_dma_segmentation *segment,
-   680				      enum dma_data_direction dir, unsigned long attrs,
-   681				      gfp_t gfp)
-   682	{
-   683		struct p2pdma_provider_map_cache cache = {};
-   684		RLIST_DMA_STATE_APPEND(rlsa, rdma);
-   685		struct rlist_cpu_entry entry;
-   686		RLIST_CPU_STATE(rls, rcpu);
-   687		int ret;
-   688	
-   689		ret = rlsdma_append_begin(&rlsa);
-   690		if (ret)
-   691			return ret;
-   692	
-   693		rlist_cpu_for_each_entry(&rls, &entry) {
-   694			unsigned int priv;
-   695			dma_addr_t dma;
-   696	
-   697			switch (entry.type) {
-   698			case RLIST_CPU_MEM_FOLIO:
-   699				priv = DMA_DIRECT_PRIV_PAGE;
-   700				dma = dma_direct_map_page(
-   701					dev,
-   702					folio_page(entry.folio,
-   703						   entry.folio_offset / PAGE_SIZE),
-   704					entry.folio_offset % PAGE_SIZE, entry.length,
-   705					dir, attrs);
-   706				break;
-   707	
-   708			case RLIST_CPU_MEM_PHYSICAL: {
-   709				struct p2pdma_provider *provider =
-   710					p2pdma_provider_from_id(entry.provider_index);
-   711	
-   712				ret = p2pdma_provider_map(dev, provider, entry.phys,
-   713							  &dma, &cache);
-   714				if (ret) {
-   715					if (ret == P2P_MAP_FILLED_DMA) {
-   716						priv = DMA_DIRECT_PRIV_P2P;
-   717						break;
-   718					}
-   719					goto err;
-   720				}
-   721	
-   722				priv = DMA_DIRECT_PRIV_RESOURCE;
-   723				dma = dma_direct_map_resource(dev, entry.phys,
-   724							      entry.length, dir, attrs);
-   725				break;
-   726			}
-   727	
-   728			default:
-   729				WARN(true, "Corrupt rlist_cpu");
-   730				ret = -EINVAL;
-   731				goto err;
-   732			}
-   733	
-   734			if (dma == DMA_MAPPING_ERROR) {
-   735				ret = -EIO;
-   736				goto err;
-   737			}
-   738	
-   739			ret = rlsdma_append(&rlsa, dma, entry.length, priv, gfp);
-   740			if (ret)
-   741				goto err;
-   742		}
-   743		rlsdma_append_end(&rlsa);
-   744		return 0;
-   745	
-   746	err:
-   747		rlsdma_append_destroy_rlist(&rlsa);
-   748		return ret;
-   749	}
-   750	
+Thanks for reporting this.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+As Luis mentioned in another thread, I will fix this in the testing branch.
+
+- Xiubo
+
+
+>
+>    1855	
+>    1856	static int remove_session_caps_cb(struct inode *inode, struct rb_node *ci_node,
+>    1857					  void *arg)
+>    1858	{
+>    1859		struct ceph_inode_info *ci = ceph_inode(inode);
+>    1860		bool invalidate = false;
+>    1861		struct ceph_cap *cap;
+>    1862		int iputs;
+>    1863	
+>    1864		spin_lock(&ci->i_ceph_lock);
+>    1865		cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+>> 1866		if (cap) {
+>    1867			dout(" removing cap %p, ci is %p, inode is %p\n",
+>    1868			     cap, ci, &ci->netfs.inode);
+>    1869	
+>    1870			iputs = ceph_purge_inode_cap(inode, cap, &invalidate);
+>    1871		}
+>    1872		spin_unlock(&ci->i_ceph_lock);
+>    1873	
+>    1874		wake_up_all(&ci->i_cap_wq);
+>    1875		if (invalidate)
+>    1876			ceph_queue_invalidate(inode);
+>    1877		while (iputs--)
+>    1878			iput(inode);
+>    1879		return 0;
+>    1880	}
+>    1881	
+>    1882	/*
+>    1883	 * caller must hold session s_mutex
+>    1884	 */
+>    1885	static void remove_session_caps(struct ceph_mds_session *session)
+>    1886	{
+>    1887		struct ceph_fs_client *fsc = session->s_mdsc->fsc;
+>    1888		struct super_block *sb = fsc->sb;
+>    1889		LIST_HEAD(dispose);
+>    1890	
+>    1891		dout("remove_session_caps on %p\n", session);
+>    1892		ceph_iterate_session_caps(session, remove_session_caps_cb, fsc);
+>    1893	
+>    1894		wake_up_all(&fsc->mdsc->cap_flushing_wq);
+>    1895	
+>    1896		spin_lock(&session->s_cap_lock);
+>    1897		if (session->s_nr_caps > 0) {
+>    1898			struct inode *inode;
+>    1899			struct ceph_cap *cap, *prev = NULL;
+>    1900			struct ceph_vino vino;
+>    1901			/*
+>    1902			 * iterate_session_caps() skips inodes that are being
+>    1903			 * deleted, we need to wait until deletions are complete.
+>    1904			 * __wait_on_freeing_inode() is designed for the job,
+>    1905			 * but it is not exported, so use lookup inode function
+>    1906			 * to access it.
+>    1907			 */
+>    1908			while (!list_empty(&session->s_caps)) {
+>    1909				cap = list_entry(session->s_caps.next,
+>    1910						 struct ceph_cap, session_caps);
+>    1911				if (cap == prev)
+>    1912					break;
+>    1913				prev = cap;
+>    1914				vino = cap->ci->i_vino;
+>    1915				spin_unlock(&session->s_cap_lock);
+>    1916	
+>    1917				inode = ceph_find_inode(sb, vino);
+>    1918				iput(inode);
+>    1919	
+>    1920				spin_lock(&session->s_cap_lock);
+>    1921			}
+>    1922		}
+>    1923	
+>    1924		// drop cap expires and unlock s_cap_lock
+>    1925		detach_cap_releases(session, &dispose);
+>    1926	
+>    1927		BUG_ON(session->s_nr_caps > 0);
+>    1928		BUG_ON(!list_empty(&session->s_cap_flushing));
+>    1929		spin_unlock(&session->s_cap_lock);
+>    1930		dispose_cap_releases(session->s_mdsc, &dispose);
+>    1931	}
+>    1932	
+>    1933	enum {
+>    1934		RECONNECT,
+>    1935		RENEWCAPS,
+>    1936		FORCE_RO,
+>    1937	};
+>    1938	
+>    1939	/*
+>    1940	 * wake up any threads waiting on this session's caps.  if the cap is
+>    1941	 * old (didn't get renewed on the client reconnect), remove it now.
+>    1942	 *
+>    1943	 * caller must hold s_mutex.
+>    1944	 */
+>    1945	static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
+>    1946	{
+>    1947		struct ceph_inode_info *ci = ceph_inode(inode);
+>    1948		unsigned long ev = (unsigned long)arg;
+>    1949		struct ceph_cap *cap;
+>    1950	
+>    1951		if (ev == RECONNECT) {
+>    1952			spin_lock(&ci->i_ceph_lock);
+>    1953			ci->i_wanted_max_size = 0;
+>    1954			ci->i_requested_max_size = 0;
+>    1955			spin_unlock(&ci->i_ceph_lock);
+>    1956		} else if (ev == RENEWCAPS) {
+>> 1957			if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+>    1958				/* mds did not re-issue stale cap */
+>    1959				spin_lock(&ci->i_ceph_lock);
+>    1960				cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+>    1961				if (cap)
+>    1962					cap->issued = cap->implemented = CEPH_CAP_PIN;
+>    1963				spin_unlock(&ci->i_ceph_lock);
+>    1964			}
+>    1965		} else if (ev == FORCE_RO) {
+>    1966		}
+>    1967		wake_up_all(&ci->i_cap_wq);
+>    1968		return 0;
+>    1969	}
+>    1970	
+>
+
