@@ -1,43 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A5715B8;
-	Tue, 18 Apr 2023 03:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9903015B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 03:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681788321; x=1713324321;
+  t=1681788980; x=1713324980;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Da/7OObouVCAsPM/qB21fVUMQTn+NhnmRiEz30cKMwA=;
-  b=AHDxPxfjMW7u5i882xj4W0Zh6JG/hIV6l9sKbs/cVKhlkS8gRLtrvAaZ
-   +qnWaqcqidgV3e1GnEPBWwaqCvKf2H1+TiMwFsMObfKT8oHVzss7Ocmiq
-   fNVnheWK5Dj99ru5DAd41kmB5oig6pPj9vgDVFsdBOgOpjRaKLmVHCDvM
-   c0Uh6u1EVjrfT+3K8HvLbBOok/+it0UOxGhpQ1ZH7FSBcifT8sW94uPjc
-   cGgdwXoQ9/7Vm9sLr/ePx9ZaDBYPwXHqW9rgU9UBIKfodlGk2h6TPDpnT
-   QAjferAtlV09qotiGTzBBgVLXkE/KDpE/4BGSvBcMpfgcK146yNccXpX2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="345062341"
+  bh=VxdjGqodyBzAUhUNRnOWrg9RC2IJeBwHgQAZO5WtRQE=;
+  b=mbfgV40tHaciJeSDblRzqc20MpL0pXh1dzC1gEq7OW19yaIuOtMvc5bi
+   bfUAATj9E1XYVw9w6e1PXnlMIMG7XwzFCifuX62/8+lQOe3miNo1p5lCp
+   YD9VWoOqxpcVvDhPXq94utojsAVht9cMg3MHKGD3cKbeCqdDJwCn76Cn0
+   muAx1xZAJSBSV5IN7is4OCXWGPBoQtSo1/V40rkr5zyV03dmyKjrm/ynV
+   FVhadjOjpup1Fiq34ddySmwELjkSxkLEtvExe6CqLvpALbe218lov3mL4
+   OclxWn7US8jqaU6D3JzsnLQlcrDNHb6SVSJ+Qdxa8glCHMXKbyQKOHM9N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="407961415"
 X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="345062341"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 20:25:18 -0700
+   d="scan'208";a="407961415"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 20:36:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="684405061"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="834696936"
 X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="684405061"
+   d="scan'208";a="834696936"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Apr 2023 20:25:17 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2023 20:36:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poby0-000cuZ-1e;
-	Tue, 18 Apr 2023 03:25:16 +0000
-Date: Tue, 18 Apr 2023 11:25:08 +0800
+	id 1poc8f-000cvE-2g;
+	Tue, 18 Apr 2023 03:36:17 +0000
+Date: Tue, 18 Apr 2023 11:35:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] f2fs: remove power-of-two limitation fo zoned device
-Message-ID: <202304181150.stMAx7pw-lkp@intel.com>
-References: <20230418004049.3262659-1-jaegeuk@kernel.org>
+To: Daniel Rosenberg <drosen@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 30/37] fuse: Provide registration functions for
+ fuse-bpf
+Message-ID: <202304181127.pawkQbm9-lkp@intel.com>
+References: <20230418014037.2412394-31-drosen@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,49 +47,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418004049.3262659-1-jaegeuk@kernel.org>
+In-Reply-To: <20230418014037.2412394-31-drosen@google.com>
 
-Hi Jaegeuk,
+Hi Daniel,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev next-20230417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 49859de997c3115b85544bce6b6ceab60a7fabc4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jaegeuk-Kim/f2fs-remove-power-of-two-limitation-fo-zoned-device/20230418-084241
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20230418004049.3262659-1-jaegeuk%40kernel.org
-patch subject: [PATCH] f2fs: remove power-of-two limitation fo zoned device
-config: arm-randconfig-r022-20230416 (https://download.01.org/0day-ci/archive/20230418/202304181150.stMAx7pw-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Rosenberg/bpf-verifier-Accept-dynptr-mem-as-mem-in-herlpers/20230418-094717
+base:   49859de997c3115b85544bce6b6ceab60a7fabc4
+patch link:    https://lore.kernel.org/r/20230418014037.2412394-31-drosen%40google.com
+patch subject: [RFC PATCH v3 30/37] fuse: Provide registration functions for fuse-bpf
+config: m68k-randconfig-r016-20230418 (https://download.01.org/0day-ci/archive/20230418/202304181127.pawkQbm9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/50158b3d258eb40eb81f3460d91c71126c08cdb8
+        # https://github.com/intel-lab-lkp/linux/commit/ff2c02ca675655ec88e525c51defda64d7774b0d
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jaegeuk-Kim/f2fs-remove-power-of-two-limitation-fo-zoned-device/20230418-084241
-        git checkout 50158b3d258eb40eb81f3460d91c71126c08cdb8
+        git fetch --no-tags linux-review Daniel-Rosenberg/bpf-verifier-Accept-dynptr-mem-as-mem-in-herlpers/20230418-094717
+        git checkout ff2c02ca675655ec88e525c51defda64d7774b0d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/fuse/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181150.stMAx7pw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304181127.pawkQbm9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __aeabi_ldivmod
-   >>> referenced by gc.c:2097 (fs/f2fs/gc.c:2097)
-   >>>               fs/f2fs/gc.o:(update_fs_metadata) in archive vmlinux.a
-   >>> did you mean: __aeabi_idivmod
-   >>> defined in: arch/arm/lib/lib.a(lib1funcs.o)
+   fs/fuse/bpf_register.c: In function 'qstr_eq':
+>> fs/fuse/bpf_register.c:52:26: warning: variable 'r3' set but not used [-Wunused-but-set-variable]
+      52 |         int res, r1, r2, r3;
+         |                          ^~
+>> fs/fuse/bpf_register.c:52:22: warning: variable 'r2' set but not used [-Wunused-but-set-variable]
+      52 |         int res, r1, r2, r3;
+         |                      ^~
+>> fs/fuse/bpf_register.c:52:18: warning: variable 'r1' set but not used [-Wunused-but-set-variable]
+      52 |         int res, r1, r2, r3;
+         |                  ^~
+   fs/fuse/bpf_register.c: In function 'get_fuse_ops':
+>> fs/fuse/bpf_register.c:82:37: error: 'BPF_MODULE_OWNER' undeclared (first use in this function)
+      82 |         if (bpf_try_module_get(ops, BPF_MODULE_OWNER))
+         |                                     ^~~~~~~~~~~~~~~~
+   fs/fuse/bpf_register.c:82:37: note: each undeclared identifier is reported only once for each function it appears in
+   fs/fuse/bpf_register.c: In function 'put_fuse_ops':
+   fs/fuse/bpf_register.c:91:37: error: 'BPF_MODULE_OWNER' undeclared (first use in this function)
+      91 |                 bpf_module_put(ops, BPF_MODULE_OWNER);
+         |                                     ^~~~~~~~~~~~~~~~
+   fs/fuse/bpf_register.c: In function 'register_fuse_op':
+   fs/fuse/bpf_register.c:145:39: error: 'BPF_MODULE_OWNER' undeclared (first use in this function)
+     145 |         if (bpf_try_module_get(value, BPF_MODULE_OWNER))
+         |                                       ^~~~~~~~~~~~~~~~
+   fs/fuse/bpf_register.c: In function 'unregister_fuse_op':
+   fs/fuse/bpf_register.c:171:31: error: 'BPF_MODULE_OWNER' undeclared (first use in this function)
+     171 |         bpf_module_put(value, BPF_MODULE_OWNER);
+         |                               ^~~~~~~~~~~~~~~~
+   fs/fuse/bpf_register.c: In function 'get_fuse_ops':
+   fs/fuse/bpf_register.c:86:1: error: control reaches end of non-void function [-Werror=return-type]
+      86 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +/BPF_MODULE_OWNER +82 fs/fuse/bpf_register.c
+
+    49	
+    50	static inline int qstr_eq(const struct qstr *s1, const struct qstr *s2)
+    51	{
+  > 52		int res, r1, r2, r3;
+    53	
+    54		r1 = s1->len == s2->len;
+    55		r2 = s1->hash == s2->hash;
+    56		r3 = memcmp(s1->name, s2->name, s1->len);
+    57		res = (s1->len == s2->len && s1->hash == s2->hash && !memcmp(s1->name, s2->name, s1->len));
+    58		return res;
+    59	}
+    60	
+    61	static struct fuse_ops *__find_fuse_ops(const struct qstr *key)
+    62	{
+    63		struct hashtable_entry *hash_cur;
+    64		unsigned int hash = key->hash;
+    65		struct fuse_ops *ret_ops;
+    66	
+    67		rcu_read_lock();
+    68		hash_for_each_possible_rcu(name_to_ops, hash_cur, hlist, hash) {
+    69			if (qstr_eq(key, &hash_cur->key)) {
+    70				ret_ops = hash_cur->ops;
+    71				ret_ops = get_fuse_ops(ret_ops);
+    72				rcu_read_unlock();
+    73				return ret_ops;
+    74			}
+    75		}
+    76		rcu_read_unlock();
+    77		return NULL;
+    78	}
+    79	
+    80	struct fuse_ops *get_fuse_ops(struct fuse_ops *ops)
+    81	{
+  > 82		if (bpf_try_module_get(ops, BPF_MODULE_OWNER))
+    83			return ops;
+    84		else
+    85			return NULL;
+    86	}
+    87	
 
 -- 
 0-DAY CI Kernel Test Service
