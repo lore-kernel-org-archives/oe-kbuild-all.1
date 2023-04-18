@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604981C02;
-	Tue, 18 Apr 2023 08:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1D11FA0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 09:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681805010; x=1713341010;
+  t=1681811135; x=1713347135;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3gvt0Cr3iK9FcuX33wgyb3BC3sOttQXdFu65w04jc1U=;
-  b=a+/i+p4gZy0/RdovrU/vm0b9MP3Tthb0OO4V0g8mPkm7bsUnvYvd3zDr
-   nib/KaKCmZQrTnzhE2Xs6A1Vgxm3n7ZWbU2Jy5Yqhlbx1naM10PQcZde6
-   +zhdbs6Lk6zLafXerKHowmqZVqAXEpSyuYXeMkLEkkK6/CM9vVPcpb+Pp
-   pB6khMR/ZmcK3kk70qqt+Zhw5/Hix6XR+DeoQnQ6VVPYtTAqjQWm7Xpyq
-   gpRS/dmpZpD4GiO1gAL1WSuJEbxCAa37gPzthSOWptcGKLI/xj9YWdK/H
-   kVtaTNJ4gZgIwyCHiE9J0qwznMqvQm+XbwW6G+cHri4iQCHa3IYirQ3/Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="343858973"
+  bh=aoEGNjqPPKoeiN2karLWMW4dQZaY6+fBNy0mkw8oP9E=;
+  b=HATQByjzIj94O9G7WSnF+Q+w9w0UtRj+UzB6vhnbhAZIfF2la1YP/sAg
+   SU9buo3+LzuGOJW7l9YZcYjDPEoBCTUeVfG+z2fj+jwzR4k48M3CRNyrt
+   6lOYrGQZYGt/nfVErcgwJzHw5oEgiCgUdFM+fgwZeYxDeryjgS1Hh2Lif
+   RNhOuG3VzazQpgJlsCkB5UxdJ0pOk02CmThAV5o3We4vZZfy6A84v0WI8
+   GSFy8+BB5jWIj8NIFD4Z+1QlPffn+EOnAy59IsiVTlajuGjQHTqqqXBLA
+   mp5aqAy3SwDTbwZ9C98EltMxAXMINNcUurU8UHVL0SNP2H1nnJEdpV5Y0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="431410553"
 X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="343858973"
+   d="scan'208";a="431410553"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 01:03:29 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 02:45:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="693539353"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="693564007"
 X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="693539353"
+   d="scan'208";a="693564007"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Apr 2023 01:03:27 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 18 Apr 2023 02:45:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pogJC-000d8h-1V;
-	Tue, 18 Apr 2023 08:03:26 +0000
-Date: Tue, 18 Apr 2023 16:03:01 +0800
+	id 1pohtz-000dDn-2O;
+	Tue, 18 Apr 2023 09:45:31 +0000
+Date: Tue, 18 Apr 2023 17:45:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net
-Subject: [jaegeuk-f2fs:dev-test 49/49] ld.lld: error: undefined symbol:
- __hexagon_udivdi3
-Message-ID: <202304181512.3CpLfgBe-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:rlist 23/28] include/rdma/ib_verbs.h:4198:58: warning:
+ 'struct rlist_dma' declared inside parameter list will not be visible
+ outside of this definition or declaration
+Message-ID: <202304181757.lhKaMuIt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,42 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-head:   07717639336b495e1115e95824031643363d0276
-commit: 07717639336b495e1115e95824031643363d0276 [49/49] f2fs: remove power-of-two limitation fo zoned device
-config: hexagon-randconfig-r012-20230416 (https://download.01.org/0day-ci/archive/20230418/202304181512.3CpLfgBe-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+tree:   https://github.com/jgunthorpe/linux rlist
+head:   a7cd9881872ca2566ca744155c307ca414341e04
+commit: 0ff1a4c87640438a31f239c61df8aba1dc348d5f [23/28] RDMA: Add IB DMA API wrappers for rlist
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230418/202304181757.lhKaMuIt-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git/commit/?id=07717639336b495e1115e95824031643363d0276
-        git remote add jaegeuk-f2fs https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git
-        git fetch --no-tags jaegeuk-f2fs dev-test
-        git checkout 07717639336b495e1115e95824031643363d0276
+        # https://github.com/jgunthorpe/linux/commit/0ff1a4c87640438a31f239c61df8aba1dc348d5f
+        git remote add jgunthorpe https://github.com/jgunthorpe/linux
+        git fetch --no-tags jgunthorpe rlist
+        git checkout 0ff1a4c87640438a31f239c61df8aba1dc348d5f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash security/selinux/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181512.3CpLfgBe-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304181757.lhKaMuIt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __hexagon_udivdi3
-   >>> referenced by super.c
-   >>>               fs/f2fs/super.o:(f2fs_scan_devices) in archive vmlinux.a
-   >>> referenced by super.c
-   >>>               fs/f2fs/super.o:(f2fs_scan_devices) in archive vmlinux.a
-   >>> did you mean: __hexagon_udivsi3
-   >>> defined in: vmlinux.a(arch/hexagon/lib/udivsi3.o)
---
->> ld.lld: error: undefined symbol: __hexagon_divdi3
-   >>> referenced by gc.c
-   >>>               fs/f2fs/gc.o:(update_fs_metadata) in archive vmlinux.a
-   >>> referenced by gc.c
-   >>>               fs/f2fs/gc.o:(update_fs_metadata) in archive vmlinux.a
+   In file included from include/linux/lsm_audit.h:25,
+                    from security/selinux/include/avc.h:17,
+                    from security/selinux/avc.c:30:
+>> include/rdma/ib_verbs.h:4198:58: warning: 'struct rlist_dma' declared inside parameter list will not be visible outside of this definition or declaration
+    4198 | int ib_dma_virt_map_rlist(struct rlist_cpu *rcpu, struct rlist_dma *rdma);
+         |                                                          ^~~~~~~~~
+>> include/rdma/ib_verbs.h:4203:49: warning: 'struct rlist_dma_segmentation' declared inside parameter list will not be visible outside of this definition or declaration
+    4203 |                                    const struct rlist_dma_segmentation *segment,
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/rdma/ib_verbs.h:4202:43: warning: 'struct rlist_dma' declared inside parameter list will not be visible outside of this definition or declaration
+    4202 |                                    struct rlist_dma *rdma,
+         |                                           ^~~~~~~~~
+   include/rdma/ib_verbs.h: In function 'ib_dma_map_rlist':
+   include/rdma/ib_verbs.h:4208:52: error: passing argument 2 of 'ib_dma_virt_map_rlist' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    4208 |                 return ib_dma_virt_map_rlist(rcpu, rdma);
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    struct rlist_dma *
+   include/rdma/ib_verbs.h:4198:69: note: expected 'struct rlist_dma *' but argument is of type 'struct rlist_dma *'
+    4198 | int ib_dma_virt_map_rlist(struct rlist_cpu *rcpu, struct rlist_dma *rdma);
+         |                                                   ~~~~~~~~~~~~~~~~~~^~~~
+   include/rdma/ib_verbs.h:4209:16: error: implicit declaration of function 'dma_map_rlist'; did you mean 'ib_dma_map_rlist'? [-Werror=implicit-function-declaration]
+    4209 |         return dma_map_rlist(dev->dma_device, rcpu, rdma, segment, dir, attrs,
+         |                ^~~~~~~~~~~~~
+         |                ib_dma_map_rlist
+   include/rdma/ib_verbs.h: At top level:
+   include/rdma/ib_verbs.h:4214:31: warning: 'struct rlist_dma' declared inside parameter list will not be visible outside of this definition or declaration
+    4214 | void rlist_dma_destroy(struct rlist_dma *rdma);
+         |                               ^~~~~~~~~
+   include/rdma/ib_verbs.h:4217:46: warning: 'struct rlist_dma' declared inside parameter list will not be visible outside of this definition or declaration
+    4217 |                                       struct rlist_dma *rdma,
+         |                                              ^~~~~~~~~
+   include/rdma/ib_verbs.h: In function 'ib_dma_unmap_rlist':
+   include/rdma/ib_verbs.h:4222:35: error: passing argument 1 of 'rlist_dma_destroy' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    4222 |                 rlist_dma_destroy(rdma);
+         |                                   ^~~~
+         |                                   |
+         |                                   struct rlist_dma *
+   include/rdma/ib_verbs.h:4214:42: note: expected 'struct rlist_dma *' but argument is of type 'struct rlist_dma *'
+    4214 | void rlist_dma_destroy(struct rlist_dma *rdma);
+         |                        ~~~~~~~~~~~~~~~~~~^~~~
+   include/rdma/ib_verbs.h:4224:24: error: implicit declaration of function 'dma_unmap_rlist'; did you mean 'ib_dma_unmap_rlist'? [-Werror=implicit-function-declaration]
+    4224 |                 return dma_unmap_rlist(dev->dma_device, rdma, dir, attrs);
+         |                        ^~~~~~~~~~~~~~~
+         |                        ib_dma_unmap_rlist
+   include/rdma/ib_verbs.h:4224:24: error: 'return' with a value, in function returning void [-Werror=return-type]
+    4224 |                 return dma_unmap_rlist(dev->dma_device, rdma, dir, attrs);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/rdma/ib_verbs.h:4216:20: note: declared here
+    4216 | static inline void ib_dma_unmap_rlist(struct ib_device *dev,
+         |                    ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +4198 include/rdma/ib_verbs.h
+
+  4197	
+> 4198	int ib_dma_virt_map_rlist(struct rlist_cpu *rcpu, struct rlist_dma *rdma);
+  4199	
+  4200	static inline int ib_dma_map_rlist(struct ib_device *dev,
+  4201					   struct rlist_cpu *rcpu,
+  4202					   struct rlist_dma *rdma,
+> 4203					   const struct rlist_dma_segmentation *segment,
+  4204					   enum dma_data_direction dir,
+  4205					   unsigned long attrs, gfp_t gfp)
+  4206	{
+  4207		if (ib_uses_virt_dma(dev))
+  4208			return ib_dma_virt_map_rlist(rcpu, rdma);
+  4209		return dma_map_rlist(dev->dma_device, rcpu, rdma, segment, dir, attrs,
+  4210				     gfp);
+  4211	}
+  4212	
 
 -- 
 0-DAY CI Kernel Test Service
