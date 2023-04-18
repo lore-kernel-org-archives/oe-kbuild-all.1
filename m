@@ -1,43 +1,48 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F899AFC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 17:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC2AFC3;
+	Tue, 18 Apr 2023 17:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681837678; x=1713373678;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YshI9e6HRN45rWcMyhztHeDs6iQ5GYT0iB9DxegzG+M=;
-  b=m8bKKxDal7kLmCRcbn9WkBl8t73fabCGMNphdjATMIlqh9ZrcXFNHJzX
-   LU05znRb3gVQ/ZANcTSJ17DecVR3HvkLN5jVXRbihkQn1SEPx7kgonIXb
-   eIbvvidGGzTSyr26L9w/oDvvu1/DY47t1vZdY2snS+kgXGtHYhlZeyAJ0
-   8R6epx7drk1C+LUZd7HGyQaxGrvyN3JsBlvZjQfc3CnussA5UM/2cJQaN
-   fa6WZKZbaIWK7thI8kfJcen2eRTsam12wOlc81L+Ep5fsuMfDqa12KUrB
-   eIrec2sKjZxpQ/V5ULzDmiMtGUU+pOb5+I/efBwPeQrDtN1WE6eMv1J8a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431517758"
+  t=1681837686; x=1713373686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=clbh2zDGy6dFpAHAbuLZHr1blTUTX9CnRVLHP8QGdRQ=;
+  b=M7tzR3zhQLiMTXUUjf/dIeb52lhRVlff1WQgrnRIHk0QDqhKt1y9dHid
+   HXCrbYc11tpu0KSMUSxZ6CXKmDAj46CydTmISfZNthYHRo2l/3Uz2Z2JD
+   Iz98wy/F+TNC0phit3Bp2NifOkQq0Rcw38E/9Ny4r/tOqT7502dk8u6bX
+   hfXi2bPCywb3yOchuux6vcGU+/zbN9D8yGMj3mj6nu0RI7POm/ETaIsJ9
+   NOlaR2uKiGMZiGITT4p1D2d32vy2PeweeLaz/PY93gbeK1xh8qu0Vuwzs
+   dGz0Q3y6gtZaAG6zdtKj5AgkbGyVqRCPxd0hkcrSgysCmps4+umkoy3Gh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431517795"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="431517758"
+   d="scan'208";a="431517795"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 10:07:57 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 10:08:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="865496803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="865496831"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="865496803"
+   d="scan'208";a="865496831"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 18 Apr 2023 10:07:57 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Apr 2023 10:08:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pooo8-000dmB-0S;
+	id 1pooo8-000dmJ-0x;
 	Tue, 18 Apr 2023 17:07:56 +0000
-Date: Wed, 19 Apr 2023 01:07:52 +0800
+Date: Wed, 19 Apr 2023 01:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: zhengding chen <chenzhengding@oppo.com>
-Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>
-Subject: [sudeep-holla:android13-5.10/ffa 21/9999]
- drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202304190102.xmFdK6Zj-lkp@intel.com>
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
+	linux-clk@vger.kernel.org, robh+dt@kernel.org, sboyd@kernel.org,
+	mturquette@baylibre.com, krzysztof.kozlowski+dt@linaro.org,
+	michal.simek@xilinx.com
+Subject: Re: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking
+ wizard
+Message-ID: <202304190059.Br8jz0UK-lkp@intel.com>
+References: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +51,201 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
-head:   9e12ac4f9c69befe08119567c073adc938aafc4d
-commit: 35014985c266face161f6d107f8d8338e02a0b2d [21/9999] ANDROID: vendor_hooks: Add hooks for binder proc transaction
-config: parisc-randconfig-s032-20230416 (https://download.01.org/0day-ci/archive/20230419/202304190102.xmFdK6Zj-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Shubhrajyoti,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on next-20230417]
+[cannot apply to xilinx-xlnx/master robh/for-next linus/master v6.3-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230418102855.6791-3-shubhrajyoti.datta%40amd.com
+patch subject: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking wizard
+config: i386-randconfig-a012-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190059.Br8jz0UK-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=35014985c266face161f6d107f8d8338e02a0b2d
-        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
-        git fetch --no-tags sudeep-holla android13-5.10/ffa
-        git checkout 35014985c266face161f6d107f8d8338e02a0b2d
+        # https://github.com/intel-lab-lkp/linux/commit/143916412aa6a419e20fa37059004329e300ca95
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
+        git checkout 143916412aa6a419e20fa37059004329e300ca95
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/android/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/clk/xilinx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190102.xmFdK6Zj-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190059.Br8jz0UK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as NULL pointer
-   drivers/android/binder.c:2508:41: sparse: sparse: Using plain integer as NULL pointer
-   drivers/android/binder.c:4580:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/android/binder.c:4580:24: sparse:     expected restricted __poll_t
-   drivers/android/binder.c:4580:24: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +1373 drivers/android/binder.c
+>> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:264:11: warning: variable 'value' is uninitialized when used here [-Wuninitialized]
+                   regh = (value / 4);
+                           ^~~~~
+   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:231:11: note: initialize the variable 'value' to silence this warning
+           u32 value, regh, edged, p5en, p5fedge, regval, regval1;
+                    ^
+                     = 0
+>> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:332:12: warning: implicit conversion from 'long long' to 'unsigned long' changes value from 4320000000 to 25032704 [-Wconstant-conversion]
+                   vcomax = VER_WZRD_VCO_MAX;
+                          ~ ^~~~~~~~~~~~~~~~
+   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:102:27: note: expanded from macro 'VER_WZRD_VCO_MAX'
+   #define VER_WZRD_VCO_MAX                4320000000
+                                           ^~~~~~~~~~
+   2 warnings generated.
 
-  1363	
-  1364	/**
-  1365	 * binder_free_ref() - free the binder_ref
-  1366	 * @ref:	ref to free
-  1367	 *
-  1368	 * Free the binder_ref. Free the binder_node indicated by ref->node
-  1369	 * (if non-NULL) and the binder_ref_death indicated by ref->death.
-  1370	 */
-  1371	static void binder_free_ref(struct binder_ref *ref)
-  1372	{
-> 1373		trace_android_vh_binder_del_ref(ref->proc ? ref->proc->tsk : 0, ref->data.desc);
-  1374		if (ref->node)
-  1375			binder_free_node(ref->node);
-  1376		kfree(ref->death);
-  1377		kfree(ref);
-  1378	}
-  1379	
+
+vim +/value +264 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
+
+   225	
+   226	static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
+   227					     unsigned long parent_rate)
+   228	{
+   229		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
+   230		void __iomem *div_addr = divider->base + divider->offset;
+   231		u32 value, regh, edged, p5en, p5fedge, regval, regval1;
+   232		unsigned long flags = 0;
+   233		int err;
+   234	
+   235		if (divider->lock)
+   236			spin_lock_irqsave(divider->lock, flags);
+   237		else
+   238			__acquire(divider->lock);
+   239	
+   240		if (!divider->is_versal) {
+   241			value = DIV_ROUND_CLOSEST(parent_rate, rate);
+   242	
+   243			/* Cap the value to max */
+   244			min_t(u32, value, WZRD_DR_MAX_INT_DIV_VALUE);
+   245	
+   246			/* Set divisor and clear phase offset */
+   247			writel(value, div_addr);
+   248			writel(0x00, div_addr + WZRD_DR_DIV_TO_PHASE_OFFSET);
+   249	
+   250			/* Check status register */
+   251			err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
+   252						 value, value & WZRD_DR_LOCK_BIT_MASK,
+   253						 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
+   254			if (err)
+   255				goto err_reconfig;
+   256	
+   257			/* Initiate reconfiguration */
+   258			writel(WZRD_DR_BEGIN_DYNA_RECONF_5_2,
+   259			       divider->base + WZRD_DR_INIT_REG_OFFSET);
+   260			writel(WZRD_DR_BEGIN_DYNA_RECONF1_5_2,
+   261			       divider->base + WZRD_DR_INIT_REG_OFFSET);
+   262	
+   263		} else {
+ > 264			regh = (value / 4);
+   265			regval1 = readl(div_addr);
+   266			regval1 |= WZRD_CLKFBOUT_PREDIV2;
+   267			regval1 = regval1 & ~(WZRD_CLKFBOUT_EDGE | WZRD_P5EN | WZRD_P5FEDGE);
+   268			if (value % 4 > 1) {
+   269				edged = 1;
+   270				regval1 |= (edged << WZRD_EDGE_SHIFT);
+   271			}
+   272			p5fedge = value % 2;
+   273			p5en = value % 2;
+   274			regval1 = regval1 | p5en << WZRD_P5EN_SHIFT | p5fedge << WZRD_P5FEDGE_SHIFT;
+   275			writel(regval1, div_addr);
+   276	
+   277			regval = regh | regh << WZRD_CLKFBOUT_H_SHIFT;
+   278			writel(regval, div_addr + 4);
+   279			/* Check status register */
+   280			err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
+   281						 value, value & WZRD_DR_LOCK_BIT_MASK,
+   282						 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
+   283			if (err)
+   284				goto err_reconfig;
+   285	
+   286			/* Initiate reconfiguration */
+   287			writel(WZRD_DR_BEGIN_DYNA_RECONF,
+   288			       divider->base + WZRD_DR_INIT_VERSAL_OFFSET);
+   289		}
+   290		/* Check status register */
+   291		err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
+   292					 value, value & WZRD_DR_LOCK_BIT_MASK,
+   293					 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
+   294	err_reconfig:
+   295		if (divider->lock)
+   296			spin_unlock_irqrestore(divider->lock, flags);
+   297		else
+   298			__release(divider->lock);
+   299		return err;
+   300	}
+   301	
+   302	static long clk_wzrd_round_rate(struct clk_hw *hw, unsigned long rate,
+   303					unsigned long *prate)
+   304	{
+   305		u8 div;
+   306	
+   307		/*
+   308		 * since we don't change parent rate we just round rate to closest
+   309		 * achievable
+   310		 */
+   311		div = DIV_ROUND_CLOSEST(*prate, rate);
+   312	
+   313		return *prate / div;
+   314	}
+   315	
+   316	static int clk_wzrd_get_divisors(struct clk_hw *hw, unsigned long rate,
+   317					 unsigned long parent_rate)
+   318	{
+   319		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
+   320		unsigned long vco_freq, freq, diff, vcomin, vcomax;
+   321		u32 m, d, o;
+   322		u32 mmin, mmax, dmin, dmax, omin, omax;
+   323	
+   324		if (divider->is_versal) {
+   325			mmin = VER_WZRD_M_MIN;
+   326			mmax = VER_WZRD_M_MAX;
+   327			dmin = VER_WZRD_D_MIN;
+   328			dmax = VER_WZRD_D_MAX;
+   329			omin = VER_WZRD_O_MIN;
+   330			omax = VER_WZRD_O_MAX;
+   331			vcomin = VER_WZRD_VCO_MIN;
+ > 332			vcomax = VER_WZRD_VCO_MAX;
+   333		} else {
+   334			mmin = WZRD_M_MIN;
+   335			mmax = WZRD_M_MAX;
+   336			dmin = WZRD_D_MIN;
+   337			dmax = WZRD_D_MAX;
+   338			omin = WZRD_O_MIN;
+   339			omax = WZRD_O_MAX;
+   340			vcomin = WZRD_VCO_MIN;
+   341			vcomax = WZRD_VCO_MAX;
+   342		}
+   343	
+   344		for (m = mmin; m <= mmax; m++) {
+   345			for (d = dmin; d <= dmax; d++) {
+   346				vco_freq = DIV_ROUND_CLOSEST((parent_rate * m), d);
+   347				if (vco_freq >= vcomin && vco_freq <= vcomax) {
+   348					for (o = omin; o <= omax; o++) {
+   349						freq = DIV_ROUND_CLOSEST_ULL(vco_freq, o);
+   350						diff = abs(freq - rate);
+   351	
+   352						if (diff < WZRD_MIN_ERR) {
+   353							divider->m = m;
+   354							divider->d = d;
+   355							divider->o = o;
+   356							return 0;
+   357						}
+   358					}
+   359				}
+   360			}
+   361		}
+   362		return -EBUSY;
+   363	}
+   364	
 
 -- 
 0-DAY CI Kernel Test Service
