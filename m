@@ -1,230 +1,148 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5865DAFC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 18:27:22 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id q2so32934529pll.7
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 11:27:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681842442; x=1684434442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xan2Rb4LxJqnkwR/5yCpJ+HY7/yGaonUOCUizXrIxSQ=;
-        b=5dflFAVkwrsWE1u98WIy85LkOvAI6qFWx1pATeB2f4ij7axRKfMTBzK++4jekGsLO2
-         5KkXMdTJ6Nk/mMHiOjeR1SZMw1ht0js0q+qUFuCsUloFk/Kcqy3P5zyfrfOBZ3o59tBE
-         XtJ3S70O2EbG6nZ55MqDrhL924yYH3ZuQUi9pC7I5AQPk5NbQk5ABnlIfZQs++uIaAtN
-         7MvyRguXCuWASxxWy+cGZA8J11kl8fbDdzyglpYSG4tREh2Z+UkmEVHvGBHRzUKhUQ0V
-         GlEDuPZidM2w73HG00MCci24EvunQ04MCWgVWOP8/TD9z6UonCHZ2+LmunHz4cwYDBZJ
-         ZJkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681842442; x=1684434442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xan2Rb4LxJqnkwR/5yCpJ+HY7/yGaonUOCUizXrIxSQ=;
-        b=H2F3VcmYMTMMdlYDEnITwmYWDj7DDZw5Jl6Rny/FTOtyDPGVj6zUYdHCW1IhL/Dyg8
-         ALXR+ZXvjVBYloNKw/fvCg9Elr7dOC72MK1nwDzp5m/UtS71D9xPMsH535tuWHIudxyI
-         tFWrMUcNJKBMQiEC62PcZOfLODY5Ma6PgMdUtBr+UPmhegieuEPr2OSOaoJTQkPAcprF
-         yILfM9w7YjnVGA4lopX9RucGF9NqqwuwgvHY2h6VXtOGkUOCiXHHQ9oLo84MI3PGNbnc
-         xRgSzsTyOu7Ik7aSGLnWfkhNeZT1FYC0jaRauGdS3w1+YkoQ6miKUS899U+0adrq2hV+
-         KO/Q==
-X-Gm-Message-State: AAQBX9fLxVXf72t7cW0dec9OvTLtSLqAeMyQ/deXkqnm6cNdZb81WsAV
-	/IA9jja3+IRSjNsepYZ+Or2DpzhIJDz/oIoz6oy9vQ==
-X-Google-Smtp-Source: AKy350bn9N834mGRnTfxRB/1sg3Gi0LNYnU/cXaXt6pc2dTMoJKCLYPpBlnafBq3HfEmUa+rzRWnlZEJ5MyF4YEvvsY=
-X-Received: by 2002:a05:6a20:1445:b0:f0:b6e3:90f2 with SMTP id
- a5-20020a056a20144500b000f0b6e390f2mr776981pzi.13.1681842441499; Tue, 18 Apr
- 2023 11:27:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E15AFE6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 18:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681843327; x=1713379327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pt9e4dEYFGpCTGofqxyNfXQcxDXMnkw9Ete1fqavTUU=;
+  b=lLr/v18JWdY0tdeUpxJySPWedv84L4uyG0ZamNBsmNy1P11PwiE04oGA
+   YvBzBmWZiiYoBTNUW07mWHe1lbHPcLtZDCjfnMpsZipZioDuo3jnplOGJ
+   A/l8kmBNbuZMDinrFgVBRuVxm++Yql2AHPXKBOKBI0k0HmeD4E2EX7BUF
+   GLkJcPKH4qdJv7Egxee/Qo3j/+TAvj3aUJ727hCXRlkYzqJVlOXxpLqBw
+   WsAiiI/VDRlKGZ0vf0sH1ohqn2HE0/9vfGzrcfzTISC4903PxhQbL4KFQ
+   z28UeWylg27hF2rkA77BXl5abtf2cY113OzQlP3+KruM5gq8SYpN4dche
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347108626"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="347108626"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 11:42:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937350470"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="937350470"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2023 11:42:02 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1poqHB-000dtj-35;
+	Tue, 18 Apr 2023 18:42:01 +0000
+Date: Wed, 19 Apr 2023 02:41:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 15107/29414]
+ drivers/nvmem/core.c:347:5: warning: no previous prototype for function
+ 'nvmem_add_cells'
+Message-ID: <202304190203.55lcxrha-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230407192717.636137-9-keescook@chromium.org> <202304080811.nYP4KpPZ-lkp@intel.com>
-In-Reply-To: <202304080811.nYP4KpPZ-lkp@intel.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 18 Apr 2023 11:27:10 -0700
-Message-ID: <CAKwvOd=T5ownFTe5+M23ZLSPM876_7WAx23GzNeGxkqwGTHERQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] fortify: Add KUnit tests for runtime overflows
-To: kernel test robot <lkp@intel.com>
-Cc: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, Andy Shevchenko <andy@kernel.org>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Puyou Lu <puyou.lu@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Alexander Potapenko <glider@google.com>, Zhaoyang Huang <zhaoyang.huang@unisoc.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Liam Howlett <liam.howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Dan Williams <dan.j.williams@intel.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Yury Norov <yury.norov@gmail.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
-	Sander Vanheule <sander@svanheule.net>, Eric Biggers <ebiggers@google.com>, 
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Andrey Konovalov <andreyknvl@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Apr 7, 2023 at 5:33=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Kees,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on kees/for-next/hardening]
-> [also build test WARNING on kees/for-next/pstore kees/for-next/kspp linus=
-/master tip/x86/core v6.3-rc5 next-20230406]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/kunit-to=
-ol-Enable-CONFIG_FORTIFY_SOURCE-under-UML/20230408-032959
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git fo=
-r-next/hardening
-> patch link:    https://lore.kernel.org/r/20230407192717.636137-9-keescook=
-%40chromium.org
-> patch subject: [PATCH v2 09/10] fortify: Add KUnit tests for runtime over=
-flows
-> config: openrisc-randconfig-r034-20230405 (https://download.01.org/0day-c=
-i/archive/20230408/202304080811.nYP4KpPZ-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/d212962ef7682ee16=
-0bf38fa455475558f031759
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Kees-Cook/kunit-tool-Enable-CONF=
-IG_FORTIFY_SOURCE-under-UML/20230408-032959
->         git checkout d212962ef7682ee160bf38fa455475558f031759
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dopenrisc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dopenrisc SHELL=3D/bin/bash lib/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304080811.nYP4KpPZ-lkp@i=
-ntel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from lib/fortify_kunit.c:28:
->    lib/fortify_kunit.c: In function 'strnlen_test':
-> >> lib/fortify_kunit.c:412:31: warning: 'strnlen' specified bound 33 exce=
-eds source size 32 [-Wstringop-overread]
+Hi Bartosz,
 
-If we expect to validate the runtime behavior of fortify, but using
-constants that the compiler can check for readability in this test,
-then we might need to use the
-_Pragma/__diag infrastructure from include/linux/compiler_types.h to
-disable -Wstringop-overread; or disable it at the makefile level.
+FYI, the error/warning still remains.
 
->      412 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
->    include/kunit/test.h:584:38: note: in definition of macro 'KUNIT_BASE_=
-BINARY_ASSERTION'
->      584 |         const typeof(left) __left =3D (left);                 =
-                   \
->          |                                      ^~~~
->    include/kunit/test.h:776:9: note: in expansion of macro 'KUNIT_BINARY_=
-INT_ASSERTION'
->      776 |         KUNIT_BINARY_INT_ASSERTION(test,                      =
-                 \
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/kunit/test.h:773:9: note: in expansion of macro 'KUNIT_EXPECT_=
-EQ_MSG'
->      773 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
->          |         ^~~~~~~~~~~~~~~~~~~
->    lib/fortify_kunit.c:412:9: note: in expansion of macro 'KUNIT_EXPECT_E=
-Q'
->      412 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
->          |         ^~~~~~~~~~~~~~~
->    lib/fortify_kunit.c:359:14: note: source object allocated here
->      359 |         char buf[32];
->          |              ^~~
->    lib/fortify_kunit.c:414:31: warning: 'strnlen' specified bound 34 exce=
-eds source size 32 [-Wstringop-overread]
->      414 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
->    include/kunit/test.h:584:38: note: in definition of macro 'KUNIT_BASE_=
-BINARY_ASSERTION'
->      584 |         const typeof(left) __left =3D (left);                 =
-                   \
->          |                                      ^~~~
->    include/kunit/test.h:776:9: note: in expansion of macro 'KUNIT_BINARY_=
-INT_ASSERTION'
->      776 |         KUNIT_BINARY_INT_ASSERTION(test,                      =
-                 \
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/kunit/test.h:773:9: note: in expansion of macro 'KUNIT_EXPECT_=
-EQ_MSG'
->      773 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
->          |         ^~~~~~~~~~~~~~~~~~~
->    lib/fortify_kunit.c:414:9: note: in expansion of macro 'KUNIT_EXPECT_E=
-Q'
->      414 |         KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
->          |         ^~~~~~~~~~~~~~~
->    lib/fortify_kunit.c:359:14: note: source object allocated here
->      359 |         char buf[32];
->          |              ^~~
->
->
-> vim +/strnlen +412 lib/fortify_kunit.c
->
->    387
->    388  static void strnlen_test(struct kunit *test)
->    389  {
->    390          struct fortify_padding pad =3D { };
->    391          int i, end =3D sizeof(pad.buf) - 1;
->    392
->    393          /* Fill 31 bytes with valid characters. */
->    394          for (i =3D 0; i < sizeof(pad.buf) - 1; i++)
->    395                  pad.buf[i] =3D i + '0';
->    396          /* Trailing bytes are still %NUL. */
->    397          KUNIT_EXPECT_EQ(test, pad.buf[end], '\0');
->    398          KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
->    399
->    400          /* String is terminated, so strnlen() is valid. */
->    401          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, sizeof(pad.buf)), =
-end);
->    402          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
->    403          /* A truncated strnlen() will be safe, too. */
->    404          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, sizeof(pad.buf) / =
-2),
->    405                                          sizeof(pad.buf) / 2);
->    406          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
->    407
->    408          /* Make string unterminated, and recount. */
->    409          pad.buf[end] =3D 'A';
->    410          end =3D sizeof(pad.buf);
->    411          /* Reading beyond with strncpy() will fail. */
->  > 412          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 1), end);
->    413          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 1);
->    414          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end + 2), end);
->    415          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
->    416
->    417          /* Early-truncated is safe still, though. */
->    418          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end), end);
->    419          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
->    420
->    421          end =3D sizeof(pad.buf) / 2;
->    422          KUNIT_EXPECT_EQ(test, strnlen(pad.buf, end), end);
->    423          KUNIT_EXPECT_EQ(test, fortify_read_overflows, 2);
->    424  }
->    425
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   9b68392a2b5860995364db295d0d869b413fdfdf
+commit: e96a10625581a499e8a4218ef504f3f53918408b [15107/29414] UPSTREAM: nvmem: add support for cell info
+config: x86_64-randconfig-r025-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190203.55lcxrha-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout e96a10625581a499e8a4218ef504f3f53918408b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190203.55lcxrha-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvmem/core.c:347:5: warning: no previous prototype for function 'nvmem_add_cells' [-Wmissing-prototypes]
+   int nvmem_add_cells(struct nvmem_device *nvmem,
+       ^
+   drivers/nvmem/core.c:347:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int nvmem_add_cells(struct nvmem_device *nvmem,
+   ^
+   static 
+   1 warning generated.
 
 
+vim +/nvmem_add_cells +347 drivers/nvmem/core.c
 
---=20
-Thanks,
-~Nick Desaulniers
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  337  
+b3db17e4b864e4 Andrew Lunn         2018-05-11  338  /**
+b3db17e4b864e4 Andrew Lunn         2018-05-11  339   * nvmem_add_cells() - Add cell information to an nvmem device
+b3db17e4b864e4 Andrew Lunn         2018-05-11  340   *
+b3db17e4b864e4 Andrew Lunn         2018-05-11  341   * @nvmem: nvmem device to add cells to.
+b3db17e4b864e4 Andrew Lunn         2018-05-11  342   * @info: nvmem cell info to add to the device
+b3db17e4b864e4 Andrew Lunn         2018-05-11  343   * @ncells: number of cells in info
+b3db17e4b864e4 Andrew Lunn         2018-05-11  344   *
+b3db17e4b864e4 Andrew Lunn         2018-05-11  345   * Return: 0 or negative error code on failure.
+b3db17e4b864e4 Andrew Lunn         2018-05-11  346   */
+b3db17e4b864e4 Andrew Lunn         2018-05-11 @347  int nvmem_add_cells(struct nvmem_device *nvmem,
+b3db17e4b864e4 Andrew Lunn         2018-05-11  348  		    const struct nvmem_cell_info *info,
+b3db17e4b864e4 Andrew Lunn         2018-05-11  349  		    int ncells)
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  350  {
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  351  	struct nvmem_cell **cells;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  352  	int i, rval;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  353  
+b3db17e4b864e4 Andrew Lunn         2018-05-11  354  	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  355  	if (!cells)
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  356  		return -ENOMEM;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  357  
+b3db17e4b864e4 Andrew Lunn         2018-05-11  358  	for (i = 0; i < ncells; i++) {
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  359  		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  360  		if (!cells[i]) {
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  361  			rval = -ENOMEM;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  362  			goto err;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  363  		}
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  364  
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  365  		rval = nvmem_cell_info_to_nvmem_cell(nvmem, &info[i], cells[i]);
+287980e49ffc0f Arnd Bergmann       2016-05-27  366  		if (rval) {
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  367  			kfree(cells[i]);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  368  			goto err;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  369  		}
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  370  
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  371  		nvmem_cell_add(cells[i]);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  372  	}
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  373  
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  374  	/* remove tmp array */
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  375  	kfree(cells);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  376  
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  377  	return 0;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  378  err:
+dfdf141429f089 Rasmus Villemoes    2016-02-08  379  	while (i--)
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  380  		nvmem_cell_drop(cells[i]);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  381  
+dfdf141429f089 Rasmus Villemoes    2016-02-08  382  	kfree(cells);
+dfdf141429f089 Rasmus Villemoes    2016-02-08  383  
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  384  	return rval;
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  385  }
+b3db17e4b864e4 Andrew Lunn         2018-05-11  386  EXPORT_SYMBOL_GPL(nvmem_add_cells);
+eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  387  
+
+:::::: The code at line 347 was first introduced by commit
+:::::: b3db17e4b864e46ad150ebef69c0e0130a1c5fca drivers: nvmem: Export nvmem_add_cells()
+
+:::::: TO: Andrew Lunn <andrew@lunn.ch>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
