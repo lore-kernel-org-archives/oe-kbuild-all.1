@@ -1,280 +1,106 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4DF1381;
-	Tue, 18 Apr 2023 02:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681784000; x=1713320000;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wqlsjQk8Hlncd0Tit9Ob615YFcxS+GeVN0PRT6FhUrY=;
-  b=ayzWXYJpIVZLSBDWQiP68VtNfvYbroBYAigNuAN5GsdljrhDOKPtiNc1
-   I5LEPhCbLBDMtxHSMm6B+Xb/ZI03ZDGJ7qBYjNXMDDECK+fnCPe5BLE5H
-   MkSTr9NICLvH80ZTG4BoxCyl3MjrXoaFYzlh7Rh9rjur/YHE4EZdNGAPO
-   GBGMEMZauP38L33qoS2Bo4HdVnVdrGDwNCG8OPY6v1bHZ8QocPRlMZikC
-   rO7sMoxU8q9bqrMHL7SZGrW3FRkohLOAqFZu0Fh9Fg6m0j+MUd9aoEJY2
-   s3H+y6BLXHqvN4T+E7AY4kPLJsCsPPKQ6rU5eiS/pq9Chx/tEXoQBCcgd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="343806396"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="343806396"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 19:13:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723460357"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="723460357"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Apr 2023 19:13:13 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1poaqG-000cqb-33;
-	Tue, 18 Apr 2023 02:13:12 +0000
-Date: Tue, 18 Apr 2023 10:13:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Subject: Re: [PATCH 12/33] mm: Create ptdesc equivalents for
- pgtable_{pte,pmd}_page_{ctor,dtor}
-Message-ID: <202304180959.YFCTfVKw-lkp@intel.com>
-References: <20230417205048.15870-13-vishal.moola@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D76D15A6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 02:14:11 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 830D024E2AB;
+	Tue, 18 Apr 2023 10:14:08 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 18 Apr
+ 2023 10:14:08 +0800
+Received: from [192.168.125.87] (113.72.144.253) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 18 Apr
+ 2023 10:14:07 +0800
+Message-ID: <be049959-423e-6cd6-1f11-9bfa72665803@starfivetech.com>
+Date: Tue, 18 Apr 2023 10:14:06 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417205048.15870-13-vishal.moola@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v1 1/2] clk: starfive: Fix RESET_STARFIVE_JH7110 can't be
+ selected in a specified case
+Content-Language: en-US
+To: Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
+CC: <linux-clk@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-mm@kvack.org>, Michael Turquette <mturquette@baylibre.com>, "Paul
+ Gazzillo" <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>, Xingyu Wu
+	<xingyu.wu@starfivetech.com>, <linux-kernel@vger.kernel.org>
+References: <20230417074115.30786-1-hal.feng@starfivetech.com>
+ <20230417074115.30786-2-hal.feng@starfivetech.com>
+ <20230417-buckwheat-wilt-92a4e85a5ca0@wendy>
+ <83c5a35a-c646-cbc7-83f9-c02fcb24e069@starfivetech.com>
+ <20230417-bolster-vitality-89d279146497@wendy>
+ <0fe42faa3b34f82cc2fb73ae61460bf2.sboyd@kernel.org>
+From: Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <0fe42faa3b34f82cc2fb73ae61460bf2.sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [113.72.144.253]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
 
-Hi Vishal,
+On Mon, 17 Apr 2023 17:22:01 -0700, Stephen Boyd wrote:
+> Quoting Conor Dooley (2023-04-17 03:18:35)
+>> On Mon, Apr 17, 2023 at 06:06:29PM +0800, Hal Feng wrote:
+>> > On Mon, 17 Apr 2023 10:54:09 +0100, Conor Dooley wrote:
+>> > > On Mon, Apr 17, 2023 at 03:41:14PM +0800, Hal Feng wrote:
+>> > >> When (ARCH_STARFIVE [=n] && COMPILE_TEST [=y] && RESET_CONTROLLER [=n]),
+>> > >> RESET_STARFIVE_JH7110 can't be selected by CLK_STARFIVE_JH7110_SYS
+>> > >> and CLK_STARFIVE_JH7110_AON.
+>> > >> 
+>> > >> Considering RESET_STARFIVE_JH7110 is not a necessary option for compilation
+>> > >> test, we should select it only if ARCH_STARFIVE=y. Also, delete redundant
+>> > >> selected options of CLK_STARFIVE_JH7110_AON because these options are
+>> > >> already selected by the dependency.
+>> > >> 
+>> > >> Fixes: edab7204afe5 ("clk: starfive: Add StarFive JH7110 system clock driver")
+>> > >> Fixes: b2ab3c94f41f ("clk: starfive: Add StarFive JH7110 always-on clock driver")
+>> > >> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+>> > >> ---
+>> > >>  drivers/clk/starfive/Kconfig | 5 +----
+>> > >>  1 file changed, 1 insertion(+), 4 deletions(-)
+>> > >> 
+>> > >> diff --git a/drivers/clk/starfive/Kconfig b/drivers/clk/starfive/Kconfig
+>> > >> index 71c1148ee5f6..3fad4adee841 100644
+>> > >> --- a/drivers/clk/starfive/Kconfig
+>> > >> +++ b/drivers/clk/starfive/Kconfig
+>> > >> @@ -26,7 +26,7 @@ config CLK_STARFIVE_JH7110_SYS
+>> > >>    depends on ARCH_STARFIVE || COMPILE_TEST
+>> > >>    select AUXILIARY_BUS
+>> > >>    select CLK_STARFIVE_JH71X0
+>> > >> -  select RESET_STARFIVE_JH7110
+>> > >> +  select RESET_STARFIVE_JH7110 if ARCH_STARFIVE
+>> > > 
+>> > > Hmm, I don't really follow the logic above.
+>> > > Why not just make the if be `if RESET_CONTROLLER` rather than
+>> > > ARCH_STARFIVE?
+>> > > I'm probably missing some obvious reason why not.
+>> > 
+>> > Note that RESET_CONTROLLER is selected by ARCH_STARFIVE. Thanks.
+>> 
+>> Aye, just the explicit dependency seems like it'd be less fragile and
+>> more obvious in the future.
+> 
+> Agreed. Be explicit so we don't have to hunt down select dependencies.
 
-kernel test robot noticed the following build warnings:
+With further consideration, on the other hand, if we set `if ARCH_STARFIVE`
+here, it can point out that we need the reset driver to boot up JH7110
+besides the clock drivers, and the reset driver is not a necessary option
+for compilation test. So the reset driver is independent to the clock
+drivers when you doing a compilation test.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20230417]
-[cannot apply to s390/features powerpc/next powerpc/fixes geert-m68k/for-next geert-m68k/for-linus linus/master v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If we set `if RESET_CONTROLLER` here, the reset driver will be compiled
+automatically when (ARCH_STARFIVE [=n] && COMPILE_TEST [=y] && 
+RESET_CONTROLLER [=y] && CLK_STARFIVE_JH7110_SYS [=y]).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/s390-Use-_pt_s390_gaddr-for-gmap-address-tracking/20230418-045832
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230417205048.15870-13-vishal.moola%40gmail.com
-patch subject: [PATCH 12/33] mm: Create ptdesc equivalents for pgtable_{pte,pmd}_page_{ctor,dtor}
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230418/202304180959.YFCTfVKw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d53de56a2dbf659b53aee1aa2eac60bcc936f10b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vishal-Moola-Oracle/s390-Use-_pt_s390_gaddr-for-gmap-address-tracking/20230418-045832
-        git checkout d53de56a2dbf659b53aee1aa2eac60bcc936f10b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh prepare
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304180959.YFCTfVKw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/sh/kernel/asm-offsets.c:14:
-   include/linux/mm.h: In function 'virt_to_ptdesc':
-   include/linux/mm.h:2723:16: error: implicit declaration of function 'page_ptdesc' [-Werror=implicit-function-declaration]
-    2723 |         return page_ptdesc(virt_to_head_page(x));
-         |                ^~~~~~~~~~~
-   include/linux/mm.h:2723:16: warning: returning 'int' from a function with return type 'struct ptdesc *' makes pointer from integer without a cast [-Wint-conversion]
-    2723 |         return page_ptdesc(virt_to_head_page(x));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sh/include/asm/thread_info.h:13,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7:
-   include/linux/mm.h: In function 'ptdesc_to_virt':
-   include/linux/mm.h:2728:29: error: implicit declaration of function 'ptdesc_page'; did you mean 'pte_page'? [-Werror=implicit-function-declaration]
-    2728 |         return page_to_virt(ptdesc_page(pt));
-         |                             ^~~~~~~~~~~
-   arch/sh/include/asm/page.h:139:27: note: in definition of macro '___va'
-     139 | #define ___va(x)        ((x)+PAGE_OFFSET)
-         |                           ^
-   include/linux/mm.h:117:25: note: in expansion of macro '__va'
-     117 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                         ^~~~
-   include/linux/mm.h:117:30: note: in expansion of macro 'PFN_PHYS'
-     117 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2728:16: note: in expansion of macro 'page_to_virt'
-    2728 |         return page_to_virt(ptdesc_page(pt));
-         |                ^~~~~~~~~~~~
-   include/asm-generic/memory_model.h:46:35: warning: initialization of 'const struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      46 | ({      const struct page *__pg = (pg);                         \
-         |                                   ^
-   arch/sh/include/asm/page.h:139:27: note: in definition of macro '___va'
-     139 | #define ___va(x)        ((x)+PAGE_OFFSET)
-         |                           ^
-   include/linux/mm.h:117:25: note: in expansion of macro '__va'
-     117 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                         ^~~~
-   include/linux/mm.h:117:30: note: in expansion of macro 'PFN_PHYS'
-     117 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:117:39: note: in expansion of macro 'page_to_pfn'
-     117 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:2728:16: note: in expansion of macro 'page_to_virt'
-    2728 |         return page_to_virt(ptdesc_page(pt));
-         |                ^~~~~~~~~~~~
-   include/linux/mm.h: In function 'ptdesc_address':
-   include/linux/mm.h:2733:30: error: implicit declaration of function 'ptdesc_folio'; did you mean 'page_folio'? [-Werror=implicit-function-declaration]
-    2733 |         return folio_address(ptdesc_folio(pt));
-         |                              ^~~~~~~~~~~~
-         |                              page_folio
-   include/linux/mm.h:2733:30: warning: passing argument 1 of 'folio_address' makes pointer from integer without a cast [-Wint-conversion]
-    2733 |         return folio_address(ptdesc_folio(pt));
-         |                              ^~~~~~~~~~~~~~~~
-         |                              |
-         |                              int
-   include/linux/mm.h:2151:55: note: expected 'const struct folio *' but argument is of type 'int'
-    2151 | static inline void *folio_address(const struct folio *folio)
-         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'ptdesc_is_reserved':
-   include/linux/mm.h:2738:36: warning: passing argument 1 of 'folio_test_reserved' makes pointer from integer without a cast [-Wint-conversion]
-    2738 |         return folio_test_reserved(ptdesc_folio(pt));
-         |                                    ^~~~~~~~~~~~~~~~
-         |                                    |
-         |                                    int
-   In file included from include/linux/mmzone.h:23:
-   include/linux/page-flags.h:375:62: note: expected 'struct folio *' but argument is of type 'int'
-     375 | static __always_inline bool folio_test_##lname(struct folio *folio)     \
-         |                                                ~~~~~~~~~~~~~~^~~~~
-   include/linux/page-flags.h:423:9: note: in expansion of macro 'TESTPAGEFLAG'
-     423 |         TESTPAGEFLAG(uname, lname, policy)                              \
-         |         ^~~~~~~~~~~~
-   include/linux/page-flags.h:494:1: note: in expansion of macro 'PAGEFLAG'
-     494 | PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND)
-         | ^~~~~~~~
-   include/linux/mm.h: In function 'ptdesc_alloc':
-   include/linux/mm.h:2745:16: warning: returning 'int' from a function with return type 'struct ptdesc *' makes pointer from integer without a cast [-Wint-conversion]
-    2745 |         return page_ptdesc(page);
-         |                ^~~~~~~~~~~~~~~~~
-   include/linux/mm.h: In function 'ptdesc_free':
-   include/linux/mm.h:2750:29: warning: initialization of 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2750 |         struct page *page = ptdesc_page(pt);
-         |                             ^~~~~~~~~~~
-   include/linux/mm.h: In function 'ptdesc_pte_ctor':
->> include/linux/mm.h:2826:31: warning: initialization of 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2826 |         struct folio *folio = ptdesc_folio(ptdesc);
-         |                               ^~~~~~~~~~~~
-   include/linux/mm.h: In function 'pgtable_pte_page_ctor':
-   include/linux/mm.h:2837:32: warning: passing argument 1 of 'ptdesc_pte_ctor' makes pointer from integer without a cast [-Wint-conversion]
-    2837 |         return ptdesc_pte_ctor(page_ptdesc(page));
-         |                                ^~~~~~~~~~~~~~~~~
-         |                                |
-         |                                int
-   include/linux/mm.h:2824:51: note: expected 'struct ptdesc *' but argument is of type 'int'
-    2824 | static inline bool ptdesc_pte_ctor(struct ptdesc *ptdesc)
-         |                                    ~~~~~~~~~~~~~~~^~~~~~
-   include/linux/mm.h: In function 'ptdesc_pte_dtor':
-   include/linux/mm.h:2842:31: warning: initialization of 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2842 |         struct folio *folio = ptdesc_folio(ptdesc);
-         |                               ^~~~~~~~~~~~
-   include/linux/mm.h: In function 'pgtable_pte_page_dtor':
-   include/linux/mm.h:2851:25: warning: passing argument 1 of 'ptdesc_pte_dtor' makes pointer from integer without a cast [-Wint-conversion]
-    2851 |         ptdesc_pte_dtor(page_ptdesc(page));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/mm.h:2840:51: note: expected 'struct ptdesc *' but argument is of type 'int'
-    2840 | static inline void ptdesc_pte_dtor(struct ptdesc *ptdesc)
-         |                                    ~~~~~~~~~~~~~~~^~~~~~
-   include/linux/mm.h: In function 'ptdesc_pmd_ctor':
-   include/linux/mm.h:2935:31: warning: initialization of 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2935 |         struct folio *folio = ptdesc_folio(ptdesc);
-         |                               ^~~~~~~~~~~~
-   include/linux/mm.h: In function 'pgtable_pmd_page_ctor':
-   include/linux/mm.h:2946:32: warning: passing argument 1 of 'ptdesc_pmd_ctor' makes pointer from integer without a cast [-Wint-conversion]
-    2946 |         return ptdesc_pmd_ctor(page_ptdesc(page));
-         |                                ^~~~~~~~~~~~~~~~~
-         |                                |
-         |                                int
-   include/linux/mm.h:2933:51: note: expected 'struct ptdesc *' but argument is of type 'int'
-    2933 | static inline bool ptdesc_pmd_ctor(struct ptdesc *ptdesc)
-         |                                    ~~~~~~~~~~~~~~~^~~~~~
-   include/linux/mm.h: In function 'ptdesc_pmd_dtor':
-   include/linux/mm.h:2951:31: warning: initialization of 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2951 |         struct folio *folio = ptdesc_folio(ptdesc);
-         |                               ^~~~~~~~~~~~
-   include/linux/mm.h: In function 'pgtable_pmd_page_dtor':
-   include/linux/mm.h:2960:25: warning: passing argument 1 of 'ptdesc_pmd_dtor' makes pointer from integer without a cast [-Wint-conversion]
-    2960 |         ptdesc_pmd_dtor(page_ptdesc(page));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/mm.h:2949:51: note: expected 'struct ptdesc *' but argument is of type 'int'
-    2949 | static inline void ptdesc_pmd_dtor(struct ptdesc *ptdesc)
-         |                                    ~~~~~~~~~~~~~~~^~~~~~
-   include/linux/mm.h: In function 'free_reserved_ptdesc':
-   include/linux/mm.h:3016:28: warning: passing argument 1 of 'free_reserved_page' makes pointer from integer without a cast [-Wint-conversion]
-    3016 |         free_reserved_page(ptdesc_page(pt));
-         |                            ^~~~~~~~~~~~~~~
-         |                            |
-         |                            int
-   include/linux/mm.h:2999:52: note: expected 'struct page *' but argument is of type 'int'
-    2999 | static inline void free_reserved_page(struct page *page)
-         |                                       ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/sh/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +2826 include/linux/mm.h
-
-  2823	
-  2824	static inline bool ptdesc_pte_ctor(struct ptdesc *ptdesc)
-  2825	{
-> 2826		struct folio *folio = ptdesc_folio(ptdesc);
-  2827	
-  2828		if (!ptlock_init(ptdesc))
-  2829			return false;
-  2830		__SetPageTable(&folio->page);
-  2831		lruvec_stat_add_folio(folio, NR_PAGETABLE);
-  2832		return true;
-  2833	}
-  2834	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best regards,
+Hal
