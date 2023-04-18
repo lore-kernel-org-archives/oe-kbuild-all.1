@@ -1,43 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B8F23D6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 11:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8322566
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 12:29:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681817920; x=1713353920;
+  t=1681820987; x=1713356987;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NmVZ53krnrdR5qwdUyEYokhkp/PgApYnmOvFYywCNSs=;
-  b=F8tHPXE2EK0B4+Ir/BSpRX38rB0nkLxUkUrq+HqY7BnRKu+9bPd2Und3
-   X1Dnd7zb6nl5smAwWHJRF06vLaDWbmfaJfDYCHWgDC4M8aFr5Po5ULZVy
-   lYEmjxe50THyd2xOLcS2xY+LzsLm0LhTI7/ZtCZKGXiVqYftthCfxOFvL
-   NwJvb7Fg1ZoaEKzgKEvvtdG85KnnIK35bBrfC11/gexcLqUQuRm2NMT3K
-   TmyH8pLJSwpSUB3n3fh2lPKRQdo/KCXwKtQZD+nwcE6Lp9v1UpJa3GlY5
-   Z8yJMSi0kBEloqDIQe2x1M53+TPiWazpnO6yLAgef1e7jL+px3kh2GTO0
+  bh=oPYpA65I0ZNzt+J/bfuf+D1f3uqhVdO1XM0/yjUeSj8=;
+  b=YMInDGgjflLJO3hSwEzUTUuNEfdqqDZIASYfyBPeG2HnFtqNJv5OCWqI
+   7gU9WO6ZoHMHZWO1rb6LEPtP/WOUBfEGz6h5Z0FgYXOPxLWzPqDvGLNKx
+   e63ARnlk/5iDjHCSpcxACw7Sj7LK8E7bEaX1aKo7a1IQ9yNEH3C6IECDz
+   lddsRKp+oQfg+fPuVcqthigmXdD19pSBzXk0meGyTUNuVilq2XEaBRWLG
+   dq/Pa2ziFwro191R54/4IgO9pUc2HyO8o0hfw8GBEB26g+MZlrBM7U4Ke
+   0yJA/XaCnPp3HHC30ZsG5G0y2M4DtFKUmZ3gIW+7gP8Q26BdjtrDcopcS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="373026392"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="329327711"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="373026392"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 04:38:37 -0700
+   d="scan'208";a="329327711"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 05:29:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="802513933"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668512191"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="802513933"
+   d="scan'208";a="668512191"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2023 04:38:36 -0700
+  by orsmga006.jf.intel.com with ESMTP; 18 Apr 2023 05:29:46 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pojfP-000dKI-2r;
-	Tue, 18 Apr 2023 11:38:35 +0000
-Date: Tue, 18 Apr 2023 19:38:04 +0800
+	id 1pokSq-000dQH-19;
+	Tue, 18 Apr 2023 12:29:40 +0000
+Date: Tue, 18 Apr 2023 20:29:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_sbi_nested_v1 48/74] include/linux/fwnode.h:167:58:
- warning: 'struct resource' declared inside parameter list will not be
- visible outside of this definition or declaration
-Message-ID: <202304181932.kcJJBxj4-lkp@intel.com>
+Subject: [android-common:android-4.19-stable 14825/29414]
+ drivers/clk/clk.c:624:31: warning: variable 'ignore' set but not used
+Message-ID: <202304182056.wwW8EsjF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,115 +46,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
-head:   664b96e7a3a7d1b9d6c7ede050633ada0eda4875
-commit: c0fae281cc6758ccb2c2aa3361acc62fbe038a7a [48/74] device property: Add ioresource_get to fwnode operation
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230418/202304181932.kcJJBxj4-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Hi Saravana,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   9b68392a2b5860995364db295d0d869b413fdfdf
+commit: 3179a1a38d96f565a2229b9244285c6abf62b10a [14825/29414] ANDROID: GKI: clk: Add support for voltage voting
+config: arm-randconfig-r046-20230416 (https://download.01.org/0day-ci/archive/20230418/202304182056.wwW8EsjF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/avpatel/linux/commit/c0fae281cc6758ccb2c2aa3361acc62fbe038a7a
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_sbi_nested_v1
-        git checkout c0fae281cc6758ccb2c2aa3361acc62fbe038a7a
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout 3179a1a38d96f565a2229b9244285c6abf62b10a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/irqchip/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash M=drivers/clk
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181932.kcJJBxj4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304182056.wwW8EsjF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/logic_pio.h:11,
-                    from include/asm-generic/io.h:609,
-                    from arch/ia64/include/asm/io.h:269,
-                    from include/linux/io.h:13,
-                    from drivers/irqchip/exynos-combiner.c:11:
->> include/linux/fwnode.h:167:58: warning: 'struct resource' declared inside parameter list will not be visible outside of this definition or declaration
-     167 |                               unsigned int index, struct resource *res);
-         |                                                          ^~~~~~~~
+   drivers/clk/clk.c: In function 'clk_update_vdd':
+>> drivers/clk/clk.c:624:31: warning: variable 'ignore' set but not used [-Wunused-but-set-variable]
+     624 |         int level, rc = 0, i, ignore;
+         |                               ^~~~~~
+   drivers/clk/clk.c: At top level:
+>> drivers/clk/clk.c:3145:5: warning: no previous prototype for 'clk_set_flags' [-Wmissing-prototypes]
+    3145 | int clk_set_flags(struct clk *clk, unsigned long flags)
+         |     ^~~~~~~~~~~~~
+>> drivers/clk/clk.c:3157:6: warning: no previous prototype for 'clk_debug_print_hw' [-Wmissing-prototypes]
+    3157 | void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:4257: warning: Function parameter or member 'dev' not described in 'devm_clk_unregister'
+   drivers/clk/clk.c:4455: warning: Function parameter or member 'get_hw' not described in 'of_clk_provider'
 
 
-vim +167 include/linux/fwnode.h
+vim +/ignore +624 drivers/clk/clk.c
 
-    97	
-    98	/**
-    99	 * struct fwnode_operations - Operations for fwnode interface
-   100	 * @get: Get a reference to an fwnode.
-   101	 * @put: Put a reference to an fwnode.
-   102	 * @device_is_available: Return true if the device is available.
-   103	 * @device_get_match_data: Return the device driver match data.
-   104	 * @property_present: Return true if a property is present.
-   105	 * @property_read_int_array: Read an array of integer properties. Return zero on
-   106	 *			     success, a negative error code otherwise.
-   107	 * @property_read_string_array: Read an array of string properties. Return zero
-   108	 *				on success, a negative error code otherwise.
-   109	 * @get_name: Return the name of an fwnode.
-   110	 * @get_name_prefix: Get a prefix for a node (for printing purposes).
-   111	 * @get_parent: Return the parent of an fwnode.
-   112	 * @get_next_child_node: Return the next child node in an iteration.
-   113	 * @get_named_child_node: Return a child node with a given name.
-   114	 * @get_reference_args: Return a reference pointed to by a property, with args
-   115	 * @graph_get_next_endpoint: Return an endpoint node in an iteration.
-   116	 * @graph_get_remote_endpoint: Return the remote endpoint node of a local
-   117	 *			       endpoint node.
-   118	 * @graph_get_port_parent: Return the parent node of a port node.
-   119	 * @graph_parse_endpoint: Parse endpoint for port and endpoint id.
-   120	 * @add_links:	Create fwnode links to all the suppliers of the fwnode. Return
-   121	 *		zero on success, a negative error code otherwise.
-   122	 */
-   123	struct fwnode_operations {
-   124		struct fwnode_handle *(*get)(struct fwnode_handle *fwnode);
-   125		void (*put)(struct fwnode_handle *fwnode);
-   126		bool (*device_is_available)(const struct fwnode_handle *fwnode);
-   127		const void *(*device_get_match_data)(const struct fwnode_handle *fwnode,
-   128						     const struct device *dev);
-   129		bool (*device_dma_supported)(const struct fwnode_handle *fwnode);
-   130		enum dev_dma_attr
-   131		(*device_get_dma_attr)(const struct fwnode_handle *fwnode);
-   132		bool (*property_present)(const struct fwnode_handle *fwnode,
-   133					 const char *propname);
-   134		int (*property_read_int_array)(const struct fwnode_handle *fwnode,
-   135					       const char *propname,
-   136					       unsigned int elem_size, void *val,
-   137					       size_t nval);
-   138		int
-   139		(*property_read_string_array)(const struct fwnode_handle *fwnode_handle,
-   140					      const char *propname, const char **val,
-   141					      size_t nval);
-   142		const char *(*get_name)(const struct fwnode_handle *fwnode);
-   143		const char *(*get_name_prefix)(const struct fwnode_handle *fwnode);
-   144		struct fwnode_handle *(*get_parent)(const struct fwnode_handle *fwnode);
-   145		struct fwnode_handle *
-   146		(*get_next_child_node)(const struct fwnode_handle *fwnode,
-   147				       struct fwnode_handle *child);
-   148		struct fwnode_handle *
-   149		(*get_named_child_node)(const struct fwnode_handle *fwnode,
-   150					const char *name);
-   151		int (*get_reference_args)(const struct fwnode_handle *fwnode,
-   152					  const char *prop, const char *nargs_prop,
-   153					  unsigned int nargs, unsigned int index,
-   154					  struct fwnode_reference_args *args);
-   155		struct fwnode_handle *
-   156		(*graph_get_next_endpoint)(const struct fwnode_handle *fwnode,
-   157					   struct fwnode_handle *prev);
-   158		struct fwnode_handle *
-   159		(*graph_get_remote_endpoint)(const struct fwnode_handle *fwnode);
-   160		struct fwnode_handle *
-   161		(*graph_get_port_parent)(struct fwnode_handle *fwnode);
-   162		int (*graph_parse_endpoint)(const struct fwnode_handle *fwnode,
-   163					    struct fwnode_endpoint *endpoint);
-   164		void __iomem *(*iomap)(struct fwnode_handle *fwnode, int index);
-   165		int (*irq_get)(const struct fwnode_handle *fwnode, unsigned int index);
-   166		int (*ioresource_get)(const struct fwnode_handle *fwnode,
- > 167				      unsigned int index, struct resource *res);
-   168		int (*add_links)(struct fwnode_handle *fwnode);
-   169	};
-   170	
+   618	
+   619	/*
+   620	 * Update voltage level given the current votes.
+   621	 */
+   622	static int clk_update_vdd(struct clk_vdd_class *vdd_class)
+   623	{
+ > 624		int level, rc = 0, i, ignore;
+   625		struct regulator **r = vdd_class->regulator;
+   626		int *uv = vdd_class->vdd_uv;
+   627		int n_reg = vdd_class->num_regulators;
+   628		int cur_lvl = vdd_class->cur_level;
+   629		int max_lvl = vdd_class->num_levels - 1;
+   630		int cur_base = cur_lvl * n_reg;
+   631		int new_base;
+   632	
+   633		/* aggregate votes */
+   634		for (level = max_lvl; level > 0; level--)
+   635			if (vdd_class->level_votes[level])
+   636				break;
+   637	
+   638		if (level == cur_lvl)
+   639			return 0;
+   640	
+   641		max_lvl = max_lvl * n_reg;
+   642		new_base = level * n_reg;
+   643	
+   644		for (i = 0; i < vdd_class->num_regulators; i++) {
+   645			pr_debug("Set Voltage level Min %d, Max %d\n", uv[new_base + i],
+   646					uv[max_lvl + i]);
+   647			rc = regulator_set_voltage(r[i], uv[new_base + i], INT_MAX);
+   648			if (rc)
+   649				goto set_voltage_fail;
+   650	
+   651			if (cur_lvl == 0 || cur_lvl == vdd_class->num_levels)
+   652				rc = regulator_enable(r[i]);
+   653			else if (level == 0)
+   654				rc = regulator_disable(r[i]);
+   655			if (rc)
+   656				goto enable_disable_fail;
+   657		}
+   658	
+   659		if (vdd_class->set_vdd && !vdd_class->num_regulators)
+   660			rc = vdd_class->set_vdd(vdd_class, level);
+   661	
+   662		if (!rc)
+   663			vdd_class->cur_level = level;
+   664	
+   665		return rc;
+   666	
+   667	enable_disable_fail:
+   668		regulator_set_voltage(r[i], uv[cur_base + i], INT_MAX);
+   669	
+   670	set_voltage_fail:
+   671		for (i--; i >= 0; i--) {
+   672			regulator_set_voltage(r[i], uv[cur_base + i], INT_MAX);
+   673			if (cur_lvl == 0 || cur_lvl == vdd_class->num_levels)
+   674				regulator_disable(r[i]);
+   675			else if (level == 0)
+   676				ignore = regulator_enable(r[i]);
+   677		}
+   678	
+   679		return rc;
+   680	}
+   681	
 
 -- 
 0-DAY CI Kernel Test Service
