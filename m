@@ -1,47 +1,43 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6B82904
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 16:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F899AFC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 17:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681837084; x=1713373084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EDMH85UnS/Tuh+qqYSvZvoao8ciQ8kqWvZDn6OpTaGo=;
-  b=R4LcehIjPE4l4hNPsHvgKKALKsTy/gtE6ZD17WJ2PJ2DYVbjHs91b7Pc
-   EYHXyZnrqyT/D7RohbMWe3M/yRHeH3vw7M3uAQUNiAGwRSg6kcdYyEp7K
-   kvNLvTzx0Oxm0k/0ATHNTWG3bybtX/k6E8JjAkimhcvHpoFgT8Ri7tsbJ
-   gNmxa7jVhHNWyBftpEbEFOXgR8YfqYysd1lNJ8LQUfscrw8SPWKdi6Edd
-   rZl1Pp83YIfqD5bP63DkxPgcYPEtEjCGQE3eAbiGMi8MaNakV30bDVYix
-   m1AXB7v6uZCzGYLkg5U/YI8TQw9i518IkJ0MQouFlGcRiS/047c6khBdB
+  t=1681837678; x=1713373678;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YshI9e6HRN45rWcMyhztHeDs6iQ5GYT0iB9DxegzG+M=;
+  b=m8bKKxDal7kLmCRcbn9WkBl8t73fabCGMNphdjATMIlqh9ZrcXFNHJzX
+   LU05znRb3gVQ/ZANcTSJ17DecVR3HvkLN5jVXRbihkQn1SEPx7kgonIXb
+   eIbvvidGGzTSyr26L9w/oDvvu1/DY47t1vZdY2snS+kgXGtHYhlZeyAJ0
+   8R6epx7drk1C+LUZd7HGyQaxGrvyN3JsBlvZjQfc3CnussA5UM/2cJQaN
+   fa6WZKZbaIWK7thI8kfJcen2eRTsam12wOlc81L+Ep5fsuMfDqa12KUrB
+   eIrec2sKjZxpQ/V5ULzDmiMtGUU+pOb5+I/efBwPeQrDtN1WE6eMv1J8a
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431513562"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431517758"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="431513562"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 09:58:03 -0700
+   d="scan'208";a="431517758"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 10:07:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="780550900"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="865496803"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="780550900"
+   d="scan'208";a="865496803"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2023 09:58:01 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Apr 2023 10:07:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pooeR-000dlg-2o;
-	Tue, 18 Apr 2023 16:57:55 +0000
-Date: Wed, 19 Apr 2023 00:57:23 +0800
+	id 1pooo8-000dmB-0S;
+	Tue, 18 Apr 2023 17:07:56 +0000
+Date: Wed, 19 Apr 2023 01:07:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com, linux-clk@vger.kernel.org,
-	robh+dt@kernel.org, sboyd@kernel.org, mturquette@baylibre.com,
-	krzysztof.kozlowski+dt@linaro.org, michal.simek@xilinx.com
-Subject: Re: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking
- wizard
-Message-ID: <202304190011.BMtXurPJ-lkp@intel.com>
-References: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
+To: zhengding chen <chenzhengding@oppo.com>
+Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>
+Subject: [sudeep-holla:android13-5.10/ffa 21/9999]
+ drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202304190102.xmFdK6Zj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,74 +46,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
 
-Hi Shubhrajyoti,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on next-20230417]
-[cannot apply to xilinx-xlnx/master robh/for-next linus/master v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230418102855.6791-3-shubhrajyoti.datta%40amd.com
-patch subject: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking wizard
-config: arc-randconfig-r043-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190011.BMtXurPJ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 35014985c266face161f6d107f8d8338e02a0b2d [21/9999] ANDROID: vendor_hooks: Add hooks for binder proc transaction
+config: parisc-randconfig-s032-20230416 (https://download.01.org/0day-ci/archive/20230419/202304190102.xmFdK6Zj-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/143916412aa6a419e20fa37059004329e300ca95
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
-        git checkout 143916412aa6a419e20fa37059004329e300ca95
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=35014985c266face161f6d107f8d8338e02a0b2d
+        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
+        git fetch --no-tags sudeep-holla android13-5.10/ffa
+        git checkout 35014985c266face161f6d107f8d8338e02a0b2d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/clk/xilinx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190011.BMtXurPJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190102.xmFdK6Zj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as NULL pointer
+   drivers/android/binder.c:2508:41: sparse: sparse: Using plain integer as NULL pointer
+   drivers/android/binder.c:4580:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/android/binder.c:4580:24: sparse:     expected restricted __poll_t
+   drivers/android/binder.c:4580:24: sparse:     got int
 
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_get_divisors':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:102:41: warning: unsigned conversion from 'long long int' to 'long unsigned int' changes value from '4320000000' to '25032704' [-Woverflow]
-     102 | #define VER_WZRD_VCO_MAX                4320000000
-         |                                         ^~~~~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:332:26: note: in expansion of macro 'VER_WZRD_VCO_MAX'
-     332 |                 vcomax = VER_WZRD_VCO_MAX;
-         |                          ^~~~~~~~~~~~~~~~
+vim +1373 drivers/android/binder.c
 
-
-vim +102 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
-
-    88	
-    89	#define WZRD_M_MIN			2
-    90	#define WZRD_M_MAX			128
-    91	#define WZRD_D_MIN			1
-    92	#define WZRD_D_MAX			106
-    93	#define WZRD_VCO_MIN			800000000
-    94	#define WZRD_VCO_MAX			1600000000
-    95	#define WZRD_O_MIN			1
-    96	#define WZRD_O_MAX			128
-    97	#define VER_WZRD_M_MIN			4
-    98	#define VER_WZRD_M_MAX			432
-    99	#define VER_WZRD_D_MIN			1
-   100	#define VER_WZRD_D_MAX			123
-   101	#define VER_WZRD_VCO_MIN		2160000000
- > 102	#define VER_WZRD_VCO_MAX		4320000000
-   103	#define VER_WZRD_O_MIN			2
-   104	#define VER_WZRD_O_MAX			511
-   105	#define WZRD_MIN_ERR			20000
-   106	#define WZRD_FRAC_POINTS		1000
-   107	
+  1363	
+  1364	/**
+  1365	 * binder_free_ref() - free the binder_ref
+  1366	 * @ref:	ref to free
+  1367	 *
+  1368	 * Free the binder_ref. Free the binder_node indicated by ref->node
+  1369	 * (if non-NULL) and the binder_ref_death indicated by ref->death.
+  1370	 */
+  1371	static void binder_free_ref(struct binder_ref *ref)
+  1372	{
+> 1373		trace_android_vh_binder_del_ref(ref->proc ? ref->proc->tsk : 0, ref->data.desc);
+  1374		if (ref->node)
+  1375			binder_free_node(ref->node);
+  1376		kfree(ref->death);
+  1377		kfree(ref);
+  1378	}
+  1379	
 
 -- 
 0-DAY CI Kernel Test Service
