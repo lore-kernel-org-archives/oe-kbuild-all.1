@@ -1,44 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A3115B8;
-	Tue, 18 Apr 2023 04:17:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681791451; x=1713327451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5lZgqi3haM74WGprs2woDGHUNCvW9iRyntwDy2oUvL0=;
-  b=V0gM5q1ksHItyoGJa5x113VDyB7lzdAn8q6kEHo5ocdn4MuX7Du6tZPU
-   JCq3hXm1CUSxaHhddFWM86eSq3dqrwWaF8DO6t8cnv16CfsEfILGv6fXy
-   trIDscMbCtwQn9jNKjRArtpL37ddVTihsEoCBrbzuMXuuC/IceAC9m+g7
-   cShntiQQUBxPAf0QGAcdFS79R3OwqiukFx+8lLdU2Ri+r84exqNXkUeUx
-   GqvLrHskxqZdorilBo8A66NK2tEBrlHFM/vUvDi10MQ/M0gSxRo0s809C
-   boqNdSiTHnawiB4itTMuc6pyA3YgBh/BuM+FO/MT6lndLb5AFJRsZ6Knw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="325409654"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="325409654"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 21:17:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668353354"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="668353354"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 17 Apr 2023 21:17:20 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pocmN-000cyF-1H;
-	Tue, 18 Apr 2023 04:17:19 +0000
-Date: Tue, 18 Apr 2023 12:16:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Rosenberg <drosen@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 30/37] fuse: Provide registration functions for
- fuse-bpf
-Message-ID: <202304181216.vm8kB0N7-lkp@intel.com>
-References: <20230418014037.2412394-31-drosen@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069AA15B8;
+	Tue, 18 Apr 2023 04:25:48 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id gw13so14861459wmb.3;
+        Mon, 17 Apr 2023 21:25:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681791947; x=1684383947;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WW5WrNueTiO3CW+MM6qDR8C8PYaeglvNUKKUr72PzWI=;
+        b=WNWsheRGFXizRXYPuBut24JfvzwGDLyViqZw1gpo0ah2mmBzP978cjaWCj4wpzKN8I
+         6dhpJfv3NDfv2AEEDWp1iAdneQtSIEHgFVx6w2lluEiv2pT4RjE9/8xHIJmq+OWke87X
+         eJna+K4XnSs0a/p5Pj4ilqRW7gIr6/BqlpkrUNpEGOm8HEQyWht4PVqMwsH+bAqsCTim
+         dNELlOrubEhUUQa/hyqmjtsHsR8kGhwxgmCrwhAVHZ1b14EZ4z9vLmayGfBNgNtgc0Mx
+         Cs/wOev/ubukLXLucQcwtRLR6kOplIFtXZHrRJFkK6UjZgQY0QJRH4k0fGnK4u3rf4mI
+         G3Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681791947; x=1684383947;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WW5WrNueTiO3CW+MM6qDR8C8PYaeglvNUKKUr72PzWI=;
+        b=XU/NWGCsuAk8wE5VcxPhPPnwZhLmzR8ZeBoU/HquCT+tj0HZp8neIBwh63o7P/MDR5
+         dHsUvgzvJK5AtwBvq6HbnDwaTvrOYQMZbIVlMKhqapyPMFmjsVCJ7MuSLpOye9wuyMbd
+         jHVYyGGtJYVpf4PslcYAmeN2I3Ul2e7/jyHXUhdt7tS42ri7WKv8fy/iZLcDUefKWJyz
+         U8jXI4H7H6iluSZooezkOKu25R5FKHDytE+BJw6YN3arX+/Ja3xeIdwnq0e/oV4yb8Bu
+         7eIJuMOqhQG/5jp20692/IL1ef8qZjWfvu58JhXvkDJ3ajYfAt6z45hEN4RRROGPgnEh
+         wH2g==
+X-Gm-Message-State: AAQBX9cUHHrn3CEym8gUQwdYd5FOw7FyjT/plsZv78h9eHzslwfR6XES
+	xWpBG2bFr9+M63gOkBhJdNrez9xvna+U2QxM
+X-Google-Smtp-Source: AKy350aOmgzs3ZLCHUrSSw7oajzxhMJpYK3jJ683N49aXr0gyL/ER/h/x1JkCKeIFg7SpTmmV1wzuQ==
+X-Received: by 2002:a7b:c848:0:b0:3f1:7368:ccc6 with SMTP id c8-20020a7bc848000000b003f17368ccc6mr3920483wml.25.1681791946666;
+        Mon, 17 Apr 2023 21:25:46 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 26-20020a05600c021a00b003f17848673fsm1210492wmi.27.2023.04.17.21.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 21:25:46 -0700 (PDT)
+Date: Tue, 18 Apr 2023 07:25:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Xiubo Li <xiubli@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	ceph-devel@vger.kernel.org
+Subject: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1957
+ wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
+Message-ID: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,116 +52,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418014037.2412394-31-drosen@google.com>
 
-Hi Daniel,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 49859de997c3115b85544bce6b6ceab60a7fabc4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Rosenberg/bpf-verifier-Accept-dynptr-mem-as-mem-in-herlpers/20230418-094717
-base:   49859de997c3115b85544bce6b6ceab60a7fabc4
-patch link:    https://lore.kernel.org/r/20230418014037.2412394-31-drosen%40google.com
-patch subject: [RFC PATCH v3 30/37] fuse: Provide registration functions for fuse-bpf
-config: x86_64-randconfig-a012-20230417 (https://download.01.org/0day-ci/archive/20230418/202304181216.vm8kB0N7-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ff2c02ca675655ec88e525c51defda64d7774b0d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Rosenberg/bpf-verifier-Accept-dynptr-mem-as-mem-in-herlpers/20230418-094717
-        git checkout ff2c02ca675655ec88e525c51defda64d7774b0d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
+config: i386-randconfig-m021-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180424.Dok2kyeU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181216.vm8kB0N7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304180424.Dok2kyeU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/ceph/mds_client.c:1957 wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
 
-   In file included from fs/fuse/dev.c:9:
->> fs/fuse/fuse_i.h:1400:5: warning: no previous prototype for function 'init_fuse_bpf' [-Wmissing-prototypes]
-   int init_fuse_bpf(void)
-       ^
-   fs/fuse/fuse_i.h:1400:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int init_fuse_bpf(void)
-   ^
-   static 
->> fs/fuse/fuse_i.h:1404:6: warning: no previous prototype for function 'uninit_fuse_bpf' [-Wmissing-prototypes]
-   void uninit_fuse_bpf(void)
-        ^
-   fs/fuse/fuse_i.h:1404:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void uninit_fuse_bpf(void)
-   ^
-   static 
->> fs/fuse/fuse_i.h:1407:18: warning: no previous prototype for function 'find_fuse_ops' [-Wmissing-prototypes]
-   struct fuse_ops *find_fuse_ops(const char *key)
-                    ^
-   fs/fuse/fuse_i.h:1407:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct fuse_ops *find_fuse_ops(const char *key)
-   ^
-   static 
->> fs/fuse/fuse_i.h:1411:18: warning: no previous prototype for function 'get_fuse_ops' [-Wmissing-prototypes]
-   struct fuse_ops *get_fuse_ops(struct fuse_ops *ops)
-                    ^
-   fs/fuse/fuse_i.h:1411:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct fuse_ops *get_fuse_ops(struct fuse_ops *ops)
-   ^
-   static 
->> fs/fuse/fuse_i.h:1415:6: warning: no previous prototype for function 'put_fuse_ops' [-Wmissing-prototypes]
-   void put_fuse_ops(struct fuse_ops *ops)
-        ^
-   fs/fuse/fuse_i.h:1415:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void put_fuse_ops(struct fuse_ops *ops)
-   ^
-   static 
-   5 warnings generated.
+Old smatch warnings:
+fs/ceph/mds_client.c:219 parse_reply_info_in() warn: missing unwind goto?
 
+vim +/cap +1957 fs/ceph/mds_client.c
 
-vim +/init_fuse_bpf +1400 fs/fuse/fuse_i.h
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1945  static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
+2f2dc053404feb Sage Weil   2009-10-06  1946  {
+0dc2570fab222a Sage Weil   2009-11-20  1947  	struct ceph_inode_info *ci = ceph_inode(inode);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1948  	unsigned long ev = (unsigned long)arg;
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1949  	struct ceph_cap *cap;
+0dc2570fab222a Sage Weil   2009-11-20  1950  
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1951  	if (ev == RECONNECT) {
+be655596b3de58 Sage Weil   2011-11-30  1952  		spin_lock(&ci->i_ceph_lock);
+0dc2570fab222a Sage Weil   2009-11-20  1953  		ci->i_wanted_max_size = 0;
+0dc2570fab222a Sage Weil   2009-11-20  1954  		ci->i_requested_max_size = 0;
+be655596b3de58 Sage Weil   2011-11-30  1955  		spin_unlock(&ci->i_ceph_lock);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1956  	} else if (ev == RENEWCAPS) {
+52d60f8e18b855 Jeff Layton 2021-06-04 @1957  		if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+                                                            ^^^^^^^^^^^^               ^^^^^^^^^^^^^
 
-  1385	
-  1386	struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
-  1387					 unsigned int open_flags, bool isdir,
-  1388					 struct file *file);
-  1389	void fuse_file_release(struct inode *inode, struct fuse_file *ff,
-  1390			       unsigned int open_flags, fl_owner_t id, bool isdir);
-  1391	
-  1392	/* backing.c */
-  1393	#ifdef CONFIG_FUSE_BPF
-  1394	struct fuse_ops *find_fuse_ops(const char *key);
-  1395	struct fuse_ops *get_fuse_ops(struct fuse_ops *ops);
-  1396	void put_fuse_ops(struct fuse_ops *ops);
-  1397	int init_fuse_bpf(void);
-  1398	void uninit_fuse_bpf(void);
-  1399	#else
-> 1400	int init_fuse_bpf(void)
-  1401	{
-  1402		return -EOPNOTSUPP;
-  1403	}
-> 1404	void uninit_fuse_bpf(void)
-  1405	{
-  1406	}
-> 1407	struct fuse_ops *find_fuse_ops(const char *key)
-  1408	{
-  1409		return NULL;
-  1410	}
-> 1411	struct fuse_ops *get_fuse_ops(struct fuse_ops *ops)
-  1412	{
-  1413		return NULL;
-  1414	}
-> 1415	void put_fuse_ops(struct fuse_ops *ops)
-  1416	{
-  1417	}
-  1418	#endif
-  1419	
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1958  			/* mds did not re-issue stale cap */
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1959  			spin_lock(&ci->i_ceph_lock);
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1960  			cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+                                                                ^^^^^^^^^^^^^^
+Initialized too late.
+
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1961  			if (cap)
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1962  				cap->issued = cap->implemented = CEPH_CAP_PIN;
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1963  			spin_unlock(&ci->i_ceph_lock);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1964  		}
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1965  	} else if (ev == FORCE_RO) {
+0dc2570fab222a Sage Weil   2009-11-20  1966  	}
+e536030934aebf Yan, Zheng  2016-05-19  1967  	wake_up_all(&ci->i_cap_wq);
+2f2dc053404feb Sage Weil   2009-10-06  1968  	return 0;
+2f2dc053404feb Sage Weil   2009-10-06  1969  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
