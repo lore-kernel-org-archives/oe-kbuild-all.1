@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F0023BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 10:57:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2253D23C0;
+	Tue, 18 Apr 2023 10:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681815456; x=1713351456;
+  t=1681815457; x=1713351457;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zT4sNd7nGomkJnV8cUASlvdLDrvQleYXOUOJU5Dlk/0=;
-  b=Aabc1KeBM5jqpAtXN3Q0plAomwihyZGweHmQWtl/zkv0hhJrAX/mgnme
-   99Upy++wGql71eChgmxQ8deMZOD/evwEITgJot/J1eycU8hK8TCvcacai
-   O8nNjfP/LAbT8Ys6o7Kp/5dozWkLNzTterNN0yGlcvd3M+6n4NGTMp6TS
-   gMqlV1vzVsnga1Cn0NbmcD5UKIfbOda6H4PI4Hx+rtQLFJFXQYoIt37ws
-   VrAqs3U1onnBZnb6o1q9o0cXzbc5IXVCWeM7wJbctQ7759iLonGshe+iS
-   hQPQS3u0XhuRcxhsu3L/RQ+yp49zhqMMjcLe+1hJqrhhUTgxCI71mP9EV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="329309173"
+  bh=U92aBm8LbsiT/Rpd11/cnLifOTwlsiEDeVIHHmgZAio=;
+  b=WIoXCB77gjuCIl05Epnmoi49njKdavoXvmtcc5kBkL+ltT1LtK2Dabnx
+   jB9JM48HHMqyaaBj9rDc4FyHXn+wnEYLcWw+SXboR1DZ65ZOZmxUVfdaU
+   H57MiXYz+k56BQ2mXnFuf7vE1bFWpmwXDH5SjmV26RVG+2vALUGQU3nO7
+   ihK/ZkDPidWCP46KdyAoNqxftjLjZIku1i+sbhgSRytPo+niWD9BY4DGO
+   PrPDl5LZu9FqcHtbCG0qXHQWnMd2oc82m4bwjcni4/yIrxh39SY3vZcB2
+   H6BWS79ug/cOVe+Z0cIvhq4XNhMKQB0HUUS778lRoNauP2Qyq27EeFbCi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="346985881"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="329309173"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 03:57:36 -0700
+   d="scan'208";a="346985881"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 03:57:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="755664066"
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="723586594"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="755664066"
+   d="scan'208";a="723586594"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Apr 2023 03:57:35 -0700
+  by orsmga001.jf.intel.com with ESMTP; 18 Apr 2023 03:57:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poj1i-000dI9-1U;
+	id 1poj1i-000dI7-1P;
 	Tue, 18 Apr 2023 10:57:34 +0000
-Date: Tue, 18 Apr 2023 18:56:51 +0800
+Date: Tue, 18 Apr 2023 18:56:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:retain-zoned-write-order 15/15]
- block/mq-deadline.c:189:24: error: 'struct gendisk' has no member named
- 'max_active_zones'
-Message-ID: <202304181837.VCTT4sYB-lkp@intel.com>
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:riscv_sbi_nested_v1 48/74] include/linux/fwnode.h:167:37:
+ warning: declaration of 'struct resource' will not be visible outside of
+ this function
+Message-ID: <202304181843.LNPhTsJM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,102 +47,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bvanassche/linux retain-zoned-write-order
-head:   2bdceaa60eb460189b66d717bce55dc354512fe8
-commit: 2bdceaa60eb460189b66d717bce55dc354512fe8 [15/15] block: mq-deadline: Respect the active zone limit
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20230418/202304181837.VCTT4sYB-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
+head:   664b96e7a3a7d1b9d6c7ede050633ada0eda4875
+commit: c0fae281cc6758ccb2c2aa3361acc62fbe038a7a [48/74] device property: Add ioresource_get to fwnode operation
+config: x86_64-randconfig-a013-20230417 (https://download.01.org/0day-ci/archive/20230418/202304181843.LNPhTsJM-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/bvanassche/linux/commit/2bdceaa60eb460189b66d717bce55dc354512fe8
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche retain-zoned-write-order
-        git checkout 2bdceaa60eb460189b66d717bce55dc354512fe8
+        # https://github.com/avpatel/linux/commit/c0fae281cc6758ccb2c2aa3361acc62fbe038a7a
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_sbi_nested_v1
+        git checkout c0fae281cc6758ccb2c2aa3361acc62fbe038a7a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/ mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181837.VCTT4sYB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304181843.LNPhTsJM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   block/mq-deadline.c: In function 'dd_check_zone':
->> block/mq-deadline.c:189:24: error: 'struct gendisk' has no member named 'max_active_zones'
-     189 |         if (rq->q->disk->max_active_zones == 0)
-         |                        ^~
-   block/mq-deadline.c:206:49: error: 'struct gendisk' has no member named 'max_active_zones'
-     206 |         return dd_active_zones(dd) < rq->q->disk->max_active_zones;
-         |                                                 ^~
-   In file included from include/linux/printk.h:10,
-                    from include/linux/kernel.h:29,
-                    from block/mq-deadline.c:8:
-   block/mq-deadline.c: In function 'dd_update_wp':
-   block/mq-deadline.c:216:37: error: 'struct gendisk' has no member named 'max_active_zones'
-     216 |         if (WARN_ON_ONCE(rq->q->disk->max_active_zones == 0))
-         |                                     ^~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   block/mq-deadline.c:216:13: note: in expansion of macro 'WARN_ON_ONCE'
-     216 |         if (WARN_ON_ONCE(rq->q->disk->max_active_zones == 0))
-         |             ^~~~~~~~~~~~
-   block/mq-deadline.c: In function 'dd_dispatch_request':
-   block/mq-deadline.c:762:30: error: 'struct gendisk' has no member named 'max_active_zones'
-     762 |         if (rq && rq->q->disk->max_active_zones)
-         |                              ^~
-   block/mq-deadline.c: In function 'dd_finish_request':
-   block/mq-deadline.c:1080:24: error: 'struct gendisk' has no member named 'max_active_zones'
-    1080 |         if (rq->q->disk->max_active_zones) {
-         |                        ^~
-   block/mq-deadline.c: In function 'dd_check_zone':
-   block/mq-deadline.c:207:1: error: control reaches end of non-void function [-Werror=return-type]
-     207 | }
-         | ^
-   block/mq-deadline.c: At top level:
-   block/mq-deadline.c:461:24: warning: 'deadline_skip_seq_writes' defined but not used [-Wunused-function]
-     461 | static struct request *deadline_skip_seq_writes(struct deadline_data *dd,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from mm/early_ioremap.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/x86/include/asm/io.h:332:
+   In file included from include/asm-generic/io.h:609:
+   In file included from include/linux/logic_pio.h:11:
+>> include/linux/fwnode.h:167:37: warning: declaration of 'struct resource' will not be visible outside of this function [-Wvisibility]
+                                 unsigned int index, struct resource *res);
+                                                            ^
+   1 warning generated.
+--
+   In file included from drivers/input/touchscreen.c:9:
+   In file included from include/linux/property.h:14:
+>> include/linux/fwnode.h:167:37: warning: declaration of 'struct resource' will not be visible outside of this function [-Wvisibility]
+                                 unsigned int index, struct resource *res);
+                                                            ^
+   In file included from drivers/input/touchscreen.c:9:
+>> include/linux/property.h:144:33: warning: declaration of 'struct resource' will not be visible outside of this function [-Wvisibility]
+                             unsigned int index, struct resource *res);
+                                                        ^
+   2 warnings generated.
 
 
-vim +189 block/mq-deadline.c
+vim +167 include/linux/fwnode.h
 
-   177	
-   178	/*
-   179	 * Returns true if and only if dispatching request @rq won't cause the active
-   180	 * zones limit to be exceeded.
-   181	 */
-   182	static bool dd_check_zone(struct deadline_data *dd, struct request *rq)
-   183	{
-   184		unsigned int zno = blk_rq_zone_no(rq);
-   185		struct dd_zone *zone;
-   186	
-   187		lockdep_assert_held(&dd->lock);
-   188	
- > 189		if (rq->q->disk->max_active_zones == 0)
-   190			return true;
-   191	
-   192		switch (req_op(rq)) {
-   193		case REQ_OP_WRITE:
-   194		case REQ_OP_WRITE_ZEROES:
-   195		case REQ_OP_ZONE_APPEND:
-   196			break;
-   197		default:
-   198			return true;
-   199		}
-   200	
-   201		hash_for_each_possible(dd->active_zones, zone, entry, zno)
-   202			if (zone->zno == zno)
-   203				return true; /* zone already open */
-   204	
-   205		/* zone is empty or closed */
-   206		return dd_active_zones(dd) < rq->q->disk->max_active_zones;
-   207	}
-   208	
+    97	
+    98	/**
+    99	 * struct fwnode_operations - Operations for fwnode interface
+   100	 * @get: Get a reference to an fwnode.
+   101	 * @put: Put a reference to an fwnode.
+   102	 * @device_is_available: Return true if the device is available.
+   103	 * @device_get_match_data: Return the device driver match data.
+   104	 * @property_present: Return true if a property is present.
+   105	 * @property_read_int_array: Read an array of integer properties. Return zero on
+   106	 *			     success, a negative error code otherwise.
+   107	 * @property_read_string_array: Read an array of string properties. Return zero
+   108	 *				on success, a negative error code otherwise.
+   109	 * @get_name: Return the name of an fwnode.
+   110	 * @get_name_prefix: Get a prefix for a node (for printing purposes).
+   111	 * @get_parent: Return the parent of an fwnode.
+   112	 * @get_next_child_node: Return the next child node in an iteration.
+   113	 * @get_named_child_node: Return a child node with a given name.
+   114	 * @get_reference_args: Return a reference pointed to by a property, with args
+   115	 * @graph_get_next_endpoint: Return an endpoint node in an iteration.
+   116	 * @graph_get_remote_endpoint: Return the remote endpoint node of a local
+   117	 *			       endpoint node.
+   118	 * @graph_get_port_parent: Return the parent node of a port node.
+   119	 * @graph_parse_endpoint: Parse endpoint for port and endpoint id.
+   120	 * @add_links:	Create fwnode links to all the suppliers of the fwnode. Return
+   121	 *		zero on success, a negative error code otherwise.
+   122	 */
+   123	struct fwnode_operations {
+   124		struct fwnode_handle *(*get)(struct fwnode_handle *fwnode);
+   125		void (*put)(struct fwnode_handle *fwnode);
+   126		bool (*device_is_available)(const struct fwnode_handle *fwnode);
+   127		const void *(*device_get_match_data)(const struct fwnode_handle *fwnode,
+   128						     const struct device *dev);
+   129		bool (*device_dma_supported)(const struct fwnode_handle *fwnode);
+   130		enum dev_dma_attr
+   131		(*device_get_dma_attr)(const struct fwnode_handle *fwnode);
+   132		bool (*property_present)(const struct fwnode_handle *fwnode,
+   133					 const char *propname);
+   134		int (*property_read_int_array)(const struct fwnode_handle *fwnode,
+   135					       const char *propname,
+   136					       unsigned int elem_size, void *val,
+   137					       size_t nval);
+   138		int
+   139		(*property_read_string_array)(const struct fwnode_handle *fwnode_handle,
+   140					      const char *propname, const char **val,
+   141					      size_t nval);
+   142		const char *(*get_name)(const struct fwnode_handle *fwnode);
+   143		const char *(*get_name_prefix)(const struct fwnode_handle *fwnode);
+   144		struct fwnode_handle *(*get_parent)(const struct fwnode_handle *fwnode);
+   145		struct fwnode_handle *
+   146		(*get_next_child_node)(const struct fwnode_handle *fwnode,
+   147				       struct fwnode_handle *child);
+   148		struct fwnode_handle *
+   149		(*get_named_child_node)(const struct fwnode_handle *fwnode,
+   150					const char *name);
+   151		int (*get_reference_args)(const struct fwnode_handle *fwnode,
+   152					  const char *prop, const char *nargs_prop,
+   153					  unsigned int nargs, unsigned int index,
+   154					  struct fwnode_reference_args *args);
+   155		struct fwnode_handle *
+   156		(*graph_get_next_endpoint)(const struct fwnode_handle *fwnode,
+   157					   struct fwnode_handle *prev);
+   158		struct fwnode_handle *
+   159		(*graph_get_remote_endpoint)(const struct fwnode_handle *fwnode);
+   160		struct fwnode_handle *
+   161		(*graph_get_port_parent)(struct fwnode_handle *fwnode);
+   162		int (*graph_parse_endpoint)(const struct fwnode_handle *fwnode,
+   163					    struct fwnode_endpoint *endpoint);
+   164		void __iomem *(*iomap)(struct fwnode_handle *fwnode, int index);
+   165		int (*irq_get)(const struct fwnode_handle *fwnode, unsigned int index);
+   166		int (*ioresource_get)(const struct fwnode_handle *fwnode,
+ > 167				      unsigned int index, struct resource *res);
+   168		int (*add_links)(struct fwnode_handle *fwnode);
+   169	};
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
