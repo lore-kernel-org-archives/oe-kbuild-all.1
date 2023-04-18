@@ -1,43 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E15AFE6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 18:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8291CAFE6;
+	Tue, 18 Apr 2023 19:13:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681843327; x=1713379327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pt9e4dEYFGpCTGofqxyNfXQcxDXMnkw9Ete1fqavTUU=;
-  b=lLr/v18JWdY0tdeUpxJySPWedv84L4uyG0ZamNBsmNy1P11PwiE04oGA
-   YvBzBmWZiiYoBTNUW07mWHe1lbHPcLtZDCjfnMpsZipZioDuo3jnplOGJ
-   A/l8kmBNbuZMDinrFgVBRuVxm++Yql2AHPXKBOKBI0k0HmeD4E2EX7BUF
-   GLkJcPKH4qdJv7Egxee/Qo3j/+TAvj3aUJ727hCXRlkYzqJVlOXxpLqBw
-   WsAiiI/VDRlKGZ0vf0sH1ohqn2HE0/9vfGzrcfzTISC4903PxhQbL4KFQ
-   z28UeWylg27hF2rkA77BXl5abtf2cY113OzQlP3+KruM5gq8SYpN4dche
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347108626"
+  t=1681845185; x=1713381185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s5alUOoExPKk4DlbBZLsLa0FYjGJlJ79KIT2EQ4Y4CM=;
+  b=AqDj4APm5iBJW6l9q8+ywg4nCZxVbBY+BpwJfqRUybdMXwltB3tdoBcf
+   8pI0bD3uwBi6xlKWPp3MZbBO4TgKTtB/rjUjO9Jxs6+I+YgEZKBVoYTdK
+   ani8uwcZB/klQGVcg4gtdSLn/4qtKxmBnXIc0CYkk5m+MRaVDi8tdf08q
+   VKqiWSlnJJCrmTGhfof9/vrYCwOQ7Gvbu6JtpGhiM3O1vPqHC4TG4dw5S
+   +zv8t9KCORiNr8EUq/j3L4Q+o3iFVQq2zJmqXqx1HOXbYkewriO29xFVp
+   hlpcKaJy2UyQEyBhFJbUi0lEoOntdZiDeRkfGtek3vQjx7LQmFbcSvK3t
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431547346"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="347108626"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 11:42:03 -0700
+   d="scan'208";a="431547346"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 12:13:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937350470"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="760445257"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="937350470"
+   d="scan'208";a="760445257"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2023 11:42:02 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 18 Apr 2023 12:13:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poqHB-000dtj-35;
-	Tue, 18 Apr 2023 18:42:01 +0000
-Date: Wed, 19 Apr 2023 02:41:21 +0800
+	id 1poqlD-000dwJ-1k;
+	Tue, 18 Apr 2023 19:13:03 +0000
+Date: Wed, 19 Apr 2023 03:12:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 15107/29414]
- drivers/nvmem/core.c:347:5: warning: no previous prototype for function
- 'nvmem_add_cells'
-Message-ID: <202304190203.55lcxrha-lkp@intel.com>
+To: Lin Chun Yeh <r09921093@g.ntu.edu.tw>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lin Chun Yeh <r09921093@g.ntu.edu.tw>
+Subject: Re: [PATCH] include/linux/rbtree.h: move the declaration of c in
+ rb_find_add()
+Message-ID: <202304190219.FPDNRf8x-lkp@intel.com>
+References: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,102 +48,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 
-Hi Bartosz,
+Hi Lin,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   9b68392a2b5860995364db295d0d869b413fdfdf
-commit: e96a10625581a499e8a4218ef504f3f53918408b [15107/29414] UPSTREAM: nvmem: add support for cell info
-config: x86_64-randconfig-r025-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190203.55lcxrha-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc7 next-20230417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
+patch link:    https://lore.kernel.org/r/20230418145712.20620-1-r09921093%40g.ntu.edu.tw
+patch subject: [PATCH] include/linux/rbtree.h: move the declaration of c in rb_find_add()
+config: s390-randconfig-r044-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190219.FPDNRf8x-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout e96a10625581a499e8a4218ef504f3f53918408b
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/9348e5c71c46a8d88c805acf5dd56c1785bc04e8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
+        git checkout 9348e5c71c46a8d88c805acf5dd56c1785bc04e8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190203.55lcxrha-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190219.FPDNRf8x-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/nvmem/core.c:347:5: warning: no previous prototype for function 'nvmem_add_cells' [-Wmissing-prototypes]
-   int nvmem_add_cells(struct nvmem_device *nvmem,
-       ^
-   drivers/nvmem/core.c:347:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int nvmem_add_cells(struct nvmem_device *nvmem,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/nvmem_add_cells +347 drivers/nvmem/core.c
-
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  337  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  338  /**
-b3db17e4b864e4 Andrew Lunn         2018-05-11  339   * nvmem_add_cells() - Add cell information to an nvmem device
-b3db17e4b864e4 Andrew Lunn         2018-05-11  340   *
-b3db17e4b864e4 Andrew Lunn         2018-05-11  341   * @nvmem: nvmem device to add cells to.
-b3db17e4b864e4 Andrew Lunn         2018-05-11  342   * @info: nvmem cell info to add to the device
-b3db17e4b864e4 Andrew Lunn         2018-05-11  343   * @ncells: number of cells in info
-b3db17e4b864e4 Andrew Lunn         2018-05-11  344   *
-b3db17e4b864e4 Andrew Lunn         2018-05-11  345   * Return: 0 or negative error code on failure.
-b3db17e4b864e4 Andrew Lunn         2018-05-11  346   */
-b3db17e4b864e4 Andrew Lunn         2018-05-11 @347  int nvmem_add_cells(struct nvmem_device *nvmem,
-b3db17e4b864e4 Andrew Lunn         2018-05-11  348  		    const struct nvmem_cell_info *info,
-b3db17e4b864e4 Andrew Lunn         2018-05-11  349  		    int ncells)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  350  {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  351  	struct nvmem_cell **cells;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  352  	int i, rval;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  353  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  354  	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  355  	if (!cells)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  356  		return -ENOMEM;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  357  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  358  	for (i = 0; i < ncells; i++) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  359  		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  360  		if (!cells[i]) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  361  			rval = -ENOMEM;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  362  			goto err;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  363  		}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  364  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  365  		rval = nvmem_cell_info_to_nvmem_cell(nvmem, &info[i], cells[i]);
-287980e49ffc0f Arnd Bergmann       2016-05-27  366  		if (rval) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  367  			kfree(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  368  			goto err;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  369  		}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  370  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  371  		nvmem_cell_add(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  372  	}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  373  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  374  	/* remove tmp array */
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  375  	kfree(cells);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  376  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  377  	return 0;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  378  err:
-dfdf141429f089 Rasmus Villemoes    2016-02-08  379  	while (i--)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  380  		nvmem_cell_drop(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  381  
-dfdf141429f089 Rasmus Villemoes    2016-02-08  382  	kfree(cells);
-dfdf141429f089 Rasmus Villemoes    2016-02-08  383  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  384  	return rval;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  385  }
-b3db17e4b864e4 Andrew Lunn         2018-05-11  386  EXPORT_SYMBOL_GPL(nvmem_add_cells);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  387  
-
-:::::: The code at line 347 was first introduced by commit
-:::::: b3db17e4b864e46ad150ebef69c0e0130a1c5fca drivers: nvmem: Export nvmem_add_cells()
-
-:::::: TO: Andrew Lunn <andrew@lunn.ch>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> warning: unsafe memchr() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memchr.c
+--
+>> warning: unsafe memchr_inv() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memchr_inv.c
+--
+>> warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memcmp.c
+--
+>> warning: unsafe memscan() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memscan.c
+--
+>> warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcmp.c
+--
+>> warning: unsafe memcpy() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcpy.c
+--
+>> warning: unsafe memmove() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memmove.c
+--
+>> warning: unsafe memcpy() usage lacked '__read_overflow2_field' warning in lib/test_fortify/read_overflow2_field-memcpy.c
+--
+>> warning: unsafe memmove() usage lacked '__read_overflow2_field' warning in lib/test_fortify/read_overflow2_field-memmove.c
+--
+>> warning: unsafe memcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memcpy.c
+--
+>> warning: unsafe memmove() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memmove.c
+..
 
 -- 
 0-DAY CI Kernel Test Service
