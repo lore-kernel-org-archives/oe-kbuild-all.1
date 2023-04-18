@@ -1,53 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6C5AFED;
-	Tue, 18 Apr 2023 19:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFBDAFED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 19:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681845189; x=1713381189;
+  t=1681846448; x=1713382448;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hi5rDPKAiKO3dkrZvNzmcu1W3or/62oMJmUKhJ71JxI=;
-  b=dySk9KABxqIujHmrff8iOawN7JZIdSX2UAOSERMJ/necIF1Vn+7FhQNd
-   mRyrFHbIzm5VARqJbbM+gb6Exk16mYbxL6gw6bc2BuV6rfWjRjXfVQM7n
-   ZbVX21epG3a37mI2vth1C4ePN+k1h7fzPZdXFqvtDwMY0Wtf7ber4Bw+t
-   4MM16Mv3kn2P1J76b4WqVzEG8neXhZLzPgJbVb4JMkNSWVwFDC+u9di9f
-   XtQ/oLagri1WvkonTamA4SLbFCgIjS0wakF+M9+FOY6e5go1EhSrUMjPg
-   NdF2v8112qMmUWpBVuwfnn2otWCWOETipoZfPmXNXhVbUnFsl8bGY/c3L
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325599454"
+  bh=R0lX7KXSIGZeRWlUbbQwoFAWMx1W4y2vJ5k94Ji5BBE=;
+  b=U8DEWkQ1bxiULp9coTdpBEeIOnaKdPmcA9gTdu5rPoVJntFevLWtCsP9
+   LVgy4J7Dz9JU6ayXS/RzMIjOeUBxuB+R84q+DlEQe5AdYBxM35M/TR+n0
+   E0cvpegn8EPrGaebyXyi4B2QxoVtYQUytx0fPPPzNQawTfmjp5EJka0CS
+   p70FazOFMM7oZTtwcdMUcqVfqQhKAoFHfG7Sb9XROPry9mq9ShicQDgC/
+   ZyIL7lr3x0Ny1TcFz58h3zi7h2VFe56X01dWsY6/9ax/9U9MwXINmJvFP
+   TNoGALFXRTInKwBZ92j/poxBuv620bHYUDavB20hIcuj4BFD/3T5k5U/p
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431551445"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="325599454"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 12:13:08 -0700
+   d="scan'208";a="431551445"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 12:34:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="641481107"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="780601955"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="641481107"
+   d="scan'208";a="780601955"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Apr 2023 12:13:04 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2023 12:34:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poqlD-000dwL-1q;
-	Tue, 18 Apr 2023 19:13:03 +0000
-Date: Wed, 19 Apr 2023 03:12:35 +0800
+	id 1por5Y-000dxX-0V;
+	Tue, 18 Apr 2023 19:34:04 +0000
+Date: Wed, 19 Apr 2023 03:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, kexec@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	nayna@linux.ibm.com, nasastry@in.ibm.com, mpe@ellerman.id.au,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Nageswara R Sastry <rnsastry@linux.ibm.com>,
-	Coiby Xu <coxu@redhat.com>
-Subject: Re: [PATCH v9 4/4] tpm/kexec: Duplicate TPM measurement log in
- of-tree for kexec
-Message-ID: <202304190215.d0zwo1ni-lkp@intel.com>
-References: <20230418134409.177485-5-stefanb@linux.ibm.com>
+To: nick.hawkins@hpe.com, verdun@hpe.com, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, jdelvare@suse.com,
+	linux@roeck-us.net, linux@armlinux.org.uk,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 3/9] hwmon: (gxp-psu) Add driver to read HPE PSUs
+Message-ID: <202304190301.9jtv8uzG-lkp@intel.com>
+References: <20230418152824.110823-4-nick.hawkins@hpe.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,55 +52,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418134409.177485-5-stefanb@linux.ibm.com>
+In-Reply-To: <20230418152824.110823-4-nick.hawkins@hpe.com>
 
-Hi Stefan,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 6a8f57ae2eb07ab39a6f0ccad60c760743051026]
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.3-rc7]
+[cannot apply to brgl/gpio/for-next next-20230417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Berger/drivers-of-kexec-ima-Support-32-bit-platforms/20230418-214600
-base:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
-patch link:    https://lore.kernel.org/r/20230418134409.177485-5-stefanb%40linux.ibm.com
-patch subject: [PATCH v9 4/4] tpm/kexec: Duplicate TPM measurement log in of-tree for kexec
-config: x86_64-randconfig-a013-20230417 (https://download.01.org/0day-ci/archive/20230419/202304190215.d0zwo1ni-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/nick-hawkins-hpe-com/gpio-gxp-Add-HPE-GXP-GPIO/20230418-233513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230418152824.110823-4-nick.hawkins%40hpe.com
+patch subject: [PATCH v1 3/9] hwmon: (gxp-psu) Add driver to read HPE PSUs
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304190301.9jtv8uzG-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/16a833d47b9aca53a1b099dea4066b76b7f14ee1
+        # https://github.com/intel-lab-lkp/linux/commit/4006e868883aedc37a54480167f6f9dc377db1cc
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stefan-Berger/drivers-of-kexec-ima-Support-32-bit-platforms/20230418-214600
-        git checkout 16a833d47b9aca53a1b099dea4066b76b7f14ee1
+        git fetch --no-tags linux-review nick-hawkins-hpe-com/gpio-gxp-Add-HPE-GXP-GPIO/20230418-233513
+        git checkout 4006e868883aedc37a54480167f6f9dc377db1cc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/mailbox/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/hwmon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190215.d0zwo1ni-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190301.9jtv8uzG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/mailbox/mailbox.c:18:
-   In file included from include/linux/mailbox_client.h:10:
->> include/linux/of.h:1664:48: warning: declaration of 'struct kimage' will not be visible outside of this function [-Wvisibility]
-   static inline void tpm_add_kexec_buffer(struct kimage *image) { }
-                                                  ^
-   1 warning generated.
+>> drivers/hwmon/gxp-psu.c:62:4: warning: no previous prototype for 'get_psu_inst' [-Wmissing-prototypes]
+      62 | u8 get_psu_inst(void)
+         |    ^~~~~~~~~~~~
+>> drivers/hwmon/gxp-psu.c:71:4: warning: no previous prototype for 'get_psu_ac' [-Wmissing-prototypes]
+      71 | u8 get_psu_ac(void)
+         |    ^~~~~~~~~~
+>> drivers/hwmon/gxp-psu.c:80:4: warning: no previous prototype for 'get_psu_dc' [-Wmissing-prototypes]
+      80 | u8 get_psu_dc(void)
+         |    ^~~~~~~~~~
+>> drivers/hwmon/gxp-psu.c:89:6: warning: no previous prototype for 'update_presence' [-Wmissing-prototypes]
+      89 | void update_presence(u8 id)
+         |      ^~~~~~~~~~~~~~~
+>> drivers/hwmon/gxp-psu.c:376:6: warning: no previous prototype for 'swapbytes' [-Wmissing-prototypes]
+     376 | void swapbytes(void *input, size_t len)
+         |      ^~~~~~~~~
+   drivers/hwmon/gxp-psu.c: In function 'gxp_psu_read_string':
+>> drivers/hwmon/gxp-psu.c:528:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     528 |                 switch (attr) {
+         |                 ^~~~~~
+   drivers/hwmon/gxp-psu.c:535:9: note: here
+     535 |         case hwmon_in:
+         |         ^~~~
+   drivers/hwmon/gxp-psu.c:536:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     536 |                 switch (attr) {
+         |                 ^~~~~~
+   drivers/hwmon/gxp-psu.c:543:9: note: here
+     543 |         case hwmon_fan:
+         |         ^~~~
+   drivers/hwmon/gxp-psu.c:544:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     544 |                 switch (attr) {
+         |                 ^~~~~~
+   drivers/hwmon/gxp-psu.c:551:9: note: here
+     551 |         case hwmon_curr:
+         |         ^~~~
+   drivers/hwmon/gxp-psu.c:552:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     552 |                 switch (attr) {
+         |                 ^~~~~~
+   drivers/hwmon/gxp-psu.c:559:9: note: here
+     559 |         case hwmon_temp:
+         |         ^~~~
 
 
-vim +1664 include/linux/of.h
+vim +/get_psu_inst +62 drivers/hwmon/gxp-psu.c
 
-  1660	
-  1661	#if defined(CONFIG_KEXEC_FILE) && defined(CONFIG_OF_FLATTREE)
-  1662	void tpm_add_kexec_buffer(struct kimage *image);
-  1663	#else
-> 1664	static inline void tpm_add_kexec_buffer(struct kimage *image) { }
-  1665	#endif
-  1666	
+    61	
+  > 62	u8 get_psu_inst(void)
+    63	{
+    64		if (!pl_psu)
+    65			return 0;
+    66	
+    67		return readb(pl_psu);
+    68	}
+    69	EXPORT_SYMBOL(get_psu_inst);
+    70	
+  > 71	u8 get_psu_ac(void)
+    72	{
+    73		if (!pl_psu)
+    74			return 0;
+    75	
+    76		return readb(pl_psu + 0x02);
+    77	}
+    78	EXPORT_SYMBOL(get_psu_ac);
+    79	
+  > 80	u8 get_psu_dc(void)
+    81	{
+    82		if (!pl_psu)
+    83			return 0;
+    84	
+    85		return readb(pl_psu + 0x03);
+    86	}
+    87	EXPORT_SYMBOL(get_psu_dc);
+    88	
+  > 89	void update_presence(u8 id)
+    90	{
+    91		unsigned int i;
+    92		unsigned long temp = (unsigned long)readb(pl_psu);
+    93	
+    94		for_each_set_bit(i, &temp, 8) {
+    95			if (i == id)
+    96				psus[id]->present = true;
+    97		}
+    98	
+    99		temp = ~temp;
+   100		for_each_set_bit(i, &temp, 8) {
+   101			if (i == id)
+   102				psus[id]->present = false;
+   103		}
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
