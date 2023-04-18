@@ -1,129 +1,399 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FAE10E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 06:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681799919;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
-	b=baS4EeWJ1PghixGPRVBK1zL7QDRI77dk+ahHOfU7CwIN8DtAN8w6jnwCWOS05jIszpBZxC
-	r1V9C5cMTazDKlVYzYhssfcsiqEwn157MZHE3HyyfWd9b1PW7h3DtuhSWg91mZGWk5C/Fs
-	c83mtH2LaCScQB4BsWlFxpIneRg5u+o=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-159-NwHa70_fPSOPYJ8MPEORdA-1; Tue, 18 Apr 2023 02:38:36 -0400
-X-MC-Unique: NwHa70_fPSOPYJ8MPEORdA-1
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-63b81520de5so1248334b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Apr 2023 23:38:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681799915; x=1684391915;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
-        b=LEDEVZ60AS/sZGD7czPeXBwr0JGJgi3Csu8Vzms5y/YjyHXw8P43YdAFyCltSKdBfB
-         mWW3aH4ezPPBonNtVQg92dq4ooQJeLLEWU2yzNMZzAeuHWetKAv0R2J5in4/E5NM9pWX
-         ISDeRtmBGP5H2BWRqTl77+j4mW7rE8foYZysoyAwc8YZV/my3SXNAVH00DpcX8W02Kbk
-         R5NWhiYIFBZ8AyY+ccRAXipbjLuRtrCU8AZZd+/kZjwS/1BpLxRQ2PS3avEM+NwylTfO
-         8obNufufkEnxyq0l3HDk1nOtaeO/v8OpcwYYGfv9a5a8IuU5CZMmCbLEn6xYTo5oOghA
-         cFUA==
-X-Gm-Message-State: AAQBX9fTWLGwM0gGMYxLRQOtpCjDPKXNwQ3L+1cas13z2lCl9/N8AcaH
-	fA4v7OivrfLXqv1N8YlbQGYbzcLpI31qfCXW3LKL59kWFsvx6hWvapmfm7/Wwatq59aahkLeCOq
-	W/QQDnmU8lVchwMSjPsmCFolOBg==
-X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656926pfg.13.1681799914930;
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZNbXSNUUYsBhTQbe9GMU0xrqcf8HbI9WS2+Jfi5zGuFwjotUORgVkX4FbdGyl/MFe3tdOccg==
-X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656912pfg.13.1681799914607;
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-Received: from [10.72.12.132] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id y6-20020aa78546000000b0063d238b1e4bsm2576855pfn.160.2023.04.17.23.38.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-Message-ID: <447bea60-537d-5872-bfad-37caf97ccc43@redhat.com>
-Date: Tue, 18 Apr 2023 14:38:28 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E108C2CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 07:01:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681801287; x=1713337287;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=itkDfR3Nc+sL7YsmHsEzXqf4k7S8kaxbgR1ADbBKfGs=;
+  b=cTDl3YzkTsDOrC+oGClvfBPi0n0YI3ONEVeahsQOx6hj6hUiaqi6CDEn
+   qM+XOQdoMvTqlyCWyukvxbCSvvWJNvHFVyiKg2dEq3ZhRy9e1Rl0RDbku
+   nvXsAii/XZrH77AKxJUcInWNitzvDccbbtyo3dfhS4PhVySaOXrvvs36B
+   bOxQgbEP2QxommmwtK2YdxQAOGWZEh1ljcg5pDRkcusDaFgrjqBi6lIDD
+   lY7kJK4vdR7XuLsdHGIB2jUSfTx7SCYRciYGthE3/WGOtOhyQrS2Ix0ox
+   Taxq5ZDbIZFTTept1ehxkd59yv6OaMxqceCI/vURAJlu3wEYm0RYt6BEa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="333894025"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="333894025"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 00:01:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="865268896"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="865268896"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 18 Apr 2023 00:01:24 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pofLA-000d5L-0S;
+	Tue, 18 Apr 2023 07:01:24 +0000
+Date: Tue, 18 Apr 2023 15:00:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 22736/22738]
+ net/xfrm/xfrm_input.c:597:11: error: no member named 'verified_cnt' in
+ 'struct sec_path'
+Message-ID: <202304181429.m9KcNuox-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1957
- wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-References: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
-From: Xiubo Li <xiubli@redhat.com>
-In-Reply-To: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   e7b6eb419efc6972c8af8f5e67f8e4f02db41420
+commit: 9bf7728b3bacb05cf63d8f09a2d64235e311d2f7 [22736/22738] FROMLIST: xfrm: Ensure policy checked for nested ESP tunnels
+config: x86_64-randconfig-a013-20230417 (https://download.01.org/0day-ci/archive/20230418/202304181429.m9KcNuox-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 9bf7728b3bacb05cf63d8f09a2d64235e311d2f7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/
 
-Thanks for reporting.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304181429.m9KcNuox-lkp@intel.com/
 
-This has been fixed already.
+Note: the android-common/android14-5.15 HEAD e7b6eb419efc6972c8af8f5e67f8e4f02db41420 builds fine.
+      It only hurts bisectability.
 
-- Xiubo
+All errors (new ones prefixed by >>):
 
-On 4/18/23 12:25, Dan Carpenter wrote:
-> tree:   https://github.com/ceph/ceph-client.git testing
-> head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
-> commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
-> config: i386-randconfig-m021-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180424.Dok2kyeU-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304180424.Dok2kyeU-lkp@intel.com/
->
-> New smatch warnings:
-> fs/ceph/mds_client.c:1957 wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
->
-> Old smatch warnings:
-> fs/ceph/mds_client.c:219 parse_reply_info_in() warn: missing unwind goto?
->
-> vim +/cap +1957 fs/ceph/mds_client.c
->
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1945  static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
-> 2f2dc053404feb Sage Weil   2009-10-06  1946  {
-> 0dc2570fab222a Sage Weil   2009-11-20  1947  	struct ceph_inode_info *ci = ceph_inode(inode);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1948  	unsigned long ev = (unsigned long)arg;
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1949  	struct ceph_cap *cap;
-> 0dc2570fab222a Sage Weil   2009-11-20  1950
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1951  	if (ev == RECONNECT) {
-> be655596b3de58 Sage Weil   2011-11-30  1952  		spin_lock(&ci->i_ceph_lock);
-> 0dc2570fab222a Sage Weil   2009-11-20  1953  		ci->i_wanted_max_size = 0;
-> 0dc2570fab222a Sage Weil   2009-11-20  1954  		ci->i_requested_max_size = 0;
-> be655596b3de58 Sage Weil   2011-11-30  1955  		spin_unlock(&ci->i_ceph_lock);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1956  	} else if (ev == RENEWCAPS) {
-> 52d60f8e18b855 Jeff Layton 2021-06-04 @1957  		if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
->                                                              ^^^^^^^^^^^^               ^^^^^^^^^^^^^
->
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1958  			/* mds did not re-issue stale cap */
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1959  			spin_lock(&ci->i_ceph_lock);
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1960  			cap = rb_entry(ci_node, struct ceph_cap, ci_node);
->                                                                  ^^^^^^^^^^^^^^
-> Initialized too late.
->
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1961  			if (cap)
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1962  				cap->issued = cap->implemented = CEPH_CAP_PIN;
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1963  			spin_unlock(&ci->i_ceph_lock);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1964  		}
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1965  	} else if (ev == FORCE_RO) {
-> 0dc2570fab222a Sage Weil   2009-11-20  1966  	}
-> e536030934aebf Yan, Zheng  2016-05-19  1967  	wake_up_all(&ci->i_cap_wq);
-> 2f2dc053404feb Sage Weil   2009-10-06  1968  	return 0;
-> 2f2dc053404feb Sage Weil   2009-10-06  1969  }
->
+>> net/xfrm/xfrm_input.c:597:11: error: no member named 'verified_cnt' in 'struct sec_path'
+                       sp->verified_cnt < sp->len &&
+                       ~~  ^
+   1 error generated.
 
+
+vim +597 net/xfrm/xfrm_input.c
+
+   458	
+   459	int xfrm_input(struct sk_buff *skb, int nexthdr, __be32 spi, int encap_type)
+   460	{
+   461		const struct xfrm_state_afinfo *afinfo;
+   462		struct net *net = dev_net(skb->dev);
+   463		const struct xfrm_mode *inner_mode;
+   464		int err;
+   465		__be32 seq;
+   466		__be32 seq_hi;
+   467		struct xfrm_state *x = NULL;
+   468		xfrm_address_t *daddr;
+   469		u32 mark = skb->mark;
+   470		unsigned int family = AF_UNSPEC;
+   471		int decaps = 0;
+   472		int async = 0;
+   473		bool xfrm_gro = false;
+   474		bool crypto_done = false;
+   475		struct xfrm_offload *xo = xfrm_offload(skb);
+   476		struct sec_path *sp;
+   477	
+   478		if (encap_type < 0) {
+   479			x = xfrm_input_state(skb);
+   480	
+   481			if (unlikely(x->km.state != XFRM_STATE_VALID)) {
+   482				if (x->km.state == XFRM_STATE_ACQ)
+   483					XFRM_INC_STATS(net, LINUX_MIB_XFRMACQUIREERROR);
+   484				else
+   485					XFRM_INC_STATS(net,
+   486						       LINUX_MIB_XFRMINSTATEINVALID);
+   487	
+   488				if (encap_type == -1)
+   489					dev_put(skb->dev);
+   490				goto drop;
+   491			}
+   492	
+   493			family = x->outer_mode.family;
+   494	
+   495			/* An encap_type of -1 indicates async resumption. */
+   496			if (encap_type == -1) {
+   497				async = 1;
+   498				seq = XFRM_SKB_CB(skb)->seq.input.low;
+   499				goto resume;
+   500			}
+   501	
+   502			/* encap_type < -1 indicates a GRO call. */
+   503			encap_type = 0;
+   504			seq = XFRM_SPI_SKB_CB(skb)->seq;
+   505	
+   506			if (xo && (xo->flags & CRYPTO_DONE)) {
+   507				crypto_done = true;
+   508				family = XFRM_SPI_SKB_CB(skb)->family;
+   509	
+   510				if (!(xo->status & CRYPTO_SUCCESS)) {
+   511					if (xo->status &
+   512					    (CRYPTO_TRANSPORT_AH_AUTH_FAILED |
+   513					     CRYPTO_TRANSPORT_ESP_AUTH_FAILED |
+   514					     CRYPTO_TUNNEL_AH_AUTH_FAILED |
+   515					     CRYPTO_TUNNEL_ESP_AUTH_FAILED)) {
+   516	
+   517						xfrm_audit_state_icvfail(x, skb,
+   518									 x->type->proto);
+   519						x->stats.integrity_failed++;
+   520						XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEPROTOERROR);
+   521						goto drop;
+   522					}
+   523	
+   524					if (xo->status & CRYPTO_INVALID_PROTOCOL) {
+   525						XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEPROTOERROR);
+   526						goto drop;
+   527					}
+   528	
+   529					XFRM_INC_STATS(net, LINUX_MIB_XFRMINBUFFERERROR);
+   530					goto drop;
+   531				}
+   532	
+   533				if ((err = xfrm_parse_spi(skb, nexthdr, &spi, &seq)) != 0) {
+   534					XFRM_INC_STATS(net, LINUX_MIB_XFRMINHDRERROR);
+   535					goto drop;
+   536				}
+   537			}
+   538	
+   539			goto lock;
+   540		}
+   541	
+   542		family = XFRM_SPI_SKB_CB(skb)->family;
+   543	
+   544		/* if tunnel is present override skb->mark value with tunnel i_key */
+   545		switch (family) {
+   546		case AF_INET:
+   547			if (XFRM_TUNNEL_SKB_CB(skb)->tunnel.ip4)
+   548				mark = be32_to_cpu(XFRM_TUNNEL_SKB_CB(skb)->tunnel.ip4->parms.i_key);
+   549			break;
+   550		case AF_INET6:
+   551			if (XFRM_TUNNEL_SKB_CB(skb)->tunnel.ip6)
+   552				mark = be32_to_cpu(XFRM_TUNNEL_SKB_CB(skb)->tunnel.ip6->parms.i_key);
+   553			break;
+   554		}
+   555	
+   556		sp = secpath_set(skb);
+   557		if (!sp) {
+   558			XFRM_INC_STATS(net, LINUX_MIB_XFRMINERROR);
+   559			goto drop;
+   560		}
+   561	
+   562		seq = 0;
+   563		if (!spi && (err = xfrm_parse_spi(skb, nexthdr, &spi, &seq)) != 0) {
+   564			secpath_reset(skb);
+   565			XFRM_INC_STATS(net, LINUX_MIB_XFRMINHDRERROR);
+   566			goto drop;
+   567		}
+   568	
+   569		daddr = (xfrm_address_t *)(skb_network_header(skb) +
+   570					   XFRM_SPI_SKB_CB(skb)->daddroff);
+   571		do {
+   572			sp = skb_sec_path(skb);
+   573	
+   574			if (sp->len == XFRM_MAX_DEPTH) {
+   575				secpath_reset(skb);
+   576				XFRM_INC_STATS(net, LINUX_MIB_XFRMINBUFFERERROR);
+   577				goto drop;
+   578			}
+   579	
+   580			x = xfrm_state_lookup(net, mark, daddr, spi, nexthdr, family);
+   581			if (x == NULL) {
+   582				secpath_reset(skb);
+   583				XFRM_INC_STATS(net, LINUX_MIB_XFRMINNOSTATES);
+   584				xfrm_audit_state_notfound(skb, family, spi, seq);
+   585				goto drop;
+   586			}
+   587	
+   588			/* If nested tunnel, check outer states before context is lost.
+   589			 * Only nested tunnels need to be checked, since IP addresses change
+   590			 * as a result of the tunnel mode decapsulation. Similarly, this check
+   591			 * is limited to nested tunnels to avoid performing another policy
+   592			 * check on non-nested tunnels. On success, this check also updates the
+   593			 * secpath's verified_cnt variable, skipping future verifications of
+   594			 * previously-verified secpath entries.
+   595			 */
+   596			if ((x->outer_mode.flags & XFRM_MODE_FLAG_TUNNEL) &&
+ > 597			    sp->verified_cnt < sp->len &&
+   598			    !xfrm_policy_check(NULL, XFRM_POLICY_IN, skb, family)) {
+   599				goto drop;
+   600			}
+   601	
+   602			skb->mark = xfrm_smark_get(skb->mark, x);
+   603	
+   604			sp->xvec[sp->len++] = x;
+   605	
+   606			skb_dst_force(skb);
+   607			if (!skb_dst(skb)) {
+   608				XFRM_INC_STATS(net, LINUX_MIB_XFRMINERROR);
+   609				goto drop;
+   610			}
+   611	
+   612	lock:
+   613			spin_lock(&x->lock);
+   614	
+   615			if (unlikely(x->km.state != XFRM_STATE_VALID)) {
+   616				if (x->km.state == XFRM_STATE_ACQ)
+   617					XFRM_INC_STATS(net, LINUX_MIB_XFRMACQUIREERROR);
+   618				else
+   619					XFRM_INC_STATS(net,
+   620						       LINUX_MIB_XFRMINSTATEINVALID);
+   621				goto drop_unlock;
+   622			}
+   623	
+   624			if ((x->encap ? x->encap->encap_type : 0) != encap_type) {
+   625				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEMISMATCH);
+   626				goto drop_unlock;
+   627			}
+   628	
+   629			if (xfrm_replay_check(x, skb, seq)) {
+   630				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATESEQERROR);
+   631				goto drop_unlock;
+   632			}
+   633	
+   634			if (xfrm_state_check_expire(x)) {
+   635				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEEXPIRED);
+   636				goto drop_unlock;
+   637			}
+   638	
+   639			spin_unlock(&x->lock);
+   640	
+   641			if (xfrm_tunnel_check(skb, x, family)) {
+   642				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEMODEERROR);
+   643				goto drop;
+   644			}
+   645	
+   646			seq_hi = htonl(xfrm_replay_seqhi(x, seq));
+   647	
+   648			XFRM_SKB_CB(skb)->seq.input.low = seq;
+   649			XFRM_SKB_CB(skb)->seq.input.hi = seq_hi;
+   650	
+   651			dev_hold(skb->dev);
+   652	
+   653			if (crypto_done)
+   654				nexthdr = x->type_offload->input_tail(x, skb);
+   655			else
+   656				nexthdr = x->type->input(x, skb);
+   657	
+   658			if (nexthdr == -EINPROGRESS)
+   659				return 0;
+   660	resume:
+   661			dev_put(skb->dev);
+   662	
+   663			spin_lock(&x->lock);
+   664			if (nexthdr < 0) {
+   665				if (nexthdr == -EBADMSG) {
+   666					xfrm_audit_state_icvfail(x, skb,
+   667								 x->type->proto);
+   668					x->stats.integrity_failed++;
+   669				}
+   670				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEPROTOERROR);
+   671				goto drop_unlock;
+   672			}
+   673	
+   674			/* only the first xfrm gets the encap type */
+   675			encap_type = 0;
+   676	
+   677			if (xfrm_replay_recheck(x, skb, seq)) {
+   678				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATESEQERROR);
+   679				goto drop_unlock;
+   680			}
+   681	
+   682			xfrm_replay_advance(x, seq);
+   683	
+   684			x->curlft.bytes += skb->len;
+   685			x->curlft.packets++;
+   686	
+   687			spin_unlock(&x->lock);
+   688	
+   689			XFRM_MODE_SKB_CB(skb)->protocol = nexthdr;
+   690	
+   691			inner_mode = &x->inner_mode;
+   692	
+   693			if (x->sel.family == AF_UNSPEC) {
+   694				inner_mode = xfrm_ip2inner_mode(x, XFRM_MODE_SKB_CB(skb)->protocol);
+   695				if (inner_mode == NULL) {
+   696					XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEMODEERROR);
+   697					goto drop;
+   698				}
+   699			}
+   700	
+   701			if (xfrm_inner_mode_input(x, inner_mode, skb)) {
+   702				XFRM_INC_STATS(net, LINUX_MIB_XFRMINSTATEMODEERROR);
+   703				goto drop;
+   704			}
+   705	
+   706			if (x->outer_mode.flags & XFRM_MODE_FLAG_TUNNEL) {
+   707				decaps = 1;
+   708				break;
+   709			}
+   710	
+   711			/*
+   712			 * We need the inner address.  However, we only get here for
+   713			 * transport mode so the outer address is identical.
+   714			 */
+   715			daddr = &x->id.daddr;
+   716			family = x->outer_mode.family;
+   717	
+   718			err = xfrm_parse_spi(skb, nexthdr, &spi, &seq);
+   719			if (err < 0) {
+   720				XFRM_INC_STATS(net, LINUX_MIB_XFRMINHDRERROR);
+   721				goto drop;
+   722			}
+   723			crypto_done = false;
+   724		} while (!err);
+   725	
+   726		err = xfrm_rcv_cb(skb, family, x->type->proto, 0);
+   727		if (err)
+   728			goto drop;
+   729	
+   730		nf_reset_ct(skb);
+   731	
+   732		if (decaps) {
+   733			sp = skb_sec_path(skb);
+   734			if (sp)
+   735				sp->olen = 0;
+   736			skb_dst_drop(skb);
+   737			gro_cells_receive(&gro_cells, skb);
+   738			return 0;
+   739		} else {
+   740			xo = xfrm_offload(skb);
+   741			if (xo)
+   742				xfrm_gro = xo->flags & XFRM_GRO;
+   743	
+   744			err = -EAFNOSUPPORT;
+   745			rcu_read_lock();
+   746			afinfo = xfrm_state_afinfo_get_rcu(x->inner_mode.family);
+   747			if (likely(afinfo))
+   748				err = afinfo->transport_finish(skb, xfrm_gro || async);
+   749			rcu_read_unlock();
+   750			if (xfrm_gro) {
+   751				sp = skb_sec_path(skb);
+   752				if (sp)
+   753					sp->olen = 0;
+   754				skb_dst_drop(skb);
+   755				gro_cells_receive(&gro_cells, skb);
+   756				return err;
+   757			}
+   758	
+   759			return err;
+   760		}
+   761	
+   762	drop_unlock:
+   763		spin_unlock(&x->lock);
+   764	drop:
+   765		xfrm_rcv_cb(skb, family, x && x->type ? x->type->proto : nexthdr, -1);
+   766		kfree_skb(skb);
+   767		return 0;
+   768	}
+   769	EXPORT_SYMBOL(xfrm_input);
+   770	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
