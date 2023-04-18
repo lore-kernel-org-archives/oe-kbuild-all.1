@@ -1,105 +1,120 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0427290D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 13:52:19 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:9493:29e1:3046:42cb] (unknown [IPv6:2a01:e0a:120:3210:9493:29e1:3046:42cb])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F3A88660318B;
-	Tue, 18 Apr 2023 14:52:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1681825938;
-	bh=DXfYeJ0/OXmca31i5Ki8W/t0J803CNe5/C9mokTsz8M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b1mQlPZN6DEodZ5h4jdJ79BizYZMjbF2b/hH9g3om97Y2D4Q4u7GXj8p74W0dCj6R
-	 4PWC+iAPWCkE4BSslj1TjRwrXRNHwhu2SrtDmaYQYhmFXcrWPWiiW9M3faB1ok8lrW
-	 DtVEH3kjpLYcU6zvPNNs31EynuSgtoqgoLJF7Qm66m+Al9rSq+rC3Vk/vmBTn7Ju9J
-	 2L+dnQILVHlgq/h5ID4btFf9+gSGQGajMLMH0kKJ0tUWxrqU8aJlVmcg2dmHoOFdIM
-	 hBlQlNG6FLjZxLwFVhbVs/esIN+aKnuu2CbGpVuBFmFSZmd78l++oDAjS8yZh15+hE
-	 zQv/tiFWZa8rw==
-Message-ID: <b20df55a-8b45-510b-6aba-33c7fe7809b0@collabora.com>
-Date: Tue, 18 Apr 2023 15:52:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D9D290D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 13:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681826028; x=1713362028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PmvTPh2yJEJPklH4b3KvZ5Pdr4+q5eEYF+gMvcj/pls=;
+  b=JCGYlISRxH5gWkfsPodjeKmMyfmBdYtfYAQizm6Fb9+X/hyANy+aBsTU
+   osAGvvuOM0znEHV4z+/UaGr2H168oBiZZUuhRDkNRckleTLApVhJ1plDg
+   bi+uzjG4EPp3Eq4n2meODpUBqLNfmzy1/oV7fwjR6YnUcQklPyH/j/vAK
+   IZqL98IOAHw/Pmq3tqWW7uMF7kxxOwH479ihh0j22CTZ4Ddf/Ga5C1u2t
+   3wxmFA8PPDJO6IbjA1iBJ9Kz7oIsyeH3tci6Xdv3lQmgSteyzJL41Xfe4
+   Lln4I9DoxFXQcgU1Nr4zs8I9sj5ilJMGtWNjG8B9Rkk6BgfrvbLJcVDwJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408074029"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="408074029"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 06:53:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937259187"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="937259187"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2023 06:53:46 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1polmD-000dZ1-2E;
+	Tue, 18 Apr 2023 13:53:45 +0000
+Date: Tue, 18 Apr 2023 21:52:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stafford Horne <shorne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/atm/iphase.c:151 ia_hack_tcq() warn: if();
+Message-ID: <202304182100.xKJSzynK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [hverkuil-media-tree:for-v6.4l 211/215]
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1024:1:
- warning: the frame size of 1112 bytes is larger than 1024 bytes
-To: Hans Verkuil <hverkuil@xs4all.nl>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <202304181533.M3yTL6Ju-lkp@intel.com>
- <5daf4d39-f999-353a-cd3e-1c9f9e75cdec@xs4all.nl>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <5daf4d39-f999-353a-cd3e-1c9f9e75cdec@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
+date:   9 months ago
+config: openrisc-randconfig-m031-20230416 (https://download.01.org/0day-ci/archive/20230418/202304182100.xKJSzynK-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
-Le 18/04/2023 à 15:45, Hans Verkuil a écrit :
-> On 18/04/2023 09:32, kernel test robot wrote:
->> tree:   git://linuxtv.org/hverkuil/media_tree.git for-v6.4l
->> head:   007517353ed5a98dc414642c541252edea3133e2
->> commit: b64337cb7965e94c72bf01017c37fd47f85c5d33 [211/215] media: verisilicon: Add Rockchip AV1 decoder
->> config: arm-randconfig-r036-20230418 (https://download.01.org/0day-ci/archive/20230418/202304181533.M3yTL6Ju-lkp@intel.com/config)
->> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
->> reproduce (this is a W=1 build):
->>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>          chmod +x ~/bin/make.cross
->>          git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
->>          git fetch --no-tags hverkuil-media-tree for-v6.4l
->>          git checkout b64337cb7965e94c72bf01017c37fd47f85c5d33
->>          # save the config file
->>          mkdir build_dir && cp config build_dir/.config
->>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/platform/verisilicon/
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Link: https://lore.kernel.org/oe-kbuild-all/202304181533.M3yTL6Ju-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:320:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_exit' [-Wmissing-prototypes]
->>       320 | void rockchip_vpu981_av1_dec_exit(struct hantro_ctx *ctx)
->>           |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:356:5: warning: no previous prototype for 'rockchip_vpu981_av1_dec_init' [-Wmissing-prototypes]
->>       356 | int rockchip_vpu981_av1_dec_init(struct hantro_ctx *ctx)
->>           |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1143:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_done' [-Wmissing-prototypes]
->>      1143 | void rockchip_vpu981_av1_dec_done(struct hantro_ctx *ctx)
->>           |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1890:5: warning: no previous prototype for 'rockchip_vpu981_av1_dec_run' [-Wmissing-prototypes]
->>      1890 | int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
->>           |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_segmentation':
->>>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1024:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->>      1024 | }
->>           | ^
-> Benjamin, can you take a look at this? The last warning should be addressed
-> in your latest series, but the other prototype warnings are likely something
-> else.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304182100.xKJSzynK-lkp@intel.com/
 
-The prototype warning are on functions not used in this patch but later in the series on another file.
-The prototypes are in "media: verisilicon: Enable AV1 decoder on rk3588" patch.
+New smatch warnings:
+drivers/atm/iphase.c:151 ia_hack_tcq() warn: if();
+drivers/atm/iphase.c:562 ia_cbr_setup() warn: inconsistent indenting
+drivers/atm/iphase.c:695 ia_tx_poll() warn: inconsistent indenting
+drivers/atm/iphase.c:1247 rx_intr() warn: inconsistent indenting
+drivers/atm/iphase.c:1558 rx_init() warn: inconsistent indenting
+drivers/atm/iphase.c:1763 open_tx() warn: inconsistent indenting
+drivers/atm/iphase.c:2553 ia_start() warn: inconsistent indenting
+drivers/atm/iphase.c:2766 ia_ioctl() warn: inconsistent indenting
+drivers/atm/iphase.c:2911 ia_pkt_tx() warn: inconsistent indenting
 
-Regards,
-Benjamin
+Old smatch warnings:
+drivers/atm/iphase.c:2870 ia_ioctl() warn: inconsistent indenting
 
->
-> We won't make it for 6.4 (we were close, but no cigar...), but I aim to get
-> AV1 in early in the next cycle.
->
-> Regards,
->
-> 	Hans
->
+vim +151 drivers/atm/iphase.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  143  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  144    u_short 		desc1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  145    u_short		tcq_wr;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  146    struct ia_vcc         *iavcc_r = NULL; 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  147  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  148    tcq_wr = readl(dev->seg_reg+TCQ_WR_PTR) & 0xffff;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  149    while (dev->host_tcq_wr != tcq_wr) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  150       desc1 = *(u_short *)(dev->seg_ram + dev->host_tcq_wr);
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @151       if (!desc1) ;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  152       else if (!dev->desc_tbl[desc1 -1].timestamp) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  153          IF_ABR(printk(" Desc %d is reset at %ld\n", desc1 -1, jiffies);)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  154          *(u_short *) (dev->seg_ram + dev->host_tcq_wr) = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  155       }                                 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  156       else if (dev->desc_tbl[desc1 -1].timestamp) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  157          if (!(iavcc_r = dev->desc_tbl[desc1 -1].iavcc)) { 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  158             printk("IA: Fatal err in get_desc\n");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  159             continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  160          }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  161          iavcc_r->vc_desc_cnt--;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  162          dev->desc_tbl[desc1 -1].timestamp = 0;
+849e8caa477d72 David Howells  2008-07-30  163          IF_EVENT(printk("ia_hack: return_q skb = 0x%p desc = %d\n",
+849e8caa477d72 David Howells  2008-07-30  164                                     dev->desc_tbl[desc1 -1].txskb, desc1);)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  165          if (iavcc_r->pcr < dev->rate_limit) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  166             IA_SKB_STATE (dev->desc_tbl[desc1-1].txskb) |= IA_TX_DONE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  167             if (ia_enque_rtn_q(&dev->tx_return_q, dev->desc_tbl[desc1 -1]) < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  168                printk("ia_hack_tcq: No memory available\n");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  169          } 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  170          dev->desc_tbl[desc1 -1].iavcc = NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  171          dev->desc_tbl[desc1 -1].txskb = NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  172       }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  173       dev->host_tcq_wr += 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  174       if (dev->host_tcq_wr > dev->ffL.tcq_ed) 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  175          dev->host_tcq_wr = dev->ffL.tcq_st;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  176    }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  177  } /* ia_hack_tcq */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  178  
+
+:::::: The code at line 151 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
