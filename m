@@ -1,159 +1,88 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8322566
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 12:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681820987; x=1713356987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oPYpA65I0ZNzt+J/bfuf+D1f3uqhVdO1XM0/yjUeSj8=;
-  b=YMInDGgjflLJO3hSwEzUTUuNEfdqqDZIASYfyBPeG2HnFtqNJv5OCWqI
-   7gU9WO6ZoHMHZWO1rb6LEPtP/WOUBfEGz6h5Z0FgYXOPxLWzPqDvGLNKx
-   e63ARnlk/5iDjHCSpcxACw7Sj7LK8E7bEaX1aKo7a1IQ9yNEH3C6IECDz
-   lddsRKp+oQfg+fPuVcqthigmXdD19pSBzXk0meGyTUNuVilq2XEaBRWLG
-   dq/Pa2ziFwro191R54/4IgO9pUc2HyO8o0hfw8GBEB26g+MZlrBM7U4Ke
-   0yJA/XaCnPp3HHC30ZsG5G0y2M4DtFKUmZ3gIW+7gP8Q26BdjtrDcopcS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="329327711"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="329327711"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 05:29:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="668512191"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="668512191"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Apr 2023 05:29:46 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pokSq-000dQH-19;
-	Tue, 18 Apr 2023 12:29:40 +0000
-Date: Tue, 18 Apr 2023 20:29:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14825/29414]
- drivers/clk/clk.c:624:31: warning: variable 'ignore' set but not used
-Message-ID: <202304182056.wwW8EsjF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3360B2566
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 12:38:08 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 1921824E31D;
+	Tue, 18 Apr 2023 20:38:00 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 18 Apr
+ 2023 20:37:59 +0800
+Received: from ubuntu.localdomain (113.72.144.253) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 18 Apr
+ 2023 20:37:59 +0800
+From: Hal Feng <hal.feng@starfivetech.com>
+To: <linux-clk@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-mm@kvack.org>
+CC: Stephen Boyd <sboyd@kernel.org>, Michael Turquette
+	<mturquette@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, "Paul
+ Gazzillo" <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>, Hal Feng
+	<hal.feng@starfivetech.com>, Xingyu Wu <xingyu.wu@starfivetech.com>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/1] clk: starfive: Fix RESET_STARFIVE_JH7110 can't be selected in a specified case
+Date: Tue, 18 Apr 2023 20:37:56 +0800
+Message-ID: <20230418123756.62495-2-hal.feng@starfivetech.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230418123756.62495-1-hal.feng@starfivetech.com>
+References: <20230418123756.62495-1-hal.feng@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Originating-IP: [113.72.144.253]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-Hi Saravana,
+When (ARCH_STARFIVE [=3Dn] && COMPILE_TEST [=3Dy] && RESET_CONTROLLER [=3D=
+n]),
+RESET_STARFIVE_JH7110 can't be selected by CLK_STARFIVE_JH7110_SYS
+and CLK_STARFIVE_JH7110_AON.
 
-FYI, the error/warning still remains.
+Add a condition `if RESET_CONTROLLER` to fix it. Also, delete redundant
+selected options of CLK_STARFIVE_JH7110_AON because these options are
+already selected by the dependency.
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   9b68392a2b5860995364db295d0d869b413fdfdf
-commit: 3179a1a38d96f565a2229b9244285c6abf62b10a [14825/29414] ANDROID: GKI: clk: Add support for voltage voting
-config: arm-randconfig-r046-20230416 (https://download.01.org/0day-ci/archive/20230418/202304182056.wwW8EsjF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout 3179a1a38d96f565a2229b9244285c6abf62b10a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash M=drivers/clk
+Fixes: edab7204afe5 ("clk: starfive: Add StarFive JH7110 system clock dri=
+ver")
+Fixes: b2ab3c94f41f ("clk: starfive: Add StarFive JH7110 always-on clock =
+driver")
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ drivers/clk/starfive/Kconfig | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304182056.wwW8EsjF-lkp@intel.com/
+diff --git a/drivers/clk/starfive/Kconfig b/drivers/clk/starfive/Kconfig
+index 71c1148ee5f6..5d2333106f13 100644
+--- a/drivers/clk/starfive/Kconfig
++++ b/drivers/clk/starfive/Kconfig
+@@ -26,7 +26,7 @@ config CLK_STARFIVE_JH7110_SYS
+ 	depends on ARCH_STARFIVE || COMPILE_TEST
+ 	select AUXILIARY_BUS
+ 	select CLK_STARFIVE_JH71X0
+-	select RESET_STARFIVE_JH7110
++	select RESET_STARFIVE_JH7110 if RESET_CONTROLLER
+ 	default ARCH_STARFIVE
+ 	help
+ 	  Say yes here to support the system clock controller on the
+@@ -35,9 +35,6 @@ config CLK_STARFIVE_JH7110_SYS
+ config CLK_STARFIVE_JH7110_AON
+ 	tristate "StarFive JH7110 always-on clock support"
+ 	depends on CLK_STARFIVE_JH7110_SYS
+-	select AUXILIARY_BUS
+-	select CLK_STARFIVE_JH71X0
+-	select RESET_STARFIVE_JH7110
+ 	default m if ARCH_STARFIVE
+ 	help
+ 	  Say yes here to support the always-on clock controller on the
+--=20
+2.38.1
 
-All warnings (new ones prefixed by >>):
-
-   drivers/clk/clk.c: In function 'clk_update_vdd':
->> drivers/clk/clk.c:624:31: warning: variable 'ignore' set but not used [-Wunused-but-set-variable]
-     624 |         int level, rc = 0, i, ignore;
-         |                               ^~~~~~
-   drivers/clk/clk.c: At top level:
->> drivers/clk/clk.c:3145:5: warning: no previous prototype for 'clk_set_flags' [-Wmissing-prototypes]
-    3145 | int clk_set_flags(struct clk *clk, unsigned long flags)
-         |     ^~~~~~~~~~~~~
->> drivers/clk/clk.c:3157:6: warning: no previous prototype for 'clk_debug_print_hw' [-Wmissing-prototypes]
-    3157 | void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/clk/clk.c:4257: warning: Function parameter or member 'dev' not described in 'devm_clk_unregister'
-   drivers/clk/clk.c:4455: warning: Function parameter or member 'get_hw' not described in 'of_clk_provider'
-
-
-vim +/ignore +624 drivers/clk/clk.c
-
-   618	
-   619	/*
-   620	 * Update voltage level given the current votes.
-   621	 */
-   622	static int clk_update_vdd(struct clk_vdd_class *vdd_class)
-   623	{
- > 624		int level, rc = 0, i, ignore;
-   625		struct regulator **r = vdd_class->regulator;
-   626		int *uv = vdd_class->vdd_uv;
-   627		int n_reg = vdd_class->num_regulators;
-   628		int cur_lvl = vdd_class->cur_level;
-   629		int max_lvl = vdd_class->num_levels - 1;
-   630		int cur_base = cur_lvl * n_reg;
-   631		int new_base;
-   632	
-   633		/* aggregate votes */
-   634		for (level = max_lvl; level > 0; level--)
-   635			if (vdd_class->level_votes[level])
-   636				break;
-   637	
-   638		if (level == cur_lvl)
-   639			return 0;
-   640	
-   641		max_lvl = max_lvl * n_reg;
-   642		new_base = level * n_reg;
-   643	
-   644		for (i = 0; i < vdd_class->num_regulators; i++) {
-   645			pr_debug("Set Voltage level Min %d, Max %d\n", uv[new_base + i],
-   646					uv[max_lvl + i]);
-   647			rc = regulator_set_voltage(r[i], uv[new_base + i], INT_MAX);
-   648			if (rc)
-   649				goto set_voltage_fail;
-   650	
-   651			if (cur_lvl == 0 || cur_lvl == vdd_class->num_levels)
-   652				rc = regulator_enable(r[i]);
-   653			else if (level == 0)
-   654				rc = regulator_disable(r[i]);
-   655			if (rc)
-   656				goto enable_disable_fail;
-   657		}
-   658	
-   659		if (vdd_class->set_vdd && !vdd_class->num_regulators)
-   660			rc = vdd_class->set_vdd(vdd_class, level);
-   661	
-   662		if (!rc)
-   663			vdd_class->cur_level = level;
-   664	
-   665		return rc;
-   666	
-   667	enable_disable_fail:
-   668		regulator_set_voltage(r[i], uv[cur_base + i], INT_MAX);
-   669	
-   670	set_voltage_fail:
-   671		for (i--; i >= 0; i--) {
-   672			regulator_set_voltage(r[i], uv[cur_base + i], INT_MAX);
-   673			if (cur_lvl == 0 || cur_lvl == vdd_class->num_levels)
-   674				regulator_disable(r[i]);
-   675			else if (level == 0)
-   676				ignore = regulator_enable(r[i]);
-   677		}
-   678	
-   679		return rc;
-   680	}
-   681	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
