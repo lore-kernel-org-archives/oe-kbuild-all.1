@@ -1,80 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2E510F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 01:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681780331; x=1713316331;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iWscTSNuhAgMYo6j6fLeJdWeeTKvi+HeS8nHVHYpx7I=;
-  b=RLsa7gAswFODDFoBKANcK3i5hLgYtXwqhvy7sd9U+F42PabemqHBa695
-   EKUPUl68pMKl6Lgb6Ma6pllCbqq6kJzRLfDVeT9gZFCKWtck5DBek97p2
-   z4icpDwFVW+Sx98tiMmLIK1JNMIz7Te9yyffNyi5QRZflORHkJcubNZou
-   TRDnnruL7yu3lHi62auzqcigdwf6v2xCq3oY/r1vSVviX0ZQ6dtIW9G5F
-   mMtttvp/Z3SC1CGgmXvwIR/kRR8L34NeYXAaLEbvCXjD34oKY59JKzley
-   PXQK/khGMFxKIIkvqLMbwNk9XVDz0Vra9qzj1f3QK2yF1YRsYJ/BaZTwq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="407940931"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="407940931"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 18:12:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="815018343"
-X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
-   d="scan'208";a="815018343"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 17 Apr 2023 18:12:09 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1poZtB-000cnf-0v;
-	Tue, 18 Apr 2023 01:12:09 +0000
-Date: Tue, 18 Apr 2023 09:11:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bhupesh Sharma <bhupesh.sharma@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [krzk-github:wip/sm8450-hdmi-audio-on-qcomlt 166/357]
- tsens.c:undefined reference to `qcom_scm_is_available'
-Message-ID: <202304180950.ot35A871-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E007A10F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 01:13:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861A2C433D2;
+	Tue, 18 Apr 2023 01:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681780403;
+	bh=RGVB4b1Ma/kemnqMd6QFYrPQXvJkDZYWawFz3hC5t4U=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YhM43pLMLnpYrnHFd76107gj08QmgTS0Ai+eBSvLbgEpRRrFHrEmOtKeE49msoN/Q
+	 obhPiDUu4YHgVI+ySsqvuBipzkyP2mfvNYqIlmlyq5wBULGLcy0P+O9uy2B1/o5l+t
+	 0xVEKpea/pgs51J1U7SQpRFSPAIWf/Ug1+dEizqUxVY8mMB1NBNzVhhyg/FydcSR+X
+	 E/G+iTeNTM6GUFAMBngWr+ucey82v02X/yXiQ//axBfyuCkKl4mypJ5Dy+lZM/fP4W
+	 X+c3Qzz5ECjGbGNdzIMfsInrDoEGZHcnvKYkDvgN4yUIJi38lG3k01amdZbMmtO3uZ
+	 ZOyU2T+OZTqmg==
+Message-ID: <cb922046c9e9ae2359b7f22fa7436e2c.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230417074115.30786-3-hal.feng@starfivetech.com>
+References: <20230417074115.30786-1-hal.feng@starfivetech.com> <20230417074115.30786-3-hal.feng@starfivetech.com>
+Subject: Re: [PATCH v1 2/2] clk: starfive: Delete the redundant dev_set_drvdata() in JH7110 clock drivers
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, Emil Renner Berthing <emil.renner.berthing@canonical.com>, Hal Feng <hal.feng@starfivetech.com>, Xingyu Wu <xingyu.wu@starfivetech.com>, linux-kernel@vger.kernel.org
+To: Hal Feng <hal.feng@starfivetech.com>, linux-clk@vger.kernel.org, linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev
+Date: Mon, 17 Apr 2023 18:13:21 -0700
+User-Agent: alot/0.10
 
-tree:   https://github.com/krzk/linux wip/sm8450-hdmi-audio-on-qcomlt
-head:   aaffc85ea59d991971812124737973d89355d8b1
-commit: 357e123b8ec17622f96f14fa96a14bacbee78552 [166/357] thermal: qcom: tsens: Add driver support for re-initialization quirk
-config: loongarch-randconfig-r013-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180950.ot35A871-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/krzk/linux/commit/357e123b8ec17622f96f14fa96a14bacbee78552
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github wip/sm8450-hdmi-audio-on-qcomlt
-        git checkout 357e123b8ec17622f96f14fa96a14bacbee78552
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+Quoting Hal Feng (2023-04-17 00:41:15)
+> The dev_set_drvdata() is no longer needed after we used a wrapper
+> struct to get the data in auxiliary driver.
+>=20
+> Cc: Xingyu Wu <xingyu.wu@starfivetech.com>
+> Fixes: d1aae0663023 ("clk: starfive: Avoid casting iomem pointers")
+> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+> ---
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304180950.ot35A871-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/thermal/qcom/tsens.o: in function `.L215':
->> tsens.c:(.text+0xdd4): undefined reference to `qcom_scm_is_available'
-   loongarch64-linux-ld: drivers/thermal/qcom/tsens.o: in function `.L262':
->> tsens.c:(.text+0x10ec): undefined reference to `qcom_scm_tsens_reinit'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Applied to clk-next
