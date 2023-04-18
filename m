@@ -1,44 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67635AFC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 18:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C72AFC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 18:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681840869; x=1713376869;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8u+vJor3wIKmVy+6xDJwDdFuGBx5XCO1s3un6U0ulqQ=;
-  b=GGJSHzL6Rcbk60BCasXuBWrqrdNM7Wm5v67wTA1aceVIrFGakym8rkvA
-   Wtb7CA8apeGp0G0UvXAJ2P3fZZJ1kI7bpVG/OAcCg1kuM7hx7rAw5OFeU
-   gBXgeD9yq8uithKOOOs5nyI0fQvgqZBsTYMz4Igo1RbLZXTyDrp3mbcNY
-   O21BawWp6HVGSjwzQtHjPs6ONDXcu6NPVyOPiHnJYnhbMmfOBCodf2GXj
-   MpZ721vfmIwXI7Og6KtNHCTwFXy23e6d/GAlatWSC03mqRS6g3wldALKt
-   7sUIPLNUjIip5KJmQHv90IxFAGq36fca+rjkxsKeQvWDLD5SdcPGAeGiQ
+  t=1681840892; x=1713376892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rGVtiwgbYbClvV3BiNFzF3+59t440vcBRLLlTz64CHY=;
+  b=RrVdFSwgOdVXhT++KeTCRWNwFgRcJm9R/zOHWs04rdZgK84RZOI5ZOIc
+   qFcNb4XUyAtA6MmqEBwlE+e3m+sMD0QPLRiHls9gkk4LhH/UvSXOuiLxY
+   EE32wgDDoEqEhH6oITgHsk/dGR8THFQ00I6eTtyjkRRE6tdJOQY33mVcF
+   NVonKL/Xqg3M8siOFP6U8lOmwIpSqqlbWLMZFfqMqYadq+J5XFnxB0CJM
+   VTVjlyK4yLYoSEvj0235jmGLkMYljw5dmUmE/Y6k0ohRmViymvfJ6qnYL
+   LO4caxYO5MlMScr6lH1YyVuE+Wg/6H5BWXhTj5ivtZYtq9qi1rykWSHTy
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="343995572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="334054004"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="343995572"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 11:01:06 -0700
+   d="scan'208";a="334054004"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 11:01:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="802616683"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937339923"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="802616683"
+   d="scan'208";a="937339923"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2023 11:01:05 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2023 11:01:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1popdT-000dqT-3D;
-	Tue, 18 Apr 2023 18:00:59 +0000
-Date: Wed, 19 Apr 2023 02:00:05 +0800
+	id 1popdU-000dqb-0D;
+	Tue, 18 Apr 2023 18:01:00 +0000
+Date: Wed, 19 Apr 2023 02:00:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lin Chun Yeh <r09921093@g.ntu.edu.tw>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lin Chun Yeh <r09921093@g.ntu.edu.tw>
-Subject: Re: [PATCH] include/linux/rbtree.h: move the declaration of c in
- rb_find_add()
-Message-ID: <202304190113.SlgVhTbO-lkp@intel.com>
-References: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.2/prjc 304/390] kernel/sched/alt_core.c:5782: warning:
+ expecting prototype for sys_sched_getscheduler(). Prototype was for
+ sys_sched_getparam() instead
+Message-ID: <202304190105.1bk46HOi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,88 +46,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 
-Hi Lin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc7 next-20230417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
-patch link:    https://lore.kernel.org/r/20230418145712.20620-1-r09921093%40g.ntu.edu.tw
-patch subject: [PATCH] include/linux/rbtree.h: move the declaration of c in rb_find_add()
-config: riscv-randconfig-r042-20230416 (https://download.01.org/0day-ci/archive/20230419/202304190113.SlgVhTbO-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
+head:   e1fa9ea876458eade5717e6e00b375bff8d86c98
+commit: 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd [304/390] sched/alt: [Sync] bb4479994945 sched, drivers: Remove max param from effective_cpu_util()/sched_cpu_util()
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304190105.1bk46HOi-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9348e5c71c46a8d88c805acf5dd56c1785bc04e8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
-        git checkout 9348e5c71c46a8d88c805acf5dd56c1785bc04e8
+        # https://github.com/zen-kernel/zen-kernel/commit/1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.2/prjc
+        git checkout 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190113.SlgVhTbO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190105.1bk46HOi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm_types.h:11,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from lib/test_bitops.c:9:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
-   cc1: all warnings being treated as errors
+   kernel/sched/alt_core.c:114: warning: cannot understand function prototype: 'int sched_yield_type __read_mostly = 1; '
+   kernel/sched/alt_core.c:3455: warning: Function parameter or member 'prev' not described in 'prepare_task_switch'
+   kernel/sched/alt_core.c:3488: warning: Excess function parameter 'rq' description in 'finish_task_switch'
+   kernel/sched/alt_core.c:5714: warning: Function parameter or member 'flags' not described in 'sys_sched_setattr'
+>> kernel/sched/alt_core.c:5782: warning: expecting prototype for sys_sched_getscheduler(). Prototype was for sys_sched_getparam() instead
 
 
-vim +231 include/linux/rbtree.h
+vim +5782 kernel/sched/alt_core.c
 
-   212	
-   213	/**
-   214	 * rb_find_add() - find equivalent @node in @tree, or add @node
-   215	 * @node: node to look-for / insert
-   216	 * @tree: tree to search / modify
-   217	 * @cmp: operator defining the node order
-   218	 *
-   219	 * Returns the rb_node matching @node, or NULL when no match is found and @node
-   220	 * is inserted.
-   221	 */
-   222	static __always_inline struct rb_node *
-   223	rb_find_add(struct rb_node *node, struct rb_root *tree,
-   224		    int (*cmp)(struct rb_node *, const struct rb_node *))
-   225	{
-   226		struct rb_node **link = &tree->rb_node;
-   227		struct rb_node *parent = NULL;
-   228	
-   229		while (*link) {
-   230			parent = *link;
- > 231			int c = cmp(node, parent);
-   232	
-   233			if (c < 0)
-   234				link = &parent->rb_left;
-   235			else if (c > 0)
-   236				link = &parent->rb_right;
-   237			else
-   238				return parent;
-   239		}
-   240	
-   241		rb_link_node(node, parent, link);
-   242		rb_insert_color(node, tree);
-   243		return NULL;
-   244	}
-   245	
+8b025fc742d760 Alfred Chen 2019-08-19  5772  
+8b025fc742d760 Alfred Chen 2019-08-19  5773  /**
+8b025fc742d760 Alfred Chen 2019-08-19  5774   * sys_sched_getscheduler - get the RT priority of a thread
+8b025fc742d760 Alfred Chen 2019-08-19  5775   * @pid: the pid in question.
+8b025fc742d760 Alfred Chen 2019-08-19  5776   * @param: structure containing the RT priority.
+8b025fc742d760 Alfred Chen 2019-08-19  5777   *
+8b025fc742d760 Alfred Chen 2019-08-19  5778   * Return: On success, 0 and the RT priority is in @param. Otherwise, an error
+8b025fc742d760 Alfred Chen 2019-08-19  5779   * code.
+8b025fc742d760 Alfred Chen 2019-08-19  5780   */
+8b025fc742d760 Alfred Chen 2019-08-19  5781  SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+8b025fc742d760 Alfred Chen 2019-08-19 @5782  {
+8b025fc742d760 Alfred Chen 2019-08-19  5783  	struct sched_param lp = { .sched_priority = 0 };
+8b025fc742d760 Alfred Chen 2019-08-19  5784  	struct task_struct *p;
+8b025fc742d760 Alfred Chen 2019-08-19  5785  	int retval = -EINVAL;
+8b025fc742d760 Alfred Chen 2019-08-19  5786  
+8b025fc742d760 Alfred Chen 2019-08-19  5787  	if (!param || pid < 0)
+8b025fc742d760 Alfred Chen 2019-08-19  5788  		goto out_nounlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5789  
+8b025fc742d760 Alfred Chen 2019-08-19  5790  	rcu_read_lock();
+8b025fc742d760 Alfred Chen 2019-08-19  5791  	p = find_process_by_pid(pid);
+8b025fc742d760 Alfred Chen 2019-08-19  5792  	retval = -ESRCH;
+8b025fc742d760 Alfred Chen 2019-08-19  5793  	if (!p)
+8b025fc742d760 Alfred Chen 2019-08-19  5794  		goto out_unlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5795  
+8b025fc742d760 Alfred Chen 2019-08-19  5796  	retval = security_task_getscheduler(p);
+8b025fc742d760 Alfred Chen 2019-08-19  5797  	if (retval)
+8b025fc742d760 Alfred Chen 2019-08-19  5798  		goto out_unlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5799  
+8b025fc742d760 Alfred Chen 2019-08-19  5800  	if (task_has_rt_policy(p))
+8b025fc742d760 Alfred Chen 2019-08-19  5801  		lp.sched_priority = p->rt_priority;
+8b025fc742d760 Alfred Chen 2019-08-19  5802  	rcu_read_unlock();
+8b025fc742d760 Alfred Chen 2019-08-19  5803  
+8b025fc742d760 Alfred Chen 2019-08-19  5804  	/*
+8b025fc742d760 Alfred Chen 2019-08-19  5805  	 * This one might sleep, we cannot do it with a spinlock held ...
+8b025fc742d760 Alfred Chen 2019-08-19  5806  	 */
+8b025fc742d760 Alfred Chen 2019-08-19  5807  	retval = copy_to_user(param, &lp, sizeof(*param)) ? -EFAULT : 0;
+8b025fc742d760 Alfred Chen 2019-08-19  5808  
+8b025fc742d760 Alfred Chen 2019-08-19  5809  out_nounlock:
+8b025fc742d760 Alfred Chen 2019-08-19  5810  	return retval;
+8b025fc742d760 Alfred Chen 2019-08-19  5811  
+8b025fc742d760 Alfred Chen 2019-08-19  5812  out_unlock:
+8b025fc742d760 Alfred Chen 2019-08-19  5813  	rcu_read_unlock();
+8b025fc742d760 Alfred Chen 2019-08-19  5814  	return retval;
+8b025fc742d760 Alfred Chen 2019-08-19  5815  }
+8b025fc742d760 Alfred Chen 2019-08-19  5816  
+
+:::::: The code at line 5782 was first introduced by commit
+:::::: 8b025fc742d76091232a7404a7ad09c8cad61492 Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
