@@ -1,42 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4A12572
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 13:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A082572
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 13:22:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681823565; x=1713359565;
+  t=1681824166; x=1713360166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hnQZ2tty3f5/OgQf1LsEwU7GqZY3GsTZG/g2X9O6714=;
-  b=HN1UvOo5Kvc/gytc5qmBMn2mZd/alclC4483qeP4qnasX6Vd+FFvR8L0
-   K6tri/EQA2Mp01qWIbcW//ji7+6tE6WXWM+t8KsLcr5hwn075J/MCszyg
-   XrJxebkL1Kxa4X/T2E//sgsljt/gdJoovnZX/L4YAfOY5kgqpFvCXU9hf
-   Pfm9M09/cOEfKgWd1uwz0p3OQjUwABxrbtIH7O2Zsay7U+iT5mNoc8WX2
-   HAWRtbnKKhYItFYIYIj7vTICvaxgfYT7onMpHeTeJhGmEohepicSHFG/L
-   EwWaDOFeqPa/ylsHkxcaU/fWZNroL6YPK7MA1tDqOoCcGVPnfAhtzrS9T
+  bh=+R0HFZzq9sUzO8mCTtSFGELnEFGvSXocDjRcnow5vuc=;
+  b=JA04AM8JPmHElryDszrgGER/3GHQt44FkGtmejueClS0BVqVpZUpfpNp
+   z/B5QL2nPdfSfw9vhXjx8GYXgMziTNO6//g2btlfSlEEklBpksmITskSV
+   NmwuGihxTaEP65Zpxechrbg8BtrenDwF16RKDzQD1tm8sD0fHa8XGYZk/
+   5jwCTr4+yV/MEKdDbebie5mRjWapWpax0J53LMcWKYwhXp9p+wbMLaSr/
+   GX/elaUf9/pXWvtHVB+P8+gBB5UQnfI7wlW1OUQx+JoJEjleJerrVKCsZ
+   03SJ0G0dBhfhIEurpN4hZRA3Qb5+u9450UxzdxEaeeAF0pEShfuAVWQSm
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="410384825"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408066853"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="410384825"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 06:12:45 -0700
+   d="scan'208";a="408066853"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 06:22:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="755694439"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="834883631"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="755694439"
+   d="scan'208";a="834883631"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Apr 2023 06:12:44 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2023 06:22:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pol8V-000dTa-1A;
-	Tue, 18 Apr 2023 13:12:43 +0000
-Date: Tue, 18 Apr 2023 21:11:45 +0800
+	id 1polIC-000dWx-2P;
+	Tue, 18 Apr 2023 13:22:44 +0000
+Date: Tue, 18 Apr 2023 21:22:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 13748/29414]
- drivers/rtc/hctosys.c:27:5: warning: no previous prototype for 'rtc_hctosys'
-Message-ID: <202304182110.pEYO0yYT-lkp@intel.com>
+Subject: [android-common:android-4.19-stable 14825/29414]
+ drivers/clk/clk.c:3145:5: warning: no previous prototype for function
+ 'clk_set_flags'
+Message-ID: <202304182106.V1U7WjXR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,74 +47,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steve,
+Hi Saravana,
 
 FYI, the error/warning still remains.
 
 tree:   https://android.googlesource.com/kernel/common android-4.19-stable
 head:   9b68392a2b5860995364db295d0d869b413fdfdf
-commit: 0b145f91d8fdbe39900356c8ad3ba4e41ce95fab [13748/29414] ANDROID: rtc: class: support hctosys from modular RTC drivers
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230418/202304182110.pEYO0yYT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+commit: 3179a1a38d96f565a2229b9244285c6abf62b10a [14825/29414] ANDROID: GKI: clk: Add support for voltage voting
+config: x86_64-randconfig-r025-20230417 (https://download.01.org/0day-ci/archive/20230418/202304182106.V1U7WjXR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android-4.19-stable
-        git checkout 0b145f91d8fdbe39900356c8ad3ba4e41ce95fab
+        git checkout 3179a1a38d96f565a2229b9244285c6abf62b10a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/rtc/ drivers/usb/host/ kernel/power/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/clk/ drivers/nvmem/ kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304182110.pEYO0yYT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304182106.V1U7WjXR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rtc/hctosys.c:27:5: warning: no previous prototype for 'rtc_hctosys' [-Wmissing-prototypes]
-      27 | int rtc_hctosys(void)
-         |     ^~~~~~~~~~~
+   drivers/clk/clk.c:624:24: warning: variable 'ignore' set but not used [-Wunused-but-set-variable]
+           int level, rc = 0, i, ignore;
+                                 ^
+>> drivers/clk/clk.c:3145:5: warning: no previous prototype for function 'clk_set_flags' [-Wmissing-prototypes]
+   int clk_set_flags(struct clk *clk, unsigned long flags)
+       ^
+   drivers/clk/clk.c:3145:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int clk_set_flags(struct clk *clk, unsigned long flags)
+   ^
+   static 
+>> drivers/clk/clk.c:3157:6: warning: no previous prototype for function 'clk_debug_print_hw' [-Wmissing-prototypes]
+   void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
+        ^
+   drivers/clk/clk.c:3157:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
+   ^
+   static 
+   3 warnings generated.
+   drivers/clk/clk.c:4257: warning: Function parameter or member 'dev' not described in 'devm_clk_unregister'
+   drivers/clk/clk.c:4455: warning: Function parameter or member 'get_hw' not described in 'of_clk_provider'
 
 
-vim +/rtc_hctosys +27 drivers/rtc/hctosys.c
+vim +/clk_set_flags +3145 drivers/clk/clk.c
 
-    15	
-    16	/* IMPORTANT: the RTC only stores whole seconds. It is arbitrary
-    17	 * whether it stores the most close value or the value with partial
-    18	 * seconds truncated. However, it is important that we use it to store
-    19	 * the truncated value. This is because otherwise it is necessary,
-    20	 * in an rtc sync function, to read both xtime.tv_sec and
-    21	 * xtime.tv_nsec. On some processors (i.e. ARM), an atomic read
-    22	 * of >32bits is not possible. So storing the most close value would
-    23	 * slow down the sync API. So here we have the truncated value and
-    24	 * the best guess is to add 0.5s.
-    25	 */
-    26	
-  > 27	int rtc_hctosys(void)
-    28	{
-    29		int err = -ENODEV;
-    30		struct rtc_time tm;
-    31		struct timespec64 tv64 = {
-    32			.tv_nsec = NSEC_PER_SEC >> 1,
-    33		};
-    34		struct rtc_device *rtc = rtc_class_open(CONFIG_RTC_HCTOSYS_DEVICE);
-    35	
-    36		if (rtc == NULL) {
-    37			pr_info("unable to open rtc device (%s)\n",
-    38				CONFIG_RTC_HCTOSYS_DEVICE);
-    39			goto err_open;
-    40		}
-    41	
-    42		err = rtc_read_time(rtc, &tm);
-    43		if (err) {
-    44			dev_err(rtc->dev.parent,
-    45				"hctosys: unable to read the hardware clock\n");
-    46			goto err_read;
-    47	
-    48		}
-    49	
-    50		tv64.tv_sec = rtc_tm_to_time64(&tm);
-    51	
+  3144	
+> 3145	int clk_set_flags(struct clk *clk, unsigned long flags)
+  3146	{
+  3147		if (!clk)
+  3148			return 0;
+  3149	
+  3150		if (!clk->core->ops->set_flags)
+  3151			return -EINVAL;
+  3152	
+  3153		return clk->core->ops->set_flags(clk->core->hw, flags);
+  3154	}
+  3155	EXPORT_SYMBOL_GPL(clk_set_flags);
+  3156	
+> 3157	void clk_debug_print_hw(struct clk_core *clk, struct seq_file *f)
+  3158	{
+  3159	}
+  3160	EXPORT_SYMBOL(clk_debug_print_hw);
+  3161	
 
 -- 
 0-DAY CI Kernel Test Service
