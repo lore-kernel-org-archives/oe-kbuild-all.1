@@ -1,44 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C72BAFC3;
-	Tue, 18 Apr 2023 17:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86291AFD2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Apr 2023 17:50:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681840202; x=1713376202;
+  t=1681840207; x=1713376207;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4g4RNFt/nvzBukVZ+1r6EaicuiIbuuWLbEhbGbUz/9M=;
-  b=fJKZsUsVe8xiFG1/V6l8I2hpTvtkz3vyhlinnPJm43tDY9s8033BypAS
-   4LQIFfSE48r5hlHKECcPDUbPZSHaLzQjv4PQsItsqOO6FZNuBu993pjR7
-   8Sf/W0Ley4MkTtOoXYXJCAsOr6r5LUsntkztbCibZLQHe26GoMMz8AJHu
-   wCJu+VcS5mgURETNaxUSrNgCqWBGbjvhGzo/K+vQYLTdx8TraJC1pcN7B
-   Cu507egHel6ywLD4/+p2TI4UsjCIhCgAVbpvuqHthQRnc9BsJ9Ee2DD8c
-   +CCVMqy4yIxmHY4gpP78gLbrFspsnnmrydkv+RAYFl+tpkqHt1kD3+cvE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431527664"
+  bh=suSvHCfDMVSDhb6qb/XPBOCF60iPIwXhOcIrEcKHZ7k=;
+  b=CWazJW3j0+DnEd+jZeS7zcwo87lisGaoIeOX0erZc/TCcBVSDZVfNurU
+   ALgRM6wJa7Noj7VQw9BnSe7vlzfNhgmkiFkLucGYtDBjIYAeqKqvD4fQm
+   J0Dvl6+7zbqo1xhjkxBYKURykt+dkwvYQoKul+dpdPwyGBWUefk+4NABg
+   60p3SkDguHbVkChrggFTTGZ6hhxsk+V6CiykJCygTZh9MfH4MpJd09DQ1
+   moWM+CVMzqiJS3FYsY9+caUHT7PZFbnd4GY8J6QErITJTaSfHP7lBiV+w
+   oTobXReVzwZsG4iBLd2GmJ/RAPD3+2EdaAAkvJWHuNNO7Zm2z5nhAwbUc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="334051338"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="431527664"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 10:50:01 -0700
+   d="scan'208";a="334051338"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 10:50:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="780568550"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937337182"
 X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="780568550"
+   d="scan'208";a="937337182"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2023 10:50:00 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2023 10:50:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1popSp-000dpj-1m;
+	id 1popSp-000dpn-1v;
 	Tue, 18 Apr 2023 17:49:59 +0000
-Date: Wed, 19 Apr 2023 01:49:20 +0800
+Date: Wed, 19 Apr 2023 01:49:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lin Chun Yeh <r09921093@g.ntu.edu.tw>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lin Chun Yeh <r09921093@g.ntu.edu.tw>
+Cc: oe-kbuild-all@lists.linux.dev, Lin Chun Yeh <r09921093@g.ntu.edu.tw>
 Subject: Re: [PATCH] include/linux/rbtree.h: move the declaration of c in
  rb_find_add()
-Message-ID: <202304190118.H5o8xyuA-lkp@intel.com>
+Message-ID: <202304190130.57DBIvkF-lkp@intel.com>
 References: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -52,10 +51,10 @@ In-Reply-To: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 
 Hi Lin,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc7 next-20230417]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc7 next-20230417]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -63,72 +62,210 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
 patch link:    https://lore.kernel.org/r/20230418145712.20620-1-r09921093%40g.ntu.edu.tw
 patch subject: [PATCH] include/linux/rbtree.h: move the declaration of c in rb_find_add()
-config: arm-randconfig-r046-20230416 (https://download.01.org/0day-ci/archive/20230419/202304190118.H5o8xyuA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+config: arc-randconfig-r043-20230416 (https://download.01.org/0day-ci/archive/20230419/202304190130.57DBIvkF-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://github.com/intel-lab-lkp/linux/commit/9348e5c71c46a8d88c805acf5dd56c1785bc04e8
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
         git checkout 9348e5c71c46a8d88c805acf5dd56c1785bc04e8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/tilcdc/ drivers/memstick/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190118.H5o8xyuA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190130.57DBIvkF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/asm-offsets.c:11:
-   In file included from include/linux/sched.h:20:
-   In file included from include/linux/hrtimer.h:16:
->> include/linux/rbtree.h:231:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-                   int c = cmp(node, parent);
-                       ^
-   1 warning generated.
+   In file included from include/linux/hrtimer.h:16,
+                    from include/linux/sched.h:20,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
 --
-   In file included from drivers/memstick/host/r592.c:8:
-   In file included from include/linux/module.h:14:
-   In file included from include/linux/buildid.h:5:
-   In file included from include/linux/mm_types.h:11:
->> include/linux/rbtree.h:231:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-                   int c = cmp(node, parent);
-                       ^
-   drivers/memstick/host/r592.c:47:13: warning: no previous prototype for function 'memstick_debug_get_tpc_name' [-Wmissing-prototypes]
-   const char *memstick_debug_get_tpc_name(int tpc)
-               ^
-   drivers/memstick/host/r592.c:47:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   const char *memstick_debug_get_tpc_name(int tpc)
-         ^
-   static 
-   2 warnings generated.
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/decompress/mm.h:80,
+                    from lib/decompress_inflate.c:32:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/decompress_inflate.c: At top level:
+   lib/decompress_inflate.c:42:17: warning: no previous prototype for '__gunzip' [-Wmissing-prototypes]
+      42 | STATIC int INIT __gunzip(unsigned char *buf, long len,
+         |                 ^~~~~~~~
 --
-   In file included from drivers/gpu/drm/tilcdc/tilcdc_plane.c:7:
-   In file included from include/drm/drm_atomic.h:31:
-   In file included from include/drm/drm_crtc.h:30:
-   In file included from include/drm/drm_modeset_lock.h:28:
-   In file included from include/linux/stackdepot.h:25:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:11:
->> include/linux/rbtree.h:231:7: error: mixing declarations and code is incompatible with standards before C99 [-Werror,-Wdeclaration-after-statement]
-                   int c = cmp(node, parent);
-                       ^
-   1 error generated.
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/decompress/mm.h:80,
+                    from lib/decompress_unxz.c:107:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/decompress_unxz.c: At top level:
+   lib/decompress_unxz.c:251:17: warning: no previous prototype for 'unxz' [-Wmissing-prototypes]
+     251 | STATIC int INIT unxz(unsigned char *in, long in_size,
+         |                 ^~~~
 --
-   In file included from arch/arm/kernel/asm-offsets.c:11:
-   In file included from include/linux/sched.h:20:
-   In file included from include/linux/hrtimer.h:16:
->> include/linux/rbtree.h:231:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-                   int c = cmp(node, parent);
-                       ^
-   1 warning generated.
+   In file included from include/linux/hrtimer.h:16,
+                    from include/linux/sched.h:20,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from lib/radix-tree.c:15:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/radix-tree.c: At top level:
+   lib/radix-tree.c:288:6: warning: no previous prototype for 'radix_tree_node_rcu_free' [-Wmissing-prototypes]
+     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/clk-provider.h:9,
+                    from lib/vsprintf.c:23:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1681:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1681 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+--
+   In file included from include/linux/hrtimer.h:16,
+                    from include/linux/sched.h:20,
+                    from lib/ubsan.c:15:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/ubsan.c: At top level:
+   lib/ubsan.c:226:6: warning: no previous prototype for '__ubsan_handle_divrem_overflow' [-Wmissing-prototypes]
+     226 | void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:307:6: warning: no previous prototype for '__ubsan_handle_type_mismatch' [-Wmissing-prototypes]
+     307 | void __ubsan_handle_type_mismatch(struct type_mismatch_data *data,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:321:6: warning: no previous prototype for '__ubsan_handle_type_mismatch_v1' [-Wmissing-prototypes]
+     321 | void __ubsan_handle_type_mismatch_v1(void *_data, void *ptr)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:335:6: warning: no previous prototype for '__ubsan_handle_out_of_bounds' [-Wmissing-prototypes]
+     335 | void __ubsan_handle_out_of_bounds(void *_data, void *index)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:352:6: warning: no previous prototype for '__ubsan_handle_shift_out_of_bounds' [-Wmissing-prototypes]
+     352 | void __ubsan_handle_shift_out_of_bounds(void *_data, void *lhs, void *rhs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:394:6: warning: no previous prototype for '__ubsan_handle_builtin_unreachable' [-Wmissing-prototypes]
+     394 | void __ubsan_handle_builtin_unreachable(void *_data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ubsan.c:404:6: warning: no previous prototype for '__ubsan_handle_load_invalid_value' [-Wmissing-prototypes]
+     404 | void __ubsan_handle_load_invalid_value(void *_data, void *val)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from lib/test_ubsan.c:4:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/test_ubsan.c: In function 'test_ubsan_out_of_bounds':
+   lib/test_ubsan.c:40:22: warning: variable 'arr' set but not used [-Wunused-but-set-variable]
+      40 |         volatile int arr[4];
+         |                      ^~~
+   lib/test_ubsan.c:39:23: warning: variable 'above' set but not used [-Wunused-but-set-variable]
+      39 |         volatile char above[4] = { }; /* Protect surrounding memory. */
+         |                       ^~~~~
+   lib/test_ubsan.c: In function 'test_ubsan_load_invalid_value':
+   lib/test_ubsan.c:62:44: warning: variable 'eptr' set but not used [-Wunused-but-set-variable]
+      62 |         enum ubsan_test_enum eval, eval2, *eptr;
+         |                                            ^~~~
+   lib/test_ubsan.c:61:26: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
+      61 |         bool val, val2, *ptr;
+         |                          ^~~
+   lib/test_ubsan.c: At top level:
+   lib/test_ubsan.c:100:28: warning: 'skip_ubsan_array' defined but not used [-Wunused-const-variable=]
+     100 | static const test_ubsan_fp skip_ubsan_array[] = {
+         |                            ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/debugfs.h:15,
+                    from lib/kunit/debugfs.c:7:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/kunit/debugfs.c: At top level:
+   lib/kunit/debugfs.c:28:6: warning: no previous prototype for 'kunit_debugfs_cleanup' [-Wmissing-prototypes]
+      28 | void kunit_debugfs_cleanup(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/debugfs.c:33:6: warning: no previous prototype for 'kunit_debugfs_init' [-Wmissing-prototypes]
+      33 | void kunit_debugfs_init(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   lib/kunit/debugfs.c:92:6: warning: no previous prototype for 'kunit_debugfs_create_suite' [-Wmissing-prototypes]
+      92 | void kunit_debugfs_create_suite(struct kunit_suite *suite)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/debugfs.c:108:6: warning: no previous prototype for 'kunit_debugfs_destroy_suite' [-Wmissing-prototypes]
+     108 | void kunit_debugfs_destroy_suite(struct kunit_suite *suite)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mm_types.h:11,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from lib/crc64.c:36:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
+   lib/crc64.c: At top level:
+   lib/crc64.c:39:10: fatal error: crc64table.h: No such file or directory
+      39 | #include "crc64table.h"
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+--
+   In file included from include/linux/hrtimer.h:16,
+                    from include/linux/sched.h:20,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/rbtree.h: In function 'rb_find_add':
+>> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     231 |                 int c = cmp(node, parent);
+         |                 ^~~
 
 
 vim +231 include/linux/rbtree.h
