@@ -1,42 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5F7C977
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 19:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CA2C977
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 20:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681934285; x=1713470285;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gYpmmZI/5hhmZF1R/R6OIR4+ATzx0yTZ2a/nDFpRIMQ=;
-  b=gx8nbxS0EPpiJLdCR1DiqirK5rlxRWALXg0irBELGpGdeEbAZLPD0VpZ
-   2lUkCDjUF7Vv4LGvqphpZ3uMu2SthzdflW8YxqgCs00E6Ky84kh0HG7HG
-   +KslqBGVoTEMgE1bMCDTBzRZ8zbLRrSuqg4jfwrTW8PUkEKx+31Rj9asR
-   MzAMi9Y7ctC6FHwYbNbQhGfhNtJsT1LkudeJDV6SVNdbrRH07Lq2Cuf4k
-   UT75QFPcwfQh5Kpuo9LMkuGlT6irhGyrWYNxoKgMf/jhTQ1J5YzM5KQzg
-   ozvFo28UFMjxnOaTK8XMlZxQWywu4yt68O2f/d8WM9QP82UxJNo1V3MhQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="373434760"
+  t=1681934887; x=1713470887;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=umQDVDIX0ShCgFkp09Ac9ZFfUcbvOL76kCr6IWK7ovc=;
+  b=ZLtAdIVCuNTWyJz32isgAey/7eiRToaEqqbmYaw+kCFGX1KqXLoAZZ2j
+   qo67L2yMetYHTXu/C65/TlhdIecckj27A6cznHPp281SMvSZL+QMhyhGN
+   s1ucsvDjdnzwtTbB+zmOO32amZ3sylGDj6fEFJ6jg3Iw05I9bxR7C7cFL
+   JYuvvZ5bZd93QY6U0tKnbNLUr+DJoc5cW9xcs9lnVVvawxCxeHx+YNGfh
+   hUD1h4br5/H/q2WEJbk1gZb/cxlWmm6XKdL85CHLLFakj99dEbn/J8gcr
+   gVD8oh36JjyNMaa6yXXE3DJRBFaOh7cPSgBx1Dz0reSByldv6/zxuK7gH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="344298860"
 X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="373434760"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 12:58:04 -0700
+   d="scan'208";a="344298860"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 13:08:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="815728442"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021334550"
 X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="815728442"
+   d="scan'208";a="1021334550"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 Apr 2023 12:58:03 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Apr 2023 13:08:03 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppDwI-000f9i-1i;
-	Wed, 19 Apr 2023 19:58:02 +0000
-Date: Thu, 20 Apr 2023 03:57:35 +0800
+	id 1ppE5y-000fAE-2e;
+	Wed, 19 Apr 2023 20:08:02 +0000
+Date: Thu, 20 Apr 2023 04:08:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.4 107/107] net/core/dev.c:2803:17: error:
- implicit declaration of function 'DEBUG_NET_WARN_ON_ONCE'
-Message-ID: <202304200354.yasSkwZw-lkp@intel.com>
+To: Stanislav Fomichev <sdf@google.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
+	yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
+	sdf@google.com, haoluo@google.com, jolsa@kernel.org
+Subject: Re: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sockopt
+Message-ID: <202304200301.XukL6sTb-lkp@intel.com>
+References: <20230418225343.553806-7-sdf@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,157 +49,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230418225343.553806-7-sdf@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
-head:   26a53fe91e5138d18c724c59835efc603d0213ec
-commit: 26a53fe91e5138d18c724c59835efc603d0213ec [107/107] net: openvswitch: fix race on port output
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304200354.yasSkwZw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=26a53fe91e5138d18c724c59835efc603d0213ec
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.4
-        git checkout 26a53fe91e5138d18c724c59835efc603d0213ec
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/
+Hi Stanislav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/bpf-Don-t-EFAULT-for-getsockopt-with-optval-NULL/20230419-065442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230418225343.553806-7-sdf%40google.com
+patch subject: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sockopt
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/789f0fbf25934464ae56e0022939fc77d4615d65
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Stanislav-Fomichev/bpf-Don-t-EFAULT-for-getsockopt-with-optval-NULL/20230419-065442
+        git checkout 789f0fbf25934464ae56e0022939fc77d4615d65
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200354.yasSkwZw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304200301.XukL6sTb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/io_mm.h:25,
-                    from arch/m68k/include/asm/io.h:8,
-                    from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from include/linux/skbuff.h:31,
-                    from include/linux/if_ether.h:19,
-                    from net/core/dev.c:89:
-   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsb':
-   arch/m68k/include/asm/raw_io.h:83:14: warning: variable '__w' set but not used [-Wunused-but-set-variable]
-      83 |         ({u8 __w, __v = (b);  u32 _addr = ((u32) (addr)); \
-         |              ^~~
-   arch/m68k/include/asm/raw_io.h:430:17: note: in expansion of macro 'rom_out_8'
-     430 |                 rom_out_8(port, *buf++);
-         |                 ^~~~~~~~~
-   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsw':
-   arch/m68k/include/asm/raw_io.h:86:15: warning: variable '__w' set but not used [-Wunused-but-set-variable]
-      86 |         ({u16 __w, __v = (w); u32 _addr = ((u32) (addr)); \
-         |               ^~~
-   arch/m68k/include/asm/raw_io.h:448:17: note: in expansion of macro 'rom_out_be16'
-     448 |                 rom_out_be16(port, *buf++);
-         |                 ^~~~~~~~~~~~
-   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsw_swapw':
-   arch/m68k/include/asm/raw_io.h:90:15: warning: variable '__w' set but not used [-Wunused-but-set-variable]
-      90 |         ({u16 __w, __v = (w); u32 _addr = ((u32) (addr)); \
-         |               ^~~
-   arch/m68k/include/asm/raw_io.h:466:17: note: in expansion of macro 'rom_out_le16'
-     466 |                 rom_out_le16(port, *buf++);
-         |                 ^~~~~~~~~~~~
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/list.h:9,
-                    from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/uaccess.h:5,
-                    from net/core/dev.c:71:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
-     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
-         |                                                  ^~
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |         ^~~~~~
-   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |                 ^~~~~~~~~~~~~~~
-   In file included from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11:
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
-     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
-         |                                                  ^~
-   include/asm-generic/bug.h:139:34: note: in definition of macro 'WARN_ON_ONCE'
-     139 |         int __ret_warn_once = !!(condition);                    \
-         |                                  ^~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:170:33: note: in expansion of macro 'virt_addr_valid'
-     170 | #define pfn_valid(pfn)          virt_addr_valid(pfn_to_virt(pfn))
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:355:26: note: in expansion of macro 'pfn_valid'
-     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |                          ^~~~~~~~~
-   net/core/dev.c: In function 'skb_tx_hash':
->> net/core/dev.c:2803:17: error: implicit declaration of function 'DEBUG_NET_WARN_ON_ONCE' [-Werror=implicit-function-declaration]
-    2803 |                 DEBUG_NET_WARN_ON_ONCE(qcount == 0);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> Documentation/bpf/prog_cgroup_sockopt.rst:115: WARNING: Unexpected indentation.
+>> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline literal start-string without end-string.
+>> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline emphasis start-string without end-string.
+>> Documentation/bpf/prog_cgroup_sockopt.rst:121: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/bpf/prog_cgroup_sockopt.rst:159: WARNING: Title level inconsistent:
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=n] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+vim +115 Documentation/bpf/prog_cgroup_sockopt.rst
 
-
-vim +/DEBUG_NET_WARN_ON_ONCE +2803 net/core/dev.c
-
-  2776	
-  2777	/*
-  2778	 * Returns a Tx hash based on the given packet descriptor a Tx queues' number
-  2779	 * to be used as a distribution range.
-  2780	 */
-  2781	static u16 skb_tx_hash(const struct net_device *dev,
-  2782			       const struct net_device *sb_dev,
-  2783			       struct sk_buff *skb)
-  2784	{
-  2785		u32 hash;
-  2786		u16 qoffset = 0;
-  2787		u16 qcount = dev->real_num_tx_queues;
-  2788	
-  2789		if (dev->num_tc) {
-  2790			u8 tc = netdev_get_prio_tc_map(dev, skb->priority);
-  2791	
-  2792			qoffset = sb_dev->tc_to_txq[tc].offset;
-  2793			qcount = sb_dev->tc_to_txq[tc].count;
-  2794			if (unlikely(!qcount)) {
-  2795				net_warn_ratelimited("%s: invalid qcount, qoffset %u for tc %u\n",
-  2796						     sb_dev->name, qoffset, tc);
-  2797				qoffset = 0;
-  2798				qcount = dev->real_num_tx_queues;
-  2799			}
-  2800		}
-  2801	
-  2802		if (skb_rx_queue_recorded(skb)) {
-> 2803			DEBUG_NET_WARN_ON_ONCE(qcount == 0);
-  2804			hash = skb_get_rx_queue(skb);
-  2805			if (hash >= qoffset)
-  2806				hash -= qoffset;
-  2807			while (unlikely(hash >= qcount))
-  2808				hash -= qcount;
-  2809			return hash + qoffset;
-  2810		}
-  2811	
-  2812		return (u16) reciprocal_scale(skb_get_hash(skb), qcount) + qoffset;
-  2813	}
-  2814	
+   110	
+ > 111	```
+   112	SEC("cgroup/getsockopt")
+   113	int getsockopt(struct bpf_sockopt *ctx)
+   114	{
+ > 115		/* Custom socket option. */
+   116		if (ctx->level == MY_SOL && ctx->optname == MY_OPTNAME) {
+   117			ctx->retval = 0;
+   118			optval[0] = ...;
+   119			ctx->optlen = 1;
+   120			return 1;
+ > 121		}
+   122	
+   123		/* Modify kernel's socket option. */
+   124		if (ctx->level == SOL_IP && ctx->optname == IP_FREEBIND) {
+   125			ctx->retval = 0;
+   126			optval[0] = ...;
+   127			ctx->optlen = 1;
+   128			return 1;
+   129		}
+   130	
+   131		/* optval larger than PAGE_SIZE use kernel's buffer. */
+   132		if (ctx->optlen > 4096)
+   133			ctx->optlen = 0;
+   134	
+   135		return 1;
+   136	}
+   137	
+   138	SEC("cgroup/setsockopt")
+   139	int setsockopt(struct bpf_sockopt *ctx)
+   140	{
+   141		/* Custom socket option. */
+   142		if (ctx->level == MY_SOL && ctx->optname == MY_OPTNAME) {
+   143			/* do something */
+   144			ctx->optlen = -1;
+   145			return 1;
+   146		}
+   147	
+   148		/* Modify kernel's socket option. */
+   149		if (ctx->level == SOL_IP && ctx->optname == IP_FREEBIND) {
+   150			optval[0] = ...;
+   151			return 1;
+   152		}
+   153	
+   154		/* optval larger than PAGE_SIZE use kernel's buffer. */
+   155		if (ctx->optlen > 4096)
+   156			ctx->optlen = 0;
+   157	
+   158		return 1;
+ > 159	}
+   160	```
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
