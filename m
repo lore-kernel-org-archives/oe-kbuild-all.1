@@ -1,43 +1,46 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DD11C04
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 05:27:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF9120E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 05:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681882054; x=1713418054;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GBgTcD7MLaOrf4BAXcxm8hcb2Na4DJ9+9O0QQX/G3ZU=;
-  b=NfXB0EAn7SHGwOXqq4FwNKTdORMtmufTdJ0HiMw7oov9z3CCE2uTKodJ
-   oEzNYRMxdE59UNyFqb1nLawnJrgVA17PfXaZbcKQ34c2ysv0RxXmTFFmL
-   2NsC5Bkj+pcxnC5+xf1n5D0qzL1Oz+rwgvTMXiQgsAAAGY+sLznctjGXD
-   yZGN5MzTJqJh4TNexUZq7sbSnfSMOIgXhW65s+SPjdmXWq1g6zLBFlpEx
-   Xg4idNy/nCBkbQrK1kGwqJY/nYsFUKXmIAJx4yNHpUOylChNMv9QgYnJW
-   R/lrh9NWx1xkwdJ/0VSO/n7AMLRWjUIa40zJ0OT5QnC6Czo764+yND7ys
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347212474"
+  t=1681883869; x=1713419869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wW4NhzeAjoIIRZByQbApPxvAShLZ2TJXmk9n+CDaUQQ=;
+  b=jHhfJUDIkEdoQj3s4n6cUEC7m/gE0zWD9ixFfFlItbJVG8mLccyepMo2
+   nn4iln3GMEZOM2Vd0LC+ndlZTqGdSiZBkKKWCOGaaRLPkWsSLJY7Klnkq
+   dNif3Xxxx89ZV+dekCpx5ywCfdFpDsSqUKUiDRORrbJF8NDeDv6US0rAZ
+   YC+WcN8MYPeEiu/ZN7JdlJ4/WO9A9fSg6uEvv93EGTKtEmLC63a3OMDTL
+   4DNiyOQcDVikU2gaQ4/qauJJBufKsFuy0sH/yS1bq6vOlogShKfKBM69z
+   e45sNYLoUK1pUjFonVlHqCtx4N9r4HjdejXHAJFLVyvsQwiZSRiJKdyjJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408268069"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="347212474"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 22:27:33 -0700
+   d="scan'208";a="408268069"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 22:57:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="641623747"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="760618042"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="641623747"
+   d="scan'208";a="760618042"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Apr 2023 22:27:32 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 18 Apr 2023 22:57:32 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp0Lr-000eYd-3A;
-	Wed, 19 Apr 2023 05:27:31 +0000
-Date: Wed, 19 Apr 2023 13:26:34 +0800
+	id 1pp0ov-000ead-06;
+	Wed, 19 Apr 2023 05:57:33 +0000
+Date: Wed, 19 Apr 2023 13:57:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-trusty-5.10 1415/7898]
- fs/incfs/pseudo_files.c:682:31: warning: cast to pointer from integer of
- different size
-Message-ID: <202304191324.AzIdpBOK-lkp@intel.com>
+To: Florian Westphal <fw@strlen.de>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, dxu@dxuuu.xyz, qde@naccy.de,
+	Florian Westphal <fw@strlen.de>
+Subject: Re: [PATCH bpf-next v3 1/6] bpf: add bpf_link support for
+ BPF_NETFILTER programs
+Message-ID: <202304191332.9uIkDScp-lkp@intel.com>
+References: <20230418131038.18054-2-fw@strlen.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,233 +49,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230418131038.18054-2-fw@strlen.de>
 
-Hi Paul,
+Hi Florian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
-head:   599ad660291e9e6b440d7b25af31d48125b25e88
-commit: 8334d69e65f6064aede4fb56fe15ae30630d5337 [1415/7898] ANDROID: Incremental fs: Separate pseudo-file code
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191324.AzIdpBOK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/bpf-add-bpf_link-support-for-BPF_NETFILTER-programs/20230418-211350
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230418131038.18054-2-fw%40strlen.de
+patch subject: [PATCH bpf-next v3 1/6] bpf: add bpf_link support for BPF_NETFILTER programs
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230419/202304191332.9uIkDScp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-trusty-5.10
-        git checkout 8334d69e65f6064aede4fb56fe15ae30630d5337
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/13cdccc8c376b453ae0ca2280ec22baa6210b450
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Florian-Westphal/bpf-add-bpf_link-support-for-BPF_NETFILTER-programs/20230418-211350
+        git checkout 13cdccc8c376b453ae0ca2280ec22baa6210b450
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/incfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191324.AzIdpBOK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191332.9uIkDScp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/incfs/pseudo_files.c: In function 'ioctl_create_file':
->> fs/incfs/pseudo_files.c:682:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     682 |                               (u8 __user *)args.signature_info,
-         |                               ^
-
-
-vim +682 fs/incfs/pseudo_files.c
-
-   517	
-   518	static long ioctl_create_file(struct mount_info *mi,
-   519				struct incfs_new_file_args __user *usr_args)
-   520	{
-   521		struct incfs_new_file_args args;
-   522		char *file_id_str = NULL;
-   523		struct dentry *index_file_dentry = NULL;
-   524		struct dentry *named_file_dentry = NULL;
-   525		struct path parent_dir_path = {};
-   526		struct inode *index_dir_inode = NULL;
-   527		__le64 size_attr_value = 0;
-   528		char *file_name = NULL;
-   529		char *attr_value = NULL;
-   530		int error = 0;
-   531		bool locked = false;
-   532	
-   533		if (!mi || !mi->mi_index_dir) {
-   534			error = -EFAULT;
-   535			goto out;
-   536		}
-   537	
-   538		if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
-   539			error = -EFAULT;
-   540			goto out;
-   541		}
-   542	
-   543		file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
-   544		if (IS_ERR(file_name)) {
-   545			error = PTR_ERR(file_name);
-   546			file_name = NULL;
-   547			goto out;
-   548		}
-   549	
-   550		error = validate_name(file_name);
-   551		if (error)
-   552			goto out;
-   553	
-   554		file_id_str = file_id_to_str(args.file_id);
-   555		if (!file_id_str) {
-   556			error = -ENOMEM;
-   557			goto out;
-   558		}
-   559	
-   560		error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
-   561		if (error)
-   562			goto out;
-   563		locked = true;
-   564	
-   565		/* Find a directory to put the file into. */
-   566		error = dir_relative_path_resolve(mi,
-   567				u64_to_user_ptr(args.directory_path),
-   568				&parent_dir_path);
-   569		if (error)
-   570			goto out;
-   571	
-   572		if (parent_dir_path.dentry == mi->mi_index_dir) {
-   573			/* Can't create a file directly inside .index */
-   574			error = -EBUSY;
-   575			goto out;
-   576		}
-   577	
-   578		/* Look up a dentry in the parent dir. It should be negative. */
-   579		named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
-   580						file_name);
-   581		if (!named_file_dentry) {
-   582			error = -EFAULT;
-   583			goto out;
-   584		}
-   585		if (IS_ERR(named_file_dentry)) {
-   586			error = PTR_ERR(named_file_dentry);
-   587			named_file_dentry = NULL;
-   588			goto out;
-   589		}
-   590		if (d_really_is_positive(named_file_dentry)) {
-   591			/* File with this path already exists. */
-   592			error = -EEXIST;
-   593			goto out;
-   594		}
-   595		/* Look up a dentry in the .index dir. It should be negative. */
-   596		index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
-   597		if (!index_file_dentry) {
-   598			error = -EFAULT;
-   599			goto out;
-   600		}
-   601		if (IS_ERR(index_file_dentry)) {
-   602			error = PTR_ERR(index_file_dentry);
-   603			index_file_dentry = NULL;
-   604			goto out;
-   605		}
-   606		if (d_really_is_positive(index_file_dentry)) {
-   607			/* File with this ID already exists in index. */
-   608			error = -EEXIST;
-   609			goto out;
-   610		}
-   611	
-   612		/* Creating a file in the .index dir. */
-   613		index_dir_inode = d_inode(mi->mi_index_dir);
-   614		inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
-   615		error = vfs_create(index_dir_inode, index_file_dentry, args.mode | 0222,
-   616				   true);
-   617		inode_unlock(index_dir_inode);
-   618	
-   619		if (error)
-   620			goto out;
-   621		if (!d_really_is_positive(index_file_dentry)) {
-   622			error = -EINVAL;
-   623			goto out;
-   624		}
-   625	
-   626		error = chmod(index_file_dentry, args.mode | 0222);
-   627		if (error) {
-   628			pr_debug("incfs: chmod err: %d\n", error);
-   629			goto delete_index_file;
-   630		}
-   631	
-   632		/* Save the file's ID as an xattr for easy fetching in future. */
-   633		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
-   634			file_id_str, strlen(file_id_str), XATTR_CREATE);
-   635		if (error) {
-   636			pr_debug("incfs: vfs_setxattr err:%d\n", error);
-   637			goto delete_index_file;
-   638		}
-   639	
-   640		/* Save the file's size as an xattr for easy fetching in future. */
-   641		size_attr_value = cpu_to_le64(args.size);
-   642		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
-   643			(char *)&size_attr_value, sizeof(size_attr_value),
-   644			XATTR_CREATE);
-   645		if (error) {
-   646			pr_debug("incfs: vfs_setxattr err:%d\n", error);
-   647			goto delete_index_file;
-   648		}
-   649	
-   650		/* Save the file's attribute as an xattr */
-   651		if (args.file_attr_len && args.file_attr) {
-   652			if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
-   653				error = -E2BIG;
-   654				goto delete_index_file;
-   655			}
-   656	
-   657			attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
-   658			if (!attr_value) {
-   659				error = -ENOMEM;
-   660				goto delete_index_file;
-   661			}
-   662	
-   663			if (copy_from_user(attr_value,
-   664					u64_to_user_ptr(args.file_attr),
-   665					args.file_attr_len) > 0) {
-   666				error = -EFAULT;
-   667				goto delete_index_file;
-   668			}
-   669	
-   670			error = vfs_setxattr(index_file_dentry,
-   671					INCFS_XATTR_METADATA_NAME,
-   672					attr_value, args.file_attr_len,
-   673					XATTR_CREATE);
-   674	
-   675			if (error)
-   676				goto delete_index_file;
-   677		}
-   678	
-   679		/* Initializing a newly created file. */
-   680		error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
-   681				      range(attr_value, args.file_attr_len),
- > 682				      (u8 __user *)args.signature_info,
-   683				      args.signature_size);
-   684		if (error)
-   685			goto delete_index_file;
-   686	
-   687		/* Linking a file with its real name from the requested dir. */
-   688		error = incfs_link(index_file_dentry, named_file_dentry);
-   689	
-   690		if (!error)
-   691			goto out;
-   692	
-   693	delete_index_file:
-   694		incfs_unlink(index_file_dentry);
-   695	
-   696	out:
-   697		if (error)
-   698			pr_debug("incfs: %s err:%d\n", __func__, error);
-   699	
-   700		kfree(file_id_str);
-   701		kfree(file_name);
-   702		kfree(attr_value);
-   703		dput(named_file_dentry);
-   704		dput(index_file_dentry);
-   705		path_put(&parent_dir_path);
-   706		if (locked)
-   707			mutex_unlock(&mi->mi_dir_struct_mutex);
-   708		return error;
-   709	}
-   710	
+   arm-linux-gnueabi-ld: net/netfilter/nf_bpf_link.o: in function `bpf_nf_link_release':
+>> nf_bpf_link.c:(.text+0x174): undefined reference to `__bad_cmpxchg'
+   arm-linux-gnueabi-ld: net/netfilter/nf_bpf_link.o: in function `bpf_nf_link_detach':
+   nf_bpf_link.c:(.text+0x200): undefined reference to `__bad_cmpxchg'
 
 -- 
 0-DAY CI Kernel Test Service
