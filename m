@@ -1,44 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B78A179
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 00:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24687179;
+	Wed, 19 Apr 2023 00:08:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681862901; x=1713398901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yCe7Z2YbMuu4bjbfbn+2zuZHIdmtw0snhgZjE+P3Bkw=;
-  b=l+dTzAJrClkPYHh8uAznbMdaQhfnskNylrOPkErWxM11K8eXC1tBJr5N
-   gpDCGpq2PkEDlGRNFu4h/xgDg2asEtKUrAv8e40j4DxQBCOOUZmPSPEO1
-   asE/dIZlCYwF5mTUvrgpoduSlW8xnJGZjjXUMbBKzRRkUZsu3HSCBQSGF
-   cSGvKmt7Oc9Gi2fw6pc9VG2n2w4ieGrbeMYFQuBKWAWe/w0wsq8XYTnKe
-   OFvLmiZ5RlS1zNY+K2186eDMO2GU/e3nIGxpYqywULEyyCj3DL/ghXyTc
-   yclKA/bqk59C7+3HT+HwPwIKCZ2XEgyDWKbsCkBbco9gDQTIdMsZOh+nt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="329486904"
+  t=1681862915; x=1713398915;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=YhQx/HqWURJq1UhDwNh825kbYlH2Q/DKlqQHy+uHWOU=;
+  b=RJs8eyestlN3voREjXpipXvQnOREe/HfwASzBPGR8VyCa2iYmwikjeHX
+   F8jOOqC+wm4VfzzJVRGaf+3/gOMftW5+JAoIdvbMwzBFYx83eJhMIBFIJ
+   gYFQ3P7enE6CMqru4s/c+76TXrIO5dSxUhrGMkms6mRdKunzx1HRm6xR5
+   17Zif6AdRR5dlGZfQalAFcc8642H5UKI54IVvGVRamIYR/uUnuxjzV0q5
+   bq9R4o4KmKMHqoOw4p0t9fsa0BuWcdaeAR72tGgh3W6OmDrbaOcIny0kx
+   znagryVxJ3piPDbMBcx5R0mTVwdhKTxFdRMKxxiARz5XIChz5oIDx1pmf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="324933168"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="329486904"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 17:08:20 -0700
+   d="scan'208";a="324933168"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 17:08:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="693821639"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="835073244"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="693821639"
+   d="scan'208";a="835073244"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Apr 2023 17:08:18 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2023 17:08:18 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1povMw-000eFl-0R;
+	id 1povMw-000eFo-0W;
 	Wed, 19 Apr 2023 00:08:18 +0000
-Date: Wed, 19 Apr 2023 08:08:16 +0800
+Date: Wed, 19 Apr 2023 08:08:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Huang <Leon.Huang1@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [agd5f:drm-next 12/67]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c:138:22: warning:
- variable 'feature_support' set but not used
-Message-ID: <202304190746.ViVd2eR5-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [android-common:android12-trusty-5.10 1480/7898] ld.lld: error:
+ cannot open
+ /opt/cross/clang-437b7602e4/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a:
+ No such file or directory
+Message-ID: <202304190833.IPmAkrxR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,76 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   86b20703e4c5a3c39891def0a68e7438aeca9db9
-commit: b8fe56375f78835db47565d91ea9d21767fe3c08 [12/67] drm/amd/display: Refactor ABM feature
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304190746.ViVd2eR5-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
+head:   599ad660291e9e6b440d7b25af31d48125b25e88
+commit: f14e5bfb39b776318133e00b8c066ce8a870e9ab [1480/7898] ANDROID: Makefile: add compiler-rt dependency explicitly
+config: arm-randconfig-r035-20230417 (attached as .config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
-        git fetch --no-tags agd5f drm-next
-        git checkout b8fe56375f78835db47565d91ea9d21767fe3c08
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-trusty-5.10
+        git checkout f14e5bfb39b776318133e00b8c066ce8a870e9ab
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/amd/display/dc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm distclean
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304190746.ViVd2eR5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304190833.IPmAkrxR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c: In function 'dmub_abm_set_event_ex':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c:138:22: warning: variable 'feature_support' set but not used [-Wunused-but-set-variable]
-     138 |         unsigned int feature_support;
-         |                      ^~~~~~~~~~~~~~~
+>> ld.lld: error: cannot open /opt/cross/clang-437b7602e4/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
+>> ld.lld: error: cannot open /opt/cross/clang-437b7602e4/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
+>> clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:540: scripts_basic] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
 --
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:83:6: warning: no previous prototype for 'dmub_abm_init' [-Wmissing-prototypes]
-      83 | void dmub_abm_init(struct abm *abm, uint32_t backlight)
-         |      ^~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:124:14: warning: no previous prototype for 'dmub_abm_get_current_backlight' [-Wmissing-prototypes]
-     124 | unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:135:14: warning: no previous prototype for 'dmub_abm_get_target_backlight' [-Wmissing-prototypes]
-     135 | unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:146:6: warning: no previous prototype for 'dmub_abm_set_level' [-Wmissing-prototypes]
-     146 | bool dmub_abm_set_level(struct abm *abm, uint32_t level, uint8_t panel_mask)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:167:6: warning: no previous prototype for 'dmub_abm_set_ambient_level' [-Wmissing-prototypes]
-     167 | void dmub_abm_set_ambient_level(struct abm *abm, unsigned int ambient_lux, uint8_t panel_mask)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:189:6: warning: no previous prototype for 'dmub_abm_init_config' [-Wmissing-prototypes]
-     189 | void dmub_abm_init_config(struct abm *abm,
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:221:6: warning: no previous prototype for 'dmub_abm_set_pause' [-Wmissing-prototypes]
-     221 | bool dmub_abm_set_pause(struct abm *abm, bool pause, unsigned int panel_inst, unsigned int stream_inst)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:241:6: warning: no previous prototype for 'dmub_abm_set_pipe' [-Wmissing-prototypes]
-     241 | bool dmub_abm_set_pipe(struct abm *abm, uint32_t otg_inst, uint32_t option, uint32_t panel_inst)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:263:6: warning: no previous prototype for 'dmub_abm_set_backlight_level' [-Wmissing-prototypes]
-     263 | bool dmub_abm_set_backlight_level(struct abm *abm,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/feature_support +138 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c
-
-   133	
-   134	static bool dmub_abm_set_event_ex(struct abm *abm, unsigned int full_screen, unsigned int video_mode,
-   135			unsigned int hdr_mode, unsigned int panel_inst)
-   136	{
-   137		bool ret = false;
- > 138		unsigned int feature_support;
-   139	
-   140		feature_support = abm_feature_support(abm, panel_inst);
-   141	
-   142		return ret;
-   143	}
-   144	
+>> ld.lld: error: cannot open /opt/cross/clang-437b7602e4/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
+>> ld.lld: error: cannot open /opt/cross/clang-437b7602e4/lib/clang/17/lib/linux/libclang_rt.builtins-x86_64.a: No such file or directory
+>> clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   make[2]: *** [scripts/Makefile.host:95: scripts/basic/fixdep] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:540: scripts_basic] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
