@@ -1,42 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B43A33EC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 21:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AB133EC;
+	Wed, 19 Apr 2023 21:31:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681938006; x=1713474006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cOQWjMVMOEue3hBuK2Ef0YSNUKoOn3X0lAnruYrlKLo=;
-  b=FiGlwFXLFb12mybSDrZixUrCIX7c1t99afBGnqdGuV8LFtLVZE6A4+EN
-   pzz/XG2zaIZXKaId7HpmNv5MEtYvkRMcNf/N/gMCnAmtf0UeWGhupvWlU
-   7lWVsFxT+yyxuQaM8dGZv+A+/Z6QVCQeFhGK6NA9ek3ilPwwaBLF0v+Ul
-   01Mh8Ye3XPd+RSlux6VinrrEXSlKKokUtZ21Hkml0umZvNW4MiPVm4uqt
-   ttVcIti9BsqV9vRIRYpoU4Q/qDpcbgpUGu4btranjQNg4JEKCyfHNgkM3
-   GpxFyyZwYZfNUnJwX8Q0l5bzGi7XUE9DSbVfQdAdWTN8UI5QBA1YBkU1P
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325171751"
+  t=1681939868; x=1713475868;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uzaEvtKF/wb+BpZHv45rlTavjENU0eMCTHpvxq+55cw=;
+  b=cBzO+UZukpQmV8H79i1QE1aJb16knkvmRD8Jhu4KyfYmNinUuPaIVQGk
+   EotCIs2v3vM3tZfZ3XsUohFVRR8apEh2PhGUUl7X348RP8xDfwYAGijQU
+   YHFGQAztSq0a9ciXeYv3EQHhzaebrCyWQY+00gv0jDFfKoKR11/aAsxcm
+   6XO0MhFMosJ1Uq+nSdIemHDYioewdpjfbmuwIs2cu826bfOJnz+kxiAgW
+   3tvZRaWOYfpiFt6S20VDphy6GX+G2VUKW8WZHNdT8ZwIVJik6vOMXr9kj
+   HQ+KY1m6VLXFKt0YAPU/k5U+Cav/X9MeWamAxCkBoKkCy731oUUyvjapa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="334382344"
 X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="325171751"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 14:00:05 -0700
+   d="scan'208";a="334382344"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 14:31:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="724177944"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="756241128"
 X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="724177944"
+   d="scan'208";a="756241128"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Apr 2023 14:00:04 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2023 14:31:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppEuJ-000fBq-25;
-	Wed, 19 Apr 2023 21:00:03 +0000
-Date: Thu, 20 Apr 2023 04:59:35 +0800
+	id 1ppFOK-000fCq-0s;
+	Wed, 19 Apr 2023 21:31:04 +0000
+Date: Thu, 20 Apr 2023 05:30:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 5500/27000] mm/page_alloc.c:2741:29:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202304200438.SubrBldc-lkp@intel.com>
+To: luhongfei <luhongfei@vivo.com>, Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	"open list:IO_URING" <io-uring@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	opensource.kernel@vivo.com, luhongfei <luhongfei@vivo.com>
+Subject: Re: [PATCH] io_uring: Optimization of buffered random write
+Message-ID: <202304200502.T4Waeqad-lkp@intel.com>
+References: <20230419092233.56338-1-luhongfei@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,62 +50,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230419092233.56338-1-luhongfei@vivo.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   0108362f3305895e7647eadd89008241bcf32ae6
-commit: b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac [5500/27000] ANDROID: GKI: cma: redirect page allocation to CMA
-config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20230420/202304200438.SubrBldc-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-5.4
-        git checkout b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac
+Hi luhongfei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3-rc7 next-20230418]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/luhongfei/io_uring-Optimization-of-buffered-random-write/20230419-172539
+patch link:    https://lore.kernel.org/r/20230419092233.56338-1-luhongfei%40vivo.com
+patch subject: [PATCH] io_uring: Optimization of buffered random write
+config: i386-randconfig-a012-20230417 (https://download.01.org/0day-ci/archive/20230420/202304200502.T4Waeqad-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/620dbcc5ab192992f08035fd9d271ffffb8ff043
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review luhongfei/io_uring-Optimization-of-buffered-random-write/20230419-172539
+        git checkout 620dbcc5ab192992f08035fd9d271ffffb8ff043
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200438.SubrBldc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304200502.T4Waeqad-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:106:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
->> mm/page_alloc.c:2741:29: sparse: sparse: Using plain integer as NULL pointer
-   mm/page_alloc.c:3252:51: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int cma @@     got restricted gfp_t @@
-   mm/page_alloc.c:3252:51: sparse:     expected int cma
-   mm/page_alloc.c:3252:51: sparse:     got restricted gfp_t
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +2741 mm/page_alloc.c
+>> io_uring/io_uring.c:2091:25: error: no member named 'rw' in 'struct io_kiocb'
+           if (!is_write || (req->rw.kiocb.ki_flags & IOCB_DIRECT))
+                             ~~~  ^
+   1 error generated.
 
-  2736	
-  2737	static struct page *__rmqueue_cma(struct zone *zone, unsigned int order,
-  2738						int migratetype,
-  2739						unsigned int alloc_flags)
-  2740	{
-> 2741		struct page *page = 0;
-  2742	
-  2743	retry:
-  2744	#ifdef CONFIG_CMA
-  2745		if (migratetype == MIGRATE_MOVABLE && !zone->cma_alloc)
-  2746			page = __rmqueue_cma_fallback(zone, order);
-  2747		else
-  2748	#endif
-  2749			page = __rmqueue_smallest(zone, order, migratetype);
-  2750	
-  2751		if (unlikely(!page) && __rmqueue_fallback(zone, order, migratetype,
-  2752							  alloc_flags))
-  2753			goto retry;
-  2754	
-  2755		trace_mm_page_alloc_zone_locked(page, order, migratetype);
-  2756		return page;
-  2757	}
-  2758	
+
+vim +2091 io_uring/io_uring.c
+
+  2073	
+  2074	static inline void io_queue_sqe(struct io_kiocb *req)
+  2075		__must_hold(&req->ctx->uring_lock)
+  2076	{
+  2077		int ret;
+  2078		bool is_write;
+  2079	
+  2080		switch (req->opcode) {
+  2081		case IORING_OP_WRITEV:
+  2082		case IORING_OP_WRITE_FIXED:
+  2083		case IORING_OP_WRITE:
+  2084			is_write = true;
+  2085			break;
+  2086		default:
+  2087			is_write = false;
+  2088			break;
+  2089		}
+  2090	
+> 2091		if (!is_write || (req->rw.kiocb.ki_flags & IOCB_DIRECT))
+  2092			ret = io_issue_sqe(req, IO_URING_F_NONBLOCK|IO_URING_F_COMPLETE_DEFER);
+  2093		else
+  2094			ret = io_issue_sqe(req, 0);
+  2095	
+  2096		/*
+  2097		 * We async punt it if the file wasn't marked NOWAIT, or if the file
+  2098		 * doesn't support non-blocking read/write attempts
+  2099		 */
+  2100		if (likely(!ret))
+  2101			io_arm_ltimeout(req);
+  2102		else
+  2103			io_queue_async(req, ret);
+  2104	}
+  2105	
 
 -- 
 0-DAY CI Kernel Test Service
