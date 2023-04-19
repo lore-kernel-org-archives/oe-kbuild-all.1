@@ -1,43 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CAA33C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 11:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D30B33C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 11:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681902354; x=1713438354;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lx2fT498sC93YTPXO3a6wqkTEF8oQ6kHs2h72bBUKTw=;
-  b=ElHFn+dArRor7rEqpEdQPg78E4/Vb9Pjle6EkI0RbDiYKVyjG+u+F0Xn
-   GQO07SJJ2rsRtGGIq93GLShddvHaRQ3ZCUqB9JrO2NPxUWS/afUmntxC0
-   pEA+gsI3c5D9UVrDCOSQmDNMXGHvlKPoYUKHAPRpVffyy+F2OVkNINdvx
-   gbGcBihj5JrvpMYeFLv0Cvb/8uVLtETCdm05Wd3ImqAtDTAdgvXLhQJaK
-   Ma+zWiZhrosalFTa/PhTyErOqcyyT2PvMI/kCHFPxv0V3+QyB/t1Zykkh
-   9Rn9+fFpOWtuTGO2rEy0Z0YJyDV7/g6LIXM8+yLySX0Zks2uiddWGkijI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="345418762"
+  t=1681902952; x=1713438952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZDAIH7VGC2PTDjC+WiK47ThxiMhVDJh+ytsPf9d9/CQ=;
+  b=akcVfy7b1uQWMdJK5u27BK6oJ0tZxawfZRgBfDvtaaCK9bGT4eHjefF2
+   on+k7Kg8WBrETJyZFSuqcQoYaeDEsO10wjWNs8Y2ypqVNM48VwQqf7wrm
+   bWh2KySnaqBFsMnT+2RU/oD+Xl4QMthp+TBVk1uj8rBPf4w7QDHJq0e58
+   Mlj2wBRy0q7Uoum2xysoZOwxV4VnFqSh9duDQA6brZwaigaeKgtKYJZAh
+   Lfng3lzreh1CC5aPdXSr4sxTrXOCmV5y6KKnq++jkMbjxodV4R8IA6omF
+   FC9uyJ8ElPrYkNOKslc25nIATbr9YS1ie9Cuvbw9LY+TWtqBgDyjStBLf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="410648625"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="345418762"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 04:05:52 -0700
+   d="scan'208";a="410648625"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 04:15:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="684943753"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="937634870"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="684943753"
+   d="scan'208";a="937634870"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Apr 2023 04:05:48 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2023 04:15:49 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp5dE-000eph-04;
-	Wed, 19 Apr 2023 11:05:48 +0000
-Date: Wed, 19 Apr 2023 19:05:17 +0800
+	id 1pp5mu-000eq7-0e;
+	Wed, 19 Apr 2023 11:15:48 +0000
+Date: Wed, 19 Apr 2023 19:15:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Kumar Singh <quic_deesin@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Sarannya S <quic_sarannya@quicinc.com>
-Subject: [remoteproc:rpmsg-next 4/10] drivers/rpmsg/rpmsg_core.c:561:20:
- error: 'struct rpmsg_endpoint' has no member named 'flow_cb'
-Message-ID: <202304191918.mANz73yb-lkp@intel.com>
+To: Dhruva Gole <d-gole@ti.com>, Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Dhruva Gole <d-gole@ti.com>,
+	Vaishnav Achath <vaishnav.a@ti.com>, Vignesh <vigneshr@ti.com>,
+	Apurva Nandan <a-nandan@ti.com>,
+	linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] spi: cadence-quadspi: use macro
+ DEFINE_SIMPLE_DEV_PM_OPS
+Message-ID: <202304191900.2fARFQW9-lkp@intel.com>
+References: <20230419084817.481136-1-d-gole@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,112 +51,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230419084817.481136-1-d-gole@ti.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
-head:   cc888eb072b6a48642e429a030b065d4da1d594b
-commit: cc7c3bc62c6c74c217ea73e30a135fd2c3affb34 [4/10] rpmsg: core: Add signal API support
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191918.mANz73yb-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Dhruva,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20230418]
+[also build test ERROR on linus/master v6.3-rc7]
+[cannot apply to broonie-spi/for-next v6.3-rc7 v6.3-rc6 v6.3-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dhruva-Gole/spi-cadence-quadspi-use-macro-DEFINE_SIMPLE_DEV_PM_OPS/20230419-165052
+patch link:    https://lore.kernel.org/r/20230419084817.481136-1-d-gole%40ti.com
+patch subject: [PATCH V2] spi: cadence-quadspi: use macro DEFINE_SIMPLE_DEV_PM_OPS
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191900.2fARFQW9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git/commit/?id=cc7c3bc62c6c74c217ea73e30a135fd2c3affb34
-        git remote add remoteproc git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git
-        git fetch --no-tags remoteproc rpmsg-next
-        git checkout cc7c3bc62c6c74c217ea73e30a135fd2c3affb34
+        # https://github.com/intel-lab-lkp/linux/commit/83ce1615dd395c8034756cc6aa97b38c16c0b07d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dhruva-Gole/spi-cadence-quadspi-use-macro-DEFINE_SIMPLE_DEV_PM_OPS/20230419-165052
+        git checkout 83ce1615dd395c8034756cc6aa97b38c16c0b07d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191918.mANz73yb-lkp@intel.com/
-
-Note: the remoteproc/rpmsg-next HEAD cc888eb072b6a48642e429a030b065d4da1d594b builds fine.
-      It only hurts bisectability.
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191900.2fARFQW9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/rpmsg/rpmsg_core.c:340:5: warning: no previous prototype for 'rpmsg_set_flow_control' [-Wmissing-prototypes]
-     340 | int rpmsg_set_flow_control(struct rpmsg_endpoint *ept, bool enable)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/rpmsg/rpmsg_core.c: In function 'rpmsg_dev_probe':
->> drivers/rpmsg/rpmsg_core.c:561:20: error: 'struct rpmsg_endpoint' has no member named 'flow_cb'
-     561 |                 ept->flow_cb = rpdrv->flowcontrol;
-         |                    ^~
->> drivers/rpmsg/rpmsg_core.c:561:37: error: 'struct rpmsg_driver' has no member named 'flowcontrol'
-     561 |                 ept->flow_cb = rpdrv->flowcontrol;
-         |                                     ^~
+>> drivers/spi/spi-cadence-quadspi.c:1918:24: error: 'cqspi_dev_pm_ops' undeclared here (not in a function); did you mean 'cqspi_mem_ops'?
+    1918 |                 .pm = &cqspi_dev_pm_ops,
+         |                        ^~~~~~~~~~~~~~~~
+         |                        cqspi_mem_ops
 
 
-vim +561 drivers/rpmsg/rpmsg_core.c
+vim +1918 drivers/spi/spi-cadence-quadspi.c
 
-   525	
-   526	/*
-   527	 * when an rpmsg driver is probed with a channel, we seamlessly create
-   528	 * it an endpoint, binding its rx callback to a unique local rpmsg
-   529	 * address.
-   530	 *
-   531	 * if we need to, we also announce about this channel to the remote
-   532	 * processor (needed in case the driver is exposing an rpmsg service).
-   533	 */
-   534	static int rpmsg_dev_probe(struct device *dev)
-   535	{
-   536		struct rpmsg_device *rpdev = to_rpmsg_device(dev);
-   537		struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-   538		struct rpmsg_channel_info chinfo = {};
-   539		struct rpmsg_endpoint *ept = NULL;
-   540		int err;
-   541	
-   542		err = dev_pm_domain_attach(dev, true);
-   543		if (err)
-   544			goto out;
-   545	
-   546		if (rpdrv->callback) {
-   547			strncpy(chinfo.name, rpdev->id.name, RPMSG_NAME_SIZE);
-   548			chinfo.src = rpdev->src;
-   549			chinfo.dst = RPMSG_ADDR_ANY;
-   550	
-   551			ept = rpmsg_create_ept(rpdev, rpdrv->callback, NULL, chinfo);
-   552			if (!ept) {
-   553				dev_err(dev, "failed to create endpoint\n");
-   554				err = -ENOMEM;
-   555				goto out;
-   556			}
-   557	
-   558			rpdev->ept = ept;
-   559			rpdev->src = ept->addr;
-   560	
- > 561			ept->flow_cb = rpdrv->flowcontrol;
-   562		}
-   563	
-   564		err = rpdrv->probe(rpdev);
-   565		if (err) {
-   566			dev_err(dev, "%s: failed: %d\n", __func__, err);
-   567			goto destroy_ept;
-   568		}
-   569	
-   570		if (ept && rpdev->ops->announce_create) {
-   571			err = rpdev->ops->announce_create(rpdev);
-   572			if (err) {
-   573				dev_err(dev, "failed to announce creation\n");
-   574				goto remove_rpdev;
-   575			}
-   576		}
-   577	
-   578		return 0;
-   579	
-   580	remove_rpdev:
-   581		if (rpdrv->remove)
-   582			rpdrv->remove(rpdev);
-   583	destroy_ept:
-   584		if (ept)
-   585			rpmsg_destroy_ept(ept);
-   586	out:
-   587		return err;
-   588	}
-   589	
+  1912	
+  1913	static struct platform_driver cqspi_platform_driver = {
+  1914		.probe = cqspi_probe,
+  1915		.remove_new = cqspi_remove,
+  1916		.driver = {
+  1917			.name = CQSPI_NAME,
+> 1918			.pm = &cqspi_dev_pm_ops,
+  1919			.of_match_table = cqspi_dt_ids,
+  1920		},
+  1921	};
+  1922	
 
 -- 
 0-DAY CI Kernel Test Service
