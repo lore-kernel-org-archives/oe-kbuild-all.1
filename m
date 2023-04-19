@@ -1,56 +1,56 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E5C941
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 18:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFBD3236
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 18:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681928843; x=1713464843;
+  t=1681930568; x=1713466568;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hMwknj2fnthEuseGk77ISBlfTv6f5/iv+yEnHLXoIAw=;
-  b=MSwlw0Un/bwkm91A8zrtnDBZ83zks3HRNXLULcKgWZ+P0bPlOZnwPNqp
-   rST7POG1D1Rrj0EpngJG7hpbNgsIitzBp89blAjjyqSpvBU84w0PAt9y5
-   XaRck9vKwI0KvSoQQEH91i16ALa+eJFKkAtcM4KlzPgS4U8ooHPRyhVjJ
-   WZ0OSBy4RcmVwnF2tuHPIy3JDgcK7lMU2F/a+pavm+6T3DR0ZauE8oSuW
-   xj1qOFltO79BEUy/gC2paO6srxkuHKarM6M0Iflqvp5lEtT/TK9LGYU24
-   iIP1hgoDjqnbW5WiwIi7mDOyCaJyp/bJXcR5ycvPPCC2qfvBrd2+bMsXH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="410757545"
+  bh=QRGqBX37NR8aEdfN3qUrMJ+8qUa0XUBdBpWqWnI2SgM=;
+  b=OiRk90R2L3sv4YLwpcz6DGpEllXmhmcRXsDMHIZAq4paE0KxBtTI1YMu
+   +uifvw3iKYQDfo9Ybs7SE7rCsgDXqsl7m7072xlYVopacGak69dGTy1D+
+   w+ZMSSAYXRh6vuXTT1TCBXFbirTrNPYyS7+Ei3ucFQ/zABtnzL6ZVw2iu
+   COSS9eqDtHKINLsJ9z3SObcJuiz5/E2bjFXWqgM4TOdfAyYI93Mn/ak3W
+   H+excxsv3az374dssoyBf/P+bWewOiN02OotZnc8osG7lFzCcGnuer5Ie
+   GRDbjp1mJSCaN4ZWJogZcpIbOmqrmj7aLibliamxefIF4fy5moNXCEEYe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="343015571"
 X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="410757545"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 11:26:04 -0700
+   d="scan'208";a="343015571"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 11:56:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="937765285"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="937765285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="780939661"
+X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
+   d="scan'208";a="780939661"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2023 11:26:00 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2023 11:56:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppCVD-000f5y-2o;
-	Wed, 19 Apr 2023 18:25:59 +0000
-Date: Thu, 20 Apr 2023 02:25:19 +0800
+	id 1ppCyH-000f74-01;
+	Wed, 19 Apr 2023 18:56:01 +0000
+Date: Thu, 20 Apr 2023 02:55:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mao Jinlong <quic_jinlmao@quicinc.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Tingwei Zhang <quic_tingweiz@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mao Jinlong <quic_jinlmao@quicinc.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-	Tao Zhang <quic_taozha@quicinc.com>,
-	Hao Zhang <quic_hazha@quicinc.com>
-Subject: Re: [PATCH v2] stm: class: Add MIPI OST protocol support
-Message-ID: <202304200216.kvZgZcao-lkp@intel.com>
-References: <20230419141328.37472-1-quic_jinlmao@quicinc.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
+	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v10 6/9] nvmet: add copy command support for bdev and
+ file ns
+Message-ID: <202304200240.fsLkpzvk-lkp@intel.com>
+References: <20230419114320.13674-7-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,127 +59,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419141328.37472-1-quic_jinlmao@quicinc.com>
+In-Reply-To: <20230419114320.13674-7-nj.shetty@samsung.com>
 
-Hi Mao,
+Hi Nitesh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on atorgue-stm32/stm32-next]
-[also build test ERROR on linus/master v6.3-rc7 next-20230418]
+[auto build test WARNING on next-20230418]
+[cannot apply to axboe-block/for-next device-mapper-dm/for-next linus/master v6.3-rc7 v6.3-rc6 v6.3-rc5 v6.3-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mao-Jinlong/stm-class-Add-MIPI-OST-protocol-support/20230419-221653
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20230419141328.37472-1-quic_jinlmao%40quicinc.com
-patch subject: [PATCH v2] stm: class: Add MIPI OST protocol support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304200216.kvZgZcao-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230419-204352
+patch link:    https://lore.kernel.org/r/20230419114320.13674-7-nj.shetty%40samsung.com
+patch subject: [PATCH v10 6/9] nvmet: add copy command support for bdev and file ns
+config: m68k-randconfig-s032-20230416 (https://download.01.org/0day-ci/archive/20230420/202304200240.fsLkpzvk-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/54db7d137859caf5a14de2b166d80913b0c80218
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/420b04f7ba9a54898d62c1d60905f8cf952afde2
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mao-Jinlong/stm-class-Add-MIPI-OST-protocol-support/20230419-221653
-        git checkout 54db7d137859caf5a14de2b166d80913b0c80218
+        git fetch --no-tags linux-review Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230419-204352
+        git checkout 420b04f7ba9a54898d62c1d60905f8cf952afde2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/target/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200216.kvZgZcao-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304200240.fsLkpzvk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
+   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     expected unsigned int [usertype] val
+   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     got restricted __le16 [usertype] mssrl
+>> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
+>> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
+>> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
+>> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
+   drivers/nvme/target/io-cmd-bdev.c:57:29: sparse: sparse: cast from restricted __le16
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     expected unsigned int [usertype] val
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     got restricted __le16 [usertype] mssrl
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
+   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
 
-   drivers/hwtracing/stm/p_ost.c: In function 'ost_write':
->> drivers/hwtracing/stm/p_ost.c:174:46: error: implicit declaration of function 'get_current'; did you mean 'get_cred'? [-Werror=implicit-function-declaration]
-     174 |         *(u64 *)(trc_hdr + 8) = task_tgid_nr(get_current());
-         |                                              ^~~~~~~~~~~
-         |                                              get_cred
->> drivers/hwtracing/stm/p_ost.c:174:46: warning: passing argument 1 of 'task_tgid_nr' makes pointer from integer without a cast [-Wint-conversion]
-     174 |         *(u64 *)(trc_hdr + 8) = task_tgid_nr(get_current());
-         |                                              ^~~~~~~~~~~~~
-         |                                              |
-         |                                              int
-   In file included from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/module.h:21,
-                    from drivers/hwtracing/stm/p_ost.c:9:
-   include/linux/sched.h:1582:54: note: expected 'struct task_struct *' but argument is of type 'int'
-    1582 | static inline pid_t task_tgid_nr(struct task_struct *tsk)
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~
-   cc1: some warnings being treated as errors
+vim +55 drivers/nvme/target/io-cmd-bdev.c
 
-
-vim +174 drivers/hwtracing/stm/p_ost.c
-
-   131	
-   132	static ssize_t notrace ost_write(struct stm_data *data,
-   133			struct stm_output *output, unsigned int chan,
-   134			const char *buf, size_t count)
-   135	{
-   136		unsigned int c = output->channel + chan;
-   137		unsigned int m = output->master;
-   138		const unsigned char nil = 0;
-   139		u32 header = DATA_HEADER;
-   140		u8 trc_hdr[16];
-   141		ssize_t sz;
-   142	
-   143		struct ost_output *op = output->pdrv_private;
-   144	
-   145		/*
-   146		 * Identify the source by entity type.
-   147		 * If entity type is not set, return error value.
-   148		 */
-   149		if (op->node.entity_type == OST_ENTITY_TYPE_FTRACE) {
-   150			header |= OST_ENTITY_FTRACE;
-   151		} else if (op->node.entity_type == OST_ENTITY_TYPE_CONSOLE) {
-   152			header |= OST_ENTITY_CONSOLE;
-   153		} else {
-   154			pr_debug("p_ost: Entity must be set for trace data.");
-   155			return -EINVAL;
-   156		}
-   157	
-   158		/*
-   159		 * STP framing rules for OST frames:
-   160		 *   * the first packet of the OST frame is marked;
-   161		 *   * the last packet is a FLAG with timestamped tag.
-   162		 */
-   163		/* Message layout: HEADER / DATA / TAIL */
-   164		/* HEADER */
-   165		sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
-   166				  4, (u8 *)&header);
-   167		if (sz <= 0)
-   168			return sz;
-   169	
-   170		/* DATA */
-   171		*(u16 *)(trc_hdr) = STM_MAKE_VERSION(0, 4);
-   172		*(u16 *)(trc_hdr + 2) = STM_HEADER_MAGIC;
-   173		*(u32 *)(trc_hdr + 4) = raw_smp_processor_id();
- > 174		*(u64 *)(trc_hdr + 8) = task_tgid_nr(get_current());
-   175		sz = stm_data_write(data, m, c, false, trc_hdr, sizeof(trc_hdr));
-   176		if (sz <= 0)
-   177			return sz;
-   178	
-   179		sz = stm_data_write(data, m, c, false, buf, count);
-   180	
-   181		/* TAIL */
-   182		if (sz > 0)
-   183			data->packet(data, m, c, STP_PACKET_FLAG,
-   184				STP_PACKET_TIMESTAMPED, 0, &nil);
-   185	
-   186		return sz;
-   187	}
-   188	
+    12	
+    13	void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+    14	{
+    15		/* Logical blocks per physical block, 0's based. */
+    16		const __le16 lpp0b = to0based(bdev_physical_block_size(bdev) /
+    17					      bdev_logical_block_size(bdev));
+    18	
+    19		/*
+    20		 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
+    21		 * NAWUPF, and NACWU are defined for this namespace and should be
+    22		 * used by the host for this namespace instead of the AWUN, AWUPF,
+    23		 * and ACWU fields in the Identify Controller data structure. If
+    24		 * any of these fields are zero that means that the corresponding
+    25		 * field from the identify controller data structure should be used.
+    26		 */
+    27		id->nsfeat |= 1 << 1;
+    28		id->nawun = lpp0b;
+    29		id->nawupf = lpp0b;
+    30		id->nacwu = lpp0b;
+    31	
+    32		/*
+    33		 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
+    34		 * NOWS are defined for this namespace and should be used by
+    35		 * the host for I/O optimization.
+    36		 */
+    37		id->nsfeat |= 1 << 4;
+    38		/* NPWG = Namespace Preferred Write Granularity. 0's based */
+    39		id->npwg = lpp0b;
+    40		/* NPWA = Namespace Preferred Write Alignment. 0's based */
+    41		id->npwa = id->npwg;
+    42		/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+    43		id->npdg = to0based(bdev_discard_granularity(bdev) /
+    44				    bdev_logical_block_size(bdev));
+    45		/* NPDG = Namespace Preferred Deallocate Alignment */
+    46		id->npda = id->npdg;
+    47		/* NOWS = Namespace Optimal Write Size */
+    48		id->nows = to0based(bdev_io_opt(bdev) / bdev_logical_block_size(bdev));
+    49	
+    50		/*Copy limits*/
+    51		if (bdev_max_copy_sectors(bdev)) {
+    52			id->msrc = id->msrc;
+    53			id->mssrl = cpu_to_le16((bdev_max_copy_sectors(bdev) <<
+    54					SECTOR_SHIFT) / bdev_logical_block_size(bdev));
+  > 55			id->mcl = cpu_to_le32(id->mssrl);
+    56		} else {
+    57			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
+    58			id->mssrl = cpu_to_le16((BIO_MAX_VECS << PAGE_SHIFT) /
+    59					bdev_logical_block_size(bdev));
+    60			id->mcl = cpu_to_le32(id->mssrl);
+    61		}
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
