@@ -1,159 +1,199 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ED82564
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 08:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7033A2564
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 08:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681891313; x=1713427313;
+  t=1681891848; x=1713427848;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=At/Kwdz5hy4CpFll6BQhpmUTpXHHQ/zlVR9zV9w8T9Q=;
-  b=e6965EovJ34FfkhOpSLp3/t2uJrfToXdkIZYYQraWEcLLegxfAky3nLb
-   wogW1q3Z8eZ/sjReH11XvOIVu7GoriJCNolwsbJ7U10hPr56EHleU7q8U
-   Xftiqel4Vh6oYaMCHZcEfVbEkFhvfTP/W05kl0MJTUKW8fH4dVSB/1m1Q
-   mY7foJEJc31RjqPlqMubCJA4nVfLcPz9n1sdPt6+7I98WnpU0nHxXGeXB
-   S3h2alq8CZ1OMBKBXrzK3iuswslhR43+1ESnsvJYfKKZ9OCpWyPL26E9B
-   7B/9BsW+gUBuHqVsCta0GE10zTvWpi+tNnmAKHrareUeD0mjo0vo83MjF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="344131550"
+  bh=ldfHi5FJOij2vVlboMSTKmDdQJF9+AoXFipgUDIrzP0=;
+  b=Si8wo7lAypF/Jhn5BvRnwla8Vju2YzyvgNY/4ao3RymwyEACeVs26QnE
+   lub4mr6VBtSYyjOv0L6rUjSAuOXFQ0gCIN6GvAt26BarBGLMUGm0TYCut
+   ONYlfn7CzvGPvAf44XnxbmsSPL3mc9LthYzyAJYCQlm8Bb8qeD7AsIq9e
+   u2Ek4+cR5vU1AlCbQerxh9cOUHD2CHDPbx2+NJliqiLakBP5j0P73AKgk
+   nVQOWm0qp4yMRg8VW6vsNvk+/CmUrTmUHaR7D+SvvMv/9adrb3X+cUyXV
+   5BacL1DvE7g8nCC9NfzcxeNvzactXTHhzyvgq1QdvYgL/fgZ824KCWK9M
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431664126"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="344131550"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 01:01:52 -0700
+   d="scan'208";a="431664126"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 01:10:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="691406652"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="684896973"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="691406652"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga002.jf.intel.com with ESMTP; 19 Apr 2023 01:01:52 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 19 Apr 2023 01:01:51 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 19 Apr 2023 01:01:51 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 19 Apr 2023 01:01:51 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 19 Apr 2023 01:01:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NoHOB7bKTB37yc13Szu8FSE2ummExTtnRWbiXRcHPspoZlFQmCrtZKTuq4Elatr/Q/UgZoTRiH7oWVXiyH6Vr0caki69IotLeZg7UUAfFUdmTELYA5mpD5VPRpMVBl5m3OCyFXADRnz6xUZsTvPCwGzUUX6Gk7JtwKkGOP0puXZq/8l6b6z7YSEjCTLgIuko+4b5hta39SaDfpdWSU+yUsItYhacy9BrCNrsaFRstt+E6G3uTy4Sitd6hRLC63fyemGiajgB2T2naa9BkqKDjBJBOivOLbQSHKUQ1vHlav9u7f2O1bcJG2LfRIBob65wdf1ISqh9yg7yNTvOq1ZUDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bD/8imaee7jhK4L/KwRfVDufl4R07ADRvCs655/D4ss=;
- b=Bc219Hq02pxwbkKR4UJ+karQCUWUUMtAjpx6m5NngQxGcRZ0TOSkHIRduX2IZVPA5xhglk3kjQhrzJdSpuOmCF/u5nUf6CzVloXwAjX83dhAaBj1UB6E4mlBCFhX72SZtxQqqWSOhPa+lkE+tz9xP/hvoXep9LTiMRDzdyDThyCeFvBjmj/11Z6BlE9MBfM1dQrLMknaV9i9oQ3ZOhHq+sZQ4ysP4spRgeY+bhbfCVPfyxKZ+HbZBMIZlUgs8i8hzTOFs5tZ7ZHq4XHtDZoWJRGhQJ9q/jae4iyMgNTR+HTWtvrB+fbt2QTaqhJTiOMNbPm/wsYlk1NTwMX1Acwypg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DS0PR11MB6520.namprd11.prod.outlook.com (2603:10b6:8:d0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Wed, 19 Apr
- 2023 08:01:50 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b14b:5c9c:fa0e:8e7c]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b14b:5c9c:fa0e:8e7c%6]) with mapi id 15.20.6319.020; Wed, 19 Apr 2023
- 08:01:50 +0000
-Date: Wed, 19 Apr 2023 15:58:44 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [intel-tdx:kvm-upstream-workaround 100/335] arch/x86/kvm/vmx/main.c:
- mmu.h is included more than once.
-Message-ID: <202304090410.iQ7sU94Q-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR02CA0079.apcprd02.prod.outlook.com
- (2603:1096:4:90::19) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="684896973"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 19 Apr 2023 01:10:43 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pp2tm-000eix-2C;
+	Wed, 19 Apr 2023 08:10:42 +0000
+Date: Wed, 19 Apr 2023 16:10:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+	Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [tip:locking/core 5/5]
+ drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:232:34: sparse: sparse:
+ Using plain integer as NULL pointer
+Message-ID: <202304191617.HODs4X6a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS0PR11MB6520:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f482e54-a2ab-4864-5aa2-08db40ac5460
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ylLPItwR3NOIU7CoBgsx9QHZ6oqUqaiuByqzuYYadUi1yhQUKUyW6NNz5lypiGoStLsB8AwC6HXYg8/desWb1OKqo/9h5cOZJLM2F3rb11BoI/kEtrCIxw0K2JvVdH+uGdr9A9XVxUjh17fMCXNKGt/79vk9K7FCyIOyiv6WFWR6R1nEWPWGh93bJCDYQzGCX4Sk63aqlpTNMpL63jbcGPo9NdD4r6bMJHX8WGEhvis8wEu/6t5CHwSu9OAYuriR6UQam/hvGVDwoqi3An4TBtSMk+EOs2mfzbEeV9GanEGzIaS8QfX+WPqjPzqia+Ouk/+KqTdIgbhGIhbW4GKZ5uuIUJ38gfRIiqMhVohbF1ILMSYjc6BCL9n8xq40T/Ydq1wzf365pzRln7DqsFG41y1Za9bnAOWxDPxPsl4WvI2HqflkDWRaPuXuDvqUA4IuJuTz+i1ZsQ7+2o/GgxYcrNihiifa+JeHdLuXLlQTOZy9QW9GQ1vWpG2NvI8oIOCD2YCvHRmE8TIjPhePyQcK/MLinvC0llegEfnL7ZwJ45h1upZj69cuH0LJNPEt/IZ+jz6+b7ZjNdg8f59QMFsJMg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(396003)(136003)(346002)(39860400002)(366004)(451199021)(38100700002)(2906002)(82960400001)(4001150100001)(966005)(478600001)(6486002)(6666004)(2616005)(83380400001)(26005)(1076003)(6512007)(6506007)(6862004)(86362001)(186003)(36756003)(41300700001)(316002)(5660300002)(8936002)(8676002)(6636002)(66946007)(37006003)(66556008)(4326008)(66476007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MxUi7db1yO8TyGRumfp/7+fgLWZv7GwxoNH5EQ98iT0IxQO5QRdWxlKNJlxs?=
- =?us-ascii?Q?dwFWoteRmax+s5I0j/ebR1y1pJP5YpH4k82I+okoeUhZx1+uF+oUFoB9zDvu?=
- =?us-ascii?Q?/DxKUtTh8AWBO01jfISF+DVlgWYfJtFnB0MggKJQqe16hGsnWED3ppMRbe9B?=
- =?us-ascii?Q?lpSJDZkLIbyJlWI2BoNJw7MugTiMkvGnVfeBeN5Du5yMbSKdedSlIvzOCUAV?=
- =?us-ascii?Q?48OY1qrbcMBBDi5MvXHeZENJzczfXkHUK6LjDfONZTQsUaw2DPvXsnFCLDqU?=
- =?us-ascii?Q?5AEiQq8blSpxhBck+A6YeY76otkU/CZUCuc2+rMXQnhYuLj0QPqgCUTYlxLC?=
- =?us-ascii?Q?b12dH49SbKZXWIAqjkMXI0ffMni9TAWPqlRQjiCRXTWhOkWLZqCQHBOg3Xeq?=
- =?us-ascii?Q?FUYrejAVkfSRgyOJdU5bFRawCVtRM/qMPYdvVH3WfB6iHmYHPapLBEIwWbKO?=
- =?us-ascii?Q?7s3HYr3mX4dZ2XDOJTGb8g/F2oSICfDXvqHkBuZco7wzp1cdiY+zdd0S+TGj?=
- =?us-ascii?Q?AygXrq6tbKgX0knAvfEussRFY2/LJYlmVIO1jFIyZhvke9Gnvzx66xGP4RjF?=
- =?us-ascii?Q?vA8z7MandNffDDXQFIqkEnCYbtr7uYwN7+cXhoduT6Twj5R4eUd1FsDTmgMo?=
- =?us-ascii?Q?RXS8dJ8VNMSvc/B19w9Aj3oaHKUoW2+pNSLL1yhhOFYT0Ir0kjaaGT9d4PaV?=
- =?us-ascii?Q?WtuRawoWjOszi6anD/R5mrRSiailbmdZPjU18I6SZYDSHw4ocJWwFLEUStCz?=
- =?us-ascii?Q?byVxUaeUf/2tYMKgnggHJGCq/HiGab8P6t5viR48JFsgKpPnxSqarQu8TPhU?=
- =?us-ascii?Q?oJBJqoPJ3RUJBKR8+WL9omUFIZba8BiIt+E4OvGTmq2+G/TTPXJr/xfIg7BT?=
- =?us-ascii?Q?uFZwDFlydGjpiQ7r5UnShLAj62ra5ECXXKSe3qf9TUVm2q6iV8zPCAAWSNQ3?=
- =?us-ascii?Q?4iC7+Ul9fOwFikyb1WJ1IV8Y9699/58RG8kJztFw2fdY4/ATnKFV8KgSlnYy?=
- =?us-ascii?Q?Z/f0PT5AS75bumMhdyid9jlBURt/63Ca2QvkHA2XBqx0Y3YhKE/JtsBxRTdM?=
- =?us-ascii?Q?AGs+rfuTduNh8lm4BaU1Ra9rp1tagL2r9r6HxcIxBJqiWNrpw8sqdh2rkMsl?=
- =?us-ascii?Q?FXzkUme9Vkfs8LlBXknMbBWVN4sNoC/zSvRHBdyhyPnWK2KXhUYD8HorFX01?=
- =?us-ascii?Q?staqRysUy343elZH8l1Hwcl0Cxq6zz+tZfcjIBQz41M77A6cqrd9atmLBlpO?=
- =?us-ascii?Q?2Vr/wg4TpLCDLYqey9cvAYmETwZpbWSd2nj83foF5NPBkuf9GYytsEOabTLj?=
- =?us-ascii?Q?mvSb89DCXzy+nUwmWEVBMXUoWzFgON5OlXHjUwP4tlqU2ZhvZGbXa7xyIoXj?=
- =?us-ascii?Q?+3ZFNJ5lFeSI7Pr8AtXMuxAIuyrBE7oIMjYRk/+EeEfzqCnPziAHNrrKfaMW?=
- =?us-ascii?Q?d3RLAUUfnr0GsZIvT0ZGHDhgPwZLKw4CtfcAJ/xXZbKzkMqDBEBW++pOsLMA?=
- =?us-ascii?Q?uOpY/SYayCJpnwtg5j6d03KjSaP738O302NulI9Gp1uOjt9teCzrEETb/nR0?=
- =?us-ascii?Q?KHkNS7/RZJyr0ViyG7d0Aba2WmsWnKBBeTB5hUqW?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f482e54-a2ab-4864-5aa2-08db40ac5460
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 08:01:49.8658
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HbSQBEtnNrrkv0bAgW+gaBHsRw57Lydk3ZnkDVnB9h+mCLeKVGYYKwKNG0RbnZ5KY3oy7dJYbeY5cODwZhCa+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6520
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   3e6762343e0ddcb90b2e49af3a341051541d1a3a
-commit: ffa7348a84c3a30f5ac09367f0a2136ad75a85cc [100/335] KVM: TDX: Require TDP MMU and mmio caching for TDX
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
+head:   93eff603d6a2bc1895eeb7063dbd0661bb760b74
+commit: f7faedffa92c35afbcfbf0a3dd73079e16b2b87f [5/5] drm/i915/gt: use __xchg instead of internal helper
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230419/202304191617.HODs4X6a-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=f7faedffa92c35afbcfbf0a3dd73079e16b2b87f
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip locking/core
+        git checkout f7faedffa92c35afbcfbf0a3dd73079e16b2b87f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304090410.iQ7sU94Q-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191617.HODs4X6a-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/x86/kvm/vmx/main.c: mmu.h is included more than once.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:232:34: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:247:34: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_engine_cs.c:1045:15: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_lrc.c:1112:37: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/i915/gt/intel_lrc.c:1229:24: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/i915/gt/intel_lrc.c:1230:22: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_gt.c:756:21: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/i915/gt/intel_gt.c:803:14: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_rc6.c:705:16: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_migrate.c:1150:14: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/gpu/drm/i915/gt/intel_gsc.c:73:43: sparse: sparse: Using plain integer as NULL pointer
 
-42b7f124e0f9e (Sean Christopherson 2019-11-15 09:11:12 -0800    4) #include "x86_ops.h"
-ffa7348a84c3a (Isaku Yamahata      2022-01-21 02:21:35 -0800  @ 5) #include "mmu.h"
-42b7f124e0f9e (Sean Christopherson 2019-11-15 09:11:12 -0800    6) #include "vmx.h"
-42b7f124e0f9e (Sean Christopherson 2019-11-15 09:11:12 -0800    7) #include "nested.h"
-5eb7a2e3cfd26 (Isaku Yamahata      2022-05-16 17:30:09 -0700    8) #include "common.h"
-b3ecdf6976d7e (Sean Christopherson 2020-06-02 21:48:09 -0700  @ 9) #include "mmu.h"
-42b7f124e0f9e (Sean Christopherson 2019-11-15 09:11:12 -0800   10) #include "pmu.h"
-c532688145c4c (Isaku Yamahata      2022-02-09 15:38:31 -0800   11) #include "tdx.h"
-815700df01fb3 (Isaku Yamahata      2023-02-16 17:03:40 -0800   12) #include "tdx_arch.h"
+vim +232 drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
 
+   134	
+   135	static void heartbeat(struct work_struct *wrk)
+   136	{
+   137		struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
+   138		struct intel_engine_cs *engine =
+   139			container_of(wrk, typeof(*engine), heartbeat.work.work);
+   140		struct intel_context *ce = engine->kernel_context;
+   141		struct i915_request *rq;
+   142		unsigned long serial;
+   143	
+   144		/* Just in case everything has gone horribly wrong, give it a kick */
+   145		intel_engine_flush_submission(engine);
+   146	
+   147		rq = engine->heartbeat.systole;
+   148		if (rq && i915_request_completed(rq)) {
+   149			i915_request_put(rq);
+   150			engine->heartbeat.systole = NULL;
+   151		}
+   152	
+   153		if (!intel_engine_pm_get_if_awake(engine))
+   154			return;
+   155	
+   156		if (intel_gt_is_wedged(engine->gt))
+   157			goto out;
+   158	
+   159		if (i915_sched_engine_disabled(engine->sched_engine)) {
+   160			reset_engine(engine, engine->heartbeat.systole);
+   161			goto out;
+   162		}
+   163	
+   164		if (engine->heartbeat.systole) {
+   165			long delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+   166	
+   167			/* Safeguard against too-fast worker invocations */
+   168			if (!time_after(jiffies,
+   169					rq->emitted_jiffies + msecs_to_jiffies(delay)))
+   170				goto out;
+   171	
+   172			if (!i915_sw_fence_signaled(&rq->submit)) {
+   173				/*
+   174				 * Not yet submitted, system is stalled.
+   175				 *
+   176				 * This more often happens for ring submission,
+   177				 * where all contexts are funnelled into a common
+   178				 * ringbuffer. If one context is blocked on an
+   179				 * external fence, not only is it not submitted,
+   180				 * but all other contexts, including the kernel
+   181				 * context are stuck waiting for the signal.
+   182				 */
+   183			} else if (engine->sched_engine->schedule &&
+   184				   rq->sched.attr.priority < I915_PRIORITY_BARRIER) {
+   185				/*
+   186				 * Gradually raise the priority of the heartbeat to
+   187				 * give high priority work [which presumably desires
+   188				 * low latency and no jitter] the chance to naturally
+   189				 * complete before being preempted.
+   190				 */
+   191				attr.priority = 0;
+   192				if (rq->sched.attr.priority >= attr.priority)
+   193					attr.priority = I915_PRIORITY_HEARTBEAT;
+   194				if (rq->sched.attr.priority >= attr.priority)
+   195					attr.priority = I915_PRIORITY_BARRIER;
+   196	
+   197				local_bh_disable();
+   198				engine->sched_engine->schedule(rq, &attr);
+   199				local_bh_enable();
+   200			} else {
+   201				reset_engine(engine, rq);
+   202			}
+   203	
+   204			rq->emitted_jiffies = jiffies;
+   205			goto out;
+   206		}
+   207	
+   208		serial = READ_ONCE(engine->serial);
+   209		if (engine->wakeref_serial == serial)
+   210			goto out;
+   211	
+   212		if (!mutex_trylock(&ce->timeline->mutex)) {
+   213			/* Unable to lock the kernel timeline, is the engine stuck? */
+   214			if (xchg(&engine->heartbeat.blocked, serial) == serial)
+   215				intel_gt_handle_error(engine->gt, engine->mask,
+   216						      I915_ERROR_CAPTURE,
+   217						      "no heartbeat on %s",
+   218						      engine->name);
+   219			goto out;
+   220		}
+   221	
+   222		rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
+   223		if (IS_ERR(rq))
+   224			goto unlock;
+   225	
+   226		heartbeat_commit(rq, &attr);
+   227	
+   228	unlock:
+   229		mutex_unlock(&ce->timeline->mutex);
+   230	out:
+   231		if (!engine->i915->params.enable_hangcheck || !next_heartbeat(engine))
+ > 232			i915_request_put(__xchg(&engine->heartbeat.systole, 0));
+   233		intel_engine_pm_put(engine);
+   234	}
+   235	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
