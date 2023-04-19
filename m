@@ -1,46 +1,45 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF9120E6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 05:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CAA23A2;
+	Wed, 19 Apr 2023 06:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681883869; x=1713419869;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wW4NhzeAjoIIRZByQbApPxvAShLZ2TJXmk9n+CDaUQQ=;
-  b=jHhfJUDIkEdoQj3s4n6cUEC7m/gE0zWD9ixFfFlItbJVG8mLccyepMo2
-   nn4iln3GMEZOM2Vd0LC+ndlZTqGdSiZBkKKWCOGaaRLPkWsSLJY7Klnkq
-   dNif3Xxxx89ZV+dekCpx5ywCfdFpDsSqUKUiDRORrbJF8NDeDv6US0rAZ
-   YC+WcN8MYPeEiu/ZN7JdlJ4/WO9A9fSg6uEvv93EGTKtEmLC63a3OMDTL
-   4DNiyOQcDVikU2gaQ4/qauJJBufKsFuy0sH/yS1bq6vOlogShKfKBM69z
-   e45sNYLoUK1pUjFonVlHqCtx4N9r4HjdejXHAJFLVyvsQwiZSRiJKdyjJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408268069"
+  t=1681884517; x=1713420517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XFd6S826A5maJk4OGrAotGluTj43cfII7cPWpLVWpvc=;
+  b=j6TfU3DMkg2RPA3q5pEkp1t78+Z/4tHzTsNWW659YEayTJ+w+P4+YUCC
+   ClcWsl84LXcQ8fLPtFhRw/uUSRdvWQtswvku2hdUnWainhx5Yay6BMWaV
+   Ufwnb0FqKFsf2hOqd2XdhSR2e/yf4aMC8fiEXhGON8T7Ao1HqcjwraMGM
+   NSXkjz1jyRWgTRp/QL7vN+IrLEtdRIvnX9bwg/fUOFGNBcbvSNVXRFOuj
+   wWyl0MZcBD2611dHSu9e+ZjZJhsfswdK2K2rOOtMgN4MRQSvP4qw/SHXl
+   xqSgoGceKNXWrFKYs8WTbuaDbUh3hFuCfpeCspy/V/iNfhTAhbc6t7LL/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408269845"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="408268069"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 22:57:35 -0700
+   d="scan'208";a="408269845"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 23:08:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="760618042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="693912304"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="760618042"
+   d="scan'208";a="693912304"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Apr 2023 22:57:32 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 18 Apr 2023 23:08:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp0ov-000ead-06;
-	Wed, 19 Apr 2023 05:57:33 +0000
-Date: Wed, 19 Apr 2023 13:57:09 +0800
+	id 1pp0za-000ebG-0q;
+	Wed, 19 Apr 2023 06:08:34 +0000
+Date: Wed, 19 Apr 2023 14:07:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, dxu@dxuuu.xyz, qde@naccy.de,
-	Florian Westphal <fw@strlen.de>
-Subject: Re: [PATCH bpf-next v3 1/6] bpf: add bpf_link support for
- BPF_NETFILTER programs
-Message-ID: <202304191332.9uIkDScp-lkp@intel.com>
-References: <20230418131038.18054-2-fw@strlen.de>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 32/47]
+ drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of
+ 'dw_edma_device_caps'
+Message-ID: <202304191404.hmYyn4RN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,42 +48,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418131038.18054-2-fw@strlen.de>
 
-Hi Florian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/bpf-add-bpf_link-support-for-BPF_NETFILTER-programs/20230418-211350
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230418131038.18054-2-fw%40strlen.de
-patch subject: [PATCH bpf-next v3 1/6] bpf: add bpf_link support for BPF_NETFILTER programs
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230419/202304191332.9uIkDScp-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   7e16ec08611059a1000cfa489ab5ae396d623e70
+commit: 9ba38c702dd57eb4403edf14467a620ed3d8cc23 [32/47] Merge remote-tracking branch 'pci/next' into renesas-drivers
+config: i386-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230419/202304191404.hmYyn4RN-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/13cdccc8c376b453ae0ca2280ec22baa6210b450
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Florian-Westphal/bpf-add-bpf_link-support-for-BPF_NETFILTER-programs/20230418-211350
-        git checkout 13cdccc8c376b453ae0ca2280ec22baa6210b450
+        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=9ba38c702dd57eb4403edf14467a620ed3d8cc23
+        git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+        git fetch --no-tags geert-renesas-drivers master
+        git checkout 9ba38c702dd57eb4403edf14467a620ed3d8cc23
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191332.9uIkDScp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191404.hmYyn4RN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: net/netfilter/nf_bpf_link.o: in function `bpf_nf_link_release':
->> nf_bpf_link.c:(.text+0x174): undefined reference to `__bad_cmpxchg'
-   arm-linux-gnueabi-ld: net/netfilter/nf_bpf_link.o: in function `bpf_nf_link_detach':
-   nf_bpf_link.c:(.text+0x200): undefined reference to `__bad_cmpxchg'
+>> drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of 'dw_edma_device_caps'
+   static void dw_edma_device_caps(struct dma_chan *dchan,
+               ^
+   drivers/dma/dw-edma/dw-edma-core.c:213:13: note: previous definition is here
+   static void dw_edma_device_caps(struct dma_chan *dchan,
+               ^
+   1 error generated.
+
+
+vim +/dw_edma_device_caps +231 drivers/dma/dw-edma/dw-edma-core.c
+
+3883d64449ffe8 Serge Semin 2023-01-13  230  
+6f94141d8662ff Serge Semin 2023-01-13 @231  static void dw_edma_device_caps(struct dma_chan *dchan,
+6f94141d8662ff Serge Semin 2023-01-13  232  				struct dma_slave_caps *caps)
+6f94141d8662ff Serge Semin 2023-01-13  233  {
+6f94141d8662ff Serge Semin 2023-01-13  234  	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
+6f94141d8662ff Serge Semin 2023-01-13  235  
+6f94141d8662ff Serge Semin 2023-01-13  236  	if (chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+6f94141d8662ff Serge Semin 2023-01-13  237  		if (chan->dir == EDMA_DIR_READ)
+6f94141d8662ff Serge Semin 2023-01-13  238  			caps->directions = BIT(DMA_DEV_TO_MEM);
+6f94141d8662ff Serge Semin 2023-01-13  239  		else
+6f94141d8662ff Serge Semin 2023-01-13  240  			caps->directions = BIT(DMA_MEM_TO_DEV);
+6f94141d8662ff Serge Semin 2023-01-13  241  	} else {
+6f94141d8662ff Serge Semin 2023-01-13  242  		if (chan->dir == EDMA_DIR_WRITE)
+6f94141d8662ff Serge Semin 2023-01-13  243  			caps->directions = BIT(DMA_DEV_TO_MEM);
+6f94141d8662ff Serge Semin 2023-01-13  244  		else
+6f94141d8662ff Serge Semin 2023-01-13  245  			caps->directions = BIT(DMA_MEM_TO_DEV);
+6f94141d8662ff Serge Semin 2023-01-13  246  	}
+6f94141d8662ff Serge Semin 2023-01-13  247  }
+6f94141d8662ff Serge Semin 2023-01-13  248  
+
+:::::: The code at line 231 was first introduced by commit
+:::::: 6f94141d8662ff9b164ea0c74a8325bbffc54183 dmaengine: dw-edma: Join read/write channels into a single device
+
+:::::: TO: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
