@@ -1,46 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD583D67;
-	Wed, 19 Apr 2023 13:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EF23D67
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 14:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681911055; x=1713447055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N/GSlYqreKAXPu9B0lGYZfv80oraXkzW4fyW3/FG+wQ=;
-  b=brt7qoQAhklTou6CPSiTL97Ycejns7sjBu8bNAF/42G31XXU8+KVZBZX
-   7J6aXiaDoS1mgmnDcc906PZY+5ZeSlxDdBQpk4yhz9buvpOE9CLwNvNTj
-   D+70aaDlFEkIioo1JAMZYj04jLbmhIJTgP3Nk0Wxfz6ar0s656Udbdbo+
-   Jun7k/I5lrzZOMrzO9eP+O9kOYQM2uiA+rfXr90y9+2QX7QuNWgQOo+l7
-   cK9dxhI4m3VPGgtGTWzfiPk12AsGIt/iUTI1tabnkx9sV+WUbVT42hJg9
-   vMYzVUK6HtvTdkvbwba7OWIySnSQVe625eTCjw32RpYnVQ/LjHbXzXdC1
+  t=1681913453; x=1713449453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A3IjMggNIS/ZZLTC4MGOFwo6VwGYR3cGSKfWlXFLc5M=;
+  b=PO3aYiyw8jMWO6E+Pl994H2vLKlOqxKk9rb+DWHRP/gCQaes8ad/yF50
+   51pEYMZgowenA4sIT0vJmnXyL6hK7dz9xZQmzSA3BLAKiRz4ACpnMT365
+   4cJoVxHiQd/8pgi5vb0cC+6h5ACdMKmEjX/ncNd860Yo5NlfSbWT+4kXd
+   WHEhPdJ8FmxIZkhOnoRBMlP9LcqZwJaIFGPnpsgzE9XRQdGVKogFqg6Eo
+   AhajF/oROgJdg+/Cpj+7iuuzNgrKI+hG4WSmrAhZCE7AMHTxoHty9wGki
+   R47rsFLinzy6JcGmvxFhJZgPEsSFiVX3tMNlPJ9oC50aDm0IaP+xjQZB1
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325062181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="410687024"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="325062181"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 06:30:54 -0700
+   d="scan'208";a="410687024"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 07:10:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="684981964"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021223339"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="684981964"
+   d="scan'208";a="1021223339"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Apr 2023 06:30:51 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Apr 2023 07:10:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp7tb-000euR-0p;
-	Wed, 19 Apr 2023 13:30:51 +0000
-Date: Wed, 19 Apr 2023 21:29:58 +0800
+	id 1pp8WJ-000ev5-20;
+	Wed, 19 Apr 2023 14:10:51 +0000
+Date: Wed, 19 Apr 2023 22:10:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH 1/4] block: constify partition prober array
-Message-ID: <202304192132.a6MR0cFR-lkp@intel.com>
-References: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 4666/26993] ERROR:
+ "alarmtimer_get_rtcdev" [drivers/power/supply/charger-manager.ko] undefined!
+Message-ID: <202304192245.yzWC85Ap-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,98 +45,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
 
-Hi Thomas,
+Hi Baolin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on af67688dca57999fd848f051eeea1d375ba546b2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-base:   af67688dca57999fd848f051eeea1d375ba546b2
-patch link:    https://lore.kernel.org/r/20230419-const-partition-v1-1-2d66f2d83873%40weissschuh.net
-patch subject: [PATCH 1/4] block: constify partition prober array
-config: arm64-randconfig-r001-20230416 (https://download.01.org/0day-ci/archive/20230419/202304192132.a6MR0cFR-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   af542fcdb47a45f20f1010340dd51da074a728c5
+commit: 3ebeb5687243e405fbf34032249cada998ee4779 [4666/26993] FROMGIT: power: supply: Allow charger manager can be built as a module
+config: x86_64-randconfig-a004-20230417 (https://download.01.org/0day-ci/archive/20230419/202304192245.yzWC85Ap-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/9bc1f4308c10322c327c9e86ede6bb9e862440aa
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-        git checkout 9bc1f4308c10322c327c9e86ede6bb9e862440aa
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout 3ebeb5687243e405fbf34032249cada998ee4779
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash block/partitions/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304192132.a6MR0cFR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304192245.yzWC85Ap-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> block/partitions/core.c:15:8: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
-   static const int (*check_part[])(struct parsed_partitions *) = {
-          ^~~~~~
-   block/partitions/core.c:47:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           efi_partition,          /* this must come before msdos */
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:50:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           sgi_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:56:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           msdos_partition,
-           ^~~~~~~~~~~~~~~
-   block/partitions/core.c:59:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           osf_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:62:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           sun_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:65:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           amiga_partition,
-           ^~~~~~~~~~~~~~~
-   block/partitions/core.c:71:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           mac_partition,
-           ^~~~~~~~~~~~~
-   1 warning and 7 errors generated.
-
-
-vim +/const +15 block/partitions/core.c
-
-    14	
-  > 15	static const int (*check_part[])(struct parsed_partitions *) = {
-    16		/*
-    17		 * Probe partition formats with tables at disk address 0
-    18		 * that also have an ADFS boot block at 0xdc0.
-    19		 */
-    20	#ifdef CONFIG_ACORN_PARTITION_ICS
-    21		adfspart_check_ICS,
-    22	#endif
-    23	#ifdef CONFIG_ACORN_PARTITION_POWERTEC
-    24		adfspart_check_POWERTEC,
-    25	#endif
-    26	#ifdef CONFIG_ACORN_PARTITION_EESOX
-    27		adfspart_check_EESOX,
-    28	#endif
-    29	
-    30		/*
-    31		 * Now move on to formats that only have partition info at
-    32		 * disk address 0xdc0.  Since these may also have stale
-    33		 * PC/BIOS partition tables, they need to come before
-    34		 * the msdos entry.
-    35		 */
-    36	#ifdef CONFIG_ACORN_PARTITION_CUMANA
-    37		adfspart_check_CUMANA,
-    38	#endif
-    39	#ifdef CONFIG_ACORN_PARTITION_ADFS
-    40		adfspart_check_ADFS,
-    41	#endif
-    42	
+>> ERROR: "alarmtimer_get_rtcdev" [drivers/power/supply/charger-manager.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
