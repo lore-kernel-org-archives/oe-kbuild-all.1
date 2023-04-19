@@ -1,46 +1,34 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from 167-179-156-38.a7b39c.syd.nbn.aussiebb.net (167-179-156-38.a7b39c.syd.nbn.aussiebb.net [167.179.156.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B11828F2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 09:11:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681895508; x=1713431508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bwq23zBVr9UE6Bu5wJPoFE2RtRMooY2VwlFYV4IdgiI=;
-  b=c0wY0fszmPGfZIwyPvJJOMabpvr17kCH8ChmTNdRpa5l0SUJEHrCRv9T
-   j7LDrsG31U9EKQNr/c4ncfJUlclG0tzjLAje+ZzcXoz1Zp8mN4h69X1YC
-   h99aFAeccQvb5iu8141NeceK9ntS79uxxFq3RI47lVFE7BJtdw36wwdpR
-   gUFyfRxW7v7qVkthKFofWH/wVKG/xbb8xDMGlN6i5FvjxJm2p2gD0iOIg
-   DmW92XHwcHNnz0jxZuhWnlCVDTD1jXMUNliwZoY3MXXW37hqf0YwXKdAa
-   +huFYZ8Qy03wpvBotdttSRYevL1EgrvYXYTwjQgqsr6dBEPLBGjeYbXKc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325013499"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="325013499"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 02:11:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="721852276"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="721852276"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Apr 2023 02:11:45 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pp3qr-000elf-0B;
-	Wed, 19 Apr 2023 09:11:45 +0000
-Date: Wed, 19 Apr 2023 17:11:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH 1/4] block: constify partition prober array
-Message-ID: <202304191640.SkNk7kVN-lkp@intel.com>
-References: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5322528F2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 09:16:41 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1pp3KA-00089X-Gl; Wed, 19 Apr 2023 16:38:00 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 19 Apr 2023 16:37:59 +0800
+Date: Wed, 19 Apr 2023 16:37:59 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Sean Wang <sean.wang@mediatek.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>
+Subject: [PATCH] hwrng: Kconfig - Add HAS_IOMEM dependencies for
+ exynos/meson/mtk/npcm
+Message-ID: <ZD+oZ9DWiTxeo3RY@gondor.apana.org.au>
+References: <202304191106.swKbBeDh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,75 +37,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
+In-Reply-To: <202304191106.swKbBeDh-lkp@intel.com>
 
-Hi Thomas,
+On Wed, Apr 19, 2023 at 11:43:42AM +0800, kernel test robot wrote:
+>
+>    s390-linux-ld: drivers/char/hw_random/exynos-trng.o: in function `exynos_trng_probe':
+>    exynos-trng.c:(.text+0x39e): undefined reference to `devm_platform_ioremap_resource'
+>    s390-linux-ld: drivers/char/hw_random/meson-rng.o: in function `meson_rng_probe':
+>    meson-rng.c:(.text+0x10a): undefined reference to `devm_platform_ioremap_resource'
+>    s390-linux-ld: drivers/char/hw_random/mtk-rng.o: in function `mtk_rng_probe':
+>    mtk-rng.c:(.text+0x40e): undefined reference to `devm_platform_ioremap_resource'
+>    s390-linux-ld: drivers/char/hw_random/npcm-rng.o: in function `npcm_rng_probe':
+>    npcm-rng.c:(.text+0x2ca): undefined reference to `devm_platform_ioremap_resource'
 
-kernel test robot noticed the following build warnings:
+OK, this patch should fix these ones at least:
 
-[auto build test WARNING on af67688dca57999fd848f051eeea1d375ba546b2]
+---8<---
+Add missing dependencies on HAS_IOMEM as otherwise they will trigger
+failed builds with COMPILE_TEST enabled.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-base:   af67688dca57999fd848f051eeea1d375ba546b2
-patch link:    https://lore.kernel.org/r/20230419-const-partition-v1-1-2d66f2d83873%40weissschuh.net
-patch subject: [PATCH 1/4] block: constify partition prober array
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191640.SkNk7kVN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9bc1f4308c10322c327c9e86ede6bb9e862440aa
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-        git checkout 9bc1f4308c10322c327c9e86ede6bb9e862440aa
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash block/partitions/
+Also add dependencies on OF where appropriate.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191640.SkNk7kVN-lkp@intel.com/
+Change the default so that these drivers are not enabled just because
+COMPILE_TEST is turned on.
 
-All warnings (new ones prefixed by >>):
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202304191106.swKbBeDh-lkp@intel.com/
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
 
->> block/partitions/core.c:15:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      15 | static const int (*check_part[])(struct parsed_partitions *) = {
-         |        ^~~~~
-
-
-vim +15 block/partitions/core.c
-
-    14	
-  > 15	static const int (*check_part[])(struct parsed_partitions *) = {
-    16		/*
-    17		 * Probe partition formats with tables at disk address 0
-    18		 * that also have an ADFS boot block at 0xdc0.
-    19		 */
-    20	#ifdef CONFIG_ACORN_PARTITION_ICS
-    21		adfspart_check_ICS,
-    22	#endif
-    23	#ifdef CONFIG_ACORN_PARTITION_POWERTEC
-    24		adfspart_check_POWERTEC,
-    25	#endif
-    26	#ifdef CONFIG_ACORN_PARTITION_EESOX
-    27		adfspart_check_EESOX,
-    28	#endif
-    29	
-    30		/*
-    31		 * Now move on to formats that only have partition info at
-    32		 * disk address 0xdc0.  Since these may also have stale
-    33		 * PC/BIOS partition tables, they need to come before
-    34		 * the msdos entry.
-    35		 */
-    36	#ifdef CONFIG_ACORN_PARTITION_CUMANA
-    37		adfspart_check_CUMANA,
-    38	#endif
-    39	#ifdef CONFIG_ACORN_PARTITION_ADFS
-    40		adfspart_check_ADFS,
-    41	#endif
-    42	
-
+diff --git a/drivers/char/hw_random/Kconfig b/drivers/char/hw_random/Kconfig
+index ae508e96cfc2..f3146470ce88 100644
+--- a/drivers/char/hw_random/Kconfig
++++ b/drivers/char/hw_random/Kconfig
+@@ -400,9 +400,9 @@ config HW_RANDOM_POLARFIRE_SOC
+ 
+ config HW_RANDOM_MESON
+ 	tristate "Amlogic Meson Random Number Generator support"
+-	depends on HW_RANDOM
+ 	depends on ARCH_MESON || COMPILE_TEST
+-	default y
++	depends on HAS_IOMEM && OF
++	default HW_RANDOM if ARCH_MESON
+ 	help
+ 	  This driver provides kernel-side support for the Random Number
+ 	  Generator hardware found on Amlogic Meson SoCs.
+@@ -427,9 +427,9 @@ config HW_RANDOM_CAVIUM
+ 
+ config HW_RANDOM_MTK
+ 	tristate "Mediatek Random Number Generator support"
+-	depends on HW_RANDOM
+ 	depends on ARCH_MEDIATEK || COMPILE_TEST
+-	default y
++	depends on HAS_IOMEM && OF
++	default HW_RANDOM if ARCH_MEDIATEK
+ 	help
+ 	  This driver provides kernel-side support for the Random Number
+ 	  Generator hardware found on Mediatek SoCs.
+@@ -456,7 +456,8 @@ config HW_RANDOM_S390
+ config HW_RANDOM_EXYNOS
+ 	tristate "Samsung Exynos True Random Number Generator support"
+ 	depends on ARCH_EXYNOS || COMPILE_TEST
+-	default HW_RANDOM
++	depends on HAS_IOMEM
++	default HW_RANDOM if ARCH_EXYNOS
+ 	help
+ 	  This driver provides support for the True Random Number
+ 	  Generator available in Exynos SoCs.
+@@ -483,7 +484,8 @@ config HW_RANDOM_OPTEE
+ config HW_RANDOM_NPCM
+ 	tristate "NPCM Random Number Generator support"
+ 	depends on ARCH_NPCM || COMPILE_TEST
+-	default HW_RANDOM
++	depends on HAS_IOMEM
++	default HW_RANDOM if ARCH_NPCM
+ 	help
+ 	  This driver provides support for the Random Number
+ 	  Generator hardware available in Nuvoton NPCM SoCs.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
