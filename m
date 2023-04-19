@@ -1,48 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DC128E8;
-	Wed, 19 Apr 2023 10:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CAA33C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 11:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681901093; x=1713437093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XnfoaCcH3MWyJZkIKskW2BAZXpZylboTWI3thPO1+Yo=;
-  b=h/Mgxyi2l6ACF0t3/U239JN6LARn86F6Q8rr/qGtD06x6aUr6vP0sE2j
-   JOYawY+LfunYjU1KBUUvazwEMffrCJFqC0jDp+d58fw3db9tUUKB40ZZx
-   Hbi76SuSKXeeVR6F0KwYEiZPMpcsCzZw6zrDiz9GNG73+d4jV0Ttw7xkg
-   hEfqb/+TbYU2C3NTtyAVy85G4OF3+R8tLnoRgk1g9RA5TzCRQJV8hM0zy
-   zqjkzYFvY+HTezT79RP42CecSqAlKqPXYbVUcUtcOWwKjmbeTh6KYD6YX
-   LWbFqEEsD/L66lTWadH56zbSf2VcB6iJ35JARw7qczXtevyRtsAb3heun
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325748502"
+  t=1681902354; x=1713438354;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Lx2fT498sC93YTPXO3a6wqkTEF8oQ6kHs2h72bBUKTw=;
+  b=ElHFn+dArRor7rEqpEdQPg78E4/Vb9Pjle6EkI0RbDiYKVyjG+u+F0Xn
+   GQO07SJJ2rsRtGGIq93GLShddvHaRQ3ZCUqB9JrO2NPxUWS/afUmntxC0
+   pEA+gsI3c5D9UVrDCOSQmDNMXGHvlKPoYUKHAPRpVffyy+F2OVkNINdvx
+   gbGcBihj5JrvpMYeFLv0Cvb/8uVLtETCdm05Wd3ImqAtDTAdgvXLhQJaK
+   Ma+zWiZhrosalFTa/PhTyErOqcyyT2PvMI/kCHFPxv0V3+QyB/t1Zykkh
+   9Rn9+fFpOWtuTGO2rEy0Z0YJyDV7/g6LIXM8+yLySX0Zks2uiddWGkijI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="345418762"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="325748502"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 03:44:52 -0700
+   d="scan'208";a="345418762"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 04:05:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="691462456"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="684943753"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="691462456"
+   d="scan'208";a="684943753"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Apr 2023 03:44:48 -0700
+  by orsmga007.jf.intel.com with ESMTP; 19 Apr 2023 04:05:48 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp5It-000ep9-16;
-	Wed, 19 Apr 2023 10:44:47 +0000
-Date: Wed, 19 Apr 2023 18:44:37 +0800
+	id 1pp5dE-000eph-04;
+	Wed, 19 Apr 2023 11:05:48 +0000
+Date: Wed, 19 Apr 2023 19:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-	daniel@ffwll.ch, sumit.semwal@linaro.org,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, hackyzh002 <hackyzh002@gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-Message-ID: <202304191814.1O8ppodq-lkp@intel.com>
-References: <20230419045157.69829-1-hackyzh002@gmail.com>
+To: Deepak Kumar Singh <quic_deesin@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Sarannya S <quic_sarannya@quicinc.com>
+Subject: [remoteproc:rpmsg-next 4/10] drivers/rpmsg/rpmsg_core.c:561:20:
+ error: 'struct rpmsg_endpoint' has no member named 'flow_cb'
+Message-ID: <202304191918.mANz73yb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,204 +46,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419045157.69829-1-hackyzh002@gmail.com>
 
-Hi hackyzh002,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.3-rc7 next-20230418]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230419045157.69829-1-hackyzh002%40gmail.com
-patch subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-config: arm64-buildonly-randconfig-r004-20230416 (https://download.01.org/0day-ci/archive/20230419/202304191814.1O8ppodq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
+head:   cc888eb072b6a48642e429a030b065d4da1d594b
+commit: cc7c3bc62c6c74c217ea73e30a135fd2c3affb34 [4/10] rpmsg: core: Add signal API support
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191918.mANz73yb-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-        git checkout c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
+        # https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git/commit/?id=cc7c3bc62c6c74c217ea73e30a135fd2c3affb34
+        git remote add remoteproc git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git
+        git fetch --no-tags remoteproc rpmsg-next
+        git checkout cc7c3bc62c6c74c217ea73e30a135fd2c3affb34
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191814.1O8ppodq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191918.mANz73yb-lkp@intel.com/
+
+Note: the remoteproc/rpmsg-next HEAD cc888eb072b6a48642e429a030b065d4da1d594b builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:195:11: error: cannot combine with previous 'type-name' declaration specifier
-           uint64_t int size;
-                    ^
-   1 error generated.
+   drivers/rpmsg/rpmsg_core.c:340:5: warning: no previous prototype for 'rpmsg_set_flow_control' [-Wmissing-prototypes]
+     340 | int rpmsg_set_flow_control(struct rpmsg_endpoint *ept, bool enable)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_core.c: In function 'rpmsg_dev_probe':
+>> drivers/rpmsg/rpmsg_core.c:561:20: error: 'struct rpmsg_endpoint' has no member named 'flow_cb'
+     561 |                 ept->flow_cb = rpdrv->flowcontrol;
+         |                    ^~
+>> drivers/rpmsg/rpmsg_core.c:561:37: error: 'struct rpmsg_driver' has no member named 'flowcontrol'
+     561 |                 ept->flow_cb = rpdrv->flowcontrol;
+         |                                     ^~
 
 
-vim +195 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+vim +561 drivers/rpmsg/rpmsg_core.c
 
-   184	
-   185	/* Copy the data from userspace and go over it the first time */
-   186	static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
-   187				   union drm_amdgpu_cs *cs)
-   188	{
-   189		struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
-   190		unsigned int num_ibs[AMDGPU_CS_GANG_SIZE] = { };
-   191		struct amdgpu_vm *vm = &fpriv->vm;
-   192		uint64_t *chunk_array_user;
-   193		uint64_t *chunk_array;
-   194		uint32_t uf_offset = 0;
- > 195		uint64_t int size;
-   196		int ret;
-   197		int i;
-   198	
-   199		chunk_array = kvmalloc_array(cs->in.num_chunks, sizeof(uint64_t),
-   200					     GFP_KERNEL);
-   201		if (!chunk_array)
-   202			return -ENOMEM;
-   203	
-   204		/* get chunks */
-   205		chunk_array_user = u64_to_user_ptr(cs->in.chunks);
-   206		if (copy_from_user(chunk_array, chunk_array_user,
-   207				   sizeof(uint64_t)*cs->in.num_chunks)) {
-   208			ret = -EFAULT;
-   209			goto free_chunk;
-   210		}
-   211	
-   212		p->nchunks = cs->in.num_chunks;
-   213		p->chunks = kvmalloc_array(p->nchunks, sizeof(struct amdgpu_cs_chunk),
-   214				    GFP_KERNEL);
-   215		if (!p->chunks) {
-   216			ret = -ENOMEM;
-   217			goto free_chunk;
-   218		}
-   219	
-   220		for (i = 0; i < p->nchunks; i++) {
-   221			struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
-   222			struct drm_amdgpu_cs_chunk user_chunk;
-   223			uint32_t __user *cdata;
-   224	
-   225			chunk_ptr = u64_to_user_ptr(chunk_array[i]);
-   226			if (copy_from_user(&user_chunk, chunk_ptr,
-   227					       sizeof(struct drm_amdgpu_cs_chunk))) {
-   228				ret = -EFAULT;
-   229				i--;
-   230				goto free_partial_kdata;
-   231			}
-   232			p->chunks[i].chunk_id = user_chunk.chunk_id;
-   233			p->chunks[i].length_dw = user_chunk.length_dw;
-   234	
-   235			size = p->chunks[i].length_dw;
-   236			cdata = u64_to_user_ptr(user_chunk.chunk_data);
-   237	
-   238			p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
-   239							    GFP_KERNEL);
-   240			if (p->chunks[i].kdata == NULL) {
-   241				ret = -ENOMEM;
-   242				i--;
-   243				goto free_partial_kdata;
-   244			}
-   245			size *= sizeof(uint32_t);
-   246			if (copy_from_user(p->chunks[i].kdata, cdata, size)) {
-   247				ret = -EFAULT;
-   248				goto free_partial_kdata;
-   249			}
-   250	
-   251			/* Assume the worst on the following checks */
-   252			ret = -EINVAL;
-   253			switch (p->chunks[i].chunk_id) {
-   254			case AMDGPU_CHUNK_ID_IB:
-   255				if (size < sizeof(struct drm_amdgpu_cs_chunk_ib))
-   256					goto free_partial_kdata;
-   257	
-   258				ret = amdgpu_cs_p1_ib(p, p->chunks[i].kdata, num_ibs);
-   259				if (ret)
-   260					goto free_partial_kdata;
-   261				break;
-   262	
-   263			case AMDGPU_CHUNK_ID_FENCE:
-   264				if (size < sizeof(struct drm_amdgpu_cs_chunk_fence))
-   265					goto free_partial_kdata;
-   266	
-   267				ret = amdgpu_cs_p1_user_fence(p, p->chunks[i].kdata,
-   268							      &uf_offset);
-   269				if (ret)
-   270					goto free_partial_kdata;
-   271				break;
-   272	
-   273			case AMDGPU_CHUNK_ID_BO_HANDLES:
-   274				if (size < sizeof(struct drm_amdgpu_bo_list_in))
-   275					goto free_partial_kdata;
-   276	
-   277				ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
-   278				if (ret)
-   279					goto free_partial_kdata;
-   280				break;
-   281	
-   282			case AMDGPU_CHUNK_ID_DEPENDENCIES:
-   283			case AMDGPU_CHUNK_ID_SYNCOBJ_IN:
-   284			case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:
-   285			case AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES:
-   286			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:
-   287			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:
-   288				break;
-   289	
-   290			default:
-   291				goto free_partial_kdata;
-   292			}
-   293		}
-   294	
-   295		if (!p->gang_size) {
-   296			ret = -EINVAL;
-   297			goto free_partial_kdata;
-   298		}
-   299	
-   300		for (i = 0; i < p->gang_size; ++i) {
-   301			ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
-   302					       num_ibs[i], &p->jobs[i]);
-   303			if (ret)
-   304				goto free_all_kdata;
-   305		}
-   306		p->gang_leader = p->jobs[p->gang_leader_idx];
-   307	
-   308		if (p->ctx->vram_lost_counter != p->gang_leader->vram_lost_counter) {
-   309			ret = -ECANCELED;
-   310			goto free_all_kdata;
-   311		}
-   312	
-   313		if (p->uf_entry.tv.bo)
-   314			p->gang_leader->uf_addr = uf_offset;
-   315		kvfree(chunk_array);
-   316	
-   317		/* Use this opportunity to fill in task info for the vm */
-   318		amdgpu_vm_set_task_info(vm);
-   319	
-   320		return 0;
-   321	
-   322	free_all_kdata:
-   323		i = p->nchunks - 1;
-   324	free_partial_kdata:
-   325		for (; i >= 0; i--)
-   326			kvfree(p->chunks[i].kdata);
-   327		kvfree(p->chunks);
-   328		p->chunks = NULL;
-   329		p->nchunks = 0;
-   330	free_chunk:
-   331		kvfree(chunk_array);
-   332	
-   333		return ret;
-   334	}
-   335	
+   525	
+   526	/*
+   527	 * when an rpmsg driver is probed with a channel, we seamlessly create
+   528	 * it an endpoint, binding its rx callback to a unique local rpmsg
+   529	 * address.
+   530	 *
+   531	 * if we need to, we also announce about this channel to the remote
+   532	 * processor (needed in case the driver is exposing an rpmsg service).
+   533	 */
+   534	static int rpmsg_dev_probe(struct device *dev)
+   535	{
+   536		struct rpmsg_device *rpdev = to_rpmsg_device(dev);
+   537		struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
+   538		struct rpmsg_channel_info chinfo = {};
+   539		struct rpmsg_endpoint *ept = NULL;
+   540		int err;
+   541	
+   542		err = dev_pm_domain_attach(dev, true);
+   543		if (err)
+   544			goto out;
+   545	
+   546		if (rpdrv->callback) {
+   547			strncpy(chinfo.name, rpdev->id.name, RPMSG_NAME_SIZE);
+   548			chinfo.src = rpdev->src;
+   549			chinfo.dst = RPMSG_ADDR_ANY;
+   550	
+   551			ept = rpmsg_create_ept(rpdev, rpdrv->callback, NULL, chinfo);
+   552			if (!ept) {
+   553				dev_err(dev, "failed to create endpoint\n");
+   554				err = -ENOMEM;
+   555				goto out;
+   556			}
+   557	
+   558			rpdev->ept = ept;
+   559			rpdev->src = ept->addr;
+   560	
+ > 561			ept->flow_cb = rpdrv->flowcontrol;
+   562		}
+   563	
+   564		err = rpdrv->probe(rpdev);
+   565		if (err) {
+   566			dev_err(dev, "%s: failed: %d\n", __func__, err);
+   567			goto destroy_ept;
+   568		}
+   569	
+   570		if (ept && rpdev->ops->announce_create) {
+   571			err = rpdev->ops->announce_create(rpdev);
+   572			if (err) {
+   573				dev_err(dev, "failed to announce creation\n");
+   574				goto remove_rpdev;
+   575			}
+   576		}
+   577	
+   578		return 0;
+   579	
+   580	remove_rpdev:
+   581		if (rpdrv->remove)
+   582			rpdrv->remove(rpdev);
+   583	destroy_ept:
+   584		if (ept)
+   585			rpmsg_destroy_ept(ept);
+   586	out:
+   587		return err;
+   588	}
+   589	
 
 -- 
 0-DAY CI Kernel Test Service
