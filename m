@@ -1,54 +1,43 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBBF197;
-	Wed, 19 Apr 2023 04:42:40 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-2fbb99cb297so1340066f8f.1;
-        Tue, 18 Apr 2023 21:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681879359; x=1684471359;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rg17OEPD/HpqiUqkk1EGt0TAJm79SfIK4kHWRGVMOgc=;
-        b=TCzkHTkNaj6cihXWHZPN9Zyn1dIU0QfksLmfX9zus2ApeMVfbtuuDxbRTOIx1W8nIg
-         QP5oRBv2e2ViGY9Eq3HxSp2Cl15DyoWgg8xD1ziQZdqyuudwg0/GP6L5gDjLPnIDPMg7
-         5VJQ2Shc9DZ4eswINFlA3Y29mgLbsub4DjRA8mbPyO+tzzgIsXcWzwqH4bsorLHsnOyY
-         T6wA1jOh3+89wFkyXdqvOW3npTbdfz40qdx7BWdzerebCLRvLTh+Ppo5NZKFxaXcYqRz
-         3rcqKQcVxc3Z6a4VXepiRuBOFG4Gd+49drgDllrvpwL5uRUWzcBOuY9gm8gcN7Yoq6X1
-         ddyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681879359; x=1684471359;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rg17OEPD/HpqiUqkk1EGt0TAJm79SfIK4kHWRGVMOgc=;
-        b=MSScf+xsCVfpVxtBZNV6RUzdFU0SfUEWngRSOUQdQZQHDsAINuTrESx5ZGjafZp8pF
-         MPU6PB6HSJ4ya218HAEAmPhRilwSokIEsPd7HVeOpSuhCS8V/wH2js+3lthggC0Pt81a
-         WLuXUz44u2dUmhnfIQC391qJM/LCKn13R68F3JEAv9MlUVGd3h/YCpdGuHoM2KgoA7lt
-         s1xFgth5EaVx6YRNtnxw1tKdeaHDKK/MXDwibTqWgKl9csL7kIKOiOwSMu+/0Oo6hafF
-         JC2V3ZtZD9P2iYd7yTnvCNXE8r3oY5RWyqULnSxbmDHFyiVd12jXSWp15DXHrmH2eVKW
-         t2Aw==
-X-Gm-Message-State: AAQBX9eng3Yzzk8yTSekOUhhsAb9RCgFOmCPF2xQXgwK8xj72e8m47kL
-	iKtz+ElAe7mvFy3QT6C7hPVimrRRl73iYwBn
-X-Google-Smtp-Source: AKy350bg/6oyNd2L8+kUXrGBSheCysTkDRCpeYG4ayrOqiiavxa+Rc+6UfiWMrhQfZOba/jWCF4hxg==
-X-Received: by 2002:a5d:55c1:0:b0:2dc:cad4:87b9 with SMTP id i1-20020a5d55c1000000b002dccad487b9mr3280558wrw.68.1681879357209;
-        Tue, 18 Apr 2023 21:42:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z14-20020adff1ce000000b002f28de9f73bsm14591510wro.55.2023.04.18.21.42.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 21:42:36 -0700 (PDT)
-Date: Wed, 19 Apr 2023 07:42:33 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	linux-clk@vger.kernel.org, robh+dt@kernel.org, sboyd@kernel.org,
-	mturquette@baylibre.com, krzysztof.kozlowski+dt@linaro.org,
-	michal.simek@xilinx.com
-Subject: Re: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking
- wizard
-Message-ID: <588e6275-88a2-4c3a-beee-e73eb2c99eac@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DD11C04
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 05:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681882054; x=1713418054;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GBgTcD7MLaOrf4BAXcxm8hcb2Na4DJ9+9O0QQX/G3ZU=;
+  b=NfXB0EAn7SHGwOXqq4FwNKTdORMtmufTdJ0HiMw7oov9z3CCE2uTKodJ
+   oEzNYRMxdE59UNyFqb1nLawnJrgVA17PfXaZbcKQ34c2ysv0RxXmTFFmL
+   2NsC5Bkj+pcxnC5+xf1n5D0qzL1Oz+rwgvTMXiQgsAAAGY+sLznctjGXD
+   yZGN5MzTJqJh4TNexUZq7sbSnfSMOIgXhW65s+SPjdmXWq1g6zLBFlpEx
+   Xg4idNy/nCBkbQrK1kGwqJY/nYsFUKXmIAJx4yNHpUOylChNMv9QgYnJW
+   R/lrh9NWx1xkwdJ/0VSO/n7AMLRWjUIa40zJ0OT5QnC6Czo764+yND7ys
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="347212474"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="347212474"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 22:27:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="641623747"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="641623747"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 18 Apr 2023 22:27:32 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pp0Lr-000eYd-3A;
+	Wed, 19 Apr 2023 05:27:31 +0000
+Date: Wed, 19 Apr 2023 13:26:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-trusty-5.10 1415/7898]
+ fs/incfs/pseudo_files.c:682:31: warning: cast to pointer from integer of
+ different size
+Message-ID: <202304191324.AzIdpBOK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,111 +46,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
 
-Hi Shubhrajyoti,
+Hi Paul,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230418102855.6791-3-shubhrajyoti.datta%40amd.com
-patch subject: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking wizard
-config: csky-randconfig-m041-20230418 (https://download.01.org/0day-ci/archive/20230419/202304190429.UOH2nE9u-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android12-trusty-5.10
+head:   599ad660291e9e6b440d7b25af31d48125b25e88
+commit: 8334d69e65f6064aede4fb56fe15ae30630d5337 [1415/7898] ANDROID: Incremental fs: Separate pseudo-file code
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230419/202304191324.AzIdpBOK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-trusty-5.10
+        git checkout 8334d69e65f6064aede4fb56fe15ae30630d5337
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/incfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304190429.UOH2nE9u-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191324.AzIdpBOK-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/xilinx/clk-xlnx-clock-wizard.c:264 clk_wzrd_dynamic_reconfig() error: uninitialized symbol 'value'.
+All warnings (new ones prefixed by >>):
 
-vim +/value +264 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
+   fs/incfs/pseudo_files.c: In function 'ioctl_create_file':
+>> fs/incfs/pseudo_files.c:682:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     682 |                               (u8 __user *)args.signature_info,
+         |                               ^
 
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  226  static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  227  				     unsigned long parent_rate)
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  228  {
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  229  	struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  230  	void __iomem *div_addr = divider->base + divider->offset;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  231  	u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  232  	unsigned long flags = 0;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  233  	int err;
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  234  
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  235  	if (divider->lock)
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  236  		spin_lock_irqsave(divider->lock, flags);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  237  	else
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  238  		__acquire(divider->lock);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  239  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  240  	if (!divider->is_versal) {
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  241  		value = DIV_ROUND_CLOSEST(parent_rate, rate);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  242  
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  243  		/* Cap the value to max */
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  244  		min_t(u32, value, WZRD_DR_MAX_INT_DIV_VALUE);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  245  
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  246  		/* Set divisor and clear phase offset */
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  247  		writel(value, div_addr);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  248  		writel(0x00, div_addr + WZRD_DR_DIV_TO_PHASE_OFFSET);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  249  
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  250  		/* Check status register */
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  251  		err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  252  					 value, value & WZRD_DR_LOCK_BIT_MASK,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  253  					 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  254  		if (err)
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  255  			goto err_reconfig;
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  256  
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  257  		/* Initiate reconfiguration */
-dd5e7431ac54e0 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2022-04-11  258  		writel(WZRD_DR_BEGIN_DYNA_RECONF_5_2,
-dd5e7431ac54e0 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2022-04-11  259  		       divider->base + WZRD_DR_INIT_REG_OFFSET);
-dd5e7431ac54e0 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2022-04-11  260  		writel(WZRD_DR_BEGIN_DYNA_RECONF1_5_2,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  261  		       divider->base + WZRD_DR_INIT_REG_OFFSET);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  262  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  263  	} else {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18 @264  		regh = (value / 4);
-                                                                                                                                ^^^^^
-Uninitialized.
 
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  265  		regval1 = readl(div_addr);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  266  		regval1 |= WZRD_CLKFBOUT_PREDIV2;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  267  		regval1 = regval1 & ~(WZRD_CLKFBOUT_EDGE | WZRD_P5EN | WZRD_P5FEDGE);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  268  		if (value % 4 > 1) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  269  			edged = 1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  270  			regval1 |= (edged << WZRD_EDGE_SHIFT);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  271  		}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  272  		p5fedge = value % 2;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  273  		p5en = value % 2;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  274  		regval1 = regval1 | p5en << WZRD_P5EN_SHIFT | p5fedge << WZRD_P5FEDGE_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  275  		writel(regval1, div_addr);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  276  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  277  		regval = regh | regh << WZRD_CLKFBOUT_H_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  278  		writel(regval, div_addr + 4);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  279  		/* Check status register */
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  280  		err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  281  					 value, value & WZRD_DR_LOCK_BIT_MASK,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  282  					 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  283  		if (err)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  284  			goto err_reconfig;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  285  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  286  		/* Initiate reconfiguration */
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  287  		writel(WZRD_DR_BEGIN_DYNA_RECONF,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  288  		       divider->base + WZRD_DR_INIT_VERSAL_OFFSET);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  289  	}
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  290  	/* Check status register */
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  291  	err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  292  				 value, value & WZRD_DR_LOCK_BIT_MASK,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  293  				 WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  294  err_reconfig:
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  295  	if (divider->lock)
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  296  		spin_unlock_irqrestore(divider->lock, flags);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  297  	else
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  298  		__release(divider->lock);
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  299  	return err;
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  300  }
+vim +682 fs/incfs/pseudo_files.c
+
+   517	
+   518	static long ioctl_create_file(struct mount_info *mi,
+   519				struct incfs_new_file_args __user *usr_args)
+   520	{
+   521		struct incfs_new_file_args args;
+   522		char *file_id_str = NULL;
+   523		struct dentry *index_file_dentry = NULL;
+   524		struct dentry *named_file_dentry = NULL;
+   525		struct path parent_dir_path = {};
+   526		struct inode *index_dir_inode = NULL;
+   527		__le64 size_attr_value = 0;
+   528		char *file_name = NULL;
+   529		char *attr_value = NULL;
+   530		int error = 0;
+   531		bool locked = false;
+   532	
+   533		if (!mi || !mi->mi_index_dir) {
+   534			error = -EFAULT;
+   535			goto out;
+   536		}
+   537	
+   538		if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
+   539			error = -EFAULT;
+   540			goto out;
+   541		}
+   542	
+   543		file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
+   544		if (IS_ERR(file_name)) {
+   545			error = PTR_ERR(file_name);
+   546			file_name = NULL;
+   547			goto out;
+   548		}
+   549	
+   550		error = validate_name(file_name);
+   551		if (error)
+   552			goto out;
+   553	
+   554		file_id_str = file_id_to_str(args.file_id);
+   555		if (!file_id_str) {
+   556			error = -ENOMEM;
+   557			goto out;
+   558		}
+   559	
+   560		error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
+   561		if (error)
+   562			goto out;
+   563		locked = true;
+   564	
+   565		/* Find a directory to put the file into. */
+   566		error = dir_relative_path_resolve(mi,
+   567				u64_to_user_ptr(args.directory_path),
+   568				&parent_dir_path);
+   569		if (error)
+   570			goto out;
+   571	
+   572		if (parent_dir_path.dentry == mi->mi_index_dir) {
+   573			/* Can't create a file directly inside .index */
+   574			error = -EBUSY;
+   575			goto out;
+   576		}
+   577	
+   578		/* Look up a dentry in the parent dir. It should be negative. */
+   579		named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
+   580						file_name);
+   581		if (!named_file_dentry) {
+   582			error = -EFAULT;
+   583			goto out;
+   584		}
+   585		if (IS_ERR(named_file_dentry)) {
+   586			error = PTR_ERR(named_file_dentry);
+   587			named_file_dentry = NULL;
+   588			goto out;
+   589		}
+   590		if (d_really_is_positive(named_file_dentry)) {
+   591			/* File with this path already exists. */
+   592			error = -EEXIST;
+   593			goto out;
+   594		}
+   595		/* Look up a dentry in the .index dir. It should be negative. */
+   596		index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
+   597		if (!index_file_dentry) {
+   598			error = -EFAULT;
+   599			goto out;
+   600		}
+   601		if (IS_ERR(index_file_dentry)) {
+   602			error = PTR_ERR(index_file_dentry);
+   603			index_file_dentry = NULL;
+   604			goto out;
+   605		}
+   606		if (d_really_is_positive(index_file_dentry)) {
+   607			/* File with this ID already exists in index. */
+   608			error = -EEXIST;
+   609			goto out;
+   610		}
+   611	
+   612		/* Creating a file in the .index dir. */
+   613		index_dir_inode = d_inode(mi->mi_index_dir);
+   614		inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
+   615		error = vfs_create(index_dir_inode, index_file_dentry, args.mode | 0222,
+   616				   true);
+   617		inode_unlock(index_dir_inode);
+   618	
+   619		if (error)
+   620			goto out;
+   621		if (!d_really_is_positive(index_file_dentry)) {
+   622			error = -EINVAL;
+   623			goto out;
+   624		}
+   625	
+   626		error = chmod(index_file_dentry, args.mode | 0222);
+   627		if (error) {
+   628			pr_debug("incfs: chmod err: %d\n", error);
+   629			goto delete_index_file;
+   630		}
+   631	
+   632		/* Save the file's ID as an xattr for easy fetching in future. */
+   633		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
+   634			file_id_str, strlen(file_id_str), XATTR_CREATE);
+   635		if (error) {
+   636			pr_debug("incfs: vfs_setxattr err:%d\n", error);
+   637			goto delete_index_file;
+   638		}
+   639	
+   640		/* Save the file's size as an xattr for easy fetching in future. */
+   641		size_attr_value = cpu_to_le64(args.size);
+   642		error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
+   643			(char *)&size_attr_value, sizeof(size_attr_value),
+   644			XATTR_CREATE);
+   645		if (error) {
+   646			pr_debug("incfs: vfs_setxattr err:%d\n", error);
+   647			goto delete_index_file;
+   648		}
+   649	
+   650		/* Save the file's attribute as an xattr */
+   651		if (args.file_attr_len && args.file_attr) {
+   652			if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
+   653				error = -E2BIG;
+   654				goto delete_index_file;
+   655			}
+   656	
+   657			attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
+   658			if (!attr_value) {
+   659				error = -ENOMEM;
+   660				goto delete_index_file;
+   661			}
+   662	
+   663			if (copy_from_user(attr_value,
+   664					u64_to_user_ptr(args.file_attr),
+   665					args.file_attr_len) > 0) {
+   666				error = -EFAULT;
+   667				goto delete_index_file;
+   668			}
+   669	
+   670			error = vfs_setxattr(index_file_dentry,
+   671					INCFS_XATTR_METADATA_NAME,
+   672					attr_value, args.file_attr_len,
+   673					XATTR_CREATE);
+   674	
+   675			if (error)
+   676				goto delete_index_file;
+   677		}
+   678	
+   679		/* Initializing a newly created file. */
+   680		error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
+   681				      range(attr_value, args.file_attr_len),
+ > 682				      (u8 __user *)args.signature_info,
+   683				      args.signature_size);
+   684		if (error)
+   685			goto delete_index_file;
+   686	
+   687		/* Linking a file with its real name from the requested dir. */
+   688		error = incfs_link(index_file_dentry, named_file_dentry);
+   689	
+   690		if (!error)
+   691			goto out;
+   692	
+   693	delete_index_file:
+   694		incfs_unlink(index_file_dentry);
+   695	
+   696	out:
+   697		if (error)
+   698			pr_debug("incfs: %s err:%d\n", __func__, error);
+   699	
+   700		kfree(file_id_str);
+   701		kfree(file_name);
+   702		kfree(attr_value);
+   703		dput(named_file_dentry);
+   704		dput(index_file_dentry);
+   705		path_put(&parent_dir_path);
+   706		if (locked)
+   707			mutex_unlock(&mi->mi_dir_struct_mutex);
+   708		return error;
+   709	}
+   710	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
