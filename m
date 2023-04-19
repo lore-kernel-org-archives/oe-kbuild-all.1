@@ -1,44 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE4A17D4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 03:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B317197
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 04:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681876471; x=1713412471;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R1qaT336hNAFzmGgj8Jazc2I9A2sSxxMVokaZFnldcI=;
-  b=Zvp6dUtnLKXTxZXLFaX1T4i5nj0k66jpU2U2PbqIakZTAqP1C3Bn0GL+
-   +qiDKka7zKVVsLmyiabZRGO6BMAAkFuHlndzZt5hOGMt2zFOTzK+QKGas
-   +8i6wce4eAJt0Z3Y3U0hFJCgd0HO2R5l7QIGa6AJdpaAjUhlToaIU6i06
-   lqKbp4buOg5AN4AgB9H2bGD5JhQy5nehdlNTtalQahHf+wXjVgxWPGWd3
-   k1Gd3BdwaNEmowURe9S2N3oe2xqCjdUqS/xBilfzLuMgjTVtSrKWbEArs
-   kAvxD3PVHTpHFW+cgzxmsJsN7HUpRl5y3mkPHjeKLIX+uDVLVrwpPY4wr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="373224327"
+  t=1681878992; x=1713414992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ixVCyxgc8691TyUbjsRO/AICCiradGynzO9eP0UldKg=;
+  b=CNDT75xrvz49TkNHJtukGWfdFWl4PrtteT7fLgAMuHJf5AwH4Ni/PnkS
+   DjFtPUTQucbRjjcyp45g/dbNorP9rzgwOCKLDrU9VPabieNC4lGOmWTFu
+   2A6rCq4TPTUwaA8FW+YyOe+e6KqY1rGdleZp0n2XpYS/ObVXZXpyNPTbV
+   pNzfu8C3V1flt0n8GBu/yshxShmxZ4IzVed5Mgq8nKbS+Ox3P2blHIGJF
+   O6ZV+oiBn+XGUMA4k32r7ZEQ3/MdyVZ2sEFukQP/v4c9tw9dD6IYAaqT0
+   Wi051e6wJguJwJFo2dermnFQXglPIDWVzlzshtWGqLDv9FBFkR+Db5NGU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="344101379"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="373224327"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 20:54:30 -0700
+   d="scan'208";a="344101379"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 21:36:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="721750476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="835133753"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="721750476"
+   d="scan'208";a="835133753"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Apr 2023 20:54:28 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2023 21:36:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1poytn-000eSM-3B;
-	Wed, 19 Apr 2023 03:54:27 +0000
-Date: Wed, 19 Apr 2023 11:54:06 +0800
+	id 1pozYU-000eVt-01;
+	Wed, 19 Apr 2023 04:36:30 +0000
+Date: Wed, 19 Apr 2023 12:35:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lin Chun Yeh <r09921093@g.ntu.edu.tw>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lin Chun Yeh <r09921093@g.ntu.edu.tw>
-Subject: Re: [PATCH] include/linux/rbtree.h: move the declaration of c in
- rb_find_add()
-Message-ID: <202304191107.GfNLJjsT-lkp@intel.com>
-References: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-prefix-orc 27/29] check.c:4161:13: error: unused
+ variable 'ret'
+Message-ID: <202304191201.1EQZvHSS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,168 +45,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418145712.20620-1-r09921093@g.ntu.edu.tw>
 
-Hi Lin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3-rc7 next-20230418]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
-patch link:    https://lore.kernel.org/r/20230418145712.20620-1-r09921093%40g.ntu.edu.tw
-patch subject: [PATCH] include/linux/rbtree.h: move the declaration of c in rb_find_add()
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230419/202304191107.GfNLJjsT-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-prefix-orc
+head:   05bd387b160799b8834bd69d0d3482e9ec2a7eb2
+commit: d7f31ac2de462d0cd7b1db01b7ecb525c057c8f6 [27/29] objtool: Separate prefix code from stack validation code
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230419/202304191201.1EQZvHSS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9348e5c71c46a8d88c805acf5dd56c1785bc04e8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lin-Chun-Yeh/include-linux-rbtree-h-move-the-declaration-of-c-in-rb_find_add/20230418-230031
-        git checkout 9348e5c71c46a8d88c805acf5dd56c1785bc04e8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/commit/?id=d7f31ac2de462d0cd7b1db01b7ecb525c057c8f6
+        git remote add jpoimboe https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git
+        git fetch --no-tags jpoimboe objtool-prefix-orc
+        git checkout d7f31ac2de462d0cd7b1db01b7ecb525c057c8f6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/lib/ lib/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191107.GfNLJjsT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191201.1EQZvHSS-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+Note: the jpoimboe/objtool-prefix-orc HEAD 05bd387b160799b8834bd69d0d3482e9ec2a7eb2 builds fine.
+      It only hurts bisectability.
 
-   In file included from include/linux/mm_types.h:11,
-                    from include/linux/uio.h:10,
-                    from include/linux/socket.h:8,
-                    from include/linux/compat.h:15,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
---
-   In file included from include/linux/hrtimer.h:16,
-                    from include/linux/sched.h:20,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from lib/radix-tree.c:15:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
-   lib/radix-tree.c: At top level:
-   lib/radix-tree.c:288:6: warning: no previous prototype for 'radix_tree_node_rcu_free' [-Wmissing-prototypes]
-     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mm_types.h:11,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/clk-provider.h:9,
-                    from lib/vsprintf.c:23:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1681:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1681 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
---
-   In file included from include/linux/mm_types.h:11,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:15,
-                    from arch/powerpc/lib/alloc.c:4:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
+All errors (new ones prefixed by >>):
+
+   check.c: In function 'add_prefix_symbols':
+>> check.c:4161:13: error: unused variable 'ret' [-Werror=unused-variable]
+    4161 |         int ret, warnings = 0;
+         |             ^~~
    cc1: all warnings being treated as errors
---
-   In file included from include/linux/hrtimer.h:16,
-                    from include/linux/sched.h:20,
-                    from include/linux/hardirq.h:9,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from include/linux/kprobes.h:28,
-                    from arch/powerpc/lib/sstep.c:8:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
-   arch/powerpc/lib/sstep.c: In function 'analyse_instr':
-   arch/powerpc/lib/sstep.c:1355:28: error: variable 'suffix' set but not used [-Werror=unused-but-set-variable]
-    1355 |         unsigned int word, suffix;
-         |                            ^~~~~~
-   arch/powerpc/lib/sstep.c:1351:38: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-    1351 |         unsigned int opcode, ra, rb, rc, rd, spr, u;
-         |                                      ^~
-   cc1: all warnings being treated as errors
---
-   In file included from include/linux/mm_types.h:11,
-                    from include/linux/uio.h:10,
-                    from include/linux/socket.h:8,
-                    from include/linux/compat.h:15,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
-   include/linux/rbtree.h: In function 'rb_find_add':
->> include/linux/rbtree.h:231:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     231 |                 int c = cmp(node, parent);
-         |                 ^~~
-
-
-vim +231 include/linux/rbtree.h
-
-   212	
-   213	/**
-   214	 * rb_find_add() - find equivalent @node in @tree, or add @node
-   215	 * @node: node to look-for / insert
-   216	 * @tree: tree to search / modify
-   217	 * @cmp: operator defining the node order
-   218	 *
-   219	 * Returns the rb_node matching @node, or NULL when no match is found and @node
-   220	 * is inserted.
-   221	 */
-   222	static __always_inline struct rb_node *
-   223	rb_find_add(struct rb_node *node, struct rb_root *tree,
-   224		    int (*cmp)(struct rb_node *, const struct rb_node *))
-   225	{
-   226		struct rb_node **link = &tree->rb_node;
-   227		struct rb_node *parent = NULL;
-   228	
-   229		while (*link) {
-   230			parent = *link;
- > 231			int c = cmp(node, parent);
-   232	
-   233			if (c < 0)
-   234				link = &parent->rb_left;
-   235			else if (c > 0)
-   236				link = &parent->rb_right;
-   237			else
-   238				return parent;
-   239		}
-   240	
-   241		rb_link_node(node, parent, link);
-   242		rb_insert_color(node, tree);
-   243		return NULL;
-   244	}
-   245	
+   make[4]: *** [tools/build/Makefile.build:97: tools/objtool/check.o] Error 1
+   make[3]: *** [Makefile:66: tools/objtool/objtool-in.o] Error 2
+   make[2]: *** [Makefile:73: objtool] Error 2
+   make[1]: *** [Makefile:1440: tools/objtool] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
