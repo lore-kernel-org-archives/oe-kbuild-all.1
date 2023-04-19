@@ -1,42 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8DB23B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 06:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFFA2564
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 07:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681886378; x=1713422378;
+  t=1681889383; x=1713425383;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tYMyCq7gGOLTBVJ5O1cQCZwQKav3I+sFz45jQNSAmE4=;
-  b=jPM7bH59EJU1vYTQRqGJz5uKU1fHtMyUnKtkt7Lsx706l+gBCHUQLA+s
-   0Qdjz+AwvBYz07mV6bDLKC1t0bId14szrk/5SXN0nbjXih4ZkmCGY/tvf
-   q1ujzs0vTIzYGxO21heHkyLmh7mznPpUzBLT2xqLE31Z20iatc0smRPL9
-   wpS6fCm88d2Zy9Dy8yFN6H6xaPf5z8ZF4yT1Xjc7+8z48xuIDDNNoLpmY
-   JqUz03Lb17VAx3Gt/gRfm/iguB2Uf0jGJvYJxD4+3REBnrzsMDUV1T10X
-   9dXDG82OiJJylCSxFa8lEwlehX8MM8J7AxllhUBOXGiheePQfXeJa+bkn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="373246101"
+  bh=Iofq/F4+4mEdTbosEGzoaT4+pRMtpOoNYIPnHcfqqOI=;
+  b=h24X8tLwlc4sAV/CjaU55phMp5Rw3jfnY7H0PD5SoiEifkwtXXd4JOA7
+   0aYJ5shFLD1Pe+csuo/TNzWAJ3LzBYW04xKqS5JEeecwFgE6jq1rVsNB5
+   zN4l5J9nj1U0zU1L6agsnhVCk79mA7TN8WLM+KXU9U3ieBPgc9OGqUbNp
+   Wb6RZF394MxGD3Clb3wFde51SZMW+cq2hTw5hf0FGQUQqCpDHdvr/ULbj
+   VbWBxD4OEKgTL3Wp/RbWE/sIf4J1Wb33nnRTrr77b43r0e6lepOoHPrWg
+   iUi129jLBgDn+caet8LDlPuk7ohzT/N4KLjJ2pA+nTy/lA1/G8Kqn710f
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="342863607"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="373246101"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 23:39:37 -0700
+   d="scan'208";a="342863607"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 00:29:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="780745249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="684888204"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="780745249"
+   d="scan'208";a="684888204"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2023 23:39:36 -0700
+  by orsmga007.jf.intel.com with ESMTP; 19 Apr 2023 00:29:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pp1Tb-000edH-35;
-	Wed, 19 Apr 2023 06:39:35 +0000
-Date: Wed, 19 Apr 2023 14:38:41 +0800
+	id 1pp2G3-000efn-38;
+	Wed, 19 Apr 2023 07:29:39 +0000
+Date: Wed, 19 Apr 2023 15:29:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie 18/19] vmlinux.o: warning: objtool:
- arch_rethook_trampoline+0x0: relocation to !ENDBR: trace_clock_x86_tsc+0xd
-Message-ID: <202304191402.REDJU0cL-lkp@intel.com>
+To: Stafford Horne <shorne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202304191503.UlgtNB1Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,73 +46,182 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie
-head:   01406d471d3e3718b3771fdabcfca8c505157404
-commit: 11f4b2116bc9e6d18182a796e0db1c30232e3e8c [18/19] x86: Add support for linking the core kernel in PIE mode
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230419/202304191402.REDJU0cL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=11f4b2116bc9e6d18182a796e0db1c30232e3e8c
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb x86-pie
-        git checkout 11f4b2116bc9e6d18182a796e0db1c30232e3e8c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   af67688dca57999fd848f051eeea1d375ba546b2
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
+date:   9 months ago
+config: openrisc-randconfig-s053-20230419 (https://download.01.org/0day-ci/archive/20230419/202304191503.UlgtNB1Z-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ded2ee36313c941f1a12b6f85cde295b575264ae
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ded2ee36313c941f1a12b6f85cde295b575264ae
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191402.REDJU0cL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304191503.UlgtNB1Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/scsi/be2iscsi/be_main.c:148:1: sparse: sparse: symbol 'dev_attr_beiscsi_log_enable' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:158:1: sparse: sparse: symbol 'dev_attr_beiscsi_drvr_ver' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:159:1: sparse: sparse: symbol 'dev_attr_beiscsi_adapter_family' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:160:1: sparse: sparse: symbol 'dev_attr_beiscsi_fw_ver' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:161:1: sparse: sparse: symbol 'dev_attr_beiscsi_phys_port' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:162:1: sparse: sparse: symbol 'dev_attr_beiscsi_active_session_count' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:164:1: sparse: sparse: symbol 'dev_attr_beiscsi_free_session_count' was not declared. Should it be static?
+   drivers/scsi/be2iscsi/be_main.c:1154:29: sparse: sparse: cast to restricted __be16
+   drivers/scsi/be2iscsi/be_main.c:1180:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] t2wait @@     got int @@
+   drivers/scsi/be2iscsi/be_main.c:1180:21: sparse:     expected restricted __be16 [usertype] t2wait
+   drivers/scsi/be2iscsi/be_main.c:1180:21: sparse:     got int
+   drivers/scsi/be2iscsi/be_main.c:1665:33: sparse: sparse: cast to restricted __be16
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1803:28: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:1822:36: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_main.c:4337:19: sparse: sparse: cast from restricted itt_t
+   drivers/scsi/be2iscsi/be_main.c:4370:34: sparse: sparse: cast to restricted itt_t
+   drivers/scsi/be2iscsi/be_main.c:4467:16: sparse: sparse: cast to restricted itt_t
+   drivers/scsi/be2iscsi/be_main.c:4467:16: sparse: sparse: cast from restricted __be32
+   drivers/scsi/be2iscsi/be_main.c:4523:9: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be16 [usertype] @@
+   drivers/scsi/be2iscsi/be_main.c:4523:9: sparse:     expected unsigned int [usertype] value
+   drivers/scsi/be2iscsi/be_main.c:4523:9: sparse:     got restricted __be16 [usertype]
+   drivers/scsi/be2iscsi/be_main.c:4583:9: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be16 [usertype] @@
+   drivers/scsi/be2iscsi/be_main.c:4583:9: sparse:     expected unsigned int [usertype] value
+   drivers/scsi/be2iscsi/be_main.c:4583:9: sparse:     got restricted __be16 [usertype]
+   drivers/scsi/be2iscsi/be_main.c:4677:30: sparse: sparse: restricted __be32 degrades to integer
+   drivers/scsi/be2iscsi/be_main.c:4762:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/be2iscsi/be_main.c:4762:17: sparse: sparse: cast from restricted itt_t
+   drivers/scsi/be2iscsi/be_main.c: note: in included file (through drivers/scsi/be2iscsi/be_main.h):
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+--
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:338:24: sparse: sparse: cast to restricted __le32
+   drivers/scsi/be2iscsi/be_cmds.c:690:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] request_length @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:690:33: sparse:     expected unsigned int [usertype] request_length
+   drivers/scsi/be2iscsi/be_cmds.c:690:33: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:702:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] lo @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:702:29: sparse:     expected unsigned int [usertype] lo
+   drivers/scsi/be2iscsi/be_cmds.c:702:29: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:703:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] hi @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:703:29: sparse:     expected unsigned int [usertype] hi
+   drivers/scsi/be2iscsi/be_cmds.c:703:29: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:752:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] num_pages @@     got restricted __le16 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:752:24: sparse:     expected unsigned short [usertype] num_pages
+   drivers/scsi/be2iscsi/be_cmds.c:752:24: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:768:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:768:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:768:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:768:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:795:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] num_pages @@     got restricted __le16 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:795:24: sparse:     expected unsigned short [usertype] num_pages
+   drivers/scsi/be2iscsi/be_cmds.c:795:24: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:830:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:830:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:830:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:830:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:892:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:892:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:892:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:892:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:948:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] id @@     got restricted __le16 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:948:25: sparse:     expected unsigned short [usertype] id
+   drivers/scsi/be2iscsi/be_cmds.c:948:25: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:1041:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1041:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1041:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1041:26: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1106:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1106:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1106:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1106:28: sparse: sparse: cast to restricted __le16
+   drivers/scsi/be2iscsi/be_cmds.c:1772:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] hdr_ring_id @@     got restricted __le16 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:1772:37: sparse:     expected unsigned short [usertype] hdr_ring_id
+   drivers/scsi/be2iscsi/be_cmds.c:1772:37: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c:1773:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] data_ring_id @@     got restricted __le16 [usertype] @@
+   drivers/scsi/be2iscsi/be_cmds.c:1773:38: sparse:     expected unsigned short [usertype] data_ring_id
+   drivers/scsi/be2iscsi/be_cmds.c:1773:38: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/be2iscsi/be_cmds.c: note: in included file (through drivers/scsi/be2iscsi/be_main.h):
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/be2iscsi/be.h:199:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     expected unsigned int [usertype]
+   drivers/scsi/be2iscsi/be.h:199:21: sparse:     got restricted __le32 [usertype]
 
->> vmlinux.o: warning: objtool: arch_rethook_trampoline+0x0: relocation to !ENDBR: trace_clock_x86_tsc+0xd
+vim +199 drivers/scsi/be2iscsi/be.h
 
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  184  
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  185  #define AMAP_GET_BITS(_struct, field, ptr)				\
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  186  		amap_get(ptr,						\
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  187  			offsetof(_struct, field)/32,			\
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  188  			amap_mask(sizeof(((_struct *)0)->field)),	\
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  189  			AMAP_BIT_OFFSET(_struct, field))
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  190  
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  191  #define be_dws_cpu_to_le(wrb, len) swap_dws(wrb, len)
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  192  #define be_dws_le_to_cpu(wrb, len) swap_dws(wrb, len)
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  193  static inline void swap_dws(void *wrb, int len)
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  194  {
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  195  #ifdef __BIG_ENDIAN
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  196  	u32 *dw = wrb;
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  197  	WARN_ON(len % 4);
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  198  	do {
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05 @199  		*dw = cpu_to_le32(*dw);
 
-objdump-func vmlinux.o arch_rethook_trampoline:
-0000 00000000000455e2 <arch_rethook_trampoline>:
-0000    455e2:	ff 35 00 00 00 00    	push   0x0(%rip)        # 455e8 <arch_rethook_trampoline+0x6>	455e4: R_X86_64_GOTPCREL	arch_rethook_trampoline-0x4
-0006    455e8:	6a 18                	push   $0x18
-0008    455ea:	54                   	push   %rsp
-0009    455eb:	9c                   	pushf
-000a    455ec:	48 83 ec 18          	sub    $0x18,%rsp
-000e    455f0:	57                   	push   %rdi
-000f    455f1:	56                   	push   %rsi
-0010    455f2:	52                   	push   %rdx
-0011    455f3:	51                   	push   %rcx
-0012    455f4:	50                   	push   %rax
-0013    455f5:	41 50                	push   %r8
-0015    455f7:	41 51                	push   %r9
-0017    455f9:	41 52                	push   %r10
-0019    455fb:	41 53                	push   %r11
-001b    455fd:	53                   	push   %rbx
-001c    455fe:	55                   	push   %rbp
-001d    455ff:	41 54                	push   %r12
-001f    45601:	41 55                	push   %r13
-0021    45603:	41 56                	push   %r14
-0023    45605:	41 57                	push   %r15
-0025    45607:	48 89 e7             	mov    %rsp,%rdi
-0028    4560a:	e8 00 00 00 00       	call   4560f <arch_rethook_trampoline+0x2d>	4560b: R_X86_64_PLT32	arch_rethook_trampoline_callback-0x4
-002d    4560f:	41 5f                	pop    %r15
-002f    45611:	41 5e                	pop    %r14
-0031    45613:	41 5d                	pop    %r13
-0033    45615:	41 5c                	pop    %r12
-0035    45617:	5d                   	pop    %rbp
-0036    45618:	5b                   	pop    %rbx
-0037    45619:	41 5b                	pop    %r11
-0039    4561b:	41 5a                	pop    %r10
-003b    4561d:	41 59                	pop    %r9
-003d    4561f:	41 58                	pop    %r8
-003f    45621:	58                   	pop    %rax
-0040    45622:	59                   	pop    %rcx
-0041    45623:	5a                   	pop    %rdx
-0042    45624:	5e                   	pop    %rsi
-0043    45625:	5f                   	pop    %rdi
-0044    45626:	48 83 c4 18          	add    $0x18,%rsp
-0048    4562a:	48 83 c4 10          	add    $0x10,%rsp
-004c    4562e:	9d                   	popf
-004d    4562f:	c3                   	ret
+:::::: The code at line 199 was first introduced by commit
+:::::: 6733b39a1301b0b020bbcbf3295852e93e624cb1 [SCSI] be2iscsi: add 10Gbps iSCSI - BladeEngine 2 driver
+
+:::::: TO: Jayamohan Kallickal <jayamohank@serverengines.com>
+:::::: CC: James Bottomley <James.Bottomley@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
