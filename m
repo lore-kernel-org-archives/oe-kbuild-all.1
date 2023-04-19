@@ -1,46 +1,50 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7362564;
-	Wed, 19 Apr 2023 16:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55543C941
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 17:04:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681921978; x=1713457978;
+  t=1681923842; x=1713459842;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mAnrcuaI7efpoWd59QZ5GygKxMkYAN5Xjr9QIGC1lsg=;
-  b=lXPx51WzY3Psc05GnjHwp0Uoj5g83p63m9qanEJzSBZcY4WmRdGGZGV8
-   d9EdWHbf18PmoQROhczkG02ca7MsaOjtl58/SzfMT/MeHmOVvypZIJTZc
-   mWm7gathZ8DfptuLOv3Qcesys97sGz54IhUblO1XOlUKje8jen8u0mmOp
-   MYbCuv1eYPxJ3IpYqyvWjw8mXkzLQ5oE5rW4fPQub4ZvH8u9NfbfXvP3D
-   FjrpZFwO5EZsdpUiWYduzBJTbCxD/cvxRIjcxhU9YJwhr8jSkuDOIWBLm
-   Dlnj0Jx7J+N0ril0M74Q7gvMxebEQLaCObqT/iwBGqCasgzIiM/PeKcAV
+  bh=YWEFkjk4Tn32C8B9bIF5tMsJFwcjS2BBCkRcNPRL1DQ=;
+  b=Yz2T8buo5MzkVoHNGVFWq5aJXUDeimuw72EhY38eDy7iIgpGJRhabyGW
+   5q2reARDYKTqOXv20FYSbwszv8ckH6Ryv+D7e3j1Zlzjdb79ZXh2K+4CY
+   ULE3PtNKh5EdD2HDbxbapxcajh48Nh2OvUH7bNkmB6jPcEaqo3BMryD44
+   UDWvkYM3DRbD6hAh7cVJR/g5yrZxCKXOnVL1n6GRi4/NuvA0Iep+YFJpJ
+   /mD5lkAUE5PCPqSUWN1eeFlDd3N2EIP/nQ07/9NhoZ/QUi+QSuWBYIJA5
+   80WP9NLMkDSxiTgUCCP03mHwkKXFsjKEYJXTDx/NcUa/5/aLhOq2hnJF7
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="334310890"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325117129"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="334310890"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 09:32:57 -0700
+   d="scan'208";a="325117129"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 10:04:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="760801231"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="756171542"
 X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="760801231"
+   d="scan'208";a="756171542"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Apr 2023 09:32:55 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2023 10:03:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppAjn-000f0U-0l;
-	Wed, 19 Apr 2023 16:32:55 +0000
-Date: Thu, 20 Apr 2023 00:32:51 +0800
+	id 1ppBDp-000f2M-0Q;
+	Wed, 19 Apr 2023 17:03:57 +0000
+Date: Thu, 20 Apr 2023 01:03:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH 1/4] block: constify partition prober array
-Message-ID: <202304200014.y79VnmJo-lkp@intel.com>
-References: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
+To: Sarannya S <quic_sarannya@quicinc.com>, quic_bjorande@quicinc.com,
+	arnaud.pouliquen@foss.st.com, swboyd@chromium.org,
+	quic_clew@quicinc.com, mathieu.poirier@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	Sarannya S <quic_sarannya@quicinc.com>,
+	Deepak Kumar Singh <quic_deesin@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH V6 3/3] rpmsg: char: Add RPMSG GET/SET FLOWCONTROL IOCTL
+ support
+Message-ID: <202304200018.ik0k7dKN-lkp@intel.com>
+References: <1681912409-25248-4-git-send-email-quic_sarannya@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,115 +53,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419-const-partition-v1-1-2d66f2d83873@weissschuh.net>
+In-Reply-To: <1681912409-25248-4-git-send-email-quic_sarannya@quicinc.com>
 
-Hi Thomas,
+Hi Sarannya,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on af67688dca57999fd848f051eeea1d375ba546b2]
+[auto build test ERROR on v6.3-rc7]
+[also build test ERROR on linus/master next-20230418]
+[cannot apply to remoteproc/rpmsg-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-base:   af67688dca57999fd848f051eeea1d375ba546b2
-patch link:    https://lore.kernel.org/r/20230419-const-partition-v1-1-2d66f2d83873%40weissschuh.net
-patch subject: [PATCH 1/4] block: constify partition prober array
-config: arm64-randconfig-r001-20230416 (https://download.01.org/0day-ci/archive/20230420/202304200014.y79VnmJo-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarannya-S/rpmsg-core-Add-signal-API-support/20230419-220040
+patch link:    https://lore.kernel.org/r/1681912409-25248-4-git-send-email-quic_sarannya%40quicinc.com
+patch subject: [PATCH V6 3/3] rpmsg: char: Add RPMSG GET/SET FLOWCONTROL IOCTL support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304200018.ik0k7dKN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/9bc1f4308c10322c327c9e86ede6bb9e862440aa
+        # https://github.com/intel-lab-lkp/linux/commit/4f765ede8c129f07c522ef4a7c6aee27cb466be6
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Wei-schuh/block-constify-partition-prober-array/20230419-155356
-        git checkout 9bc1f4308c10322c327c9e86ede6bb9e862440aa
+        git fetch --no-tags linux-review Sarannya-S/rpmsg-core-Add-signal-API-support/20230419-220040
+        git checkout 4f765ede8c129f07c522ef4a7c6aee27cb466be6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200014.y79VnmJo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304200018.ik0k7dKN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   block/partitions/core.c:15:8: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
-   static const int (*check_part[])(struct parsed_partitions *) = {
-          ^~~~~~
->> block/partitions/core.c:47:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           efi_partition,          /* this must come before msdos */
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:50:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           sgi_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:56:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           msdos_partition,
-           ^~~~~~~~~~~~~~~
-   block/partitions/core.c:59:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           osf_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:62:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           sun_partition,
-           ^~~~~~~~~~~~~
-   block/partitions/core.c:65:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           amiga_partition,
-           ^~~~~~~~~~~~~~~
-   block/partitions/core.c:71:2: error: incompatible function pointer types initializing 'const int (*)(struct parsed_partitions *)' with an expression of type 'int (struct parsed_partitions *)' [-Wincompatible-function-pointer-types]
-           mac_partition,
-           ^~~~~~~~~~~~~
-   1 warning and 7 errors generated.
+   drivers/rpmsg/rpmsg_char.c: In function 'rpmsg_eptdev_ioctl':
+>> drivers/rpmsg/rpmsg_char.c:334:23: error: too few arguments to function 'rpmsg_set_flow_control'
+     334 |                 ret = rpmsg_set_flow_control(eptdev->ept, set);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/rpmsg/rpmsg_char.c:23:
+   include/linux/rpmsg.h:200:5: note: declared here
+     200 | int rpmsg_set_flow_control(struct rpmsg_endpoint *ept, bool enable, u32 dst);
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/rpmsg/rpmsg_char.c:321:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
+     321 |         u32 val;
+         |             ^~~
 
 
-vim +47 block/partitions/core.c
+vim +/rpmsg_set_flow_control +334 drivers/rpmsg/rpmsg_char.c
 
-387048bf67eeff Christoph Hellwig 2020-03-24  42  
-387048bf67eeff Christoph Hellwig 2020-03-24  43  #ifdef CONFIG_CMDLINE_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  44  	cmdline_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  45  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  46  #ifdef CONFIG_EFI_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24 @47  	efi_partition,		/* this must come before msdos */
-387048bf67eeff Christoph Hellwig 2020-03-24  48  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  49  #ifdef CONFIG_SGI_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  50  	sgi_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  51  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  52  #ifdef CONFIG_LDM_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  53  	ldm_partition,		/* this must come before msdos */
-387048bf67eeff Christoph Hellwig 2020-03-24  54  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  55  #ifdef CONFIG_MSDOS_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  56  	msdos_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  57  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  58  #ifdef CONFIG_OSF_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  59  	osf_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  60  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  61  #ifdef CONFIG_SUN_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  62  	sun_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  63  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  64  #ifdef CONFIG_AMIGA_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  65  	amiga_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  66  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  67  #ifdef CONFIG_ATARI_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  68  	atari_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  69  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  70  #ifdef CONFIG_MAC_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  71  	mac_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  72  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  73  #ifdef CONFIG_ULTRIX_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  74  	ultrix_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  75  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  76  #ifdef CONFIG_IBM_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  77  	ibm_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  78  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  79  #ifdef CONFIG_KARMA_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  80  	karma_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  81  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  82  #ifdef CONFIG_SYSV68_PARTITION
-387048bf67eeff Christoph Hellwig 2020-03-24  83  	sysv68_partition,
-387048bf67eeff Christoph Hellwig 2020-03-24  84  #endif
-387048bf67eeff Christoph Hellwig 2020-03-24  85  	NULL
-387048bf67eeff Christoph Hellwig 2020-03-24  86  };
-387048bf67eeff Christoph Hellwig 2020-03-24  87  
+   314	
+   315	static long rpmsg_eptdev_ioctl(struct file *fp, unsigned int cmd,
+   316				       unsigned long arg)
+   317	{
+   318		struct rpmsg_eptdev *eptdev = fp->private_data;
+   319	
+   320		bool set;
+ > 321		u32 val;
+   322		int ret;
+   323	
+   324		switch (cmd) {
+   325		case RPMSG_GET_OUTGOING_FLOWCONTROL:
+   326			eptdev->remote_flow_updated = false;
+   327			ret = put_user(eptdev->remote_flow, (int __user *)arg);
+   328			break;
+   329		case RPMSG_SET_INCOMING_FLOWCONTROL:
+   330			ret = get_user(val, (int __user *)arg);
+   331			if (ret)
+   332				break;
+   333			set = !!arg;
+ > 334			ret = rpmsg_set_flow_control(eptdev->ept, set);
+   335			break;
+   336		case RPMSG_DESTROY_EPT_IOCTL:
+   337			/* Don't allow to destroy a default endpoint. */
+   338			if (eptdev->default_ept) {
+   339				ret = -EINVAL;
+   340				break;
+   341			}
+   342			ret = rpmsg_chrdev_eptdev_destroy(&eptdev->dev, NULL);
+   343			break;
+   344		default:
+   345			ret = -EINVAL;
+   346		}
+   347	
+   348		return ret;
+   349	}
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
