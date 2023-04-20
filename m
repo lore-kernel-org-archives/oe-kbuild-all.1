@@ -1,36 +1,45 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C048C0F;
-	Thu, 20 Apr 2023 15:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ZIh7X3Hg0zgJSWfk7ukimasZ+fd2z71MtBN7Lri4xSI=; b=VKUEoirwxIGgWesEl68e5P1YPA
-	YzSyskoU4nGativgYNuY7TG5ylFZOANFA1Mfh8wYbrAjlBxV/yQ0oB0j/+oN8tMSI8oGx5trjEGkb
-	H0R7Bm3TicD96ul7Y5sQh48PkJLxh+h17Ci1XV6TdywGLfRt+zsIMRVxkaAKFaeALR/g=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1ppWBT-00Anmo-1W; Thu, 20 Apr 2023 17:26:55 +0200
-Date: Thu, 20 Apr 2023 17:26:55 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95428C0F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 15:36:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682005006; x=1713541006;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JGR0XH8bG4aXldMFQya0es6SZF9zobxu7py5QoZxLOw=;
+  b=HQ7xm0eYEPt0s1ASwZkguBLyyy3QYPqrWEUy1emhajytVTfYk53cEKWp
+   2oz8S2j63759ARP7HSgpai1DbNCdaUTusbXZhqOxGehkLqlnt6qDNn/QY
+   KrPQVnoqIbONBPcpwNSEy7A/NbqCL+pz5wdRXQpY8KHDH7YbfakRLOWKR
+   E1D2xW7RwOxxvslaPdHeWP+4WSD1Fhd2NkAtQcZeSgzmEvWclsjvKuzMV
+   U2h3UNznYUodZ+eoh6meb1+RBfqdIMVHVb/s23sUrb/KecTuY3GuajoDz
+   tKZuVLPfZz1GdMNM8I4jrzYw8uvLOacSHDayj4ckiB8z6wttOSU9DeF1h
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="348533238"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="348533238"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 08:36:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="756537427"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="756537427"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Apr 2023 08:36:44 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppWKx-000fuC-2g;
+	Thu, 20 Apr 2023 15:36:43 +0000
+Date: Thu, 20 Apr 2023 23:35:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
 	Christian Marangi <ansuelsmth@gmail.com>,
-	Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [lunn:v6.3-rc2-net-next-phy-leds 5/15] ld.lld: error: undefined
- symbol: devm_mdiobus_alloc_size
-Message-ID: <2e7f5511-08e2-4ee0-ab3f-481ba6724824@lunn.ch>
-References: <202303241935.xRMa6mc6-lkp@intel.com>
- <f16fb810-f70d-40ac-8e9d-2ada008c446d@app.fastmail.com>
- <758fff85-aefc-4e0a-97b1-fe7179fafac6@lunn.ch>
- <91c716f0-bf7f-4fdf-8cb7-83f1bdc0cbd4@app.fastmail.com>
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: [linux-next:master 12857/13075] csky-linux-ld:
+ phy_device.c:undefined reference to `devm_led_classdev_register_ext'
+Message-ID: <202304202338.fmXJzPb2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -39,21 +48,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91c716f0-bf7f-4fdf-8cb7-83f1bdc0cbd4@app.fastmail.com>
 
-> I think the best way is to drop your MDIO_DEVRES patch and instead
-> apply mine (or some variation of that) from
-> 
-> https://lore.kernel.org/lkml/20230420084624.3005701-1-arnd@kernel.org/
-> 
-> Once any missing or recursive dependencies are handled, the devres
-> problem should be fixed as well. I have completed around 150
-> randconfig builds with that patch and have not seen any further
-> problems.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3cdbc01c40e34c57697f8934f2727a88551696be
+commit: 4e901018432e38eab35d2a352661ce4727795be1 [12857/13075] net: phy: phy_device: Call into the PHY driver to set LED blinking
+config: csky-randconfig-r001-20230416 (https://download.01.org/0day-ci/archive/20230420/202304202338.fmXJzPb2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4e901018432e38eab35d2a352661ce4727795be1
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 4e901018432e38eab35d2a352661ce4727795be1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
-Hi Arnd
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304202338.fmXJzPb2-lkp@intel.com/
 
-Is this on top of my patch? Or does it require mine is reverted?  I
-can send a revert if it is needed.
+All errors (new ones prefixed by >>):
 
-   Andrew
+   csky-linux-ld: drivers/net/phy/phy_device.o: in function `of_phy_leds.constprop.0':
+   phy_device.c:(.text+0x2416): undefined reference to `devm_led_classdev_register_ext'
+>> csky-linux-ld: phy_device.c:(.text+0x2494): undefined reference to `devm_led_classdev_register_ext'
+   csky-linux-ld: drivers/net/mdio/mdio-mux-bcm-iproc.o: in function `mdio_mux_iproc_probe':
+   mdio-mux-bcm-iproc.c:(.text+0x9a): undefined reference to `devm_mdiobus_alloc_size'
+   csky-linux-ld: mdio-mux-bcm-iproc.c:(.text+0x1bc): undefined reference to `devm_mdiobus_alloc_size'
+   csky-linux-ld: drivers/net/ethernet/microchip/lan743x_main.o: in function `lan743x_pcidev_probe':
+   lan743x_main.c:(.text+0x2ee6): undefined reference to `devm_mdiobus_alloc_size'
+   csky-linux-ld: lan743x_main.c:(.text+0x3014): undefined reference to `devm_mdiobus_alloc_size'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLIB
+   Depends on [m]: NETDEVICES [=y] && (LEDS_CLASS [=m] || LEDS_CLASS [=m]=n)
+   Selected by [y]:
+   - PHYLINK [=y] && NETDEVICES [=y]
+   - ALTERA_TSE [=y] && NETDEVICES [=y] && ETHERNET [=y] && HAS_DMA [=y]
+   - DNET [=y] && NETDEVICES [=y] && ETHERNET [=y] && HAS_IOMEM [=y]
+   - LPC_ENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && (ARCH_LPC32XX || COMPILE_TEST [=y])
+   - B44 [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && SSB_POSSIBLE [=y] && HAS_DMA [=y]
+   - BCMGENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && HAS_IOMEM [=y] && (PTP_1588_CLOCK_OPTIONAL [=y] || !ARCH_BCM2835)
+   - TIGON3 [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+   - LAN743X [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+   - RAVB [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_RENESAS [=y] && (ARCH_RENESAS || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
+   Selected by [m]:
+   - ARC_EMAC_CORE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_ARC [=y] && (ARC || ARCH_ROCKCHIP || COMPILE_TEST [=y])
+   - SYSTEMPORT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_BROADCOM [=y] && HAS_IOMEM [=y] && (NET_DSA [=m] || !NET_DSA [=m])
+   - SH_ETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_RENESAS [=y] && (ARCH_RENESAS || SUPERH || COMPILE_TEST [=y])
+   - XILINX_EMACLITE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
+   - USB_LAN78XX [=m] && NETDEVICES [=y] && USB_NET_DRIVERS [=m]
+   - USB_NET_AX88179_178A [=m] && NETDEVICES [=y] && USB_NET_DRIVERS [=m] && USB_USBNET [=m]
+   - USB_NET_SMSC95XX [=m] && NETDEVICES [=y] && USB_NET_DRIVERS [=m] && USB_USBNET [=m]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
