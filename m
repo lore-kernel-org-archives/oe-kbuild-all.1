@@ -1,141 +1,218 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237118C15
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 15:59:53 +0000 (UTC)
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 2BB354131F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 15:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1682006383;
-	bh=qKrWaXjPs2YROPlNKMU9trbAL8v3RYBRxAuFsIw3YYk=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID;
-	b=LUJliVvCi8e1SPH+01y9IXkL3OQWD/rM5laUkfDqXdD+xW33s5DFk+Y2oNOmFdItf
-	 eLFJO/e8J8dLebUtrTZND3Ijk3a7iKkDhgKgzghyWC/YWKBEaU8HmovZsaRbqUTQuV
-	 YCpzoDAkG5vc31T8uM2c4ZOjV8h3eTko/r3VuW9V7vgEQQETKLCJiMPnUp40D9uTt4
-	 mrWVZuF68H3WmQ8U4Ct7VHNtkxS0qa3zwgt2oON6tZBRYebltqcRHVAPd/ANo3TYVK
-	 GhfrSeuIQK7KR7UWDZ/uaypBCynaQwZpKs0TSCB5JCF6/txb0zmIlsMAIYogXEGcBw
-	 X3gTQ6YzzE9Kg==
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-51442ffc984so671254a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 08:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682006382; x=1684598382;
-        h=message-id:date:content-transfer-encoding:content-id:mime-version
-         :comments:references:in-reply-to:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qKrWaXjPs2YROPlNKMU9trbAL8v3RYBRxAuFsIw3YYk=;
-        b=APAaSlB4eSVTN9hi8rWPH/x6+SvOU3A3nS4TwastcRyPm6xgPI73QGQ6oA1n6oDTCS
-         FAz/ny1ZhwfBXmxt9JJCmaRBVVFmTdWJtmOlr4FtmoExXThvv27OJM3z/yZqUhWBZ6mu
-         ToVn84DJowhtPV5EvFlbrTGlZV5AWEHYiJXNuoY+1w5T6qk0TkI0Sx7SBFth2WA5m/br
-         3l7b+/NE7KKVOlD8R9bjaav6T3FU+QGFx1XqM0XwW0qAj/gQm+xtp/zuTfmTFQWhXsB4
-         u2y4OIJjjLizgeTuBAvwj3jRB++xHEDVopYWLj0jeay752U16niEv2PX0p5VVXPJiRAk
-         fWaQ==
-X-Gm-Message-State: AAQBX9fG8Nf55J5t/mdEBPjl8HJlB22avcaNrnyEczhW0j+d9420p1aq
-	8H+Xv+lGEhLujZ4plEid5gdvh6H0neag474mbDs0nMSqlWZjsxhdVvCaqsziVNFOhhMr4VbHuvZ
-	+/tM9piW3IzYrWF+phPfQmXe1bk9621AE71eKvVeUwZVzKk81RbA=
-X-Received: by 2002:a17:90b:3841:b0:247:e4c:d168 with SMTP id nl1-20020a17090b384100b002470e4cd168mr2255994pjb.10.1682006381777;
-        Thu, 20 Apr 2023 08:59:41 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZnL2meKocCyCm7GqMe6oUN3YJyWLBDEset6G0CF5T9FnjTpcMO2t2fW1MB8bD4KLlDLeyKHQ==
-X-Received: by 2002:a17:90b:3841:b0:247:e4c:d168 with SMTP id nl1-20020a17090b384100b002470e4cd168mr2255977pjb.10.1682006381429;
-        Thu, 20 Apr 2023 08:59:41 -0700 (PDT)
-Received: from famine.localdomain ([50.125.80.253])
-        by smtp.gmail.com with ESMTPSA id j12-20020a170902690c00b001a64a2b790fsm1323514plk.164.2023.04.20.08.59.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Apr 2023 08:59:41 -0700 (PDT)
-Received: by famine.localdomain (Postfix, from userid 1000)
-	id 9C9EB607E6; Thu, 20 Apr 2023 08:59:40 -0700 (PDT)
-Received: from famine (localhost [127.0.0.1])
-	by famine.localdomain (Postfix) with ESMTP id 95F979FB79;
-	Thu, 20 Apr 2023 08:59:40 -0700 (PDT)
-From: Jay Vosburgh <jay.vosburgh@canonical.com>
-To: kernel test robot <lkp@intel.com>
-cc: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org,
-    oe-kbuild-all@lists.linux.dev,
-    "David S . Miller" <davem@davemloft.net>,
-    Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-    Eric Dumazet <edumazet@google.com>, Liang Li <liali@redhat.com>,
-    Vincent Bernat <vincent@bernat.ch>
-Subject: Re: [PATCH net 1/4] bonding: fix send_peer_notif overflow
-In-reply-to: <202304202222.eUq4Xfv8-lkp@intel.com>
-References: <20230420082230.2968883-2-liuhangbin@gmail.com> <202304202222.eUq4Xfv8-lkp@intel.com>
-Comments: In-reply-to kernel test robot <lkp@intel.com>
-   message dated "Thu, 20 Apr 2023 22:34:12 +0800."
-X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31808F44;
+	Thu, 20 Apr 2023 17:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682013220; x=1713549220;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gPUGsnCZZVrxTMLQ75P+O1/5TxBkW+4KY/+mePstM3s=;
+  b=brZcvN5LoXku3jM2QgWGsvEFokAhLxSWD/aSMKCmkr2n/AKp1+EQzY3E
+   ELv4qvPn0cqs/ycu8ANl38c4kGcf/yJQPJuf9t7VrFqi/bw0hhZhmV160
+   Pul/LRG4LDU4Jn834rL8TiG7w4ThKfcVpgSz+0RLiVVysjw9RwvCTj5kt
+   C9T6ODPqqGZaOyDYxVdhejEw8zUUPxe115q4UgBIpZqmrRgdnMz9fSow0
+   hJLleFZUq9Sk3xsu/6Pf0geTs8HVwduXn+u2uLDtHzqFiiIjxvxEB9S3L
+   Baj9L0cVOjKrqEJN+YpDedejNVvfu+1DlvcLi2Fx1qmrxHHD8dFpq7nv8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="348594481"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="348594481"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 10:38:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="692011281"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="692011281"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 20 Apr 2023 10:38:54 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppYF6-000fz6-0p;
+	Thu, 20 Apr 2023 17:38:48 +0000
+Date: Fri, 21 Apr 2023 01:38:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi 1/21] kernel/trace/bpf_trace.c:3066:12:
+ warning: variable 'old_inode' is uninitialized when used here
+Message-ID: <202304210113.O7szsjHN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <27708.1682006380.1@famine>
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 20 Apr 2023 08:59:40 -0700
-Message-ID: <27709.1682006380@famine>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi
+head:   f06f72609beded6df569274ef7a92843471904ed
+commit: bce755e1c480a41c8528425d659c6b23ba839d67 [1/21] bpf: Add multi uprobe link
+config: s390-randconfig-r036-20230416 (https://download.01.org/0day-ci/archive/20230421/202304210113.O7szsjHN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=bce755e1c480a41c8528425d659c6b23ba839d67
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi
+        git checkout bce755e1c480a41c8528425d659c6b23ba839d67
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
->Hi Hangbin,
->
->kernel test robot noticed the following build errors:
->
->[auto build test ERROR on net/main]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/bondin=
-g-fix-send_peer_notif-overflow/20230420-162411
->patch link:    https://lore.kernel.org/r/20230420082230.2968883-2-liuhang=
-bin%40gmail.com
->patch subject: [PATCH net 1/4] bonding: fix send_peer_notif overflow
->config: parisc-defconfig (https://download.01.org/0day-ci/archive/2023042=
-0/202304202222.eUq4Xfv8-lkp@intel.com/config)
->compiler: hppa-linux-gcc (GCC) 12.1.0
->reproduce (this is a W=3D1 build):
->        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->        chmod +x ~/bin/make.cross
->        # https://github.com/intel-lab-lkp/linux/commit/5bf7296696ea0aa39=
-97bf310fae2aa5cf62a3af5
->        git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->        git fetch --no-tags linux-review Hangbin-Liu/bonding-fix-send_pee=
-r_notif-overflow/20230420-162411
->        git checkout 5bf7296696ea0aa3997bf310fae2aa5cf62a3af5
->        # save the config file
->        mkdir build_dir && cp config build_dir/.config
->        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc olddefconfig
->        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
-ss W=3D1 O=3Dbuild_dir ARCH=3Dparisc SHELL=3D/bin/bash
->
->If you fix the issue, kindly add following tag where applicable
->| Reported-by: kernel test robot <lkp@intel.com>
->| Link: https://lore.kernel.org/oe-kbuild-all/202304202222.eUq4Xfv8-lkp@i=
-ntel.com/
->
->All errors (new ones prefixed by >>, old ones prefixed by <<):
->
->>> ERROR: modpost: "__umoddi3" [drivers/net/bonding/bonding.ko] undefined=
-!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210113.O7szsjHN-lkp@intel.com/
 
-	I assume this is related to send_peer_notif now being u64 in the
-modulus at:
+All warnings (new ones prefixed by >>):
 
-static bool bond_should_notify_peers(struct bonding *bond)
-{
-[...]
-        if (!slave || !bond->send_peer_notif ||
-            bond->send_peer_notif %
-            max(1, bond->params.peer_notif_delay) !=3D 0 ||
+   In file included from kernel/trace/bpf_trace.c:9:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from kernel/trace/bpf_trace.c:9:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from kernel/trace/bpf_trace.c:9:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/trace/bpf_trace.c:3066:12: warning: variable 'old_inode' is uninitialized when used here [-Wuninitialized]
+                           inode = old_inode;
+                                   ^~~~~~~~~
+   kernel/trace/bpf_trace.c:3016:33: note: initialize the variable 'old_inode' to silence this warning
+           struct inode *inode, *old_inode;
+                                          ^
+                                           = NULL
+   13 warnings generated.
 
-	but I'm unsure if this is a real coding error, or some issue
-with the parisc arch specifically?
 
-	-J
+vim +/old_inode +3066 kernel/trace/bpf_trace.c
 
----
-	-Jay Vosburgh, jay.vosburgh@canonical.com
+  3007	
+  3008	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+  3009	{
+  3010		void __user **upaths, __user *upath, __user *old_upath = NULL;
+  3011		unsigned long __user *uoffsets, offset;
+  3012		unsigned long __user *uref_ctr_offsets, ref_ctr_offset = 0;
+  3013		struct bpf_uprobe_multi_link *link = NULL;
+  3014		struct bpf_link_primer link_primer;
+  3015		struct bpf_uprobe *uprobes = NULL;
+  3016		struct inode *inode, *old_inode;
+  3017		u32 flags, cnt, i;
+  3018		int err;
+  3019	
+  3020		/* no support for 32bit archs yet */
+  3021		if (sizeof(u64) != sizeof(void *))
+  3022			return -EOPNOTSUPP;
+  3023	
+  3024		if (prog->expected_attach_type != BPF_TRACE_UPROBE_MULTI)
+  3025			return -EINVAL;
+  3026	
+  3027		flags = attr->link_create.uprobe_multi.flags;
+  3028		if (flags & ~BPF_F_UPROBE_MULTI_RETURN)
+  3029			return -EINVAL;
+  3030	
+  3031		upaths = u64_to_user_ptr(attr->link_create.uprobe_multi.paths);
+  3032		uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
+  3033		if (!!upaths != !!uoffsets)
+  3034			return -EINVAL;
+  3035	
+  3036		uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
+  3037	
+  3038		cnt = attr->link_create.uprobe_multi.cnt;
+  3039		if (!cnt)
+  3040			return -EINVAL;
+  3041	
+  3042		uprobes = kvcalloc(cnt, sizeof(*uprobes), GFP_KERNEL);
+  3043		if (!uprobes)
+  3044			return -ENOMEM;
+  3045	
+  3046		link = kzalloc(sizeof(*link), GFP_KERNEL);
+  3047		if (!link) {
+  3048			err = -ENOMEM;
+  3049			goto error;
+  3050		}
+  3051	
+  3052		for (i = 0; i < cnt; i++) {
+  3053			if (uref_ctr_offsets && __get_user(ref_ctr_offset, uref_ctr_offsets + i)) {
+  3054				err = -EFAULT;
+  3055				goto error;
+  3056			}
+  3057			if (__get_user(offset, uoffsets + i)) {
+  3058				err = -EFAULT;
+  3059				goto error;
+  3060			}
+  3061			if (__get_user(upath, upaths + i)) {
+  3062				err = -EFAULT;
+  3063				goto error;
+  3064			}
+  3065			if (i && old_upath == upath) {
+> 3066				inode = old_inode;
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
