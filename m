@@ -1,47 +1,45 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D6517ED;
-	Thu, 20 Apr 2023 03:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7D01844
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 03:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681959996; x=1713495996;
+  t=1681963037; x=1713499037;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Vrqpja8Z1hSqrZRC7tQPIr/La29qW5DFqZCbyUZi4Kk=;
-  b=FKdU39ZPAvFgnpoUiUb+BYy+xleQTTfHDs9yypbkY8rPdg0BUZeEnb0G
-   fk0qacxEsjJJvLJ7WSTLHBl1z92FKE+7RTfNaX/yuo7oxgdTtVXnv4hvk
-   L/QVadHLnD/cBRWFfh4K3OLZA7OFxpULz58WGzVInO2uR7Dt2dc76wy+Q
-   m7JABAsndpufKVM0TuqVfPqnEIn4KAXJDsG/R/c21TdYc72Q2JV8wC5Ud
-   utHgPfqthbqN795IMHLpv6txmJTkPJaCOaVT2Z1gDwhedaaaT/OfX5t/0
-   nhNQI9DGNd1tOjkkk8ds/D69yMBY6Wt5oLEuErbO/KT2HgKxm2prwbqjm
+  bh=dv8Sq13xaCMnIsK0VNgPAd8PR+UU69iWhtLhEZQF1kw=;
+  b=av8TfpiETPLHAA7OhiLU/JUYcOjatWDwFSgjNDY+4pIrc/2zVq9igHr+
+   YGpcT8gUJGTejnJLKRFLkXdcQ1CfBsKRLbo8bnLitPtCsefBcsIV4wejT
+   NB50EHsmACGMzD6e4DQ/VPVl5Vrb63Fr4MMoueNhhysw+VSeL0oauLgTn
+   swPYEvVlp/B7OT/GH/2sMp8o5rtO0hgg4okuKPxiQPO5EuViiCsADJjyz
+   xqN9ugw7LH9KNGO7sHemkds3JNQpgDnucaqLH7oId300yUVj+AdZI2fdn
+   6KxEW3xKZz7z7oY4qJ59f9aYZ2qHV6eSRR1R/pslWOQNiEoRBUoRIUEw9
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="431896671"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="410861234"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="431896671"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 20:06:15 -0700
+   d="scan'208";a="410861234"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 20:57:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="760978836"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="835556212"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="760978836"
+   d="scan'208";a="835556212"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Apr 2023 20:06:13 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2023 20:57:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppKcf-000fPU-0A;
-	Thu, 20 Apr 2023 03:06:13 +0000
-Date: Thu, 20 Apr 2023 11:05:54 +0800
+	id 1ppLQ2-000fRO-1F;
+	Thu, 20 Apr 2023 03:57:14 +0000
+Date: Thu, 20 Apr 2023 11:57:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, mani@kernel.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	linux-mtd@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_srichara@quicinc.com, quic_mdalam@quicinc.com
-Subject: Re: [PATCH V2] mtd: rawnand: qcom: Implement exec_op()
-Message-ID: <202304201013.6bradWxp-lkp@intel.com>
-References: <20230419093617.27134-1-quic_mdalam@quicinc.com>
+To: Jorge Lopez <jorgealtxwork@gmail.com>, hdegoede@redhat.com,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas@t-8ch.de
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v10 13/14] HP BIOSCFG driver  - Makefile
+Message-ID: <202304201100.r6QLG0Fc-lkp@intel.com>
+References: <20230419151321.6167-14-jorge.lopez2@hp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,153 +48,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419093617.27134-1-quic_mdalam@quicinc.com>
+In-Reply-To: <20230419151321.6167-14-jorge.lopez2@hp.com>
 
-Hi Md,
+Hi Jorge,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master v6.3-rc7 next-20230419]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc7 next-20230419]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/mtd-rawnand-qcom-Implement-exec_op/20230419-173849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20230419093617.27134-1-quic_mdalam%40quicinc.com
-patch subject: [PATCH V2] mtd: rawnand: qcom: Implement exec_op()
-config: s390-randconfig-r034-20230418 (https://download.01.org/0day-ci/archive/20230420/202304201013.6bradWxp-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/a2d1599a63e93bde90166287021663cfc13c91b2
+url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230419-231828
+patch link:    https://lore.kernel.org/r/20230419151321.6167-14-jorge.lopez2%40hp.com
+patch subject: [PATCH v10 13/14] HP BIOSCFG driver  - Makefile
+config: i386-randconfig-s002-20230417 (https://download.01.org/0day-ci/archive/20230420/202304201100.r6QLG0Fc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/cfbebfbd4ed15793fab894715bfd74387adcf4f1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Md-Sadre-Alam/mtd-rawnand-qcom-Implement-exec_op/20230419-173849
-        git checkout a2d1599a63e93bde90166287021663cfc13c91b2
+        git fetch --no-tags linux-review Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230419-231828
+        git checkout cfbebfbd4ed15793fab894715bfd74387adcf4f1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/mtd/nand/raw/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/hp/hp-bioscfg/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304201013.6bradWxp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201100.r6QLG0Fc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/mtd/nand/raw/qcom_nandc.c:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/mtd/nand/raw/qcom_nandc.c:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/mtd/nand/raw/qcom_nandc.c:9:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/mtd/nand/raw/qcom_nandc.c:2617:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   drivers/mtd/nand/raw/qcom_nandc.c:2617:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   13 warnings generated.
-
-
-vim +2617 drivers/mtd/nand/raw/qcom_nandc.c
-
-  2587	
-  2588	static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, u8 cmd,
-  2589				       struct qcom_op *q_op)
-  2590	{
-  2591		int ret = 0;
-  2592	
-  2593		switch (cmd) {
-  2594		case NAND_CMD_RESET:
-  2595			ret = OP_RESET_DEVICE;
-  2596			break;
-  2597		case NAND_CMD_READID:
-  2598			ret = OP_FETCH_ID;
-  2599			break;
-  2600		case NAND_CMD_PARAM:
-  2601			if (nandc->props->qpic_v2)
-  2602				ret = OP_PAGE_READ_ONFI_READ;
-  2603			else
-  2604				ret = OP_PAGE_READ;
-  2605			break;
-  2606		case NAND_CMD_ERASE1:
-  2607		case NAND_CMD_ERASE2:
-  2608			ret = OP_BLOCK_ERASE;
-  2609			break;
-  2610		case NAND_CMD_STATUS:
-  2611			ret = OP_CHECK_STATUS;
-  2612			break;
-  2613		case NAND_CMD_PAGEPROG:
-  2614			ret = OP_PROGRAM_PAGE;
-  2615			q_op->flag = NAND_CMD_PAGEPROG;
-  2616			nandc->exec_opwrite = true;
-> 2617		default:
-  2618			break;
-  2619		}
-  2620	
-  2621		return ret;
-  2622	}
-  2623	
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/hp/hp-bioscfg/surestart-attributes.c:80:23: sparse: sparse: symbol 'sure_start_audit_log_entries' was not declared. Should it be static?
+--
+>> drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c:191:23: sparse: sparse: symbol 'password_spm_status' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
