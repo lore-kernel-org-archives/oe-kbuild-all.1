@@ -1,43 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6F1362
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 02:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF3317ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 03:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681958175; x=1713494175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h9lJLb6T+BZfNqQ0RRBDG+ud1sTD37uwQ6hC7BLE4Ro=;
-  b=HhXsu1WZOmKksGTC4N8DFHWtrnGA/3pbrPT5vFQcAK1s7hYl8pUMc/I9
-   +R7CLbneBbhTLPmoA5xcyGM1o3r1zaxEpjZeeIFtJO7PG3c33wWY1eyid
-   9gUPL8U9EUnyDh51luhwsPb2mYsu2C3qvhSbSuUHkNeudIGnKnTxh/huM
-   Bgl7d5IKUGREMWHLDGmN9Hk8OqjFeegIyOwTPHHOynb2eJjA1uzmwwkjd
-   TmDztePmJJtninU8wVG2G7GwoTdPoNynfBa91/uKlNPVMy/Y7NXulQnp1
-   L8ZanPjnhdwlsl3Hy+op/JXgzjkLxtLSXzqTDUDz/HOk/IP2N+UFZqzgt
+  t=1681959994; x=1713495994;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oPFxqdCIsSAToafpSrqMZOefD3ed+RHQ+C2UajMpmho=;
+  b=NUp8dDaat075ywB7TZmFvk/o+o7FMdkIXtgO5LD2F5JTXYjT0dcAA2P1
+   Kz7uCfu1xbjau3dBBK19ZpAPXK1jZxh2gnHaEYFkvE5UzwiK1gT9fASS9
+   LiJ5lJm/HRNhYQGV7Bzf7vCsea+jC1BwpjjM7LQ3XbiRmFlD7P3o3pa0l
+   O7gZ412/RZ0DIn+IV/QflBJEX5sNQuKC6Krg0o+1kNhZ6nRUImNqZcIiH
+   cEDKDg/nmjYMmybgCG4QvXLu+mGsW+jXgsEZUN/T1Awa2gWnLHttIFP5o
+   vv1vYnQSQE8nN921b1FNd6TGUVFD+NLsnUtTZ4OWynxPhmjnLWn/O0WFJ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325945926"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="431896668"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="325945926"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 19:36:14 -0700
+   d="scan'208";a="431896668"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 20:06:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="803153321"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="760978835"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="803153321"
+   d="scan'208";a="760978835"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2023 19:36:13 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 19 Apr 2023 20:06:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppK9c-000fOU-1A;
-	Thu, 20 Apr 2023 02:36:12 +0000
-Date: Thu, 20 Apr 2023 10:35:15 +0800
+	id 1ppKcf-000fPS-04;
+	Thu, 20 Apr 2023 03:06:13 +0000
+Date: Thu, 20 Apr 2023 11:05:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Sharma <anupnewsmail@gmail.com>, zbr@ioremap.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: w1: slaves: Drop unnecessary explicit casting
-Message-ID: <202304201037.YqeNgQrk-lkp@intel.com>
-References: <ZECFjQMLwnoYPMeL@yoga>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 8/8] mm/page_alloc.c:6789:16: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202304201116.HlmJMCfv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,175 +45,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZECFjQMLwnoYPMeL@yoga>
 
-Hi Anup,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc7 next-20230419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anup-Sharma/drivers-w1-slaves-Drop-unnecessary-explicit-casting/20230420-082340
-patch link:    https://lore.kernel.org/r/ZECFjQMLwnoYPMeL%40yoga
-patch subject: [PATCH] drivers: w1: slaves: Drop unnecessary explicit casting
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304201037.YqeNgQrk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/211461ea088a31e3a084fd539e243c9d32db3cb6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anup-Sharma/drivers-w1-slaves-Drop-unnecessary-explicit-casting/20230420-082340
-        git checkout 211461ea088a31e3a084fd539e243c9d32db3cb6
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   91fdd255931e43c5dfca21aadad7371f9c8b1f79
+commit: 42596c7b41c85be2647f23da66cda4b0a0c242e1 [8/8] ANDROID: fix ABI breakage caused by per_cpu_pages
+config: i386-randconfig-s001-20230417 (https://download.01.org/0day-ci/archive/20230420/202304201116.HlmJMCfv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.10
+        git checkout 42596c7b41c85be2647f23da66cda4b0a0c242e1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/w1/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304201037.YqeNgQrk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201116.HlmJMCfv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/page_alloc.c:6789:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct per_cpu_pageset_ext *ps_ext @@     got struct per_cpu_pageset_ext [noderef] __percpu * @@
+   mm/page_alloc.c:6789:16: sparse:     expected struct per_cpu_pageset_ext *ps_ext
+   mm/page_alloc.c:6789:16: sparse:     got struct per_cpu_pageset_ext [noderef] __percpu *
+>> mm/page_alloc.c:6790:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct per_cpu_pageset [noderef] __percpu *pageset @@     got struct per_cpu_pageset * @@
+   mm/page_alloc.c:6790:23: sparse:     expected struct per_cpu_pageset [noderef] __percpu *pageset
+   mm/page_alloc.c:6790:23: sparse:     got struct per_cpu_pageset *
+   mm/page_alloc.c:3365:28: sparse: sparse: context imbalance in 'free_unref_page_commit' - unexpected unlock
+   mm/page_alloc.c:3687:20: sparse: sparse: context imbalance in '__rmqueue_pcplist' - wrong count at exit
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
 
-   In file included from include/linux/device.h:15,
-                    from drivers/w1/slaves/w1_ds2433.c:11:
-   drivers/w1/slaves/w1_ds2433.c: In function 'eeprom_write':
->> drivers/w1/slaves/w1_ds2433.c:216:35: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'loff_t' {aka 'long long int'} [-Wformat=]
-     216 |                 dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/w1/slaves/w1_ds2433.c:216:17: note: in expansion of macro 'dev_err'
-     216 |                 dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                 ^~~~~~~
-   drivers/w1/slaves/w1_ds2433.c:216:62: note: format string is defined here
-     216 |                 dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                                                             ~^
-         |                                                              |
-         |                                                              void *
-         |                                                             %lld
-   drivers/w1/slaves/w1_ds2433.c:224:43: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'loff_t' {aka 'long long int'} [-Wformat=]
-     224 |                         dev_err(&sl->dev, "bad CRC at offset %pe\n", off);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/w1/slaves/w1_ds2433.c:224:25: note: in expansion of macro 'dev_err'
-     224 |                         dev_err(&sl->dev, "bad CRC at offset %pe\n", off);
-         |                         ^~~~~~~
-   drivers/w1/slaves/w1_ds2433.c:224:63: note: format string is defined here
-     224 |                         dev_err(&sl->dev, "bad CRC at offset %pe\n", off);
-         |                                                              ~^
-         |                                                               |
-         |                                                               void *
-         |                                                              %lld
---
-   In file included from include/linux/device.h:15,
-                    from drivers/w1/slaves/w1_ds28e04.c:11:
-   drivers/w1/slaves/w1_ds28e04.c: In function 'eeprom_write':
->> drivers/w1/slaves/w1_ds28e04.c:237:43: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'loff_t' {aka 'long long int'} [-Wformat=]
-     237 |                         dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/w1/slaves/w1_ds28e04.c:237:25: note: in expansion of macro 'dev_err'
-     237 |                         dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                         ^~~~~~~
-   drivers/w1/slaves/w1_ds28e04.c:237:70: note: format string is defined here
-     237 |                         dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-         |                                                                     ~^
-         |                                                                      |
-         |                                                                      void *
-         |                                                                     %lld
-   drivers/w1/slaves/w1_ds28e04.c:246:51: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'loff_t' {aka 'long long int'} [-Wformat=]
-     246 |                                 dev_err(&sl->dev, "bad CRC at offset %pe\n",
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/w1/slaves/w1_ds28e04.c:246:33: note: in expansion of macro 'dev_err'
-     246 |                                 dev_err(&sl->dev, "bad CRC at offset %pe\n",
-         |                                 ^~~~~~~
-   drivers/w1/slaves/w1_ds28e04.c:246:71: note: format string is defined here
-     246 |                                 dev_err(&sl->dev, "bad CRC at offset %pe\n",
-         |                                                                      ~^
-         |                                                                       |
-         |                                                                       void *
-         |                                                                      %lld
+vim +6789 mm/page_alloc.c
 
-
-vim +216 drivers/w1/slaves/w1_ds2433.c
-
-   202	
-   203	static ssize_t eeprom_write(struct file *filp, struct kobject *kobj,
-   204				    struct bin_attribute *bin_attr, char *buf,
-   205				    loff_t off, size_t count)
-   206	{
-   207		struct w1_slave *sl = kobj_to_w1_slave(kobj);
-   208		int addr, len, idx;
-   209	
-   210		if ((count = w1_f23_fix_count(off, count, W1_EEPROM_SIZE)) == 0)
-   211			return 0;
-   212	
-   213	#ifdef CONFIG_W1_SLAVE_DS2433_CRC
-   214		/* can only write full blocks in cached mode */
-   215		if ((off & W1_PAGE_MASK) || (count & W1_PAGE_MASK)) {
- > 216			dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
-   217				off, count);
-   218			return -EINVAL;
-   219		}
-   220	
-   221		/* make sure the block CRCs are valid */
-   222		for (idx = 0; idx < count; idx += W1_PAGE_SIZE) {
-   223			if (crc16(CRC16_INIT, &buf[idx], W1_PAGE_SIZE) != CRC16_VALID) {
-   224				dev_err(&sl->dev, "bad CRC at offset %pe\n", off);
-   225				return -EINVAL;
-   226			}
-   227		}
-   228	#endif	/* CONFIG_W1_SLAVE_DS2433_CRC */
-   229	
-   230		mutex_lock(&sl->master->bus_mutex);
-   231	
-   232		/* Can only write data to one page at a time */
-   233		idx = 0;
-   234		while (idx < count) {
-   235			addr = off + idx;
-   236			len = W1_PAGE_SIZE - (addr & W1_PAGE_MASK);
-   237			if (len > (count - idx))
-   238				len = count - idx;
-   239	
-   240			if (w1_f23_write(sl, addr, len, &buf[idx]) < 0) {
-   241				count = -EIO;
-   242				goto out_up;
-   243			}
-   244			idx += len;
-   245		}
-   246	
-   247	out_up:
-   248		mutex_unlock(&sl->master->bus_mutex);
-   249	
-   250		return count;
-   251	}
-   252	
+  6783	
+  6784	void __meminit setup_zone_pageset(struct zone *zone)
+  6785	{
+  6786		int cpu;
+  6787		struct per_cpu_pageset_ext *ps_ext;
+  6788	
+> 6789		ps_ext = alloc_percpu(struct per_cpu_pageset_ext);
+> 6790		zone->pageset = &ps_ext->pageset;
+  6791		for_each_possible_cpu(cpu)
+  6792			zone_pageset_init(zone, cpu);
+  6793	}
+  6794	
 
 -- 
 0-DAY CI Kernel Test Service
