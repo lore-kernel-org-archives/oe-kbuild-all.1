@@ -1,170 +1,137 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C888F44
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 18:17:17 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-24762b39b0dso946944a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 11:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682014637; x=1684606637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cfkHvhHLYPgY+Mj4mBbrqBeiHu1eQoHkhSwNn/be28M=;
-        b=Z8tykE3fpqmb+P6zqbo6La2hfwS1WNxLq8sZLrXio4ZegQtph6LW/xuru2JfpFWAa3
-         joBbqMiU+eq7tk+CmvtcX4aOc1r76fvap9hNHQpFAlZ1WALvklJonlqw9aAsLSIhO3gl
-         3mX/VVbyTI9SWoUQ8cGbRegNnH/KIdSmH3qRF0CkbiVJq7z8BJ+8yOFULjOVyXFobXWF
-         frmi9N/wCy6AeE0S1l7NdiT46F33Y06oT2QvfY8Y2+h+qFo9D+h8p8kn6AbdQVeNMNG3
-         Gzyk53RfYt+7I8QFlRfz8o5KLGVX6uqRGDMrGb55EvC5D1lBkD91mTo5Z6F4x+Ga48u4
-         cX+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682014637; x=1684606637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cfkHvhHLYPgY+Mj4mBbrqBeiHu1eQoHkhSwNn/be28M=;
-        b=LQi11Km9c4hZ4N6b5nBXdMf8W8uTvh01SeuBkj9D2GwjfGaHNbQluTR+W20iREAh0c
-         Hlt7aYs+gmmrek4Mi4LJGgkLgMXWi0gsGXo2cRsOUgSpyYapfPwmFb3wblGzx2GhIG6e
-         WPM49rw5pGpyTnuhnMLgPiXREJhUp331bXYwXlmaKMlAA1kqB5KWvUbndIRO1FlByaX8
-         9gu50GBlBUnPpSOeIBQb5Js4P7gnVntTMvc3WiBHKZL7K1vAk7xaic+A0VcC7/x/sjSA
-         62e8MNthqlDtP+W41OZvs7tPcGjVs1GBAKnnow9wvGkZnAI8YJLax+dTEJWj5tSN/l+F
-         bEag==
-X-Gm-Message-State: AAQBX9e8MycranXfZJZsp4Zyn6bJ4JxjZ0PbvHPuzxSda77jjh0lJv+d
-	KuG7BPeIfhbAvV6poo6gbUEuhgyC1DT+VgCjeE5FEg==
-X-Google-Smtp-Source: AKy350b7/7/1V2E+kSv94YWLIAfn4IsMkbuS3qcJN2Bk+XprwLXtBhWtAC6rGESQBvsSf7tZB/N6L2vn9HKvsVQ/aqg=
-X-Received: by 2002:a17:90a:688f:b0:247:8ce1:996e with SMTP id
- a15-20020a17090a688f00b002478ce1996emr2448419pjd.29.1682014637039; Thu, 20
- Apr 2023 11:17:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EC53212
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 18:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682016653; x=1713552653;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=54LCJMjKk33330w618Zo/P/FJU5i0UXP+2jFpgG4O3o=;
+  b=g3tjn/y+qoX/o5iv/VOdNf96j7f322MWqcUvqFRZ4g315r7rpd4BQ9w6
+   DVMLOpvgS0FccgNB7NkVWbivAr3mRlo9e9sYgr5KSIZSExxlmHMNHu/Zq
+   +w9Dq0zzmXZd7Aok7nJb1oFl8CGdOIzI5/h0cMaI/Sh9QOmgoeUb4ge+t
+   bHZleZT1vcjCrYNmRRX5b3Dwzml1GwbBXB6ZHP9vnr18/lod56Fl0j5RM
+   vgX6hQqUZFvZpShBydUMoqyvlDEtW4JcJ9CAljOxxrsKIJBdsGbjneHZ6
+   sFnXdXwxWkI+494wtuOw5lqxT8VOmkS/ukbqyLyokeJy98Uy3df6qxRlw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347717400"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="347717400"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 11:50:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="724522132"
+X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
+   d="scan'208";a="724522132"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 20 Apr 2023 11:50:51 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppZMo-000g1S-3B;
+	Thu, 20 Apr 2023 18:50:50 +0000
+Date: Fri, 21 Apr 2023 02:49:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 4744/9845]
+ drivers/media/platform/mxc/capture/ov5647_mipi.c:320:19: error:
+ initialization of 'void (*)(struct i2c_client *)' from incompatible pointer
+ type 'int (*)(struct i2c_client *)'
+Message-ID: <202304210218.hSdlRePi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230418225343.553806-7-sdf@google.com> <202304200301.XukL6sTb-lkp@intel.com>
-In-Reply-To: <202304200301.XukL6sTb-lkp@intel.com>
-From: Stanislav Fomichev <sdf@google.com>
-Date: Thu, 20 Apr 2023 11:17:05 -0700
-Message-ID: <CAKH8qBuujEFVR5BqO21YWYT2PqBMbNVJ1aznxtZaTYusOXgPaQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sockopt
-To: kernel test robot <lkp@intel.com>
-Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	song@kernel.org, yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	haoluo@google.com, jolsa@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Apr 19, 2023 at 1:08=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Stanislav,
->
-> kernel test robot noticed the following build warnings:
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   897d73a656fe33d0c4549c5de1d07797f99d6871
+commit: ce0e2f7e0ebc193aa10e4a6921c61302e470387c [4744/9845] Merge remote-tracking branch 'origin/capture/ov5640' into capture/next
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230421/202304210218.hSdlRePi-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/ce0e2f7e0ebc193aa10e4a6921c61302e470387c
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout ce0e2f7e0ebc193aa10e4a6921c61302e470387c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
-Stupid me using ``` blocks instead of code-block:: c. Will address
-once I hear some feedback on the rest of the patches.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210218.hSdlRePi-lkp@intel.com/
 
-> [auto build test WARNING on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev=
-/bpf-Don-t-EFAULT-for-getsockopt-with-optval-NULL/20230419-065442
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20230418225343.553806-7-sdf%40go=
-ogle.com
-> patch subject: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sock=
-opt
-> reproduce:
->         # https://github.com/intel-lab-lkp/linux/commit/789f0fbf25934464a=
-e56e0022939fc77d4615d65
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Stanislav-Fomichev/bpf-Don-t-EFA=
-ULT-for-getsockopt-with-optval-NULL/20230419-065442
->         git checkout 789f0fbf25934464ae56e0022939fc77d4615d65
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONF=
-IG_WARN_ABI_ERRORS
->         make htmldocs
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304200301.XukL6sTb-lkp@i=
-ntel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> Documentation/bpf/prog_cgroup_sockopt.rst:115: WARNING: Unexpected ind=
-entation.
-> >> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline literal=
- start-string without end-string.
-> >> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline emphasi=
-s start-string without end-string.
-> >> Documentation/bpf/prog_cgroup_sockopt.rst:121: WARNING: Block quote en=
-ds without a blank line; unexpected unindent.
-> >> Documentation/bpf/prog_cgroup_sockopt.rst:159: WARNING: Title level in=
-consistent:
->
-> vim +115 Documentation/bpf/prog_cgroup_sockopt.rst
->
->    110
->  > 111  ```
->    112  SEC("cgroup/getsockopt")
->    113  int getsockopt(struct bpf_sockopt *ctx)
->    114  {
->  > 115          /* Custom socket option. */
->    116          if (ctx->level =3D=3D MY_SOL && ctx->optname =3D=3D MY_OP=
-TNAME) {
->    117                  ctx->retval =3D 0;
->    118                  optval[0] =3D ...;
->    119                  ctx->optlen =3D 1;
->    120                  return 1;
->  > 121          }
->    122
->    123          /* Modify kernel's socket option. */
->    124          if (ctx->level =3D=3D SOL_IP && ctx->optname =3D=3D IP_FR=
-EEBIND) {
->    125                  ctx->retval =3D 0;
->    126                  optval[0] =3D ...;
->    127                  ctx->optlen =3D 1;
->    128                  return 1;
->    129          }
->    130
->    131          /* optval larger than PAGE_SIZE use kernel's buffer. */
->    132          if (ctx->optlen > 4096)
->    133                  ctx->optlen =3D 0;
->    134
->    135          return 1;
->    136  }
->    137
->    138  SEC("cgroup/setsockopt")
->    139  int setsockopt(struct bpf_sockopt *ctx)
->    140  {
->    141          /* Custom socket option. */
->    142          if (ctx->level =3D=3D MY_SOL && ctx->optname =3D=3D MY_OP=
-TNAME) {
->    143                  /* do something */
->    144                  ctx->optlen =3D -1;
->    145                  return 1;
->    146          }
->    147
->    148          /* Modify kernel's socket option. */
->    149          if (ctx->level =3D=3D SOL_IP && ctx->optname =3D=3D IP_FR=
-EEBIND) {
->    150                  optval[0] =3D ...;
->    151                  return 1;
->    152          }
->    153
->    154          /* optval larger than PAGE_SIZE use kernel's buffer. */
->    155          if (ctx->optlen > 4096)
->    156                  ctx->optlen =3D 0;
->    157
->    158          return 1;
->  > 159  }
->    160  ```
->    161
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+All errors (new ones prefixed by >>):
+
+>> drivers/media/platform/mxc/capture/ov5647_mipi.c:320:19: error: initialization of 'void (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
+     320 |         .remove = ov5647_remove,
+         |                   ^~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:320:19: note: (near initialization for 'ov5647_i2c_driver.remove')
+   drivers/media/platform/mxc/capture/ov5647_mipi.c: In function 'ov5647_enum_frameintervals':
+>> drivers/media/platform/mxc/capture/ov5647_mipi.c:1442:17: error: implicit declaration of function 'pr_warning'; did you mean 'acpi_warning'? [-Werror=implicit-function-declaration]
+    1442 |                 pr_warning("Please assign pixel format, width and height.\n");
+         |                 ^~~~~~~~~~
+         |                 acpi_warning
+   drivers/media/platform/mxc/capture/ov5647_mipi.c: At top level:
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1522:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
+    1522 |         .enum_frame_size       = ov5647_enum_framesizes,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1522:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_frame_size')
+>> drivers/media/platform/mxc/capture/ov5647_mipi.c:1523:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
+    1523 |         .enum_frame_interval   = ov5647_enum_frameintervals,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1523:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_frame_interval')
+>> drivers/media/platform/mxc/capture/ov5647_mipi.c:1524:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
+    1524 |         .enum_mbus_code        = ov5647_enum_mbus_code,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1524:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_mbus_code')
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1525:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+    1525 |         .set_fmt               = ov5647_set_fmt,
+         |                                  ^~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1525:34: note: (near initialization for 'ov5647_subdev_pad_ops.set_fmt')
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1526:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+    1526 |         .get_fmt               = ov5647_get_fmt,
+         |                                  ^~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1526:34: note: (near initialization for 'ov5647_subdev_pad_ops.get_fmt')
+>> drivers/media/platform/mxc/capture/ov5647_mipi.c:1532:27: error: 'ov5647_get_register' undeclared here (not in a function); did you mean 'ov5647_get_shutter'?
+    1532 |         .g_register     = ov5647_get_register,
+         |                           ^~~~~~~~~~~~~~~~~~~
+         |                           ov5647_get_shutter
+   drivers/media/platform/mxc/capture/ov5647_mipi.c:1533:27: error: 'ov5647_set_register' undeclared here (not in a function); did you mean 'ov5647_set_shutter'?
+    1533 |         .s_register     = ov5647_set_register,
+         |                           ^~~~~~~~~~~~~~~~~~~
+         |                           ov5647_set_shutter
+   cc1: some warnings being treated as errors
+
+
+vim +320 drivers/media/platform/mxc/capture/ov5647_mipi.c
+
+c540262b9a9248 Robby Cai 2019-09-27  313  
+c540262b9a9248 Robby Cai 2019-09-27  314  static struct i2c_driver ov5647_i2c_driver = {
+c540262b9a9248 Robby Cai 2019-09-27  315  	.driver = {
+c540262b9a9248 Robby Cai 2019-09-27  316  		  .owner = THIS_MODULE,
+c540262b9a9248 Robby Cai 2019-09-27  317  		  .name  = "ov5647_mipi",
+c540262b9a9248 Robby Cai 2019-09-27  318  		  },
+c540262b9a9248 Robby Cai 2019-09-27  319  	.probe  = ov5647_probe,
+c540262b9a9248 Robby Cai 2019-09-27 @320  	.remove = ov5647_remove,
+c540262b9a9248 Robby Cai 2019-09-27  321  	.id_table = ov5647_id,
+c540262b9a9248 Robby Cai 2019-09-27  322  };
+c540262b9a9248 Robby Cai 2019-09-27  323  
+
+:::::: The code at line 320 was first introduced by commit
+:::::: c540262b9a924882cfa56687e832a6978c067469 media: capture: add mipi camera ov5647 driver
+
+:::::: TO: Robby Cai <robby.cai@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
