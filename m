@@ -1,50 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9EE944E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 22:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FA1946F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 23:15:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682028300; x=1713564300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QLTm7S7Qy0Ej6mfl0KwCOlaAKC/xPF/JLj0bt0xnj1E=;
-  b=A+/KidXOMCVDN97pif+ex1ND9p6VEn3fRF8uKILGJCb4656Cr3XK2D3g
-   hEal9dZbYyUN+cGwrhdksrKtWQaolEwTvQ3XPj9w+yXCf6AMSi3WSmbAs
-   W7xdPHU9a1iALi8gQMFylLhGx5fjgSo6gvYkNIpEhnZ8BqxE/VzWkak2l
-   5OJ010b/5aNW9Kd21knQhNmRN8EjchUR545B9ODCGWFqtAijnlMctQ+xO
-   R2OXmzO5ybVTwBIrptzgU3jafb/TYW5hjgbkc70Ze9Y/5PcA2PoJPSNEQ
-   yR3etmBS5uMVQlaW7hF1lQJJBOiwMu4cmS2qZl1B6tupXuLEBducxHg9O
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="344614350"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="344614350"
+  t=1682032559; x=1713568559;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jmEpl2s36VHlDwWWgl9TQ3hYy/hIgWWYbYkYpPpSBYM=;
+  b=KA/ITaJCwgRmu2rk3WHAY7TMo6Qa9D4K+fp2K6rlw0Xaluv6pBYsObEX
+   2Htq+w+UEOvDRPkLrZsP99uLPeonqrBFpsutuEZwiZf0BqN2SDqjswPcT
+   YAtsS1wXgpX2Uba+kYxaH5hj4mw/0tMbgy6UFOvQO0P6BPtl+1rz3EI1o
+   MDU0f9tQiaSRino0ZLn5iuPGfaoRQR3HPlC08LwjuBBXHB/RoMiohmLqm
+   f+wDR8ZedYQs7Yc2Ji4AJ3D0bWnp+UdfgJ0B+/IPZanGnr5WUCPB35uP/
+   h6mAGGeDrytuQjhvuZGaLFzoM6fnyRQbcgxSXGjP5v2oqYDM/WcMZBOMV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="330068022"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="330068022"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 15:04:59 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 16:15:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="685523795"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="685523795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="685540026"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="685540026"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Apr 2023 15:04:56 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Apr 2023 16:15:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppcOd-000g8W-1Y;
-	Thu, 20 Apr 2023 22:04:55 +0000
-Date: Fri, 21 Apr 2023 06:04:51 +0800
+	id 1ppdVN-000gAC-02;
+	Thu, 20 Apr 2023 23:15:57 +0000
+Date: Fri, 21 Apr 2023 07:15:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Klinger <ak@it-klinger.de>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] iio: pressure: Honeywell mprls0025pa pressure
- sensor
-Message-ID: <202304210512.5qdqDRgd-lkp@intel.com>
-References: <ZEGZ7VMrqaPNzhwj@arbad>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2022-12 16063/16385]
+ net/wireless/scan.c:1809:61: sparse: sparse: incorrect type in argument 2
+ (different address spaces)
+Message-ID: <202304210716.7LqQYMmQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,291 +46,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZEGZ7VMrqaPNzhwj@arbad>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e0ee50101346ca9cef52da75e3fb4380c27c042a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mprls0025pa-sensor/20230421-040254
-base:   e0ee50101346ca9cef52da75e3fb4380c27c042a
-patch link:    https://lore.kernel.org/r/ZEGZ7VMrqaPNzhwj%40arbad
-patch subject: [PATCH v3 2/3] iio: pressure: Honeywell mprls0025pa pressure sensor
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230421/202304210512.5qdqDRgd-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3d6a7eae49611392fb6f7563dcb71b74f12a0a78
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mprls0025pa-sensor/20230421-040254
-        git checkout 3d6a7eae49611392fb6f7563dcb71b74f12a0a78
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2022-12
+head:   b328aadc6d46f17493cebceb88ea9524a56e3298
+commit: 1b7036d9ee20e194f543414e81de7e3f6fed76ba [16063/16385] UPSTREAM: wifi: cfg80211: update hidden BSSes to avoid WARN_ON
+config: i386-randconfig-s001-20230417 (https://download.01.org/0day-ci/archive/20230421/202304210716.7LqQYMmQ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.15-2022-12
+        git checkout 1b7036d9ee20e194f543414e81de7e3f6fed76ba
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/iio/pressure/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash net/wireless/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304210512.5qdqDRgd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210716.7LqQYMmQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/wireless/scan.c:1809:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct cfg80211_bss_ies const *new_ies @@     got struct cfg80211_bss_ies const [noderef] __rcu *beacon_ies @@
+   net/wireless/scan.c:1809:61: sparse:     expected struct cfg80211_bss_ies const *new_ies
+   net/wireless/scan.c:1809:61: sparse:     got struct cfg80211_bss_ies const [noderef] __rcu *beacon_ies
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from include/linux/i2c.h:13,
-                    from drivers/iio/pressure/mprls0025pa.c:17:
-   drivers/iio/pressure/mprls0025pa.c: In function 'mpr_read_pressure':
->> drivers/iio/pressure/mprls0025pa.c:169:30: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
-     169 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(wdata));
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/iio/pressure/mprls0025pa.c:169:17: note: in expansion of macro 'dev_err'
-     169 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(wdata));
-         |                 ^~~~~~~
-   drivers/iio/pressure/mprls0025pa.c:169:70: note: format string is defined here
-     169 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(wdata));
-         |                                                                     ~^
-         |                                                                      |
-         |                                                                      int
-         |                                                                     %ld
-   drivers/iio/pressure/mprls0025pa.c:208:30: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
-     208 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(buf));
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/iio/pressure/mprls0025pa.c:208:17: note: in expansion of macro 'dev_err'
-     208 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(buf));
-         |                 ^~~~~~~
-   drivers/iio/pressure/mprls0025pa.c:208:70: note: format string is defined here
-     208 |                 dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(buf));
-         |                                                                     ~^
-         |                                                                      |
-         |                                                                      int
-         |                                                                     %ld
+vim +1809 net/wireless/scan.c
 
-
-vim +169 drivers/iio/pressure/mprls0025pa.c
-
-  > 17	#include <linux/i2c.h>
-    18	#include <linux/module.h>
-    19	#include <linux/mod_devicetable.h>
-    20	#include <linux/device.h>
-    21	#include <linux/gpio/consumer.h>
-    22	#include <linux/regulator/consumer.h>
-    23	#include <linux/math64.h>
-    24	
-    25	#include <asm/unaligned.h>
-    26	
-    27	#include <linux/iio/iio.h>
-    28	#include <linux/iio/buffer.h>
-    29	#include <linux/iio/triggered_buffer.h>
-    30	#include <linux/iio/trigger_consumer.h>
-    31	
-    32	/* bits in i2c status byte */
-    33	#define MPR_I2C_POWER	BIT(6)	/* device is powered */
-    34	#define MPR_I2C_BUSY	BIT(5)	/* device is busy */
-    35	#define MPR_I2C_MEMORY	BIT(2)	/* integrity test passed */
-    36	#define MPR_I2C_MATH	BIT(0)	/* internal math saturation */
-    37	
-    38	#define MPR_NANO_PART	1000000000LL
-    39	
-    40	/*
-    41	 * _INPUT interface:
-    42	 * Calculation formular from the datasheet:
-    43	 * pressure = (press_cnt - outputmin) * scale + pmin
-    44	 * with:
-    45	 * * pressure	- measured pressure in Pascal
-    46	 * * press_cnt	- raw value read from sensor
-    47	 * * pmin	- minimum pressure range value of sensor (data->pmin)
-    48	 * * pmax	- maximum pressure range value of sensor (data->pmax)
-    49	 * * outputmin	- minimum numerical range raw value delivered by sensor (MPR_OUT_MIN)
-    50	 * * outputmax	- maximum numerical range raw value delivered by sensor (MPR_OUT_MAX)
-    51	 * * scale	- (pmax - pmin) / (outputmax - outputmin)
-    52	 *
-    53	 * _RAW interface:
-    54	 * pressure = (raw + offset) * scale
-    55	 * --> need to adjust offset for fitting into _RAW interface
-    56	 * Values for _RAW interface:
-    57	 * * raw	- press_cnt
-    58	 * * scale	- (pmax - pmin) / (outputmax - outputmin)
-    59	 * * offset	- (-1 * outputmin) - pmin / scale
-    60	 *                note: With all sensors from the datasheet pmin = 0 which reduces the offset to
-    61	 *                (-1 * outputmin)
-    62	 */
-    63	
-    64	/*
-    65	 * transfer function A: 10%   to 90%   of 2^24
-    66	 * transfer function B:  2.5% to 22.5% of 2^24
-    67	 * transfer function C: 20%   to 80%   of 2^24
-    68	 */
-    69	enum mpr_func_id {
-    70		MPR_FUNCTION_A,
-    71		MPR_FUNCTION_B,
-    72		MPR_FUNCTION_C,
-    73	};
-    74	
-    75	struct mpr_func_spec {
-    76		u32			output_min;
-    77		u32			output_max;
-    78	};
-    79	
-    80	static const struct mpr_func_spec mpr_func_spec[] = {
-    81		[MPR_FUNCTION_A] = {.output_min = 1677722, .output_max = 15099494},
-    82		[MPR_FUNCTION_B] = {.output_min =  419430, .output_max =  3774874},
-    83		[MPR_FUNCTION_C] = {.output_min = 3355443, .output_max = 13421773},
-    84	};
-    85	
-    86	struct mpr_chan {
-    87		s32			pres;		/* pressure value */
-    88		s64			ts;		/* timestamp */
-    89	};
-    90	
-    91	struct mpr_data {
-    92		struct i2c_client	*client;
-    93		struct mutex		lock;		/* i2c transactions */
-    94		u32			pmin;		/* minimal pressure in pascal */
-    95		u32			pmax;		/* maximal pressure in pascal */
-    96		u32			function;	/* transfer function */
-    97		u32			outmin;		/* minimal numerical range raw value from sensor */
-    98		u32			outmax;		/* maximal numerical range raw value from sensor */
-    99		int                     scale;          /* int part of scale */
-   100		int                     scale2;         /* nano part of scale */
-   101		int                     offset;         /* int part of offset */
-   102		int                     offset2;        /* nano part of offset */
-   103		struct gpio_desc	*gpiod_reset;	/* reset */
-   104		int			irq;		/* end of conversion interrupt */
-   105		struct completion	completion;	/* handshake from irq to read */
-   106		struct mpr_chan		chan;		/* channel values for buffered mode */
-   107		struct regulator	*vdd;		/* optional external voltage regulator */
-   108	};
-   109	
-   110	static const struct iio_chan_spec mpr_channels[] = {
-   111		{
-   112			.type = IIO_PRESSURE,
-   113			.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-   114						BIT(IIO_CHAN_INFO_SCALE) |
-   115						BIT(IIO_CHAN_INFO_OFFSET),
-   116			.scan_index = 0,
-   117			.scan_type = {
-   118				.sign = 's',
-   119				.realbits = 32,
-   120				.storagebits = 32,
-   121				.endianness = IIO_CPU,
-   122			},
-   123		},
-   124		IIO_CHAN_SOFT_TIMESTAMP(1),
-   125	};
-   126	
-   127	static void mpr_reset(struct mpr_data *data)
-   128	{
-   129		if (data->gpiod_reset) {
-   130			gpiod_set_value(data->gpiod_reset, 0);
-   131			udelay(10);
-   132			gpiod_set_value(data->gpiod_reset, 1);
-   133		}
-   134	}
-   135	
-   136	/**
-   137	 * mpr_read_pressure() - Read pressure value from sensor via I2C
-   138	 * @data: Pointer to private data struct.
-   139	 * @press: Output value read from sensor.
-   140	 *
-   141	 * Reading from the sensor by sending and receiving I2C telegrams.
-   142	 *
-   143	 * If there is an end of conversion (EOC) interrupt registered the function waits for a maximum of
-   144	 * one second for the interrupt.
-   145	 *
-   146	 * Context: The function can sleep and data->lock should be held when calling it.
-   147	 * Return:
-   148	 * * 0		- OK, the pressure value could be read
-   149	 * * -ETIMEDOUT	- Timeout while waiting for the EOC interrupt or busy flag is still set after nloops
-   150	 *		  attempts of reading
-   151	 */
-   152	static int mpr_read_pressure(struct mpr_data *data, s32 *press)
-   153	{
-   154		struct device *dev = &data->client->dev;
-   155		int ret, i;
-   156		u8 wdata[] = {0xAA, 0x00, 0x00};
-   157		s32 status;
-   158		int nloops = 10;
-   159		u8 buf[5];
-   160	
-   161		reinit_completion(&data->completion);
-   162	
-   163		ret = i2c_master_send(data->client, wdata, sizeof(wdata));
-   164		if (ret < 0) {
-   165			dev_err(dev, "error while writing ret: %d\n", ret);
-   166			return ret;
-   167		}
-   168		if (ret != sizeof(wdata)) {
- > 169			dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(wdata));
-   170			return -EIO;
-   171		}
-   172	
-   173		if (data->irq > 0) {
-   174			ret = wait_for_completion_timeout(&data->completion, HZ);
-   175			if (!ret) {
-   176				dev_err(dev, "timeout while waiting for eoc interrupt\n");
-   177				return -ETIMEDOUT;
-   178			}
-   179		} else {
-   180			/* wait until status indicates data is ready */
-   181			for (i = 0; i < nloops; i++) {
-   182				/*
-   183				 * datasheet only says to wait at least 5 ms for the data but leave the
-   184				 * maximum response time open
-   185				 * --> let's try it nloops (10) times which seems to be quite long
-   186				 */
-   187				usleep_range(5000, 10000);
-   188				status = i2c_smbus_read_byte(data->client);
-   189				if (status < 0) {
-   190					dev_err(dev, "error while reading, status: %d\n", status);
-   191					return status;
-   192				}
-   193				if (!(status & MPR_I2C_BUSY))
-   194					break;
-   195			}
-   196			if (i == nloops) {
-   197				dev_err(dev, "timeout while reading\n");
-   198				return -ETIMEDOUT;
-   199			}
-   200		}
-   201	
-   202		ret = i2c_master_recv(data->client, buf, sizeof(buf));
-   203		if (ret < 0) {
-   204			dev_err(dev, "error in i2c_master_recv ret: %d\n", ret);
-   205			return ret;
-   206		}
-   207		if (ret != sizeof(buf)) {
-   208			dev_err(dev, "received size doesn't fit - ret: %d / %d\n", ret, sizeof(buf));
-   209			return -EIO;
-   210		}
-   211	
-   212		if (buf[0] & MPR_I2C_BUSY) {
-   213			/* it should never be the case that status still indicates business */
-   214			dev_err(dev, "data still not ready: %08x\n", buf[0]);
-   215			return -ETIMEDOUT;
-   216		}
-   217	
-   218		*press = get_unaligned_be24(&buf[1]);
-   219	
-   220		dev_dbg(dev, "received: %*ph cnt: %d\n", ret, buf, *press);
-   221	
-   222		return 0;
-   223	}
-   224	
+  1758	
+  1759	static bool
+  1760	cfg80211_update_known_bss(struct cfg80211_registered_device *rdev,
+  1761				  struct cfg80211_internal_bss *known,
+  1762				  struct cfg80211_internal_bss *new,
+  1763				  bool signal_valid)
+  1764	{
+  1765		lockdep_assert_held(&rdev->bss_lock);
+  1766	
+  1767		/* Update IEs */
+  1768		if (rcu_access_pointer(new->pub.proberesp_ies)) {
+  1769			const struct cfg80211_bss_ies *old;
+  1770	
+  1771			old = rcu_access_pointer(known->pub.proberesp_ies);
+  1772	
+  1773			rcu_assign_pointer(known->pub.proberesp_ies,
+  1774					   new->pub.proberesp_ies);
+  1775			/* Override possible earlier Beacon frame IEs */
+  1776			rcu_assign_pointer(known->pub.ies,
+  1777					   new->pub.proberesp_ies);
+  1778			if (old)
+  1779				kfree_rcu((struct cfg80211_bss_ies *)old, rcu_head);
+  1780		} else if (rcu_access_pointer(new->pub.beacon_ies)) {
+  1781			const struct cfg80211_bss_ies *old;
+  1782	
+  1783			if (known->pub.hidden_beacon_bss &&
+  1784			    !list_empty(&known->hidden_list)) {
+  1785				const struct cfg80211_bss_ies *f;
+  1786	
+  1787				/* The known BSS struct is one of the probe
+  1788				 * response members of a group, but we're
+  1789				 * receiving a beacon (beacon_ies in the new
+  1790				 * bss is used). This can only mean that the
+  1791				 * AP changed its beacon from not having an
+  1792				 * SSID to showing it, which is confusing so
+  1793				 * drop this information.
+  1794				 */
+  1795	
+  1796				f = rcu_access_pointer(new->pub.beacon_ies);
+  1797				kfree_rcu((struct cfg80211_bss_ies *)f, rcu_head);
+  1798				return false;
+  1799			}
+  1800	
+  1801			old = rcu_access_pointer(known->pub.beacon_ies);
+  1802	
+  1803			rcu_assign_pointer(known->pub.beacon_ies, new->pub.beacon_ies);
+  1804	
+  1805			/* Override IEs if they were from a beacon before */
+  1806			if (old == rcu_access_pointer(known->pub.ies))
+  1807				rcu_assign_pointer(known->pub.ies, new->pub.beacon_ies);
+  1808	
+> 1809			cfg80211_update_hidden_bsses(known, new->pub.beacon_ies, old);
+  1810	
+  1811			if (old)
+  1812				kfree_rcu((struct cfg80211_bss_ies *)old, rcu_head);
+  1813		}
+  1814	
+  1815		known->pub.beacon_interval = new->pub.beacon_interval;
+  1816	
+  1817		/* don't update the signal if beacon was heard on
+  1818		 * adjacent channel.
+  1819		 */
+  1820		if (signal_valid)
+  1821			known->pub.signal = new->pub.signal;
+  1822		known->pub.capability = new->pub.capability;
+  1823		known->ts = new->ts;
+  1824		known->ts_boottime = new->ts_boottime;
+  1825		known->parent_tsf = new->parent_tsf;
+  1826		known->pub.chains = new->pub.chains;
+  1827		memcpy(known->pub.chain_signal, new->pub.chain_signal,
+  1828		       IEEE80211_MAX_CHAINS);
+  1829		ether_addr_copy(known->parent_bssid, new->parent_bssid);
+  1830		known->pub.max_bssid_indicator = new->pub.max_bssid_indicator;
+  1831		known->pub.bssid_index = new->pub.bssid_index;
+  1832	
+  1833		return true;
+  1834	}
+  1835	
 
 -- 
 0-DAY CI Kernel Test Service
