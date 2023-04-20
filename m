@@ -1,45 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FFF17C9;
-	Thu, 20 Apr 2023 01:45:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B06D17C9;
+	Thu, 20 Apr 2023 02:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681955115; x=1713491115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xVg8UEI9PmbcwUJJJHD6epV4b56xa9c9CYHoPbn/eiM=;
-  b=dbsvhQ+Q0D01YVnjnvaSaihNYZvwFeYjGxQhtZtLck+YqGjSZP2+xSF+
-   vUieQF1PK3qLsCelC2le+ystC9MCrwKw60HIO6Qc0X+V2r0IBu52CewmV
-   d8NxwW1EZl2aJ3yNt7HBwp6q6OKmWE7lReSBq7gACbhlPhH+cMbufZUIm
-   8ehz/i0YqRLquy0N2A3AKFb9dfseGAswqfssJzW8QADsLj9uW2UilGXAk
-   nkKXxcuUK7o8w62FyljoxiUIwi6TUAeuDNyMULxZbV+GuA8xSVNCVTw2j
-   lKxw7zKLKzzDy51iB/ghAwMPm3RlkZgiyWZe9r/z25UQWT7oWRg7g41D2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="410844288"
+  t=1681957527; x=1713493527;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kcXiTGX0jEfHLVUs2sLhbceUjoj4al2FF2c6LlrgD+g=;
+  b=P0Jnq5nP9yayxRyP0wD5IF1fHtMtLh3MSBg1lES2pJW9snlPIWSJEoZc
+   xTnK8WdDitMZSqt1bhOYRJkW49llnsqOpx2AYGILDUg9uPpd31X7dkr5d
+   yROQOMXTMLBatSjzfn5HinrgEx68XeGGT8Cl0m9rrbmWEaw4/syWgC8DX
+   y7oj+cfSlW82ZIdPrO69i5KM90OaxGwGFqWecNq3Fsk3JfaJIYt3Ej3ZB
+   M8HrxOdfO2R54vgRPz9N39evERYazvMKTcK+IQGlqleyW4HLDZeMIXagv
+   0VkZ5YkiOIUthoMXDXjptYlhQzw0SUm5GIo7yTcZ0U0BFdcnJUqiJ+zPP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325943546"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="410844288"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 18:45:15 -0700
+   d="scan'208";a="325943546"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 19:25:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="835535037"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="781074887"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="835535037"
+   d="scan'208";a="781074887"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2023 18:45:10 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2023 19:25:12 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppJMD-000fLw-2V;
-	Thu, 20 Apr 2023 01:45:09 +0000
-Date: Thu, 20 Apr 2023 09:44:09 +0800
+	id 1ppJyx-000fNm-2T;
+	Thu, 20 Apr 2023 02:25:11 +0000
+Date: Thu, 20 Apr 2023 10:24:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jorge Lopez <jorgealtxwork@gmail.com>, hdegoede@redhat.com,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas@t-8ch.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v10 13/14] HP BIOSCFG driver  - Makefile
-Message-ID: <202304200914.VfJcRutc-lkp@intel.com>
-References: <20230419151321.6167-14-jorge.lopez2@hp.com>
+To: Eric Yang <Eric.Yang2@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [linux-next:master 12531/13075]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:184:19: warning:
+ variable 'dmub' set but not used
+Message-ID: <202304201027.2upm4i0C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,171 +48,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230419151321.6167-14-jorge.lopez2@hp.com>
 
-Hi Jorge,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc7 next-20230419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230419-231828
-patch link:    https://lore.kernel.org/r/20230419151321.6167-14-jorge.lopez2%40hp.com
-patch subject: [PATCH v10 13/14] HP BIOSCFG driver  - Makefile
-config: i386-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230420/202304200914.VfJcRutc-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3cdbc01c40e34c57697f8934f2727a88551696be
+commit: 499e4b1c722e0e2ca40c56342b766e95f6c31f4a [12531/13075] drm/amd/display: add mechanism to skip DCN init
+config: arm64-randconfig-r036-20230416 (https://download.01.org/0day-ci/archive/20230420/202304201027.2upm4i0C-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cfbebfbd4ed15793fab894715bfd74387adcf4f1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230419-231828
-        git checkout cfbebfbd4ed15793fab894715bfd74387adcf4f1
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=499e4b1c722e0e2ca40c56342b766e95f6c31f4a
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 499e4b1c722e0e2ca40c56342b766e95f6c31f4a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/hp/hp-bioscfg/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/amd/display/dc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200914.VfJcRutc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201027.2upm4i0C-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:141:2: warning: variable 'id' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!buf_cp) {
-           ^~~~~~~~~~~~
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:30: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:169:18: note: uninitialized use occurs here
-           clear_passwords(id);
-                           ^~
-   drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:141:2: note: remove the 'if' if its condition is always false
-           if (!buf_cp) {
-           ^~~~~~~~~~~~~~
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:138:8: note: initialize the variable 'id' to silence this warning
-           int id, ret = -EIO;
-                 ^
-                  = 0
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:184:19: warning: variable 'dmub' set but not used [-Wunused-but-set-variable]
+           struct dmub_srv *dmub;
+                            ^
    1 warning generated.
---
->> drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:76:2: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!start)
-           ^~~~~~~~~~~
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:30: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:87:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:76:2: note: remove the 'if' if its condition is always false
-           if (!start)
-           ^~~~~~~~~~~
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:72:2: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (!start)
-           ^~~~~~~~~~~
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:30: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:87:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:72:2: note: remove the 'if' if its condition is always false
-           if (!start)
-           ^~~~~~~~~~~
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:43:2: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (instance < 0)
-           ^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:30: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:87:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:43:2: note: remove the 'if' if its condition is always false
-           if (instance < 0)
-           ^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:30:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   3 warnings generated.
 
 
-vim +141 drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c
+vim +/dmub +184 drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c
 
-1780f5eca27fb8 Jorge Lopez 2023-04-19  132  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  133  static ssize_t new_password_store(struct kobject *kobj,
-1780f5eca27fb8 Jorge Lopez 2023-04-19  134  				  struct kobj_attribute *attr,
-1780f5eca27fb8 Jorge Lopez 2023-04-19  135  				  const char *buf, size_t count)
-1780f5eca27fb8 Jorge Lopez 2023-04-19  136  {
-1780f5eca27fb8 Jorge Lopez 2023-04-19  137  	char *p, *buf_cp = NULL;
-1780f5eca27fb8 Jorge Lopez 2023-04-19  138  	int id, ret = -EIO;
-1780f5eca27fb8 Jorge Lopez 2023-04-19  139  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  140  	buf_cp = kstrdup(buf, GFP_KERNEL);
-1780f5eca27fb8 Jorge Lopez 2023-04-19 @141  	if (!buf_cp) {
-1780f5eca27fb8 Jorge Lopez 2023-04-19  142  		ret = -ENOMEM;
-1780f5eca27fb8 Jorge Lopez 2023-04-19  143  		goto exit_password;
-1780f5eca27fb8 Jorge Lopez 2023-04-19  144  	}
-1780f5eca27fb8 Jorge Lopez 2023-04-19  145  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  146  	p = memchr(buf_cp, '\n', count);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  147  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  148  	if (p != NULL)
-1780f5eca27fb8 Jorge Lopez 2023-04-19  149  		*p = '\0';
-1780f5eca27fb8 Jorge Lopez 2023-04-19  150  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  151  	id = get_password_instance_id(kobj);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  152  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  153  	if (id >= 0)
-1780f5eca27fb8 Jorge Lopez 2023-04-19  154  		ret = validate_password_input(id, buf_cp);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  155  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  156  	if (!ret)
-1780f5eca27fb8 Jorge Lopez 2023-04-19  157  		strscpy(bioscfg_drv.password_data[id].new_password,
-1780f5eca27fb8 Jorge Lopez 2023-04-19  158  			buf_cp,
-1780f5eca27fb8 Jorge Lopez 2023-04-19  159  			sizeof(bioscfg_drv.password_data[id].new_password));
-1780f5eca27fb8 Jorge Lopez 2023-04-19  160  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  161  	if (!ret)
-1780f5eca27fb8 Jorge Lopez 2023-04-19  162  		ret = hp_set_attribute(kobj->name, buf_cp);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  163  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  164  exit_password:
-1780f5eca27fb8 Jorge Lopez 2023-04-19  165  	/*
-1780f5eca27fb8 Jorge Lopez 2023-04-19  166  	 * Regardless of the results both new and current passwords
-1780f5eca27fb8 Jorge Lopez 2023-04-19  167  	 * will be set to zero and avoid security issues
-1780f5eca27fb8 Jorge Lopez 2023-04-19  168  	 */
-1780f5eca27fb8 Jorge Lopez 2023-04-19  169  	clear_passwords(id);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  170  
-1780f5eca27fb8 Jorge Lopez 2023-04-19  171  	kfree(buf_cp);
-1780f5eca27fb8 Jorge Lopez 2023-04-19  172  	return ret ? ret : count;
-1780f5eca27fb8 Jorge Lopez 2023-04-19  173  }
-1780f5eca27fb8 Jorge Lopez 2023-04-19  174  
+   181	
+   182	bool dc_dmub_srv_optimized_init_done(struct dc_dmub_srv *dc_dmub_srv)
+   183	{
+ > 184		struct dmub_srv *dmub;
+   185		union dmub_fw_boot_status status;
+   186	
+   187		if (!dc_dmub_srv || !dc_dmub_srv->dmub)
+   188			return false;
+   189	
+   190		dmub = dc_dmub_srv->dmub;
+   191	
+   192		return status.bits.optimized_init_done;
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
