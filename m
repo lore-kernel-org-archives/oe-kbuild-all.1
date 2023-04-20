@@ -1,44 +1,45 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC922914
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 07:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5F92F22
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 07:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681977153; x=1713513153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+zHa6Iwze4UUpXczpFnr0I3iLpl1omfIFHB+hxYo7yc=;
-  b=eNo+gbeRQOqExjDysP8Qyim7SZL76N7JWCM0NMJXSnbr3K2qtnpa8NcI
-   U01S5Exl0p/o7139/z0VdEC7Osre/wZ7ZBsWAlKZm2nIpxkBU/iNUxg17
-   XNlF+HM5OhIGNeGM847bwKj9F9F3hyIBzLZyEr4akgP+LqFXzAGBjkl4s
-   2DkROFMW/p+dbo6hTes0UTx1io4qtU0dp5JjRYP5YOLK3h499UJCzAKRz
-   tO9T/dp/EFd6Au6FkUw22G7LFS8h1EH1QBGr/mWos3qdXT5ieH8KeAc0P
-   xKEYms1A/c7Zl1uJbBKQ33Sq4vNh/ODCAmDuEcbgWqbBbP+pjTugOB2Rg
+  t=1681977157; x=1713513157;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RL7mF0DM6LQKZIQEuQBeW+pewYUWijy4MdQXj8oC6Qg=;
+  b=b/1EVPIxA28r+hqXmb23VBQAvA8CjpF0nIyDG8YCTP/AWFtrhMdgynGY
+   CXOovrhdnKuT2CbtzMqdHFOrJPB09X8vj3QPfxamlw13ui4Q9RWKOwbi8
+   Nj+2OO1roywHubQDGpnHFAodEKwGfilYIX1fJGOzsoLNGrecRjZSZ+MsQ
+   U7n9yaNSvtOiktR66Ur9oX5qctJKmNPO0n1YZfdc3uRwTelY2DAKHlkKb
+   yNCsAy/qy8yPomI4MYuiwqFyKgtziy0JQkYw8498H18VbB2ErDoY2p8KS
+   Tb+ih15vBO3s2fPE0ADz/qI4qv/kWYLONfkFipKilYaiGShdtDNJk3MkK
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="347527200"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="347527199"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="347527200"
+   d="scan'208";a="347527199"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 00:52:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021501295"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021501293"
 X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="1021501295"
+   d="scan'208";a="1021501293"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 20 Apr 2023 00:52:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppP5j-000fb6-0T;
+	id 1ppP5j-000fb4-0N;
 	Thu, 20 Apr 2023 07:52:31 +0000
-Date: Thu, 20 Apr 2023 15:51:40 +0800
+Date: Thu, 20 Apr 2023 15:51:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: peili.dev@gmail.com
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] Reduce vdpa initialization / startup overhead for
- ioctl()
-Message-ID: <202304201529.bfoHvKF4-lkp@intel.com>
-References: <20230420052026.1883230-1-peili.dev@gmail.com>
+Subject: [freescale-fslc:6.1-1.0.x-imx 183/9845]
+ sound/soc/sof/intel/hda-common-ops.c:40:27: error: initialization of 'int
+ (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka
+ 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, long
+ unsigned int)'} from incompatib...
+Message-ID: <202304201520.BXtY5NPy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,225 +48,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230420052026.1883230-1-peili.dev@gmail.com>
 
-Hi,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on linus/master v6.3-rc7 next-20230419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/peili-dev-gmail-com/Reduce-vdpa-initialization-startup-overhead-for-ioctl/20230420-132556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20230420052026.1883230-1-peili.dev%40gmail.com
-patch subject: [RFC PATCH] Reduce vdpa initialization / startup overhead for ioctl()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304201529.bfoHvKF4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   897d73a656fe33d0c4549c5de1d07797f99d6871
+commit: a5cbb6f360195a5df5a00c415160d0458ed7a0ca [183/9845] ASoC: SOF: Refactor ipc_msg_data to prepare for compress API
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230420/202304201520.BXtY5NPy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ab8e2356cbe7e460fb8d5e16d57db96737f000b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review peili-dev-gmail-com/Reduce-vdpa-initialization-startup-overhead-for-ioctl/20230420-132556
-        git checkout ab8e2356cbe7e460fb8d5e16d57db96737f000b7
+        # https://github.com/Freescale/linux-fslc/commit/a5cbb6f360195a5df5a00c415160d0458ed7a0ca
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout a5cbb6f360195a5df5a00c415160d0458ed7a0ca
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/staging/ drivers/video/fbdev/ sound/soc/sof/intel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304201529.bfoHvKF4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201520.BXtY5NPy-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:855,
-                    from drivers/vhost/vdpa.c:18:
-   drivers/vhost/vdpa.c: In function 'vhost_vdpa_vring_ioctl_batch':
->> arch/m68k/include/asm/uaccess.h:162:24: error: invalid type argument of unary '*' (have 'unsigned int')
-     162 |         switch (sizeof(*(ptr))) {                                       \
-         |                        ^~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:122:24: error: invalid type argument of unary '*' (have 'unsigned int')
-     122 |                 : "m" (*(ptr)), "i" (err));                             \
-         |                        ^~~~~~
-   arch/m68k/include/asm/uaccess.h:164:17: note: in expansion of macro '__get_user_asm'
-     164 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u8, b, d, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:123:31: error: invalid type argument of unary '*' (have 'unsigned int')
-     123 |         (x) = (__force typeof(*(ptr)))(__force unsigned long)__gu_val;  \
-         |                               ^~~~~~
-   arch/m68k/include/asm/uaccess.h:164:17: note: in expansion of macro '__get_user_asm'
-     164 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u8, b, d, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:122:24: error: invalid type argument of unary '*' (have 'unsigned int')
-     122 |                 : "m" (*(ptr)), "i" (err));                             \
-         |                        ^~~~~~
-   arch/m68k/include/asm/uaccess.h:167:17: note: in expansion of macro '__get_user_asm'
-     167 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u16, w, r, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:123:31: error: invalid type argument of unary '*' (have 'unsigned int')
-     123 |         (x) = (__force typeof(*(ptr)))(__force unsigned long)__gu_val;  \
-         |                               ^~~~~~
-   arch/m68k/include/asm/uaccess.h:167:17: note: in expansion of macro '__get_user_asm'
-     167 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u16, w, r, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:122:24: error: invalid type argument of unary '*' (have 'unsigned int')
-     122 |                 : "m" (*(ptr)), "i" (err));                             \
-         |                        ^~~~~~
-   arch/m68k/include/asm/uaccess.h:170:17: note: in expansion of macro '__get_user_asm'
-     170 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u32, l, r, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:123:31: error: invalid type argument of unary '*' (have 'unsigned int')
-     123 |         (x) = (__force typeof(*(ptr)))(__force unsigned long)__gu_val;  \
-         |                               ^~~~~~
-   arch/m68k/include/asm/uaccess.h:170:17: note: in expansion of macro '__get_user_asm'
-     170 |                 __get_user_asm(MOVES, __gu_err, x, ptr, u32, l, r, -EFAULT); \
-         |                 ^~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
-   arch/m68k/include/asm/uaccess.h:131:28: error: invalid type argument of unary '*' (have 'unsigned int')
-     131 |                 __typeof__(*(ptr)) t;                                   \
-         |                            ^~~~~~
-   arch/m68k/include/asm/uaccess.h:173:17: note: in expansion of macro '__get_user_asm8'
-     173 |                 __get_user_asm8(MOVES, __gu_err, x, ptr);               \
-         |                 ^~~~~~~~~~~~~~~
-   arch/m68k/include/asm/uaccess.h:180:26: note: in expansion of macro '__get_user'
-     180 | #define get_user(x, ptr) __get_user(x, ptr)
-         |                          ^~~~~~~~~~
-   drivers/vhost/vdpa.c:558:13: note: in expansion of macro 'get_user'
-     558 |         r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-         |             ^~~~~~~~
->> drivers/vhost/vdpa.c:565:16: warning: ISO C90 forbids variable length array 'states' [-Wvla]
-     565 |         struct vhost_vring_state states[num + 1];
-         |                ^~~~~~~~~~~~~~~~~
->> drivers/vhost/vdpa.c:565:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     565 |         struct vhost_vring_state states[num + 1];
-         |         ^~~~~~
-   drivers/vhost/vdpa.c:553:34: warning: unused variable 's' [-Wunused-variable]
-     553 |         struct vhost_vring_state s;
-         |                                  ^
-   drivers/vhost/vdpa.c:552:33: warning: unused variable 'vq' [-Wunused-variable]
-     552 |         struct vhost_virtqueue *vq;
-         |                                 ^~
+>> sound/soc/sof/intel/hda-common-ops.c:40:27: error: initialization of 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, long unsigned int)'} from incompatible pointer type 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, long unsigned int)'} [-Werror=incompatible-pointer-types]
+      40 |         .ipc_msg_data   = hda_ipc_msg_data,
+         |                           ^~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/hda-common-ops.c:40:27: note: (near initialization for 'sof_hda_common_ops.ipc_msg_data')
+   cc1: some warnings being treated as errors
 
 
-vim +/states +565 drivers/vhost/vdpa.c
+vim +40 sound/soc/sof/intel/hda-common-ops.c
 
-   546	
-   547	static long vhost_vdpa_vring_ioctl_batch(struct vhost_vdpa *v, unsigned int cmd,
-   548					   void __user *argp)
-   549	{
-   550		struct vdpa_device *vdpa = v->vdpa;
-   551		const struct vdpa_config_ops *ops = vdpa->config;
-   552		struct vhost_virtqueue *vq;
-   553		struct vhost_vring_state s;
-   554	
-   555		u32 idx, num, i;
-   556		long r;
-   557	
-   558		r = get_user(num, ((struct vhost_vring_state __user *)argp)->num);
-   559		if (r < 0) {
-   560			return r;
-   561		}
-   562	
-   563		num = array_index_nospec(num, v->nvqs);
-   564	
- > 565		struct vhost_vring_state states[num + 1];
-   566	
-   567		if (copy_from_user(&states, argp, sizeof(states)))
-   568			return -EFAULT;
-   569	
-   570		switch (cmd) {
-   571		case VHOST_VDPA_SET_VRING_ENABLE_BATCH:
-   572			for (i = 1; i <= num; i++) {
-   573				i = array_index_nospec(i, num + 1);
-   574				idx = states[i].index;
-   575				if (idx >= v->nvqs)
-   576					return -ENOBUFS;
-   577	
-   578				idx = array_index_nospec(idx, v->nvqs);
-   579	
-   580				ops->set_vq_ready(vdpa, idx, 1);
-   581			}
-   582			return 0;
-   583		case VHOST_VDPA_GET_VRING_GROUP_BATCH:
-   584			if (!ops->get_vq_group)
-   585				return -EOPNOTSUPP;
-   586			
-   587			for (i = 1; i <= num; i++) {
-   588				i = array_index_nospec(i, num + 1);
-   589				idx = states[i].index;
-   590				if (idx >= v->nvqs)
-   591					return -ENOBUFS;
-   592				idx = array_index_nospec(idx, v->nvqs);
-   593				states[i].num = ops->get_vq_group(vdpa, idx);
-   594				if (states[i].num >= vdpa->ngroups)
-   595					return -EIO;
-   596			}
-   597	
-   598			if (copy_to_user(argp, &states, sizeof(states)))
-   599				return -EFAULT;
-   600	
-   601			return 0;
-   602		default:
-   603			r = ENOIOCTLCMD;
-   604		}
-   605	
-   606		return r;
-   607	}
-   608	
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  16  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  17  struct snd_sof_dsp_ops sof_hda_common_ops = {
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  18  	/* probe/remove/shutdown */
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  19  	.probe		= hda_dsp_probe,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  20  	.remove		= hda_dsp_remove,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  21  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  22  	/* Register IO */
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  23  	.write		= sof_io_write,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  24  	.read		= sof_io_read,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  25  	.write64	= sof_io_write64,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  26  	.read64		= sof_io_read64,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  27  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  28  	/* Block IO */
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  29  	.block_read	= sof_block_read,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  30  	.block_write	= sof_block_write,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  31  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  32  	/* Mailbox IO */
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  33  	.mailbox_read	= sof_mailbox_read,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  34  	.mailbox_write	= sof_mailbox_write,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  35  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  36  	/* ipc */
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  37  	.get_mailbox_offset = hda_dsp_ipc_get_mailbox_offset,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  38  	.get_window_offset = hda_dsp_ipc_get_window_offset,
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14  39  
+37e809d5f8a7bfb Pierre-Louis Bossart 2022-04-14 @40  	.ipc_msg_data	= hda_ipc_msg_data,
+
+:::::: The code at line 40 was first introduced by commit
+:::::: 37e809d5f8a7bfbf0abbd4666d0b8ad499f12b7f ASoC: SOF: Intel: hda: use common ops across platforms
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
