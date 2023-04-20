@@ -1,48 +1,36 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CCB8C06
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 14:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682001287; x=1713537287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kSjI3HhxTzDOUolW8Wi2neR0i4fYgQMXc/J7y+Hxqsc=;
-  b=jWgYtVE9N4pp4HokjJxSFOXZRBIcR4sWm2qkURx+VlRdEFsQO7eE1TP2
-   wUKJuAGQXKKvvMWVzNO8aZPKGoS8oAUh6vRHICTQt5kdIfYuOyfsMZQuZ
-   amhYYCfdrm6t4Hb4q8t0b6DKs9YuyEYEOkAtYV6iE7CgCLxCVCP4Z9Pag
-   mTUI0Oz+smylyRaMW+0/oB48wtBgvpLW8Db5zU5Yk6Xz0MvqT7OnKXxeL
-   vZTiaQpiA+Q1BL7ciSugVd+MkqXCL2RP8Li9pTt2sXEsz7AavPNvNQLdm
-   AujxTFoBBcEEoYjNO5FTS5KnAVuxPnBvAS/Us65hlRaNNq2AqZAhccYD0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="343222901"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="343222901"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 07:34:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="722387981"
-X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="722387981"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 20 Apr 2023 07:34:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppVMx-000ft4-0M;
-	Thu, 20 Apr 2023 14:34:43 +0000
-Date: Thu, 20 Apr 2023 22:34:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jay Vosburgh <j.vosburgh@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C048C0F;
+	Thu, 20 Apr 2023 15:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ZIh7X3Hg0zgJSWfk7ukimasZ+fd2z71MtBN7Lri4xSI=; b=VKUEoirwxIGgWesEl68e5P1YPA
+	YzSyskoU4nGativgYNuY7TG5ylFZOANFA1Mfh8wYbrAjlBxV/yQ0oB0j/+oN8tMSI8oGx5trjEGkb
+	H0R7Bm3TicD96ul7Y5sQh48PkJLxh+h17Ci1XV6TdywGLfRt+zsIMRVxkaAKFaeALR/g=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1ppWBT-00Anmo-1W; Thu, 20 Apr 2023 17:26:55 +0200
+Date: Thu, 20 Apr 2023 17:26:55 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+	Florian Fainelli <f.fainelli@gmail.com>,
 	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>, Liang Li <liali@redhat.com>,
-	Vincent Bernat <vincent@bernat.ch>,
-	Hangbin Liu <liuhangbin@gmail.com>
-Subject: Re: [PATCH net 1/4] bonding: fix send_peer_notif overflow
-Message-ID: <202304202222.eUq4Xfv8-lkp@intel.com>
-References: <20230420082230.2968883-2-liuhangbin@gmail.com>
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [lunn:v6.3-rc2-net-next-phy-leds 5/15] ld.lld: error: undefined
+ symbol: devm_mdiobus_alloc_size
+Message-ID: <2e7f5511-08e2-4ee0-ab3f-481ba6724824@lunn.ch>
+References: <202303241935.xRMa6mc6-lkp@intel.com>
+ <f16fb810-f70d-40ac-8e9d-2ada008c446d@app.fastmail.com>
+ <758fff85-aefc-4e0a-97b1-fe7179fafac6@lunn.ch>
+ <91c716f0-bf7f-4fdf-8cb7-83f1bdc0cbd4@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,39 +39,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230420082230.2968883-2-liuhangbin@gmail.com>
+In-Reply-To: <91c716f0-bf7f-4fdf-8cb7-83f1bdc0cbd4@app.fastmail.com>
 
-Hi Hangbin,
+> I think the best way is to drop your MDIO_DEVRES patch and instead
+> apply mine (or some variation of that) from
+> 
+> https://lore.kernel.org/lkml/20230420084624.3005701-1-arnd@kernel.org/
+> 
+> Once any missing or recursive dependencies are handled, the devres
+> problem should be fixed as well. I have completed around 150
+> randconfig builds with that patch and have not seen any further
+> problems.
 
-kernel test robot noticed the following build errors:
+Hi Arnd
 
-[auto build test ERROR on net/main]
+Is this on top of my patch? Or does it require mine is reverted?  I
+can send a revert if it is needed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/bonding-fix-send_peer_notif-overflow/20230420-162411
-patch link:    https://lore.kernel.org/r/20230420082230.2968883-2-liuhangbin%40gmail.com
-patch subject: [PATCH net 1/4] bonding: fix send_peer_notif overflow
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230420/202304202222.eUq4Xfv8-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5bf7296696ea0aa3997bf310fae2aa5cf62a3af5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hangbin-Liu/bonding-fix-send_peer_notif-overflow/20230420-162411
-        git checkout 5bf7296696ea0aa3997bf310fae2aa5cf62a3af5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304202222.eUq4Xfv8-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__umoddi3" [drivers/net/bonding/bonding.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+   Andrew
