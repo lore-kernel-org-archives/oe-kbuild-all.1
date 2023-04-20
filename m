@@ -1,132 +1,155 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097C5193;
-	Thu, 20 Apr 2023 06:31:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 5C6F2320069B;
-	Thu, 20 Apr 2023 02:31:39 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 20 Apr 2023 02:31:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681972298; x=1682058698; bh=eP
-	zZEj8M7v5T2YSkLJR2yP2qHh01VIHjtDtJNsIPb5Y=; b=i5FL1M32ued+WtcQCq
-	EYl5+KZSaJhuolI+2V6ij3AED0sMCj8lHtz12tziM70JA2SqcdLVv+K7tF7NMbZk
-	GfHm42gFBY8aQIkYBbznsaeM6nlJUxZ1T97+c7vkPk8a3MXMeCwHzgEa57cHp9tA
-	vk3M7NSPWDrqFqWMLV9Hz01ef4bu0FXoFpXDyYWgEZMiKoWBFhFvOp9X2J4hf9aV
-	6Vs0v1Vp2ybMfHjbMVb6c22OvfyQPMJKOLqjNa5wdhNQolfUv3fqi2r97/7VxH5m
-	yjEivOe/OJHD3b5t7FFP+sssOeCTBm7Smwl7jM2oKMGdxObsTfTf5k6muQr6R6nM
-	DUsw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681972298; x=1682058698; bh=ePzZEj8M7v5T2
-	YSkLJR2yP2qHh01VIHjtDtJNsIPb5Y=; b=KCLwG3l5O3gAA27jXbZzdvHU4EveJ
-	lCQyBp2Svnu9kCNDTJ9LeXY6BxXfHgH5tk7Tw8Lvrq29rzc/FiXQI7/IhSGuwdA/
-	bWuSMBkH1kvm6jxRHB5TY7EXOilIo4xxaO6kL4Ss7yssohKnauKGCllmOv7zhs02
-	6AwFQkAtqK5nhostq50dU7oWyRG1bsE+QQ4dn8A8Qj7ml0x8DzRgEeCfOvKVV5T5
-	Qb8vLUgH8hWikCjtnYFkdAIvRNEaItSub76vjdnBAgWfsxwx8zE9e5fb37bZJL7a
-	mCmrMk5ueZY0qEel6MM2B0FLt9EOM+GNC3M+p8BbT3qF6apu/kZjptY8Q==
-X-ME-Sender: <xms:StxAZCDuJfyQ3_xhcoBV3HQTw8mM8aKD2ry9sFcww3D2FRsPqeaVHw>
-    <xme:StxAZMg_jf0455MvU-PMyGkKSATAUCusSrU3Aonn4Wn-VEXLr7_4KpI6XHLXSZ5qk
-    GrERFhxO5-wNrQN3vk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtuddguddutdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:StxAZFkwMhANCl37MtN12A_l1FOjIEIawFZ_CA62cvDfmUojxAB_PA>
-    <xmx:StxAZAz4vQGLb68CTLHVztEQzKNGWBEDNfxVmxrRPLyOgKD_mtEREA>
-    <xmx:StxAZHQpEbpFda-6rXtB0SDQ35n8kiVz0Qoj9U9gtNtAzVxYILZXBA>
-    <xmx:StxAZARMZlR-W6hHQDRLJI9ih0wlLNMam6ezYxWXtnhVzELIWXKepA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 6432FB60086; Thu, 20 Apr 2023 02:31:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2465923DB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 07:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681974062; x=1713510062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GiRR0/4uC1Z+6JTiWbBbHicxZ2L1vmXk8zcADwF4Bcw=;
+  b=XN4lJ8kpWlTq7Qc/gJursSYhVYmBvLxvGjC2WJ4BYq2Zsca5mKcrUo6d
+   7fD2J2cCZWDPdq9o9Ctt/ITK8nSrAVnhUgboBPz23njwKBVMWn9z/WyYB
+   2g3lBPMEXvb4a3Lbajmq+CXwh7W2tljQDJ+zU7s72EBU6pYJDU2Kmsrs+
+   fAIL9iHLcwda6ut/Bk0GkaSG98f6JPblEcWatb5bR5d0NxeuRHlIqm6lk
+   bsMV9YVpMmzRitNNsl9EBjf9clGktxM2GFlWlccYooWOK2bwJcQoJ96jf
+   Idwj3UVC8SGFPh/Y4hfSiCzter2dDDMtHSCiRoUYMET+/hLND3TLE4iK4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="348410072"
+X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
+   d="scan'208";a="348410072"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 00:00:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="694370210"
+X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
+   d="scan'208";a="694370210"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Apr 2023 00:00:30 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppOHN-000fZC-2k;
+	Thu, 20 Apr 2023 07:00:29 +0000
+Date: Thu, 20 Apr 2023 15:00:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 183/9845]
+ sound/soc/sof/amd/acp-common.c:78:35: error: initialization of 'int
+ (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka
+ 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned
+ int)'} from incompatible pointer ...
+Message-ID: <202304201402.5d7zD68q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <f16fb810-f70d-40ac-8e9d-2ada008c446d@app.fastmail.com>
-In-Reply-To: <202303241935.xRMa6mc6-lkp@intel.com>
-References: <202303241935.xRMa6mc6-lkp@intel.com>
-Date: Thu, 20 Apr 2023 08:31:17 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>, "Andrew Lunn" <andrew@lunn.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Christian Marangi" <ansuelsmth@gmail.com>, Netdev <netdev@vger.kernel.org>,
- linux-kernel@vger.kernel.org, "Florian Fainelli" <f.fainelli@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, "Jakub Kicinski" <kuba@kernel.org>
-Subject: Re: [lunn:v6.3-rc2-net-next-phy-leds 5/15] ld.lld: error: undefined symbol:
- devm_mdiobus_alloc_size
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 24, 2023, at 12:36, kernel test robot wrote:
->>> ld.lld: error: undefined symbol: devm_mdiobus_alloc_size
->    >>> referenced by phy.h:458 (include/linux/phy.h:458)
->    >>>               
-> drivers/net/ethernet/microchip/lan743x_main.o:(lan743x_pcidev_probe) in 
-> archive vmlinux.a
->    >>> referenced by phy.h:458 (include/linux/phy.h:458)
->    >>>               drivers/net/ethernet/ni/nixge.o:(nixge_probe) in 
-> archive vmlinux.a
->
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for PHYLIB
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   897d73a656fe33d0c4549c5de1d07797f99d6871
+commit: a5cbb6f360195a5df5a00c415160d0458ed7a0ca [183/9845] ASoC: SOF: Refactor ipc_msg_data to prepare for compress API
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230420/202304201402.5d7zD68q-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Freescale/linux-fslc/commit/a5cbb6f360195a5df5a00c415160d0458ed7a0ca
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout a5cbb6f360195a5df5a00c415160d0458ed7a0ca
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash sound/soc/sof/amd/ sound/soc/sof/intel/
 
-It looks like this has hit linux-next now, I'm seeing the same problem in
-my own randconfig builds after Andrew's 01e5b728e9e4 ("net: phy: Add a
-binding for PHY LEDs").
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201402.5d7zD68q-lkp@intel.com/
 
->    Depends on [m]: NETDEVICES [=y] && (LEDS_CLASS [=m] || LEDS_CLASS 
-> [=m]=n)
->    Selected by [y]:
->    - PHYLINK [=y] && NETDEVICES [=y]
->    - TIGON3 [=y] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_BROADCOM [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
->    - LAN743X [=y] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_MICROCHIP [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
->    - NI_XGE_MANAGEMENT_ENET [=y] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_NI [=y] && HAS_IOMEM [=y] && HAS_DMA [=y]
->    - XILINX_EMACLITE [=y] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
->    Selected by [m]:
->    - ALTERA_TSE [=m] && NETDEVICES [=y] && ETHERNET [=y] && HAS_DMA [=y]
->    - DNET [=m] && NETDEVICES [=y] && ETHERNET [=y] && HAS_IOMEM [=y]
->    - B44 [=m] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_BROADCOM [=y] && SSB_POSSIBLE [=y] && HAS_DMA [=y]
->    - KS8851_MLL [=m] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_MICREL [=y] && HAS_IOMEM [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
->    - SMSC911X [=m] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_SMSC [=y] && HAS_IOMEM [=y]
->    - SMSC9420 [=m] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_SMSC [=y] && PCI [=y]
->    - XILINX_LL_TEMAC [=m] && NETDEVICES [=y] && ETHERNET [=y] && 
-> NET_VENDOR_XILINX [=y] && HAS_IOMEM [=y]
->    - USB_NET_AX88179_178A [=m] && NETDEVICES [=y] && USB_NET_DRIVERS 
-> [=m] && USB_USBNET [=m]
+All errors (new ones prefixed by >>):
 
-The problem here is that both PHYLIB and LEDS_CLASS are user-visible
-tristate symbols that are referenced from other Kconfig symbols with
-both 'depends on' and 'select'. Having the two interact introduces a
-number of ways that lead to circular dependencies.
+>> sound/soc/sof/amd/acp-common.c:78:35: error: initialization of 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned int)'} from incompatible pointer type 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, unsigned int)'} [-Werror=incompatible-pointer-types]
+      78 |         .ipc_msg_data           = acp_sof_ipc_msg_data,
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/amd/acp-common.c:78:35: note: (near initialization for 'sof_acp_common_ops.ipc_msg_data')
+   cc1: some warnings being treated as errors
+--
+>> sound/soc/sof/intel/hda-common-ops.c:40:27: error: initialization of 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned int)'} from incompatible pointer type 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, unsigned int)'} [-Werror=incompatible-pointer-types]
+      40 |         .ipc_msg_data   = hda_ipc_msg_data,
+         |                           ^~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/hda-common-ops.c:40:27: note: (near initialization for 'sof_hda_common_ops.ipc_msg_data')
+   cc1: some warnings being treated as errors
 
-It might be ok to use 'select LEDS_CLASS' from PHYLIB, but I have not
-tried that yet and I expect this will result in other build failures.
 
-A better solution would be to change all drivers that currently use
-'select PHYLIB' to 'depends on PHYLIB' and have PHYLIB itself
-'default ETHERNET' to avoid most of the regressions, but doing this
-for 6.4 is a bit risky and can cause other problems.
+vim +78 sound/soc/sof/amd/acp-common.c
 
-     Arnd
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   53  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   54  /* AMD Common DSP ops */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   55  struct snd_sof_dsp_ops sof_acp_common_ops = {
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   56  	/* probe and remove */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   57  	.probe			= amd_sof_acp_probe,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   58  	.remove			= amd_sof_acp_remove,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   59  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   60  	/* Register IO */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   61  	.write			= sof_io_write,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   62  	.read			= sof_io_read,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   63  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   64  	/* Block IO */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   65  	.block_read		= acp_dsp_block_read,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   66  	.block_write		= acp_dsp_block_write,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   67  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   68  	/*Firmware loading */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   69  	.load_firmware		= snd_sof_load_firmware_memcpy,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   70  	.pre_fw_run		= acp_dsp_pre_fw_run,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   71  	.get_bar_index		= acp_get_bar_index,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   72  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   73  	/* DSP core boot */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   74  	.run			= acp_sof_dsp_run,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   75  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   76  	/*IPC */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   77  	.send_msg		= acp_sof_ipc_send_msg,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  @78  	.ipc_msg_data		= acp_sof_ipc_msg_data,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   79  	.get_mailbox_offset	= acp_sof_ipc_get_mailbox_offset,
+40d3c041e2f871 V sujith kumar Reddy 2022-09-13   80  	.get_window_offset      = acp_sof_ipc_get_window_offset,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   81  	.irq_thread		= acp_sof_ipc_irq_thread,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   82  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   83  	/* stream callbacks */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   84  	.pcm_open		= acp_pcm_open,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   85  	.pcm_close		= acp_pcm_close,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   86  	.pcm_hw_params		= acp_pcm_hw_params,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   87  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   88  	.hw_info		= SNDRV_PCM_INFO_MMAP |
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   89  				  SNDRV_PCM_INFO_MMAP_VALID |
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   90  				  SNDRV_PCM_INFO_INTERLEAVED |
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   91  				  SNDRV_PCM_INFO_PAUSE |
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   92  				  SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   93  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   94  	/* Machine driver callbacks */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   95  	.machine_select		= amd_sof_machine_select,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   96  	.machine_register	= sof_machine_register,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   97  	.machine_unregister	= sof_machine_unregister,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   98  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13   99  	/* Trace Logger */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  100  	.trace_init		= acp_sof_trace_init,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  101  	.trace_release		= acp_sof_trace_release,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  102  
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  103  	/* PM */
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  104  	.suspend                = amd_sof_acp_suspend,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  105  	.resume                 = amd_sof_acp_resume,
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  106  };
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  107  EXPORT_SYMBOL_NS(sof_acp_common_ops, SND_SOC_SOF_AMD_COMMON);
+4da6b033f5454c Ajit Kumar Pandey    2022-09-13  108  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 4da6b033f5454ccbac2d5795d7edfb3f2a777104 ASoC: SOF: amd: Make ACP core code generic for newer SOC transition
+
+:::::: TO: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
