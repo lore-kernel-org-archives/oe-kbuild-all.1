@@ -1,145 +1,198 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526E78492;
-	Thu, 20 Apr 2023 13:38:01 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 54FFB5C02B1;
-	Thu, 20 Apr 2023 09:38:00 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 20 Apr 2023 09:38:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681997880; x=1682084280; bh=l1
-	57PF1o8GfYodDCq/uRVldL3RnSiAxX/QtRHLYnAzg=; b=i9vitxfqzHhlC5SUtd
-	1vMtckX3QQi+aeJIOBnS9Tf4UFRS9SSXdT5rJ3Q2OX0s0tl7uUeBCGnv3DoRQ+CW
-	YPK1t6JwyVdfBeDb8Q7P415qB7htkoPyQjPp097jOHhbD1hM764giFGSEUJAC0U2
-	ypVBLPnWA1Cv0ZZr7DInmY9CLaT/q3xLlUYxWOWDfZa3xDmfZf8wwllfgLO6kLG/
-	9e9WuT3cnw9dNag09DL171jMBy9/bOhyk36Pd9bsQkuk8L6v5raYP8uoQOmFBawg
-	SDO7IkU62bw3mhofU+M9yR4LNQ8jbOJuhbL1u/1++yKchRJV2T7IFp27IO2RMs7t
-	sutg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681997880; x=1682084280; bh=l157PF1o8GfYo
-	dDCq/uRVldL3RnSiAxX/QtRHLYnAzg=; b=Kh7jMS4QOAKyepo6FS5j6xqoER69k
-	68tL8bFit/2b3jK+hPWHkzfEdNx/JonEZyTQ0QUvg/pP95oD2Rh60VBQeS1DBB3c
-	goY+43+gQYFPrZn8RA8+ZAjEHO+9rwPk1XjX921fFJHVlQ6+FyXXkk/j4BX82mee
-	qxy4oPLMPaN+F0Yp26VPOKRRoanySKVuQf5kmuqj4w3nz/Agj6AKDcEtLl465i5n
-	ZKW81LaJyac2oAk93Bv6tZ1p2EEjYxAeZVye0WzGRp2bMBHpofARi+0yDrrQkkfZ
-	vBjBWE2xa9CEd8GrZM2M/0DQNBxoPfvTKt4jw2C+yN3uSYAxtCINazqyA==
-X-ME-Sender: <xms:OEBBZKJTzqEOAufVxIZO_d1bF0RJhI-rv7io8tRgVN7YdbU--_VdKw>
-    <xme:OEBBZCJESyHE0OBu6jSmqqDjL6fuI9yKMQ89QA6bTzum3D7oppjJydVjwGv9IlFvg
-    pjWkkPeP2Ukk6qPNmo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtvddgieehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:OEBBZKvm-g6VhBfuo5zld3-9JsJ1zAzK6ODGacvQzQMsvDHgTTIPeg>
-    <xmx:OEBBZPZEmQCIjssV2CjJpqs-nlMtfmaJdKTGsgIC0mMMYtDxyI7KZQ>
-    <xmx:OEBBZBYlQxiVjBGqehCks1pMPWWeVwLNxTG17CyYxddurounxrjEjw>
-    <xmx:OEBBZN4adpwhvzXAOysdLQ7Ru4kxybBuOYJnYLk337Ix_ZOmNdDGuA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id F389BB60086; Thu, 20 Apr 2023 09:37:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2548BE9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 14:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682000032; x=1713536032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JzV9UVrh3z0+38+XT/wGu5bBMfjLAZvZNkPN2oIaVAA=;
+  b=LAt+/1qCSLdEngfsBpLsiQ19g5l6enh/TSsdQ3/GX8ArOX4ackhRGEBu
+   NzGfnld/xbdst89+lcytKIDNBN0Yez0RFG0ODeQHYV9sA02+UF+h+OzJw
+   RO8HLpZH3Wq5vmkM0LUYXUIqiR/rrWPsavBAvAbw5xcsOcSTLFlTF45cU
+   /w1pdLgHO2J3PCF+0Kl01L/LXvZjAGg9GLHXUg1U4DC/ffz5E7K/J9Q+4
+   3URD1qXVQ5BYfvxEVokD6jC7v69NSFC8U285Vf8JNN35G/TMj/kyP6WSx
+   B/6CEG5bQJaPm9qducHdRiMdfnQoklIRDQTR83BQDv+s9Uoov+1JONwSg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="325349808"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="325349808"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 07:13:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="694523902"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="694523902"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Apr 2023 07:13:43 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppV2c-000fsJ-1r;
+	Thu, 20 Apr 2023 14:13:42 +0000
+Date: Thu, 20 Apr 2023 22:13:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nylon Chen <nylon.chen@sifive.com>, aou@eecs.berkeley.edu,
+	conor@kernel.org, emil.renner.berthing@canonical.com,
+	geert+renesas@glider.be, heiko@sntech.de,
+	krzysztof.kozlowski+dt@linaro.org, palmer@dabbelt.com,
+	paul.walmsley@sifive.com, robh+dt@kernel.org,
+	thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, nylon.chen@sifive.com,
+	nylon7717@gmail.com, zong.li@sifive.com, greentime.hu@sifive.com,
+	vincent.chen@sifive.com, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 2/2] pwm: sifive: change the PWM controlled LED
+ algorithm
+Message-ID: <202304202141.JYCKBVOQ-lkp@intel.com>
+References: <20230420093457.18936-3-nylon.chen@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <91c716f0-bf7f-4fdf-8cb7-83f1bdc0cbd4@app.fastmail.com>
-In-Reply-To: <758fff85-aefc-4e0a-97b1-fe7179fafac6@lunn.ch>
-References: <202303241935.xRMa6mc6-lkp@intel.com>
- <f16fb810-f70d-40ac-8e9d-2ada008c446d@app.fastmail.com>
- <758fff85-aefc-4e0a-97b1-fe7179fafac6@lunn.ch>
-Date: Thu, 20 Apr 2023 15:37:38 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andrew Lunn" <andrew@lunn.ch>
-Cc: "kernel test robot" <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "Christian Marangi" <ansuelsmth@gmail.com>,
- Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
- "Florian Fainelli" <f.fainelli@gmail.com>,
- "David S . Miller" <davem@davemloft.net>, "Jakub Kicinski" <kuba@kernel.org>
-Subject: Re: [lunn:v6.3-rc2-net-next-phy-leds 5/15] ld.lld: error: undefined symbol:
- devm_mdiobus_alloc_size
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230420093457.18936-3-nylon.chen@sifive.com>
 
-On Thu, Apr 20, 2023, at 15:07, Andrew Lunn wrote:
-> On Thu, Apr 20, 2023 at 08:31:17AM +0200, Arnd Bergmann wrote:
->> 
->> It looks like this has hit linux-next now, I'm seeing the same problem in
->> my own randconfig builds after Andrew's 01e5b728e9e4 ("net: phy: Add a
->> binding for PHY LEDs").
->
-> Hi Arnd
->
-> I tried to fix this with:
->
-> commit 37f9b2a6c086bb28487a0682b8098f907861c4a1
-> Author: Andrew Lunn <andrew@lunn.ch>
-> Date:   Thu Mar 30 20:13:29 2023 -0500
->
->     net: ethernet: Add missing depends on MDIO_DEVRES
->    
->     A number of MDIO drivers make use of devm_mdiobus_alloc_size(). This
->     is only available when CONFIG_MDIO_DEVRES is enabled. Add missing
->     depends or selects, depending on if there are circular dependencies or
->     not. This avoids linker errors, especially for randconfig builds.
->
-> All the failures i've seen have CONFIG_MDIO_DEVRES set to disabled. So
-> i added either depends on, or select to the drivers which use it. I
-> missed the LAN743x.
+Hi Nylon,
 
-I've sent a different patch now. From what I can tell, your patch does
-not address the actual problem, it just works around one of the symptoms:
+kernel test robot noticed the following build warnings:
 
-When you have a driver that selects PHYLIB, but PHYLIB itself
-depends on something that is not enabled, Kconfig just gives up
-and stops handling any other 'select' statements from that chain.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on thierry-reding-pwm/for-next rockchip/for-next linus/master v6.3-rc7 next-20230419]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-selecting MDIO_DEVRES from each of the drivers works around this
-one thing, but it does not solve the actual dependency, for that you
-would have to add 'depends on LED_CLASS' on each of the network
-drivers as well, which is clearly not the intention.
+url:    https://github.com/intel-lab-lkp/linux/commits/Nylon-Chen/riscv-dts-sifive-unleashed-unmatched-Remove-PWM-controlled-LED-s-active-low-properties/20230420-173619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230420093457.18936-3-nylon.chen%40sifive.com
+patch subject: [PATCH v3 2/2] pwm: sifive: change the PWM controlled LED algorithm
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230420/202304202141.JYCKBVOQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f2d706bf61190a45a8f90f1f455bc943d4ac7b6e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nylon-Chen/riscv-dts-sifive-unleashed-unmatched-Remove-PWM-controlled-LED-s-active-low-properties/20230420-173619
+        git checkout f2d706bf61190a45a8f90f1f455bc943d4ac7b6e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
->> The problem here is that both PHYLIB and LEDS_CLASS are user-visible
->> tristate symbols that are referenced from other Kconfig symbols with
->> both 'depends on' and 'select'. Having the two interact introduces a
->> number of ways that lead to circular dependencies.
->
-> I was getting circular dependencies with first versions of the above
-> patch. I initially tried depends on everywhere, and then had to drop
-> back to select for a few cases.
->
->> It might be ok to use 'select LEDS_CLASS' from PHYLIB, but I have not
->> tried that yet and I expect this will result in other build failures.
->> 
->> A better solution would be to change all drivers that currently use
->> 'select PHYLIB' to 'depends on PHYLIB' and have PHYLIB itself
->> 'default ETHERNET' to avoid most of the regressions, but doing this
->> for 6.4 is a bit risky and can cause other problems.
->
-> For 6.4, will adding more depend on/select MDIO_DEVRES help? That
-> should be low risk.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304202141.JYCKBVOQ-lkp@intel.com/
 
-I think the best way is to drop your MDIO_DEVRES patch and instead
-apply mine (or some variation of that) from
+All warnings (new ones prefixed by >>):
 
-https://lore.kernel.org/lkml/20230420084624.3005701-1-arnd@kernel.org/
+   In file included from include/linux/kernel.h:26,
+                    from include/linux/clk.h:13,
+                    from drivers/pwm/pwm-sifive.c:14:
+   drivers/pwm/pwm-sifive.c: In function 'pwm_sifive_apply':
+   include/linux/minmax.h:20:35: warning: comparison of distinct pointer types lacks a cast
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^~
+   include/linux/minmax.h:26:18: note: in expansion of macro '__typecheck'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~
+   include/linux/minmax.h:36:31: note: in expansion of macro '__safe_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/minmax.h:74:25: note: in expansion of macro '__careful_cmp'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   drivers/pwm/pwm-sifive.c:157:18: note: in expansion of macro 'max'
+     157 |         period = max(state->period, ddata->approx_period);
+         |                  ^~~
+>> drivers/pwm/pwm-sifive.c:135:34: warning: variable 'period' set but not used [-Wunused-but-set-variable]
+     135 |         unsigned int duty_cycle, period;
+         |                                  ^~~~~~
 
-Once any missing or recursive dependencies are handled, the devres
-problem should be fixed as well. I have completed around 150
-randconfig builds with that patch and have not seen any further
-problems.
 
-     Arnd
+vim +/period +135 drivers/pwm/pwm-sifive.c
+
+   129	
+   130	static int pwm_sifive_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+   131				    const struct pwm_state *state)
+   132	{
+   133		struct pwm_sifive_ddata *ddata = pwm_sifive_chip_to_ddata(chip);
+   134		struct pwm_state cur_state;
+ > 135		unsigned int duty_cycle, period;
+   136		unsigned long long num;
+   137		bool enabled;
+   138		int ret = 0;
+   139		u32 frac;
+   140	
+   141		if (state->polarity != PWM_POLARITY_NORMAL && state->polarity != PWM_POLARITY_INVERSED)
+   142			return -EINVAL;
+   143	
+   144		cur_state = pwm->state;
+   145		enabled = cur_state.enabled;
+   146	
+   147		duty_cycle = state->duty_cycle;
+   148		if (!state->enabled)
+   149			duty_cycle = 0;
+   150	
+   151		/*
+   152		 * The problem of output producing mixed setting as mentioned at top,
+   153		 * occurs here. To minimize the window for this problem, we are
+   154		 * calculating the register values first and then writing them
+   155		 * consecutively
+   156		 */
+   157		period = max(state->period, ddata->approx_period);
+   158		num = (u64)duty_cycle * (1U << PWM_SIFIVE_CMPWIDTH);
+   159		frac = DIV64_U64_ROUND_CLOSEST(num, state->period);
+   160		frac = min(frac, (1U << PWM_SIFIVE_CMPWIDTH) - 1);
+   161		/* The hardware cannot generate a 100% duty cycle */
+   162		frac = (1U << PWM_SIFIVE_CMPWIDTH) - 1 - frac;
+   163	
+   164	
+   165		mutex_lock(&ddata->lock);
+   166		if (state->period != ddata->approx_period) {
+   167			/*
+   168			 * Don't let a 2nd user change the period underneath the 1st user.
+   169			 * However if ddate->approx_period == 0 this is the first time we set
+   170			 * any period, so let whoever gets here first set the period so other
+   171			 * users who agree on the period won't fail.
+   172			 */
+   173			if (ddata->user_count != 1 && ddata->approx_period) {
+   174				mutex_unlock(&ddata->lock);
+   175				return -EBUSY;
+   176			}
+   177			ddata->approx_period = state->period;
+   178			pwm_sifive_update_clock(ddata, clk_get_rate(ddata->clk));
+   179		}
+   180		mutex_unlock(&ddata->lock);
+   181	
+   182		/*
+   183		 * If the PWM is enabled the clk is already on. So only enable it
+   184		 * conditionally to have it on exactly once afterwards independent of
+   185		 * the PWM state.
+   186		 */
+   187		if (!enabled) {
+   188			ret = clk_enable(ddata->clk);
+   189			if (ret) {
+   190				dev_err(ddata->chip.dev, "Enable clk failed\n");
+   191				return ret;
+   192			}
+   193		}
+   194	
+   195		writel(frac, ddata->regs + PWM_SIFIVE_PWMCMP(pwm->hwpwm));
+   196	
+   197		if (!state->enabled)
+   198			clk_disable(ddata->clk);
+   199	
+   200		return 0;
+   201	}
+   202	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
