@@ -1,51 +1,44 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09F923A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 06:25:40 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id o29-20020a05600c511d00b003f1739de43cso551056wms.4
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 23:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681971939; x=1684563939;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5NFhHDF1psdDMQg2re0gGckai+LsKOgT2vLsJBqkEfU=;
-        b=sb91LTJoIgpg0PtCq1XUN7xQxL1U2RQiJ7yupu0+jMrgZijUlDNY0op9XAu/QPsxsy
-         /qH/VUfNPrnubc0t52AOvdRWBWn3Eb3Njs2lKWPsUVH6QHvDDCQYGoIxNmzvs+U4l0X8
-         fMw2v3KCixitgMf//yVGPMcYnp0iwTGETe9HQIFVcDAcGlNKZqcZGhP8Psulxc2BJwuE
-         NnlSnSR96Qsu1v3+Sg72b8xTAogdrMqAkLoolPOjjTMCUFTMsXFbVnF1188UZljjUauo
-         VSmLo+WV/CteEMR7dzHOgE2tGo58rVfcCyfXjIr8zkurFA/iZKKVe+cmsxEh4OwFCXmg
-         BUcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681971939; x=1684563939;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5NFhHDF1psdDMQg2re0gGckai+LsKOgT2vLsJBqkEfU=;
-        b=A6X2ndPsx90UFpzgCO+MRJkoIyqArBzRedW9NtxHc+sxRS+u2Lgo9ypu0LW4soh9ob
-         Pr2mt5rERfkkHD4X+goxn2eePdg0X/psyG20qgV6jjvh5h67qNvoqarnHeaSmuztd0Ye
-         6OivrSIPwQYvQKK2aew2hPohMl4MoUmMdyo5pcSzCb2WPKM6jaGzgfQtd2gfAE4LhAnS
-         0jq6jMNglPPREYpdlxt+8g3NKbyu+m4hRBlS512b2ZS193iHxs9lhmEfBjovkWBmFrwW
-         G4af2Qi65m2vkE85wi4vtQF+/OQ2bWMwg6YAFoqLhCxcXNJSdLcdZKFzvvYP8HwMb5sV
-         vzTA==
-X-Gm-Message-State: AAQBX9dqlaOeWOeaKcKFrjJaWmNSlBCVJ7fsVC2Dyap0xQ6cTIVw7PZH
-	xvRXO0qECkMUeKCJoE64NZzsEA7/cKG8Pb9GPMlbyKNQ
-X-Google-Smtp-Source: AKy350YT5RsqT1MzowmqSyvfYNK3mDI1joAa6sPD2jyDs3z8vFFjPy4JLSFkwe0OoIPRTWBlcJox6Q==
-X-Received: by 2002:a1c:ed18:0:b0:3ed:88f5:160a with SMTP id l24-20020a1ced18000000b003ed88f5160amr273315wmh.11.1681971938906;
-        Wed, 19 Apr 2023 23:25:38 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q16-20020a7bce90000000b003f09d7b6e20sm990258wmj.2.2023.04.19.23.25.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 23:25:38 -0700 (PDT)
-Date: Thu, 20 Apr 2023 09:25:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Guillaume Ranquet <granquet@baylibre.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 10668/13075]
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298 mtk_hdmi_pll_calc() error:
- uninitialized symbol 'ret'.
-Message-ID: <2f12282f-8fac-4f89-8aa9-65ae6d499827@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABB523A3;
+	Thu, 20 Apr 2023 06:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681972172; x=1713508172;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IyOzyJAd/6ABxtofxBPj1J0sAalEL4tioDUX48t0eqQ=;
+  b=OVMACydnUpKkMgigcsHtkNy4Pdc+CW2LCde0dNc8HqsTY/7kURxghnMJ
+   InAYXpYfNjnMO6TiMVvryCvBw1BSXFEaEvtsaN8mk/+5TgZZ+xYBhbPcj
+   SKfdwGxU0s/cQO8rAE9w/Jz8fL+ce6qP3gacv/6sfI1k68VpVssxY6esw
+   lWJjOPX9vvqKIRLxU7SX0QC3Z3l76EnKSkJssXltN0JjSpDNdw0F0V+3J
+   fIQEIuKRyjM5fUxDM/q533u6syXF+rG4F5dUqJ4+whoXZFm3PTl+Uaq+j
+   garI7ctQgcTeJd8GQ+p65aGhL5QPP8vM6hwsKpVKfLHWphbUDTVqq4MzB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="408558518"
+X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
+   d="scan'208";a="408558518"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 23:29:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="937931937"
+X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
+   d="scan'208";a="937931937"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 19 Apr 2023 23:29:29 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppNnN-000fYG-0e;
+	Thu, 20 Apr 2023 06:29:29 +0000
+Date: Thu, 20 Apr 2023 14:29:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anup Sharma <anupnewsmail@gmail.com>, zbr@ioremap.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: w1: slaves: Drop unnecessary explicit casting
+Message-ID: <202304201411.fS7y0KJP-lkp@intel.com>
+References: <ZECFjQMLwnoYPMeL@yoga>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,122 +47,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZECFjQMLwnoYPMeL@yoga>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3cdbc01c40e34c57697f8934f2727a88551696be
-commit: 45810d486bb44bd60213d5f09a713df81b987972 [10668/13075] phy: mediatek: add support for phy-mtk-hdmi-mt8195
-config: csky-randconfig-m041-20230419 (https://download.01.org/0day-ci/archive/20230420/202304201145.DNZ7akEE-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Anup,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc7 next-20230419]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anup-Sharma/drivers-w1-slaves-Drop-unnecessary-explicit-casting/20230420-082340
+patch link:    https://lore.kernel.org/r/ZECFjQMLwnoYPMeL%40yoga
+patch subject: [PATCH] drivers: w1: slaves: Drop unnecessary explicit casting
+config: x86_64-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230420/202304201411.fS7y0KJP-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/211461ea088a31e3a084fd539e243c9d32db3cb6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Anup-Sharma/drivers-w1-slaves-Drop-unnecessary-explicit-casting/20230420-082340
+        git checkout 211461ea088a31e3a084fd539e243c9d32db3cb6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/w1/slaves/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304201145.DNZ7akEE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304201411.fS7y0KJP-lkp@intel.com/
 
-New smatch warnings:
-drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298 mtk_hdmi_pll_calc() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/ret +298 drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
+>> drivers/w1/slaves/w1_ds28e04.c:238:5: warning: format specifies type 'void *' but the argument has type 'loff_t' (aka 'long long') [-Wformat]
+                                   off, count);
+                                   ^~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   drivers/w1/slaves/w1_ds28e04.c:247:6: warning: format specifies type 'void *' but the argument has type 'loff_t' (aka 'long long') [-Wformat]
+                                           off);
+                                           ^~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
-45810d486bb44b Guillaume Ranquet 2023-02-16  209  static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
-45810d486bb44b Guillaume Ranquet 2023-02-16  210  			     unsigned long rate, unsigned long parent_rate)
-45810d486bb44b Guillaume Ranquet 2023-02-16  211  {
-45810d486bb44b Guillaume Ranquet 2023-02-16  212  	u8 digital_div, txprediv, txposdiv, fbkdiv_high, posdiv1, posdiv2;
-45810d486bb44b Guillaume Ranquet 2023-02-16  213  	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
-45810d486bb44b Guillaume Ranquet 2023-02-16  214  	u8 txpredivs[4] = { 2, 4, 6, 12 };
-45810d486bb44b Guillaume Ranquet 2023-02-16  215  	u32 fbkdiv_low;
-45810d486bb44b Guillaume Ranquet 2023-02-16  216  	int i, ret;
-45810d486bb44b Guillaume Ranquet 2023-02-16  217  
-45810d486bb44b Guillaume Ranquet 2023-02-16  218  	pixel_clk = rate;
-45810d486bb44b Guillaume Ranquet 2023-02-16  219  	tmds_clk = pixel_clk;
-45810d486bb44b Guillaume Ranquet 2023-02-16  220  
-45810d486bb44b Guillaume Ranquet 2023-02-16  221  	if (tmds_clk < 25 * MEGA || tmds_clk > 594 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  222  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  223  
-45810d486bb44b Guillaume Ranquet 2023-02-16  224  	if (tmds_clk >= 340 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  225  		hdmi_phy->tmds_over_340M = true;
-45810d486bb44b Guillaume Ranquet 2023-02-16  226  	else
-45810d486bb44b Guillaume Ranquet 2023-02-16  227  		hdmi_phy->tmds_over_340M = false;
-45810d486bb44b Guillaume Ranquet 2023-02-16  228  
-45810d486bb44b Guillaume Ranquet 2023-02-16  229  	/* in Hz */
-45810d486bb44b Guillaume Ranquet 2023-02-16  230  	da_hdmitx21_ref_ck = 26 * MEGA;
-45810d486bb44b Guillaume Ranquet 2023-02-16  231  
-45810d486bb44b Guillaume Ranquet 2023-02-16  232  	/*  TXPOSDIV stage treatment:
-45810d486bb44b Guillaume Ranquet 2023-02-16  233  	 *	0M  <  TMDS clk  < 54M		  /8
-45810d486bb44b Guillaume Ranquet 2023-02-16  234  	 *	54M <= TMDS clk  < 148.35M    /4
-45810d486bb44b Guillaume Ranquet 2023-02-16  235  	 *	148.35M <=TMDS clk < 296.7M   /2
-45810d486bb44b Guillaume Ranquet 2023-02-16  236  	 *	296.7 <=TMDS clk <= 594M	  /1
-45810d486bb44b Guillaume Ranquet 2023-02-16  237  	 */
-45810d486bb44b Guillaume Ranquet 2023-02-16  238  	if (tmds_clk < 54 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  239  		txposdiv = 8;
-45810d486bb44b Guillaume Ranquet 2023-02-16  240  	else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  241  		txposdiv = 4;
-45810d486bb44b Guillaume Ranquet 2023-02-16  242  	else if (tmds_clk >= 148.35 * MEGA && tmds_clk < 296.7 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  243  		txposdiv = 2;
-45810d486bb44b Guillaume Ranquet 2023-02-16  244  	else if (tmds_clk >= 296.7 * MEGA && tmds_clk <= 594 * MEGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  245  		txposdiv = 1;
-45810d486bb44b Guillaume Ranquet 2023-02-16  246  	else
-45810d486bb44b Guillaume Ranquet 2023-02-16  247  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  248  
-45810d486bb44b Guillaume Ranquet 2023-02-16  249  	/* calculate txprediv: can be 2, 4, 6, 12
-45810d486bb44b Guillaume Ranquet 2023-02-16  250  	 * ICO clk = 5*TMDS_CLK*TXPOSDIV*TXPREDIV
-45810d486bb44b Guillaume Ranquet 2023-02-16  251  	 * ICO clk constraint: 5G =< ICO clk <= 12G
-45810d486bb44b Guillaume Ranquet 2023-02-16  252  	 */
-45810d486bb44b Guillaume Ranquet 2023-02-16  253  	for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
-45810d486bb44b Guillaume Ranquet 2023-02-16  254  		ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
-45810d486bb44b Guillaume Ranquet 2023-02-16  255  		if (ns_hdmipll_ck >= 5 * GIGA &&
-45810d486bb44b Guillaume Ranquet 2023-02-16  256  		    ns_hdmipll_ck <= 1 * GIGA)
-45810d486bb44b Guillaume Ranquet 2023-02-16  257  			break;
-45810d486bb44b Guillaume Ranquet 2023-02-16  258  	}
-45810d486bb44b Guillaume Ranquet 2023-02-16  259  	if (i == (ARRAY_SIZE(txpredivs) - 1) &&
-45810d486bb44b Guillaume Ranquet 2023-02-16  260  	    (ns_hdmipll_ck < 5 * GIGA || ns_hdmipll_ck > 12 * GIGA)) {
-45810d486bb44b Guillaume Ranquet 2023-02-16  261  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  262  	}
-45810d486bb44b Guillaume Ranquet 2023-02-16  263  	if (i == ARRAY_SIZE(txpredivs))
-45810d486bb44b Guillaume Ranquet 2023-02-16  264  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  265  
-45810d486bb44b Guillaume Ranquet 2023-02-16  266  	txprediv = txpredivs[i];
-45810d486bb44b Guillaume Ranquet 2023-02-16  267  
-45810d486bb44b Guillaume Ranquet 2023-02-16  268  	/* PCW calculation: FBKDIV
-45810d486bb44b Guillaume Ranquet 2023-02-16  269  	 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
-45810d486bb44b Guillaume Ranquet 2023-02-16  270  	 * RG_HDMITXPLL_FBKDIV[32:0]:
-45810d486bb44b Guillaume Ranquet 2023-02-16  271  	 * [32,24] 9bit integer, [23,0]:24bit fraction
-45810d486bb44b Guillaume Ranquet 2023-02-16  272  	 */
-45810d486bb44b Guillaume Ranquet 2023-02-16  273  	pcw = div_u64(((u64)ns_hdmipll_ck) << PCW_DECIMAL_WIDTH,
-45810d486bb44b Guillaume Ranquet 2023-02-16  274  		      da_hdmitx21_ref_ck / PLL_FBKDIV_HS3);
-45810d486bb44b Guillaume Ranquet 2023-02-16  275  
-45810d486bb44b Guillaume Ranquet 2023-02-16  276  	if (pcw > GENMASK_ULL(32, 0))
-45810d486bb44b Guillaume Ranquet 2023-02-16  277  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  278  
-45810d486bb44b Guillaume Ranquet 2023-02-16  279  	fbkdiv_high = FIELD_GET(GENMASK_ULL(63, 32), pcw);
-45810d486bb44b Guillaume Ranquet 2023-02-16  280  	fbkdiv_low = FIELD_GET(GENMASK(31, 0), pcw);
-45810d486bb44b Guillaume Ranquet 2023-02-16  281  
-45810d486bb44b Guillaume Ranquet 2023-02-16  282  	/* posdiv1:
-45810d486bb44b Guillaume Ranquet 2023-02-16  283  	 * posdiv1 stage treatment according to color_depth:
-45810d486bb44b Guillaume Ranquet 2023-02-16  284  	 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
-45810d486bb44b Guillaume Ranquet 2023-02-16  285  	 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
-45810d486bb44b Guillaume Ranquet 2023-02-16  286  	 */
-45810d486bb44b Guillaume Ranquet 2023-02-16  287  	posdiv1 = 10;
-45810d486bb44b Guillaume Ranquet 2023-02-16  288  	posdiv2 = 1;
-45810d486bb44b Guillaume Ranquet 2023-02-16  289  
-45810d486bb44b Guillaume Ranquet 2023-02-16  290  	/* Digital clk divider, max /32 */
-45810d486bb44b Guillaume Ranquet 2023-02-16  291  	digital_div = div_u64((u64)ns_hdmipll_ck, posdiv1 / posdiv2 / pixel_clk);
-45810d486bb44b Guillaume Ranquet 2023-02-16  292  	if (!(digital_div <= 32 && digital_div >= 1))
-45810d486bb44b Guillaume Ranquet 2023-02-16  293  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  294  
-45810d486bb44b Guillaume Ranquet 2023-02-16  295  	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
-45810d486bb44b Guillaume Ranquet 2023-02-16  296  			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
-45810d486bb44b Guillaume Ranquet 2023-02-16  297  			    txposdiv, digital_div);
-45810d486bb44b Guillaume Ranquet 2023-02-16 @298  	if (ret)
 
-ret isn't initialized.
+vim +238 drivers/w1/slaves/w1_ds28e04.c
 
-45810d486bb44b Guillaume Ranquet 2023-02-16  299  		return -EINVAL;
-45810d486bb44b Guillaume Ranquet 2023-02-16  300  
-45810d486bb44b Guillaume Ranquet 2023-02-16  301  	return 0;
-45810d486bb44b Guillaume Ranquet 2023-02-16  302  }
+   221	
+   222	static ssize_t eeprom_write(struct file *filp, struct kobject *kobj,
+   223				    struct bin_attribute *bin_attr, char *buf,
+   224				    loff_t off, size_t count)
+   225	
+   226	{
+   227		struct w1_slave *sl = kobj_to_w1_slave(kobj);
+   228		int addr, len, idx;
+   229	
+   230		count = w1_f1C_fix_count(off, count, W1_EEPROM_SIZE);
+   231		if (count == 0)
+   232			return 0;
+   233	
+   234		if (w1_enable_crccheck) {
+   235			/* can only write full blocks in cached mode */
+   236			if ((off & W1_PAGE_MASK) || (count & W1_PAGE_MASK)) {
+   237				dev_err(&sl->dev, "invalid offset/count off=%pe cnt=%zd\n",
+ > 238					off, count);
+   239				return -EINVAL;
+   240			}
+   241	
+   242			/* make sure the block CRCs are valid */
+   243			for (idx = 0; idx < count; idx += W1_PAGE_SIZE) {
+   244				if (crc16(CRC16_INIT, &buf[idx], W1_PAGE_SIZE)
+   245					!= CRC16_VALID) {
+   246					dev_err(&sl->dev, "bad CRC at offset %pe\n",
+   247						off);
+   248					return -EINVAL;
+   249				}
+   250			}
+   251		}
+   252	
+   253		mutex_lock(&sl->master->mutex);
+   254	
+   255		/* Can only write data to one page at a time */
+   256		idx = 0;
+   257		while (idx < count) {
+   258			addr = off + idx;
+   259			len = W1_PAGE_SIZE - (addr & W1_PAGE_MASK);
+   260			if (len > (count - idx))
+   261				len = count - idx;
+   262	
+   263			if (w1_f1C_write(sl, addr, len, &buf[idx]) < 0) {
+   264				count = -EIO;
+   265				goto out_up;
+   266			}
+   267			idx += len;
+   268		}
+   269	
+   270	out_up:
+   271		mutex_unlock(&sl->master->mutex);
+   272	
+   273		return count;
+   274	}
+   275	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
