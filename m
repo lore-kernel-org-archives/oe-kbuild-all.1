@@ -1,46 +1,51 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F5023A3;
-	Thu, 20 Apr 2023 06:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681971595; x=1713507595;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N+n1Z78ILMVR/3eTTuI5UBB9Fs6Wkrx0Nk4JkVTtGJk=;
-  b=hqFcoqH99+Zx9sIbnAkhXOLABHD/d1/GAWLCqwFteG+DRxGgq+p/EjJx
-   BLy0vC9/Hm+L6Gm7g3yVaOoUBeOfDuTXuIHpX9dTCKimrcOk1S6leTfnh
-   U8pMz0RrWlCZMAwG6wyUihHrubzm/4u8EiDJPGNm3i1ZnpODPy+JouF8m
-   kPYafVylOxCrtfvQGoJ79dxE84r+3Ul1EM9P0LEYrhNTsNBg+JaQDH0jT
-   S2MimTy7fm8n0J82R763KTF83SsCP/XfIqBb7CbgxLDrjI97IkFBYHw04
-   4twoqiy+D6ehNqIL+HKvNhDhPqI4ohhRjWI90Uk8cmz5tQgQAjnDKboDP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="325255277"
-X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="325255277"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 23:19:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021468205"
-X-IronPort-AV: E=Sophos;i="5.99,211,1677571200"; 
-   d="scan'208";a="1021468205"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Apr 2023 23:19:29 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppNdg-000fXi-2m;
-	Thu, 20 Apr 2023 06:19:28 +0000
-Date: Thu, 20 Apr 2023 14:19:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	dave.stevenson@raspberrypi.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bingbu.cao@linux.intel.com
-Subject: Re: [PATCH v2] media: i2c: add ov01a10 image sensor driver
-Message-ID: <202304201334.WEmWyl5t-lkp@intel.com>
-References: <20230420042213.2045722-1-bingbu.cao@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09F923A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 06:25:40 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id o29-20020a05600c511d00b003f1739de43cso551056wms.4
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Apr 2023 23:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681971939; x=1684563939;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5NFhHDF1psdDMQg2re0gGckai+LsKOgT2vLsJBqkEfU=;
+        b=sb91LTJoIgpg0PtCq1XUN7xQxL1U2RQiJ7yupu0+jMrgZijUlDNY0op9XAu/QPsxsy
+         /qH/VUfNPrnubc0t52AOvdRWBWn3Eb3Njs2lKWPsUVH6QHvDDCQYGoIxNmzvs+U4l0X8
+         fMw2v3KCixitgMf//yVGPMcYnp0iwTGETe9HQIFVcDAcGlNKZqcZGhP8Psulxc2BJwuE
+         NnlSnSR96Qsu1v3+Sg72b8xTAogdrMqAkLoolPOjjTMCUFTMsXFbVnF1188UZljjUauo
+         VSmLo+WV/CteEMR7dzHOgE2tGo58rVfcCyfXjIr8zkurFA/iZKKVe+cmsxEh4OwFCXmg
+         BUcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681971939; x=1684563939;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5NFhHDF1psdDMQg2re0gGckai+LsKOgT2vLsJBqkEfU=;
+        b=A6X2ndPsx90UFpzgCO+MRJkoIyqArBzRedW9NtxHc+sxRS+u2Lgo9ypu0LW4soh9ob
+         Pr2mt5rERfkkHD4X+goxn2eePdg0X/psyG20qgV6jjvh5h67qNvoqarnHeaSmuztd0Ye
+         6OivrSIPwQYvQKK2aew2hPohMl4MoUmMdyo5pcSzCb2WPKM6jaGzgfQtd2gfAE4LhAnS
+         0jq6jMNglPPREYpdlxt+8g3NKbyu+m4hRBlS512b2ZS193iHxs9lhmEfBjovkWBmFrwW
+         G4af2Qi65m2vkE85wi4vtQF+/OQ2bWMwg6YAFoqLhCxcXNJSdLcdZKFzvvYP8HwMb5sV
+         vzTA==
+X-Gm-Message-State: AAQBX9dqlaOeWOeaKcKFrjJaWmNSlBCVJ7fsVC2Dyap0xQ6cTIVw7PZH
+	xvRXO0qECkMUeKCJoE64NZzsEA7/cKG8Pb9GPMlbyKNQ
+X-Google-Smtp-Source: AKy350YT5RsqT1MzowmqSyvfYNK3mDI1joAa6sPD2jyDs3z8vFFjPy4JLSFkwe0OoIPRTWBlcJox6Q==
+X-Received: by 2002:a1c:ed18:0:b0:3ed:88f5:160a with SMTP id l24-20020a1ced18000000b003ed88f5160amr273315wmh.11.1681971938906;
+        Wed, 19 Apr 2023 23:25:38 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q16-20020a7bce90000000b003f09d7b6e20sm990258wmj.2.2023.04.19.23.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 23:25:38 -0700 (PDT)
+Date: Thu, 20 Apr 2023 09:25:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Guillaume Ranquet <granquet@baylibre.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Vinod Koul <vkoul@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 10668/13075]
+ drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298 mtk_hdmi_pll_calc() error:
+ uninitialized symbol 'ret'.
+Message-ID: <2f12282f-8fac-4f89-8aa9-65ae6d499827@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,126 +54,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230420042213.2045722-1-bingbu.cao@intel.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-i2c-add-ov01a10-image-sensor-driver/20230420-121223
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230420042213.2045722-1-bingbu.cao%40intel.com
-patch subject: [PATCH v2] media: i2c: add ov01a10 image sensor driver
-config: hexagon-randconfig-r034-20230420 (https://download.01.org/0day-ci/archive/20230420/202304201334.WEmWyl5t-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0e64aee285d653993f7a4fdf42e0ce4fd0d4d4c6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review bingbu-cao-intel-com/media-i2c-add-ov01a10-image-sensor-driver/20230420-121223
-        git checkout 0e64aee285d653993f7a4fdf42e0ce4fd0d4d4c6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/i2c/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3cdbc01c40e34c57697f8934f2727a88551696be
+commit: 45810d486bb44bd60213d5f09a713df81b987972 [10668/13075] phy: mediatek: add support for phy-mtk-hdmi-mt8195
+config: csky-randconfig-m041-20230419 (https://download.01.org/0day-ci/archive/20230420/202304201145.DNZ7akEE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304201334.WEmWyl5t-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304201145.DNZ7akEE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298 mtk_hdmi_pll_calc() error: uninitialized symbol 'ret'.
 
-   In file included from drivers/media/i2c/ov01a10.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/media/i2c/ov01a10.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/media/i2c/ov01a10.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/media/i2c/ov01a10.c:943:36: warning: unused variable 'ov01a10_acpi_ids' [-Wunused-const-variable]
-   static const struct acpi_device_id ov01a10_acpi_ids[] = {
-                                      ^
-   7 warnings generated.
+vim +/ret +298 drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
 
+45810d486bb44b Guillaume Ranquet 2023-02-16  209  static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
+45810d486bb44b Guillaume Ranquet 2023-02-16  210  			     unsigned long rate, unsigned long parent_rate)
+45810d486bb44b Guillaume Ranquet 2023-02-16  211  {
+45810d486bb44b Guillaume Ranquet 2023-02-16  212  	u8 digital_div, txprediv, txposdiv, fbkdiv_high, posdiv1, posdiv2;
+45810d486bb44b Guillaume Ranquet 2023-02-16  213  	u64 tmds_clk, pixel_clk, da_hdmitx21_ref_ck, ns_hdmipll_ck, pcw;
+45810d486bb44b Guillaume Ranquet 2023-02-16  214  	u8 txpredivs[4] = { 2, 4, 6, 12 };
+45810d486bb44b Guillaume Ranquet 2023-02-16  215  	u32 fbkdiv_low;
+45810d486bb44b Guillaume Ranquet 2023-02-16  216  	int i, ret;
+45810d486bb44b Guillaume Ranquet 2023-02-16  217  
+45810d486bb44b Guillaume Ranquet 2023-02-16  218  	pixel_clk = rate;
+45810d486bb44b Guillaume Ranquet 2023-02-16  219  	tmds_clk = pixel_clk;
+45810d486bb44b Guillaume Ranquet 2023-02-16  220  
+45810d486bb44b Guillaume Ranquet 2023-02-16  221  	if (tmds_clk < 25 * MEGA || tmds_clk > 594 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  222  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  223  
+45810d486bb44b Guillaume Ranquet 2023-02-16  224  	if (tmds_clk >= 340 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  225  		hdmi_phy->tmds_over_340M = true;
+45810d486bb44b Guillaume Ranquet 2023-02-16  226  	else
+45810d486bb44b Guillaume Ranquet 2023-02-16  227  		hdmi_phy->tmds_over_340M = false;
+45810d486bb44b Guillaume Ranquet 2023-02-16  228  
+45810d486bb44b Guillaume Ranquet 2023-02-16  229  	/* in Hz */
+45810d486bb44b Guillaume Ranquet 2023-02-16  230  	da_hdmitx21_ref_ck = 26 * MEGA;
+45810d486bb44b Guillaume Ranquet 2023-02-16  231  
+45810d486bb44b Guillaume Ranquet 2023-02-16  232  	/*  TXPOSDIV stage treatment:
+45810d486bb44b Guillaume Ranquet 2023-02-16  233  	 *	0M  <  TMDS clk  < 54M		  /8
+45810d486bb44b Guillaume Ranquet 2023-02-16  234  	 *	54M <= TMDS clk  < 148.35M    /4
+45810d486bb44b Guillaume Ranquet 2023-02-16  235  	 *	148.35M <=TMDS clk < 296.7M   /2
+45810d486bb44b Guillaume Ranquet 2023-02-16  236  	 *	296.7 <=TMDS clk <= 594M	  /1
+45810d486bb44b Guillaume Ranquet 2023-02-16  237  	 */
+45810d486bb44b Guillaume Ranquet 2023-02-16  238  	if (tmds_clk < 54 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  239  		txposdiv = 8;
+45810d486bb44b Guillaume Ranquet 2023-02-16  240  	else if (tmds_clk >= 54 * MEGA && tmds_clk < 148.35 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  241  		txposdiv = 4;
+45810d486bb44b Guillaume Ranquet 2023-02-16  242  	else if (tmds_clk >= 148.35 * MEGA && tmds_clk < 296.7 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  243  		txposdiv = 2;
+45810d486bb44b Guillaume Ranquet 2023-02-16  244  	else if (tmds_clk >= 296.7 * MEGA && tmds_clk <= 594 * MEGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  245  		txposdiv = 1;
+45810d486bb44b Guillaume Ranquet 2023-02-16  246  	else
+45810d486bb44b Guillaume Ranquet 2023-02-16  247  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  248  
+45810d486bb44b Guillaume Ranquet 2023-02-16  249  	/* calculate txprediv: can be 2, 4, 6, 12
+45810d486bb44b Guillaume Ranquet 2023-02-16  250  	 * ICO clk = 5*TMDS_CLK*TXPOSDIV*TXPREDIV
+45810d486bb44b Guillaume Ranquet 2023-02-16  251  	 * ICO clk constraint: 5G =< ICO clk <= 12G
+45810d486bb44b Guillaume Ranquet 2023-02-16  252  	 */
+45810d486bb44b Guillaume Ranquet 2023-02-16  253  	for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
+45810d486bb44b Guillaume Ranquet 2023-02-16  254  		ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
+45810d486bb44b Guillaume Ranquet 2023-02-16  255  		if (ns_hdmipll_ck >= 5 * GIGA &&
+45810d486bb44b Guillaume Ranquet 2023-02-16  256  		    ns_hdmipll_ck <= 1 * GIGA)
+45810d486bb44b Guillaume Ranquet 2023-02-16  257  			break;
+45810d486bb44b Guillaume Ranquet 2023-02-16  258  	}
+45810d486bb44b Guillaume Ranquet 2023-02-16  259  	if (i == (ARRAY_SIZE(txpredivs) - 1) &&
+45810d486bb44b Guillaume Ranquet 2023-02-16  260  	    (ns_hdmipll_ck < 5 * GIGA || ns_hdmipll_ck > 12 * GIGA)) {
+45810d486bb44b Guillaume Ranquet 2023-02-16  261  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  262  	}
+45810d486bb44b Guillaume Ranquet 2023-02-16  263  	if (i == ARRAY_SIZE(txpredivs))
+45810d486bb44b Guillaume Ranquet 2023-02-16  264  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  265  
+45810d486bb44b Guillaume Ranquet 2023-02-16  266  	txprediv = txpredivs[i];
+45810d486bb44b Guillaume Ranquet 2023-02-16  267  
+45810d486bb44b Guillaume Ranquet 2023-02-16  268  	/* PCW calculation: FBKDIV
+45810d486bb44b Guillaume Ranquet 2023-02-16  269  	 * formula: pcw=(frequency_out*2^pcw_bit) / frequency_in / FBKDIV_HS3;
+45810d486bb44b Guillaume Ranquet 2023-02-16  270  	 * RG_HDMITXPLL_FBKDIV[32:0]:
+45810d486bb44b Guillaume Ranquet 2023-02-16  271  	 * [32,24] 9bit integer, [23,0]:24bit fraction
+45810d486bb44b Guillaume Ranquet 2023-02-16  272  	 */
+45810d486bb44b Guillaume Ranquet 2023-02-16  273  	pcw = div_u64(((u64)ns_hdmipll_ck) << PCW_DECIMAL_WIDTH,
+45810d486bb44b Guillaume Ranquet 2023-02-16  274  		      da_hdmitx21_ref_ck / PLL_FBKDIV_HS3);
+45810d486bb44b Guillaume Ranquet 2023-02-16  275  
+45810d486bb44b Guillaume Ranquet 2023-02-16  276  	if (pcw > GENMASK_ULL(32, 0))
+45810d486bb44b Guillaume Ranquet 2023-02-16  277  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  278  
+45810d486bb44b Guillaume Ranquet 2023-02-16  279  	fbkdiv_high = FIELD_GET(GENMASK_ULL(63, 32), pcw);
+45810d486bb44b Guillaume Ranquet 2023-02-16  280  	fbkdiv_low = FIELD_GET(GENMASK(31, 0), pcw);
+45810d486bb44b Guillaume Ranquet 2023-02-16  281  
+45810d486bb44b Guillaume Ranquet 2023-02-16  282  	/* posdiv1:
+45810d486bb44b Guillaume Ranquet 2023-02-16  283  	 * posdiv1 stage treatment according to color_depth:
+45810d486bb44b Guillaume Ranquet 2023-02-16  284  	 * 24bit -> posdiv1 /10, 30bit -> posdiv1 /12.5,
+45810d486bb44b Guillaume Ranquet 2023-02-16  285  	 * 36bit -> posdiv1 /15, 48bit -> posdiv1 /10
+45810d486bb44b Guillaume Ranquet 2023-02-16  286  	 */
+45810d486bb44b Guillaume Ranquet 2023-02-16  287  	posdiv1 = 10;
+45810d486bb44b Guillaume Ranquet 2023-02-16  288  	posdiv2 = 1;
+45810d486bb44b Guillaume Ranquet 2023-02-16  289  
+45810d486bb44b Guillaume Ranquet 2023-02-16  290  	/* Digital clk divider, max /32 */
+45810d486bb44b Guillaume Ranquet 2023-02-16  291  	digital_div = div_u64((u64)ns_hdmipll_ck, posdiv1 / posdiv2 / pixel_clk);
+45810d486bb44b Guillaume Ranquet 2023-02-16  292  	if (!(digital_div <= 32 && digital_div >= 1))
+45810d486bb44b Guillaume Ranquet 2023-02-16  293  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  294  
+45810d486bb44b Guillaume Ranquet 2023-02-16  295  	mtk_hdmi_pll_set_hw(hw, PLL_PREDIV, fbkdiv_high, fbkdiv_low,
+45810d486bb44b Guillaume Ranquet 2023-02-16  296  			    PLL_FBKDIV_HS3, posdiv1, posdiv2, txprediv,
+45810d486bb44b Guillaume Ranquet 2023-02-16  297  			    txposdiv, digital_div);
+45810d486bb44b Guillaume Ranquet 2023-02-16 @298  	if (ret)
 
-vim +/ov01a10_acpi_ids +943 drivers/media/i2c/ov01a10.c
+ret isn't initialized.
 
-   942	
- > 943	static const struct acpi_device_id ov01a10_acpi_ids[] = {
-   944		{"OVTI01A0"},
-   945		{}
-   946	};
-   947	
+45810d486bb44b Guillaume Ranquet 2023-02-16  299  		return -EINVAL;
+45810d486bb44b Guillaume Ranquet 2023-02-16  300  
+45810d486bb44b Guillaume Ranquet 2023-02-16  301  	return 0;
+45810d486bb44b Guillaume Ranquet 2023-02-16  302  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
