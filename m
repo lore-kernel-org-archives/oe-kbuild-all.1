@@ -1,139 +1,170 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BD78F44
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 17:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682013457; x=1713549457;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FPQODkT9MsR3u92pYJqJT/Xfe785FIMlUqq28fc35d8=;
-  b=VRyOoVLT4xGG1komssIdqIUGFS5agHIjkcw5m3VqLYN2wu5rMPzkeV7K
-   Ofx0WlS/JJTOmgQPCfeTpOwbhWbPX5hWabdSsVo30AAO9/Z4+EhdCgR3K
-   3XFs44ISUP9FUPJ45FadWWE8FBRNJJ1GX69T3BY4IcKzMeOrtRlIxhA2A
-   nX3x+T6j6DEpoKdYUNiPptj9tfVYdkODtHR7vxklK8yM3TgDGsdxhxFTz
-   P726BB7Iylv9wZ2QREN3YOJvHP9AJllvJVyodUnjG5Kw6BzWZu6PyplKd
-   W+RmRe/XeG6a8rUkIMfv4zhWQFMYdjAjgWfKlaPgrUq0WYnuts1wRmNcK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="348596100"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="348596100"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 10:45:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="866394719"
-X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="866394719"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 20 Apr 2023 10:38:49 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppYF6-000fz4-0k;
-	Thu, 20 Apr 2023 17:38:48 +0000
-Date: Fri, 21 Apr 2023 01:38:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [mgr:v6.3/topic/rk3568-vepu-h264-stateless-bootlin 2/4]
- drivers/media/platform/verisilicon/rockchip_vpu_hw_h264_enc.c:102:13:
- warning: variable 'encoded_slices' set but not used
-Message-ID: <202304210125.6BdceEqd-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C888F44
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 18:17:17 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-24762b39b0dso946944a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 11:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1682014637; x=1684606637;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cfkHvhHLYPgY+Mj4mBbrqBeiHu1eQoHkhSwNn/be28M=;
+        b=Z8tykE3fpqmb+P6zqbo6La2hfwS1WNxLq8sZLrXio4ZegQtph6LW/xuru2JfpFWAa3
+         joBbqMiU+eq7tk+CmvtcX4aOc1r76fvap9hNHQpFAlZ1WALvklJonlqw9aAsLSIhO3gl
+         3mX/VVbyTI9SWoUQ8cGbRegNnH/KIdSmH3qRF0CkbiVJq7z8BJ+8yOFULjOVyXFobXWF
+         frmi9N/wCy6AeE0S1l7NdiT46F33Y06oT2QvfY8Y2+h+qFo9D+h8p8kn6AbdQVeNMNG3
+         Gzyk53RfYt+7I8QFlRfz8o5KLGVX6uqRGDMrGb55EvC5D1lBkD91mTo5Z6F4x+Ga48u4
+         cX+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682014637; x=1684606637;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cfkHvhHLYPgY+Mj4mBbrqBeiHu1eQoHkhSwNn/be28M=;
+        b=LQi11Km9c4hZ4N6b5nBXdMf8W8uTvh01SeuBkj9D2GwjfGaHNbQluTR+W20iREAh0c
+         Hlt7aYs+gmmrek4Mi4LJGgkLgMXWi0gsGXo2cRsOUgSpyYapfPwmFb3wblGzx2GhIG6e
+         WPM49rw5pGpyTnuhnMLgPiXREJhUp331bXYwXlmaKMlAA1kqB5KWvUbndIRO1FlByaX8
+         9gu50GBlBUnPpSOeIBQb5Js4P7gnVntTMvc3WiBHKZL7K1vAk7xaic+A0VcC7/x/sjSA
+         62e8MNthqlDtP+W41OZvs7tPcGjVs1GBAKnnow9wvGkZnAI8YJLax+dTEJWj5tSN/l+F
+         bEag==
+X-Gm-Message-State: AAQBX9e8MycranXfZJZsp4Zyn6bJ4JxjZ0PbvHPuzxSda77jjh0lJv+d
+	KuG7BPeIfhbAvV6poo6gbUEuhgyC1DT+VgCjeE5FEg==
+X-Google-Smtp-Source: AKy350b7/7/1V2E+kSv94YWLIAfn4IsMkbuS3qcJN2Bk+XprwLXtBhWtAC6rGESQBvsSf7tZB/N6L2vn9HKvsVQ/aqg=
+X-Received: by 2002:a17:90a:688f:b0:247:8ce1:996e with SMTP id
+ a15-20020a17090a688f00b002478ce1996emr2448419pjd.29.1682014637039; Thu, 20
+ Apr 2023 11:17:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230418225343.553806-7-sdf@google.com> <202304200301.XukL6sTb-lkp@intel.com>
+In-Reply-To: <202304200301.XukL6sTb-lkp@intel.com>
+From: Stanislav Fomichev <sdf@google.com>
+Date: Thu, 20 Apr 2023 11:17:05 -0700
+Message-ID: <CAKH8qBuujEFVR5BqO21YWYT2PqBMbNVJ1aznxtZaTYusOXgPaQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sockopt
+To: kernel test robot <lkp@intel.com>
+Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	song@kernel.org, yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	haoluo@google.com, jolsa@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.pengutronix.de/git/mgr/linux v6.3/topic/rk3568-vepu-h264-stateless-bootlin
-head:   d0897ac6844c86a8d8d6f90d4116eb068184010c
-commit: 452e1107911322bff499bf90e88a42b4d3560e6e [2/4] media: hantro: Add H.264 encoding support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230421/202304210125.6BdceEqd-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add mgr https://git.pengutronix.de/git/mgr/linux
-        git fetch --no-tags mgr v6.3/topic/rk3568-vepu-h264-stateless-bootlin
-        git checkout 452e1107911322bff499bf90e88a42b4d3560e6e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/platform/verisilicon/
+On Wed, Apr 19, 2023 at 1:08=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Stanislav,
+>
+> kernel test robot noticed the following build warnings:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304210125.6BdceEqd-lkp@intel.com/
+Stupid me using ``` blocks instead of code-block:: c. Will address
+once I hear some feedback on the rest of the patches.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/platform/verisilicon/rockchip_vpu_hw_h264_enc.c: In function 'rk3399_vpu_h264_enc_done':
->> drivers/media/platform/verisilicon/rockchip_vpu_hw_h264_enc.c:102:13: warning: variable 'encoded_slices' set but not used [-Wunused-but-set-variable]
-     102 |         u32 encoded_slices;
-         |             ^~~~~~~~~~~~~~
-
-
-vim +/encoded_slices +102 drivers/media/platform/verisilicon/rockchip_vpu_hw_h264_enc.c
-
-    92	
-    93	void rk3399_vpu_h264_enc_done(struct hantro_ctx *ctx)
-    94	{
-    95		struct hantro_dev *vpu = ctx->dev;
-    96		struct vb2_v4l2_buffer *dst_buf;
-    97		struct v4l2_ctrl_h264_encode_feedback encode_feedback = { 0 };
-    98		struct v4l2_ctrl *ctrl;
-    99		unsigned int i;
-   100		u32 cp_overflow = 0;
-   101		u32 cp_prev = 0;
- > 102		u32 encoded_slices;
-   103		u32 bytesused;
-   104	
-   105		ctrl = v4l2_ctrl_find(&ctx->ctrl_handler,
-   106				      V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK);
-   107		if (!ctrl)
-   108			return;
-   109	
-   110		dst_buf = hantro_get_dst_buf(ctx);
-   111		if (!dst_buf)
-   112			return;
-   113	
-   114		bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
-   115		dst_buf->vb2_buf.planes[0].bytesused = bytesused;
-   116	
-   117		encode_feedback.qp_sum =
-   118			VEPU_REG_QP_SUM(vepu_read(vpu, VEPU_REG_QP_SUM_DIV2));
-   119	
-   120		encode_feedback.mad_count =
-   121			VEPU_REG_MB_CNT_SET(vepu_read(vpu, VEPU_REG_MB_CTRL));
-   122	
-   123		encode_feedback.rlc_count =
-   124			VEPU_REG_RLC_SUM_OUT(vepu_read(vpu, VEPU_REG_RLC_SUM));
-   125	
-   126		for (i = 0; i < ARRAY_SIZE(encode_feedback.cp); i++) {
-   127			/* Each register holds two checkpoint values. */
-   128			u32 cp_index = i / 2;
-   129			u32 cp_reg = VEPU_REG_CHECKPOINT(cp_index);
-   130			u32 cp_read = vepu_read(vpu, cp_reg);
-   131			u32 cp_value = VEPU_REG_CHECKPOINT_RESULT(cp_read, i);
-   132	
-   133			/* Hardware might overflow, correct it here. */
-   134			if (cp_value < cp_prev)
-   135				cp_overflow += (1 << 21);
-   136	
-   137			encode_feedback.cp[i] = cp_value + cp_overflow;
-   138			cp_prev = cp_value;
-   139		}
-   140	
-   141		v4l2_ctrl_s_ctrl_compound(ctrl, V4L2_CTRL_TYPE_H264_ENCODE_FEEDBACK,
-   142					  &encode_feedback);
-   143	
-   144		encoded_slices = (vepu_read(vpu, VEPU_REG_ENC_CTRL1) >> 16) & 0xff;
-   145	}
-   146	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev=
+/bpf-Don-t-EFAULT-for-getsockopt-with-optval-NULL/20230419-065442
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230418225343.553806-7-sdf%40go=
+ogle.com
+> patch subject: [PATCH bpf-next 6/6] bpf: Document EFAULT changes for sock=
+opt
+> reproduce:
+>         # https://github.com/intel-lab-lkp/linux/commit/789f0fbf25934464a=
+e56e0022939fc77d4615d65
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Stanislav-Fomichev/bpf-Don-t-EFA=
+ULT-for-getsockopt-with-optval-NULL/20230419-065442
+>         git checkout 789f0fbf25934464ae56e0022939fc77d4615d65
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONF=
+IG_WARN_ABI_ERRORS
+>         make htmldocs
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304200301.XukL6sTb-lkp@i=
+ntel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> Documentation/bpf/prog_cgroup_sockopt.rst:115: WARNING: Unexpected ind=
+entation.
+> >> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline literal=
+ start-string without end-string.
+> >> Documentation/bpf/prog_cgroup_sockopt.rst:111: WARNING: Inline emphasi=
+s start-string without end-string.
+> >> Documentation/bpf/prog_cgroup_sockopt.rst:121: WARNING: Block quote en=
+ds without a blank line; unexpected unindent.
+> >> Documentation/bpf/prog_cgroup_sockopt.rst:159: WARNING: Title level in=
+consistent:
+>
+> vim +115 Documentation/bpf/prog_cgroup_sockopt.rst
+>
+>    110
+>  > 111  ```
+>    112  SEC("cgroup/getsockopt")
+>    113  int getsockopt(struct bpf_sockopt *ctx)
+>    114  {
+>  > 115          /* Custom socket option. */
+>    116          if (ctx->level =3D=3D MY_SOL && ctx->optname =3D=3D MY_OP=
+TNAME) {
+>    117                  ctx->retval =3D 0;
+>    118                  optval[0] =3D ...;
+>    119                  ctx->optlen =3D 1;
+>    120                  return 1;
+>  > 121          }
+>    122
+>    123          /* Modify kernel's socket option. */
+>    124          if (ctx->level =3D=3D SOL_IP && ctx->optname =3D=3D IP_FR=
+EEBIND) {
+>    125                  ctx->retval =3D 0;
+>    126                  optval[0] =3D ...;
+>    127                  ctx->optlen =3D 1;
+>    128                  return 1;
+>    129          }
+>    130
+>    131          /* optval larger than PAGE_SIZE use kernel's buffer. */
+>    132          if (ctx->optlen > 4096)
+>    133                  ctx->optlen =3D 0;
+>    134
+>    135          return 1;
+>    136  }
+>    137
+>    138  SEC("cgroup/setsockopt")
+>    139  int setsockopt(struct bpf_sockopt *ctx)
+>    140  {
+>    141          /* Custom socket option. */
+>    142          if (ctx->level =3D=3D MY_SOL && ctx->optname =3D=3D MY_OP=
+TNAME) {
+>    143                  /* do something */
+>    144                  ctx->optlen =3D -1;
+>    145                  return 1;
+>    146          }
+>    147
+>    148          /* Modify kernel's socket option. */
+>    149          if (ctx->level =3D=3D SOL_IP && ctx->optname =3D=3D IP_FR=
+EEBIND) {
+>    150                  optval[0] =3D ...;
+>    151                  return 1;
+>    152          }
+>    153
+>    154          /* optval larger than PAGE_SIZE use kernel's buffer. */
+>    155          if (ctx->optlen > 4096)
+>    156                  ctx->optlen =3D 0;
+>    157
+>    158          return 1;
+>  > 159  }
+>    160  ```
+>    161
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
