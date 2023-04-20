@@ -1,44 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A399445;
-	Thu, 20 Apr 2023 20:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4799C9445
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 20:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682020975; x=1713556975;
+  t=1682021580; x=1713557580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6E8VNuKdlqQFJppOe819gb4TyeBr2b11h9NM1tnfb04=;
-  b=E4bzSZVgd7+hUEGRtbV7y44PFJkbI5pUrNT6lnAtK+YtVjxo//lO91LM
-   MovEGOVdefwxGf39i+VLOhpZ0t0NYfxY9zCmY/cDLSwQf3joeJ43zMRar
-   g7v6ETyvr9v/ELmkbzcNsnMakpTgP0b4E5gBH0+oskiywItjeZAGOe/mr
-   P6yO2nexFVbiVZSYAH9a8ZnNSqhRmUjqBtMs/3kJKdo0cwxiR8CIQ2zUt
-   IF9Rz9yCJuCXDEcbREKB7+pApV09VWKIyvDwP9cARod62iQ5mgS8VfgCS
-   lZJJsQgURbgw2uuG7llaNi8tXKmsoMajo35WMTvOVM8RwapJqyLZmA4ku
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347733952"
+  bh=uyVvxcRZS7I7O+cSxgkIiIVzZH8+9CGJs8SMZtKlIFc=;
+  b=L5gwbHVYpPhs4WN462vA8H4MplaJdjSLfZiddSweV98oYXFwZKw+XRNA
+   VbNtR2CeAul3HqyzQLODb9rFJASmWyVMIoI+7Il9VY8nMrZv81k+lhb+O
+   g6wEhCWP9ouUZVEY54/d/DwQL7X3nrLB5hT5sOXcCR0LMeUHQxX1v4y5w
+   Re7xw9K7KIKKesyQPRj+Z+thUZ6nBwPtu8zusNs5e39qRiLPdJ3ogt8fI
+   Kmdz+IYA7s4Vqa4ed7PAl0CNpWgERJ01rkgM88Kp9DkTi3R3iGjgDl6GC
+   y0fm3u4NHup9SIu0qgTb1Azf24kjM46AViDa93Vulmm4qC7Zeu9J+psDI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432120753"
 X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="347733952"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 13:02:55 -0700
+   d="scan'208";a="432120753"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 13:12:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="642252618"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="816158560"
 X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="642252618"
+   d="scan'208";a="816158560"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Apr 2023 13:02:53 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Apr 2023 13:12:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppaUW-000g3C-1H;
-	Thu, 20 Apr 2023 20:02:52 +0000
-Date: Fri, 21 Apr 2023 04:01:52 +0800
+	id 1ppaeC-000g3S-1j;
+	Thu, 20 Apr 2023 20:12:52 +0000
+Date: Fri, 21 Apr 2023 04:12:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Yan <yanaijie@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Theodore Ts'o <tytso@mit.edu>
-Subject: [linux-next:master 11560/13289] fs/ext4/super.c:1262:6: warning:
- unused variable 'i'
-Message-ID: <202304210349.DykCi88S-lkp@intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Paul <seanpaul@chromium.org>,
+	=?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+	"Kristian H. Kristensen" <hoegsberg@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.19 1155/6555]
+ drivers/gpu/drm/drm_atomic_uapi.c:1297: Error: unrecognized opcode `csrs
+ sstatus,s11'
+Message-ID: <202304210445.Jfjf3Y2B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,165 +49,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   44bf136283e567b2b62653be7630e7511da41da2
-commit: dcbf87589d90e3bd5a5a4cf832517f22f3c55efb [11560/13289] ext4: factor out ext4_flex_groups_free()
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230421/202304210349.DykCi88S-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: dfdec43d0411076dc70591a0496a0824a8620695 [1155/6555] UPSTREAM: drm: extract drm_atomic_uapi.c
+config: riscv-buildonly-randconfig-r006-20230417 (https://download.01.org/0day-ci/archive/20230421/202304210445.Jfjf3Y2B-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
+        # https://github.com/jsarha/linux/commit/dfdec43d0411076dc70591a0496a0824a8620695
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout dfdec43d0411076dc70591a0496a0824a8620695
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash M=drivers/gpu/drm
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304210349.DykCi88S-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210445.Jfjf3Y2B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/ext4/super.c:1262:6: warning: unused variable 'i' [-Wunused-variable]
-           int i, err;
-               ^
-   fs/ext4/super.c:5104:15: warning: unused variable 'i' [-Wunused-variable]
-           unsigned int i;
-                        ^
-   fs/ext4/super.c:2099:1: warning: unused function 'ctx_set_flags' [-Wunused-function]
-   EXT4_SET_CTX(flags); /* set only */
-   ^
-   fs/ext4/super.c:2077:20: note: expanded from macro 'EXT4_SET_CTX'
-   static inline void ctx_set_##name(struct ext4_fs_context *ctx,          \
-                      ^
-   <scratch space>:24:1: note: expanded from here
-   ctx_set_flags
-   ^
-   3 warnings generated.
+   drivers/gpu/drm/drm_atomic_uapi.c: In function 'complete_signaling':
+   drivers/gpu/drm/drm_atomic_uapi.c:1193:26: warning: variable 'crtc' set but not used [-Wunused-but-set-variable]
+    1193 |         struct drm_crtc *crtc;
+         |                          ^~~~
+   drivers/gpu/drm/drm_atomic_uapi.c: Assembler messages:
+   drivers/gpu/drm/drm_atomic_uapi.c:1052: Error: unrecognized opcode `csrs sstatus,a3'
+   drivers/gpu/drm/drm_atomic_uapi.c:1052: Error: unrecognized opcode `csrc sstatus,a3'
+   drivers/gpu/drm/drm_atomic_uapi.c:1230: Error: unrecognized opcode `csrs sstatus,s6'
+   drivers/gpu/drm/drm_atomic_uapi.c:1230: Error: unrecognized opcode `csrc sstatus,s6'
+   drivers/gpu/drm/drm_atomic_uapi.c:466: Error: unrecognized opcode `csrs sstatus,a3'
+   drivers/gpu/drm/drm_atomic_uapi.c:466: Error: unrecognized opcode `csrc sstatus,a3'
+   drivers/gpu/drm/drm_atomic_uapi.c:366: Error: unrecognized opcode `csrs sstatus,a3'
+   drivers/gpu/drm/drm_atomic_uapi.c:366: Error: unrecognized opcode `csrc sstatus,a3'
+>> drivers/gpu/drm/drm_atomic_uapi.c:1297: Error: unrecognized opcode `csrs sstatus,s11'
+>> drivers/gpu/drm/drm_atomic_uapi.c:1297: Error: unrecognized opcode `csrc sstatus,s11'
+   drivers/gpu/drm/drm_atomic_uapi.c:1314: Error: unrecognized opcode `csrs sstatus,s11'
+   drivers/gpu/drm/drm_atomic_uapi.c:1314: Error: unrecognized opcode `csrc sstatus,s11'
+   drivers/gpu/drm/drm_atomic_uapi.c:1327: Error: unrecognized opcode `csrs sstatus,s11'
+   drivers/gpu/drm/drm_atomic_uapi.c:1327: Error: unrecognized opcode `csrc sstatus,s11'
 
 
-vim +/i +1262 fs/ext4/super.c
+vim +1297 drivers/gpu/drm/drm_atomic_uapi.c
 
-dcbf87589d90e3 Jason Yan               2023-03-23  1256  
-617ba13b31fbf5 Mingming Cao            2006-10-11  1257  static void ext4_put_super(struct super_block *sb)
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1258  {
-617ba13b31fbf5 Mingming Cao            2006-10-11  1259  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-617ba13b31fbf5 Mingming Cao            2006-10-11  1260  	struct ext4_super_block *es = sbi->s_es;
-97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1261  	int aborted = 0;
-ef2cabf7c6d838 Hidehiro Kawai          2008-10-27 @1262  	int i, err;
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1263  
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1264  	/*
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1265  	 * Unregister sysfs before destroying jbd2 journal.
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1266  	 * Since we could still access attr_journal_task attribute via sysfs
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1267  	 * path which could have sbi->s_journal->j_task as NULL
-b98535d091795a Ye Bin                  2022-03-22  1268  	 * Unregister sysfs before flush sbi->s_error_work.
-b98535d091795a Ye Bin                  2022-03-22  1269  	 * Since user may read /proc/fs/ext4/xx/mb_groups during umount, If
-b98535d091795a Ye Bin                  2022-03-22  1270  	 * read metadata verify failed then will queue error work.
-b98535d091795a Ye Bin                  2022-03-22  1271  	 * flush_stashed_error_work will call start_this_handle may trigger
-b98535d091795a Ye Bin                  2022-03-22  1272  	 * BUG_ON.
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1273  	 */
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1274  	ext4_unregister_sysfs(sb);
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1275  
-4808cb5b98b436 Zhang Yi                2022-04-12  1276  	if (___ratelimit(&ext4_mount_msg_ratelimit, "EXT4-fs unmount"))
-bb0fbc782ee9fa Lukas Czerner           2022-11-08  1277  		ext4_msg(sb, KERN_INFO, "unmounting filesystem %pU.",
-bb0fbc782ee9fa Lukas Czerner           2022-11-08  1278  			 &sb->s_uuid);
-4808cb5b98b436 Zhang Yi                2022-04-12  1279  
-b98535d091795a Ye Bin                  2022-03-22  1280  	ext4_unregister_li_request(sb);
-b98535d091795a Ye Bin                  2022-03-22  1281  	ext4_quota_off_umount(sb);
-b98535d091795a Ye Bin                  2022-03-22  1282  
-b98535d091795a Ye Bin                  2022-03-22  1283  	flush_work(&sbi->s_error_work);
-b98535d091795a Ye Bin                  2022-03-22  1284  	destroy_workqueue(sbi->rsv_conversion_wq);
-b98535d091795a Ye Bin                  2022-03-22  1285  	ext4_release_orphan_info(sb);
-b98535d091795a Ye Bin                  2022-03-22  1286  
-0390131ba84fd3 Frank Mayhar            2009-01-07  1287  	if (sbi->s_journal) {
-97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1288  		aborted = is_journal_aborted(sbi->s_journal);
-ef2cabf7c6d838 Hidehiro Kawai          2008-10-27  1289  		err = jbd2_journal_destroy(sbi->s_journal);
-47b4a50bebfd34 Jan Kara                2008-07-11  1290  		sbi->s_journal = NULL;
-878520ac45f9f6 Theodore Ts'o           2019-11-19  1291  		if ((err < 0) && !aborted) {
-54d3adbc29f0c7 Theodore Ts'o           2020-03-28  1292  			ext4_abort(sb, -err, "Couldn't clean up the journal");
-0390131ba84fd3 Frank Mayhar            2009-01-07  1293  		}
-878520ac45f9f6 Theodore Ts'o           2019-11-19  1294  	}
-d4edac314e9ad0 Josef Bacik             2009-12-08  1295  
-d3922a777f9b4c Zheng Liu               2013-07-01  1296  	ext4_es_unregister_shrinker(sbi);
-292a089d78d3e2 Steven Rostedt (Google  2022-12-20  1297) 	timer_shutdown_sync(&sbi->s_err_report);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1298  	ext4_release_system_zone(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1299  	ext4_mb_release(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1300  	ext4_ext_release(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1301  
-bc98a42c1f7d0f David Howells           2017-07-17  1302  	if (!sb_rdonly(sb) && !aborted) {
-e2b911c53584a9 Darrick J. Wong         2015-10-17  1303  		ext4_clear_feature_journal_needs_recovery(sb);
-02f310fcf47fa9 Jan Kara                2021-08-16  1304  		ext4_clear_feature_orphan_present(sb);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1305  		es->s_state = cpu_to_le16(sbi->s_mount_state);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1306  	}
-bc98a42c1f7d0f David Howells           2017-07-17  1307  	if (!sb_rdonly(sb))
-4392fbc4bab57d Jan Kara                2020-12-16  1308  		ext4_commit_super(sb);
-a8e25a83245618 Artem Bityutskiy        2012-03-21  1309  
-6ef684988816fd Jason Yan               2023-03-23  1310  	ext4_group_desc_free(sbi);
-dcbf87589d90e3 Jason Yan               2023-03-23  1311  	ext4_flex_groups_free(sbi);
-1f79467c8a6be6 Jason Yan               2023-03-23  1312  	ext4_percpu_param_destroy(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1313  #ifdef CONFIG_QUOTA
-a2d4a646e61954 Jan Kara                2014-09-11  1314  	for (i = 0; i < EXT4_MAXQUOTAS; i++)
-33458eaba4dfe7 Theodore Ts'o           2018-10-12  1315  		kfree(get_qf_name(sb, sbi, i));
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1316  #endif
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1317  
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1318  	/* Debugging code just in case the in-memory inode orphan list
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1319  	 * isn't empty.  The on-disk one can be non-empty if we've
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1320  	 * detected an error and taken the fs readonly, but the
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1321  	 * in-memory list had better be clean by this point. */
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1322  	if (!list_empty(&sbi->s_orphan))
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1323  		dump_orphan_list(sb, sbi);
-837c23fbc1b812 Chunguang Xu            2020-11-07  1324  	ASSERT(list_empty(&sbi->s_orphan));
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1325  
-89d96a6f8e6491 Theodore Ts'o           2015-06-20  1326  	sync_blockdev(sb->s_bdev);
-f98393a64ca139 Peter Zijlstra          2007-05-06  1327  	invalidate_bdev(sb->s_bdev);
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1328  	if (sbi->s_journal_bdev && sbi->s_journal_bdev != sb->s_bdev) {
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1329  		/*
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1330  		 * Invalidate the journal device's buffers.  We don't want them
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1331  		 * floating about in memory - the physical journal device may
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1332  		 * hotswapped, and it breaks the `ro-after' testing code.
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1333  		 */
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1334  		sync_blockdev(sbi->s_journal_bdev);
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1335  		invalidate_bdev(sbi->s_journal_bdev);
-617ba13b31fbf5 Mingming Cao            2006-10-11  1336  		ext4_blkdev_remove(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1337  	}
-50c15df69e062b Chengguang Xu           2018-12-04  1338  
-dec214d00e0d78 Tahsin Erdogan          2017-06-22  1339  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
-dec214d00e0d78 Tahsin Erdogan          2017-06-22  1340  	sbi->s_ea_inode_cache = NULL;
-50c15df69e062b Chengguang Xu           2018-12-04  1341  
-47387409ee2e09 Tahsin Erdogan          2017-06-22  1342  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
-47387409ee2e09 Tahsin Erdogan          2017-06-22  1343  	sbi->s_ea_block_cache = NULL;
-50c15df69e062b Chengguang Xu           2018-12-04  1344  
-618f003199c618 Pavel Skripkin          2021-04-30  1345  	ext4_stop_mmpd(sbi);
-618f003199c618 Pavel Skripkin          2021-04-30  1346  
-9060dd2c5036b1 Eric Sandeen            2016-11-26  1347  	brelse(sbi->s_sbh);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1348  	sb->s_fs_info = NULL;
-3197ebdb130473 Theodore Ts'o           2009-03-31  1349  	/*
-3197ebdb130473 Theodore Ts'o           2009-03-31  1350  	 * Now that we are completely done shutting down the
-3197ebdb130473 Theodore Ts'o           2009-03-31  1351  	 * superblock, we need to actually destroy the kobject.
-3197ebdb130473 Theodore Ts'o           2009-03-31  1352  	 */
-3197ebdb130473 Theodore Ts'o           2009-03-31  1353  	kobject_put(&sbi->s_kobj);
-3197ebdb130473 Theodore Ts'o           2009-03-31  1354  	wait_for_completion(&sbi->s_kobj_unregister);
-0441984a339897 Darrick J. Wong         2012-04-29  1355  	if (sbi->s_chksum_driver)
-0441984a339897 Darrick J. Wong         2012-04-29  1356  		crypto_free_shash(sbi->s_chksum_driver);
-705895b61133ef Pekka Enberg            2009-02-15  1357  	kfree(sbi->s_blockgroup_lock);
-8012b866085523 Shiyang Ruan            2022-06-03  1358  	fs_put_dax(sbi->s_daxdev, NULL);
-ac4acb1f4b2b6b Eric Biggers            2020-09-16  1359  	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
-5298d4bfe80f6a Christoph Hellwig       2022-01-18  1360  #if IS_ENABLED(CONFIG_UNICODE)
-f8f4acb6cded4e Daniel Rosenberg        2020-10-28  1361  	utf8_unload(sb->s_encoding);
-c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  1362  #endif
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1363  	kfree(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1364  }
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1365  
-
-:::::: The code at line 1262 was first introduced by commit
-:::::: ef2cabf7c6d838eb0ee2b4fb8ef84f7c06ce16d9 ext4: fix a bug accessing freed memory in ext4_abort
-
-:::::: TO: Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+  1236	
+  1237	int drm_mode_atomic_ioctl(struct drm_device *dev,
+  1238				  void *data, struct drm_file *file_priv)
+  1239	{
+  1240		struct drm_mode_atomic *arg = data;
+  1241		uint32_t __user *objs_ptr = (uint32_t __user *)(unsigned long)(arg->objs_ptr);
+  1242		uint32_t __user *count_props_ptr = (uint32_t __user *)(unsigned long)(arg->count_props_ptr);
+  1243		uint32_t __user *props_ptr = (uint32_t __user *)(unsigned long)(arg->props_ptr);
+  1244		uint64_t __user *prop_values_ptr = (uint64_t __user *)(unsigned long)(arg->prop_values_ptr);
+  1245		unsigned int copied_objs, copied_props;
+  1246		struct drm_atomic_state *state;
+  1247		struct drm_modeset_acquire_ctx ctx;
+  1248		struct drm_out_fence_state *fence_state;
+  1249		int ret = 0;
+  1250		unsigned int i, j, num_fences;
+  1251	
+  1252		/* disallow for drivers not supporting atomic: */
+  1253		if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+  1254			return -EINVAL;
+  1255	
+  1256		/* disallow for userspace that has not enabled atomic cap (even
+  1257		 * though this may be a bit overkill, since legacy userspace
+  1258		 * wouldn't know how to call this ioctl)
+  1259		 */
+  1260		if (!file_priv->atomic)
+  1261			return -EINVAL;
+  1262	
+  1263		if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS)
+  1264			return -EINVAL;
+  1265	
+  1266		if (arg->reserved)
+  1267			return -EINVAL;
+  1268	
+  1269		if ((arg->flags & DRM_MODE_PAGE_FLIP_ASYNC) &&
+  1270				!dev->mode_config.async_page_flip)
+  1271			return -EINVAL;
+  1272	
+  1273		/* can't test and expect an event at the same time. */
+  1274		if ((arg->flags & DRM_MODE_ATOMIC_TEST_ONLY) &&
+  1275				(arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
+  1276			return -EINVAL;
+  1277	
+  1278		drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
+  1279	
+  1280		state = drm_atomic_state_alloc(dev);
+  1281		if (!state)
+  1282			return -ENOMEM;
+  1283	
+  1284		state->acquire_ctx = &ctx;
+  1285		state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
+  1286	
+  1287	retry:
+  1288		copied_objs = 0;
+  1289		copied_props = 0;
+  1290		fence_state = NULL;
+  1291		num_fences = 0;
+  1292	
+  1293		for (i = 0; i < arg->count_objs; i++) {
+  1294			uint32_t obj_id, count_props;
+  1295			struct drm_mode_object *obj;
+  1296	
+> 1297			if (get_user(obj_id, objs_ptr + copied_objs)) {
 
 -- 
 0-DAY CI Kernel Test Service
