@@ -1,44 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C78D9445
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 19:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A399445;
+	Thu, 20 Apr 2023 20:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682020317; x=1713556317;
+  t=1682020975; x=1713556975;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uMAd2Upug6WWba8wjPQSwXoLJcES20MXXJgSax9BnCM=;
-  b=IaWnw4LUSun2tBF2yglB80JFL0XnMbXC+38CNzkOtjBei4b5AMJ3cR/9
-   DkWS+lHxSMut7EsmsOh9QTvExhuY8QdysGkgQXINySRByylZ24kySX56S
-   XFk5JSmTgcUDFu4w8aukCrjrYzg5GikbTllJ6V6tS1SWFmY3I7k6xl2tB
-   xB0En69YX7ydybfQgVkAv1X3AbSqliW/xklfrdyiwlTGpRoiTxEh25bpD
-   LK6HYw+WyH2/hrSP7pWCGqHRybjTXFpkpniGWqoajCqeBiJbhDQVjnDTG
-   zlaBovbA0FnWfZT5yLzV6dLcf7aSZ/8RYRuxTYxH+dxf4Nb0ikGDMvZMQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="334706076"
+  bh=6E8VNuKdlqQFJppOe819gb4TyeBr2b11h9NM1tnfb04=;
+  b=E4bzSZVgd7+hUEGRtbV7y44PFJkbI5pUrNT6lnAtK+YtVjxo//lO91LM
+   MovEGOVdefwxGf39i+VLOhpZ0t0NYfxY9zCmY/cDLSwQf3joeJ43zMRar
+   g7v6ETyvr9v/ELmkbzcNsnMakpTgP0b4E5gBH0+oskiywItjeZAGOe/mr
+   P6yO2nexFVbiVZSYAH9a8ZnNSqhRmUjqBtMs/3kJKdo0cwxiR8CIQ2zUt
+   IF9Rz9yCJuCXDEcbREKB7+pApV09VWKIyvDwP9cARod62iQ5mgS8VfgCS
+   lZJJsQgURbgw2uuG7llaNi8tXKmsoMajo35WMTvOVM8RwapJqyLZmA4ku
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347733952"
 X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="334706076"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 12:51:54 -0700
+   d="scan'208";a="347733952"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 13:02:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="724550537"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="642252618"
 X-IronPort-AV: E=Sophos;i="5.99,213,1677571200"; 
-   d="scan'208";a="724550537"
+   d="scan'208";a="642252618"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 20 Apr 2023 12:51:53 -0700
+  by orsmga003.jf.intel.com with ESMTP; 20 Apr 2023 13:02:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppaJs-000g2s-0c;
-	Thu, 20 Apr 2023 19:51:52 +0000
-Date: Fri, 21 Apr 2023 03:51:18 +0800
+	id 1ppaUW-000g3C-1H;
+	Thu, 20 Apr 2023 20:02:52 +0000
+Date: Fri, 21 Apr 2023 04:01:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Yan <yanaijie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Theodore Ts'o <tytso@mit.edu>
-Subject: [linux-next:master 11560/13289] fs/ext4/super.c:1262:13: warning:
+Subject: [linux-next:master 11560/13289] fs/ext4/super.c:1262:6: warning:
  unused variable 'i'
-Message-ID: <202304210303.nlMI0sRQ-lkp@intel.com>
+Message-ID: <202304210349.DykCi88S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,32 +51,42 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   44bf136283e567b2b62653be7630e7511da41da2
 commit: dcbf87589d90e3bd5a5a4cf832517f22f3c55efb [11560/13289] ext4: factor out ext4_flex_groups_free()
-config: x86_64-randconfig-a004-20230417 (https://download.01.org/0day-ci/archive/20230421/202304210303.nlMI0sRQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230421/202304210349.DykCi88S-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
         git checkout dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304210303.nlMI0sRQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210349.DykCi88S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/super.c: In function 'ext4_put_super':
->> fs/ext4/super.c:1262:13: warning: unused variable 'i' [-Wunused-variable]
-    1262 |         int i, err;
-         |             ^
-   fs/ext4/super.c: In function '__ext4_fill_super':
-   fs/ext4/super.c:5104:22: warning: unused variable 'i' [-Wunused-variable]
-    5104 |         unsigned int i;
-         |                      ^
+>> fs/ext4/super.c:1262:6: warning: unused variable 'i' [-Wunused-variable]
+           int i, err;
+               ^
+   fs/ext4/super.c:5104:15: warning: unused variable 'i' [-Wunused-variable]
+           unsigned int i;
+                        ^
+   fs/ext4/super.c:2099:1: warning: unused function 'ctx_set_flags' [-Wunused-function]
+   EXT4_SET_CTX(flags); /* set only */
+   ^
+   fs/ext4/super.c:2077:20: note: expanded from macro 'EXT4_SET_CTX'
+   static inline void ctx_set_##name(struct ext4_fs_context *ctx,          \
+                      ^
+   <scratch space>:24:1: note: expanded from here
+   ctx_set_flags
+   ^
+   3 warnings generated.
 
 
 vim +/i +1262 fs/ext4/super.c
