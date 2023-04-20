@@ -1,45 +1,42 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2FC946F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 23:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A95946F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Apr 2023 23:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682033219; x=1713569219;
+  t=1682033222; x=1713569222;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yl+0IaFjl/+ppqW3nSQRvniTvNRJjZvCRzK842l5/nU=;
-  b=k9keH/WM3o+mwia26Emv3Hkes/ZtaTTiDSw4kR3N0HMvfDBO5D3U8z4/
-   bXRT01H9VhsycCuhFUgt1XAT7G5i/HJB2xgCoWWZ6UmyxIFbutYY1kFAh
-   plNCSjFX1tlQG03/wuI3yzNkkQnEgp/CBF+ridymaa+7IVqk9AMbYz28K
-   1eGvpBTrW0Bfnj42jisgqoO/1ILYAKh6UR0aYepNUVLFmrxHv5NDOsfE3
-   7N+j+3dwzp7h0I3Ky3j+9x2nACiM/pFQpMpjKA/6fL9rvsziHDHM7if18
-   prsnCu5EwDOPKBixd1ULIdEMJTjYFJ5eAWqG4zC6NAz5jUg916A0BVQTG
+  bh=9zQSTV+mvRMO0gJQfAHO8/tTFFCRFjvnQjYB2o73jSk=;
+  b=WNoVgnrvqD1uV5LWQ42XMhEbsSDT68v83ZGGHeAtxd5bR66E3310f9ke
+   TBs+lr0ZC1w9KEcEAhHergkCAROZL82uFiEIfpd3ceYzuxQOteSFYrmrV
+   kycAjrEegXOmtw1pwZsrEBli8JJfTYgnee6Kh4s/FHS6ujcqFeRtMz4UC
+   6fLPLhX/4e/rNkH+nseOzRIseiuU4iXfmNhvdltH39wixOyMxl6BlXkib
+   vdZOss3U3JbCCKiZ/uSGw0n7qZ+NdlUspZWcY24KBY77+cLjNQ02d0j1l
+   bnFCxbmKOYkpuicGaUng8fwawW5deUj4vu9GsYLqtiMzw1F+V8+CbHo8M
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432151312"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432151311"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="432151312"
+   d="scan'208";a="432151311"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 16:26:59 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 16:26:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="938262298"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="938262297"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="938262298"
+   d="scan'208";a="938262297"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 20 Apr 2023 16:26:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppdg1-000gAW-0X;
+	id 1ppdg1-000gAY-0c;
 	Thu, 20 Apr 2023 23:26:57 +0000
 Date: Fri, 21 Apr 2023 07:26:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-1.0.x-imx 4744/9845]
- drivers/media/platform/mxc/capture/ov5647_mipi.c:1522:34: error:
- initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *,
- struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int
- (*)(struct v4l2_subdev *, struct v4l2_...
-Message-ID: <202304210741.QuuO6QbR-lkp@intel.com>
+Subject: [jfern:rcu/rcutop-debugobj 2/2] kernel/rcu/tree.c:4930:26: warning:
+ unused variable 'rdp'
+Message-ID: <202304210757.X8c9JDMp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,95 +46,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
-head:   897d73a656fe33d0c4549c5de1d07797f99d6871
-commit: ce0e2f7e0ebc193aa10e4a6921c61302e470387c [4744/9845] Merge remote-tracking branch 'origin/capture/ov5640' into capture/next
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230421/202304210741.QuuO6QbR-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/rcutop-debugobj
+head:   c3c9af7f55e25cd3aa48db8bb3623102f34285cb
+commit: c3c9af7f55e25cd3aa48db8bb3623102f34285cb [2/2] rcu/debug: Add support for debugfs debugging of RCU CBs.
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230421/202304210757.X8c9JDMp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/ce0e2f7e0ebc193aa10e4a6921c61302e470387c
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
-        git checkout ce0e2f7e0ebc193aa10e4a6921c61302e470387c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=c3c9af7f55e25cd3aa48db8bb3623102f34285cb
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern rcu/rcutop-debugobj
+        git checkout c3c9af7f55e25cd3aa48db8bb3623102f34285cb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/firmware/imx/ drivers/media/platform/mxc/capture/ drivers/regulator/ drivers/soc/imx/ drivers/staging/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/rcu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304210741.QuuO6QbR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304210757.X8c9JDMp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:320:19: error: initialization of 'void (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
-     320 |         .remove = ov5647_remove,
-         |                   ^~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:320:19: note: (near initialization for 'ov5647_i2c_driver.remove')
-   drivers/media/platform/mxc/capture/ov5647_mipi.c: In function 'ov5647_enum_frameintervals':
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1442:17: error: implicit declaration of function 'pr_warning'; did you mean 'acpi_warning'? [-Werror=implicit-function-declaration]
-    1442 |                 pr_warning("Please assign pixel format, width and height.\n");
-         |                 ^~~~~~~~~~
-         |                 acpi_warning
-   drivers/media/platform/mxc/capture/ov5647_mipi.c: At top level:
->> drivers/media/platform/mxc/capture/ov5647_mipi.c:1522:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
-    1522 |         .enum_frame_size       = ov5647_enum_framesizes,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1522:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_frame_size')
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1523:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
-    1523 |         .enum_frame_interval   = ov5647_enum_frameintervals,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1523:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_frame_interval')
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1524:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
-    1524 |         .enum_mbus_code        = ov5647_enum_mbus_code,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1524:34: note: (near initialization for 'ov5647_subdev_pad_ops.enum_mbus_code')
->> drivers/media/platform/mxc/capture/ov5647_mipi.c:1525:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    1525 |         .set_fmt               = ov5647_set_fmt,
-         |                                  ^~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1525:34: note: (near initialization for 'ov5647_subdev_pad_ops.set_fmt')
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1526:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    1526 |         .get_fmt               = ov5647_get_fmt,
-         |                                  ^~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1526:34: note: (near initialization for 'ov5647_subdev_pad_ops.get_fmt')
-   drivers/media/platform/mxc/capture/ov5647_mipi.c:1532:27: error: 'ov5647_get_register' undeclared here (not in a function); did you mean 'ov5647_get_shutter'?
-    1532 |         .g_register     = ov5647_get_register,
-         |                           ^~~~~~~~~~~~~~~~~~~
-         |                           ov5647_get_shutter
->> drivers/media/platform/mxc/capture/ov5647_mipi.c:1533:27: error: 'ov5647_set_register' undeclared here (not in a function); did you mean 'ov5647_set_shutter'?
-    1533 |         .s_register     = ov5647_set_register,
-         |                           ^~~~~~~~~~~~~~~~~~~
-         |                           ov5647_set_shutter
+   In file included from kernel/rcu/tree.c:70:
+   kernel/rcu/debug.h:168:5: warning: no previous prototype for 'rcu_debug_ptr_queue' [-Wmissing-prototypes]
+     168 | int rcu_debug_ptr_queue(struct rcu_data *rdp, void* ip_ptr)
+         |     ^~~~~~~~~~~~~~~~~~~
+   kernel/rcu/debug.h:173:6: warning: no previous prototype for 'rcu_debug_set_context' [-Wmissing-prototypes]
+     173 | void rcu_debug_set_context(struct rcu_data *rdp, void *ip_ptr)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/debug.h:177:6: warning: no previous prototype for 'rcu_debug_reset_context' [-Wmissing-prototypes]
+     177 | void rcu_debug_reset_context(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/debug.h:181:6: warning: no previous prototype for 'rcu_debug_init' [-Wmissing-prototypes]
+     181 | void rcu_debug_init(void)
+         |      ^~~~~~~~~~~~~~
+   kernel/rcu/tree.c: In function 'rcu_do_batch':
+   kernel/rcu/tree.c:2110:22: error: implicit declaration of function 'rcu_debug_ptr_unqueue_lock'; did you mean 'rcu_debug_ptr_queue'? [-Werror=implicit-function-declaration]
+    2110 |                 de = rcu_debug_ptr_unqueue_lock(rdp, rhp);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      rcu_debug_ptr_queue
+   kernel/rcu/tree.c:2110:22: error: incompatible types when assigning to type 'rcu_debug_entry' from type 'int'
+   kernel/rcu/tree.c:2120:25: error: implicit declaration of function 'rcu_debug_set_context_lock'; did you mean 'rcu_debug_set_context'? [-Werror=implicit-function-declaration]
+    2120 |                         rcu_debug_set_context_lock(rdp, f);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         rcu_debug_set_context
+   kernel/rcu/tree.c: In function '__call_rcu_common':
+   kernel/rcu/tree.c:2651:9: error: implicit declaration of function 'rcu_debug_ptr_queue_lock'; did you mean 'rcu_debug_ptr_queue'? [-Werror=implicit-function-declaration]
+    2651 |         rcu_debug_ptr_queue_lock(rdp, (void *)head, lazy);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         rcu_debug_ptr_queue
+   In file included from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from kernel/rcu/tree.c:23:
+   kernel/rcu/tree.c: In function 'rcutree_migrate_callbacks':
+   kernel/rcu/tree.c:4495:31: error: implicit declaration of function 'rcu_debug_ptr_unqueue'; did you mean 'rcu_debug_ptr_queue'? [-Werror=implicit-function-declaration]
+    4495 |                 WARN_ON_ONCE(!rcu_debug_ptr_unqueue(rdp, rh).valid);
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON_ONCE'
+     110 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   kernel/rcu/tree.c:4495:61: error: request for member 'valid' in something not a structure or union
+    4495 |                 WARN_ON_ONCE(!rcu_debug_ptr_unqueue(rdp, rh).valid);
+         |                                                             ^
+   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON_ONCE'
+     110 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   kernel/rcu/tree.c: In function 'rcu_init':
+>> kernel/rcu/tree.c:4930:26: warning: unused variable 'rdp' [-Wunused-variable]
+    4930 |         struct rcu_data *rdp = per_cpu_ptr(&rcu_data, cpu);
+         |                          ^~~
+>> kernel/rcu/tree.c:4928:13: warning: unused variable 'i' [-Wunused-variable]
+    4928 |         int i;
+         |             ^
    cc1: some warnings being treated as errors
 
 
-vim +1522 drivers/media/platform/mxc/capture/ov5647_mipi.c
+vim +/rdp +4930 kernel/rcu/tree.c
 
-c540262b9a9248 Robby Cai 2019-09-27  1520  
-c540262b9a9248 Robby Cai 2019-09-27  1521  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
-c540262b9a9248 Robby Cai 2019-09-27 @1522  	.enum_frame_size       = ov5647_enum_framesizes,
-c540262b9a9248 Robby Cai 2019-09-27  1523  	.enum_frame_interval   = ov5647_enum_frameintervals,
-c540262b9a9248 Robby Cai 2019-09-27  1524  	.enum_mbus_code        = ov5647_enum_mbus_code,
-c540262b9a9248 Robby Cai 2019-09-27 @1525  	.set_fmt               = ov5647_set_fmt,
-c540262b9a9248 Robby Cai 2019-09-27  1526  	.get_fmt               = ov5647_get_fmt,
-c540262b9a9248 Robby Cai 2019-09-27  1527  };
-c540262b9a9248 Robby Cai 2019-09-27  1528  
-c540262b9a9248 Robby Cai 2019-09-27  1529  static struct v4l2_subdev_core_ops ov5647_subdev_core_ops = {
-c540262b9a9248 Robby Cai 2019-09-27  1530  	.s_power	= ov5647_s_power,
-c540262b9a9248 Robby Cai 2019-09-27  1531  #ifdef CONFIG_VIDEO_ADV_DEBUG
-c540262b9a9248 Robby Cai 2019-09-27  1532  	.g_register	= ov5647_get_register,
-c540262b9a9248 Robby Cai 2019-09-27 @1533  	.s_register	= ov5647_set_register,
-c540262b9a9248 Robby Cai 2019-09-27  1534  #endif
-c540262b9a9248 Robby Cai 2019-09-27  1535  };
-c540262b9a9248 Robby Cai 2019-09-27  1536  
-
-:::::: The code at line 1522 was first introduced by commit
-:::::: c540262b9a924882cfa56687e832a6978c067469 media: capture: add mipi camera ov5647 driver
-
-:::::: TO: Robby Cai <robby.cai@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+  4925	
+  4926	void __init rcu_init(void)
+  4927	{
+> 4928		int i;
+  4929		int cpu = smp_processor_id();
+> 4930		struct rcu_data *rdp = per_cpu_ptr(&rcu_data, cpu);
+  4931	
+  4932		rcu_early_boot_tests();
+  4933	
+  4934		kfree_rcu_batch_init();
+  4935		rcu_debug_init();
+  4936		rcu_bootup_announce();
+  4937		sanitize_kthread_prio();
+  4938		rcu_init_geometry();
+  4939		rcu_init_one();
+  4940		if (dump_tree)
+  4941			rcu_dump_rcu_node_tree();
+  4942		if (use_softirq)
+  4943			open_softirq(RCU_SOFTIRQ, rcu_core_si);
+  4944	
+  4945		/*
+  4946		 * We don't need protection against CPU-hotplug here because
+  4947		 * this is called early in boot, before either interrupts
+  4948		 * or the scheduler are operational.
+  4949		 */
+  4950		pm_notifier(rcu_pm_notify, 0);
+  4951		WARN_ON(num_online_cpus() > 1); // Only one CPU this early in boot.
+  4952		rcutree_prepare_cpu(cpu);
+  4953		rcu_cpu_starting(cpu);
+  4954		rcutree_online_cpu(cpu);
+  4955	
+  4956		/* Create workqueue for Tree SRCU and for expedited GPs. */
+  4957		rcu_gp_wq = alloc_workqueue("rcu_gp", WQ_MEM_RECLAIM, 0);
+  4958		WARN_ON(!rcu_gp_wq);
+  4959		rcu_alloc_par_gp_wq();
+  4960	
+  4961		/* Fill in default value for rcutree.qovld boot parameter. */
+  4962		/* -After- the rcu_node ->lock fields are initialized! */
+  4963		if (qovld < 0)
+  4964			qovld_calc = DEFAULT_RCU_QOVLD_MULT * qhimark;
+  4965		else
+  4966			qovld_calc = qovld;
+  4967	
+  4968		// Kick-start any polled grace periods that started early.
+  4969		if (!(per_cpu_ptr(&rcu_data, cpu)->mynode->exp_seq_poll_rq & 0x1))
+  4970			(void)start_poll_synchronize_rcu_expedited();
+  4971	
+  4972		rcu_test_sync_prims();
+  4973	}
+  4974	
 
 -- 
 0-DAY CI Kernel Test Service
