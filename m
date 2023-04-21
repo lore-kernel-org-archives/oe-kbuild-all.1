@@ -1,48 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BA55689;
-	Fri, 21 Apr 2023 18:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D985728E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 18:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682100023; x=1713636023;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GlNFGHNjNG5NR5XjLfG7+NU7klkvpylfkRh5ZKRJgzI=;
-  b=maVXr3b3QXCddoxMJWaOzuoW19AeWqf9F6Cab2PwrL9rUS8wUcbiT68B
-   FjYx0uBJ0anTN10F6przLMPxwGMRS/35SgN9v0UnLhrzPACRy0493gb1x
-   UwAsh8m8moWJbNyPa8ONwgFGzQPoY3wnHrorn42lz92aTZBGmCwFBj7UO
-   l53BbgKDHzMB8ZvJiwrTV1t+pzY/X2+FeMR8X7/XRqgd0zVX+1sXFYNrb
-   1EQgrqHvsU+tAwriXg7E32Q4cvBrctt3xMg9iApPTDzh9G8zc261XfKVV
-   n2vwZf9RBek4Suw6XlwQMF8MqXb9ok0F76fXVJ6al3LK9FDl+ql3uzSCF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="344799783"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="344799783"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 11:00:22 -0700
+  t=1682102542; x=1713638542;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GjXxlViwaGs5QbPPijrGmi8hDJMNBU3PzUeq0gVeC/w=;
+  b=GUONjYqlQJ3exEladxqnnCg8BdpxYTs9Cta1/kQKI7+4Oe0CxxEKTEUl
+   HaAKX48PJYK1dw+mv8G6EhPc+ClqX9T06OCSI0bM5nIGCsHQk1OHol/bi
+   osanxQlJUtZBsc0EivNAr/7UOo51krdwxKmrBezIzJgmfveqPoK9ZI6Kx
+   hQ0jeixLBm8/Xn3rWczF4omr0blrrnu4s3VoyYyKJ9ywTzazXD3f/iX57
+   8VFvNLN5RTOh6h7hBX/Lk6A+QLRv3hiER7/1Ux3QSf+eiD+0oU1ZwlJKV
+   xT/50f/7t44Oy9xU6o9XjnLThRwokpIZXTmyf0MwCFRj9yGesTLemVYyj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="348849955"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="348849955"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 11:42:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="722827338"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="722827338"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="1022003935"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="1022003935"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Apr 2023 11:00:19 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 21 Apr 2023 11:42:20 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppv3S-000giS-39;
-	Fri, 21 Apr 2023 18:00:18 +0000
-Date: Sat, 22 Apr 2023 02:00:09 +0800
+	id 1ppvi7-000gjk-2V;
+	Fri, 21 Apr 2023 18:42:19 +0000
+Date: Sat, 22 Apr 2023 02:41:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yimin Gu <ustcymgu@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <Mr.Bossman075@gmail.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [linux-next:master 6260/13289] drivers/net/arcnet/com20020.c:74:7:
- warning: performing pointer arithmetic on a null pointer has undefined
- behavior
-Message-ID: <202304220118.NYuW8ip0-lkp@intel.com>
+To: Benjamin Beichler <benjamin.beichler@uni-rostock.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v2] average: rewrite for clearity
+Message-ID: <202304220245.ctq7CKFg-lkp@intel.com>
+References: <20230421134604.211128-1-benjamin.beichler@uni-rostock.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,211 +46,491 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230421134604.211128-1-benjamin.beichler@uni-rostock.de>
 
-Hi Yimin,
+Hi Benjamin,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   44bf136283e567b2b62653be7630e7511da41da2
-commit: b5e2c507b06c9d36411845149162a804ae7b04a9 [6260/13289] riscv: Kconfig: Allow RV32 to build with no MMU
-config: riscv-randconfig-r024-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220118.NYuW8ip0-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.3-rc7 next-20230420]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Beichler/average-rewrite-for-clearity/20230421-214746
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230421134604.211128-1-benjamin.beichler%40uni-rostock.de
+patch subject: [RFC v2] average: rewrite for clearity
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230422/202304220245.ctq7CKFg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b5e2c507b06c9d36411845149162a804ae7b04a9
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b5e2c507b06c9d36411845149162a804ae7b04a9
+        # https://github.com/intel-lab-lkp/linux/commit/f61e21185a0ffa11e3d84ed0b6159882a921347e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Beichler/average-rewrite-for-clearity/20230421-214746
+        git checkout f61e21185a0ffa11e3d84ed0b6159882a921347e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/arcnet/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/net/wireless/realtek/rtw88/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304220118.NYuW8ip0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304220245.ctq7CKFg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/net/arcnet/com20020.c:37:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/net/arcnet/com20020.c:37:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/arcnet/com20020.c:37:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/arcnet/com20020.c:37:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/arcnet/com20020.c:37:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/net/arcnet/com20020.c:74:7: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                arcnet_insb(ioaddr, COM20020_REG_RW_MEMDATA, buf, count));
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/arcnet/arcdevice.h:389:2: note: expanded from macro 'arcnet_insb'
-           insb((addr) + BUS_ALIGN * (offset), buffer, count)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/arcnet/arcdevice.h:103:3: note: expanded from macro 'TIME'
-                   call;                                                   \
-                   ^~~~
->> drivers/net/arcnet/com20020.c:74:7: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                arcnet_insb(ioaddr, COM20020_REG_RW_MEMDATA, buf, count));
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/arcnet/arcdevice.h:389:2: note: expanded from macro 'arcnet_insb'
-           insb((addr) + BUS_ALIGN * (offset), buffer, count)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/arcnet/arcdevice.h:110:3: note: expanded from macro 'TIME'
-                   call;                                                   \
-                   ^~~~
-   drivers/net/arcnet/com20020.c:88:7: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                arcnet_outsb(ioaddr, COM20020_REG_RW_MEMDATA, buf, count));
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/arcnet/arcdevice.h:391:2: note: expanded from macro 'arcnet_outsb'
-           outsb((addr) + BUS_ALIGN * (offset), buffer, count)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   drivers/net/arcnet/arcdevice.h:103:3: note: expanded from macro 'TIME'
-                   call;                                                   \
-                   ^~~~
-   drivers/net/arcnet/com20020.c:88:7: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                arcnet_outsb(ioaddr, COM20020_REG_RW_MEMDATA, buf, count));
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/arcnet/arcdevice.h:391:2: note: expanded from macro 'arcnet_outsb'
-           outsb((addr) + BUS_ALIGN * (offset), buffer, count)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   drivers/net/arcnet/arcdevice.h:110:3: note: expanded from macro 'TIME'
-                   call;                                                   \
-                   ^~~~
-   17 warnings generated.
+   In file included from drivers/net/wireless/realtek/rtw88/main.h:11,
+                    from drivers/net/wireless/realtek/rtw88/main.c:7:
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_tp_init_val':
+>> include/linux/average.h:45:17: error: expected ';' before 'e'
+      45 |                 e->internal = init << _precision;                               \
+         |                 ^
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_tp_read':
+>> include/linux/average.h:55:17: error: expected ';' before 'return'
+      55 |                 return e->internal >> (_precision);                             \
+         |                 ^~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   In file included from ./arch/sh/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/dev_printk.h:14,
+                    from include/linux/device.h:15,
+                    from include/linux/devcoredump.h:8,
+                    from drivers/net/wireless/realtek/rtw88/main.c:5:
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_tp_add':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:66:17: note: in expansion of macro 'WRITE_ONCE'
+      66 |                 WRITE_ONCE(e->internal,                                         \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:62:31: warning: unused variable 'precision' [-Wunused-variable]
+      62 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:61:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      61 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:60:31: warning: unused variable 'internal' [-Wunused-variable]
+      60 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_tp_add_or_init':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:79:17: note: in expansion of macro 'WRITE_ONCE'
+      79 |                 WRITE_ONCE(e->internal, internal ?                              \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:75:31: warning: unused variable 'precision' [-Wunused-variable]
+      75 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:74:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      74 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:73:31: warning: unused variable 'internal' [-Wunused-variable]
+      73 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_rssi_init_val':
+>> include/linux/average.h:45:17: error: expected ';' before 'e'
+      45 |                 e->internal = init << _precision;                               \
+         |                 ^
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_rssi_read':
+>> include/linux/average.h:55:17: error: expected ';' before 'return'
+      55 |                 return e->internal >> (_precision);                             \
+         |                 ^~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_rssi_add':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:66:17: note: in expansion of macro 'WRITE_ONCE'
+      66 |                 WRITE_ONCE(e->internal,                                         \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:62:31: warning: unused variable 'precision' [-Wunused-variable]
+      62 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:61:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      61 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:60:31: warning: unused variable 'internal' [-Wunused-variable]
+      60 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_rssi_add_or_init':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:79:17: note: in expansion of macro 'WRITE_ONCE'
+      79 |                 WRITE_ONCE(e->internal, internal ?                              \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:75:31: warning: unused variable 'precision' [-Wunused-variable]
+      75 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:74:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      74 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:73:31: warning: unused variable 'internal' [-Wunused-variable]
+      73 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:743:1: note: in expansion of macro 'DECLARE_EWMA'
+     743 | DECLARE_EWMA(rssi, 10, 16);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_thermal_init_val':
+>> include/linux/average.h:45:17: error: expected ';' before 'e'
+      45 |                 e->internal = init << _precision;                               \
+         |                 ^
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_thermal_read':
+>> include/linux/average.h:55:17: error: expected ';' before 'return'
+      55 |                 return e->internal >> (_precision);                             \
+         |                 ^~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_thermal_add':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:66:17: note: in expansion of macro 'WRITE_ONCE'
+      66 |                 WRITE_ONCE(e->internal,                                         \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:62:31: warning: unused variable 'precision' [-Wunused-variable]
+      62 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:61:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      61 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:60:31: warning: unused variable 'internal' [-Wunused-variable]
+      60 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_thermal_add_or_init':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:79:17: note: in expansion of macro 'WRITE_ONCE'
+      79 |                 WRITE_ONCE(e->internal, internal ?                              \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:75:31: warning: unused variable 'precision' [-Wunused-variable]
+      75 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:74:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      74 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:73:31: warning: unused variable 'internal' [-Wunused-variable]
+      73 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1548:1: note: in expansion of macro 'DECLARE_EWMA'
+    1548 | DECLARE_EWMA(thermal, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_evm_init_val':
+>> include/linux/average.h:45:17: error: expected ';' before 'e'
+      45 |                 e->internal = init << _precision;                               \
+         |                 ^
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_evm_read':
+>> include/linux/average.h:55:17: error: expected ';' before 'return'
+      55 |                 return e->internal >> (_precision);                             \
+         |                 ^~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_evm_add':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:66:17: note: in expansion of macro 'WRITE_ONCE'
+      66 |                 WRITE_ONCE(e->internal,                                         \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:62:31: warning: unused variable 'precision' [-Wunused-variable]
+      62 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:61:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      61 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:60:31: warning: unused variable 'internal' [-Wunused-variable]
+      60 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_evm_add_or_init':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:79:17: note: in expansion of macro 'WRITE_ONCE'
+      79 |                 WRITE_ONCE(e->internal, internal ?                              \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:75:31: warning: unused variable 'precision' [-Wunused-variable]
+      75 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:74:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      74 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:73:31: warning: unused variable 'internal' [-Wunused-variable]
+      73 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1594:1: note: in expansion of macro 'DECLARE_EWMA'
+    1594 | DECLARE_EWMA(evm, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_snr_init_val':
+>> include/linux/average.h:45:17: error: expected ';' before 'e'
+      45 |                 e->internal = init << _precision;                               \
+         |                 ^
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_snr_read':
+>> include/linux/average.h:55:17: error: expected ';' before 'return'
+      55 |                 return e->internal >> (_precision);                             \
+         |                 ^~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_snr_add':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:66:17: note: in expansion of macro 'WRITE_ONCE'
+      66 |                 WRITE_ONCE(e->internal,                                         \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:62:31: warning: unused variable 'precision' [-Wunused-variable]
+      62 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:61:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      61 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:60:31: warning: unused variable 'internal' [-Wunused-variable]
+      60 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_snr_add_or_init':
+>> include/asm-generic/rwonce.h:59:1: error: expected ';' before 'do'
+      59 | do {                                                                    \
+         | ^~
+   include/linux/average.h:79:17: note: in expansion of macro 'WRITE_ONCE'
+      79 |                 WRITE_ONCE(e->internal, internal ?                              \
+         |                 ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:75:31: warning: unused variable 'precision' [-Wunused-variable]
+      75 |                 unsigned long precision = _precision;                           \
+         |                               ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:74:31: warning: unused variable 'weight_rcp' [-Wunused-variable]
+      74 |                 unsigned long weight_rcp = ilog2(_weight_rcp);                  \
+         |                               ^~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   include/linux/average.h:73:31: warning: unused variable 'internal' [-Wunused-variable]
+      73 |                 unsigned long internal = READ_ONCE(e->internal);                \
+         |                               ^~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h:1595:1: note: in expansion of macro 'DECLARE_EWMA'
+    1595 | DECLARE_EWMA(snr, 10, 4);
+         | ^~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/main.h: In function 'ewma_tp_read':
+   include/linux/average.h:56:9: error: control reaches end of non-void function [-Werror=return-type]
+      56 |         }                                                                       \
+         |         ^
+   drivers/net/wireless/realtek/rtw88/main.h:647:1: note: in expansion of macro 'DECLARE_EWMA'
+     647 | DECLARE_EWMA(tp, 10, 2);
+         | ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
 
-vim +74 drivers/net/arcnet/com20020.c
+vim +45 include/linux/average.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  61  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  62  static void com20020_copy_from_card(struct net_device *dev, int bufnum,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  63  				    int offset, void *buf, int count)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  64  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  65  	int ioaddr = dev->base_addr, ofs = 512 * bufnum + offset;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  66  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  67  	/* set up the address register */
-0fec65130b9f11 Joe Perches    2015-05-05  68  	arcnet_outb((ofs >> 8) | RDDATAflag | AUTOINCflag,
-0fec65130b9f11 Joe Perches    2015-05-05  69  		    ioaddr, COM20020_REG_W_ADDR_HI);
-0fec65130b9f11 Joe Perches    2015-05-05  70  	arcnet_outb(ofs & 0xff, ioaddr, COM20020_REG_W_ADDR_LO);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  71  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  72  	/* copy the data */
-0fec65130b9f11 Joe Perches    2015-05-05  73  	TIME(dev, "insb", count,
-0fec65130b9f11 Joe Perches    2015-05-05 @74  	     arcnet_insb(ioaddr, COM20020_REG_RW_MEMDATA, buf, count));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  75  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  76  
-
-:::::: The code at line 74 was first introduced by commit
-:::::: 0fec65130b9f11a73d74f47025491f97f82ba070 arcnet: com20020: Use arcnet_<I/O> routines
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Michael Grzeschik <m.grzeschik@pengutronix.de>
+     8	
+     9	/*
+    10	 * Exponentially weighted moving average (EWMA)
+    11	 *
+    12	 * This implements a fixed-precision EWMA algorithm, with both the
+    13	 * precision and fall-off coefficient determined at compile-time
+    14	 * and built into the generated helper funtions.
+    15	 *
+    16	 * The first argument to the macro is the name that will be used
+    17	 * for the struct and helper functions.
+    18	 *
+    19	 * The second argument, the precision, expresses how many bits are
+    20	 * used for the fractional part of the fixed-precision values.
+    21	 *
+    22	 * The third argument, the weight reciprocal, determines how the
+    23	 * new values will be weighed vs. the old state, new values will
+    24	 * get weight 1/weight_rcp and old values 1-1/weight_rcp. Note
+    25	 * that this parameter must be a power of two for efficiency.
+    26	 */
+    27	
+    28	#define EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
+    29		do {								\
+    30			BUILD_BUG_ON(!__builtin_constant_p(_precision));	\
+    31			BUILD_BUG_ON(!__builtin_constant_p(_weight_rcp));	\
+    32										\
+    33			BUILD_BUG_ON((_precision) > 30);			\
+    34			BUILD_BUG_ON_NOT_POWER_OF_2(_weight_rcp);		\
+    35		} while (0)
+    36	
+    37	#define DECLARE_EWMA(name, _precision, _weight_rcp)				\
+    38		struct ewma_##name {							\
+    39			unsigned long internal;						\
+    40		};									\
+    41		static inline void ewma_##name##_init_val(struct ewma_##name *e,	\
+    42							  unsigned long init)		\
+    43		{									\
+    44			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
+  > 45			e->internal = init << _precision;				\
+    46		}									\
+    47		static inline void ewma_##name##_init(struct ewma_##name *e)		\
+    48		{									\
+    49				ewma_##name##_init_val(e, 0);				\
+    50		}									\
+    51		static inline unsigned long						\
+    52		ewma_##name##_read(struct ewma_##name *e)				\
+    53		{									\
+    54			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
+  > 55			return e->internal >> (_precision);				\
+    56		}									\
+    57		static inline void ewma_##name##_add(struct ewma_##name *e,		\
+    58						     unsigned long val)			\
+    59		{									\
+    60			unsigned long internal = READ_ONCE(e->internal);		\
+    61			unsigned long weight_rcp = ilog2(_weight_rcp);			\
+    62			unsigned long precision = _precision;				\
+    63											\
+    64			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
+    65											\
+    66			WRITE_ONCE(e->internal,						\
+    67				(((internal << weight_rcp) - internal) +		\
+    68					(val << precision)) >> weight_rcp);		\
+    69		}									\
+    70		static inline void ewma_##name##_add_or_init(struct ewma_##name *e,	\
+    71						     unsigned long val)			\
+    72		{									\
+    73			unsigned long internal = READ_ONCE(e->internal);		\
+    74			unsigned long weight_rcp = ilog2(_weight_rcp);			\
+    75			unsigned long precision = _precision;				\
+    76											\
+    77			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
+    78											\
+    79			WRITE_ONCE(e->internal, internal ?				\
+    80				(((internal << weight_rcp) - internal) +		\
+    81					(val << precision)) >> weight_rcp :		\
+    82				(val << precision));					\
+    83		}
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
