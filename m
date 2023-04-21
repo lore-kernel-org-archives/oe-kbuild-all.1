@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDF723A0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 08:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7A420EE;
+	Fri, 21 Apr 2023 08:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1682065691; x=1713601691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fNyVgMmX+ELu/ao0cCs28UNw/QFCm27EIbDq0tWZn+s=;
-  b=lQydHZqVZpXRAu5rGHgv1aO8dMLrFLvc0IhYbCYqE1cNJOTr/x3vJku0
-   6WGjvDNVS6+NPGIzOje5gjFYswHeUF0jRwskjTGPWB8HFS3XkRtXAtaSG
-   gDaTHp4SLM4xGaOM3qUfBnb4gXDeLTf6KyBXrsJ+hQOejnElNPB78IEkB
-   +GISIXIQ0v7p+F6uElegnj6mcar+2BSVAYsImYfyGyNLuMDBqnm8PPGN6
-   ENRRZnM+GdDJY1sP8F3rAaAWVk485iuZYPP8bQteVmx9lkB5m9LvZ3l38
-   rrAPSiOPrd0tpL97bAgDVXzknT1PXo6xa3E0fdRa39YhxvcQK1T61tu0n
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="345961714"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NWeCrsAjBPJHxkIrCA7p6FewLHWHGzwYRsA8tt314nI=;
+  b=f8dKlc3Ka1hYopdtz+SF2N8lWdTHfw0uZFbJCMHw7k4Lr1AqE9bGX4wI
+   xuMA79+4cldle4Lp+IsNsy0w3a8i/UjjwYXGvaD+QDseN1P5+gh/ijrRS
+   ler1zwu/ZDo2WuS1bFw3KuOsawzS1qjxECrG4yWjR4HlYWdcumrWMJqJm
+   NqjattkMqRMSP2RaLZfKA/TyzJ0VkCLWAoYaZWnGpJJElDYk1XbjN3k18
+   be+7bai2iGieoOoF5C88V7EVlWyq/VUJS8wb1xh57FeOHuu/mzK5HMp+8
+   PjaZBjYcAlgKc4H3bUp1NcrXW9jp9nfJxR/PNm4lnODGk0zRufZMgUHdO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347844349"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="345961714"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 01:28:10 -0700
+   d="scan'208";a="347844349"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 01:28:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="685659614"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="836098828"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="685659614"
+   d="scan'208";a="836098828"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Apr 2023 01:28:09 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2023 01:28:09 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppm7k-000gSA-1C;
+	id 1ppm7k-000gSD-1F;
 	Fri, 21 Apr 2023 08:28:08 +0000
-Date: Fri, 21 Apr 2023 16:28:04 +0800
+Date: Fri, 21 Apr 2023 16:28:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Colitti <lorenzo@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Amit Pundir <amit.pundir@linaro.org>,
-	Hugo Benichi <hugobenichi@google.com>,
-	Guenter Roeck <groeck@chromium.org>
-Subject: [jsarha:topic/cros-sof-v4.14-rebase 2874/9999]
- net/ipv6/route.c:2623:5: sparse: sparse: symbol 'rt6_addrconf_purge' was not
- declared. Should it be static?
-Message-ID: <202304211637.MYwfelKT-lkp@intel.com>
+To: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH v8 4/8] drm/i915/pxp: Add GSC-CS backend to
+ send GSC fw messages
+Message-ID: <202304211649.JxKaFQqd-lkp@intel.com>
+References: <20230421053410.1836241-5-alan.previn.teres.alexis@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +47,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230421053410.1836241-5-alan.previn.teres.alexis@intel.com>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
-head:   18a233f3f676a98dde00947535d99ab1a54da340
-commit: ba363662d10c7893123176454fed878d431c895e [2874/9999] ANDROID: net: ipv6: autoconf routes into per-device tables
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230421/202304211637.MYwfelKT-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/ba363662d10c7893123176454fed878d431c895e
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
-        git checkout ba363662d10c7893123176454fed878d431c895e
+Hi Alan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 182419213bd7d88fead18eb0830855b675b093d7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230421-133524
+base:   182419213bd7d88fead18eb0830855b675b093d7
+patch link:    https://lore.kernel.org/r/20230421053410.1836241-5-alan.previn.teres.alexis%40intel.com
+patch subject: [Intel-gfx] [PATCH v8 4/8] drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+config: i386-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230421/202304211649.JxKaFQqd-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8b61427be4b56beaa8225d4b7070b3fb9e63b1d6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230421-133524
+        git checkout 8b61427be4b56beaa8225d4b7070b3fb9e63b1d6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash LDFLAGS=-z max-page-size=0x200000  net/ipv6/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304211637.MYwfelKT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304211649.JxKaFQqd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/ipv6/route.c:1253:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flow_label @@     got restricted __be32 @@
-   net/ipv6/route.c:1253:31: sparse:     expected unsigned int [usertype] flow_label
-   net/ipv6/route.c:1253:31: sparse:     got restricted __be32
->> net/ipv6/route.c:2623:5: sparse: sparse: symbol 'rt6_addrconf_purge' was not declared. Should it be static?
-   net/ipv6/route.c:2623:5: warning: no previous declaration for 'rt6_addrconf_purge' [-Wmissing-declarations]
-    int rt6_addrconf_purge(struct rt6_info *rt, void *arg) {
-        ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/bitops.h: Assembler messages:
-   arch/x86/include/asm/bitops.h:97: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+All warnings (new ones prefixed by >>):
 
-vim +/rt6_addrconf_purge +2623 net/ipv6/route.c
+>> drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:113:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+                            reply_size, msg_out_size_max);
+                                        ^~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:466:36: note: expanded from macro 'drm_warn'
+           __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+                                      ~~~    ^~~~~~~~~~~
+   include/drm/drm_print.h:456:48: note: expanded from macro '__drm_printk'
+           dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+                                                  ~~~    ^~~~~~~~~~~
+   include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
+           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   1 warning generated.
 
-  2622	
-> 2623	int rt6_addrconf_purge(struct rt6_info *rt, void *arg) {
-  2624		if (rt->rt6i_flags & (RTF_DEFAULT | RTF_ADDRCONF) &&
-  2625		    (!rt->rt6i_idev || rt->rt6i_idev->cnf.accept_ra != 2))
-  2626			return -1;
-  2627		return 0;
-  2628	}
-  2629	
+
+vim +113 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+
+    15	
+    16	static int
+    17	gsccs_send_message(struct intel_pxp *pxp,
+    18			   void *msg_in, size_t msg_in_size,
+    19			   void *msg_out, size_t msg_out_size_max,
+    20			   size_t *msg_out_len,
+    21			   u64 *gsc_msg_handle_retry)
+    22	{
+    23		struct intel_gt *gt = pxp->ctrl_gt;
+    24		struct drm_i915_private *i915 = gt->i915;
+    25		struct gsccs_session_resources *exec_res =  &pxp->gsccs_res;
+    26		struct intel_gsc_mtl_header *header = exec_res->pkt_vaddr;
+    27		struct intel_gsc_heci_non_priv_pkt pkt;
+    28		size_t max_msg_size;
+    29		u32 reply_size;
+    30		int ret;
+    31	
+    32		if (!exec_res->ce)
+    33			return -ENODEV;
+    34	
+    35		max_msg_size = PXP43_MAX_HECI_INOUT_SIZE - sizeof(*header);
+    36	
+    37		if (msg_in_size > max_msg_size || msg_out_size_max > max_msg_size)
+    38			return -ENOSPC;
+    39	
+    40		if (!exec_res->pkt_vma || !exec_res->bb_vma)
+    41			return -ENOENT;
+    42	
+    43		GEM_BUG_ON(exec_res->pkt_vma->size < (2 * PXP43_MAX_HECI_INOUT_SIZE));
+    44	
+    45		mutex_lock(&pxp->tee_mutex);
+    46	
+    47		memset(header, 0, sizeof(*header));
+    48		intel_gsc_uc_heci_cmd_emit_mtl_header(header, HECI_MEADDRESS_PXP,
+    49						      msg_in_size + sizeof(*header),
+    50						      exec_res->host_session_handle);
+    51	
+    52		/* check if this is a host-session-handle cleanup call (empty packet) */
+    53		if (!msg_in && !msg_out)
+    54			header->flags |= GSC_INFLAG_MSG_CLEANUP;
+    55	
+    56		/* copy caller provided gsc message handle if this is polling for a prior msg completion */
+    57		header->gsc_message_handle = *gsc_msg_handle_retry;
+    58	
+    59		/* NOTE: zero size packets are used for session-cleanups */
+    60		if (msg_in && msg_in_size)
+    61			memcpy(exec_res->pkt_vaddr + sizeof(*header), msg_in, msg_in_size);
+    62	
+    63		pkt.addr_in = i915_vma_offset(exec_res->pkt_vma);
+    64		pkt.size_in = header->message_size;
+    65		pkt.addr_out = pkt.addr_in + PXP43_MAX_HECI_INOUT_SIZE;
+    66		pkt.size_out = msg_out_size_max + sizeof(*header);
+    67		pkt.heci_pkt_vma = exec_res->pkt_vma;
+    68		pkt.bb_vma = exec_res->bb_vma;
+    69	
+    70		/*
+    71		 * Before submitting, let's clear-out the validity marker on the reply offset.
+    72		 * We use offset PXP43_MAX_HECI_INOUT_SIZE for reply location so point header there.
+    73		 */
+    74		header = exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE;
+    75		header->validity_marker = 0;
+    76	
+    77		ret = intel_gsc_uc_heci_cmd_submit_nonpriv(&gt->uc.gsc,
+    78							   exec_res->ce, &pkt, exec_res->bb_vaddr,
+    79							   GSC_REPLY_LATENCY_MS);
+    80		if (ret) {
+    81			drm_err(&i915->drm, "failed to send gsc PXP msg (%d)\n", ret);
+    82			goto unlock;
+    83		}
+    84	
+    85		/* Response validity marker, status and busyness */
+    86		if (header->validity_marker != GSC_HECI_VALIDITY_MARKER) {
+    87			drm_err(&i915->drm, "gsc PXP reply with invalid validity marker\n");
+    88			ret = -EINVAL;
+    89			goto unlock;
+    90		}
+    91		if (header->status != 0) {
+    92			drm_dbg(&i915->drm, "gsc PXP reply status has error = 0x%08x\n",
+    93				header->status);
+    94			ret = -EINVAL;
+    95			goto unlock;
+    96		}
+    97		if (header->flags & GSC_OUTFLAG_MSG_PENDING) {
+    98			drm_dbg(&i915->drm, "gsc PXP reply is busy\n");
+    99			/*
+   100			 * When the GSC firmware replies with pending bit, it means that the requested
+   101			 * operation has begun but the completion is pending and the caller needs
+   102			 * to re-request with the gsc_message_handle that was returned by the firmware.
+   103			 * until the pending bit is turned off.
+   104			 */
+   105			*gsc_msg_handle_retry = header->gsc_message_handle;
+   106			ret = -EAGAIN;
+   107			goto unlock;
+   108		}
+   109	
+   110		reply_size = header->message_size - sizeof(*header);
+   111		if (reply_size > msg_out_size_max) {
+   112			drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%ld)\n",
+ > 113				 reply_size, msg_out_size_max);
+   114			reply_size = msg_out_size_max;
+   115		}
+   116	
+   117		if (msg_out)
+   118			memcpy(msg_out, exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE + sizeof(*header),
+   119			       reply_size);
+   120		if (msg_out_len)
+   121			*msg_out_len = reply_size;
+   122	
+   123	unlock:
+   124		mutex_unlock(&pxp->tee_mutex);
+   125		return ret;
+   126	}
+   127	
 
 -- 
 0-DAY CI Kernel Test Service
