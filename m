@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7A420EE;
-	Fri, 21 Apr 2023 08:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE4B23A6;
+	Fri, 21 Apr 2023 08:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682065691; x=1713601691;
+  t=1682066351; x=1713602351;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NWeCrsAjBPJHxkIrCA7p6FewLHWHGzwYRsA8tt314nI=;
-  b=f8dKlc3Ka1hYopdtz+SF2N8lWdTHfw0uZFbJCMHw7k4Lr1AqE9bGX4wI
-   xuMA79+4cldle4Lp+IsNsy0w3a8i/UjjwYXGvaD+QDseN1P5+gh/ijrRS
-   ler1zwu/ZDo2WuS1bFw3KuOsawzS1qjxECrG4yWjR4HlYWdcumrWMJqJm
-   NqjattkMqRMSP2RaLZfKA/TyzJ0VkCLWAoYaZWnGpJJElDYk1XbjN3k18
-   be+7bai2iGieoOoF5C88V7EVlWyq/VUJS8wb1xh57FeOHuu/mzK5HMp+8
-   PjaZBjYcAlgKc4H3bUp1NcrXW9jp9nfJxR/PNm4lnODGk0zRufZMgUHdO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347844349"
+  bh=QqYGPdlr9JgjwoOGSnxOaCglwFWzdMx6tnG007OYLP4=;
+  b=gtPl0NJS/p8ae9puTcNQIaz4saoP5XMzTNAcvPEcFfCYSe473C6qATo/
+   2aGY/L88RY6krtTsyD/1h3k13sur0JHtg2qZP+b6pLHkCkJVkoLfyPNyd
+   UVPbiQ1NkYYUo9dLUzHkmgEFYPcY/x0PAq7Pne0eQ5rh8pUbCmguZv7T0
+   n90KhUvebbG8R6SQHX3DWJy9plfUS4MWXz0WH7usAOYdVO5mHogValqIu
+   SK4gf4jmyIFvJ03T/Zshu+e6MOG4Mu2nw1x7S41ajYcai+wD9N4vRKohs
+   NdJubbJIpZPod1pkPO7WkhKKBeRauAxRmPJV9lPZcHj1tmbVzbR9pWHPY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="330144822"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="347844349"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 01:28:10 -0700
+   d="scan'208";a="330144822"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 01:39:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="836098828"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="781546400"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="836098828"
+   d="scan'208";a="781546400"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2023 01:28:09 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2023 01:39:09 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppm7k-000gSD-1F;
-	Fri, 21 Apr 2023 08:28:08 +0000
-Date: Fri, 21 Apr 2023 16:28:03 +0800
+	id 1ppmIO-000gSk-1t;
+	Fri, 21 Apr 2023 08:39:08 +0000
+Date: Fri, 21 Apr 2023 16:38:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH v8 4/8] drm/i915/pxp: Add GSC-CS backend to
- send GSC fw messages
-Message-ID: <202304211649.JxKaFQqd-lkp@intel.com>
-References: <20230421053410.1836241-5-alan.previn.teres.alexis@intel.com>
+Subject: Re: [PATCH v2 8/8] sched: drop for_each_numa_hop_mask()
+Message-ID: <202304211617.4nr99gar-lkp@intel.com>
+References: <20230420051946.7463-9-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,171 +46,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421053410.1836241-5-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20230420051946.7463-9-yury.norov@gmail.com>
 
-Hi Alan,
+Hi Yury,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 182419213bd7d88fead18eb0830855b675b093d7]
+[auto build test ERROR on net/main]
+[also build test ERROR on linus/master v6.3-rc7]
+[cannot apply to tip/sched/core horms-ipvs/master net-next/main next-20230420]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230421-133524
-base:   182419213bd7d88fead18eb0830855b675b093d7
-patch link:    https://lore.kernel.org/r/20230421053410.1836241-5-alan.previn.teres.alexis%40intel.com
-patch subject: [Intel-gfx] [PATCH v8 4/8] drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
-config: i386-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230421/202304211649.JxKaFQqd-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/lib-find-add-find_next_and_andnot_bit/20230420-132247
+patch link:    https://lore.kernel.org/r/20230420051946.7463-9-yury.norov%40gmail.com
+patch subject: [PATCH v2 8/8] sched: drop for_each_numa_hop_mask()
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230421/202304211617.4nr99gar-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8b61427be4b56beaa8225d4b7070b3fb9e63b1d6
+        # https://github.com/intel-lab-lkp/linux/commit/2425882bb68586aad08582c2efbb860a78e1b8e3
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230421-133524
-        git checkout 8b61427be4b56beaa8225d4b7070b3fb9e63b1d6
+        git fetch --no-tags linux-review Yury-Norov/lib-find-add-find_next_and_andnot_bit/20230420-132247
+        git checkout 2425882bb68586aad08582c2efbb860a78e1b8e3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/intel/ice/ kernel/rcu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304211649.JxKaFQqd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304211617.4nr99gar-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:113:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-                            reply_size, msg_out_size_max);
-                                        ^~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:466:36: note: expanded from macro 'drm_warn'
-           __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
-                                      ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:456:48: note: expanded from macro '__drm_printk'
-           dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-                                                  ~~~    ^~~~~~~~~~~
-   include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   1 warning generated.
+   drivers/net/ethernet/intel/ice/ice_base.c:664:23: error: no member named 'numa_node' in 'struct device'
+           int numa_node = dev->numa_node;
+                           ~~~  ^
+>> drivers/net/ethernet/intel/ice/ice_base.c:681:2: error: implicit declaration of function 'for_each_numa_hop_mask' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           for_each_numa_hop_mask(aff_mask, numa_node) {
+           ^
+>> drivers/net/ethernet/intel/ice/ice_base.c:681:45: error: expected ';' after expression
+           for_each_numa_hop_mask(aff_mask, numa_node) {
+                                                      ^
+                                                      ;
+   3 errors generated.
 
 
-vim +113 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+vim +/for_each_numa_hop_mask +681 drivers/net/ethernet/intel/ice/ice_base.c
 
-    15	
-    16	static int
-    17	gsccs_send_message(struct intel_pxp *pxp,
-    18			   void *msg_in, size_t msg_in_size,
-    19			   void *msg_out, size_t msg_out_size_max,
-    20			   size_t *msg_out_len,
-    21			   u64 *gsc_msg_handle_retry)
-    22	{
-    23		struct intel_gt *gt = pxp->ctrl_gt;
-    24		struct drm_i915_private *i915 = gt->i915;
-    25		struct gsccs_session_resources *exec_res =  &pxp->gsccs_res;
-    26		struct intel_gsc_mtl_header *header = exec_res->pkt_vaddr;
-    27		struct intel_gsc_heci_non_priv_pkt pkt;
-    28		size_t max_msg_size;
-    29		u32 reply_size;
-    30		int ret;
-    31	
-    32		if (!exec_res->ce)
-    33			return -ENODEV;
-    34	
-    35		max_msg_size = PXP43_MAX_HECI_INOUT_SIZE - sizeof(*header);
-    36	
-    37		if (msg_in_size > max_msg_size || msg_out_size_max > max_msg_size)
-    38			return -ENOSPC;
-    39	
-    40		if (!exec_res->pkt_vma || !exec_res->bb_vma)
-    41			return -ENOENT;
-    42	
-    43		GEM_BUG_ON(exec_res->pkt_vma->size < (2 * PXP43_MAX_HECI_INOUT_SIZE));
-    44	
-    45		mutex_lock(&pxp->tee_mutex);
-    46	
-    47		memset(header, 0, sizeof(*header));
-    48		intel_gsc_uc_heci_cmd_emit_mtl_header(header, HECI_MEADDRESS_PXP,
-    49						      msg_in_size + sizeof(*header),
-    50						      exec_res->host_session_handle);
-    51	
-    52		/* check if this is a host-session-handle cleanup call (empty packet) */
-    53		if (!msg_in && !msg_out)
-    54			header->flags |= GSC_INFLAG_MSG_CLEANUP;
-    55	
-    56		/* copy caller provided gsc message handle if this is polling for a prior msg completion */
-    57		header->gsc_message_handle = *gsc_msg_handle_retry;
-    58	
-    59		/* NOTE: zero size packets are used for session-cleanups */
-    60		if (msg_in && msg_in_size)
-    61			memcpy(exec_res->pkt_vaddr + sizeof(*header), msg_in, msg_in_size);
-    62	
-    63		pkt.addr_in = i915_vma_offset(exec_res->pkt_vma);
-    64		pkt.size_in = header->message_size;
-    65		pkt.addr_out = pkt.addr_in + PXP43_MAX_HECI_INOUT_SIZE;
-    66		pkt.size_out = msg_out_size_max + sizeof(*header);
-    67		pkt.heci_pkt_vma = exec_res->pkt_vma;
-    68		pkt.bb_vma = exec_res->bb_vma;
-    69	
-    70		/*
-    71		 * Before submitting, let's clear-out the validity marker on the reply offset.
-    72		 * We use offset PXP43_MAX_HECI_INOUT_SIZE for reply location so point header there.
-    73		 */
-    74		header = exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE;
-    75		header->validity_marker = 0;
-    76	
-    77		ret = intel_gsc_uc_heci_cmd_submit_nonpriv(&gt->uc.gsc,
-    78							   exec_res->ce, &pkt, exec_res->bb_vaddr,
-    79							   GSC_REPLY_LATENCY_MS);
-    80		if (ret) {
-    81			drm_err(&i915->drm, "failed to send gsc PXP msg (%d)\n", ret);
-    82			goto unlock;
-    83		}
-    84	
-    85		/* Response validity marker, status and busyness */
-    86		if (header->validity_marker != GSC_HECI_VALIDITY_MARKER) {
-    87			drm_err(&i915->drm, "gsc PXP reply with invalid validity marker\n");
-    88			ret = -EINVAL;
-    89			goto unlock;
-    90		}
-    91		if (header->status != 0) {
-    92			drm_dbg(&i915->drm, "gsc PXP reply status has error = 0x%08x\n",
-    93				header->status);
-    94			ret = -EINVAL;
-    95			goto unlock;
-    96		}
-    97		if (header->flags & GSC_OUTFLAG_MSG_PENDING) {
-    98			drm_dbg(&i915->drm, "gsc PXP reply is busy\n");
-    99			/*
-   100			 * When the GSC firmware replies with pending bit, it means that the requested
-   101			 * operation has begun but the completion is pending and the caller needs
-   102			 * to re-request with the gsc_message_handle that was returned by the firmware.
-   103			 * until the pending bit is turned off.
-   104			 */
-   105			*gsc_msg_handle_retry = header->gsc_message_handle;
-   106			ret = -EAGAIN;
-   107			goto unlock;
-   108		}
-   109	
-   110		reply_size = header->message_size - sizeof(*header);
-   111		if (reply_size > msg_out_size_max) {
-   112			drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%ld)\n",
- > 113				 reply_size, msg_out_size_max);
-   114			reply_size = msg_out_size_max;
-   115		}
-   116	
-   117		if (msg_out)
-   118			memcpy(msg_out, exec_res->pkt_vaddr + PXP43_MAX_HECI_INOUT_SIZE + sizeof(*header),
-   119			       reply_size);
-   120		if (msg_out_len)
-   121			*msg_out_len = reply_size;
-   122	
-   123	unlock:
-   124		mutex_unlock(&pxp->tee_mutex);
-   125		return ret;
-   126	}
-   127	
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  652  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  653  /**
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  654   * ice_vsi_alloc_q_vectors - Allocate memory for interrupt vectors
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  655   * @vsi: the VSI being configured
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  656   *
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  657   * We allocate one q_vector per queue interrupt. If allocation fails we
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  658   * return -ENOMEM.
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  659   */
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  660  int ice_vsi_alloc_q_vectors(struct ice_vsi *vsi)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  661  {
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  662  	cpumask_t *aff_mask, *last_aff_mask = cpu_none_mask;
+3306f79f428e85 Anirudh Venkataramanan 2020-02-06  663  	struct device *dev = ice_pf_to_dev(vsi->back);
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16 @664  	int numa_node = dev->numa_node;
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  665  	u16 v_idx, cpu = 0;
+88865fc4bbd61e Karol Kolacinski       2020-05-07  666  	int err;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  667  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  668  	if (vsi->q_vectors[0]) {
+4015d11e4b9720 Brett Creeley          2019-11-08  669  		dev_dbg(dev, "VSI %d has existing q_vectors\n", vsi->vsi_num);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  670  		return -EEXIST;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  671  	}
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  672  
+3306f79f428e85 Anirudh Venkataramanan 2020-02-06  673  	for (v_idx = 0; v_idx < vsi->num_q_vectors; v_idx++) {
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  674  		err = ice_vsi_alloc_q_vector(vsi, v_idx);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  675  		if (err)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  676  			goto err_out;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  677  	}
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  678  
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  679  	v_idx = 0;
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  680  
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16 @681  	for_each_numa_hop_mask(aff_mask, numa_node) {
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  682  		for_each_cpu_andnot(cpu, aff_mask, last_aff_mask) {
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  683  			if (v_idx >= vsi->num_q_vectors)
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  684  				goto out;
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  685  
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  686  			if (cpu_online(cpu)) {
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  687  				cpumask_set_cpu(cpu, &vsi->q_vectors[v_idx]->affinity_mask);
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  688  				v_idx++;
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  689  			}
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  690  		}
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  691  
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  692  		last_aff_mask = aff_mask;
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  693  	}
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  694  
+5dfb0e8f9fff34 Pawel Chmielewski      2023-02-16  695  out:
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  696  	return 0;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  697  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  698  err_out:
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  699  	while (v_idx--)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  700  		ice_free_q_vector(vsi, v_idx);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  701  
+4015d11e4b9720 Brett Creeley          2019-11-08  702  	dev_err(dev, "Failed to allocate %d q_vector for VSI %d, ret=%d\n",
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  703  		vsi->num_q_vectors, vsi->vsi_num, err);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  704  	vsi->num_q_vectors = 0;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  705  	return err;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  706  }
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  707  
 
 -- 
 0-DAY CI Kernel Test Service
