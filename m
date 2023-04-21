@@ -1,50 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6555F23A6;
-	Fri, 21 Apr 2023 09:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3125F23A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 09:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682067619; x=1713603619;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dkqTBJMKo7F+hELtS2+2TMCCSxzpvF2p1cgx4R+h42I=;
-  b=fWLiuDXLslHx7JHYScmCa3LAAtbBd+pCC2KEW5f0cjHbKY7CUcu1j1dC
-   h0E3vQb3EmHePTwLiZwTfIdZ5Bg95A9aB3K/1XCMFYSJfHrQTeG9A0AAM
-   h2qXyKClPddNxoXaJkfXHy77DQdPmpsswXVE9AcvOT46pJL7OrxuRlie6
-   qLiljnSC+M2ZfryBvNz1wtj99ewVobQF/nAC957l9mVXWnwDuyOB5B2Tv
-   9HRn+8JBZJWnioZaNkYspETlHxx54CYF11czT7vEmDe8H/pi0gLzgg/lZ
-   8Y5hFE1Mz4oIV7zvHTSrTCEqxcIMCRYg1y5CVKFCv+S8X0erI7yianSV3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="411217101"
+  t=1682068212; x=1713604212;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LvI9X910/IGusiJCKHQif6s3fVAq6eAqIzzeVF4gO9o=;
+  b=XlRzG6dDv0eCD4kPWX75nVujzUfvA+0bbZSMSlIthct/J7UfNAkS1S2I
+   cWGLEspG7cu51ZHTUkPPMUXXX5zk7QawRBk+dvbgSjF9q837/tUqHFOlb
+   7vJhB/vTdv0NMVG++L55qOhwyEu1V8/p2imzMRPOJ59xICWgkC0CxX7fc
+   xAW+tBqqemL/e0GiEIaOHICmka6uitrygy77aZ3gYQq2LgqYJwvuFHXla
+   6LJftt3CaGq+PpZi0B/Pmej88AvlML3Sf2JRHz8C279T1u1L4YbSzqBNI
+   Lsgqn2MqcTbzwxwWKWnEvv52StmbGCWge+RrACRR8GsE4Ud1RUQureeT7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="334826960"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="411217101"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 02:00:14 -0700
+   d="scan'208";a="334826960"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 02:10:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="642443294"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="816357068"
 X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="642443294"
+   d="scan'208";a="816357068"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 21 Apr 2023 02:00:09 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Apr 2023 02:10:09 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppmci-000gTE-2l;
-	Fri, 21 Apr 2023 09:00:08 +0000
-Date: Fri, 21 Apr 2023 16:59:18 +0800
+	id 1ppmmP-000gTc-0V;
+	Fri, 21 Apr 2023 09:10:09 +0000
+Date: Fri, 21 Apr 2023 17:09:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Down <chris@chrisdown.name>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Petr Mladek <pmladek@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Geert Uytterhoeven <geert@linux-m68k.org>, kernel-team@fb.com
-Subject: Re: [PATCH v4 1/2] printk: Do not delay messages which aren't
- solicited by any console
-Message-ID: <202304211628.wQn1SxkT-lkp@intel.com>
-References: <43d7f8d6e4b45a1a76fceef2d117bbc3954bc0bf.1681994221.git.chris@chrisdown.name>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:rcu/rcutop-debugobj 3/3] tree.c:(.text.rcu_debug_show+0x1ac):
+ undefined reference to `__udivdi3'
+Message-ID: <202304211725.nOQfl9HT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,86 +45,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <43d7f8d6e4b45a1a76fceef2d117bbc3954bc0bf.1681994221.git.chris@chrisdown.name>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cb0856346a60fe3eb837ba5e73588a41f81ac05f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Down/printk-Do-not-delay-messages-which-aren-t-solicited-by-any-console/20230420-204202
-base:   cb0856346a60fe3eb837ba5e73588a41f81ac05f
-patch link:    https://lore.kernel.org/r/43d7f8d6e4b45a1a76fceef2d117bbc3954bc0bf.1681994221.git.chris%40chrisdown.name
-patch subject: [PATCH v4 1/2] printk: Do not delay messages which aren't solicited by any console
-config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20230421/202304211628.wQn1SxkT-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/rcutop-debugobj
+head:   9357d040b9058b29f31cd1cd4ba4503058f52714
+commit: 9357d040b9058b29f31cd1cd4ba4503058f52714 [3/3] rcu/debugfs: Add debugfs nodes to read data
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230421/202304211725.nOQfl9HT-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/db9fb81bc5f175ef48cb317c24da85d0f6d4391d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chris-Down/printk-Do-not-delay-messages-which-aren-t-solicited-by-any-console/20230420-204202
-        git checkout db9fb81bc5f175ef48cb317c24da85d0f6d4391d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=9357d040b9058b29f31cd1cd4ba4503058f52714
+        git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
+        git fetch --no-tags jfern rcu/rcutop-debugobj
+        git checkout 9357d040b9058b29f31cd1cd4ba4503058f52714
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304211628.wQn1SxkT-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304211725.nOQfl9HT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/printk/printk.c:1297:2: error: unterminated function-like macro invocation
-           if ((boot_delay == 0 || system_state >= SYSTEM_RUNNING)
-           ^
-   include/linux/compiler.h:56:9: note: macro 'if' defined here
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-           ^
->> kernel/printk/printk.c:4272:24: error: expected '}'
-   #endif /* CONFIG_SMP */
-                          ^
-   kernel/printk/printk.c:1293:1: note: to match this '{'
-   {
-   ^
-   2 errors generated.
-
-
-vim +1297 kernel/printk/printk.c
-
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1291  
-db9fb81bc5f175 kernel/printk/printk.c Chris Down      2023-04-20  1292  static void boot_delay_msec(void)
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1293  {
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1294  	unsigned long long k;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1295  	unsigned long timeout;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1296  
-ff48cd26fc4889 kernel/printk/printk.c Thomas Gleixner 2017-05-16 @1297  	if ((boot_delay == 0 || system_state >= SYSTEM_RUNNING)
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1298  		return;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1299  
-3a3b6ed2235f2f kernel/printk.c        Dave Young      2009-09-22  1300  	k = (unsigned long long)loops_per_msec * boot_delay;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1301  
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1302  	timeout = jiffies + msecs_to_jiffies(boot_delay);
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1303  	while (k) {
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1304  		k--;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1305  		cpu_relax();
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1306  		/*
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1307  		 * use (volatile) jiffies to prevent
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1308  		 * compiler reduction; loop termination via jiffies
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1309  		 * is secondary and may or may not happen.
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1310  		 */
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1311  		if (time_after(jiffies, timeout))
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1312  			break;
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1313  		touch_nmi_watchdog();
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1314  	}
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1315  }
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1316  #else
-db9fb81bc5f175 kernel/printk/printk.c Chris Down      2023-04-20  1317  static inline void boot_delay_msec(void)
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1318  {
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1319  }
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1320  #endif
-bfe8df3d314bdd kernel/printk.c        Randy Dunlap    2007-10-16  1321  
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: kernel/rcu/tree.o: in function `rcu_debug_show':
+>> tree.c:(.text.rcu_debug_show+0x1ac): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
