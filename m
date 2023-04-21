@@ -1,44 +1,58 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990202574
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 09:41:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682070074; x=1713606074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EkbiBvAQOTU6KAHuxolZdVpn2+V8Q/8B1eCLx/p+1cs=;
-  b=mxoiL4hmhnbfhNkAtD0Pf6q/6GSoI3CdlCil9tFzKqgUsGY4kora1Mas
-   HcXoV2oMmk1YJBHdtdUMztQAWI5h/jTaaOyBjK8cUnGYAc0/wHgJvr5GB
-   Bgsk+J51aBhXK1t2EgUaSfkFV6iB1dCpXBh7pdltJw3SmVjq3oipDsDgR
-   rVGsGTLP48y4wnSRxmL3yNx8eZPbTFyffCJVD/A1jUV7ASVO5Dd9XXv5I
-   4Ihz8722+TtIq/rDJotAYHOG0qn99eXjircwizh8FgnGlEx14gsyfSaLd
-   hZOdHqnmHE64Im6fUMzivYZwsDJdiDNfYLhm0jskkgG2jE42EH9Tm/V10
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347856538"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="347856538"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 02:41:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="816365876"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="816365876"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Apr 2023 02:41:10 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppnGP-000gUy-38;
-	Fri, 21 Apr 2023 09:41:09 +0000
-Date: Fri, 21 Apr 2023 17:40:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Minghao Chi <chi.minghao@zte.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-4.14.y 1753/4521] spi-tegra20-slink.c:undefined
- reference to `clk_set_rate'
-Message-ID: <202304211746.gDcbqjuq-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DBF2561
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 09:55:17 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-51b33c72686so1514007a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 02:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682070916; x=1684662916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hhQ5d2eoF+4cNA1x8a8CdobJpCrUwblLyQkyozMENwQ=;
+        b=pgYcnT7MudjSjpCCx6y6T5OZlGcCkndQ+umKWw5rwzWd/gZeMir2EhkmXETxu+oGt8
+         C2AEkSjnE93ZkWOKfs5cbnn4E9M8y2pKUPVW1ZcZBiiI34OPf23DlHldso+pNgYYhFAN
+         j/dimAiDbHXPbhL+4sOrGYS3mnrH4FIdjaccjyG/RVg5FKPjPGwHdzigNc3ibSoRPlCy
+         2XjmBFPKjS8v4rbuOZ5hNwGUetgs3bkchD2tVgv90XLOFkG+8VmhxPNfKcHrvLN69M7H
+         K6Bjq8iEbWxujruL+mykSBcHFMQPdmv2Px+54sqPFG/EjpQg4z0TAp7c6De/FqzhPkaU
+         6K+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682070916; x=1684662916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hhQ5d2eoF+4cNA1x8a8CdobJpCrUwblLyQkyozMENwQ=;
+        b=Tr7Rdq2rPhFlH3RYp9qs6+loX7i7A+tAj/puumfqrT/IHQnsOktRBsOGkvI1dLRVMt
+         /TrO+CDWIlRrS79hE/AQPj/DKc6UWt60ldY6dtEFs67UNOY5VPfnx27aez2mZSyKh/gw
+         1WydjIScsiC5jyQTVgPkgu/gOItjt27cZUiqcYWAmi3pv8hpWg8IDnoFnoSDfTl+RRW4
+         KBILyxcQ1Vkw8W52ubUR3DFyst0NT6kPWDpAMuOsDfRs9KazJI95eUAQUYOiLP39GUSP
+         Dcvo0LwwLMEdwKM5XQVWd90JPV/6Cob2tsw4omG1cozeI76TpyW7VimxP1nCbKD+Mj54
+         YP5g==
+X-Gm-Message-State: AAQBX9esZv9D3OlgQONonoJwdarMqGev/mcCJH3Dtat4KN9EDZZhBpk+
+	NqhNGcnAWdxdjBzJ00Bv6xg=
+X-Google-Smtp-Source: AKy350bSCKg6ntFRD3Dz5CrQc9Rk7OvojA27TcAhvOBg5dHCvHPpKnGsz4zUonxjB+Qk4dVFJnHddA==
+X-Received: by 2002:a05:6a20:8407:b0:ef:9115:c718 with SMTP id c7-20020a056a20840700b000ef9115c718mr6288972pzd.26.1682070916484;
+        Fri, 21 Apr 2023 02:55:16 -0700 (PDT)
+Received: from Laptop-X1 ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id j3-20020a635503000000b0051b72ef978fsm2342777pgb.20.2023.04.21.02.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 02:55:15 -0700 (PDT)
+Date: Fri, 21 Apr 2023 17:55:09 +0800
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Jay Vosburgh <jay.vosburgh@canonical.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, kernel test robot <lkp@intel.com>,
+	netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Liang Li <liali@redhat.com>, Vincent Bernat <vincent@bernat.ch>
+Subject: Re: [PATCH net 1/4] bonding: fix send_peer_notif overflow
+Message-ID: <ZEJdfWNwzfjpTXom@Laptop-X1>
+References: <20230420082230.2968883-2-liuhangbin@gmail.com>
+ <202304202222.eUq4Xfv8-lkp@intel.com>
+ <27709.1682006380@famine>
+ <20230420162139.3926e85c@kernel.org>
+ <ZEIGCaLWKIY3lDBo@Laptop-X1>
+ <6347.1682053997@famine>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +61,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6347.1682053997@famine>
 
-Hi Minghao,
+On Thu, Apr 20, 2023 at 10:13:17PM -0700, Jay Vosburgh wrote:
+> >It looks define send_peer_notif to u64 is a bit too large, which introduce
+> >complex conversion for 32bit arch.
+> >
+> >For the remainder operation,
+> >bond->send_peer_notif % max(1, bond->params.peer_notif_delay). u32 % u32 look OK.
+> >
+> >But for multiplication operation,
+> >bond->send_peer_notif = bond->params.num_peer_notif * max(1, bond->params.peer_notif_delay);
+> >It's u8 * u32. How about let's limit the peer_notif_delay to less than max(u32 / u8),
+> >then we can just use u32 for send_peer_notif. Is there any realistic meaning
+> >to set peer_notif_delay to max(u32)? I don't think so.
+> >
+> >Jay, what do you think?
+> 
+> 	I'm fine to limit the peerf_notif_delay range and then use a
+> smaller type.
+> 
+> 	num_peer_notif is already limited to 255; I'm going to suggest a
+> limit to the delay of 300 seconds.  That seems like an absurdly long
+> time for this; I didn't do any kind of science to come up with that
+> number.
+> 
+> 	As peer_notif_delay is stored in units of miimon intervals, that
+> gives a worst case peer_notif_delay value of 300000 if miimon is 1, and
+> 255 * 300000 fits easily in a u32 for send_peer_notif.
 
-FYI, the error/warning still remains.
+OK, I just found another overflow. In bond_fill_info(),
+or bond_option_miimon_set():
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
-head:   df06e352f27a9f368ec6a3b077881c35d933e32c
-commit: 29b0cbee425c70b9928f94dcf6ed75cd967c2451 [1753/4521] spi: tegra20: Use of_device_get_match_data()
-config: m68k-randconfig-c034-20230417 (https://download.01.org/0day-ci/archive/20230421/202304211746.gDcbqjuq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=29b0cbee425c70b9928f94dcf6ed75cd967c2451
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.14.y
-        git checkout 29b0cbee425c70b9928f94dcf6ed75cd967c2451
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        if (nla_put_u32(skb, IFLA_BOND_PEER_NOTIF_DELAY,
+                        bond->params.peer_notif_delay * bond->params.miimon))
+                goto nla_put_failure;
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304211746.gDcbqjuq-lkp@intel.com/
+Since both peer_notif_delay and miimon are defined as int, there is a
+possibility that the fill in number got overflowed. The same with up/down delay.
 
-All errors (new ones prefixed by >>):
+Even we limit the peer_notif_delay to 300s, which is 30000, there is still has
+possibility got overflowed if we set miimon large enough.
 
-   m68k-linux-ld: section .rodata VMA [0000000000002000,00000000001bdde7] overlaps section .text VMA [0000000000000400,00000000004a211f]
-   drivers/tty/serial/mxs-auart.o: In function `mxs_auart_probe':
-   mxs-auart.c:(.text+0x1076): undefined reference to `clk_set_rate'
-   drivers/tty/serial/owl-uart.o: In function `owl_uart_set_termios':
-   owl-uart.c:(.text+0xe10): undefined reference to `clk_set_rate'
-   drivers/spi/spi-sun4i.o: In function `sun4i_spi_transfer_one':
-   spi-sun4i.c:(.text+0x27c): undefined reference to `clk_set_rate'
-   drivers/spi/spi-sun6i.o: In function `sun6i_spi_transfer_one':
-   spi-sun6i.c:(.text+0x2b0): undefined reference to `clk_set_rate'
-   drivers/spi/spi-tegra20-slink.o: In function `tegra_slink_transfer_one':
->> spi-tegra20-slink.c:(.text+0x13dc): undefined reference to `clk_set_rate'
-   drivers/media/i2c/mt9v032.o:mt9v032.c:(.text+0x100): more undefined references to `clk_set_rate' follow
-   drivers/media/v4l2-core/v4l2-clk.o: In function `v4l2_clk_set_rate':
-   v4l2-clk.c:(.text+0x362): undefined reference to `clk_round_rate'
-   v4l2-clk.c:(.text+0x380): undefined reference to `clk_set_rate'
-   drivers/media/platform/sti/hva/hva-hw.o: In function `hva_hw_runtime_resume':
-   hva-hw.c:(.text+0x7d8): undefined reference to `clk_set_rate'
-   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.o: In function `mtk_vcodec_dec_clock_on':
-   mtk_vcodec_dec_pm.c:(.text+0x88): undefined reference to `clk_set_rate'
-   mtk_vcodec_dec_pm.c:(.text+0x188): undefined reference to `clk_set_parent'
-   drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.o: In function `mtk_vcodec_enc_clock_on':
-   mtk_vcodec_enc_pm.c:(.text+0x8a): undefined reference to `clk_set_parent'
-   drivers/iio/frequency/adf4350.o: In function `adf4350_write':
-   adf4350.c:(.text+0x992): undefined reference to `clk_round_rate'
-   adf4350.c:(.text+0x9b2): undefined reference to `clk_set_rate'
+This overflow should only has effect on use space shown since it's a
+multiplication result. The kernel part works fine. I'm not sure if we should
+also limit the miimon, up/down delay values..
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks
+Hangbin
