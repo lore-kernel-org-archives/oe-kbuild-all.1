@@ -1,43 +1,48 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9372561;
-	Fri, 21 Apr 2023 10:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682071873; x=1713607873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4aafpviBjMdmVl1tYI74mrfUxpftsvqb24MJnMScOZQ=;
-  b=Tf1vwLxAilIWkZSk7u0v/cwL1xXDgm0OstcSvfrqTwehkrLnvF/G0SjR
-   NrD+EyBz0VPuObzOKSt7iacyMiNDpbCaWX+kRliX2hUG5YidBDzf601P6
-   12/uQTCLkze4vHD5UPGD+L1M8UgpwYERjDMxcRXzNBOJKOlhLWRSy5gjQ
-   oGLU2hW7z2+FfgfBQmpTZy6sZXovbfpVCTH6W0d5M2H3FUO6EWUPeBhXd
-   Wc8UUHkkwG0FaJDl55nul2ol05wbRQK9HDKJig6aauBi0bPqGeexCczNt
-   y0jUgZtmKtVNMLXY0FaUHO1/2ctjAw9NejIE7EzNKNopTywV2+caIOoYc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="330158028"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="330158028"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 03:11:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="938429236"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="938429236"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Apr 2023 03:11:11 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppnjS-000gWG-2y;
-	Fri, 21 Apr 2023 10:11:10 +0000
-Date: Fri, 21 Apr 2023 18:11:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: stack frame
- size (1344) exceeds limit (1280) in 'atags_to_fdt'
-Message-ID: <202304211812.XJkXpaNm-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5001928E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 10:13:34 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f195b164c4so587915e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 03:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682072012; x=1684664012;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VwAVpOe8HyiBsLWI2uR6DTiaht1Jfj1mGZUYsAr3LWU=;
+        b=xPpmWIKL3UPNkzQNcJFeBUa/lGtXk1An5hTSxrHqz4ZR2GeCo5p3AFEacW69+q4L96
+         lGI9gKW9N++9pPhwIGSY9qqLEyi2yH3DoMaeCHh4mdhklTPdAS0MndI/a6Rr55Ha4MBu
+         sG9V60sxdUyrtNCGe5u7FkcgCvYwb/qHoFae7iAJ9sGPqoN0JVwci5Np/9kE7q+xJQKp
+         5I1WmIDxwCH1GNhoE6JCjl/9wUCMdO24962fBHG5h9lWUJVB0p00d0wUlikgoRNOZPHq
+         +DMRcGWd1YQGEkjVj4WjuQj3eEN20EbOpG3qI0bmxlIsgAIlXLeF3sZEIuEzUn0D6W4D
+         wTSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682072012; x=1684664012;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VwAVpOe8HyiBsLWI2uR6DTiaht1Jfj1mGZUYsAr3LWU=;
+        b=B7rHLpH05dfFw5o7PUrXNm9+UbgCHA/zfUyPfAoVqvOwlo+d2EDc8sNtx1MV8lCbep
+         UqoYTPxcxxKKYZmTZWfTmeKqbpF3Kak4zauCnz5R4rVDfrp2/FC/RCIQufOsg986kGG7
+         Hp+tJ/pIjzZoJPtdnWuX5yMtw3fnxcoHETka57JJRAP+YcHGPGJDR+m4G8HlPNB2lEbg
+         T0g+9QZo/jjAF0SgYbH3IUxLJhppFqjnQqxDuwvYKDIPzMepE3DWgT+49IBTWDMJBwiT
+         m/GbSLcS1WQirJOK/8qgkFJzw/OMOh8ZgdK44oZbtHGdVt8kbDT2jdyH9/tTsrUXQ5b1
+         d73Q==
+X-Gm-Message-State: AAQBX9eh7wXYweWSRsc9cV7sZ6sYNbpB+CJxGwHgcwdFLZAHRuReeLnA
+	uKLCAqAmXQcSSBQLFJmvg5w4kA==
+X-Google-Smtp-Source: AKy350YX4xGYeX/f4MoGf7DJj6Fji1G/I4Z5+F9cp+QX93wWPC+seGeoRUiXl288z5uauWmP9ZXAOw==
+X-Received: by 2002:a5d:49ce:0:b0:2c7:fc61:12d4 with SMTP id t14-20020a5d49ce000000b002c7fc6112d4mr3453281wrs.47.1682072012214;
+        Fri, 21 Apr 2023 03:13:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n17-20020a5d4c51000000b002d6f285c0a2sm4096589wrt.42.2023.04.21.03.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 03:13:31 -0700 (PDT)
+Date: Fri, 21 Apr 2023 13:13:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Scott Mayhew <smayhew@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 5/5] SUNRPC: store GSS creds in keyrings
+Message-ID: <2572a5e0-c6e6-4061-8d9f-782caaa787d3@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,70 +51,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230420202004.239116-6-smayhew@redhat.com>
 
-Hi Ard,
+Hi Scott,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2af3e53a4dc08657f1b46f97f04ff4a0ab3cad8d
-commit: 672513bf583157cc088a32e75bd850dd9f81564c ARM: decompressor: disable stack protector
-date:   1 year, 5 months ago
-config: arm-randconfig-r046-20230420 (https://download.01.org/0day-ci/archive/20230421/202304211812.XJkXpaNm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=672513bf583157cc088a32e75bd850dd9f81564c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 672513bf583157cc088a32e75bd850dd9f81564c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Scott-Mayhew/keys-export-keyring_ptr_to_key/20230421-042202
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20230420202004.239116-6-smayhew%40redhat.com
+patch subject: [RFC PATCH 5/5] SUNRPC: store GSS creds in keyrings
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230421/202304211447.EkD6EpWB-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304211812.XJkXpaNm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304211447.EkD6EpWB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/sunrpc/auth_gss/auth_gss.c:1189 gss_create_new() error: we previously assumed 'gss_auth' could be null (see line 1089)
+net/sunrpc/auth_gss/auth_gss.c:1189 gss_create_new() error: dereferencing freed memory 'gss_auth'
 
-   arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: no previous prototype for function 'atags_to_fdt' [-Wmissing-prototypes]
-   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
-       ^
-   arch/arm/boot/compressed/atags_to_fdt.c:129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
-   ^
-   static 
->> arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: stack frame size (1344) exceeds limit (1280) in 'atags_to_fdt' [-Wframe-larger-than]
-   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
-       ^
-   52/1344 (3.87%) spills, 1292/1344 (96.13%) variables
-   2 warnings generated.
+Old smatch warnings:
+net/sunrpc/auth_gss/auth_gss.c:2183 gss_wrap_req_priv() warn: missing error code 'status'
 
+vim +/gss_auth +1189 net/sunrpc/auth_gss/auth_gss.c
 
-vim +/atags_to_fdt +129 arch/arm/boot/compressed/atags_to_fdt.c
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1076  static struct gss_auth *
+82b98ca566ca2a Sargun Dhillon       2018-07-05  1077  gss_create_new(const struct rpc_auth_create_args *args, struct rpc_clnt *clnt)
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1078  {
+c2190661039b38 Trond Myklebust      2013-08-26  1079  	rpc_authflavor_t flavor = args->pseudoflavor;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1080  	struct gss_auth *gss_auth;
+1917228435eebd Trond Myklebust      2013-08-26  1081  	struct gss_pipe *gss_pipe;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1082  	struct rpc_auth * auth;
+6a19275ada9137 J. Bruce Fields      2005-06-22  1083  	int err = -ENOMEM; /* XXX? */
+6a654188690846 Scott Mayhew         2023-04-20  1084  	struct cred *cred;
+6a654188690846 Scott Mayhew         2023-04-20  1085  	struct key *keyring;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1086  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1087  	if (!try_module_get(THIS_MODULE))
+6a19275ada9137 J. Bruce Fields      2005-06-22  1088  		return ERR_PTR(err);
+^1da177e4c3f41 Linus Torvalds       2005-04-16 @1089  	if (!(gss_auth = kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1090  		goto out_dec;
 
-31d0b9f9982f8e Ben Dooks          2018-10-12  120  
-b90b9a38251e9c Nicolas Pitre      2011-09-13  121  /*
-b90b9a38251e9c Nicolas Pitre      2011-09-13  122   * Convert and fold provided ATAGs into the provided FDT.
-b90b9a38251e9c Nicolas Pitre      2011-09-13  123   *
-4716e2e34a22a8 Geert Uytterhoeven 2021-05-19  124   * Return values:
-b90b9a38251e9c Nicolas Pitre      2011-09-13  125   *    = 0 -> pretend success
-b90b9a38251e9c Nicolas Pitre      2011-09-13  126   *    = 1 -> bad ATAG (may retry with another possible ATAG pointer)
-b90b9a38251e9c Nicolas Pitre      2011-09-13  127   *    < 0 -> error from libfdt
-b90b9a38251e9c Nicolas Pitre      2011-09-13  128   */
-b90b9a38251e9c Nicolas Pitre      2011-09-13 @129  int atags_to_fdt(void *atag_list, void *fdt, int total_space)
+gss_auth is NULL.
 
-:::::: The code at line 129 was first introduced by commit
-:::::: b90b9a38251e9c89c34179eccde57411ceb5f1aa ARM: zImage: allow supplementing appended DTB with traditional ATAG data
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1091  	INIT_HLIST_NODE(&gss_auth->hash);
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1092  	gss_auth->target_name = NULL;
+c2190661039b38 Trond Myklebust      2013-08-26  1093  	if (args->target_name) {
+c2190661039b38 Trond Myklebust      2013-08-26  1094  		gss_auth->target_name = kstrdup(args->target_name, GFP_KERNEL);
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1095  		if (gss_auth->target_name == NULL)
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1096  			goto err_free;
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1097  	}
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1098  	gss_auth->client = clnt;
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1099  	gss_auth->net = get_net_track(rpc_net_ns(clnt), &gss_auth->ns_tracker,
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1100  				      GFP_KERNEL);
+6a19275ada9137 J. Bruce Fields      2005-06-22  1101  	err = -EINVAL;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1102  	gss_auth->mech = gss_mech_get_by_pseudoflavor(flavor);
+0c77668ddb4e7b Chuck Lever          2019-02-11  1103  	if (!gss_auth->mech)
+e726340ac9cf6b Trond Myklebust      2013-08-23  1104  		goto err_put_net;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1105  	gss_auth->service = gss_pseudoflavor_to_service(gss_auth->mech, flavor);
+438b6fdebf2a2e J. Bruce Fields      2005-06-22  1106  	if (gss_auth->service == 0)
+438b6fdebf2a2e J. Bruce Fields      2005-06-22  1107  		goto err_put_mech;
+a699d65ec4ff82 Trond Myklebust      2014-02-10  1108  	if (!gssd_running(gss_auth->net))
+a699d65ec4ff82 Trond Myklebust      2014-02-10  1109  		goto err_put_mech;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1110  	auth = &gss_auth->rpc_auth;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1111  	auth->au_cslack = GSS_CRED_SLACK >> 2;
+6e460c230d2dfb Chuck Lever          2023-01-15  1112  	BUILD_BUG_ON(GSS_KRB5_MAX_SLACK_NEEDED > RPC_MAX_AUTH_SIZE);
+df513a77117127 Olga Kornievskaia    2020-03-26  1113  	auth->au_rslack = GSS_KRB5_MAX_SLACK_NEEDED >> 2;
+a00275baa68e1e Chuck Lever          2019-02-11  1114  	auth->au_verfsize = GSS_VERF_SLACK >> 2;
+35e77d21baa04b Chuck Lever          2019-02-11  1115  	auth->au_ralign = GSS_VERF_SLACK >> 2;
+53bc19f17f2173 Chuck Lever          2020-05-12  1116  	__set_bit(RPCAUTH_AUTH_UPDATE_SLACK, &auth->au_flags);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1117  	auth->au_ops = &authgss_ops;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1118  	auth->au_flavor = flavor;
+65b80179f9b817 Chuck Lever          2016-06-29  1119  	if (gss_pseudoflavor_to_datatouch(gss_auth->mech, flavor))
+53bc19f17f2173 Chuck Lever          2020-05-12  1120  		__set_bit(RPCAUTH_AUTH_DATATOUCH, &auth->au_flags);
+331bc71cb1751d Trond Myklebust      2018-10-14  1121  	refcount_set(&auth->au_count, 1);
+0285ed1f12298e Trond Myklebust      2007-06-27  1122  	kref_init(&gss_auth->kref);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1123  
+1917228435eebd Trond Myklebust      2013-08-26  1124  	err = rpcauth_init_credcache(auth);
+1917228435eebd Trond Myklebust      2013-08-26  1125  	if (err)
+1917228435eebd Trond Myklebust      2013-08-26  1126  		goto err_put_mech;
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1127  	/*
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1128  	 * Note: if we created the old pipe first, then someone who
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1129  	 * examined the directory at the right moment might conclude
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1130  	 * that we supported only the old pipe.  So we instead create
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1131  	 * the new pipe first.
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1132  	 */
+414a6295984094 Trond Myklebust      2013-08-27  1133  	gss_pipe = gss_pipe_get(clnt, "gssd", &gss_upcall_ops_v1);
+1917228435eebd Trond Myklebust      2013-08-26  1134  	if (IS_ERR(gss_pipe)) {
+1917228435eebd Trond Myklebust      2013-08-26  1135  		err = PTR_ERR(gss_pipe);
+1917228435eebd Trond Myklebust      2013-08-26  1136  		goto err_destroy_credcache;
+6a19275ada9137 J. Bruce Fields      2005-06-22  1137  	}
+1917228435eebd Trond Myklebust      2013-08-26  1138  	gss_auth->gss_pipe[1] = gss_pipe;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1139  
+414a6295984094 Trond Myklebust      2013-08-27  1140  	gss_pipe = gss_pipe_get(clnt, gss_auth->mech->gm_name,
+1917228435eebd Trond Myklebust      2013-08-26  1141  			&gss_upcall_ops_v0);
+1917228435eebd Trond Myklebust      2013-08-26  1142  	if (IS_ERR(gss_pipe)) {
+1917228435eebd Trond Myklebust      2013-08-26  1143  		err = PTR_ERR(gss_pipe);
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1144  		goto err_destroy_pipe_1;
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1145  	}
+1917228435eebd Trond Myklebust      2013-08-26  1146  	gss_auth->gss_pipe[0] = gss_pipe;
+07a2bf1da4765d Trond Myklebust      2007-06-09  1147  
+6a654188690846 Scott Mayhew         2023-04-20  1148  	if (use_keyring) {
+6a654188690846 Scott Mayhew         2023-04-20  1149  		cred = prepare_kernel_cred(&init_task);
+6a654188690846 Scott Mayhew         2023-04-20  1150  		if (!cred) {
+6a654188690846 Scott Mayhew         2023-04-20  1151  			err = -ENOMEM;
+6a654188690846 Scott Mayhew         2023-04-20  1152  			goto err_destroy_pipe_0;
+6a654188690846 Scott Mayhew         2023-04-20  1153  		}
+6a654188690846 Scott Mayhew         2023-04-20  1154  		keyring = keyring_alloc("gss_keyring",
+6a654188690846 Scott Mayhew         2023-04-20  1155  					GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, cred,
+6a654188690846 Scott Mayhew         2023-04-20  1156  					(KEY_POS_ALL & ~KEY_POS_SETATTR) |
+6a654188690846 Scott Mayhew         2023-04-20  1157  					KEY_USR_VIEW | KEY_USR_READ,
+6a654188690846 Scott Mayhew         2023-04-20  1158  					KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
+6a654188690846 Scott Mayhew         2023-04-20  1159  		if (IS_ERR(keyring)) {
+6a654188690846 Scott Mayhew         2023-04-20  1160  			err = PTR_ERR(keyring);
+6a654188690846 Scott Mayhew         2023-04-20  1161  			goto err_destroy_cred;
+6a654188690846 Scott Mayhew         2023-04-20  1162  		}
+6a654188690846 Scott Mayhew         2023-04-20  1163  		set_bit(KEY_FLAG_ROOT_CAN_CLEAR, &keyring->flags);
+6a654188690846 Scott Mayhew         2023-04-20  1164  		cred->thread_keyring = keyring;
+6a654188690846 Scott Mayhew         2023-04-20  1165  		cred->jit_keyring = KEY_REQKEY_DEFL_THREAD_KEYRING;
+6a654188690846 Scott Mayhew         2023-04-20  1166  		gss_auth->keyring_cred = cred;
+6a654188690846 Scott Mayhew         2023-04-20  1167  	}
+6a654188690846 Scott Mayhew         2023-04-20  1168  
+6a654188690846 Scott Mayhew         2023-04-20  1169  	trace_rpcgss_createauth(flavor, err, gss_auth->keyring_cred ?
+6a654188690846 Scott Mayhew         2023-04-20  1170  				gss_auth->keyring_cred->thread_keyring : NULL);
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1171  	return gss_auth;
+6a654188690846 Scott Mayhew         2023-04-20  1172  err_destroy_cred:
+6a654188690846 Scott Mayhew         2023-04-20  1173  	put_cred(cred);
+6a654188690846 Scott Mayhew         2023-04-20  1174  err_destroy_pipe_0:
+6a654188690846 Scott Mayhew         2023-04-20  1175  	gss_pipe_free(gss_auth->gss_pipe[0]);
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1176  err_destroy_pipe_1:
+414a6295984094 Trond Myklebust      2013-08-27  1177  	gss_pipe_free(gss_auth->gss_pipe[1]);
+1917228435eebd Trond Myklebust      2013-08-26  1178  err_destroy_credcache:
+1917228435eebd Trond Myklebust      2013-08-26  1179  	rpcauth_destroy_credcache(auth);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1180  err_put_mech:
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1181  	gss_mech_put(gss_auth->mech);
+e726340ac9cf6b Trond Myklebust      2013-08-23  1182  err_put_net:
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1183  	put_net_track(gss_auth->net, &gss_auth->ns_tracker);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1184  err_free:
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1185  	kfree(gss_auth->target_name);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1186  	kfree(gss_auth);
+                                                              ^^^^^^^^
+Freed.
 
-:::::: TO: Nicolas Pitre <nicolas.pitre@linaro.org>
-:::::: CC: Nicolas Pitre <nico@fluxnic.net>
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1187  out_dec:
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1188  	module_put(THIS_MODULE);
+6a654188690846 Scott Mayhew         2023-04-20 @1189  	trace_rpcgss_createauth(flavor, err, gss_auth->keyring_cred ?
+6a654188690846 Scott Mayhew         2023-04-20  1190  				gss_auth->keyring_cred->thread_keyring : NULL);
+
+gss_auth is never valid at this point.
+
+6a19275ada9137 J. Bruce Fields      2005-06-22  1191  	return ERR_PTR(err);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1192  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
