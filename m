@@ -1,46 +1,48 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34C2612D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Apr 2023 19:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8C46FBB;
+	Fri, 21 Apr 2023 20:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682107043; x=1713643043;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vMSpjSKqVJdB2QR7ewVAhQLPpalfNiPmX5XPErLSgD0=;
-  b=P2JJU00vPrMPFshGyIhHKhUaH+W19NUqkzX4L8e7pVoEnDjTYGl4FgOR
-   wE4nfEBJUL7xLrjxy4A6pN+X+xSVURCaipb+4NuPRjXhWhBUb7mEzZDQ1
-   Lf9MKmfZZpRQTikkYBw4UMypuhYOTgsOiE6HkxuY8jjKYLuF1uWU8Qdyh
-   AbFHCDmIi1MGLs9CUCU0s6z/bi4NeTghVFNMzv8HRP3ynE2SM2yfZ4qx0
-   Xclf7O2PryDNE7bEqeBD6iZ36PYTfRxlZXeB/H/4lqOioa1aiqvCrWCHE
-   4QJxp0vTIMCD8vQqbz6XUPxACxLWyxRXB/g29ks5NiFV3wZCcYOqRErQk
+  t=1682107466; x=1713643466;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tyIuJWVgOap+WQetz8gIdZ7l9WAs+BgOlfzmXyOh82M=;
+  b=CKQXPYHban7XYorSHhab0fuwqdwzMJAC8SKpJMMtmY5vVxFVzCLVzRBB
+   Yk1EpO7LbM/px3Cu0LRbnAI6zvrp/q/sGBtfZE946haL0A1UF1HFpGk+h
+   f4fc6G9tK6f9oFCLqEE3qMp+9zhqrHrbXpBAiI+LKs3A4Rx2K/kYUBLv7
+   1lxmQ21UfWqaIq7fJMLLdobsUK1wz2Qyb3LF+LY4rEl7BDBEGFOCmC+uQ
+   9YEu5KXKxzgfe+Og42ClT3g3B9EH0jeKmoAwiM/ki3PUgZtY2tFIfHIZ5
+   RVbw0RpWPPTItVwN9mLR38kPX+O+1H3SPbOvJ18N2CxUGYzxRLA/t7C59
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="411338503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="411341483"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="411338503"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 12:54:23 -0700
+   d="scan'208";a="411341483"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 13:04:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="724945808"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="695052628"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="724945808"
+   d="scan'208";a="695052628"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Apr 2023 12:54:22 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Apr 2023 13:04:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppwpp-000glq-12;
-	Fri, 21 Apr 2023 19:54:21 +0000
-Date: Sat, 22 Apr 2023 03:53:36 +0800
+	id 1ppwzV-000gmG-1Y;
+	Fri, 21 Apr 2023 20:04:21 +0000
+Date: Sat, 22 Apr 2023 04:04:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eli Cohen <elic@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: [linux-next:master 13449/13717]
- drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:17: error: implicit declaration of
- function 'mlx5_msix_free'; did you mean 'mlx5_db_free'?
-Message-ID: <202304220313.aBr2eAyS-lkp@intel.com>
+To: Davidlohr Bueso <dave@stgolabs.net>, dan.j.williams@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan.Cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, ira.weiny@intel.com,
+	vishal.l.verma@intel.com, fan.ni@samsung.com,
+	a.manzanares@samsung.com, dave@stgolabs.net,
+	linux-cxl@vger.kernel.org
+Subject: Re: [PATCH 4/7] cxl/mem: Wire up Sanitation support
+Message-ID: <202304220358.PInFhQmP-lkp@intel.com>
+References: <20230421092321.12741-5-dave@stgolabs.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,65 +51,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230421092321.12741-5-dave@stgolabs.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89
-commit: b9ca712f33f59e977592cb639c2e00a02f45a146 [13449/13717] vdpa/mlx5: Support interrupt bypassing
-config: microblaze-randconfig-r013-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220313.aBr2eAyS-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+Hi Davidlohr,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3-rc7 next-20230420]
+[cannot apply to cxl/next cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Davidlohr-Bueso/cxl-pci-Allocate-irq-vectors-earlier-in-pci-probe/20230421-175725
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230421092321.12741-5-dave%40stgolabs.net
+patch subject: [PATCH 4/7] cxl/mem: Wire up Sanitation support
+config: powerpc-buildonly-randconfig-r006-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220358.PInFhQmP-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b9ca712f33f59e977592cb639c2e00a02f45a146
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b9ca712f33f59e977592cb639c2e00a02f45a146
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/b5227afb40297993eba355a804720c834da3fe2a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Davidlohr-Bueso/cxl-pci-Allocate-irq-vectors-earlier-in-pci-probe/20230421-175725
+        git checkout b5227afb40297993eba355a804720c834da3fe2a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/vdpa/mlx5/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/cxl/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304220313.aBr2eAyS-lkp@intel.com/
-
-Note: the linux-next/master HEAD d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89 builds fine.
-      It may have been fixed somewhere.
+| Link: https://lore.kernel.org/oe-kbuild-all/202304220358.PInFhQmP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: In function 'free_irqs':
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:17: error: implicit declaration of function 'mlx5_msix_free'; did you mean 'mlx5_db_free'? [-Werror=implicit-function-declaration]
-    2896 |                 mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-         |                 ^~~~~~~~~~~~~~
-         |                 mlx5_db_free
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: In function 'allocate_irqs':
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:28: error: implicit declaration of function 'mlx5_msix_alloc'; did you mean 'mlx5_db_alloc'? [-Werror=implicit-function-declaration]
-    3259 |                 ent->map = mlx5_msix_alloc(ndev->mvdev.mdev, int_handler, NULL, ent->name);
-         |                            ^~~~~~~~~~~~~~~
-         |                            mlx5_db_alloc
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:28: error: incompatible types when assigning to type 'struct msi_map' from type 'int'
-   cc1: some warnings being treated as errors
+>> drivers/cxl/core/memdev.c:97:12: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           u64 reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
+                     ^
+   1 error generated.
 
 
-vim +2896 drivers/vdpa/mlx5/net/mlx5_vnet.c
+vim +/readq +97 drivers/cxl/core/memdev.c
 
-  2885	
-  2886	static void free_irqs(struct mlx5_vdpa_net *ndev)
-  2887	{
-  2888		struct mlx5_vdpa_irq_pool_entry *ent;
-  2889		int i;
-  2890	
-  2891		if (!msix_mode_supported(&ndev->mvdev))
-  2892			return;
-  2893	
-  2894		for (i = ndev->irqp.num_ent - 1; i >= 0; i--) {
-  2895			ent = ndev->irqp.entries + i;
-> 2896			mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-  2897		}
-  2898		kfree(ndev->irqp.entries);
-  2899	}
-  2900	
+    88	
+    89	static struct device_attribute dev_attr_pmem_size =
+    90		__ATTR(size, 0444, pmem_size_show, NULL);
+    91	
+    92	static ssize_t security_sanitize_show(struct device *dev,
+    93					      struct device_attribute *attr, char *buf)
+    94	{
+    95		struct cxl_memdev *cxlmd = to_cxl_memdev(dev);
+    96		struct cxl_dev_state *cxlds = cxlmd->cxlds;
+  > 97		u64 reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
+    98		u32 pct = FIELD_GET(CXLDEV_MBOX_BG_CMD_COMMAND_PCT_MASK, reg);
+    99		u16 cmd = FIELD_GET(CXLDEV_MBOX_BG_CMD_COMMAND_OPCODE_MASK, reg);
+   100	
+   101		if (cmd == CXL_MBOX_OP_SANITIZE && pct != 100)
+   102			return sysfs_emit(buf, "sanitize\n");
+   103		else
+   104			return sysfs_emit(buf, "disabled\n");
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
