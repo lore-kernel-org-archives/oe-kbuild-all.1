@@ -1,45 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47B76AB5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 17:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1928747C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 18:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682185912; x=1713721912;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fFQbQCarcA9xP377KJJxvj+drERrrHtOwZZWiEfHPxg=;
-  b=WOWwyRsQOydLuBFBikf8KJvGEZSoTlrLu6wJSArxBlK+9+c6Wx0/bExX
-   4Kh/SaeJVs+zMy7O/oV47AIHEVuZyAV3+swr8UTQ9aXzq7pAM3rEtI9l7
-   pnLIz/nLx55NwenZCYZAvvXO2FWaXeH8/lZTfxdXePQgQF2iwWkXBxoCd
-   sivl+0VMSryMu2o6SfZPmax38TDAHMWfS3/XbgBjd/eHK2DMQ6JpD885k
-   zirkmzi0f30YMFyfFMxFW4ht1tDKNppVsVhHAbmwPBLsbwHxSJpYFpvqa
-   dgI3I25EC4fEGClG20sF7THHqar15TIr9VKcNDINfa/XP1G0ToHMQhDWE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="348092879"
+  t=1682189573; x=1713725573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yblBYpAyBWT2Fl/Quo0ypMH6DzJG4HDwQCixGJtBSfw=;
+  b=LMAytG8dH6X67lWo2eN/WqrLk9qCC2hIOgsIUc3JexzKpnEkEJVeI+vK
+   o5ys3FBJoyj2koIKJ2yVdlKlNf+BqVhzWIorIT/Ec1VwXb0YUW315H4S+
+   odb5IYQdooMbZnMcFrTYrzAi4SKwBhwX6StfsQqwZOm3gobqeyARdnEyi
+   Ykq7nuMNWQs8qWk6SD9iiOIWvUfv7FwaJr46w5UY/TUvvv2OQGaqBgzhu
+   +hM3Qwpvg8nuxuKaf+QtXMoi/ONxD1l4vX1Ay+RUgNrP8c9Vj9E2ofrfy
+   BDR7bLSzv9rLgcxsKnKRtoW9myx623xOfkeBq36/ARWZpuEYdCFqFWMzl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="432462609"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="348092879"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 10:51:52 -0700
+   d="scan'208";a="432462609"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 11:52:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="695258606"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="816769029"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="695258606"
+   d="scan'208";a="816769029"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Apr 2023 10:51:50 -0700
+  by orsmga004.jf.intel.com with ESMTP; 22 Apr 2023 11:52:51 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqHOn-000hQ0-1W;
-	Sat, 22 Apr 2023 17:51:49 +0000
-Date: Sun, 23 Apr 2023 01:51:07 +0800
+	id 1pqILq-000hRI-1S;
+	Sat, 22 Apr 2023 18:52:50 +0000
+Date: Sun, 23 Apr 2023 02:52:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Andrew F. Davis" <afd@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Curtis Malainey <cujomalainey@chromium.org>,
-	Kamal Ap <kamal.ap@intel.com>
-Subject: [jsarha:topic/cros-sof-v4.14-rebase 6778/9999]
- sound/soc/codecs/tlv320aic32x4.c:688:52: sparse: sparse: cast truncates bits
- from constant value (ffffffffc becomes fffffffc)
-Message-ID: <202304230111.6qsP09d2-lkp@intel.com>
+To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH 7/7] ALSA: emu10k1: use more existing defines instead of
+ open-coded numbers
+Message-ID: <202304230230.Hzwubvl5-lkp@intel.com>
+References: <20230422161021.1143903-8-oswald.buddenhagen@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,157 +48,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230422161021.1143903-8-oswald.buddenhagen@gmx.de>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
-head:   18a233f3f676a98dde00947535d99ab1a54da340
-commit: 9713fc5e56b6e31fad9341ae15582bc0a3ce7602 [6778/9999] UPSTREAM: ASoC: tlv320aic32x4: Use snd_soc_update_bits() in aic32x4_hw_params()
-config: m68k-randconfig-s051-20230416 (https://download.01.org/0day-ci/archive/20230423/202304230111.6qsP09d2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 7.5.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/9713fc5e56b6e31fad9341ae15582bc0a3ce7602
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
-        git checkout 9713fc5e56b6e31fad9341ae15582bc0a3ce7602
+Hi Oswald,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tiwai-sound/for-next]
+[cannot apply to tiwai-sound/for-linus linus/master v6.3-rc7 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oswald-Buddenhagen/ALSA-emu10k1-comment-updates/20230423-002113
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230422161021.1143903-8-oswald.buddenhagen%40gmx.de
+patch subject: [PATCH 7/7] ALSA: emu10k1: use more existing defines instead of open-coded numbers
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230423/202304230230.Hzwubvl5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/e9c8b11aa4d8ccd105aba0217ff72e87bad545bf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oswald-Buddenhagen/ALSA-emu10k1-comment-updates/20230423-002113
+        git checkout e9c8b11aa4d8ccd105aba0217ff72e87bad545bf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/codecs/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230111.6qsP09d2-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230230.Hzwubvl5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   sound/soc/codecs/tlv320aic32x4.c:661:58: sparse: sparse: cast truncates bits from constant value (fffffffffc becomes fffffffc)
-   sound/soc/codecs/tlv320aic32x4.c:664:29: sparse: sparse: cast truncates bits from constant value (ffffffffff becomes ffffffff)
->> sound/soc/codecs/tlv320aic32x4.c:688:52: sparse: sparse: cast truncates bits from constant value (ffffffffc becomes fffffffc)
->> sound/soc/codecs/tlv320aic32x4.c:691:52: sparse: sparse: cast truncates bits from constant value (3ffffffff becomes ffffffff)
-   sound/soc/codecs/tlv320aic32x4.c:694:52: sparse: sparse: cast truncates bits from constant value (3ffffffff becomes ffffffff)
->> sound/soc/codecs/tlv320aic32x4.c:698:51: sparse: sparse: cast truncates bits from constant value (fffffffff becomes ffffffff)
->> sound/soc/codecs/tlv320aic32x4.c:701:51: sparse: sparse: cast truncates bits from constant value (7ffffffff0 becomes fffffff0)
->> sound/soc/codecs/tlv320aic32x4.c:713:29: sparse: sparse: cast truncates bits from constant value (7fffffffff becomes ffffffff)
-   sound/soc/codecs/tlv320aic32x4.c:717:29: sparse: sparse: cast truncates bits from constant value (7fffffffff becomes ffffffff)
-   sound/soc/codecs/tlv320aic32x4.c:725:29: sparse: sparse: cast truncates bits from constant value (7fffffffff becomes ffffffff)
-   sound/soc/codecs/tlv320aic32x4.c:729:29: sparse: sparse: cast truncates bits from constant value (7fffffffff becomes ffffffff)
-   sound/soc/codecs/tlv320aic32x4.c:736:29: sparse: sparse: cast truncates bits from constant value (7fffffffff becomes ffffffff)
->> sound/soc/codecs/tlv320aic32x4.c:757:29: sparse: sparse: cast truncates bits from constant value (3ffffffff0 becomes fffffff0)
-   sound/soc/codecs/tlv320aic32x4.c:768:29: sparse: sparse: cast truncates bits from constant value (3ffffffffc becomes fffffffc)
-   sound/soc/codecs/tlv320aic32x4.c: note: in included file (through arch/m68k/include/asm/gpio.h, include/linux/gpio.h):
-   arch/m68k/include/asm/mcfgpio.h:259:39: sparse: sparse: non size-preserving integer to pointer cast
-   arch/m68k/include/asm/mcfgpio.h:259:39: sparse: sparse: non size-preserving integer to pointer cast
-   sound/soc/codecs/tlv320aic32x4.c: note: in included file (through include/linux/gpio.h):
-   arch/m68k/include/asm/gpio.h:55:33: sparse: sparse: non size-preserving integer to pointer cast
-   arch/m68k/include/asm/gpio.h:58:33: sparse: sparse: non size-preserving integer to pointer cast
+All errors (new ones prefixed by >>):
 
-vim +688 sound/soc/codecs/tlv320aic32x4.c
+   sound/pci/emu10k1/p16v.c: In function 'snd_p16v_pcm_prepare_capture':
+>> sound/pci/emu10k1/p16v.c:313:38: error: 'A_I2S_CAPTURE_RATE' undeclared (first use in this function); did you mean 'A_I2S_CAPTURE_RATE_MASK'?
+     313 |           snd_emu10k1_ptr_write(emu, A_I2S_CAPTURE_RATE, channel, A_I2S_CAPTURE_44100);
+         |                                      ^~~~~~~~~~~~~~~~~~
+         |                                      A_I2S_CAPTURE_RATE_MASK
+   sound/pci/emu10k1/p16v.c:313:38: note: each undeclared identifier is reported only once for each function it appears in
 
-   670	
-   671	static int aic32x4_hw_params(struct snd_pcm_substream *substream,
-   672				     struct snd_pcm_hw_params *params,
-   673				     struct snd_soc_dai *dai)
-   674	{
-   675		struct snd_soc_codec *codec = dai->codec;
-   676		struct aic32x4_priv *aic32x4 = snd_soc_codec_get_drvdata(codec);
-   677		u8 iface1_reg = 0;
-   678		u8 dacsetup_reg = 0;
-   679		int i;
-   680	
-   681		i = aic32x4_get_divs(aic32x4->sysclk, params_rate(params));
-   682		if (i < 0) {
-   683			printk(KERN_ERR "aic32x4: sampling rate not supported\n");
-   684			return i;
-   685		}
-   686	
-   687		/* MCLK as PLL_CLKIN */
- > 688		snd_soc_update_bits(codec, AIC32X4_CLKMUX, AIC32X4_PLL_CLKIN_MASK,
-   689				    AIC32X4_PLL_CLKIN_MCLK << AIC32X4_PLL_CLKIN_SHIFT);
-   690		/* PLL as CODEC_CLKIN */
- > 691		snd_soc_update_bits(codec, AIC32X4_CLKMUX, AIC32X4_CODEC_CLKIN_MASK,
-   692				    AIC32X4_CODEC_CLKIN_PLL << AIC32X4_CODEC_CLKIN_SHIFT);
-   693		/* DAC_MOD_CLK as BDIV_CLKIN */
-   694		snd_soc_update_bits(codec, AIC32X4_IFACE3, AIC32X4_BDIVCLK_MASK,
-   695				    AIC32X4_DACMOD2BCLK << AIC32X4_BDIVCLK_SHIFT);
-   696	
-   697		/* We will fix R value to 1 and will make P & J=K.D as variable */
- > 698		snd_soc_update_bits(codec, AIC32X4_PLLPR, AIC32X4_PLL_R_MASK, 0x01);
-   699	
-   700		/* PLL P value */
- > 701		snd_soc_update_bits(codec, AIC32X4_PLLPR, AIC32X4_PLL_P_MASK,
-   702				    aic32x4_divs[i].p_val << AIC32X4_PLL_P_SHIFT);
-   703	
-   704		/* PLL J value */
-   705		snd_soc_write(codec, AIC32X4_PLLJ, aic32x4_divs[i].pll_j);
-   706	
-   707		/* PLL D value */
-   708		snd_soc_write(codec, AIC32X4_PLLDMSB, (aic32x4_divs[i].pll_d >> 8));
-   709		snd_soc_write(codec, AIC32X4_PLLDLSB, (aic32x4_divs[i].pll_d & 0xff));
-   710	
-   711		/* NDAC divider value */
-   712		snd_soc_update_bits(codec, AIC32X4_NDAC,
- > 713				    AIC32X4_NDAC_MASK, aic32x4_divs[i].ndac);
-   714	
-   715		/* MDAC divider value */
-   716		snd_soc_update_bits(codec, AIC32X4_MDAC,
-   717				    AIC32X4_MDAC_MASK, aic32x4_divs[i].mdac);
-   718	
-   719		/* DOSR MSB & LSB values */
-   720		snd_soc_write(codec, AIC32X4_DOSRMSB, aic32x4_divs[i].dosr >> 8);
-   721		snd_soc_write(codec, AIC32X4_DOSRLSB, (aic32x4_divs[i].dosr & 0xff));
-   722	
-   723		/* NADC divider value */
-   724		snd_soc_update_bits(codec, AIC32X4_NADC,
-   725				    AIC32X4_NADC_MASK, aic32x4_divs[i].nadc);
-   726	
-   727		/* MADC divider value */
-   728		snd_soc_update_bits(codec, AIC32X4_MADC,
-   729				    AIC32X4_MADC_MASK, aic32x4_divs[i].madc);
-   730	
-   731		/* AOSR value */
-   732		snd_soc_write(codec, AIC32X4_AOSR, aic32x4_divs[i].aosr);
-   733	
-   734		/* BCLK N divider */
-   735		snd_soc_update_bits(codec, AIC32X4_BCLKN,
-   736				    AIC32X4_BCLK_MASK, aic32x4_divs[i].blck_N);
-   737	
-   738		switch (params_width(params)) {
-   739		case 16:
-   740			iface1_reg |= (AIC32X4_WORD_LEN_16BITS <<
-   741				       AIC32X4_IFACE1_DATALEN_SHIFT);
-   742			break;
-   743		case 20:
-   744			iface1_reg |= (AIC32X4_WORD_LEN_20BITS <<
-   745				       AIC32X4_IFACE1_DATALEN_SHIFT);
-   746			break;
-   747		case 24:
-   748			iface1_reg |= (AIC32X4_WORD_LEN_24BITS <<
-   749				       AIC32X4_IFACE1_DATALEN_SHIFT);
-   750			break;
-   751		case 32:
-   752			iface1_reg |= (AIC32X4_WORD_LEN_32BITS <<
-   753				       AIC32X4_IFACE1_DATALEN_SHIFT);
-   754			break;
-   755		}
-   756		snd_soc_update_bits(codec, AIC32X4_IFACE1,
- > 757				    AIC32X4_IFACE1_DATALEN_MASK, iface1_reg);
-   758	
-   759		if (params_channels(params) == 1) {
-   760			dacsetup_reg = AIC32X4_RDAC2LCHN | AIC32X4_LDAC2LCHN;
-   761		} else {
-   762			if (aic32x4->swapdacs)
-   763				dacsetup_reg = AIC32X4_RDAC2LCHN | AIC32X4_LDAC2RCHN;
-   764			else
-   765				dacsetup_reg = AIC32X4_LDAC2LCHN | AIC32X4_RDAC2RCHN;
-   766		}
-   767		snd_soc_update_bits(codec, AIC32X4_DACSETUP,
-   768				    AIC32X4_DAC_CHAN_MASK, dacsetup_reg);
-   769	
-   770		return 0;
-   771	}
-   772	
+
+vim +313 sound/pci/emu10k1/p16v.c
+
+   295	
+   296	/* prepare capture callback */
+   297	static int snd_p16v_pcm_prepare_capture(struct snd_pcm_substream *substream)
+   298	{
+   299		struct snd_emu10k1 *emu = snd_pcm_substream_chip(substream);
+   300		struct snd_pcm_runtime *runtime = substream->runtime;
+   301		int channel = substream->pcm->device - emu->p16v_device_offset;
+   302	
+   303		/*
+   304		dev_dbg(emu->card->dev, "prepare capture:channel_number=%d, rate=%d, "
+   305		       "format=0x%x, channels=%d, buffer_size=%ld, period_size=%ld, "
+   306		       "frames_to_bytes=%d\n",
+   307		       channel, runtime->rate, runtime->format, runtime->channels,
+   308		       runtime->buffer_size, runtime->period_size,
+   309		       frames_to_bytes(runtime, 1));
+   310		*/
+   311	        switch (runtime->rate) {
+   312		case 44100:
+ > 313		  snd_emu10k1_ptr_write(emu, A_I2S_CAPTURE_RATE, channel, A_I2S_CAPTURE_44100);
+   314		  break;
+   315		case 96000:
+   316		  snd_emu10k1_ptr_write(emu, A_I2S_CAPTURE_RATE, channel, A_I2S_CAPTURE_96000);
+   317		  break;
+   318		case 192000:
+   319		  snd_emu10k1_ptr_write(emu, A_I2S_CAPTURE_RATE, channel, A_I2S_CAPTURE_192000);
+   320		  break;
+   321		case 48000:
+   322		default:
+   323		  snd_emu10k1_ptr_write(emu, A_I2S_CAPTURE_RATE, channel, A_I2S_CAPTURE_48000);
+   324		  break;
+   325		}
+   326		/* FIXME: Check emu->buffer.size before actually writing to it. */
+   327		snd_emu10k1_ptr20_write(emu, CAPTURE_FIFO_POINTER, channel, 0);
+   328		snd_emu10k1_ptr20_write(emu, CAPTURE_DMA_ADDR, channel, runtime->dma_addr);
+   329		snd_emu10k1_ptr20_write(emu, CAPTURE_BUFFER_SIZE, channel, frames_to_bytes(runtime, runtime->buffer_size) << 16); // buffer size in bytes
+   330		snd_emu10k1_ptr20_write(emu, CAPTURE_POINTER, channel, 0);
+   331		//snd_emu10k1_ptr20_write(emu, CAPTURE_SOURCE, 0x0, 0x333300e4); /* Select MIC or Line in */
+   332		//snd_emu10k1_ptr20_write(emu, EXTENDED_INT_MASK, 0, snd_emu10k1_ptr20_read(emu, EXTENDED_INT_MASK, 0) | (0x110000<<channel));
+   333	
+   334		return 0;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
