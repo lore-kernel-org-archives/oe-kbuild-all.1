@@ -1,45 +1,45 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCEB33CC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 15:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261B96132;
+	Sat, 22 Apr 2023 16:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682176009; x=1713712009;
+  t=1682179671; x=1713715671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9h20B7mxugL6WmYVPFaBcnpJ1bMw8Ij2U9m5AyfvXxs=;
-  b=Uxya3MQh8NMDnFm1NgmwaKP5BmEkOqRNXa4BfPr1yR/nVvcd4l6lX/dY
-   +hGCxOxvUtnbykinqGVPFD0mAaiPSRJwHSIo6DvL1zS92qkGCcLOZYMuf
-   sQmVZspW7qzpzSCdFkG1vt4SF4VbJZY7+O1Z9B1FctvUXjlu1XiUN3bQr
-   U+jI8fuwTtkjTb6vpKHgLAHNs5sPtrlndqSEJ4EmCn+Xq2qxSDK/fsFd6
-   Zu7Jd7h4Pe3vjZoG9hRu7YcyhYlLpT8RCoZUz3CuihTTW3eSPxUxR1xWz
-   d7antt/xOb34AfSEOwa1fQWm6SBoH8Yy0j/uoZYIlntt6SrcqhbRl8JkA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="325763407"
+  bh=Fqg6VUaZcnML1SvL2jRKALmKw7Edp+iiLo77zFqQBpE=;
+  b=bQOu3M+FEkE5XJ+pvYmHus+U3SGBqxwgewm1Mo1goxCIL/KX7x9LDck4
+   TT8xq7030s4b3ZE6WjlBsUqFJtNHAEIOakJH8FjlP0++NK67zzUI148EP
+   aVDPPr+Z25Me8ReWWJR8P7igpcF5/nn9SO4z8wtE3Kng0hAkz+LDjfOSM
+   39t8VeOM+SSPHKaEk3GkmQlrWivPMMvDD6daGoAH4bCQUaa8UUgUvBmYb
+   T/MdifpPpO1LvLHM7oUp0TRA6Hpp+WvS3l8cI4VIjbvsfm3neXrMBbEZQ
+   XGrTqHEhpz47oNAIyAZv+OdERpnZno3K81EF+JbTlVDtn8kCDPUKC3QXK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="346191144"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="325763407"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 08:06:48 -0700
+   d="scan'208";a="346191144"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 09:07:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="725154158"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="723074523"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="725154158"
+   d="scan'208";a="723074523"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 22 Apr 2023 08:06:47 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Apr 2023 09:07:48 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqEp4-000hLq-14;
-	Sat, 22 Apr 2023 15:06:46 +0000
-Date: Sat, 22 Apr 2023 23:05:59 +0800
+	id 1pqFm7-000hNk-36;
+	Sat, 22 Apr 2023 16:07:47 +0000
+Date: Sun, 23 Apr 2023 00:07:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>,
-	Curtis Malainey <cujomalainey@chromium.org>
-Subject: [jsarha:topic/cros-sof-v4.14-rebase 3569/9999]
- sound/soc/sof/debug.c:57:9: sparse: sparse: cast removes address space
- '<asn:2>' of expression
-Message-ID: <202304222205.9kDe1nRD-lkp@intel.com>
+To: Ofir Bitton <obitton@habana.ai>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Oded Gabbay <ogabbay@kernel.org>
+Subject: [linux-next:master 9508/13717]
+ drivers/accel/habanalabs/gaudi/gaudi.c:117:19: warning: unused variable
+ 'gaudi_irq_name'
+Message-ID: <202304230014.YbScpx20-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,80 +49,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
-head:   18a233f3f676a98dde00947535d99ab1a54da340
-commit: 71198ee91e6191cab28765e80aa3bb7e6b41d34a [3569/9999] CHROMIUM: ASoC: SOF: core fix sparse warnings.
-config: m68k-randconfig-s051-20230416 (https://download.01.org/0day-ci/archive/20230422/202304222205.9kDe1nRD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 7.5.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89
+commit: b207e166dbadc88f38d9550c592cc4f8413b7a15 [9508/13717] accel/habanalabs: remove Gaudi1 multi MSI code
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230423/202304230014.YbScpx20-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/71198ee91e6191cab28765e80aa3bb7e6b41d34a
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
-        git checkout 71198ee91e6191cab28765e80aa3bb7e6b41d34a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b207e166dbadc88f38d9550c592cc4f8413b7a15
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b207e166dbadc88f38d9550c592cc4f8413b7a15
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/codecs/ sound/soc/sof/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/ drivers/accel/ drivers/gpu/ drivers/power/ drivers/vdpa/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304222205.9kDe1nRD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230014.YbScpx20-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/sof/debug.c:57:9: sparse: sparse: cast removes address space '<asn:2>' of expression
+All warnings (new ones prefixed by >>):
 
-vim +57 sound/soc/sof/debug.c
+>> drivers/accel/habanalabs/gaudi/gaudi.c:117:19: warning: unused variable 'gaudi_irq_name' [-Wunused-const-variable]
+   static const char gaudi_irq_name[GAUDI_MSI_ENTRIES][GAUDI_MAX_STRING_LEN] = {
+                     ^
+   1 warning generated.
 
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  31  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  32  static ssize_t sof_dfsentry_read(struct file *file, char __user *buffer,
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  33  				 size_t count, loff_t *ppos)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  34  {
-71198ee91e6191 Liam Girdwood 2018-07-05  35  	struct snd_sof_dfsentry_io *dfse = file->private_data;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  36  	struct snd_sof_dev *sdev = dfse->sdev;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  37  	int size;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  38  	u32 *buf;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  39  	loff_t pos = *ppos;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  40  	size_t ret;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  41  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  42  	size = dfse->size;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  43  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  44  	if (pos < 0)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  45  		return -EINVAL;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  46  	if (pos >= size || !count)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  47  		return 0;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  48  	if (count > size - pos)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  49  		count = size - pos;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  50  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  51  	size = (count + 3) & ~3;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  52  	buf = kzalloc(size, GFP_KERNEL);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  53  	if (!buf)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  54  		return -ENOMEM;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  55  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  56  	pm_runtime_get(sdev->dev);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08 @57  	memcpy_fromio(buf,  dfse->buf + pos, size);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  58  	pm_runtime_put(sdev->dev);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  59  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  60  	ret = copy_to_user(buffer, buf, count);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  61  	kfree(buf);
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  62  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  63  	if (ret == count)
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  64  		return -EFAULT;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  65  	count -= ret;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  66  	*ppos = pos + count;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  67  
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  68  	return count;
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  69  }
-ed1d2896fb2fa3 Liam Girdwood 2018-01-08  70  
 
-:::::: The code at line 57 was first introduced by commit
-:::::: ed1d2896fb2fa34d1efe8606af4bcee59afe807e FROMLIST: ASoC: SOF: Add driver debug support.
+vim +/gaudi_irq_name +117 drivers/accel/habanalabs/gaudi/gaudi.c
 
-:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-:::::: CC: chrome-bot <chrome-bot@chromium.org>
+72d6625570c16b drivers/misc/habanalabs/gaudi/gaudi.c Ohad Sharabi 2021-08-01  116  
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11 @117  static const char gaudi_irq_name[GAUDI_MSI_ENTRIES][GAUDI_MAX_STRING_LEN] = {
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  118  		"gaudi cq 0_0", "gaudi cq 0_1", "gaudi cq 0_2", "gaudi cq 0_3",
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  119  		"gaudi cq 1_0", "gaudi cq 1_1", "gaudi cq 1_2", "gaudi cq 1_3",
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  120  		"gaudi cq 5_0", "gaudi cq 5_1", "gaudi cq 5_2", "gaudi cq 5_3",
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  121  		"gaudi cpu eq"
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  122  };
+ac0ae6a96aa58e drivers/misc/habanalabs/gaudi/gaudi.c Oded Gabbay  2020-05-11  123  
+
+:::::: The code at line 117 was first introduced by commit
+:::::: ac0ae6a96aa58eeba4aed97b12ef1dea8c5bf399 habanalabs: add gaudi asic-dependent code
+
+:::::: TO: Oded Gabbay <oded.gabbay@gmail.com>
+:::::: CC: Oded Gabbay <oded.gabbay@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
