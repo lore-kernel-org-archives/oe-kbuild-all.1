@@ -1,47 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B8639F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 14:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCEB33CC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 15:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682175350; x=1713711350;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bp0lZbgB9qXMzSvQZwpIeAsM6SvqExlhhg1XVVT7xEk=;
-  b=nje+aFtnE2tUzsXWpCyMt8E07c1o91AiQQchv6lz5tXPaO6reQu3eqG+
-   BOPB6OOKFNxkKKPe7CcmDivuLgqb1ApsoZXexdCJflZNWwRq7AY7TeNET
-   0OmHH0+YK4f9Bj3qkIxpIhAiw/Shp7ZsB1FjsOTFpduWK+PRVJ+M9XFgi
-   9qCGg7oR6Dn1CWsFzJBcpND2CUc0iJ+CeM26y7U/BASG/rHJqq9v/XlQF
-   Fk+Bq5+BSUYiZKEPQrGo0ogKQI9QmZkFee3NRKy4AIDEMZE5Xgn3XXweo
-   jgxAfCwEkBxIuOik86X+eRA7c0HgaPoIJiBVAcQ9q9sElQnreZZrFUCqe
+  t=1682176009; x=1713712009;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9h20B7mxugL6WmYVPFaBcnpJ1bMw8Ij2U9m5AyfvXxs=;
+  b=Uxya3MQh8NMDnFm1NgmwaKP5BmEkOqRNXa4BfPr1yR/nVvcd4l6lX/dY
+   +hGCxOxvUtnbykinqGVPFD0mAaiPSRJwHSIo6DvL1zS92qkGCcLOZYMuf
+   sQmVZspW7qzpzSCdFkG1vt4SF4VbJZY7+O1Z9B1FctvUXjlu1XiUN3bQr
+   U+jI8fuwTtkjTb6vpKHgLAHNs5sPtrlndqSEJ4EmCn+Xq2qxSDK/fsFd6
+   Zu7Jd7h4Pe3vjZoG9hRu7YcyhYlLpT8RCoZUz3CuihTTW3eSPxUxR1xWz
+   d7antt/xOb34AfSEOwa1fQWm6SBoH8Yy0j/uoZYIlntt6SrcqhbRl8JkA
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="348959630"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="325763407"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="348959630"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 07:55:50 -0700
+   d="scan'208";a="325763407"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 08:06:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="670007526"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="725154158"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="670007526"
+   d="scan'208";a="725154158"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 22 Apr 2023 07:55:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Apr 2023 08:06:47 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqEeQ-000hLS-0T;
-	Sat, 22 Apr 2023 14:55:46 +0000
-Date: Sat, 22 Apr 2023 22:55:36 +0800
+	id 1pqEp4-000hLq-14;
+	Sat, 22 Apr 2023 15:06:46 +0000
+Date: Sat, 22 Apr 2023 23:05:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org,
-	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v9 09/11] AppArmor: Add selfattr hooks
-Message-ID: <202304222257.AqAHzkgi-lkp@intel.com>
-References: <20230421174259.2458-10-casey@schaufler-ca.com>
+To: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>,
+	Curtis Malainey <cujomalainey@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 3569/9999]
+ sound/soc/sof/debug.c:57:9: sparse: sparse: cast removes address space
+ '<asn:2>' of expression
+Message-ID: <202304222205.9kDe1nRD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,144 +48,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-10-casey@schaufler-ca.com>
 
-Hi Casey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.3-rc7]
-[cannot apply to next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20230421174259.2458-10-casey%40schaufler-ca.com
-patch subject: [PATCH v9 09/11] AppArmor: Add selfattr hooks
-config: mips-randconfig-s051-20230421 (https://download.01.org/0day-ci/archive/20230422/202304222257.AqAHzkgi-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: 71198ee91e6191cab28765e80aa3bb7e6b41d34a [3569/9999] CHROMIUM: ASoC: SOF: core fix sparse warnings.
+config: m68k-randconfig-s051-20230416 (https://download.01.org/0day-ci/archive/20230422/202304222205.9kDe1nRD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 7.5.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/2628bfcd3ff1b12fbae522a5449a7344ffe6ecbd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-        git checkout 2628bfcd3ff1b12fbae522a5449a7344ffe6ecbd
+        # https://github.com/jsarha/linux/commit/71198ee91e6191cab28765e80aa3bb7e6b41d34a
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
+        git checkout 71198ee91e6191cab28765e80aa3bb7e6b41d34a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash security/apparmor/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/codecs/ sound/soc/sof/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304222257.AqAHzkgi-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304222205.9kDe1nRD-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> security/apparmor/lsm.c:1339:9: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( *setselfattr )( ... ) @@     got int ( * )( ... ) @@
-   security/apparmor/lsm.c:1339:9: sparse:     expected int ( *setselfattr )( ... )
-   security/apparmor/lsm.c:1339:9: sparse:     got int ( * )( ... )
->> security/apparmor/lsm.c:643:13: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:645:18: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:647:18: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:785:13: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:785:41: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:788:27: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:788:27: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:793:42: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:793:42: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:795:34: sparse: sparse: dereference of noderef expression
-   security/apparmor/lsm.c:798:33: sparse: sparse: dereference of noderef expression
+>> sound/soc/sof/debug.c:57:9: sparse: sparse: cast removes address space '<asn:2>' of expression
 
-vim +1339 security/apparmor/lsm.c
+vim +57 sound/soc/sof/debug.c
 
-  1305	
-  1306	static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
-  1307		LSM_HOOK_INIT(ptrace_access_check, apparmor_ptrace_access_check),
-  1308		LSM_HOOK_INIT(ptrace_traceme, apparmor_ptrace_traceme),
-  1309		LSM_HOOK_INIT(capget, apparmor_capget),
-  1310		LSM_HOOK_INIT(capable, apparmor_capable),
-  1311	
-  1312		LSM_HOOK_INIT(sb_mount, apparmor_sb_mount),
-  1313		LSM_HOOK_INIT(sb_umount, apparmor_sb_umount),
-  1314		LSM_HOOK_INIT(sb_pivotroot, apparmor_sb_pivotroot),
-  1315	
-  1316		LSM_HOOK_INIT(path_link, apparmor_path_link),
-  1317		LSM_HOOK_INIT(path_unlink, apparmor_path_unlink),
-  1318		LSM_HOOK_INIT(path_symlink, apparmor_path_symlink),
-  1319		LSM_HOOK_INIT(path_mkdir, apparmor_path_mkdir),
-  1320		LSM_HOOK_INIT(path_rmdir, apparmor_path_rmdir),
-  1321		LSM_HOOK_INIT(path_mknod, apparmor_path_mknod),
-  1322		LSM_HOOK_INIT(path_rename, apparmor_path_rename),
-  1323		LSM_HOOK_INIT(path_chmod, apparmor_path_chmod),
-  1324		LSM_HOOK_INIT(path_chown, apparmor_path_chown),
-  1325		LSM_HOOK_INIT(path_truncate, apparmor_path_truncate),
-  1326		LSM_HOOK_INIT(inode_getattr, apparmor_inode_getattr),
-  1327	
-  1328		LSM_HOOK_INIT(file_open, apparmor_file_open),
-  1329		LSM_HOOK_INIT(file_receive, apparmor_file_receive),
-  1330		LSM_HOOK_INIT(file_permission, apparmor_file_permission),
-  1331		LSM_HOOK_INIT(file_alloc_security, apparmor_file_alloc_security),
-  1332		LSM_HOOK_INIT(file_free_security, apparmor_file_free_security),
-  1333		LSM_HOOK_INIT(mmap_file, apparmor_mmap_file),
-  1334		LSM_HOOK_INIT(file_mprotect, apparmor_file_mprotect),
-  1335		LSM_HOOK_INIT(file_lock, apparmor_file_lock),
-  1336		LSM_HOOK_INIT(file_truncate, apparmor_file_truncate),
-  1337	
-  1338		LSM_HOOK_INIT(getselfattr, apparmor_getselfattr),
-> 1339		LSM_HOOK_INIT(setselfattr, apparmor_setselfattr),
-  1340		LSM_HOOK_INIT(getprocattr, apparmor_getprocattr),
-  1341		LSM_HOOK_INIT(setprocattr, apparmor_setprocattr),
-  1342	
-  1343		LSM_HOOK_INIT(sk_alloc_security, apparmor_sk_alloc_security),
-  1344		LSM_HOOK_INIT(sk_free_security, apparmor_sk_free_security),
-  1345		LSM_HOOK_INIT(sk_clone_security, apparmor_sk_clone_security),
-  1346	
-  1347		LSM_HOOK_INIT(socket_create, apparmor_socket_create),
-  1348		LSM_HOOK_INIT(socket_post_create, apparmor_socket_post_create),
-  1349		LSM_HOOK_INIT(socket_bind, apparmor_socket_bind),
-  1350		LSM_HOOK_INIT(socket_connect, apparmor_socket_connect),
-  1351		LSM_HOOK_INIT(socket_listen, apparmor_socket_listen),
-  1352		LSM_HOOK_INIT(socket_accept, apparmor_socket_accept),
-  1353		LSM_HOOK_INIT(socket_sendmsg, apparmor_socket_sendmsg),
-  1354		LSM_HOOK_INIT(socket_recvmsg, apparmor_socket_recvmsg),
-  1355		LSM_HOOK_INIT(socket_getsockname, apparmor_socket_getsockname),
-  1356		LSM_HOOK_INIT(socket_getpeername, apparmor_socket_getpeername),
-  1357		LSM_HOOK_INIT(socket_getsockopt, apparmor_socket_getsockopt),
-  1358		LSM_HOOK_INIT(socket_setsockopt, apparmor_socket_setsockopt),
-  1359		LSM_HOOK_INIT(socket_shutdown, apparmor_socket_shutdown),
-  1360	#ifdef CONFIG_NETWORK_SECMARK
-  1361		LSM_HOOK_INIT(socket_sock_rcv_skb, apparmor_socket_sock_rcv_skb),
-  1362	#endif
-  1363		LSM_HOOK_INIT(socket_getpeersec_stream,
-  1364			      apparmor_socket_getpeersec_stream),
-  1365		LSM_HOOK_INIT(socket_getpeersec_dgram,
-  1366			      apparmor_socket_getpeersec_dgram),
-  1367		LSM_HOOK_INIT(sock_graft, apparmor_sock_graft),
-  1368	#ifdef CONFIG_NETWORK_SECMARK
-  1369		LSM_HOOK_INIT(inet_conn_request, apparmor_inet_conn_request),
-  1370	#endif
-  1371	
-  1372		LSM_HOOK_INIT(cred_alloc_blank, apparmor_cred_alloc_blank),
-  1373		LSM_HOOK_INIT(cred_free, apparmor_cred_free),
-  1374		LSM_HOOK_INIT(cred_prepare, apparmor_cred_prepare),
-  1375		LSM_HOOK_INIT(cred_transfer, apparmor_cred_transfer),
-  1376	
-  1377		LSM_HOOK_INIT(bprm_creds_for_exec, apparmor_bprm_creds_for_exec),
-  1378		LSM_HOOK_INIT(bprm_committing_creds, apparmor_bprm_committing_creds),
-  1379		LSM_HOOK_INIT(bprm_committed_creds, apparmor_bprm_committed_creds),
-  1380	
-  1381		LSM_HOOK_INIT(task_free, apparmor_task_free),
-  1382		LSM_HOOK_INIT(task_alloc, apparmor_task_alloc),
-  1383		LSM_HOOK_INIT(current_getsecid_subj, apparmor_current_getsecid_subj),
-  1384		LSM_HOOK_INIT(task_getsecid_obj, apparmor_task_getsecid_obj),
-  1385		LSM_HOOK_INIT(task_setrlimit, apparmor_task_setrlimit),
-  1386		LSM_HOOK_INIT(task_kill, apparmor_task_kill),
-  1387	
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  31  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  32  static ssize_t sof_dfsentry_read(struct file *file, char __user *buffer,
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  33  				 size_t count, loff_t *ppos)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  34  {
+71198ee91e6191 Liam Girdwood 2018-07-05  35  	struct snd_sof_dfsentry_io *dfse = file->private_data;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  36  	struct snd_sof_dev *sdev = dfse->sdev;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  37  	int size;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  38  	u32 *buf;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  39  	loff_t pos = *ppos;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  40  	size_t ret;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  41  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  42  	size = dfse->size;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  43  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  44  	if (pos < 0)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  45  		return -EINVAL;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  46  	if (pos >= size || !count)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  47  		return 0;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  48  	if (count > size - pos)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  49  		count = size - pos;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  50  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  51  	size = (count + 3) & ~3;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  52  	buf = kzalloc(size, GFP_KERNEL);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  53  	if (!buf)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  54  		return -ENOMEM;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  55  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  56  	pm_runtime_get(sdev->dev);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08 @57  	memcpy_fromio(buf,  dfse->buf + pos, size);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  58  	pm_runtime_put(sdev->dev);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  59  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  60  	ret = copy_to_user(buffer, buf, count);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  61  	kfree(buf);
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  62  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  63  	if (ret == count)
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  64  		return -EFAULT;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  65  	count -= ret;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  66  	*ppos = pos + count;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  67  
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  68  	return count;
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  69  }
+ed1d2896fb2fa3 Liam Girdwood 2018-01-08  70  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: ed1d2896fb2fa34d1efe8606af4bcee59afe807e FROMLIST: ASoC: SOF: Add driver debug support.
+
+:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+:::::: CC: chrome-bot <chrome-bot@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
