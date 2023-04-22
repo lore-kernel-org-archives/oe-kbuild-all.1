@@ -1,42 +1,42 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EE129A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 16:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEA56AA0;
+	Sat, 22 Apr 2023 16:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682182131; x=1713718131;
+  t=1682182133; x=1713718133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YO7BrPqDsxpPbR59YyuDHZtgqKPY0Cfn3KP5MrSBwgo=;
-  b=XE+B+Iaiqkx4lICtEHuPTgio0y4ikp14u1xQ8UiJIgO4B8KVIHdD+3xG
-   8/dShgs508ijQ/CStqPB0iqlYEMdj43Wj+cCjZOG6ZkXihsj497aPEh/B
-   KEgIQ0KlZisUeudTrrNg7I17/Z1rl+RCtseXCNWNhFpBGuhnYAEtpezeO
-   TFdXBRd5SzvKjOk3m4vlTZ8nkZF60/Flr1LiQpRmu3KCrYtWGjtK+p7MM
-   rADpZEvimEZOqwTqBOUcqn+jNf3GOLsmmCCgrWm1IO7d6iBcEgGo4oqLg
-   RUVIdnOzJub5r/eYnR6IFP7OauY3g4BdKkflZ7toK0r3zTFpBlBlQF6CN
+  bh=EBtpCfl7jwwf2Hod0CS9/vbbY2YMj6u70vaS2+dkucc=;
+  b=WV4TkS3QgrP9K9SK+mPsxpSW2aoZcXY05wdqKNh2SglsG01ONy+l9Arp
+   v40pkGfcDfhvKgRWcWmrnWbRH+jl3y4v0WkZTfjuz9XfXW3Y6RV7ehp5k
+   O7T4TgH7wNMpl+D0P8PduOpOtod30owgonx2wLpjTjBg1CtllVr2ddOcz
+   8f3dyrd8Fg0A/yFNRk9MnhBR1igKsIwCHrLDPp9Jlj6UTY40rQHB5DyH/
+   isAKztaNptg4Z919sw3fvGUSB5fpnRh6qAOI0YANcYGKBgW+jG+UAofwW
+   sHjsG+qNieDFtG5IE4s6JUJOxqt+4dzAu1fIqsdFQMvRLNaS5fljAnUDW
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="330382971"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="330382973"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="330382971"
+   d="scan'208";a="330382973"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 09:48:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="692585540"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="692585539"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="692585540"
+   d="scan'208";a="692585539"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 22 Apr 2023 09:48:49 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqGPp-000hPC-00;
-	Sat, 22 Apr 2023 16:48:49 +0000
-Date: Sun, 23 Apr 2023 00:48:47 +0800
+	id 1pqGPo-000hPA-3B;
+	Sat, 22 Apr 2023 16:48:48 +0000
+Date: Sun, 23 Apr 2023 00:48:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:mm/mremap-pmd-warning-2 1/1] mm/mremap.c:809:25: error:
- 'old_addr' undeclared
-Message-ID: <202304230033.B6H4wvaF-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jfern:mm/mremap-pmd-warning-2 1/1] mm/mremap.c:809:18: error: use
+ of undeclared identifier 'old_addr'; did you mean 'new_addr'?
+Message-ID: <202304230008.dleNKiqY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,34 +49,39 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git mm/mremap-pmd-warning-2
 head:   5cacbf1f3489c227cb2e78e0b9ef454a9363d680
 commit: 5cacbf1f3489c227cb2e78e0b9ef454a9363d680 [1/1] mremap: Allow backward overlapping moves
-config: m68k-randconfig-r034-20230422 (https://download.01.org/0day-ci/archive/20230423/202304230033.B6H4wvaF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+config: riscv-randconfig-r042-20230421 (https://download.01.org/0day-ci/archive/20230423/202304230008.dleNKiqY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=5cacbf1f3489c227cb2e78e0b9ef454a9363d680
         git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git
         git fetch --no-tags jfern mm/mremap-pmd-warning-2
         git checkout 5cacbf1f3489c227cb2e78e0b9ef454a9363d680
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230033.B6H4wvaF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230008.dleNKiqY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/mremap.c: In function 'mremap_to':
->> mm/mremap.c:809:25: error: 'old_addr' undeclared (first use in this function)
-     809 |         if ((new_addr > old_addr) &&
-         |                         ^~~~~~~~
-   mm/mremap.c:809:25: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/mremap.c:809:18: error: use of undeclared identifier 'old_addr'; did you mean 'new_addr'?
+           if ((new_addr > old_addr) &&
+                           ^~~~~~~~
+                           new_addr
+   mm/mremap.c:788:17: note: 'new_addr' declared here
+                   unsigned long new_addr, unsigned long new_len, bool *locked,
+                                 ^
+   1 error generated.
 
 
-vim +/old_addr +809 mm/mremap.c
+vim +809 mm/mremap.c
 
    786	
    787	static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
