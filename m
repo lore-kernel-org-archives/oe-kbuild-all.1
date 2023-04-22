@@ -1,47 +1,53 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5607F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 13:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3333C7F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 13:22:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682169169; x=1713705169;
+  t=1682169771; x=1713705771;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=siolPaBbzy3Sc50U7pDpe27/YvjBEvisAHA0WNyP5iw=;
-  b=KAOskYz07uGkLOxTtg4RVLk2mScVGks0fmysNbOzn2k5a52wUrecq7Z0
-   I9VyUoTxrnOms8B/Abpwf+k8hNzll7cKvOFvZFPGtMNx/2SCYPY33SXDE
-   VSAOPfeW3zzLM194D8NbGUUBM0OlGHHye6jig/SEi+2KhAnZQGsunO+SH
-   9urinOmL8D9xhcqIkLv8bRhNE1Ij0ktQWd1TqB9egzSUegY44oZYmGfHa
-   O44qEXY59hC89aT7dziqqgKlTrEn7Di7ubFeRqS4pOjD0W29LgG+t3iVM
-   buUQ+R5svZgjAP9NSnZGfdMdYQUd/N8ZmNH0i7Mc3C+SwnbSkY8gT/NXP
+  bh=4hmqW8jviqLT2Gn4j6xIteHxG2TJ3+3ga9V3vfgYALA=;
+  b=NXNBqs/AlzNgPOtxONo0i2jbjSfz1m/yBPaiMJA8gSxNwRwCqvIcdNxt
+   ym3EXHkadL4dtfZQ3rVqcy8cKuLgWtWSiBYBdEk7JtM2nUevVCc7CR6rI
+   GgJelgF+C927tZuqVJ3sINhyMlEX3jvfd+KyEQAWOCnJRkP970lLNpqhg
+   hvfFuItGP4hkibIEgOrArJLOJDN66ZFlfULkYbkv3ScJV0MoE9CjGs468
+   gKW9li2+EdWVZ38u+Z/LMo6bdZSRTIvc1Jo8zxVQtqZAfOmumRIlfzqUD
+   /fAhsBS8/Eic/vSPqCFlqZg/P/sspgqnMt0XPAmh/kZC0Z5JR5AR6Qqda
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="330362807"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="325753880"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="330362807"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 06:12:49 -0700
+   d="scan'208";a="325753880"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 06:22:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="836441170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="938787159"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="836441170"
+   d="scan'208";a="938787159"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2023 06:12:45 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 22 Apr 2023 06:22:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqD2i-000hJY-1T;
-	Sat, 22 Apr 2023 13:12:44 +0000
-Date: Sat, 22 Apr 2023 21:12:12 +0800
+	id 1pqDCO-000hJw-2F;
+	Sat, 22 Apr 2023 13:22:44 +0000
+Date: Sat, 22 Apr 2023 21:22:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org,
-	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v9 04/11] LSM: syscalls for current process attributes
-Message-ID: <202304222142.YHgqLhGF-lkp@intel.com>
-References: <20230421174259.2458-5-casey@schaufler-ca.com>
+To: Nylon Chen <nylon.chen@sifive.com>, aou@eecs.berkeley.edu,
+	conor@kernel.org, emil.renner.berthing@canonical.com,
+	geert+renesas@glider.be, heiko@sntech.de,
+	krzysztof.kozlowski+dt@linaro.org, palmer@dabbelt.com,
+	paul.walmsley@sifive.com, robh+dt@kernel.org,
+	thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, nylon.chen@sifive.com,
+	nylon7717@gmail.com, zong.li@sifive.com, greentime.hu@sifive.com,
+	vincent.chen@sifive.com, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 2/2] pwm: sifive: change the PWM controlled LED
+ algorithm
+Message-ID: <202304222135.B9PoQ5w3-lkp@intel.com>
+References: <20230420093457.18936-3-nylon.chen@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,80 +56,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-5-casey@schaufler-ca.com>
+In-Reply-To: <20230420093457.18936-3-nylon.chen@sifive.com>
 
-Hi Casey,
+Hi Nylon,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.3-rc7]
-[cannot apply to next-20230421]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on thierry-reding-pwm/for-next rockchip/for-next linus/master v6.3-rc7 next-20230421]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20230421174259.2458-5-casey%40schaufler-ca.com
-patch subject: [PATCH v9 04/11] LSM: syscalls for current process attributes
-config: mips-randconfig-s051-20230421 (https://download.01.org/0day-ci/archive/20230422/202304222142.YHgqLhGF-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Nylon-Chen/riscv-dts-sifive-unleashed-unmatched-Remove-PWM-controlled-LED-s-active-low-properties/20230420-173619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230420093457.18936-3-nylon.chen%40sifive.com
+patch subject: [PATCH v3 2/2] pwm: sifive: change the PWM controlled LED algorithm
+config: sparc64-randconfig-s031-20230421 (https://download.01.org/0day-ci/archive/20230422/202304222135.B9PoQ5w3-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/78ea54cc31d7bd9e5a5c7fe8cf34fba9516fde95
+        # https://github.com/intel-lab-lkp/linux/commit/f2d706bf61190a45a8f90f1f455bc943d4ac7b6e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-        git checkout 78ea54cc31d7bd9e5a5c7fe8cf34fba9516fde95
+        git fetch --no-tags linux-review Nylon-Chen/riscv-dts-sifive-unleashed-unmatched-Remove-PWM-controlled-LED-s-active-low-properties/20230420-173619
+        git checkout f2d706bf61190a45a8f90f1f455bc943d4ac7b6e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 SHELL=/bin/bash drivers/pwm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304222142.YHgqLhGF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304222135.B9PoQ5w3-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> security/lsm_syscalls.c:34:48: sparse: sparse: dereference of noderef expression
---
-   security/security.c:406:25: sparse: sparse: cast removes address space '__rcu' of expression
->> security/security.c:2196:13: sparse: sparse: dereference of noderef expression
-   security/security.c:2203:14: sparse: sparse: dereference of noderef expression
-   security/security.c:2208:20: sparse: sparse: dereference of noderef expression
-   security/security.c:2218:43: sparse: sparse: dereference of noderef expression
-   security/security.c:2218:66: sparse: sparse: dereference of noderef expression
-   security/security.c:2263:13: sparse: sparse: dereference of noderef expression
-   security/security.c:2265:13: sparse: sparse: dereference of noderef expression
-   security/security.c:2269:13: sparse: sparse: dereference of noderef expression
-   security/security.c:2269:32: sparse: sparse: dereference of noderef expression
-   security/security.c:2275:53: sparse: sparse: dereference of noderef expression
-   security/security.c:2275:64: sparse: sparse: dereference of noderef expression
-   security/security.c:2275:70: sparse: sparse: dereference of noderef expression
+>> drivers/pwm/pwm-sifive.c:157:18: sparse: sparse: incompatible types in comparison expression (different type sizes):
+>> drivers/pwm/pwm-sifive.c:157:18: sparse:    unsigned long long const *
+>> drivers/pwm/pwm-sifive.c:157:18: sparse:    unsigned int *
 
-vim +34 security/lsm_syscalls.c
+vim +157 drivers/pwm/pwm-sifive.c
 
-    19	
-    20	/**
-    21	 * sys_lsm_set_self_attr - Set current task's security module attribute
-    22	 * @attr: which attribute to set
-    23	 * @ctx: the LSM contexts
-    24	 * @size: size of @ctx
-    25	 * @flags: reserved for future use
-    26	 *
-    27	 * Sets the calling task's LSM context. On success this function
-    28	 * returns 0. If the attribute specified cannot be set a negative
-    29	 * value indicating the reason for the error is returned.
-    30	 */
-    31	SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-    32			ctx, size_t __user, size, u32, flags)
-    33	{
-  > 34		return security_setselfattr(attr, ctx, size, flags);
-    35	}
-    36	
+   129	
+   130	static int pwm_sifive_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+   131				    const struct pwm_state *state)
+   132	{
+   133		struct pwm_sifive_ddata *ddata = pwm_sifive_chip_to_ddata(chip);
+   134		struct pwm_state cur_state;
+   135		unsigned int duty_cycle, period;
+   136		unsigned long long num;
+   137		bool enabled;
+   138		int ret = 0;
+   139		u32 frac;
+   140	
+   141		if (state->polarity != PWM_POLARITY_NORMAL && state->polarity != PWM_POLARITY_INVERSED)
+   142			return -EINVAL;
+   143	
+   144		cur_state = pwm->state;
+   145		enabled = cur_state.enabled;
+   146	
+   147		duty_cycle = state->duty_cycle;
+   148		if (!state->enabled)
+   149			duty_cycle = 0;
+   150	
+   151		/*
+   152		 * The problem of output producing mixed setting as mentioned at top,
+   153		 * occurs here. To minimize the window for this problem, we are
+   154		 * calculating the register values first and then writing them
+   155		 * consecutively
+   156		 */
+ > 157		period = max(state->period, ddata->approx_period);
+   158		num = (u64)duty_cycle * (1U << PWM_SIFIVE_CMPWIDTH);
+   159		frac = DIV64_U64_ROUND_CLOSEST(num, state->period);
+   160		frac = min(frac, (1U << PWM_SIFIVE_CMPWIDTH) - 1);
+   161		/* The hardware cannot generate a 100% duty cycle */
+   162		frac = (1U << PWM_SIFIVE_CMPWIDTH) - 1 - frac;
+   163	
+   164	
+   165		mutex_lock(&ddata->lock);
+   166		if (state->period != ddata->approx_period) {
+   167			/*
+   168			 * Don't let a 2nd user change the period underneath the 1st user.
+   169			 * However if ddate->approx_period == 0 this is the first time we set
+   170			 * any period, so let whoever gets here first set the period so other
+   171			 * users who agree on the period won't fail.
+   172			 */
+   173			if (ddata->user_count != 1 && ddata->approx_period) {
+   174				mutex_unlock(&ddata->lock);
+   175				return -EBUSY;
+   176			}
+   177			ddata->approx_period = state->period;
+   178			pwm_sifive_update_clock(ddata, clk_get_rate(ddata->clk));
+   179		}
+   180		mutex_unlock(&ddata->lock);
+   181	
+   182		/*
+   183		 * If the PWM is enabled the clk is already on. So only enable it
+   184		 * conditionally to have it on exactly once afterwards independent of
+   185		 * the PWM state.
+   186		 */
+   187		if (!enabled) {
+   188			ret = clk_enable(ddata->clk);
+   189			if (ret) {
+   190				dev_err(ddata->chip.dev, "Enable clk failed\n");
+   191				return ret;
+   192			}
+   193		}
+   194	
+   195		writel(frac, ddata->regs + PWM_SIFIVE_PWMCMP(pwm->hwpwm));
+   196	
+   197		if (!state->enabled)
+   198			clk_disable(ddata->clk);
+   199	
+   200		return 0;
+   201	}
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
