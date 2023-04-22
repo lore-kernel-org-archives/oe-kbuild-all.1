@@ -1,54 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71BE7F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 01:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C3B393
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 01:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682127874; x=1713663874;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vkWe51df/2dvVNBuhbu+qHD3Go/+n5R5vhvb2COquW8=;
-  b=COrpqp1j31pncDe/jx6HQQRKJROGUQvI9uIBJ5hf2TJI2Z+cJjr5tCGt
-   F3OUSTY1wWkDjZeEmAdDD7rgBpXF69MJOSGtlpuy/Irkd3g4ghoD2osYs
-   zy/D+BcvLk9huQUrTHty/cssLQkBZjW4HiEgjBdoWFrKC5gnxz8jsd6pB
-   x90IXhY6X5Riwk/GrJUoir7unakEz9Nm8uZLjek4mfoLWuN1oLp2Y7OzI
-   cLmWgi+KuOg+84B6Wjoy/2Uy/44dcgV/pKuWFo2nZ/VsdvFCcPDXPwFEf
-   3fPuJDfHeHjaU+UdTZJ1JqMJOK+GeeiEdzRX+ZKF/iY7a+W3fvdjGg485
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="343601252"
+  t=1682128533; x=1713664533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f+lgA9XjN+teB/ra0NbLrkfA9pwCUCZbZeeDto0MG8Q=;
+  b=BS5ibkEOy1F+6vuRQdX9QsOVxCJ2FQQ+jGVvNiiVVEXk1GwtVhOlLwPL
+   drO97CMn5aXBjs6JhQIFszks4HEvMe9WUXXd2FFfDlu9Ln9TS+7WKDzLX
+   I+i2Lk4BUJ1nnFi4FFy+hbaOBjEIMpXJgUZ9GxsYO6jjVYw8Obinq02I4
+   26CvZ4kneZQCrNpy0YxkIbZ9KFvtK0yyQsyePTK+5sFqwNlX1lVYLFBOT
+   Zjwlc+cn2485jyN7WqGMC+xRpo41GF2EAaf0WyauSDuU3MisekIsyhZ8F
+   y3QgakIgMZro5lelbM4lDr2h1RZzhrw/e/PaV2DoauG44LAPjKXErkBJY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="344868094"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="343601252"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 18:44:34 -0700
+   d="scan'208";a="344868094"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 18:55:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="692444597"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="803928621"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="692444597"
+   d="scan'208";a="803928621"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 21 Apr 2023 18:44:30 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Apr 2023 18:55:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pq2If-000gzY-1u;
-	Sat, 22 Apr 2023 01:44:29 +0000
-Date: Sat, 22 Apr 2023 09:44:08 +0800
+	id 1pq2TK-000h02-1S;
+	Sat, 22 Apr 2023 01:55:30 +0000
+Date: Sat, 22 Apr 2023 09:54:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, michael@amarulasolutions.com,
-	Amarula patchwork <linux-amarula@amarulasolutions.com>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/7] arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
-Message-ID: <202304220932.cK8RhITJ-lkp@intel.com>
-References: <20230421154308.527128-4-dario.binacchi@amarulasolutions.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:master 943/1117] include/linux/mtd/spi-nor.h:429:27:
+ warning: array subscript 2 is above array bounds of 'struct
+ spi_nor_flash_parameter * const[2]'
+Message-ID: <202304220923.sh7Zt2zC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,45 +47,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421154308.527128-4-dario.binacchi@amarulasolutions.com>
 
-Hi Dario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on shawnguo/for-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc7 next-20230421]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-display-panel-Add-synaptics-r63353-panel-controller/20230421-234627
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230421154308.527128-4-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH 3/7] arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
-config: arm64-buildonly-randconfig-r004-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220932.cK8RhITJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
+commit: 0d4f3cd4205e0e41ba21a00507fb6afb7d3d2ca4 [943/1117] mtd: spi-nor: Add stacked memories support in spi-nor
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230422/202304220923.sh7Zt2zC-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/eb3fd6ddb6525c2084455d38de459aaaf0213471
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dario-Binacchi/dt-bindings-display-panel-Add-synaptics-r63353-panel-controller/20230421-234627
-        git checkout eb3fd6ddb6525c2084455d38de459aaaf0213471
+        # https://github.com/Xilinx/linux-xlnx/commit/0d4f3cd4205e0e41ba21a00507fb6afb7d3d2ca4
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 0d4f3cd4205e0e41ba21a00507fb6afb7d3d2ca4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/spi-nor/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304220932.cK8RhITJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304220923.sh7Zt2zC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2-display.dtsi:47.1-5 Label or path dsi not found
->> FATAL ERROR: Syntax error parsing input tree
+   In file included from drivers/mtd/spi-nor/core.c:23:
+   drivers/mtd/spi-nor/core.c: In function 'spi_nor_read.part.0':
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+   drivers/mtd/spi-nor/core.c: In function 'spi_nor_write':
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+   drivers/mtd/spi-nor/core.c: In function 'spi_nor_erase':
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+
+
+vim +429 include/linux/mtd/spi-nor.h
+
+   426	
+   427	static inline struct spi_nor_flash_parameter *spi_nor_get_params(const struct spi_nor *nor, u8 idx)
+   428	{
+ > 429		return nor->params[idx];
+   430	}
+   431	
 
 -- 
 0-DAY CI Kernel Test Service
