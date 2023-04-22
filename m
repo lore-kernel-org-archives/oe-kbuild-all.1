@@ -1,42 +1,49 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8737F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 03:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D17F;
+	Sat, 22 Apr 2023 03:47:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682134055; x=1713670055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ph5w1AYiKP/d6+QKp5cQkQTwiEsnf7CXXn3Vy270zHc=;
-  b=aIg8Eq1MqD476YDriV+5hJJo79NThJTJbiGMDBajGmdT4Z/g3V87Qcz9
-   6zgfmGRdZKL+Jf9/WHCs9pOxTkU4dhVTjOZnsSLP2SOqmRTvXd2pJj8ep
-   zktmhKSbBhB/O6QpZlejlgRXOz8NXIRp0HAAtczvbtQvuMmTScc8oBykr
-   rAupugp9u78/eLIm8pmRYwcwPZHhXj//Qk1qTBOO9JQjXSu9BoL9o/aSh
-   DPQHMROzltIpULHpC58oRueh1jib7uwoMTXMnaV20HWx2JdgTPo4Rta1o
-   N4lXR4AG59uX54N2JKE9b8phGnZhFKsMQ2tUWqI+GdCd7VmIR5dXeLmqu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="409064006"
+  t=1682135259; x=1713671259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSLCXbVVatEMzVoM1qtANKX2CM4Zh2BjCrV2sdtYG+A=;
+  b=iD5+UXhKmDeKAg+w1kvAo+ygMMs6+bqp2gXf4Fc/mS3Ne+07VQCqt+SM
+   8+C4fqEpiTMV7KNv7bwaoYXvFYikA08A7Q9DFa1KMKAtXDvDbMd0ovvMw
+   bOq8B0zUbRVQ345T+uROD5yCRFQvzNlAb8yZ9yZkFnG7MvPhFvu2tQ7Cu
+   ueSJ0fb7kwzT8JGRxzssGgAe7dwZtGRO5W06XLapi93OcrRRZ85mIXRmY
+   1tGscbZeAadSbz/1+b2AHwygAj0vR2dBwnb3sO3K84yQ3A4+DXAeYIuLH
+   bttyddSKwizWP2pevWZLaVoxKZoFGWlMWo/TASgSen+CyTDfpKG7rju5j
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="343610973"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="409064006"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 20:27:34 -0700
+   d="scan'208";a="343610973"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 20:47:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="761784015"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="816640029"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="761784015"
+   d="scan'208";a="816640029"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2023 20:27:33 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Apr 2023 20:47:34 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pq3uP-000h2W-04;
-	Sat, 22 Apr 2023 03:27:33 +0000
-Date: Sat, 22 Apr 2023 11:26:41 +0800
+	id 1pq4Dl-000h2s-1a;
+	Sat, 22 Apr 2023 03:47:33 +0000
+Date: Sat, 22 Apr 2023 11:47:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:ctime 1/5] stat.c:undefined reference to
- `__atomic_fetch_or_4'
-Message-ID: <202304221113.xP0iPgpQ-lkp@intel.com>
+To: Rae Moar <rmoar@google.com>, frowand.list@gmail.com,
+	davidgow@google.com, skhan@linuxfoundation.org,
+	keescook@chromium.org, Tim.Bird@sony.com, brendanhiggins@google.com
+Cc: oe-kbuild-all@lists.linux.dev, corbet@lwn.net,
+	guillaume.tucker@collabora.com, dlatypov@google.com,
+	kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Rae Moar <rmoar@google.com>
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
+Message-ID: <202304221132.H0D5OLHS-lkp@intel.com>
+References: <20230420205734.1288498-1-rmoar@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,34 +52,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230420205734.1288498-1-rmoar@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git ctime
-head:   54dd444fe05963240ab071845d5de2b1da6d7688
-commit: ef2430ea5bbddbce887a45fce3dcc6d2034e6d7b [1/5] fs: add infrastructure for multigrain inode i_m/ctime
-config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20230422/202304221113.xP0iPgpQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/commit/?id=ef2430ea5bbddbce887a45fce3dcc6d2034e6d7b
-        git remote add jlayton https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git
-        git fetch --no-tags jlayton ctime
-        git checkout ef2430ea5bbddbce887a45fce3dcc6d2034e6d7b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+Hi Rae,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 906f02e42adfbd5ae70d328ee71656ecb602aaf5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
+base:   906f02e42adfbd5ae70d328ee71656ecb602aaf5
+patch link:    https://lore.kernel.org/r/20230420205734.1288498-1-rmoar%40google.com
+patch subject: [KTAP V2 PATCH] ktap_v2: add test metadata
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/9a01de0a8d8f9f09023184d9df00aa98a559c871
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
+        git checkout 9a01de0a8d8f9f09023184d9df00aa98a559c871
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304221113.xP0iPgpQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304221132.H0D5OLHS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: fs/stat.o: in function `generic_fill_multigrain_cmtime':
->> stat.c:(.text+0x1c8): undefined reference to `__atomic_fetch_or_4'
-   arm-linux-gnueabi-ld: fs/inode.o: in function `current_ctime':
->> inode.c:(.text+0x172c): undefined reference to `__atomic_fetch_and_4'
+>> Documentation/dev-tools/ktap.rst:184: WARNING: Unexpected indentation.
+>> Documentation/dev-tools/ktap.rst:185: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+vim +184 Documentation/dev-tools/ktap.rst
+
+   181	
+   182	There are a few currently recognized metadata types:
+   183	- "# Subtest: <test_name>" to indicate test name (name must match
+ > 184	  corresponding result line)
+ > 185	- "# Attributes: <attributes list>" to indicate test attributes (list
+   186	  separated by commas)
+   187	- "# File: <file_path>" to indicate file used in testing
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
