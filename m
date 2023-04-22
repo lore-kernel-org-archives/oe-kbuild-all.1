@@ -1,48 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F83E7F;
-	Sat, 22 Apr 2023 01:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A3B7F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 01:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682126615; x=1713662615;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8qaPqLf620JT3lsFtV3qPS9X2GQ8wbZ10jPK2VZDSjE=;
-  b=d4kFn3wtoUK31u58qyxM+E1A+YyaNiCS0c7bW9cJLpnO1AFyu5fIYv6+
-   zOJ/3dKV0weXHpzQ+0wC2OIZ4nP/q3b8bxRHcfmoxqIu0wPC3p8WugNk8
-   mhKGMdzV2H6yDPf9R1jJhOqcSmrtjheP3H0LHCjaDKSxTENiTkiv6fBP2
-   yLE1p+m6lNkTWYtErG/COCDzxPu6Cg6U+r+giqzMSrU2Jt1kajAk51bz8
-   atoZAQWv0e0UR0rHnRx32b+uw1h/RwHHmhjeUa4AiB1+SXK5ELOqGkwDa
-   bdorzUin62ykX765UqJ6sow/fmP1DOxetiflGTD9X20gROdrFrXeyp3hT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="326445548"
+  t=1682127271; x=1713663271;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZLFwCIX7/un3CJZ/Zubhkfd29ENxfh1F7uICPUi0sBE=;
+  b=evNU3cxrBow4Z+BFjJcMuu7PnDa/xoRXL/LM0tOpb5a4xd7xQ/c2Gxh/
+   /+xKI2ynRZpsu0HTqqy3iwce5FLIMhgWM4rQg8xxbO2yppAqJoUfvSB2g
+   MH8KyIz2ndMEgZF8D5+b/vxUKRg7H2WiefbKFghG2rtrGQpNf/cD2dfnW
+   1ajf67FsTFih0O9QGFZuJ1A3WULurwKY4W+oIPpIwMs4Q7BSSq2RQ+9wX
+   pzjwDGocgiurZeyPfqY2e+AgNrxG+Can5+rsI+2b/uJPeVeJ9U+Oe4J9Q
+   KtaFHucqP6dzgxh3E+5rWMhnuDAExyU9iQNPdu+i0fN2BVggOo+JcyJCg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="330321007"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="326445548"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 18:23:33 -0700
+   d="scan'208";a="330321007"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 18:34:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="722949863"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="669887647"
 X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="722949863"
+   d="scan'208";a="669887647"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Apr 2023 18:23:29 -0700
+  by orsmga006.jf.intel.com with ESMTP; 21 Apr 2023 18:34:30 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pq1yL-000gyu-0U;
-	Sat, 22 Apr 2023 01:23:29 +0000
-Date: Sat, 22 Apr 2023 09:23:12 +0800
+	id 1pq28z-000gzC-1D;
+	Sat, 22 Apr 2023 01:34:29 +0000
+Date: Sat, 22 Apr 2023 09:33:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
-	keescook@chromium.org, john.johansen@canonical.com,
-	penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	mic@digikod.net
-Subject: Re: [PATCH v9 09/11] AppArmor: Add selfattr hooks
-Message-ID: <202304220930.OFrY92as-lkp@intel.com>
-References: <20230421174259.2458-10-casey@schaufler-ca.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/module-space-rework 6/7]
+ arch/arm64/kernel/ftrace.c:200:36: error: invalid use of undefined type
+ 'struct module'
+Message-ID: <202304220932.iSUZ5Tex-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,110 +46,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-10-casey@schaufler-ca.com>
 
-Hi Casey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.3-rc7]
-[cannot apply to next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20230421174259.2458-10-casey%40schaufler-ca.com
-patch subject: [PATCH v9 09/11] AppArmor: Add selfattr hooks
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230422/202304220930.OFrY92as-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/module-space-rework
+head:   1ac179f2c4d6f8091e8332a1f1cfa7a8be901a75
+commit: c4418e1c18cfe1261d69bf1313263475dd16b2a3 [6/7] arm64: mandate MODULE_PLTS for MODULES
+config: arm64-buildonly-randconfig-r003-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220932.iSUZ5Tex-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2628bfcd3ff1b12fbae522a5449a7344ffe6ecbd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-        git checkout 2628bfcd3ff1b12fbae522a5449a7344ffe6ecbd
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?id=c4418e1c18cfe1261d69bf1313263475dd16b2a3
+        git remote add mark https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git
+        git fetch --no-tags mark arm64/module-space-rework
+        git checkout c4418e1c18cfe1261d69bf1313263475dd16b2a3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash security/apparmor/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304220930.OFrY92as-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304220932.iSUZ5Tex-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/apparmor/lsm.c:654:7: warning: variable 'total_len' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                   if (error > 0) {
-                       ^~~~~~~~~
-   security/apparmor/lsm.c:666:10: note: uninitialized use occurs here
-           *size = total_len;
-                   ^~~~~~~~~
-   security/apparmor/lsm.c:654:3: note: remove the 'if' if its condition is always true
-                   if (error > 0) {
-                   ^~~~~~~~~~~~~~~
-   security/apparmor/lsm.c:652:6: warning: variable 'total_len' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (label) {
-               ^~~~~
-   security/apparmor/lsm.c:666:10: note: uninitialized use occurs here
-           *size = total_len;
-                   ^~~~~~~~~
-   security/apparmor/lsm.c:652:2: note: remove the 'if' if its condition is always true
-           if (label) {
-           ^~~~~~~~~~~
-   security/apparmor/lsm.c:640:18: note: initialize the variable 'total_len' to silence this warning
-           size_t total_len;
-                           ^
-                            = 0
-   2 warnings generated.
+   arch/arm64/kernel/ftrace.c: In function 'get_ftrace_plt':
+>> arch/arm64/kernel/ftrace.c:200:36: error: invalid use of undefined type 'struct module'
+     200 |         struct plt_entry *plt = mod->arch.ftrace_trampolines;
+         |                                    ^~
+   arch/arm64/kernel/ftrace.c: At top level:
+   arch/arm64/kernel/ftrace.c:427:6: warning: no previous prototype for 'prepare_ftrace_return' [-Wmissing-prototypes]
+     427 | void prepare_ftrace_return(unsigned long self_addr, unsigned long *parent,
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +654 security/apparmor/lsm.c
+vim +200 arch/arm64/kernel/ftrace.c
 
-   632	
-   633	static int apparmor_getselfattr(unsigned int __user attr,
-   634					struct lsm_ctx __user *lx, size_t *size,
-   635					u32 __user flags)
-   636	{
-   637		int error = -ENOENT;
-   638		struct aa_task_ctx *ctx = task_ctx(current);
-   639		struct aa_label *label = NULL;
-   640		size_t total_len;
-   641		char *value;
-   642	
-   643		if (attr == LSM_ATTR_CURRENT)
-   644			label = aa_get_newest_label(cred_label(current_cred()));
-   645		else if (attr == LSM_ATTR_PREV && ctx->previous)
-   646			label = aa_get_newest_label(ctx->previous);
-   647		else if (attr == LSM_ATTR_EXEC && ctx->onexec)
-   648			label = aa_get_newest_label(ctx->onexec);
-   649		else
-   650			error = -EOPNOTSUPP;
-   651	
-   652		if (label) {
-   653			error = aa_getprocattr(label, &value, false);
- > 654			if (error > 0) {
-   655				total_len = ALIGN(error + sizeof(*ctx), 8);
-   656				if (total_len > *size)
-   657					error = -E2BIG;
-   658				else
-   659					lsm_fill_user_ctx(lx, value, error,
-   660							  LSM_ID_APPARMOR, 0);
-   661			}
-   662		}
-   663	
-   664		aa_put_label(label);
-   665	
-   666		*size = total_len;
-   667		if (error > 0)
-   668			return 1;
-   669		return error;
-   670	}
-   671	
+bd7d38dbdf356e AKASHI Takahiro 2014-04-30  197  
+3b23e4991fb66f Torsten Duwe    2019-02-08  198  static struct plt_entry *get_ftrace_plt(struct module *mod, unsigned long addr)
+3b23e4991fb66f Torsten Duwe    2019-02-08  199  {
+3b23e4991fb66f Torsten Duwe    2019-02-08 @200  	struct plt_entry *plt = mod->arch.ftrace_trampolines;
+3b23e4991fb66f Torsten Duwe    2019-02-08  201  
+3b23e4991fb66f Torsten Duwe    2019-02-08  202  	if (addr == FTRACE_ADDR)
+3b23e4991fb66f Torsten Duwe    2019-02-08  203  		return &plt[FTRACE_PLT_IDX];
+c4418e1c18cfe1 Mark Rutland    2023-04-19  204  
+3b23e4991fb66f Torsten Duwe    2019-02-08  205  	return NULL;
+3b23e4991fb66f Torsten Duwe    2019-02-08  206  }
+3b23e4991fb66f Torsten Duwe    2019-02-08  207  
+
+:::::: The code at line 200 was first introduced by commit
+:::::: 3b23e4991fb66f6d152f9055ede271a726ef9f21 arm64: implement ftrace with regs
+
+:::::: TO: Torsten Duwe <duwe@lst.de>
+:::::: CC: Mark Rutland <mark.rutland@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
