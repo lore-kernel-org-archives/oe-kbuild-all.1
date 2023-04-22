@@ -1,44 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32918C15;
-	Sat, 22 Apr 2023 20:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D56D8C15
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 20:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682194554; x=1713730554;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j06HRU+ozFm1+YkCZaC5MwXhonCiCTdwH3QbMc5Az7I=;
-  b=DtnOIfq8+QuGQX+QfQ1n3uiDn+rfyiZru1qAFHJqVQgPQgED778utn7v
-   j7SjzbNmTDwh8j48m088+8wtc8sME7BbqC6sRs4+N7T9foWadR/liGEjf
-   /xW+y5/td31RdFUsUylfLq1VYha3jnl7sRUAPYTB9tzrp6HMQOZEUuvcq
-   6Z4knKoFjAZV7wTkuFL8Byi1wITVJBoWQg9RCaF72GA/8/OFjroGb1Kzq
-   JWfqyl7wEVSu06dgsRDGTR7vXiGR5SDrQGPEMStaKjazYrFSPAyqkiEmi
-   Ch7VgevxsE+0x8s2L5WJmvS7AjHhv0b+kLpy4g5p71jM4PcOnlvX0qmoH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="325795572"
+  t=1682195155; x=1713731155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jUhj8HqadENDGjPZzm8feptmxhCJkjiHf+gTzdVERm0=;
+  b=fhtKHwpIrCncO9Fvwr3Dr5YXhjZYKrTPVKsudp6boxMDnzCzjoSWjrPe
+   6CwWWblcyA7bAP0Uutn4nYeTynUSTTLOlcSucDocE6QGDF53KK56Cxwce
+   Gz24Hr/co553IJe+j7jlemfaiJdWstUORm2gdrEdh2HCH6H34R/C0N82f
+   3OergEBnc3tCCTLIwCaO0gFoQyjbVE7bh02lHr0uWt7uP4oAjBq+dqosn
+   6C9rcFW5GdG0oXU8THjGJJLbMbL/7EBJG5HeYuXHjWgcIrlJu7s4rOhRh
+   phemhEBHF12KVDyQ1Tu9RID5OmWtsVPJD3kQsl4wvidU+w0jQSORZ7hxa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="346215725"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="325795572"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 13:15:54 -0700
+   d="scan'208";a="346215725"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 13:25:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="695273791"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="804102969"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="695273791"
+   d="scan'208";a="804102969"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Apr 2023 13:15:52 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2023 13:25:52 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqJeB-000hTo-2S;
-	Sat, 22 Apr 2023 20:15:51 +0000
-Date: Sun, 23 Apr 2023 04:15:24 +0800
+	id 1pqJnr-000hU2-31;
+	Sat, 22 Apr 2023 20:25:51 +0000
+Date: Sun, 23 Apr 2023 04:25:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Lin <chen45464546@163.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/ethernet/mediatek/mtk_eth_soc.c:1481:23: warning: result
- of comparison of constant 262144 with expression of type 'u16' (aka
- 'unsigned short') is always true
-Message-ID: <202304230428.rnTqk5H5-lkp@intel.com>
+To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH 1/2] ALSA: emu10k1: fix SNDRV_EMU10K1_IOCTL_SINGLE_STEP
+Message-ID: <202304230435.xkjl2DgF-lkp@intel.com>
+References: <20230422161021.1144004-1-oswald.buddenhagen@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,200 +47,184 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230422161021.1144004-1-oswald.buddenhagen@gmx.de>
 
-Hi Chen,
+Hi Oswald,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2caeeb9d4a1bccd923b7918427f9e9ef7151ddd8
-commit: 2f2c0d2919a14002760f89f4e02960c735a316d2 net: ethernet: mtk_eth_soc: fix misuse of mem alloc interface netdev[napi]_alloc_frag
-date:   11 months ago
-config: hexagon-randconfig-r026-20230423 (https://download.01.org/0day-ci/archive/20230423/202304230428.rnTqk5H5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.3-rc7 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oswald-Buddenhagen/ALSA-emu10k1-don-t-stop-DSP-in-_snd_emu10k1_-audigy_-init_efx/20230423-002213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230422161021.1144004-1-oswald.buddenhagen%40gmx.de
+patch subject: [PATCH 1/2] ALSA: emu10k1: fix SNDRV_EMU10K1_IOCTL_SINGLE_STEP
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230423/202304230435.xkjl2DgF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2f2c0d2919a14002760f89f4e02960c735a316d2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2f2c0d2919a14002760f89f4e02960c735a316d2
+        # https://github.com/intel-lab-lkp/linux/commit/dfbd3fc49e3b9ec81160caee29b1d41476d5a6aa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oswald-Buddenhagen/ALSA-emu10k1-don-t-stop-DSP-in-_snd_emu10k1_-audigy_-init_efx/20230423-002213
+        git checkout dfbd3fc49e3b9ec81160caee29b1d41476d5a6aa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/ethernet/mediatek/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230428.rnTqk5H5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230435.xkjl2DgF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1481:23: warning: result of comparison of constant 262144 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-                   if (ring->frag_size <= PAGE_SIZE)
-                       ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1931:23: warning: result of comparison of constant 262144 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-                   if (ring->frag_size <= PAGE_SIZE)
-                       ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~
-   2 warnings generated.
+   sound/pci/emu10k1/emufx.c: In function 'snd_emu10k1_fx8010_ioctl':
+>> sound/pci/emu10k1/emufx.c:2654:80: error: 'A_DBG_STEP' undeclared (first use in this function); did you mean 'A_DBG_ZC'?
+    2654 |                         snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg | A_DBG_STEP | addr);
+         |                                                                                ^~~~~~~~~~
+         |                                                                                A_DBG_ZC
+   sound/pci/emu10k1/emufx.c:2654:80: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1481 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+vim +2654 sound/pci/emu10k1/emufx.c
 
-  1434	
-  1435	static int mtk_poll_rx(struct napi_struct *napi, int budget,
-  1436			       struct mtk_eth *eth)
-  1437	{
-  1438		struct dim_sample dim_sample = {};
-  1439		struct mtk_rx_ring *ring;
-  1440		int idx;
-  1441		struct sk_buff *skb;
-  1442		u8 *data, *new_data;
-  1443		struct mtk_rx_dma_v2 *rxd, trxd;
-  1444		int done = 0, bytes = 0;
-  1445	
-  1446		while (done < budget) {
-  1447			struct net_device *netdev;
-  1448			unsigned int pktlen;
-  1449			dma_addr_t dma_addr;
-  1450			u32 hash, reason;
-  1451			int mac = 0;
-  1452	
-  1453			ring = mtk_get_rx_ring(eth);
-  1454			if (unlikely(!ring))
-  1455				goto rx_done;
-  1456	
-  1457			idx = NEXT_DESP_IDX(ring->calc_idx, ring->dma_size);
-  1458			rxd = ring->dma + idx * eth->soc->txrx.rxd_size;
-  1459			data = ring->data[idx];
-  1460	
-  1461			if (!mtk_rx_get_desc(eth, &trxd, rxd))
-  1462				break;
-  1463	
-  1464			/* find out which mac the packet come from. values start at 1 */
-  1465			if (MTK_HAS_CAPS(eth->soc->caps, MTK_NETSYS_V2))
-  1466				mac = RX_DMA_GET_SPORT_V2(trxd.rxd5) - 1;
-  1467			else if (!MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628) &&
-  1468				 !(trxd.rxd4 & RX_DMA_SPECIAL_TAG))
-  1469				mac = RX_DMA_GET_SPORT(trxd.rxd4) - 1;
-  1470	
-  1471			if (unlikely(mac < 0 || mac >= MTK_MAC_COUNT ||
-  1472				     !eth->netdev[mac]))
-  1473				goto release_desc;
-  1474	
-  1475			netdev = eth->netdev[mac];
-  1476	
-  1477			if (unlikely(test_bit(MTK_RESETTING, &eth->state)))
-  1478				goto release_desc;
-  1479	
-  1480			/* alloc new buffer */
-> 1481			if (ring->frag_size <= PAGE_SIZE)
-  1482				new_data = napi_alloc_frag(ring->frag_size);
-  1483			else
-  1484				new_data = mtk_max_lro_buf_alloc(GFP_ATOMIC);
-  1485			if (unlikely(!new_data)) {
-  1486				netdev->stats.rx_dropped++;
-  1487				goto release_desc;
-  1488			}
-  1489			dma_addr = dma_map_single(eth->dma_dev,
-  1490						  new_data + NET_SKB_PAD +
-  1491						  eth->ip_align,
-  1492						  ring->buf_size,
-  1493						  DMA_FROM_DEVICE);
-  1494			if (unlikely(dma_mapping_error(eth->dma_dev, dma_addr))) {
-  1495				skb_free_frag(new_data);
-  1496				netdev->stats.rx_dropped++;
-  1497				goto release_desc;
-  1498			}
-  1499	
-  1500			dma_unmap_single(eth->dma_dev, trxd.rxd1,
-  1501					 ring->buf_size, DMA_FROM_DEVICE);
-  1502	
-  1503			/* receive data */
-  1504			skb = build_skb(data, ring->frag_size);
-  1505			if (unlikely(!skb)) {
-  1506				skb_free_frag(data);
-  1507				netdev->stats.rx_dropped++;
-  1508				goto skip_rx;
-  1509			}
-  1510			skb_reserve(skb, NET_SKB_PAD + NET_IP_ALIGN);
-  1511	
-  1512			pktlen = RX_DMA_GET_PLEN0(trxd.rxd2);
-  1513			skb->dev = netdev;
-  1514			skb_put(skb, pktlen);
-  1515			if (trxd.rxd4 & eth->soc->txrx.rx_dma_l4_valid)
-  1516				skb->ip_summed = CHECKSUM_UNNECESSARY;
-  1517			else
-  1518				skb_checksum_none_assert(skb);
-  1519			skb->protocol = eth_type_trans(skb, netdev);
-  1520			bytes += pktlen;
-  1521	
-  1522			hash = trxd.rxd4 & MTK_RXD4_FOE_ENTRY;
-  1523			if (hash != MTK_RXD4_FOE_ENTRY) {
-  1524				hash = jhash_1word(hash, 0);
-  1525				skb_set_hash(skb, hash, PKT_HASH_TYPE_L4);
-  1526			}
-  1527	
-  1528			reason = FIELD_GET(MTK_RXD4_PPE_CPU_REASON, trxd.rxd4);
-  1529			if (reason == MTK_PPE_CPU_REASON_HIT_UNBIND_RATE_REACHED)
-  1530				mtk_ppe_check_skb(eth->ppe, skb,
-  1531						  trxd.rxd4 & MTK_RXD4_FOE_ENTRY);
-  1532	
-  1533			if (netdev->features & NETIF_F_HW_VLAN_CTAG_RX) {
-  1534				if (MTK_HAS_CAPS(eth->soc->caps, MTK_NETSYS_V2)) {
-  1535					if (trxd.rxd3 & RX_DMA_VTAG_V2)
-  1536						__vlan_hwaccel_put_tag(skb,
-  1537							htons(RX_DMA_VPID(trxd.rxd4)),
-  1538							RX_DMA_VID(trxd.rxd4));
-  1539				} else if (trxd.rxd2 & RX_DMA_VTAG) {
-  1540					__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q),
-  1541							       RX_DMA_VID(trxd.rxd3));
-  1542				}
-  1543	
-  1544				/* If the device is attached to a dsa switch, the special
-  1545				 * tag inserted in VLAN field by hw switch can * be offloaded
-  1546				 * by RX HW VLAN offload. Clear vlan info.
-  1547				 */
-  1548				if (netdev_uses_dsa(netdev))
-  1549					__vlan_hwaccel_clear_tag(skb);
-  1550			}
-  1551	
-  1552			skb_record_rx_queue(skb, 0);
-  1553			napi_gro_receive(napi, skb);
-  1554	
-  1555	skip_rx:
-  1556			ring->data[idx] = new_data;
-  1557			rxd->rxd1 = (unsigned int)dma_addr;
-  1558	
-  1559	release_desc:
-  1560			if (MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628))
-  1561				rxd->rxd2 = RX_DMA_LSO;
-  1562			else
-  1563				rxd->rxd2 = RX_DMA_PREP_PLEN0(ring->buf_size);
-  1564	
-  1565			ring->calc_idx = idx;
-  1566	
-  1567			done++;
-  1568		}
-  1569	
-  1570	rx_done:
-  1571		if (done) {
-  1572			/* make sure that all changes to the dma ring are flushed before
-  1573			 * we continue
-  1574			 */
-  1575			wmb();
-  1576			mtk_update_rx_cpu_idx(eth);
-  1577		}
-  1578	
-  1579		eth->rx_packets += done;
-  1580		eth->rx_bytes += bytes;
-  1581		dim_update_sample(eth->rx_events, eth->rx_packets, eth->rx_bytes,
-  1582				  &dim_sample);
-  1583		net_dim(&eth->rx_dim, dim_sample);
-  1584	
-  1585		return done;
-  1586	}
-  1587	
+  2541	
+  2542	static int snd_emu10k1_fx8010_ioctl(struct snd_hwdep * hw, struct file *file, unsigned int cmd, unsigned long arg)
+  2543	{
+  2544		struct snd_emu10k1 *emu = hw->private_data;
+  2545		struct snd_emu10k1_fx8010_info *info;
+  2546		struct snd_emu10k1_fx8010_code *icode;
+  2547		struct snd_emu10k1_fx8010_pcm_rec *ipcm;
+  2548		unsigned int addr;
+  2549		void __user *argp = (void __user *)arg;
+  2550		int res;
+  2551		
+  2552		switch (cmd) {
+  2553		case SNDRV_EMU10K1_IOCTL_PVERSION:
+  2554			emu->support_tlv = 1;
+  2555			return put_user(SNDRV_EMU10K1_VERSION, (int __user *)argp);
+  2556		case SNDRV_EMU10K1_IOCTL_INFO:
+  2557			info = kzalloc(sizeof(*info), GFP_KERNEL);
+  2558			if (!info)
+  2559				return -ENOMEM;
+  2560			snd_emu10k1_fx8010_info(emu, info);
+  2561			if (copy_to_user(argp, info, sizeof(*info))) {
+  2562				kfree(info);
+  2563				return -EFAULT;
+  2564			}
+  2565			kfree(info);
+  2566			return 0;
+  2567		case SNDRV_EMU10K1_IOCTL_CODE_POKE:
+  2568			if (!capable(CAP_SYS_ADMIN))
+  2569				return -EPERM;
+  2570	
+  2571			icode = memdup_user(argp, sizeof(*icode));
+  2572			if (IS_ERR(icode))
+  2573				return PTR_ERR(icode);
+  2574			res = snd_emu10k1_icode_poke(emu, icode, false);
+  2575			kfree(icode);
+  2576			return res;
+  2577		case SNDRV_EMU10K1_IOCTL_CODE_PEEK:
+  2578			icode = memdup_user(argp, sizeof(*icode));
+  2579			if (IS_ERR(icode))
+  2580				return PTR_ERR(icode);
+  2581			res = snd_emu10k1_icode_peek(emu, icode);
+  2582			if (res == 0 && copy_to_user(argp, icode, sizeof(*icode))) {
+  2583				kfree(icode);
+  2584				return -EFAULT;
+  2585			}
+  2586			kfree(icode);
+  2587			return res;
+  2588		case SNDRV_EMU10K1_IOCTL_PCM_POKE:
+  2589			ipcm = memdup_user(argp, sizeof(*ipcm));
+  2590			if (IS_ERR(ipcm))
+  2591				return PTR_ERR(ipcm);
+  2592			res = snd_emu10k1_ipcm_poke(emu, ipcm);
+  2593			kfree(ipcm);
+  2594			return res;
+  2595		case SNDRV_EMU10K1_IOCTL_PCM_PEEK:
+  2596			ipcm = memdup_user(argp, sizeof(*ipcm));
+  2597			if (IS_ERR(ipcm))
+  2598				return PTR_ERR(ipcm);
+  2599			res = snd_emu10k1_ipcm_peek(emu, ipcm);
+  2600			if (res == 0 && copy_to_user(argp, ipcm, sizeof(*ipcm))) {
+  2601				kfree(ipcm);
+  2602				return -EFAULT;
+  2603			}
+  2604			kfree(ipcm);
+  2605			return res;
+  2606		case SNDRV_EMU10K1_IOCTL_TRAM_SETUP:
+  2607			if (!capable(CAP_SYS_ADMIN))
+  2608				return -EPERM;
+  2609			if (get_user(addr, (unsigned int __user *)argp))
+  2610				return -EFAULT;
+  2611			mutex_lock(&emu->fx8010.lock);
+  2612			res = snd_emu10k1_fx8010_tram_setup(emu, addr);
+  2613			mutex_unlock(&emu->fx8010.lock);
+  2614			return res;
+  2615		case SNDRV_EMU10K1_IOCTL_STOP:
+  2616			if (!capable(CAP_SYS_ADMIN))
+  2617				return -EPERM;
+  2618			if (emu->audigy)
+  2619				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg |= A_DBG_SINGLE_STEP);
+  2620			else
+  2621				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg |= EMU10K1_DBG_SINGLE_STEP);
+  2622			return 0;
+  2623		case SNDRV_EMU10K1_IOCTL_CONTINUE:
+  2624			if (!capable(CAP_SYS_ADMIN))
+  2625				return -EPERM;
+  2626			if (emu->audigy)
+  2627				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg = 0);
+  2628			else
+  2629				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg = 0);
+  2630			return 0;
+  2631		case SNDRV_EMU10K1_IOCTL_ZERO_TRAM_COUNTER:
+  2632			if (!capable(CAP_SYS_ADMIN))
+  2633				return -EPERM;
+  2634			if (emu->audigy)
+  2635				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg | A_DBG_ZC);
+  2636			else
+  2637				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg | EMU10K1_DBG_ZC);
+  2638			udelay(10);
+  2639			if (emu->audigy)
+  2640				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg);
+  2641			else
+  2642				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg);
+  2643			return 0;
+  2644		case SNDRV_EMU10K1_IOCTL_SINGLE_STEP:
+  2645			if (!capable(CAP_SYS_ADMIN))
+  2646				return -EPERM;
+  2647			if (get_user(addr, (unsigned int __user *)argp))
+  2648				return -EFAULT;
+  2649			if (emu->audigy) {
+  2650				if (addr > A_DBG_STEP_ADDR)
+  2651					return -EINVAL;
+  2652				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg |= A_DBG_SINGLE_STEP);
+  2653				udelay(10);
+> 2654				snd_emu10k1_ptr_write(emu, A_DBG, 0, emu->fx8010.dbg | A_DBG_STEP | addr);
+  2655			} else {
+  2656				if (addr > EMU10K1_DBG_SINGLE_STEP_ADDR)
+  2657					return -EINVAL;
+  2658				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg |= EMU10K1_DBG_SINGLE_STEP);
+  2659				udelay(10);
+  2660				snd_emu10k1_ptr_write(emu, DBG, 0, emu->fx8010.dbg | EMU10K1_DBG_STEP | addr);
+  2661			}
+  2662			return 0;
+  2663		case SNDRV_EMU10K1_IOCTL_DBG_READ:
+  2664			if (emu->audigy)
+  2665				addr = snd_emu10k1_ptr_read(emu, A_DBG, 0);
+  2666			else
+  2667				addr = snd_emu10k1_ptr_read(emu, DBG, 0);
+  2668			if (put_user(addr, (unsigned int __user *)argp))
+  2669				return -EFAULT;
+  2670			return 0;
+  2671		}
+  2672		return -ENOTTY;
+  2673	}
+  2674	
 
 -- 
 0-DAY CI Kernel Test Service
