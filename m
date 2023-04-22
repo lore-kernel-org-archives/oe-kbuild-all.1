@@ -1,44 +1,55 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C318A7F;
-	Sat, 22 Apr 2023 10:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5757F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 11:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682159864; x=1713695864;
+  t=1682162387; x=1713698387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8AwCM6Wg1AtxxMng6nySA3ai42uL97jI8NaTtfLIHgA=;
-  b=XPNzqpEDgCxqPsA5IOuMfDLt/8rUpiYgbnNfrPDWaFwkHY9/oLWEl8X3
-   8lGEWu6yZMDZiMFf7wUJ2+wt3lGKBaiANWzbuGTftXj7ZMu0pNbN1/ay0
-   ke58YM0/QBwKyKADTSgqdDchuePTzvoCd3V940NIBDlWMp68N9Hjyo4DG
-   8teIVeFDZXG84b81XK77UHWsA/a33nJhkEUE/rDOUNSyo5GmEhBoygI5h
-   qZXAzkWZaRKJEWg45QXSetfEG3ccRd680mM/RMuOD3382GMj2G0szpYti
-   bfuz+6Ph/d2yTL0byFW7PdohPL3NXouUzm6rAsPHeR8KyOggzvJRty/4h
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="325744098"
+  bh=+EVsdeVWlcugnqDpDcwqF5ABdA1G/6ft2d3YeGRsGVk=;
+  b=a46PO9OmoCtQ260RawT5RFpzQ21CX6nPfOWEMsyrJQaRsMAGcXZRKvUt
+   RY5GkuICfZmd3y/qggGdpxLBysfTT2CBJQ10LNf+LG3duGE5SzDsodnXU
+   bBfXsrUoRbUXqeS4EUFNT603bFoqXnk2Ln4ZxDF24fXdzKZ4QXoOK99Jw
+   VsTYZFp5Q6G+Jfvjhbk0+v/Voh77Ce6BuL9VKKM8a9uwxl+AgUzcikYHd
+   GrEdn6rcPkiyV25f8ZbeB55DBXSTULlXV1GyIjz/QNbLZkudjUnOvlx03
+   CH7ZDPfwlTdTyASUnsxXtaVEmzevwFPR+kMIkRFQiD4ExPFn7/g6EIptp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="343633987"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="325744098"
+   d="scan'208";a="343633987"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 03:37:44 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 04:19:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="816698027"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="816704438"
 X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="816698027"
+   d="scan'208";a="816704438"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Apr 2023 03:37:42 -0700
+  by orsmga004.jf.intel.com with ESMTP; 22 Apr 2023 04:19:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqAcf-000hFK-2o;
-	Sat, 22 Apr 2023 10:37:41 +0000
-Date: Sat, 22 Apr 2023 18:37:30 +0800
+	id 1pqBHK-000hGO-1B;
+	Sat, 22 Apr 2023 11:19:42 +0000
+Date: Sat, 22 Apr 2023 19:18:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 1/2] fs: split off vfs_getdents function of
- getdents64 syscall
-Message-ID: <202304221809.YNFmMFTD-lkp@intel.com>
-References: <20230422-uring-getdents-v1-1-14c1db36e98c@codewreck.org>
+To: Oscar Salvador <osalvador@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Eric Dumazet <edumazet@google.com>,
+	Waiman Long <longman@redhat.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Oscar Salvador <osalvador@suse.de>
+Subject: Re: [PATCH v4 2/3] mm, page_owner: Add page_owner_stacks file to
+ print out only stacks and their counte
+Message-ID: <202304221906.CKlcyd2r-lkp@intel.com>
+References: <20230421101415.5734-3-osalvador@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,87 +58,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230422-uring-getdents-v1-1-14c1db36e98c@codewreck.org>
+In-Reply-To: <20230421101415.5734-3-osalvador@suse.de>
 
-Hi Dominique,
+Hi Oscar,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 6a8f57ae2eb07ab39a6f0ccad60c760743051026]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc7]
+[cannot apply to akpm-mm/mm-everything next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230422-164240
-base:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
-patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v1-1-14c1db36e98c%40codewreck.org
-patch subject: [PATCH RFC 1/2] fs: split off vfs_getdents function of getdents64 syscall
-config: powerpc-randconfig-r023-20230421 (https://download.01.org/0day-ci/archive/20230422/202304221809.YNFmMFTD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/467765480454254c23e5e98ee66239af7810fdf6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230422-164240
-        git checkout 467765480454254c23e5e98ee66239af7810fdf6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/lib-stackdepot-Add-a-refcount-field-in-stack_record/20230421-181709
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230421101415.5734-3-osalvador%40suse.de
+patch subject: [PATCH v4 2/3] mm, page_owner: Add page_owner_stacks file to print out only stacks and their counte
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230422/202304221906.CKlcyd2r-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304221809.YNFmMFTD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304221906.CKlcyd2r-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+lib/stackdepot.c:558 stack_print() warn: unsigned 'stack->size' is never less than zero.
 
->> fs/readdir.c:361:5: warning: no previous prototype for function 'vfs_getdents' [-Wmissing-prototypes]
-   int vfs_getdents(struct file *file, struct linux_dirent64 __user *dirent,
-       ^
-   fs/readdir.c:361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int vfs_getdents(struct file *file, struct linux_dirent64 __user *dirent,
-   ^
-   static 
-   1 warning generated.
+vim +558 lib/stackdepot.c
 
-
-vim +/vfs_getdents +361 fs/readdir.c
-
-   353	
-   354	
-   355	/**
-   356	 * vfs_getdents - getdents without fdget
-   357	 * @file    : pointer to file struct of directory
-   358	 * @dirent  : pointer to user directory structure
-   359	 * @count   : size of buffer
-   360	 */
- > 361	int vfs_getdents(struct file *file, struct linux_dirent64 __user *dirent,
-   362			 unsigned int count)
-   363	{
-   364		struct getdents_callback64 buf = {
-   365			.ctx.actor = filldir64,
-   366			.count = count,
-   367			.current_dir = dirent
-   368		};
-   369		int error;
-   370	
-   371		error = iterate_dir(file, &buf.ctx);
-   372		if (error >= 0)
-   373			error = buf.error;
-   374		if (buf.prev_reclen) {
-   375			struct linux_dirent64 __user * lastdirent;
-   376			typeof(lastdirent->d_off) d_off = buf.ctx.pos;
-   377	
-   378			lastdirent = (void __user *) buf.current_dir - buf.prev_reclen;
-   379			if (put_user(d_off, &lastdirent->d_off))
-   380				error = -EFAULT;
-   381			else
-   382				error = count - buf.count;
-   383		}
-   384		return error;
-   385	}
-   386	
+   551	
+   552	int stack_print(struct seq_file *m, void *v)
+   553	{
+   554		char *buf;
+   555		int ret = 0;
+   556		struct stack_record *stack =v;
+   557	
+ > 558		if (!stack->size || stack->size < 0 ||
+   559		    stack->size > PAGE_SIZE || stack->handle.valid != 1 ||
+   560		    refcount_read(&stack->count) < 1)
+   561			return 0;
+   562	
+   563		buf = kzalloc(PAGE_SIZE, GFP_KERNEL);
+   564		ret += stack_trace_snprint(buf, PAGE_SIZE, stack->entries, stack->size, 0);
+   565		scnprintf(buf + ret, PAGE_SIZE - ret, "stack count: %d\n\n",
+   566			  refcount_read(&stack->count));
+   567		seq_printf(m, buf);
+   568		seq_puts(m, "\n\n");
+   569		kfree(buf);
+   570	
+   571	        return 0;
+   572	}
+   573	#endif
+   574	
 
 -- 
 0-DAY CI Kernel Test Service
