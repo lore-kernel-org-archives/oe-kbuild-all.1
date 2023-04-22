@@ -1,46 +1,53 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D9864F;
-	Sat, 22 Apr 2023 23:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB3FA935
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 23:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682206198; x=1713742198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4vG43szileUXsUY5B0mal23TOh8yJevfoJRi/ZolwC8=;
-  b=epHrmVplXZqW91eLj3eksz+YySzoKxVK5DAayTi9NO8jipnQb8bdAnT8
-   o1PYcyV8TIbsrHjpEDej52Q+3FHPgycevXBOkKvTLEj2KyjapdYLNzArN
-   ajGnkt30AS4oWACQOECHg3QbQqn/+WfJaR5qLbhglj8HxJwtIJ9cMHWug
-   /PXhLoimvi9R5Biqe9xJLumCY0k1GgAxe23jMGy9PF0UwPZ2D1fCu8XC7
-   cupt3yS1n6ve4l9fzTG3/KAXxlBTmnYP2SlMxybZVZt8t3mI14hmek/WT
-   yPK6fKPaJQiyNPgJhhXtIGzLi4e0c2z/O2H93H+aVQZrEzAcnHq+GSlY3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="325809909"
+  t=1682206199; x=1713742199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mk/rUj7xZQRo0wJpLXl0vUvyBjGAGS0GDp1KvZ8ywtY=;
+  b=UoL4LXvPoiGlOnYHwheXZtEUEvL1NSWHDO3PWJCWFFbcg5zQTJlVUwL0
+   W4PJQswd5xW0ZaDUEmIEUVXmFYZRpKRjApFOkYgROLQ/eoHmUITCsYmQ4
+   zSmmsJSqCbI6ZiqURc6qLcLT2ysRK+9OownHzdMkzgQpzkYkWc2Clq8RO
+   cz+WXqkwpK4fEmGRqqiX2b1jLJBLhxRtXo96Kab3skzLEfiMh/rMs999Q
+   /HP9vudGfVf6fi/ugfNyeowuWfCqP1z9sErcAl5jfd3FwsGNw/HySjoMM
+   W1KhNWL4YxKbmXlFca6CSBwjrStQJ5Yc1aImEM2EbSoqLxw2GAJYNSogE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="335096972"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="325809909"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 16:29:57 -0700
+   d="scan'208";a="335096972"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 16:29:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="938865781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="781954255"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="938865781"
+   d="scan'208";a="781954255"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Apr 2023 16:29:55 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Apr 2023 16:29:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqMfz-000hZ6-0Z;
+	id 1pqMfz-000hZ8-0g;
 	Sat, 22 Apr 2023 23:29:55 +0000
-Date: Sun, 23 Apr 2023 07:29:38 +0800
+Date: Sun, 23 Apr 2023 07:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eli Cohen <elic@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: [linux-next:master 13449/13717]
- drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of
- function 'mlx5_msix_free' is invalid in C99
-Message-ID: <202304230755.9jjF6ZJr-lkp@intel.com>
+To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, Sibi Sankar <quic_sibis@quicinc.com>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Subject: Re: [PATCH V5 2/3] soc: qcom: boot_stat: Add Driver Support for Boot
+ Stats
+Message-ID: <202304230707.TM8MomW0-lkp@intel.com>
+References: <142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,71 +56,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89
-commit: b9ca712f33f59e977592cb639c2e00a02f45a146 [13449/13717] vdpa/mlx5: Support interrupt bypassing
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230423/202304230755.9jjF6ZJr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+Hi Souradeep,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.3-rc7 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230418-144757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu%40quicinc.com
+patch subject: [PATCH V5 2/3] soc: qcom: boot_stat: Add Driver Support for Boot Stats
+config: nios2-randconfig-s033-20230423 (https://download.01.org/0day-ci/archive/20230423/202304230707.TM8MomW0-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b9ca712f33f59e977592cb639c2e00a02f45a146
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b9ca712f33f59e977592cb639c2e00a02f45a146
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/1e2fc43bcc0869349f7e3698fceebbcc8333d1f3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230418-144757
+        git checkout 1e2fc43bcc0869349f7e3698fceebbcc8333d1f3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/xen/ drivers/power/supply/ drivers/vdpa/mlx5/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/soc/qcom/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230755.9jjF6ZJr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230707.TM8MomW0-lkp@intel.com/
 
-Note: the linux-next/master HEAD d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89 builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/qcom/boot_stats.c:70:36: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got struct boot_stats [noderef] __iomem *b_stats @@
+   drivers/soc/qcom/boot_stats.c:70:36: sparse:     expected void *data
+   drivers/soc/qcom/boot_stats.c:70:36: sparse:     got struct boot_stats [noderef] __iomem *b_stats
+   drivers/soc/qcom/boot_stats.c:71:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got struct boot_stats [noderef] __iomem *b_stats @@
+   drivers/soc/qcom/boot_stats.c:71:72: sparse:     expected void *data
+   drivers/soc/qcom/boot_stats.c:71:72: sparse:     got struct boot_stats [noderef] __iomem *b_stats
 
-All errors (new ones prefixed by >>):
+vim +70 drivers/soc/qcom/boot_stats.c
 
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of function 'mlx5_msix_free' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-                   ^
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: note: did you mean 'mlx5_db_free'?
-   include/linux/mlx5/driver.h:1083:6: note: 'mlx5_db_free' declared here
-   void mlx5_db_free(struct mlx5_core_dev *dev, struct mlx5_db *db);
-        ^
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:14: error: implicit declaration of function 'mlx5_msix_alloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   ent->map = mlx5_msix_alloc(ndev->mvdev.mdev, int_handler, NULL, ent->name);
-                              ^
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:14: note: did you mean 'mlx5_db_alloc'?
-   include/linux/mlx5/driver.h:1078:19: note: 'mlx5_db_alloc' declared here
-   static inline int mlx5_db_alloc(struct mlx5_core_dev *dev, struct mlx5_db *db)
-                     ^
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:12: error: assigning to 'struct msi_map' from incompatible type 'int'
-                   ent->map = mlx5_msix_alloc(ndev->mvdev.mdev, int_handler, NULL, ent->name);
-                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
-
-
-vim +/mlx5_msix_free +2896 drivers/vdpa/mlx5/net/mlx5_vnet.c
-
-  2885	
-  2886	static void free_irqs(struct mlx5_vdpa_net *ndev)
-  2887	{
-  2888		struct mlx5_vdpa_irq_pool_entry *ent;
-  2889		int i;
-  2890	
-  2891		if (!msix_mode_supported(&ndev->mvdev))
-  2892			return;
-  2893	
-  2894		for (i = ndev->irqp.num_ent - 1; i >= 0; i--) {
-  2895			ent = ndev->irqp.entries + i;
-> 2896			mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-  2897		}
-  2898		kfree(ndev->irqp.entries);
-  2899	}
-  2900	
+    52	
+    53	static int boot_stats_probe(struct platform_device *pdev)
+    54	{
+    55		struct device *bootstat_dev = &pdev->dev;
+    56		struct bs_data *drvdata;
+    57	
+    58		drvdata = devm_kzalloc(bootstat_dev, sizeof(*drvdata), GFP_KERNEL);
+    59		platform_set_drvdata(pdev, drvdata);
+    60	
+    61		drvdata->dbg_dir = debugfs_create_dir(dev_name(bootstat_dev), NULL);
+    62		if (IS_ERR(drvdata->dbg_dir))
+    63			return dev_err_probe(bootstat_dev, -ENOENT, "failed to create debugfs directory");
+    64	
+    65		drvdata->b_stats = devm_of_iomap(bootstat_dev, bootstat_dev->of_node, 0, NULL);
+    66		if (!drvdata->b_stats)
+    67			return dev_err_probe(bootstat_dev, -ENOMEM, "failed to map imem region\n");
+    68	
+    69		debugfs_create_file("pre_abl_time", 0200, drvdata->dbg_dir,
+  > 70				    drvdata->b_stats, &pre_abl_time_fops);
+    71		debugfs_create_file("abl_time", 0200, drvdata->dbg_dir, drvdata->b_stats, &abl_time_fops);
+    72	
+    73		return 0;
+    74	}
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
