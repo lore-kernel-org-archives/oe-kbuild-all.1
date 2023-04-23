@@ -1,201 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274B5A5E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 10:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1682247023;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bDrD5X/OiEBtaK2jddY1Sv/gD8GVeQI6JOwQzfOQk/E=;
-	b=J9anbqWlw/xBS46nRAESQv3HuwQ6ObJf1ncg9++tiN+/4IQOnPzBCdgOeGtIQmEjpQq4gF
-	KXfIcqfH1ZNtoUk6PKfKROP8hddUbovt4PUSo00xsVMiFf2n9pGPoD6FsLjvnTogqF5zXU
-	LA1OOyTebYgvB0WwIHgxistperwj14Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-364-Hv7nkLVxPoGpAyq80-ZKhg-1; Sun, 23 Apr 2023 06:50:22 -0400
-X-MC-Unique: Hv7nkLVxPoGpAyq80-ZKhg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-2fe3fb8e32aso1202197f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 03:50:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682247021; x=1684839021;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bDrD5X/OiEBtaK2jddY1Sv/gD8GVeQI6JOwQzfOQk/E=;
-        b=gRCtmLGKkG6PtpJ6DLKBrapxcLArj3g3KA/dCR3xm9hYpO1Au9ahHtmm4fy/jIaOCm
-         b0tB6L2S/a4VRfLraSZCKOiMh3dQ/6Wtow4MOWIH1a/RNVoymjaKNX1yOG7R6KdvJQRX
-         j4B6pNT8tgUk3eEPtl3XtENzu61yzC/t4QJDqoHOsJLJUr7iL/EfYYgQO7lCwXk7q+n/
-         0IR9CpVNnUl8PcciCROZ+EqTwyZhUaUasJIxJ+VzTnDC/RjLDoSLZX309fvUetrr2LyZ
-         J+z/5ltyCcIOfXL0xY8uGz7PqKI2o5rTg5ern0Z/oqZpB8XkZPZP7N4s1QKwEIyXzJLl
-         MXXg==
-X-Gm-Message-State: AAQBX9eC1CZojMvDFx+NROcHwqXo42M87Lh94D0NO9TKhkN0N7umjsWB
-	XsRlD8T+yQQUe8SdfiaICuAJgBvNL61hgLShRc+2yn019v5lHcxpAhNKABtGsldxCAJQSBxtMfo
-	Kk9C+Lnb3LReGQDXaxgXU2x6Mrw==
-X-Received: by 2002:adf:dbce:0:b0:2f0:e287:1fbc with SMTP id e14-20020adfdbce000000b002f0e2871fbcmr7449928wrj.11.1682247021255;
-        Sun, 23 Apr 2023 03:50:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bUOXAKGqipY9yIByLrmVxzMUQ7GNVFXJ721u1Th9gqS+2RP29I63/Sh5kxkxNFci3ahvuJKg==
-X-Received: by 2002:adf:dbce:0:b0:2f0:e287:1fbc with SMTP id e14-20020adfdbce000000b002f0e2871fbcmr7449915wrj.11.1682247020966;
-        Sun, 23 Apr 2023 03:50:20 -0700 (PDT)
-Received: from redhat.com ([2.55.61.39])
-        by smtp.gmail.com with ESMTPSA id m7-20020adfe947000000b003011baf89b3sm8424172wrn.40.2023.04.23.03.50.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Apr 2023 03:50:20 -0700 (PDT)
-Date: Sun, 23 Apr 2023 06:50:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eli Cohen <elic@nvidia.com>
-Cc: Dragos Tatulea <dtatulea@nvidia.com>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: Re: [lkp@intel.com: [linux-next:master 13449/13717]
- drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of
- function 'mlx5_msix_free' is invalid in C99]
-Message-ID: <20230423064954-mutt-send-email-mst@kernel.org>
-References: <20230423031041-mutt-send-email-mst@kernel.org>
- <DM8PR12MB54003816E028203645CCA441AB669@DM8PR12MB5400.namprd12.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5140E370
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 10:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682247429; x=1713783429;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9FmptGx7GTlvhJmxDKR6fcMvI82Zqt3ApJIIvDRUx80=;
+  b=MZOEJ94ou+2KV022Zlr1i6wDDvLXCxlU7qLy9FbhZ/PessRT+SEVAKgW
+   LXJDC3cuhNa/s1t8J4mavT2hW6Zb4mOARF7LlTj+83m9z4O55vYcl922I
+   HEI64rMQEhwZVjs4jnzfvKghTrDsIbd3LYxw3R28Ntlp37ie0N35ntXNp
+   +PGK58X6poQxJywrsBeuYhm/lcyLYdvU4JrY0or7dTMrZPCz75kaUbgv+
+   /kDZ1r2maBCBAtaxpK6YwYtPQ5D7VE8QG8y82r/9t8P1Op4oywdHzxp0F
+   Go5wgeMu6Fwxn1+OxPUPy+LHbj/HlL7Cx8crleLFzxHuW+wNRQTs/Vkp2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="346292494"
+X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
+   d="scan'208";a="346292494"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 03:57:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="762093759"
+X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
+   d="scan'208";a="762093759"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Apr 2023 03:57:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pqXP1-000hr8-0s;
+	Sun, 23 Apr 2023 10:57:07 +0000
+Date: Sun, 23 Apr 2023 18:56:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:exportfs_encode_fid 1/5] fs/exportfs/expfs.c:384:19:
+ error: use of undeclared identifier 'exportfs_encode_ino32_fh'; did you mean
+ 'exportfs_encode_inode_fh'?
+Message-ID: <202304231820.fBvSuTUV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <DM8PR12MB54003816E028203645CCA441AB669@DM8PR12MB5400.namprd12.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Sorry got confused. Referring to the robot warning here.
+tree:   https://github.com/amir73il/linux exportfs_encode_fid
+head:   bb00689c5acaa4e530780be87b78cec7a906e298
+commit: 7f28e1e3124eb9e62dddde7feb827b27cdb74caa [1/5] exportfs: make ->encode_fh() a mandatory method
+config: riscv-randconfig-r015-20230423 (https://download.01.org/0day-ci/archive/20230423/202304231820.fBvSuTUV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/amir73il/linux/commit/7f28e1e3124eb9e62dddde7feb827b27cdb74caa
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il exportfs_encode_fid
+        git checkout 7f28e1e3124eb9e62dddde7feb827b27cdb74caa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/
 
-On Sun, Apr 23, 2023 at 07:29:45AM +0000, Eli Cohen wrote:
-> Are you referring to kernel robot warning or to updating MAINTAINERS?
-> I was not the maintainer of anything so not sure what you mean here.
-> 
-> > -----Original Message-----
-> > From: Michael S. Tsirkin <mst@redhat.com>
-> > Sent: Sunday, 23 April 2023 10:11
-> > To: Dragos Tatulea <dtatulea@nvidia.com>; Eli Cohen <elic@nvidia.com>
-> > Cc: llvm@lists.linux.dev; oe-kbuild-all@lists.linux.dev; Linux Memory
-> > Management List <linux-mm@kvack.org>; Michael S. Tsirkin
-> > <mst@redhat.com>; Saeed Mahameed <saeedm@nvidia.com>
-> > Subject: [lkp@intel.com: [linux-next:master 13449/13717]
-> > drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of
-> > function 'mlx5_msix_free' is invalid in C99]
-> > 
-> > CC Dragos.
-> > Does one of you want to post a MAINTAINERS patch btw?
-> > 
-> > 
-> > ----- Forwarded message from kernel test robot <lkp@intel.com> -----
-> > 
-> > From: kernel test robot <lkp@intel.com>
-> > Date: Sun, 23 Apr 2023 07:29:38 +0800
-> > To: Eli Cohen <elic@nvidia.com>
-> > Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Linux Memory
-> > Management List <linux-mm@kvack.org>, "Michael S. Tsirkin"
-> > 	<mst@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>
-> > Subject: [linux-next:master 13449/13717]
-> > drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of
-> > function
-> > 	'mlx5_msix_free' is invalid in C99
-> > Message-ID: <202304230755.9jjF6ZJr-lkp@intel.com>
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > master
-> > head:   d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89
-> > commit: b9ca712f33f59e977592cb639c2e00a02f45a146 [13449/13717]
-> > vdpa/mlx5: Support interrupt bypassing
-> > config: x86_64-allmodconfig (https://download.01.org/0day-
-> > ci/archive/20230423/202304230755.9jjF6ZJr-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project
-> > f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-
-> > tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-
-> > next.git/commit/?id=b9ca712f33f59e977592cb639c2e00a02f45a146
-> >         git remote add linux-next
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout b9ca712f33f59e977592cb639c2e00a02f45a146
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross
-> > W=1 O=build_dir ARCH=x86_64 olddefconfig
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross
-> > W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/xen/
-> > drivers/power/supply/ drivers/vdpa/mlx5/
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202304230755.9jjF6ZJr-
-> > lkp@intel.com/
-> > 
-> > Note: the linux-next/master HEAD
-> > d3e1ee0e67e7603d36f4fa2fec6b881c01aabe89 builds fine.
-> >       It may have been fixed somewhere.
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> > >> drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: error: implicit declaration of
-> > function 'mlx5_msix_free' is invalid in C99 [-Werror,-Wimplicit-function-
-> > declaration]
-> >                    mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-> >                    ^
-> >    drivers/vdpa/mlx5/net/mlx5_vnet.c:2896:3: note: did you mean
-> > 'mlx5_db_free'?
-> >    include/linux/mlx5/driver.h:1083:6: note: 'mlx5_db_free' declared here
-> >    void mlx5_db_free(struct mlx5_core_dev *dev, struct mlx5_db *db);
-> >         ^
-> > >> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:14: error: implicit declaration of
-> > function 'mlx5_msix_alloc' is invalid in C99 [-Werror,-Wimplicit-function-
-> > declaration]
-> >                    ent->map = mlx5_msix_alloc(ndev->mvdev.mdev, int_handler,
-> > NULL, ent->name);
-> >                               ^
-> >    drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:14: note: did you mean
-> > 'mlx5_db_alloc'?
-> >    include/linux/mlx5/driver.h:1078:19: note: 'mlx5_db_alloc' declared here
-> >    static inline int mlx5_db_alloc(struct mlx5_core_dev *dev, struct mlx5_db
-> > *db)
-> >                      ^
-> > >> drivers/vdpa/mlx5/net/mlx5_vnet.c:3259:12: error: assigning to 'struct
-> > msi_map' from incompatible type 'int'
-> >                    ent->map = mlx5_msix_alloc(ndev->mvdev.mdev, int_handler,
-> > NULL, ent->name);
-> >                             ^
-> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >    3 errors generated.
-> > 
-> > 
-> > vim +/mlx5_msix_free +2896 drivers/vdpa/mlx5/net/mlx5_vnet.c
-> > 
-> >   2885
-> >   2886	static void free_irqs(struct mlx5_vdpa_net *ndev)
-> >   2887	{
-> >   2888		struct mlx5_vdpa_irq_pool_entry *ent;
-> >   2889		int i;
-> >   2890
-> >   2891		if (!msix_mode_supported(&ndev->mvdev))
-> >   2892			return;
-> >   2893
-> >   2894		for (i = ndev->irqp.num_ent - 1; i >= 0; i--) {
-> >   2895			ent = ndev->irqp.entries + i;
-> > > 2896			mlx5_msix_free(ndev->mvdev.mdev, ent->map);
-> >   2897		}
-> >   2898		kfree(ndev->irqp.entries);
-> >   2899	}
-> >   2900
-> > 
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests
-> > 
-> > ----- End forwarded message -----
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304231820.fBvSuTUV-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> fs/exportfs/expfs.c:384:19: error: use of undeclared identifier 'exportfs_encode_ino32_fh'; did you mean 'exportfs_encode_inode_fh'?
+   EXPORT_SYMBOL_GPL(exportfs_encode_ino32_fh);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~
+                     exportfs_encode_inode_fh
+   include/linux/export.h:151:48: note: expanded from macro 'EXPORT_SYMBOL_GPL'
+   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "_gpl")
+                                                          ^
+   include/linux/export.h:147:50: note: expanded from macro '_EXPORT_SYMBOL'
+   #define _EXPORT_SYMBOL(sym, sec)        __EXPORT_SYMBOL(sym, sec, "")
+                                                           ^
+   include/linux/export.h:140:56: note: expanded from macro '__EXPORT_SYMBOL'
+   #define __EXPORT_SYMBOL(sym, sec, ns)   ___EXPORT_SYMBOL(sym, sec, ns)
+                                                            ^
+   include/linux/export.h:87:16: note: expanded from macro '___EXPORT_SYMBOL'
+           extern typeof(sym) sym;                                                 \
+                         ^
+   include/linux/exportfs.h:226:12: note: 'exportfs_encode_inode_fh' declared here
+   extern int exportfs_encode_inode_fh(struct inode *inode, struct fid *fid,
+              ^
+   1 error generated.
+
+
+vim +384 fs/exportfs/expfs.c
+
+   344	
+   345	/**
+   346	 * generic_encode_ino32_fh - generic export_operations->encode_fh function
+   347	 * @inode:   the object to encode
+   348	 * @fh:      where to store the file handle fragment
+   349	 * @max_len: maximum length to store there
+   350	 * @parent:  parent directory inode, if wanted
+   351	 *
+   352	 * This generic encode_fh function assumes that the 32 inode number
+   353	 * is suitable for locating an inode, and that the generation number
+   354	 * can be used to check that it is still valid.  It places them in the
+   355	 * filehandle fragment where export_decode_fh expects to find them.
+   356	 */
+   357	int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
+   358				    struct inode *parent)
+   359	{
+   360		struct fid *fid = (void *)fh;
+   361		int len = *max_len;
+   362		int type = FILEID_INO32_GEN;
+   363	
+   364		if (parent && (len < 4)) {
+   365			*max_len = 4;
+   366			return FILEID_INVALID;
+   367		} else if (len < 2) {
+   368			*max_len = 2;
+   369			return FILEID_INVALID;
+   370		}
+   371	
+   372		len = 2;
+   373		fid->i32.ino = inode->i_ino;
+   374		fid->i32.gen = inode->i_generation;
+   375		if (parent) {
+   376			fid->i32.parent_ino = parent->i_ino;
+   377			fid->i32.parent_gen = parent->i_generation;
+   378			len = 4;
+   379			type = FILEID_INO32_GEN_PARENT;
+   380		}
+   381		*max_len = len;
+   382		return type;
+   383	}
+ > 384	EXPORT_SYMBOL_GPL(exportfs_encode_ino32_fh);
+   385	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
