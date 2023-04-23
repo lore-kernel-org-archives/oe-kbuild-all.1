@@ -1,45 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CDB20F3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 13:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A5BA57
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 14:43:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682257272; x=1713793272;
+  t=1682260995; x=1713796995;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nApaPugB0NKoArpdUyRIB6CYaHOc7HGQWk2r6oDYb88=;
-  b=XHZmSz/uWdV6h7Zgt+LUWciAGXON9/MADYmKUozw1DxjuY19vRKExsEi
-   3ZF81I/W+dj5nzJOQjo0Mz/CZagQpNAT4wosBux/esQfMQt3s58VE9CUZ
-   1cx960qUYeL8wWAwH7VBDloHO6I+XdUrKa2xc6kil2mcKtp3HG6KXQZW6
-   QowRQBuwQxwHOGTCbBKj4qk19GEjsLgzbGlS2gxAaZMg+U1B0tx5AKQcl
-   9STMnP3newvlGtEl6N7fxZNV8Yn+L8Rm2tG/QuCdAUq5tnoBI0OBpwDHa
-   hXr3Ifu8eRVe8KJQbhfZr+68n5edzUw3ErDTaPUIDlYVQB98e6zccPdCp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="326605143"
+  bh=3QtnzNmns+7h47kKgvPijo0mqZY/g9XoH+gSY1VEEcg=;
+  b=WNG94l1VzzUJ5imk65/ppU5ro/1RC9My0RwLGBO2NgGVsNeuA3M/6rvR
+   LC6BTNcUWEOzvh9UjfRjsIRiHiSwK6apAfguRXjAMyIiR+fo4KJbbVCGZ
+   cF/TeWl+IyQDoslL/Iv2vG0IAI2VjkhMGaaVW5EGi8d3UC19thgC5+MDj
+   Q1y5I1llA48qmshkgg0Ce86hMRC6VolSUgEP/bWty2h0uu99sbhbzwxMY
+   KtsKf1VL45tNZMTDFeWJlovEFBMRxdsb8URgXQhZCEYBW2BSiUOlXA5L+
+   TNBrjxfrgpTVAnMoEu8pfo6pOrBQte+ghlzEGTyrzx+NXO0B3L0MWux9P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="348197435"
 X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="326605143"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 06:41:12 -0700
+   d="scan'208";a="348197435"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 07:43:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="939021984"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="725402610"
 X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="939021984"
+   d="scan'208";a="725402610"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Apr 2023 06:41:10 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Apr 2023 07:43:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqZxl-000hui-1u;
-	Sun, 23 Apr 2023 13:41:09 +0000
-Date: Sun, 23 Apr 2023 21:41:01 +0800
+	id 1pqavm-000hvg-1U;
+	Sun, 23 Apr 2023 14:43:10 +0000
+Date: Sun, 23 Apr 2023 22:42:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yan Wang <rk.code@outlook.com>, linus.walleij@linaro.org, brgl@bgdev.pl
-Cc: oe-kbuild-all@lists.linux.dev, Yan Wang <rk.code@outlook.com>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] gpio: gpiolib: clear the array_info's memory space
-Message-ID: <202304232146.7M89pwCz-lkp@intel.com>
-References: <KL1PR01MB54489B7A3D9D02D242B4BDA1E6669@KL1PR01MB5448.apcprd01.prod.exchangelabs.com>
+To: Arnd Bergmann <arnd@kernel.org>, Yishai Hadas <yishaih@nvidia.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 2/2] net/mlx4: avoid overloading user/kernel pointers
+Message-ID: <202304232230.hFVK5ix1-lkp@intel.com>
+References: <20230418114730.3674657-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,198 +52,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <KL1PR01MB54489B7A3D9D02D242B4BDA1E6669@KL1PR01MB5448.apcprd01.prod.exchangelabs.com>
+In-Reply-To: <20230418114730.3674657-2-arnd@kernel.org>
 
-Hi Yan,
+Hi Arnd,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on next-20230421]
-[cannot apply to linus/master v6.3-rc7]
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.3-rc7 next-20230421]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Wang/gpio-gpiolib-clear-the-array_info-s-memory-space/20230423-190500
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/KL1PR01MB54489B7A3D9D02D242B4BDA1E6669%40KL1PR01MB5448.apcprd01.prod.exchangelabs.com
-patch subject: [PATCH v1] gpio: gpiolib: clear the array_info's memory space
-config: microblaze-buildonly-randconfig-r006-20230423 (https://download.01.org/0day-ci/archive/20230423/202304232146.7M89pwCz-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/net-mlx4-avoid-overloading-user-kernel-pointers/20230418-195238
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230418114730.3674657-2-arnd%40kernel.org
+patch subject: [PATCH 2/2] net/mlx4: avoid overloading user/kernel pointers
+config: sparc-randconfig-s052-20230423 (https://download.01.org/0day-ci/archive/20230423/202304232230.hFVK5ix1-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/061c9f6937fab64a9c1d051252fcd3236a35381f
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/1389cdaec07839abb7b8aacb2b16f37d4affd8d3
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yan-Wang/gpio-gpiolib-clear-the-array_info-s-memory-space/20230423-190500
-        git checkout 061c9f6937fab64a9c1d051252fcd3236a35381f
+        git fetch --no-tags linux-review Arnd-Bergmann/net-mlx4-avoid-overloading-user-kernel-pointers/20230418-195238
+        git checkout 1389cdaec07839abb7b8aacb2b16f37d4affd8d3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304232146.7M89pwCz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304232230.hFVK5ix1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mellanox/mlx4/en_cq.c:141:59: sparse: sparse: incorrect type in argument 10 (different address spaces) @@     expected void [noderef] __user *ubuf_addr @@     got struct mlx4_buf * @@
+   drivers/net/ethernet/mellanox/mlx4/en_cq.c:141:59: sparse:     expected void [noderef] __user *ubuf_addr
+   drivers/net/ethernet/mellanox/mlx4/en_cq.c:141:59: sparse:     got struct mlx4_buf *
+>> drivers/net/ethernet/mellanox/mlx4/en_cq.c:141:74: sparse: sparse: Using plain integer as NULL pointer
 
-   drivers/gpio/gpiolib.c: In function 'gpiod_get_array':
->> drivers/gpio/gpiolib.c:4345:25: warning: argument 1 null where non-null expected [-Wnonnull]
-    4345 |                         memset(array_info, 0, sizeof(struct gpio_array));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:36,
-                    from include/linux/acpi.h:13,
-                    from drivers/gpio/gpiolib.c:3:
-   arch/microblaze/include/asm/string.h:16:14: note: in a call to function 'memset' declared 'nonnull'
-      16 | extern void *memset(void *, int, __kernel_size_t);
-         |              ^~~~~~
+vim +141 drivers/net/ethernet/mellanox/mlx4/en_cq.c
 
-
-vim +4345 drivers/gpio/gpiolib.c
-
-  4263	
-  4264	/**
-  4265	 * gpiod_get_array - obtain multiple GPIOs from a multi-index GPIO function
-  4266	 * @dev:	GPIO consumer, can be NULL for system-global GPIOs
-  4267	 * @con_id:	function within the GPIO consumer
-  4268	 * @flags:	optional GPIO initialization flags
-  4269	 *
-  4270	 * This function acquires all the GPIOs defined under a given function.
-  4271	 *
-  4272	 * Return a struct gpio_descs containing an array of descriptors, -ENOENT if
-  4273	 * no GPIO has been assigned to the requested function, or another IS_ERR()
-  4274	 * code if an error occurred while trying to acquire the GPIOs.
-  4275	 */
-  4276	struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
-  4277							const char *con_id,
-  4278							enum gpiod_flags flags)
-  4279	{
-  4280		struct gpio_desc *desc;
-  4281		struct gpio_descs *descs;
-  4282		struct gpio_array *array_info = NULL;
-  4283		struct gpio_chip *gc;
-  4284		int count, bitmap_size;
-  4285		size_t descs_size;
-  4286	
-  4287		count = gpiod_count(dev, con_id);
-  4288		if (count < 0)
-  4289			return ERR_PTR(count);
-  4290	
-  4291		descs_size = struct_size(descs, desc, count);
-  4292		descs = kzalloc(descs_size, GFP_KERNEL);
-  4293		if (!descs)
-  4294			return ERR_PTR(-ENOMEM);
-  4295	
-  4296		for (descs->ndescs = 0; descs->ndescs < count; descs->ndescs++) {
-  4297			desc = gpiod_get_index(dev, con_id, descs->ndescs, flags);
-  4298			if (IS_ERR(desc)) {
-  4299				gpiod_put_array(descs);
-  4300				return ERR_CAST(desc);
-  4301			}
-  4302	
-  4303			descs->desc[descs->ndescs] = desc;
-  4304	
-  4305			gc = gpiod_to_chip(desc);
-  4306			/*
-  4307			 * If pin hardware number of array member 0 is also 0, select
-  4308			 * its chip as a candidate for fast bitmap processing path.
-  4309			 */
-  4310			if (descs->ndescs == 0 && gpio_chip_hwgpio(desc) == 0) {
-  4311				struct gpio_descs *array;
-  4312	
-  4313				bitmap_size = BITS_TO_LONGS(gc->ngpio > count ?
-  4314							    gc->ngpio : count);
-  4315	
-  4316				array = krealloc(descs, descs_size +
-  4317						 struct_size(array_info, invert_mask, 3 * bitmap_size),
-  4318						 GFP_KERNEL | __GFP_ZERO);
-  4319				if (!array) {
-  4320					gpiod_put_array(descs);
-  4321					return ERR_PTR(-ENOMEM);
-  4322				}
-  4323	
-  4324				descs = array;
-  4325	
-  4326				array_info = (void *)descs + descs_size;
-  4327				array_info->get_mask = array_info->invert_mask +
-  4328							  bitmap_size;
-  4329				array_info->set_mask = array_info->get_mask +
-  4330							  bitmap_size;
-  4331	
-  4332				array_info->desc = descs->desc;
-  4333				array_info->size = count;
-  4334				array_info->chip = gc;
-  4335				bitmap_set(array_info->get_mask, descs->ndescs,
-  4336					   count - descs->ndescs);
-  4337				bitmap_set(array_info->set_mask, descs->ndescs,
-  4338					   count - descs->ndescs);
-  4339				descs->info = array_info;
-  4340			}
-  4341	
-  4342			/* If there is no cache for fast bitmap processing path, continue */
-  4343			if (!array_info) {
-  4344				/*clear descs->info*/
-> 4345				memset(array_info, 0, sizeof(struct gpio_array));
-  4346				continue;
-  4347			}
-  4348	
-  4349			/* Unmark array members which don't belong to the 'fast' chip */
-  4350			if (array_info->chip != gc) {
-  4351				__clear_bit(descs->ndescs, array_info->get_mask);
-  4352				__clear_bit(descs->ndescs, array_info->set_mask);
-  4353			}
-  4354			/*
-  4355			 * Detect array members which belong to the 'fast' chip
-  4356			 * but their pins are not in hardware order.
-  4357			 */
-  4358			else if (gpio_chip_hwgpio(desc) != descs->ndescs) {
-  4359				/*
-  4360				 * Don't use fast path if all array members processed so
-  4361				 * far belong to the same chip as this one but its pin
-  4362				 * hardware number is different from its array index.
-  4363				 */
-  4364				if (bitmap_full(array_info->get_mask, descs->ndescs)) {
-  4365					array_info = NULL;
-  4366				} else {
-  4367					__clear_bit(descs->ndescs,
-  4368						    array_info->get_mask);
-  4369					__clear_bit(descs->ndescs,
-  4370						    array_info->set_mask);
-  4371				}
-  4372			} else {
-  4373				/* Exclude open drain or open source from fast output */
-  4374				if (gpiochip_line_is_open_drain(gc, descs->ndescs) ||
-  4375				    gpiochip_line_is_open_source(gc, descs->ndescs))
-  4376					__clear_bit(descs->ndescs,
-  4377						    array_info->set_mask);
-  4378				/* Identify 'fast' pins which require invertion */
-  4379				if (gpiod_is_active_low(desc))
-  4380					__set_bit(descs->ndescs,
-  4381						  array_info->invert_mask);
-  4382			}
-  4383		}
-  4384		if (array_info)
-  4385			dev_dbg(dev,
-  4386				"GPIO array info: chip=%s, size=%d, get_mask=%lx, set_mask=%lx, invert_mask=%lx\n",
-  4387				array_info->chip->label, array_info->size,
-  4388				*array_info->get_mask, *array_info->set_mask,
-  4389				*array_info->invert_mask);
-  4390		return descs;
-  4391	}
-  4392	EXPORT_SYMBOL_GPL(gpiod_get_array);
-  4393	
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   88  
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09   89  int mlx4_en_activate_cq(struct mlx4_en_priv *priv, struct mlx4_en_cq *cq,
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09   90  			int cq_idx)
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   91  {
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   92  	struct mlx4_en_dev *mdev = priv->mdev;
+80a62deedf9d44 drivers/net/ethernet/mellanox/mlx4/en_cq.c Thomas Gleixner   2020-12-10   93  	int irq, err = 0;
+ec693d47010e83 drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2013-04-23   94  	int timestamp_en = 0;
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31   95  	bool assigned_eq = false;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   96  
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   97  	cq->dev = mdev->pndev[priv->port];
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   98  	cq->mcq.set_ci_db  = cq->wqres.db.db;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22   99  	cq->mcq.arm_db     = cq->wqres.db.db + 1;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  100  	*cq->mcq.set_ci_db = 0;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  101  	*cq->mcq.arm_db    = 0;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  102  	memset(cq->buf, 0, cq->buf_size);
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  103  
+ccc109b8ed24c6 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2016-11-02  104  	if (cq->type == RX) {
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  105  		if (!mlx4_is_eq_vector_valid(mdev->dev, priv->port,
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  106  					     cq->vector)) {
+de1618034ae570 drivers/net/ethernet/mellanox/mlx4/en_cq.c Ido Shamay        2015-05-31  107  			cq->vector = cpumask_first(priv->rx_ring[cq->ring]->affinity_mask);
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  108  
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  109  			err = mlx4_assign_eq(mdev->dev, priv->port,
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  110  					     &cq->vector);
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  111  			if (err) {
+b0f6446377e72b drivers/net/ethernet/mellanox/mlx4/en_cq.c Carol L Soto      2015-08-27  112  				mlx4_err(mdev, "Failed assigning an EQ to CQ vector %d\n",
+b0f6446377e72b drivers/net/ethernet/mellanox/mlx4/en_cq.c Carol L Soto      2015-08-27  113  					 cq->vector);
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  114  				goto free_eq;
+1fb9876e9bf895 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2011-03-22  115  			}
+35f6f45368632f drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2014-06-29  116  
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  117  			assigned_eq = true;
+1fb9876e9bf895 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2011-03-22  118  		}
+80a62deedf9d44 drivers/net/ethernet/mellanox/mlx4/en_cq.c Thomas Gleixner   2020-12-10  119  		irq = mlx4_eq_get_irq(mdev->dev, cq->vector);
+197d2370772957 drivers/net/ethernet/mellanox/mlx4/en_cq.c Thomas Gleixner   2020-12-10  120  		cq->aff_mask = irq_get_effective_affinity_mask(irq);
+1fb9876e9bf895 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2011-03-22  121  	} else {
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  122  		/* For TX we use the same irq per
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  123  		ring we assigned for the RX    */
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  124  		struct mlx4_en_cq *rx_cq;
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  125  
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  126  		cq_idx = cq_idx % priv->rx_ring_num;
+41d942d56cfd21 drivers/net/ethernet/mellanox/mlx4/en_cq.c Eugenia Emantayev 2013-11-07  127  		rx_cq = priv->rx_cq[cq_idx];
+76532d0c7e7424 drivers/net/ethernet/mellanox/mlx4/en_cq.c Alexander Guller  2011-10-09  128  		cq->vector = rx_cq->vector;
+1fb9876e9bf895 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2011-03-22  129  	}
+1fb9876e9bf895 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2011-03-22  130  
+ccc109b8ed24c6 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2016-11-02  131  	if (cq->type == RX)
+41d942d56cfd21 drivers/net/ethernet/mellanox/mlx4/en_cq.c Eugenia Emantayev 2013-11-07  132  		cq->size = priv->rx_ring[cq->ring]->actual_size;
+38aab07c14adbf drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2009-05-24  133  
+ccc109b8ed24c6 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2016-11-02  134  	if ((cq->type != RX && priv->hwtstamp_config.tx_type) ||
+ccc109b8ed24c6 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2016-11-02  135  	    (cq->type == RX && priv->hwtstamp_config.rx_filter))
+ec693d47010e83 drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2013-04-23  136  		timestamp_en = 1;
+ec693d47010e83 drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2013-04-23  137  
+f3301870161ca2 drivers/net/ethernet/mellanox/mlx4/en_cq.c Moshe Shemesh     2017-06-21  138  	cq->mcq.usage = MLX4_RES_USAGE_DRIVER;
+ec693d47010e83 drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2013-04-23  139  	err = mlx4_cq_alloc(mdev->dev, cq->size, &cq->wqres.mtt,
+ec693d47010e83 drivers/net/ethernet/mellanox/mlx4/en_cq.c Amir Vadai        2013-04-23  140  			    &mdev->priv_uar, cq->wqres.db.dma, &cq->mcq,
+e45678973dcbb1 drivers/net/ethernet/mellanox/mlx4/en_cq.c Daniel Jurgens    2018-11-21 @141  			    cq->vector, 0, timestamp_en, &cq->wqres.buf, false);
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  142  	if (err)
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  143  		goto free_eq;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  144  
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  145  	cq->mcq.event = mlx4_en_cq_event;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  146  
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  147  	switch (cq->type) {
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  148  	case TX:
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  149  		cq->mcq.comp = mlx4_en_tx_irq;
+16d083e28f1a4f drivers/net/ethernet/mellanox/mlx4/en_cq.c Jakub Kicinski    2022-05-04  150  		netif_napi_add_tx(cq->dev, &cq->napi, mlx4_en_poll_tx_cq);
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  151  		napi_enable(&cq->napi);
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  152  		break;
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  153  	case RX:
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  154  		cq->mcq.comp = mlx4_en_rx_irq;
+b48b89f9c189d2 drivers/net/ethernet/mellanox/mlx4/en_cq.c Jakub Kicinski    2022-09-27  155  		netif_napi_add(cq->dev, &cq->napi, mlx4_en_poll_rx_cq);
+0276a330617a0c drivers/net/ethernet/mellanox/mlx4/en_cq.c Eugenia Emantayev 2013-12-19  156  		napi_enable(&cq->napi);
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  157  		break;
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  158  	case TX_XDP:
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  159  		/* nothing regarding napi, it's shared with rx ring */
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  160  		cq->xdp_busy = false;
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  161  		break;
+6c78511b0503c9 drivers/net/ethernet/mellanox/mlx4/en_cq.c Tariq Toukan      2017-06-15  162  	}
+0276a330617a0c drivers/net/ethernet/mellanox/mlx4/en_cq.c Eugenia Emantayev 2013-12-19  163  
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  164  	return 0;
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  165  
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  166  free_eq:
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  167  	if (assigned_eq)
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  168  		mlx4_release_eq(mdev->dev, cq->vector);
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  169  	cq->vector = mdev->dev->caps.num_comp_vectors;
+c66fa19c405a36 drivers/net/ethernet/mellanox/mlx4/en_cq.c Matan Barak       2015-05-31  170  	return err;
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  171  }
+c27a02cd94d669 drivers/net/mlx4/en_cq.c                   Yevgeny Petrilin  2008-10-22  172  
 
 -- 
 0-DAY CI Kernel Test Service
