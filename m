@@ -1,41 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1BF620;
-	Sun, 23 Apr 2023 04:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB443650
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 05:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682222763; x=1713758763;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=0YGPjK/j6dPhyPWh9b8KO4htrbBFqE74Mm+NxLkImz8=;
-  b=n8GbPJV4lBae9g8M8EReCtt85M9EVRm9XefI1Xuef65i7Nld0/hGL5tn
-   wmVq3n94zLCMNyHPDX4P9jT5PtU08idzaiLL5IKaiUCug0Ih/osPXajBG
-   +3l3WYKHtrlHIxglCPHZz7z5e8IvqLTItdTu/LPlfPYsdrAolZ3qd8qS4
-   UbgzeXSefESMOc0UHPCKBfUb6iqG837s9hNgdlrrPvZPo55zfd1H2AYs7
-   mttD9kOUVBH2Ce3G87+rMZcKaltmM3gTTSmfMKWhRYAJlS5YlepvmXJEP
-   EymCLA7yX5609RGit4a6cI+Dfx3Cu8LX3+7KMEr9WlkyBiOzFA/8AeicJ
+  t=1682227083; x=1713763083;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SYebUIJTAfEiBKYaz1w1Rf8GB/yHI84tcl4SMJyGuIY=;
+  b=OQh63c3JrMIB3Kaxm1F7u6w5wPGIKEqLyAbATpH0DBIrDJn2xERVdXIu
+   7A9piRgL2wDjP9kH+5q4dIyLg7BWKu1KZCnQd6G8kGFhQ2cM2SFHYxPgT
+   E2eZvWnKb6wbQUaA4hz06ANGmLCrUhM1QYoxfgxlraikFtxys6mKpp+Pe
+   1RffWu16eKdbzHqElykxLZuRZJahwU498NUvti5/Zqd3Q6fNYp05uUXTf
+   qWS6e5sDR87bughnIv1hzqJmU/YPBTpRR2oNgli0BPtnc+98CMz/1787t
+   BP99ja2iWC/VEE/DH0cW9vFTVEq7WvUTZt20zOcYW3G4iuPwn8KjvoD5g
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="411512457"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="330451760"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="411512457"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 21:06:02 -0700
+   d="scan'208";a="330451760"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 22:18:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="757299477"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="723184446"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="757299477"
+   d="scan'208";a="723184446"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Apr 2023 21:06:01 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Apr 2023 22:18:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqQzA-000hgu-1F;
-	Sun, 23 Apr 2023 04:06:00 +0000
-Date: Sun, 23 Apr 2023 12:05:54 +0800
+	id 1pqS6r-000hi2-0E;
+	Sun, 23 Apr 2023 05:18:01 +0000
+Date: Sun, 23 Apr 2023 13:17:41 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [jarkko-tpmdd:tis-irq 70/75] vmlinux.o: warning: objtool:
- tpm_tis+0x50: data relocation to !ENDBR: tpm_tis_request_locality+0x0
-Message-ID: <202304231135.zmOsiK5U-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 2/14]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:509:44: error:
+ incompatible type for argument 3 of 'dml1_extract_rq_regs'
+Message-ID: <202304231325.ZBcRElc4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,237 +47,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: Lino Sanfilippo <l.sanfilippo@kunbus.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
-
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tis-irq
-head:   6cea73a6f10e7c9d07f77bb894d6aa4a29ed7bd8
-commit: c211567f78eb2c1f823cbf843460c4231c7c9632 [70/75] tpm, tpm: Implement usage counter for locality
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230423/202304231135.zmOsiK5U-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   7771fe887f137d6a1340922ffe0ce65fa44cf8eb
+commit: 1b3cfadf63b5d793a2480689dcf38814178c4ea6 [2/14] BACKPORT: drm/amd/display: Allocate structs needed by dcn_bw_calc_rq_dlg_ttu in pipe_ctx
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230423/202304231325.ZBcRElc4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=c211567f78eb2c1f823cbf843460c4231c7c9632
-        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
-        git fetch --no-tags jarkko-tpmdd tis-irq
-        git checkout c211567f78eb2c1f823cbf843460c4231c7c9632
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.10
+        git checkout 1b3cfadf63b5d793a2480689dcf38814178c4ea6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304231135.zmOsiK5U-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304231325.ZBcRElc4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: null_fops+0x28: data relocation to !ENDBR: write_iter_null+0x0
-   vmlinux.o: warning: objtool: null_fops+0xc0: data relocation to !ENDBR: splice_write_null+0x0
-   vmlinux.o: warning: objtool: null_fops+0x100: data relocation to !ENDBR: uring_cmd_null+0x0
-   vmlinux.o: warning: objtool: port_fops+0x8: data relocation to !ENDBR: memory_lseek+0x0
-   vmlinux.o: warning: objtool: port_fops+0x10: data relocation to !ENDBR: read_port+0x0
-   vmlinux.o: warning: objtool: port_fops+0x18: data relocation to !ENDBR: write_port+0x0
-   vmlinux.o: warning: objtool: port_fops+0x70: data relocation to !ENDBR: open_port+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x8: data relocation to !ENDBR: null_lseek+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x10: data relocation to !ENDBR: read_zero+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x18: data relocation to !ENDBR: write_null+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x20: data relocation to !ENDBR: read_iter_zero+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x28: data relocation to !ENDBR: write_iter_null+0x0
-   vmlinux.o: warning: objtool: zero_fops+0x60: data relocation to !ENDBR: mmap_zero+0x0
-   vmlinux.o: warning: objtool: zero_fops+0xa8: data relocation to !ENDBR: get_unmapped_area_zero+0x0
-   vmlinux.o: warning: objtool: full_fops+0x8: data relocation to !ENDBR: null_lseek+0x0
-   vmlinux.o: warning: objtool: full_fops+0x18: data relocation to !ENDBR: write_full+0x0
-   vmlinux.o: warning: objtool: full_fops+0x20: data relocation to !ENDBR: read_iter_zero+0x0
-   vmlinux.o: warning: objtool: random_fops+0x8: data relocation to !ENDBR: noop_llseek+0x0
-   vmlinux.o: warning: objtool: random_fops+0x20: data relocation to !ENDBR: random_read_iter+0x0
-   vmlinux.o: warning: objtool: random_fops+0x28: data relocation to !ENDBR: random_write_iter+0x0
-   vmlinux.o: warning: objtool: random_fops+0x48: data relocation to !ENDBR: random_poll+0x0
-   vmlinux.o: warning: objtool: random_fops+0x50: data relocation to !ENDBR: random_ioctl+0x0
-   vmlinux.o: warning: objtool: random_fops+0x90: data relocation to !ENDBR: random_fasync+0x0
-   vmlinux.o: warning: objtool: random_fops+0xc0: data relocation to !ENDBR: iter_file_splice_write+0x0
-   vmlinux.o: warning: objtool: random_fops+0xc8: data relocation to !ENDBR: generic_file_splice_read+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0x8: data relocation to !ENDBR: noop_llseek+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0x20: data relocation to !ENDBR: urandom_read_iter+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0x28: data relocation to !ENDBR: random_write_iter+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0x50: data relocation to !ENDBR: random_ioctl+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0x90: data relocation to !ENDBR: random_fasync+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0xc0: data relocation to !ENDBR: iter_file_splice_write+0x0
-   vmlinux.o: warning: objtool: urandom_fops+0xc8: data relocation to !ENDBR: generic_file_splice_read+0x0
-   vmlinux.o: warning: objtool: misc_seq_ops+0x0: data relocation to !ENDBR: misc_seq_start+0x0
-   vmlinux.o: warning: objtool: misc_seq_ops+0x8: data relocation to !ENDBR: misc_seq_stop+0x0
-   vmlinux.o: warning: objtool: misc_seq_ops+0x10: data relocation to !ENDBR: misc_seq_next+0x0
-   vmlinux.o: warning: objtool: misc_seq_ops+0x18: data relocation to !ENDBR: misc_seq_show+0x0
-   vmlinux.o: warning: objtool: misc_fops+0x8: data relocation to !ENDBR: noop_llseek+0x0
-   vmlinux.o: warning: objtool: misc_fops+0x70: data relocation to !ENDBR: misc_open+0x0
-   vmlinux.o: warning: objtool: hv_ops+0x0: data relocation to !ENDBR: get_chars+0x0
-   vmlinux.o: warning: objtool: hv_ops+0x8: data relocation to !ENDBR: put_chars+0x0
-   vmlinux.o: warning: objtool: hv_ops+0x18: data relocation to !ENDBR: notifier_add_vio+0x0
-   vmlinux.o: warning: objtool: hv_ops+0x20: data relocation to !ENDBR: notifier_del_vio+0x0
-   vmlinux.o: warning: objtool: hv_ops+0x28: data relocation to !ENDBR: notifier_del_vio+0x0
-   vmlinux.o: warning: objtool: port_fops+0x10: data relocation to !ENDBR: port_fops_read+0x0
-   vmlinux.o: warning: objtool: port_fops+0x18: data relocation to !ENDBR: port_fops_write+0x0
-   vmlinux.o: warning: objtool: port_fops+0x48: data relocation to !ENDBR: port_fops_poll+0x0
-   vmlinux.o: warning: objtool: port_fops+0x70: data relocation to !ENDBR: port_fops_open+0x0
-   vmlinux.o: warning: objtool: port_fops+0x80: data relocation to !ENDBR: port_fops_release+0x0
-   vmlinux.o: warning: objtool: port_fops+0x90: data relocation to !ENDBR: port_fops_fasync+0x0
-   vmlinux.o: warning: objtool: port_fops+0xc0: data relocation to !ENDBR: port_fops_splice_write+0x0
-   vmlinux.o: warning: objtool: port_debugfs_fops+0x8: data relocation to !ENDBR: seq_lseek+0x0
-   vmlinux.o: warning: objtool: port_debugfs_fops+0x10: data relocation to !ENDBR: seq_read+0x0
-   vmlinux.o: warning: objtool: port_debugfs_fops+0x70: data relocation to !ENDBR: port_debugfs_open+0x0
-   vmlinux.o: warning: objtool: port_debugfs_fops+0x80: data relocation to !ENDBR: single_release+0x0
-   vmlinux.o: warning: objtool: rng_chrdev_ops+0x8: data relocation to !ENDBR: noop_llseek+0x0
-   vmlinux.o: warning: objtool: rng_chrdev_ops+0x10: data relocation to !ENDBR: rng_dev_read+0x0
-   vmlinux.o: warning: objtool: rng_chrdev_ops+0x70: data relocation to !ENDBR: rng_dev_open+0x0
-   vmlinux.o: warning: objtool: tlclk_fops+0x8: data relocation to !ENDBR: noop_llseek+0x0
-   vmlinux.o: warning: objtool: tlclk_fops+0x10: data relocation to !ENDBR: tlclk_read+0x0
-   vmlinux.o: warning: objtool: tlclk_fops+0x70: data relocation to !ENDBR: tlclk_open+0x0
-   vmlinux.o: warning: objtool: tlclk_fops+0x80: data relocation to !ENDBR: tlclk_release+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x8: data relocation to !ENDBR: default_llseek+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x10: data relocation to !ENDBR: mwave_read+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x18: data relocation to !ENDBR: mwave_write+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x50: data relocation to !ENDBR: mwave_ioctl+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x70: data relocation to !ENDBR: mwave_open+0x0
-   vmlinux.o: warning: objtool: mwave_fops+0x80: data relocation to !ENDBR: mwave_close+0x0
-   vmlinux.o: warning: objtool: scr24x_fops+0x10: data relocation to !ENDBR: scr24x_read+0x0
-   vmlinux.o: warning: objtool: scr24x_fops+0x18: data relocation to !ENDBR: scr24x_write+0x0
-   vmlinux.o: warning: objtool: scr24x_fops+0x70: data relocation to !ENDBR: scr24x_open+0x0
-   vmlinux.o: warning: objtool: scr24x_fops+0x80: data relocation to !ENDBR: scr24x_release+0x0
-   vmlinux.o: warning: objtool: tpm_fops+0x10: data relocation to !ENDBR: tpm_common_read+0x0
-   vmlinux.o: warning: objtool: tpm_fops+0x18: data relocation to !ENDBR: tpm_common_write+0x0
-   vmlinux.o: warning: objtool: tpm_fops+0x48: data relocation to !ENDBR: tpm_common_poll+0x0
-   vmlinux.o: warning: objtool: tpm_fops+0x70: data relocation to !ENDBR: tpm_open+0x0
-   vmlinux.o: warning: objtool: tpm_fops+0x80: data relocation to !ENDBR: tpm_release+0x0
-   vmlinux.o: warning: objtool: tpmrm_fops+0x10: data relocation to !ENDBR: tpm_common_read+0x0
-   vmlinux.o: warning: objtool: tpmrm_fops+0x18: data relocation to !ENDBR: tpm_common_write+0x0
-   vmlinux.o: warning: objtool: tpmrm_fops+0x48: data relocation to !ENDBR: tpm_common_poll+0x0
-   vmlinux.o: warning: objtool: tpmrm_fops+0x70: data relocation to !ENDBR: tpmrm_open+0x0
-   vmlinux.o: warning: objtool: tpmrm_fops+0x80: data relocation to !ENDBR: tpmrm_release+0x0
-   vmlinux.o: warning: objtool: tpm1_ascii_b_measurements_seqops+0x0: data relocation to !ENDBR: tpm1_bios_measurements_start+0x0
-   vmlinux.o: warning: objtool: tpm1_ascii_b_measurements_seqops+0x8: data relocation to !ENDBR: tpm1_bios_measurements_stop+0x0
-   vmlinux.o: warning: objtool: tpm1_ascii_b_measurements_seqops+0x10: data relocation to !ENDBR: tpm1_bios_measurements_next+0x0
-   vmlinux.o: warning: objtool: tpm1_ascii_b_measurements_seqops+0x18: data relocation to !ENDBR: tpm1_ascii_bios_measurements_show+0x0
-   vmlinux.o: warning: objtool: tpm1_binary_b_measurements_seqops+0x0: data relocation to !ENDBR: tpm1_bios_measurements_start+0x0
-   vmlinux.o: warning: objtool: tpm1_binary_b_measurements_seqops+0x8: data relocation to !ENDBR: tpm1_bios_measurements_stop+0x0
-   vmlinux.o: warning: objtool: tpm1_binary_b_measurements_seqops+0x10: data relocation to !ENDBR: tpm1_bios_measurements_next+0x0
-   vmlinux.o: warning: objtool: tpm1_binary_b_measurements_seqops+0x18: data relocation to !ENDBR: tpm1_binary_bios_measurements_show+0x0
-   vmlinux.o: warning: objtool: tpm2_binary_b_measurements_seqops+0x0: data relocation to !ENDBR: tpm2_bios_measurements_start+0x0
-   vmlinux.o: warning: objtool: tpm2_binary_b_measurements_seqops+0x8: data relocation to !ENDBR: tpm2_bios_measurements_stop+0x0
-   vmlinux.o: warning: objtool: tpm2_binary_b_measurements_seqops+0x10: data relocation to !ENDBR: tpm2_bios_measurements_next+0x0
-   vmlinux.o: warning: objtool: tpm2_binary_b_measurements_seqops+0x18: data relocation to !ENDBR: tpm2_binary_bios_measurements_show+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x8: data relocation to !ENDBR: tpm_tis_req_canceled+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x10: data relocation to !ENDBR: tpm_tis_recv+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x18: data relocation to !ENDBR: tpm_tis_send+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x20: data relocation to !ENDBR: tpm_tis_ready+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x28: data relocation to !ENDBR: tpm_tis_status+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x30: data relocation to !ENDBR: tpm_tis_update_timeouts+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x38: data relocation to !ENDBR: tpm_tis_update_durations+0x0
->> vmlinux.o: warning: objtool: tpm_tis+0x50: data relocation to !ENDBR: tpm_tis_request_locality+0x0
->> vmlinux.o: warning: objtool: tpm_tis+0x58: data relocation to !ENDBR: tpm_tis_relinquish_locality+0x0
-   vmlinux.o: warning: objtool: tpm_tis+0x60: data relocation to !ENDBR: tpm_tis_clkrun_enable+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x18: data relocation to !ENDBR: tpm_tis_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x28: data relocation to !ENDBR: tpm_tis_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x38: data relocation to !ENDBR: tpm_tis_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tcg+0x0: data relocation to !ENDBR: tpm_tcg_read_bytes+0x0
-   vmlinux.o: warning: objtool: tpm_tcg+0x8: data relocation to !ENDBR: tpm_tcg_write_bytes+0x0
-   vmlinux.o: warning: objtool: tpm_tis_dmi_table+0x0: data relocation to !ENDBR: tpm_tis_disable_irq+0x0
-   vmlinux.o: warning: objtool: tpm_tis_spi_id+0x20: data relocation to !ENDBR: tpm_tis_spi_probe+0x0
-   vmlinux.o: warning: objtool: tpm_tis_spi_id+0x48: data relocation to !ENDBR: tpm_tis_spi_probe+0x0
-   vmlinux.o: warning: objtool: tpm_tis_spi_id+0x70: data relocation to !ENDBR: tpm_tis_spi_probe+0x0
-   vmlinux.o: warning: objtool: tpm_tis_spi_id+0x98: data relocation to !ENDBR: tpm_tis_spi_probe+0x0
-   vmlinux.o: warning: objtool: tpm_tis_spi_id+0xc0: data relocation to !ENDBR: cr50_spi_probe+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x18: data relocation to !ENDBR: tpm_tis_spi_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x28: data relocation to !ENDBR: tpm_tis_spi_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_pm+0x38: data relocation to !ENDBR: tpm_tis_spi_resume+0x0
-   vmlinux.o: warning: objtool: tpm_spi_phy_ops+0x0: data relocation to !ENDBR: tpm_tis_spi_read_bytes+0x0
-   vmlinux.o: warning: objtool: tpm_spi_phy_ops+0x8: data relocation to !ENDBR: tpm_tis_spi_write_bytes+0x0
-   vmlinux.o: warning: objtool: tpm_spi_cr50_phy_ops+0x0: data relocation to !ENDBR: tpm_tis_spi_cr50_read_bytes+0x0
-   vmlinux.o: warning: objtool: tpm_spi_cr50_phy_ops+0x8: data relocation to !ENDBR: tpm_tis_spi_cr50_write_bytes+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x18: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x28: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: cr50_i2c_pm+0x38: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: cr50_i2c+0x8: data relocation to !ENDBR: tpm_cr50_i2c_req_canceled+0x0
-   vmlinux.o: warning: objtool: cr50_i2c+0x10: data relocation to !ENDBR: tpm_cr50_i2c_tis_recv+0x0
-   vmlinux.o: warning: objtool: cr50_i2c+0x18: data relocation to !ENDBR: tpm_cr50_i2c_tis_send+0x0
-   vmlinux.o: warning: objtool: cr50_i2c+0x20: data relocation to !ENDBR: tpm_cr50_i2c_tis_set_ready+0x0
-   vmlinux.o: warning: objtool: cr50_i2c+0x28: data relocation to !ENDBR: tpm_cr50_i2c_tis_status+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x18: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x28: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_atmel_pm_ops+0x38: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: i2c_atmel+0x8: data relocation to !ENDBR: i2c_atmel_req_canceled+0x0
-   vmlinux.o: warning: objtool: i2c_atmel+0x10: data relocation to !ENDBR: i2c_atmel_recv+0x0
-   vmlinux.o: warning: objtool: i2c_atmel+0x18: data relocation to !ENDBR: i2c_atmel_send+0x0
-   vmlinux.o: warning: objtool: i2c_atmel+0x20: data relocation to !ENDBR: i2c_atmel_cancel+0x0
-   vmlinux.o: warning: objtool: i2c_atmel+0x28: data relocation to !ENDBR: i2c_atmel_read_status+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x18: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x28: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c_ops+0x38: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c+0x8: data relocation to !ENDBR: tpm_tis_i2c_req_canceled+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c+0x10: data relocation to !ENDBR: tpm_tis_i2c_recv+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c+0x18: data relocation to !ENDBR: tpm_tis_i2c_send+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c+0x20: data relocation to !ENDBR: tpm_tis_i2c_ready+0x0
-   vmlinux.o: warning: objtool: tpm_tis_i2c+0x28: data relocation to !ENDBR: tpm_tis_i2c_status+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x18: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x28: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: i2c_nuvoton_pm_ops+0x38: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_i2c+0x8: data relocation to !ENDBR: i2c_nuvoton_req_canceled+0x0
-   vmlinux.o: warning: objtool: tpm_i2c+0x10: data relocation to !ENDBR: i2c_nuvoton_recv+0x0
-   vmlinux.o: warning: objtool: tpm_i2c+0x18: data relocation to !ENDBR: i2c_nuvoton_send+0x0
-   vmlinux.o: warning: objtool: tpm_i2c+0x20: data relocation to !ENDBR: i2c_nuvoton_ready+0x0
-   vmlinux.o: warning: objtool: tpm_i2c+0x28: data relocation to !ENDBR: i2c_nuvoton_read_status+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x10: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x18: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x20: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x28: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x30: data relocation to !ENDBR: tpm_pm_suspend+0x0
-   vmlinux.o: warning: objtool: tpm_nsc_pm+0x38: data relocation to !ENDBR: tpm_pm_resume+0x0
-   vmlinux.o: warning: objtool: tpm_nsc+0x8: data relocation to !ENDBR: tpm_nsc_req_canceled+0x0
-   vmlinux.o: warning: objtool: tpm_nsc+0x10: data relocation to !ENDBR: tpm_nsc_recv+0x0
-   vmlinux.o: warning: objtool: tpm_nsc+0x18: data relocation to !ENDBR: tpm_nsc_send+0x0
-   vmlinux.o: warning: objtool: tpm_nsc+0x20: data relocation to !ENDBR: tpm_nsc_cancel+0x0
-   vmlinux.o: warning: objtool: tpm_nsc+0x28: data relocation to !ENDBR: tpm_nsc_status+0x0
-   vmlinux.o: warning: objtool: st33zp24_tpm+0x8: data relocation to !ENDBR: st33zp24_req_canceled+0x0
-   vmlinux.o: warning: objtool: st33zp24_tpm+0x10: data relocation to !ENDBR: st33zp24_recv+0x0
-   vmlinux.o: warning: objtool: st33zp24_tpm+0x18: data relocation to !ENDBR: st33zp24_send+0x0
-   vmlinux.o: warning: objtool: st33zp24_tpm+0x20: data relocation to !ENDBR: st33zp24_cancel+0x0
-   vmlinux.o: warning: objtool: st33zp24_tpm+0x28: data relocation to !ENDBR: st33zp24_status+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x10: data relocation to !ENDBR: st33zp24_pm_suspend+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x18: data relocation to !ENDBR: st33zp24_pm_resume+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x20: data relocation to !ENDBR: st33zp24_pm_suspend+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x28: data relocation to !ENDBR: st33zp24_pm_resume+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x30: data relocation to !ENDBR: st33zp24_pm_suspend+0x0
-   vmlinux.o: warning: objtool: st33zp24_spi_ops+0x38: data relocation to !ENDBR: st33zp24_pm_resume+0x0
-   vmlinux.o: warning: objtool: spi_phy_ops+0x0: data relocation to !ENDBR: st33zp24_spi_send+0x0
-   vmlinux.o: warning: objtool: spi_phy_ops+0x8: data relocation to !ENDBR: st33zp24_spi_recv+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x8: data relocation to !ENDBR: xillybus_llseek+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x10: data relocation to !ENDBR: xillybus_read+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x18: data relocation to !ENDBR: xillybus_write+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x48: data relocation to !ENDBR: xillybus_poll+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x70: data relocation to !ENDBR: xillybus_open+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x78: data relocation to !ENDBR: xillybus_flush+0x0
-   vmlinux.o: warning: objtool: xillybus_fops+0x80: data relocation to !ENDBR: xillybus_release+0x0
+   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c: In function 'dcn_bw_calc_rq_dlg_ttu':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:508:55: error: 'input' is a pointer; did you mean to use '->'?
+     508 |         dml1_rq_dlg_get_rq_params(dml, rq_param, input.pipe.src);
+         |                                                       ^
+         |                                                       ->
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:509:44: error: incompatible type for argument 3 of 'dml1_extract_rq_regs'
+     509 |         dml1_extract_rq_regs(dml, rq_regs, rq_param);
+         |                                            ^~~~~~~~
+         |                                            |
+         |                                            struct _vcs_dpi_display_rq_params_st *
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:35:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:36:60: note: expected 'const struct _vcs_dpi_display_rq_params_st' but argument is of type 'struct _vcs_dpi_display_rq_params_st *'
+      36 |                 const struct _vcs_dpi_display_rq_params_st rq_param);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:515:25: error: incompatible type for argument 5 of 'dml1_rq_dlg_get_dlg_params'
+     515 |                         dlg_sys_param,
+         |                         ^~~~~~~~~~~~~
+         |                         |
+         |                         struct _vcs_dpi_display_dlg_sys_params_st *
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:35:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:59:65: note: expected 'const struct _vcs_dpi_display_dlg_sys_params_st' but argument is of type 'struct _vcs_dpi_display_dlg_sys_params_st *'
+      59 |                 const struct _vcs_dpi_display_dlg_sys_params_st dlg_sys_param,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:516:25: error: incompatible type for argument 6 of 'dml1_rq_dlg_get_dlg_params'
+     516 |                         input,
+         |                         ^~~~~
+         |                         |
+         |                         struct _vcs_dpi_display_e2e_pipe_params_st *
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:35:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.h:60:66: note: expected 'const struct _vcs_dpi_display_e2e_pipe_params_st' but argument is of type 'struct _vcs_dpi_display_e2e_pipe_params_st *'
+      60 |                 const struct _vcs_dpi_display_e2e_pipe_params_st e2e_pipe_param,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c: At top level:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:742:14: warning: no previous prototype for 'get_highest_allowed_voltage_level' [-Wmissing-prototypes]
+     742 | unsigned int get_highest_allowed_voltage_level(uint32_t hw_internal_rev, uint32_t pci_revision_id)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:86,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/resource.h:28,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:32:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/inc/hw/dpp.h:50:42: warning: 'dpp_input_csc_matrix' defined but not used [-Wunused-const-variable=]
+      50 | static const struct dpp_input_csc_matrix dpp_input_csc_matrix[] = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/resource.h:28,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:32:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:124:22: warning: 'DP_DVI_CONVERTER_ID_4' defined but not used [-Wunused-const-variable=]
+     124 | static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:122:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
+     122 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:120:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
+     120 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:33,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services.h:37,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:27:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
 
 
-objdump-func vmlinux.o tpm_tis:
+vim +/dml1_extract_rq_regs +509 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c
+
+74c49c7ac14f3a Harry Wentland     2017-05-08  451  
+74c49c7ac14f3a Harry Wentland     2017-05-08  452  static void dcn_bw_calc_rq_dlg_ttu(
+fb3466a450cc46 Bhawanpreet Lakha  2017-08-01  453  		const struct dc *dc,
+74c49c7ac14f3a Harry Wentland     2017-05-08  454  		const struct dcn_bw_internal_vars *v,
+0d18d7bb801324 Charlene Liu       2017-08-01  455  		struct pipe_ctx *pipe,
+0d18d7bb801324 Charlene Liu       2017-08-01  456  		int in_idx)
+74c49c7ac14f3a Harry Wentland     2017-05-08  457  {
+74c49c7ac14f3a Harry Wentland     2017-05-08  458  	struct display_mode_lib *dml = (struct display_mode_lib *)(&dc->dml);
+74c49c7ac14f3a Harry Wentland     2017-05-08  459  	struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &pipe->dlg_regs;
+74c49c7ac14f3a Harry Wentland     2017-05-08  460  	struct _vcs_dpi_display_ttu_regs_st *ttu_regs = &pipe->ttu_regs;
+74c49c7ac14f3a Harry Wentland     2017-05-08  461  	struct _vcs_dpi_display_rq_regs_st *rq_regs = &pipe->rq_regs;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  462  	struct _vcs_dpi_display_rq_params_st *rq_param = &pipe->dml_rq_param;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  463  	struct _vcs_dpi_display_dlg_sys_params_st *dlg_sys_param = &pipe->dml_dlg_sys_param;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  464  	struct _vcs_dpi_display_e2e_pipe_params_st *input = &pipe->dml_input;
+74c49c7ac14f3a Harry Wentland     2017-05-08  465  	float total_active_bw = 0;
+74c49c7ac14f3a Harry Wentland     2017-05-08  466  	float total_prefetch_bw = 0;
+74c49c7ac14f3a Harry Wentland     2017-05-08  467  	int total_flip_bytes = 0;
+74c49c7ac14f3a Harry Wentland     2017-05-08  468  	int i;
+74c49c7ac14f3a Harry Wentland     2017-05-08  469  
+b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  470  	memset(dlg_regs, 0, sizeof(*dlg_regs));
+b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  471  	memset(ttu_regs, 0, sizeof(*ttu_regs));
+b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  472  	memset(rq_regs, 0, sizeof(*rq_regs));
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  473  	memset(rq_param, 0, sizeof(*rq_param));
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  474  	memset(dlg_sys_param, 0, sizeof(*dlg_sys_param));
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  475  	memset(input, 0, sizeof(*input));
+b9c1c67aeb8805 Dmytro Laktyushkin 2018-06-05  476  
+74c49c7ac14f3a Harry Wentland     2017-05-08  477  	for (i = 0; i < number_of_planes; i++) {
+74c49c7ac14f3a Harry Wentland     2017-05-08  478  		total_active_bw += v->read_bandwidth[i];
+74c49c7ac14f3a Harry Wentland     2017-05-08  479  		total_prefetch_bw += v->prefetch_bandwidth[i];
+74c49c7ac14f3a Harry Wentland     2017-05-08  480  		total_flip_bytes += v->total_immediate_flip_bytes[i];
+74c49c7ac14f3a Harry Wentland     2017-05-08  481  	}
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  482  	dlg_sys_param->total_flip_bw = v->return_bw - dcn_bw_max2(total_active_bw, total_prefetch_bw);
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  483  	if (dlg_sys_param->total_flip_bw < 0.0)
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  484  		dlg_sys_param->total_flip_bw = 0;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  485  
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  486  	dlg_sys_param->t_mclk_wm_us = v->dram_clock_change_watermark;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  487  	dlg_sys_param->t_sr_wm_us = v->stutter_enter_plus_exit_watermark;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  488  	dlg_sys_param->t_urg_wm_us = v->urgent_watermark;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  489  	dlg_sys_param->t_extra_us = v->urgent_extra_latency;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  490  	dlg_sys_param->deepsleep_dcfclk_mhz = v->dcf_clk_deep_sleep;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  491  	dlg_sys_param->total_flip_bytes = total_flip_bytes;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  492  
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  493  	pipe_ctx_to_e2e_pipe_params(pipe, &input->pipe);
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  494  	input->clks_cfg.dcfclk_mhz = v->dcfclk;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  495  	input->clks_cfg.dispclk_mhz = v->dispclk;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  496  	input->clks_cfg.dppclk_mhz = v->dppclk;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  497  	input->clks_cfg.refclk_mhz = dc->res_pool->ref_clocks.dchub_ref_clock_inKhz / 1000.0;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  498  	input->clks_cfg.socclk_mhz = v->socclk;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  499  	input->clks_cfg.voltage = v->voltage_level;
+74c49c7ac14f3a Harry Wentland     2017-05-08  500  //	dc->dml.logger = pool->base.logger;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  501  	input->dout.output_format = (v->output_format[in_idx] == dcn_bw_420) ? dm_420 : dm_444;
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  502  	input->dout.output_type  = (v->output[in_idx] == dcn_bw_hdmi) ? dm_hdmi : dm_dp;
+0d18d7bb801324 Charlene Liu       2017-08-01  503  	//input[in_idx].dout.output_standard;
+74c49c7ac14f3a Harry Wentland     2017-05-08  504  
+74c49c7ac14f3a Harry Wentland     2017-05-08  505  	/*todo: soc->sr_enter_plus_exit_time??*/
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  506  	dlg_sys_param->t_srx_delay_us = dc->dcn_ip->dcfclk_cstate_latency / v->dcf_clk_deep_sleep;
+74c49c7ac14f3a Harry Wentland     2017-05-08  507  
+1b3cfadf63b5d7 Harry Wentland     2021-09-07 @508  	dml1_rq_dlg_get_rq_params(dml, rq_param, input.pipe.src);
+6d04ee9dc10149 Dmytro Laktyushkin 2017-08-23 @509  	dml1_extract_rq_regs(dml, rq_regs, rq_param);
+6d04ee9dc10149 Dmytro Laktyushkin 2017-08-23  510  	dml1_rq_dlg_get_dlg_params(
+74c49c7ac14f3a Harry Wentland     2017-05-08  511  			dml,
+74c49c7ac14f3a Harry Wentland     2017-05-08  512  			dlg_regs,
+74c49c7ac14f3a Harry Wentland     2017-05-08  513  			ttu_regs,
+1b3cfadf63b5d7 Harry Wentland     2021-09-07  514  			rq_param->dlg,
+74c49c7ac14f3a Harry Wentland     2017-05-08 @515  			dlg_sys_param,
+74c49c7ac14f3a Harry Wentland     2017-05-08  516  			input,
+74c49c7ac14f3a Harry Wentland     2017-05-08  517  			true,
+74c49c7ac14f3a Harry Wentland     2017-05-08  518  			true,
+74c49c7ac14f3a Harry Wentland     2017-05-08  519  			v->pte_enable == dcn_bw_yes,
+3be5262e353b8a Harry Wentland     2017-07-27  520  			pipe->plane_state->flip_immediate);
+74c49c7ac14f3a Harry Wentland     2017-05-08  521  }
+74c49c7ac14f3a Harry Wentland     2017-05-08  522  
+
+:::::: The code at line 509 was first introduced by commit
+:::::: 6d04ee9dc10149db842d41de66eca201c9d91b60 drm/amd/display: Restructuring and cleaning up DML
+
+:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
