@@ -1,53 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB3FA935
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Apr 2023 23:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2447620
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Apr 2023 00:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682206199; x=1713742199;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mk/rUj7xZQRo0wJpLXl0vUvyBjGAGS0GDp1KvZ8ywtY=;
-  b=UoL4LXvPoiGlOnYHwheXZtEUEvL1NSWHDO3PWJCWFFbcg5zQTJlVUwL0
-   W4PJQswd5xW0ZaDUEmIEUVXmFYZRpKRjApFOkYgROLQ/eoHmUITCsYmQ4
-   zSmmsJSqCbI6ZiqURc6qLcLT2ysRK+9OownHzdMkzgQpzkYkWc2Clq8RO
-   cz+WXqkwpK4fEmGRqqiX2b1jLJBLhxRtXo96Kab3skzLEfiMh/rMs999Q
-   /HP9vudGfVf6fi/ugfNyeowuWfCqP1z9sErcAl5jfd3FwsGNw/HySjoMM
-   W1KhNWL4YxKbmXlFca6CSBwjrStQJ5Yc1aImEM2EbSoqLxw2GAJYNSogE
+  t=1682211118; x=1713747118;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nCT9YssBJ8AHAf9PbxHbMitivivmav0fmg9Bn0ztPAk=;
+  b=ZAUBTe3jlyJ39+ef7zZ1iisNf2R+ZpMaDfwzkZxOpG43UQa5hEbdHUw2
+   Lf7iDwSPEOn7NfY1F14EWas335go1V0leas4tSpaT5CHnU4RdrUWY4LFf
+   a9OxNzu8JcMcGT36+CAKvVHIPvyqQm7IX/LUBD61fATmXWiMjjraUmu5O
+   vbwbHI+yyQCi7t22e5GjyWy4ZQrjwCmhtFS+Om3h6SpJXedVC8QtSSwOj
+   n9wKGMbzxrXv1/allsonLSbUMGK8bmNKk7oQsC2vLAoMzUTtIWGCmlx8m
+   V9FGy3aK7ciR6v6F89CjyGqsRxN8d/To4VPQbhB3hi1qFZbWQ7Zur9Dgi
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="335096972"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="343704481"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="335096972"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 16:29:59 -0700
+   d="scan'208";a="343704481"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 17:51:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="781954255"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="836532098"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="781954255"
+   d="scan'208";a="836532098"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Apr 2023 16:29:55 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2023 17:51:57 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqMfz-000hZ8-0g;
-	Sat, 22 Apr 2023 23:29:55 +0000
-Date: Sun, 23 Apr 2023 07:29:37 +0800
+	id 1pqNxM-000hbA-1S;
+	Sun, 23 Apr 2023 00:51:56 +0000
+Date: Sun, 23 Apr 2023 08:51:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, Sibi Sankar <quic_sibis@quicinc.com>,
-	Rajendra Nayak <quic_rjendra@quicinc.com>,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Subject: Re: [PATCH V5 2/3] soc: qcom: boot_stat: Add Driver Support for Boot
- Stats
-Message-ID: <202304230707.TM8MomW0-lkp@intel.com>
-References: <142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu@quicinc.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.4 41/46] kernel/pid_sysctl.h:34:57: sparse:
+ sparse: incorrect type in argument 3 (different address spaces)
+Message-ID: <202304230854.esl96Prx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,76 +46,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu@quicinc.com>
 
-Hi Souradeep,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next linus/master v6.3-rc7 next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230418-144757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/142bfd034c12c245cda9f1dee20a05188b63494d.1681799201.git.quic_schowdhu%40quicinc.com
-patch subject: [PATCH V5 2/3] soc: qcom: boot_stat: Add Driver Support for Boot Stats
-config: nios2-randconfig-s033-20230423 (https://download.01.org/0day-ci/archive/20230423/202304230707.TM8MomW0-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
+head:   32ff4824772986b3969387ba85a00b82f506ede8
+commit: 3c5def682659b42b01a217ce672ed025791e596b [41/46] BACKPORT: mm/memfd: add MFD_NOEXEC_SEAL and MFD_EXEC
+config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20230423/202304230854.esl96Prx-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/1e2fc43bcc0869349f7e3698fceebbcc8333d1f3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230418-144757
-        git checkout 1e2fc43bcc0869349f7e3698fceebbcc8333d1f3
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.4
+        git checkout 3c5def682659b42b01a217ce672ed025791e596b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/soc/qcom/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230707.TM8MomW0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230854.esl96Prx-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/boot_stats.c:70:36: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got struct boot_stats [noderef] __iomem *b_stats @@
-   drivers/soc/qcom/boot_stats.c:70:36: sparse:     expected void *data
-   drivers/soc/qcom/boot_stats.c:70:36: sparse:     got struct boot_stats [noderef] __iomem *b_stats
-   drivers/soc/qcom/boot_stats.c:71:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void *data @@     got struct boot_stats [noderef] __iomem *b_stats @@
-   drivers/soc/qcom/boot_stats.c:71:72: sparse:     expected void *data
-   drivers/soc/qcom/boot_stats.c:71:72: sparse:     got struct boot_stats [noderef] __iomem *b_stats
+   kernel/pid_namespace.c: note: in included file:
+>> kernel/pid_sysctl.h:34:57: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] <asn:1> * @@     got void *buf @@
+   kernel/pid_sysctl.h:34:57: sparse:     expected void [noderef] <asn:1> *
+   kernel/pid_sysctl.h:34:57: sparse:     got void *buf
+>> kernel/pid_sysctl.h:43:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/pid_sysctl.h:43:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/pid_sysctl.h:43:35: sparse:     got int ( * )( ... )
+   kernel/pid_namespace.c:58:77: sparse: sparse: Using plain integer as NULL pointer
 
-vim +70 drivers/soc/qcom/boot_stats.c
+vim +34 kernel/pid_sysctl.h
 
-    52	
-    53	static int boot_stats_probe(struct platform_device *pdev)
-    54	{
-    55		struct device *bootstat_dev = &pdev->dev;
-    56		struct bs_data *drvdata;
-    57	
-    58		drvdata = devm_kzalloc(bootstat_dev, sizeof(*drvdata), GFP_KERNEL);
-    59		platform_set_drvdata(pdev, drvdata);
-    60	
-    61		drvdata->dbg_dir = debugfs_create_dir(dev_name(bootstat_dev), NULL);
-    62		if (IS_ERR(drvdata->dbg_dir))
-    63			return dev_err_probe(bootstat_dev, -ENOENT, "failed to create debugfs directory");
-    64	
-    65		drvdata->b_stats = devm_of_iomap(bootstat_dev, bootstat_dev->of_node, 0, NULL);
-    66		if (!drvdata->b_stats)
-    67			return dev_err_probe(bootstat_dev, -ENOMEM, "failed to map imem region\n");
-    68	
-    69		debugfs_create_file("pre_abl_time", 0200, drvdata->dbg_dir,
-  > 70				    drvdata->b_stats, &pre_abl_time_fops);
-    71		debugfs_create_file("abl_time", 0200, drvdata->dbg_dir, drvdata->b_stats, &abl_time_fops);
-    72	
-    73		return 0;
-    74	}
-    75	
+    13	
+    14	static int pid_mfd_noexec_dointvec_minmax(struct ctl_table *table,
+    15		int write, void *buf, size_t *lenp, loff_t *ppos)
+    16	{
+    17		struct pid_namespace *ns = task_active_pid_ns(current);
+    18		struct ctl_table table_copy;
+    19	
+    20		if (write && !ns_capable(ns->user_ns, CAP_SYS_ADMIN))
+    21			return -EPERM;
+    22	
+    23		table_copy = *table;
+    24		if (ns != &init_pid_ns)
+    25			table_copy.data = &ns->memfd_noexec_scope;
+    26	
+    27		/*
+    28		 * set minimum to current value, the effect is only bigger
+    29		 * value is accepted.
+    30		 */
+    31		if (*(int *)table_copy.data > *(int *)table_copy.extra1)
+    32			table_copy.extra1 = table_copy.data;
+    33	
+  > 34		return proc_dointvec_minmax(&table_copy, write, buf, lenp, ppos);
+    35	}
+    36	
+    37	static struct ctl_table pid_ns_ctl_table_vm[] = {
+    38		{
+    39			.procname	= "memfd_noexec",
+    40			.data		= &init_pid_ns.memfd_noexec_scope,
+    41			.maxlen		= sizeof(init_pid_ns.memfd_noexec_scope),
+    42			.mode		= 0644,
+  > 43			.proc_handler	= pid_mfd_noexec_dointvec_minmax,
+    44			.extra1		= SYSCTL_ZERO,
+    45			.extra2		= SYSCTL_TWO,
+    46		},
+    47		{ }
+    48	};
+    49	static struct ctl_path vm_path[] = { { .procname = "vm", }, { } };
+    50	static inline void register_pid_ns_sysctl_table_vm(void)
+    51	{
+    52		register_sysctl_paths(vm_path, pid_ns_ctl_table_vm);
+    53	}
+    54	#else
+    55	static inline void initialize_memfd_noexec_scope(struct pid_namespace *ns) {}
+    56	static inline void set_memfd_noexec_scope(struct pid_namespace *ns) {}
+    57	static inline void register_pid_ns_sysctl_table_vm(void) {}
+    58	#endif
+    59	
 
 -- 
 0-DAY CI Kernel Test Service
