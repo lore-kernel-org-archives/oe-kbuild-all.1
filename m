@@ -1,43 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F1C33FA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 19:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F07733FC;
+	Mon, 24 Apr 2023 19:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682364721; x=1713900721;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nMeVjXyxSF2oaHiIt2oE74wl4kr2OjtX03TSSq44f/0=;
-  b=Eox5rN3G9o9NzF+MtdNYkNt3KwP7p8k5IhJtRbuwqUsAASZtr9hXHPJ1
-   kPsC5pTEtRaqSuOuPfWfEdn+lSXHM1OSoVRGTHIphCDFYlkb3ugLb/+zj
-   6kxNzq89+qYpxw3zz4/eH2rQAxetDBsa6nVavWD54WRxyrb6VWvrSJmiI
-   boEn8Fagcpy6U3+BIgMiSK7b2v1p7jDsbRa62DEfKUUZoZAXwMqEc4vnf
-   eOJ/rC//etLap6OVeBjjqbGls7U6+3PsENbSYbCZHv/bKjxVeGOIu62n6
-   6TLWH0la+Wit6583p7jyMxQ50bWyjnznRkwIWt/m8YQ7hemAfMxGSaVlz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345295986"
+  t=1682364722; x=1713900722;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wJLT86EQNQt6MvTiSylxFgaY/lNJRMt8ynHpzJhfp80=;
+  b=Z+eRWLY2VF9/lkboJLcUQZUQ9CJq41Nfwt8AjSPm+w8JG8XsrHAxe11+
+   TEJ4Rhx3wooiyBEAl0mxp3dWynxI6OgBz/OzrqI05TQAE4G50kZlKLmTO
+   llMPAuYoSgpfdbD8QbHR846atVo42titVybeyQumSpJY3x24ni3En80/9
+   RGqq5qwOtXCsDy9pAqTRCVHAwHg2U9nnjORc8TAH1Rkr79FOMFkJq01lJ
+   uKeJ/R9tAP9mCTWbR9OIwsQIm3wTcBiZ7VKAI7bdzbEYbfB+EVyCW5LC/
+   chK0ZWC6ef9Gj8X223vKGV48GsY8nBad8aQ279sr3ssM2Bzh/OpguGXGl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="348462145"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="345295986"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:32:01 -0700
+   d="scan'208";a="348462145"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:32:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782521754"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="686999816"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="782521754"
+   d="scan'208";a="686999816"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 12:31:59 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Apr 2023 12:31:59 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr1uo-000icG-1z;
+	id 1pr1uo-000icI-23;
 	Mon, 24 Apr 2023 19:31:58 +0000
-Date: Tue, 25 Apr 2023 03:31:45 +0800
+Date: Tue, 25 Apr 2023 03:31:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202304250352.cyaGACK1-lkp@intel.com>
+To: liuwf <liuwf@mailbox.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: Library: [RFC PATCH] btree_blue - a btree with linear travesal
+ function and more
+Message-ID: <202304250319.8IOPqkLH-lkp@intel.com>
+References: <6d35bd15e3ec81bcde81b776a369d47ee1f373d2.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,93 +47,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6d35bd15e3ec81bcde81b776a369d47ee1f373d2.camel@mailbox.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   457391b0380335d5e9a5babdec90ac53928b23b4
-commit: 29814986b82e820ae9d3eb7474cdcf66605bd114 remoteproc: qcom_q6v5_pas: add support for dtb co-firmware loading
-date:   3 months ago
-config: arm64-randconfig-s051-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250352.cyaGACK1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi liuwf,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3 next-20230424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/liuwf/Library-RFC-PATCH-btree_blue-a-btree-with-linear-travesal-function-and-more/20230424-214853
+base:   linus/master
+patch link:    https://lore.kernel.org/r/6d35bd15e3ec81bcde81b776a369d47ee1f373d2.camel%40mailbox.org
+patch subject: Library: [RFC PATCH] btree_blue - a btree with linear travesal function and more
+config: i386-randconfig-a002-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250319.8IOPqkLH-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29814986b82e820ae9d3eb7474cdcf66605bd114
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 29814986b82e820ae9d3eb7474cdcf66605bd114
+        # https://github.com/intel-lab-lkp/linux/commit/749f2fb7789008fd7bb23287c37f4f5aaed09f25
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review liuwf/Library-RFC-PATCH-btree_blue-a-btree-with-linear-travesal-function-and-more/20230424-214853
+        git checkout 749f2fb7789008fd7bb23287c37f4f5aaed09f25
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250352.cyaGACK1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250319.8IOPqkLH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     expected void *mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dtb_mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     expected void *dtb_mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     got void [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +550 drivers/remoteproc/qcom_q6v5_pas.c
+>> lib/btree_blue.c:109:5: warning: no previous prototype for function 'getpos' [-Wmissing-prototypes]
+   int getpos(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+       ^
+   lib/btree_blue.c:109:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int getpos(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+   ^
+   static 
+>> lib/btree_blue.c:144:5: warning: no previous prototype for function 'geteqv' [-Wmissing-prototypes]
+   int geteqv(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+       ^
+   lib/btree_blue.c:144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int geteqv(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+   ^
+   static 
+>> lib/btree_blue.c:392:7: warning: no previous prototype for function 'btree_blue_prev_or_next' [-Wmissing-prototypes]
+   void *btree_blue_prev_or_next(struct btree_blue_head *head, 
+         ^
+   lib/btree_blue.c:392:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void *btree_blue_prev_or_next(struct btree_blue_head *head, 
+   ^
+   static 
+   lib/btree_blue.c:255:12: warning: unused function 'getpos_bin' [-Wunused-function]
+   static int getpos_bin(struct btree_blue_head *head, struct btree_blue_node_cb *cb, 
+              ^
+   lib/btree_blue.c:277:12: warning: unused function 'geteqv_bin' [-Wunused-function]
+   static int geteqv_bin(struct btree_blue_head *head, 
+              ^
+   5 warnings generated.
 
-   508	
-   509	static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
-   510	{
-   511		struct device_node *node;
-   512		struct resource r;
-   513		int ret;
-   514	
-   515		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
-   516		if (!node) {
-   517			dev_err(adsp->dev, "no memory-region specified\n");
-   518			return -EINVAL;
-   519		}
-   520	
-   521		ret = of_address_to_resource(node, 0, &r);
-   522		of_node_put(node);
-   523		if (ret)
-   524			return ret;
-   525	
-   526		adsp->mem_phys = adsp->mem_reloc = r.start;
-   527		adsp->mem_size = resource_size(&r);
-   528		adsp->mem_region = devm_ioremap_wc(adsp->dev, adsp->mem_phys, adsp->mem_size);
-   529		if (!adsp->mem_region) {
-   530			dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
-   531				&r.start, adsp->mem_size);
-   532			return -EBUSY;
-   533		}
-   534	
-   535		if (!adsp->dtb_pas_id)
-   536			return 0;
-   537	
-   538		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 1);
-   539		if (!node) {
-   540			dev_err(adsp->dev, "no dtb memory-region specified\n");
-   541			return -EINVAL;
-   542		}
-   543	
-   544		ret = of_address_to_resource(node, 0, &r);
-   545		if (ret)
-   546			return ret;
-   547	
-   548		adsp->dtb_mem_phys = adsp->dtb_mem_reloc = r.start;
-   549		adsp->dtb_mem_size = resource_size(&r);
- > 550		adsp->dtb_mem_region = devm_ioremap_wc(adsp->dev, adsp->dtb_mem_phys, adsp->dtb_mem_size);
-   551		if (!adsp->dtb_mem_region) {
-   552			dev_err(adsp->dev, "unable to map dtb memory region: %pa+%zx\n",
-   553				&r.start, adsp->dtb_mem_size);
-   554			return -EBUSY;
-   555		}
-   556	
-   557		return 0;
-   558	}
-   559	
+
+vim +/getpos +109 lib/btree_blue.c
+
+   108	
+ > 109	int getpos(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+   110	{
+   111		int i, o, x, nr, p, c;
+   112	
+   113		nr = cb->slots_info.slots_nr;
+   114		x = nr / 8;
+   115	
+   116		for (i = 1; i <= x; i++) {
+   117			p = i * 8 - 1;
+   118			c = keycmp(head, cb, p, key);
+   119			if (c < 0) {
+   120				o = (i - 1) * 8;
+   121				for (i = 0; i < 7; i++) {
+   122					p = o + i;
+   123					c = keycmp(head, cb, p, key);
+   124					if (c <= 0) {
+   125						return p;
+   126					}
+   127				}
+   128				return o + 7;
+   129			} else if (c == 0)
+   130				return p;
+   131		}
+   132		
+   133		o = x * 8;
+   134		for (i = 0; i < nr % 8; i++) {
+   135			p =  o + i;
+   136			c = keycmp(head, cb, p, key);
+   137			if (c <= 0)
+   138				return p;
+   139		}
+   140	
+   141		return nr;
+   142	}
+   143	
+ > 144	int geteqv(struct btree_blue_head *head, struct btree_blue_node_cb *cb, unsigned long *key)
+   145	{
+   146		int i, o, x, nr, p, c;
+   147	
+   148		nr = cb->slots_info.slots_nr;
+   149		x = nr / 8;
+   150	
+   151		for (i = 1; i <= x; i++) {
+   152			p = i * 8 - 1;
+   153			c = keycmp(head, cb, p, key);
+   154			if (c < 0) {
+   155				o = (i - 1) * 8;
+   156				for (i = 0; i < 7; i++) {
+   157					p =  o + i;
+   158					c = keycmp(head, cb, p, key);
+   159					if (c != 0)
+   160						continue;
+   161					else
+   162						return p;
+   163				}
+   164				return nr;
+   165			} else if (c == 0)
+   166				return p;
+   167		}
+   168		
+   169		o = x * 8;
+   170		for (i = 0; i < nr % 8; i++) {
+   171			p =  o + i;
+   172			c = keycmp(head, cb, p, key);
+   173			if (c == 0)
+   174				return p;
+   175		}
+   176	
+   177		return nr;
+   178	}
+   179	
 
 -- 
 0-DAY CI Kernel Test Service
