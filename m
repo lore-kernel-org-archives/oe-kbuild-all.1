@@ -1,50 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7764B7470;
-	Mon, 24 Apr 2023 23:27:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31DC7470
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682378829; x=1713914829;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tuP9B5Hr7Z651Gr0S6ft3FGq8Z8Th3WtYREYd69oDRo=;
-  b=EEqgQoQ8+BED1sappLQacEUtRQjuU2wErn8Lp69mvYqHe80A/ZXNATpY
-   IniDSoDv1QEvRcyjLSh/q4V7w3nBqrg+yyCKBK7wacFRocm58IFVePTOP
-   KzUewHiE6nG4iyhWjInD4P0W4OX6aDcSMNizIV8zYTJp4EUZFmydEZ3mI
-   V/nPVWEfViV619oJvJwv4A5rTQeRlSPW29qK88E7z+nmndxYp4KxnkMY5
-   3SGfMyd97Wl31fhuXi0IrPm0fgWE1yQgyoVbi4uZaG0pccMw3BR5dTR1y
-   N2i4yiJpe7tdRNacRw7lHCvvGt0F+UnB9G6T6o8/oz/9627+zxHEzCBn+
+  t=1682379514; x=1713915514;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vMidQZ8OvzT4vfKVMH9xk2Qd4Nk+vZH378/FsSMu9RE=;
+  b=GZe9MzgQZWHkdJGxBXhzjLMgsmGVEu7Yh8hPqwPLsWyOIucReVGJCOI4
+   Nw6WJLxnE7bhIuaWyl/1NqJsejRCM3bmNO5hGJ68n2zt/zR2YB2++NvqV
+   i6eTNQPJvYyhjzrvZsberSbausfKQJqPcLavd1LUebTNIAqWYA7LGLSgU
+   4+oZYFgG8IWlieraLtZE1p0vHtUuGVaxcZVIjiPLH3bDnarsgEiaQIn/N
+   RL7xedoSEl4iVko4apniMN79CMtNDJ33mRMyl9bVWVV7ncmdKk2jlb648
+   UjeeNh3JCBDoEXXnfWRnHRK55U/kQvbcJFhn60A3UlKgHhZi4G0YXCjiU
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="344074763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="409533765"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="344074763"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:27:08 -0700
+   d="scan'208";a="409533765"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:38:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939522185"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="687105796"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="939522185"
+   d="scan'208";a="687105796"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 16:27:04 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Apr 2023 16:38:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr5aJ-000iiS-2A;
-	Mon, 24 Apr 2023 23:27:03 +0000
-Date: Tue, 25 Apr 2023 07:26:49 +0800
+	id 1pr5ky-000ijE-0I;
+	Mon, 24 Apr 2023 23:38:04 +0000
+Date: Tue, 25 Apr 2023 07:37:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grzegorz Jaszczyk <jaz@semihalf.com>, linux-kernel@vger.kernel.org,
-	alex.williamson@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, dmy@semihalf.com,
-	tn@semihalf.com, dbehr@google.com, dbehr@chromium.org,
-	upstream@semihalf.com, dtor@google.com, jgg@ziepe.ca,
-	kevin.tian@intel.com, cohuck@redhat.com, abhsahu@nvidia.com,
-	yishaih@nvidia.com, yi.l.liu@intel.com, kvm@vger.kernel.org,
-	libvir-list@redhat.com, Grzegorz Jaszczyk <jaz@semihalf.com>
-Subject: Re: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space
- via eventfd
-Message-ID: <202304250702.Jn8hOwUl-lkp@intel.com>
-References: <20230424162748.2711945-1-jaz@semihalf.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 7/14] drivers/soc/apple/rtkit.c:627:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202304250703.9cqy08tn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,97 +45,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424162748.2711945-1-jaz@semihalf.com>
 
-Hi Grzegorz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on awilliam-vfio/for-linus]
-[also build test WARNING on linus/master v6.3 next-20230424]
-[cannot apply to awilliam-vfio/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20230424162748.2711945-1-jaz%40semihalf.com
-patch subject: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space via eventfd
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230425/202304250702.Jn8hOwUl-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   64314818271dd6e78606e3d5197a5d74bf5d9e7c
+commit: 2cbd92404e35b6cc8c7019cc4a44ae62072d2f5d [7/14] soc: apple: rtkit: Port to the internal mailbox driver
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230425/202304250703.9cqy08tn-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/62d759059cd5e6dab70052027e1b69c5d5cdc0f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
-        git checkout 62d759059cd5e6dab70052027e1b69c5d5cdc0f2
+        # https://github.com/AsahiLinux/linux/commit/2cbd92404e35b6cc8c7019cc4a44ae62072d2f5d
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/010-soc
+        git checkout 2cbd92404e35b6cc8c7019cc4a44ae62072d2f5d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/vfio/pci/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/soc/apple/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250702.Jn8hOwUl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250703.9cqy08tn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/vfio/pci/vfio_pci_core.c:709:6: warning: no previous prototype for function 'vfio_pci_acpi_notify_close_device' [-Wmissing-prototypes]
-   void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
-        ^
-   drivers/vfio/pci/vfio_pci_core.c:709:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
-   ^
-   static 
->> drivers/vfio/pci/vfio_pci_core.c:1029:11: warning: variable 'events' set but not used [-Wunused-but-set-variable]
-           __poll_t events;
-                    ^
-   2 warnings generated.
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:627:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     627 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
 
 
-vim +/vfio_pci_acpi_notify_close_device +709 drivers/vfio/pci/vfio_pci_core.c
+vim +627 drivers/soc/apple/rtkit.c
 
-   708	
- > 709	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
-   710	{
-   711		struct vfio_acpi_notification *acpi_notify = vdev->acpi_notification;
-   712		struct pci_dev *pdev = vdev->pdev;
-   713		struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
-   714		struct notification_queue *entry, *entry_tmp;
-   715		u64 cnt;
-   716	
-   717		if (!acpi_notify || !acpi_notify->acpi_notify_trigger)
-   718			return;
-   719	
-   720		acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
-   721					   vfio_pci_core_acpi_notify);
-   722	
-   723		eventfd_ctx_remove_wait_queue(acpi_notify->acpi_notify_trigger,
-   724					      &acpi_notify->wait, &cnt);
-   725	
-   726		flush_work(&acpi_notify->acpi_notification_work);
-   727	
-   728		mutex_lock(&acpi_notify->notification_list_lock);
-   729		list_for_each_entry_safe(entry, entry_tmp,
-   730					 &acpi_notify->notification_list,
-   731					 notify_val_next) {
-   732			list_del(&entry->notify_val_next);
-   733			kfree(entry);
-   734		}
-   735		mutex_unlock(&acpi_notify->notification_list_lock);
-   736	
-   737		eventfd_ctx_put(acpi_notify->acpi_notify_trigger);
-   738	
-   739		kfree(acpi_notify);
-   740	
-   741		vdev->acpi_notification = NULL;
-   742	}
-   743	#else
-   744	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev) {}
-   745	#endif /* CONFIG_ACPI */
-   746	
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  614  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  615  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  616  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  617  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  618  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  619  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  620  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  621  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  622  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  623  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  624  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  625  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  626  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @627  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  639  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  646  
+
+:::::: The code at line 627 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
 
 -- 
 0-DAY CI Kernel Test Service
