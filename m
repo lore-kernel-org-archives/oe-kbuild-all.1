@@ -1,151 +1,174 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D5B7C;
-	Mon, 24 Apr 2023 04:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE267C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 05:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682310042; x=1713846042;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=yW6kFfttMJiqIfN8yN7kDT3N4o8hTOhcLtfdwzk16yQ=;
-  b=FlT9I/o1EHCF+cR+EDmFgCKXozo97vEYOZSbaI+h4faBaGRPd033ES9t
-   w7u2kNIY43r19dynVSRDW9se8Y2QD6bDjCRTIzPblPSOsjRPD2yr3PoLK
-   P7/qm/8xuA+UJFKj1WtVQuLfT9D0A/dn6EUU/RfuQnBZSnhgusOnWk2hk
-   UxQ+hfIVIXourZk55MHTcAvxNZa/dU7No1GBdqQQ6mYKAyDmKIwPdVM/n
-   gKYJLnnVBWIzXEucx9h4HtE1yCH+/yBn0gvqRDm/E4Hs8HQpfunLYg+YD
-   9fsYSakb/Q1xmXQ/atSC/RV8JFq3KiSFiEfmIbtyCQ9Wh3bCIwlZSsR1f
+  t=1682313104; x=1713849104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=spjPszczlRJ6WXEUahSzbZ8YRRmzgy2bt1wJgMDK6ng=;
+  b=avXoF9yJb5hzEbJItg9+Fk56a/0VXVwdM27golFHcY9c+/ZCy0dO52oc
+   hOJdgeJym+X2RPviyCCwZgXnpAA9ChOMawOB8n8A3E6P6cVqywRM+0yZG
+   xtiFABWeuHISTZ6ZicqUO6oKLYq1lzgAHGAUi1SppwJBMIdFaXLNDQmmV
+   5MX5KbR2EsjE9A96LvB+6HyMZch/Hz9TL8IEBi0zyYjE1hMHU07r1/tAc
+   zvfjrf2nCxPpfFfZjYMhRxGQhXGYzvRXyQjLShIc+o02HBzL2G5wDDam4
+   piR0vMoG08zJ9H97goVW1nNOv0ebrAs62l6iJN3z84ifFtiZnL9NTVvp1
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="374300564"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="374305761"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="374300564"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 21:20:41 -0700
+   d="scan'208";a="374305761"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 22:11:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="725545662"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="939171660"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="725545662"
+   d="scan'208";a="939171660"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Apr 2023 21:20:40 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 Apr 2023 22:11:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqngt-000iGi-2F;
-	Mon, 24 Apr 2023 04:20:39 +0000
-Date: Mon, 24 Apr 2023 12:19:52 +0800
+	id 1pqoUF-000iHE-31;
+	Mon, 24 Apr 2023 05:11:39 +0000
+Date: Mon, 24 Apr 2023 13:11:20 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: ct_irq_enter+0x35: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202304241253.Ktu9jZA6-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	pierre-eric.pelloux-prayer@amd.com,
+	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
+Message-ID: <202304241259.Qq0Dmlud-lkp@intel.com>
+References: <20230424014324.218531-1-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230424014324.218531-1-andrealmeid@igalia.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Frederic Weisbecker <frederic@kernel.org>
-CC: "Paul E. McKenney" <paulmck@kernel.org>
-CC: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Hi André,
 
-Hi Frederic,
+kernel test robot noticed the following build warnings:
 
-FYI, the error/warning still remains.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   457391b0380335d5e9a5babdec90ac53928b23b4
-commit: 3864caafe7c66f01b188ffccb6a4215f3bf56292 rcu/context-tracking: Remove rcu_irq_enter/exit()
-date:   10 months ago
-config: x86_64-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230424/202304241253.Ktu9jZA6-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Mark-contexts-guilty-for-any-reset-type/20230424-094534
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230424014324.218531-1-andrealmeid%40igalia.com
+patch subject: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230424/202304241259.Qq0Dmlud-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3864caafe7c66f01b188ffccb6a4215f3bf56292
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3864caafe7c66f01b188ffccb6a4215f3bf56292
+        # https://github.com/intel-lab-lkp/linux/commit/ea7b1d78b677fdcf5f4776e63de611a2681cd5fb
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andr-Almeida/drm-amdgpu-Mark-contexts-guilty-for-any-reset-type/20230424-094534
+        git checkout ea7b1d78b677fdcf5f4776e63de611a2681cd5fb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304241253.Ktu9jZA6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304241259.Qq0Dmlud-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: kvm_spurious_fault+0x18: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: vmx_update_host_rsp+0x2b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x177: call to do_trace_write_msr() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x32: call to memset() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0xd2: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x28: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_enter+0x46: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_user_enter+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_idle_exit+0x57: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_exit+0x4b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_nmi_enter+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x58: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x5e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x58: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x58: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x5c: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_irq_enter+0x35: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: ct_irq_exit+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_enter+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function 'amdgpu_device_pre_asic_reset':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4738:28: warning: variable 'job' set but not used [-Wunused-but-set-variable]
+    4738 |         struct amdgpu_job *job = NULL;
+         |                            ^~~
 
 
-objdump-func vmlinux.o ct_irq_enter:
-0000 00000000000065c0 <ct_irq_enter>:
-0000     65c0:	53                   	push   %rbx
-0001     65c1:	83 3d 00 00 00 00 00 	cmpl   $0x0,0x0(%rip)        # 65c8 <ct_irq_enter+0x8>	65c3: R_X86_64_PC32	debug_locks-0x5
-0008     65c8:	74 0b                	je     65d5 <ct_irq_enter+0x15>
-000a     65ca:	65 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%eax        # 65d1 <ct_irq_enter+0x11>	65cd: R_X86_64_PC32	lockdep_recursion-0x4
-0011     65d1:	85 c0                	test   %eax,%eax
-0013     65d3:	74 04                	je     65d9 <ct_irq_enter+0x19>
-0015     65d5:	31 c0                	xor    %eax,%eax
-0017     65d7:	eb 0c                	jmp    65e5 <ct_irq_enter+0x25>
-0019     65d9:	65 8b 05 00 00 00 00 	mov    %gs:0x0(%rip),%eax        # 65e0 <ct_irq_enter+0x20>	65dc: R_X86_64_PC32	hardirqs_enabled-0x4
-0020     65e0:	85 c0                	test   %eax,%eax
-0022     65e2:	0f 95 c0             	setne  %al
-0025     65e5:	0f b6 d8             	movzbl %al,%ebx
-0028     65e8:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	65eb: R_X86_64_32S	_ftrace_annotated_branch+0x65430
-002f     65ef:	89 de                	mov    %ebx,%esi
-0031     65f1:	31 d2                	xor    %edx,%edx
-0033     65f3:	31 c9                	xor    %ecx,%ecx
-0035     65f5:	e8 00 00 00 00       	call   65fa <ct_irq_enter+0x3a>	65f6: R_X86_64_PLT32	ftrace_likely_update-0x4
-003a     65fa:	84 db                	test   %bl,%bl
-003c     65fc:	74 04                	je     6602 <ct_irq_enter+0x42>
-003e     65fe:	90                   	nop
-003f     65ff:	0f 0b                	ud2
-0041     6601:	90                   	nop
-0042     6602:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	6605: R_X86_64_32S	_ftrace_annotated_branch+0x65460
-0049     6609:	89 de                	mov    %ebx,%esi
-004b     660b:	31 d2                	xor    %edx,%edx
-004d     660d:	31 c9                	xor    %ecx,%ecx
-004f     660f:	e8 00 00 00 00       	call   6614 <ct_irq_enter+0x54>	6610: R_X86_64_PLT32	ftrace_likely_update-0x4
-0054     6614:	5b                   	pop    %rbx
-0055     6615:	e9 00 00 00 00       	jmp    661a <ct_irq_enter+0x5a>	6616: R_X86_64_PLT32	ct_nmi_enter-0x4
-005a     661a:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-0064     6624:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-006e     662e:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-0078     6638:	0f 1f 84 00 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+vim +/job +4738 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+
+5740682e66cef5 Monk Liu          2017-10-25  4733  
+e3c1b0712fdb03 shaoyunl          2021-02-16  4734  int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
+04442bf70debb1 Lijo Lazar        2021-03-16  4735  				 struct amdgpu_reset_context *reset_context)
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4736  {
+5c1e6fa49e8d8d Huang Rui         2021-12-16  4737  	int i, r = 0;
+04442bf70debb1 Lijo Lazar        2021-03-16 @4738  	struct amdgpu_job *job = NULL;
+04442bf70debb1 Lijo Lazar        2021-03-16  4739  	bool need_full_reset =
+04442bf70debb1 Lijo Lazar        2021-03-16  4740  		test_bit(AMDGPU_NEED_FULL_RESET, &reset_context->flags);
+04442bf70debb1 Lijo Lazar        2021-03-16  4741  
+04442bf70debb1 Lijo Lazar        2021-03-16  4742  	if (reset_context->reset_req_dev == adev)
+04442bf70debb1 Lijo Lazar        2021-03-16  4743  		job = reset_context->job;
+711826656bebb0 Monk Liu          2017-12-25  4744  
+b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4745  	if (amdgpu_sriov_vf(adev)) {
+b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4746  		/* stop the data exchange thread */
+b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4747  		amdgpu_virt_fini_data_exchange(adev);
+b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4748  	}
+b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4749  
+9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4750  	amdgpu_fence_driver_isr_toggle(adev, true);
+9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4751  
+711826656bebb0 Monk Liu          2017-12-25  4752  	/* block all schedulers and reset given job's ring */
+0875dc9e80eb3b Chunming Zhou     2016-06-12  4753  	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+0875dc9e80eb3b Chunming Zhou     2016-06-12  4754  		struct amdgpu_ring *ring = adev->rings[i];
+0875dc9e80eb3b Chunming Zhou     2016-06-12  4755  
+51687759be93fb Chunming Zhou     2017-04-24  4756  		if (!ring || !ring->sched.thread)
+0875dc9e80eb3b Chunming Zhou     2016-06-12  4757  			continue;
+5740682e66cef5 Monk Liu          2017-10-25  4758  
+c530b02f39850a Jack Zhang        2021-05-12  4759  		/*clear job fence from fence drv to avoid force_completion
+c530b02f39850a Jack Zhang        2021-05-12  4760  		 *leave NULL and vm flush fence in fence drv */
+5c1e6fa49e8d8d Huang Rui         2021-12-16  4761  		amdgpu_fence_driver_clear_job_fences(ring);
+c530b02f39850a Jack Zhang        2021-05-12  4762  
+2200edac745a65 Chunming Zhou     2016-06-30  4763  		/* after all hw jobs are reset, hw fence is meaningless, so force_completion */
+2f9d4084cac96a Monk Liu          2017-10-16  4764  		amdgpu_fence_driver_force_completion(ring);
+2f9d4084cac96a Monk Liu          2017-10-16  4765  	}
+d38ceaf99ed015 Alex Deucher      2015-04-20  4766  
+9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4767  	amdgpu_fence_driver_isr_toggle(adev, false);
+9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4768  
+04442bf70debb1 Lijo Lazar        2021-03-16  4769  	r = amdgpu_reset_prepare_hwcontext(adev, reset_context);
+404b277bbe4945 Lijo Lazar        2021-03-26  4770  	/* If reset handler not implemented, continue; otherwise return */
+404b277bbe4945 Lijo Lazar        2021-03-26  4771  	if (r == -ENOSYS)
+404b277bbe4945 Lijo Lazar        2021-03-26  4772  		r = 0;
+404b277bbe4945 Lijo Lazar        2021-03-26  4773  	else
+04442bf70debb1 Lijo Lazar        2021-03-16  4774  		return r;
+04442bf70debb1 Lijo Lazar        2021-03-16  4775  
+1d721ed679db18 Andrey Grodzovsky 2019-04-18  4776  	/* Don't suspend on bare metal if we are not going to HW reset the ASIC */
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4777  	if (!amdgpu_sriov_vf(adev)) {
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4778  
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4779  		if (!need_full_reset)
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4780  			need_full_reset = amdgpu_device_ip_need_full_reset(adev);
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4781  
+360cd08196cabc Likun Gao         2022-12-21  4782  		if (!need_full_reset && amdgpu_gpu_recovery &&
+360cd08196cabc Likun Gao         2022-12-21  4783  		    amdgpu_device_ip_check_soft_reset(adev)) {
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4784  			amdgpu_device_ip_pre_soft_reset(adev);
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4785  			r = amdgpu_device_ip_soft_reset(adev);
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4786  			amdgpu_device_ip_post_soft_reset(adev);
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4787  			if (r || amdgpu_device_ip_check_soft_reset(adev)) {
+aac891685da661 Dennis Li         2020-08-20  4788  				dev_info(adev->dev, "soft reset failed, will fallback to full reset!\n");
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4789  				need_full_reset = true;
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4790  			}
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4791  		}
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4792  
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4793  		if (need_full_reset)
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4794  			r = amdgpu_device_ip_suspend(adev);
+04442bf70debb1 Lijo Lazar        2021-03-16  4795  		if (need_full_reset)
+04442bf70debb1 Lijo Lazar        2021-03-16  4796  			set_bit(AMDGPU_NEED_FULL_RESET, &reset_context->flags);
+04442bf70debb1 Lijo Lazar        2021-03-16  4797  		else
+04442bf70debb1 Lijo Lazar        2021-03-16  4798  			clear_bit(AMDGPU_NEED_FULL_RESET,
+04442bf70debb1 Lijo Lazar        2021-03-16  4799  				  &reset_context->flags);
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4800  	}
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4801  
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4802  	return r;
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4803  }
+26bc534094ed45 Andrey Grodzovsky 2018-11-22  4804  
 
 -- 
 0-DAY CI Kernel Test Service
