@@ -1,271 +1,130 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8356E7470
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:57:16 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-42e3b5bc5ecso1844361137.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 16:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682380635; x=1684972635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7PgfwWAI0nR+mH6vI8X48Pnl9xXhXWmJyez6kNpzO0o=;
-        b=NdaQhiYkvythU+92hJ9/OSbzGaAKAe4tAwl+3WG94TqrpeWCfwKXdhNXJiaGg3RiA7
-         K9SJ52jwhPGpYPCmMj1gCM2cmnD/wvyXV+htGSKblAuz1+FGFZ4B3gk0PtUFu5zpel0x
-         eIQkmTQv0BcqeLcTUkFPURoCo5DBNepe0EJ1Li0qXKgxpXJuJdN5xm+6gU7vxkPUM3ER
-         Zk57JQv4vvG3+T4Up8ZokbqL9xxdlyQOSNOUfSd35O2GvBrn/JNUtqcyKTvzgv5MMMvm
-         fQfo9fq7ved/t6cG3YQqTBBYZVZNZ3qK2QkCEk0zZeXTwYkwEHO9SCwTfcarm8+1SBry
-         /jiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682380635; x=1684972635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7PgfwWAI0nR+mH6vI8X48Pnl9xXhXWmJyez6kNpzO0o=;
-        b=TbTTzMh9+SQgM8HV/kcc4wd3CftBMTw+qTbd2EHwENZaljQlFVII/onYLpQd3rVSBx
-         wEYGSIlRerpovSTr+Fi3PStft5JFoCGgVheoUDhD0FZqxsgyRB3xj/akyAvhQPy9ovOF
-         QQHsJ3oKJt7Zv34ofRDSzIjcMQ6QnkyNW7L+uMZTArG0UtuQ2a6fUyeO1+Vav4RlG5qP
-         QEJO8igXdzWJ1wrt87mYYyV/9sj6USERvO/INBj5fczF6HduebxuAj7m5ndT5cegKQvv
-         7snBrkWLENlyKlpdYuTPtehRlrLAQviD4u4Nc6bJHyDq8COl4RR/Cw+EoE9MdZGRzD7I
-         Jx8w==
-X-Gm-Message-State: AAQBX9fHA82tyR4HI5OgDYJfkRQboeP2IGyY+V8Kq/VccDVCivi/Mw7H
-	hOhgoyLOmjsn5DjFiJWFriGiBffrU247RyrcWjs=
-X-Google-Smtp-Source: AKy350Zxdd0E75nlIdKgzB3gJxkgqo7XgTgknfm3q9IsIPSsVi67yjZ3bnhQtNi4g5Q1ble/k1qMyzC0ZtmtEP7jWa8=
-X-Received: by 2002:a67:f786:0:b0:42e:3c25:cc2d with SMTP id
- j6-20020a67f786000000b0042e3c25cc2dmr6631756vso.19.1682380635118; Mon, 24 Apr
- 2023 16:57:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1267470;
+	Mon, 24 Apr 2023 23:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682380747; x=1713916747;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+V8tR6Gbj8367flSfl9WbzJ1prWrriAg/A+9tdKwmHc=;
+  b=JX8F+fcCFr4l8NnBjrv0hfxgzxBm1shYCdjhfxrOA2OXXzE+QRkY6bHd
+   ZFjZygDnHu/AoVSRuNiqWVebPBtzONTjkFmWCTM5CsQeP6i1XrkBdnvpS
+   fJv4UIXiSl4B9iI8KeZnDVQLvYdz8FOln7nouu5lWAnQu4/LEvB7A00yf
+   RNhRTRfpjCGucZhBZIPtl4rrcJys3K528Qyv+sMtrQjLlUR4IGvfz1URv
+   lYUi7/2H2sRcqw/dza+0gCzWqHbMISnIolRk6o8uP5yDbhPkRRXvUh0CW
+   wOp/Eba7U5OYbpzC6OUjRJ55jHTgMcqaTEvJKur9Lxbp51b8UnMOWKbZu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326207341"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="326207341"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:59:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="643561793"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="643561793"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 24 Apr 2023 16:59:06 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pr65I-000ik6-2Z;
+	Mon, 24 Apr 2023 23:59:04 +0000
+Date: Tue, 25 Apr 2023 07:58:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sean Christopherson <sean.j.christopherson@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 55/338]
+ arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type
+Message-ID: <202304250732.qEUlvwQP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202304240617.8iFXzb2j-lkp@intel.com>
-In-Reply-To: <202304240617.8iFXzb2j-lkp@intel.com>
-From: jim.cromie@gmail.com
-Date: Mon, 24 Apr 2023 17:56:49 -0600
-Message-ID: <CAJfuBxzHTQxUtjBc6iQ3fCkBVh02aekQkYB-q6_y+wcbps72ww@mail.gmail.com>
-Subject: Re: [jimc:maph 3/5] lib/test_map_h.c:41:2: error: call to
- '__compiletime_assert_314' declared with 'error' attribute: BUILD_BUG_ON
- failed: __builtin_memcmp(caten, "YESNOMAYBE", __builtin_strlen("YESNOMAYBE"))
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-hello human readers,
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   5217810067c6f32309d1473fc94649608330885c
+commit: 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24 [55/338] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
+config: i386-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250732.qEUlvwQP-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/tdx/commit/627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 prepare
 
-does anyone see anything wrong in the subject BUILD_BUG_ON construct ?
-It builds / tests fine on my x86 boxen,
-but has failed on i386, and now on mips.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250732.qEUlvwQP-lkp@intel.com/
 
-I have recapitulated the results locally:
+All warnings (new ones prefixed by >>):
 
-  MODPOST Module.symvers
-ERROR: modpost: "__compiletime_assert_314" [lib/test_map_h.ko] undefined!
-ERROR: modpost: "__compiletime_assert_315" [lib/test_map_h.ko] undefined!
-ERROR: modpost: "__compiletime_assert_316" [lib/test_map_h.ko] undefined!
-ERROR: modpost: "__compiletime_assert_317" [lib/test_map_h.ko] undefined!
-make[2]: *** [/home/jimc/projects/lx/wk-rpi/scripts/Makefile.modpost:136:
-Module.symvers] Error 1
-make[2]: Target '__modpost' not remade because of errors.
+   In file included from arch/x86/kernel/asm-offsets.c:22:
+>> arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type [-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   1 warning generated.
+--
+   In file included from arch/x86/kernel/asm-offsets.c:22:
+>> arch/x86/include/asm/tdx.h:114:49: warning: shift count >= width of type [-Wshift-count-overflow]
+                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+                                                                        ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:28: note: expanded from macro 'TDX_SEAMCALL_UD'
+   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+                                            ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:20:25: note: expanded from macro 'TDX_SW_ERROR'
+   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+                                            ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:19:21: note: expanded from macro 'TDX_ERROR'
+   #define TDX_ERROR                       _BITUL(63)
+                                           ^~~~~~~~~~
+   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
+   #define _BITUL(x)       (_UL(1) << (x))
+                                   ^  ~~~
+   1 warning generated.
 
 
+vim +114 arch/x86/include/asm/tdx.h
 
-On Sun, Apr 23, 2023 at 4:33=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://github.com/jimc/linux.git maph
-> head:   cab31ac00666c326de475b2390a7f92950c0d1a5
-> commit: 4f85eaecae8f0c517c49bd68f6c7133cd93166a9 [3/5] lib/test_map_h: ad=
-d new module to test map.h macros
-> config: mips-bmips_stb_defconfig (https://download.01.org/0day-ci/archive=
-/20230424/202304240617.8iFXzb2j-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b=
-7602e4a998220871de78afcb020b9c14a661)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install mips cross compiling tool for clang build
->         # apt-get install binutils-mipsel-linux-gnu
->         # https://github.com/jimc/linux/commit/4f85eaecae8f0c517c49bd68f6=
-c7133cd93166a9
->         git remote add jimc https://github.com/jimc/linux.git
->         git fetch --no-tags jimc maph
->         git checkout 4f85eaecae8f0c517c49bd68f6c7133cd93166a9
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash lib/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304240617.8iFXzb2j-lkp@i=
-ntel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> lib/test_map_h.c:41:2: error: call to '__compiletime_assert_314' decla=
-red with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(caten, "Y=
-ESNOMAYBE", __builtin_strlen("YESNOMAYBE"))
->            BUILD_BUG_STREQ(caten, "YESNOMAYBE");
->            ^
->    lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ'
->            BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)=
-))
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
-N'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
-)
->            ^
->    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_=
-ON_MSG'
->    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                        ^
->    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
->    include/linux/compiler_types.h:385:2: note: expanded from macro '_comp=
-iletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:378:4: note: expanded from macro '__com=
-piletime_assert'
->                            prefix ## suffix();                           =
-  \
->                            ^
->    <scratch space>:92:1: note: expanded from here
->    __compiletime_assert_314
->    ^
-> >> lib/test_map_h.c:43:2: error: call to '__compiletime_assert_315' decla=
-red with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cat=
-s_names[0], "DRMx_CORE", __builtin_strlen("DRMx_CORE"))
->            BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
->            ^
->    lib/test_map_h.c:35:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
->            BUILD_BUG_STREQ(_vec_##_names[idx], ref)
->            ^
->    lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ'
->            BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)=
-))
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
-N'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
-)
->            ^
->    note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
->    include/linux/compiler_types.h:385:2: note: expanded from macro '_comp=
-iletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:378:4: note: expanded from macro '__com=
-piletime_assert'
->                            prefix ## suffix();                           =
-  \
->                            ^
->    <scratch space>:97:1: note: expanded from here
->    __compiletime_assert_315
->    ^
-> >> lib/test_map_h.c:44:2: error: call to '__compiletime_assert_316' decla=
-red with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cat=
-s_names[1], "DRMx_DRIVER", __builtin_strlen("DRMx_DRIVER"))
->            BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
->            ^
->    lib/test_map_h.c:35:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
->            BUILD_BUG_STREQ(_vec_##_names[idx], ref)
->            ^
->    lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ'
->            BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)=
-))
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
-N'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
-)
->            ^
->    note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
->    include/linux/compiler_types.h:385:2: note: expanded from macro '_comp=
-iletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:378:4: note: expanded from macro '__com=
-piletime_assert'
->                            prefix ## suffix();                           =
-  \
->                            ^
->    <scratch space>:102:1: note: expanded from here
->    __compiletime_assert_316
->    ^
-> >> lib/test_map_h.c:45:2: error: call to '__compiletime_assert_317' decla=
-red with 'error' attribute: BUILD_BUG_ON failed: __builtin_memcmp(debug_cat=
-s_names[2], "DRMx_KMS", __builtin_strlen("DRMx_KMS"))
->            BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
->            ^
->    lib/test_map_h.c:35:2: note: expanded from macro 'BUILD_BUG_STREQ_VI'
->            BUILD_BUG_STREQ(_vec_##_names[idx], ref)
->            ^
->    lib/test_map_h.c:30:2: note: expanded from macro 'BUILD_BUG_STREQ'
->            BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen(ref)=
-))
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
-N'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
-)
->            ^
->    note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
->    include/linux/compiler_types.h:385:2: note: expanded from macro '_comp=
-iletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:378:4: note: expanded from macro '__com=
-piletime_assert'
->                            prefix ## suffix();                           =
-  \
->                            ^
->    <scratch space>:107:1: note: expanded from here
->    __compiletime_assert_317
->    ^
->    4 errors generated.
->
->
-> vim +41 lib/test_map_h.c
->
->     27
->     28  #if !defined(__i386__)
->     29  #define BUILD_BUG_STREQ(_var, ref)                               =
-       \
->     30          BUILD_BUG_ON(__builtin_memcmp(_var, ref, __builtin_strlen=
-(ref)))
->     31  #else
->     32  #define BUILD_BUG_STREQ(_var, ref)       BUILD_BUG_ON(0)
->     33  #endif
->     34  #define BUILD_BUG_STREQ_VI(_vec_, idx, ref)             \
->     35          BUILD_BUG_STREQ(_vec_##_names[idx], ref)
->     36
->     37  /* force compile, even if its not called */
+   102	
+   103	#ifdef CONFIG_INTEL_TDX_HOST
+   104	bool platform_tdx_enabled(void);
+   105	int tdx_cpu_enable(void);
+   106	int tdx_enable(void);
+   107	u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+   108		       struct tdx_module_output *out);
+   109	#else	/* !CONFIG_INTEL_TDX_HOST */
+   110	static inline bool platform_tdx_enabled(void) { return false; }
+   111	static inline int tdx_cpu_enable(void) { return -EINVAL; }
+   112	static inline int tdx_enable(void)  { return -EINVAL; }
+   113	static inline u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
+ > 114				     struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+   115	#endif	/* CONFIG_INTEL_TDX_HOST */
+   116	
 
-it was actually called.  I changed that in case it corrected the problem.
-It did not.
-
->     38  static void __used MAPH_BUILD_BUG(void)
->     39  {
->     40          BUILD_BUG_ON(sum !=3D 6);
->   > 41          BUILD_BUG_STREQ(caten, "YESNOMAYBE");
->     42
->   > 43          BUILD_BUG_STREQ_VI(debug_cats, 0, "DRMx_CORE");
->   > 44          BUILD_BUG_STREQ_VI(debug_cats, 1, "DRMx_DRIVER");
->   > 45          BUILD_BUG_STREQ_VI(debug_cats, 2, "DRMx_KMS");
->     46
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
