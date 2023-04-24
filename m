@@ -1,124 +1,126 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F133214
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 17:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682356682; x=1713892682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S/X2H/mlqZImO3F3tj7Tw3KTKqYXWQ1Zao3DMIW39tA=;
-  b=XOa8nylBfyprNPj1BsV46459/7QVtXc3A1Cr8Y3r9n35YsNgxZKYJSoO
-   g9+fG29k8SMApZPCK+tQc7XVoZnOSylhq7QFBV/0iMdlR+UqmnL8ffnNj
-   Mha/4QzhO+9Whzsb37XTJUdyAsNd3T7vSeSfHMzhmjxE4OLg2cdnq/O0x
-   yMHHXaZMBuLKZ53HcqHQdTQEqfngrEpj98fndRJRGqQ0/DpfzBxoHK99d
-   iQDjJHathub330uBwXACTUItuAa1B/nBq7loqoH1uzsk3RYaZ3vl/EzPI
-   tMRWQRpBoM1xW+DK5QJSA0m7Ekq9EIbW6dFhNr/GMJkP31PhsNVsOmQ6y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374458910"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="374458910"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 10:18:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="670574815"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="670574815"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 24 Apr 2023 10:17:57 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pqzp7-000iZu-0S;
-	Mon, 24 Apr 2023 17:17:57 +0000
-Date: Tue, 25 Apr 2023 01:17:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 12/43] clk: ep93xx: add DT support for Cirrus EP93xx
-Message-ID: <202304250013.c9Px2Npt-lkp@intel.com>
-References: <20230424123522.18302-13-nikita.shubin@maquefel.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1752F2E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 18:49:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15378C433D2;
+	Mon, 24 Apr 2023 18:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682362185;
+	bh=zjlYhHxKHeqUF6RB2iDS2/naizCqGReUTue1BVeagn0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lG/OMVmrJgvTuySKWuEx4fhXGQ2goaB8I/oNVDY7qd7r1J6ha0H3csE+jgvHcanlr
+	 4Hj82o7HiZVzVItnSY64ao3SSotIt0a8Xnn8wE+umpAKFy1jM4RW20XGu6XP/bRN1g
+	 nq8xhUS6QbxLtcRvbbEDIcwUkJ76dP7vDLMnYJ37jC/jwu3OY4Lil9eou7MLTvMCFx
+	 SfM6xwa2wWRAOrVcpWplTD3ykegFNzy99jLp0j4HynaEqCU8mHMMEdsvLtMNdhbfuQ
+	 +MvqmUlgIKWGubgdq3mrIfIGgQnLSTrKSF7Jl1TyMth0nm6pq5a69E0rUa9UG8KnBm
+	 ivG5/enn3fBJw==
+Received: by pali.im (Postfix)
+	id EB778816; Mon, 24 Apr 2023 20:49:41 +0200 (CEST)
+Date: Mon, 24 Apr 2023 20:49:41 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: {standard input}:924: Error: unrecognized opcode: `eieio'
+Message-ID: <20230424184941.44no7rkxjadnyojm@pali>
+References: <202304222120.WcBMaHXo-lkp@intel.com>
+ <20230422135838.3rn67ky2p7jmdk3n@pali>
+ <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230424123522.18302-13-nikita.shubin@maquefel.me>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 
-Hi Nikita,
+On Monday 24 April 2023 09:49:07 Geert Uytterhoeven wrote:
+> Hi Pali,
+> 
+> On Sat, Apr 22, 2023 at 4:03 PM Pali Rohár <pali@kernel.org> wrote:
+> > On Saturday 22 April 2023 21:53:23 kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   8e41e0a575664d26bb87e012c39435c4c3914ed9
+> > > commit: ff7c76f66d8bad4e694c264c789249e1d3a8205d powerpc/boot: Don't always pass -mcpu=powerpc when building 32-bit uImage
+> > > date:   3 months ago
+> > > config: powerpc-buildonly-randconfig-r006-20230422 (https://download.01.org/0day-ci/archive/20230422/202304222120.WcBMaHXo-lkp@intel.com/config)
+> > > compiler: powerpc-linux-gcc (GCC) 12.1.0
+> > > reproduce (this is a W=1 build):
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ff7c76f66d8bad4e694c264c789249e1d3a8205d
+> > >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> > >         git fetch --no-tags linus master
+> > >         git checkout ff7c76f66d8bad4e694c264c789249e1d3a8205d
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+> > >
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Link: https://lore.kernel.org/oe-kbuild-all/202304222120.WcBMaHXo-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >    {standard input}: Assembler messages:
+> > > >> {standard input}:924: Error: unrecognized opcode: `eieio'
+> > >    {standard input}:1094: Error: unrecognized opcode: `eieio'
+> > >
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests
+> >
+> > Hello! What is that? In this error report there is no compile log, nor
+> > any file / line. And "Link:" line from above error report does not work.
+> >
+> > Intel, can you look at your robot? This looks some bug in error reporting.
+> 
+> Looks fine to me: this is not a compile problem, but an assembler problem.
+> Presumably this is when building a kernel for a PPC platform that does
+> not support the eieio instruction?
 
-kernel test robot noticed the following build errors:
+What is fine on this report? There is completely missing command which
+generated this error; whole error message; input files which caused them
+and also change or commit.
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on robh/for-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3]
-[cannot apply to next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+And what presumably happened? I'm really not going to spend more time on
+guessing what reporter could probably might wanted to write into the
+report and start looking into crystal ball what could be an issue.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Shubin/gpio-ep93xx-split-device-in-multiple/20230424-183649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20230424123522.18302-13-nikita.shubin%40maquefel.me
-patch subject: [PATCH 12/43] clk: ep93xx: add DT support for Cirrus EP93xx
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304250013.c9Px2Npt-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8621eda93e4a641c57f889ac36d2386482e92157
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nikita-Shubin/gpio-ep93xx-split-device-in-multiple/20230424-183649
-        git checkout 8621eda93e4a641c57f889ac36d2386482e92157
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+I can say that this issue presumably happened when email operator of
+this robot pushed incorrect button and instead of the real report, it
+sent test report with content of some random error line from the random
+log file.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250013.c9Px2Npt-lkp@intel.com/
+Are we on the technical discussion about exactness? Or are going to
+discuss what who think that what could happened?
 
-All errors (new ones prefixed by >>):
+> The Link: works fine for me, sometimes you just have to be a little bit
+> patient for the archiver to catch up...
 
-   drivers/clk/clk-ep93xx.c: In function 'ep93xx_clk_enable':
->> drivers/clk/clk-ep93xx.c:153:9: error: implicit declaration of function 'ep93xx_syscon_swlocked_write' [-Werror=implicit-function-declaration]
-     153 |         ep93xx_syscon_swlocked_write(val, psc->reg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Sorry, I do not have time to wait undefined amount of time to access
+additional resources which are based on reported details required for
+debugging.
 
+Intel, could you please react on this issue? If not, I'm going to add
+your robot to my black list. It is not first time when I received such
+useless report from you and nobody reacted on it.
 
-vim +/ep93xx_syscon_swlocked_write +153 drivers/clk/clk-ep93xx.c
-
-   140	
-   141	static int ep93xx_clk_enable(struct clk_hw *hw)
-   142	{
-   143		struct clk_psc *psc = to_clk_psc(hw);
-   144		unsigned long flags = 0;
-   145		u32 val;
-   146	
-   147		if (psc->lock)
-   148			spin_lock_irqsave(psc->lock, flags);
-   149	
-   150		ep93xx_regmap_read(psc->reg, &val);
-   151		val |= BIT(psc->bit_idx);
-   152	
- > 153		ep93xx_syscon_swlocked_write(val, psc->reg);
-   154	
-   155		if (psc->lock)
-   156			spin_unlock_irqrestore(psc->lock, flags);
-   157	
-   158		return 0;
-   159	}
-   160	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
