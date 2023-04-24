@@ -1,43 +1,50 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D317470
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7764B7470;
+	Mon, 24 Apr 2023 23:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682378826; x=1713914826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N5Jrm1n8Ob11SzpbZdievnqErOU1uL852q0B3+3lzz0=;
-  b=MtqBYa80VYItu8/vaWF0ukEkCj8WL92QCW+zJNCzp0Z761+AUtYhisnp
-   WMO2GQ/K8rzcxGjzTtVm9v9iwVQBuTtDAUdSqTr+Cg4lk1ChYLvCXlyK4
-   fvw9azrR7Y7QG4ukFK5zYpE3RPHFax23WGa4EPZ1Q7n5Pku5hjqeuXfEy
-   GBYUekvYnEemml3KcQmyQ9afyOuG2MDnwDaTnJxAUu+StxB/nXqLDkaw1
-   Kj8+e7fR6sI+GbTTcRRoGlm5f8EuGtDSj4E7EGqXzu8UWx5UvTjm2FUTq
-   WWOtdkCRW043inIaNQDWiLo1zYzHiLvhhEWZR9RSuqbbDHKkjNOmpzj9M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374541077"
+  t=1682378829; x=1713914829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tuP9B5Hr7Z651Gr0S6ft3FGq8Z8Th3WtYREYd69oDRo=;
+  b=EEqgQoQ8+BED1sappLQacEUtRQjuU2wErn8Lp69mvYqHe80A/ZXNATpY
+   IniDSoDv1QEvRcyjLSh/q4V7w3nBqrg+yyCKBK7wacFRocm58IFVePTOP
+   KzUewHiE6nG4iyhWjInD4P0W4OX6aDcSMNizIV8zYTJp4EUZFmydEZ3mI
+   V/nPVWEfViV619oJvJwv4A5rTQeRlSPW29qK88E7z+nmndxYp4KxnkMY5
+   3SGfMyd97Wl31fhuXi0IrPm0fgWE1yQgyoVbi4uZaG0pccMw3BR5dTR1y
+   N2i4yiJpe7tdRNacRw7lHCvvGt0F+UnB9G6T6o8/oz/9627+zxHEzCBn+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="344074763"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="374541077"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:27:05 -0700
+   d="scan'208";a="344074763"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:27:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="693264519"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939522185"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="693264519"
+   d="scan'208";a="939522185"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Apr 2023 16:27:04 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 16:27:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr5aJ-000iid-2d;
+	id 1pr5aJ-000iiS-2A;
 	Mon, 24 Apr 2023 23:27:03 +0000
-Date: Tue, 25 Apr 2023 07:26:48 +0800
+Date: Tue, 25 Apr 2023 07:26:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <sean.j.christopherson@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 55/338]
- include/uapi/linux/const.h:28:33: error: left shift count >= width of type
-Message-ID: <202304250709.e5YWaNwp-lkp@intel.com>
+To: Grzegorz Jaszczyk <jaz@semihalf.com>, linux-kernel@vger.kernel.org,
+	alex.williamson@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, dmy@semihalf.com,
+	tn@semihalf.com, dbehr@google.com, dbehr@chromium.org,
+	upstream@semihalf.com, dtor@google.com, jgg@ziepe.ca,
+	kevin.tian@intel.com, cohuck@redhat.com, abhsahu@nvidia.com,
+	yishaih@nvidia.com, yi.l.liu@intel.com, kvm@vger.kernel.org,
+	libvir-list@redhat.com, Grzegorz Jaszczyk <jaz@semihalf.com>
+Subject: Re: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space
+ via eventfd
+Message-ID: <202304250702.Jn8hOwUl-lkp@intel.com>
+References: <20230424162748.2711945-1-jaz@semihalf.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,67 +53,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230424162748.2711945-1-jaz@semihalf.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   abaa3072a8763b7a6276df61d205bf33eb2f31a5
-commit: 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24 [55/338] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
-config: i386-randconfig-a012-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250709.e5YWaNwp-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Grzegorz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on awilliam-vfio/for-linus]
+[also build test WARNING on linus/master v6.3 next-20230424]
+[cannot apply to awilliam-vfio/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
+base:   https://github.com/awilliam/linux-vfio.git for-linus
+patch link:    https://lore.kernel.org/r/20230424162748.2711945-1-jaz%40semihalf.com
+patch subject: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space via eventfd
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230425/202304250702.Jn8hOwUl-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel/tdx/commit/627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/62d759059cd5e6dab70052027e1b69c5d5cdc0f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
+        git checkout 62d759059cd5e6dab70052027e1b69c5d5cdc0f2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/vfio/pci/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250709.e5YWaNwp-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250702.Jn8hOwUl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/bits.h:5,
-                    from include/linux/ioport.h:13,
-                    from include/linux/acpi.h:12,
-                    from include/linux/i2c.h:13,
-                    from drivers/gpu/drm/i915/display/intel_display_types.h:29,
-                    from <command-line>:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
-      19 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
-      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
-      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/vfio/pci/vfio_pci_core.c:709:6: warning: no previous prototype for function 'vfio_pci_acpi_notify_close_device' [-Wmissing-prototypes]
+   void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
+        ^
+   drivers/vfio/pci/vfio_pci_core.c:709:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
+   ^
+   static 
+>> drivers/vfio/pci/vfio_pci_core.c:1029:11: warning: variable 'events' set but not used [-Wunused-but-set-variable]
+           __poll_t events;
+                    ^
+   2 warnings generated.
 
 
-vim +28 include/uapi/linux/const.h
+vim +/vfio_pci_acpi_notify_close_device +709 drivers/vfio/pci/vfio_pci_core.c
 
-2dd8a62c647691 Masahiro Yamada 2018-04-10  27  
-21e7bc600e3b66 Masahiro Yamada 2018-04-10 @28  #define _BITUL(x)	(_UL(1) << (x))
-21e7bc600e3b66 Masahiro Yamada 2018-04-10  29  #define _BITULL(x)	(_ULL(1) << (x))
-2fc016c5bd8aad H. Peter Anvin  2013-04-27  30  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 21e7bc600e3b662020c05fd0749bcf85f16336f7 linux/const.h: refactor _BITUL and _BITULL a bit
-
-:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   708	
+ > 709	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
+   710	{
+   711		struct vfio_acpi_notification *acpi_notify = vdev->acpi_notification;
+   712		struct pci_dev *pdev = vdev->pdev;
+   713		struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
+   714		struct notification_queue *entry, *entry_tmp;
+   715		u64 cnt;
+   716	
+   717		if (!acpi_notify || !acpi_notify->acpi_notify_trigger)
+   718			return;
+   719	
+   720		acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
+   721					   vfio_pci_core_acpi_notify);
+   722	
+   723		eventfd_ctx_remove_wait_queue(acpi_notify->acpi_notify_trigger,
+   724					      &acpi_notify->wait, &cnt);
+   725	
+   726		flush_work(&acpi_notify->acpi_notification_work);
+   727	
+   728		mutex_lock(&acpi_notify->notification_list_lock);
+   729		list_for_each_entry_safe(entry, entry_tmp,
+   730					 &acpi_notify->notification_list,
+   731					 notify_val_next) {
+   732			list_del(&entry->notify_val_next);
+   733			kfree(entry);
+   734		}
+   735		mutex_unlock(&acpi_notify->notification_list_lock);
+   736	
+   737		eventfd_ctx_put(acpi_notify->acpi_notify_trigger);
+   738	
+   739		kfree(acpi_notify);
+   740	
+   741		vdev->acpi_notification = NULL;
+   742	}
+   743	#else
+   744	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev) {}
+   745	#endif /* CONFIG_ACPI */
+   746	
 
 -- 
 0-DAY CI Kernel Test Service
