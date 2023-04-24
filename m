@@ -1,50 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4087133FA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 19:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F1C33FA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 19:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682363532; x=1713899532;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yXmB4O56FdS7HN2yEs1rka8M14EJ9vI2hHwXGarRAMA=;
-  b=nz4tJWZ4jmXogBPQrOFO3DTIqJe0l85YwjKc4zQ7rKjFWFgYF5j7vTzk
-   iFWRi/coMUYSzxHZnXRhxx7D2tgdA9eC6bYMk7zDSYXEhLjVs4o66Vf6B
-   b/mGLr/Es9UPgrqbcl91T+wLQiFosJ8hXVQuEc6murqJKEM+5eLEGlw4N
-   LJ8vdZtSDIsuxRdyf+A0uCGEXsAz2a0r/KgGYYxgJNHgeZp6q5sN7Hon/
-   w8pE+kaYkGtSJCeP9oo7zDKSv1UxpWML2ig8ibhQQedl7nAjuvJP7Ay+r
-   F+MRgD08sKBIC/kv8YWYrSVsrP7QLw5CRTfSP0sAglaEXM0NR5IpGnD1q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345291583"
+  t=1682364721; x=1713900721;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nMeVjXyxSF2oaHiIt2oE74wl4kr2OjtX03TSSq44f/0=;
+  b=Eox5rN3G9o9NzF+MtdNYkNt3KwP7p8k5IhJtRbuwqUsAASZtr9hXHPJ1
+   kPsC5pTEtRaqSuOuPfWfEdn+lSXHM1OSoVRGTHIphCDFYlkb3ugLb/+zj
+   6kxNzq89+qYpxw3zz4/eH2rQAxetDBsa6nVavWD54WRxyrb6VWvrSJmiI
+   boEn8Fagcpy6U3+BIgMiSK7b2v1p7jDsbRa62DEfKUUZoZAXwMqEc4vnf
+   eOJ/rC//etLap6OVeBjjqbGls7U6+3PsENbSYbCZHv/bKjxVeGOIu62n6
+   6TLWH0la+Wit6583p7jyMxQ50bWyjnznRkwIWt/m8YQ7hemAfMxGSaVlz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345295986"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="345291583"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:12:03 -0700
+   d="scan'208";a="345295986"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:32:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939456108"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782521754"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="939456108"
+   d="scan'208";a="782521754"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 12:11:59 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 12:31:59 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr1bS-000ibk-0u;
-	Mon, 24 Apr 2023 19:11:58 +0000
-Date: Tue, 25 Apr 2023 03:11:13 +0800
+	id 1pr1uo-000icG-1z;
+	Mon, 24 Apr 2023 19:31:58 +0000
+Date: Tue, 25 Apr 2023 03:31:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grzegorz Jaszczyk <jaz@semihalf.com>, linux-kernel@vger.kernel.org,
-	alex.williamson@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, dmy@semihalf.com, tn@semihalf.com,
-	dbehr@google.com, dbehr@chromium.org, upstream@semihalf.com,
-	dtor@google.com, jgg@ziepe.ca, kevin.tian@intel.com,
-	cohuck@redhat.com, abhsahu@nvidia.com, yishaih@nvidia.com,
-	yi.l.liu@intel.com, kvm@vger.kernel.org, libvir-list@redhat.com,
-	Grzegorz Jaszczyk <jaz@semihalf.com>
-Subject: Re: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space
- via eventfd
-Message-ID: <202304250252.8MirvFb0-lkp@intel.com>
-References: <20230424162748.2711945-1-jaz@semihalf.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202304250352.cyaGACK1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,93 +46,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424162748.2711945-1-jaz@semihalf.com>
 
-Hi Grzegorz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on awilliam-vfio/for-linus]
-[also build test WARNING on linus/master v6.3 next-20230421]
-[cannot apply to awilliam-vfio/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20230424162748.2711945-1-jaz%40semihalf.com
-patch subject: [PATCH v2] vfio/pci: Propagate ACPI notifications to user-space via eventfd
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230425/202304250252.8MirvFb0-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   457391b0380335d5e9a5babdec90ac53928b23b4
+commit: 29814986b82e820ae9d3eb7474cdcf66605bd114 remoteproc: qcom_q6v5_pas: add support for dtb co-firmware loading
+date:   3 months ago
+config: arm64-randconfig-s051-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250352.cyaGACK1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/62d759059cd5e6dab70052027e1b69c5d5cdc0f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Grzegorz-Jaszczyk/vfio-pci-Propagate-ACPI-notifications-to-user-space-via-eventfd/20230425-002935
-        git checkout 62d759059cd5e6dab70052027e1b69c5d5cdc0f2
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29814986b82e820ae9d3eb7474cdcf66605bd114
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 29814986b82e820ae9d3eb7474cdcf66605bd114
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/vfio/pci/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250252.8MirvFb0-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250352.cyaGACK1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     expected void *mem_region
+   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     got void [noderef] __iomem *
+>> drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dtb_mem_region @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     expected void *dtb_mem_region
+   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     got void [noderef] __iomem *
 
->> drivers/vfio/pci/vfio_pci_core.c:709:6: warning: no previous prototype for 'vfio_pci_acpi_notify_close_device' [-Wmissing-prototypes]
-     709 | void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_core.c: In function 'vfio_pci_ioctl_acpi_notify_eventfd':
->> drivers/vfio/pci/vfio_pci_core.c:1029:18: warning: variable 'events' set but not used [-Wunused-but-set-variable]
-    1029 |         __poll_t events;
-         |                  ^~~~~~
+vim +550 drivers/remoteproc/qcom_q6v5_pas.c
 
-
-vim +/vfio_pci_acpi_notify_close_device +709 drivers/vfio/pci/vfio_pci_core.c
-
-   708	
- > 709	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev)
-   710	{
-   711		struct vfio_acpi_notification *acpi_notify = vdev->acpi_notification;
-   712		struct pci_dev *pdev = vdev->pdev;
-   713		struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
-   714		struct notification_queue *entry, *entry_tmp;
-   715		u64 cnt;
-   716	
-   717		if (!acpi_notify || !acpi_notify->acpi_notify_trigger)
-   718			return;
-   719	
-   720		acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
-   721					   vfio_pci_core_acpi_notify);
-   722	
-   723		eventfd_ctx_remove_wait_queue(acpi_notify->acpi_notify_trigger,
-   724					      &acpi_notify->wait, &cnt);
-   725	
-   726		flush_work(&acpi_notify->acpi_notification_work);
-   727	
-   728		mutex_lock(&acpi_notify->notification_list_lock);
-   729		list_for_each_entry_safe(entry, entry_tmp,
-   730					 &acpi_notify->notification_list,
-   731					 notify_val_next) {
-   732			list_del(&entry->notify_val_next);
-   733			kfree(entry);
-   734		}
-   735		mutex_unlock(&acpi_notify->notification_list_lock);
-   736	
-   737		eventfd_ctx_put(acpi_notify->acpi_notify_trigger);
-   738	
-   739		kfree(acpi_notify);
-   740	
-   741		vdev->acpi_notification = NULL;
-   742	}
-   743	#else
-   744	void vfio_pci_acpi_notify_close_device(struct vfio_pci_core_device *vdev) {}
-   745	#endif /* CONFIG_ACPI */
-   746	
+   508	
+   509	static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
+   510	{
+   511		struct device_node *node;
+   512		struct resource r;
+   513		int ret;
+   514	
+   515		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
+   516		if (!node) {
+   517			dev_err(adsp->dev, "no memory-region specified\n");
+   518			return -EINVAL;
+   519		}
+   520	
+   521		ret = of_address_to_resource(node, 0, &r);
+   522		of_node_put(node);
+   523		if (ret)
+   524			return ret;
+   525	
+   526		adsp->mem_phys = adsp->mem_reloc = r.start;
+   527		adsp->mem_size = resource_size(&r);
+   528		adsp->mem_region = devm_ioremap_wc(adsp->dev, adsp->mem_phys, adsp->mem_size);
+   529		if (!adsp->mem_region) {
+   530			dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
+   531				&r.start, adsp->mem_size);
+   532			return -EBUSY;
+   533		}
+   534	
+   535		if (!adsp->dtb_pas_id)
+   536			return 0;
+   537	
+   538		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 1);
+   539		if (!node) {
+   540			dev_err(adsp->dev, "no dtb memory-region specified\n");
+   541			return -EINVAL;
+   542		}
+   543	
+   544		ret = of_address_to_resource(node, 0, &r);
+   545		if (ret)
+   546			return ret;
+   547	
+   548		adsp->dtb_mem_phys = adsp->dtb_mem_reloc = r.start;
+   549		adsp->dtb_mem_size = resource_size(&r);
+ > 550		adsp->dtb_mem_region = devm_ioremap_wc(adsp->dev, adsp->dtb_mem_phys, adsp->dtb_mem_size);
+   551		if (!adsp->dtb_mem_region) {
+   552			dev_err(adsp->dev, "unable to map dtb memory region: %pa+%zx\n",
+   553				&r.start, adsp->dtb_mem_size);
+   554			return -EBUSY;
+   555		}
+   556	
+   557		return 0;
+   558	}
+   559	
 
 -- 
 0-DAY CI Kernel Test Service
