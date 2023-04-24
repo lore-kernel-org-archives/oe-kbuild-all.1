@@ -1,126 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1752F2E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 18:49:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15378C433D2;
-	Mon, 24 Apr 2023 18:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682362185;
-	bh=zjlYhHxKHeqUF6RB2iDS2/naizCqGReUTue1BVeagn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lG/OMVmrJgvTuySKWuEx4fhXGQ2goaB8I/oNVDY7qd7r1J6ha0H3csE+jgvHcanlr
-	 4Hj82o7HiZVzVItnSY64ao3SSotIt0a8Xnn8wE+umpAKFy1jM4RW20XGu6XP/bRN1g
-	 nq8xhUS6QbxLtcRvbbEDIcwUkJ76dP7vDLMnYJ37jC/jwu3OY4Lil9eou7MLTvMCFx
-	 SfM6xwa2wWRAOrVcpWplTD3ykegFNzy99jLp0j4HynaEqCU8mHMMEdsvLtMNdhbfuQ
-	 +MvqmUlgIKWGubgdq3mrIfIGgQnLSTrKSF7Jl1TyMth0nm6pq5a69E0rUa9UG8KnBm
-	 ivG5/enn3fBJw==
-Received: by pali.im (Postfix)
-	id EB778816; Mon, 24 Apr 2023 20:49:41 +0200 (CEST)
-Date: Mon, 24 Apr 2023 20:49:41 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: {standard input}:924: Error: unrecognized opcode: `eieio'
-Message-ID: <20230424184941.44no7rkxjadnyojm@pali>
-References: <202304222120.WcBMaHXo-lkp@intel.com>
- <20230422135838.3rn67ky2p7jmdk3n@pali>
- <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96422F2E;
+	Mon, 24 Apr 2023 18:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682362281; x=1713898281;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=huei9fm8wqaE4e2eRVEs7QavJaIOdk/zO+CVVXYTZpc=;
+  b=FAnVx0zDaxtNo3DPPN+8hFr8DZtwkuJB7U8XbIO73pYZWE8jO1xFTBAa
+   4kPiUlgbUsT1J46ob8hXQ92ho1/8ZLm/FJYbWeZKZCFrLgTEjkfmLMFGM
+   86jh1Oc2wQN7c69Qp6CI2Uukjz+DGXBlvVg4txgf8EaBZmu9bZDO25ala
+   eIzCZmSX2xaHKdogqELXntewUQfcyU35F0Gy8zR3DLFOQ6pVTFWTFqY5o
+   SBi9qHNKVUrqcyfGhnFf/6FfZF/rmNyGxqRGe5wWkd/Myc4QfBT/iSDZ6
+   ZqTv6d6dhcZz1gGUfCqsUJnf+Rsto86pnU6kLSEQyFuU9dc6Lk7jDxa8K
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349339347"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="349339347"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 11:51:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782506404"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="782506404"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 11:50:58 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pr1H7-000iau-2q;
+	Mon, 24 Apr 2023 18:50:57 +0000
+Date: Tue, 25 Apr 2023 02:50:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Natikar Basavaraj <Basavaraj.Natikar@amd.com>,
+	Donghun Yoon <donghun.yoon@lge.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
+Message-ID: <202304250239.9WShH3NB-lkp@intel.com>
+References: <20230424134926.1416-1-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20230424134926.1416-1-mario.limonciello@amd.com>
 
-On Monday 24 April 2023 09:49:07 Geert Uytterhoeven wrote:
-> Hi Pali,
-> 
-> On Sat, Apr 22, 2023 at 4:03 PM Pali Rohár <pali@kernel.org> wrote:
-> > On Saturday 22 April 2023 21:53:23 kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   8e41e0a575664d26bb87e012c39435c4c3914ed9
-> > > commit: ff7c76f66d8bad4e694c264c789249e1d3a8205d powerpc/boot: Don't always pass -mcpu=powerpc when building 32-bit uImage
-> > > date:   3 months ago
-> > > config: powerpc-buildonly-randconfig-r006-20230422 (https://download.01.org/0day-ci/archive/20230422/202304222120.WcBMaHXo-lkp@intel.com/config)
-> > > compiler: powerpc-linux-gcc (GCC) 12.1.0
-> > > reproduce (this is a W=1 build):
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ff7c76f66d8bad4e694c264c789249e1d3a8205d
-> > >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > >         git fetch --no-tags linus master
-> > >         git checkout ff7c76f66d8bad4e694c264c789249e1d3a8205d
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Link: https://lore.kernel.org/oe-kbuild-all/202304222120.WcBMaHXo-lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >    {standard input}: Assembler messages:
-> > > >> {standard input}:924: Error: unrecognized opcode: `eieio'
-> > >    {standard input}:1094: Error: unrecognized opcode: `eieio'
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests
-> >
-> > Hello! What is that? In this error report there is no compile log, nor
-> > any file / line. And "Link:" line from above error report does not work.
-> >
-> > Intel, can you look at your robot? This looks some bug in error reporting.
-> 
-> Looks fine to me: this is not a compile problem, but an assembler problem.
-> Presumably this is when building a kernel for a PPC platform that does
-> not support the eieio instruction?
+Hi Mario,
 
-What is fine on this report? There is completely missing command which
-generated this error; whole error message; input files which caused them
-and also change or commit.
+kernel test robot noticed the following build errors:
 
-And what presumably happened? I'm really not going to spend more time on
-guessing what reporter could probably might wanted to write into the
-report and start looking into crystal ball what could be an issue.
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I can say that this issue presumably happened when email operator of
-this robot pushed incorrect button and instead of the real report, it
-sent test report with content of some random error line from the random
-log file.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230424134926.1416-1-mario.limonciello%40amd.com
+patch subject: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
+config: i386-randconfig-a003-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250239.9WShH3NB-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8e287659296330d0cb31e4730daacc92d0467e63
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
+        git checkout 8e287659296330d0cb31e4730daacc92d0467e63
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/host/
 
-Are we on the technical discussion about exactness? Or are going to
-discuss what who think that what could happened?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250239.9WShH3NB-lkp@intel.com/
 
-> The Link: works fine for me, sometimes you just have to be a little bit
-> patient for the archiver to catch up...
+All errors (new ones prefixed by >>):
 
-Sorry, I do not have time to wait undefined amount of time to access
-additional resources which are based on reported details required for
-debugging.
+>> drivers/usb/host/xhci-pci.c:806:7: error: use of undeclared identifier 'pm_suspend_target_state'
+               (pm_suspend_target_state == PM_SUSPEND_TO_IDLE &&
+                ^
+   1 error generated.
 
-Intel, could you please react on this issue? If not, I'm going to add
-your robot to my black list. It is not first time when I received such
-useless report from you and nobody reacted on it.
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+vim +/pm_suspend_target_state +806 drivers/usb/host/xhci-pci.c
+
+   794	
+   795	static int xhci_pci_suspend(struct usb_hcd *hcd, bool do_wakeup)
+   796	{
+   797		struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+   798		struct pci_dev		*pdev = to_pci_dev(hcd->self.controller);
+   799		int			ret;
+   800	
+   801		/*
+   802		 * Systems with the TI redriver that loses port status change events
+   803		 * need to have the registers polled during D3, so avoid D3cold.
+   804		 */
+   805		if (xhci->quirks & XHCI_COMP_MODE_QUIRK ||
+ > 806		    (pm_suspend_target_state == PM_SUSPEND_TO_IDLE &&
+   807		     xhci->quirks & (XHCI_BROKEN_D3COLD_S2I)))
+   808			pci_d3cold_disable(pdev);
+   809	
+   810		if (xhci->quirks & XHCI_PME_STUCK_QUIRK)
+   811			xhci_pme_quirk(hcd);
+   812	
+   813		if (xhci->quirks & XHCI_SSIC_PORT_UNUSED)
+   814			xhci_ssic_port_unused_quirk(hcd, true);
+   815	
+   816		if (xhci->quirks & XHCI_DISABLE_SPARSE)
+   817			xhci_sparse_control_quirk(hcd);
+   818	
+   819		ret = xhci_suspend(xhci, do_wakeup);
+   820	
+   821		/* synchronize irq when using MSI-X */
+   822		xhci_msix_sync_irqs(xhci);
+   823	
+   824		if (ret && (xhci->quirks & XHCI_SSIC_PORT_UNUSED))
+   825			xhci_ssic_port_unused_quirk(hcd, false);
+   826	
+   827		return ret;
+   828	}
+   829	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
