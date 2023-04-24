@@ -1,45 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919E57C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 05:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2812F7C;
+	Mon, 24 Apr 2023 06:34:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682314363; x=1713850363;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1n43/fJLjYfG3QHQXcc4cXYaQSDmQZ6CPC6WO9kddpk=;
-  b=T4Dgs1Y98SMWqbiPRd5iaDgidCmAGWcqV51x8sWnk02wwXjeqnmtkF26
-   zbAc3MYH02AjZTMptaQCN5dMIGQgqfRGu4KemCP1JFoRdfUqsCQPwRdo4
-   Wd5iq6+FA9F4pWom57jzNBs8rprzcia2fsXQ8Bq/U1qkzMNMmyQTqCjZ6
-   NSHqEVabBQZh0yLQ+CIWYddPoQWhsA7MVC5ICgqlwcdT6iNs9O4nyW25V
-   4U5mWzJy9pkP4bRvvkcCpD60v9p46PvN9l97WK1slAKmyu/iNJp8yvuQw
-   yFG31YDY02FGRWhQJ9TjAypCNQ1f7bCIvTTsbdo00S1M6oeYkdJM9P0hk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349164996"
+  t=1682318084; x=1713854084;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h55tzEJ3sDayktUOnTgBrrilHEXbItXJcrAxVSrSJTQ=;
+  b=nE0qJa2WE0g2FoCYmFeklDHnRPZ1K2bUk/ScAGtJMdyleCIjv+SLZZgR
+   vHxUPWAZb3Pwbp1UTofdUumySYDuw/hcg5A8m1H+7mVSJpX/FcFFLzGOE
+   6DOPwt7RSo+97BKoFJdrWICON9WbJOvqMUZLgY7Qr+xo8zzTaBuQ/QVMb
+   9JoYdSsoZroHli60Jh8HBdTF3SN0VXsKQXYOY2pxmx68Hsk/5A7MgRtO5
+   r7hg//mbhNjBl+0miF01nLr15siIJo1PMFaS+81q9rsCG/WGURg8kytbA
+   rKf0mQrTRIQfJSXJtogkTPVK1eNJJc7bzzNzKl6Tb/uUGe1wR9sX4Rlgb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="330578923"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="349164996"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 22:32:42 -0700
+   d="scan'208";a="330578923"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 23:34:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="836825069"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="757576647"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="836825069"
+   d="scan'208";a="757576647"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2023 22:32:40 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Apr 2023 23:34:41 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqooa-000iHg-0k;
-	Mon, 24 Apr 2023 05:32:40 +0000
-Date: Mon, 24 Apr 2023 13:32:24 +0800
+	id 1pqpma-000iIy-2s;
+	Mon, 24 Apr 2023 06:34:40 +0000
+Date: Mon, 24 Apr 2023 14:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sonninen <kasper@iki.fi>
-Cc: oe-kbuild-all@lists.linux.dev, Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
-Message-ID: <202304241303.WkdqPPbt-lkp@intel.com>
-References: <20230423185929.1595056-1-kasper@iki.fi>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>
+Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: unused variable
+ 'ipmmu_of_ids'
+Message-ID: <202304241433.VrIdTpGU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,114 +46,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230423185929.1595056-1-kasper@iki.fi>
 
-Hi Jarkko,
+Hi Robin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on johan-usb-serial/usb-next]
-[also build test WARNING on johan-usb-serial/usb-linus linus/master v6.3 next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sonninen/USB-serial-xr-Add-TIOCGRS485-and-TIOCSRS485-ioctls/20230424-030038
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
-patch link:    https://lore.kernel.org/r/20230423185929.1595056-1-kasper%40iki.fi
-patch subject: [PATCH v4] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
-config: ia64-randconfig-s053-20230423 (https://download.01.org/0day-ci/archive/20230424/202304241303.WkdqPPbt-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   457391b0380335d5e9a5babdec90ac53928b23b4
+commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
+date:   8 months ago
+config: x86_64-buildonly-randconfig-r002-20230424 (https://download.01.org/0day-ci/archive/20230424/202304241433.VrIdTpGU-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/a80fa27b4fe1974bad2427d7f3260012a04b721a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jarkko-Sonninen/USB-serial-xr-Add-TIOCGRS485-and-TIOCSRS485-ioctls/20230424-030038
-        git checkout a80fa27b4fe1974bad2427d7f3260012a04b721a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b87d6d7fa405e23478f1e1dff6d66b5a533a5433
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b87d6d7fa405e23478f1e1dff6d66b5a533a5433
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/serial/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304241303.WkdqPPbt-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304241433.VrIdTpGU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/serial/xr_serial.c:856:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct serial_rs485 *argp @@
-   drivers/usb/serial/xr_serial.c:856:26: sparse:     expected void [noderef] __user *to
-   drivers/usb/serial/xr_serial.c:856:26: sparse:     got struct serial_rs485 *argp
->> drivers/usb/serial/xr_serial.c:872:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct serial_rs485 *argp @@
-   drivers/usb/serial/xr_serial.c:872:36: sparse:     expected void const [noderef] __user *from
-   drivers/usb/serial/xr_serial.c:872:36: sparse:     got struct serial_rs485 *argp
-   drivers/usb/serial/xr_serial.c:881:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct serial_rs485 *argp @@
-   drivers/usb/serial/xr_serial.c:881:26: sparse:     expected void [noderef] __user *to
-   drivers/usb/serial/xr_serial.c:881:26: sparse:     got struct serial_rs485 *argp
->> drivers/usb/serial/xr_serial.c:893:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct serial_rs485 *argp @@     got void [noderef] __user *argp @@
-   drivers/usb/serial/xr_serial.c:893:49: sparse:     expected struct serial_rs485 *argp
-   drivers/usb/serial/xr_serial.c:893:49: sparse:     got void [noderef] __user *argp
-   drivers/usb/serial/xr_serial.c:895:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct serial_rs485 *argp @@     got void [noderef] __user *argp @@
-   drivers/usb/serial/xr_serial.c:895:49: sparse:     expected struct serial_rs485 *argp
-   drivers/usb/serial/xr_serial.c:895:49: sparse:     got void [noderef] __user *argp
+All warnings (new ones prefixed by >>):
 
-vim +856 drivers/usb/serial/xr_serial.c
+>> drivers/iommu/ipmmu-vmsa.c:946:34: warning: unused variable 'ipmmu_of_ids' [-Wunused-const-variable]
+   static const struct of_device_id ipmmu_of_ids[] = {
+                                    ^
+   1 warning generated.
 
-   848	
-   849	static int xr_get_rs485_config(struct tty_struct *tty,
-   850				       struct serial_rs485 *argp)
-   851	{
-   852		struct usb_serial_port *port = tty->driver_data;
-   853		struct xr_data *data = usb_get_serial_port_data(port);
-   854	
-   855		mutex_lock(&data->lock);
- > 856		if (copy_to_user(argp, &data->rs485, sizeof(data->rs485))) {
-   857			mutex_unlock(&data->lock);
-   858			return -EFAULT;
-   859		}
-   860		mutex_unlock(&data->lock);
-   861	
-   862		return 0;
-   863	}
-   864	
-   865	static int xr_set_rs485_config(struct tty_struct *tty,
-   866				       struct serial_rs485 *argp)
-   867	{
-   868		struct usb_serial_port *port = tty->driver_data;
-   869		struct xr_data *data = usb_get_serial_port_data(port);
-   870		struct serial_rs485 rs485;
-   871	
- > 872		if (copy_from_user(&rs485, argp, sizeof(rs485)))
-   873			return -EFAULT;
-   874		xr_sanitize_serial_rs485(&rs485);
-   875	
-   876		mutex_lock(&data->lock);
-   877		data->rs485 = rs485;
-   878		xr_set_flow_mode(tty, port, NULL);
-   879		mutex_unlock(&data->lock);
-   880	
-   881		if (copy_to_user(argp, &rs485, sizeof(rs485)))
-   882			return -EFAULT;
-   883	
-   884		return 0;
-   885	}
-   886	
-   887	static int xr_ioctl(struct tty_struct *tty, unsigned int cmd, unsigned long arg)
-   888	{
-   889		void __user *argp = (void __user *)arg;
-   890	
-   891		switch (cmd) {
-   892		case TIOCGRS485:
- > 893			return xr_get_rs485_config(tty, argp);
-   894		case TIOCSRS485:
-   895			return xr_set_rs485_config(tty, argp);
-   896		}
-   897	
-   898		return -ENOIOCTLCMD;
-   899	}
-   900	
+
+vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
+
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
+33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
+33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
+33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
+33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
+60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
+60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
+60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
+757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
+757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
+757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
+b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
+b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
+b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
+58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
+58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
+0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
+0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
+0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
+0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
+98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
+98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
+98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
+3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
+b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
+b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
+b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
+3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
+9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
+33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
+33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
+33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
+33f3ac9b511612 Magnus Damm             2017-10-16  995  };
+33f3ac9b511612 Magnus Damm             2017-10-16  996  
+
+:::::: The code at line 946 was first introduced by commit
+:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
+
+:::::: TO: Magnus Damm <damm+renesas@opensource.se>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
