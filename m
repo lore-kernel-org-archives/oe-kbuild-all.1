@@ -1,52 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F377470
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D317470
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682377628; x=1713913628;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0Kp5hTwPDIWLqjxSDnXZDtxb3NZhqCag3jZVNugCqgo=;
-  b=gO+lvt8oRbPDnRO/vJWpoVk6flFbeJSjq3mizBlpqgToNMB8hZl5WWSi
-   gfP6crbcSryHbPUZW+QbY8sHcazCBsRa3H40wDRLXBCrzUKblmRUpgnbp
-   JAoIaMrK7tSYyU6QPx22haI+jhNCBHtmz0Ba7BGxxsqRah1oIkaBMd2fn
-   JgB9VF5MG15GMZba4YwbRG2M75ZMgZ7qqrEfoQT6kE+OwCQxYn5VBcnra
-   ovrwszvrEvCcCWnBBQ0ZaNrZFPiCjYcISyeOC2w41sqfVwIo6vbRYuTo7
-   ql/pgkjyf+TlQMxue2WMxIEwkEOSoZKKw7AgCNNGFYJLe+TfoyhKd+gdh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="330800957"
+  t=1682378826; x=1713914826;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N5Jrm1n8Ob11SzpbZdievnqErOU1uL852q0B3+3lzz0=;
+  b=MtqBYa80VYItu8/vaWF0ukEkCj8WL92QCW+zJNCzp0Z761+AUtYhisnp
+   WMO2GQ/K8rzcxGjzTtVm9v9iwVQBuTtDAUdSqTr+Cg4lk1ChYLvCXlyK4
+   fvw9azrR7Y7QG4ukFK5zYpE3RPHFax23WGa4EPZ1Q7n5Pku5hjqeuXfEy
+   GBYUekvYnEemml3KcQmyQ9afyOuG2MDnwDaTnJxAUu+StxB/nXqLDkaw1
+   Kj8+e7fR6sI+GbTTcRRoGlm5f8EuGtDSj4E7EGqXzu8UWx5UvTjm2FUTq
+   WWOtdkCRW043inIaNQDWiLo1zYzHiLvhhEWZR9RSuqbbDHKkjNOmpzj9M
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374541077"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="330800957"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:07:07 -0700
+   d="scan'208";a="374541077"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:27:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939515360"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="693264519"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="939515360"
+   d="scan'208";a="693264519"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 16:07:03 -0700
+  by orsmga002.jf.intel.com with ESMTP; 24 Apr 2023 16:27:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr5Gx-000iho-0f;
-	Mon, 24 Apr 2023 23:07:03 +0000
-Date: Tue, 25 Apr 2023 07:06:10 +0800
+	id 1pr5aJ-000iid-2d;
+	Mon, 24 Apr 2023 23:27:03 +0000
+Date: Tue, 25 Apr 2023 07:26:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, palmer@dabbelt.com,
-	linux-riscv@lists.infradead.org, paul.walmsley@sifive.com
-Cc: oe-kbuild-all@lists.linux.dev, heiko@sntech.de, kito.cheng@sifive.com,
-	jrtc27@jrtc27.com, conor.dooley@microchip.com,
-	matthias.bgg@gmail.com, heinrich.schuchardt@canonical.com,
-	greentime.hu@sifive.com, nick.knight@sifive.com,
-	christoph.muellner@vrull.eu, philipp.tomsich@vrull.eu,
-	richard.henderson@linaro.org, arnd@arndb.de,
-	linux-kernel@vger.kernel.org,
-	Heiko Stuebner <heiko.stuebner@vrull.eu>
-Subject: Re: [PATCH 1/4] RISC-V: create ISA string separately - not as part
- of cpuinfo
-Message-ID: <202304250614.g73yVtvv-lkp@intel.com>
-References: <20230424194911.264850-2-heiko.stuebner@vrull.eu>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sean Christopherson <sean.j.christopherson@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 55/338]
+ include/uapi/linux/const.h:28:33: error: left shift count >= width of type
+Message-ID: <202304250709.e5YWaNwp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,91 +46,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424194911.264850-2-heiko.stuebner@vrull.eu>
 
-Hi Heiko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20230424]
-[also build test WARNING on v6.3]
-[cannot apply to soc/for-next linus/master kees/for-next/execve v6.3 v6.3-rc7 v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
-base:   next-20230424
-patch link:    https://lore.kernel.org/r/20230424194911.264850-2-heiko.stuebner%40vrull.eu
-patch subject: [PATCH 1/4] RISC-V: create ISA string separately - not as part of cpuinfo
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304250614.g73yVtvv-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   abaa3072a8763b7a6276df61d205bf33eb2f31a5
+commit: 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24 [55/338] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
+config: i386-randconfig-a012-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250709.e5YWaNwp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8f1a5a16616d673f2c82cdc54ff845fd8b125a21
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
-        git checkout 8f1a5a16616d673f2c82cdc54ff845fd8b125a21
+        # https://github.com/intel/tdx/commit/627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout 627dfa66ca7a1fa5af2927650f2e9d8a28b67a24
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250614.g73yVtvv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250709.e5YWaNwp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/riscv/kernel/cpu.c:6:
-   In function 'strnlen',
-       inlined from 'strncat' at include/linux/fortify-string.h:404:13,
-       inlined from 'riscv_create_isa_string' at arch/riscv/kernel/cpu.c:269:4:
->> include/linux/fortify-string.h:29:33: warning: 'strlen' argument missing terminating nul [-Wstringop-overread]
-      29 |                         __ret = __builtin_strlen(__p);          \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:195:24: note: in expansion of macro '__compiletime_strlen'
-     195 |         size_t p_len = __compiletime_strlen(p);
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/cpu.c: In function 'riscv_create_isa_string':
-   arch/riscv/kernel/cpu.c:245:19: note: referenced argument declared here
-     245 | static const char base_riscv_exts[13] = "imafdqcbkjpvh";
-         |                   ^~~~~~~~~~~~~~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/bits.h:5,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from include/linux/i2c.h:13,
+                    from drivers/gpu/drm/i915/display/intel_display_types.h:29,
+                    from <command-line>:
+   arch/x86/include/asm/tdx.h: In function '__seamcall':
+>> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
+      28 | #define _BITUL(x)       (_UL(1) << (x))
+         |                                 ^~
+   arch/x86/include/asm/tdx.h:19:41: note: in expansion of macro '_BITUL'
+      19 | #define TDX_ERROR                       _BITUL(63)
+         |                                         ^~~~~~
+   arch/x86/include/asm/tdx.h:20:42: note: in expansion of macro 'TDX_ERROR'
+      20 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
+         |                                          ^~~~~~~~~
+   arch/x86/include/asm/tdx.h:24:42: note: in expansion of macro 'TDX_SW_ERROR'
+      24 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
+         |                                          ^~~~~~~~~~~~
+   arch/x86/include/asm/tdx.h:114:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
+     114 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
+         |                                                                      ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/strlen +29 include/linux/fortify-string.h
+vim +28 include/uapi/linux/const.h
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  18  
-3009f891bb9f32 Kees Cook      2021-08-02  19  #define __compiletime_strlen(p)					\
-3009f891bb9f32 Kees Cook      2021-08-02  20  ({								\
-e9a40e1585d792 Kees Cook      2022-10-25  21  	char *__p = (char *)(p);				\
-311fb40aa0569a Kees Cook      2022-09-02  22  	size_t __ret = SIZE_MAX;				\
-9f7d69c5cd2390 Kees Cook      2022-09-19  23  	size_t __p_size = __member_size(p);			\
-311fb40aa0569a Kees Cook      2022-09-02  24  	if (__p_size != SIZE_MAX &&				\
-d07c0acb4f41cc Kees Cook      2022-09-02  25  	    __builtin_constant_p(*__p)) {			\
-95cadae320be46 Qian Cai       2021-10-25  26  		size_t __p_len = __p_size - 1;			\
-95cadae320be46 Qian Cai       2021-10-25  27  		if (__builtin_constant_p(__p[__p_len]) &&	\
-95cadae320be46 Qian Cai       2021-10-25  28  		    __p[__p_len] == '\0')			\
-95cadae320be46 Qian Cai       2021-10-25 @29  			__ret = __builtin_strlen(__p);		\
-3009f891bb9f32 Kees Cook      2021-08-02  30  	}							\
-95cadae320be46 Qian Cai       2021-10-25  31  	__ret;							\
-3009f891bb9f32 Kees Cook      2021-08-02  32  })
-3009f891bb9f32 Kees Cook      2021-08-02  33  
+2dd8a62c647691 Masahiro Yamada 2018-04-10  27  
+21e7bc600e3b66 Masahiro Yamada 2018-04-10 @28  #define _BITUL(x)	(_UL(1) << (x))
+21e7bc600e3b66 Masahiro Yamada 2018-04-10  29  #define _BITULL(x)	(_ULL(1) << (x))
+2fc016c5bd8aad H. Peter Anvin  2013-04-27  30  
+
+:::::: The code at line 28 was first introduced by commit
+:::::: 21e7bc600e3b662020c05fd0749bcf85f16336f7 linux/const.h: refactor _BITUL and _BITULL a bit
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
